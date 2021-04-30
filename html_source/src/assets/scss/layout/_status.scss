@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: flex-start;
   flex: 0 0 7rem;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   @include themify($themes) {
     color: themed(optionalTextColor);
   }
