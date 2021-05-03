@@ -315,7 +315,7 @@
   align-items: center;
   justify-content: flex-start;
   flex: 0 0 7rem;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
 
   .status-container {
     position: relative;
@@ -340,11 +340,10 @@
     }
 
     .syncing, .loading {
-      line-height: 2rem;
+      line-height: 2em;
     }
 
     .progress-bar-container {
-    
       height: 0.7rem;
       width: 100%;
 
@@ -409,7 +408,7 @@
       font-size: 1.2rem;
       line-height: 1.8rem;
       text-align: left;
-
+      background-color: red;
       &.time {
         font-size: 1.1rem;
       }
