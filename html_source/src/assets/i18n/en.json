@@ -308,6 +308,15 @@
     "HIDE": "Hide your wallet address from recipient",
     "BUTTON": "Send",
     "SUCCESS_SENT": "Transaction sent",
+    "WRAP": {
+      "TITLE": "Wrap",
+      "MAIN_TEXT": "This transaction will create wZano (\"Wrapped Zano\") which will be sent to the specified address on the Ethereum network.",
+      "ESTIMATE": "Transaction Estimates",
+      "WILL_RECEIVE": "You'll receive:",
+      "FEE": "Ethereum Txn Fee:",
+      "ZANO": "ZANO",
+      "wZANO": "wZANO"
+    },
     "FORM_ERRORS": {
       "ADDRESS_REQUIRED": "Address is required",
       "ADDRESS_NOT_VALID": "Address not valid",

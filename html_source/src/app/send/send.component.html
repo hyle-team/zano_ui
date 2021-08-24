@@ -55,21 +55,23 @@
 
   <div *ngIf="isWrapShown && !isLoading" class="wrap">
     <div class="title">
-      Wrap
+      {{ 'SEND.WRAP.TITLE' | translate }}
       <i class="icon info"></i>
     </div>
-    <div class="text-wrap">This transaction will create wZano ("Wrapped Zano") which will be sent to the specified address on the Ethereum network.</div>
-    <div class="title">Transaction Estimates</div>
+    <div class="text-wrap">
+      {{ 'SEND.WRAP.MAIN_TEXT' | translate }}
+    </div>
+    <div class="title">{{ 'SEND.WRAP.ESTIMATE' | translate }}</div>
     <table class="text-wrap">
       <tr>
-        <td>You'll receive:</td>
-        <td>{{getReceivedValue() | intToMoney}} wZANO</td>
+        <td>{{ 'SEND.WRAP.WILL_RECEIVE' | translate }}</td>
+        <td>{{getReceivedValue() | intToMoney}} {{ 'SEND.WRAP.wZANO' | translate }}</td>
       </tr>
       <tr>
-        <td>Ethereum Txn Fee:</td>
+        <td>{{ 'SEND.WRAP.FEE' | translate }}</td>
         <td>
           {{wrapInfo?.tx_cost?.zano_needed_for_erc20 | intToMoney: 3 }}
-          ZANO(${{wrapInfo?.tx_cost?.usd_needed_for_erc20}})</td>
+          {{ 'SEND.WRAP.ZANO' | translate }}(${{wrapInfo?.tx_cost?.usd_needed_for_erc20}})</td>
       </tr>
     </table>
   </div>
