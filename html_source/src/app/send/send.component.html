@@ -1,4 +1,4 @@
-<form class="form-send" [formGroup]="sendForm" (ngSubmit)="showDialog()">
+<form *ngIf="!isLoading" class="form-send" [formGroup]="sendForm" (ngSubmit)="showDialog()">
 
   <div class="input-block input-block-alias">
     <label for="send-address">{{ 'SEND.ADDRESS' | translate }}</label>
@@ -34,6 +34,12 @@
         <div *ngIf="sendForm.controls['amount'].errors['zero']">
           {{ 'SEND.FORM_ERRORS.AMOUNT_ZERO' | translate }}
         </div>
+        <div *ngIf="sendForm.controls['amount'].errors['great_than_unwraped_coins']">
+          {{ 'SEND.FORM_ERRORS.GREAT_THAN_UNWRAPPED_COINS' | translate }}
+        </div>
+        <div *ngIf="sendForm.controls['amount'].errors['less_than_zano_needed']">
+          {{ 'SEND.FORM_ERRORS.LESS_THAN_ZANO_NEEDED' | translate }}
+        </div>
       </div>
     </div>
 
@@ -45,6 +51,27 @@
       </div>
     </div>
 
+  </div>
+
+  <div *ngIf="isWrapShown && !isLoading" class="wrap">
+    <div class="title">
+      Wrap
+      <i class="icon info"></i>
+    </div>
+    <div class="text-wrap">This transaction will create wZano ("Wrapped Zano") which will be sent to the specified address on the Ethereum network.</div>
+    <div class="title">Transaction Estimates</div>
+    <table class="text-wrap">
+      <tr>
+        <td>You'll receive:</td>
+        <td>{{getReceivedValue() | intToMoney}} wZANO</td>
+      </tr>
+      <tr>
+        <td>Ethereum Txn Fee:</td>
+        <td>
+          {{wrapInfo?.tx_cost?.zano_needed_for_erc20 | intToMoney: 3 }}
+          ZANO(${{wrapInfo?.tx_cost?.usd_needed_for_erc20}})</td>
+      </tr>
+    </table>
   </div>
 
   <button type="button" class="send-select" (click)="toggleOptions()">

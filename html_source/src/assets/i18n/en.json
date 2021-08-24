@@ -316,7 +316,9 @@
       "AMOUNT_ZERO": "Amount is zero",
       "FEE_REQUIRED": "Fee is required",
       "FEE_MINIMUM": "Minimum fee: {{fee}}",
-      "MAX_LENGTH": "Maximum comment length reached"
+      "MAX_LENGTH": "Maximum comment length reached",
+      "GREAT_THAN_UNWRAPPED_COINS": "Amount is bigger than ERC20 tokens left available",
+      "LESS_THAN_ZANO_NEEDED": "Too small amount to cover ERC20 fee"
     }
   },
   "HISTORY": {

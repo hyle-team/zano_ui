@@ -1,11 +1,22 @@
-import {Component, OnInit, OnDestroy, NgZone, HostListener, Input} from '@angular/core';
+import {Component, OnInit, OnDestroy, NgZone, HostListener} from '@angular/core';
 import {FormGroup, FormControl, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {BackendService} from '../_helpers/services/backend.service';
 import {VariablesService} from '../_helpers/services/variables.service';
 import {ModalService} from '../_helpers/services/modal.service';
 import {BigNumber} from 'bignumber.js';
-import {MIXIN} from '../_shared/constants'
+import {MIXIN} from '../_shared/constants';
+import {HttpClient} from '@angular/common/http';
+import {MoneyToIntPipe} from '../_helpers/pipes/money-to-int.pipe';
+import {finalize} from 'rxjs/operators';
+
+interface WrapInfo {
+  tx_cost: {
+    usd_needed_for_erc20: string;
+    zano_needed_for_erc20: string;
+  };
+  unwraped_coins_left: string;
+}
 
 @Component({
   selector: 'app-send',
@@ -19,6 +30,9 @@ export class SendComponent implements OnInit, OnDestroy {
   isModalDialogVisible = false;
   hideWalletAddress = false;
   mixin: number;
+  wrapInfo: WrapInfo;
+  isLoading = true;
+  isWrapShown = false;
 
   currentWalletId = null;
   parentRouting;
@@ -71,9 +85,18 @@ export class SendComponent implements OnInit, OnDestroy {
       }
       return null;
     }]),
-    amount: new FormControl(null, [Validators.required, (g: FormControl) => {
-      if (new BigNumber(g.value).eq(0)) {
+    amount: new FormControl(undefined, [Validators.required, (g: FormControl) => {
+      if (!g.value) { return null; }
+
+      if (g.value === 0) {
         return {'zero': true};
+      }
+      const bigAmount = this.moneyToInt.transform(g.value) as BigNumber;
+      if (bigAmount.isGreaterThan(new BigNumber(this.wrapInfo.unwraped_coins_left))) {
+        return { great_than_unwraped_coins: true };
+      }
+      if (bigAmount.isLessThan(new BigNumber(this.wrapInfo.tx_cost.zano_needed_for_erc20 ))) {
+        return { less_than_zano_needed: true };
       }
       return null;
     }]),
@@ -94,7 +117,9 @@ export class SendComponent implements OnInit, OnDestroy {
     private backend: BackendService,
     public variablesService: VariablesService,
     private modalService: ModalService,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private http: HttpClient,
+    private moneyToInt: MoneyToIntPipe,
   ) {
   }
 
@@ -137,6 +162,20 @@ export class SendComponent implements OnInit, OnDestroy {
         hide: this.variablesService.currentWallet.send_data['hide'] || false
       });
     });
+    this.getWrapInfo();
+    setTimeout(() => {
+      this.isWrapShown = true;
+    }, 15 * 1000);
+  }
+
+  private getWrapInfo() {
+    this.http.get<WrapInfo>('https://wrapped.zano.org/api/get_wrap_info')
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      }))
+      .subscribe(info => {
+        this.wrapInfo = info;
+      });
   }
 
   showDialog() {
@@ -170,8 +209,22 @@ export class SendComponent implements OnInit, OnDestroy {
               (send_status) => {
                 if (send_status) {
                   this.modalService.prepareModal('success', 'SEND.SUCCESS_SENT');
-                  this.variablesService.currentWallet.send_data = {address: null, amount: null, comment: null, mixin: null, fee: null, hide: null};
-                  this.sendForm.reset({address: null, amount: null, comment: null, mixin: this.mixin, fee: this.variablesService.default_fee, hide: false});
+                  this.variablesService.currentWallet.send_data = {
+                    address: null,
+                    amount: null,
+                    comment: null,
+                    mixin: null,
+                    fee: null,
+                    hide: null
+                  };
+                  this.sendForm.reset({
+                    address: null,
+                    amount: null,
+                    comment: null,
+                    mixin: this.mixin,
+                    fee: this.variablesService.default_fee,
+                    hide: false
+                  });
                 }
               });
           }
@@ -195,8 +248,22 @@ export class SendComponent implements OnInit, OnDestroy {
                 (send_status) => {
                   if (send_status) {
                     this.modalService.prepareModal('success', 'SEND.SUCCESS_SENT');
-                    this.variablesService.currentWallet.send_data = {address: null, amount: null, comment: null, mixin: null, fee: null, hide: null};
-                    this.sendForm.reset({address: null, amount: null, comment: null, mixin: this.mixin, fee: this.variablesService.default_fee, hide: false});
+                    this.variablesService.currentWallet.send_data = {
+                      address: null,
+                      amount: null,
+                      comment: null,
+                      mixin: null,
+                      fee: null,
+                      hide: null
+                    };
+                    this.sendForm.reset({
+                      address: null,
+                      amount: null,
+                      comment: null,
+                      mixin: this.mixin,
+                      fee: this.variablesService.default_fee,
+                      hide: false
+                    });
                   }
                 });
             }
@@ -220,6 +287,13 @@ export class SendComponent implements OnInit, OnDestroy {
       fee: this.sendForm.get('fee').value,
       hide: this.sendForm.get('hide').value
     };
+  }
+
+  public getReceivedValue() {
+    const amount = this.moneyToInt.transform(this.sendForm.value.amount);
+    const needed = new BigNumber(this.wrapInfo.tx_cost.zano_needed_for_erc20);
+    if (amount && needed) { return (amount as BigNumber).minus(needed); }
+    return 0;
   }
 
 }
