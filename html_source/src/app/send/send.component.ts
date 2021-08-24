@@ -42,9 +42,10 @@ export class SendComponent implements OnInit, OnDestroy {
       if (g.value) {
         if (g.value.indexOf('@') !== 0) {
           this.isOpen = false;
-          this.backend.validateAddress(g.value, (valid_status) => {
+          this.backend.validateAddress(g.value, (valid_status, data) => {
             this.ngZone.run(() => {
-              if (valid_status === false) {
+              this.isWrapShown = (data.error_code === 'WRAP');
+              if (valid_status === false && !this.isWrapShown) {
                 g.setErrors(Object.assign({'address_not_valid': true}, g.errors));
               } else {
                 if (g.hasError('address_not_valid')) {
@@ -163,9 +164,6 @@ export class SendComponent implements OnInit, OnDestroy {
       });
     });
     this.getWrapInfo();
-    setTimeout(() => {
-      this.isWrapShown = true;
-    }, 15 * 1000);
   }
 
   private getWrapInfo() {
