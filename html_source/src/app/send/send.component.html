@@ -65,7 +65,8 @@
     <table class="text-wrap">
       <tr>
         <td>{{ 'SEND.WRAP.WILL_RECEIVE' | translate }}</td>
-        <td>{{getReceivedValue() | intToMoney}} {{ 'SEND.WRAP.wZANO' | translate }}</td>
+        <td *ngIf="!sendForm.controls['amount'].errors">{{getReceivedValue() | intToMoney}} {{ 'SEND.WRAP.wZANO' | translate }}</td>
+        <td *ngIf="sendForm.controls['amount'].errors">-</td>
       </tr>
       <tr>
         <td>{{ 'SEND.WRAP.FEE' | translate }}</td>
