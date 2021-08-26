@@ -190,8 +190,9 @@ export class SendComponent implements OnInit, OnDestroy {
   onSend() {
     if (this.sendForm.valid) {
       if (this.sendForm.get('address').value.indexOf('@') !== 0) {
-        this.backend.validateAddress(this.sendForm.get('address').value, (valid_status) => {
-          if (valid_status === false) {
+        this.backend.validateAddress(this.sendForm.get('address').value, (valid_status, data) => {
+          console.log(valid_status, data.error_code === 'WRAP');
+          if (valid_status === false && !(data.error_code === 'WRAP')) {
             this.ngZone.run(() => {
               this.sendForm.get('address').setErrors({'address_not_valid': true});
             });
