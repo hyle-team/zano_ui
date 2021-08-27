@@ -45,6 +45,7 @@ export class SendComponent implements OnInit, OnDestroy {
           this.backend.validateAddress(g.value, (valid_status, data) => {
             this.ngZone.run(() => {
               this.isWrapShown = (data.error_code === 'WRAP');
+              this.sendForm.get('amount').setValue(this.sendForm.get('amount').value);
               if (valid_status === false && !this.isWrapShown) {
                 g.setErrors(Object.assign({'address_not_valid': true}, g.errors));
               } else {
@@ -93,11 +94,16 @@ export class SendComponent implements OnInit, OnDestroy {
         return {'zero': true};
       }
       const bigAmount = this.moneyToInt.transform(g.value) as BigNumber;
-      if (bigAmount.isGreaterThan(new BigNumber(this.wrapInfo.unwraped_coins_left))) {
-        return { great_than_unwraped_coins: true };
-      }
-      if (bigAmount.isLessThan(new BigNumber(this.wrapInfo.tx_cost.zano_needed_for_erc20 ))) {
-        return { less_than_zano_needed: true };
+      if (this.isWrapShown) {
+        if (!this.wrapInfo) {
+          return { wrap_info_null: true };
+        }
+        if (bigAmount.isGreaterThan(new BigNumber(this.wrapInfo.unwraped_coins_left))) {
+          return { great_than_unwraped_coins: true };
+        }
+        if (bigAmount.isLessThan(new BigNumber(this.wrapInfo.tx_cost.zano_needed_for_erc20 ))) {
+          return { less_than_zano_needed: true };
+        }
       }
       return null;
     }]),
