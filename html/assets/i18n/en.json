@@ -308,6 +308,15 @@
     "HIDE": "Hide your wallet address from recipient",
     "BUTTON": "Send",
     "SUCCESS_SENT": "Transaction sent",
+    "WRAP": {
+      "TITLE": "Wrap",
+      "MAIN_TEXT": "This transaction will create wZano (\"Wrapped Zano\") which will be sent to the specified address on the Ethereum network.",
+      "ESTIMATE": "Transaction Estimates",
+      "WILL_RECEIVE": "You'll receive:",
+      "FEE": "Ethereum Txn Fee:",
+      "ZANO": "ZANO",
+      "wZANO": "wZANO"
+    },
     "FORM_ERRORS": {
       "ADDRESS_REQUIRED": "Address is required",
       "ADDRESS_NOT_VALID": "Address not valid",
@@ -316,7 +325,9 @@
       "AMOUNT_ZERO": "Amount is zero",
       "FEE_REQUIRED": "Fee is required",
       "FEE_MINIMUM": "Minimum fee: {{fee}}",
-      "MAX_LENGTH": "Maximum comment length reached"
+      "MAX_LENGTH": "Maximum comment length reached",
+      "GREAT_THAN_UNWRAPPED_COINS": "Amount is bigger than ERC20 tokens left available",
+      "LESS_THAN_ZANO_NEEDED": "Too small amount to cover ERC20 fee"
     }
   },
   "HISTORY": {

@@ -207,7 +207,7 @@ export class BackendService {
     const data = ((typeof Result === 'object') && 'response_data' in Result) ? Result.response_data : Result;
 
     let res_error_code = false;
-    if (typeof Result === 'object' && 'error_code' in Result && Result.error_code !== 'OK' && Result.error_code !== 'TRUE' && Result.error_code !== 'FALSE') {
+    if (typeof Result === 'object' && 'error_code' in Result && Result.error_code !== 'OK' && Result.error_code !== 'TRUE' && Result.error_code !== 'FALSE' && Result.error_code !== 'WRAP') {
       if (core_busy) {
         setTimeout( () => {
           // this is will avoid update data when user
