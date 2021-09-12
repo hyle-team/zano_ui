@@ -7787,7 +7787,7 @@ var SendComponent = /** @class */ (function () {
     };
     SendComponent.prototype.getWrapInfo = function () {
         var _this = this;
-        this.http.get('https://wrapped.zano.org/api/get_wrap_info')
+        this.http.get('https://wrapped.zano.org/api2/get_wrap_info')
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_10__["finalize"])(function () {
             _this.isLoading = false;
         }))
