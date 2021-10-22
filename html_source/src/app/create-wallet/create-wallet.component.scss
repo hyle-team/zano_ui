@@ -3,7 +3,7 @@
 }
 
 .form-create {
-  margin: 2.4rem 0;
+  margin: 3.5rem 0 0 0;
   width: 50%;
 
   .wrap-buttons {
@@ -13,16 +13,16 @@
     button {
       margin: 0 0.7rem;
 
-      &.transparent-button {
-        flex-basis: 50%;
+      &.blue-button_reset {
+        width: 30rem;
       }
 
       &.select-button {
-        flex-basis: 60%;
+        width: 30rem;
       }
 
       &.create-button {
-        flex: 1 1 50%;
+        width: 30rem;
       }
     }
   }

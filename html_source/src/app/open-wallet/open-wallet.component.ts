@@ -1,11 +1,11 @@
-import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
-import {FormGroup, FormControl, Validators} from '@angular/forms';
-import {BackendService} from '../_helpers/services/backend.service';
-import {VariablesService} from '../_helpers/services/variables.service';
-import {ModalService} from '../_helpers/services/modal.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {Wallet} from '../_helpers/models/wallet.model';
-import {TranslateService} from '@ngx-translate/core';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { BackendService } from '../_helpers/services/backend.service';
+import { VariablesService } from '../_helpers/services/variables.service';
+import { ModalService } from '../_helpers/services/modal.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Wallet } from '../_helpers/models/wallet.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-open-wallet',
@@ -21,7 +21,7 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
     name: new FormControl('', [Validators.required, (g: FormControl) => {
       for (let i = 0; i < this.variablesService.wallets.length; i++) {
         if (g.value === this.variablesService.wallets[i].name) {
-          return {'duplicate': true};
+          return { 'duplicate': true };
         }
       }
       return null;
@@ -58,6 +58,7 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
       }
     });
   }
+
 
   openWallet() {
     if (this.openForm.valid && this.openForm.get('name').value.length <= this.variablesService.maxWalletNameLength) {
@@ -104,9 +105,9 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
               new_wallet.is_watch_only = open_data['wi'].is_watch_only;
               if (open_data.recent_history && open_data.recent_history.history) {
                 new_wallet.total_history_item = open_data.recent_history.total_history_items;
-                new_wallet.totalPages = Math.ceil( open_data.recent_history.total_history_items / this.variablesService.count);
+                new_wallet.totalPages = Math.ceil(open_data.recent_history.total_history_items / this.variablesService.count);
                 new_wallet.totalPages > this.variablesService.maxPages
-                ? new_wallet.pages = new Array(5).fill(1).map((value, index) => value + index)
+                  ? new_wallet.pages = new Array(5).fill(1).map((value, index) => value + index)
                   : new_wallet.pages = new Array(new_wallet.totalPages).fill(1).map((value, index) => value + index);
                 new_wallet.prepareHistory(open_data.recent_history.history);
               } else {

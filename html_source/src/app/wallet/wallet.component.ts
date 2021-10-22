@@ -114,7 +114,7 @@ export class WalletComponent implements OnInit, OnDestroy {
     private pagination: PaginationService,
     private paginationStore: PaginationStore,
     private store: Store
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.subRouting1 = this.route.params.subscribe((params) => {
@@ -251,15 +251,15 @@ export class WalletComponent implements OnInit, OnDestroy {
         this.variablesService.currentWallet.totalPages = 1;
       }
       this.variablesService.currentWallet.totalPages >
-      this.variablesService.maxPages
+        this.variablesService.maxPages
         ? (this.variablesService.currentWallet.pages = new Array(5)
-            .fill(1)
-            .map((value, index) => value + index))
+          .fill(1)
+          .map((value, index) => value + index))
         : (this.variablesService.currentWallet.pages = new Array(
-            this.variablesService.currentWallet.totalPages
-          )
-            .fill(1)
-            .map((value, index) => value + index));
+          this.variablesService.currentWallet.totalPages
+        )
+          .fill(1)
+          .map((value, index) => value + index));
     });
   }
 
@@ -472,8 +472,8 @@ export class WalletComponent implements OnInit, OnDestroy {
       this.ngZone.run(() => {
         if (wallet_state === 2 && wallet_id === this.walletID) {
           this.walletLoaded =
-            this.variablesService.getWallet(this.walletID) !== null &&
-            this.variablesService.getWallet(this.walletID).loaded
+            (this.variablesService.getWallet(this.walletID) !== null &&
+              this.variablesService.getWallet(this.walletID).loaded)
               ? true
               : false;
         } else {

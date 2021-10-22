@@ -3,14 +3,16 @@
 }
 
 .wrap-table {
-  margin: -3rem;
-
   table {
-
-    tbody {
-
+    thead {
       tr {
-
+        td {
+        }
+      }
+    }
+    tbody {
+      font-weight: 500;
+      tr {
         td {
           min-width: 10rem;
         }
@@ -58,44 +60,36 @@
           }
 
           .status-transaction {
-            margin-right: 1rem;
-            width: 1.7rem;
-            height: 1.7rem;
+            margin-right: 0.7rem;
+            width: 1.8rem;
+            height: 1.8rem;
           }
 
-          &.send  {
+          &.send {
             .status-transaction {
-              background-color: transparent;
-            }
-
-            .status-transaction::after {
               display: block;
-              content:'';
-              background:url("../../assets/icons/send-red.svg") no-repeat center;
-              width: 13px;
-              height: 13px;
+              mask: url("../../assets/icons/send.svg") no-repeat center;
+              width: 18px;
+              height: 18px;
             }
           }
 
           &.received {
             .status-transaction {
-              background-color: transparent;
-            }
-
-            .status-transaction::after {
               display: block;
-              content:'';
-              background:url("../../assets/icons/receive-green.svg") no-repeat center;
-              width: 13px;
-              height: 13px;
+              mask: url("../../assets/icons/receive.svg") no-repeat center;
+              width: 18px;
+              height: 18px;
             }
           }
         }
 
         .remote-address {
-          overflow: hidden;
-          text-overflow: ellipsis;
-          max-width: 25vw;
+          span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 25vw;
+          }
         }
 
         &:not(.transaction-details) {
@@ -109,10 +103,11 @@
           height: 0;
 
           &.open {
-            height: 16.2rem;
+            height: 18rem;
           }
 
           td {
+            border-radius: 2rem;
             position: relative;
             overflow: hidden;
             line-height: inherit;

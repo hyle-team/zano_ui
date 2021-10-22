@@ -32,7 +32,7 @@
   },
   "SIDEBAR": {
     "TITLE": "Carteiras",
-    "ADD_NEW": "+ Adicionar",
+    "ADD_NEW": "Adicionar",
     "ACCOUNT": {
       "STAKING": "Staking",
       "MESSAGES": "Novas ofertas/Mensagens",
