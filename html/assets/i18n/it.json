@@ -32,7 +32,7 @@
   },
   "SIDEBAR": {
     "TITLE": "Portafogli",
-    "ADD_NEW": "+ Aggiungi",
+    "ADD_NEW": "Aggiungi",
     "ACCOUNT": {
       "STAKING": "Staking",
       "MESSAGES": "Nuove offerte/messaggi",

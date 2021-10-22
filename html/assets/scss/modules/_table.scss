@@ -1,62 +1,50 @@
 table {
-  font-size: 1.3rem;
   width: 100%;
 
   thead {
+    font-size: 1.4rem;
+    line-height: 1.7rem;
     text-align: left;
-
-    @include themify($themes) {
-      color: themed(optionalTextColor);
-    }
+    color: $alternativeTextColor;
 
     tr {
-      height: 4rem;
-
       th {
-        padding: 1rem;
-        vertical-align: bottom;
-
+        padding-bottom: 3rem;
+        padding-right: 1rem;
         &:first-child {
-          padding-left: 3rem;
+          padding-left: 1.5rem;
         }
 
         &:last-child {
-          padding-right: 3rem;
+          padding-right: 1.5rem;
         }
       }
     }
   }
 
   tbody {
+    color: $mainTextColor;
+    font-size: 1.5rem;
+    line-height: 1.8rem;
+    font-weight: 500;
     text-align: left;
-
-    @include themify($themes) {
-      color: themed(mainTextColor);
-    }
-
     tr {
-      height: 3.5rem;
-
-      &:nth-child(odd) {
-
-        @include themify($themes) {
-          background-color: themed(tableBackgroundColor);
-        }
-      }
-
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
       td {
-        line-height: 1.7rem;
-        padding: 0 1rem;
+        background-color: $tableBackgroundColor;
+        line-height: 1.8rem;
+        padding: 1.4rem 1rem 1.4rem 0;
         vertical-align: middle;
         white-space: nowrap;
         max-width: 20rem;
-
         &:first-child {
-          padding-left: 3rem;
+          padding-left: 1.5rem;
+          border-radius: 1rem 0 0 1rem;
         }
-
         &:last-child {
-          padding-right: 3rem;
+          padding-right: 1.5rem;
+          border-radius: 0 1rem 1rem 0;
         }
       }
     }

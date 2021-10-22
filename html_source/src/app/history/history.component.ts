@@ -16,66 +16,6 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
   calculatedWidth = [];
   x = new BigNumber(3);
   y = new BigNumber(0.2);
-  // historyMy: Array<Transaction> = [
-  //   {
-  //     amount: this.x,
-  //     comment: "fdgdfg",
-  //     contract: [],
-  //     fee: this.y,
-  //     height: 213124,
-  //     is_income: false,
-  //     is_mining: true,
-  //     is_mixing: true,
-  //     is_service: false,
-  //     payment_id: "24",
-  //     show_sender: false,
-  //     td: {},
-  //     timestamp: 1635295258,
-  //     tx_blob_size: 123,
-  //     tx_hash: "vffsadfasd",
-  //     tx_type: 4,
-  //     unlock_time: 5000000000,
-  //   },
-  //   {
-  //     amount: this.x,
-  //     comment: "fdgdfg",
-  //     contract: [],
-  //     fee: this.y,
-  //     height: 212312,
-  //     is_income: true,
-  //     is_mining: true,
-  //     is_mixing: false,
-  //     is_service: true,
-  //     payment_id: "278",
-  //     show_sender: true,
-  //     td: {},
-  //     timestamp: 1634295258,
-  //     tx_blob_size: 236,
-  //     tx_hash: "ssdasd",
-  //     tx_type: 5,
-  //     unlock_time: 50000000,
-  //   },
-  //   {
-  //     amount: this.x,
-  //     comment: "fdgdfg",
-  //     contract: [],
-  //     fee: this.y,
-  //     height: 21312,
-  //     is_income: true,
-  //     is_mining: true,
-  //     is_mixing: false,
-  //     is_service: false,
-  //     payment_id: "23",
-  //     show_sender: false,
-  //     td: {},
-  //     timestamp: 1634295258,
-  //     tx_blob_size: 253,
-  //     tx_hash: "sdfsdf2",
-  //     tx_type: 3,
-  //     unlock_time: 50000000,
-  //   }
-  // ]
-
   @ViewChild('head') head: ElementRef;
 
   constructor(
