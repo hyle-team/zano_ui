@@ -4,7 +4,6 @@ app-wallet {
   .header {
     button {
       color: $blueTextColor;
-
       .icon {
         background-color: $blueTextColor;
       }
@@ -15,7 +14,6 @@ app-wallet {
         }
       }
     }
-
     .alias {
       .icon {
         background-color: $blueTextColor;
@@ -26,6 +24,9 @@ app-wallet {
   .balance {
     color: $mainTextColor;
     .price-percent {
+      &.negative-percent {
+        color: $redTextColor;
+      }
       margin-left: 0.7rem;
       color: $greenTextColor;
     }
@@ -82,8 +83,18 @@ app-wallet {
       .pagination {
         button {
           color: $mainTextColor;
+          i {
+            transition: all 0.3s ease;
+            background-color: $paginationButtonColor;
+            &:hover {
+              background-color: $paginationButtonHoverColor;
+            }
+          }
           &:hover {
-            color: $mainTextColor;
+            color: $blueButtonHoverColor;
+          }
+          &.active {
+            color: $blueButtonBackgroundColor;
           }
         }
       }

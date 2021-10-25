@@ -45,9 +45,8 @@
 
       <div class="input-block">
         <label for="master-pass-login">{{ 'LOGIN.MASTER_PASS' | translate }}</label>
-        <input type="password" id="master-pass-login"
-          [class.required-error]="authForm.controls['password'].dirty || authForm.controls['password'].touched"
-          [placeholder]="authForm.controls['password'].dirty || authForm.controls['password'].touched ? ('LOGIN.FORM_ERRORS.INVALID_PASS' | translate) : ('PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate)"
+        <input type="password" id="master-pass-login" [class.required-error]="authForm.controls['password'].dirty"
+          [placeholder]="authForm.controls['password'].dirty ? ('LOGIN.FORM_ERRORS.INVALID_PASS' | translate) : ('PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate)"
           formControlName="password" autofocus (contextmenu)="variablesService.onContextMenuPasteSelect($event)">
       </div>
 

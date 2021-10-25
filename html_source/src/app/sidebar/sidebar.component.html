@@ -6,18 +6,7 @@
     <div class="sidebar-account" *ngFor="let wallet of variablesService.wallets"
       [class.active]="wallet?.wallet_id === walletActive" [routerLink]="['/wallet/' + wallet.wallet_id + '/history']"
       [queryParams]="{sidenav: true}" [class.auditable]="wallet.is_auditable && !wallet.is_watch_only"
-      [class.watch-only]="!wallet.is_auditable && wallet.is_watch_only">
-      <!-- <div class="wallet-type" (click)="goToAuditableWalletHelpPage($event)">
-        <div class="content auditable" *ngIf="wallet.is_auditable && !wallet.is_watch_only">
-          Auditable
-        </div>
-        <div class="content watch-only" *ngIf="!wallet.is_auditable && wallet.is_watch_only">
-          Watch-only
-        </div>
-        <div class="content auditable-watch-only" *ngIf="wallet.is_auditable && wallet.is_watch_only">
-          Tracking
-        </div>
-      </div> -->
+      [class.watch-only]="wallet.is_watch_only">
       <button class="close-wallet-button" type="button" (click)="showDialog(wallet.wallet_id)"
         tooltip="{{ 'WALLET.TOOLTIPS.CLOSE' | translate }}" placement="top-left"
         tooltipClass="table-tooltip account-tooltip" [delay]="500" [timeDelay]="500">
@@ -26,21 +15,24 @@
 
       <div class="sidebar-account-row account-alias">
         <div class="name">
-          <span class="title" tooltip="{{ wallet.name }}" placement="top-left"
-            tooltipClass="table-tooltip account-tooltip" [delay]="500"
-            [showWhenNoOverflow]="false">{{wallet.name}}</span>
-          <span tooltip="{{wallet.alias['name']}}" placement="top-left" tooltipClass="table-tooltip account-tooltip"
-            [delay]="500" [showWhenNoOverflow]="false">{{wallet.alias['name']}}</span>
-          <ng-container *ngIf="wallet.alias['comment'] && wallet.alias['comment'].length">
+          <ng-container *ngIf="!wallet.alias['name']">
+            <span class="title" tooltip="{{ wallet.name }}" placement="top-left"
+              tooltipClass="table-tooltip account-tooltip" [delay]="500"
+              [showWhenNoOverflow]="false">{{wallet.name}}</span>
+          </ng-container>
+          <ng-container *ngIf="wallet.alias['name']">
+            <span tooltip="{{wallet.alias['name']}}" placement="top-left" tooltipClass="table-tooltip account-tooltip"
+              [delay]="500" [showWhenNoOverflow]="false">{{wallet.name}}</span>
+          </ng-container>
+          <!-- <ng-container *ngIf="wallet.alias['comment'] && wallet.alias['comment'].length">
             <span class="icon comment" tooltip="{{wallet.alias['comment']}}" placement="top"
               tooltipClass="table-tooltip account-tooltip" [delay]="500">i</span>
-          </ng-container>
+          </ng-container> -->
         </div>
         <div class="price-row"><span class="price">${{wallet.getMoneyEquivalent(variablesService.moneyEquivalent) |
             intToMoney | number :
             '1.2-2'}}</span><span class="price-percent">+4.6%</span>
         </div>
-
       </div>
 
       <div class="sidebar-account-row account-title-balance">

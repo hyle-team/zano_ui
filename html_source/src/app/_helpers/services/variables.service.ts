@@ -1,11 +1,11 @@
-import {Injectable, NgZone} from '@angular/core';
-import {Wallet} from '../models/wallet.model';
-import {Contact} from '../models/contact.model';
-import {BehaviorSubject} from 'rxjs';
-import {Idle} from 'idlejs/dist';
-import {Router} from '@angular/router';
-import {ContextMenuComponent, ContextMenuService} from 'ngx-contextmenu';
-import {BigNumber} from 'bignumber.js';
+import { Injectable, NgZone } from '@angular/core';
+import { Wallet } from '../models/wallet.model';
+import { Contact } from '../models/contact.model';
+import { BehaviorSubject } from 'rxjs';
+import { Idle } from 'idlejs/dist';
+import { Router } from '@angular/router';
+import { ContextMenuComponent, ContextMenuService } from 'ngx-contextmenu';
+import { BigNumber } from 'bignumber.js';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +18,7 @@ export class VariablesService {
   public appPass = '';
   public appLogin = false;
   public moneyEquivalent = 0;
+  public moneyEquivalentPercent = 0;
   public defaultTheme = 'dark';
   public defaultCurrency = 'ZANO';
   public opening_wallet: Wallet;
@@ -71,7 +72,7 @@ export class VariablesService {
   public dataIsLoaded = false;
 
   public contacts: Array<Contact> = [];
-  public newContact: Contact = {name: null, address: null, notes: null};
+  public newContact: Contact = { name: null, address: null, notes: null };
 
   public pattern = '^[a-zA-Z0-9_.\\\]\*\|\~\!\?\@\#\$\%\^\&\+\{\}\(\)\<\>\:\;\"\'\-\=\/\,\[\\\\]*$';
   public after_sync_request: any = {};
@@ -90,11 +91,11 @@ export class VariablesService {
         this.restartCountdown();
       } else {
         this.ngZone.run(() => {
-        this.idle.stop();
-        this.appPass = '';
-        this.appLogin = false;
-        this.router.navigate(['/login'], {queryParams: {type: 'auth'}});
-      });
+          this.idle.stop();
+          this.appPass = '';
+          this.appLogin = false;
+          this.router.navigate(['/login'], { queryParams: { type: 'auth' } });
+        });
       }
     });
 

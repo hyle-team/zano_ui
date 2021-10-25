@@ -281,6 +281,8 @@
         transition: all 0.25s ease;
 
         &.add-wallet {
+          width: 1.4rem;
+          height: 1.4rem;
           mask: url(../../assets/icons/addnew.svg) no-repeat center;
         }
 

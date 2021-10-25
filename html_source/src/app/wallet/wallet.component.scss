@@ -248,10 +248,10 @@
           width: 2.4rem;
           height: 2.4rem;
           &.back {
-            background: url("../../assets/icons/arrow-left.svg") no-repeat center;
+            mask: url("../../assets/icons/arrow-left.svg") no-repeat center;
           }
           &.forward {
-            background: url("../../assets/icons/arrow-right.svg") no-repeat center;
+            mask: url("../../assets/icons/arrow-right.svg") no-repeat center;
           }
         }
         margin-right: 0.5rem;

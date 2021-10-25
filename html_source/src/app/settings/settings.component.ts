@@ -150,9 +150,8 @@ export class SettingsComponent implements OnInit {
     this.backend.storeAppData();
   }
 
-  setScale(scale) {
-    this.scale = scale;
-    this.variablesService.settings.scale = this.scale;
+  setScale() {
+    this.scale = this.variablesService.settings.scale;
     const width = this.utilsService.getMinWidthByScale(this.scale);
     const app = document.documentElement.querySelector('app-root');
     this.renderer.setStyle(app, 'min-width', width + 'px');
