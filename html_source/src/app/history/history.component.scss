@@ -22,38 +22,38 @@
           display: flex;
           align-items: center;
 
-          .confirmation {
-            position: absolute;
-            top: 50%;
-            left: -2rem;
-            transform: translateY(-50%);
-            display: flex;
-            align-items: flex-end;
-            width: 0.7rem;
-            height: 1.5rem;
+          //  .confirmation {
+          //   position: absolute;
+          //   top: 50%;
+          //   left: -2rem;
+          //   transform: translateY(-50%);
+          //   display: flex;
+          //   align-items: flex-end;
+          //   width: 0.7rem;
+          //   height: 1.5rem;
 
-            .fill {
-              width: 100%;
-            }
-          }
+          //   .fill {
+          //     width: 100%;
+          //   }
+          // }
 
-          .lock-transaction {
-            position: absolute;
-            left: -2rem;
-            mask: url(../../assets/icons/lock-transaction.svg) no-repeat center;
-            width: 1.2rem;
-            height: 1.2rem;
-            margin-right: 1.1rem;
-          }
+          // .lock-transaction {
+          //   position: absolute;
+          //   left: -2rem;
+          //   mask: url(../../assets/icons/lock-transaction.svg) no-repeat center;
+          //   width: 1.2rem;
+          //   height: 1.2rem;
+          //   margin-right: 1.1rem;
+          // }
 
-          .unlock-transaction {
-            position: absolute;
-            left: -2rem;
-            mask: url(../../assets/icons/unlock-transaction.svg) no-repeat center;
-            width: 1.2rem;
-            height: 1.2rem;
-            margin-right: 1.1rem;
-          }
+          // .unlock-transaction {
+          //   position: absolute;
+          //   left: -2rem;
+          //   mask: url(../../assets/icons/unlock-transaction.svg) no-repeat center;
+          //   width: 1.2rem;
+          //   height: 1.2rem;
+          //   margin-right: 1.1rem;
+          // }
 
           .position {
             position: static;
@@ -67,19 +67,17 @@
 
           &.send {
             .status-transaction {
-              display: block;
               mask: url("../../assets/icons/send.svg") no-repeat center;
-              width: 18px;
-              height: 18px;
+              width: 1.8rem;
+              height: 1.8rem;
             }
           }
 
           &.received {
             .status-transaction {
-              display: block;
               mask: url("../../assets/icons/receive.svg") no-repeat center;
-              width: 18px;
-              height: 18px;
+              width: 1.8rem;
+              height: 1.8rem;
             }
           }
         }

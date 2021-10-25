@@ -180,6 +180,7 @@
       "TIME4": "Never"
     },
     "SCALE": {
+      "TITLE": "Interface scale",
       "75": "75% scale",
       "100": "100% scale",
       "125": "125% scale",

@@ -38,7 +38,7 @@
     </div>
 
     <div class="lock-selection">
-      <label class="lock-selection-title">{{ 'SETTINGS.APP_LOG_TITLE' | translate }}</label>
+      <label class="lock-selection-title">{{ 'SETTINGS.SCALE.TITLE' | translate }}</label>
       <ng-select class="custom-select" [items]="appScaleOptions" bindValue="id" bindLabel="name"
         [(ngModel)]="variablesService.settings.scale" [clearable]="false" [searchable]="false" (change)="setScale()">
         <ng-template ng-label-tmp let-item="item">
