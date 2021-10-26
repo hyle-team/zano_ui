@@ -15,6 +15,7 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
   showSeed = false;
   copyAnimation = false;
   seedPhraseCopied = false;
+  ifSaved: boolean = false;
 
   detailsForm = new FormGroup({
     name: new FormControl('', [
@@ -99,17 +100,20 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
+  onSave() {
+    this.ifSaved = true;
+    setTimeout(() => {
+      this.ifSaved = false;
+    }, 3000)
+  }
+
 
   onSubmitEdit() {
     if (this.detailsForm.value) {
+      this.onSave();
       this.variablesService.currentWallet.name = this.detailsForm.get(
         'name'
       ).value;
-      this.ngZone.run(() => {
-        this.router.navigate([
-          '/wallet/' + this.variablesService.currentWallet.wallet_id,
-        ]);
-      });
     }
   }
 

@@ -34,9 +34,27 @@
     margin-bottom: 3.6rem;
   }
 
-  button {
-    margin-top: 1.4rem;
-    width: 25.6rem;
+  .submit-button-container {
+    display: flex;
+    align-items: center;
+    .saved-message {
+      transition: all 0.5s ease;
+      height: 0;
+      opacity: 0;
+      margin-left: 2rem;
+      font-size: 2rem;
+      line-height: 2.4rem;
+      color: #16d1d6;
+      &.active {
+        transition: all 0.5s ease;
+        height: 2.4rem;
+        opacity: 1;
+      }
+    }
+    button {
+      margin-top: 1.4rem;
+      width: 25.6rem;
+    }
   }
 }
 

@@ -13,7 +13,7 @@ import { UtilsService } from '../_helpers/services/utils.service';
   providers: [UtilsService]
 })
 export class SettingsComponent implements OnInit {
-
+  ifSaved: boolean = false;
   theme: string;
   scale: number;
   changeForm: any;
@@ -161,6 +161,7 @@ export class SettingsComponent implements OnInit {
 
   onSubmitChangePass() {
     if (this.changeForm.valid) {
+      this.onSave()
       this.variablesService.appPass = this.changeForm.get('new_password').value;
       if (this.variablesService.appPass) {
         this.backend.setMasterPassword({ pass: this.variablesService.appPass }, (status, data) => {
@@ -181,6 +182,13 @@ export class SettingsComponent implements OnInit {
       }
       this.changeForm.reset();
     }
+  }
+
+  onSave() {
+    this.ifSaved = true;
+    setTimeout(() => {
+      this.ifSaved = false;
+    }, 3000)
   }
 
   onLockChange() {

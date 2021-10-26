@@ -14,7 +14,7 @@
       <ng-container *ngFor="let item of variablesService.currentWallet.history">
         <tr (click)="openDetails(item.tx_hash)" [class.locked-transaction]="!item.is_mining && item.unlock_time > 0">
           <td>
-            <div class="status" [class.send]="!item.is_income" [class.received]="item.is_income">
+            <div class="status" [ngClass]="item.is_income ? 'received' : 'send'">
               <!-- <ng-container
                 *ngIf="variablesService.height_app - item.height < 10 || item.height === 0 && item.timestamp > 0">
                 <div class="confirmation"

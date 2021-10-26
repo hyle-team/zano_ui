@@ -100,9 +100,11 @@
         </div>
       </div>
 
-      <button type="submit" class="blue-button" [disabled]="!changeForm.valid">{{ 'SETTINGS.MASTER_PASSWORD.BUTTON' |
-        translate }}</button>
-
+      <div class="submit-button-container">
+        <button type="submit" class="blue-button" [disabled]="!changeForm.valid">{{ 'SETTINGS.MASTER_PASSWORD.BUTTON' |
+          translate }}</button>
+        <span class="saved-message" [class.active]="ifSaved">Saved! Settings Updated</span>
+      </div>
     </form>
   </div>
 
