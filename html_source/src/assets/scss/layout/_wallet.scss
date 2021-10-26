@@ -149,17 +149,11 @@ app-history {
           .status-transaction-text {
             color: $blueTextColor;
           }
-          .status-transaction {
-            background-color: $blueTextColor;
-          }
         }
 
         .status.received {
           .status-transaction-text {
             color: $greenTextColor;
-          }
-          .status-transaction {
-            background-color: $greenTextColor;
           }
         }
       }

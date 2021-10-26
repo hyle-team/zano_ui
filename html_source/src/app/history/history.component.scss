@@ -59,26 +59,10 @@
             position: static;
           }
 
-          .status-transaction {
+          img.status-transaction {
             margin-right: 0.7rem;
             width: 1.8rem;
             height: 1.8rem;
-          }
-
-          &.send {
-            .status-transaction {
-              mask: url("../../assets/icons/send.svg") no-repeat center;
-              width: 1.8rem;
-              height: 1.8rem;
-            }
-          }
-
-          &.received {
-            .status-transaction {
-              mask: url("../../assets/icons/receive.svg") no-repeat center;
-              width: 1.8rem;
-              height: 1.8rem;
-            }
           }
         }
 
