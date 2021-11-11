@@ -1,5 +1,5 @@
-import { Component, OnInit, Output, EventEmitter, Input} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { VariablesService } from '../_helpers/services/variables.service';
 
 
@@ -23,23 +23,24 @@ export class SendModalComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(this.variablesService.appPass) {
+    if (this.variablesService.appPass) {
       this.confirmForm.controls['password'].setValidators([Validators.required]);
       this.confirmForm.updateValueAndValidity();
     }
   }
 
+
   confirm() {
-    if(this.variablesService.appPass) {
+    if (this.variablesService.appPass) {
       if (this.confirmForm.controls['password'].value === '') {
-        this.confirmForm.controls['password'].setErrors({requiredPass: true});
+        this.confirmForm.controls['password'].setErrors({ requiredPass: true });
         return;
       }
-      this.confirmForm.controls['password'].setErrors({requiredPass: false});
-      if (this.variablesService.appPass ===  this.confirmForm.controls['password'].value) {
+      this.confirmForm.controls['password'].setErrors({ requiredPass: false });
+      if (this.variablesService.appPass === this.confirmForm.controls['password'].value) {
         this.confirmed.emit(true);
       } else {
-        this.confirmForm.controls['password'].setErrors({passwordNotMatch: true})
+        this.confirmForm.controls['password'].setErrors({ passwordNotMatch: true })
       }
     } else {
       this.confirmed.emit(true);

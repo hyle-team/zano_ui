@@ -1,7 +1,8 @@
-app-contacts, app-add-contacts,
-app-contact-send, app-export-import {
+app-contacts,
+app-add-contacts,
+app-contact-send,
+app-export-import {
   flex: 1 1 auto;
-  padding: 3rem;
   min-width: 85rem;
 
   .content {
@@ -9,13 +10,10 @@ app-contact-send, app-export-import {
     padding: 3rem;
     min-height: 100%;
 
-    @include themify($themes) {
-      background-color: themed(contentBackgroundColor);
-      color: themed(mainTextColor);
-    }
+    color: $mainTextColor;
 
     .head {
-      position: absolute;
+      position: relative;
       top: 0;
       left: 0;
     }
@@ -23,66 +21,52 @@ app-contact-send, app-export-import {
 }
 
 app-contacts {
-  
-  table {
-
-    .alias {
-  
-      @include themify($themes) {
-          color: themed(blueTextColor);
-      }
-    }
-
-    button {
-    
-      .icon {
-  
-        @include themify($themes) {
-          background-color: themed(blueTextColor);
+  .wrap-table {
+    margin: 1rem 0;
+    table {
+      tbody {
+        tr {
+          td {
+            background-color: $selectHoverColor !important;
+            .alias {
+              color: $blueTextColor;
+            }
+          }
         }
       }
-  
-      span {
-        
-        @include themify($themes) {
-          color: themed(mainTextColor)
+
+      button {
+        .icon {
+          background-color: $blueTextColor;
+        }
+
+        span {
+          color: $mainTextColor;
         }
       }
     }
+  }
+  .empty-list {
+    margin: 2.5rem 3rem;
   }
 
   .footer {
-    
-    @include themify($themes) {
-      color: themed(blueTextColor);
-    }
-  
-    .import-btn {
+    color: $blueTextColor;
 
-      @include themify($themes) {
-        color: themed(blueTextColor);
-      }
+    .import-btn {
+      color: $blueTextColor;
 
       .icon {
-  
-        @include themify($themes) {
-          background-color: themed(blueTextColor);
-        }
+        background-color: $blueTextColor;
       }
     }
   }
-  
 }
 
 app-contact-send {
-  
   .wallets-selection {
-
     button {
-
-      @include themify($themes) {
-        color: themed(blueTextColor);
-      }
+      color: $blueTextColor;
     }
   }
 }

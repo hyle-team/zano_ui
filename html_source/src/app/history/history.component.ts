@@ -1,7 +1,9 @@
-import {Component, OnInit, OnDestroy, AfterViewChecked, ViewChild, ElementRef} from '@angular/core';
-import {VariablesService} from '../_helpers/services/variables.service';
-import {ActivatedRoute} from '@angular/router';
+import { Component, OnInit, OnDestroy, AfterViewChecked, ViewChild, ElementRef } from '@angular/core';
+import { VariablesService } from '../_helpers/services/variables.service';
+import { ActivatedRoute } from '@angular/router';
 import { Transaction } from '../_helpers/models/transaction.model';
+import BigNumber from 'bignumber.js';
+
 
 @Component({
   selector: 'app-history',
@@ -12,12 +14,14 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
   parentRouting;
   openedDetails = false;
   calculatedWidth = [];
+  x = new BigNumber(3);
+  y = new BigNumber(0.2);
   @ViewChild('head') head: ElementRef;
 
   constructor(
     private route: ActivatedRoute,
     public variablesService: VariablesService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.parentRouting = this.route.parent.params.subscribe(() => {

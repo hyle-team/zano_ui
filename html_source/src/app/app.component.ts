@@ -1,15 +1,15 @@
-import {Component, OnInit, NgZone, Renderer2, OnDestroy, ViewChild} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {TranslateService} from '@ngx-translate/core';
-import {BackendService} from './_helpers/services/backend.service';
-import {Router} from '@angular/router';
-import {VariablesService} from './_helpers/services/variables.service';
-import {ContextMenuComponent} from 'ngx-contextmenu';
-import {IntToMoneyPipe} from './_helpers/pipes/int-to-money.pipe';
-import {BigNumber} from 'bignumber.js';
-import {ModalService} from './_helpers/services/modal.service';
-import {UtilsService} from './_helpers/services/utils.service';
-import {Store} from 'store';
+import { Component, OnInit, NgZone, Renderer2, OnDestroy, ViewChild } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { TranslateService } from '@ngx-translate/core';
+import { BackendService } from './_helpers/services/backend.service';
+import { Router } from '@angular/router';
+import { VariablesService } from './_helpers/services/variables.service';
+import { ContextMenuComponent } from 'ngx-contextmenu';
+import { IntToMoneyPipe } from './_helpers/pipes/int-to-money.pipe';
+import { BigNumber } from 'bignumber.js';
+import { ModalService } from './_helpers/services/modal.service';
+import { UtilsService } from './_helpers/services/utils.service';
+import { Store } from 'store';
 
 @Component({
   selector: 'app-root',
@@ -153,7 +153,6 @@ export class AppComponent implements OnInit, OnDestroy {
       this.backend.eventSubscribe('wallet_sync_progress', (data) => {
         console.log('----------------- wallet_sync_progress -----------------');
         console.log(data);
-
         const wallet = this.variablesService.getWallet(data.wallet_id);
         if (wallet) {
           this.ngZone.run(() => {
@@ -246,7 +245,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
         const wallet = this.variablesService.getWallet(wallet_id);
         if (wallet) {
-          if(wallet.history.length > 40) {
+          if (wallet.history.length > 40) {
             wallet.history.splice(40, 1);
           }
           this.ngZone.run(() => {
@@ -270,19 +269,17 @@ export class AppComponent implements OnInit, OnDestroy {
               wallet.prepareHistory([tr_info]);
               if (wallet.restore) {
                 wallet.total_history_item = wallet.history.length;
-                wallet.totalPages = Math.ceil( wallet.total_history_item / this.variablesService.count);
+                wallet.totalPages = Math.ceil(wallet.total_history_item / this.variablesService.count);
                 wallet.totalPages > this.variablesService.maxPages
-                    ? wallet.pages = new Array(5).fill(1).map((value, index) => value + index)
-                      : wallet.pages = new Array(wallet.totalPages).fill(1).map((value, index) => value + index);
+                  ? wallet.pages = new Array(5).fill(1).map((value, index) => value + index)
+                  : wallet.pages = new Array(wallet.totalPages).fill(1).map((value, index) => value + index);
               }
             }
 
             if (tr_info.hasOwnProperty('contract')) {
               const exp_med_ts = this.variablesService.exp_med_ts;
               const height_app = this.variablesService.height_app;
-
               const contract = tr_info.contract[0];
-
               if (tr_exists) {
                 for (let i = 0; i < wallet.contracts.length; i++) {
                   if (wallet.contracts[i].contract_id === contract.contract_id && wallet.contracts[i].is_a === contract.is_a) {
@@ -569,7 +566,7 @@ export class AppComponent implements OnInit, OnDestroy {
           this.backend.haveSecureAppData((statusPass) => {
             if (statusPass) {
               this.ngZone.run(() => {
-                this.router.navigate(['/login'], {queryParams: {type: 'auth'}});
+                this.router.navigate(['/login'], { queryParams: { type: 'auth' } });
               });
             } else {
               if (Object.keys(data).length !== 0) {
@@ -580,7 +577,7 @@ export class AppComponent implements OnInit, OnDestroy {
                 });
               } else {
                 this.ngZone.run(() => {
-                  this.router.navigate(['/login'], {queryParams: {type: 'reg'}});
+                  this.router.navigate(['/login'], { queryParams: { type: 'reg' } });
                 });
               }
             }
@@ -600,9 +597,10 @@ export class AppComponent implements OnInit, OnDestroy {
   getMoneyEquivalent() {
     this.http.get('https://api.coingecko.com/api/v3/ping').subscribe(
       () => {
-        this.http.get('https://api.coingecko.com/api/v3/simple/price?ids=zano&vs_currencies=usd').subscribe(
+        this.http.get('https://api.coingecko.com/api/v3/simple/price?ids=zano&vs_currencies=usd&include_24hr_change=true').subscribe(
           data => {
             this.variablesService.moneyEquivalent = data['zano']['usd'];
+            this.variablesService.moneyEquivalentPercent = data['zano']["usd_24h_change"];
           },
           error => {
             console.warn('api.coingecko.com price error: ', error);
@@ -724,18 +722,18 @@ export class AppComponent implements OnInit, OnDestroy {
       if (sync && sync.length) {
         const result = value.map(item => {
           if (item.wallet_id === wallet.wallet_id) {
-            return {sync: boolean, wallet_id: wallet.wallet_id};
+            return { sync: boolean, wallet_id: wallet.wallet_id };
           } else {
             return item;
           }
         });
         this.store.set('sync', result);
       } else {
-        value.push({sync: boolean, wallet_id: wallet.wallet_id});
+        value.push({ sync: boolean, wallet_id: wallet.wallet_id });
         this.store.set('sync', value);
       }
     } else {
-      this.store.set('sync', [{sync: boolean, wallet_id: wallet.wallet_id}]);
+      this.store.set('sync', [{ sync: boolean, wallet_id: wallet.wallet_id }]);
     }
   }
 

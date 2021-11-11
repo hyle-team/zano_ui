@@ -1,136 +1,100 @@
 app-wallet {
-
-  @include themify($themes) {
-    color: themed(mainTextColor);
-  }
+  color: $mainTextColor;
 
   .header {
-
     button {
-
-      @include themify($themes) {
-        color: themed(mainTextColor);
-      }
-
+      color: $blueTextColor;
       .icon {
-
-        @include themify($themes) {
-          background-color: themed(blueTextColor);
-        }
+        background-color: $blueTextColor;
       }
       &:disabled {
         background-color: transparent !important;
         .icon {
-          @include themify($themes) {
-            background-color: themed(accountOptionalTextColor);
-          }
+          background-color: $accountOptionalTextColor;
         }
       }
     }
-
     .alias {
-
       .icon {
-
-        @include themify($themes) {
-          background-color: themed(blueTextColor);
-        }
+        background-color: $blueTextColor;
       }
     }
   }
 
-  .address {
-
-    @include themify($themes) {
-      color: themed(blueTextColor);
+  .balance {
+    color: $mainTextColor;
+    .price-percent {
+      &.negative-percent {
+        color: $redTextColor;
+      }
+      margin-left: 0.7rem;
+      color: $greenTextColor;
     }
+  }
+
+  .address {
+    color: $addressTextColor;
 
     .icon {
-
-      @include themify($themes) {
-        background-color: themed(blueTextColor);
+      &.copy {
+        background-color: $copyBackground;
+        &:hover {
+          background-color: $copyBackgroundHover;
+        }
+      }
+      &.copied {
+        background-color: $copyBackgroundHover;
       }
     }
   }
 
   .tabs {
-
     .tabs-header {
-
       .tab {
-
-        @include themify($themes) {
-          background-color: themed(tabInactiveBackgroundColor);
-        }
+        color: $blueTextColor;
+        background-color: $tabInactiveBackgroundColor;
 
         .icon {
-
-          @include themify($themes) {
-            background-color: themed(blueTextColor);
-          }
+          background-color: $blueTextColor;
         }
 
         .indicator {
-
-          @include themify($themes) {
-            background-color: themed(accountIndicatorBackgroundColor);
-            color: themed(accountIndicatorTextColor);
-          }
+          background-color: $accountIndicatorBackgroundColor;
+          color: $accountIndicatorTextColor;
         }
 
         &.active {
-
-          @include themify($themes) {
-            background-color: themed(contentBackgroundColor);
-          }
+          background-color: $contentBackgroundColor;
         }
 
         &:hover:not(.active):not(.disabled) {
-
-          @include themify($themes) {
-            background-color: themed(tabHoverBackgroundColor);
-          }
+          background-color: $tabHoverBackgroundColor;
         }
       }
     }
 
     .tabs-content {
-
-      @include themify($themes) {
-        background-color: themed(contentBackgroundColor);
-      }
+      background-color: $contentBackgroundColor;
     }
 
     .pagination-wrapper {
-
-      @include themify($themes) {
-        background-color: themed(contentBackgroundColor);
-      }
-
+      border-radius: 0 0 1rem 1rem;
+      background-color: $contentBackgroundColor;
       .pagination {
-
-        @include themify($themes) {
-          border-top: 0.2rem solid themed(transparentButtonBorderColor);
-        }
-  
         button {
-          @include themify($themes) {
-            background-color: themed(transparentButtonBorderColor);
-            color: themed(mainTextColor);
-          }
-  
-          &.active {
-            @include themify($themes) {
-              background-color: themed(tableBackgroundColor);
-              color: themed(mainTextColor);
+          color: $mainTextColor;
+          i {
+            transition: all 0.3s ease;
+            background-color: $paginationButtonColor;
+            &:hover {
+              background-color: $paginationButtonHoverColor;
             }
           }
-  
           &:hover {
-            @include themify($themes) {
-              background-color: themed(hoverPage);
-              color: themed(mainTextColor);
-            } 
+            color: $blueButtonHoverColor;
+          }
+          &.active {
+            color: $blueButtonBackgroundColor;
           }
         }
       }
@@ -139,133 +103,57 @@ app-wallet {
 }
 
 app-send {
-
   .form-send {
-
     .send-select {
-
-      @include themify($themes) {
-        color: themed(mainTextColor);
-      }
+      color: $mainTextColor;
 
       .icon {
-
-        @include themify($themes) {
-          background-color: themed(blueTextColor);
-        }
+        background-color: $blueTextColor;
       }
     }
 
     .additional-details {
-
-      @include themify($themes) {
-        border: 0.2rem solid themed(transparentButtonBorderColor);
-      }
+      border: 0.2rem solid $resetButtonBackgroundColor;
     }
   }
 }
 
 app-receive {
-
   .btn-copy-address {
-
-    @include themify($themes) {
-      background-color: themed(blueTextColor);
+    background-color: $copyBackground;
+    &.copy {
+      &:hover {
+        background-color: $copyBackgroundHover;
+      }
+    }
+    &.copied {
+      background-color: $copyBackgroundHover;
     }
   }
 }
 
 app-history {
-
   table {
-
     tbody {
-
       tr {
-
-        &.locked-transaction {
-
-          @include themify($themes) {
-            color: themed(optionalTextColor);
-          }
-        }
-
-        &:nth-child(4n+1) {
-
-          @include themify($themes) {
-            background-color: themed(tableBackgroundColor);
-          }
-        }
-
-        &:nth-child(4n+2) {
-
-          @include themify($themes) {
-            background-color: themed(tableBackgroundColor);
-          }
-        }
-
-        &:nth-child(4n+3) {
-
-          @include themify($themes) {
-            background-color: transparent;
-          }
-        }
-
-        &:nth-child(4n+4) {
-
-          @include themify($themes) {
-            background-color: transparent;
-          }
-        }
-
         .status {
-
           .confirmation {
-
-            @include themify($themes) {
-              background-color: themed(progressBarBackgroundColor);
-            }
+            background-color: $progressBarBackgroundColor;
 
             .fill {
-
-              @include themify($themes) {
-                background-color: themed(progressBarFullBackgroundColor);
-              }
+              background-color: $progressBarFullBackgroundColor;
             }
           }
         }
-
-        .lock-transaction {
-
-          @include themify($themes) {
-            background-color: themed(orangeTextColor);
-          }
-        }
-
-        .unlock-transaction {
-
-          @include themify($themes) {
-            background-color: themed(blueTextColor);
-          }
-        }
-
         .status.send {
-
-          .status-transaction {
-
-            @include themify($themes) {
-              background-color: themed(redTextColor);
-            }
+          .status-transaction-text {
+            color: $blueTextColor;
           }
         }
 
         .status.received {
-
-          .status-transaction {
-
-            @include themify($themes) {
-              background-color: themed(greenTextColor);
-            }
+          .status-transaction-text {
+            color: $greenTextColor;
           }
         }
       }
@@ -274,25 +162,17 @@ app-history {
 }
 
 app-contracts {
-
   .wrap-table {
-
     .contract {
-
       .icon {
-
-        &.new, &.alert {
-
-          @include themify($themes) {
-            background-color: themed(redTextColor);
-          }
+        &.new,
+        &.alert {
+          background-color: $redTextColor;
         }
 
-        &.purchase, &.sell {
-
-          @include themify($themes) {
-            background-color: themed(blueTextColor);
-          }
+        &.purchase,
+        &.sell {
+          background-color: $blueTextColor;
         }
       }
     }
@@ -300,75 +180,46 @@ app-contracts {
 }
 
 app-purchase {
-
   .form-purchase {
-
     .purchase-select {
-
-      @include themify($themes) {
-        color: themed(mainTextColor);
-      }
+      color: $mainTextColor;
 
       .icon {
-
-        @include themify($themes) {
-          background-color: themed(blueTextColor);
-        }
+        background-color: $blueTextColor;
       }
     }
 
     .purchase-states {
-
-      @include themify($themes) {
-        color: themed(blueTextColor);
-      }
+      color: $blueTextColor;
     }
 
     .additional-details {
-
-      @include themify($themes) {
-        border: 0.2rem solid themed(transparentButtonBorderColor);
-      }
+      border: 0.2rem solid $resetButtonBackgroundColor;
     }
   }
 
   .progress-bar-container {
-
     .progress-bar {
-
-      @include themify($themes) {
-        background-color: themed(progressBarBackgroundColor);
-      }
+      background-color: $progressBarBackgroundColor;
 
       .progress-bar-full {
-
-        @include themify($themes) {
-          background-color: themed(progressBarFullBackgroundColor);
-        }
+        background-color: $progressBarFullBackgroundColor;
       }
     }
   }
 }
 
 app-messages {
-
   table {
-
     tbody {
-
       tr {
-
         td:first-child {
-
           span {
             @include text-truncate;
           }
 
           .icon {
-
-            @include themify($themes) {
-              background-color: themed(redTextColor);
-            }
+            background-color: $redTextColor;
           }
         }
       }
@@ -377,65 +228,42 @@ app-messages {
 }
 
 app-typing-message {
-
   .head {
-
     .interlocutor {
-
-      @include themify($themes) {
-        color: themed(blueTextColor);
-      }
+      color: $blueTextColor;
     }
   }
 
   .messages-content {
-
     .messages-list {
-
       div {
-
         &.date {
-
-          @include themify($themes) {
-            color: themed(optionalTextColor);
-          }
+          color: $optionalTextColor;
         }
 
         &.my {
-
-          @include themify($themes) {
-            background-color: themed(messageMyBackgroundColor);
-          }
+          background-color: $messageMyBackgroundColor;
 
           &:before {
-
             @include pseudo;
             top: 0;
             left: -1.1rem;
             border: 1.2rem solid transparent;
 
-            @include themify($themes) {
-              border-top-color: themed(messageMyBackgroundColor);
-            }
+            border-top-color: $messageMyBackgroundColor;
           }
         }
 
         &.buddy {
-
-          @include themify($themes) {
-            background-color: themed(messageBuddyBackgroundColor);
-          }
+          background-color: $messageBuddyBackgroundColor;
 
           &:after {
-
             @include pseudo;
             right: -1.1rem;
             top: 0;
             border: 1.2rem solid transparent;
 
-            @include themify($themes) {
-              border-top-color: themed(messageBuddyBackgroundColor);
-            }
+            border-top-color: $messageBuddyBackgroundColor;
           }
         }
       }
@@ -444,23 +272,14 @@ app-typing-message {
 }
 
 app-staking {
-
   .chart-header {
-
     .general {
-
       .label {
-
-        @include themify($themes) {
-          color: themed(optionalTextColor);
-        }
+        color: $mainTextColor;
       }
 
       .options {
-
-        @include themify($themes) {
-          color: themed(mainTextColor);
-        }
+        color: $mainTextColor;
       }
     }
 
@@ -474,28 +293,28 @@ app-staking {
   }
 
   .chart-options {
-
     .title {
-
-      @include themify($themes) {
-        color: themed(optionalTextColor);
-      }
+      color: $mainTextColor;
     }
 
     .options {
-
       button {
-
-        @include themify($themes) {
-          color: themed(mainTextColor);
-          background-color: themed(chartOptionsBackgroundColor);
-        }
-
-        &.active {
-
-          @include themify($themes) {
-            background-color: themed(chartOptionsHoverColor);
+        color: $mainTextColor;
+        &:not(:disabled) {
+          background: $blueButtonBackgroundColor;
+          box-shadow: $blueButtonBoxShadow;
+          &:hover {
+            background: $blueButtonHoverColor;
+            box-shadow: $blueButtonHoverBoxShadow;
           }
+          &:focus,
+          &.active {
+            background: $blueButtonFocusColor;
+            box-shadow: $blueButtonFocusBoxShadow;
+          }
+        }
+        &:disabled {
+          background: $blueButtondisabledColor;
         }
       }
     }
@@ -512,19 +331,15 @@ app-staking {
     overflow: auto;
     width: 100%;
 
-    @include themify($themes) {
-      background-color: themed(inputBackgroundColor);
-      color: themed(mainTextColor);
-    }
+    background-color: $inputBackgroundColor;
+    color: $mainTextColor;
 
     div {
       font-size: 1.4rem;
       padding: 1rem;
 
       &:hover {
-        @include themify($themes) {
-          background-color: themed(selectHoverColor);
-        }
+        background-color: $selectHoverColor;
       }
     }
   }

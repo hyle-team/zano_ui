@@ -11,35 +11,33 @@
     .wrap-login {
       margin: auto;
       width: 100%;
-      max-width: 40rem;
+      max-width: 42rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
 
       .logo {
+        margin-bottom: 7.6rem;
+        height: 14.3rem;
         display: flex;
         justify-content: center;
-
-        &::ng-deep svg {
-          width: 15rem;
-        }
       }
 
       .form-login {
         display: flex;
         flex-direction: column;
+        justify-content: space-between;
 
         .wrap-button {
+          button {
+            height: 7rem;
+            min-width: 20rem;
+            max-width: 38rem;
+          }
+          margin-top: 1.8rem;
           display: flex;
           align-items: center;
           justify-content: space-between;
-
-          button {
-            margin: 2.5rem 0;
-          }
-        }
-
-        button {
-          margin: 2.5rem auto;
-          width: 100%;
-          max-width: 15rem;
         }
       }
     }

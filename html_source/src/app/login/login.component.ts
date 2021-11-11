@@ -1,13 +1,14 @@
-import {Component, NgZone, OnInit, OnDestroy} from '@angular/core';
-import {FormGroup, FormControl, Validators} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
-import {BackendService} from '../_helpers/services/backend.service';
-import {VariablesService} from '../_helpers/services/variables.service';
-import {ModalService} from '../_helpers/services/modal.service';
-import {Wallet} from '../_helpers/models/wallet.model';
-import {DOWNLOADS_PAGE_URL} from '../_shared/constants'
+import { Component, NgZone, OnInit, OnDestroy } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BackendService } from '../_helpers/services/backend.service';
+import { VariablesService } from '../_helpers/services/variables.service';
+import { ModalService } from '../_helpers/services/modal.service';
+import { Wallet } from '../_helpers/models/wallet.model';
+import { DOWNLOADS_PAGE_URL } from '../_shared/constants'
 
 import icons from '../../assets/icons/icons.json';
+
 
 @Component({
   selector: 'app-login',
@@ -20,12 +21,12 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   regForm = new FormGroup({
     password: new FormControl('',
-    Validators.pattern(this.variablesService.pattern)),
+      Validators.pattern(this.variablesService.pattern)),
     confirmation: new FormControl('')
   }, [function (g: FormGroup) {
-    return g.get('password').value === g.get('confirmation').value ? null : {'mismatch': true};
+    return g.get('password').value === g.get('confirmation').value ? null : { 'mismatch': true };
   }
-]);
+  ]);
 
   authForm = new FormGroup({
     password: new FormControl('')
@@ -42,7 +43,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     public variablesService: VariablesService,
     private modalService: ModalService,
     private ngZone: NgZone
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.queryRouting = this.route.queryParams.subscribe(params => {
@@ -56,9 +57,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.regForm.valid) {
       this.variablesService.appPass = this.regForm.get('password').value;  // the pass what was written in input of login form by user
 
-      this.backend.setMasterPassword({pass: this.variablesService.appPass}, (status, data) => {
+      this.backend.setMasterPassword({ pass: this.variablesService.appPass }, (status, data) => {
         if (status) {
-          this.backend.storeSecureAppData({pass: this.variablesService.appPass});
+          this.backend.storeSecureAppData({ pass: this.variablesService.appPass });
           this.variablesService.appLogin = true;
           this.variablesService.dataIsLoaded = true;
           if (this.variablesService.settings.appLockTime) {
@@ -82,30 +83,34 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
   }
 
-   dropSecureAppData(): void {
-     this.backend.dropSecureAppData(() => {
-       this.onSkipCreatePass();
-     });
-     this.variablesService.wallets = [];
-     this.variablesService.contacts = [];
-   }
+  dropSecureAppData(): void {
+    this.backend.dropSecureAppData(() => {
+      this.onSkipCreatePass();
+    });
+    this.variablesService.wallets = [];
+    this.variablesService.contacts = [];
+  }
 
   onSubmitAuthPass(): void {
     if (this.authForm.valid) {
       this.variablesService.appPass = this.authForm.get('password').value;
-
+      this.backend.checkMasterPassword({ pass: this.variablesService.appPass }, (status, data) => {
+        if (data.error_code === "WRONG_PASSWORD") {
+          this.authForm.controls.password.setValue('');
+        }
+      });
       if (this.variablesService.dataIsLoaded) {
-         this.backend.checkMasterPassword({pass: this.variablesService.appPass}, (status, data) => {
-           if (status) {
-              this.variablesService.appLogin = true;
-               if (this.variablesService.settings.appLockTime) {
-                 this.variablesService.startCountdown();
-               }
-              this.ngZone.run(() => {
-                this.router.navigate(['/'], {queryParams: {prevUrl: 'login'}});
-              });
-           }
-         });
+        this.backend.checkMasterPassword({ pass: this.variablesService.appPass }, (status, data) => {
+          if (status) {
+            this.variablesService.appLogin = true;
+            if (this.variablesService.settings.appLockTime) {
+              this.variablesService.startCountdown();
+            }
+            this.ngZone.run(() => {
+              this.router.navigate(['/'], { queryParams: { prevUrl: 'login' } });
+            });
+          }
+        });
       } else {
         this.getData(this.variablesService.appPass);
       }
@@ -113,7 +118,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   getData(appPass) {
-    this.backend.getSecureAppData({pass: appPass}, (status, data) => {
+    this.backend.getSecureAppData({ pass: appPass }, (status, data) => {
       if (!data.error_code) {
         this.variablesService.appLogin = true;
         this.variablesService.dataIsLoaded = true;
@@ -146,7 +151,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           }
         }
         if (!data.hasOwnProperty('wallets') && !data.hasOwnProperty('contacts')) {
-          if (data.length !== 0  && !isEmptyObject) {
+          if (data.length !== 0 && !isEmptyObject) {
             this.getWalletData(data);
           } else {
             this.ngZone.run(() => {
@@ -162,7 +167,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     let openWallets = 0;
     let runWallets = 0;
     walletData.forEach((wallet, wallet_index) => {
-      this.backend.openWallet(wallet.path, wallet.pass, this.variablesService.count,  true, (open_status, open_data, open_error) => {
+      this.backend.openWallet(wallet.path, wallet.pass, this.variablesService.count, true, (open_status, open_data, open_error) => {
         if (open_status || open_error === 'FILE_RESTORED') {
           openWallets++;
           this.ngZone.run(() => {
@@ -190,9 +195,9 @@ export class LoginComponent implements OnInit, OnDestroy {
             new_wallet.exclude_mining_txs = false;
             if (open_data.recent_history && open_data.recent_history.history) {
               new_wallet.total_history_item = open_data.recent_history.total_history_items;
-              new_wallet.totalPages = Math.ceil( open_data.recent_history.total_history_items / this.variablesService.count);
+              new_wallet.totalPages = Math.ceil(open_data.recent_history.total_history_items / this.variablesService.count);
               new_wallet.totalPages > this.variablesService.maxPages
-              ? new_wallet.pages = new Array(5).fill(1).map((value, index) => value + index)
+                ? new_wallet.pages = new Array(5).fill(1).map((value, index) => value + index)
                 : new_wallet.pages = new Array(new_wallet.totalPages).fill(1).map((value, index) => value + index);
               new_wallet.prepareHistory(open_data.recent_history.history);
             } else {

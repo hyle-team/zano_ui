@@ -32,7 +32,7 @@
   },
   "SIDEBAR": {
     "TITLE": "Dompet",
-    "ADD_NEW": "+ Tambahkan",
+    "ADD_NEW": "Tambahkan",
     "ACCOUNT": {
       "STAKING": "Staking",
       "MESSAGES": "Pesan baru/tawaran",

@@ -9,6 +9,7 @@
     "INCORRECT_PASSWORD": "Invalid password",
     "FORM_ERRORS": {
       "PASS_REQUIRED": "Password is required",
+      "INVALID_PASS": "Invalid Password, try again",
       "CONFIRM_REQUIRED": "Confirmation is required",
       "MISMATCH": "Mismatch"
     }
@@ -17,7 +18,7 @@
     "BACK": "Go back"
   },
   "BREADCRUMBS": {
-    "ADD_WALLET": "Add wallet",
+    "ADD_WALLET": "Add Wallet",
     "CREATE_WALLET": "Create new wallet",
     "SAVE_PHRASE": "Save your seed phrase",
     "OPEN_WALLET": "Open existing wallet",
@@ -32,16 +33,16 @@
   },
   "SIDEBAR": {
     "TITLE": "Wallets",
-    "ADD_NEW": "+ Add",
+    "ADD_NEW": "Add Wallet",
     "ACCOUNT": {
       "STAKING": "Staking",
-      "MESSAGES": "New offers/Messages",
+      "MESSAGES": "New Offers/Messages",
       "SYNCING": "Syncing wallet"
     },
     "CONTACTS": "Contacts",
     "CONTACTS_TOOLTIP": "Contacts option available only with Master Password enabled",
     "SETTINGS": "Settings",
-    "LOG_OUT": "Log out",
+    "LOG_OUT": "Log Out",
     "LOG_OUT_TOOLTIP": "Logout option available only with Master Password enabled",
     "SYNCHRONIZATION": {
       "OFFLINE": "Offline",
@@ -69,18 +70,41 @@
   },
   "MAIN": {
     "TITLE": "Create or open the wallet to start using Zano",
-    "BUTTON_NEW_WALLET": "Create new wallet",
-    "BUTTON_OPEN_WALLET": "Open existing wallet",
-    "BUTTON_RESTORE_BACKUP": "Restore from backup",
-    "HELP": "How to create wallet?",
+    "BUTTON_NEW_WALLET": "Create New Wallet",
+    "BUTTON_OPEN_WALLET": "Open Existing Wallet",
+    "BUTTON_RESTORE_BACKUP": "Restore from Backup",
+    "HELP": "How to Create Wallet?",
     "CHOOSE_PATH": "Please choose a path"
   },
+  "PLACEHOLDERS": {
+    "COMMENT_PLACEHOLDER": "Enter your comment here",
+    "WALLET_NAME_PLACEHOLDER": "Enter a Wallet Name here",
+    "MASTER_PASS_PLACEHOLDER": "Enter a master password here",
+    "NAME_PLACEHOLDER": "Enter a name here",
+    "ADRESS_PLACEHOLDER": "Enter adress here",
+    "NOTES_PLACEHOLDER": "Enter a notes here",
+    "DESCRIPTION_PLACEHOLDER": "Enter a description here",
+    "SELLER_PLACEHOLDER": "Enter a seller here",
+    "PLACEHOLDER_OLD": "Enter current password here",
+    "AMOUNT_PLACEHOLDER": "Enter amount here",
+    "DEPOSIT_PLACEHOLDER": "Enter your deposit here",
+    "SELLER_DEPOSIT_PLACEHOLDER": "Enter seller deposit here",
+    "PLACEHOLDER_NEW": "Enter new password here",
+    "WALET_PASSWORD_PLACEHOLDER": "Enter a wallet password here",
+    "CONFIRM_WALET_PASSWORD_PLACEHOLDER": "Confirm wallet password here",
+    "PLACEHOLDER_CONFIRM": "Confirm new password here",
+    "PASSWORD_PLACEHOLDER": "Enter a password here",
+    "SEED_PHRASE_PLACEHOLDER": "Enter a seed phrase here",
+    "SEED_PASSWORD_PLACEHOLDER": "Enter a seed password here",
+    "PURCHASE_PAYMENT_PLACEHOLDER": "Enter a payment ID here",
+    "FEE_PLACEHOLDER": "Enter a fee here"
+  },
   "CREATE_WALLET": {
-    "NAME": "Wallet name",
+    "NAME": "Wallet Name",
     "PASS": "Set wallet password",
     "CONFIRM": "Confirm wallet password",
-    "BUTTON_SELECT": "Select wallet location",
-    "BUTTON_CREATE": "Create wallet",
+    "BUTTON_SELECT": "Select Wallet Location",
+    "BUTTON_CREATE": "Create Wallet",
     "TITLE_SAVE": "Save the wallet file.",
     "ERROR_CANNOT_SAVE_TOP": "Existing wallet files cannot be replaced or overwritten",
     "ERROR_CANNOT_SAVE_SYSTEM": "Wallet files cannot be saved to the OS partition",
@@ -92,7 +116,7 @@
     }
   },
   "OPEN_WALLET": {
-    "NAME": "Wallet name",
+    "NAME": "Wallet Name",
     "PASS": "Wallet password",
     "BUTTON": "Open wallet",
     "WITH_ADDRESS_ALREADY_OPEN": "A wallet with this address is already open",
@@ -112,7 +136,7 @@
     }
   },
   "RESTORE_WALLET": {
-    "LABEL_NAME": "Wallet name",
+    "LABEL_NAME": "Wallet Name",
     "LABEL_PHRASE_KEY": "Seed phrase / tracking seed",
     "PASS": "Wallet password",
     "CONFIRM": "Confirm wallet password",
@@ -156,6 +180,7 @@
       "TIME4": "Never"
     },
     "SCALE": {
+      "TITLE": "Interface scale",
       "75": "75% scale",
       "100": "100% scale",
       "125": "125% scale",
@@ -174,7 +199,7 @@
       "TITLE": "Update master password",
       "OLD": "Current password",
       "NEW": "New password",
-      "CONFIRM": "New password confirmation",
+      "CONFIRM": "Confirm password",
       "BUTTON": "Save"
     },
     "FORM_ERRORS": {
@@ -212,21 +237,21 @@
     }
   },
   "WALLET_DETAILS": {
-    "LABEL_NAME": "Wallet name",
+    "LABEL_NAME": "Wallet Name",
     "LABEL_FILE_LOCATION": "Wallet file location",
     "LABEL_SEED_PHRASE": "Seed phrase",
     "SEED_PHRASE_HINT": "Click to reveal the seed phrase",
     "BUTTON_SAVE": "Save",
-    "BUTTON_REMOVE": "Close wallet",
+    "BUTTON_REMOVE": "Close Wallet",
     "CREATE_PASSWORD_SECURE": "Create a password to secure your seed",
     "INFO": "info",
     "SEED_IS_UNSECURED": "Seed is unsecured",
     "SEED_IS_SECURED": "Seed is secured",
-    "REMEMBER_YOU_WILL_REQUIRE": "Remember, you will require the password to restore it.",
+    "REMEMBER_YOU_WILL_REQUIRE": "Secure seed will require password to restore.",
     "FORM": {
       "CONFIRM_PASSWORD": "Confirm password",
       "GENERATE_SECURE_SEED": "Generate Secure Seed",
-      "SECURED_SEED_WILL_REQUIRE": "Secured seed will require this password to restore."
+      "SECURED_SEED_WILL_REQUIRE": "Secure seed will require this password to restore."
     },
     "FORM_ERRORS": {
       "NAME_REQUIRED": "Name is required",
@@ -243,7 +268,7 @@
     },
     "COMMENT": {
       "LABEL": "Comment",
-      "PLACEHOLDER": "",
+      "PLACEHOLDER": "Enter your comment here",
       "TOOLTIP": "The comment will be visible to anyone who wants to make a payment to your alias. You can provide details about your business, contacts, or include any text. Comments can be edited later."
     },
     "COST": "Alias fee {{value}} {{currency}}",
@@ -251,7 +276,7 @@
     "FORM_ERRORS": {
       "NAME_REQUIRED": "Name is required",
       "NAME_WRONG": "Invalid name: allowed symbols \"0-9\", \"a-z\", \"-\", \".\"",
-      "NAME_LENGTH": "The alias must be 6-25 characters long",
+      "NAME_LENGTH": "The alias name must be 6-25 characters long",
       "NAME_EXISTS": "Alias name already exists",
       "NO_MONEY": "You do not have enough funds to assign this alias",
       "MAX_LENGTH": "Maximum comment length reached"
@@ -266,7 +291,7 @@
     },
     "COMMENT": {
       "LABEL": "Comment",
-      "PLACEHOLDER": ""
+      "PLACEHOLDER": "Enter your comment here"
     },
     "FORM_ERRORS": {
       "NO_MONEY": "You do not have enough funds to change the comment to this alias",
@@ -282,11 +307,11 @@
     },
     "COMMENT": {
       "LABEL": "Comment",
-      "PLACEHOLDER": ""
+      "PLACEHOLDER": "Enter your comment here"
     },
     "ADDRESS": {
       "LABEL": "Transfer to",
-      "PLACEHOLDER": ""
+      "PLACEHOLDER": "Enter address here"
     },
     "FORM_ERRORS": {
       "WRONG_ADDRESS": "No wallet with this account exists",
@@ -546,6 +571,7 @@
     }
   },
   "CONTACTS": {
+    "ADD_CONTACT": "Add contact",
     "TITLE": "Contact list",
     "IMPORT_EXPORT": "Import or export contacts",
     "IMPORT": "Import",
@@ -555,8 +581,8 @@
     "SEND_FROM": "Send from",
     "SEND_TO": "To",
     "OPEN_ADD_WALLET": "Open/Add wallet",
-    "COPY": "- Copy"
-,    "TABLE": {
+    "COPY": "- Copy",
+    "TABLE": {
       "NAME": "Name",
       "ALIAS": "Alias",
       "ADDRESS": "Address",

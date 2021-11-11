@@ -1,11 +1,11 @@
-import {Component, NgZone, OnInit} from '@angular/core';
-import {FormGroup, FormControl, Validators} from '@angular/forms';
-import {BackendService} from '../_helpers/services/backend.service';
-import {VariablesService} from '../_helpers/services/variables.service';
-import {ModalService} from '../_helpers/services/modal.service';
-import {Router} from '@angular/router';
-import {Wallet} from '../_helpers/models/wallet.model';
-import {TranslateService} from '@ngx-translate/core';
+import { Component, NgZone, OnInit } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { BackendService } from '../_helpers/services/backend.service';
+import { VariablesService } from '../_helpers/services/variables.service';
+import { ModalService } from '../_helpers/services/modal.service';
+import { Router } from '@angular/router';
+import { Wallet } from '../_helpers/models/wallet.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-create-wallet',
@@ -18,7 +18,7 @@ export class CreateWalletComponent implements OnInit {
     name: new FormControl('', [Validators.required, (g: FormControl) => {
       for (let i = 0; i < this.variablesService.wallets.length; i++) {
         if (g.value === this.variablesService.wallets[i].name) {
-          return {'duplicate': true};
+          return { 'duplicate': true };
         }
       }
       return null;
@@ -26,7 +26,7 @@ export class CreateWalletComponent implements OnInit {
     password: new FormControl('', Validators.pattern(this.variablesService.pattern)),
     confirm: new FormControl('')
   }, function (g: FormGroup) {
-    return g.get('password').value === g.get('confirm').value ? null : {'confirm_mismatch': true};
+    return g.get('password').value === g.get('confirm').value ? null : { 'confirm_mismatch': true };
   });
 
   wallet = {
@@ -45,15 +45,18 @@ export class CreateWalletComponent implements OnInit {
     private ngZone: NgZone,
     private translate: TranslateService
   ) {
+
   }
 
+
   ngOnInit() {
+
   }
 
   createWallet() {
     this.ngZone.run(() => {
       this.progressWidth = '100%';
-      this.router.navigate(['/seed-phrase'], {queryParams: {wallet_id: this.wallet.id}});
+      this.router.navigate(['/seed-phrase'], { queryParams: { wallet_id: this.wallet.id } });
     });
   }
 

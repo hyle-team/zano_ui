@@ -3,7 +3,11 @@
 }
 
 .form-send {
-
+  .input-block-alias {
+    input {
+      text-overflow: ellipsis;
+    }
+  }
   .input-blocks-row {
     display: flex;
 

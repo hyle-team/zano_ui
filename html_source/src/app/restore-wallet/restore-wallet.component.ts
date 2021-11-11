@@ -60,7 +60,7 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
     private modalService: ModalService,
     private ngZone: NgZone,
     private translate: TranslateService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.checkValidSeedPhrasePassword();
@@ -71,6 +71,8 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
     this.unsubscribeAll.next(true);
     this.unsubscribeAll.complete();
   }
+
+
 
   changeDetectionSeedPhrasePassword() {
     this.restoreForm.controls.seedPassword.valueChanges
@@ -88,7 +90,7 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
   checkValidSeedPhrasePassword() {
     const seed_password = this.restoreForm.controls.seedPassword.value;
     const seed_phrase = this.restoreForm.controls.key.value;
-    this.backend.getSeedPhraseInfo({seed_phrase, seed_password}, (status, data) => {
+    this.backend.getSeedPhraseInfo({ seed_phrase, seed_password }, (status, data) => {
       this.ngZone.run(() => {
         this.seedPhraseInfo = data;
       });
@@ -106,7 +108,7 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
     if (
       this.restoreForm.valid &&
       this.restoreForm.get('name').value.length <=
-        this.variablesService.maxWalletNameLength
+      this.variablesService.maxWalletNameLength
     ) {
       this.backend.isValidRestoreWalletText(
         {
@@ -173,20 +175,20 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
                         ) {
                           this.variablesService.opening_wallet.totalPages = Math.ceil(
                             restore_data.recent_history.total_history_items /
-                              this.variablesService.count
+                            this.variablesService.count
                           );
                           this.variablesService.opening_wallet.totalPages >
-                          this.variablesService.maxPages
+                            this.variablesService.maxPages
                             ? (this.variablesService.opening_wallet.pages = new Array(
-                                5
-                              )
-                                .fill(1)
-                                .map((value, index) => value + index))
+                              5
+                            )
+                              .fill(1)
+                              .map((value, index) => value + index))
                             : (this.variablesService.opening_wallet.pages = new Array(
-                                this.variablesService.opening_wallet.totalPages
-                              )
-                                .fill(1)
-                                .map((value, index) => value + index));
+                              this.variablesService.opening_wallet.totalPages
+                            )
+                              .fill(1)
+                              .map((value, index) => value + index));
                           this.variablesService.opening_wallet.prepareHistory(
                             restore_data.recent_history.history
                           );

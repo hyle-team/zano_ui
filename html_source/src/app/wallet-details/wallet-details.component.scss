@@ -1,8 +1,7 @@
 .form-details {
-  margin-top: 1.8rem;
+  margin-top: 3.5rem;
 
   .input-block {
-
     &:first-child {
       width: 50%;
     }
@@ -18,6 +17,14 @@
       width: 100%;
       max-width: 15rem;
     }
+  }
+}
+.wrap-buttons {
+  display: flex;
+  margin-bottom: 2rem;
+
+  .copy-button {
+    width: 20rem;
   }
 }
 

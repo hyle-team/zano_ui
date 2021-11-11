@@ -1,10 +1,10 @@
-import {Component, NgZone, OnInit, Renderer2} from '@angular/core';
-import {VariablesService} from '../_helpers/services/variables.service';
-import {BackendService} from '../_helpers/services/backend.service';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Location} from '@angular/common';
+import { Component, NgZone, OnInit, Renderer2 } from '@angular/core';
+import { VariablesService } from '../_helpers/services/variables.service';
+import { BackendService } from '../_helpers/services/backend.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-import {UtilsService} from '../_helpers/services/utils.service';
+import { UtilsService } from '../_helpers/services/utils.service';
 
 @Component({
   selector: 'app-settings',
@@ -119,10 +119,10 @@ export class SettingsComponent implements OnInit {
       new_password: new FormControl('', Validators.pattern(this.variablesService.pattern)),
       new_confirmation: new FormControl('')
     }, [(g: FormGroup) => {
-      return g.get('new_password').value === g.get('new_confirmation').value ? null : {'confirm_mismatch': true};
+      return g.get('new_password').value === g.get('new_confirmation').value ? null : { 'confirm_mismatch': true };
     }, (g: FormGroup) => {
       if (this.variablesService.appPass) {
-        return g.get('password').value === this.variablesService.appPass ? null : {'pass_mismatch': true};
+        return g.get('password').value === this.variablesService.appPass ? null : { 'pass_mismatch': true };
       }
       return null;
     }]);
@@ -133,8 +133,7 @@ export class SettingsComponent implements OnInit {
       this.ngZone.run(() => {
         this.currentBuild = version;
         this.variablesService.testnet = false;
-        if (type == 'testnet')
-        {
+        if (type == 'testnet') {
           this.currentBuild += ' TESTNET';
           this.variablesService.testnet = true;
         }
@@ -151,9 +150,8 @@ export class SettingsComponent implements OnInit {
     this.backend.storeAppData();
   }
 
-  setScale(scale) {
-    this.scale = scale;
-    this.variablesService.settings.scale = this.scale;
+  setScale() {
+    this.scale = this.variablesService.settings.scale;
     const width = this.utilsService.getMinWidthByScale(this.scale);
     const app = document.documentElement.querySelector('app-root');
     this.renderer.setStyle(app, 'min-width', width + 'px');
@@ -165,9 +163,9 @@ export class SettingsComponent implements OnInit {
     if (this.changeForm.valid) {
       this.variablesService.appPass = this.changeForm.get('new_password').value;
       if (this.variablesService.appPass) {
-        this.backend.setMasterPassword({pass: this.variablesService.appPass}, (status, data) => {
+        this.backend.setMasterPassword({ pass: this.variablesService.appPass }, (status, data) => {
           if (status) {
-            this.backend.storeSecureAppData({pass: this.variablesService.appPass});
+            this.backend.storeSecureAppData({ pass: this.variablesService.appPass });
             this.variablesService.appLogin = true;
             this.variablesService.dataIsLoaded = true;
             if (this.variablesService.settings.appLockTime) {
@@ -178,7 +176,8 @@ export class SettingsComponent implements OnInit {
           }
         });
       } else {
-        this.backend.dropSecureAppData();
+        this.backend.dropSecureAppData((status, data) => {
+        });
       }
       this.changeForm.reset();
     }
