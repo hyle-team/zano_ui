@@ -17,6 +17,7 @@ export class SettingsComponent implements OnInit {
   theme: string;
   scale: number;
   changeForm: any;
+  // notificationsOn: boolean = this.backend.getIsDisabledNotifications();
   languagesOptions = [
     {
       name: 'en',
@@ -183,6 +184,17 @@ export class SettingsComponent implements OnInit {
       this.changeForm.reset();
     }
   }
+
+  // toggleNotifications() {
+  //   if (this.backend.getIsDisabledNotifications) {
+  //     this.backend.setIsDisabledNotifications("true")
+  //     this.notificationsOn = true;
+  //   } else {
+  //     this.backend.setIsDisabledNotifications("false")
+  //     this.notificationsOn = false;
+  //   }
+  //   this.notificationsOn = !this.notificationsOn
+  // }
 
   onSave() {
     this.ifSaved = true;

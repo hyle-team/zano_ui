@@ -336,6 +336,15 @@ export class BackendService {
   checkMasterPassword(pass, callback) {
     this.runCommand('check_master_password', pass, callback);
   }
+
+  getIsDisabledNotifications() {
+    return this.runCommand('get_is_disabled_notifications');
+  }
+
+  setIsDisabledNotifications(pass) {
+    this.runCommand('set_is_disabled_notifications', pass);
+  }
+
   storeSecureAppData(callback?) {
     let data;
     const wallets = [];

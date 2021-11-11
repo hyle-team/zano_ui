@@ -32,6 +32,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    console.log("____----____---__BACKEND___----____---____--___", this.backend);
     if (this.router.url.indexOf('/wallet/') !== -1) {
       const localPathArr = this.router.url.split('/');
       if (localPathArr.length >= 3) {

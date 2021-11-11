@@ -114,6 +114,7 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
       this.variablesService.currentWallet.name = this.detailsForm.get(
         'name'
       ).value;
+      this.detailsForm.reset({ name: this.variablesService.currentWallet.name, path: this.variablesService.currentWallet.path })
     }
   }
 
@@ -148,6 +149,9 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
   copySeedPhrase() {
     this.backend.setClipboard(this.seedPhrase, () => {
       this.ngZone.run(() => {
+        setTimeout(() => {
+          this.seedPhraseCopied = false;
+        }, 4000)
         this.seedPhraseCopied = true;
       });
     });

@@ -21,7 +21,8 @@
           formControlName="name" [maxLength]="variablesService.maxWalletNameLength"
           (contextmenu)="variablesService.onContextMenu($event)">
         <div class="submit-button-container">
-          <button type="submit" class="blue-button" [disabled]="detailsForm.invalid">{{
+          <button type="submit" class="blue-button"
+            [disabled]="detailsForm.invalid && !detailsForm.controls['name'].dirty">{{
             'SETTINGS.MASTER_PASSWORD.BUTTON'
             |
             translate }}</button>
@@ -101,10 +102,14 @@
         </ng-container>
       </div>
       <div class="wrap-buttons">
-        <button type="button" class="blue-button_reset copy-button" (click)="copySeedPhrase()">{{
-          'SEED_PHRASE.BUTTON_COPY'
-          |
-          translate }}</button>
+        <button type="button" class="blue-button_reset copy-button" (click)="copySeedPhrase()">
+          <ng-container *ngIf="!seedPhraseCopied">
+            {{ 'SEED_PHRASE.BUTTON_COPY' | translate }}
+          </ng-container>
+          <ng-container *ngIf="seedPhraseCopied">
+            {{ 'SEED_PHRASE.BUTTON_COPIED' | translate }}
+          </ng-container>
+        </button>
       </div>
       <div class="seed-phrase-footer-text" *ngIf="seedPhraseForm.controls.password.value.length > 0">
         <i class="icon info"></i>

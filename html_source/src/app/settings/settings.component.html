@@ -57,10 +57,14 @@
         (change)="onLogChange()">
       </ng-select>
     </div>
-
-
-
-
+    <!-- <div class="lock-selection">
+      <label class="lock-selection-title">Notifications</label>
+      <div class="notifications-switch">
+        <div class="switch" (click)="toggleNotifications()" [ngClass]="notificationsOn ? 'on': 'off'">
+          <span class="circle"></span>
+        </div>
+      </div>
+    </div> -->
     <form class="master-password" [formGroup]="changeForm" (ngSubmit)="onSubmitChangePass()">
 
       <span class="master-password-title">{{ 'SETTINGS.MASTER_PASSWORD.TITLE' | translate }}</span>
@@ -101,7 +105,8 @@
       </div>
 
       <div class="submit-button-container">
-        <button type="submit" class="blue-button" [disabled]="!changeForm.valid">{{ 'SETTINGS.MASTER_PASSWORD.BUTTON' |
+        <button type="submit" class="blue-button" [disabled]="!changeForm.valid">{{ 'SETTINGS.MASTER_PASSWORD.BUTTON'
+          |
           translate }}</button>
         <span class="saved-message" [class.active]="ifSaved">Saved! Settings Updated</span>
       </div>

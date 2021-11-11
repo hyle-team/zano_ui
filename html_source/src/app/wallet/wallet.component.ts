@@ -31,10 +31,12 @@ export class WalletComponent implements OnInit, OnDestroy {
   subRouting2;
   queryRouting;
   walletID;
+  settingsButtonInterval;
+  settingsButtonDisabled = true;
   copyAnimation = false;
   copyAnimationTimeout;
   balanceTooltip;
-  walletLoaded;
+  walletLoaded = false;;
   activeTab = 'history';
   public mining = false;
   public currentPage = 1;
@@ -117,6 +119,12 @@ export class WalletComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.settingsButtonInterval = setInterval(() => {
+      if (this.variablesService.daemon_state == 2 || this.walletLoaded) {
+        this.settingsButtonDisabled = false;
+        clearInterval(this.settingsButtonInterval);
+      }
+    }, 2000);
     this.subRouting1 = this.route.params.subscribe((params) => {
       // set current wallet only by user click to avoid after sync show synchronized data
       this.walletID = +params['id'];
@@ -299,6 +307,8 @@ export class WalletComponent implements OnInit, OnDestroy {
     }, 2000);
   }
 
+
+
   getTooltip() {
     this.balanceTooltip = document.createElement('div');
     const available = document.createElement('span');
@@ -456,6 +466,8 @@ export class WalletComponent implements OnInit, OnDestroy {
     }
     clearTimeout(this.copyAnimationTimeout);
   }
+
+
 
   updateWalletStatus() {
     this.backend.eventSubscribe('wallet_sync_progress', (data) => {

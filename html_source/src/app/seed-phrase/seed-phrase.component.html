@@ -103,10 +103,14 @@
           <div class="wrap-buttons" *ngIf="showSeed">
             <button type="button" class="blue-button seed-phrase-button" (click)="runWallet()">{{
               'SEED_PHRASE.BUTTON_CREATE_ACCOUNT' | translate }}</button>
-            <button type="button" class="blue-button_reset copy-button" (click)="copySeedPhrase()">{{
-              'SEED_PHRASE.BUTTON_COPY'
-              |
-              translate }}</button>
+            <button type="button" class="blue-button_reset copy-button" (click)="copySeedPhrase()">
+              <ng-container *ngIf="!seedPhraseCopied">
+                {{ 'SEED_PHRASE.BUTTON_COPY' | translate }}
+              </ng-container>
+              <ng-container *ngIf="seedPhraseCopied">
+                {{ 'SEED_PHRASE.BUTTON_COPIED' | translate }}
+              </ng-container>
+            </button>
           </div>
           <div class="seed-phrase-footer-text" *ngIf="seedPhraseForm.controls.password.value.length > 0">
             <i class="icon info"></i>

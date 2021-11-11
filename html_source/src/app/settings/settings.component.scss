@@ -22,6 +22,31 @@
     margin-bottom: 1.2rem;
     color: #1f8feb;
   }
+  .switch {
+    border-radius: 1.1rem;
+    cursor: pointer;
+    padding: 0.2rem;
+    width: 3.6rem;
+    height: 2.2rem;
+    transition: all 0.3s ease;
+    position: relative;
+    &.on {
+      .circle {
+        margin-left: 1.4rem;
+      }
+    }
+    &.off {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    .circle {
+      display: block;
+      transition: all 0.3s ease;
+      position: relative;
+      border-radius: 50%;
+      width: 1.8rem;
+      height: 1.8rem;
+    }
+  }
 }
 
 .master-password {
