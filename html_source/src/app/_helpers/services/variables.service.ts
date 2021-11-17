@@ -168,8 +168,16 @@ export class VariablesService {
 
   getSortedWallets(): void {
     let SortedWallets
-    SortedWallets = this.wallets.sort(function (obj, obj2) {
-      return obj2.balance.c[0] - obj.balance.c[0]
+    SortedWallets = this.wallets.sort((obj, obj2) => {
+      if (obj2.balance.c[0] == 0 && obj.balance.c[0] == 0) {
+        return 0
+      } else if (obj.balance.c[0] == 0) {
+        return 1;
+      } else if (obj2.balance.c[0] == 0) {
+        return -1
+      } else {
+        return obj.balance.c[0] - obj2.balance.c[0]
+      }
     });
     return SortedWallets;
   }

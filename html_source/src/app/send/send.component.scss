@@ -4,6 +4,13 @@
 
 .form-send {
   .input-block-alias {
+    .adress-input-row {
+      width: 100%;
+      display: flex;
+      .curent-alias-adress {
+        position: absolute;
+      }
+    }
     input {
       text-overflow: ellipsis;
     }

@@ -5,6 +5,7 @@ import {
   NgZone,
   ViewChild,
   ElementRef,
+  HostListener,
 } from '@angular/core';
 import { ActivatedRoute, Router, RoutesRecognized } from '@angular/router';
 import { VariablesService } from '../_helpers/services/variables.service';
@@ -43,6 +44,10 @@ export class WalletComponent implements OnInit, OnDestroy {
   wallet: Wallet;
   sync_started = false;
   stop_paginate = false;
+  public openDropdown: boolean;
+  delWalletDialogVisible = false;
+  exportHistoryDialogVisible = false;
+  closeWalletId: number;
 
   @ViewChild('scrolledContent') private scrolledContent: ElementRef;
 
@@ -124,7 +129,7 @@ export class WalletComponent implements OnInit, OnDestroy {
         this.settingsButtonDisabled = false;
         clearInterval(this.settingsButtonInterval);
       }
-    }, 2000);
+    }, 1000);
     this.subRouting1 = this.route.params.subscribe((params) => {
       // set current wallet only by user click to avoid after sync show synchronized data
       this.walletID = +params['id'];
@@ -454,6 +459,49 @@ export class WalletComponent implements OnInit, OnDestroy {
         });
       }
     );
+  }
+  showConfirmDialog(wallet_id) {
+    this.delWalletDialogVisible = true;
+    this.closeWalletId = wallet_id;
+  }
+  closeExportModal(confirmed: boolean) {
+    if (confirmed) {
+      this.exportHistoryDialogVisible = false;
+    }
+  }
+  confirmed(confirmed: boolean) {
+    if (confirmed) {
+      this.closeWallet(this.closeWalletId);
+    }
+    this.delWalletDialogVisible = false;
+  }
+
+  closeWallet(wallet_id) {
+    this.backend.closeWallet(wallet_id, () => {
+      for (let i = this.variablesService.wallets.length - 1; i >= 0; i--) {
+        if (this.variablesService.wallets[i].wallet_id === this.variablesService.currentWallet.wallet_id) {
+          this.variablesService.wallets.splice(i, 1);
+        }
+      }
+      this.ngZone.run(() => {
+        if (this.variablesService.wallets.length) {
+          this.variablesService.currentWallet = this.variablesService.wallets[0];
+          this.router.navigate(['/wallet/' + this.variablesService.currentWallet.wallet_id]);
+        } else {
+          this.router.navigate(['/']);
+        }
+      });
+      if (this.variablesService.appPass) {
+        this.backend.storeSecureAppData();
+      }
+    });
+  }
+
+  @HostListener('document:click', ['$event.target'])
+  public onClick(targetElement) {
+    if (targetElement.id !== 'wallet-dropdown-button' && this.openDropdown) {
+      this.openDropdown = false;
+    }
   }
 
   ngOnDestroy() {

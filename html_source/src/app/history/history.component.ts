@@ -32,15 +32,26 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
   ngAfterViewChecked() {
     this.calculateWidth();
   }
-
+  strokeSize(item) {
+    const rem = this.variablesService.settings.scale
+    if ((this.variablesService.height_app - item.height >= 10 && item.height !== 0) || (item.is_mining === true && item.height === 0)) {
+      return 0;
+    } else {
+      if (item.height === 0 || this.variablesService.height_app - item.height < 0) {
+        return (4.5 * rem);
+      } else {
+        return ((4.5 * rem) - (((4.5 * rem) / 100) * ((this.variablesService.height_app - item.height) * 10)));
+      }
+    }
+  }
   getHeight(item) {
     if ((this.variablesService.height_app - item.height >= 10 && item.height !== 0) || (item.is_mining === true && item.height === 0)) {
-      return 100;
+      return 10;
     } else {
       if (item.height === 0 || this.variablesService.height_app - item.height < 0) {
         return 0;
       } else {
-        return (this.variablesService.height_app - item.height) * 10;
+        return (this.variablesService.height_app - item.height);
       }
     }
   }

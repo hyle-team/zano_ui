@@ -17,7 +17,7 @@ export class SettingsComponent implements OnInit {
   theme: string;
   scale: number;
   changeForm: any;
-  // notificationsOn: boolean = this.backend.getIsDisabledNotifications();
+  public correntNotificationsState;
   languagesOptions = [
     {
       name: 'en',
@@ -141,6 +141,9 @@ export class SettingsComponent implements OnInit {
         this.variablesService.networkType = type;
       });
     });
+    this.backend.getIsDisabledNotifications((res) => {
+      this.correntNotificationsState = res
+    });
   }
 
   setTheme(theme) {
@@ -185,16 +188,15 @@ export class SettingsComponent implements OnInit {
     }
   }
 
-  // toggleNotifications() {
-  //   if (this.backend.getIsDisabledNotifications) {
-  //     this.backend.setIsDisabledNotifications("true")
-  //     this.notificationsOn = true;
-  //   } else {
-  //     this.backend.setIsDisabledNotifications("false")
-  //     this.notificationsOn = false;
-  //   }
-  //   this.notificationsOn = !this.notificationsOn
-  // }
+  toggleNotifications() {
+    if (!this.correntNotificationsState) {
+      this.backend.setIsDisabledNotifications("true")
+      this.correntNotificationsState = true
+    } else {
+      this.backend.setIsDisabledNotifications("false")
+      this.correntNotificationsState = false
+    }
+  }
 
   onSave() {
     this.ifSaved = true;

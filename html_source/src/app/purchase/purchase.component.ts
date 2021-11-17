@@ -95,7 +95,8 @@ export class PurchaseComponent implements OnInit, OnDestroy {
     fee: new FormControl(this.variablesService.default_fee),
     time: new FormControl({ value: 12, disabled: false }),
     timeCancel: new FormControl({ value: 12, disabled: false }),
-    payment: new FormControl('')
+    payment: new FormControl(''),
+    password: new FormControl('')
   });
 
   sameAmountChecked: boolean = false;
@@ -212,6 +213,32 @@ export class PurchaseComponent implements OnInit, OnDestroy {
         this.variablesService.currentWallet.recountNewContracts();
       }
     });
+    if (this.variablesService.appPass) {
+      this.purchaseForm.controls.password.setValidators([Validators.required, (g: FormControl) => {
+        if (g.value) {
+          this.backend.checkMasterPassword({ pass: g.value }, (status) => {
+            this.ngZone.run(() => {
+              if (status === false) {
+                g.setErrors(
+                  Object.assign({ password_not_match: true }, g.errors)
+                );
+              } else {
+                if (g.hasError('password_not_match')) {
+                  delete g.errors['password_not_match'];
+                  if (Object.keys(g.errors).length === 0) {
+                    g.setErrors(null);
+                  }
+                }
+              }
+            });
+          });
+          return g.hasError('password_not_match')
+            ? { password_not_match: true }
+            : null;
+        }
+        return null;
+      }])
+    }
   }
 
   toggleOptions() {

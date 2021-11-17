@@ -1,7 +1,19 @@
 app-wallet {
   color: $mainTextColor;
-
   .header {
+    .settings-block {
+      .settings-dropdown {
+        background-color: $aliasDropdownBackground;
+        button {
+          span {
+            color: $mainTextColor;
+          }
+          .icon {
+            background-color: $mainTextColor;
+          }
+        }
+      }
+    }
     button {
       color: $blueTextColor;
       .icon {
@@ -104,14 +116,15 @@ app-wallet {
 
 app-send {
   .form-send {
+    .curent-alias-adress {
+      color: $placeholderTextColor;
+    }
     .send-select {
       color: $mainTextColor;
-
       .icon {
         background-color: $blueTextColor;
       }
     }
-
     .additional-details {
       border: 0.2rem solid $resetButtonBackgroundColor;
     }
@@ -136,21 +149,11 @@ app-history {
   table {
     tbody {
       tr {
-        .status {
-          .confirmation {
-            background-color: $progressBarBackgroundColor;
-
-            .fill {
-              background-color: $progressBarFullBackgroundColor;
-            }
-          }
-        }
         .status.send {
           .status-transaction-text {
             color: $blueTextColor;
           }
         }
-
         .status.received {
           .status-transaction-text {
             color: $greenTextColor;
@@ -325,19 +328,23 @@ app-staking {
   position: relative;
 
   .alias-dropdown {
+    padding: 1rem;
     position: absolute;
     top: 6.5rem;
-    max-height: 10rem;
-    overflow: auto;
-    width: 100%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    border-radius: 0.6rem;
+    z-index: 1;
+    width: 30rem;
+    height: 30rem;
 
-    background-color: $inputBackgroundColor;
+    background-color: $aliasDropdownBackground;
     color: $mainTextColor;
 
     div {
-      font-size: 1.4rem;
-      padding: 1rem;
-
+      font-size: 2rem;
+      line-height: 2.4rem;
+      margin-bottom: 1rem;
       &:hover {
         background-color: $selectHoverColor;
       }

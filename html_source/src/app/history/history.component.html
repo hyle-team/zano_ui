@@ -15,14 +15,25 @@
         <tr (click)="openDetails(item.tx_hash)" [class.locked-transaction]="!item.is_mining && item.unlock_time > 0">
           <td>
             <div class="status" [ngClass]="item.is_income ? 'received' : 'send'">
-              <!-- <ng-container
-                *ngIf="variablesService.height_app - item.height < 10 || item.height === 0 && item.timestamp > 0">
-                <div class="confirmation"
-                  tooltip="{{ 'HISTORY.STATUS_TOOLTIP' | translate : {'current': getHeight(item)/10, 'total': 10} }}"
-                  placement="bottom-left" tooltipClass="table-tooltip" [delay]="500">
-                  <div class="fill" [style.height]="getHeight(item) + '%'"></div>
-                </div>
+              <ng-container *ngIf="getHeight(item) < 10">
+                <svg class="confirmation" style="transform: rotateZ(-90deg)"
+                  tooltip="{{ 'HISTORY.STATUS_TOOLTIP' | translate : {'current': getHeight(item), 'total': 10} }}"
+                  placement="bottom-left" tooltipClass="table-tooltip" [delay]="500" width="1.6rem" height="1.6rem">
+                  <circle stroke-dasharray="100" fill="transparent" stroke-dashoffset="0" cx="50%" cy="50%"
+                    stroke="rgba(255, 255, 255, 0.33)" r="0.7rem" stroke-width="0.2rem">
+                  </circle>
+                  <circle class="progress-circle" cx="50%" cy="50%"
+                    [style.stroke]="item.is_income ? '#16d1d6' : '#1f8feb'" r="0.7rem" fill="transparent"
+                    stroke-width="0.2rem" stroke-dasharray="4.5rem" stroke-dashoffset="4.5rem" stroke-linecap="round"
+                    [style.stroke-dashoffset]="strokeSize(item)"></circle>
+                </svg>
               </ng-container>
+              <ng-container *ngIf="getHeight(item) === 10">
+                <img *ngIf="!item.is_income" class="status-transaction" src="./assets/icons/send.svg" alt="">
+                <img *ngIf="item.is_income" class="status-transaction" src="./assets/icons/receive.svg" alt="">
+              </ng-container>
+              <span class="status-transaction-text">{{ (item.is_income ? 'HISTORY.RECEIVED' : 'HISTORY.SEND') |
+                translate }}</span>
               <ng-container *ngIf="item.unlock_time !== 0 && item.tx_type !== 6">
                 <ng-container *ngIf="isLocked(item); else unlock">
                   <ng-container *ngIf="item.unlock_time < 500000000">
@@ -42,15 +53,7 @@
                   <i class="icon unlock-transaction" placement="bottom-left"
                     [class.position]="variablesService.height_app - item.height < 10 || item.height === 0 && item.timestamp > 0"></i>
                 </ng-template>
-              </ng-container> -->
-
-              <!-- <ng-container *ngIf="!item.is_mining && item.unlock_time > 0">
-              <i class="icon lock-transaction" tooltip="{{ 'HISTORY.LOCK_TOOLTIP' | translate : {'date': item.unlock_time * 1000 | date : 'MM.dd.yy'} }}" placement="bottom-left" tooltipClass="table-tooltip" [delay]="500"></i>
-              </ng-container> -->
-              <img *ngIf="!item.is_income" class="status-transaction" src="./assets/icons/send.svg" alt="">
-              <img *ngIf="item.is_income" class="status-transaction" src="./assets/icons/receive.svg" alt="">
-              <span class="status-transaction-text">{{ (item.is_income ? 'HISTORY.RECEIVED' : 'HISTORY.SEND') |
-                translate }}</span>
+              </ng-container>
             </div>
           </td>
           <td>{{item.timestamp * 1000 | date : 'dd-MM-yyyy HH:mm'}}</td>

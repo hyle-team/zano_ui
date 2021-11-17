@@ -756,3 +756,22 @@ app-send-modal {
     }
   }
 }
+
+app-export-history-modal {
+  .modal {
+    border-radius: 2rem;
+    background: $modalBackground;
+    color: $mainTextColor;
+    .content {
+      .inputs-container {
+        .lock-selection {
+          .custom-select {
+            .ng-dropdown-panel {
+              background-color: #1b3c75;
+            }
+          }
+        }
+      }
+    }
+  }
+}

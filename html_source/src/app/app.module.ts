@@ -71,6 +71,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
 }
 
 import { PapaParseModule } from 'ngx-papaparse';
+import { ExportHistoryModalComponent } from './export-history-modal/export-history-modal.component';
 
 // import * as more from 'highcharts/highcharts-more.src';
 // import * as exporting from 'highcharts/modules/exporting.src';
@@ -130,7 +131,8 @@ export function highchartsFactory() {
     ContactSendComponent,
     ExportImportComponent,
     SafeHTMLPipe,
-    ConfirmModalComponent
+    ConfirmModalComponent,
+    ExportHistoryModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -163,7 +165,8 @@ export function highchartsFactory() {
   entryComponents: [
     ModalContainerComponent,
     SendModalComponent,
-    ConfirmModalComponent
+    ConfirmModalComponent,
+    ExportHistoryModalComponent,
   ],
   bootstrap: [AppComponent]
 })

@@ -33,6 +33,8 @@ export class SendComponent implements OnInit, OnDestroy {
   wrapInfo: WrapInfo;
   isLoading = true;
   isWrapShown = false;
+  currentAliasAdress: string;
+  lenghtOfAdress: number;
 
   currentWalletId = null;
   parentRouting;
@@ -40,6 +42,7 @@ export class SendComponent implements OnInit, OnDestroy {
     address: new FormControl('', [Validators.required, (g: FormControl) => {
       this.localAliases = [];
       if (g.value) {
+        this.currentAliasAdress = ''
         if (g.value.indexOf('@') !== 0) {
           this.isOpen = false;
           this.backend.validateAddress(g.value, (valid_status, data) => {
@@ -67,8 +70,10 @@ export class SendComponent implements OnInit, OnDestroy {
           if (!(/^@?[a-z0-9\.\-]{6,25}$/.test(g.value))) {
             g.setErrors(Object.assign({ 'alias_not_valid': true }, g.errors));
           } else {
-            this.backend.getAliasByName(g.value.replace('@', ''), (alias_status) => {
+            this.backend.getAliasByName(g.value.replace('@', ''), (alias_status, alias_data) => {
               this.ngZone.run(() => {
+                this.currentAliasAdress = alias_data.address
+                this.lenghtOfAdress = g.value.length;
                 if (alias_status) {
                   if (g.hasError('alias_not_valid')) {
                     delete g.errors['alias_not_valid'];
@@ -130,6 +135,11 @@ export class SendComponent implements OnInit, OnDestroy {
   ) {
   }
 
+  getShorterAdress() {
+    let tempArr = this.currentAliasAdress.split("");
+    return this.currentAliasAdress.split("", 34).join('') + "..." + tempArr.splice((tempArr.length - 13), 13).join('')
+  }
+
   addressMouseDown(e) {
     if (e['button'] === 0 && this.sendForm.get('address').value && this.sendForm.get('address').value.indexOf('@') === 0) {
       this.isOpen = true;
@@ -146,7 +156,6 @@ export class SendComponent implements OnInit, OnDestroy {
       this.isOpen = false;
     }
   }
-
 
   ngOnInit() {
     this.parentRouting = this.route.parent.params.subscribe(params => {
@@ -185,8 +194,6 @@ export class SendComponent implements OnInit, OnDestroy {
   showDialog() {
     this.isModalDialogVisible = true;
   }
-
-
 
   confirmed(confirmed: boolean) {
     if (confirmed) {
@@ -302,5 +309,4 @@ export class SendComponent implements OnInit, OnDestroy {
     if (amount && needed) { return (amount as BigNumber).minus(needed); }
     return 0;
   }
-
 }

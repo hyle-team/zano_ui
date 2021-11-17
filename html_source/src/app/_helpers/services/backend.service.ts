@@ -337,12 +337,13 @@ export class BackendService {
     this.runCommand('check_master_password', pass, callback);
   }
 
-  getIsDisabledNotifications() {
-    return this.runCommand('get_is_disabled_notifications');
+  getIsDisabledNotifications(callback) {
+    const params = {}
+    this.runCommand('get_is_disabled_notifications', params, callback);
   }
 
-  setIsDisabledNotifications(pass) {
-    this.runCommand('set_is_disabled_notifications', pass);
+  setIsDisabledNotifications(state) {
+    this.runCommand('set_is_disabled_notifications', state);
   }
 
   storeSecureAppData(callback?) {
@@ -405,6 +406,10 @@ export class BackendService {
       pass: pass
     };
     this.runCommand('generate_wallet', params, callback);
+  }
+
+  exportWalletHistory(json_string) {
+    this.runCommand('export_wallet_history', json_string);
   }
 
   openWallet(path, pass, txs_to_return, testEmpty, callback) {

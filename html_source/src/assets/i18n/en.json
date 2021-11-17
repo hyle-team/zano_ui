@@ -156,6 +156,16 @@
       "INCORRECT_PASSWORD": "Incorrect password"
     }
   },
+  "EXPORT_HISTORY": {
+    "TOOLTIP": "Export wallet transactions history to file",
+    "TITLE": "Export Wallet History",
+    "FORMAT:": "Format",
+    "FILTER": "Filter POS Transactions",
+    "CANCEL": "Cancel",
+    "EXPORT": "Export to file...",
+    "EXPORT_BUTTON": "Export history...",
+    "SAVED_FILE": "Select path to save transactions history "
+  },
   "SEED_PHRASE": {
     "TITLE": "Make sure to keep your seed phrase in a safe place. If you forget your seed phrase you will not be able to recover your wallet.",
     "BUTTON_CREATE_ACCOUNT": "Create wallet",
@@ -173,6 +183,8 @@
     "DARK_THEME": "Dark theme",
     "WHITE_THEME": "White theme",
     "GRAY_THEME": "Grey theme",
+    "NOTIFICATIONS": "Notifications",
+    "SETTINGS_SAVED": "Saved! Settings Updated",
     "APP_LOCK": {
       "TITLE": "Lock app after:",
       "TIME1": "5 min",
@@ -249,6 +261,7 @@
     "SEED_IS_UNSECURED": "Seed is unsecured",
     "SEED_IS_SECURED": "Seed is secured",
     "REMEMBER_YOU_WILL_REQUIRE": "Secure seed will require password to restore.",
+    "WALLET_OPTIONS": "Wallet options...",
     "FORM": {
       "CONFIRM_PASSWORD": "Confirm password",
       "GENERATE_SECURE_SEED": "Generate Secure Seed",
