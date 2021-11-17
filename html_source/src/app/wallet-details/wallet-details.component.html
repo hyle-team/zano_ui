@@ -14,11 +14,21 @@
   <form class="form-details" [formGroup]="detailsForm" (ngSubmit)="onSubmitEdit()">
     <div class="input-block">
       <label for="wallet-name">{{ 'WALLET_DETAILS.LABEL_NAME' | translate }}</label>
-      <input type="text" id="wallet-name"
-        [class.required-error]="detailsForm.controls['name'].dirty || detailsForm.controls['name'].touched"
-        [placeholder]="detailsForm.controls['name'].dirty || detailsForm.controls['name'].touched ? ('WALLET_DETAILS.FORM_ERRORS.NAME_REQUIRED' | translate ) : ('PLACEHOLDERS.WALLET_NAME_PLACEHOLDER' | translate) "
-        formControlName="name" [maxLength]="variablesService.maxWalletNameLength"
-        (contextmenu)="variablesService.onContextMenu($event)">
+      <div class="input-container">
+        <input type="text" id="wallet-name"
+          [class.required-error]="detailsForm.controls['name'].dirty || detailsForm.controls['name'].touched"
+          [placeholder]="detailsForm.controls['name'].dirty || detailsForm.controls['name'].touched ? ('WALLET_DETAILS.FORM_ERRORS.NAME_REQUIRED' | translate ) : ('PLACEHOLDERS.WALLET_NAME_PLACEHOLDER' | translate) "
+          formControlName="name" [maxLength]="variablesService.maxWalletNameLength"
+          (contextmenu)="variablesService.onContextMenu($event)">
+        <div class="submit-button-container">
+          <button type="submit" class="blue-button"
+            [disabled]="detailsForm.invalid && !detailsForm.controls['name'].dirty">{{
+            'SETTINGS.MASTER_PASSWORD.BUTTON'
+            |
+            translate }}</button>
+          <span class="saved-message" [class.active]="ifSaved">Saved!</span>
+        </div>
+      </div>
       <div class="error-block"
         *ngIf="detailsForm.controls['name'].invalid &&!detailsForm.controls['name'].errors['required'] && (detailsForm.controls['name'].dirty || detailsForm.controls['name'].touched)">
         <!-- <div *ngIf="detailsForm.controls['name'].errors['required']">
@@ -92,10 +102,14 @@
         </ng-container>
       </div>
       <div class="wrap-buttons">
-        <button type="button" class="blue-button_reset copy-button" (click)="copySeedPhrase()">{{
-          'SEED_PHRASE.BUTTON_COPY'
-          |
-          translate }}</button>
+        <button type="button" class="blue-button_reset copy-button" (click)="copySeedPhrase()">
+          <ng-container *ngIf="!seedPhraseCopied">
+            {{ 'SEED_PHRASE.BUTTON_COPY' | translate }}
+          </ng-container>
+          <ng-container *ngIf="seedPhraseCopied">
+            {{ 'SEED_PHRASE.BUTTON_COPIED' | translate }}
+          </ng-container>
+        </button>
       </div>
       <div class="seed-phrase-footer-text" *ngIf="seedPhraseForm.controls.password.value.length > 0">
         <i class="icon info"></i>

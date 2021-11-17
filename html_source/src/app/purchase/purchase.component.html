@@ -127,7 +127,18 @@
       </div>
     </div>
   </div>
-
+  <div class="input-block confirm-master-pass" *ngIf="variablesService.appPass">
+    <label for="password">{{ 'LOGIN.MASTER_PASS' | translate }}</label>
+    <input type="password" id="password" name="password" formControlName="password"
+      [class.required-error]="purchaseForm.controls['password'].dirty || purchaseForm.controls['password'].touched"
+      [placeholder]="purchaseForm.controls['password'].dirty || purchaseForm.controls['password'].touched ? ('LOGIN.FORM_ERRORS.PASS_REQUIRED' | translate ) : ('PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate) "
+      autofocus (contextmenu)="variablesService.onContextMenuPasteSelect($event)" />
+    <div class="error-block">
+      <div *ngIf="purchaseForm.controls.password.errors && purchaseForm.controls.password.errors.password_not_match">
+        {{ 'LOGIN.FORM_ERRORS.MISMATCH' | translate }}
+      </div>
+    </div>
+  </div>
   <button type="button" class="purchase-select" (click)="toggleOptions()">
     <span style="letter-spacing: 1px;">{{ 'PURCHASE.DETAILS' | translate }}</span><i class="icon arrow"
       [class.down]="!additionalOptions" [class.up]="additionalOptions"></i>

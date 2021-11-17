@@ -53,6 +53,7 @@
         .progress-bar {
           border-radius: 1rem;
           flex: 1 0 auto;
+          overflow: hidden;
 
           background-color: $progressBarBackgroundColor;
 

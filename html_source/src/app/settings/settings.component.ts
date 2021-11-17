@@ -13,10 +13,11 @@ import { UtilsService } from '../_helpers/services/utils.service';
   providers: [UtilsService]
 })
 export class SettingsComponent implements OnInit {
-
+  ifSaved: boolean = false;
   theme: string;
   scale: number;
   changeForm: any;
+  public correntNotificationsState;
   languagesOptions = [
     {
       name: 'en',
@@ -140,6 +141,9 @@ export class SettingsComponent implements OnInit {
         this.variablesService.networkType = type;
       });
     });
+    this.backend.getIsDisabledNotifications((res) => {
+      this.correntNotificationsState = res
+    });
   }
 
   setTheme(theme) {
@@ -161,6 +165,7 @@ export class SettingsComponent implements OnInit {
 
   onSubmitChangePass() {
     if (this.changeForm.valid) {
+      this.onSave()
       this.variablesService.appPass = this.changeForm.get('new_password').value;
       if (this.variablesService.appPass) {
         this.backend.setMasterPassword({ pass: this.variablesService.appPass }, (status, data) => {
@@ -181,6 +186,23 @@ export class SettingsComponent implements OnInit {
       }
       this.changeForm.reset();
     }
+  }
+
+  toggleNotifications() {
+    if (!this.correntNotificationsState) {
+      this.backend.setIsDisabledNotifications("true")
+      this.correntNotificationsState = true
+    } else {
+      this.backend.setIsDisabledNotifications("false")
+      this.correntNotificationsState = false
+    }
+  }
+
+  onSave() {
+    this.ifSaved = true;
+    setTimeout(() => {
+      this.ifSaved = false;
+    }, 3000)
   }
 
   onLockChange() {

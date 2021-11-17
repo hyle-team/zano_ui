@@ -15,6 +15,7 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
   showSeed = false;
   copyAnimation = false;
   seedPhraseCopied = false;
+  ifSaved: boolean = false;
 
   detailsForm = new FormGroup({
     name: new FormControl('', [
@@ -99,17 +100,21 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
+  onSave() {
+    this.ifSaved = true;
+    setTimeout(() => {
+      this.ifSaved = false;
+    }, 3000)
+  }
+
 
   onSubmitEdit() {
     if (this.detailsForm.value) {
+      this.onSave();
       this.variablesService.currentWallet.name = this.detailsForm.get(
         'name'
       ).value;
-      this.ngZone.run(() => {
-        this.router.navigate([
-          '/wallet/' + this.variablesService.currentWallet.wallet_id,
-        ]);
-      });
+      this.detailsForm.reset({ name: this.variablesService.currentWallet.name, path: this.variablesService.currentWallet.path })
     }
   }
 
@@ -144,6 +149,9 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
   copySeedPhrase() {
     this.backend.setClipboard(this.seedPhrase, () => {
       this.ngZone.run(() => {
+        setTimeout(() => {
+          this.seedPhraseCopied = false;
+        }, 4000)
         this.seedPhraseCopied = true;
       });
     });

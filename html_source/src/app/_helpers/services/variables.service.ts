@@ -166,6 +166,22 @@ export class VariablesService {
     return null;
   }
 
+  getSortedWallets(): void {
+    let SortedWallets
+    SortedWallets = this.wallets.sort((obj, obj2) => {
+      if (obj2.balance.c[0] == 0 && obj.balance.c[0] == 0) {
+        return 0
+      } else if (obj.balance.c[0] == 0) {
+        return 1;
+      } else if (obj2.balance.c[0] == 0) {
+        return -1
+      } else {
+        return obj.balance.c[0] - obj2.balance.c[0]
+      }
+    });
+    return SortedWallets;
+  }
+
   getNotLoadedWallet() {
     for (let i = 0; i < this.wallets.length; i++) {
       if (!this.wallets[i].loaded) {

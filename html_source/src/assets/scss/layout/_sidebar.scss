@@ -28,6 +28,19 @@ app-sidebar {
           }
         }
 
+        &.active {
+          .sidebar-account-row {
+            .progress-bar-container {
+              .progress-bar {
+                background-color: $progressBarAccountActiveColor;
+                .fill {
+                  background-color: $accountMainTextColor;
+                }
+              }
+            }
+          }
+        }
+
         .sidebar-account-row {
           .text {
             color: $accountMainTextColor;
@@ -40,10 +53,9 @@ app-sidebar {
 
           .progress-bar-container {
             .progress-bar {
-              background-color: $progressBarBackgroundColor;
-
+              background-color: $progressBarAccountColor;
               .fill {
-                background-color: $blueTextColor;
+                background-color: $greenTextColor;
               }
             }
           }

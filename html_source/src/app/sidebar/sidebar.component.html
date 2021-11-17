@@ -3,7 +3,7 @@
 </div>
 <div class="sidebar-accounts">
   <div class="sidebar-accounts-list scrolled-content">
-    <div class="sidebar-account" *ngFor="let wallet of variablesService.wallets"
+    <div class="sidebar-account" *ngFor="let wallet of variablesService.getSortedWallets()"
       [class.active]="wallet?.wallet_id === walletActive" [routerLink]="['/wallet/' + wallet.wallet_id + '/history']"
       [queryParams]="{sidenav: true}" [class.auditable]="wallet.is_auditable && !wallet.is_watch_only"
       [class.watch-only]="wallet.is_watch_only">
@@ -21,8 +21,8 @@
               [showWhenNoOverflow]="false">{{wallet.name}}</span>
           </ng-container>
           <ng-container *ngIf="wallet.alias['name']">
-            <span tooltip="{{wallet.alias['name']}}" placement="top-left" tooltipClass="table-tooltip account-tooltip"
-              [delay]="500" [showWhenNoOverflow]="false">{{wallet.name}}</span>
+            <span tooltip="{{ wallet.name }}" placement="top-left" tooltipClass="table-tooltip account-tooltip"
+              [delay]="500" [showWhenNoOverflow]="false">@{{wallet.alias['name']}}</span>
           </ng-container>
           <!-- <ng-container *ngIf="wallet.alias['comment'] && wallet.alias['comment'].length">
             <span class="icon comment" tooltip="{{wallet.alias['comment']}}" placement="top"

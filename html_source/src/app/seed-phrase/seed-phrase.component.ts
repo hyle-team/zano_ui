@@ -134,6 +134,9 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
   copySeedPhrase() {
     this.backend.setClipboard(this.seedPhrase, () => {
       this.ngZone.run(() => {
+        setTimeout(() => {
+          this.seedPhraseCopied = false;
+        }, 4000);
         this.seedPhraseCopied = true;
       });
     });
