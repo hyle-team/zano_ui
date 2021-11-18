@@ -15,6 +15,7 @@
 
       <div class="sidebar-account-row account-alias">
         <div class="name">
+          <div class="indicator" *ngIf="wallet.new_contracts">{{wallet.new_contracts}}</div>
           <ng-container *ngIf="!wallet.alias['name']">
             <span class="title" tooltip="{{ wallet.name }}" placement="top-left"
               tooltipClass="table-tooltip account-tooltip" [delay]="500"
@@ -24,20 +25,24 @@
             <span tooltip="{{ wallet.name }}" placement="top-left" tooltipClass="table-tooltip account-tooltip"
               [delay]="500" [showWhenNoOverflow]="false">@{{wallet.alias['name']}}</span>
           </ng-container>
-          <!-- <ng-container *ngIf="wallet.alias['comment'] && wallet.alias['comment'].length">
-            <span class="icon comment" tooltip="{{wallet.alias['comment']}}" placement="top"
-              tooltipClass="table-tooltip account-tooltip" [delay]="500">i</span>
-          </ng-container> -->
-        </div>
-        <div class="price-row"><span class="price">${{wallet.getMoneyEquivalent(variablesService.moneyEquivalent) |
-            intToMoney | number :
-            '1.2-2'}}</span><span class="price-percent">+4.6%</span>
+          <ng-container *ngIf="wallet.alias['comment'] && wallet.alias['comment'].length">
+            <div class="icon comment" tooltip="{{wallet.alias['comment']}}" placement="top"
+              tooltipClass="table-tooltip account-tooltip" [delay]="500">{{wallet.alias['comment'].length}}</div>
+          </ng-container>
         </div>
       </div>
 
       <div class="sidebar-account-row account-title-balance">
         <span class="balance">{{wallet.balance | intToMoney : '3' }}</span>
         <span class="balance"> {{variablesService.defaultCurrency}}</span>
+      </div>
+
+
+
+      <div class="sidebar-account-row account-price">
+        <span class="price">${{wallet.getMoneyEquivalent(variablesService.moneyEquivalent) |
+          intToMoney | number :
+          '1.2-2'}}</span><span class="price-percent">+4.6%</span>
       </div>
 
       <ng-container
@@ -48,12 +53,6 @@
           <app-staking-switch [wallet_id]="wallet.wallet_id" [(staking)]="wallet.staking"></app-staking-switch>
         </div>
       </ng-container>
-
-      <div class="sidebar-account-row account-messages"
-        *ngIf="!(!wallet.loaded && variablesService.daemon_state === 2)">
-        <span class="text">{{ 'SIDEBAR.ACCOUNT.MESSAGES' | translate }}</span>
-        <span class="indicator">{{wallet.new_contracts}}</span>
-      </div>
 
       <div class="sidebar-account-row account-synchronization"
         *ngIf="!wallet.loaded && variablesService.daemon_state === 2">

@@ -123,41 +123,44 @@
           font-size: 1.4rem;
 
           .name {
+            position: relative;
             margin-right: 1rem;
             display: flex;
             align-items: center;
             flex-shrink: 1;
             line-height: 1.7rem;
-            overflow: hidden;
             span {
               text-overflow: ellipsis;
               overflow: hidden;
               white-space: nowrap;
             }
-          }
-          .price-row {
-            display: flex;
-            .price {
-              flex-shrink: 0;
+            .indicator {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border-radius: 50%;
+              width: 2rem;
+              height: 2rem;
+              margin-right: 0.8rem;
+              font-size: 1.4rem;
+              line-height: 1rem;
             }
-            .price-percent {
-              margin-left: 0.7rem;
+            .icon.comment {
+              position: absolute;
+              right: -1.2rem;
+              top: 0;
+              width: 1rem;
+              height: 1rem;
+              border-radius: 50%;
+              color: #0c0c3a;
+              font-size: 1rem;
+              font-weight: 400;
+              line-height: 1.3rem;
+              background-color: #9a69f7;
+              display: flex;
+              align-items: center;
+              justify-content: center;
             }
-          }
-
-          .icon {
-            margin-left: 0.5rem;
-            width: 1.3rem;
-            height: 1.3rem;
-            border-radius: 50%;
-            color: #1a1a1a;
-            font-size: 9px;
-            font-weight: 700;
-            line-height: 9px;
-            padding-right: 1px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
           }
         }
         &.account-title-balance {
@@ -168,31 +171,21 @@
             white-space: nowrap;
           }
         }
+        &.account-price {
+          font-size: 1.4rem;
+          line-height: 1.7rem;
+
+          display: flex;
+          justify-content: flex-start;
+          .price-percent {
+            margin-left: 0.7rem;
+          }
+        }
 
         &.account-staking {
           .text {
             line-height: 1.9rem;
             font-size: 1.6rem;
-          }
-        }
-
-        &.account-messages {
-          .text {
-            line-height: 1.9rem;
-            font-size: 1.6rem;
-          }
-
-          .indicator {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 2rem;
-            font-size: 1.2rem;
-            line-height: 1.4rem;
-
-            min-width: 2.4rem;
-            height: 1.6rem;
-            padding: 0 0.5rem;
           }
         }
 
