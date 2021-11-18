@@ -48,7 +48,7 @@ app-sidebar {
 
           .indicator {
             background-color: $mainTextColor;
-            color: $optionalTextColor;
+            color: $blueTextColor;
           }
 
           .progress-bar-container {
@@ -59,7 +59,7 @@ app-sidebar {
               }
             }
           }
-          .price-row {
+          &.account-price {
             .price {
               color: $tooltipTextColor;
             }
