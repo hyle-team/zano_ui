@@ -25,7 +25,7 @@
   }
 }
 .sidebar-header {
-  min-height: 5rem;
+  min-height: 7rem;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -194,36 +194,23 @@
         }
 
         &.account-synchronization {
-          flex-direction: column;
-          height: 5.6rem;
-
-          .status {
-            align-self: flex-start;
-            font-size: 1.3rem;
-            line-height: 2.6rem;
+          display: flex;
+          align-items: center;
+          width: 100%;
+          .progress-bar {
+            border-radius: 1rem;
+            flex: 1 0 auto;
+            height: 0.4rem;
+            overflow: hidden;
+            .fill {
+              height: 100%;
+            }
           }
-
-          .progress-bar-container {
-            display: flex;
-            margin: 0.4rem 0;
-            height: 0.8rem;
-            width: 100%;
-
-            .progress-bar {
-              border-radius: 1rem;
-              flex: 1 0 auto;
-              overflow: hidden;
-              .fill {
-                height: 100%;
-              }
-            }
-
-            .progress-percent {
-              flex: 0 0 auto;
-              font-size: 1.3rem;
-              line-height: 1.7rem;
-              padding-left: 1rem;
-            }
+          .progress-percent {
+            flex: 0 0 auto;
+            font-size: 1.4rem;
+            line-height: 1.7rem;
+            padding-left: 1rem;
           }
         }
       }

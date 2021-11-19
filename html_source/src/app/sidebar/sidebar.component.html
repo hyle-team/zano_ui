@@ -52,13 +52,10 @@
 
       <div class="sidebar-account-row account-synchronization"
         *ngIf="!wallet.loaded && variablesService.daemon_state === 2">
-        <span class="status">{{ 'SIDEBAR.ACCOUNT.SYNCING' | translate }}</span>
-        <div class="progress-bar-container">
-          <div class="progress-bar">
-            <div class="fill" [style.width]="wallet.progress + '%'"></div>
-          </div>
-          <div class="progress-percent">{{ wallet.progress }}%</div>
+        <div class="progress-bar">
+          <div class="fill" [style.width]="wallet.progress + '%'"></div>
         </div>
+        <div class="progress-percent">{{ wallet.progress }}%</div>
       </div>
     </div>
   </div>
