@@ -304,25 +304,17 @@
       justify-content: space-between;
       align-items: center;
       button {
-        .icon {
-          width: 2.4rem;
-          height: 2.4rem;
-          &.back {
-            mask: url("../../assets/icons/arrow-left.svg") no-repeat center;
-          }
-          &.forward {
-            mask: url("../../assets/icons/arrow-right.svg") no-repeat center;
-          }
+        &.disabled {
+          cursor: default;
+        }
+        svg {
+          margin-top: 0.3rem;
+          width: 1.8rem;
+          height: 1.8rem;
         }
         margin-right: 0.5rem;
         padding: 0;
         font-size: 1.6rem;
-        transition: all 0.3s;
-      }
-      .disabled {
-        background-color: #18202a;
-        opacity: 0.3;
-        cursor: default;
         transition: all 0.3s;
       }
     }

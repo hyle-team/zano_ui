@@ -95,15 +95,16 @@ app-wallet {
       .pagination {
         button {
           color: $mainTextColor;
-          i {
-            transition: all 0.3s ease;
-            background-color: $paginationButtonColor;
-            &:hover {
-              background-color: $paginationButtonHoverColor;
-            }
-          }
           &:hover {
             color: $blueButtonHoverColor;
+            svg path {
+              fill: $paginationButtonHoverColor;
+            }
+          }
+          &.disabled {
+            svg path {
+              fill: $paginationButtonHoverColor;
+            }
           }
           &.active {
             color: $blueButtonBackgroundColor;

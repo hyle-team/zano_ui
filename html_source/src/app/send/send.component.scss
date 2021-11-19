@@ -5,11 +5,12 @@
 .form-send {
   .input-block-alias {
     .adress-input-row {
+      height: 2.6rem;
       position: relative;
       width: 100%;
       display: flex;
       .curent-alias-adress {
-        top: 0.25rem;
+        bottom: 0;
         position: absolute;
       }
     }
