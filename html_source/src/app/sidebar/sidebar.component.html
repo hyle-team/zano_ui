@@ -23,22 +23,18 @@
           </ng-container>
           <ng-container *ngIf="wallet.alias['name']">
             <span tooltip="{{ wallet.name }}" placement="top-left" tooltipClass="table-tooltip account-tooltip"
-              [delay]="500" [showWhenNoOverflow]="false">@{{wallet.alias['name']}}</span>
+              [delay]="500" [showWhenNoOverflow]="false">{{wallet.alias['name']}}</span>
           </ng-container>
-          <ng-container *ngIf="wallet.alias['comment'] && wallet.alias['comment'].length">
+          <!-- <ng-container *ngIf="wallet.alias['comment'] && wallet.alias['comment'].length">
             <div class="icon comment" tooltip="{{wallet.alias['comment']}}" placement="top"
               tooltipClass="table-tooltip account-tooltip" [delay]="500">{{wallet.alias['comment'].length}}</div>
-          </ng-container>
+          </ng-container> -->
         </div>
       </div>
-
       <div class="sidebar-account-row account-title-balance">
         <span class="balance">{{wallet.balance | intToMoney : '3' }}</span>
         <span class="balance"> {{variablesService.defaultCurrency}}</span>
       </div>
-
-
-
       <div class="sidebar-account-row account-price">
         <span class="price">${{wallet.getMoneyEquivalent(variablesService.moneyEquivalent) |
           intToMoney | number :
