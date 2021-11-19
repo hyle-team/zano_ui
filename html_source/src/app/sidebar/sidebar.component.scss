@@ -25,6 +25,7 @@
   }
 }
 .sidebar-header {
+  min-height: 7rem;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -146,16 +147,19 @@
               line-height: 1rem;
             }
             .icon.comment {
+              font-family: Adobe-Arabic;
+              font-size: 1.2rem;
+              line-height: 0.5rem;
               position: absolute;
-              right: -1.2rem;
-              top: 0;
-              width: 1rem;
-              height: 1rem;
-              border-radius: 50%;
+              right: -1.6rem;
+              top: -0.3rem;
+              height: 1.2rem;
+              min-width: 1.2rem;
+              width: fit-content;
+              padding: 0.3rem;
+              border-radius: 2rem;
               color: #0c0c3a;
-              font-size: 1rem;
               font-weight: 400;
-              line-height: 1.3rem;
               background-color: #9a69f7;
               display: flex;
               align-items: center;
@@ -190,36 +194,23 @@
         }
 
         &.account-synchronization {
-          flex-direction: column;
-          height: 5.6rem;
-
-          .status {
-            align-self: flex-start;
-            font-size: 1.3rem;
-            line-height: 2.6rem;
+          display: flex;
+          align-items: center;
+          width: 100%;
+          .progress-bar {
+            border-radius: 1rem;
+            flex: 1 0 auto;
+            height: 0.4rem;
+            overflow: hidden;
+            .fill {
+              height: 100%;
+            }
           }
-
-          .progress-bar-container {
-            display: flex;
-            margin: 0.4rem 0;
-            height: 0.8rem;
-            width: 100%;
-
-            .progress-bar {
-              border-radius: 1rem;
-              flex: 1 0 auto;
-              overflow: hidden;
-              .fill {
-                height: 100%;
-              }
-            }
-
-            .progress-percent {
-              flex: 0 0 auto;
-              font-size: 1.3rem;
-              line-height: 1.7rem;
-              padding-left: 1rem;
-            }
+          .progress-percent {
+            flex: 0 0 auto;
+            font-size: 1.4rem;
+            line-height: 1.7rem;
+            padding-left: 1rem;
           }
         }
       }
