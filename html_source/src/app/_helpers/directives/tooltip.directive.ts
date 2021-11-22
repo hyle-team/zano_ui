@@ -1,5 +1,5 @@
-import {Directive, Input, Output, ElementRef, HostListener, Renderer2, HostBinding, OnDestroy, EventEmitter} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import { Directive, Input, Output, ElementRef, HostListener, Renderer2, HostBinding, OnDestroy, EventEmitter } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Directive({
   selector: '[tooltip]'
@@ -34,9 +34,9 @@ export class TooltipDirective implements OnDestroy {
       this.cursor = 'pointer';
       if (!this.tooltip) {
         if (this.timeDelay !== 0) {
-        this.removeTooltipTimeDelay = setTimeout(() => {
-          this.show();
-        }, this.timeDelay);
+          this.removeTooltipTimeDelay = setTimeout(() => {
+            this.show();
+          }, this.timeDelay);
         } else {
           this.show();
         }

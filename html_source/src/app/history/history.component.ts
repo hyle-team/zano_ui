@@ -1,7 +1,9 @@
-import {Component, OnInit, OnDestroy, AfterViewChecked, ViewChild, ElementRef} from '@angular/core';
-import {VariablesService} from '../_helpers/services/variables.service';
-import {ActivatedRoute} from '@angular/router';
+import { Component, OnInit, OnDestroy, AfterViewChecked, ViewChild, ElementRef } from '@angular/core';
+import { VariablesService } from '../_helpers/services/variables.service';
+import { ActivatedRoute } from '@angular/router';
 import { Transaction } from '../_helpers/models/transaction.model';
+import BigNumber from 'bignumber.js';
+
 
 @Component({
   selector: 'app-history',
@@ -12,12 +14,14 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
   parentRouting;
   openedDetails = false;
   calculatedWidth = [];
+  x = new BigNumber(3);
+  y = new BigNumber(0.2);
   @ViewChild('head') head: ElementRef;
 
   constructor(
     private route: ActivatedRoute,
     public variablesService: VariablesService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.parentRouting = this.route.parent.params.subscribe(() => {
@@ -28,15 +32,26 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
   ngAfterViewChecked() {
     this.calculateWidth();
   }
-
+  strokeSize(item) {
+    const rem = this.variablesService.settings.scale
+    if ((this.variablesService.height_app - item.height >= 10 && item.height !== 0) || (item.is_mining === true && item.height === 0)) {
+      return 0;
+    } else {
+      if (item.height === 0 || this.variablesService.height_app - item.height < 0) {
+        return (4.5 * rem);
+      } else {
+        return ((4.5 * rem) - (((4.5 * rem) / 100) * ((this.variablesService.height_app - item.height) * 10)));
+      }
+    }
+  }
   getHeight(item) {
     if ((this.variablesService.height_app - item.height >= 10 && item.height !== 0) || (item.is_mining === true && item.height === 0)) {
-      return 100;
+      return 10;
     } else {
       if (item.height === 0 || this.variablesService.height_app - item.height < 0) {
         return 0;
       } else {
-        return (this.variablesService.height_app - item.height) * 10;
+        return (this.variablesService.height_app - item.height);
       }
     }
   }

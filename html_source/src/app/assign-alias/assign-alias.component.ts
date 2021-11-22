@@ -1,15 +1,15 @@
-import {Component, NgZone, OnInit, OnDestroy} from '@angular/core';
-import {FormGroup, FormControl, Validators} from '@angular/forms';
-import {Location} from '@angular/common';
-import {Router} from '@angular/router';
-import {BackendService} from '../_helpers/services/backend.service';
-import {VariablesService} from '../_helpers/services/variables.service';
-import {ModalService} from '../_helpers/services/modal.service';
-import {Wallet} from '../_helpers/models/wallet.model';
-import {MoneyToIntPipe} from '../_helpers/pipes/money-to-int.pipe';
-import {IntToMoneyPipe} from '../_helpers/pipes/int-to-money.pipe';
+import { Component, NgZone, OnInit, OnDestroy } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
+import { BackendService } from '../_helpers/services/backend.service';
+import { VariablesService } from '../_helpers/services/variables.service';
+import { ModalService } from '../_helpers/services/modal.service';
+import { Wallet } from '../_helpers/models/wallet.model';
+import { MoneyToIntPipe } from '../_helpers/pipes/money-to-int.pipe';
+import { IntToMoneyPipe } from '../_helpers/pipes/int-to-money.pipe';
 import BigNumber from 'bignumber.js';
-import {Subscription} from 'rxjs';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-assign-alias',
@@ -23,7 +23,7 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
     name: new FormControl('', [Validators.required, Validators.pattern(/^@?[a-z0-9\.\-]{6,25}$/)]),
     comment: new FormControl('', [(g: FormControl) => {
       if (g.value > this.variablesService.maxCommentLength) {
-        return {'maxLength': true};
+        return { 'maxLength': true };
       } else {
         return null;
       }
@@ -51,7 +51,7 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
     private modalService: ModalService,
     private moneyToInt: MoneyToIntPipe,
     private intToMoney: IntToMoneyPipe
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.wallet = this.variablesService.currentWallet;
@@ -91,6 +91,7 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
       this.alias.name = newName;
     });
   }
+
 
   assignAlias() {
     const alias = this.backend.getWalletAlias(this.wallet.address);

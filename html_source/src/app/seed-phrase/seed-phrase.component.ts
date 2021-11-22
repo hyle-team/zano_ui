@@ -1,9 +1,9 @@
-import {Component, NgZone, OnDestroy, OnInit} from '@angular/core';
-import {Location} from '@angular/common';
-import {BackendService} from '../_helpers/services/backend.service';
-import {ActivatedRoute, Router} from '@angular/router';
-import {VariablesService} from '../_helpers/services/variables.service';
-import {ModalService} from '../_helpers/services/modal.service';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+import { BackendService } from '../_helpers/services/backend.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { VariablesService } from '../_helpers/services/variables.service';
+import { ModalService } from '../_helpers/services/modal.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -63,6 +63,7 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
     return pass === confirmPass ? null : { notSame: true };
   }
 
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -71,7 +72,7 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
     public variablesService: VariablesService,
     private modalService: ModalService,
     private ngZone: NgZone
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.showSeed = false;
@@ -95,6 +96,8 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
       }
     });
   }
+
+
 
   runWallet() {
     let exists = false;
@@ -131,6 +134,9 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
   copySeedPhrase() {
     this.backend.setClipboard(this.seedPhrase, () => {
       this.ngZone.run(() => {
+        setTimeout(() => {
+          this.seedPhraseCopied = false;
+        }, 4000);
         this.seedPhraseCopied = true;
       });
     });

@@ -1,85 +1,85 @@
 .head {
-  justify-content: flex-end;
+  position: relative;
+  justify-content: space-between;
 }
 
 .settings-title {
-  font-size: 1.7rem;
-}
-
-.theme-selection {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin: 2.4rem 0;
-  width: 50%;
-
-  .radio-block {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    font-size: 1.3rem;
-    line-height: 2.7rem;
-  }
+  font-size: 2rem;
+  line-height: 2.4rem;
 }
 
 .lock-selection {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin: 2.4rem 0;
-  width: 50%;
+  margin: 2.2rem 0;
+  width: 25rem;
 
   .lock-selection-title {
     display: flex;
-    font-size: 1.5rem;
-    line-height: 2.7rem;
-    margin-bottom: 1rem;
+    font-size: 1.6rem;
+    line-height: 1.9rem;
+    margin-bottom: 1.2rem;
+    color: #1f8feb;
   }
-}
-
-.scale-selection {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 0 4rem;
-  width: 50%;
-  height: 0.5rem;
-
-  .button-block {
+  .switch {
+    border-radius: 1.1rem;
+    cursor: pointer;
+    padding: 0.2rem;
+    width: 3.6rem;
+    height: 2.2rem;
+    transition: all 0.3s ease;
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex: 1 0 auto;
-    margin: 0 0.2rem;
-    padding: 0;
-    height: 0.5rem;
-
-    .label {
-      position: absolute;
-      bottom: -1rem;
-      left: 50%;
-      transform: translate(-50%, 100%);
-      font-size: 1rem;
-      white-space: nowrap;
+    &.on {
+      .circle {
+        margin-left: 1.4rem;
+      }
+    }
+    &.off {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    .circle {
+      display: block;
+      transition: all 0.3s ease;
+      position: relative;
+      border-radius: 50%;
+      width: 1.8rem;
+      height: 1.8rem;
     }
   }
 }
 
 .master-password {
   width: 50%;
-
+  margin-top: 40px;
   .master-password-title {
     display: flex;
-    font-size: 1.5rem;
-    line-height: 2.7rem;
-    margin-bottom: 1rem;
+    font-size: 2rem;
+    line-height: 2.4rem;
+    margin-bottom: 3.6rem;
   }
 
-  button {
-    margin: 2.5rem auto;
-    width: 100%;
-    max-width: 15rem;
+  .submit-button-container {
+    display: flex;
+    align-items: center;
+    .saved-message {
+      transition: all 0.5s ease;
+      height: 0;
+      opacity: 0;
+      margin-left: 2rem;
+      font-size: 2rem;
+      line-height: 2.4rem;
+      color: #16d1d6;
+      &.active {
+        transition: all 0.5s ease;
+        height: 2.4rem;
+        opacity: 1;
+      }
+    }
+    button {
+      margin-top: 1.4rem;
+      width: 25.6rem;
+    }
   }
 }
 

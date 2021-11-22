@@ -1,14 +1,14 @@
-import {Component, OnInit, OnDestroy, NgZone, HostListener} from '@angular/core';
-import {FormGroup, FormControl, Validators} from '@angular/forms';
-import {ActivatedRoute} from '@angular/router';
-import {BackendService} from '../_helpers/services/backend.service';
-import {VariablesService} from '../_helpers/services/variables.service';
-import {ModalService} from '../_helpers/services/modal.service';
-import {BigNumber} from 'bignumber.js';
-import {MIXIN} from '../_shared/constants';
-import {HttpClient} from '@angular/common/http';
-import {MoneyToIntPipe} from '../_helpers/pipes/money-to-int.pipe';
-import {finalize} from 'rxjs/operators';
+import { Component, OnInit, OnDestroy, NgZone, HostListener } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { BackendService } from '../_helpers/services/backend.service';
+import { VariablesService } from '../_helpers/services/variables.service';
+import { ModalService } from '../_helpers/services/modal.service';
+import { BigNumber } from 'bignumber.js';
+import { MIXIN } from '../_shared/constants';
+import { HttpClient } from '@angular/common/http';
+import { MoneyToIntPipe } from '../_helpers/pipes/money-to-int.pipe';
+import { finalize } from 'rxjs/operators';
 
 interface WrapInfo {
   tx_cost: {
@@ -33,6 +33,8 @@ export class SendComponent implements OnInit, OnDestroy {
   wrapInfo: WrapInfo;
   isLoading = true;
   isWrapShown = false;
+  currentAliasAdress: string;
+  lenghtOfAdress: number;
 
   currentWalletId = null;
   parentRouting;
@@ -40,6 +42,7 @@ export class SendComponent implements OnInit, OnDestroy {
     address: new FormControl('', [Validators.required, (g: FormControl) => {
       this.localAliases = [];
       if (g.value) {
+        this.currentAliasAdress = ''
         if (g.value.indexOf('@') !== 0) {
           this.isOpen = false;
           this.backend.validateAddress(g.value, (valid_status, data) => {
@@ -47,7 +50,7 @@ export class SendComponent implements OnInit, OnDestroy {
               this.isWrapShown = (data.error_code === 'WRAP');
               this.sendForm.get('amount').setValue(this.sendForm.get('amount').value);
               if (valid_status === false && !this.isWrapShown) {
-                g.setErrors(Object.assign({'address_not_valid': true}, g.errors));
+                g.setErrors(Object.assign({ 'address_not_valid': true }, g.errors));
               } else {
                 if (g.hasError('address_not_valid')) {
                   delete g.errors['address_not_valid'];
@@ -58,17 +61,19 @@ export class SendComponent implements OnInit, OnDestroy {
               }
             });
           });
-          return (g.hasError('address_not_valid')) ? {'address_not_valid': true} : null;
+          return (g.hasError('address_not_valid')) ? { 'address_not_valid': true } : null;
         } else {
           this.isOpen = true;
           this.localAliases = this.variablesService.aliases.filter((item) => {
             return item.name.indexOf(g.value) > -1;
           });
           if (!(/^@?[a-z0-9\.\-]{6,25}$/.test(g.value))) {
-            g.setErrors(Object.assign({'alias_not_valid': true}, g.errors));
+            g.setErrors(Object.assign({ 'alias_not_valid': true }, g.errors));
           } else {
-            this.backend.getAliasByName(g.value.replace('@', ''), (alias_status) => {
+            this.backend.getAliasByName(g.value.replace('@', ''), (alias_status, alias_data) => {
               this.ngZone.run(() => {
+                this.currentAliasAdress = alias_data.address
+                this.lenghtOfAdress = g.value.length;
                 if (alias_status) {
                   if (g.hasError('alias_not_valid')) {
                     delete g.errors['alias_not_valid'];
@@ -77,12 +82,12 @@ export class SendComponent implements OnInit, OnDestroy {
                     }
                   }
                 } else {
-                  g.setErrors(Object.assign({'alias_not_valid': true}, g.errors));
+                  g.setErrors(Object.assign({ 'alias_not_valid': true }, g.errors));
                 }
               });
             });
           }
-          return (g.hasError('alias_not_valid')) ? {'alias_not_valid': true} : null;
+          return (g.hasError('alias_not_valid')) ? { 'alias_not_valid': true } : null;
         }
       }
       return null;
@@ -91,7 +96,7 @@ export class SendComponent implements OnInit, OnDestroy {
       if (!g.value) { return null; }
 
       if (g.value === 0) {
-        return {'zero': true};
+        return { 'zero': true };
       }
       const bigAmount = this.moneyToInt.transform(g.value) as BigNumber;
       if (this.isWrapShown) {
@@ -101,7 +106,7 @@ export class SendComponent implements OnInit, OnDestroy {
         if (bigAmount.isGreaterThan(new BigNumber(this.wrapInfo.unwraped_coins_left))) {
           return { great_than_unwraped_coins: true };
         }
-        if (bigAmount.isLessThan(new BigNumber(this.wrapInfo.tx_cost.zano_needed_for_erc20 ))) {
+        if (bigAmount.isLessThan(new BigNumber(this.wrapInfo.tx_cost.zano_needed_for_erc20))) {
           return { less_than_zano_needed: true };
         }
       }
@@ -111,7 +116,7 @@ export class SendComponent implements OnInit, OnDestroy {
     mixin: new FormControl(MIXIN, Validators.required),
     fee: new FormControl(this.variablesService.default_fee, [Validators.required, (g: FormControl) => {
       if ((new BigNumber(g.value)).isLessThan(this.variablesService.default_fee)) {
-        return {'less_min': true};
+        return { 'less_min': true };
       }
       return null;
     }]),
@@ -130,6 +135,11 @@ export class SendComponent implements OnInit, OnDestroy {
   ) {
   }
 
+  getShorterAdress() {
+    let tempArr = this.currentAliasAdress.split("");
+    return this.currentAliasAdress.split("", 34).join('') + "..." + tempArr.splice((tempArr.length - 13), 13).join('')
+  }
+
   addressMouseDown(e) {
     if (e['button'] === 0 && this.sendForm.get('address').value && this.sendForm.get('address').value.indexOf('@') === 0) {
       this.isOpen = true;
@@ -146,7 +156,6 @@ export class SendComponent implements OnInit, OnDestroy {
       this.isOpen = false;
     }
   }
-
 
   ngOnInit() {
     this.parentRouting = this.route.parent.params.subscribe(params => {
@@ -200,7 +209,7 @@ export class SendComponent implements OnInit, OnDestroy {
           console.log(valid_status, data.error_code === 'WRAP');
           if (valid_status === false && !(data.error_code === 'WRAP')) {
             this.ngZone.run(() => {
-              this.sendForm.get('address').setErrors({'address_not_valid': true});
+              this.sendForm.get('address').setErrors({ 'address_not_valid': true });
             });
           } else {
             this.backend.sendMoney(
@@ -239,7 +248,7 @@ export class SendComponent implements OnInit, OnDestroy {
           this.ngZone.run(() => {
             if (alias_status === false) {
               this.ngZone.run(() => {
-                this.sendForm.get('address').setErrors({'alias_not_valid': true});
+                this.sendForm.get('address').setErrors({ 'alias_not_valid': true });
               });
             } else {
               this.backend.sendMoney(
@@ -300,5 +309,4 @@ export class SendComponent implements OnInit, OnDestroy {
     if (amount && needed) { return (amount as BigNumber).minus(needed); }
     return 0;
   }
-
 }

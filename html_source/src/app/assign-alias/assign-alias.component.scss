@@ -1,12 +1,16 @@
 .form-assign {
   margin: 2.4rem 0;
-
+  label {
+    font-size: 1.6rem;
+    line-height: 2rem;
+  }
   .alias-name {
     width: 50%;
   }
 
   .alias-cost {
-    font-size: 1.3rem;
+    font-size: 2rem;
+    line-height: 2rem;
     margin-top: 2rem;
   }
 
@@ -23,9 +27,6 @@
 }
 
 .assign-alias-tooltip {
-  font-size: 1.3rem;
-  line-height: 2rem;
-  padding: 1rem 1.5rem;
   max-width: 46rem;
 }
 
@@ -36,7 +37,7 @@
     padding-left: 2.35rem;
   }
   &:after {
-    content: '@';
+    content: "@";
     position: absolute;
     display: inline-block;
     top: 50%;

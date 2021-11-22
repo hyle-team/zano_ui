@@ -90,7 +90,7 @@ export class AddContactsComponent implements OnInit, OnDestroy {
     private modalService: ModalService,
     private ngZone: NgZone,
     private location: Location
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.queryRouting = this.route.queryParams.subscribe(params => {
@@ -110,6 +110,7 @@ export class AddContactsComponent implements OnInit, OnDestroy {
       }
     });
   }
+
 
   add() {
     if (!this.variablesService.appPass) {
@@ -172,6 +173,9 @@ export class AddContactsComponent implements OnInit, OnDestroy {
         );
       }
     }
+  }
+  confirmed() {
+
   }
 
   back() {

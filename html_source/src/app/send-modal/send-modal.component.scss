@@ -26,7 +26,6 @@
 
   .content {
     display: flex;
-    font-size: 1.4rem;
 
     .message-container {
       display: flex;
@@ -37,18 +36,7 @@
 
       .message-block {
         display: flex;
-        margin-bottom: 1rem;
-
-        &:first-child {
-
-          .message-label {
-            line-height: 4rem;
-          }
-
-          .message-text {
-            line-height: 4rem;
-          }
-        }
+        margin-bottom: 2rem;
 
         &:last-child {
           margin-bottom: 0;
@@ -83,9 +71,10 @@
     justify-content: space-between;
 
     button {
+      &:first-child {
+        margin-right: 3rem;
+      }
       width: 100%;
-      max-width: 15rem;
     }
   }
-
 }

@@ -16,21 +16,25 @@
     <!-- form detail -->
     <form class="form-details" [formGroup]="detailsForm">
       <div class="input-block">
-        <label for="wallet-name">{{ 'WALLET_DETAILS.LABEL_NAME' | translate }}</label>
-        <input type="text" id="wallet-name" formControlName="name" [maxLength]="variablesService.maxWalletNameLength"
-          (contextmenu)="variablesService.onContextMenu($event)" readonly>
+        <label>{{ 'WALLET_DETAILS.LABEL_NAME' | translate }}</label>
+        <input type="text" id="wallet-name" formControlName="name"
+          [class.required-error]="detailsForm.controls['name'].dirty || detailsForm.controls['name'].touched"
+          [placeholder]="detailsForm.controls['name'].dirty || detailsForm.controls['name'].touched ? ('WALLET_DETAILS.FORM_ERRORS.NAME_REQUIRED' | translate ) : ('PLACEHOLDERS.WALLET_NAME_PLACEHOLDER' | translate)"
+          [maxLength]="variablesService.maxWalletNameLength" (contextmenu)="variablesService.onContextMenu($event)"
+          readonly>
         <div class="error-block"
-          *ngIf="detailsForm.controls['name'].invalid && (detailsForm.controls['name'].dirty || detailsForm.controls['name'].touched)">
-          <div *ngIf="detailsForm.controls['name'].errors['required']">
+          *ngIf="detailsForm.controls['name'].invalid && !detailsForm.controls['name'].errors['required'] && (detailsForm.controls['name'].dirty || detailsForm.controls['name'].touched)">
+          <!-- <div *ngIf="detailsForm.controls['name'].errors['required']">
             {{ 'WALLET_DETAILS.FORM_ERRORS.NAME_REQUIRED' | translate }}
-          </div>
+          </div> -->
           <div *ngIf="detailsForm.controls['name'].errors['duplicate']">
             {{ 'WALLET_DETAILS.FORM_ERRORS.NAME_DUPLICATE' | translate }}
           </div>
+          <div *ngIf="detailsForm.get('name').value.length >= variablesService.maxWalletNameLength">
+            {{ 'WALLET_DETAILS.FORM_ERRORS.MAX_LENGTH' | translate }}
+          </div>
         </div>
-        <div class="error-block" *ngIf="detailsForm.get('name').value.length >= variablesService.maxWalletNameLength">
-          {{ 'WALLET_DETAILS.FORM_ERRORS.MAX_LENGTH' | translate }}
-        </div>
+
       </div>
 
       <div class="input-block">
@@ -42,28 +46,32 @@
 
     <!-- form seed pasword -->
     <ng-container *ngIf="!showSeed else seedPhraseContent">
-      <form class="form-seed mt-2" [formGroup]="seedPhraseForm" (ngSubmit)="onSubmitSeed()">
-        <label>{{ 'WALLET_DETAILS.LABEL_SEED_PHRASE' | translate }}</label>
+      <form class="form-seed" [formGroup]="seedPhraseForm" (ngSubmit)="onSubmitSeed()">
         <div class="form-content">
+          <label>{{ 'WALLET_DETAILS.LABEL_SEED_PHRASE' | translate }}</label>
           <div class="seed-phrase-form">
             <div class="input-block">
-              <label for="create-password">{{ 'WALLET_DETAILS.CREATE_PASSWORD_SECURE' | translate }} (<a
-                  class="text-coral">{{ 'WALLET_DETAILS.INFO' | translate }}</a>)</label>
-              <input type="password" id="create-password" formControlName="password">
+              <label for="create-password">{{ 'WALLET_DETAILS.CREATE_PASSWORD_SECURE' | translate }} <a
+                  title="{{ 'WALLET_DETAILS.INFO' | translate }}"><i class="icon info"></i></a></label>
+              <input type="password" placeholder="{{ 'PLACEHOLDERS.PASSWORD_PLACEHOLDER' | translate }}"
+                id="create-password" formControlName="password">
             </div>
             <div class="input-block">
               <label for="confirm-password">{{ 'WALLET_DETAILS.FORM.CONFIRM_PASSWORD' | translate }}</label>
-              <input type="password" id="confirm-password" formControlName="confirmPassword">
+              <input type="password" placeholder="{{'PLACEHOLDERS.PLACEHOLDER_CONFIRM' | translate}}"
+                id="confirm-password" formControlName="confirmPassword">
+              <div class="error-block"
+                *ngIf="seedPhraseForm.invalid && (seedPhraseForm.controls['confirmPassword'].dirty || seedPhraseForm.controls['confirmPassword'].touched)">
+                <div *ngIf="seedPhraseForm.invalid && seedPhraseForm.get('confirmPassword').value.length > 0">
+                  {{ 'WALLET_DETAILS.FORM_ERRORS.PASSWORDS_DONT_MATCH' | translate }}
+                </div>
+              </div>
             </div>
-            <span class="error-message" *ngIf="!seedPhraseForm.valid">
-              {{ 'WALLET_DETAILS.FORM_ERRORS.PASSWORDS_DONT_MATCH' | translate }}
-            </span>
 
             <button type="submit" class="blue-button" [disabled]="!seedPhraseForm.valid"><i class="icon safety"></i>
               {{ 'WALLET_DETAILS.FORM.GENERATE_SECURE_SEED' | translate }}</button>
-
-            <a class="secured-seed"><i
-                class="icon info"></i>{{ 'WALLET_DETAILS.FORM.SECURED_SEED_WILL_REQUIRE' | translate }}</a>
+            <a class="secured-seed"><i class="icon info"></i>{{ 'WALLET_DETAILS.FORM.SECURED_SEED_WILL_REQUIRE' |
+              translate }}</a>
           </div>
         </div>
       </form>
@@ -72,15 +80,15 @@
 
     <!-- seed phrase -->
     <ng-template #seedPhraseContent>
-      <div class="seed-phrase mt-2">
+      <div class="seed-phrase">
         <div class="seed-phrase-title">
-          <span>{{ 'WALLET_DETAILS.LABEL_SEED_PHRASE' | translate }}</span>
+          <span class="seed-phrase-heading">{{ 'WALLET_DETAILS.LABEL_SEED_PHRASE' | translate }}</span>
           <p class="right-part">
-            <span
-              *ngIf="seedPhraseForm.controls.password.value.length == 0">{{ 'WALLET_DETAILS.SEED_IS_UNSECURED' | translate }}
+            <span *ngIf="seedPhraseForm.controls.password.value.length == 0">{{ 'WALLET_DETAILS.SEED_IS_UNSECURED' |
+              translate }}
               <i class="icon unsecured"></i></span>
-            <span
-              *ngIf="seedPhraseForm.controls.password.value.length > 0">{{ 'WALLET_DETAILS.SEED_IS_SECURED' | translate }}
+            <span *ngIf="seedPhraseForm.controls.password.value.length > 0">{{ 'WALLET_DETAILS.SEED_IS_SECURED' |
+              translate }}
               <i class="icon secured"></i></span>
           </p>
         </div>
@@ -91,22 +99,34 @@
               {{(index + 1) + '. ' + word}}</div>
           </ng-container>
         </div>
-        <div class="seed-phrase-footer" *ngIf="seedPhraseForm.controls.password.value.length > 0">
-          <span class="title">{{ 'WALLET_DETAILS.REMEMBER_YOU_WILL_REQUIRE' | translate }}</span>
+        <div class="seed-phrase-footer">
+          <div class="wrap-buttons" *ngIf="showSeed">
+            <button type="button" class="blue-button seed-phrase-button" (click)="runWallet()">{{
+              'SEED_PHRASE.BUTTON_CREATE_ACCOUNT' | translate }}</button>
+            <button type="button" class="blue-button_reset copy-button" (click)="copySeedPhrase()">
+              <ng-container *ngIf="!seedPhraseCopied">
+                {{ 'SEED_PHRASE.BUTTON_COPY' | translate }}
+              </ng-container>
+              <ng-container *ngIf="seedPhraseCopied">
+                {{ 'SEED_PHRASE.BUTTON_COPIED' | translate }}
+              </ng-container>
+            </button>
+          </div>
+          <div class="seed-phrase-footer-text" *ngIf="seedPhraseForm.controls.password.value.length > 0">
+            <i class="icon info"></i>
+            <span class="title">{{ 'WALLET_DETAILS.REMEMBER_YOU_WILL_REQUIRE' | translate
+              }}</span>
+          </div>
         </div>
+
       </div>
     </ng-template>
     <!-- /seed phrase -->
 
-    <div class="wrap-buttons" *ngIf="showSeed">
-      <button type="button" class="blue-button seed-phrase-button"
-        (click)="runWallet()">{{ 'SEED_PHRASE.BUTTON_CREATE_ACCOUNT' | translate }}</button>
-      <button type="button" class="blue-button copy-button"
-        (click)="copySeedPhrase()">{{ 'SEED_PHRASE.BUTTON_COPY' | translate }}</button>
-    </div>
+
   </div>
 </div>
 
-<app-progress-container [width]="progressWidth"
+<!-- <app-progress-container [width]="progressWidth"
   [labels]="['PROGRESS.ADD_WALLET', 'PROGRESS.SELECT_LOCATION', 'Seed Phrase', 'PROGRESS.CREATE_WALLET']">
-</app-progress-container>
+</app-progress-container> -->

@@ -1,191 +1,118 @@
 app-sidebar {
-
-  @include themify($themes) {
-    background-color: themed(sidebarBackgroundColor);
-  }
+  background-color: $sidebarBackgroundColor;
 
   .sidebar-accounts {
-
-    .sidebar-accounts-header {
-
-      h3 {
-
-        @include themify($themes) {
-          color: themed(mainTextColor);
-        }
-      }
-
-      button {
-
-        @include themify($themes) {
-          color: themed(blueTextColor);
-        }
-      }
-    }
-
     .sidebar-accounts-list {
-
       .sidebar-account {
-
-        @include themify($themes) {
+        background-color: $accountBackgroundColor;
+        color: $accountMainTextColor;
+        &.auditable {
           background-color: transparent;
-          color: themed(mainTextColor);
+          border-color: $accountAuditableBorderColor !important;
         }
-
-        .icon {
-
-          @include themify($themes) {
-            background-color: themed(blueTextColor);
-          }
+        &.watch-only {
+          background-color: transparent;
+          border-color: $accountWatchOnlyBorderColor !important;
         }
-
-        .sidebar-account-row {
-
-          .text {
-
-            @include themify($themes) {
-              color: themed(optionalTextColor);
-            }
+        &.auditable,
+        &.watch-only,
+        &.tracking {
+          border: 0.4rem solid;
+          &.active {
+            background: $accountActiveBackgroundColor;
+            box-shadow: $accountBoxShadow;
           }
-
-          .icon {
-
-            @include themify($themes) {
-              background-color: themed(blueTextColor);
-            }
-          }
-
-          .indicator {
-
-            @include themify($themes) {
-              background-color: themed(blueButtonBackgroundColor);
-              color: themed(alternativeTextColor);
-            }
-          }
-
-          .progress-bar-container {
-
-            .progress-bar {
-
-              @include themify($themes) {
-                background-color: themed(progressBarBackgroundColor);
-              }
-
-              .fill {
-
-                @include themify($themes) {
-                  background-color: themed(blueTextColor);
-                }
-              }
-            }
-          }
-
-          &.account-synchronization {
-
-            @include themify($themes) {
-              color: themed(optionalTextColor);
-            }
+          &:hover:not(.active) {
+            transition: all 0.25s ease;
+            background-color: $accountHoverBackgroundColor;
           }
         }
 
         &.active {
+          .sidebar-account-row {
+            .progress-bar {
+              background-color: $progressBarAccountActiveColor;
+              .fill {
+                background-color: $accountMainTextColor;
+              }
+            }
+          }
+        }
 
-          @include themify($themes) {
-            background-color: themed(accountBackgroundColor);
-            color: themed(accountMainTextColor);
+        .sidebar-account-row {
+          .text {
+            color: $accountMainTextColor;
           }
 
+          .indicator {
+            background-color: $mainTextColor;
+            color: $blueTextColor;
+          }
+
+          .progress-bar {
+            background-color: $progressBarAccountColor;
+            .fill {
+              background-color: $greenTextColor;
+            }
+          }
+
+          &.account-price {
+            .price {
+              color: $tooltipTextColor;
+            }
+            .price-percent {
+              color: $greenTextColor;
+            }
+          }
+          &.account-synchronization {
+            color: $accountMainTextColor;
+          }
+        }
+
+        &.active {
+          background: $accountActiveBackgroundColor;
+          box-shadow: $accountBoxShadow;
           .sidebar-account-row {
-
-            .text {
-
-              @include themify($themes) {
-                color: themed(accountOptionalTextColor);
-              }
-            }
-
-            .indicator {
-
-              @include themify($themes) {
-                background-color: themed(accountIndicatorBackgroundColor);
-                color: themed(accountIndicatorTextColor);
-              }
-            }
-
-            .switch {
-
-              @include themify($themes) {
-                background-color: themed(accountSwitchBackgroundColor);
-                color: themed(mainTextColor);
-              }
-            }
-
             &.account-synchronization {
-
-              @include themify($themes) {
-                color: themed(accountOptionalTextColor);
-              }
+              color: $accountMainTextColor;
             }
           }
         }
 
         &:hover:not(.active) {
-
-          @include themify($themes) {
-            background-color: themed(accountHoverBackgroundColor);
-          }
+          transition: all 0.25s ease;
+          background-color: $accountHoverBackgroundColor;
         }
-      }
-    }
-
-    &:after {
-
-      @include themify($themes) {
-        background: linear-gradient(to bottom, transparent 0%, themed(sidebarBackgroundColor) 100%);
       }
     }
   }
 
   .sidebar-settings {
-
-    @include themify($themes) {
-      border-bottom: 0.2rem solid themed(sidebarBorderColor);
-    }
-
     .wrap-button {
-
       button {
-
-        @include themify($themes) {
-          color: themed(mainTextColor);
-        }
-
+        color: $blueTextColor;
         .icon {
-
-          @include themify($themes) {
-            background-color: themed(blueTextColor);
+          color: $blueTextColor;
+          background-color: $blueTextColor;
+        }
+        :hover {
+          color: $blueButtonHoverColor !important;
+          .icon {
+            color: $blueButtonHoverColor !important;
+            background-color: $blueButtonHoverColor !important;
           }
         }
       }
 
       &.active {
-
         button {
-
-          @include themify($themes) {
-            background-color: themed(accountBackgroundColor)!important;
-            color: themed(accountMainTextColor)!important;
-          }
-
+          color: $blueButtonFocusColor !important;
           .icon {
-
-            @include themify($themes) {
-              background-color: themed(accountIndicatorBackgroundColor)!important;
-            }
+            color: $blueButtonFocusColor !important;
+            background-color: $blueButtonFocusColor !important;
           }
         }
       }
     }
   }
-
 }

@@ -32,7 +32,7 @@
   },
   "SIDEBAR": {
     "TITLE": "Wallets",
-    "ADD_NEW": "+ Add",
+    "ADD_NEW": "Add",
     "ACCOUNT": {
       "STAKING": "Staking",
       "MESSAGES": "New offers/Messages",
@@ -147,7 +147,6 @@
       "TIME3": "1 hour",
       "TIME4": "Never"
     },
-
     "MASTER_PASSWORD": {
       "TITLE": "Update master password",
       "OLD": "Old password",
