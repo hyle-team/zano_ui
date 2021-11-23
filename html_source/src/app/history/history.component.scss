@@ -24,30 +24,28 @@
 
           .confirmation {
             margin-right: 0.7rem;
-            width: 1.6rem;
-            height: 1.6rem;
+            width: 1.7rem;
+            height: 1.7rem;
           }
 
           .lock-transaction {
-            mask: url(../../assets/icons/lock-transaction.svg) no-repeat center;
+            background: center / contain no-repeat url(../../assets/icons/lock-transaction.svg);
             margin-left: 0.7rem;
             width: 1.4rem;
             height: 1.4rem;
-            background-color: #fff;
           }
 
           .unlock-transaction {
-            mask: url(../../assets/icons/unlock-transaction.svg) no-repeat center;
+            background: center / contain no-repeat url(../../assets/icons/unlock-transaction.svg);
             margin-left: 0.7rem;
             width: 1.4rem;
             height: 1.4rem;
-            background-color: #fff;
           }
 
           img.status-transaction {
             margin-right: 0.7rem;
-            width: 1.4rem;
-            height: 1.4rem;
+            width: 1.5rem;
+            height: 1.5rem;
           }
         }
 

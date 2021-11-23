@@ -25,10 +25,6 @@
             <span tooltip="{{ wallet.name }}" placement="top-left" tooltipClass="table-tooltip account-tooltip"
               [delay]="500" [showWhenNoOverflow]="false">{{wallet.alias['name']}}</span>
           </ng-container>
-          <!-- <ng-container *ngIf="wallet.alias['comment'] && wallet.alias['comment'].length">
-            <div class="icon comment" tooltip="{{wallet.alias['comment']}}" placement="top"
-              tooltipClass="table-tooltip account-tooltip" [delay]="500">{{wallet.alias['comment'].length}}</div>
-          </ng-container> -->
         </div>
       </div>
       <div class="sidebar-account-row account-title-balance">
@@ -166,7 +162,14 @@
         <span [style.cursor]="'pointer'" (click)="getUpdate()">{{ 'SIDEBAR.UPDATE.STANDARD' | translate }}</span>
       </div>
       <i class="icon update standard" tooltip="{{ 'SIDEBAR.UPDATE.STANDARD_TOOLTIP' | translate }}"
-        placement="right-bottom" tooltipClass="update-tooltip" [delay]="500"></i>
+        placement="right-bottom" tooltipClass="update-tooltip" [delay]="500"><svg version="1.1" id="Layer_1"
+          xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+          viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+          <path class="st0" d="M24,11L23,0l-3.1,3.1C17.8,1.2,15.1,0,12,0C6.1,0,1.1,4.3,0.2,10h4.1c0.9-3.4,4-6,7.7-6c2,0,3.7,0.7,5.1,1.9
+                        	L14,9L24,11z" />
+          <path class="st0" d="M0,13l1,11l3.1-3.1C6.2,22.8,8.9,24,12,24c5.9,0,10.9-4.3,11.8-10h-4.1c-0.9,3.4-4,6-7.7,6
+                        	c-2,0-3.7-0.7-5.1-1.9L10,15L0,13z" />
+        </svg></i>
     </ng-container>
     <ng-container *ngIf="variablesService.last_build_displaymode === 3">
       <div class="update-text important">
@@ -175,7 +178,14 @@
         <span style="font-size: 1rem">{{ 'SIDEBAR.UPDATE.IMPORTANT_HINT' | translate }}</span>
       </div>
       <i class="icon update important" tooltip="{{ 'SIDEBAR.UPDATE.IMPORTANT_TOOLTIP' | translate }}"
-        placement="right-bottom" tooltipClass="update-tooltip important" [delay]="500"></i>
+        placement="right-bottom" tooltipClass="update-tooltip important" [delay]="500"><svg version="1.1" id="Layer_1"
+          xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+          viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+          <path class="st0" d="M24,11L23,0l-3.1,3.1C17.8,1.2,15.1,0,12,0C6.1,0,1.1,4.3,0.2,10h4.1c0.9-3.4,4-6,7.7-6c2,0,3.7,0.7,5.1,1.9
+        	L14,9L24,11z" />
+          <path class="st0" d="M0,13l1,11l3.1-3.1C6.2,22.8,8.9,24,12,24c5.9,0,10.9-4.3,11.8-10h-4.1c-0.9,3.4-4,6-7.7,6
+        	c-2,0-3.7-0.7-5.1-1.9L10,15L0,13z" />
+        </svg></i>
     </ng-container>
     <ng-container *ngIf="variablesService.last_build_displaymode === 4">
       <div class="update-text critical">
@@ -184,7 +194,14 @@
         <span style="font-size: 1rem">{{ 'SIDEBAR.UPDATE.IMPORTANT_HINT' | translate }}</span>
       </div>
       <i class="icon update critical" tooltip="{{ 'SIDEBAR.UPDATE.CRITICAL_TOOLTIP' | translate }}"
-        placement="right-bottom" tooltipClass="update-tooltip critical" [delay]="500"></i>
+        placement="right-bottom" tooltipClass="update-tooltip critical" [delay]="500"><svg version="1.1" id="Layer_1"
+          xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+          viewBox="0 0 24 24" style="enable-background:new 0 0 24 24;" xml:space="preserve">
+          <path class="st0" d="M24,11L23,0l-3.1,3.1C17.8,1.2,15.1,0,12,0C6.1,0,1.1,4.3,0.2,10h4.1c0.9-3.4,4-6,7.7-6c2,0,3.7,0.7,5.1,1.9
+                	L14,9L24,11z" />
+          <path class="st0" d="M0,13l1,11l3.1-3.1C6.2,22.8,8.9,24,12,24c5.9,0,10.9-4.3,11.8-10h-4.1c-0.9,3.4-4,6-7.7,6
+                	c-2,0-3.7-0.7-5.1-1.9L10,15L0,13z" />
+        </svg></i>
     </ng-container>
   </div>
   <div class="update-container"

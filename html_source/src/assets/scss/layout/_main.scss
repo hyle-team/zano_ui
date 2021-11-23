@@ -11,14 +11,11 @@ app-settings,
 app-login {
   flex: 1 1 auto;
   min-width: 85rem;
-
   .content {
     position: relative;
     padding: 3rem;
     min-height: 100%;
-
     color: $mainTextColor;
-
     .head {
       position: relative;
       top: 0;
@@ -26,21 +23,15 @@ app-login {
     }
   }
 }
-
 app-main {
   .content {
     .add-wallet {
       .add-wallet-help {
         color: $blueTextColor;
-
-        .icon {
-          background-color: $blueTextColor;
-        }
       }
     }
   }
 }
-
 app-settings {
   .content {
     height: 100%;
@@ -50,7 +41,6 @@ app-settings {
     flex-direction: column;
   }
 }
-
 app-login {
   min-width: inherit;
 }

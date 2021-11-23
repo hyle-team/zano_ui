@@ -32,11 +32,11 @@
       margin-bottom: 2rem;
     }
     .icon.info {
+      margin-left: 0.7rem;
       display: inline-block;
-      background-color: $blueTextColor;
       text-decoration: none;
       cursor: pointer;
-      mask: url(~src/assets/icons/modal-info.svg) no-repeat center;
+      background: center / contain no-repeat url(~src/assets/icons/info.svg);
       width: 2rem;
       height: 2rem;
     }
@@ -85,7 +85,6 @@
         margin-right: 0.8rem;
         width: 2.5rem;
         height: 2.5rem;
-        background-color: $mainTextColor;
       }
     }
   }
@@ -111,19 +110,6 @@
         cursor: pointer;
         width: 2rem;
         height: 2rem;
-        &.copy {
-          background-color: $copyBackground;
-          margin-right: 0.7rem;
-          mask: url(~src/assets/icons/copy.svg) no-repeat center;
-          &:hover {
-            background-color: $copyBackgroundHover;
-          }
-        }
-        &.copied {
-          background-color: $copyBackgroundHover;
-          margin-right: 0.7rem;
-          mask: url(~src/assets/icons/complete-testwallet.svg) no-repeat center;
-        }
         &.secured,
         &.unsecured {
           margin-left: 0.7rem;
@@ -173,8 +159,7 @@
         color: $blueTextColor;
         .info {
           display: inline-block;
-          background-color: $blueTextColor;
-          mask: url(~src/assets/icons/modal-info.svg) no-repeat center;
+          background: center / contain no-repeat url(~src/assets/icons/info.svg);
           width: 2rem;
           height: 2rem;
           color: $blueTextColor;
@@ -200,19 +185,15 @@
   width: 2rem;
   height: 2rem;
   &.secured {
-    background-color: $greenTextColor;
-    mask: url(~src/assets/icons/secured.svg) no-repeat center;
+    background: center / contain no-repeat url(~src/assets/icons/secured.svg);
   }
   &.info {
-    background-color: $blueTextColor;
-    mask: url(~src/assets/icons/info.svg) no-repeat center;
+    background: center / contain no-repeat url(~src/assets/icons/info.svg);
   }
   &.unsecured {
-    background-color: $orangeTextColor;
-    mask: url(~src/assets/icons/unsecured.svg) no-repeat center;
+    background: center / contain no-repeat url(~src/assets/icons/unsecured.svg);
   }
   &.safety {
-    background-color: $alternativeTextColor;
-    mask: url(~src/assets/icons/safety.svg) no-repeat center;
+    background: center / contain no-repeat url(~src/assets/icons/safety.svg);
   }
 }

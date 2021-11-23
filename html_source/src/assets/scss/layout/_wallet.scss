@@ -8,31 +8,18 @@ app-wallet {
           span {
             color: $mainTextColor;
           }
-          .icon {
-            background-color: $mainTextColor;
-          }
         }
       }
     }
     button {
       color: $blueTextColor;
-      .icon {
-        background-color: $blueTextColor;
-      }
       &:disabled {
-        background-color: transparent !important;
-        .icon {
-          background-color: $accountOptionalTextColor;
+        .icon svg path {
+          fill: $accountOptionalTextColor;
         }
       }
     }
-    .alias {
-      .icon {
-        background-color: $blueTextColor;
-      }
-    }
   }
-
   .balance {
     color: $mainTextColor;
     .price-percent {
@@ -43,67 +30,45 @@ app-wallet {
       color: $greenTextColor;
     }
   }
-
   .address {
     color: $addressTextColor;
-
-    .icon {
-      &.copy {
-        background-color: $copyBackground;
-        &:hover {
-          background-color: $copyBackgroundHover;
-        }
-      }
-      &.copied {
-        background-color: $copyBackgroundHover;
-      }
-    }
   }
-
   .tabs {
     .tabs-header {
       .tab {
         color: $blueTextColor;
         background-color: $tabInactiveBackgroundColor;
-
-        .icon {
-          background-color: $blueTextColor;
-        }
-
         .indicator {
           background-color: $accountIndicatorBackgroundColor;
           color: $accountIndicatorTextColor;
         }
-
         &.active {
           background-color: $contentBackgroundColor;
         }
-
         &:hover:not(.active):not(.disabled) {
           background-color: $tabHoverBackgroundColor;
         }
       }
     }
-
     .tabs-content {
       background-color: $contentBackgroundColor;
     }
-
     .pagination-wrapper {
       border-radius: 0 0 1rem 1rem;
       background-color: $contentBackgroundColor;
       .pagination {
         button {
           color: $mainTextColor;
-          i {
-            transition: all 0.3s ease;
-            background-color: $paginationButtonColor;
-            &:hover {
-              background-color: $paginationButtonHoverColor;
-            }
-          }
           &:hover {
             color: $blueButtonHoverColor;
+            svg path {
+              fill: $paginationButtonHoverColor;
+            }
+          }
+          &.disabled {
+            svg path {
+              fill: $paginationButtonHoverColor;
+            }
           }
           &.active {
             color: $blueButtonBackgroundColor;
@@ -113,7 +78,6 @@ app-wallet {
     }
   }
 }
-
 app-send {
   .form-send {
     .curent-alias-adress {
@@ -121,30 +85,12 @@ app-send {
     }
     .send-select {
       color: $mainTextColor;
-      .icon {
-        background-color: $blueTextColor;
-      }
     }
     .additional-details {
       border: 0.2rem solid $resetButtonBackgroundColor;
     }
   }
 }
-
-app-receive {
-  .btn-copy-address {
-    background-color: $copyBackground;
-    &.copy {
-      &:hover {
-        background-color: $copyBackgroundHover;
-      }
-    }
-    &.copied {
-      background-color: $copyBackgroundHover;
-    }
-  }
-}
-
 app-history {
   table {
     tbody {
@@ -163,109 +109,56 @@ app-history {
     }
   }
 }
-
-app-contracts {
-  .wrap-table {
-    .contract {
-      .icon {
-        &.new,
-        &.alert {
-          background-color: $redTextColor;
-        }
-
-        &.purchase,
-        &.sell {
-          background-color: $blueTextColor;
-        }
-      }
-    }
-  }
-}
-
 app-purchase {
   .form-purchase {
     .purchase-select {
       color: $mainTextColor;
-
-      .icon {
-        background-color: $blueTextColor;
-      }
     }
-
     .purchase-states {
       color: $blueTextColor;
     }
-
     .additional-details {
       border: 0.2rem solid $resetButtonBackgroundColor;
     }
   }
-
   .progress-bar-container {
     .progress-bar {
       background-color: $progressBarBackgroundColor;
-
       .progress-bar-full {
         background-color: $progressBarFullBackgroundColor;
       }
     }
   }
 }
-
-app-messages {
-  table {
-    tbody {
-      tr {
-        td:first-child {
-          span {
-            @include text-truncate;
-          }
-
-          .icon {
-            background-color: $redTextColor;
-          }
-        }
-      }
-    }
-  }
-}
-
 app-typing-message {
   .head {
     .interlocutor {
       color: $blueTextColor;
     }
   }
-
   .messages-content {
     .messages-list {
       div {
         &.date {
           color: $optionalTextColor;
         }
-
         &.my {
           background-color: $messageMyBackgroundColor;
-
           &:before {
             @include pseudo;
             top: 0;
             left: -1.1rem;
             border: 1.2rem solid transparent;
-
             border-top-color: $messageMyBackgroundColor;
           }
         }
-
         &.buddy {
           background-color: $messageBuddyBackgroundColor;
-
           &:after {
             @include pseudo;
             right: -1.1rem;
             top: 0;
             border: 1.2rem solid transparent;
-
             border-top-color: $messageBuddyBackgroundColor;
           }
         }
@@ -273,19 +166,16 @@ app-typing-message {
     }
   }
 }
-
 app-staking {
   .chart-header {
     .general {
       .label {
         color: $mainTextColor;
       }
-
       .options {
         color: $mainTextColor;
       }
     }
-
     .selected {
       display: flex;
       align-items: center;
@@ -294,12 +184,10 @@ app-staking {
       font-size: 1.6rem;
     }
   }
-
   .chart-options {
     .title {
       color: $mainTextColor;
     }
-
     .options {
       button {
         color: $mainTextColor;
@@ -323,10 +211,8 @@ app-staking {
     }
   }
 }
-
 .input-block-alias {
   position: relative;
-
   .alias-dropdown {
     padding: 1rem;
     position: absolute;
@@ -337,10 +223,8 @@ app-staking {
     z-index: 1;
     width: 30rem;
     height: 30rem;
-
     background-color: $aliasDropdownBackground;
     color: $mainTextColor;
-
     div {
       font-size: 2rem;
       line-height: 2.4rem;
