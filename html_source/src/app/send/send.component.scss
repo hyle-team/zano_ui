@@ -1,7 +1,6 @@
 :host {
   width: 100%;
 }
-
 .form-send {
   .input-block-alias {
     .adress-input-row {
@@ -9,7 +8,9 @@
       width: 100%;
       display: flex;
       .curent-alias-adress {
-        top: 0.25rem;
+        transform: translateY(-50%);
+        top: 50%;
+        line-height: 1;
         position: absolute;
       }
     }
@@ -19,20 +20,16 @@
   }
   .input-blocks-row {
     display: flex;
-
     > div {
       flex-basis: 50%;
-
       &:first-child {
         margin-right: 1.5rem;
       }
-
       &:last-child {
         margin-left: 1.5rem;
       }
     }
   }
-
   .send-select {
     display: flex;
     align-items: center;
@@ -45,44 +42,35 @@
     width: 100%;
     max-width: 15rem;
     height: 1.3rem;
-
     .arrow {
       margin-left: 1rem;
       width: 0.8rem;
       height: 0.8rem;
-
       &.down {
-        mask: url(~src/assets/icons/arrow-down.svg) no-repeat center;
+        background: center / contain no-repeat url(~src/assets/icons/arrow-down.svg);
       }
-
       &.up {
-        mask: url(~src/assets/icons/arrow-up.svg) no-repeat center;
+        background: center / contain no-repeat url(~src/assets/icons/arrow-up.svg);
       }
     }
   }
-
   .additional-details {
     display: flex;
     margin-top: 1.5rem;
     padding: 0.5rem 0 2rem;
-
     > div {
       flex-basis: 25%;
-
       &:first-child {
         padding-left: 1.5rem;
         padding-right: 1rem;
       }
-
       &:last-child {
         padding-left: 1rem;
         padding-right: 1.5rem;
       }
     }
-
     .checkbox-block {
       flex-basis: 50%;
-
       > label {
         top: 3.5rem;
       }
@@ -97,18 +85,16 @@
       }
     }
   }
-
   button {
     margin: 2.4rem 0;
     width: 100%;
     max-width: 15rem;
   }
-
   .wrap {
     margin-top: 2rem;
     margin-bottom: 2rem;
     padding: 2rem;
-    border: 1px solid #2a3543;
+    border: 0.1rem solid #2a3543;
     .title {
       font-size: 100%;
       margin-bottom: 1.5rem;
@@ -126,7 +112,7 @@
     table tr {
       background-color: transparent;
       td:first-child {
-        width: 225px;
+        width: 22.5rem;
         padding-left: 0;
       }
     }

@@ -209,7 +209,6 @@ export class SettingsComponent implements OnInit {
     if (this.variablesService.appLogin && this.variablesService.settings.appLockTime) {
       this.variablesService.restartCountdown();
     }
-    this.backend.storeAppData();
   }
 
   onLogChange() {

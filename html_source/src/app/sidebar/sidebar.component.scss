@@ -6,17 +6,14 @@
   padding: 1.8rem 0 2rem 0;
   max-width: 25rem;
 }
-
 .animated {
   display: flex;
   justify-content: center;
   align-items: center;
   margin-right: 1.2rem;
-
   &::ng-deep svg {
     width: 2rem;
     height: 2rem;
-
     path,
     circle,
     polygon {
@@ -39,19 +36,19 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 7px;
+  width: 0.7rem;
   height: 100%;
   background-color: transparent;
   transition: all ease 0.3s;
   overflow: hidden;
   &:hover {
-    width: 28px;
+    width: 2.8rem;
   }
   .content {
     height: 100%;
-    padding: 7px;
-    font-size: 12px;
-    line-height: 14px;
+    padding: 0.7rem;
+    font-size: 1.2rem;
+    line-height: 1.4rem;
     font-weight: 500;
     color: #ffffff;
     text-decoration: none;
@@ -68,20 +65,17 @@
     }
   }
 }
-
 .sidebar-accounts {
   position: relative;
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
-
   .sidebar-accounts-list {
     padding: 0 0.9rem;
     display: flex;
     flex-direction: column;
     flex: 1 1 auto;
     overflow-y: auto;
-
     .sidebar-account {
       margin-bottom: 1.5rem;
       border-radius: 1.5rem;
@@ -91,12 +85,11 @@
       flex-direction: column;
       flex-shrink: 0;
       cursor: pointer;
-      padding: 1rem 1rem 1.3rem 1rem;
-
+      padding: 1.3rem 1rem;
       .close-wallet-button {
         position: absolute;
-        top: 10px;
-        right: 10px;
+        top: 1.2rem;
+        right: 1.2rem;
         padding: 0;
         height: auto;
         background: transparent;
@@ -106,7 +99,7 @@
           height: 1.6rem;
           display: block;
           content: "";
-          background: url("../../assets/icons/close-wallet.svg") no-repeat center;
+          background: center / contain no-repeat url("../../assets/icons/close-wallet.svg");
         }
       }
 
@@ -145,25 +138,6 @@
               margin-right: 0.8rem;
               font-size: 1.4rem;
               line-height: 1rem;
-            }
-            .icon.comment {
-              font-family: Adobe-Arabic;
-              font-size: 1.2rem;
-              line-height: 0.5rem;
-              position: absolute;
-              right: -1.6rem;
-              top: -0.3rem;
-              height: 1.2rem;
-              min-width: 1.2rem;
-              width: fit-content;
-              padding: 0.3rem;
-              border-radius: 2rem;
-              color: #0c0c3a;
-              font-weight: 400;
-              background-color: #9a69f7;
-              display: flex;
-              align-items: center;
-              justify-content: center;
             }
           }
         }
@@ -214,24 +188,20 @@
           }
         }
       }
-
       &:focus {
         outline: none;
       }
     }
   }
 }
-
 .sidebar-settings {
-  margin-left: 30px;
+  margin-left: 3rem;
   flex: 0 0 auto;
-
   .wrap-button {
     transition: all 0.25s ease;
     margin-top: 1.5rem;
     button {
       transition: all 0.25s ease;
-
       display: flex;
       align-items: center;
       background: transparent;
@@ -240,21 +210,18 @@
       font-weight: 400;
       line-height: 2.4rem;
       outline: none;
-
       &:hover {
         span {
           transition: margin 0.25s ease;
-          margin-left: 5px;
+          margin-left: 0.5rem;
         }
       }
-
       span {
         transition: margin 0.25s ease;
       }
-
       .add-wallet-div {
-        max-width: 12px;
-        max-height: 12px;
+        max-width: 1.2rem;
+        max-height: 1.2rem;
       }
       &.disabled {
         cursor: url(../../assets/icons/not-allowed.svg) not-allowed;
@@ -264,33 +231,25 @@
         width: 2rem;
         height: 2rem;
         transition: all 0.25s ease;
-
         &.add-wallet {
           width: 1.4rem;
           height: 1.4rem;
-          mask: url(../../assets/icons/addnew.svg) no-repeat center;
+          background: center / contain no-repeat url(../../assets/icons/addnew.svg);
         }
-
         &.contacts {
-          mask: url(../../assets/icons/contacts.svg) no-repeat center;
+          background: center / contain no-repeat url(../../assets/icons/contacts.svg);
         }
-
         &.settings {
-          mask: url(../../assets/icons/settings-gear.svg) no-repeat center;
+          background: center / contain no-repeat url(../../assets/icons/settings-gear.svg);
         }
-
         &.logout {
           background: none;
-          background-image: url(../../assets/icons/logout.png);
-          background-position: center;
-          background-repeat: no-repeat;
-          background-size: contain;
+          background: center / contain no-repeat url(../../assets/icons/logout.png);
         }
       }
     }
   }
 }
-
 .synchronization-status {
   margin: 2rem 3rem 2rem 3rem;
   display: flex;
@@ -298,13 +257,11 @@
   justify-content: flex-start;
   flex: 0 0 7rem;
   font-size: 1.4rem;
-
   .status-container {
     padding-bottom: 1.5rem;
     position: relative;
     flex-grow: 1;
     text-align: left;
-
     .offline,
     .online {
       bottom: -3rem;
@@ -323,25 +280,20 @@
         height: 1.2rem;
       }
     }
-
     .progress-bar-container {
       height: 0.8rem;
       width: 100%;
-
       .syncing {
         display: flex;
-
         .progress-bar {
           border-radius: 1rem;
           flex: 1 0 auto;
           overflow: hidden;
-
           .fill {
             border-radius: 1rem;
             height: 100%;
           }
         }
-
         .progress-percent {
           flex: 0 0 auto;
           font-size: 1.4rem;
@@ -378,7 +330,6 @@
       }
     }
   }
-
   .update-container {
     display: flex;
     flex-grow: 1;
@@ -395,19 +346,16 @@
         font-size: 1.1rem;
       }
     }
-
     .icon {
       flex: 1 0 auto;
       margin: 0.3rem 0 0 0.6rem;
       width: 1.2rem;
       height: 1.2rem;
-
       &.update {
-        mask: url(../../assets/icons/update.svg) no-repeat center;
+        background: center / contain no-repeat url(../../assets/icons/update.svg);
       }
-
       &.time {
-        mask: url(../../assets/icons/time.svg) no-repeat center;
+        background: center / contain no-repeat url(../../assets/icons/time.svg);
       }
     }
   }

@@ -5,22 +5,18 @@
   flex: 0 0 7rem;
   font-size: 1.4rem;
   line-height: 1.7rem;
-
   color: $mainTextColor;
-
   .status-container {
     padding-bottom: 1.5rem;
     position: relative;
     flex-grow: 1;
     text-align: left;
-
     .offline,
     .online {
       position: relative;
       display: block;
       line-height: 1.7rem;
       padding-left: 2.2rem;
-
       &:before {
         content: "";
         position: absolute;
@@ -31,36 +27,28 @@
         height: 1.2rem;
       }
     }
-
     .offline:before {
       background-color: $offlineColor;
     }
-
     .online:before {
       background-color: $onlineColor;
     }
-
     .progress-bar-container {
       position: absolute;
       bottom: 0;
       left: 0;
       height: 0.8rem;
       width: 100%;
-
       .syncing {
         display: flex;
-
         .progress-bar {
           border-radius: 1rem;
           flex: 1 0 auto;
           overflow: hidden;
-
           background-color: $progressBarBackgroundColor;
-
           .fill {
             border-radius: 1rem;
             height: 100%;
-
             background-color: $progressBarFullBackgroundColor;
           }
         }
@@ -82,7 +70,6 @@
           padding-left: 1rem;
         }
       }
-
       .loading {
         background-color: $progressBarFullBackgroundColor;
         animation: move 5s linear infinite;
@@ -112,75 +99,60 @@
       }
     }
   }
-
   .update-container {
     display: flex;
     flex-grow: 1;
     margin-left: 1rem;
     text-align: right;
-
     .update-text {
       flex: 1 1 auto;
       font-size: 1.4rem;
       line-height: 1.7rem;
       text-align: left;
-
       &.time {
         font-size: 1.1rem;
       }
     }
-
     .icon {
       flex: 1 0 auto;
       margin: 0.3rem 0 0 0.6rem;
       width: 1.2rem;
       height: 1.2rem;
-
-      &.update {
-        mask: url(./assets/icons/update.svg) no-repeat center;
-      }
-
       &.time {
-        mask: url(./assets/icons/time.svg) no-repeat center;
+        background: center / contain no-repeat url(./assets/icons/time.svg);
       }
     }
-
     .standard {
       color: $blueTextColor;
     }
-
     .important {
       color: $orangeTextColor;
     }
-
     .critical {
       color: $redTextColor;
     }
-
     .time {
       color: $orangeTextColor;
     }
-
     .icon {
       &.standard {
-        background-color: $blueTextColor;
+        .st0 {
+          fill: $blueTextColor;
+        }
       }
-
       &.important {
-        background-color: $orangeTextColor;
+        .st0 {
+          fill: $orangeTextColor;
+        }
       }
-
       &.critical {
-        background-color: $redTextColor;
-      }
-
-      &.time {
-        background-color: $orangeTextColor;
+        .st0 {
+          fill: $redTextColor;
+        }
       }
     }
   }
 }
-
 @keyframes move {
   0% {
     background-position: 100% -7rem;

@@ -1,39 +1,31 @@
 :host {
   width: 100%;
 }
-
 .empty-contracts {
   font-size: 1.5rem;
 }
-
 .wrap-table {
   margin: -3rem -3rem 0 -3rem;
   overflow-x: auto;
-
   table {
-
     tbody {
-
       tr {
         cursor: pointer;
         outline: none !important;
-
         .contract {
           position: relative;
           display: flex;
           align-items: center;
-
           .icon {
             flex-shrink: 0;
-
-            &.new, &.alert {
+            &.new,
+            &.alert {
               position: absolute;
               top: 0;
             }
-
             &.new {
               left: -2.3rem;
-              mask: url(../../assets/icons/new.svg) no-repeat center;
+              background: center / contain no-repeat url(../../assets/icons/new.svg);
               width: 1.7rem;
               height: 1.7rem;
             }
@@ -41,33 +33,30 @@
             &.alert {
               top: 0.2rem;
               left: -2.1rem;
-              mask: url(../../assets/icons/alert.svg) no-repeat center;
+              background: center / contain no-repeat url(../../assets/icons/alert.svg);
               width: 1.2rem;
               height: 1.2rem;
             }
-
-            &.purchase, &.sell {
+            &.purchase,
+            &.sell {
               margin-right: 1rem;
               width: 1.5rem;
               height: 1.5rem;
             }
-
             &.purchase {
-              mask: url(../../assets/icons/purchase.svg) no-repeat center;
+              background: center / contain no-repeat url(../../assets/icons/purchase.svg);
             }
-
             &.sell {
-              mask: url(../../assets/icons/sell.svg) no-repeat center;
+              background: center / contain no-repeat url(../../assets/icons/sell.svg);
             }
           }
-
           span {
             text-overflow: ellipsis;
             overflow: hidden;
           }
         }
-
-        .status, .comment {
+        .status,
+        .comment {
           display: inline-block;
           text-overflow: ellipsis;
           overflow: hidden;
