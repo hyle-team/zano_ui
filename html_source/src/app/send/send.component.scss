@@ -7,11 +7,12 @@
       position: relative;
       width: 100%;
       display: flex;
+      align-items: flex-end;
       .curent-alias-adress {
-        transform: translateY(-50%);
-        top: 50%;
-        line-height: 1;
         position: absolute;
+        &.padding-bottom-01 {
+          padding-bottom: 0.1rem;
+        }
       }
     }
     input {
@@ -76,7 +77,7 @@
       }
       &.disabled-checkbox-block {
         label {
-          cursor: not-allowed;
+          cursor: url(../../assets/icons/not-allowed.svg), not-allowed;
           &:before {
             background-color: #556576;
             border: 0.1rem solid #556576;
