@@ -7,7 +7,8 @@
         [placeholder]="sendForm.controls['address'].dirty || sendForm.controls['address'].touched ? ('SEND.FORM_ERRORS.ADDRESS_REQUIRED' | translate ) : ('PLACEHOLDERS.ADRESS_PLACEHOLDER' | translate)"
         (mousedown)="addressMouseDown($event)" (contextmenu)="variablesService.onContextMenu($event)"><span
         *ngIf="currentAliasAdress" class="curent-alias-adress"
-        [style.left]="lenghtOfAdress + 3 + 'rem'">({{getShorterAdress()}})</span></div>
+        [class.padding-bottom-01]="variablesService.settings.scale > 7.5"
+        [style.left]="lenghtOfAdress + 3 + 'rem'">{{getShorterAdress()}}</span></div>
     <div class="alias-dropdown scrolled-content" *ngIf="isOpen">
       <div *ngFor="let item of localAliases" (click)="setAlias(item.name)">{{item.name}}</div>
     </div>

@@ -7,14 +7,12 @@
   width: 100%;
   height: 100%;
 }
-
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex: 0 0 auto;
   margin-bottom: 2.8rem;
-
   > div {
     display: flex;
     align-items: center;
@@ -27,7 +25,7 @@
     position: relative;
     button {
       &:disabled {
-        cursor: not-allowed;
+        cursor: url(../../assets/icons/not-allowed.svg), not-allowed;
       }
       margin: 0;
     }
@@ -37,7 +35,6 @@
       top: 3rem;
       right: 0;
       width: 19rem;
-
       button {
         height: 4rem;
         display: flex;
@@ -45,9 +42,9 @@
         align-items: center;
         width: 100%;
         &:disabled {
-          cursor: not-allowed;
-          .icon {
-            background-color: rgba(255, 255, 255, 0.4);
+          cursor: url(../../assets/icons/not-allowed.svg), not-allowed;
+          .icon svg path {
+            fill: rgba(255, 255, 255, 0.4);
           }
           span {
             color: rgba(255, 255, 255, 0.4);
@@ -55,30 +52,25 @@
         }
         &:nth-child(2) {
           border: solid #0c0c3a;
-          border-width: 1px 0;
+          border-width: 0.1rem 0;
         }
         span {
           font-size: 1.4rem;
           line-height: 1.7rem;
         }
         .icon {
-          &.wallet-settings {
-            height: 1.8rem;
-            width: 1.8rem;
-            margin-right: 1rem;
-            mask: url(../../assets/icons/wallet-options.svg) no-repeat center;
+          height: 1.8rem;
+          width: 1.8rem;
+          margin-right: 1rem;
+          svg {
+            height: 100%;
+            width: 100%;
           }
-          &.export-history {
-            margin-right: 1rem;
-            mask: url(../../assets/icons/export.svg) no-repeat center;
-            height: 1.8rem;
-            width: 1.8rem;
+          &.wallet-settings {
+            background: center / contain no-repeat url(../../assets/icons/wallet-options.svg);
           }
           &.close-wallet {
-            margin-right: 1rem;
-            mask: url(../../assets/icons/close-wallet-dropdown.svg) no-repeat center;
-            height: 1.8rem;
-            width: 1.8rem;
+            background: center / contain no-repeat url(../../assets/icons/close-wallet-dropdown.svg);
           }
         }
       }
@@ -93,7 +85,6 @@
     white-space: nowrap;
     max-width: 30rem;
   }
-
   button {
     font-size: 2rem;
     line-height: 2.4rem;
@@ -105,118 +96,92 @@
     font-weight: 400;
     outline: none;
     padding: 0;
-
     .icon {
       margin-right: 0.8rem;
       width: 2.4rem;
       height: 2.4rem;
-
       &.account {
         height: 1.6rem;
-        mask: url(../../assets/icons/account.svg) no-repeat center;
+        background: center / contain no-repeat url(../../assets/icons/account.svg);
       }
-
       &.lock {
-        mask: url(../../assets/icons/lock.svg) no-repeat center;
+        background: center / contain no-repeat url(../../assets/icons/lock.svg);
       }
-
       &.details {
-        mask: url(../../assets/icons/settings.svg) no-repeat center;
         margin-right: 0;
-        height: 2.4rem;
-        width: 2.4rem;
       }
-
       &.close-wallet {
-        mask: url(../../assets/icons/close-wallet.svg) no-repeat center;
+        background: center / contain no-repeat url(../../assets/icons/close-wallet.svg);
         margin-right: 0;
       }
     }
   }
-
   .alias {
     display: flex;
     align-items: center;
     font-size: 1.3rem;
-
     .icon {
       cursor: pointer;
       margin-right: 1.2rem;
       width: 2.4rem;
       height: 2.4rem;
-
       &.edit {
-        mask: url(../../assets/icons/details.svg) no-repeat center;
+        background: center / contain no-repeat url(../../assets/icons/details.svg);
       }
-
       &.transfer {
-        mask: url(../../assets/icons/send.svg) no-repeat center;
+        background: center / contain no-repeat url(../../assets/icons/send.svg);
       }
     }
   }
 }
-
 .address {
   display: flex;
   align-items: center;
   flex: 0 0 auto;
   font-size: 1.6rem;
   line-height: 1.9rem;
-
   .icon {
     cursor: pointer;
     margin-left: 1rem;
-
     &.copy {
       transition: all 0.25s ease;
       width: 2.4rem;
       height: 2.4rem;
-      mask: url(../../assets/icons/copy.svg) no-repeat center;
-
-      &:hover {
-        transition: all 0.25s ease;
-      }
+      background: center / contain no-repeat url(../../assets/icons/copy.svg);
     }
-
     &.copied {
-      mask: url(../../assets/icons/complete-testwallet.svg) no-repeat center;
+      background: center / contain no-repeat url(../../assets/icons/complete-testwallet.svg);
     }
   }
 }
-
 .balance {
   display: flex;
   align-items: flex-end;
   justify-content: flex-start;
   flex: 0 0 auto;
   margin: 1.6rem 0 2.5rem 0;
-
   :first-child {
     font-size: 4rem;
     font-weight: 500;
     line-height: 3.8rem;
     margin-right: 1rem;
   }
-
   :last-child {
     font-size: 2rem;
     font-weight: 400;
     line-height: 2.4rem;
   }
 }
-
 .tabs {
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
-
   .tabs-header {
     display: flex;
     justify-content: space-between;
     flex: 0 0 auto;
-
     .tab {
-      border-radius: 10px 10px 0px 0px;
+      border-radius: 1rem 1rem 0px 0px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -227,7 +192,6 @@
       &.hide {
         display: none;
       }
-
       .icon {
         transition: all 0.25s ease;
         &.hovered {
@@ -237,32 +201,25 @@
         margin-right: 0.5rem;
         width: 2rem;
         height: 2.4rem;
-
         &.send {
-          mask: url(../../assets/icons/send.svg) no-repeat center;
+          background: center / contain no-repeat url(../../assets/icons/send.svg);
         }
-
         &.receive {
-          mask: url(../../assets/icons/receive.svg) no-repeat center;
+          background: center / contain no-repeat url(../../assets/icons/receive-blue.svg);
         }
-
         &.history {
-          mask: url(../../assets/icons/history.svg) no-repeat center;
+          background: center / contain no-repeat url(../../assets/icons/history.svg);
         }
-
         &.contracts {
-          mask: url(../../assets/icons/contracts.svg) no-repeat center;
+          background: center / contain no-repeat url(../../assets/icons/contracts.svg);
         }
-
         &.messages {
-          mask: url(../../assets/icons/message.svg) no-repeat center;
+          background: center / contain no-repeat url(../../assets/icons/message.svg);
         }
-
         &.staking {
-          mask: url(../../assets/icons/staking.svg) no-repeat center;
+          background: center / contain no-repeat url(../../assets/icons/staking.svg);
         }
       }
-
       .indicator {
         margin-left: 0.5rem;
         display: flex;
@@ -274,17 +231,14 @@
         min-width: 2.4rem;
         height: 1.6rem;
       }
-
       &.disabled {
         cursor: url(../../assets/icons/not-allowed.svg), not-allowed;
       }
-
       &:not(:last-child) {
         margin-right: 0.3rem;
       }
     }
   }
-
   .tabs-content {
     display: flex;
     padding: 1.5rem;
@@ -292,7 +246,6 @@
     overflow-x: hidden;
     overflow-y: overlay;
   }
-
   .pagination-wrapper {
     .pagination {
       > div {
@@ -304,31 +257,22 @@
       justify-content: space-between;
       align-items: center;
       button {
-        .icon {
-          width: 2.4rem;
-          height: 2.4rem;
-          &.back {
-            mask: url("../../assets/icons/arrow-left.svg") no-repeat center;
-          }
-          &.forward {
-            mask: url("../../assets/icons/arrow-right.svg") no-repeat center;
-          }
+        &.disabled {
+          cursor: default;
+        }
+        svg {
+          margin-top: 0.3rem;
+          width: 1.8rem;
+          height: 1.8rem;
         }
         margin-right: 0.5rem;
         padding: 0;
         font-size: 1.6rem;
         transition: all 0.3s;
       }
-      .disabled {
-        background-color: #18202a;
-        opacity: 0.3;
-        cursor: default;
-        transition: all 0.3s;
-      }
     }
   }
 }
-
 .mining-transaction-switch {
   display: flex;
   align-items: center;
@@ -338,7 +282,6 @@
     line-height: 1.9rem;
     color: #fdfeff;
   }
-
   .switch {
     display: flex;
     align-items: center;
@@ -347,7 +290,6 @@
     padding: 0.2rem;
     width: 3.6rem;
     height: 2.2rem;
-
     &.on {
       justify-content: flex-end;
     }

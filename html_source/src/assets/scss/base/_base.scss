@@ -47,7 +47,7 @@ button {
     border-radius: 2rem;
     height: 7rem;
     background-color: $resetButtonBackgroundColor;
-    border: 4px solid;
+    border: 0.4rem solid;
     &:not(:disabled) {
       color: $resetButtonColor;
       border-color: $resetButtonColor;
@@ -230,7 +230,6 @@ input[type="checkbox"].style-checkbox {
   &:checked {
     & + label:before {
       background: url(~src/assets/icons/complete-testwallet.svg);
-      background-color: $blueTextColor;
     }
   }
 }
@@ -517,7 +516,6 @@ input[type="checkbox"].style-checkbox {
       margin: 1.5rem 0;
       width: 5rem;
       height: 5rem;
-      background-color: $tooltipCriticalTextColor;
     }
   }
   &.ng-tooltip-left-bottom {
@@ -550,7 +548,6 @@ input[type="checkbox"].style-checkbox {
   .dropdown-menu {
     border: none;
     padding: 0;
-
     background-color: $chartOptionsBackgroundColor;
     box-shadow: $tooltipShadow;
   }
@@ -578,26 +575,26 @@ input[type="checkbox"].style-checkbox {
     &.ng-select-opened > {
       .ng-select-container {
         .ng-arrow {
-          top: -1px;
+          top: -0.1rem;
           border-color: transparent transparent #fff;
-          border-width: 0 4px 7px;
+          border-width: 0 0.4rem 0.7rem;
         }
       }
     }
     .ng-arrow-wrapper {
       padding-right: 0;
-      border: 1px solid #fff;
-      border-radius: 5px;
-      height: 20px;
+      border: 0.1rem solid #fff;
+      border-radius: 0.5rem;
+      height: 2rem;
       justify-content: center;
       display: flex;
       align-items: center;
-      width: 20px;
+      width: 2rem;
       text-align: center;
       .ng-arrow {
-        top: 1px;
+        top: 0.1rem;
         border-color: #fff transparent transparent;
-        border-width: 6px 4px 1.5px;
+        border-width: 0.6rem 0.4rem 0.15rem;
       }
     }
     .ng-select-container {
@@ -678,26 +675,10 @@ app-confirm-modal {
     border-radius: 2rem;
     background: $modalBackground;
     color: $mainTextColor;
-    .content {
-      .icon.error {
-        background-color: $redTextColor;
-      }
-      .icon.success {
-        background-color: $greenTextColor;
-      }
-      .icon.info {
-        background-color: $mainTextColor;
-      }
-    }
     .action-button {
       color: $alternativeTextColor;
       &:hover {
         color: $mainTextColor;
-      }
-    }
-    .close-button {
-      .icon {
-        background-color: $closeButtonColor;
       }
     }
   }

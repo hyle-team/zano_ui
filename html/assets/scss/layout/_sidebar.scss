@@ -91,26 +91,14 @@ app-sidebar {
     .wrap-button {
       button {
         color: $blueTextColor;
-        .icon {
-          color: $blueTextColor;
-          background-color: $blueTextColor;
-        }
         :hover {
           color: $blueButtonHoverColor !important;
-          .icon {
-            color: $blueButtonHoverColor !important;
-            background-color: $blueButtonHoverColor !important;
-          }
         }
       }
 
       &.active {
         button {
           color: $blueButtonFocusColor !important;
-          .icon {
-            color: $blueButtonFocusColor !important;
-            background-color: $blueButtonFocusColor !important;
-          }
         }
       }
     }

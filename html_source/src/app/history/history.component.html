@@ -18,7 +18,7 @@
               <ng-container *ngIf="getHeight(item) < 10">
                 <svg class="confirmation" style="transform: rotateZ(-90deg)"
                   tooltip="{{ 'HISTORY.STATUS_TOOLTIP' | translate : {'current': getHeight(item), 'total': 10} }}"
-                  placement="bottom-left" tooltipClass="table-tooltip" [delay]="500" width="1.6rem" height="1.6rem">
+                  placement="bottom-left" tooltipClass="table-tooltip" [delay]="500">
                   <circle stroke-dasharray="100" fill="transparent" stroke-dashoffset="0" cx="50%" cy="50%"
                     stroke="rgba(31, 143, 235, 0.33)" r="0.7rem" stroke-width="0.3rem">
                   </circle>

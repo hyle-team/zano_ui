@@ -50,6 +50,13 @@ export class WalletComponent implements OnInit, OnDestroy {
   closeWalletId: number;
 
   @ViewChild('scrolledContent') private scrolledContent: ElementRef;
+  @HostListener('document:click', ['$event.target'])
+  public onClick(targetElement) {
+    if (targetElement.id !== 'wallet-dropdown-button' && this.openDropdown) {
+      this.openDropdown = false;
+    }
+  }
+
 
   tabs = [
     {
@@ -495,13 +502,6 @@ export class WalletComponent implements OnInit, OnDestroy {
         this.backend.storeSecureAppData();
       }
     });
-  }
-
-  @HostListener('document:click', ['$event.target'])
-  public onClick(targetElement) {
-    if (targetElement.id !== 'wallet-dropdown-button' && this.openDropdown) {
-      this.openDropdown = false;
-    }
   }
 
   ngOnDestroy() {
