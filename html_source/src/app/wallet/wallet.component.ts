@@ -48,15 +48,28 @@ export class WalletComponent implements OnInit, OnDestroy {
   delWalletDialogVisible = false;
   exportHistoryDialogVisible = false;
   closeWalletId: number;
+  public walletSynchVisible: boolean = false;
 
   @ViewChild('scrolledContent') private scrolledContent: ElementRef;
+  @HostListener('document:keydown.shift', ['$event.key'])
+  onKeyPresed() {
+    if (!this.openDropdown) {
+      this.walletSynchVisible = true;
+    }
+  }
+  @HostListener('document:keyup.shift', ['$event.key'])
+  onKeyUpPresed() {
+    if (!this.openDropdown) {
+      this.walletSynchVisible = false;
+    }
+  }
   @HostListener('document:click', ['$event.target'])
   public onClick(targetElement) {
     if (targetElement.id !== 'wallet-dropdown-button' && this.openDropdown) {
       this.openDropdown = false;
+      this.walletSynchVisible = false;
     }
   }
-
 
   tabs = [
     {
@@ -359,6 +372,20 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   openInBrowser(link) {
     this.backend.openUrlInBrowser(link);
+  }
+
+  togleMenuDropdown() {
+    if (!this.openDropdown) {
+      this.openDropdown = true;
+    } else {
+      this.openDropdown = false;
+      this.walletSynchVisible = false;
+    }
+
+  }
+
+  resyncCurrentWallet(id) {
+    this.backend.resyncWallet(id)
   }
 
   public setPage(pageNumber: number) {

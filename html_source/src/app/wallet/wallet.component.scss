@@ -43,16 +43,17 @@
         width: 100%;
         &:disabled {
           cursor: url(../../assets/icons/not-allowed.svg), not-allowed;
-          .icon svg path {
+
+          .icon svg path,
+          .icon svg .st0 {
             fill: rgba(255, 255, 255, 0.4);
           }
           span {
             color: rgba(255, 255, 255, 0.4);
           }
         }
-        &:nth-child(2) {
-          border: solid #0c0c3a;
-          border-width: 0.1rem 0;
+        &.dark-line {
+          border-bottom: 1px solid #0c0c3a;
         }
         span {
           font-size: 1.4rem;
@@ -66,8 +67,9 @@
             height: 100%;
             width: 100%;
           }
-          &.wallet-settings {
-            background: center / contain no-repeat url(../../assets/icons/wallet-options.svg);
+          &.resync-wallet {
+            height: 1.7rem;
+            width: 1.7rem;
           }
           &.close-wallet {
             background: center / contain no-repeat url(../../assets/icons/close-wallet-dropdown.svg);

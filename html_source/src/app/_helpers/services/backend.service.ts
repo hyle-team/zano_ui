@@ -632,6 +632,10 @@ export class BackendService {
     this.runCommand('get_alias_coast', { v: alias }, callback);
   }
 
+  resyncWallet(id) {
+    this.runCommand('resync_wallet', { wallet_id: id })
+  }
+
   getWalletAlias(address) {
     if (address !== null && this.variablesService.daemon_state === 2) {
       if (this.variablesService.aliasesChecked[address] == null) {
