@@ -1,79 +1,62 @@
 :host {
   width: 100%;
 }
-
 .wrap-table {
   table {
-    thead {
-      tr {
-        td {
-        }
-      }
-    }
     tbody {
       font-weight: 500;
       tr {
         td {
           min-width: 10rem;
         }
-
         .status {
           position: relative;
           display: flex;
           align-items: center;
-
           .confirmation {
             margin-right: 0.7rem;
             width: 1.7rem;
             height: 1.7rem;
           }
-
           .lock-transaction {
             background: center / contain no-repeat url(../../assets/icons/lock-transaction.svg);
             margin-left: 0.7rem;
             width: 1.4rem;
             height: 1.4rem;
           }
-
           .unlock-transaction {
             background: center / contain no-repeat url(../../assets/icons/unlock-transaction.svg);
             margin-left: 0.7rem;
             width: 1.4rem;
             height: 1.4rem;
           }
-
           img.status-transaction {
             margin-right: 0.7rem;
             width: 1.5rem;
             height: 1.5rem;
           }
         }
-
         .remote-address {
           span {
-            display: inline-block;
+            display: inline-flex;
             width: 100%;
             overflow: hidden;
             text-overflow: ellipsis;
           }
         }
-
         &:not(.transaction-details) {
           cursor: pointer;
         }
-
         &.transaction-details {
           -webkit-transition: 0.5s height linear, 0s font-size;
           transition: 0.5s height linear, 0s font-size;
           transition-delay: 0s, 0.5s;
           height: 0;
-
           &.open {
             height: 18rem;
           }
-
           td {
-            border-radius: 2rem;
+            border-radius: 1rem;
             position: relative;
             overflow: hidden;
             line-height: inherit;

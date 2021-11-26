@@ -254,6 +254,8 @@
     "LABEL_FILE_LOCATION": "Wallet file location",
     "LABEL_SEED_PHRASE": "Seed phrase",
     "SEED_PHRASE_HINT": "Click to reveal the seed phrase",
+    "RESYNC_WALLET": "Resync wallet data",
+    "RESYNC_WALLET_BUTTON": "Resync Wallet",
     "BUTTON_SAVE": "Save",
     "BUTTON_REMOVE": "Close Wallet",
     "CREATE_PASSWORD_SECURE": "Create a password to secure your seed",

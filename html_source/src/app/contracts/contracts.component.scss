@@ -5,7 +5,6 @@
   font-size: 1.5rem;
 }
 .wrap-table {
-  margin: -3rem -3rem 0 -3rem;
   overflow-x: auto;
   table {
     tbody {
@@ -20,21 +19,18 @@
             flex-shrink: 0;
             &.new,
             &.alert {
-              position: absolute;
-              top: 0;
+              margin-right: 1rem;
+              position: relative;
             }
             &.new {
-              left: -2.3rem;
               background: center / contain no-repeat url(../../assets/icons/new.svg);
               width: 1.7rem;
               height: 1.7rem;
             }
 
             &.alert {
-              top: 0.2rem;
-              left: -2.1rem;
               background: center / contain no-repeat url(../../assets/icons/alert.svg);
-              width: 1.2rem;
+              width: 1.7rem;
               height: 1.2rem;
             }
             &.purchase,
@@ -57,7 +53,7 @@
         }
         .status,
         .comment {
-          display: inline-block;
+          display: inline-flex;
           text-overflow: ellipsis;
           overflow: hidden;
           max-width: 100%;
