@@ -14,7 +14,6 @@ import { UtilsService } from '../_helpers/services/utils.service';
 })
 export class SettingsComponent implements OnInit {
   ifSaved: boolean = false;
-  theme: string;
   scale: number;
   changeForm: any;
   public correntNotificationsState;
@@ -64,19 +63,19 @@ export class SettingsComponent implements OnInit {
   ];
   appScaleOptions = [
     {
-      id: 7.5,
+      id: 6,
       name: 'SETTINGS.SCALE.75'
     },
     {
-      id: 10,
+      id: 8,
       name: 'SETTINGS.SCALE.100'
     },
     {
-      id: 12.5,
+      id: 10,
       name: 'SETTINGS.SCALE.125'
     },
     {
-      id: 15,
+      id: 12,
       name: 'SETTINGS.SCALE.150'
     }
   ];
@@ -113,7 +112,6 @@ export class SettingsComponent implements OnInit {
     private ngZone: NgZone,
     private utilsService: UtilsService
   ) {
-    this.theme = this.variablesService.settings.theme;
     this.scale = this.variablesService.settings.scale;
     this.changeForm = new FormGroup({
       password: new FormControl(''),
@@ -144,14 +142,6 @@ export class SettingsComponent implements OnInit {
     this.backend.getIsDisabledNotifications((res) => {
       this.correntNotificationsState = res
     });
-  }
-
-  setTheme(theme) {
-    this.renderer.removeClass(document.body, 'theme-' + this.theme);
-    this.theme = theme;
-    this.variablesService.settings.theme = this.theme;
-    this.renderer.addClass(document.body, 'theme-' + this.theme);
-    this.backend.storeAppData();
   }
 
   setScale() {

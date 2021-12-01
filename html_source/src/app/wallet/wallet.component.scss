@@ -260,7 +260,7 @@
       align-items: center;
       button {
         &.disabled {
-          cursor: default;
+          cursor: url(../../assets/icons/not-allowed.svg), not-allowed;
         }
         svg {
           margin-top: 0.3rem;

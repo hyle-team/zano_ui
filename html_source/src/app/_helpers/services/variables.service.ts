@@ -19,7 +19,6 @@ export class VariablesService {
   public appLogin = false;
   public moneyEquivalent = 0;
   public moneyEquivalentPercent = 0;
-  public defaultTheme = 'dark';
   public defaultCurrency = 'ZANO';
   public opening_wallet: Wallet;
   public exp_med_ts = 0;
@@ -46,7 +45,6 @@ export class VariablesService {
   public settings = {
     appLockTime: 15,
     appLog: 0,
-    theme: '',
     scale: 10,
     language: 'en',
     default_path: '/',

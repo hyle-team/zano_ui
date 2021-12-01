@@ -66,6 +66,7 @@ app-wallet {
             }
           }
           &.disabled {
+            color: $paginationButtonHoverColor;
             svg path {
               fill: $paginationButtonHoverColor;
             }
