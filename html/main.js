@@ -2881,7 +2881,7 @@ var VariablesService = /** @class */ (function () {
         this.settings = {
             appLockTime: 15,
             appLog: 0,
-            scale: 10,
+            scale: 8,
             language: 'en',
             default_path: '/',
             viewedContracts: [],
@@ -4108,6 +4108,13 @@ var AppComponent = /** @class */ (function () {
                         }
                     }
                     if (_this.variablesService.settings.hasOwnProperty('scale') && [6, 8, 10, 12].indexOf(_this.variablesService.settings.scale) !== -1) {
+                        var width = _this.utilsService.getMinWidthByScale(_this.variablesService.settings.scale);
+                        var app = document.documentElement.querySelector('app-root');
+                        _this.renderer.setStyle(app, 'min-width', width + 'px');
+                        _this.renderer.setStyle(document.documentElement, 'font-size', _this.variablesService.settings.scale + 'px');
+                    }
+                    else {
+                        _this.variablesService.settings.scale = 8;
                         var width = _this.utilsService.getMinWidthByScale(_this.variablesService.settings.scale);
                         var app = document.documentElement.querySelector('app-root');
                         _this.renderer.setStyle(app, 'min-width', width + 'px');
