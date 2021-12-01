@@ -72,6 +72,7 @@
               (contextmenu)="variablesService.onContextMenuOnlyCopy($event, item.remote_addresses[0])">{{item.remote_addresses[0]}}</span>
           </td>
         </tr>
+        <div class="row-divider"></div>
         <tr class="transaction-details" [class.open]="item.tx_hash === openedDetails">
           <td colspan="5">
             <ng-container *ngIf="item.tx_hash === openedDetails">
@@ -79,6 +80,7 @@
             </ng-container>
           </td>
         </tr>
+        <div class="row-divider"></div>
       </ng-container>
     </tbody>
   </table>
