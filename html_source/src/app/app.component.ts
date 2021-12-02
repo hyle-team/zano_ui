@@ -542,20 +542,18 @@ export class AppComponent implements OnInit, OnDestroy {
               this.variablesService.settings[key] = data[key];
             }
           }
-          if (this.variablesService.settings.hasOwnProperty('theme') && ['dark', 'white', 'gray'].indexOf(this.variablesService.settings.theme) !== -1) {
-            this.renderer.addClass(document.body, 'theme-' + this.variablesService.settings.theme);
+          if (this.variablesService.settings.hasOwnProperty('scale') && [6, 8, 10, 12].indexOf(this.variablesService.settings.scale) !== -1) {
+            const width = this.utilsService.getMinWidthByScale(this.variablesService.settings.scale);
+            const app = document.documentElement.querySelector('app-root');
+            this.renderer.setStyle(app, 'min-width', width + 'px');
+            this.renderer.setStyle(document.documentElement, 'font-size', this.variablesService.settings.scale + 'px');
           } else {
-            this.renderer.addClass(document.body, 'theme-' + this.variablesService.defaultTheme);
-          }
-          if (this.variablesService.settings.hasOwnProperty('scale') && [7.5, 10, 12.5, 15].indexOf(this.variablesService.settings.scale) !== -1) {
+            this.variablesService.settings.scale = 8
             const width = this.utilsService.getMinWidthByScale(this.variablesService.settings.scale);
             const app = document.documentElement.querySelector('app-root');
             this.renderer.setStyle(app, 'min-width', width + 'px');
             this.renderer.setStyle(document.documentElement, 'font-size', this.variablesService.settings.scale + 'px');
           }
-        } else {
-          this.variablesService.settings.theme = this.variablesService.defaultTheme;
-          this.renderer.addClass(document.body, 'theme-' + this.variablesService.settings.theme);
         }
         this.translate.use(this.variablesService.settings.language);
         this.setBackendLocalization();
