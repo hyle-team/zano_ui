@@ -65,13 +65,14 @@ import { AddContactsComponent } from './add-contacts/add-contacts.component';
 import { ContactSendComponent } from './contact-send/contact-send.component';
 import { ExportImportComponent } from './export-import/export-import.component';
 import { ConfirmModalComponent } from './_helpers/directives/confirm-modal/confirm-modal.component';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { PapaParseModule } from 'ngx-papaparse';
+import { ExportHistoryModalComponent } from './export-history-modal/export-history-modal.component';
+import { DragScrollModule } from 'cdk-drag-scroll';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
 }
-
-import { PapaParseModule } from 'ngx-papaparse';
-import { ExportHistoryModalComponent } from './export-history-modal/export-history-modal.component';
 
 // import * as more from 'highcharts/highcharts-more.src';
 // import * as exporting from 'highcharts/modules/exporting.src';
@@ -138,6 +139,8 @@ export function highchartsFactory() {
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    DragDropModule,
+    DragScrollModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
