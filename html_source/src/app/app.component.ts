@@ -171,6 +171,16 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       });
 
+      this.backend.eventSubscribe('handle_deeplink_click', (data) => {
+        console.log('----------------- handle_deeplink_click -----------------');
+        console.log(data);
+        if (data) {
+          this.ngZone.run(() => {
+
+          });
+        }
+      });
+
       this.backend.eventSubscribe('update_daemon_state', (data) => {
         console.log('----------------- update_daemon_state -----------------');
         console.log('DAEMON:' + data.daemon_network_state);

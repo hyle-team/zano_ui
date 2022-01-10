@@ -51,7 +51,7 @@ import { SafeHTMLPipe } from './_helpers/pipes/safe-html.pipe';
 import { TooltipDirective } from './_helpers/directives/tooltip.directive';
 import { InputValidateDirective } from './_helpers/directives/input-validate/input-validate.directive';
 import { StakingSwitchComponent } from './_helpers/directives/staking-switch/staking-switch.component';
-import { ModalContainerComponent } from './_helpers/directives/modal-container/modal-container.component';
+import { ModalContainerComponent } from './_helpers/modals/modal-container/modal-container.component';
 import { TransactionDetailsComponent } from './_helpers/directives/transaction-details/transaction-details.component';
 import { ContextMenuModule } from 'ngx-contextmenu';
 import { ChartModule, HIGHCHARTS_MODULES } from 'angular-highcharts';
@@ -64,11 +64,14 @@ import { ContactsComponent } from './contacts/contacts.component';
 import { AddContactsComponent } from './add-contacts/add-contacts.component';
 import { ContactSendComponent } from './contact-send/contact-send.component';
 import { ExportImportComponent } from './export-import/export-import.component';
-import { ConfirmModalComponent } from './_helpers/directives/confirm-modal/confirm-modal.component';
+import { ConfirmModalComponent } from './_helpers/modals/confirm-modal/confirm-modal.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PapaParseModule } from 'ngx-papaparse';
-import { ExportHistoryModalComponent } from './export-history-modal/export-history-modal.component';
+import { ExportHistoryModalComponent } from './_helpers/modals/export-history-modal/export-history-modal.component';
 import { DragScrollModule } from 'cdk-drag-scroll';
+import { SyncModalComponent } from './_helpers/modals/sync-modal/sync-modal.component';
+import { MarketplaceModalComponent } from './_helpers/modals/marketplace-modal/marketplace-modal.component';
+import { DeeplinkComponent } from './deeplink/deeplink.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
@@ -134,6 +137,9 @@ export function highchartsFactory() {
     SafeHTMLPipe,
     ConfirmModalComponent,
     ExportHistoryModalComponent,
+    SyncModalComponent,
+    MarketplaceModalComponent,
+    DeeplinkComponent,
   ],
   imports: [
     BrowserModule,

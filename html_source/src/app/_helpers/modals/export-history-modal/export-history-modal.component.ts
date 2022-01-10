@@ -1,14 +1,14 @@
-import { Component, EventEmitter, Input, NgZone, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { BackendService } from '../_helpers/services/backend.service';
-import { VariablesService } from '../_helpers/services/variables.service';
+import { BackendService } from '../../services/backend.service';
+import { VariablesService } from '../../services/variables.service';
 
 @Component({
   selector: 'app-export-history-modal',
   templateUrl: './export-history-modal.component.html',
   styleUrls: ['./export-history-modal.component.scss']
 })
-export class ExportHistoryModalComponent implements OnInit {
+export class ExportHistoryModalComponent {
   posFilterIsOn: boolean = true;
   public curentFormat: string;
   exportPath: string
@@ -40,14 +40,9 @@ export class ExportHistoryModalComponent implements OnInit {
   constructor(
     private backend: BackendService,
     public variablesService: VariablesService,
-    private ngZone: NgZone,
     private translate: TranslateService
   ) {
     this.curentFormat = this.exportFormats[0].format;
-  }
-
-
-  ngOnInit() {
   }
 
   closeModal() {

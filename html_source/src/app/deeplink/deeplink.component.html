@@ -1,0 +1,36 @@
+<app-sync-modal *ngIf="variablesService.daemon_state !== 2 && syncModalShow"
+  (closeModal)="syncModalShow = !syncModalShow">
+</app-sync-modal>
+
+<ng-container *ngIf="variablesService.daemon_state == 2 && variablesService.wallets.length > 1">
+  <div class="modal">
+    <div class="title">
+      <span>Select wallet for action:</span>
+    </div>
+    <div class="content">
+      <div class="inputs-container">
+        <div class="lock-selection">
+          <ng-select class="custom-select" [items]="variablesService.wallets" bindValue="wallet_id" bindLabel="name"
+            [(ngModel)]="walletToPayId" [clearable]="false" [searchable]="false">
+            <ng-template ng-label-tmp let-item="item">
+              {{item.name}}
+            </ng-template>
+            <ng-template ng-option-tmp let-item="item" let-index="index">
+              {{item.name}}
+            </ng-template>
+          </ng-select>
+        </div>
+      </div>
+      <div class="wrapper-buttons">
+        <button type="button" class="blue-button" (click)="closeSelWalletModal()">{{ 'EXPORT_HISTORY.CANCEL' | translate
+          }}</button>
+        <button type="submit" class="blue-button" (click)="nextStep()">Next...</button>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<app-marketplace-modal [marketplaceData]="marketplaceData"
+  *ngIf="variablesService.daemon_state == 2 && marketplaceModalShow"
+  (closeModal)="marketplaceModalShow = !marketplaceModalShow">
+</app-marketplace-modal>
