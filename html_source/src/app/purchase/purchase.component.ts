@@ -6,7 +6,6 @@ import { VariablesService } from '../_helpers/services/variables.service';
 import { ModalService } from '../_helpers/services/modal.service';
 import { Location } from '@angular/common';
 import { IntToMoneyPipe } from '../_helpers/pipes/int-to-money.pipe';
-import { BigNumber } from 'bignumber.js';
 
 @Component({
   selector: 'app-purchase',
@@ -14,15 +13,27 @@ import { BigNumber } from 'bignumber.js';
   styleUrls: ['./purchase.component.scss']
 })
 export class PurchaseComponent implements OnInit, OnDestroy {
-
+  @HostListener('document:click', ['$event.target'])
+  public onClick(targetElement) {
+    if (targetElement.id !== 'purchase-seller' && this.isOpen) {
+      this.isOpen = false;
+    }
+  }
   isOpen = false;
   localAliases = [];
-
   currentWalletId;
   newPurchase = false;
   parentRouting;
   subRouting;
+  actionData;
+  private dLActionSubscribe;
   historyBlock;
+  sameAmountChecked: boolean = false;
+  additionalOptions = false;
+  currentContract = null;
+  heightAppEvent;
+  showTimeSelect = false;
+  showNullify = false;
 
   purchaseForm = new FormGroup({
     description: new FormControl('', Validators.required),
@@ -99,13 +110,6 @@ export class PurchaseComponent implements OnInit, OnDestroy {
     password: new FormControl('')
   });
 
-  sameAmountChecked: boolean = false;
-  additionalOptions = false;
-  currentContract = null;
-  heightAppEvent;
-  showTimeSelect = false;
-  showNullify = false;
-
   constructor(
     private route: ActivatedRoute,
     private backend: BackendService,
@@ -131,17 +135,8 @@ export class PurchaseComponent implements OnInit, OnDestroy {
     }
   }
 
-
-
   setAlias(alias) {
     this.purchaseForm.get('seller').setValue(alias);
-  }
-
-  @HostListener('document:click', ['$event.target'])
-  public onClick(targetElement) {
-    if (targetElement.id !== 'purchase-seller' && this.isOpen) {
-      this.isOpen = false;
-    }
   }
 
   ngOnInit() {
@@ -239,6 +234,22 @@ export class PurchaseComponent implements OnInit, OnDestroy {
         return null;
       }])
     }
+    this.dLActionSubscribe = this.variablesService.$sendActionData.subscribe((res) => {
+      if (res.action === "escrow") {
+        this.actionData = res
+        this.fillDeepLinkData()
+      }
+    })
+  }
+
+  fillDeepLinkData() {
+    this.additionalOptions = true;
+    this.purchaseForm.get("description").setValue(this.actionData.description || '');
+    this.purchaseForm.get("seller").setValue(this.actionData.seller_address || '');
+    this.purchaseForm.get("amount").setValue(this.actionData.amount || '');
+    this.purchaseForm.get("yourDeposit").setValue(this.actionData.my_deposit || '');
+    this.purchaseForm.get("sellerDeposit").setValue(this.actionData.seller_deposit || '');
+    this.purchaseForm.get("comment").setValue(this.actionData.comment || '');
   }
 
   toggleOptions() {
@@ -437,6 +448,8 @@ export class PurchaseComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.actionData = {}
+    this.dLActionSubscribe.unsubscribe();
     this.parentRouting.unsubscribe();
     this.subRouting.unsubscribe();
     this.heightAppEvent.unsubscribe();

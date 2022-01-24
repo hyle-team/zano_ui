@@ -1,5 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
-import { Wallet } from '../models/wallet.model';
+import { DeeplinkParams, Wallet } from '../models/wallet.model';
 import { Contact } from '../models/contact.model';
 import { BehaviorSubject } from 'rxjs';
 import { Idle } from 'idlejs/dist';
@@ -30,6 +30,8 @@ export class VariablesService {
   public last_build_available = '';
   public last_build_displaymode = 0;
   public daemon_state = 3;
+  public $deeplink = new BehaviorSubject<string>('');
+  public $sendActionData = new BehaviorSubject<DeeplinkParams>({});
   public sync = {
     progress_value: 0,
     progress_value_text: '0'

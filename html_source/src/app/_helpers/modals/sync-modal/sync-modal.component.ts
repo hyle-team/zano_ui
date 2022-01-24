@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-sync-modal',
@@ -6,12 +6,10 @@ import { Component, EventEmitter, OnInit, Output, } from '@angular/core';
   styleUrls: ['./sync-modal.component.scss']
 })
 export class SyncModalComponent implements OnInit {
-  @Output() closeModal: EventEmitter<boolean> = new EventEmitter<boolean>();
-  constructor() { }
 
-  close() {
-    this.closeModal.emit(true);
-  }
+  constructor(
+  ) { }
+
   ngOnInit() {
   }
 

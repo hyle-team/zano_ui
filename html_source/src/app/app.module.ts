@@ -69,9 +69,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PapaParseModule } from 'ngx-papaparse';
 import { ExportHistoryModalComponent } from './_helpers/modals/export-history-modal/export-history-modal.component';
 import { DragScrollModule } from 'cdk-drag-scroll';
-import { SyncModalComponent } from './_helpers/modals/sync-modal/sync-modal.component';
-import { MarketplaceModalComponent } from './_helpers/modals/marketplace-modal/marketplace-modal.component';
 import { DeeplinkComponent } from './deeplink/deeplink.component';
+import { SyncModalComponent } from './_helpers/modals/sync-modal/sync-modal.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
@@ -137,9 +136,8 @@ export function highchartsFactory() {
     SafeHTMLPipe,
     ConfirmModalComponent,
     ExportHistoryModalComponent,
-    SyncModalComponent,
-    MarketplaceModalComponent,
     DeeplinkComponent,
+    SyncModalComponent,
   ],
   imports: [
     BrowserModule,

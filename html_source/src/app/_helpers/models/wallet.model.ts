@@ -258,12 +258,12 @@ export interface DeeplinkParams {
   title?: string;
   description?: string;
   category?: string;
-  price?: number;
+  price?: string;
   img_url?: string;
   contact?: string;
-  comments?: string;
-  mixins?: number;
-  fee?: number;
+  comment?: string;
+  mixins?: string;
+  fee?: string;
 }
 
 export interface PushOffer {

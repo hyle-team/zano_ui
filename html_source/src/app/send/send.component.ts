@@ -24,6 +24,12 @@ interface WrapInfo {
   styleUrls: ['./send.component.scss']
 })
 export class SendComponent implements OnInit, OnDestroy {
+  @HostListener('document:click', ['$event.target'])
+  public onClick(targetElement) {
+    if (targetElement.id !== 'send-address' && this.isOpen) {
+      this.isOpen = false;
+    }
+  }
 
   isOpen = false;
   localAliases = [];
@@ -35,9 +41,11 @@ export class SendComponent implements OnInit, OnDestroy {
   isWrapShown = false;
   currentAliasAdress: string;
   lenghtOfAdress: number;
-
+  additionalOptions = false;
   currentWalletId = null;
   parentRouting;
+  actionData;
+  private dLActionSubscribe;
   sendForm = new FormGroup({
     address: new FormControl('', [Validators.required, (g: FormControl) => {
       this.localAliases = [];
@@ -122,7 +130,7 @@ export class SendComponent implements OnInit, OnDestroy {
     }]),
     hide: new FormControl(false)
   });
-  additionalOptions = false;
+
 
   constructor(
     private route: ActivatedRoute,
@@ -150,13 +158,6 @@ export class SendComponent implements OnInit, OnDestroy {
     this.sendForm.get('address').setValue(alias);
   }
 
-  @HostListener('document:click', ['$event.target'])
-  public onClick(targetElement) {
-    if (targetElement.id !== 'send-address' && this.isOpen) {
-      this.isOpen = false;
-    }
-  }
-
   ngOnInit() {
     this.parentRouting = this.route.parent.params.subscribe(params => {
       this.currentWalletId = params['id'];
@@ -179,6 +180,15 @@ export class SendComponent implements OnInit, OnDestroy {
       });
     });
     this.getWrapInfo();
+    this.dLActionSubscribe = this.variablesService.$sendActionData.subscribe((res) => {
+      if (res.action === "send") {
+        this.actionData = res
+        setTimeout(() => {
+          this.fillDeepLinkData()
+        }, 100)
+
+      }
+    })
   }
 
   private getWrapInfo() {
@@ -200,6 +210,18 @@ export class SendComponent implements OnInit, OnDestroy {
       this.onSend();
     }
     this.isModalDialogVisible = false;
+  }
+
+  fillDeepLinkData() {
+    this.additionalOptions = true;
+    this.sendForm.reset({
+      address: this.actionData.address,
+      amount: null,
+      comment: this.actionData.comment || '',
+      mixin: this.actionData.mixins || this.mixin,
+      fee: this.actionData.fee || this.variablesService.default_fee,
+      hide: this.actionData.hide_sender === "true" ? true : false
+    });
   }
 
   onSend() {
@@ -293,6 +315,7 @@ export class SendComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.parentRouting.unsubscribe();
+    this.dLActionSubscribe.unsubscribe();
     this.variablesService.currentWallet.send_data = {
       address: this.sendForm.get('address').value,
       amount: this.sendForm.get('amount').value,
@@ -301,6 +324,7 @@ export class SendComponent implements OnInit, OnDestroy {
       fee: this.sendForm.get('fee').value,
       hide: this.sendForm.get('hide').value
     };
+    this.actionData = {}
   }
 
   public getReceivedValue() {

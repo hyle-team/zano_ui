@@ -28,28 +28,6 @@ import { distinctUntilChanged, filter } from 'rxjs/operators';
   styleUrls: ['./wallet.component.scss'],
 })
 export class WalletComponent implements OnInit, OnDestroy {
-  subRouting1;
-  subRouting2;
-  queryRouting;
-  walletID;
-  settingsButtonInterval;
-  settingsButtonDisabled = true;
-  copyAnimation = false;
-  copyAnimationTimeout;
-  balanceTooltip;
-  walletLoaded = false;;
-  activeTab = 'history';
-  public mining = false;
-  public currentPage = 1;
-  wallet: Wallet;
-  sync_started = false;
-  stop_paginate = false;
-  public openDropdown: boolean;
-  delWalletDialogVisible = false;
-  exportHistoryDialogVisible = false;
-  closeWalletId: number;
-  public walletSynchVisible: boolean = false;
-
   @ViewChild('scrolledContent') private scrolledContent: ElementRef;
   @HostListener('document:keydown.shift', ['$event.key'])
   onKeyPresed() {
@@ -71,6 +49,29 @@ export class WalletComponent implements OnInit, OnDestroy {
     }
   }
 
+  subRouting1;
+  subRouting2;
+  queryRouting;
+  walletID;
+  deeplinkSubscription;
+  deeplink;
+  settingsButtonInterval;
+  settingsButtonDisabled = true;
+  copyAnimation = false;
+  copyAnimationTimeout;
+  balanceTooltip;
+  walletLoaded = false;;
+  activeTab = 'history';
+  mining = false;
+  currentPage = 1;
+  wallet: Wallet;
+  sync_started = false;
+  stop_paginate = false;
+  openDropdown: boolean;
+  delWalletDialogVisible = false;
+  exportHistoryDialogVisible = false;
+  closeWalletId: number;
+  walletSynchVisible: boolean = false;
   tabs = [
     {
       title: 'WALLET.TABS.HISTORY',
@@ -268,7 +269,11 @@ export class WalletComponent implements OnInit, OnDestroy {
       }
     );
     this.updateWalletStatus();
+    this.deeplinkSubscription = this.variablesService.$deeplink.subscribe((data) => {
+      this.deeplink = data;
+    });
   }
+
   resetPaginationValues() {
     this.ngZone.run(() => {
       const total_history_item = this.variablesService.currentWallet
@@ -536,10 +541,12 @@ export class WalletComponent implements OnInit, OnDestroy {
     this.subRouting2.unsubscribe();
     this.queryRouting.unsubscribe();
     this.aliasSubscription.unsubscribe();
+    this.deeplinkSubscription.unsubscribe();
     if (this.walletsSubscription) {
       this.walletsSubscription.unsubscribe();
     }
     clearTimeout(this.copyAnimationTimeout);
+    this.variablesService.$deeplink.next('')
   }
 
 
