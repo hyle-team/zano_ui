@@ -23,93 +23,6 @@ webpackEmptyAsyncContext.id = "./src/$$_lazy_route_resource lazy recursive";
 
 /***/ }),
 
-/***/ "./src/app/_helpers/directives/confirm-modal/confirm-modal.component.html":
-/*!********************************************************************************!*\
-  !*** ./src/app/_helpers/directives/confirm-modal/confirm-modal.component.html ***!
-  \********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "<div class=\"modal\">\n  <div class=\"content\">\n    <i class=\"icon info\"></i>\n    <div class=\"message-container\">\n      <span class=\"title\">{{title}}</span>\n      <span class=\"message\">{{message}}</span>\n\n      <div class=\"wrap-btn\">\n        <button type=\"button\" class=\"action-button\" (click)=\"onClose()\">{{ 'MODALS.CANCEL' | translate }}</button>\n        <button type=\"button\" class=\"action-button\" (click)=\"onSubmit()\" #btn>{{ 'MODALS.OK' | translate }}</button>\n      </div>\n    </div>\n  </div>\n  <button type=\"button\" class=\"close-button\" (click)=\"onClose()\"><i class=\"icon close\"></i></button>\n</div>\n"
-
-/***/ }),
-
-/***/ "./src/app/_helpers/directives/confirm-modal/confirm-modal.component.scss":
-/*!********************************************************************************!*\
-  !*** ./src/app/_helpers/directives/confirm-modal/confirm-modal.component.scss ***!
-  \********************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = ":host {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 5; }\n\n.modal {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  background-position: center;\n  background-size: 200%;\n  padding: 3rem;\n  min-width: 34rem;\n  max-width: 60rem; }\n\n.modal .content {\n    display: flex; }\n\n.modal .content .icon {\n      flex: 0 0 auto;\n      width: 2rem;\n      height: 2rem; }\n\n.modal .content .icon.info {\n        background: center/contain no-repeat url('modal-info.svg'); }\n\n.modal .content .message-container {\n      display: flex;\n      flex-direction: column;\n      align-items: flex-start;\n      justify-content: center;\n      margin-left: 1rem; }\n\n.modal .content .message-container .title {\n        font-size: 1.8rem;\n        font-weight: 600;\n        line-height: 2.2rem; }\n\n.modal .content .message-container .message {\n        font-size: 1.3rem;\n        line-height: 1.8rem;\n        margin-top: 0.4rem; }\n\n.modal .wrap-btn {\n    display: flex;\n    justify-content: space-between;\n    width: 100%;\n    margin-top: 3.5rem; }\n\n.modal .action-button {\n    width: 10rem;\n    height: 2.4rem; }\n\n.modal .close-button {\n    position: absolute;\n    top: 1rem;\n    right: 1rem;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    background: transparent;\n    margin: 0;\n    padding: 0;\n    width: 2.4rem;\n    height: 2.4rem; }\n\n.modal .close-button .icon {\n      background: center/contain no-repeat url('close.svg');\n      width: 2.4rem;\n      height: 2.4rem; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL3VzZXIvcHJvamVjdHMvemFub191aS9odG1sX3NvdXJjZS9zcmMvYXBwL19oZWxwZXJzL2RpcmVjdGl2ZXMvY29uZmlybS1tb2RhbC9jb25maXJtLW1vZGFsLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsZUFBZTtFQUNmLE1BQU07RUFDTixTQUFTO0VBQ1QsT0FBTztFQUNQLFFBQVE7RUFDUixhQUFhO0VBQ2IsbUJBQW1CO0VBQ25CLHVCQUF1QjtFQUN2QixVQUFVLEVBQUE7O0FBRVo7RUFDRSxrQkFBa0I7RUFDbEIsYUFBYTtFQUNiLHNCQUFzQjtFQUN0QiwyQkFBMkI7RUFDM0IscUJBQXFCO0VBQ3JCLGFBQWE7RUFDYixnQkFBZ0I7RUFDaEIsZ0JBQWdCLEVBQUE7O0FBUmxCO0lBV0ksYUFBYSxFQUFBOztBQVhqQjtNQWNNLGNBQWM7TUFDZCxXQUFXO01BQ1gsWUFBWSxFQUFBOztBQWhCbEI7UUFtQlEsMERBQTRFLEVBQUE7O0FBbkJwRjtNQXdCTSxhQUFhO01BQ2Isc0JBQXNCO01BQ3RCLHVCQUF1QjtNQUN2Qix1QkFBdUI7TUFDdkIsaUJBQWlCLEVBQUE7O0FBNUJ2QjtRQStCUSxpQkFBaUI7UUFDakIsZ0JBQWdCO1FBQ2hCLG1CQUFtQixFQUFBOztBQWpDM0I7UUFxQ1EsaUJBQWlCO1FBQ2pCLG1CQUFtQjtRQUNuQixrQkFBa0IsRUFBQTs7QUF2QzFCO0lBNkNJLGFBQWE7SUFDYiw4QkFBOEI7SUFDOUIsV0FBVztJQUNYLGtCQUFrQixFQUFBOztBQWhEdEI7SUFvREksWUFBWTtJQUNaLGNBQWMsRUFBQTs7QUFyRGxCO0lBeURJLGtCQUFrQjtJQUNsQixTQUFTO0lBQ1QsV0FBVztJQUNYLGFBQWE7SUFDYixtQkFBbUI7SUFDbkIsdUJBQXVCO0lBQ3ZCLHVCQUF1QjtJQUN2QixTQUFTO0lBQ1QsVUFBVTtJQUNWLGFBQWE7SUFDYixjQUFjLEVBQUE7O0FBbkVsQjtNQXNFTSxxREFBdUU7TUFDdkUsYUFBYTtNQUNiLGNBQWMsRUFBQSIsImZpbGUiOiJzcmMvYXBwL19oZWxwZXJzL2RpcmVjdGl2ZXMvY29uZmlybS1tb2RhbC9jb25maXJtLW1vZGFsLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiOmhvc3Qge1xuICBwb3NpdGlvbjogZml4ZWQ7XG4gIHRvcDogMDtcbiAgYm90dG9tOiAwO1xuICBsZWZ0OiAwO1xuICByaWdodDogMDtcbiAgZGlzcGxheTogZmxleDtcbiAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gIHotaW5kZXg6IDU7XG59XG4ubW9kYWwge1xuICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XG4gIGJhY2tncm91bmQtcG9zaXRpb246IGNlbnRlcjtcbiAgYmFja2dyb3VuZC1zaXplOiAyMDAlO1xuICBwYWRkaW5nOiAzcmVtO1xuICBtaW4td2lkdGg6IDM0cmVtO1xuICBtYXgtd2lkdGg6IDYwcmVtO1xuXG4gIC5jb250ZW50IHtcbiAgICBkaXNwbGF5OiBmbGV4O1xuXG4gICAgLmljb24ge1xuICAgICAgZmxleDogMCAwIGF1dG87XG4gICAgICB3aWR0aDogMnJlbTtcbiAgICAgIGhlaWdodDogMnJlbTtcblxuICAgICAgJi5pbmZvIHtcbiAgICAgICAgYmFja2dyb3VuZDogY2VudGVyIC8gY29udGFpbiBuby1yZXBlYXQgdXJsKH5zcmMvYXNzZXRzL2ljb25zL21vZGFsLWluZm8uc3ZnKTtcbiAgICAgIH1cbiAgICB9XG5cbiAgICAubWVzc2FnZS1jb250YWluZXIge1xuICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XG4gICAgICBhbGlnbi1pdGVtczogZmxleC1zdGFydDtcbiAgICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xuICAgICAgbWFyZ2luLWxlZnQ6IDFyZW07XG5cbiAgICAgIC50aXRsZSB7XG4gICAgICAgIGZvbnQtc2l6ZTogMS44cmVtO1xuICAgICAgICBmb250LXdlaWdodDogNjAwO1xuICAgICAgICBsaW5lLWhlaWdodDogMi4ycmVtO1xuICAgICAgfVxuXG4gICAgICAubWVzc2FnZSB7XG4gICAgICAgIGZvbnQtc2l6ZTogMS4zcmVtO1xuICAgICAgICBsaW5lLWhlaWdodDogMS44cmVtO1xuICAgICAgICBtYXJnaW4tdG9wOiAwLjRyZW07XG4gICAgICB9XG4gICAgfVxuICB9XG5cbiAgLndyYXAtYnRuIHtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGp1c3RpZnktY29udGVudDogc3BhY2UtYmV0d2VlbjtcbiAgICB3aWR0aDogMTAwJTtcbiAgICBtYXJnaW4tdG9wOiAzLjVyZW07XG4gIH1cblxuICAuYWN0aW9uLWJ1dHRvbiB7XG4gICAgd2lkdGg6IDEwcmVtO1xuICAgIGhlaWdodDogMi40cmVtO1xuICB9XG5cbiAgLmNsb3NlLWJ1dHRvbiB7XG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIHRvcDogMXJlbTtcbiAgICByaWdodDogMXJlbTtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgYmFja2dyb3VuZDogdHJhbnNwYXJlbnQ7XG4gICAgbWFyZ2luOiAwO1xuICAgIHBhZGRpbmc6IDA7XG4gICAgd2lkdGg6IDIuNHJlbTtcbiAgICBoZWlnaHQ6IDIuNHJlbTtcblxuICAgIC5pY29uIHtcbiAgICAgIGJhY2tncm91bmQ6IGNlbnRlciAvIGNvbnRhaW4gbm8tcmVwZWF0IHVybCh+c3JjL2Fzc2V0cy9pY29ucy9jbG9zZS5zdmcpO1xuICAgICAgd2lkdGg6IDIuNHJlbTtcbiAgICAgIGhlaWdodDogMi40cmVtO1xuICAgIH1cbiAgfVxufVxuIl19 */"
-
-/***/ }),
-
-/***/ "./src/app/_helpers/directives/confirm-modal/confirm-modal.component.ts":
-/*!******************************************************************************!*\
-  !*** ./src/app/_helpers/directives/confirm-modal/confirm-modal.component.ts ***!
-  \******************************************************************************/
-/*! exports provided: ConfirmModalComponent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConfirmModalComponent", function() { return ConfirmModalComponent; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (undefined && undefined.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-var ConfirmModalComponent = /** @class */ (function () {
-    function ConfirmModalComponent() {
-        this.confirmed = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
-    }
-    ConfirmModalComponent.prototype.ngOnInit = function () {
-        this.button.nativeElement.focus();
-    };
-    ConfirmModalComponent.prototype.onSubmit = function () {
-        this.confirmed.emit(true);
-    };
-    ConfirmModalComponent.prototype.onClose = function () {
-        this.confirmed.emit(false);
-    };
-    __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-        __metadata("design:type", String)
-    ], ConfirmModalComponent.prototype, "title", void 0);
-    __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-        __metadata("design:type", String)
-    ], ConfirmModalComponent.prototype, "message", void 0);
-    __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
-        __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"])
-    ], ConfirmModalComponent.prototype, "confirmed", void 0);
-    __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])('btn'),
-        __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"])
-    ], ConfirmModalComponent.prototype, "button", void 0);
-    ConfirmModalComponent = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
-            selector: 'app-confirm-modal',
-            template: __webpack_require__(/*! ./confirm-modal.component.html */ "./src/app/_helpers/directives/confirm-modal/confirm-modal.component.html"),
-            styles: [__webpack_require__(/*! ./confirm-modal.component.scss */ "./src/app/_helpers/directives/confirm-modal/confirm-modal.component.scss")]
-        }),
-        __metadata("design:paramtypes", [])
-    ], ConfirmModalComponent);
-    return ConfirmModalComponent;
-}());
-
-
-
-/***/ }),
-
 /***/ "./src/app/_helpers/directives/input-disable-selection/input-disable-selection.directive.ts":
 /*!**************************************************************************************************!*\
   !*** ./src/app/_helpers/directives/input-disable-selection/input-disable-selection.directive.ts ***!
@@ -263,104 +176,6 @@ var InputValidateDirective = /** @class */ (function () {
         __metadata("design:paramtypes", [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"], _services_variables_service__WEBPACK_IMPORTED_MODULE_1__["VariablesService"]])
     ], InputValidateDirective);
     return InputValidateDirective;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/_helpers/directives/modal-container/modal-container.component.html":
-/*!************************************************************************************!*\
-  !*** ./src/app/_helpers/directives/modal-container/modal-container.component.html ***!
-  \************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "<div class=\"modal\">\n  <div class=\"content\">\n    <i class=\"icon\" [class.error]=\"type === 'error'\" [class.success]=\"type === 'success'\"\n      [class.info]=\"type === 'info'\"></i>\n    <div class=\"message-container\">\n      <span class=\"title\">{{title}}</span>\n      <span class=\"message\" [innerHTML]=\"message\"></span>\n    </div>\n  </div>\n  <button type=\"button\" class=\"close-button\" (click)=\"onClose()\"><i class=\"icon close\"></i></button>\n  <button type=\"button\" class=\"action-button\" (click)=\"onClose()\" #btn>{{ 'MODALS.OK' | translate }}</button>\n</div>\n"
-
-/***/ }),
-
-/***/ "./src/app/_helpers/directives/modal-container/modal-container.component.scss":
-/*!************************************************************************************!*\
-  !*** ./src/app/_helpers/directives/modal-container/modal-container.component.scss ***!
-  \************************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = ":host {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  display: flex;\n  align-items: center;\n  justify-content: center; }\n\n.modal {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  background-position: center;\n  background-size: 200%;\n  padding: 2rem;\n  min-width: 34rem;\n  max-width: 60rem; }\n\n.modal .content {\n    display: flex;\n    margin: 1.2rem 0; }\n\n.modal .content .icon {\n      flex: 0 0 auto;\n      width: 4.4rem;\n      height: 4.4rem; }\n\n.modal .content .icon.error {\n        background: center/contain no-repeat url('modal-alert.svg'); }\n\n.modal .content .icon.success {\n        background: center/contain no-repeat url('modal-success.svg'); }\n\n.modal .content .icon.info {\n        background: center/contain no-repeat url('modal-info.svg'); }\n\n.modal .content .message-container {\n      display: flex;\n      flex-direction: column;\n      align-items: flex-start;\n      justify-content: center;\n      margin-left: 2rem; }\n\n.modal .content .message-container .title {\n        font-size: 1.8rem;\n        font-weight: 600;\n        line-height: 2.2rem; }\n\n.modal .content .message-container .message {\n        font-size: 1.3rem;\n        line-height: 1.8rem;\n        margin-top: 0.4rem; }\n\n.modal .action-button {\n    margin: 1.2rem auto 0.6rem;\n    width: 10rem;\n    height: 2.4rem; }\n\n.modal .close-button {\n    position: absolute;\n    top: 1rem;\n    right: 1rem;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    background: transparent;\n    margin: 0;\n    padding: 0;\n    width: 2.4rem;\n    height: 2.4rem; }\n\n.modal .close-button .icon {\n      background: center/contain no-repeat url('close.svg');\n      width: 2.4rem;\n      height: 2.4rem; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL3VzZXIvcHJvamVjdHMvemFub191aS9odG1sX3NvdXJjZS9zcmMvYXBwL19oZWxwZXJzL2RpcmVjdGl2ZXMvbW9kYWwtY29udGFpbmVyL21vZGFsLWNvbnRhaW5lci5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLGVBQWU7RUFDZixNQUFNO0VBQ04sU0FBUztFQUNULE9BQU87RUFDUCxRQUFRO0VBQ1IsYUFBYTtFQUNiLG1CQUFtQjtFQUNuQix1QkFBdUIsRUFBQTs7QUFFekI7RUFDRSxrQkFBa0I7RUFDbEIsYUFBYTtFQUNiLHNCQUFzQjtFQUN0QiwyQkFBMkI7RUFDM0IscUJBQXFCO0VBQ3JCLGFBQWE7RUFDYixnQkFBZ0I7RUFDaEIsZ0JBQWdCLEVBQUE7O0FBUmxCO0lBV0ksYUFBYTtJQUNiLGdCQUFnQixFQUFBOztBQVpwQjtNQWVNLGNBQWM7TUFDZCxhQUFhO01BQ2IsY0FBYyxFQUFBOztBQWpCcEI7UUFvQlEsMkRBQTZFLEVBQUE7O0FBcEJyRjtRQXdCUSw2REFBK0UsRUFBQTs7QUF4QnZGO1FBNEJRLDBEQUE0RSxFQUFBOztBQTVCcEY7TUFpQ00sYUFBYTtNQUNiLHNCQUFzQjtNQUN0Qix1QkFBdUI7TUFDdkIsdUJBQXVCO01BQ3ZCLGlCQUFpQixFQUFBOztBQXJDdkI7UUF3Q1EsaUJBQWlCO1FBQ2pCLGdCQUFnQjtRQUNoQixtQkFBbUIsRUFBQTs7QUExQzNCO1FBOENRLGlCQUFpQjtRQUNqQixtQkFBbUI7UUFDbkIsa0JBQWtCLEVBQUE7O0FBaEQxQjtJQXNESSwwQkFBMEI7SUFDMUIsWUFBWTtJQUNaLGNBQWMsRUFBQTs7QUF4RGxCO0lBNERJLGtCQUFrQjtJQUNsQixTQUFTO0lBQ1QsV0FBVztJQUNYLGFBQWE7SUFDYixtQkFBbUI7SUFDbkIsdUJBQXVCO0lBQ3ZCLHVCQUF1QjtJQUN2QixTQUFTO0lBQ1QsVUFBVTtJQUNWLGFBQWE7SUFDYixjQUFjLEVBQUE7O0FBdEVsQjtNQXlFTSxxREFBdUU7TUFDdkUsYUFBYTtNQUNiLGNBQWMsRUFBQSIsImZpbGUiOiJzcmMvYXBwL19oZWxwZXJzL2RpcmVjdGl2ZXMvbW9kYWwtY29udGFpbmVyL21vZGFsLWNvbnRhaW5lci5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIjpob3N0IHtcbiAgcG9zaXRpb246IGZpeGVkO1xuICB0b3A6IDA7XG4gIGJvdHRvbTogMDtcbiAgbGVmdDogMDtcbiAgcmlnaHQ6IDA7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gIGp1c3RpZnktY29udGVudDogY2VudGVyO1xufVxuLm1vZGFsIHtcbiAgcG9zaXRpb246IHJlbGF0aXZlO1xuICBkaXNwbGF5OiBmbGV4O1xuICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xuICBiYWNrZ3JvdW5kLXBvc2l0aW9uOiBjZW50ZXI7XG4gIGJhY2tncm91bmQtc2l6ZTogMjAwJTtcbiAgcGFkZGluZzogMnJlbTtcbiAgbWluLXdpZHRoOiAzNHJlbTtcbiAgbWF4LXdpZHRoOiA2MHJlbTtcblxuICAuY29udGVudCB7XG4gICAgZGlzcGxheTogZmxleDtcbiAgICBtYXJnaW46IDEuMnJlbSAwO1xuXG4gICAgLmljb24ge1xuICAgICAgZmxleDogMCAwIGF1dG87XG4gICAgICB3aWR0aDogNC40cmVtO1xuICAgICAgaGVpZ2h0OiA0LjRyZW07XG5cbiAgICAgICYuZXJyb3Ige1xuICAgICAgICBiYWNrZ3JvdW5kOiBjZW50ZXIgLyBjb250YWluIG5vLXJlcGVhdCB1cmwofnNyYy9hc3NldHMvaWNvbnMvbW9kYWwtYWxlcnQuc3ZnKTtcbiAgICAgIH1cblxuICAgICAgJi5zdWNjZXNzIHtcbiAgICAgICAgYmFja2dyb3VuZDogY2VudGVyIC8gY29udGFpbiBuby1yZXBlYXQgdXJsKH5zcmMvYXNzZXRzL2ljb25zL21vZGFsLXN1Y2Nlc3Muc3ZnKTtcbiAgICAgIH1cblxuICAgICAgJi5pbmZvIHtcbiAgICAgICAgYmFja2dyb3VuZDogY2VudGVyIC8gY29udGFpbiBuby1yZXBlYXQgdXJsKH5zcmMvYXNzZXRzL2ljb25zL21vZGFsLWluZm8uc3ZnKTtcbiAgICAgIH1cbiAgICB9XG5cbiAgICAubWVzc2FnZS1jb250YWluZXIge1xuICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XG4gICAgICBhbGlnbi1pdGVtczogZmxleC1zdGFydDtcbiAgICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xuICAgICAgbWFyZ2luLWxlZnQ6IDJyZW07XG5cbiAgICAgIC50aXRsZSB7XG4gICAgICAgIGZvbnQtc2l6ZTogMS44cmVtO1xuICAgICAgICBmb250LXdlaWdodDogNjAwO1xuICAgICAgICBsaW5lLWhlaWdodDogMi4ycmVtO1xuICAgICAgfVxuXG4gICAgICAubWVzc2FnZSB7XG4gICAgICAgIGZvbnQtc2l6ZTogMS4zcmVtO1xuICAgICAgICBsaW5lLWhlaWdodDogMS44cmVtO1xuICAgICAgICBtYXJnaW4tdG9wOiAwLjRyZW07XG4gICAgICB9XG4gICAgfVxuICB9XG5cbiAgLmFjdGlvbi1idXR0b24ge1xuICAgIG1hcmdpbjogMS4ycmVtIGF1dG8gMC42cmVtO1xuICAgIHdpZHRoOiAxMHJlbTtcbiAgICBoZWlnaHQ6IDIuNHJlbTtcbiAgfVxuXG4gIC5jbG9zZS1idXR0b24ge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICB0b3A6IDFyZW07XG4gICAgcmlnaHQ6IDFyZW07XG4gICAgZGlzcGxheTogZmxleDtcbiAgICBhbGlnbi1pdGVtczogY2VudGVyO1xuICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xuICAgIGJhY2tncm91bmQ6IHRyYW5zcGFyZW50O1xuICAgIG1hcmdpbjogMDtcbiAgICBwYWRkaW5nOiAwO1xuICAgIHdpZHRoOiAyLjRyZW07XG4gICAgaGVpZ2h0OiAyLjRyZW07XG5cbiAgICAuaWNvbiB7XG4gICAgICBiYWNrZ3JvdW5kOiBjZW50ZXIgLyBjb250YWluIG5vLXJlcGVhdCB1cmwofnNyYy9hc3NldHMvaWNvbnMvY2xvc2Uuc3ZnKTtcbiAgICAgIHdpZHRoOiAyLjRyZW07XG4gICAgICBoZWlnaHQ6IDIuNHJlbTtcbiAgICB9XG4gIH1cbn1cbiJdfQ== */"
-
-/***/ }),
-
-/***/ "./src/app/_helpers/directives/modal-container/modal-container.component.ts":
-/*!**********************************************************************************!*\
-  !*** ./src/app/_helpers/directives/modal-container/modal-container.component.ts ***!
-  \**********************************************************************************/
-/*! exports provided: ModalContainerComponent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ModalContainerComponent", function() { return ModalContainerComponent; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (undefined && undefined.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-var ModalContainerComponent = /** @class */ (function () {
-    function ModalContainerComponent(translate) {
-        this.translate = translate;
-        this.close = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
-    }
-    ModalContainerComponent.prototype.ngOnInit = function () {
-        this.button.nativeElement.focus();
-        switch (this.type) {
-            case 'error':
-                this.title = this.translate.instant('MODALS.ERROR');
-                break;
-            case 'success':
-                this.title = this.translate.instant('MODALS.SUCCESS');
-                break;
-            case 'info':
-                this.title = this.translate.instant('MODALS.INFO');
-                break;
-        }
-    };
-    ModalContainerComponent.prototype.onClose = function () {
-        this.close.emit();
-    };
-    __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-        __metadata("design:type", String)
-    ], ModalContainerComponent.prototype, "type", void 0);
-    __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-        __metadata("design:type", String)
-    ], ModalContainerComponent.prototype, "message", void 0);
-    __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
-        __metadata("design:type", Object)
-    ], ModalContainerComponent.prototype, "close", void 0);
-    __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])('btn'),
-        __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"])
-    ], ModalContainerComponent.prototype, "button", void 0);
-    ModalContainerComponent = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
-            selector: 'app-modal-container',
-            template: __webpack_require__(/*! ./modal-container.component.html */ "./src/app/_helpers/directives/modal-container/modal-container.component.html"),
-            styles: [__webpack_require__(/*! ./modal-container.component.scss */ "./src/app/_helpers/directives/modal-container/modal-container.component.scss")]
-        }),
-        __metadata("design:paramtypes", [_ngx_translate_core__WEBPACK_IMPORTED_MODULE_1__["TranslateService"]])
-    ], ModalContainerComponent);
-    return ModalContainerComponent;
 }());
 
 
@@ -930,6 +745,379 @@ var TransactionDetailsComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [_services_variables_service__WEBPACK_IMPORTED_MODULE_2__["VariablesService"], _services_backend_service__WEBPACK_IMPORTED_MODULE_3__["BackendService"], _pipes_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_4__["IntToMoneyPipe"]])
     ], TransactionDetailsComponent);
     return TransactionDetailsComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/_helpers/modals/confirm-modal/confirm-modal.component.html":
+/*!****************************************************************************!*\
+  !*** ./src/app/_helpers/modals/confirm-modal/confirm-modal.component.html ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"modal\">\n  <div class=\"content\">\n    <i class=\"icon info\"></i>\n    <div class=\"message-container\">\n      <span class=\"title\">{{title}}</span>\n      <span class=\"message\">{{message}}</span>\n\n      <div class=\"wrap-btn\">\n        <button type=\"button\" class=\"action-button\" (click)=\"onClose()\">{{ 'MODALS.CANCEL' | translate }}</button>\n        <button type=\"button\" class=\"action-button\" (click)=\"onSubmit()\" #btn>{{ 'MODALS.OK' | translate }}</button>\n      </div>\n    </div>\n  </div>\n  <button type=\"button\" class=\"close-button\" (click)=\"onClose()\"><i class=\"icon close\"></i></button>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/_helpers/modals/confirm-modal/confirm-modal.component.scss":
+/*!****************************************************************************!*\
+  !*** ./src/app/_helpers/modals/confirm-modal/confirm-modal.component.scss ***!
+  \****************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ":host {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 5; }\n\n.modal {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  background-position: center;\n  background-size: 200%;\n  padding: 3rem;\n  min-width: 34rem;\n  max-width: 60rem; }\n\n.modal .content {\n    display: flex; }\n\n.modal .content .icon {\n      flex: 0 0 auto;\n      width: 2rem;\n      height: 2rem; }\n\n.modal .content .icon.info {\n        background: center/contain no-repeat url('modal-info.svg'); }\n\n.modal .content .message-container {\n      display: flex;\n      flex-direction: column;\n      align-items: flex-start;\n      justify-content: center;\n      margin-left: 1rem; }\n\n.modal .content .message-container .title {\n        font-size: 1.8rem;\n        font-weight: 600;\n        line-height: 2.2rem; }\n\n.modal .content .message-container .message {\n        font-size: 1.3rem;\n        line-height: 1.8rem;\n        margin-top: 0.4rem; }\n\n.modal .wrap-btn {\n    display: flex;\n    justify-content: space-between;\n    width: 100%;\n    margin-top: 3.5rem; }\n\n.modal .action-button {\n    width: 10rem;\n    height: 2.4rem; }\n\n.modal .close-button {\n    position: absolute;\n    top: 1rem;\n    right: 1rem;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    background: transparent;\n    margin: 0;\n    padding: 0;\n    width: 2.4rem;\n    height: 2.4rem; }\n\n.modal .close-button .icon {\n      background: center/contain no-repeat url('close.svg');\n      width: 2.4rem;\n      height: 2.4rem; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL3VzZXIvcHJvamVjdHMvemFub191aS9odG1sX3NvdXJjZS9zcmMvYXBwL19oZWxwZXJzL21vZGFscy9jb25maXJtLW1vZGFsL2NvbmZpcm0tbW9kYWwuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxlQUFlO0VBQ2YsTUFBTTtFQUNOLFNBQVM7RUFDVCxPQUFPO0VBQ1AsUUFBUTtFQUNSLGFBQWE7RUFDYixtQkFBbUI7RUFDbkIsdUJBQXVCO0VBQ3ZCLFVBQVUsRUFBQTs7QUFFWjtFQUNFLGtCQUFrQjtFQUNsQixhQUFhO0VBQ2Isc0JBQXNCO0VBQ3RCLDJCQUEyQjtFQUMzQixxQkFBcUI7RUFDckIsYUFBYTtFQUNiLGdCQUFnQjtFQUNoQixnQkFBZ0IsRUFBQTs7QUFSbEI7SUFXSSxhQUFhLEVBQUE7O0FBWGpCO01BY00sY0FBYztNQUNkLFdBQVc7TUFDWCxZQUFZLEVBQUE7O0FBaEJsQjtRQW1CUSwwREFBNEUsRUFBQTs7QUFuQnBGO01Bd0JNLGFBQWE7TUFDYixzQkFBc0I7TUFDdEIsdUJBQXVCO01BQ3ZCLHVCQUF1QjtNQUN2QixpQkFBaUIsRUFBQTs7QUE1QnZCO1FBK0JRLGlCQUFpQjtRQUNqQixnQkFBZ0I7UUFDaEIsbUJBQW1CLEVBQUE7O0FBakMzQjtRQXFDUSxpQkFBaUI7UUFDakIsbUJBQW1CO1FBQ25CLGtCQUFrQixFQUFBOztBQXZDMUI7SUE2Q0ksYUFBYTtJQUNiLDhCQUE4QjtJQUM5QixXQUFXO0lBQ1gsa0JBQWtCLEVBQUE7O0FBaER0QjtJQW9ESSxZQUFZO0lBQ1osY0FBYyxFQUFBOztBQXJEbEI7SUF5REksa0JBQWtCO0lBQ2xCLFNBQVM7SUFDVCxXQUFXO0lBQ1gsYUFBYTtJQUNiLG1CQUFtQjtJQUNuQix1QkFBdUI7SUFDdkIsdUJBQXVCO0lBQ3ZCLFNBQVM7SUFDVCxVQUFVO0lBQ1YsYUFBYTtJQUNiLGNBQWMsRUFBQTs7QUFuRWxCO01Bc0VNLHFEQUF1RTtNQUN2RSxhQUFhO01BQ2IsY0FBYyxFQUFBIiwiZmlsZSI6InNyYy9hcHAvX2hlbHBlcnMvbW9kYWxzL2NvbmZpcm0tbW9kYWwvY29uZmlybS1tb2RhbC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIjpob3N0IHtcbiAgcG9zaXRpb246IGZpeGVkO1xuICB0b3A6IDA7XG4gIGJvdHRvbTogMDtcbiAgbGVmdDogMDtcbiAgcmlnaHQ6IDA7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gIGp1c3RpZnktY29udGVudDogY2VudGVyO1xuICB6LWluZGV4OiA1O1xufVxuLm1vZGFsIHtcbiAgcG9zaXRpb246IHJlbGF0aXZlO1xuICBkaXNwbGF5OiBmbGV4O1xuICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xuICBiYWNrZ3JvdW5kLXBvc2l0aW9uOiBjZW50ZXI7XG4gIGJhY2tncm91bmQtc2l6ZTogMjAwJTtcbiAgcGFkZGluZzogM3JlbTtcbiAgbWluLXdpZHRoOiAzNHJlbTtcbiAgbWF4LXdpZHRoOiA2MHJlbTtcblxuICAuY29udGVudCB7XG4gICAgZGlzcGxheTogZmxleDtcblxuICAgIC5pY29uIHtcbiAgICAgIGZsZXg6IDAgMCBhdXRvO1xuICAgICAgd2lkdGg6IDJyZW07XG4gICAgICBoZWlnaHQ6IDJyZW07XG5cbiAgICAgICYuaW5mbyB7XG4gICAgICAgIGJhY2tncm91bmQ6IGNlbnRlciAvIGNvbnRhaW4gbm8tcmVwZWF0IHVybCh+c3JjL2Fzc2V0cy9pY29ucy9tb2RhbC1pbmZvLnN2Zyk7XG4gICAgICB9XG4gICAgfVxuXG4gICAgLm1lc3NhZ2UtY29udGFpbmVyIHtcbiAgICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xuICAgICAgYWxpZ24taXRlbXM6IGZsZXgtc3RhcnQ7XG4gICAgICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcbiAgICAgIG1hcmdpbi1sZWZ0OiAxcmVtO1xuXG4gICAgICAudGl0bGUge1xuICAgICAgICBmb250LXNpemU6IDEuOHJlbTtcbiAgICAgICAgZm9udC13ZWlnaHQ6IDYwMDtcbiAgICAgICAgbGluZS1oZWlnaHQ6IDIuMnJlbTtcbiAgICAgIH1cblxuICAgICAgLm1lc3NhZ2Uge1xuICAgICAgICBmb250LXNpemU6IDEuM3JlbTtcbiAgICAgICAgbGluZS1oZWlnaHQ6IDEuOHJlbTtcbiAgICAgICAgbWFyZ2luLXRvcDogMC40cmVtO1xuICAgICAgfVxuICAgIH1cbiAgfVxuXG4gIC53cmFwLWJ0biB7XG4gICAgZGlzcGxheTogZmxleDtcbiAgICBqdXN0aWZ5LWNvbnRlbnQ6IHNwYWNlLWJldHdlZW47XG4gICAgd2lkdGg6IDEwMCU7XG4gICAgbWFyZ2luLXRvcDogMy41cmVtO1xuICB9XG5cbiAgLmFjdGlvbi1idXR0b24ge1xuICAgIHdpZHRoOiAxMHJlbTtcbiAgICBoZWlnaHQ6IDIuNHJlbTtcbiAgfVxuXG4gIC5jbG9zZS1idXR0b24ge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICB0b3A6IDFyZW07XG4gICAgcmlnaHQ6IDFyZW07XG4gICAgZGlzcGxheTogZmxleDtcbiAgICBhbGlnbi1pdGVtczogY2VudGVyO1xuICAgIGp1c3RpZnktY29udGVudDogY2VudGVyO1xuICAgIGJhY2tncm91bmQ6IHRyYW5zcGFyZW50O1xuICAgIG1hcmdpbjogMDtcbiAgICBwYWRkaW5nOiAwO1xuICAgIHdpZHRoOiAyLjRyZW07XG4gICAgaGVpZ2h0OiAyLjRyZW07XG5cbiAgICAuaWNvbiB7XG4gICAgICBiYWNrZ3JvdW5kOiBjZW50ZXIgLyBjb250YWluIG5vLXJlcGVhdCB1cmwofnNyYy9hc3NldHMvaWNvbnMvY2xvc2Uuc3ZnKTtcbiAgICAgIHdpZHRoOiAyLjRyZW07XG4gICAgICBoZWlnaHQ6IDIuNHJlbTtcbiAgICB9XG4gIH1cbn1cbiJdfQ== */"
+
+/***/ }),
+
+/***/ "./src/app/_helpers/modals/confirm-modal/confirm-modal.component.ts":
+/*!**************************************************************************!*\
+  !*** ./src/app/_helpers/modals/confirm-modal/confirm-modal.component.ts ***!
+  \**************************************************************************/
+/*! exports provided: ConfirmModalComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConfirmModalComponent", function() { return ConfirmModalComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var ConfirmModalComponent = /** @class */ (function () {
+    function ConfirmModalComponent() {
+        this.confirmed = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
+    }
+    ConfirmModalComponent.prototype.ngOnInit = function () {
+        this.button.nativeElement.focus();
+    };
+    ConfirmModalComponent.prototype.onSubmit = function () {
+        this.confirmed.emit(true);
+    };
+    ConfirmModalComponent.prototype.onClose = function () {
+        this.confirmed.emit(false);
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", String)
+    ], ConfirmModalComponent.prototype, "title", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", String)
+    ], ConfirmModalComponent.prototype, "message", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
+        __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"])
+    ], ConfirmModalComponent.prototype, "confirmed", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])('btn'),
+        __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"])
+    ], ConfirmModalComponent.prototype, "button", void 0);
+    ConfirmModalComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-confirm-modal',
+            template: __webpack_require__(/*! ./confirm-modal.component.html */ "./src/app/_helpers/modals/confirm-modal/confirm-modal.component.html"),
+            styles: [__webpack_require__(/*! ./confirm-modal.component.scss */ "./src/app/_helpers/modals/confirm-modal/confirm-modal.component.scss")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], ConfirmModalComponent);
+    return ConfirmModalComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/_helpers/modals/export-history-modal/export-history-modal.component.html":
+/*!******************************************************************************************!*\
+  !*** ./src/app/_helpers/modals/export-history-modal/export-history-modal.component.html ***!
+  \******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"modal\">\n  <div class=\"title\">\n    <span>{{ 'EXPORT_HISTORY.TITLE' | translate }}</span>\n  </div>\n  <div class=\"content\">\n    <div class=\"inputs-container\">\n      <div class=\"lock-selection\">\n        <label class=\"lock-selection-title\">Format:</label>\n        <ng-select class=\"custom-select\" [items]=\"exportFormats\" bindValue=\"format\" bindLabel=\"formatName\"\n          [(ngModel)]=\"curentFormat\" [clearable]=\"false\" [searchable]=\"false\">\n          <ng-template ng-label-tmp let-item=\"item\">\n            {{item.formatName}}\n          </ng-template>\n          <ng-template ng-option-tmp let-item=\"item\" let-index=\"index\">\n            {{item.formatName}}\n          </ng-template>\n        </ng-select>\n      </div>\n      <div class=\"lock-selection filter-switch\">\n        <label class=\"lock-selection-title\">{{ 'EXPORT_HISTORY.FILTER' | translate }}</label>\n        <div class=\"switch\" (click)=\"posFilterIsOn = !posFilterIsOn\" [ngClass]=\"posFilterIsOn ? 'off' : 'on'\">\n          <span class=\"circle\"></span>\n        </div>\n      </div>\n    </div>\n    <div class=\"wrapper-buttons\">\n      <button type=\"button\" class=\"blue-button\" (click)=\"closeModal()\">{{ 'EXPORT_HISTORY.CANCEL' | translate\n        }}</button>\n      <button type=\"submit\" class=\"blue-button\" (click)=\"confirmExport()\">{{ 'EXPORT_HISTORY.EXPORT' | translate\n        }}</button>\n    </div>\n  </div>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/_helpers/modals/export-history-modal/export-history-modal.component.scss":
+/*!******************************************************************************************!*\
+  !*** ./src/app/_helpers/modals/export-history-modal/export-history-modal.component.scss ***!
+  \******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ":host {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: rgba(255, 255, 255, 0.25); }\n\n.modal {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  background-position: center;\n  background-size: 200%;\n  padding: 3.2rem;\n  width: 72rem;\n  height: 47rem; }\n\n.modal .title {\n    padding-bottom: 3.6rem;\n    font-size: 2rem;\n    line-height: 2.4rem; }\n\n.modal .content {\n    display: flex;\n    flex-direction: column; }\n\n.modal .content .inputs-container {\n      margin-bottom: 13rem; }\n\n.modal .content .inputs-container .lock-selection {\n        display: flex;\n        flex-direction: column;\n        align-items: flex-start; }\n\n.modal .content .inputs-container .lock-selection.filter-switch {\n          margin-top: 4rem;\n          display: flex;\n          flex-direction: row; }\n\n.modal .content .inputs-container .lock-selection.filter-switch label {\n            font-size: 2rem;\n            line-height: 2.4rem;\n            color: #fdfeff;\n            margin-right: 3.5rem; }\n\n.modal .content .inputs-container .lock-selection .lock-selection-title {\n          display: flex;\n          font-size: 1.6rem;\n          line-height: 1.9rem;\n          margin-bottom: 1.2rem;\n          color: #1f8feb; }\n\n.modal .content .inputs-container .lock-selection .switch {\n          border-radius: 1.1rem;\n          cursor: pointer;\n          padding: 0.2rem;\n          width: 3.6rem;\n          height: 2.2rem;\n          transition: all 0.3s ease;\n          position: relative; }\n\n.modal .content .inputs-container .lock-selection .switch.on .circle {\n            margin-left: 1.4rem; }\n\n.modal .content .inputs-container .lock-selection .switch.off {\n            background-color: rgba(255, 255, 255, 0.2); }\n\n.modal .content .inputs-container .lock-selection .switch .circle {\n            display: block;\n            transition: all 0.3s ease;\n            position: relative;\n            border-radius: 50%;\n            width: 1.8rem;\n            height: 1.8rem; }\n\n.modal .content .wrapper-buttons {\n      display: flex;\n      align-items: center;\n      justify-content: space-between; }\n\n.modal .content .wrapper-buttons button {\n        width: 100%; }\n\n.modal .content .wrapper-buttons button:first-child {\n          margin-right: 3rem; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL3VzZXIvcHJvamVjdHMvemFub191aS9odG1sX3NvdXJjZS9zcmMvYXBwL19oZWxwZXJzL21vZGFscy9leHBvcnQtaGlzdG9yeS1tb2RhbC9leHBvcnQtaGlzdG9yeS1tb2RhbC5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLGVBQWU7RUFDZixNQUFNO0VBQ04sU0FBUztFQUNULE9BQU87RUFDUCxRQUFRO0VBQ1IsYUFBYTtFQUNiLG1CQUFtQjtFQUNuQix1QkFBdUI7RUFDdkIscUNBQXFDLEVBQUE7O0FBRXZDO0VBQ0Usa0JBQWtCO0VBQ2xCLGFBQWE7RUFDYixzQkFBc0I7RUFDdEIsMkJBQTJCO0VBQzNCLHFCQUFxQjtFQUNyQixlQUFlO0VBQ2YsWUFBWTtFQUNaLGFBQWEsRUFBQTs7QUFSZjtJQVdJLHNCQUFzQjtJQUN0QixlQUFlO0lBQ2YsbUJBQW1CLEVBQUE7O0FBYnZCO0lBaUJJLGFBQWE7SUFDYixzQkFBc0IsRUFBQTs7QUFsQjFCO01Bb0JNLG9CQUFvQixFQUFBOztBQXBCMUI7UUFzQlEsYUFBYTtRQUNiLHNCQUFzQjtRQUN0Qix1QkFBdUIsRUFBQTs7QUF4Qi9CO1VBMEJVLGdCQUFnQjtVQUNoQixhQUFhO1VBQ2IsbUJBQW1CLEVBQUE7O0FBNUI3QjtZQThCWSxlQUFlO1lBQ2YsbUJBQW1CO1lBQ25CLGNBQWM7WUFDZCxvQkFBb0IsRUFBQTs7QUFqQ2hDO1VBc0NVLGFBQWE7VUFDYixpQkFBaUI7VUFDakIsbUJBQW1CO1VBQ25CLHFCQUFxQjtVQUNyQixjQUFjLEVBQUE7O0FBMUN4QjtVQTZDVSxxQkFBcUI7VUFDckIsZUFBZTtVQUNmLGVBQWU7VUFDZixhQUFhO1VBQ2IsY0FBYztVQUNkLHlCQUF5QjtVQUN6QixrQkFBa0IsRUFBQTs7QUFuRDVCO1lBc0RjLG1CQUFtQixFQUFBOztBQXREakM7WUEwRFksMENBQTBDLEVBQUE7O0FBMUR0RDtZQTZEWSxjQUFjO1lBQ2QseUJBQXlCO1lBQ3pCLGtCQUFrQjtZQUNsQixrQkFBa0I7WUFDbEIsYUFBYTtZQUNiLGNBQWMsRUFBQTs7QUFsRTFCO01Bd0VNLGFBQWE7TUFDYixtQkFBbUI7TUFDbkIsOEJBQThCLEVBQUE7O0FBMUVwQztRQWdGUSxXQUFXLEVBQUE7O0FBaEZuQjtVQThFVSxrQkFBa0IsRUFBQSIsImZpbGUiOiJzcmMvYXBwL19oZWxwZXJzL21vZGFscy9leHBvcnQtaGlzdG9yeS1tb2RhbC9leHBvcnQtaGlzdG9yeS1tb2RhbC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIjpob3N0IHtcbiAgcG9zaXRpb246IGZpeGVkO1xuICB0b3A6IDA7XG4gIGJvdHRvbTogMDtcbiAgbGVmdDogMDtcbiAgcmlnaHQ6IDA7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gIGp1c3RpZnktY29udGVudDogY2VudGVyO1xuICBiYWNrZ3JvdW5kOiByZ2JhKDI1NSwgMjU1LCAyNTUsIDAuMjUpO1xufVxuLm1vZGFsIHtcbiAgcG9zaXRpb246IHJlbGF0aXZlO1xuICBkaXNwbGF5OiBmbGV4O1xuICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xuICBiYWNrZ3JvdW5kLXBvc2l0aW9uOiBjZW50ZXI7XG4gIGJhY2tncm91bmQtc2l6ZTogMjAwJTtcbiAgcGFkZGluZzogMy4ycmVtO1xuICB3aWR0aDogNzJyZW07XG4gIGhlaWdodDogNDdyZW07XG5cbiAgLnRpdGxlIHtcbiAgICBwYWRkaW5nLWJvdHRvbTogMy42cmVtO1xuICAgIGZvbnQtc2l6ZTogMnJlbTtcbiAgICBsaW5lLWhlaWdodDogMi40cmVtO1xuICB9XG5cbiAgLmNvbnRlbnQge1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcbiAgICAuaW5wdXRzLWNvbnRhaW5lciB7XG4gICAgICBtYXJnaW4tYm90dG9tOiAxM3JlbTtcbiAgICAgIC5sb2NrLXNlbGVjdGlvbiB7XG4gICAgICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgICAgIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XG4gICAgICAgIGFsaWduLWl0ZW1zOiBmbGV4LXN0YXJ0O1xuICAgICAgICAmLmZpbHRlci1zd2l0Y2gge1xuICAgICAgICAgIG1hcmdpbi10b3A6IDRyZW07XG4gICAgICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgICAgICBmbGV4LWRpcmVjdGlvbjogcm93O1xuICAgICAgICAgIGxhYmVsIHtcbiAgICAgICAgICAgIGZvbnQtc2l6ZTogMnJlbTtcbiAgICAgICAgICAgIGxpbmUtaGVpZ2h0OiAyLjRyZW07XG4gICAgICAgICAgICBjb2xvcjogI2ZkZmVmZjtcbiAgICAgICAgICAgIG1hcmdpbi1yaWdodDogMy41cmVtO1xuICAgICAgICAgIH1cbiAgICAgICAgfVxuXG4gICAgICAgIC5sb2NrLXNlbGVjdGlvbi10aXRsZSB7XG4gICAgICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgICAgICBmb250LXNpemU6IDEuNnJlbTtcbiAgICAgICAgICBsaW5lLWhlaWdodDogMS45cmVtO1xuICAgICAgICAgIG1hcmdpbi1ib3R0b206IDEuMnJlbTtcbiAgICAgICAgICBjb2xvcjogIzFmOGZlYjtcbiAgICAgICAgfVxuICAgICAgICAuc3dpdGNoIHtcbiAgICAgICAgICBib3JkZXItcmFkaXVzOiAxLjFyZW07XG4gICAgICAgICAgY3Vyc29yOiBwb2ludGVyO1xuICAgICAgICAgIHBhZGRpbmc6IDAuMnJlbTtcbiAgICAgICAgICB3aWR0aDogMy42cmVtO1xuICAgICAgICAgIGhlaWdodDogMi4ycmVtO1xuICAgICAgICAgIHRyYW5zaXRpb246IGFsbCAwLjNzIGVhc2U7XG4gICAgICAgICAgcG9zaXRpb246IHJlbGF0aXZlO1xuICAgICAgICAgICYub24ge1xuICAgICAgICAgICAgLmNpcmNsZSB7XG4gICAgICAgICAgICAgIG1hcmdpbi1sZWZ0OiAxLjRyZW07XG4gICAgICAgICAgICB9XG4gICAgICAgICAgfVxuICAgICAgICAgICYub2ZmIHtcbiAgICAgICAgICAgIGJhY2tncm91bmQtY29sb3I6IHJnYmEoMjU1LCAyNTUsIDI1NSwgMC4yKTtcbiAgICAgICAgICB9XG4gICAgICAgICAgLmNpcmNsZSB7XG4gICAgICAgICAgICBkaXNwbGF5OiBibG9jaztcbiAgICAgICAgICAgIHRyYW5zaXRpb246IGFsbCAwLjNzIGVhc2U7XG4gICAgICAgICAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gICAgICAgICAgICBib3JkZXItcmFkaXVzOiA1MCU7XG4gICAgICAgICAgICB3aWR0aDogMS44cmVtO1xuICAgICAgICAgICAgaGVpZ2h0OiAxLjhyZW07XG4gICAgICAgICAgfVxuICAgICAgICB9XG4gICAgICB9XG4gICAgfVxuICAgIC53cmFwcGVyLWJ1dHRvbnMge1xuICAgICAgZGlzcGxheTogZmxleDtcbiAgICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gICAgICBqdXN0aWZ5LWNvbnRlbnQ6IHNwYWNlLWJldHdlZW47XG5cbiAgICAgIGJ1dHRvbiB7XG4gICAgICAgICY6Zmlyc3QtY2hpbGQge1xuICAgICAgICAgIG1hcmdpbi1yaWdodDogM3JlbTtcbiAgICAgICAgfVxuICAgICAgICB3aWR0aDogMTAwJTtcbiAgICAgIH1cbiAgICB9XG4gIH1cbn1cbiJdfQ== */"
+
+/***/ }),
+
+/***/ "./src/app/_helpers/modals/export-history-modal/export-history-modal.component.ts":
+/*!****************************************************************************************!*\
+  !*** ./src/app/_helpers/modals/export-history-modal/export-history-modal.component.ts ***!
+  \****************************************************************************************/
+/*! exports provided: ExportHistoryModalComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ExportHistoryModalComponent", function() { return ExportHistoryModalComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
+/* harmony import */ var _services_backend_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../services/backend.service */ "./src/app/_helpers/services/backend.service.ts");
+/* harmony import */ var _services_variables_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../services/variables.service */ "./src/app/_helpers/services/variables.service.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var ExportHistoryModalComponent = /** @class */ (function () {
+    function ExportHistoryModalComponent(backend, variablesService, translate) {
+        this.backend = backend;
+        this.variablesService = variablesService;
+        this.translate = translate;
+        this.posFilterIsOn = true;
+        this.exportData = {
+            wallet_id: 0,
+            include_pos_transactions: false,
+            path: "C:\\some_file.txt",
+            format: 'json'
+        };
+        this.exportFormats = [
+            {
+                format: 'json',
+                formatName: 'JSON'
+            },
+            {
+                format: 'text',
+                formatName: 'Text'
+            },
+            {
+                format: 'csv',
+                formatName: 'CSV'
+            }
+        ];
+        this.closeExportModal = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
+        this.curentFormat = this.exportFormats[0].format;
+    }
+    ExportHistoryModalComponent.prototype.closeModal = function () {
+        this.closeExportModal.emit(true);
+    };
+    ExportHistoryModalComponent.prototype.confirmExport = function () {
+        var _this = this;
+        this.exportData.format = "" + this.curentFormat;
+        this.exportData.wallet_id = this.currentWalletId;
+        this.exportData.include_pos_transactions = this.posFilterIsOn;
+        this.backend.saveFileDialog(this.translate.instant('EXPORT_HISTORY.SAVED_FILE'), "" + this.exportData.format, this.variablesService.settings.default_path, function (file_status, file_data) {
+            if (_this.exportData.format === 'text') {
+                _this.exportData.path = file_data.path + '.txt';
+            }
+            else {
+                _this.exportData.path = file_data.path + ("." + _this.exportData.format);
+            }
+            if (file_status) {
+                _this.backend.exportWalletHistory(JSON.stringify(_this.exportData));
+                _this.closeExportModal.emit(true);
+            }
+            ;
+        });
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Object)
+    ], ExportHistoryModalComponent.prototype, "currentWalletId", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
+        __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"])
+    ], ExportHistoryModalComponent.prototype, "closeExportModal", void 0);
+    ExportHistoryModalComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-export-history-modal',
+            template: __webpack_require__(/*! ./export-history-modal.component.html */ "./src/app/_helpers/modals/export-history-modal/export-history-modal.component.html"),
+            styles: [__webpack_require__(/*! ./export-history-modal.component.scss */ "./src/app/_helpers/modals/export-history-modal/export-history-modal.component.scss")]
+        }),
+        __metadata("design:paramtypes", [_services_backend_service__WEBPACK_IMPORTED_MODULE_2__["BackendService"],
+            _services_variables_service__WEBPACK_IMPORTED_MODULE_3__["VariablesService"],
+            _ngx_translate_core__WEBPACK_IMPORTED_MODULE_1__["TranslateService"]])
+    ], ExportHistoryModalComponent);
+    return ExportHistoryModalComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/_helpers/modals/modal-container/modal-container.component.html":
+/*!********************************************************************************!*\
+  !*** ./src/app/_helpers/modals/modal-container/modal-container.component.html ***!
+  \********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"modal\">\n  <div class=\"content\">\n    <i class=\"icon\" [class.error]=\"type === 'error'\" [class.success]=\"type === 'success'\"\n      [class.info]=\"type === 'info'\"></i>\n    <div class=\"message-container\">\n      <span class=\"title\">{{title}}</span>\n      <span class=\"message\" [innerHTML]=\"message\"></span>\n    </div>\n  </div>\n  <button type=\"button\" class=\"close-button\" (click)=\"onClose()\"><i class=\"icon close\"></i></button>\n  <button type=\"button\" class=\"action-button\" (click)=\"onClose()\" #btn>{{ 'MODALS.OK' | translate }}</button>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/_helpers/modals/modal-container/modal-container.component.scss":
+/*!********************************************************************************!*\
+  !*** ./src/app/_helpers/modals/modal-container/modal-container.component.scss ***!
+  \********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ":host {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  display: flex;\n  align-items: center;\n  justify-content: center; }\n\n.modal {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  background-position: center;\n  background-size: 200%;\n  padding: 2rem;\n  min-width: 34rem;\n  max-width: 60rem; }\n\n.modal .content {\n    display: flex;\n    margin: 1.2rem 0; }\n\n.modal .content .icon {\n      flex: 0 0 auto;\n      width: 4.4rem;\n      height: 4.4rem; }\n\n.modal .content .icon.error {\n        background: center/contain no-repeat url('modal-alert.svg'); }\n\n.modal .content .icon.success {\n        background: center/contain no-repeat url('modal-success.svg'); }\n\n.modal .content .icon.info {\n        background: center/contain no-repeat url('modal-info.svg'); }\n\n.modal .content .message-container {\n      display: flex;\n      flex-direction: column;\n      align-items: flex-start;\n      justify-content: center;\n      margin-left: 2rem; }\n\n.modal .content .message-container .title {\n        font-size: 1.8rem;\n        font-weight: 600;\n        line-height: 2.2rem; }\n\n.modal .content .message-container .message {\n        font-size: 1.3rem;\n        line-height: 1.8rem;\n        margin-top: 0.4rem; }\n\n.modal .action-button {\n    margin: 1.2rem auto 0.6rem;\n    width: 10rem;\n    height: 2.4rem; }\n\n.modal .close-button {\n    position: absolute;\n    top: 1rem;\n    right: 1rem;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    background: transparent;\n    margin: 0;\n    padding: 0;\n    width: 2.4rem;\n    height: 2.4rem; }\n\n.modal .close-button .icon {\n      background: center/contain no-repeat url('close.svg');\n      width: 2.4rem;\n      height: 2.4rem; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL3VzZXIvcHJvamVjdHMvemFub191aS9odG1sX3NvdXJjZS9zcmMvYXBwL19oZWxwZXJzL21vZGFscy9tb2RhbC1jb250YWluZXIvbW9kYWwtY29udGFpbmVyLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsZUFBZTtFQUNmLE1BQU07RUFDTixTQUFTO0VBQ1QsT0FBTztFQUNQLFFBQVE7RUFDUixhQUFhO0VBQ2IsbUJBQW1CO0VBQ25CLHVCQUF1QixFQUFBOztBQUV6QjtFQUNFLGtCQUFrQjtFQUNsQixhQUFhO0VBQ2Isc0JBQXNCO0VBQ3RCLDJCQUEyQjtFQUMzQixxQkFBcUI7RUFDckIsYUFBYTtFQUNiLGdCQUFnQjtFQUNoQixnQkFBZ0IsRUFBQTs7QUFSbEI7SUFXSSxhQUFhO0lBQ2IsZ0JBQWdCLEVBQUE7O0FBWnBCO01BZU0sY0FBYztNQUNkLGFBQWE7TUFDYixjQUFjLEVBQUE7O0FBakJwQjtRQW9CUSwyREFBNkUsRUFBQTs7QUFwQnJGO1FBd0JRLDZEQUErRSxFQUFBOztBQXhCdkY7UUE0QlEsMERBQTRFLEVBQUE7O0FBNUJwRjtNQWlDTSxhQUFhO01BQ2Isc0JBQXNCO01BQ3RCLHVCQUF1QjtNQUN2Qix1QkFBdUI7TUFDdkIsaUJBQWlCLEVBQUE7O0FBckN2QjtRQXdDUSxpQkFBaUI7UUFDakIsZ0JBQWdCO1FBQ2hCLG1CQUFtQixFQUFBOztBQTFDM0I7UUE4Q1EsaUJBQWlCO1FBQ2pCLG1CQUFtQjtRQUNuQixrQkFBa0IsRUFBQTs7QUFoRDFCO0lBc0RJLDBCQUEwQjtJQUMxQixZQUFZO0lBQ1osY0FBYyxFQUFBOztBQXhEbEI7SUE0REksa0JBQWtCO0lBQ2xCLFNBQVM7SUFDVCxXQUFXO0lBQ1gsYUFBYTtJQUNiLG1CQUFtQjtJQUNuQix1QkFBdUI7SUFDdkIsdUJBQXVCO0lBQ3ZCLFNBQVM7SUFDVCxVQUFVO0lBQ1YsYUFBYTtJQUNiLGNBQWMsRUFBQTs7QUF0RWxCO01BeUVNLHFEQUF1RTtNQUN2RSxhQUFhO01BQ2IsY0FBYyxFQUFBIiwiZmlsZSI6InNyYy9hcHAvX2hlbHBlcnMvbW9kYWxzL21vZGFsLWNvbnRhaW5lci9tb2RhbC1jb250YWluZXIuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyI6aG9zdCB7XG4gIHBvc2l0aW9uOiBmaXhlZDtcbiAgdG9wOiAwO1xuICBib3R0b206IDA7XG4gIGxlZnQ6IDA7XG4gIHJpZ2h0OiAwO1xuICBkaXNwbGF5OiBmbGV4O1xuICBhbGlnbi1pdGVtczogY2VudGVyO1xuICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcbn1cbi5tb2RhbCB7XG4gIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgZGlzcGxheTogZmxleDtcbiAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcbiAgYmFja2dyb3VuZC1wb3NpdGlvbjogY2VudGVyO1xuICBiYWNrZ3JvdW5kLXNpemU6IDIwMCU7XG4gIHBhZGRpbmc6IDJyZW07XG4gIG1pbi13aWR0aDogMzRyZW07XG4gIG1heC13aWR0aDogNjByZW07XG5cbiAgLmNvbnRlbnQge1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgbWFyZ2luOiAxLjJyZW0gMDtcblxuICAgIC5pY29uIHtcbiAgICAgIGZsZXg6IDAgMCBhdXRvO1xuICAgICAgd2lkdGg6IDQuNHJlbTtcbiAgICAgIGhlaWdodDogNC40cmVtO1xuXG4gICAgICAmLmVycm9yIHtcbiAgICAgICAgYmFja2dyb3VuZDogY2VudGVyIC8gY29udGFpbiBuby1yZXBlYXQgdXJsKH5zcmMvYXNzZXRzL2ljb25zL21vZGFsLWFsZXJ0LnN2Zyk7XG4gICAgICB9XG5cbiAgICAgICYuc3VjY2VzcyB7XG4gICAgICAgIGJhY2tncm91bmQ6IGNlbnRlciAvIGNvbnRhaW4gbm8tcmVwZWF0IHVybCh+c3JjL2Fzc2V0cy9pY29ucy9tb2RhbC1zdWNjZXNzLnN2Zyk7XG4gICAgICB9XG5cbiAgICAgICYuaW5mbyB7XG4gICAgICAgIGJhY2tncm91bmQ6IGNlbnRlciAvIGNvbnRhaW4gbm8tcmVwZWF0IHVybCh+c3JjL2Fzc2V0cy9pY29ucy9tb2RhbC1pbmZvLnN2Zyk7XG4gICAgICB9XG4gICAgfVxuXG4gICAgLm1lc3NhZ2UtY29udGFpbmVyIHtcbiAgICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xuICAgICAgYWxpZ24taXRlbXM6IGZsZXgtc3RhcnQ7XG4gICAgICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcbiAgICAgIG1hcmdpbi1sZWZ0OiAycmVtO1xuXG4gICAgICAudGl0bGUge1xuICAgICAgICBmb250LXNpemU6IDEuOHJlbTtcbiAgICAgICAgZm9udC13ZWlnaHQ6IDYwMDtcbiAgICAgICAgbGluZS1oZWlnaHQ6IDIuMnJlbTtcbiAgICAgIH1cblxuICAgICAgLm1lc3NhZ2Uge1xuICAgICAgICBmb250LXNpemU6IDEuM3JlbTtcbiAgICAgICAgbGluZS1oZWlnaHQ6IDEuOHJlbTtcbiAgICAgICAgbWFyZ2luLXRvcDogMC40cmVtO1xuICAgICAgfVxuICAgIH1cbiAgfVxuXG4gIC5hY3Rpb24tYnV0dG9uIHtcbiAgICBtYXJnaW46IDEuMnJlbSBhdXRvIDAuNnJlbTtcbiAgICB3aWR0aDogMTByZW07XG4gICAgaGVpZ2h0OiAyLjRyZW07XG4gIH1cblxuICAuY2xvc2UtYnV0dG9uIHtcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgdG9wOiAxcmVtO1xuICAgIHJpZ2h0OiAxcmVtO1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcbiAgICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcbiAgICBiYWNrZ3JvdW5kOiB0cmFuc3BhcmVudDtcbiAgICBtYXJnaW46IDA7XG4gICAgcGFkZGluZzogMDtcbiAgICB3aWR0aDogMi40cmVtO1xuICAgIGhlaWdodDogMi40cmVtO1xuXG4gICAgLmljb24ge1xuICAgICAgYmFja2dyb3VuZDogY2VudGVyIC8gY29udGFpbiBuby1yZXBlYXQgdXJsKH5zcmMvYXNzZXRzL2ljb25zL2Nsb3NlLnN2Zyk7XG4gICAgICB3aWR0aDogMi40cmVtO1xuICAgICAgaGVpZ2h0OiAyLjRyZW07XG4gICAgfVxuICB9XG59XG4iXX0= */"
+
+/***/ }),
+
+/***/ "./src/app/_helpers/modals/modal-container/modal-container.component.ts":
+/*!******************************************************************************!*\
+  !*** ./src/app/_helpers/modals/modal-container/modal-container.component.ts ***!
+  \******************************************************************************/
+/*! exports provided: ModalContainerComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ModalContainerComponent", function() { return ModalContainerComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var ModalContainerComponent = /** @class */ (function () {
+    function ModalContainerComponent(translate) {
+        this.translate = translate;
+        this.close = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
+    }
+    ModalContainerComponent.prototype.ngOnInit = function () {
+        this.button.nativeElement.focus();
+        switch (this.type) {
+            case 'error':
+                this.title = this.translate.instant('MODALS.ERROR');
+                break;
+            case 'success':
+                this.title = this.translate.instant('MODALS.SUCCESS');
+                break;
+            case 'info':
+                this.title = this.translate.instant('MODALS.INFO');
+                break;
+        }
+    };
+    ModalContainerComponent.prototype.onClose = function () {
+        this.close.emit();
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", String)
+    ], ModalContainerComponent.prototype, "type", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", String)
+    ], ModalContainerComponent.prototype, "message", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
+        __metadata("design:type", Object)
+    ], ModalContainerComponent.prototype, "close", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])('btn'),
+        __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"])
+    ], ModalContainerComponent.prototype, "button", void 0);
+    ModalContainerComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-modal-container',
+            template: __webpack_require__(/*! ./modal-container.component.html */ "./src/app/_helpers/modals/modal-container/modal-container.component.html"),
+            styles: [__webpack_require__(/*! ./modal-container.component.scss */ "./src/app/_helpers/modals/modal-container/modal-container.component.scss")]
+        }),
+        __metadata("design:paramtypes", [_ngx_translate_core__WEBPACK_IMPORTED_MODULE_1__["TranslateService"]])
+    ], ModalContainerComponent);
+    return ModalContainerComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/_helpers/modals/sync-modal/sync-modal.component.html":
+/*!**********************************************************************!*\
+  !*** ./src/app/_helpers/modals/sync-modal/sync-modal.component.html ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"host-container\">\n  <div class=\"container\">\n    <div class=\"modal sync-modal\">\n      <div class=\"title\">\n        <span>This action is not available\n          during synchronization...</span>\n      </div>\n      <button type=\"button\" class=\"blue-button\">OK</button>\n    </div>\n  </div>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/_helpers/modals/sync-modal/sync-modal.component.scss":
+/*!**********************************************************************!*\
+  !*** ./src/app/_helpers/modals/sync-modal/sync-modal.component.scss ***!
+  \**********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".host-container {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: rgba(255, 255, 255, 0.25); }\n\n.deep-overflow {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  right: 0;\n  left: 0;\n  z-index: 0; }\n\n.container {\n  position: relative;\n  z-index: 5; }\n\n.modal {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  padding: 3.5rem; }\n\n.modal .title {\n    padding: 0 0 7.5rem;\n    font-size: 3.6rem;\n    font-weight: 500;\n    text-align: center;\n    line-height: 4.296rem; }\n\n.modal .content {\n    display: flex; }\n\n.modal .wrapper-buttons {\n    display: flex;\n    align-items: center;\n    justify-content: space-between; }\n\n.modal .wrapper-buttons button {\n      width: 30rem; }\n\n.modal .wrapper-buttons button:first-child {\n        margin-right: 5rem; }\n\n.modal.sync-modal {\n    width: 72rem;\n    height: 48rem;\n    padding: 11.2rem 11.2rem 4.1rem; }\n\n.modal.sync-modal .title {\n      padding: 0 0 13.2rem; }\n\n.modal.sync-modal button {\n      margin: 0 auto;\n      width: 30rem; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL3VzZXIvcHJvamVjdHMvemFub191aS9odG1sX3NvdXJjZS9zcmMvYXBwL19oZWxwZXJzL21vZGFscy9zeW5jLW1vZGFsL3N5bmMtbW9kYWwuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxlQUFlO0VBQ2YsTUFBTTtFQUNOLFNBQVM7RUFDVCxPQUFPO0VBQ1AsUUFBUTtFQUNSLGFBQWE7RUFDYixtQkFBbUI7RUFDbkIsdUJBQXVCO0VBQ3ZCLHFDQUFxQyxFQUFBOztBQUV2QztFQUNFLGtCQUFrQjtFQUNsQixNQUFNO0VBQ04sU0FBUztFQUNULFFBQVE7RUFDUixPQUFPO0VBQ1AsVUFBVSxFQUFBOztBQUVaO0VBQ0Usa0JBQWtCO0VBQ2xCLFVBQVUsRUFBQTs7QUFFWjtFQUNFLGtCQUFrQjtFQUNsQixhQUFhO0VBQ2Isc0JBQXNCO0VBQ3RCLGVBQWUsRUFBQTs7QUFKakI7SUFPSSxtQkFBbUI7SUFDbkIsaUJBQWlCO0lBQ2pCLGdCQUFnQjtJQUNoQixrQkFBa0I7SUFDbEIscUJBQXFCLEVBQUE7O0FBWHpCO0lBZUksYUFBYSxFQUFBOztBQWZqQjtJQW1CSSxhQUFhO0lBQ2IsbUJBQW1CO0lBQ25CLDhCQUE4QixFQUFBOztBQXJCbEM7TUEyQk0sWUFBWSxFQUFBOztBQTNCbEI7UUF5QlEsa0JBQWtCLEVBQUE7O0FBekIxQjtJQStCSSxZQUFZO0lBQ1osYUFBYTtJQUNiLCtCQUErQixFQUFBOztBQWpDbkM7TUFtQ00sb0JBQW9CLEVBQUE7O0FBbkMxQjtNQXNDTSxjQUFjO01BQ2QsWUFBWSxFQUFBIiwiZmlsZSI6InNyYy9hcHAvX2hlbHBlcnMvbW9kYWxzL3N5bmMtbW9kYWwvc3luYy1tb2RhbC5jb21wb25lbnQuc2NzcyIsInNvdXJjZXNDb250ZW50IjpbIi5ob3N0LWNvbnRhaW5lciB7XG4gIHBvc2l0aW9uOiBmaXhlZDtcbiAgdG9wOiAwO1xuICBib3R0b206IDA7XG4gIGxlZnQ6IDA7XG4gIHJpZ2h0OiAwO1xuICBkaXNwbGF5OiBmbGV4O1xuICBhbGlnbi1pdGVtczogY2VudGVyO1xuICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcbiAgYmFja2dyb3VuZDogcmdiYSgyNTUsIDI1NSwgMjU1LCAwLjI1KTtcbn1cbi5kZWVwLW92ZXJmbG93IHtcbiAgcG9zaXRpb246IGFic29sdXRlO1xuICB0b3A6IDA7XG4gIGJvdHRvbTogMDtcbiAgcmlnaHQ6IDA7XG4gIGxlZnQ6IDA7XG4gIHotaW5kZXg6IDA7XG59XG4uY29udGFpbmVyIHtcbiAgcG9zaXRpb246IHJlbGF0aXZlO1xuICB6LWluZGV4OiA1O1xufVxuLm1vZGFsIHtcbiAgcG9zaXRpb246IHJlbGF0aXZlO1xuICBkaXNwbGF5OiBmbGV4O1xuICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xuICBwYWRkaW5nOiAzLjVyZW07XG5cbiAgLnRpdGxlIHtcbiAgICBwYWRkaW5nOiAwIDAgNy41cmVtO1xuICAgIGZvbnQtc2l6ZTogMy42cmVtO1xuICAgIGZvbnQtd2VpZ2h0OiA1MDA7XG4gICAgdGV4dC1hbGlnbjogY2VudGVyO1xuICAgIGxpbmUtaGVpZ2h0OiA0LjI5NnJlbTtcbiAgfVxuXG4gIC5jb250ZW50IHtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICB9XG5cbiAgLndyYXBwZXItYnV0dG9ucyB7XG4gICAgZGlzcGxheTogZmxleDtcbiAgICBhbGlnbi1pdGVtczogY2VudGVyO1xuICAgIGp1c3RpZnktY29udGVudDogc3BhY2UtYmV0d2VlbjtcblxuICAgIGJ1dHRvbiB7XG4gICAgICAmOmZpcnN0LWNoaWxkIHtcbiAgICAgICAgbWFyZ2luLXJpZ2h0OiA1cmVtO1xuICAgICAgfVxuICAgICAgd2lkdGg6IDMwcmVtO1xuICAgIH1cbiAgfVxuICAmLnN5bmMtbW9kYWwge1xuICAgIHdpZHRoOiA3MnJlbTtcbiAgICBoZWlnaHQ6IDQ4cmVtO1xuICAgIHBhZGRpbmc6IDExLjJyZW0gMTEuMnJlbSA0LjFyZW07XG4gICAgLnRpdGxlIHtcbiAgICAgIHBhZGRpbmc6IDAgMCAxMy4ycmVtO1xuICAgIH1cbiAgICBidXR0b24ge1xuICAgICAgbWFyZ2luOiAwIGF1dG87XG4gICAgICB3aWR0aDogMzByZW07XG4gICAgfVxuICB9XG59XG4iXX0= */"
+
+/***/ }),
+
+/***/ "./src/app/_helpers/modals/sync-modal/sync-modal.component.ts":
+/*!********************************************************************!*\
+  !*** ./src/app/_helpers/modals/sync-modal/sync-modal.component.ts ***!
+  \********************************************************************/
+/*! exports provided: SyncModalComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SyncModalComponent", function() { return SyncModalComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var SyncModalComponent = /** @class */ (function () {
+    function SyncModalComponent() {
+    }
+    SyncModalComponent.prototype.ngOnInit = function () {
+    };
+    SyncModalComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-sync-modal',
+            template: __webpack_require__(/*! ./sync-modal.component.html */ "./src/app/_helpers/modals/sync-modal/sync-modal.component.html"),
+            styles: [__webpack_require__(/*! ./sync-modal.component.scss */ "./src/app/_helpers/modals/sync-modal/sync-modal.component.scss")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], SyncModalComponent);
+    return SyncModalComponent;
 }());
 
 
@@ -2118,6 +2306,9 @@ var BackendService = /** @class */ (function () {
     BackendService.prototype.loadFile = function (path, callback) {
         this.runCommand('load_from_file', path, callback);
     };
+    BackendService.prototype.push_offer = function (params, callback) {
+        this.runCommand('push_offer', params, callback);
+    };
     BackendService.prototype.generateWallet = function (path, pass, callback) {
         var params = {
             path: path,
@@ -2500,7 +2691,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ModalService", function() { return ModalService; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
-/* harmony import */ var _directives_modal_container_modal_container_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../directives/modal-container/modal-container.component */ "./src/app/_helpers/directives/modal-container/modal-container.component.ts");
+/* harmony import */ var _modals_modal_container_modal_container_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../modals/modal-container/modal-container.component */ "./src/app/_helpers/modals/modal-container/modal-container.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -2524,7 +2715,7 @@ var ModalService = /** @class */ (function () {
     }
     ModalService.prototype.prepareModal = function (type, message) {
         var _this = this;
-        var length = this.components.push(this.componentFactoryResolver.resolveComponentFactory(_directives_modal_container_modal_container_component__WEBPACK_IMPORTED_MODULE_2__["ModalContainerComponent"]).create(this.injector));
+        var length = this.components.push(this.componentFactoryResolver.resolveComponentFactory(_modals_modal_container_modal_container_component__WEBPACK_IMPORTED_MODULE_2__["ModalContainerComponent"]).create(this.injector));
         this.components[length - 1].instance['type'] = type;
         this.components[length - 1].instance['message'] = message.length ? this.translate.instant(message) : '';
         this.components[length - 1].instance['close'].subscribe(function () {
@@ -2867,6 +3058,8 @@ var VariablesService = /** @class */ (function () {
         this.last_build_available = '';
         this.last_build_displaymode = 0;
         this.daemon_state = 3;
+        this.$deeplink = new rxjs__WEBPACK_IMPORTED_MODULE_1__["BehaviorSubject"]('');
+        this.$sendActionData = new rxjs__WEBPACK_IMPORTED_MODULE_1__["BehaviorSubject"]({});
         this.sync = {
             progress_value: 0,
             progress_value_text: '0'
@@ -3351,6 +3544,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _add_contacts_add_contacts_component__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./add-contacts/add-contacts.component */ "./src/app/add-contacts/add-contacts.component.ts");
 /* harmony import */ var _contact_send_contact_send_component__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./contact-send/contact-send.component */ "./src/app/contact-send/contact-send.component.ts");
 /* harmony import */ var _export_import_export_import_component__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./export-import/export-import.component */ "./src/app/export-import/export-import.component.ts");
+/* harmony import */ var _deeplink_deeplink_component__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./deeplink/deeplink.component */ "./src/app/deeplink/deeplink.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -3360,6 +3554,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 // Components
+
 
 
 
@@ -3499,6 +3694,10 @@ var routes = [
     {
         path: 'import',
         component: _export_import_export_import_component__WEBPACK_IMPORTED_MODULE_25__["ExportImportComponent"]
+    },
+    {
+        path: 'deeplink',
+        component: _deeplink_deeplink_component__WEBPACK_IMPORTED_MODULE_26__["DeeplinkComponent"]
     },
     {
         path: '',
@@ -3926,6 +4125,13 @@ var AppComponent = /** @class */ (function () {
                             wallet.recountNewContracts();
                         }
                     });
+                }
+            });
+            _this.backend.backendObject['handle_deeplink_click'].connect(function (data) {
+                console.log('----------------- handle_deeplink_click -----------------');
+                console.log(data);
+                if (data) {
+                    _this.variablesService.$deeplink.next(data);
                 }
             });
             _this.backend.eventSubscribe('money_transfer_cancel', function (data) {
@@ -4372,7 +4578,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _helpers_directives_tooltip_directive__WEBPACK_IMPORTED_MODULE_41__ = __webpack_require__(/*! ./_helpers/directives/tooltip.directive */ "./src/app/_helpers/directives/tooltip.directive.ts");
 /* harmony import */ var _helpers_directives_input_validate_input_validate_directive__WEBPACK_IMPORTED_MODULE_42__ = __webpack_require__(/*! ./_helpers/directives/input-validate/input-validate.directive */ "./src/app/_helpers/directives/input-validate/input-validate.directive.ts");
 /* harmony import */ var _helpers_directives_staking_switch_staking_switch_component__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(/*! ./_helpers/directives/staking-switch/staking-switch.component */ "./src/app/_helpers/directives/staking-switch/staking-switch.component.ts");
-/* harmony import */ var _helpers_directives_modal_container_modal_container_component__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(/*! ./_helpers/directives/modal-container/modal-container.component */ "./src/app/_helpers/directives/modal-container/modal-container.component.ts");
+/* harmony import */ var _helpers_modals_modal_container_modal_container_component__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(/*! ./_helpers/modals/modal-container/modal-container.component */ "./src/app/_helpers/modals/modal-container/modal-container.component.ts");
 /* harmony import */ var _helpers_directives_transaction_details_transaction_details_component__WEBPACK_IMPORTED_MODULE_45__ = __webpack_require__(/*! ./_helpers/directives/transaction-details/transaction-details.component */ "./src/app/_helpers/directives/transaction-details/transaction-details.component.ts");
 /* harmony import */ var ngx_contextmenu__WEBPACK_IMPORTED_MODULE_46__ = __webpack_require__(/*! ngx-contextmenu */ "./node_modules/ngx-contextmenu/fesm5/ngx-contextmenu.js");
 /* harmony import */ var angular_highcharts__WEBPACK_IMPORTED_MODULE_47__ = __webpack_require__(/*! angular-highcharts */ "./node_modules/angular-highcharts/fesm5/angular-highcharts.js");
@@ -4387,11 +4593,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _add_contacts_add_contacts_component__WEBPACK_IMPORTED_MODULE_54__ = __webpack_require__(/*! ./add-contacts/add-contacts.component */ "./src/app/add-contacts/add-contacts.component.ts");
 /* harmony import */ var _contact_send_contact_send_component__WEBPACK_IMPORTED_MODULE_55__ = __webpack_require__(/*! ./contact-send/contact-send.component */ "./src/app/contact-send/contact-send.component.ts");
 /* harmony import */ var _export_import_export_import_component__WEBPACK_IMPORTED_MODULE_56__ = __webpack_require__(/*! ./export-import/export-import.component */ "./src/app/export-import/export-import.component.ts");
-/* harmony import */ var _helpers_directives_confirm_modal_confirm_modal_component__WEBPACK_IMPORTED_MODULE_57__ = __webpack_require__(/*! ./_helpers/directives/confirm-modal/confirm-modal.component */ "./src/app/_helpers/directives/confirm-modal/confirm-modal.component.ts");
+/* harmony import */ var _helpers_modals_confirm_modal_confirm_modal_component__WEBPACK_IMPORTED_MODULE_57__ = __webpack_require__(/*! ./_helpers/modals/confirm-modal/confirm-modal.component */ "./src/app/_helpers/modals/confirm-modal/confirm-modal.component.ts");
 /* harmony import */ var _angular_cdk_drag_drop__WEBPACK_IMPORTED_MODULE_58__ = __webpack_require__(/*! @angular/cdk/drag-drop */ "./node_modules/@angular/cdk/esm5/drag-drop.es5.js");
 /* harmony import */ var ngx_papaparse__WEBPACK_IMPORTED_MODULE_59__ = __webpack_require__(/*! ngx-papaparse */ "./node_modules/ngx-papaparse/fesm5/ngx-papaparse.js");
-/* harmony import */ var _export_history_modal_export_history_modal_component__WEBPACK_IMPORTED_MODULE_60__ = __webpack_require__(/*! ./export-history-modal/export-history-modal.component */ "./src/app/export-history-modal/export-history-modal.component.ts");
+/* harmony import */ var _helpers_modals_export_history_modal_export_history_modal_component__WEBPACK_IMPORTED_MODULE_60__ = __webpack_require__(/*! ./_helpers/modals/export-history-modal/export-history-modal.component */ "./src/app/_helpers/modals/export-history-modal/export-history-modal.component.ts");
 /* harmony import */ var cdk_drag_scroll__WEBPACK_IMPORTED_MODULE_61__ = __webpack_require__(/*! cdk-drag-scroll */ "./node_modules/cdk-drag-scroll/fesm5/cdk-drag-scroll.js");
+/* harmony import */ var _deeplink_deeplink_component__WEBPACK_IMPORTED_MODULE_62__ = __webpack_require__(/*! ./deeplink/deeplink.component */ "./src/app/deeplink/deeplink.component.ts");
+/* harmony import */ var _helpers_modals_sync_modal_sync_modal_component__WEBPACK_IMPORTED_MODULE_63__ = __webpack_require__(/*! ./_helpers/modals/sync-modal/sync-modal.component */ "./src/app/_helpers/modals/sync-modal/sync-modal.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4437,6 +4645,8 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 // Feature module
 
 // Feature module
+
+
 
 
 
@@ -4516,7 +4726,7 @@ var AppModule = /** @class */ (function () {
                 _helpers_pipes_contract_time_left_pipe__WEBPACK_IMPORTED_MODULE_39__["ContractTimeLeftPipe"],
                 _helpers_directives_tooltip_directive__WEBPACK_IMPORTED_MODULE_41__["TooltipDirective"],
                 _helpers_directives_input_validate_input_validate_directive__WEBPACK_IMPORTED_MODULE_42__["InputValidateDirective"],
-                _helpers_directives_modal_container_modal_container_component__WEBPACK_IMPORTED_MODULE_44__["ModalContainerComponent"],
+                _helpers_modals_modal_container_modal_container_component__WEBPACK_IMPORTED_MODULE_44__["ModalContainerComponent"],
                 _helpers_directives_transaction_details_transaction_details_component__WEBPACK_IMPORTED_MODULE_45__["TransactionDetailsComponent"],
                 _helpers_directives_progress_container_progress_container_component__WEBPACK_IMPORTED_MODULE_50__["ProgressContainerComponent"],
                 _helpers_directives_input_disable_selection_input_disable_selection_directive__WEBPACK_IMPORTED_MODULE_51__["InputDisableSelectionDirective"],
@@ -4526,8 +4736,10 @@ var AppModule = /** @class */ (function () {
                 _contact_send_contact_send_component__WEBPACK_IMPORTED_MODULE_55__["ContactSendComponent"],
                 _export_import_export_import_component__WEBPACK_IMPORTED_MODULE_56__["ExportImportComponent"],
                 _helpers_pipes_safe_html_pipe__WEBPACK_IMPORTED_MODULE_40__["SafeHTMLPipe"],
-                _helpers_directives_confirm_modal_confirm_modal_component__WEBPACK_IMPORTED_MODULE_57__["ConfirmModalComponent"],
-                _export_history_modal_export_history_modal_component__WEBPACK_IMPORTED_MODULE_60__["ExportHistoryModalComponent"],
+                _helpers_modals_confirm_modal_confirm_modal_component__WEBPACK_IMPORTED_MODULE_57__["ConfirmModalComponent"],
+                _helpers_modals_export_history_modal_export_history_modal_component__WEBPACK_IMPORTED_MODULE_60__["ExportHistoryModalComponent"],
+                _deeplink_deeplink_component__WEBPACK_IMPORTED_MODULE_62__["DeeplinkComponent"],
+                _helpers_modals_sync_modal_sync_modal_component__WEBPACK_IMPORTED_MODULE_63__["SyncModalComponent"],
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -4560,10 +4772,10 @@ var AppModule = /** @class */ (function () {
                 // {provide: HIGHCHARTS_MODULES, useFactory: () => [ highstock, more, exporting ] }
             ],
             entryComponents: [
-                _helpers_directives_modal_container_modal_container_component__WEBPACK_IMPORTED_MODULE_44__["ModalContainerComponent"],
+                _helpers_modals_modal_container_modal_container_component__WEBPACK_IMPORTED_MODULE_44__["ModalContainerComponent"],
                 _send_modal_send_modal_component__WEBPACK_IMPORTED_MODULE_52__["SendModalComponent"],
-                _helpers_directives_confirm_modal_confirm_modal_component__WEBPACK_IMPORTED_MODULE_57__["ConfirmModalComponent"],
-                _export_history_modal_export_history_modal_component__WEBPACK_IMPORTED_MODULE_60__["ExportHistoryModalComponent"],
+                _helpers_modals_confirm_modal_confirm_modal_component__WEBPACK_IMPORTED_MODULE_57__["ConfirmModalComponent"],
+                _helpers_modals_export_history_modal_export_history_modal_component__WEBPACK_IMPORTED_MODULE_60__["ExportHistoryModalComponent"],
             ],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"]]
         })
@@ -5209,6 +5421,163 @@ var CreateWalletComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/deeplink/deeplink.component.html":
+/*!**************************************************!*\
+  !*** ./src/app/deeplink/deeplink.component.html ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"host-container\">\n  <!-- <div class=\"deep-overflow\" (click)=\"canselAction()\">\n  </div> -->\n  <div class=\"container\">\n    <ng-container *ngIf=\"this.walletsTopay.length > 1 && variablesService.daemon_state == 2 && !secondStep\">\n      <div class=\"modal select-wallet\">\n        <div class=\"content\">\n          <div class=\"title\">\n            <span>Select wallet for action:</span>\n          </div>\n          <div class=\"inputs-container\">\n            <div class=\"lock-selection\">\n              <ng-select class=\"custom-select\" [items]=\"walletsTopay\" bindValue=\"wallet_id\" bindLabel=\"name\"\n                [(ngModel)]=\"walletToPayId\" [clearable]=\"false\" [searchable]=\"false\">\n                <ng-template ng-label-tmp let-item=\"item\">\n                  {{item.name}}\n                </ng-template>\n                <ng-template ng-option-tmp let-item=\"item\" let-index=\"index\">\n                  {{item.name}}\n                </ng-template>\n              </ng-select>\n            </div>\n          </div>\n\n        </div>\n        <div class=\"wrapper-buttons\">\n          <button type=\"button\" class=\"blue-button\" (click)=\"canselAction()\">{{ 'EXPORT_HISTORY.CANCEL' |\n            translate\n            }}</button>\n          <button type=\"submit\" class=\"blue-button\" (click)=\"nextStep()\">Next...</button>\n        </div>\n      </div>\n    </ng-container>\n\n    <ng-container\n      *ngIf=\"variablesService.daemon_state == 2 && secondStep && actionData.action === 'marketplace_offer_create'\">\n      <div class=\"modal marketplace\">\n        <div class=\"title\">\n          <span>Creating a marketplace offer</span>\n        </div>\n        <div class=\"data-container\">\n          <div class=\"row\"><span>Offer title:</span> {{actionData.title}}</div>\n          <div class=\"row\"><span>Description:</span> {{actionData.description}}</div>\n          <div class=\"row\"><span>Category:</span> {{actionData.category}}</div>\n          <div class=\"row\"><span>Price:</span> {{actionData.price}} {{this.variablesService.defaultCurrency}}</div>\n          <div class=\"row\"><span>Preview url:</span> {{actionData.img_url}}</div>\n          <div class=\"row\"><span>Contacts:</span> {{actionData.contact}}</div>\n          <div class=\"row\"><span>Comments:</span>{{actionData.comment}}</div>\n          <div class=\"row mixins\"><span>Mixins:</span> {{actionData.mixins || defaultMixin}}</div>\n          <div class=\"row\"><span>Transaction fee:</span> {{actionData.price * (actionData.fee ||\n            this.variablesService.default_fee)}}\n            {{this.variablesService.defaultCurrency}}\n          </div>\n        </div>\n        <div class=\"wrapper-buttons\">\n          <button type=\"button\" class=\"blue-button\" (click)=\"canselAction()\">{{ 'EXPORT_HISTORY.CANCEL' | translate\n            }}</button>\n          <button type=\"submit\" class=\"blue-button\" (click)=\"marketplaceSend()\">Sign & Send...</button>\n        </div>\n      </div>\n    </ng-container>\n  </div>\n\n\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/deeplink/deeplink.component.scss":
+/*!**************************************************!*\
+  !*** ./src/app/deeplink/deeplink.component.scss ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".host-container {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: rgba(255, 255, 255, 0.25); }\n\n.deep-overflow {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  right: 0;\n  left: 0;\n  z-index: 0; }\n\n.container {\n  position: relative;\n  z-index: 5; }\n\n.modal {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  padding: 3.5rem; }\n\n.modal .title {\n    padding: 0 0 7.5rem;\n    font-size: 3.6rem;\n    font-weight: 500;\n    text-align: center;\n    line-height: 4.296rem; }\n\n.modal .content {\n    display: flex; }\n\n.modal .wrapper-buttons {\n    display: flex;\n    align-items: center;\n    justify-content: space-between; }\n\n.modal .wrapper-buttons button {\n      width: 30rem; }\n\n.modal .wrapper-buttons button:first-child {\n        margin-right: 5rem; }\n\n.modal.select-wallet .title {\n    padding: 0 0 7.5rem;\n    font-size: 3.6rem;\n    line-height: 4.296rem; }\n\n.modal.select-wallet .content {\n    display: flex;\n    margin: 0 auto;\n    width: -webkit-fit-content;\n    width: -moz-fit-content;\n    width: fit-content;\n    flex-direction: column; }\n\n.modal.select-wallet .content .ng-select.custom-select {\n      border: 1px solid #1f8feb;\n      background: rgba(31, 143, 235, 0.15);\n      border-radius: 1rem;\n      width: 100%;\n      font-weight: 600;\n      padding: 0.3rem 1rem; }\n\n.modal.select-wallet .wrapper-buttons {\n    margin-top: 16rem; }\n\n.modal.marketplace {\n    padding: 2.2rem 20rem 4rem; }\n\n.modal.marketplace .title {\n      padding: 1rem 0 3rem; }\n\n.modal.marketplace .data-container {\n      max-width: 70rem; }\n\n.modal.marketplace .data-container .row {\n        color: rgba(255, 255, 255, 0.616);\n        margin-bottom: 1.4rem;\n        font-weight: 400;\n        font-size: 2.8rem;\n        line-height: normal; }\n\n.modal.marketplace .data-container .row.mixins {\n          margin-top: 3.8rem; }\n\n.modal.marketplace .data-container .row span {\n          font-weight: 700;\n          color: #fff; }\n\n.modal.marketplace .wrapper-buttons {\n      margin: 4.2rem auto 0; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL3VzZXIvcHJvamVjdHMvemFub191aS9odG1sX3NvdXJjZS9zcmMvYXBwL2RlZXBsaW5rL2RlZXBsaW5rLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsZUFBZTtFQUNmLE1BQU07RUFDTixTQUFTO0VBQ1QsT0FBTztFQUNQLFFBQVE7RUFDUixhQUFhO0VBQ2IsbUJBQW1CO0VBQ25CLHVCQUF1QjtFQUN2QixxQ0FBcUMsRUFBQTs7QUFFdkM7RUFDRSxrQkFBa0I7RUFDbEIsTUFBTTtFQUNOLFNBQVM7RUFDVCxRQUFRO0VBQ1IsT0FBTztFQUNQLFVBQVUsRUFBQTs7QUFFWjtFQUNFLGtCQUFrQjtFQUNsQixVQUFVLEVBQUE7O0FBRVo7RUFDRSxrQkFBa0I7RUFDbEIsYUFBYTtFQUNiLHNCQUFzQjtFQUN0QixlQUFlLEVBQUE7O0FBSmpCO0lBT0ksbUJBQW1CO0lBQ25CLGlCQUFpQjtJQUNqQixnQkFBZ0I7SUFDaEIsa0JBQWtCO0lBQ2xCLHFCQUFxQixFQUFBOztBQVh6QjtJQWVJLGFBQWEsRUFBQTs7QUFmakI7SUFtQkksYUFBYTtJQUNiLG1CQUFtQjtJQUNuQiw4QkFBOEIsRUFBQTs7QUFyQmxDO01BMkJNLFlBQVksRUFBQTs7QUEzQmxCO1FBeUJRLGtCQUFrQixFQUFBOztBQXpCMUI7SUFnQ00sbUJBQW1CO0lBQ25CLGlCQUFpQjtJQUNqQixxQkFBcUIsRUFBQTs7QUFsQzNCO0lBc0NNLGFBQWE7SUFDYixjQUFjO0lBQ2QsMEJBQWtCO0lBQWxCLHVCQUFrQjtJQUFsQixrQkFBa0I7SUFDbEIsc0JBQXNCLEVBQUE7O0FBekM1QjtNQTJDUSx5QkFBeUI7TUFDekIsb0NBQW9DO01BQ3BDLG1CQUFtQjtNQUNuQixXQUFXO01BQ1gsZ0JBQWdCO01BQ2hCLG9CQUFvQixFQUFBOztBQWhENUI7SUFxRE0saUJBQWlCLEVBQUE7O0FBckR2QjtJQXlESSwwQkFBMEIsRUFBQTs7QUF6RDlCO01BMkRNLG9CQUFvQixFQUFBOztBQTNEMUI7TUE4RE0sZ0JBQWdCLEVBQUE7O0FBOUR0QjtRQWdFUSxpQ0FBaUM7UUFDakMscUJBQXFCO1FBSXJCLGdCQUFnQjtRQUNoQixpQkFBaUI7UUFDakIsbUJBQW1CLEVBQUE7O0FBdkUzQjtVQW1FVSxrQkFBa0IsRUFBQTs7QUFuRTVCO1VBeUVVLGdCQUFnQjtVQUNoQixXQUFXLEVBQUE7O0FBMUVyQjtNQStFTSxxQkFBcUIsRUFBQSIsImZpbGUiOiJzcmMvYXBwL2RlZXBsaW5rL2RlZXBsaW5rLmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmhvc3QtY29udGFpbmVyIHtcbiAgcG9zaXRpb246IGZpeGVkO1xuICB0b3A6IDA7XG4gIGJvdHRvbTogMDtcbiAgbGVmdDogMDtcbiAgcmlnaHQ6IDA7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gIGp1c3RpZnktY29udGVudDogY2VudGVyO1xuICBiYWNrZ3JvdW5kOiByZ2JhKDI1NSwgMjU1LCAyNTUsIDAuMjUpO1xufVxuLmRlZXAtb3ZlcmZsb3cge1xuICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gIHRvcDogMDtcbiAgYm90dG9tOiAwO1xuICByaWdodDogMDtcbiAgbGVmdDogMDtcbiAgei1pbmRleDogMDtcbn1cbi5jb250YWluZXIge1xuICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gIHotaW5kZXg6IDU7XG59XG4ubW9kYWwge1xuICBwb3NpdGlvbjogcmVsYXRpdmU7XG4gIGRpc3BsYXk6IGZsZXg7XG4gIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XG4gIHBhZGRpbmc6IDMuNXJlbTtcblxuICAudGl0bGUge1xuICAgIHBhZGRpbmc6IDAgMCA3LjVyZW07XG4gICAgZm9udC1zaXplOiAzLjZyZW07XG4gICAgZm9udC13ZWlnaHQ6IDUwMDtcbiAgICB0ZXh0LWFsaWduOiBjZW50ZXI7XG4gICAgbGluZS1oZWlnaHQ6IDQuMjk2cmVtO1xuICB9XG5cbiAgLmNvbnRlbnQge1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gIH1cblxuICAud3JhcHBlci1idXR0b25zIHtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG4gICAganVzdGlmeS1jb250ZW50OiBzcGFjZS1iZXR3ZWVuO1xuXG4gICAgYnV0dG9uIHtcbiAgICAgICY6Zmlyc3QtY2hpbGQge1xuICAgICAgICBtYXJnaW4tcmlnaHQ6IDVyZW07XG4gICAgICB9XG4gICAgICB3aWR0aDogMzByZW07XG4gICAgfVxuICB9XG4gICYuc2VsZWN0LXdhbGxldCB7XG4gICAgLnRpdGxlIHtcbiAgICAgIHBhZGRpbmc6IDAgMCA3LjVyZW07XG4gICAgICBmb250LXNpemU6IDMuNnJlbTtcbiAgICAgIGxpbmUtaGVpZ2h0OiA0LjI5NnJlbTtcbiAgICB9XG5cbiAgICAuY29udGVudCB7XG4gICAgICBkaXNwbGF5OiBmbGV4O1xuICAgICAgbWFyZ2luOiAwIGF1dG87XG4gICAgICB3aWR0aDogZml0LWNvbnRlbnQ7XG4gICAgICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xuICAgICAgLm5nLXNlbGVjdC5jdXN0b20tc2VsZWN0IHtcbiAgICAgICAgYm9yZGVyOiAxcHggc29saWQgIzFmOGZlYjtcbiAgICAgICAgYmFja2dyb3VuZDogcmdiYSgzMSwgMTQzLCAyMzUsIDAuMTUpO1xuICAgICAgICBib3JkZXItcmFkaXVzOiAxcmVtO1xuICAgICAgICB3aWR0aDogMTAwJTtcbiAgICAgICAgZm9udC13ZWlnaHQ6IDYwMDtcbiAgICAgICAgcGFkZGluZzogMC4zcmVtIDFyZW07XG4gICAgICB9XG4gICAgfVxuXG4gICAgLndyYXBwZXItYnV0dG9ucyB7XG4gICAgICBtYXJnaW4tdG9wOiAxNnJlbTtcbiAgICB9XG4gIH1cbiAgJi5tYXJrZXRwbGFjZSB7XG4gICAgcGFkZGluZzogMi4ycmVtIDIwcmVtIDRyZW07XG4gICAgLnRpdGxlIHtcbiAgICAgIHBhZGRpbmc6IDFyZW0gMCAzcmVtO1xuICAgIH1cbiAgICAuZGF0YS1jb250YWluZXIge1xuICAgICAgbWF4LXdpZHRoOiA3MHJlbTtcbiAgICAgIC5yb3cge1xuICAgICAgICBjb2xvcjogcmdiYSgyNTUsIDI1NSwgMjU1LCAwLjYxNik7XG4gICAgICAgIG1hcmdpbi1ib3R0b206IDEuNHJlbTtcbiAgICAgICAgJi5taXhpbnMge1xuICAgICAgICAgIG1hcmdpbi10b3A6IDMuOHJlbTtcbiAgICAgICAgfVxuICAgICAgICBmb250LXdlaWdodDogNDAwO1xuICAgICAgICBmb250LXNpemU6IDIuOHJlbTtcbiAgICAgICAgbGluZS1oZWlnaHQ6IG5vcm1hbDtcbiAgICAgICAgc3BhbiB7XG4gICAgICAgICAgZm9udC13ZWlnaHQ6IDcwMDtcbiAgICAgICAgICBjb2xvcjogI2ZmZjtcbiAgICAgICAgfVxuICAgICAgfVxuICAgIH1cbiAgICAud3JhcHBlci1idXR0b25zIHtcbiAgICAgIG1hcmdpbjogNC4ycmVtIGF1dG8gMDtcbiAgICB9XG4gIH1cbn1cbiJdfQ== */"
+
+/***/ }),
+
+/***/ "./src/app/deeplink/deeplink.component.ts":
+/*!************************************************!*\
+  !*** ./src/app/deeplink/deeplink.component.ts ***!
+  \************************************************/
+/*! exports provided: DeeplinkComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DeeplinkComponent", function() { return DeeplinkComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _helpers_services_variables_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_helpers/services/variables.service */ "./src/app/_helpers/services/variables.service.ts");
+/* harmony import */ var _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_helpers/services/backend.service */ "./src/app/_helpers/services/backend.service.ts");
+/* harmony import */ var _shared_constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../_shared/constants */ "./src/app/_shared/constants.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+
+var DeeplinkComponent = /** @class */ (function () {
+    function DeeplinkComponent(_router, variablesService, backend) {
+        this._router = _router;
+        this.variablesService = variablesService;
+        this.backend = backend;
+        this.secondStep = false;
+        this.walletToPayId = 0;
+        this.marketplaceModalShow = false;
+        this.sendRoute = false;
+        this.actionData = {};
+        this.defaultMixin = _shared_constants__WEBPACK_IMPORTED_MODULE_4__["MIXIN"];
+        this.walletsTopay = [];
+    }
+    DeeplinkComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.actionData = {};
+        this.walletsTopay = this.variablesService.wallets.filter(function (wallet) { return !wallet.is_watch_only || !wallet.is_auditable; });
+        if (this.walletsTopay.length === 0) {
+            this.variablesService.$deeplink.next('');
+            return;
+        }
+        this.actionData = this.parceString(this.deeplink);
+        if (this.walletsTopay.length === 1) {
+            setTimeout(function () {
+                _this.nextStep();
+            }, 200);
+        }
+    };
+    DeeplinkComponent.prototype.parceString = function (string) {
+        var newstring = string.substr(5);
+        var newobj = {};
+        newstring.split('&').forEach(function (value) {
+            var keypair = value.split('=');
+            newobj[keypair[0]] = keypair[1].replace(/'|"|”|%E2%80%9D|%22/g, '').replace(/%20/g, " ").trim();
+        });
+        return newobj;
+    };
+    DeeplinkComponent.prototype.canselAction = function () {
+        this.deeplink = "";
+        this.variablesService.$deeplink.next('');
+        this.variablesService.$sendActionData.next({});
+        this.actionData = {};
+    };
+    DeeplinkComponent.prototype.marketplaceSend = function () {
+        var _this = this;
+        var offerObject = {
+            wallet_id: this.walletToPayId,
+            od: {
+                ap: this.actionData.price || '',
+                at: '1',
+                cat: this.actionData.category || '',
+                cnt: this.actionData.contact || '',
+                com: this.actionData.comment || '',
+                do: this.actionData.description || '',
+                et: 10,
+                fee: +this.actionData.fee || +this.variablesService.default_fee,
+                lci: '',
+                lco: 'World Wide',
+                ot: 1,
+                pt: 'Credit cards, BTC, ZANO, ETH',
+                t: this.actionData.title || '',
+                url: this.actionData.img_url || '',
+            },
+        };
+        this.backend.push_offer(offerObject, function (res) {
+            _this.canselAction();
+        });
+    };
+    DeeplinkComponent.prototype.nextStep = function () {
+        if (this.actionData.action === "send") {
+            this.variablesService.$sendActionData.next(this.actionData);
+            this.variablesService.$deeplink.next('');
+            this._router.navigate(['/wallet/' + this.walletToPayId + '/send']);
+        }
+        else if (this.actionData.action === "escrow") {
+            this.variablesService.$sendActionData.next(this.actionData);
+            this.variablesService.$deeplink.next('');
+            this._router.navigate(['/wallet/' + this.walletToPayId + '/purchase']);
+        }
+        else {
+            this.secondStep = true;
+        }
+    };
+    DeeplinkComponent.prototype.ngOnDestroy = function () {
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", String)
+    ], DeeplinkComponent.prototype, "deeplink", void 0);
+    DeeplinkComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-deeplink',
+            template: __webpack_require__(/*! ./deeplink.component.html */ "./src/app/deeplink/deeplink.component.html"),
+            styles: [__webpack_require__(/*! ./deeplink.component.scss */ "./src/app/deeplink/deeplink.component.scss")]
+        }),
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
+            _helpers_services_variables_service__WEBPACK_IMPORTED_MODULE_2__["VariablesService"],
+            _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_3__["BackendService"]])
+    ], DeeplinkComponent);
+    return DeeplinkComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/edit-alias/edit-alias.component.html":
 /*!******************************************************!*\
   !*** ./src/app/edit-alias/edit-alias.component.html ***!
@@ -5317,135 +5686,6 @@ var EditAliasComponent = /** @class */ (function () {
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["NgZone"]])
     ], EditAliasComponent);
     return EditAliasComponent;
-}());
-
-
-
-/***/ }),
-
-/***/ "./src/app/export-history-modal/export-history-modal.component.html":
-/*!**************************************************************************!*\
-  !*** ./src/app/export-history-modal/export-history-modal.component.html ***!
-  \**************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "<div class=\"modal\">\n  <div class=\"title\">\n    <span>{{ 'EXPORT_HISTORY.TITLE' | translate }}</span>\n  </div>\n  <div class=\"content\">\n    <div class=\"inputs-container\">\n      <div class=\"lock-selection\">\n        <label class=\"lock-selection-title\">Format:</label>\n        <ng-select class=\"custom-select\" [items]=\"exportFormats\" bindValue=\"format\" bindLabel=\"formatName\"\n          [(ngModel)]=\"curentFormat\" [clearable]=\"false\" [searchable]=\"false\">\n          <ng-template ng-label-tmp let-item=\"item\">\n            {{item.formatName}}\n          </ng-template>\n          <ng-template ng-option-tmp let-item=\"item\" let-index=\"index\">\n            {{item.formatName}}\n          </ng-template>\n        </ng-select>\n      </div>\n      <div class=\"lock-selection filter-switch\">\n        <label class=\"lock-selection-title\">{{ 'EXPORT_HISTORY.FILTER' | translate }}</label>\n        <div class=\"switch\" (click)=\"posFilterIsOn = !posFilterIsOn\" [ngClass]=\"posFilterIsOn ? 'off' : 'on'\">\n          <span class=\"circle\"></span>\n        </div>\n      </div>\n    </div>\n    <div class=\"wrapper-buttons\">\n      <button type=\"button\" class=\"blue-button\" (click)=\"closeModal()\">{{ 'EXPORT_HISTORY.CANCEL' | translate\n        }}</button>\n      <button type=\"submit\" class=\"blue-button\" (click)=\"confirmExport()\">{{ 'EXPORT_HISTORY.EXPORT' | translate\n        }}</button>\n    </div>\n  </div>\n</div>\n"
-
-/***/ }),
-
-/***/ "./src/app/export-history-modal/export-history-modal.component.scss":
-/*!**************************************************************************!*\
-  !*** ./src/app/export-history-modal/export-history-modal.component.scss ***!
-  \**************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = ":host {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: rgba(255, 255, 255, 0.25); }\n\n.modal {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  background-position: center;\n  background-size: 200%;\n  padding: 3.2rem;\n  width: 72rem;\n  height: 47rem; }\n\n.modal .title {\n    padding-bottom: 3.6rem;\n    font-size: 2rem;\n    line-height: 2.4rem; }\n\n.modal .content {\n    display: flex;\n    flex-direction: column; }\n\n.modal .content .inputs-container {\n      margin-bottom: 13rem; }\n\n.modal .content .inputs-container .lock-selection {\n        display: flex;\n        flex-direction: column;\n        align-items: flex-start; }\n\n.modal .content .inputs-container .lock-selection.filter-switch {\n          margin-top: 4rem;\n          display: flex;\n          flex-direction: row; }\n\n.modal .content .inputs-container .lock-selection.filter-switch label {\n            font-size: 2rem;\n            line-height: 2.4rem;\n            color: #fdfeff;\n            margin-right: 3.5rem; }\n\n.modal .content .inputs-container .lock-selection .lock-selection-title {\n          display: flex;\n          font-size: 1.6rem;\n          line-height: 1.9rem;\n          margin-bottom: 1.2rem;\n          color: #1f8feb; }\n\n.modal .content .inputs-container .lock-selection .switch {\n          border-radius: 1.1rem;\n          cursor: pointer;\n          padding: 0.2rem;\n          width: 3.6rem;\n          height: 2.2rem;\n          transition: all 0.3s ease;\n          position: relative; }\n\n.modal .content .inputs-container .lock-selection .switch.on .circle {\n            margin-left: 1.4rem; }\n\n.modal .content .inputs-container .lock-selection .switch.off {\n            background-color: rgba(255, 255, 255, 0.2); }\n\n.modal .content .inputs-container .lock-selection .switch .circle {\n            display: block;\n            transition: all 0.3s ease;\n            position: relative;\n            border-radius: 50%;\n            width: 1.8rem;\n            height: 1.8rem; }\n\n.modal .content .wrapper-buttons {\n      display: flex;\n      align-items: center;\n      justify-content: space-between; }\n\n.modal .content .wrapper-buttons button {\n        width: 100%; }\n\n.modal .content .wrapper-buttons button:first-child {\n          margin-right: 3rem; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi9ob21lL3VzZXIvcHJvamVjdHMvemFub191aS9odG1sX3NvdXJjZS9zcmMvYXBwL2V4cG9ydC1oaXN0b3J5LW1vZGFsL2V4cG9ydC1oaXN0b3J5LW1vZGFsLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0UsZUFBZTtFQUNmLE1BQU07RUFDTixTQUFTO0VBQ1QsT0FBTztFQUNQLFFBQVE7RUFDUixhQUFhO0VBQ2IsbUJBQW1CO0VBQ25CLHVCQUF1QjtFQUN2QixxQ0FBcUMsRUFBQTs7QUFFdkM7RUFDRSxrQkFBa0I7RUFDbEIsYUFBYTtFQUNiLHNCQUFzQjtFQUN0QiwyQkFBMkI7RUFDM0IscUJBQXFCO0VBQ3JCLGVBQWU7RUFDZixZQUFZO0VBQ1osYUFBYSxFQUFBOztBQVJmO0lBV0ksc0JBQXNCO0lBQ3RCLGVBQWU7SUFDZixtQkFBbUIsRUFBQTs7QUFidkI7SUFpQkksYUFBYTtJQUNiLHNCQUFzQixFQUFBOztBQWxCMUI7TUFvQk0sb0JBQW9CLEVBQUE7O0FBcEIxQjtRQXNCUSxhQUFhO1FBQ2Isc0JBQXNCO1FBQ3RCLHVCQUF1QixFQUFBOztBQXhCL0I7VUEwQlUsZ0JBQWdCO1VBQ2hCLGFBQWE7VUFDYixtQkFBbUIsRUFBQTs7QUE1QjdCO1lBOEJZLGVBQWU7WUFDZixtQkFBbUI7WUFDbkIsY0FBYztZQUNkLG9CQUFvQixFQUFBOztBQWpDaEM7VUFzQ1UsYUFBYTtVQUNiLGlCQUFpQjtVQUNqQixtQkFBbUI7VUFDbkIscUJBQXFCO1VBQ3JCLGNBQWMsRUFBQTs7QUExQ3hCO1VBNkNVLHFCQUFxQjtVQUNyQixlQUFlO1VBQ2YsZUFBZTtVQUNmLGFBQWE7VUFDYixjQUFjO1VBQ2QseUJBQXlCO1VBQ3pCLGtCQUFrQixFQUFBOztBQW5ENUI7WUFzRGMsbUJBQW1CLEVBQUE7O0FBdERqQztZQTBEWSwwQ0FBMEMsRUFBQTs7QUExRHREO1lBNkRZLGNBQWM7WUFDZCx5QkFBeUI7WUFDekIsa0JBQWtCO1lBQ2xCLGtCQUFrQjtZQUNsQixhQUFhO1lBQ2IsY0FBYyxFQUFBOztBQWxFMUI7TUF3RU0sYUFBYTtNQUNiLG1CQUFtQjtNQUNuQiw4QkFBOEIsRUFBQTs7QUExRXBDO1FBZ0ZRLFdBQVcsRUFBQTs7QUFoRm5CO1VBOEVVLGtCQUFrQixFQUFBIiwiZmlsZSI6InNyYy9hcHAvZXhwb3J0LWhpc3RvcnktbW9kYWwvZXhwb3J0LWhpc3RvcnktbW9kYWwuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyI6aG9zdCB7XG4gIHBvc2l0aW9uOiBmaXhlZDtcbiAgdG9wOiAwO1xuICBib3R0b206IDA7XG4gIGxlZnQ6IDA7XG4gIHJpZ2h0OiAwO1xuICBkaXNwbGF5OiBmbGV4O1xuICBhbGlnbi1pdGVtczogY2VudGVyO1xuICBqdXN0aWZ5LWNvbnRlbnQ6IGNlbnRlcjtcbiAgYmFja2dyb3VuZDogcmdiYSgyNTUsIDI1NSwgMjU1LCAwLjI1KTtcbn1cbi5tb2RhbCB7XG4gIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgZGlzcGxheTogZmxleDtcbiAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcbiAgYmFja2dyb3VuZC1wb3NpdGlvbjogY2VudGVyO1xuICBiYWNrZ3JvdW5kLXNpemU6IDIwMCU7XG4gIHBhZGRpbmc6IDMuMnJlbTtcbiAgd2lkdGg6IDcycmVtO1xuICBoZWlnaHQ6IDQ3cmVtO1xuXG4gIC50aXRsZSB7XG4gICAgcGFkZGluZy1ib3R0b206IDMuNnJlbTtcbiAgICBmb250LXNpemU6IDJyZW07XG4gICAgbGluZS1oZWlnaHQ6IDIuNHJlbTtcbiAgfVxuXG4gIC5jb250ZW50IHtcbiAgICBkaXNwbGF5OiBmbGV4O1xuICAgIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XG4gICAgLmlucHV0cy1jb250YWluZXIge1xuICAgICAgbWFyZ2luLWJvdHRvbTogMTNyZW07XG4gICAgICAubG9jay1zZWxlY3Rpb24ge1xuICAgICAgICBkaXNwbGF5OiBmbGV4O1xuICAgICAgICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xuICAgICAgICBhbGlnbi1pdGVtczogZmxleC1zdGFydDtcbiAgICAgICAgJi5maWx0ZXItc3dpdGNoIHtcbiAgICAgICAgICBtYXJnaW4tdG9wOiA0cmVtO1xuICAgICAgICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgICAgICAgZmxleC1kaXJlY3Rpb246IHJvdztcbiAgICAgICAgICBsYWJlbCB7XG4gICAgICAgICAgICBmb250LXNpemU6IDJyZW07XG4gICAgICAgICAgICBsaW5lLWhlaWdodDogMi40cmVtO1xuICAgICAgICAgICAgY29sb3I6ICNmZGZlZmY7XG4gICAgICAgICAgICBtYXJnaW4tcmlnaHQ6IDMuNXJlbTtcbiAgICAgICAgICB9XG4gICAgICAgIH1cblxuICAgICAgICAubG9jay1zZWxlY3Rpb24tdGl0bGUge1xuICAgICAgICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgICAgICAgZm9udC1zaXplOiAxLjZyZW07XG4gICAgICAgICAgbGluZS1oZWlnaHQ6IDEuOXJlbTtcbiAgICAgICAgICBtYXJnaW4tYm90dG9tOiAxLjJyZW07XG4gICAgICAgICAgY29sb3I6ICMxZjhmZWI7XG4gICAgICAgIH1cbiAgICAgICAgLnN3aXRjaCB7XG4gICAgICAgICAgYm9yZGVyLXJhZGl1czogMS4xcmVtO1xuICAgICAgICAgIGN1cnNvcjogcG9pbnRlcjtcbiAgICAgICAgICBwYWRkaW5nOiAwLjJyZW07XG4gICAgICAgICAgd2lkdGg6IDMuNnJlbTtcbiAgICAgICAgICBoZWlnaHQ6IDIuMnJlbTtcbiAgICAgICAgICB0cmFuc2l0aW9uOiBhbGwgMC4zcyBlYXNlO1xuICAgICAgICAgIHBvc2l0aW9uOiByZWxhdGl2ZTtcbiAgICAgICAgICAmLm9uIHtcbiAgICAgICAgICAgIC5jaXJjbGUge1xuICAgICAgICAgICAgICBtYXJnaW4tbGVmdDogMS40cmVtO1xuICAgICAgICAgICAgfVxuICAgICAgICAgIH1cbiAgICAgICAgICAmLm9mZiB7XG4gICAgICAgICAgICBiYWNrZ3JvdW5kLWNvbG9yOiByZ2JhKDI1NSwgMjU1LCAyNTUsIDAuMik7XG4gICAgICAgICAgfVxuICAgICAgICAgIC5jaXJjbGUge1xuICAgICAgICAgICAgZGlzcGxheTogYmxvY2s7XG4gICAgICAgICAgICB0cmFuc2l0aW9uOiBhbGwgMC4zcyBlYXNlO1xuICAgICAgICAgICAgcG9zaXRpb246IHJlbGF0aXZlO1xuICAgICAgICAgICAgYm9yZGVyLXJhZGl1czogNTAlO1xuICAgICAgICAgICAgd2lkdGg6IDEuOHJlbTtcbiAgICAgICAgICAgIGhlaWdodDogMS44cmVtO1xuICAgICAgICAgIH1cbiAgICAgICAgfVxuICAgICAgfVxuICAgIH1cbiAgICAud3JhcHBlci1idXR0b25zIHtcbiAgICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgICBhbGlnbi1pdGVtczogY2VudGVyO1xuICAgICAganVzdGlmeS1jb250ZW50OiBzcGFjZS1iZXR3ZWVuO1xuXG4gICAgICBidXR0b24ge1xuICAgICAgICAmOmZpcnN0LWNoaWxkIHtcbiAgICAgICAgICBtYXJnaW4tcmlnaHQ6IDNyZW07XG4gICAgICAgIH1cbiAgICAgICAgd2lkdGg6IDEwMCU7XG4gICAgICB9XG4gICAgfVxuICB9XG59XG4iXX0= */"
-
-/***/ }),
-
-/***/ "./src/app/export-history-modal/export-history-modal.component.ts":
-/*!************************************************************************!*\
-  !*** ./src/app/export-history-modal/export-history-modal.component.ts ***!
-  \************************************************************************/
-/*! exports provided: ExportHistoryModalComponent */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ExportHistoryModalComponent", function() { return ExportHistoryModalComponent; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
-/* harmony import */ var _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_helpers/services/backend.service */ "./src/app/_helpers/services/backend.service.ts");
-/* harmony import */ var _helpers_services_variables_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_helpers/services/variables.service */ "./src/app/_helpers/services/variables.service.ts");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (undefined && undefined.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-
-
-var ExportHistoryModalComponent = /** @class */ (function () {
-    function ExportHistoryModalComponent(backend, variablesService, ngZone, translate) {
-        this.backend = backend;
-        this.variablesService = variablesService;
-        this.ngZone = ngZone;
-        this.translate = translate;
-        this.posFilterIsOn = true;
-        this.exportData = {
-            wallet_id: 0,
-            include_pos_transactions: false,
-            path: "C:\\some_file.txt",
-            format: 'json'
-        };
-        this.exportFormats = [
-            {
-                format: 'json',
-                formatName: 'JSON'
-            },
-            {
-                format: 'text',
-                formatName: 'Text'
-            },
-            {
-                format: 'csv',
-                formatName: 'CSV'
-            }
-        ];
-        this.closeExportModal = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
-        this.curentFormat = this.exportFormats[0].format;
-    }
-    ExportHistoryModalComponent.prototype.ngOnInit = function () {
-    };
-    ExportHistoryModalComponent.prototype.closeModal = function () {
-        this.closeExportModal.emit(true);
-    };
-    ExportHistoryModalComponent.prototype.confirmExport = function () {
-        var _this = this;
-        this.exportData.format = "" + this.curentFormat;
-        this.exportData.wallet_id = this.currentWalletId;
-        this.exportData.include_pos_transactions = this.posFilterIsOn;
-        this.backend.saveFileDialog(this.translate.instant('EXPORT_HISTORY.SAVED_FILE'), "" + this.exportData.format, this.variablesService.settings.default_path, function (file_status, file_data) {
-            if (_this.exportData.format === 'text') {
-                _this.exportData.path = file_data.path + '.txt';
-            }
-            else {
-                _this.exportData.path = file_data.path + ("." + _this.exportData.format);
-            }
-            if (file_status) {
-                _this.backend.exportWalletHistory(JSON.stringify(_this.exportData));
-                _this.closeExportModal.emit(true);
-            }
-            ;
-        });
-    };
-    __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-        __metadata("design:type", Object)
-    ], ExportHistoryModalComponent.prototype, "currentWalletId", void 0);
-    __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
-        __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"])
-    ], ExportHistoryModalComponent.prototype, "closeExportModal", void 0);
-    ExportHistoryModalComponent = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
-            selector: 'app-export-history-modal',
-            template: __webpack_require__(/*! ./export-history-modal.component.html */ "./src/app/export-history-modal/export-history-modal.component.html"),
-            styles: [__webpack_require__(/*! ./export-history-modal.component.scss */ "./src/app/export-history-modal/export-history-modal.component.scss")]
-        }),
-        __metadata("design:paramtypes", [_helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_2__["BackendService"],
-            _helpers_services_variables_service__WEBPACK_IMPORTED_MODULE_3__["VariablesService"],
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["NgZone"],
-            _ngx_translate_core__WEBPACK_IMPORTED_MODULE_1__["TranslateService"]])
-    ], ExportHistoryModalComponent);
-    return ExportHistoryModalComponent;
 }());
 
 
@@ -6695,6 +6935,11 @@ var PurchaseComponent = /** @class */ (function () {
         this.isOpen = false;
         this.localAliases = [];
         this.newPurchase = false;
+        this.sameAmountChecked = false;
+        this.additionalOptions = false;
+        this.currentContract = null;
+        this.showTimeSelect = false;
+        this.showNullify = false;
         this.purchaseForm = new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormGroup"]({
             description: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"]('', _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required),
             seller: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"]('', [_angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required, function (g) {
@@ -6773,12 +7018,12 @@ var PurchaseComponent = /** @class */ (function () {
             payment: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"](''),
             password: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"]('')
         });
-        this.sameAmountChecked = false;
-        this.additionalOptions = false;
-        this.currentContract = null;
-        this.showTimeSelect = false;
-        this.showNullify = false;
     }
+    PurchaseComponent.prototype.onClick = function (targetElement) {
+        if (targetElement.id !== 'purchase-seller' && this.isOpen) {
+            this.isOpen = false;
+        }
+    };
     PurchaseComponent.prototype.checkAndChangeHistory = function () {
         var _this = this;
         if (this.currentContract.state === 201) {
@@ -6795,11 +7040,6 @@ var PurchaseComponent = /** @class */ (function () {
     };
     PurchaseComponent.prototype.setAlias = function (alias) {
         this.purchaseForm.get('seller').setValue(alias);
-    };
-    PurchaseComponent.prototype.onClick = function (targetElement) {
-        if (targetElement.id !== 'purchase-seller' && this.isOpen) {
-            this.isOpen = false;
-        }
     };
     PurchaseComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -6897,6 +7137,21 @@ var PurchaseComponent = /** @class */ (function () {
                     return null;
                 }]);
         }
+        this.dLActionSubscribe = this.variablesService.$sendActionData.subscribe(function (res) {
+            if (res.action === "escrow") {
+                _this.actionData = res;
+                _this.fillDeepLinkData();
+            }
+        });
+    };
+    PurchaseComponent.prototype.fillDeepLinkData = function () {
+        this.additionalOptions = true;
+        this.purchaseForm.get("description").setValue(this.actionData.description || '');
+        this.purchaseForm.get("seller").setValue(this.actionData.seller_address || '');
+        this.purchaseForm.get("amount").setValue(this.actionData.amount || '');
+        this.purchaseForm.get("yourDeposit").setValue(this.actionData.my_deposit || '');
+        this.purchaseForm.get("sellerDeposit").setValue(this.actionData.seller_deposit || '');
+        this.purchaseForm.get("comment").setValue(this.actionData.comment || '');
     };
     PurchaseComponent.prototype.toggleOptions = function () {
         this.additionalOptions = !this.additionalOptions;
@@ -7068,6 +7323,8 @@ var PurchaseComponent = /** @class */ (function () {
         });
     };
     PurchaseComponent.prototype.ngOnDestroy = function () {
+        this.actionData = {};
+        this.dLActionSubscribe.unsubscribe();
         this.parentRouting.unsubscribe();
         this.subRouting.unsubscribe();
         this.heightAppEvent.unsubscribe();
@@ -7793,7 +8050,7 @@ var SendModalComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<form *ngIf=\"!isLoading\" class=\"form-send\" [formGroup]=\"sendForm\" (ngSubmit)=\"showDialog()\">\r\n\r\n  <div class=\"input-block input-block-alias\">\r\n    <label for=\"send-address\">{{ 'SEND.ADDRESS' | translate }}</label>\r\n    <div class=\"adress-input-row\"><input type=\"text\" id=\"send-address\" formControlName=\"address\"\r\n        [class.required-error]=\"sendForm.controls['address'].dirty || sendForm.controls['address'].touched\"\r\n        [placeholder]=\"sendForm.controls['address'].dirty || sendForm.controls['address'].touched ? ('SEND.FORM_ERRORS.ADDRESS_REQUIRED' | translate ) : ('PLACEHOLDERS.ADRESS_PLACEHOLDER' | translate)\"\r\n        (mousedown)=\"addressMouseDown($event)\" (contextmenu)=\"variablesService.onContextMenu($event)\"><span\r\n        *ngIf=\"currentAliasAdress\" class=\"curent-alias-adress\"\r\n        [class.padding-bottom-01]=\"variablesService.settings.scale > 7.5\"\r\n        [style.left]=\"lenghtOfAdress + 3 + 'rem'\">{{getShorterAdress()}}</span></div>\r\n    <div class=\"alias-dropdown scrolled-content\" *ngIf=\"isOpen\">\r\n      <div *ngFor=\"let item of localAliases\" (click)=\"setAlias(item.name)\">{{item.name}}</div>\r\n    </div>\r\n    <div class=\"error-block\"\r\n      *ngIf=\"sendForm.controls['address'].invalid && (sendForm.controls['address'].dirty || sendForm.controls['address'].touched)\">\r\n      <!-- <div *ngIf=\"sendForm.controls['address'].errors['required']\">\r\n        {{ 'SEND.FORM_ERRORS.ADDRESS_REQUIRED' | translate }}\r\n      </div> -->\r\n      <div *ngIf=\"sendForm.controls['address'].errors['address_not_valid']\">\r\n        {{ 'SEND.FORM_ERRORS.ADDRESS_NOT_VALID' | translate }}\r\n      </div>\r\n      <div *ngIf=\"sendForm.controls['address'].errors['alias_not_valid']\">\r\n        {{ 'SEND.FORM_ERRORS.ALIAS_NOT_VALID' | translate }}\r\n      </div>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"input-blocks-row\">\r\n    <div class=\"input-block\">\r\n      <label for=\"send-amount\">{{ 'SEND.AMOUNT' | translate }}</label>\r\n      <input type=\"text\" id=\"send-amount\" formControlName=\"amount\"\r\n        [class.required-error]=\"sendForm.controls['amount'].dirty || sendForm.controls['amount'].touched\"\r\n        [placeholder]=\"sendForm.controls['amount'].dirty || sendForm.controls['amount'].touched ? ('SEND.FORM_ERRORS.AMOUNT_REQUIRED' | translate ) : ('PLACEHOLDERS.AMOUNT_PLACEHOLDER' | translate)\"\r\n        appInputValidate=\"money\" (contextmenu)=\"variablesService.onContextMenu($event)\">\r\n      <div class=\"error-block\"\r\n        *ngIf=\"sendForm.controls['amount'].invalid && !sendForm.controls['amount'].errors['required'] && (sendForm.controls['amount'].dirty || sendForm.controls['amount'].touched)\">\r\n        <!-- <div *ngIf=\"sendForm.controls['amount'].errors['required']\">\r\n          {{ 'SEND.FORM_ERRORS.AMOUNT_REQUIRED' | translate }}\r\n        </div> -->\r\n        <div *ngIf=\"sendForm.controls['amount'].errors['zero']\">\r\n          {{ 'SEND.FORM_ERRORS.AMOUNT_ZERO' | translate }}\r\n        </div>\r\n        <div *ngIf=\"sendForm.controls['amount'].errors['great_than_unwraped_coins']\">\r\n          {{ 'SEND.FORM_ERRORS.GREAT_THAN_UNWRAPPED_COINS' | translate }}\r\n        </div>\r\n        <div *ngIf=\"sendForm.controls['amount'].errors['less_than_zano_needed']\">\r\n          {{ 'SEND.FORM_ERRORS.LESS_THAN_ZANO_NEEDED' | translate }}\r\n        </div>\r\n        <div *ngIf=\"sendForm.controls['amount'].errors['wrap_info_null']\">\r\n          {{ 'SEND.FORM_ERRORS.WRAP_INFO_NULL' | translate }}\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"input-block\">\r\n      <label for=\"send-comment\">{{ 'SEND.COMMENT' | translate }}</label>\r\n      <input type=\"text\" id=\"send-comment\" formControlName=\"comment\"\r\n        placeholder=\"{{ 'PLACEHOLDERS.COMMENT_PLACEHOLDER' | translate }}\"\r\n        [maxLength]=\"variablesService.maxCommentLength\" (contextmenu)=\"variablesService.onContextMenu($event)\">\r\n      <div class=\"error-block\"\r\n        *ngIf=\"sendForm.get('comment').value && sendForm.get('comment').value.length >= variablesService.maxCommentLength\">\r\n        {{ 'SEND.FORM_ERRORS.MAX_LENGTH' | translate }}\r\n      </div>\r\n    </div>\r\n\r\n  </div>\r\n\r\n  <div *ngIf=\"isWrapShown && wrapInfo && !isLoading\" class=\"wrap\">\r\n    <div class=\"title\">\r\n      {{ 'SEND.WRAP.TITLE' | translate }}\r\n      <i class=\"icon info\"></i>\r\n    </div>\r\n    <div class=\"text-wrap\">\r\n      {{ 'SEND.WRAP.MAIN_TEXT' | translate }}\r\n    </div>\r\n    <div class=\"title\">{{ 'SEND.WRAP.ESTIMATE' | translate }}</div>\r\n    <table class=\"text-wrap\">\r\n      <tr>\r\n        <td>{{ 'SEND.WRAP.WILL_RECEIVE' | translate }}</td>\r\n        <td *ngIf=\"!sendForm.controls['amount'].errors\">{{getReceivedValue() | intToMoney}} {{ 'SEND.WRAP.wZANO' |\r\n          translate }}</td>\r\n        <td *ngIf=\"sendForm.controls['amount'].errors\">-</td>\r\n      </tr>\r\n      <tr>\r\n        <td>{{ 'SEND.WRAP.FEE' | translate }}</td>\r\n        <td>\r\n          {{wrapInfo?.tx_cost?.zano_needed_for_erc20 | intToMoney: 3 }}\r\n          {{ 'SEND.WRAP.ZANO' | translate }}(${{wrapInfo?.tx_cost?.usd_needed_for_erc20}})</td>\r\n      </tr>\r\n    </table>\r\n  </div>\r\n\r\n  <button type=\"button\" class=\"send-select\" (click)=\"toggleOptions()\">\r\n    <span>{{ 'SEND.DETAILS' | translate }}</span><i class=\"icon arrow\" [class.down]=\"!additionalOptions\"\r\n      [class.up]=\"additionalOptions\"></i>\r\n  </button>\r\n\r\n  <div class=\"additional-details\" *ngIf=\"additionalOptions\">\r\n    <div class=\"input-block\">\r\n      <label for=\"send-mixin\">{{ 'SEND.MIXIN' | translate }}</label>\r\n      <input type=\"text\" id=\"send-mixin\" formControlName=\"mixin\"\r\n        [class.required-error]=\"sendForm.controls['mixin'].dirty || sendForm.controls['mixin'].touched\"\r\n        [placeholder]=\"sendForm.controls['mixin'].dirty || sendForm.controls['mixin'].touched ? ('SEND.FORM_ERRORS.AMOUNT_REQUIRED' | translate ) : ('PLACEHOLDERS.AMOUNT_PLACEHOLDER' | translate)\"\r\n        appInputValidate=\"integer\" (contextmenu)=\"variablesService.onContextMenu($event)\">\r\n      <!-- <div class=\"error-block\"\r\n        *ngIf=\"sendForm.controls['mixin'].invalid && (sendForm.controls['mixin'].dirty || sendForm.controls['mixin'].touched)\">\r\n        <div *ngIf=\"sendForm.controls['mixin'].errors['required']\">\r\n          {{ 'SEND.FORM_ERRORS.AMOUNT_REQUIRED' | translate }}\r\n        </div>\r\n      </div> -->\r\n    </div>\r\n\r\n    <div class=\"input-block\">\r\n      <label for=\"send-fee\">{{ 'SEND.FEE' | translate }}</label>\r\n      <input type=\"text\" id=\"send-fee\" formControlName=\"fee\"\r\n        [class.required-error]=\"sendForm.controls['fee'].dirty || sendForm.controls['fee'].touched\"\r\n        [placeholder]=\"sendForm.controls['fee'].dirty || sendForm.controls['fee'].touched ? ('SEND.FORM_ERRORS.FEE_REQUIRED' | translate ) : ('PLACEHOLDERS.FEE_PLACEHOLDER' | translate)\"\r\n        appInputValidate=\"money\" (contextmenu)=\"variablesService.onContextMenu($event)\">\r\n      <div class=\"error-block\"\r\n        *ngIf=\"sendForm.controls['fee'].invalid && !sendForm.controls['fee'].errors['required'] && (sendForm.controls['fee'].dirty || sendForm.controls['fee'].touched)\">\r\n        <!-- <div *ngIf=\"sendForm.controls['fee'].errors['required']\">\r\n          {{ 'SEND.FORM_ERRORS.FEE_REQUIRED' | translate }}\r\n        </div> -->\r\n        <div *ngIf=\"sendForm.controls['fee'].errors['less_min']\">\r\n          {{ 'SEND.FORM_ERRORS.FEE_MINIMUM' | translate : {fee: variablesService.default_fee} }}\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"checkbox-block\" [ngClass]=\"{'disabled-checkbox-block': hideWalletAddress}\">\r\n      <input type=\"checkbox\" id=\"send-hide\" class=\"style-checkbox\" formControlName=\"hide\" [checked]=\"hideWalletAddress\">\r\n      <label for=\"send-hide\">{{ 'SEND.HIDE' | translate }}</label>\r\n    </div>\r\n\r\n  </div>\r\n\r\n  <button type=\"submit\" class=\"blue-button\" [disabled]=\"!sendForm.valid || !variablesService.currentWallet.loaded\">{{\r\n    'SEND.BUTTON' | translate }}</button>\r\n\r\n  <app-send-modal *ngIf=\"isModalDialogVisible\" [form]=\"sendForm\" (confirmed)=\"confirmed($event)\"></app-send-modal>\r\n\r\n</form>\r\n"
+module.exports = "<form *ngIf=\"!isLoading\" class=\"form-send\" [formGroup]=\"sendForm\" (ngSubmit)=\"showDialog()\">\r\n\r\n  <div class=\"input-block input-block-alias\">\r\n    <label for=\"send-address\">{{ 'SEND.ADDRESS' | translate }}</label>\r\n    <div class=\"adress-input-row\"><input type=\"text\" id=\"send-address\" formControlName=\"address\"\r\n        [class.required-error]=\"sendForm.controls['address'].dirty || sendForm.controls['address'].touched\"\r\n        [placeholder]=\"sendForm.controls['address'].dirty || sendForm.controls['address'].touched ? ('SEND.FORM_ERRORS.ADDRESS_REQUIRED' | translate ) : ('PLACEHOLDERS.ADRESS_PLACEHOLDER' | translate)\"\r\n        (mousedown)=\"addressMouseDown($event)\" (contextmenu)=\"variablesService.onContextMenu($event)\"><span\r\n        *ngIf=\"currentAliasAdress\" class=\"curent-alias-adress\"\r\n        [class.padding-bottom-01]=\"variablesService.settings.scale > 7.5\"\r\n        [style.left]=\"lenghtOfAdress + 3 + 'rem'\">{{getShorterAdress()}}</span></div>\r\n    <div class=\"alias-dropdown scrolled-content\" *ngIf=\"isOpen\">\r\n      <div *ngFor=\"let item of localAliases\" (click)=\"setAlias(item.name)\">{{item.name}}</div>\r\n    </div>\r\n    <div class=\"error-block\"\r\n      *ngIf=\"sendForm.controls['address'].invalid && (sendForm.controls['address'].dirty || sendForm.controls['address'].touched)\">\r\n      <!-- <div *ngIf=\"sendForm.controls['address'].errors['required']\">\r\n        {{ 'SEND.FORM_ERRORS.ADDRESS_REQUIRED' | translate }}\r\n      </div> -->\r\n      <div *ngIf=\"sendForm.controls['address'].errors['address_not_valid']\">\r\n        {{ 'SEND.FORM_ERRORS.ADDRESS_NOT_VALID' | translate }}\r\n      </div>\r\n      <div *ngIf=\"sendForm.controls['address'].errors['alias_not_valid']\">\r\n        {{ 'SEND.FORM_ERRORS.ALIAS_NOT_VALID' | translate }}\r\n      </div>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"input-blocks-row\">\r\n    <div class=\"input-block\">\r\n      <label for=\"send-amount\">{{ 'SEND.AMOUNT' | translate }}</label>\r\n      <input type=\"text\" id=\"send-amount\" formControlName=\"amount\"\r\n        [class.required-error]=\"sendForm.controls['amount'].dirty || sendForm.controls['amount'].touched\"\r\n        [placeholder]=\"sendForm.controls['amount'].dirty || sendForm.controls['amount'].touched ? ('SEND.FORM_ERRORS.AMOUNT_REQUIRED' | translate ) : ('PLACEHOLDERS.AMOUNT_PLACEHOLDER' | translate)\"\r\n        appInputValidate=\"money\" (contextmenu)=\"variablesService.onContextMenu($event)\">\r\n      <div class=\"error-block\"\r\n        *ngIf=\"sendForm.controls['amount'].invalid && !sendForm.controls['amount'].errors['required'] && (sendForm.controls['amount'].dirty || sendForm.controls['amount'].touched)\">\r\n        <!-- <div *ngIf=\"sendForm.controls['amount'].errors['required']\">\r\n          {{ 'SEND.FORM_ERRORS.AMOUNT_REQUIRED' | translate }}\r\n        </div> -->\r\n        <div *ngIf=\"sendForm.controls['amount'].errors['zero']\">\r\n          {{ 'SEND.FORM_ERRORS.AMOUNT_ZERO' | translate }}\r\n        </div>\r\n        <div *ngIf=\"sendForm.controls['amount'].errors['great_than_unwraped_coins']\">\r\n          {{ 'SEND.FORM_ERRORS.GREAT_THAN_UNWRAPPED_COINS' | translate }}\r\n        </div>\r\n        <div *ngIf=\"sendForm.controls['amount'].errors['less_than_zano_needed']\">\r\n          {{ 'SEND.FORM_ERRORS.LESS_THAN_ZANO_NEEDED' | translate }}\r\n        </div>\r\n        <div *ngIf=\"sendForm.controls['amount'].errors['wrap_info_null']\">\r\n          {{ 'SEND.FORM_ERRORS.WRAP_INFO_NULL' | translate }}\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"input-block\">\r\n      <label for=\"send-comment\">{{ 'SEND.COMMENT' | translate }}</label>\r\n      <input type=\"text\" id=\"send-comment\" formControlName=\"comment\"\r\n        placeholder=\"{{ 'PLACEHOLDERS.COMMENT_PLACEHOLDER' | translate }}\"\r\n        [maxLength]=\"variablesService.maxCommentLength\" (contextmenu)=\"variablesService.onContextMenu($event)\">\r\n      <div class=\"error-block\"\r\n        *ngIf=\"sendForm.get('comment').value && sendForm.get('comment').value.length >= variablesService.maxCommentLength\">\r\n        {{ 'SEND.FORM_ERRORS.MAX_LENGTH' | translate }}\r\n      </div>\r\n    </div>\r\n\r\n  </div>\r\n\r\n  <div *ngIf=\"isWrapShown && wrapInfo && !isLoading\" class=\"wrap\">\r\n    <div class=\"title\">\r\n      {{ 'SEND.WRAP.TITLE' | translate }}\r\n      <i class=\"icon info\"></i>\r\n    </div>\r\n    <div class=\"text-wrap\">\r\n      {{ 'SEND.WRAP.MAIN_TEXT' | translate }}\r\n    </div>\r\n    <div class=\"title\">{{ 'SEND.WRAP.ESTIMATE' | translate }}</div>\r\n    <table class=\"text-wrap\">\r\n      <tr>\r\n        <td>{{ 'SEND.WRAP.WILL_RECEIVE' | translate }}</td>\r\n        <td *ngIf=\"!sendForm.controls['amount'].errors\">{{getReceivedValue() | intToMoney}} {{ 'SEND.WRAP.wZANO' |\r\n          translate }}</td>\r\n        <td *ngIf=\"sendForm.controls['amount'].errors\">-</td>\r\n      </tr>\r\n      <tr>\r\n        <td>{{ 'SEND.WRAP.FEE' | translate }}</td>\r\n        <td>\r\n          {{wrapInfo?.tx_cost?.zano_needed_for_erc20 | intToMoney: 3 }}\r\n          {{ 'SEND.WRAP.ZANO' | translate }}(${{wrapInfo?.tx_cost?.usd_needed_for_erc20}})</td>\r\n      </tr>\r\n    </table>\r\n  </div>\r\n\r\n  <button type=\"button\" class=\"send-select\" (click)=\"toggleOptions()\">\r\n    <span>{{ 'SEND.DETAILS' | translate }}</span><i class=\"icon arrow\" [class.down]=\"!additionalOptions\"\r\n      [class.up]=\"additionalOptions\"></i>\r\n  </button>\r\n\r\n  <div class=\"additional-details\" *ngIf=\"additionalOptions\">\r\n    <div class=\"input-block\">\r\n      <label for=\"send-mixin\">{{ 'SEND.MIXIN' | translate }}</label>\r\n      <input type=\"text\" id=\"send-mixin\" formControlName=\"mixin\"\r\n        [class.required-error]=\"sendForm.controls['mixin'].dirty || sendForm.controls['mixin'].touched\"\r\n        [placeholder]=\"sendForm.controls['mixin'].dirty || sendForm.controls['mixin'].touched ? ('SEND.FORM_ERRORS.AMOUNT_REQUIRED' | translate ) : ('PLACEHOLDERS.AMOUNT_PLACEHOLDER' | translate)\"\r\n        appInputValidate=\"integer\" (contextmenu)=\"variablesService.onContextMenu($event)\">\r\n      <!-- <div class=\"error-block\"\r\n        *ngIf=\"sendForm.controls['mixin'].invalid && (sendForm.controls['mixin'].dirty || sendForm.controls['mixin'].touched)\">\r\n        <div *ngIf=\"sendForm.controls['mixin'].errors['required']\">\r\n          {{ 'SEND.FORM_ERRORS.AMOUNT_REQUIRED' | translate }}\r\n        </div>\r\n      </div> -->\r\n    </div>\r\n\r\n    <div class=\"input-block\">\r\n      <label for=\"send-fee\">{{ 'SEND.FEE' | translate }}</label>\r\n      <input type=\"text\" id=\"send-fee\" formControlName=\"fee\"\r\n        [class.required-error]=\"sendForm.controls['fee'].dirty || sendForm.controls['fee'].touched\"\r\n        [placeholder]=\"sendForm.controls['fee'].dirty || sendForm.controls['fee'].touched ? ('SEND.FORM_ERRORS.FEE_REQUIRED' | translate ) : ('PLACEHOLDERS.FEE_PLACEHOLDER' | translate)\"\r\n        appInputValidate=\"money\" (contextmenu)=\"variablesService.onContextMenu($event)\">\r\n      <div class=\"error-block\"\r\n        *ngIf=\"sendForm.controls['fee'].invalid && !sendForm.controls['fee'].errors['required'] && (sendForm.controls['fee'].dirty || sendForm.controls['fee'].touched)\">\r\n        <!-- <div *ngIf=\"sendForm.controls['fee'].errors['required']\">\r\n          {{ 'SEND.FORM_ERRORS.FEE_REQUIRED' | translate }}\r\n        </div> -->\r\n        <div *ngIf=\"sendForm.controls['fee'].errors['less_min']\">\r\n          {{ 'SEND.FORM_ERRORS.FEE_MINIMUM' | translate : {fee: variablesService.default_fee} }}\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"checkbox-block\" [ngClass]=\"{'disabled-checkbox-block': hideWalletAddress}\">\r\n      <input type=\"checkbox\" id=\"send-hide\" class=\"style-checkbox\" formControlName=\"hide\"\r\n        [checked]=\"hideWalletAddress || sendForm.controls['hide'].value\">\r\n      <label for=\"send-hide\">{{ 'SEND.HIDE' | translate }}</label>\r\n    </div>\r\n\r\n  </div>\r\n\r\n  <button type=\"submit\" class=\"blue-button\" [disabled]=\"!sendForm.valid || !variablesService.currentWallet.loaded\">{{\r\n    'SEND.BUTTON' | translate }}</button>\r\n\r\n  <app-send-modal *ngIf=\"isModalDialogVisible\" [form]=\"sendForm\" (confirmed)=\"confirmed($event)\"></app-send-modal>\r\n\r\n</form>\r\n"
 
 /***/ }),
 
@@ -7866,6 +8123,7 @@ var SendComponent = /** @class */ (function () {
         this.hideWalletAddress = false;
         this.isLoading = true;
         this.isWrapShown = false;
+        this.additionalOptions = false;
         this.currentWalletId = null;
         this.sendForm = new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormGroup"]({
             address: new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControl"]('', [_angular_forms__WEBPACK_IMPORTED_MODULE_1__["Validators"].required, function (g) {
@@ -7956,8 +8214,12 @@ var SendComponent = /** @class */ (function () {
                 }]),
             hide: new _angular_forms__WEBPACK_IMPORTED_MODULE_1__["FormControl"](false)
         });
-        this.additionalOptions = false;
     }
+    SendComponent.prototype.onClick = function (targetElement) {
+        if (targetElement.id !== 'send-address' && this.isOpen) {
+            this.isOpen = false;
+        }
+    };
     SendComponent.prototype.getShorterAdress = function () {
         var tempArr = this.currentAliasAdress.split("");
         return this.currentAliasAdress.split("", 34).join('') + "..." + tempArr.splice((tempArr.length - 13), 13).join('');
@@ -7969,11 +8231,6 @@ var SendComponent = /** @class */ (function () {
     };
     SendComponent.prototype.setAlias = function (alias) {
         this.sendForm.get('address').setValue(alias);
-    };
-    SendComponent.prototype.onClick = function (targetElement) {
-        if (targetElement.id !== 'send-address' && this.isOpen) {
-            this.isOpen = false;
-        }
     };
     SendComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -7998,6 +8255,14 @@ var SendComponent = /** @class */ (function () {
             });
         });
         this.getWrapInfo();
+        this.dLActionSubscribe = this.variablesService.$sendActionData.subscribe(function (res) {
+            if (res.action === "send") {
+                _this.actionData = res;
+                setTimeout(function () {
+                    _this.fillDeepLinkData();
+                }, 100);
+            }
+        });
     };
     SendComponent.prototype.getWrapInfo = function () {
         var _this = this;
@@ -8017,6 +8282,17 @@ var SendComponent = /** @class */ (function () {
             this.onSend();
         }
         this.isModalDialogVisible = false;
+    };
+    SendComponent.prototype.fillDeepLinkData = function () {
+        this.additionalOptions = true;
+        this.sendForm.reset({
+            address: this.actionData.address,
+            amount: null,
+            comment: this.actionData.comment || '',
+            mixin: this.actionData.mixins || this.mixin,
+            fee: this.actionData.fee || this.variablesService.default_fee,
+            hide: this.actionData.hide_sender === "true" ? true : false
+        });
     };
     SendComponent.prototype.onSend = function () {
         var _this = this;
@@ -8096,6 +8372,7 @@ var SendComponent = /** @class */ (function () {
     };
     SendComponent.prototype.ngOnDestroy = function () {
         this.parentRouting.unsubscribe();
+        this.dLActionSubscribe.unsubscribe();
         this.variablesService.currentWallet.send_data = {
             address: this.sendForm.get('address').value,
             amount: this.sendForm.get('amount').value,
@@ -8104,6 +8381,7 @@ var SendComponent = /** @class */ (function () {
             fee: this.sendForm.get('fee').value,
             hide: this.sendForm.get('hide').value
         };
+        this.actionData = {};
     };
     SendComponent.prototype.getReceivedValue = function () {
         var amount = this.moneyToInt.transform(this.sendForm.value.amount);
@@ -9495,7 +9773,7 @@ var WalletDetailsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"header\">\r\n  <div>\r\n    <h3 tooltip=\"{{ variablesService.currentWallet.name }}\" placement=\"bottom-left\" tooltipClass=\"table-tooltip\"\r\n      [delay]=\"500\" [showWhenNoOverflow]=\"false\">{{variablesService.currentWallet.name}}</h3>\r\n    <div *ngIf=\"!variablesService.currentWallet.is_auditable\">\r\n      <button [routerLink]=\"['/assign-alias']\"\r\n        *ngIf=\"!variablesService.currentWallet.alias.hasOwnProperty('name') && variablesService.currentWallet.loaded && variablesService.daemon_state === 2 && variablesService.currentWallet.alias_available\">\r\n        <i class=\"icon account\"></i>\r\n        <span>{{ 'WALLET.REGISTER_ALIAS' | translate }}</span>\r\n      </button>\r\n      <div class=\"alias\"\r\n        *ngIf=\"variablesService.currentWallet.alias.hasOwnProperty('name') && variablesService.currentWallet.loaded && variablesService.daemon_state === 2\">\r\n        <span>{{variablesService.currentWallet.alias['name']}}</span>\r\n        <ng-container *ngIf=\"variablesService.currentWallet.alias_available\">\r\n          <i class=\"icon edit\" [routerLink]=\"['/edit-alias']\" tooltip=\"{{ 'WALLET.TOOLTIPS.EDIT_ALIAS' | translate }}\"\r\n            placement=\"bottom-right\" tooltipClass=\"table-tooltip account-tooltip\" [delay]=\"500\" [timeDelay]=\"500\"></i>\r\n          <i class=\"icon transfer\" [routerLink]=\"['/transfer-alias']\"\r\n            tooltip=\"{{ 'WALLET.TOOLTIPS.TRANSFER_ALIAS' | translate }}\" placement=\"right\"\r\n            tooltipClass=\"table-tooltip account-tooltip\" [delay]=\"500\" [timeDelay]=\"500\"></i>\r\n        </ng-container>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"settings-block\">\r\n    <button [disabled]=\"settingsButtonDisabled && !variablesService.currentWallet.loaded\" (click)=\"togleMenuDropdown()\">\r\n      <i class=\"icon details\" id=\"wallet-dropdown-button\">\r\n        <svg id=\"wallet-dropdown-button\" width=\"100%\" height=\"100%\" viewBox=\"0 0 20 21\" fill=\"none\"\r\n          xmlns=\"http://www.w3.org/2000/svg\">\r\n          <path\r\n            d=\"M0.96875 1.22266C0.96875 1.64258 1.31055 1.96484 1.7207 1.96484L18.4395 1.96484C18.8496 1.96484 19.1816 1.64258 19.1816 1.22266C19.1816 0.8125 18.8496 0.490234 18.4395 0.490234L1.7207 0.490234C1.31055 0.490234 0.96875 0.8125 0.96875 1.22266ZM0.96875 6.0957C0.96875 6.51562 1.31055 6.83789 1.7207 6.83789L18.4395 6.83789C18.8496 6.83789 19.1816 6.51562 19.1816 6.0957C19.1816 5.68555 18.8496 5.36328 18.4395 5.36328L1.7207 5.36328C1.31055 5.36328 0.96875 5.68555 0.96875 6.0957ZM0.96875 10.9687C0.96875 11.3887 1.31055 11.7109 1.7207 11.7109L18.4395 11.7109C18.8496 11.7109 19.1816 11.3887 19.1816 10.9688C19.1816 10.5586 18.8496 10.2363 18.4395 10.2363L1.7207 10.2363C1.31055 10.2363 0.96875 10.5586 0.96875 10.9687ZM7.08203 16.8965L9.24023 20.1289C9.63086 20.7051 10.4609 20.6855 10.8516 20.1289L13.0488 16.8965C13.5566 16.1445 13.2734 15.3535 12.375 15.3633L7.74609 15.3633C6.87695 15.3535 6.61328 16.1836 7.08203 16.8965Z\"\r\n            fill=\"#1F8FEB\" />\r\n        </svg>\r\n      </i>\r\n    </button>\r\n    <div *ngIf=\"openDropdown\" class=\"settings-dropdown\">\r\n      <button class=\"dark-line\" [routerLink]=\"['/details']\" routerLinkActive=\"active\"\r\n        tooltip=\"{{ 'WALLET.TOOLTIPS.SETTINGS' | translate }}\" placement=\"left\"\r\n        tooltipClass=\"table-tooltip account-tooltip\" [delay]=\"500\" [timeDelay]=\"500\"\r\n        [disabled]=\"!variablesService.currentWallet.loaded\">\r\n        <i class=\"icon wallet-settings\">\r\n          <svg width=\"100%\" height=\"100%\" viewBox=\"0 0 17 15\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\r\n            <path\r\n              d=\"M11.6641 4.47656C12.4766 4.47656 13.1641 3.95312 13.4297 3.23438H16.1328C16.4531 3.23438 16.7344 2.95312 16.7344 2.60156C16.7344 2.25 16.4531 1.97656 16.1328 1.97656H13.4297C13.1719 1.25 12.4766 0.71875 11.6641 0.71875C10.8516 0.71875 10.1484 1.25 9.89062 1.97656H1.61719C1.26562 1.97656 0.992188 2.25 0.992188 2.60156C0.992188 2.95312 1.26562 3.23438 1.61719 3.23438H9.89844C10.1562 3.95312 10.8516 4.47656 11.6641 4.47656ZM11.6641 3.51562C11.1484 3.51562 10.75 3.10938 10.75 2.59375C10.75 2.07812 11.1484 1.67969 11.6641 1.67969C12.1797 1.67969 12.5781 2.07812 12.5781 2.59375C12.5781 3.10938 12.1797 3.51562 11.6641 3.51562ZM1.58594 6.74219C1.26562 6.74219 0.992188 7.02344 0.992188 7.375C0.992188 7.72656 1.26562 8 1.58594 8H4.38281C4.64062 8.73438 5.33594 9.25781 6.14844 9.25781C6.96094 9.25781 7.65625 8.73438 7.92188 8H16.1016C16.4531 8 16.7344 7.72656 16.7344 7.375C16.7344 7.02344 16.4531 6.74219 16.1016 6.74219H7.91406C7.65625 6.02344 6.96094 5.5 6.14844 5.5C5.33594 5.5 4.64062 6.02344 4.38281 6.74219H1.58594ZM6.14844 8.28906C5.64062 8.28906 5.23438 7.88281 5.23438 7.375C5.23438 6.85938 5.64062 6.46094 6.14844 6.46094C6.66406 6.46094 7.0625 6.85938 7.0625 7.375C7.0625 7.88281 6.66406 8.28906 6.14844 8.28906ZM11.6641 14.0234C12.4766 14.0234 13.1719 13.5 13.4297 12.7734H16.1328C16.4531 12.7734 16.7344 12.5 16.7344 12.1484C16.7344 11.7969 16.4531 11.5156 16.1328 11.5156H13.4297C13.1719 10.7891 12.4766 10.2734 11.6641 10.2734C10.8516 10.2734 10.1562 10.7891 9.89844 11.5156H1.61719C1.26562 11.5156 0.992188 11.7969 0.992188 12.1484C0.992188 12.5 1.26562 12.7734 1.61719 12.7734H9.89062C10.1562 13.5 10.8516 14.0234 11.6641 14.0234ZM11.6641 13.0625C11.1484 13.0625 10.75 12.6562 10.75 12.1484C10.75 11.625 11.1484 11.2344 11.6641 11.2344C12.1797 11.2344 12.5781 11.625 12.5781 12.1484C12.5781 12.6562 12.1797 13.0625 11.6641 13.0625Z\"\r\n              fill=\"white\" />\r\n          </svg>\r\n        </i><span>{{ 'WALLET_DETAILS.WALLET_OPTIONS' | translate }}</span>\r\n      </button>\r\n      <button class=\"dark-line\" tooltip=\"{{ 'EXPORT_HISTORY.TOOLTIP' | translate }}\" placement=\"left\"\r\n        tooltipClass=\"table-tooltip account-tooltip\" [delay]=\"500\" [timeDelay]=\"500\"\r\n        (click)=\"exportHistoryDialogVisible = !exportHistoryDialogVisible\"\r\n        [disabled]=\"variablesService.currentWallet.history.length <= 0\">\r\n        <i class=\"icon export-history\"><svg viewBox=\"0 0 18 18\" width=\"100%\" height=\"100%\" fill=\"none\"\r\n            xmlns=\"http://www.w3.org/2000/svg\">\r\n            <path\r\n              d=\"M8.95264 17.4736C13.5845 17.4736 17.4194 13.6304 17.4194 9.00684C17.4194 4.375 13.5762 0.540039 8.94434 0.540039C4.3208 0.540039 0.48584 4.375 0.48584 9.00684C0.48584 13.6304 4.3291 17.4736 8.95264 17.4736ZM8.95264 16.0625C5.03467 16.0625 1.90527 12.9248 1.90527 9.00684C1.90527 5.08887 5.02637 1.95117 8.94434 1.95117C12.8623 1.95117 16 5.08887 16.0083 9.00684C16.0166 12.9248 12.8706 16.0625 8.95264 16.0625ZM8.94434 9.77881C9.17676 9.77881 9.35938 9.60449 9.35938 9.38037V5.18018L9.34277 4.79004L9.70801 5.18018L10.0815 5.57031C10.1479 5.64502 10.2476 5.68652 10.3721 5.68652C10.5962 5.68652 10.7539 5.53711 10.7539 5.32129C10.7539 5.22168 10.7207 5.12207 10.6294 5.04736L9.24316 3.70264C9.14355 3.60303 9.04395 3.56152 8.94434 3.56152C8.84473 3.56152 8.74512 3.61133 8.65381 3.70264L7.25928 5.03906C7.16797 5.13037 7.14307 5.22168 7.14307 5.32129C7.14307 5.53711 7.30078 5.68652 7.5166 5.68652C7.63281 5.68652 7.74072 5.64502 7.80713 5.57031L8.18066 5.18018L8.5542 4.79004L8.5376 5.18018V9.38037C8.5376 9.60449 8.72021 9.77881 8.94434 9.77881ZM6.60352 13.041H11.3018C12.2065 13.041 12.6797 12.5762 12.6797 11.6797V7.5874C12.6797 6.69092 12.2065 6.23438 11.3018 6.23438H10.0732V7.07275H11.2935C11.6587 7.07275 11.8413 7.25537 11.8413 7.62891V11.6548C11.8413 12.02 11.6587 12.2109 11.2935 12.2109H6.61182C6.24658 12.2109 6.06396 12.0283 6.06396 11.6548V7.62891C6.06396 7.25537 6.24658 7.07275 6.61182 7.07275H7.84033V6.23438H6.60352C5.70703 6.23438 5.23389 6.69922 5.22559 7.5874V11.6797C5.23389 12.5679 5.70703 13.041 6.60352 13.041Z\"\r\n              fill=\"white\" />\r\n          </svg></i><span>{{ 'EXPORT_HISTORY.EXPORT_BUTTON' | translate }}</span>\r\n      </button>\r\n      <ng-container *ngIf=\"walletSynchVisible\">\r\n        <button class=\"dark-line\" tooltip=\"{{ 'WALLET_DETAILS.RESYNC_WALLET' | translate }}\" placement=\"left\"\r\n          tooltipClass=\"table-tooltip account-tooltip\" [disabled]=\"!variablesService.currentWallet.loaded\" [delay]=\"500\"\r\n          [timeDelay]=\"500\" (click)=\"resyncCurrentWallet(variablesService.currentWallet.wallet_id)\">\r\n          <i class=\"icon resync-wallet\"><svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\"\r\n              xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" viewBox=\"0 0 24 24\"\r\n              style=\"enable-background:new 0 0 24 24;\" xml:space=\"preserve\">\r\n              <style type=\"text/css\">\r\n                .st0 {\r\n                  fill: #FFFFFF;\r\n                }\r\n              </style>\r\n              <path class=\"st0\" d=\"M24,11L23,0l-3.1,3.1C17.8,1.2,15.1,0,12,0C6.1,0,1.1,4.3,0.2,10h4.1c0.9-3.4,4-6,7.7-6c2,0,3.7,0.7,5.1,1.9\r\n          \tL14,9L24,11z\" />\r\n              <path class=\"st0\" d=\"M0,13l1,11l3.1-3.1C6.2,22.8,8.9,24,12,24c5.9,0,10.9-4.3,11.8-10h-4.1c-0.9,3.4-4,6-7.7,6\r\n          \tc-2,0-3.7-0.7-5.1-1.9L10,15L0,13z\" />\r\n            </svg></i><span>{{ 'WALLET_DETAILS.RESYNC_WALLET_BUTTON' | translate }}</span>\r\n        </button>\r\n      </ng-container>\r\n      <button type=\"button\" (click)=\"showConfirmDialog(variablesService.currentWallet.wallet_id)\"\r\n        tooltip=\"{{ 'WALLET.TOOLTIPS.CLOSE' | translate }}\" placement=\"top-left\"\r\n        tooltipClass=\"table-tooltip account-tooltip\" [delay]=\"500\" [timeDelay]=\"500\">\r\n        <i class=\"icon close-wallet\"></i><span>{{ 'WALLET_DETAILS.BUTTON_REMOVE' | translate }}</span>\r\n      </button>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"address\">\r\n  <span>{{variablesService.currentWallet.address}}</span>\r\n  <i class=\"icon\" [class.copy]=\"!copyAnimation\" [class.copied]=\"copyAnimation\" (click)=\"copyAddress()\"></i>\r\n</div>\r\n\r\n<div class=\"balance\">\r\n  <span [tooltip]=\"getTooltip()\" [placement]=\"'bottom'\" [tooltipClass]=\"'balance-tooltip'\" [delay]=\"150\" [timeout]=\"0\"\r\n    (onHide)=\"onHideTooltip()\">{{variablesService.currentWallet.balance | intToMoney : '3'}}\r\n    {{variablesService.defaultCurrency}}</span>\r\n  <span>${{variablesService.currentWallet.getMoneyEquivalent(variablesService.moneyEquivalent) | intToMoney | number :\r\n    '1.2-2'}}</span>\r\n  <span class=\"price-percent\">+4.6%</span>\r\n</div>\r\n<div class=\"tabs\">\r\n  <div class=\"tabs-header\">\r\n    <ng-container *ngFor=\"let tab of tabs; let index = index\">\r\n      <div class=\"tab\" [class.active]=\"tab.active\"\r\n        [ngClass]=\"{ 'hide': ((tab.link === '/send' || tab.link === '/contracts') && variablesService.currentWallet.is_watch_only && variablesService.currentWallet.is_auditable) }\"\r\n        [class.disabled]=\"((tab.link === '/send' || tab.link === '/contracts' || tab.link === '/staking') && (variablesService.daemon_state !== 2 || !variablesService.currentWallet.loaded))\r\n                || ((tab.link === '/send' || tab.link === '/contracts') && variablesService.currentWallet.is_watch_only && variablesService.currentWallet.is_auditable)\"\r\n        (click)=\"changeTab(index)\" (mouseover)=\"itemHovered(index, true)\" (mouseleave)=\"itemHovered(index, false)\">\r\n        <i class=\"icon\" [ngClass]=\"tab.icon\" [class.hovered]=\"tab.itemHovered\"></i>\r\n        <span>{{ tab.title | translate }}</span>\r\n        <span class=\"indicator\" *ngIf=\"tab.indicator\">{{variablesService.currentWallet.new_contracts}}</span>\r\n      </div>\r\n    </ng-container>\r\n  </div>\r\n  <div #scrolledContent class=\"tabs-content scrolled-content\">\r\n    <router-outlet></router-outlet>\r\n  </div>\r\n  <div *ngIf=\"activeTab === 'history'\" class=\"pagination-wrapper\">\r\n    <div class=\"pagination\">\r\n      <div>\r\n        <button [ngClass]=\"{'disabled': sync_started || wallet}\"\r\n          [disabled]=\"variablesService.currentWallet.currentPage === 1 || sync_started || wallet\"\r\n          (click)=\"setPage(variablesService.currentWallet.currentPage - 1)\">\r\n          <svg class=\"icon\" viewBox=\"0 0 17 17\" width=\"100%\" height=\"100%\" fill=\"none\"\r\n            xmlns=\"http://www.w3.org/2000/svg\">\r\n            <path\r\n              d=\"M8.63281 16.3281C12.9922 16.3281 16.6016 12.7109 16.6016 8.35938C16.6016 4 12.9844 0.390625 8.625 0.390625C4.27344 0.390625 0.664062 4 0.664062 8.35938C0.664062 12.7109 4.28125 16.3281 8.63281 16.3281ZM4.49219 8.35156C4.49219 8.17188 4.55469 8.04688 4.71875 7.88281L7.4375 5.14844C7.54688 5.03906 7.6875 4.98438 7.85938 4.98438C8.19531 4.98438 8.44531 5.23438 8.44531 5.57031C8.44531 5.74219 8.36719 5.89062 8.26562 6.00781L7.26562 7L6.29688 7.8125L8 7.74219H12.1797C12.5312 7.74219 12.7891 7.99219 12.7891 8.35156C12.7891 8.70312 12.5391 8.95312 12.1797 8.95312H8L6.28906 8.89062L7.26562 9.70312L8.26562 10.6953C8.375 10.8047 8.44531 10.9531 8.44531 11.125C8.44531 11.4609 8.19531 11.7188 7.85938 11.7188C7.6875 11.7188 7.54688 11.6562 7.4375 11.5469L4.71875 8.82031C4.57031 8.67188 4.49219 8.53125 4.49219 8.35156Z\"\r\n              fill=\"#FDFEFF\" fill-opacity=\"0.3\" />\r\n          </svg>\r\n        </button>\r\n\r\n        <ng-container *ngIf=\"!mining\">\r\n          <button [disabled]=\"sync_started || wallet\" *ngFor=\"let page of variablesService.currentWallet.pages\"\r\n            [ngClass]=\"{ 'active': variablesService.currentWallet.currentPage === page,'disabled': sync_started || wallet }\"\r\n            (click)=\"setPage(page)\">{{page}}</button>\r\n        </ng-container>\r\n\r\n        <ng-container *ngIf=\"mining\">\r\n          <button\r\n            [ngClass]=\"{ 'active': variablesService.currentWallet.currentPage, 'disabled': sync_started || wallet}\"\r\n            [disabled]=\"stop_paginate || sync_started || wallet\"\r\n            (click)=\"setPage(variablesService.currentWallet.currentPage)\">\r\n            {{variablesService.currentWallet.currentPage}}\r\n          </button>\r\n        </ng-container>\r\n\r\n        <button [disabled]=\"stop_paginate || sync_started || wallet\" [ngClass]=\"{'disabled': sync_started || wallet}\"\r\n          (click)=\"setPage(variablesService.currentWallet.currentPage + 1)\">\r\n          <svg class=\"icon\" viewBox=\"0 0 17 17\" width=\"100%\" height=\"100%\" fill=\"none\"\r\n            xmlns=\"http://www.w3.org/2000/svg\">\r\n            <path\r\n              d=\"M8.63281 16.3281C12.9922 16.3281 16.6016 12.7109 16.6016 8.35938C16.6016 4 12.9844 0.390625 8.625 0.390625C4.27344 0.390625 0.664062 4 0.664062 8.35938C0.664062 12.7109 4.28125 16.3281 8.63281 16.3281ZM12.7656 8.35156C12.7656 8.53125 12.6953 8.67188 12.5391 8.82031L9.82031 11.5469C9.71094 11.6562 9.57031 11.7188 9.39844 11.7188C9.0625 11.7188 8.8125 11.4609 8.8125 11.125C8.8125 10.9531 8.88281 10.8047 8.99219 10.6953L9.99219 9.70312L10.9688 8.89062L9.26562 8.95312H5.07812C4.72656 8.95312 4.46875 8.70312 4.46875 8.35156C4.46875 7.99219 4.72656 7.74219 5.07812 7.74219H9.26562L10.9688 7.8125L9.99219 7L8.99219 6.00781C8.89062 5.89062 8.8125 5.74219 8.8125 5.57031C8.8125 5.23438 9.0625 4.98438 9.39844 4.98438C9.57031 4.98438 9.71094 5.03906 9.82031 5.14844L12.5391 7.88281C12.7031 8.04688 12.7656 8.17188 12.7656 8.35156Z\"\r\n              fill=\"#FDFEFF\" fill-opacity=\"0.3\" />\r\n          </svg>\r\n        </button>\r\n      </div>\r\n      <div class=\"mining-transaction-switch\">\r\n        <span class=\"switch-text\">Hide mining transactions</span>\r\n        <div class=\"switch\" [ngClass]=\"{'disabled': sync_started || wallet}\"\r\n          (click)=\"toggleMiningTransactions(); $event.stopPropagation()\" [class.on]=\"mining\" [class.off]=\"!mining\">\r\n          <span class=\"circle\"></span>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<app-confirm-modal *ngIf=\"delWalletDialogVisible\" [title]=\" 'WALLET.CONFIRM.TITLE' | translate \"\r\n  [message]=\" 'WALLET.CONFIRM.MESSAGE' | translate \" (confirmed)=\"confirmed($event)\"></app-confirm-modal>\r\n<app-export-history-modal [currentWalletId]=\"variablesService.currentWallet.wallet_id\"\r\n  *ngIf=\"exportHistoryDialogVisible\" (closeExportModal)=\"closeExportModal($event)\">\r\n</app-export-history-modal>\r\n"
+module.exports = "<div class=\"header\">\r\n  <div>\r\n    <h3 tooltip=\"{{ variablesService.currentWallet.name }}\" placement=\"bottom-left\" tooltipClass=\"table-tooltip\"\r\n      [delay]=\"500\" [showWhenNoOverflow]=\"false\">{{variablesService.currentWallet.name}}</h3>\r\n    <div *ngIf=\"!variablesService.currentWallet.is_auditable\">\r\n      <button [routerLink]=\"['/assign-alias']\"\r\n        *ngIf=\"!variablesService.currentWallet.alias.hasOwnProperty('name') && variablesService.currentWallet.loaded && variablesService.daemon_state === 2 && variablesService.currentWallet.alias_available\">\r\n        <i class=\"icon account\"></i>\r\n        <span>{{ 'WALLET.REGISTER_ALIAS' | translate }}</span>\r\n      </button>\r\n      <div class=\"alias\"\r\n        *ngIf=\"variablesService.currentWallet.alias.hasOwnProperty('name') && variablesService.currentWallet.loaded && variablesService.daemon_state === 2\">\r\n        <span>{{variablesService.currentWallet.alias['name']}}</span>\r\n        <ng-container *ngIf=\"variablesService.currentWallet.alias_available\">\r\n          <i class=\"icon edit\" [routerLink]=\"['/edit-alias']\" tooltip=\"{{ 'WALLET.TOOLTIPS.EDIT_ALIAS' | translate }}\"\r\n            placement=\"bottom-right\" tooltipClass=\"table-tooltip account-tooltip\" [delay]=\"500\" [timeDelay]=\"500\"></i>\r\n          <i class=\"icon transfer\" [routerLink]=\"['/transfer-alias']\"\r\n            tooltip=\"{{ 'WALLET.TOOLTIPS.TRANSFER_ALIAS' | translate }}\" placement=\"right\"\r\n            tooltipClass=\"table-tooltip account-tooltip\" [delay]=\"500\" [timeDelay]=\"500\"></i>\r\n        </ng-container>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"settings-block\">\r\n    <button [disabled]=\"settingsButtonDisabled && !variablesService.currentWallet.loaded\" (click)=\"togleMenuDropdown()\">\r\n      <i class=\"icon details\" id=\"wallet-dropdown-button\">\r\n        <svg id=\"wallet-dropdown-button\" width=\"100%\" height=\"100%\" viewBox=\"0 0 20 21\" fill=\"none\"\r\n          xmlns=\"http://www.w3.org/2000/svg\">\r\n          <path\r\n            d=\"M0.96875 1.22266C0.96875 1.64258 1.31055 1.96484 1.7207 1.96484L18.4395 1.96484C18.8496 1.96484 19.1816 1.64258 19.1816 1.22266C19.1816 0.8125 18.8496 0.490234 18.4395 0.490234L1.7207 0.490234C1.31055 0.490234 0.96875 0.8125 0.96875 1.22266ZM0.96875 6.0957C0.96875 6.51562 1.31055 6.83789 1.7207 6.83789L18.4395 6.83789C18.8496 6.83789 19.1816 6.51562 19.1816 6.0957C19.1816 5.68555 18.8496 5.36328 18.4395 5.36328L1.7207 5.36328C1.31055 5.36328 0.96875 5.68555 0.96875 6.0957ZM0.96875 10.9687C0.96875 11.3887 1.31055 11.7109 1.7207 11.7109L18.4395 11.7109C18.8496 11.7109 19.1816 11.3887 19.1816 10.9688C19.1816 10.5586 18.8496 10.2363 18.4395 10.2363L1.7207 10.2363C1.31055 10.2363 0.96875 10.5586 0.96875 10.9687ZM7.08203 16.8965L9.24023 20.1289C9.63086 20.7051 10.4609 20.6855 10.8516 20.1289L13.0488 16.8965C13.5566 16.1445 13.2734 15.3535 12.375 15.3633L7.74609 15.3633C6.87695 15.3535 6.61328 16.1836 7.08203 16.8965Z\"\r\n            fill=\"#1F8FEB\" />\r\n        </svg>\r\n      </i>\r\n    </button>\r\n    <div *ngIf=\"openDropdown\" class=\"settings-dropdown\">\r\n      <button class=\"dark-line\" [routerLink]=\"['/details']\" routerLinkActive=\"active\"\r\n        tooltip=\"{{ 'WALLET.TOOLTIPS.SETTINGS' | translate }}\" placement=\"left\"\r\n        tooltipClass=\"table-tooltip account-tooltip\" [delay]=\"500\" [timeDelay]=\"500\"\r\n        [disabled]=\"!variablesService.currentWallet.loaded\">\r\n        <i class=\"icon wallet-settings\">\r\n          <svg width=\"100%\" height=\"100%\" viewBox=\"0 0 17 15\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\r\n            <path\r\n              d=\"M11.6641 4.47656C12.4766 4.47656 13.1641 3.95312 13.4297 3.23438H16.1328C16.4531 3.23438 16.7344 2.95312 16.7344 2.60156C16.7344 2.25 16.4531 1.97656 16.1328 1.97656H13.4297C13.1719 1.25 12.4766 0.71875 11.6641 0.71875C10.8516 0.71875 10.1484 1.25 9.89062 1.97656H1.61719C1.26562 1.97656 0.992188 2.25 0.992188 2.60156C0.992188 2.95312 1.26562 3.23438 1.61719 3.23438H9.89844C10.1562 3.95312 10.8516 4.47656 11.6641 4.47656ZM11.6641 3.51562C11.1484 3.51562 10.75 3.10938 10.75 2.59375C10.75 2.07812 11.1484 1.67969 11.6641 1.67969C12.1797 1.67969 12.5781 2.07812 12.5781 2.59375C12.5781 3.10938 12.1797 3.51562 11.6641 3.51562ZM1.58594 6.74219C1.26562 6.74219 0.992188 7.02344 0.992188 7.375C0.992188 7.72656 1.26562 8 1.58594 8H4.38281C4.64062 8.73438 5.33594 9.25781 6.14844 9.25781C6.96094 9.25781 7.65625 8.73438 7.92188 8H16.1016C16.4531 8 16.7344 7.72656 16.7344 7.375C16.7344 7.02344 16.4531 6.74219 16.1016 6.74219H7.91406C7.65625 6.02344 6.96094 5.5 6.14844 5.5C5.33594 5.5 4.64062 6.02344 4.38281 6.74219H1.58594ZM6.14844 8.28906C5.64062 8.28906 5.23438 7.88281 5.23438 7.375C5.23438 6.85938 5.64062 6.46094 6.14844 6.46094C6.66406 6.46094 7.0625 6.85938 7.0625 7.375C7.0625 7.88281 6.66406 8.28906 6.14844 8.28906ZM11.6641 14.0234C12.4766 14.0234 13.1719 13.5 13.4297 12.7734H16.1328C16.4531 12.7734 16.7344 12.5 16.7344 12.1484C16.7344 11.7969 16.4531 11.5156 16.1328 11.5156H13.4297C13.1719 10.7891 12.4766 10.2734 11.6641 10.2734C10.8516 10.2734 10.1562 10.7891 9.89844 11.5156H1.61719C1.26562 11.5156 0.992188 11.7969 0.992188 12.1484C0.992188 12.5 1.26562 12.7734 1.61719 12.7734H9.89062C10.1562 13.5 10.8516 14.0234 11.6641 14.0234ZM11.6641 13.0625C11.1484 13.0625 10.75 12.6562 10.75 12.1484C10.75 11.625 11.1484 11.2344 11.6641 11.2344C12.1797 11.2344 12.5781 11.625 12.5781 12.1484C12.5781 12.6562 12.1797 13.0625 11.6641 13.0625Z\"\r\n              fill=\"white\" />\r\n          </svg>\r\n        </i><span>{{ 'WALLET_DETAILS.WALLET_OPTIONS' | translate }}</span>\r\n      </button>\r\n      <button class=\"dark-line\" tooltip=\"{{ 'EXPORT_HISTORY.TOOLTIP' | translate }}\" placement=\"left\"\r\n        tooltipClass=\"table-tooltip account-tooltip\" [delay]=\"500\" [timeDelay]=\"500\"\r\n        (click)=\"exportHistoryDialogVisible = !exportHistoryDialogVisible\"\r\n        [disabled]=\"variablesService.currentWallet.history.length <= 0\">\r\n        <i class=\"icon export-history\"><svg viewBox=\"0 0 18 18\" width=\"100%\" height=\"100%\" fill=\"none\"\r\n            xmlns=\"http://www.w3.org/2000/svg\">\r\n            <path\r\n              d=\"M8.95264 17.4736C13.5845 17.4736 17.4194 13.6304 17.4194 9.00684C17.4194 4.375 13.5762 0.540039 8.94434 0.540039C4.3208 0.540039 0.48584 4.375 0.48584 9.00684C0.48584 13.6304 4.3291 17.4736 8.95264 17.4736ZM8.95264 16.0625C5.03467 16.0625 1.90527 12.9248 1.90527 9.00684C1.90527 5.08887 5.02637 1.95117 8.94434 1.95117C12.8623 1.95117 16 5.08887 16.0083 9.00684C16.0166 12.9248 12.8706 16.0625 8.95264 16.0625ZM8.94434 9.77881C9.17676 9.77881 9.35938 9.60449 9.35938 9.38037V5.18018L9.34277 4.79004L9.70801 5.18018L10.0815 5.57031C10.1479 5.64502 10.2476 5.68652 10.3721 5.68652C10.5962 5.68652 10.7539 5.53711 10.7539 5.32129C10.7539 5.22168 10.7207 5.12207 10.6294 5.04736L9.24316 3.70264C9.14355 3.60303 9.04395 3.56152 8.94434 3.56152C8.84473 3.56152 8.74512 3.61133 8.65381 3.70264L7.25928 5.03906C7.16797 5.13037 7.14307 5.22168 7.14307 5.32129C7.14307 5.53711 7.30078 5.68652 7.5166 5.68652C7.63281 5.68652 7.74072 5.64502 7.80713 5.57031L8.18066 5.18018L8.5542 4.79004L8.5376 5.18018V9.38037C8.5376 9.60449 8.72021 9.77881 8.94434 9.77881ZM6.60352 13.041H11.3018C12.2065 13.041 12.6797 12.5762 12.6797 11.6797V7.5874C12.6797 6.69092 12.2065 6.23438 11.3018 6.23438H10.0732V7.07275H11.2935C11.6587 7.07275 11.8413 7.25537 11.8413 7.62891V11.6548C11.8413 12.02 11.6587 12.2109 11.2935 12.2109H6.61182C6.24658 12.2109 6.06396 12.0283 6.06396 11.6548V7.62891C6.06396 7.25537 6.24658 7.07275 6.61182 7.07275H7.84033V6.23438H6.60352C5.70703 6.23438 5.23389 6.69922 5.22559 7.5874V11.6797C5.23389 12.5679 5.70703 13.041 6.60352 13.041Z\"\r\n              fill=\"white\" />\r\n          </svg></i><span>{{ 'EXPORT_HISTORY.EXPORT_BUTTON' | translate }}</span>\r\n      </button>\r\n      <ng-container *ngIf=\"walletSynchVisible\">\r\n        <button class=\"dark-line\" tooltip=\"{{ 'WALLET_DETAILS.RESYNC_WALLET' | translate }}\" placement=\"left\"\r\n          tooltipClass=\"table-tooltip account-tooltip\" [disabled]=\"!variablesService.currentWallet.loaded\" [delay]=\"500\"\r\n          [timeDelay]=\"500\" (click)=\"resyncCurrentWallet(variablesService.currentWallet.wallet_id)\">\r\n          <i class=\"icon resync-wallet\"><svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\"\r\n              xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" viewBox=\"0 0 24 24\"\r\n              style=\"enable-background:new 0 0 24 24;\" xml:space=\"preserve\">\r\n              <style type=\"text/css\">\r\n                .st0 {\r\n                  fill: #FFFFFF;\r\n                }\r\n              </style>\r\n              <path class=\"st0\" d=\"M24,11L23,0l-3.1,3.1C17.8,1.2,15.1,0,12,0C6.1,0,1.1,4.3,0.2,10h4.1c0.9-3.4,4-6,7.7-6c2,0,3.7,0.7,5.1,1.9\r\n          \tL14,9L24,11z\" />\r\n              <path class=\"st0\" d=\"M0,13l1,11l3.1-3.1C6.2,22.8,8.9,24,12,24c5.9,0,10.9-4.3,11.8-10h-4.1c-0.9,3.4-4,6-7.7,6\r\n          \tc-2,0-3.7-0.7-5.1-1.9L10,15L0,13z\" />\r\n            </svg></i><span>{{ 'WALLET_DETAILS.RESYNC_WALLET_BUTTON' | translate }}</span>\r\n        </button>\r\n      </ng-container>\r\n      <button type=\"button\" (click)=\"showConfirmDialog(variablesService.currentWallet.wallet_id)\"\r\n        tooltip=\"{{ 'WALLET.TOOLTIPS.CLOSE' | translate }}\" placement=\"top-left\"\r\n        tooltipClass=\"table-tooltip account-tooltip\" [delay]=\"500\" [timeDelay]=\"500\">\r\n        <i class=\"icon close-wallet\"></i><span>{{ 'WALLET_DETAILS.BUTTON_REMOVE' | translate }}</span>\r\n      </button>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"address\">\r\n  <span>{{variablesService.currentWallet.address}}</span>\r\n  <i class=\"icon\" [class.copy]=\"!copyAnimation\" [class.copied]=\"copyAnimation\" (click)=\"copyAddress()\"></i>\r\n</div>\r\n\r\n<div class=\"balance\">\r\n  <span [tooltip]=\"getTooltip()\" [placement]=\"'bottom'\" [tooltipClass]=\"'balance-tooltip'\" [delay]=\"150\" [timeout]=\"0\"\r\n    (onHide)=\"onHideTooltip()\">{{variablesService.currentWallet.balance | intToMoney : '3'}}\r\n    {{variablesService.defaultCurrency}}</span>\r\n  <span>${{variablesService.currentWallet.getMoneyEquivalent(variablesService.moneyEquivalent) | intToMoney | number :\r\n    '1.2-2'}}</span>\r\n  <span class=\"price-percent\">+4.6%</span>\r\n</div>\r\n<div class=\"tabs\">\r\n  <div class=\"tabs-header\">\r\n    <ng-container *ngFor=\"let tab of tabs; let index = index\">\r\n      <div class=\"tab\" [class.active]=\"tab.active\"\r\n        [ngClass]=\"{ 'hide': ((tab.link === '/send' || tab.link === '/contracts') && variablesService.currentWallet.is_watch_only && variablesService.currentWallet.is_auditable) }\"\r\n        [class.disabled]=\"((tab.link === '/send' || tab.link === '/contracts' || tab.link === '/staking') && (variablesService.daemon_state !== 2 || !variablesService.currentWallet.loaded))\r\n                || ((tab.link === '/send' || tab.link === '/contracts') && variablesService.currentWallet.is_watch_only && variablesService.currentWallet.is_auditable)\"\r\n        (click)=\"changeTab(index)\" (mouseover)=\"itemHovered(index, true)\" (mouseleave)=\"itemHovered(index, false)\">\r\n        <i class=\"icon\" [ngClass]=\"tab.icon\" [class.hovered]=\"tab.itemHovered\"></i>\r\n        <span>{{ tab.title | translate }}</span>\r\n        <span class=\"indicator\" *ngIf=\"tab.indicator\">{{variablesService.currentWallet.new_contracts}}</span>\r\n      </div>\r\n    </ng-container>\r\n  </div>\r\n  <div #scrolledContent class=\"tabs-content scrolled-content\">\r\n    <router-outlet></router-outlet>\r\n  </div>\r\n  <div *ngIf=\"activeTab === 'history'\" class=\"pagination-wrapper\">\r\n    <div class=\"pagination\">\r\n      <div>\r\n        <button [ngClass]=\"{'disabled': sync_started || wallet}\"\r\n          [disabled]=\"variablesService.currentWallet.currentPage === 1 || sync_started || wallet\"\r\n          (click)=\"setPage(variablesService.currentWallet.currentPage - 1)\">\r\n          <svg class=\"icon\" viewBox=\"0 0 17 17\" width=\"100%\" height=\"100%\" fill=\"none\"\r\n            xmlns=\"http://www.w3.org/2000/svg\">\r\n            <path\r\n              d=\"M8.63281 16.3281C12.9922 16.3281 16.6016 12.7109 16.6016 8.35938C16.6016 4 12.9844 0.390625 8.625 0.390625C4.27344 0.390625 0.664062 4 0.664062 8.35938C0.664062 12.7109 4.28125 16.3281 8.63281 16.3281ZM4.49219 8.35156C4.49219 8.17188 4.55469 8.04688 4.71875 7.88281L7.4375 5.14844C7.54688 5.03906 7.6875 4.98438 7.85938 4.98438C8.19531 4.98438 8.44531 5.23438 8.44531 5.57031C8.44531 5.74219 8.36719 5.89062 8.26562 6.00781L7.26562 7L6.29688 7.8125L8 7.74219H12.1797C12.5312 7.74219 12.7891 7.99219 12.7891 8.35156C12.7891 8.70312 12.5391 8.95312 12.1797 8.95312H8L6.28906 8.89062L7.26562 9.70312L8.26562 10.6953C8.375 10.8047 8.44531 10.9531 8.44531 11.125C8.44531 11.4609 8.19531 11.7188 7.85938 11.7188C7.6875 11.7188 7.54688 11.6562 7.4375 11.5469L4.71875 8.82031C4.57031 8.67188 4.49219 8.53125 4.49219 8.35156Z\"\r\n              fill=\"#FDFEFF\" fill-opacity=\"0.3\" />\r\n          </svg>\r\n        </button>\r\n\r\n        <ng-container *ngIf=\"!mining\">\r\n          <button [disabled]=\"sync_started || wallet\" *ngFor=\"let page of variablesService.currentWallet.pages\"\r\n            [ngClass]=\"{ 'active': variablesService.currentWallet.currentPage === page,'disabled': sync_started || wallet }\"\r\n            (click)=\"setPage(page)\">{{page}}</button>\r\n        </ng-container>\r\n\r\n        <ng-container *ngIf=\"mining\">\r\n          <button\r\n            [ngClass]=\"{ 'active': variablesService.currentWallet.currentPage, 'disabled': sync_started || wallet}\"\r\n            [disabled]=\"stop_paginate || sync_started || wallet\"\r\n            (click)=\"setPage(variablesService.currentWallet.currentPage)\">\r\n            {{variablesService.currentWallet.currentPage}}\r\n          </button>\r\n        </ng-container>\r\n\r\n        <button [disabled]=\"stop_paginate || sync_started || wallet\" [ngClass]=\"{'disabled': sync_started || wallet}\"\r\n          (click)=\"setPage(variablesService.currentWallet.currentPage + 1)\">\r\n          <svg class=\"icon\" viewBox=\"0 0 17 17\" width=\"100%\" height=\"100%\" fill=\"none\"\r\n            xmlns=\"http://www.w3.org/2000/svg\">\r\n            <path\r\n              d=\"M8.63281 16.3281C12.9922 16.3281 16.6016 12.7109 16.6016 8.35938C16.6016 4 12.9844 0.390625 8.625 0.390625C4.27344 0.390625 0.664062 4 0.664062 8.35938C0.664062 12.7109 4.28125 16.3281 8.63281 16.3281ZM12.7656 8.35156C12.7656 8.53125 12.6953 8.67188 12.5391 8.82031L9.82031 11.5469C9.71094 11.6562 9.57031 11.7188 9.39844 11.7188C9.0625 11.7188 8.8125 11.4609 8.8125 11.125C8.8125 10.9531 8.88281 10.8047 8.99219 10.6953L9.99219 9.70312L10.9688 8.89062L9.26562 8.95312H5.07812C4.72656 8.95312 4.46875 8.70312 4.46875 8.35156C4.46875 7.99219 4.72656 7.74219 5.07812 7.74219H9.26562L10.9688 7.8125L9.99219 7L8.99219 6.00781C8.89062 5.89062 8.8125 5.74219 8.8125 5.57031C8.8125 5.23438 9.0625 4.98438 9.39844 4.98438C9.57031 4.98438 9.71094 5.03906 9.82031 5.14844L12.5391 7.88281C12.7031 8.04688 12.7656 8.17188 12.7656 8.35156Z\"\r\n              fill=\"#FDFEFF\" fill-opacity=\"0.3\" />\r\n          </svg>\r\n        </button>\r\n      </div>\r\n      <div class=\"mining-transaction-switch\">\r\n        <span class=\"switch-text\">Hide mining transactions</span>\r\n        <div class=\"switch\" [ngClass]=\"{'disabled': sync_started || wallet}\"\r\n          (click)=\"toggleMiningTransactions(); $event.stopPropagation()\" [class.on]=\"mining\" [class.off]=\"!mining\">\r\n          <span class=\"circle\"></span>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  </div>\r\n</div>\r\n<app-confirm-modal *ngIf=\"delWalletDialogVisible\" [title]=\" 'WALLET.CONFIRM.TITLE' | translate \"\r\n  [message]=\" 'WALLET.CONFIRM.MESSAGE' | translate \" (confirmed)=\"confirmed($event)\"></app-confirm-modal>\r\n<app-export-history-modal [currentWalletId]=\"variablesService.currentWallet.wallet_id\"\r\n  *ngIf=\"exportHistoryDialogVisible\" (closeExportModal)=\"closeExportModal($event)\">\r\n</app-export-history-modal>\r\n<app-sync-modal *ngIf=\"deeplink && (variablesService.daemon_state !== 2 || variablesService.sync_started === true)\">\r\n</app-sync-modal>\r\n<app-deeplink *ngIf=\"deeplink && (variablesService.daemon_state === 2 && variablesService.sync_started === false)\"\r\n  [deeplink]=\"deeplink\">\r\n</app-deeplink>\r\n"
 
 /***/ }),
 
@@ -9634,7 +9912,6 @@ var WalletComponent = /** @class */ (function () {
             },
         ];
     }
-    ;
     WalletComponent.prototype.onKeyPresed = function () {
         if (!this.openDropdown) {
             this.walletSynchVisible = true;
@@ -9651,6 +9928,7 @@ var WalletComponent = /** @class */ (function () {
             this.walletSynchVisible = false;
         }
     };
+    ;
     WalletComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.settingsButtonInterval = setInterval(function () {
@@ -9760,6 +10038,9 @@ var WalletComponent = /** @class */ (function () {
             }
         });
         this.updateWalletStatus();
+        this.deeplinkSubscription = this.variablesService.$deeplink.subscribe(function (data) {
+            _this.deeplink = data;
+        });
     };
     WalletComponent.prototype.resetPaginationValues = function () {
         var _this = this;
@@ -9984,10 +10265,12 @@ var WalletComponent = /** @class */ (function () {
         this.subRouting2.unsubscribe();
         this.queryRouting.unsubscribe();
         this.aliasSubscription.unsubscribe();
+        this.deeplinkSubscription.unsubscribe();
         if (this.walletsSubscription) {
             this.walletsSubscription.unsubscribe();
         }
         clearTimeout(this.copyAnimationTimeout);
+        this.variablesService.$deeplink.next('');
     };
     WalletComponent.prototype.updateWalletStatus = function () {
         var _this = this;
