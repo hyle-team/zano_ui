@@ -670,7 +670,9 @@ input[type="checkbox"].style-checkbox {
 }
 
 app-modal-container,
-app-confirm-modal {
+app-confirm-modal,
+app-deeplink,
+app-sync-modal {
   .modal {
     border-radius: 2rem;
     background: $modalBackground;
@@ -679,6 +681,23 @@ app-confirm-modal {
       color: $alternativeTextColor;
       &:hover {
         color: $mainTextColor;
+      }
+    }
+  }
+  .modal.select-wallet {
+    .ng-select.custom-select .ng-dropdown-panel {
+      border: 1px solid #1f8feb;
+      font-weight: normal;
+      font-size: 1.8rem;
+      line-height: 2.1rem;
+      background-color: rgba(29, 129, 216, 0.6);
+      .ng-dropdown-panel-items {
+        .ng-option:not(:last-child) {
+          border-bottom: 1px solid #0c0c3a;
+        }
+        .ng-option {
+          border-radius: 0;
+        }
       }
     }
   }

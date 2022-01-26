@@ -400,6 +400,10 @@ export class BackendService {
     this.runCommand('load_from_file', path, callback);
   }
 
+  push_offer(params, callback) {
+    this.runCommand('push_offer', params, callback);
+  }
+
   generateWallet(path, pass, callback) {
     const params = {
       path: path,

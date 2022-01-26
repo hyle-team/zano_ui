@@ -1,6 +1,6 @@
-import {Injectable, Injector, ComponentFactoryResolver, EmbeddedViewRef, ApplicationRef, NgZone} from '@angular/core';
-import {TranslateService} from '@ngx-translate/core';
-import {ModalContainerComponent} from '../directives/modal-container/modal-container.component';
+import { Injectable, Injector, ComponentFactoryResolver, EmbeddedViewRef, ApplicationRef, NgZone } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
+import { ModalContainerComponent } from '../modals/modal-container/modal-container.component';
 
 @Injectable()
 export class ModalService {
@@ -13,7 +13,7 @@ export class ModalService {
     private injector: Injector,
     private ngZone: NgZone,
     private translate: TranslateService
-  ) {}
+  ) { }
 
   prepareModal(type, message) {
     const length = this.components.push(

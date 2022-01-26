@@ -1,6 +1,6 @@
-import {Contract} from './contract.model';
-import {Transaction} from './transaction.model';
-import {BigNumber} from 'bignumber.js';
+import { Contract } from './contract.model';
+import { Transaction } from './transaction.model';
+import { BigNumber } from 'bignumber.js';
 
 export class Wallet {
   stop_paginate: boolean;
@@ -231,7 +231,7 @@ export class Wallet {
   }
 
   recountNewContracts() {
-    this.new_contracts = (this.contracts.filter(item => item.is_new === true )).length;
+    this.new_contracts = (this.contracts.filter(item => item.is_new === true)).length;
   }
 
   getContract(id): Contract {
@@ -243,4 +243,45 @@ export class Wallet {
     return null;
   }
 
+
+}
+
+export interface DeeplinkParams {
+  action?: string;
+  address?: string;
+  amount?: string;
+  my_deposit?: string;
+  seller_deposit?: string;
+  seller_address?: string;
+  hide_sender?: string;
+  hide_receiver?: string;
+  title?: string;
+  description?: string;
+  category?: string;
+  price?: string;
+  img_url?: string;
+  contact?: string;
+  comment?: string;
+  mixins?: string;
+  fee?: string;
+}
+
+export interface PushOffer {
+  wallet_id: number,
+  od: {
+    ap: string,
+    at: string,
+    cat: string,
+    cnt: string,
+    com: string,
+    do: string,
+    et: number,
+    fee: number,
+    lci: string,
+    lco: string,
+    ot: number,
+    pt: string,
+    t: string,
+    url: string,
+  }
 }

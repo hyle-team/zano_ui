@@ -26,6 +26,7 @@ import { ContactsComponent } from './contacts/contacts.component';
 import { AddContactsComponent } from './add-contacts/add-contacts.component';
 import { ContactSendComponent } from './contact-send/contact-send.component';
 import { ExportImportComponent } from './export-import/export-import.component';
+import { DeeplinkComponent } from './deeplink/deeplink.component';
 
 const routes: Routes = [
   {
@@ -142,6 +143,10 @@ const routes: Routes = [
   {
     path: 'import',
     component: ExportImportComponent
+  },
+  {
+    path: 'deeplink',
+    component: DeeplinkComponent
   },
   {
     path: '',
