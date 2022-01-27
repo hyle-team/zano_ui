@@ -106,12 +106,12 @@ export class BackendService {
       case 'WALLET_WATCH_ONLY_NOT_SUPPORTED':
         error_translate = 'ERRORS.WALLET_WATCH_ONLY_NOT_SUPPORTED';
         break;
-      // case 'WRONG_PASSWORD':
-      //   params = JSON.parse(params);
-      //   if (!params.testEmpty) {
-      //     error_translate = 'ERRORS.WRONG_PASSWORD';
-      //   }
-      //   break;
+      case 'WRONG_PASSWORD':
+        params = JSON.parse(params);
+        if (!params.testEmpty) {
+          error_translate = 'ERRORS.WRONG_PASSWORD';
+        }
+        break;
       case 'FILE_RESTORED':
         if (command === 'open_wallet') {
           error_translate = 'ERRORS.FILE_RESTORED';
