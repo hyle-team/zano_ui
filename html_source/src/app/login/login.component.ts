@@ -94,11 +94,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   onSubmitAuthPass(): void {
     if (this.authForm.valid) {
       this.variablesService.appPass = this.authForm.get('password').value;
-      this.backend.checkMasterPassword({ pass: this.variablesService.appPass }, (status, data) => {
-        if (data.error_code === "WRONG_PASSWORD") {
-          this.authForm.controls.password.setValue('');
-        }
-      });
       if (this.variablesService.dataIsLoaded) {
         this.backend.checkMasterPassword({ pass: this.variablesService.appPass }, (status, data) => {
           if (status) {

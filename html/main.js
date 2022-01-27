@@ -2031,12 +2031,12 @@ var BackendService = /** @class */ (function () {
             case 'WALLET_WATCH_ONLY_NOT_SUPPORTED':
                 error_translate = 'ERRORS.WALLET_WATCH_ONLY_NOT_SUPPORTED';
                 break;
-            // case 'WRONG_PASSWORD':
-            //   params = JSON.parse(params);
-            //   if (!params.testEmpty) {
-            //     error_translate = 'ERRORS.WRONG_PASSWORD';
-            //   }
-            //   break;
+            case 'WRONG_PASSWORD':
+                params = JSON.parse(params);
+                if (!params.testEmpty) {
+                    error_translate = 'ERRORS.WRONG_PASSWORD';
+                }
+                break;
             case 'FILE_RESTORED':
                 if (command === 'open_wallet') {
                     error_translate = 'ERRORS.FILE_RESTORED';
@@ -6143,11 +6143,6 @@ var LoginComponent = /** @class */ (function () {
         var _this = this;
         if (this.authForm.valid) {
             this.variablesService.appPass = this.authForm.get('password').value;
-            this.backend.checkMasterPassword({ pass: this.variablesService.appPass }, function (status, data) {
-                if (data.error_code === "WRONG_PASSWORD") {
-                    _this.authForm.controls.password.setValue('');
-                }
-            });
             if (this.variablesService.dataIsLoaded) {
                 this.backend.checkMasterPassword({ pass: this.variablesService.appPass }, function (status, data) {
                     if (status) {
