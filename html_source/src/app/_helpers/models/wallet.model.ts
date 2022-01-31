@@ -276,7 +276,7 @@ export interface PushOffer {
     com: string,
     do: string,
     et: number,
-    fee: number,
+    fee: BigNumber,
     lci: string,
     lco: string,
     ot: number,

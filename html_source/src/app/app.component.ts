@@ -166,6 +166,7 @@ export class AppComponent implements OnInit, OnDestroy {
             } else if (wallet.progress === 100) {
               wallet.loaded = true;
               this.addToStore(wallet, false);
+              this.variablesService.sync_started = false;
             }
           });
         }
@@ -380,7 +381,7 @@ export class AppComponent implements OnInit, OnDestroy {
         console.log('----------------- handle_deeplink_click -----------------');
         console.log(data);
         if (data) {
-          this.variablesService.$deeplink.next(data)
+          this.variablesService.deeplink$.next(data)
         }
       });
 
