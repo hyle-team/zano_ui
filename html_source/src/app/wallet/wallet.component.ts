@@ -53,8 +53,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   subRouting2;
   queryRouting;
   walletID;
-  deeplinkSubscription;
-  deeplink;
+
   settingsButtonInterval;
   settingsButtonDisabled = true;
   copyAnimation = false;
@@ -269,9 +268,7 @@ export class WalletComponent implements OnInit, OnDestroy {
       }
     );
     this.updateWalletStatus();
-    this.deeplinkSubscription = this.variablesService.$deeplink.subscribe((data) => {
-      this.deeplink = data;
-    });
+
   }
 
   resetPaginationValues() {
@@ -541,12 +538,11 @@ export class WalletComponent implements OnInit, OnDestroy {
     this.subRouting2.unsubscribe();
     this.queryRouting.unsubscribe();
     this.aliasSubscription.unsubscribe();
-    this.deeplinkSubscription.unsubscribe();
+
     if (this.walletsSubscription) {
       this.walletsSubscription.unsubscribe();
     }
     clearTimeout(this.copyAnimationTimeout);
-    this.variablesService.$deeplink.next('')
   }
 
 

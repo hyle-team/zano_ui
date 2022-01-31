@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { VariablesService } from '../_helpers/services/variables.service';
 import { BackendService } from '../_helpers/services/backend.service';
 import { MIXIN } from '../_shared/constants';
+import { BigNumber } from 'bignumber.js';
 
 @Component({
   selector: 'app-deeplink',
@@ -33,7 +34,7 @@ export class DeeplinkComponent implements OnInit {
     this.actionData = {};
     this.walletsTopay = this.variablesService.wallets.filter(wallet => !wallet.is_watch_only || !wallet.is_auditable)
     if (this.walletsTopay.length === 0) {
-      this.variablesService.$deeplink.next('')
+      this.variablesService.deeplink$.next('')
       return
     }
     this.actionData = this.parceString(this.deeplink);
@@ -57,8 +58,8 @@ export class DeeplinkComponent implements OnInit {
 
   canselAction() {
     this.deeplink = ""
-    this.variablesService.$deeplink.next('')
-    this.variablesService.$sendActionData.next({});
+    this.variablesService.deeplink$.next('')
+    this.variablesService.sendActionData$.next({});
     this.actionData = {};
   }
 
@@ -73,7 +74,7 @@ export class DeeplinkComponent implements OnInit {
         com: this.actionData.comment || '',
         do: this.actionData.description || '',
         et: 10,
-        fee: +this.actionData.fee || +this.variablesService.default_fee,
+        fee: new BigNumber(this.actionData.fee || this.variablesService.default_fee),
         lci: '',
         lco: 'World Wide',
         ot: 1,
@@ -90,12 +91,12 @@ export class DeeplinkComponent implements OnInit {
 
   nextStep() {
     if (this.actionData.action === "send") {
-      this.variablesService.$sendActionData.next(this.actionData);
-      this.variablesService.$deeplink.next('')
+      this.variablesService.sendActionData$.next(this.actionData);
+      this.variablesService.deeplink$.next('')
       this._router.navigate(['/wallet/' + this.walletToPayId + '/send']);
     } else if (this.actionData.action === "escrow") {
-      this.variablesService.$sendActionData.next(this.actionData);
-      this.variablesService.$deeplink.next('')
+      this.variablesService.sendActionData$.next(this.actionData);
+      this.variablesService.deeplink$.next('')
       this._router.navigate(['/wallet/' + this.walletToPayId + '/purchase']);
     } else {
       this.secondStep = true

@@ -180,7 +180,7 @@ export class SendComponent implements OnInit, OnDestroy {
       });
     });
     this.getWrapInfo();
-    this.dLActionSubscribe = this.variablesService.$sendActionData.subscribe((res) => {
+    this.dLActionSubscribe = this.variablesService.sendActionData$.subscribe((res) => {
       if (res.action === "send") {
         this.actionData = res
         setTimeout(() => {

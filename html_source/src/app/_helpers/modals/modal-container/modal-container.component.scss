@@ -4,11 +4,13 @@
   bottom: 0;
   left: 0;
   right: 0;
+  z-index: 11;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .modal {
+  background-color: #174491;
   position: relative;
   display: flex;
   flex-direction: column;

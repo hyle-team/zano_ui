@@ -234,7 +234,7 @@ export class PurchaseComponent implements OnInit, OnDestroy {
         return null;
       }])
     }
-    this.dLActionSubscribe = this.variablesService.$sendActionData.subscribe((res) => {
+    this.dLActionSubscribe = this.variablesService.sendActionData$.subscribe((res) => {
       if (res.action === "escrow") {
         this.actionData = res
         this.fillDeepLinkData()

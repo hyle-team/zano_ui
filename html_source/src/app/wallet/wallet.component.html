@@ -167,8 +167,3 @@
 <app-export-history-modal [currentWalletId]="variablesService.currentWallet.wallet_id"
   *ngIf="exportHistoryDialogVisible" (closeExportModal)="closeExportModal($event)">
 </app-export-history-modal>
-<app-sync-modal *ngIf="deeplink && (variablesService.daemon_state !== 2 || variablesService.sync_started === true)">
-</app-sync-modal>
-<app-deeplink *ngIf="deeplink && (variablesService.daemon_state === 2 && variablesService.sync_started === false)"
-  [deeplink]="deeplink">
-</app-deeplink>

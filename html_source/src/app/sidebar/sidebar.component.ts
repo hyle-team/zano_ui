@@ -19,7 +19,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
   walletActive: number;
   isModalDialogVisible = false;
   closeWalletId: number;
-
+  deeplinkSubscription;
+  deeplink;
 
   constructor(
     private route: ActivatedRoute,
@@ -55,6 +56,9 @@ export class SidebarComponent implements OnInit, OnDestroy {
           this.walletActive = null;
         }
       }
+    });
+    this.deeplinkSubscription = this.variablesService.deeplink$.subscribe((data) => {
+      this.deeplink = data;
     });
   }
 
@@ -137,5 +141,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.walletSubRouting.unsubscribe();
+    this.deeplinkSubscription.unsubscribe();
+    this.variablesService.deeplink$.next('')
   }
 }
