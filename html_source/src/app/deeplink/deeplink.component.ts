@@ -74,7 +74,7 @@ export class DeeplinkComponent implements OnInit {
         com: this.actionData.comment || '',
         do: this.actionData.description || '',
         et: 10,
-        fee: new BigNumber(this.actionData.fee || this.variablesService.default_fee),
+        fee: new BigNumber('' + ((+this.actionData.fee || +this.variablesService.default_fee) * 1000000000000)),
         lci: '',
         lco: 'World Wide',
         ot: 1,
