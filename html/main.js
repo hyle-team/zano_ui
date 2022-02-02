@@ -5531,7 +5531,7 @@ var DeeplinkComponent = /** @class */ (function () {
                 com: this.actionData.comment || '',
                 do: this.actionData.description || '',
                 et: 10,
-                fee: new bignumber_js__WEBPACK_IMPORTED_MODULE_5__["BigNumber"](this.actionData.fee || this.variablesService.default_fee),
+                fee: new bignumber_js__WEBPACK_IMPORTED_MODULE_5__["BigNumber"]('' + ((+this.actionData.fee || +this.variablesService.default_fee) * 1000000000000)),
                 lci: '',
                 lco: 'World Wide',
                 ot: 1,
