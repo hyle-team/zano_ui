@@ -5,7 +5,7 @@
   <div class="sidebar-accounts-list scrolled-content" cdkDropList #scrollContainer cdkDropListLockAxis="y"
     (cdkDropListDropped)="drop($event)">
     <ng-container *ngFor="let wallet of variablesService.wallets">
-      <div class="sidebar-account" [class.active]="wallet?.wallet_id === variablesService.currentWallet.wallet_id"
+      <div class="sidebar-account" [class.active]="wallet?.wallet_id === variablesService?.currentWallet?.wallet_id"
         (click)="selectWallet(wallet.wallet_id)" [class.auditable]="wallet.is_auditable && !wallet.is_watch_only"
         [class.watch-only]="wallet.is_watch_only" cdkDrag vsDragScroll [vsDragScrollContainer]="scrollContainer"
         [cdkDragData]="wallet">
