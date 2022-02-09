@@ -7,7 +7,7 @@ import { ModalService } from '../_helpers/services/modal.service';
 import { Wallet } from '../_helpers/models/wallet.model';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs/internal/Subject';
-import { debounceTime, distinctUntilChanged, pairwise, startWith, takeUntil } from 'rxjs/operators';
+import { pairwise, startWith, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-restore-wallet',
@@ -254,7 +254,8 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
             this.backend.storeSecureAppData();
           }
           this.ngZone.run(() => {
-            this.router.navigate(['/wallet/' + this.wallet.id]);
+            this.variablesService.setCurrentWallet(this.wallet.id)
+            this.router.navigate(['/wallet/']);
           });
         } else {
           console.log(run_data['error_code']);

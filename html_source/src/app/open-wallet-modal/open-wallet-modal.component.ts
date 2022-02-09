@@ -1,9 +1,9 @@
-import {Component, OnInit, Input, NgZone} from '@angular/core';
-import {VariablesService} from '../_helpers/services/variables.service';
-import {Wallet} from '../_helpers/models/wallet.model';
-import {BackendService} from '../_helpers/services/backend.service';
-import {TranslateService} from '@ngx-translate/core';
-import {ModalService} from '../_helpers/services/modal.service';
+import { Component, OnInit, Input, NgZone } from '@angular/core';
+import { VariablesService } from '../_helpers/services/variables.service';
+import { Wallet } from '../_helpers/models/wallet.model';
+import { BackendService } from '../_helpers/services/backend.service';
+import { TranslateService } from '@ngx-translate/core';
+import { ModalService } from '../_helpers/services/modal.service';
 
 @Component({
   selector: 'app-open-wallet-modal',
@@ -11,7 +11,6 @@ import {ModalService} from '../_helpers/services/modal.service';
   styleUrls: ['./open-wallet-modal.component.scss']
 })
 export class OpenWalletModalComponent implements OnInit {
-
   @Input() wallets;
 
   wallet = {
@@ -83,9 +82,9 @@ export class OpenWalletModalComponent implements OnInit {
             new_wallet.exclude_mining_txs = false;
             if (open_data.recent_history && open_data.recent_history.history) {
               new_wallet.total_history_item = open_data.recent_history.total_history_items;
-              new_wallet.totalPages = Math.ceil( open_data.recent_history.total_history_items / this.variablesService.count);
+              new_wallet.totalPages = Math.ceil(open_data.recent_history.total_history_items / this.variablesService.count);
               new_wallet.totalPages > this.variablesService.maxPages
-              ? new_wallet.pages = new Array(5).fill(1).map((value, index) => value + index)
+                ? new_wallet.pages = new Array(5).fill(1).map((value, index) => value + index)
                 : new_wallet.pages = new Array(new_wallet.totalPages).fill(1).map((value, index) => value + index);
               new_wallet.prepareHistory(open_data.recent_history.history);
             } else {

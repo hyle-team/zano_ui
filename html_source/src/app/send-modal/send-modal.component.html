@@ -31,10 +31,6 @@
               [placeholder]="confirmForm.controls['password'].dirty || confirmForm.controls['password'].touched ? ('LOGIN.FORM_ERRORS.PASS_REQUIRED' | translate ) : ('PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate) "
               autofocus (contextmenu)="variablesService.onContextMenuPasteSelect($event)" />
             <div class="error-block">
-              <!-- <div *ngIf="(confirmForm.controls['password'].errors && confirmForm.controls['password'].errors.requiredPass)
-                        || (!confirmForm.controls['password'].value && confirmForm.controls['password'].touched)">
-                {{ 'LOGIN.FORM_ERRORS.PASS_REQUIRED' | translate }}
-              </div> -->
               <div
                 *ngIf="confirmForm.controls['password'].errors && confirmForm.controls['password'].errors.passwordNotMatch">
                 {{ 'LOGIN.FORM_ERRORS.MISMATCH' | translate }}

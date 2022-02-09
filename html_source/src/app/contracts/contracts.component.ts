@@ -1,6 +1,6 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
-import {VariablesService} from '../_helpers/services/variables.service';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { VariablesService } from '../_helpers/services/variables.service';
 
 @Component({
   selector: 'app-contracts',
@@ -8,12 +8,7 @@ import {VariablesService} from '../_helpers/services/variables.service';
   styleUrls: ['./contracts.component.scss']
 })
 export class ContractsComponent implements OnInit, OnDestroy {
-
-  parentRouting;
-  walletId;
-
   constructor(
-    private route: ActivatedRoute,
     public variablesService: VariablesService
   ) {
   }
@@ -43,15 +38,10 @@ export class ContractsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.parentRouting = this.route.parent.params.subscribe(params => {
-      if (params.hasOwnProperty('id')) {
-        this.walletId = params['id'];
-      }
-    });
+
   }
 
   ngOnDestroy() {
-    this.parentRouting.unsubscribe();
   }
 
 }

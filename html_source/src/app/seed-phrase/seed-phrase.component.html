@@ -13,7 +13,7 @@
   <!-- /breadcrumbs -->
 
   <div class="scrolled-content">
-    <!-- form detail -->
+
     <form class="form-details" [formGroup]="detailsForm">
       <div class="input-block">
         <label>{{ 'WALLET_DETAILS.LABEL_NAME' | translate }}</label>
@@ -24,9 +24,6 @@
           readonly>
         <div class="error-block"
           *ngIf="detailsForm.controls['name'].invalid && !detailsForm.controls['name'].errors['required'] && (detailsForm.controls['name'].dirty || detailsForm.controls['name'].touched)">
-          <!-- <div *ngIf="detailsForm.controls['name'].errors['required']">
-            {{ 'WALLET_DETAILS.FORM_ERRORS.NAME_REQUIRED' | translate }}
-          </div> -->
           <div *ngIf="detailsForm.controls['name'].errors['duplicate']">
             {{ 'WALLET_DETAILS.FORM_ERRORS.NAME_DUPLICATE' | translate }}
           </div>
@@ -42,9 +39,7 @@
         <input type="text" id="wallet-location" formControlName="path" readonly>
       </div>
     </form>
-    <!-- /from detail -->
 
-    <!-- form seed pasword -->
     <ng-container *ngIf="!showSeed else seedPhraseContent">
       <form class="form-seed" [formGroup]="seedPhraseForm" (ngSubmit)="onSubmitSeed()">
         <div class="form-content">
@@ -76,9 +71,6 @@
         </div>
       </form>
     </ng-container>
-    <!-- /form seed pasword -->
-
-    <!-- seed phrase -->
     <ng-template #seedPhraseContent>
       <div class="seed-phrase">
         <div class="seed-phrase-title">
@@ -121,12 +113,5 @@
 
       </div>
     </ng-template>
-    <!-- /seed phrase -->
-
-
   </div>
 </div>
-
-<!-- <app-progress-container [width]="progressWidth"
-  [labels]="['PROGRESS.ADD_WALLET', 'PROGRESS.SELECT_LOCATION', 'Seed Phrase', 'PROGRESS.CREATE_WALLET']">
-</app-progress-container> -->

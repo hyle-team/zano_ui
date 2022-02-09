@@ -103,5 +103,36 @@
     .wrapper-buttons {
       margin: 4.2rem auto 0;
     }
+    &--success {
+      .data-container {
+        .row {
+          color: rgba(255, 255, 255, 0.616);
+          font-weight: 400;
+          font-size: 2.8rem;
+          line-height: normal;
+          span {
+            font-weight: 700;
+            color: #fff;
+          }
+        }
+        .icon {
+          cursor: pointer;
+          margin-left: 1rem;
+          &.copy {
+            transition: all 0.25s ease;
+            width: 2.4rem;
+            height: 2.4rem;
+            background: center / contain no-repeat url(../../assets/icons/copy.svg);
+          }
+          &.copied {
+            background: center / contain no-repeat url(../../assets/icons/complete-testwallet.svg);
+          }
+        }
+      }
+      .wrapper-buttons {
+        justify-content: center;
+        margin-top: 4rem;
+      }
+    }
   }
 }

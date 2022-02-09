@@ -5,10 +5,10 @@
   <div class="sidebar-accounts-list scrolled-content" cdkDropList #scrollContainer cdkDropListLockAxis="y"
     (cdkDropListDropped)="drop($event)">
     <ng-container *ngFor="let wallet of variablesService.wallets">
-      <div class="sidebar-account" [class.active]="wallet?.wallet_id === walletActive"
-        [routerLink]="['/wallet/' + wallet.wallet_id + '/history']" [queryParams]="{sidenav: true}"
-        [class.auditable]="wallet.is_auditable && !wallet.is_watch_only" [class.watch-only]="wallet.is_watch_only"
-        cdkDrag vsDragScroll [vsDragScrollContainer]="scrollContainer" [cdkDragData]="wallet">
+      <div class="sidebar-account" [class.active]="wallet?.wallet_id === variablesService.currentWallet.wallet_id"
+        (click)="selectWallet(wallet.wallet_id)" [class.auditable]="wallet.is_auditable && !wallet.is_watch_only"
+        [class.watch-only]="wallet.is_watch_only" cdkDrag vsDragScroll [vsDragScrollContainer]="scrollContainer"
+        [cdkDragData]="wallet">
         <button class="close-wallet-button" type="button" (click)="showDialog(wallet.wallet_id)"
           tooltip="{{ 'WALLET.TOOLTIPS.CLOSE' | translate }}" placement="top-left"
           tooltipClass="table-tooltip account-tooltip" [delay]="500" [timeDelay]="500">
@@ -218,8 +218,4 @@
 
 <app-confirm-modal *ngIf="isModalDialogVisible" [title]=" 'WALLET.CONFIRM.TITLE' | translate "
   [message]=" 'WALLET.CONFIRM.MESSAGE' | translate " (confirmed)="confirmed($event)"></app-confirm-modal>
-<app-sync-modal *ngIf="deeplink && (variablesService.daemon_state !== 2 || variablesService.sync_started === true)">
-</app-sync-modal>
-<app-deeplink *ngIf="deeplink && (variablesService.daemon_state === 2 && variablesService.sync_started === false)"
-  [deeplink]="deeplink">
-</app-deeplink>
+<app-deeplink></app-deeplink>

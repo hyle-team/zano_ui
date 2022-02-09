@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs';
 import { DeeplinkParams, PushOffer, Wallet } from './../_helpers/models/wallet.model';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -12,11 +13,14 @@ import { BigNumber } from 'bignumber.js';
   styleUrls: ['./deeplink.component.scss']
 })
 export class DeeplinkComponent implements OnInit {
-  @Input() deeplink: string;
+  deeplink: string | null = null;
   secondStep = false;
   walletToPayId = 0
-  marketplaceModalShow = false;
+  marketplaceModalShow = true;
+  copyAnimation = false;
+  marketplaceConfirmHash: any = null
   sendRoute = false;
+  deeplinkSubscription: Subscription
   actionData: DeeplinkParams = {}
   defaultMixin = MIXIN
   walletsTopay: Array<Wallet> = [];
@@ -26,24 +30,29 @@ export class DeeplinkComponent implements OnInit {
     public variablesService: VariablesService,
     private backend: BackendService,
   ) {
-
+    this.deeplinkSubscription = this.variablesService.deeplink$.subscribe((data) => {
+      if (data) {
+        this.deeplink = data;
+        this.actionData = {};
+        this.walletsTopay = this.variablesService.wallets.filter(wallet => !wallet.is_watch_only || !wallet.is_auditable)
+        if (this.walletsTopay.length === 0) {
+          this.variablesService.deeplink$.next(null)
+          return
+        }
+        this.actionData = this.parceString(this.deeplink);
+        if (this.walletsTopay.length === 1) {
+          setTimeout(() => {
+            this.nextStep()
+          }, 200)
+        }
+      } else {
+        this.deeplink = null;
+      }
+    });
   }
 
 
   ngOnInit() {
-    this.actionData = {};
-    this.walletsTopay = this.variablesService.wallets.filter(wallet => !wallet.is_watch_only || !wallet.is_auditable)
-    if (this.walletsTopay.length === 0) {
-      this.variablesService.deeplink$.next('')
-      return
-    }
-    this.actionData = this.parceString(this.deeplink);
-    if (this.walletsTopay.length === 1) {
-      setTimeout(() => {
-        this.nextStep()
-      }, 200)
-    }
-
   }
 
   parceString(string) {
@@ -57,8 +66,8 @@ export class DeeplinkComponent implements OnInit {
   }
 
   canselAction() {
-    this.deeplink = ""
-    this.variablesService.deeplink$.next('')
+    this.deeplink = null
+    this.variablesService.deeplink$.next(null)
     this.variablesService.sendActionData$.next({});
     this.actionData = {};
   }
@@ -83,26 +92,43 @@ export class DeeplinkComponent implements OnInit {
         url: this.actionData.img_url || '',
       },
     }
-    this.backend.push_offer(offerObject, (res) => {
-      this.canselAction()
+    this.backend.push_offer(offerObject, (Status, data) => {
+      if (data.success) {
+        this.marketplaceModalShow = false;
+        this.marketplaceConfirmHash = data.tx_hash
+      } else {
+        this.canselAction()
+      }
     })
   }
 
 
+  copyHash() {
+    this.backend.setClipboard(this.marketplaceConfirmHash);
+    this.copyAnimation = true;
+    setTimeout(() => {
+      this.copyAnimation = false;
+    }, 2000);
+  }
+
   nextStep() {
     if (this.actionData.action === "send") {
       this.variablesService.sendActionData$.next(this.actionData);
-      this.variablesService.deeplink$.next('')
-      this._router.navigate(['/wallet/' + this.walletToPayId + '/send']);
+      this.variablesService.deeplink$.next(null)
+      this.variablesService.setCurrentWallet(this.walletToPayId)
+      this._router.navigate(['/wallet/send']);
     } else if (this.actionData.action === "escrow") {
       this.variablesService.sendActionData$.next(this.actionData);
-      this.variablesService.deeplink$.next('')
-      this._router.navigate(['/wallet/' + this.walletToPayId + '/purchase']);
+      this.variablesService.deeplink$.next(null)
+      this.variablesService.setCurrentWallet(this.walletToPayId)
+      this._router.navigate(['/wallet/contracts/purchase']);
     } else {
       this.secondStep = true
     }
   }
 
   ngOnDestroy() {
+    this.deeplinkSubscription.unsubscribe();
+    this.variablesService.deeplink$.next(null)
   }
 }

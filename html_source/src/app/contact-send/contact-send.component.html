@@ -33,8 +33,7 @@
       <input type="text" id="address" [ngModel]="address" [readonly]="true" />
     </div>
   </div>
-  <button class="blue-button" [routerLink]="['/wallet/' + this.variablesService.selectWallet + '/send']"
-    [queryParams]="{send: true}" (click)="goToWallet(this.variablesService.selectWallet)"
+  <button class="blue-button" (click)="goToWallet(this.variablesService.selectWallet)"
     [disabled]="!(this.variablesService.selectWallet === 0 || this.variablesService.selectWallet)">{{
     'CONTACTS.BUTTON.GO_TO_WALLET' | translate }}</button>
 </div>

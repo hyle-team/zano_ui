@@ -104,7 +104,7 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
           this.wallet.wakeAlias = true;
           this.modalService.prepareModal('info', 'ASSIGN_ALIAS.REQUEST_ADD_REG');
           this.ngZone.run(() => {
-            this.router.navigate(['/wallet/' + this.wallet.wallet_id]);
+            this.router.navigate(['/wallet/']);
           });
         }
       });

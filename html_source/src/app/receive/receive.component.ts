@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import QRCode from 'qrcode';
 import { BackendService } from '../_helpers/services/backend.service';
 import { VariablesService } from '../_helpers/services/variables.service';
-import { ActivatedRoute } from '@angular/router';
 import { RCV_ADDR_QR_SCALE } from '../_shared/constants';
 
 @Component({
@@ -17,21 +16,18 @@ export class ReceiveComponent implements OnInit, OnDestroy {
   copyAnimationTimeout;
 
   constructor(
-    private route: ActivatedRoute,
     private backend: BackendService,
     public variablesService: VariablesService
   ) { }
 
   ngOnInit() {
-    this.parentRouting = this.route.parent.params.subscribe(() => {
-      QRCode.toDataURL(this.variablesService.currentWallet.address, {
-        width: 160 * RCV_ADDR_QR_SCALE,
-        height: 160 * RCV_ADDR_QR_SCALE
-      }).then(url => {
-        this.qrImageSrc = url;
-      }).catch(err => {
-        console.error(err);
-      });
+    QRCode.toDataURL(this.variablesService.currentWallet.address, {
+      width: 200 * RCV_ADDR_QR_SCALE,
+      height: 200 * RCV_ADDR_QR_SCALE
+    }).then(url => {
+      this.qrImageSrc = url;
+    }).catch(err => {
+      console.error(err);
     });
   }
 
@@ -44,7 +40,6 @@ export class ReceiveComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.parentRouting.unsubscribe();
     clearTimeout(this.copyAnimationTimeout);
   }
 

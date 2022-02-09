@@ -16,7 +16,7 @@ export class ContactsComponent implements OnInit {
     private location: Location,
     public variablesService: VariablesService,
     private backend: BackendService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.backend.getContactAlias();
@@ -36,7 +36,7 @@ export class ContactsComponent implements OnInit {
     );
     this.calculatedWidth.push(
       this.head.nativeElement.childNodes[1].clientWidth +
-        this.head.nativeElement.childNodes[2].clientWidth
+      this.head.nativeElement.childNodes[2].clientWidth
     );
     this.calculatedWidth.push(
       this.head.nativeElement.childNodes[3].clientWidth
@@ -45,14 +45,6 @@ export class ContactsComponent implements OnInit {
       this.head.nativeElement.childNodes[4].clientWidth
     );
   }
-
-  // openInBrowser(alias: string) {
-  //   if (alias !== null) {
-  //     this.backend.openUrlInBrowser(
-  //       `explorer.zano.org/aliases/${alias.slice(1)}#modalOpen`
-  //     );
-  //   }
-  // }
 
   back() {
     this.location.back();

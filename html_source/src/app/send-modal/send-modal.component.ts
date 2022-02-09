@@ -9,13 +9,12 @@ import { VariablesService } from '../_helpers/services/variables.service';
   styleUrls: ['./send-modal.component.scss']
 })
 export class SendModalComponent implements OnInit {
+  @Input() form: FormGroup;
+  @Output() confirmed: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   confirmForm = new FormGroup({
     password: new FormControl('')
   });
-
-  @Input() form: FormGroup;
-  @Output() confirmed: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(
     public variablesService: VariablesService,

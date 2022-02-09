@@ -1,10 +1,10 @@
-import {Component, NgZone, OnInit} from '@angular/core';
-import {Location} from '@angular/common';
-import {Router} from '@angular/router';
-import {BackendService} from '../_helpers/services/backend.service';
-import {VariablesService} from '../_helpers/services/variables.service';
-import {ModalService} from '../_helpers/services/modal.service';
-import {Wallet} from '../_helpers/models/wallet.model';
+import { Component, NgZone, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
+import { BackendService } from '../_helpers/services/backend.service';
+import { VariablesService } from '../_helpers/services/variables.service';
+import { ModalService } from '../_helpers/services/modal.service';
+import { Wallet } from '../_helpers/models/wallet.model';
 
 @Component({
   selector: 'app-edit-alias',
@@ -26,7 +26,7 @@ export class EditAliasComponent implements OnInit {
     public variablesService: VariablesService,
     private modalService: ModalService,
     private ngZone: NgZone
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.wallet = this.variablesService.currentWallet;
@@ -50,7 +50,7 @@ export class EditAliasComponent implements OnInit {
         this.modalService.prepareModal('success', '');
         this.wallet.alias['comment'] = this.alias.comment;
         this.ngZone.run(() => {
-          this.router.navigate(['/wallet/' + this.wallet.wallet_id]);
+          this.router.navigate(['/wallet/']);
         });
       }
       this.requestProcessing = false;

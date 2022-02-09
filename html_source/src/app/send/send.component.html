@@ -14,9 +14,6 @@
     </div>
     <div class="error-block"
       *ngIf="sendForm.controls['address'].invalid && (sendForm.controls['address'].dirty || sendForm.controls['address'].touched)">
-      <!-- <div *ngIf="sendForm.controls['address'].errors['required']">
-        {{ 'SEND.FORM_ERRORS.ADDRESS_REQUIRED' | translate }}
-      </div> -->
       <div *ngIf="sendForm.controls['address'].errors['address_not_valid']">
         {{ 'SEND.FORM_ERRORS.ADDRESS_NOT_VALID' | translate }}
       </div>
@@ -35,9 +32,6 @@
         appInputValidate="money" (contextmenu)="variablesService.onContextMenu($event)">
       <div class="error-block"
         *ngIf="sendForm.controls['amount'].invalid && !sendForm.controls['amount'].errors['required'] && (sendForm.controls['amount'].dirty || sendForm.controls['amount'].touched)">
-        <!-- <div *ngIf="sendForm.controls['amount'].errors['required']">
-          {{ 'SEND.FORM_ERRORS.AMOUNT_REQUIRED' | translate }}
-        </div> -->
         <div *ngIf="sendForm.controls['amount'].errors['zero']">
           {{ 'SEND.FORM_ERRORS.AMOUNT_ZERO' | translate }}
         </div>
@@ -103,12 +97,6 @@
         [class.required-error]="sendForm.controls['mixin'].dirty || sendForm.controls['mixin'].touched"
         [placeholder]="sendForm.controls['mixin'].dirty || sendForm.controls['mixin'].touched ? ('SEND.FORM_ERRORS.AMOUNT_REQUIRED' | translate ) : ('PLACEHOLDERS.AMOUNT_PLACEHOLDER' | translate)"
         appInputValidate="integer" (contextmenu)="variablesService.onContextMenu($event)">
-      <!-- <div class="error-block"
-        *ngIf="sendForm.controls['mixin'].invalid && (sendForm.controls['mixin'].dirty || sendForm.controls['mixin'].touched)">
-        <div *ngIf="sendForm.controls['mixin'].errors['required']">
-          {{ 'SEND.FORM_ERRORS.AMOUNT_REQUIRED' | translate }}
-        </div>
-      </div> -->
     </div>
 
     <div class="input-block">
@@ -119,9 +107,6 @@
         appInputValidate="money" (contextmenu)="variablesService.onContextMenu($event)">
       <div class="error-block"
         *ngIf="sendForm.controls['fee'].invalid && !sendForm.controls['fee'].errors['required'] && (sendForm.controls['fee'].dirty || sendForm.controls['fee'].touched)">
-        <!-- <div *ngIf="sendForm.controls['fee'].errors['required']">
-          {{ 'SEND.FORM_ERRORS.FEE_REQUIRED' | translate }}
-        </div> -->
         <div *ngIf="sendForm.controls['fee'].errors['less_min']">
           {{ 'SEND.FORM_ERRORS.FEE_MINIMUM' | translate : {fee: variablesService.default_fee} }}
         </div>
@@ -138,7 +123,6 @@
 
   <button type="submit" class="blue-button" [disabled]="!sendForm.valid || !variablesService.currentWallet.loaded">{{
     'SEND.BUTTON' | translate }}</button>
-
   <app-send-modal *ngIf="isModalDialogVisible" [form]="sendForm" (confirmed)="confirmed($event)"></app-send-modal>
 
 </form>

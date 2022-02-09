@@ -12,7 +12,7 @@ export class TypingMessageComponent implements OnInit {
   private subMessages: any;
 
   constructor(private route: ActivatedRoute) {
-    this.route.params.subscribe( params => console.log(params) );
+
   }
 
   ngOnInit() {

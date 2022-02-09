@@ -1,10 +1,10 @@
-import {Component, NgZone, OnInit} from '@angular/core';
-import {Location} from '@angular/common';
-import {Router} from '@angular/router';
-import {BackendService} from '../_helpers/services/backend.service';
-import {VariablesService} from '../_helpers/services/variables.service';
-import {ModalService} from '../_helpers/services/modal.service';
-import {Wallet} from '../_helpers/models/wallet.model';
+import { Component, NgZone, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
+import { BackendService } from '../_helpers/services/backend.service';
+import { VariablesService } from '../_helpers/services/variables.service';
+import { ModalService } from '../_helpers/services/modal.service';
+import { Wallet } from '../_helpers/models/wallet.model';
 
 @Component({
   selector: 'app-transfer-alias',
@@ -29,7 +29,7 @@ export class TransferAliasComponent implements OnInit {
     public variablesService: VariablesService,
     private modalService: ModalService,
     private ngZone: NgZone
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.wallet = this.variablesService.currentWallet;
@@ -95,7 +95,7 @@ export class TransferAliasComponent implements OnInit {
       if (status && data.hasOwnProperty('success') && data.success) {
         this.modalService.prepareModal('info', 'TRANSFER_ALIAS.REQUEST_SEND_REG');
         this.ngZone.run(() => {
-          this.router.navigate(['/wallet/' + this.wallet.wallet_id]);
+          this.router.navigate(['/wallet/']);
         });
       }
       this.requestProcessing = false;
