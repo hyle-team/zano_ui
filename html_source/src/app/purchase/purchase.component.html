@@ -1,6 +1,6 @@
 <div class="head">
   <div class="breadcrumbs">
-    <span [routerLink]="'/wallet/' + currentWalletId + '/contracts'">{{ 'BREADCRUMBS.CONTRACTS' | translate }}</span>
+    <span [routerLink]="'/wallet/contracts'">{{ 'BREADCRUMBS.CONTRACTS' | translate }}</span>
     <span *ngIf="newPurchase">{{ 'BREADCRUMBS.NEW_PURCHASE' | translate }}</span>
     <span *ngIf="!newPurchase">{{ 'BREADCRUMBS.OLD_PURCHASE' | translate }}</span>
   </div>
@@ -19,9 +19,6 @@
       maxlength="100" [readonly]="!newPurchase" (contextmenu)="variablesService.onContextMenu($event)">
     <div class="error-block"
       *ngIf="purchaseForm.controls['description'].invalid && !purchaseForm.controls['description'].errors['required'] && (purchaseForm.controls['description'].dirty || purchaseForm.controls['description'].touched)">
-      <!-- <div *ngIf="purchaseForm.controls['description'].errors['required']">
-        {{ 'PURCHASE.FORM_ERRORS.DESC_REQUIRED' | translate }}
-      </div> -->
       <div *ngIf="newPurchase && purchaseForm.controls['description'].value.length >= 100">
         {{ 'PURCHASE.FORM_ERRORS.COMMENT_MAXIMUM' | translate }}
       </div>
@@ -41,9 +38,6 @@
       </div>
       <div class="error-block"
         *ngIf="purchaseForm.controls['seller'].invalid && !purchaseForm.controls['seller'].errors['required'] && (purchaseForm.controls['seller'].dirty || purchaseForm.controls['seller'].touched)">
-        <!-- <div *ngIf="purchaseForm.controls['seller'].errors['required']">
-          {{ 'PURCHASE.FORM_ERRORS.SELLER_REQUIRED' | translate }}
-        </div> -->
         <div *ngIf="purchaseForm.controls['seller'].errors['address_not_valid']">
           {{ 'PURCHASE.FORM_ERRORS.SELLER_NOT_VALID' | translate }}
         </div>
@@ -64,9 +58,6 @@
         appInputValidate="money" [readonly]="!newPurchase" (contextmenu)="variablesService.onContextMenu($event)">
       <div class="error-block"
         *ngIf="purchaseForm.controls['amount'].invalid && !purchaseForm.controls['amount'].errors['required'] && (purchaseForm.controls['amount'].dirty || purchaseForm.controls['amount'].touched)">
-        <!-- <div *ngIf="purchaseForm.controls['amount'].errors['required']">
-          {{ 'PURCHASE.FORM_ERRORS.AMOUNT_REQUIRED' | translate }}
-        </div> -->
         <div *ngIf="purchaseForm.controls['amount'].errors['amount_zero']">
           {{ 'PURCHASE.FORM_ERRORS.AMOUNT_ZERO' | translate }}
         </div>
@@ -83,12 +74,6 @@
         [placeholder]="purchaseForm.controls['yourDeposit'].dirty || purchaseForm.controls['yourDeposit'].touched ? ('PURCHASE.FORM_ERRORS.YOUR_DEPOSIT_REQUIRED' | translate ) : ('PLACEHOLDERS.DEPOSIT_PLACEHOLDER' | translate)"
         id="purchase-your-deposit" formControlName="yourDeposit" appInputValidate="money" [readonly]="!newPurchase"
         (contextmenu)="variablesService.onContextMenu($event)">
-      <!-- <div class="error-block"
-        *ngIf="purchaseForm.controls['yourDeposit'].invalid && (purchaseForm.controls['yourDeposit'].dirty || purchaseForm.controls['yourDeposit'].touched)">
-        <div *ngIf="purchaseForm.controls['yourDeposit'].errors['required']">
-          {{ 'PURCHASE.FORM_ERRORS.YOUR_DEPOSIT_REQUIRED' | translate }}
-        </div>
-      </div> -->
     </div>
 
     <div class="input-block">
@@ -107,12 +92,6 @@
         [placeholder]="purchaseForm.controls['sellerDeposit'].dirty || purchaseForm.controls['sellerDeposit'].touched ? ('PURCHASE.FORM_ERRORS.SELLER_DEPOSIT_REQUIRED' | translate) : ('PLACEHOLDERS.SELLER_DEPOSIT_PLACEHOLDER' | translate)"
         formControlName="sellerDeposit" appInputValidate="money" [readonly]="!newPurchase"
         (contextmenu)="variablesService.onContextMenu($event)">
-      <!-- <div class="error-block"
-        *ngIf="purchaseForm.controls['sellerDeposit'].invalid && (purchaseForm.controls['sellerDeposit'].dirty || purchaseForm.controls['sellerDeposit'].touched)">
-        <div *ngIf="purchaseForm.controls['sellerDeposit'].errors['required']">
-          {{ 'PURCHASE.FORM_ERRORS.SELLER_DEPOSIT_REQUIRED' | translate }}
-        </div>
-      </div> -->
     </div>
   </div>
 
@@ -258,38 +237,26 @@
 
     <ng-container *ngIf="!newPurchase && currentContract.is_a">
       <span *ngIf="currentContract.state == 1">{{ 'PURCHASE.STATUS_MESSAGES.WAITING_SELLER' | translate }}</span>
-
       <span *ngIf="currentContract.state == 110">{{ 'PURCHASE.STATUS_MESSAGES.IGNORED_SELLER' | translate }}</span>
-
       <span *ngIf="currentContract.state == 120">{{ 'PURCHASE.STATUS_MESSAGES.WAITING_DELIVERY' | translate }}</span>
-
       <span *ngIf="currentContract.state == 130">{{ 'PURCHASE.STATUS_MESSAGES.IGNORED_CANCEL_SELLER' | translate
         }}</span>
-
       <span *ngIf="currentContract.state == 140">{{ 'PURCHASE.STATUS_MESSAGES.EXPIRED' | translate }}</span>
-
       <span *ngIf="currentContract.state == 2">{{ 'PURCHASE.STATUS_MESSAGES.WAITING_SELLER' | translate }}</span>
-
-      <span *ngIf="currentContract.state == 201">
-        {{ 'PURCHASE.STATUS_MESSAGES.WAITING_CONFIRMATION' | translate }}
+      <span *ngIf="currentContract.state == 201">{{ 'PURCHASE.STATUS_MESSAGES.WAITING_CONFIRMATION' | translate }}
         <ng-container *ngIf="currentContract.height === 0">(0/10)</ng-container>
         <ng-container
           *ngIf="currentContract.height !== 0 && (variablesService.height_app - currentContract.height) < 10">
           ({{variablesService.height_app - currentContract.height}}/10)</ng-container>
       </span>
-
       <span *ngIf="currentContract.state == 3">{{ 'PURCHASE.STATUS_MESSAGES.COMPLETED' | translate }}</span>
-
       <span *ngIf="currentContract.state == 4" class="error-text">
         {{ 'PURCHASE.STATUS_MESSAGES.NOT_RECEIVED' | translate }}. {{ 'PURCHASE.STATUS_MESSAGES.NULLIFIED' | translate
         }}
       </span>
-
       <span *ngIf="currentContract.state == 5">{{ 'PURCHASE.STATUS_MESSAGES.PROPOSAL_CANCEL_SELLER' | translate
         }}</span>
-
       <span *ngIf="currentContract.state == 6">{{ 'PURCHASE.STATUS_MESSAGES.CANCELLED' | translate }}</span>
-
       <span *ngIf="currentContract.state == 601">
         {{ 'PURCHASE.STATUS_MESSAGES.BEING_CANCELLED' | translate }}
         <ng-container *ngIf="currentContract.height === 0">(0/10)</ng-container>
@@ -298,19 +265,13 @@
           ({{variablesService.height_app - currentContract.height}}/10)</ng-container>
       </span>
     </ng-container>
-
     <ng-container *ngIf="!newPurchase && !currentContract.is_a">
       <span *ngIf="currentContract.state == 1">{{ 'PURCHASE.STATUS_MESSAGES.WAITING_BUYER' | translate }}</span>
-
       <span *ngIf="currentContract.state == 110">{{ 'PURCHASE.STATUS_MESSAGES.IGNORED_BUYER' | translate }}</span>
-
       <span *ngIf="currentContract.state == 130">{{ 'PURCHASE.STATUS_MESSAGES.IGNORED_CANCEL_BUYER' | translate
         }}</span>
-
       <span *ngIf="currentContract.state == 140">{{ 'PURCHASE.STATUS_MESSAGES.EXPIRED' | translate }}</span>
-
       <span *ngIf="currentContract.state == 2">{{ 'PURCHASE.STATUS_MESSAGES.WAITING_DELIVERY' | translate }}</span>
-
       <span *ngIf="currentContract.state == 201">
         {{ 'PURCHASE.STATUS_MESSAGES.WAITING_CONFIRMATION' | translate }}
         <ng-container *ngIf="currentContract.height === 0">(0/10)</ng-container>
@@ -318,18 +279,12 @@
           *ngIf="currentContract.height !== 0 && (variablesService.height_app - currentContract.height) < 10">
           ({{variablesService.height_app - currentContract.height}}/10)</ng-container>
       </span>
-
       <span *ngIf="currentContract.state == 3">{{ 'PURCHASE.STATUS_MESSAGES.COMPLETED' | translate }}</span>
-
       <span *ngIf="currentContract.state == 4" class="error-text">
-        {{ 'PURCHASE.STATUS_MESSAGES.NOT_RECEIVED' | translate }}. {{ 'PURCHASE.STATUS_MESSAGES.NULLIFIED' | translate
-        }}
+        {{ 'PURCHASE.STATUS_MESSAGES.NOT_RECEIVED' | translate }}. {{ 'PURCHASE.STATUS_MESSAGES.NULLIFIED' | translate}}
       </span>
-
       <span *ngIf="currentContract.state == 5">{{ 'PURCHASE.STATUS_MESSAGES.PROPOSAL_CANCEL_BUYER' | translate }}</span>
-
       <span *ngIf="currentContract.state == 6">{{ 'PURCHASE.STATUS_MESSAGES.CANCELLED' | translate }}</span>
-
       <span *ngIf="currentContract.state == 601">
         {{ 'PURCHASE.STATUS_MESSAGES.BEING_CANCELLED' | translate }}
         <ng-container *ngIf="currentContract.height === 0">(0/10)</ng-container>

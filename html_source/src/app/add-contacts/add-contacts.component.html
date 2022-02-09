@@ -19,9 +19,6 @@
           *ngIf="addContactForm.controls['name'].errors['minlength'] || addContactForm.controls['name'].errors['maxlength']">
           {{ 'CONTACTS.FORM_ERRORS.NAME_LENGTH' | translate }}
         </div>
-        <!-- <div *ngIf="addContactForm.controls['name'].errors['required']">
-          {{ 'CONTACTS.FORM_ERRORS.NAME_REQUIRED' | translate }}
-        </div> -->
         <div *ngIf="addContactForm.controls['name'].errors['dublicated']">
           {{ 'CONTACTS.FORM_ERRORS.NAME_DUBLICATED' | translate }}
         </div>
@@ -38,9 +35,6 @@
 
       <div class="error-block"
         *ngIf="addContactForm.controls['address'].invalid && !addContactForm.controls['address'].errors['required'] && (addContactForm.controls['address'].dirty || addContactForm.controls['address'].touched)">
-        <!-- <div *ngIf="addContactForm.controls['address'].errors['required']">
-          {{ 'CONTACTS.FORM_ERRORS.ADDRESS_REQUIRED' | translate }}
-        </div> -->
         <div *ngIf="addContactForm.controls['address'].errors['address_not_valid']">
           {{ 'CONTACTS.FORM_ERRORS.ADDRESS_NOT_VALID' | translate }}
         </div>

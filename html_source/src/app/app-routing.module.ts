@@ -27,6 +27,7 @@ import { AddContactsComponent } from './add-contacts/add-contacts.component';
 import { ContactSendComponent } from './contact-send/contact-send.component';
 import { ExportImportComponent } from './export-import/export-import.component';
 import { DeeplinkComponent } from './deeplink/deeplink.component';
+import { ContractsTabComponent } from './contracts/contracts-tab/contracts-tab.component';
 
 const routes: Routes = [
   {
@@ -42,7 +43,7 @@ const routes: Routes = [
     component: LoginComponent
   },
   {
-    path: 'wallet/:id',
+    path: 'wallet',
     component: WalletComponent,
     children: [
       {
@@ -59,15 +60,24 @@ const routes: Routes = [
       },
       {
         path: 'contracts',
-        component: ContractsComponent,
-      },
-      {
-        path: 'purchase',
-        component: PurchaseComponent
-      },
-      {
-        path: 'purchase/:id',
-        component: PurchaseComponent
+        component: ContractsTabComponent,
+        children: [
+          {
+            path: '',
+            component: ContractsComponent,
+          },
+          {
+            path: 'purchase',
+            component: PurchaseComponent
+          },
+          {
+            path: 'purchase/:id',
+            component: PurchaseComponent
+          },
+          {
+            path: '**', redirectTo: '',
+          },
+        ]
       },
       {
         path: 'messages',

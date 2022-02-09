@@ -114,7 +114,8 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
             this.backend.storeSecureAppData();
           }
           this.ngZone.run(() => {
-            this.router.navigate(['/wallet/' + this.wallet_id]);
+            this.variablesService.setCurrentWallet(this.wallet_id)
+            this.router.navigate(['/wallet/']);
           });
         } else {
           console.log(run_data['error_code']);

@@ -125,7 +125,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
         if (this.variablesService.wallets.length) {
           this.ngZone.run(() => {
-            this.router.navigate(['/wallet/' + this.variablesService.wallets[0].wallet_id]);
+            this.variablesService.setCurrentWallet(this.variablesService.wallets[0].wallet_id)
+            this.router.navigate(['/wallet/']);
           });
           return;
         }
@@ -209,7 +210,8 @@ export class LoginComponent implements OnInit, OnDestroy {
             });
             this.variablesService.wallets.push(new_wallet);
             if (this.variablesService.wallets.length === 1) {
-              this.router.navigate(['/wallet/' + this.variablesService.wallets[0].wallet_id]);
+              this.variablesService.setCurrentWallet(this.variablesService.wallets[0].wallet_id)
+              this.router.navigate(['/wallet/']);
             }
           });
           this.backend.runWallet(open_data.wallet_id, (run_status) => {

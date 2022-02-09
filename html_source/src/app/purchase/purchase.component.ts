@@ -23,7 +23,6 @@ export class PurchaseComponent implements OnInit, OnDestroy {
   localAliases = [];
   currentWalletId;
   newPurchase = false;
-  parentRouting;
   subRouting;
   actionData;
   private dLActionSubscribe;
@@ -140,9 +139,6 @@ export class PurchaseComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.parentRouting = this.route.parent.params.subscribe(params => {
-      this.currentWalletId = params['id'];
-    });
     this.subRouting = this.route.params.subscribe(params => {
       if (params.hasOwnProperty('id')) {
         this.currentContract = this.variablesService.currentWallet.getContract(params['id']);
@@ -348,7 +344,7 @@ export class PurchaseComponent implements OnInit, OnDestroy {
   }
 
   acceptState() {
-    this.backend.acceptProposal(this.currentWalletId, this.currentContract.contract_id, (accept_status) => {
+    this.backend.acceptProposal(this.variablesService.currentWallet.wallet_id, this.currentContract.contract_id, (accept_status) => {
       if (accept_status) {
         this.modalService.prepareModal('info', 'PURCHASE.ACCEPT_STATE_WAIT_BIG');
         this.back();
@@ -385,7 +381,7 @@ export class PurchaseComponent implements OnInit, OnDestroy {
   }
 
   productNotGot() {
-    this.backend.releaseProposal(this.currentWalletId, this.currentContract.contract_id, 'REL_B', (release_status) => {
+    this.backend.releaseProposal(this.variablesService.currentWallet.wallet_id, this.currentContract.contract_id, 'REL_B', (release_status) => {
       if (release_status) {
         this.modalService.prepareModal('info', 'PURCHASE.BURN_PROPOSAL');
         this.back();
@@ -394,7 +390,7 @@ export class PurchaseComponent implements OnInit, OnDestroy {
   }
 
   dealsDetailsFinish() {
-    this.backend.releaseProposal(this.currentWalletId, this.currentContract.contract_id, 'REL_N', (release_status) => {
+    this.backend.releaseProposal(this.variablesService.currentWallet.wallet_id, this.currentContract.contract_id, 'REL_N', (release_status) => {
       if (release_status) {
         this.modalService.prepareModal('success', 'PURCHASE.SUCCESS_FINISH_PROPOSAL');
         this.back();
@@ -403,7 +399,7 @@ export class PurchaseComponent implements OnInit, OnDestroy {
   }
 
   dealsDetailsCancel() {
-    this.backend.requestCancelContract(this.currentWalletId, this.currentContract.contract_id, this.purchaseForm.get('timeCancel').value, (cancel_status) => {
+    this.backend.requestCancelContract(this.variablesService.currentWallet.wallet_id, this.currentContract.contract_id, this.purchaseForm.get('timeCancel').value, (cancel_status) => {
       if (cancel_status) {
         this.modalService.prepareModal('info', 'PURCHASE.SEND_CANCEL_PROPOSAL');
         this.back();
@@ -439,7 +435,7 @@ export class PurchaseComponent implements OnInit, OnDestroy {
   }
 
   dealsDetailsSellerCancel() {
-    this.backend.acceptCancelContract(this.currentWalletId, this.currentContract.contract_id, (accept_status) => {
+    this.backend.acceptCancelContract(this.variablesService.currentWallet.wallet_id, this.currentContract.contract_id, (accept_status) => {
       if (accept_status) {
         this.modalService.prepareModal('info', 'PURCHASE.DEALS_CANCELED_WAIT');
         this.back();
@@ -450,7 +446,6 @@ export class PurchaseComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.actionData = {}
     this.dLActionSubscribe.unsubscribe();
-    this.parentRouting.unsubscribe();
     this.subRouting.unsubscribe();
     this.heightAppEvent.unsubscribe();
   }

@@ -133,9 +133,7 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
         this.ngZone.run(() => {
           if (this.variablesService.wallets.length) {
             this.variablesService.currentWallet = this.variablesService.wallets[0];
-            this.router.navigate([
-              '/wallet/' + this.variablesService.currentWallet.wallet_id,
-            ]);
+            this.router.navigate(['/wallet/']);
           } else {
             this.router.navigate(['/']);
           }

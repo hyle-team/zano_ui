@@ -162,11 +162,7 @@ export class AddContactsComponent implements OnInit, OnDestroy {
                   address: null,
                   notes: null
                 };
-                this.addContactForm.reset({
-                  name: null,
-                  address: null,
-                  notes: null
-                });
+                this.addContactForm.reset();
               }
             }
           }

@@ -1,8 +1,7 @@
-<div class="host-container">
-  <!-- <div class="deep-overflow" (click)="canselAction()">
-  </div> -->
+<div class="host-container"
+  *ngIf="deeplink && (variablesService.daemon_state === 2 || variablesService.sync_started === false)">
   <div class="container">
-    <ng-container *ngIf="this.walletsTopay.length > 1 && variablesService.daemon_state == 2 && !secondStep">
+    <ng-container *ngIf="this.walletsTopay.length > 1 && !secondStep">
       <div class="modal select-wallet">
         <div class="content">
           <div class="title">
@@ -32,8 +31,7 @@
       </div>
     </ng-container>
 
-    <ng-container
-      *ngIf="variablesService.daemon_state == 2 && secondStep && actionData.action === 'marketplace_offer_create'">
+    <ng-container *ngIf="secondStep && marketplaceModalShow && actionData.action === 'marketplace_offer_create'">
       <div class="modal marketplace">
         <div class="title">
           <span>Creating a marketplace offer</span>
@@ -59,7 +57,24 @@
         </div>
       </div>
     </ng-container>
+    <ng-container *ngIf="marketplaceConfirmHash">
+      <div class="modal marketplace--success">
+        <div class="title">
+          <span>Operation successful</span>
+        </div>
+        <div class="data-container">
+          <div class="row"><span>Operation hash:</span>
+            <p (contextmenu)="variablesService.onContextMenuOnlyCopy($event, marketplaceConfirmHash)">
+              {{marketplaceConfirmHash}}<i class="icon" [class.copy]="!copyAnimation" [class.copied]="copyAnimation"
+                (click)="copyHash()"></i></p>
+          </div>
+        </div>
+        <div class="wrapper-buttons">
+          <button type="button" class="blue-button" (click)="canselAction()">Close</button>
+        </div>
+      </div>
+    </ng-container>
   </div>
-
-
 </div>
+<app-sync-modal *ngIf="deeplink && (variablesService.daemon_state !== 2 || variablesService.sync_started === true)">
+</app-sync-modal>

@@ -16,7 +16,6 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
 
   queryRouting;
   filePath: string;
-
   openForm = new FormGroup({
     name: new FormControl('', [Validators.required, (g: FormControl) => {
       for (let i = 0; i < this.variablesService.wallets.length; i++) {
@@ -129,7 +128,8 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
                     this.backend.storeSecureAppData();
                   }
                   this.ngZone.run(() => {
-                    this.router.navigate(['/wallet/' + open_data.wallet_id]);
+                    this.variablesService.setCurrentWallet(open_data.wallet_id)
+                    this.router.navigate(['/wallet/']);
                   });
                 } else {
                   console.log(run_data['error_code']);

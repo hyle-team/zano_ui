@@ -1,5 +1,5 @@
 import { Component, NgZone, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute, NavigationStart, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { VariablesService } from '../_helpers/services/variables.service';
 import { BackendService } from '../_helpers/services/backend.service';
 import { ModalService } from '../_helpers/services/modal.service';
@@ -19,8 +19,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
   walletActive: number;
   isModalDialogVisible = false;
   closeWalletId: number;
-  deeplinkSubscription;
-  deeplink;
 
   constructor(
     private route: ActivatedRoute,
@@ -29,37 +27,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
     private backend: BackendService,
     private modal: ModalService,
     private ngZone: NgZone
-  ) { }
+  ) {
+
+  }
 
   ngOnInit() {
-    if (this.router.url.indexOf('/wallet/') !== -1) {
-      const localPathArr = this.router.url.split('/');
-      if (localPathArr.length >= 3) {
-        this.walletActive = parseInt(localPathArr[2], 10);
-      }
-    } else if (this.router.url.indexOf('/details') !== -1) {
-      this.walletActive = this.variablesService.currentWallet.wallet_id;
-    } else {
-      this.walletActive = null;
-    }
 
-    this.walletSubRouting = this.router.events.subscribe((event) => {
-      if (event instanceof NavigationStart) {
-        if (event.url.indexOf('/wallet/') !== -1) {
-          const localPathArr = event.url.split('/');
-          if (localPathArr.length >= 3) {
-            this.walletActive = parseInt(localPathArr[2], 10);
-          }
-        } else if (event.url.indexOf('/details') !== -1) {
-          this.walletActive = this.variablesService.currentWallet.wallet_id;
-        } else {
-          this.walletActive = null;
-        }
-      }
-    });
-    this.deeplinkSubscription = this.variablesService.deeplink$.subscribe((data) => {
-      this.deeplink = data;
-    });
   }
 
   goMainPage() {
@@ -74,6 +47,13 @@ export class SidebarComponent implements OnInit, OnDestroy {
     }
 
   };
+
+  selectWallet(id: number) {
+    this.ngZone.run(() => {
+      this.variablesService.setCurrentWallet(id)
+      this.router.navigate(['/wallet/history']);
+    });
+  }
 
   contactsRoute() {
     if (this.variablesService.appPass) {
@@ -111,7 +91,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
       this.ngZone.run(() => {
         if (this.variablesService.wallets.length) {
           this.variablesService.currentWallet = this.variablesService.wallets[0];
-          this.router.navigate(['/wallet/' + this.variablesService.currentWallet.wallet_id]);
+          this.router.navigate(['/wallet/']);
         } else {
           this.router.navigate(['/']);
         }
@@ -140,8 +120,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.walletSubRouting.unsubscribe();
-    this.deeplinkSubscription.unsubscribe();
-    this.variablesService.deeplink$.next('')
+
   }
 }

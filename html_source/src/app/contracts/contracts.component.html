@@ -12,7 +12,7 @@
     <tbody>
       <ng-container *ngFor="let item of sortedArrayContracts">
         <div class="row-divider"></div>
-        <tr [routerLink]="'/wallet/' + walletId + '/purchase/' + item.contract_id">
+        <tr [routerLink]="'/wallet/contracts/purchase/' + item.contract_id">
           <td>
             <div class="contract">
               <i class="icon alert" *ngIf="!item.is_new"></i>
@@ -49,7 +49,7 @@
 </div>
 
 <div class="contracts-buttons">
-  <button type="button" class="blue-button" [routerLink]="'/wallet/' + walletId + '/purchase'">{{
+  <button type="button" class="blue-button" [routerLink]="'/wallet/contracts/purchase'">{{
     'CONTRACTS.PURCHASE_BUTTON' | translate }}</button>
   <button type="button" class="blue-button" disabled>{{ 'CONTRACTS.LISTING_BUTTON' | translate }}</button>
 </div>

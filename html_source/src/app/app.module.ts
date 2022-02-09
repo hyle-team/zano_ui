@@ -71,6 +71,7 @@ import { ExportHistoryModalComponent } from './_helpers/modals/export-history-mo
 import { DragScrollModule } from 'cdk-drag-scroll';
 import { DeeplinkComponent } from './deeplink/deeplink.component';
 import { SyncModalComponent } from './_helpers/modals/sync-modal/sync-modal.component';
+import { ContractsTabComponent } from './contracts/contracts-tab/contracts-tab.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
@@ -138,6 +139,7 @@ export function highchartsFactory() {
     ExportHistoryModalComponent,
     DeeplinkComponent,
     SyncModalComponent,
+    ContractsTabComponent,
   ],
   imports: [
     BrowserModule,

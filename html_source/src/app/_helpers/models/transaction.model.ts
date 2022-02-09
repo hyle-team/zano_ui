@@ -1,4 +1,4 @@
-import {BigNumber} from 'bignumber.js';
+import { BigNumber } from 'bignumber.js';
 
 export class Transaction {
   amount: BigNumber;
@@ -15,6 +15,7 @@ export class Transaction {
   td: object;
   timestamp: number;
   tx_blob_size: number;
+  remote_addresses?: string[];
   tx_hash: string;
   tx_type: number;
   unlock_time: number;

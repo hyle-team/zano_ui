@@ -1,7 +1,7 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { Location } from '@angular/common';
 import { VariablesService } from '../_helpers/services/variables.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -17,7 +17,9 @@ export class ContactSendComponent implements OnInit, OnDestroy {
   constructor(
     private location: Location,
     public variablesService: VariablesService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private ngZone: NgZone,
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -31,6 +33,9 @@ export class ContactSendComponent implements OnInit, OnDestroy {
   goToWallet(id) {
     this.variablesService.setCurrentWallet(id);
     this.variablesService.currentWallet.send_data['address'] = this.address;
+    this.ngZone.run(() => {
+      this.router.navigate(['/wallet/send'], { queryParams: { send: true } });
+    });
   }
 
   back() {
