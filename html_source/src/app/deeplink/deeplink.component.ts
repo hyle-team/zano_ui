@@ -45,14 +45,16 @@ export class DeeplinkComponent implements OnInit, OnDestroy {
           this.actionData = this.parceString(this.deeplink);
           if (this.walletsTopay.length === 1) {
             if (variablesService.daemon_state === 2 && variablesService.sync_started === false) {
+              this.walletToPayId = this.walletsTopay[0].wallet_id
               this.nextStep()
             } else {
               this.nextStepInterval = setInterval(() => {
                 if (variablesService.daemon_state === 2 && variablesService.sync_started === false) {
+                  this.walletToPayId = this.walletsTopay[0].wallet_id
                   this.nextStep()
                   clearInterval(this.nextStepInterval)
                 }
-              }, 1000)
+              }, 1500)
             }
           }
         } else {
@@ -132,6 +134,7 @@ export class DeeplinkComponent implements OnInit, OnDestroy {
         this.variablesService.deeplink$.next(null)
         this.variablesService.setCurrentWallet(this.walletToPayId)
         this._router.navigate(['/wallet/send'])
+        this.secondStep = false
       })
     } else if (this.actionData.action === "escrow") {
       this.ngZone.run(() => {
@@ -139,6 +142,7 @@ export class DeeplinkComponent implements OnInit, OnDestroy {
         this.variablesService.deeplink$.next(null)
         this.variablesService.setCurrentWallet(this.walletToPayId)
         this._router.navigate(['/wallet/contracts/purchase'])
+        this.secondStep = false
       })
     } else {
       this.secondStep = true

@@ -5492,7 +5492,7 @@ var CreateWalletComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"host-container\"\r\n  *ngIf=\"deeplink && (variablesService.daemon_state === 2 || variablesService.sync_started === false)\">\r\n  <div class=\"container\">\r\n    <ng-container *ngIf=\"this.walletsTopay.length > 1 && !secondStep\">\r\n      <div class=\"modal select-wallet\">\r\n        <div class=\"content\">\r\n          <div class=\"title\">\r\n            <span>Select wallet for action:</span>\r\n          </div>\r\n          <div class=\"inputs-container\">\r\n            <div class=\"lock-selection\">\r\n              <ng-select class=\"custom-select\" [items]=\"walletsTopay\" bindValue=\"wallet_id\" bindLabel=\"name\"\r\n                [(ngModel)]=\"walletToPayId\" [clearable]=\"false\" [searchable]=\"false\">\r\n                <ng-template ng-label-tmp let-item=\"item\">\r\n                  {{item.name}}\r\n                </ng-template>\r\n                <ng-template ng-option-tmp let-item=\"item\" let-index=\"index\">\r\n                  {{item.name}}\r\n                </ng-template>\r\n              </ng-select>\r\n            </div>\r\n          </div>\r\n\r\n        </div>\r\n        <div class=\"wrapper-buttons\">\r\n          <button type=\"button\" class=\"blue-button\" (click)=\"canselAction()\">{{ 'EXPORT_HISTORY.CANCEL' |\r\n            translate\r\n            }}</button>\r\n          <button type=\"submit\" class=\"blue-button\" (click)=\"nextStep()\">Next...</button>\r\n        </div>\r\n      </div>\r\n    </ng-container>\r\n\r\n    <ng-container *ngIf=\"secondStep && marketplaceModalShow && actionData.action === 'marketplace_offer_create'\">\r\n      <div class=\"modal marketplace\">\r\n        <div class=\"title\">\r\n          <span>Creating a marketplace offer</span>\r\n        </div>\r\n        <div class=\"data-container\">\r\n          <div class=\"row\"><span>Offer title:</span> {{actionData.title}}</div>\r\n          <div class=\"row\"><span>Description:</span> {{actionData.description}}</div>\r\n          <div class=\"row\"><span>Category:</span> {{actionData.category}}</div>\r\n          <div class=\"row\"><span>Price:</span> {{actionData.price}} {{this.variablesService.defaultCurrency}}</div>\r\n          <div class=\"row\"><span>Preview url:</span> {{actionData.img_url}}</div>\r\n          <div class=\"row\"><span>Contacts:</span> {{actionData.contact}}</div>\r\n          <div class=\"row\"><span>Comments:</span>{{actionData.comment}}</div>\r\n          <div class=\"row mixins\"><span>Mixins:</span> {{actionData.mixins || defaultMixin}}</div>\r\n          <div class=\"row\"><span>Transaction fee:</span> {{actionData.price * (actionData.fee ||\r\n            this.variablesService.default_fee)}}\r\n            {{this.variablesService.defaultCurrency}}\r\n          </div>\r\n        </div>\r\n        <div class=\"wrapper-buttons\">\r\n          <button type=\"button\" class=\"blue-button\" (click)=\"canselAction()\">{{ 'EXPORT_HISTORY.CANCEL' | translate\r\n            }}</button>\r\n          <button type=\"submit\" class=\"blue-button\" (click)=\"marketplaceSend()\">Sign & Send...</button>\r\n        </div>\r\n      </div>\r\n    </ng-container>\r\n    <ng-container *ngIf=\"marketplaceConfirmHash\">\r\n      <div class=\"modal marketplace--success\">\r\n        <div class=\"title\">\r\n          <span>Operation successful</span>\r\n        </div>\r\n        <div class=\"data-container\">\r\n          <div class=\"row\"><span>Operation hash:</span>\r\n            <p (contextmenu)=\"variablesService.onContextMenuOnlyCopy($event, marketplaceConfirmHash)\">\r\n              {{marketplaceConfirmHash}}<i class=\"icon\" [class.copy]=\"!copyAnimation\" [class.copied]=\"copyAnimation\"\r\n                (click)=\"copyHash()\"></i></p>\r\n          </div>\r\n        </div>\r\n        <div class=\"wrapper-buttons\">\r\n          <button type=\"button\" class=\"blue-button\" (click)=\"canselAction()\">Close</button>\r\n        </div>\r\n      </div>\r\n    </ng-container>\r\n  </div>\r\n</div>\r\n<app-sync-modal *ngIf=\"deeplink && (variablesService.daemon_state !== 2 || variablesService.sync_started === true)\">\r\n</app-sync-modal>\r\n"
+module.exports = "<div class=\"host-container\"\r\n  *ngIf=\"deeplink && (variablesService.daemon_state === 2 && variablesService.sync_started === false)\">\r\n  <div class=\"container\">\r\n    <ng-container *ngIf=\"this.walletsTopay.length > 1 && !secondStep\">\r\n      <div class=\"modal select-wallet\">\r\n        <div class=\"content\">\r\n          <div class=\"title\">\r\n            <span>Select wallet for action:</span>\r\n          </div>\r\n          <div class=\"inputs-container\">\r\n            <div class=\"lock-selection\">\r\n              <ng-select class=\"custom-select\" [items]=\"walletsTopay\" bindValue=\"wallet_id\" bindLabel=\"name\"\r\n                [(ngModel)]=\"walletToPayId\" [clearable]=\"false\" [searchable]=\"false\">\r\n                <ng-template ng-label-tmp let-item=\"item\">\r\n                  {{item.name}}\r\n                </ng-template>\r\n                <ng-template ng-option-tmp let-item=\"item\" let-index=\"index\">\r\n                  {{item.name}}\r\n                </ng-template>\r\n              </ng-select>\r\n            </div>\r\n          </div>\r\n\r\n        </div>\r\n        <div class=\"wrapper-buttons\">\r\n          <button type=\"button\" class=\"blue-button\" (click)=\"canselAction()\">{{ 'EXPORT_HISTORY.CANCEL' |\r\n            translate\r\n            }}</button>\r\n          <button type=\"submit\" class=\"blue-button\" (click)=\"nextStep()\">Next...</button>\r\n        </div>\r\n      </div>\r\n    </ng-container>\r\n\r\n    <ng-container *ngIf=\"secondStep && marketplaceModalShow && actionData.action === 'marketplace_offer_create'\">\r\n      <div class=\"modal marketplace\">\r\n        <div class=\"title\">\r\n          <span>Creating a marketplace offer</span>\r\n        </div>\r\n        <div class=\"data-container\">\r\n          <div class=\"row\"><span>Offer title:</span> {{actionData.title}}</div>\r\n          <div class=\"row\"><span>Description:</span> {{actionData.description}}</div>\r\n          <div class=\"row\"><span>Category:</span> {{actionData.category}}</div>\r\n          <div class=\"row\"><span>Price:</span> {{actionData.price}} {{this.variablesService.defaultCurrency}}</div>\r\n          <div class=\"row\"><span>Preview url:</span> {{actionData.img_url}}</div>\r\n          <div class=\"row\"><span>Contacts:</span> {{actionData.contact}}</div>\r\n          <div class=\"row\"><span>Comments:</span>{{actionData.comment}}</div>\r\n          <div class=\"row mixins\"><span>Mixins:</span> {{actionData.mixins || defaultMixin}}</div>\r\n          <div class=\"row\"><span>Transaction fee:</span> {{actionData.price * (actionData.fee ||\r\n            this.variablesService.default_fee)}}\r\n            {{this.variablesService.defaultCurrency}}\r\n          </div>\r\n        </div>\r\n        <div class=\"wrapper-buttons\">\r\n          <button type=\"button\" class=\"blue-button\" (click)=\"canselAction()\">{{ 'EXPORT_HISTORY.CANCEL' | translate\r\n            }}</button>\r\n          <button type=\"submit\" class=\"blue-button\" (click)=\"marketplaceSend()\">Sign & Send...</button>\r\n        </div>\r\n      </div>\r\n    </ng-container>\r\n    <ng-container *ngIf=\"marketplaceConfirmHash\">\r\n      <div class=\"modal marketplace--success\">\r\n        <div class=\"title\">\r\n          <span>Operation successful</span>\r\n        </div>\r\n        <div class=\"data-container\">\r\n          <div class=\"row\"><span>Operation hash:</span>\r\n            <p (contextmenu)=\"variablesService.onContextMenuOnlyCopy($event, marketplaceConfirmHash)\">\r\n              {{marketplaceConfirmHash}}<i class=\"icon\" [class.copy]=\"!copyAnimation\" [class.copied]=\"copyAnimation\"\r\n                (click)=\"copyHash()\"></i></p>\r\n          </div>\r\n        </div>\r\n        <div class=\"wrapper-buttons\">\r\n          <button type=\"button\" class=\"blue-button\" (click)=\"canselAction()\">Close</button>\r\n        </div>\r\n      </div>\r\n    </ng-container>\r\n  </div>\r\n</div>\r\n<app-sync-modal *ngIf=\"deeplink && (variablesService.daemon_state !== 2 || variablesService.sync_started === true)\">\r\n</app-sync-modal>\r\n"
 
 /***/ }),
 
@@ -5517,13 +5517,15 @@ module.exports = ".host-container {\n  position: fixed;\n  top: 0;\n  bottom: 0;
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DeeplinkComponent", function() { return DeeplinkComponent; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _helpers_services_variables_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_helpers/services/variables.service */ "./src/app/_helpers/services/variables.service.ts");
-/* harmony import */ var _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_helpers/services/backend.service */ "./src/app/_helpers/services/backend.service.ts");
-/* harmony import */ var _shared_constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../_shared/constants */ "./src/app/_shared/constants.ts");
-/* harmony import */ var bignumber_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! bignumber.js */ "./node_modules/bignumber.js/bignumber.js");
-/* harmony import */ var bignumber_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(bignumber_js__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _helpers_services_variables_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../_helpers/services/variables.service */ "./src/app/_helpers/services/variables.service.ts");
+/* harmony import */ var _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../_helpers/services/backend.service */ "./src/app/_helpers/services/backend.service.ts");
+/* harmony import */ var _shared_constants__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../_shared/constants */ "./src/app/_shared/constants.ts");
+/* harmony import */ var bignumber_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! bignumber.js */ "./node_modules/bignumber.js/bignumber.js");
+/* harmony import */ var bignumber_js__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(bignumber_js__WEBPACK_IMPORTED_MODULE_7__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -5539,12 +5541,15 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
+
 var DeeplinkComponent = /** @class */ (function () {
-    function DeeplinkComponent(_router, variablesService, backend) {
+    function DeeplinkComponent(_router, variablesService, backend, ngZone) {
         var _this = this;
         this._router = _router;
         this.variablesService = variablesService;
         this.backend = backend;
+        this.ngZone = ngZone;
         this.deeplink = null;
         this.secondStep = false;
         this.walletToPayId = 0;
@@ -5553,37 +5558,52 @@ var DeeplinkComponent = /** @class */ (function () {
         this.marketplaceConfirmHash = null;
         this.sendRoute = false;
         this.actionData = {};
-        this.defaultMixin = _shared_constants__WEBPACK_IMPORTED_MODULE_4__["MIXIN"];
+        this.defaultMixin = _shared_constants__WEBPACK_IMPORTED_MODULE_6__["MIXIN"];
         this.walletsTopay = [];
-        this.deeplinkSubscription = this.variablesService.deeplink$.subscribe(function (data) {
-            if (data) {
-                _this.deeplink = data;
-                _this.actionData = {};
-                _this.walletsTopay = _this.variablesService.wallets.filter(function (wallet) { return !wallet.is_watch_only || !wallet.is_auditable; });
-                if (_this.walletsTopay.length === 0) {
-                    _this.variablesService.deeplink$.next(null);
-                    return;
+        this.destroy$ = new rxjs__WEBPACK_IMPORTED_MODULE_1__["Subject"]();
+        this.variablesService.deeplink$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_0__["takeUntil"])(this.destroy$)).subscribe(function (data) {
+            _this.ngZone.run(function () {
+                if (data) {
+                    _this.deeplink = data;
+                    _this.actionData = {};
+                    _this.walletsTopay = _this.variablesService.wallets.filter(function (wallet) { return !wallet.is_watch_only || !wallet.is_auditable; });
+                    if (_this.walletsTopay.length === 0) {
+                        _this.canselAction();
+                        return;
+                    }
+                    _this.actionData = _this.parceString(_this.deeplink);
+                    if (_this.walletsTopay.length === 1) {
+                        if (variablesService.daemon_state === 2 && variablesService.sync_started === false) {
+                            _this.walletToPayId = _this.walletsTopay[0].wallet_id;
+                            _this.nextStep();
+                        }
+                        else {
+                            _this.nextStepInterval = setInterval(function () {
+                                if (variablesService.daemon_state === 2 && variablesService.sync_started === false) {
+                                    _this.walletToPayId = _this.walletsTopay[0].wallet_id;
+                                    _this.nextStep();
+                                    clearInterval(_this.nextStepInterval);
+                                }
+                            }, 1500);
+                        }
+                    }
                 }
-                _this.actionData = _this.parceString(_this.deeplink);
-                if (_this.walletsTopay.length === 1) {
-                    setTimeout(function () {
-                        _this.nextStep();
-                    }, 200);
+                else {
+                    _this.deeplink = null;
                 }
-            }
-            else {
-                _this.deeplink = null;
-            }
+            });
         });
     }
     DeeplinkComponent.prototype.ngOnInit = function () {
     };
     DeeplinkComponent.prototype.parceString = function (string) {
-        var newstring = string.substr(5);
+        var qoutesRex = new RegExp(/'|"|”|%E2%80%9D|%22/g);
+        var spaceSymbolRex = new RegExp(/%20/g);
         var newobj = {};
-        newstring.split('&').forEach(function (value) {
-            var keypair = value.split('=');
-            newobj[keypair[0]] = keypair[1].replace(/'|"|”|%E2%80%9D|%22/g, '').replace(/%20/g, " ").trim();
+        var newstring = string.substr(5); // delete zano:;
+        newstring.split('&').forEach(function (string) {
+            var _a = string.split('='), key = _a[0], value = _a[1];
+            newobj[key] = value.replace(qoutesRex, '').replace(spaceSymbolRex, " ").trim();
         });
         return newobj;
     };
@@ -5592,6 +5612,7 @@ var DeeplinkComponent = /** @class */ (function () {
         this.variablesService.deeplink$.next(null);
         this.variablesService.sendActionData$.next({});
         this.actionData = {};
+        this.secondStep = false;
     };
     DeeplinkComponent.prototype.marketplaceSend = function () {
         var _this = this;
@@ -5605,7 +5626,7 @@ var DeeplinkComponent = /** @class */ (function () {
                 com: this.actionData.comment || '',
                 do: this.actionData.description || '',
                 et: 10,
-                fee: new bignumber_js__WEBPACK_IMPORTED_MODULE_5__["BigNumber"]('' + ((+this.actionData.fee || +this.variablesService.default_fee) * 1000000000000)),
+                fee: new bignumber_js__WEBPACK_IMPORTED_MODULE_7__["BigNumber"]('' + ((+this.actionData.fee || +this.variablesService.default_fee) * 1000000000000)),
                 lci: '',
                 lco: 'World Wide',
                 ot: 1,
@@ -5633,35 +5654,43 @@ var DeeplinkComponent = /** @class */ (function () {
         }, 2000);
     };
     DeeplinkComponent.prototype.nextStep = function () {
+        var _this = this;
         if (this.actionData.action === "send") {
-            this.variablesService.sendActionData$.next(this.actionData);
-            this.variablesService.deeplink$.next(null);
-            this.variablesService.setCurrentWallet(this.walletToPayId);
-            this._router.navigate(['/wallet/send']);
+            this.ngZone.run(function () {
+                _this.variablesService.sendActionData$.next(_this.actionData);
+                _this.variablesService.deeplink$.next(null);
+                _this.variablesService.setCurrentWallet(_this.walletToPayId);
+                _this._router.navigate(['/wallet/send']);
+                _this.secondStep = false;
+            });
         }
         else if (this.actionData.action === "escrow") {
-            this.variablesService.sendActionData$.next(this.actionData);
-            this.variablesService.deeplink$.next(null);
-            this.variablesService.setCurrentWallet(this.walletToPayId);
-            this._router.navigate(['/wallet/contracts/purchase']);
+            this.ngZone.run(function () {
+                _this.variablesService.sendActionData$.next(_this.actionData);
+                _this.variablesService.deeplink$.next(null);
+                _this.variablesService.setCurrentWallet(_this.walletToPayId);
+                _this._router.navigate(['/wallet/contracts/purchase']);
+                _this.secondStep = false;
+            });
         }
         else {
             this.secondStep = true;
         }
     };
     DeeplinkComponent.prototype.ngOnDestroy = function () {
-        this.deeplinkSubscription.unsubscribe();
+        this.destroy$.next();
         this.variablesService.deeplink$.next(null);
     };
     DeeplinkComponent = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_2__["Component"])({
             selector: 'app-deeplink',
             template: __webpack_require__(/*! ./deeplink.component.html */ "./src/app/deeplink/deeplink.component.html"),
             styles: [__webpack_require__(/*! ./deeplink.component.scss */ "./src/app/deeplink/deeplink.component.scss")]
         }),
-        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"],
-            _helpers_services_variables_service__WEBPACK_IMPORTED_MODULE_2__["VariablesService"],
-            _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_3__["BackendService"]])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"],
+            _helpers_services_variables_service__WEBPACK_IMPORTED_MODULE_4__["VariablesService"],
+            _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_5__["BackendService"],
+            _angular_core__WEBPACK_IMPORTED_MODULE_2__["NgZone"]])
     ], DeeplinkComponent);
     return DeeplinkComponent;
 }());
@@ -7379,6 +7408,7 @@ var PurchaseComponent = /** @class */ (function () {
             if (res.action === "escrow") {
                 _this.actionData = res;
                 _this.fillDeepLinkData();
+                _this.variablesService.sendActionData$.next({});
             }
         });
     };
@@ -8486,6 +8516,7 @@ var SendComponent = /** @class */ (function () {
                 setTimeout(function () {
                     _this.fillDeepLinkData();
                 }, 100);
+                _this.variablesService.sendActionData$.next({});
             }
         });
     };
@@ -9001,8 +9032,9 @@ var SidebarComponent = /** @class */ (function () {
         });
     };
     SidebarComponent.prototype.contactsRoute = function () {
+        var _this = this;
         if (this.variablesService.appPass) {
-            this.router.navigate(['/contacts']);
+            this.ngZone.run(function () { _this.router.navigate(['/contacts']); });
         }
         else {
             this.modal.prepareModal('error', 'CONTACTS.FORM_ERRORS.SET_MASTER_PASSWORD');
@@ -9970,7 +10002,7 @@ var WalletDetailsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"header\">\r\n  <div>\r\n    <h3 tooltip=\"{{ variablesService.currentWallet.name }}\" placement=\"bottom-left\" tooltipClass=\"table-tooltip\"\r\n      [delay]=\"500\" [showWhenNoOverflow]=\"false\">{{variablesService.currentWallet.name}}</h3>\r\n    <div *ngIf=\"!variablesService.currentWallet.is_auditable\">\r\n      <button [routerLink]=\"['/assign-alias']\"\r\n        *ngIf=\"!variablesService.currentWallet.alias.hasOwnProperty('name') && variablesService.currentWallet.loaded && variablesService.daemon_state === 2 && variablesService.currentWallet.alias_available\">\r\n        <i class=\"icon account\"></i>\r\n        <span>{{ 'WALLET.REGISTER_ALIAS' | translate }}</span>\r\n      </button>\r\n      <div class=\"alias\"\r\n        *ngIf=\"variablesService.currentWallet.alias.hasOwnProperty('name') && variablesService.currentWallet.loaded && variablesService.daemon_state === 2\">\r\n        <span>{{variablesService.currentWallet.alias['name']}}</span>\r\n        <ng-container *ngIf=\"variablesService.currentWallet.alias_available\">\r\n          <i class=\"icon edit\" [routerLink]=\"['/edit-alias']\" tooltip=\"{{ 'WALLET.TOOLTIPS.EDIT_ALIAS' | translate }}\"\r\n            placement=\"bottom-right\" tooltipClass=\"table-tooltip account-tooltip\" [delay]=\"500\" [timeDelay]=\"500\"></i>\r\n          <i class=\"icon transfer\" [routerLink]=\"['/transfer-alias']\"\r\n            tooltip=\"{{ 'WALLET.TOOLTIPS.TRANSFER_ALIAS' | translate }}\" placement=\"right\"\r\n            tooltipClass=\"table-tooltip account-tooltip\" [delay]=\"500\" [timeDelay]=\"500\"></i>\r\n        </ng-container>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"settings-block\">\r\n    <button [disabled]=\"settingsButtonDisabled && !variablesService.currentWallet.loaded\" (click)=\"togleMenuDropdown()\">\r\n      <i class=\"icon details\" id=\"wallet-dropdown-button\">\r\n        <svg id=\"wallet-dropdown-button\" width=\"100%\" height=\"100%\" viewBox=\"0 0 20 21\" fill=\"none\"\r\n          xmlns=\"http://www.w3.org/2000/svg\">\r\n          <path\r\n            d=\"M0.96875 1.22266C0.96875 1.64258 1.31055 1.96484 1.7207 1.96484L18.4395 1.96484C18.8496 1.96484 19.1816 1.64258 19.1816 1.22266C19.1816 0.8125 18.8496 0.490234 18.4395 0.490234L1.7207 0.490234C1.31055 0.490234 0.96875 0.8125 0.96875 1.22266ZM0.96875 6.0957C0.96875 6.51562 1.31055 6.83789 1.7207 6.83789L18.4395 6.83789C18.8496 6.83789 19.1816 6.51562 19.1816 6.0957C19.1816 5.68555 18.8496 5.36328 18.4395 5.36328L1.7207 5.36328C1.31055 5.36328 0.96875 5.68555 0.96875 6.0957ZM0.96875 10.9687C0.96875 11.3887 1.31055 11.7109 1.7207 11.7109L18.4395 11.7109C18.8496 11.7109 19.1816 11.3887 19.1816 10.9688C19.1816 10.5586 18.8496 10.2363 18.4395 10.2363L1.7207 10.2363C1.31055 10.2363 0.96875 10.5586 0.96875 10.9687ZM7.08203 16.8965L9.24023 20.1289C9.63086 20.7051 10.4609 20.6855 10.8516 20.1289L13.0488 16.8965C13.5566 16.1445 13.2734 15.3535 12.375 15.3633L7.74609 15.3633C6.87695 15.3535 6.61328 16.1836 7.08203 16.8965Z\"\r\n            fill=\"#1F8FEB\" />\r\n        </svg>\r\n      </i>\r\n    </button>\r\n    <div *ngIf=\"openDropdown\" class=\"settings-dropdown\">\r\n      <button class=\"dark-line\" [routerLink]=\"['/details']\" routerLinkActive=\"active\"\r\n        tooltip=\"{{ 'WALLET.TOOLTIPS.SETTINGS' | translate }}\" placement=\"left\"\r\n        tooltipClass=\"table-tooltip account-tooltip\" [delay]=\"500\" [timeDelay]=\"500\"\r\n        [disabled]=\"!variablesService.currentWallet.loaded\">\r\n        <i class=\"icon wallet-settings\">\r\n          <svg width=\"100%\" height=\"100%\" viewBox=\"0 0 17 15\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\r\n            <path\r\n              d=\"M11.6641 4.47656C12.4766 4.47656 13.1641 3.95312 13.4297 3.23438H16.1328C16.4531 3.23438 16.7344 2.95312 16.7344 2.60156C16.7344 2.25 16.4531 1.97656 16.1328 1.97656H13.4297C13.1719 1.25 12.4766 0.71875 11.6641 0.71875C10.8516 0.71875 10.1484 1.25 9.89062 1.97656H1.61719C1.26562 1.97656 0.992188 2.25 0.992188 2.60156C0.992188 2.95312 1.26562 3.23438 1.61719 3.23438H9.89844C10.1562 3.95312 10.8516 4.47656 11.6641 4.47656ZM11.6641 3.51562C11.1484 3.51562 10.75 3.10938 10.75 2.59375C10.75 2.07812 11.1484 1.67969 11.6641 1.67969C12.1797 1.67969 12.5781 2.07812 12.5781 2.59375C12.5781 3.10938 12.1797 3.51562 11.6641 3.51562ZM1.58594 6.74219C1.26562 6.74219 0.992188 7.02344 0.992188 7.375C0.992188 7.72656 1.26562 8 1.58594 8H4.38281C4.64062 8.73438 5.33594 9.25781 6.14844 9.25781C6.96094 9.25781 7.65625 8.73438 7.92188 8H16.1016C16.4531 8 16.7344 7.72656 16.7344 7.375C16.7344 7.02344 16.4531 6.74219 16.1016 6.74219H7.91406C7.65625 6.02344 6.96094 5.5 6.14844 5.5C5.33594 5.5 4.64062 6.02344 4.38281 6.74219H1.58594ZM6.14844 8.28906C5.64062 8.28906 5.23438 7.88281 5.23438 7.375C5.23438 6.85938 5.64062 6.46094 6.14844 6.46094C6.66406 6.46094 7.0625 6.85938 7.0625 7.375C7.0625 7.88281 6.66406 8.28906 6.14844 8.28906ZM11.6641 14.0234C12.4766 14.0234 13.1719 13.5 13.4297 12.7734H16.1328C16.4531 12.7734 16.7344 12.5 16.7344 12.1484C16.7344 11.7969 16.4531 11.5156 16.1328 11.5156H13.4297C13.1719 10.7891 12.4766 10.2734 11.6641 10.2734C10.8516 10.2734 10.1562 10.7891 9.89844 11.5156H1.61719C1.26562 11.5156 0.992188 11.7969 0.992188 12.1484C0.992188 12.5 1.26562 12.7734 1.61719 12.7734H9.89062C10.1562 13.5 10.8516 14.0234 11.6641 14.0234ZM11.6641 13.0625C11.1484 13.0625 10.75 12.6562 10.75 12.1484C10.75 11.625 11.1484 11.2344 11.6641 11.2344C12.1797 11.2344 12.5781 11.625 12.5781 12.1484C12.5781 12.6562 12.1797 13.0625 11.6641 13.0625Z\"\r\n              fill=\"white\" />\r\n          </svg>\r\n        </i><span>{{ 'WALLET_DETAILS.WALLET_OPTIONS' | translate }}</span>\r\n      </button>\r\n      <button class=\"dark-line\" tooltip=\"{{ 'EXPORT_HISTORY.TOOLTIP' | translate }}\" placement=\"left\"\r\n        tooltipClass=\"table-tooltip account-tooltip\" [delay]=\"500\" [timeDelay]=\"500\"\r\n        (click)=\"exportHistoryDialogVisible = !exportHistoryDialogVisible\"\r\n        [disabled]=\"variablesService.currentWallet.history.length <= 0\">\r\n        <i class=\"icon export-history\"><svg viewBox=\"0 0 18 18\" width=\"100%\" height=\"100%\" fill=\"none\"\r\n            xmlns=\"http://www.w3.org/2000/svg\">\r\n            <path\r\n              d=\"M8.95264 17.4736C13.5845 17.4736 17.4194 13.6304 17.4194 9.00684C17.4194 4.375 13.5762 0.540039 8.94434 0.540039C4.3208 0.540039 0.48584 4.375 0.48584 9.00684C0.48584 13.6304 4.3291 17.4736 8.95264 17.4736ZM8.95264 16.0625C5.03467 16.0625 1.90527 12.9248 1.90527 9.00684C1.90527 5.08887 5.02637 1.95117 8.94434 1.95117C12.8623 1.95117 16 5.08887 16.0083 9.00684C16.0166 12.9248 12.8706 16.0625 8.95264 16.0625ZM8.94434 9.77881C9.17676 9.77881 9.35938 9.60449 9.35938 9.38037V5.18018L9.34277 4.79004L9.70801 5.18018L10.0815 5.57031C10.1479 5.64502 10.2476 5.68652 10.3721 5.68652C10.5962 5.68652 10.7539 5.53711 10.7539 5.32129C10.7539 5.22168 10.7207 5.12207 10.6294 5.04736L9.24316 3.70264C9.14355 3.60303 9.04395 3.56152 8.94434 3.56152C8.84473 3.56152 8.74512 3.61133 8.65381 3.70264L7.25928 5.03906C7.16797 5.13037 7.14307 5.22168 7.14307 5.32129C7.14307 5.53711 7.30078 5.68652 7.5166 5.68652C7.63281 5.68652 7.74072 5.64502 7.80713 5.57031L8.18066 5.18018L8.5542 4.79004L8.5376 5.18018V9.38037C8.5376 9.60449 8.72021 9.77881 8.94434 9.77881ZM6.60352 13.041H11.3018C12.2065 13.041 12.6797 12.5762 12.6797 11.6797V7.5874C12.6797 6.69092 12.2065 6.23438 11.3018 6.23438H10.0732V7.07275H11.2935C11.6587 7.07275 11.8413 7.25537 11.8413 7.62891V11.6548C11.8413 12.02 11.6587 12.2109 11.2935 12.2109H6.61182C6.24658 12.2109 6.06396 12.0283 6.06396 11.6548V7.62891C6.06396 7.25537 6.24658 7.07275 6.61182 7.07275H7.84033V6.23438H6.60352C5.70703 6.23438 5.23389 6.69922 5.22559 7.5874V11.6797C5.23389 12.5679 5.70703 13.041 6.60352 13.041Z\"\r\n              fill=\"white\" />\r\n          </svg></i><span>{{ 'EXPORT_HISTORY.EXPORT_BUTTON' | translate }}</span>\r\n      </button>\r\n      <ng-container *ngIf=\"walletSynchVisible\">\r\n        <button class=\"dark-line\" tooltip=\"{{ 'WALLET_DETAILS.RESYNC_WALLET' | translate }}\" placement=\"left\"\r\n          tooltipClass=\"table-tooltip account-tooltip\" [disabled]=\"!variablesService.currentWallet.loaded\" [delay]=\"500\"\r\n          [timeDelay]=\"500\" (click)=\"resyncCurrentWallet(variablesService.currentWallet.wallet_id)\">\r\n          <i class=\"icon resync-wallet\"><svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\"\r\n              xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" viewBox=\"0 0 24 24\"\r\n              style=\"enable-background:new 0 0 24 24;\" xml:space=\"preserve\">\r\n              <style type=\"text/css\">\r\n                .st0 {\r\n                  fill: #FFFFFF;\r\n                }\r\n              </style>\r\n              <path class=\"st0\" d=\"M24,11L23,0l-3.1,3.1C17.8,1.2,15.1,0,12,0C6.1,0,1.1,4.3,0.2,10h4.1c0.9-3.4,4-6,7.7-6c2,0,3.7,0.7,5.1,1.9\r\n          \tL14,9L24,11z\" />\r\n              <path class=\"st0\" d=\"M0,13l1,11l3.1-3.1C6.2,22.8,8.9,24,12,24c5.9,0,10.9-4.3,11.8-10h-4.1c-0.9,3.4-4,6-7.7,6\r\n          \tc-2,0-3.7-0.7-5.1-1.9L10,15L0,13z\" />\r\n            </svg></i><span>{{ 'WALLET_DETAILS.RESYNC_WALLET_BUTTON' | translate }}</span>\r\n        </button>\r\n      </ng-container>\r\n      <button type=\"button\" (click)=\"showConfirmDialog(variablesService.currentWallet.wallet_id)\"\r\n        tooltip=\"{{ 'WALLET.TOOLTIPS.CLOSE' | translate }}\" placement=\"top-left\"\r\n        tooltipClass=\"table-tooltip account-tooltip\" [delay]=\"500\" [timeDelay]=\"500\">\r\n        <i class=\"icon close-wallet\"></i><span>{{ 'WALLET_DETAILS.BUTTON_REMOVE' | translate }}</span>\r\n      </button>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"address\">\r\n  <span>{{variablesService.currentWallet.address}}</span>\r\n  <i class=\"icon\" [class.copy]=\"!copyAnimation\" [class.copied]=\"copyAnimation\" (click)=\"copyAddress()\"></i>\r\n</div>\r\n\r\n<div class=\"balance\">\r\n  <span [tooltip]=\"getTooltip()\" [placement]=\"'bottom'\" [tooltipClass]=\"'balance-tooltip'\" [delay]=\"150\" [timeout]=\"0\"\r\n    (onHide)=\"onHideTooltip()\">{{variablesService.currentWallet.balance | intToMoney : '3'}}\r\n    {{variablesService.defaultCurrency}}</span>\r\n  <span>${{variablesService.currentWallet.getMoneyEquivalent(variablesService.moneyEquivalent) | intToMoney | number :\r\n    '1.2-2'}}</span>\r\n  <span class=\"price-percent\">+4.6%</span>\r\n</div>\r\n<div class=\"tabs\">\r\n  <div class=\"tabs-header\">\r\n    <ng-container *ngFor=\"let tab of tabs; let index = index\">\r\n      <button class=\"tab\" [routerLink]=\"['/wallet' + tab.link]\" routerLinkActive=\"active\"\r\n        [ngClass]=\"{ 'hide': ((tab.link === '/send' || tab.link === '/contracts') && variablesService.currentWallet.is_watch_only && variablesService.currentWallet.is_auditable) }\"\r\n        [disabled]=\"(tab.link === '/send' || tab.link === '/contracts' || tab.link === '/staking') && (variablesService.daemon_state !== 2 || !variablesService.currentWallet.loaded)\">\r\n        <i class=\"icon\" [ngClass]=\"tab.icon\"></i>\r\n        <span>{{ tab.title | translate }}</span>\r\n        <span class=\"indicator\" *ngIf=\"tab.indicator\">{{variablesService.currentWallet.new_contracts}}</span>\r\n      </button>\r\n    </ng-container>\r\n  </div>\r\n  <div #scrolledContent class=\"tabs-content\">\r\n    <router-outlet></router-outlet>\r\n  </div>\r\n</div>\r\n<app-confirm-modal *ngIf=\"delWalletDialogVisible\" [title]=\" 'WALLET.CONFIRM.TITLE' | translate \"\r\n  [message]=\" 'WALLET.CONFIRM.MESSAGE' | translate \" (confirmed)=\"confirmed($event)\"></app-confirm-modal>\r\n<app-export-history-modal [currentWalletId]=\"variablesService.currentWallet.wallet_id\"\r\n  *ngIf=\"exportHistoryDialogVisible\" (closeExportModal)=\"closeExportModal($event)\">\r\n</app-export-history-modal>\r\n"
+module.exports = "<div class=\"header\">\r\n  <div>\r\n    <h3 tooltip=\"{{ variablesService.currentWallet.name }}\" placement=\"bottom-left\" tooltipClass=\"table-tooltip\"\r\n      [delay]=\"500\" [showWhenNoOverflow]=\"false\">{{variablesService.currentWallet.name}}</h3>\r\n    <div *ngIf=\"!variablesService.currentWallet.is_auditable\">\r\n      <button [routerLink]=\"['/assign-alias']\"\r\n        *ngIf=\"!variablesService.currentWallet.alias.hasOwnProperty('name') && variablesService.currentWallet.loaded && variablesService.daemon_state === 2 && variablesService.currentWallet.alias_available\">\r\n        <i class=\"icon account\"></i>\r\n        <span>{{ 'WALLET.REGISTER_ALIAS' | translate }}</span>\r\n      </button>\r\n      <div class=\"alias\"\r\n        *ngIf=\"variablesService.currentWallet.alias.hasOwnProperty('name') && variablesService.currentWallet.loaded && variablesService.daemon_state === 2\">\r\n        <span>{{variablesService.currentWallet.alias['name']}}</span>\r\n        <ng-container *ngIf=\"variablesService.currentWallet.alias_available\">\r\n          <i class=\"icon edit\" [routerLink]=\"['/edit-alias']\" tooltip=\"{{ 'WALLET.TOOLTIPS.EDIT_ALIAS' | translate }}\"\r\n            placement=\"bottom-right\" tooltipClass=\"table-tooltip account-tooltip\" [delay]=\"500\" [timeDelay]=\"500\"></i>\r\n          <i class=\"icon transfer\" [routerLink]=\"['/transfer-alias']\"\r\n            tooltip=\"{{ 'WALLET.TOOLTIPS.TRANSFER_ALIAS' | translate }}\" placement=\"right\"\r\n            tooltipClass=\"table-tooltip account-tooltip\" [delay]=\"500\" [timeDelay]=\"500\"></i>\r\n        </ng-container>\r\n      </div>\r\n    </div>\r\n  </div>\r\n  <div class=\"settings-block\">\r\n    <button [disabled]=\"settingsButtonDisabled && !variablesService.currentWallet.loaded\" (click)=\"togleMenuDropdown()\">\r\n      <i class=\"icon details\" data-target=\"wallet-dropdown-button\">\r\n        <svg data-target=\"wallet-dropdown-button\" width=\"100%\" height=\"100%\" viewBox=\"0 0 20 21\" fill=\"none\"\r\n          xmlns=\"http://www.w3.org/2000/svg\">\r\n          <path data-target=\"wallet-dropdown-button\"\r\n            d=\"M0.96875 1.22266C0.96875 1.64258 1.31055 1.96484 1.7207 1.96484L18.4395 1.96484C18.8496 1.96484 19.1816 1.64258 19.1816 1.22266C19.1816 0.8125 18.8496 0.490234 18.4395 0.490234L1.7207 0.490234C1.31055 0.490234 0.96875 0.8125 0.96875 1.22266ZM0.96875 6.0957C0.96875 6.51562 1.31055 6.83789 1.7207 6.83789L18.4395 6.83789C18.8496 6.83789 19.1816 6.51562 19.1816 6.0957C19.1816 5.68555 18.8496 5.36328 18.4395 5.36328L1.7207 5.36328C1.31055 5.36328 0.96875 5.68555 0.96875 6.0957ZM0.96875 10.9687C0.96875 11.3887 1.31055 11.7109 1.7207 11.7109L18.4395 11.7109C18.8496 11.7109 19.1816 11.3887 19.1816 10.9688C19.1816 10.5586 18.8496 10.2363 18.4395 10.2363L1.7207 10.2363C1.31055 10.2363 0.96875 10.5586 0.96875 10.9687ZM7.08203 16.8965L9.24023 20.1289C9.63086 20.7051 10.4609 20.6855 10.8516 20.1289L13.0488 16.8965C13.5566 16.1445 13.2734 15.3535 12.375 15.3633L7.74609 15.3633C6.87695 15.3535 6.61328 16.1836 7.08203 16.8965Z\"\r\n            fill=\"#1F8FEB\" />\r\n        </svg>\r\n      </i>\r\n    </button>\r\n    <div *ngIf=\"openDropdown\" class=\"settings-dropdown\">\r\n      <button class=\"dark-line\" [routerLink]=\"['/details']\" routerLinkActive=\"active\"\r\n        tooltip=\"{{ 'WALLET.TOOLTIPS.SETTINGS' | translate }}\" placement=\"left\"\r\n        tooltipClass=\"table-tooltip account-tooltip\" [delay]=\"500\" [timeDelay]=\"500\"\r\n        [disabled]=\"!variablesService.currentWallet.loaded\">\r\n        <i class=\"icon wallet-settings\">\r\n          <svg width=\"100%\" height=\"100%\" viewBox=\"0 0 17 15\" fill=\"none\" xmlns=\"http://www.w3.org/2000/svg\">\r\n            <path\r\n              d=\"M11.6641 4.47656C12.4766 4.47656 13.1641 3.95312 13.4297 3.23438H16.1328C16.4531 3.23438 16.7344 2.95312 16.7344 2.60156C16.7344 2.25 16.4531 1.97656 16.1328 1.97656H13.4297C13.1719 1.25 12.4766 0.71875 11.6641 0.71875C10.8516 0.71875 10.1484 1.25 9.89062 1.97656H1.61719C1.26562 1.97656 0.992188 2.25 0.992188 2.60156C0.992188 2.95312 1.26562 3.23438 1.61719 3.23438H9.89844C10.1562 3.95312 10.8516 4.47656 11.6641 4.47656ZM11.6641 3.51562C11.1484 3.51562 10.75 3.10938 10.75 2.59375C10.75 2.07812 11.1484 1.67969 11.6641 1.67969C12.1797 1.67969 12.5781 2.07812 12.5781 2.59375C12.5781 3.10938 12.1797 3.51562 11.6641 3.51562ZM1.58594 6.74219C1.26562 6.74219 0.992188 7.02344 0.992188 7.375C0.992188 7.72656 1.26562 8 1.58594 8H4.38281C4.64062 8.73438 5.33594 9.25781 6.14844 9.25781C6.96094 9.25781 7.65625 8.73438 7.92188 8H16.1016C16.4531 8 16.7344 7.72656 16.7344 7.375C16.7344 7.02344 16.4531 6.74219 16.1016 6.74219H7.91406C7.65625 6.02344 6.96094 5.5 6.14844 5.5C5.33594 5.5 4.64062 6.02344 4.38281 6.74219H1.58594ZM6.14844 8.28906C5.64062 8.28906 5.23438 7.88281 5.23438 7.375C5.23438 6.85938 5.64062 6.46094 6.14844 6.46094C6.66406 6.46094 7.0625 6.85938 7.0625 7.375C7.0625 7.88281 6.66406 8.28906 6.14844 8.28906ZM11.6641 14.0234C12.4766 14.0234 13.1719 13.5 13.4297 12.7734H16.1328C16.4531 12.7734 16.7344 12.5 16.7344 12.1484C16.7344 11.7969 16.4531 11.5156 16.1328 11.5156H13.4297C13.1719 10.7891 12.4766 10.2734 11.6641 10.2734C10.8516 10.2734 10.1562 10.7891 9.89844 11.5156H1.61719C1.26562 11.5156 0.992188 11.7969 0.992188 12.1484C0.992188 12.5 1.26562 12.7734 1.61719 12.7734H9.89062C10.1562 13.5 10.8516 14.0234 11.6641 14.0234ZM11.6641 13.0625C11.1484 13.0625 10.75 12.6562 10.75 12.1484C10.75 11.625 11.1484 11.2344 11.6641 11.2344C12.1797 11.2344 12.5781 11.625 12.5781 12.1484C12.5781 12.6562 12.1797 13.0625 11.6641 13.0625Z\"\r\n              fill=\"white\" />\r\n          </svg>\r\n        </i><span>{{ 'WALLET_DETAILS.WALLET_OPTIONS' | translate }}</span>\r\n      </button>\r\n      <button class=\"dark-line\" tooltip=\"{{ 'EXPORT_HISTORY.TOOLTIP' | translate }}\" placement=\"left\"\r\n        tooltipClass=\"table-tooltip account-tooltip\" [delay]=\"500\" [timeDelay]=\"500\"\r\n        (click)=\"exportHistoryDialogVisible = !exportHistoryDialogVisible\"\r\n        [disabled]=\"variablesService.currentWallet.history.length <= 0\">\r\n        <i class=\"icon export-history\"><svg viewBox=\"0 0 18 18\" width=\"100%\" height=\"100%\" fill=\"none\"\r\n            xmlns=\"http://www.w3.org/2000/svg\">\r\n            <path\r\n              d=\"M8.95264 17.4736C13.5845 17.4736 17.4194 13.6304 17.4194 9.00684C17.4194 4.375 13.5762 0.540039 8.94434 0.540039C4.3208 0.540039 0.48584 4.375 0.48584 9.00684C0.48584 13.6304 4.3291 17.4736 8.95264 17.4736ZM8.95264 16.0625C5.03467 16.0625 1.90527 12.9248 1.90527 9.00684C1.90527 5.08887 5.02637 1.95117 8.94434 1.95117C12.8623 1.95117 16 5.08887 16.0083 9.00684C16.0166 12.9248 12.8706 16.0625 8.95264 16.0625ZM8.94434 9.77881C9.17676 9.77881 9.35938 9.60449 9.35938 9.38037V5.18018L9.34277 4.79004L9.70801 5.18018L10.0815 5.57031C10.1479 5.64502 10.2476 5.68652 10.3721 5.68652C10.5962 5.68652 10.7539 5.53711 10.7539 5.32129C10.7539 5.22168 10.7207 5.12207 10.6294 5.04736L9.24316 3.70264C9.14355 3.60303 9.04395 3.56152 8.94434 3.56152C8.84473 3.56152 8.74512 3.61133 8.65381 3.70264L7.25928 5.03906C7.16797 5.13037 7.14307 5.22168 7.14307 5.32129C7.14307 5.53711 7.30078 5.68652 7.5166 5.68652C7.63281 5.68652 7.74072 5.64502 7.80713 5.57031L8.18066 5.18018L8.5542 4.79004L8.5376 5.18018V9.38037C8.5376 9.60449 8.72021 9.77881 8.94434 9.77881ZM6.60352 13.041H11.3018C12.2065 13.041 12.6797 12.5762 12.6797 11.6797V7.5874C12.6797 6.69092 12.2065 6.23438 11.3018 6.23438H10.0732V7.07275H11.2935C11.6587 7.07275 11.8413 7.25537 11.8413 7.62891V11.6548C11.8413 12.02 11.6587 12.2109 11.2935 12.2109H6.61182C6.24658 12.2109 6.06396 12.0283 6.06396 11.6548V7.62891C6.06396 7.25537 6.24658 7.07275 6.61182 7.07275H7.84033V6.23438H6.60352C5.70703 6.23438 5.23389 6.69922 5.22559 7.5874V11.6797C5.23389 12.5679 5.70703 13.041 6.60352 13.041Z\"\r\n              fill=\"white\" />\r\n          </svg></i><span>{{ 'EXPORT_HISTORY.EXPORT_BUTTON' | translate }}</span>\r\n      </button>\r\n      <ng-container *ngIf=\"walletSynchVisible\">\r\n        <button class=\"dark-line\" tooltip=\"{{ 'WALLET_DETAILS.RESYNC_WALLET' | translate }}\" placement=\"left\"\r\n          tooltipClass=\"table-tooltip account-tooltip\" [disabled]=\"!variablesService.currentWallet.loaded\" [delay]=\"500\"\r\n          [timeDelay]=\"500\" (click)=\"resyncCurrentWallet(variablesService.currentWallet.wallet_id)\">\r\n          <i class=\"icon resync-wallet\"><svg version=\"1.1\" id=\"Layer_1\" xmlns=\"http://www.w3.org/2000/svg\"\r\n              xmlns:xlink=\"http://www.w3.org/1999/xlink\" x=\"0px\" y=\"0px\" viewBox=\"0 0 24 24\"\r\n              style=\"enable-background:new 0 0 24 24;\" xml:space=\"preserve\">\r\n              <style type=\"text/css\">\r\n                .st0 {\r\n                  fill: #FFFFFF;\r\n                }\r\n              </style>\r\n              <path class=\"st0\" d=\"M24,11L23,0l-3.1,3.1C17.8,1.2,15.1,0,12,0C6.1,0,1.1,4.3,0.2,10h4.1c0.9-3.4,4-6,7.7-6c2,0,3.7,0.7,5.1,1.9\r\n          \tL14,9L24,11z\" />\r\n              <path class=\"st0\" d=\"M0,13l1,11l3.1-3.1C6.2,22.8,8.9,24,12,24c5.9,0,10.9-4.3,11.8-10h-4.1c-0.9,3.4-4,6-7.7,6\r\n          \tc-2,0-3.7-0.7-5.1-1.9L10,15L0,13z\" />\r\n            </svg></i><span>{{ 'WALLET_DETAILS.RESYNC_WALLET_BUTTON' | translate }}</span>\r\n        </button>\r\n      </ng-container>\r\n      <button type=\"button\" (click)=\"showConfirmDialog(variablesService.currentWallet.wallet_id)\"\r\n        tooltip=\"{{ 'WALLET.TOOLTIPS.CLOSE' | translate }}\" placement=\"top-left\"\r\n        tooltipClass=\"table-tooltip account-tooltip\" [delay]=\"500\" [timeDelay]=\"500\">\r\n        <i class=\"icon close-wallet\"></i><span>{{ 'WALLET_DETAILS.BUTTON_REMOVE' | translate }}</span>\r\n      </button>\r\n    </div>\r\n  </div>\r\n</div>\r\n<div class=\"address\">\r\n  <span>{{variablesService.currentWallet.address}}</span>\r\n  <i class=\"icon\" [class.copy]=\"!copyAnimation\" [class.copied]=\"copyAnimation\" (click)=\"copyAddress()\"></i>\r\n</div>\r\n\r\n<div class=\"balance\">\r\n  <span [tooltip]=\"getTooltip()\" [placement]=\"'bottom'\" [tooltipClass]=\"'balance-tooltip'\" [delay]=\"150\" [timeout]=\"0\"\r\n    (onHide)=\"onHideTooltip()\">{{variablesService.currentWallet.balance | intToMoney : '3'}}\r\n    {{variablesService.defaultCurrency}}</span>\r\n  <span>${{variablesService.currentWallet.getMoneyEquivalent(variablesService.moneyEquivalent) | intToMoney | number :\r\n    '1.2-2'}}</span>\r\n  <span class=\"price-percent\">+4.6%</span>\r\n</div>\r\n<div class=\"tabs\">\r\n  <div class=\"tabs-header\">\r\n    <ng-container *ngFor=\"let tab of tabs; let index = index\">\r\n      <button class=\"tab\" [routerLink]=\"['/wallet' + tab.link]\" routerLinkActive=\"active\"\r\n        [ngClass]=\"{ 'hide': ((tab.link === '/send' || tab.link === '/contracts') && variablesService.currentWallet.is_watch_only && variablesService.currentWallet.is_auditable) }\"\r\n        [disabled]=\"(tab.link === '/send' || tab.link === '/contracts' || tab.link === '/staking') && (variablesService.daemon_state !== 2 || !variablesService.currentWallet.loaded)\">\r\n        <i class=\"icon\" [ngClass]=\"tab.icon\"></i>\r\n        <span>{{ tab.title | translate }}</span>\r\n        <span class=\"indicator\" *ngIf=\"tab.indicator\">{{variablesService.currentWallet.new_contracts}}</span>\r\n      </button>\r\n    </ng-container>\r\n  </div>\r\n  <div #scrolledContent class=\"tabs-content\">\r\n    <router-outlet></router-outlet>\r\n  </div>\r\n</div>\r\n<app-confirm-modal *ngIf=\"delWalletDialogVisible\" [title]=\" 'WALLET.CONFIRM.TITLE' | translate \"\r\n  [message]=\" 'WALLET.CONFIRM.MESSAGE' | translate \" (confirmed)=\"confirmed($event)\"></app-confirm-modal>\r\n<app-export-history-modal [currentWalletId]=\"variablesService.currentWallet.wallet_id\"\r\n  *ngIf=\"exportHistoryDialogVisible\" (closeExportModal)=\"closeExportModal($event)\">\r\n</app-export-history-modal>\r\n"
 
 /***/ }),
 
@@ -10083,7 +10115,7 @@ var WalletComponent = /** @class */ (function () {
         }
     };
     WalletComponent.prototype.onClick = function (targetElement) {
-        if (targetElement.id !== 'wallet-dropdown-button' && this.openDropdown) {
+        if (targetElement.dataset.target !== 'wallet-dropdown-button' && this.openDropdown) {
             this.openDropdown = false;
             this.walletSynchVisible = false;
         }
