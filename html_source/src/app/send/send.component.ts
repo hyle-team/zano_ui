@@ -182,7 +182,7 @@ export class SendComponent implements OnInit, OnDestroy {
         setTimeout(() => {
           this.fillDeepLinkData()
         }, 100)
-
+        this.variablesService.sendActionData$.next({});
       }
     })
   }

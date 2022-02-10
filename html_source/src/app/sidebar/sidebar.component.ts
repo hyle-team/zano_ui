@@ -57,7 +57,8 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   contactsRoute() {
     if (this.variablesService.appPass) {
-      this.router.navigate(['/contacts']);
+      this.ngZone.run(() => { this.router.navigate(['/contacts']) })
+
     } else {
       this.modal.prepareModal(
         'error',

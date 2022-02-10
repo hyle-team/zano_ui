@@ -1,5 +1,5 @@
 <div class="host-container"
-  *ngIf="deeplink && (variablesService.daemon_state === 2 || variablesService.sync_started === false)">
+  *ngIf="deeplink && (variablesService.daemon_state === 2 && variablesService.sync_started === false)">
   <div class="container">
     <ng-container *ngIf="this.walletsTopay.length > 1 && !secondStep">
       <div class="modal select-wallet">

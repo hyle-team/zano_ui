@@ -234,6 +234,7 @@ export class PurchaseComponent implements OnInit, OnDestroy {
       if (res.action === "escrow") {
         this.actionData = res
         this.fillDeepLinkData()
+        this.variablesService.sendActionData$.next({});
       }
     })
   }

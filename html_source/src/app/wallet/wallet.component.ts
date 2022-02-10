@@ -35,7 +35,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   }
   @HostListener('document:click', ['$event.target'])
   public onClick(targetElement) {
-    if (targetElement.id !== 'wallet-dropdown-button' && this.openDropdown) {
+    if (targetElement.dataset.target !== 'wallet-dropdown-button' && this.openDropdown) {
       this.openDropdown = false;
       this.walletSynchVisible = false;
     }
