@@ -125,7 +125,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
         if (this.variablesService.wallets.length) {
           this.ngZone.run(() => {
-            this.variablesService.setCurrentWallet(this.variablesService.wallets[0].wallet_id)
             this.router.navigate(['/wallet/']);
           });
           return;
@@ -210,7 +209,6 @@ export class LoginComponent implements OnInit, OnDestroy {
             });
             this.variablesService.wallets.push(new_wallet);
             if (this.variablesService.wallets.length === 1) {
-              this.variablesService.setCurrentWallet(this.variablesService.wallets[0].wallet_id)
               this.router.navigate(['/wallet/']);
             }
           });

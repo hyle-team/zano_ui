@@ -35,14 +35,13 @@ export class WalletComponent implements OnInit, OnDestroy {
   }
   @HostListener('document:click', ['$event.target'])
   public onClick(targetElement) {
-    if (targetElement.id !== 'wallet-dropdown-button' && this.openDropdown) {
+    if (targetElement.dataset.target !== 'wallet-dropdown-button' && this.openDropdown) {
       this.openDropdown = false;
       this.walletSynchVisible = false;
     }
   }
 
   subRouting1;
-  // walletID = 0
 
   settingsButtonInterval;
   settingsButtonDisabled = true;
@@ -97,16 +96,10 @@ export class WalletComponent implements OnInit, OnDestroy {
     private intToMoneyPipe: IntToMoneyPipe,
     private store: Store
   ) {
-
-    // this.walletID = this.variablesService.currentWallet.wallet_id
-    this.walletLoaded = this.variablesService.getWallet(this.variablesService.currentWallet.wallet_id).loaded;
-    // this.variablesService.setCurrentWallet(this.walletID);
-    // this.subRouting1 = this.route.params.subscribe((params) => {
-    //   // set current wallet only by user click to avoid after sync show synchronized data
-    //   this.walletID = +params['id'];
-    //   this.walletLoaded = this.variablesService.getWallet(this.walletID).loaded;
-    //   this.variablesService.setCurrentWallet(this.walletID);
-    // });
+    if (!this.variablesService.currentWallet && this.variablesService.wallets.length > 0) {
+      this.variablesService.setCurrentWallet(0)
+    };
+    this.walletLoaded = this.variablesService.currentWallet.loaded ? true : false
   }
 
   ngOnInit() {
@@ -139,7 +132,6 @@ export class WalletComponent implements OnInit, OnDestroy {
           }
         }
       });
-    // this.scrolledContent.nativeElement.scrollTop = 0;
 
     this.copyAnimation = false;
     if (this.variablesService.currentWallet.alias.hasOwnProperty('name')) {
@@ -254,7 +246,6 @@ export class WalletComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // this.subRouting1.unsubscribe();
     this.aliasSubscription.unsubscribe();
     if (this.walletsSubscription) {
       this.walletsSubscription.unsubscribe();

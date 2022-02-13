@@ -1,6 +1,7 @@
-import { Subscription } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { DeeplinkParams, PushOffer, Wallet } from './../_helpers/models/wallet.model';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { VariablesService } from '../_helpers/services/variables.service';
 import { BackendService } from '../_helpers/services/backend.service';
@@ -12,55 +13,69 @@ import { BigNumber } from 'bignumber.js';
   templateUrl: './deeplink.component.html',
   styleUrls: ['./deeplink.component.scss']
 })
-export class DeeplinkComponent implements OnInit {
+export class DeeplinkComponent implements OnInit, OnDestroy {
   deeplink: string | null = null;
   secondStep = false;
-  walletToPayId = 0
+  walletToPayId = 0;
+  nextStepInterval
   marketplaceModalShow = true;
   copyAnimation = false;
   marketplaceConfirmHash: any = null
   sendRoute = false;
-  deeplinkSubscription: Subscription
   actionData: DeeplinkParams = {}
   defaultMixin = MIXIN
   walletsTopay: Array<Wallet> = [];
-
+  private destroy$ = new Subject<never>();
   constructor(
     private _router: Router,
     public variablesService: VariablesService,
     private backend: BackendService,
+    private ngZone: NgZone,
   ) {
-    this.deeplinkSubscription = this.variablesService.deeplink$.subscribe((data) => {
-      if (data) {
-        this.deeplink = data;
-        this.actionData = {};
-        this.walletsTopay = this.variablesService.wallets.filter(wallet => !wallet.is_watch_only || !wallet.is_auditable)
-        if (this.walletsTopay.length === 0) {
-          this.variablesService.deeplink$.next(null)
-          return
+    this.variablesService.deeplink$.pipe(takeUntil(this.destroy$)).subscribe((data) => {
+      this.ngZone.run(() => {
+        if (data) {
+          this.deeplink = data;
+          this.actionData = {};
+          this.walletsTopay = this.variablesService.wallets.filter(wallet => !wallet.is_watch_only || !wallet.is_auditable)
+          if (this.walletsTopay.length === 0) {
+            this.canselAction()
+            return
+          }
+          this.actionData = this.parceString(this.deeplink);
+          if (this.walletsTopay.length === 1) {
+            if (variablesService.daemon_state === 2 && variablesService.sync_started === false) {
+              this.walletToPayId = this.walletsTopay[0].wallet_id
+              this.nextStep()
+            } else {
+              this.nextStepInterval = setInterval(() => {
+                if (variablesService.daemon_state === 2 && variablesService.sync_started === false) {
+                  this.walletToPayId = this.walletsTopay[0].wallet_id
+                  this.nextStep()
+                  clearInterval(this.nextStepInterval)
+                }
+              }, 1500)
+            }
+          }
+        } else {
+          this.deeplink = null;
         }
-        this.actionData = this.parceString(this.deeplink);
-        if (this.walletsTopay.length === 1) {
-          setTimeout(() => {
-            this.nextStep()
-          }, 200)
-        }
-      } else {
-        this.deeplink = null;
-      }
+      })
     });
   }
-
 
   ngOnInit() {
   }
 
   parceString(string) {
-    let newstring = string.substr(5)
-    let newobj = {};
-    newstring.split('&').forEach(function (value) {
-      let keypair = value.split('=');
-      newobj[keypair[0]] = keypair[1].replace(/'|"|”|%E2%80%9D|%22/g, '').replace(/%20/g, " ").trim();
+    const qoutesRex = new RegExp(/'|"|”|%E2%80%9D|%22/g);
+    const spaceSymbolRex = new RegExp(/%20/g);
+    const newobj = {};
+
+    const newstring = string.substr(5) // delete zano:;
+    newstring.split('&').forEach((string) => {
+      const [key, value] = string.split('=');
+      newobj[key] = value.replace(qoutesRex, '').replace(spaceSymbolRex, " ").trim();
     });
     return newobj
   }
@@ -70,6 +85,7 @@ export class DeeplinkComponent implements OnInit {
     this.variablesService.deeplink$.next(null)
     this.variablesService.sendActionData$.next({});
     this.actionData = {};
+    this.secondStep = false;
   }
 
   marketplaceSend() {
@@ -113,22 +129,28 @@ export class DeeplinkComponent implements OnInit {
 
   nextStep() {
     if (this.actionData.action === "send") {
-      this.variablesService.sendActionData$.next(this.actionData);
-      this.variablesService.deeplink$.next(null)
-      this.variablesService.setCurrentWallet(this.walletToPayId)
-      this._router.navigate(['/wallet/send']);
+      this.ngZone.run(() => {
+        this.variablesService.sendActionData$.next(this.actionData)
+        this.variablesService.deeplink$.next(null)
+        this.variablesService.setCurrentWallet(this.walletToPayId)
+        this._router.navigate(['/wallet/send'])
+        this.secondStep = false
+      })
     } else if (this.actionData.action === "escrow") {
-      this.variablesService.sendActionData$.next(this.actionData);
-      this.variablesService.deeplink$.next(null)
-      this.variablesService.setCurrentWallet(this.walletToPayId)
-      this._router.navigate(['/wallet/contracts/purchase']);
+      this.ngZone.run(() => {
+        this.variablesService.sendActionData$.next(this.actionData)
+        this.variablesService.deeplink$.next(null)
+        this.variablesService.setCurrentWallet(this.walletToPayId)
+        this._router.navigate(['/wallet/contracts/purchase'])
+        this.secondStep = false
+      })
     } else {
       this.secondStep = true
     }
   }
 
   ngOnDestroy() {
-    this.deeplinkSubscription.unsubscribe();
-    this.variablesService.deeplink$.next(null)
+    this.destroy$.next();
+    this.variablesService.deeplink$.next(null);
   }
 }
