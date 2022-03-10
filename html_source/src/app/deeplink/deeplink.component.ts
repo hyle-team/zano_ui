@@ -96,7 +96,7 @@ export class DeeplinkComponent implements OnInit, OnDestroy {
         at: '1',
         cat: this.actionData.category || '',
         cnt: this.actionData.contact || '',
-        com: this.actionData.comment || '',
+        com: this.actionData.comment || this.actionData.comments || '',
         do: this.actionData.description || '',
         et: 10,
         fee: new BigNumber('' + ((+this.actionData.fee || +this.variablesService.default_fee) * 1000000000000)),
@@ -105,7 +105,7 @@ export class DeeplinkComponent implements OnInit, OnDestroy {
         ot: 1,
         pt: 'Credit cards, BTC, ZANO, ETH',
         t: this.actionData.title || '',
-        url: this.actionData.img_url || '',
+        url: this.actionData.url || this.actionData.img_url || '',
       },
     }
     this.backend.push_offer(offerObject, (Status, data) => {

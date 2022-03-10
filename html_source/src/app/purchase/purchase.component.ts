@@ -246,7 +246,7 @@ export class PurchaseComponent implements OnInit, OnDestroy {
     this.purchaseForm.get("amount").setValue(this.actionData.amount || '');
     this.purchaseForm.get("yourDeposit").setValue(this.actionData.my_deposit || '');
     this.purchaseForm.get("sellerDeposit").setValue(this.actionData.seller_deposit || '');
-    this.purchaseForm.get("comment").setValue(this.actionData.comment || '');
+    this.purchaseForm.get("comment").setValue(this.actionData.comment || this.actionData.comments || '');
   }
 
   toggleOptions() {

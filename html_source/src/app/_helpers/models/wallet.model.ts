@@ -260,8 +260,10 @@ export interface DeeplinkParams {
   category?: string;
   price?: string;
   img_url?: string;
+  url?: string;
   contact?: string;
   comment?: string;
+  comments?: string;
   mixins?: string;
   fee?: string;
 }

@@ -41,9 +41,9 @@
           <div class="row"><span>Description:</span> {{actionData.description}}</div>
           <div class="row"><span>Category:</span> {{actionData.category}}</div>
           <div class="row"><span>Price:</span> {{actionData.price}} {{this.variablesService.defaultCurrency}}</div>
-          <div class="row"><span>Preview url:</span> {{actionData.img_url}}</div>
+          <div class="row"><span>Preview url:</span> {{actionData.url || actionData.img_url}}</div>
           <div class="row"><span>Contacts:</span> {{actionData.contact}}</div>
-          <div class="row"><span>Comments:</span>{{actionData.comment}}</div>
+          <div class="row"><span>Comments:</span>{{actionData.comment || actionData.comments}}</div>
           <div class="row mixins"><span>Mixins:</span> {{actionData.mixins || defaultMixin}}</div>
           <div class="row"><span>Transaction fee:</span> {{actionData.price * (actionData.fee ||
             this.variablesService.default_fee)}}
