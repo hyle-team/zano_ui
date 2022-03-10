@@ -213,7 +213,7 @@ export class SendComponent implements OnInit, OnDestroy {
     this.sendForm.reset({
       address: this.actionData.address,
       amount: null,
-      comment: this.actionData.comment || '',
+      comment: this.actionData.comment || this.actionData.comments || '',
       mixin: this.actionData.mixins || this.mixin,
       fee: this.actionData.fee || this.variablesService.default_fee,
       hide: this.actionData.hide_sender === "true" ? true : false
