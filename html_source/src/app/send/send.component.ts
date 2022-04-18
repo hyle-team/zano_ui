@@ -1,14 +1,13 @@
-import { Component, OnInit, OnDestroy, NgZone, HostListener } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { BackendService } from '../_helpers/services/backend.service';
-import { VariablesService } from '../_helpers/services/variables.service';
-import { ModalService } from '../_helpers/services/modal.service';
-import { BigNumber } from 'bignumber.js';
-import { MIXIN } from '../_shared/constants';
-import { HttpClient } from '@angular/common/http';
-import { MoneyToIntPipe } from '../_helpers/pipes/money-to-int.pipe';
-import { finalize } from 'rxjs/operators';
+import {Component, HostListener, NgZone, OnDestroy, OnInit} from '@angular/core';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {BackendService} from '../_helpers/services/backend.service';
+import {VariablesService} from '../_helpers/services/variables.service';
+import {ModalService} from '../_helpers/services/modal.service';
+import {BigNumber} from 'bignumber.js';
+import {MIXIN} from '../_shared/constants';
+import {HttpClient} from '@angular/common/http';
+import {MoneyToIntPipe} from '../_helpers/pipes/money-to-int.pipe';
+import {finalize} from 'rxjs/operators';
 
 interface WrapInfo {
   tx_cost: {
@@ -24,16 +23,10 @@ interface WrapInfo {
   styleUrls: ['./send.component.scss']
 })
 export class SendComponent implements OnInit, OnDestroy {
-  @HostListener('document:click', ['$event.target'])
-  public onClick(targetElement) {
-    if (targetElement.id !== 'send-address' && this.isOpen) {
-      this.isOpen = false;
-    }
-  }
-
   isOpen = false;
   localAliases = [];
   isModalDialogVisible = false;
+  isModalDetailsDialogVisible = false;
   hideWalletAddress = false;
   mixin: number;
   wrapInfo: WrapInfo;
@@ -49,7 +42,7 @@ export class SendComponent implements OnInit, OnDestroy {
     address: new FormControl('', [Validators.required, (g: FormControl) => {
       this.localAliases = [];
       if (g.value) {
-        this.currentAliasAdress = ''
+        this.currentAliasAdress = '';
         if (g.value.indexOf('@') !== 0) {
           this.isOpen = false;
           this.backend.validateAddress(g.value, (valid_status, data) => {
@@ -57,7 +50,7 @@ export class SendComponent implements OnInit, OnDestroy {
               this.isWrapShown = (data.error_code === 'WRAP');
               this.sendForm.get('amount').setValue(this.sendForm.get('amount').value);
               if (valid_status === false && !this.isWrapShown) {
-                g.setErrors(Object.assign({ 'address_not_valid': true }, g.errors));
+                g.setErrors(Object.assign({'address_not_valid': true}, g.errors));
               } else {
                 if (g.hasError('address_not_valid')) {
                   delete g.errors['address_not_valid'];
@@ -68,18 +61,18 @@ export class SendComponent implements OnInit, OnDestroy {
               }
             });
           });
-          return (g.hasError('address_not_valid')) ? { 'address_not_valid': true } : null;
+          return (g.hasError('address_not_valid')) ? {'address_not_valid': true} : null;
         } else {
           this.isOpen = true;
           this.localAliases = this.variablesService.aliases.filter((item) => {
             return item.name.indexOf(g.value) > -1;
           });
           if (!(/^@?[a-z0-9\.\-]{6,25}$/.test(g.value))) {
-            g.setErrors(Object.assign({ 'alias_not_valid': true }, g.errors));
+            g.setErrors(Object.assign({'alias_not_valid': true}, g.errors));
           } else {
             this.backend.getAliasByName(g.value.replace('@', ''), (alias_status, alias_data) => {
               this.ngZone.run(() => {
-                this.currentAliasAdress = alias_data.address
+                this.currentAliasAdress = alias_data.address;
                 this.lenghtOfAdress = g.value.length;
                 if (alias_status) {
                   if (g.hasError('alias_not_valid')) {
@@ -89,32 +82,34 @@ export class SendComponent implements OnInit, OnDestroy {
                     }
                   }
                 } else {
-                  g.setErrors(Object.assign({ 'alias_not_valid': true }, g.errors));
+                  g.setErrors(Object.assign({'alias_not_valid': true}, g.errors));
                 }
               });
             });
           }
-          return (g.hasError('alias_not_valid')) ? { 'alias_not_valid': true } : null;
+          return (g.hasError('alias_not_valid')) ? {'alias_not_valid': true} : null;
         }
       }
       return null;
     }]),
     amount: new FormControl(undefined, [Validators.required, (g: FormControl) => {
-      if (!g.value) { return null; }
+      if (!g.value) {
+        return null;
+      }
 
       if (g.value === 0) {
-        return { 'zero': true };
+        return {'zero': true};
       }
       const bigAmount = this.moneyToInt.transform(g.value) as BigNumber;
       if (this.isWrapShown) {
         if (!this.wrapInfo) {
-          return { wrap_info_null: true };
+          return {wrap_info_null: true};
         }
         if (bigAmount.isGreaterThan(new BigNumber(this.wrapInfo.unwraped_coins_left))) {
-          return { great_than_unwraped_coins: true };
+          return {great_than_unwraped_coins: true};
         }
         if (bigAmount.isLessThan(new BigNumber(this.wrapInfo.tx_cost.zano_needed_for_erc20))) {
-          return { less_than_zano_needed: true };
+          return {less_than_zano_needed: true};
         }
       }
       return null;
@@ -123,14 +118,19 @@ export class SendComponent implements OnInit, OnDestroy {
     mixin: new FormControl(MIXIN, Validators.required),
     fee: new FormControl(this.variablesService.default_fee, [Validators.required, (g: FormControl) => {
       if ((new BigNumber(g.value)).isLessThan(this.variablesService.default_fee)) {
-        return { 'less_min': true };
+        return {'less_min': true};
       }
       return null;
     }]),
     hide: new FormControl(false)
   });
 
-
+  @HostListener('document:click', ['$event.target'])
+  public onClick(targetElement) {
+    if (targetElement.id !== 'send-address' && this.isOpen) {
+      this.isOpen = false;
+    }
+  }
   constructor(
     private backend: BackendService,
     public variablesService: VariablesService,
@@ -142,8 +142,8 @@ export class SendComponent implements OnInit, OnDestroy {
   }
 
   getShorterAdress() {
-    let tempArr = this.currentAliasAdress.split("");
-    return this.currentAliasAdress.split("", 34).join('') + "..." + tempArr.splice((tempArr.length - 13), 13).join('')
+    const tempArr = this.currentAliasAdress.split('');
+    return this.currentAliasAdress.split('', 34).join('') + '...' + tempArr.splice((tempArr.length - 13), 13).join('');
   }
 
   addressMouseDown(e) {
@@ -177,14 +177,14 @@ export class SendComponent implements OnInit, OnDestroy {
 
     this.getWrapInfo();
     this.dLActionSubscribe = this.variablesService.sendActionData$.subscribe((res) => {
-      if (res.action === "send") {
-        this.actionData = res
+      if (res.action === 'send') {
+        this.actionData = res;
         setTimeout(() => {
-          this.fillDeepLinkData()
-        }, 100)
+          this.fillDeepLinkData();
+        }, 100);
         this.variablesService.sendActionData$.next({});
       }
-    })
+    });
   }
 
   private getWrapInfo() {
@@ -202,10 +202,12 @@ export class SendComponent implements OnInit, OnDestroy {
   }
 
   confirmed(confirmed: boolean) {
+    this.isModalDialogVisible = false;
+    /** TODO show if setting tor = true */
+    this.isModalDetailsDialogVisible = true;
     if (confirmed) {
       this.onSend();
     }
-    this.isModalDialogVisible = false;
   }
 
   fillDeepLinkData() {
@@ -216,7 +218,7 @@ export class SendComponent implements OnInit, OnDestroy {
       comment: this.actionData.comment || this.actionData.comments || '',
       mixin: this.actionData.mixins || this.mixin,
       fee: this.actionData.fee || this.variablesService.default_fee,
-      hide: this.actionData.hide_sender === "true" ? true : false
+      hide: this.actionData.hide_sender === 'true' ? true : false
     });
   }
 
@@ -224,10 +226,9 @@ export class SendComponent implements OnInit, OnDestroy {
     if (this.sendForm.valid) {
       if (this.sendForm.get('address').value.indexOf('@') !== 0) {
         this.backend.validateAddress(this.sendForm.get('address').value, (valid_status, data) => {
-          console.log(valid_status, data.error_code === 'WRAP');
           if (valid_status === false && !(data.error_code === 'WRAP')) {
             this.ngZone.run(() => {
-              this.sendForm.get('address').setErrors({ 'address_not_valid': true });
+              this.sendForm.get('address').setErrors({'address_not_valid': true});
             });
           } else {
             this.backend.sendMoney(
@@ -240,6 +241,7 @@ export class SendComponent implements OnInit, OnDestroy {
               this.sendForm.get('hide').value,
               (send_status) => {
                 if (send_status) {
+                  /** TODO show if setting tor = false */
                   this.modalService.prepareModal('success', 'SEND.SUCCESS_SENT');
                   this.variablesService.currentWallet.send_data = {
                     address: null,
@@ -266,7 +268,7 @@ export class SendComponent implements OnInit, OnDestroy {
           this.ngZone.run(() => {
             if (alias_status === false) {
               this.ngZone.run(() => {
-                this.sendForm.get('address').setErrors({ 'alias_not_valid': true });
+                this.sendForm.get('address').setErrors({'alias_not_valid': true});
               });
             } else {
               this.backend.sendMoney(
@@ -319,13 +321,15 @@ export class SendComponent implements OnInit, OnDestroy {
       fee: this.sendForm.get('fee').value,
       hide: this.sendForm.get('hide').value
     };
-    this.actionData = {}
+    this.actionData = {};
   }
 
   public getReceivedValue() {
     const amount = this.moneyToInt.transform(this.sendForm.value.amount);
     const needed = new BigNumber(this.wrapInfo.tx_cost.zano_needed_for_erc20);
-    if (amount && needed) { return (amount as BigNumber).minus(needed); }
+    if (amount && needed) {
+      return (amount as BigNumber).minus(needed);
+    }
     return 0;
   }
 }

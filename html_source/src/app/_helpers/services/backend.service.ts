@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
-import { VariablesService } from './variables.service';
-import { ModalService } from './modal.service';
-import { MoneyToIntPipe } from '../pipes/money-to-int.pipe';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {TranslateService} from '@ngx-translate/core';
+import {VariablesService} from './variables.service';
+import {ModalService} from './modal.service';
+import {MoneyToIntPipe} from '../pipes/money-to-int.pipe';
 import JSONBigNumber from 'json-bignumber';
-import { BigNumber } from 'bignumber.js';
+import {BigNumber} from 'bignumber.js';
 
 @Injectable()
 export class BackendService {
@@ -175,7 +175,7 @@ export class BackendService {
     try {
       BackendService.Debug(2, JSONBigNumber.parse(result, BackendService.bigNumberParser));
     } catch (e) {
-      BackendService.Debug(2, { response_data: result, error_code: 'OK' });
+      BackendService.Debug(2, {response_data: result, error_code: 'OK'});
     }
   }
 
@@ -188,7 +188,7 @@ export class BackendService {
         try {
           Result = JSONBigNumber.parse(resultStr, BackendService.bigNumberParser);
         } catch (e) {
-          Result = { response_data: resultStr, error_code: 'OK' };
+          Result = {response_data: resultStr, error_code: 'OK'};
         }
       }
     } else {
@@ -319,7 +319,7 @@ export class BackendService {
     if (this.variablesService.wallets.length) {
       this.variablesService.settings.wallets = [];
       this.variablesService.wallets.forEach((wallet) => {
-        this.variablesService.settings.wallets.push({ name: wallet.name, path: wallet.path });
+        this.variablesService.settings.wallets.push({name: wallet.name, path: wallet.path});
       });
     }
     this.runCommand('store_app_data', this.variablesService.settings, callback);
@@ -338,7 +338,7 @@ export class BackendService {
   }
 
   getIsDisabledNotifications(callback) {
-    const params = {}
+    const params = {};
     this.runCommand('get_is_disabled_notifications', params, callback);
   }
 
@@ -351,12 +351,12 @@ export class BackendService {
     const wallets = [];
     const contacts = [];
     this.variablesService.wallets.forEach((wallet) => {
-      wallets.push({ name: wallet.name, pass: wallet.pass, path: wallet.path, staking: wallet.staking });
+      wallets.push({name: wallet.name, pass: wallet.pass, path: wallet.path, staking: wallet.staking});
     });
     this.variablesService.contacts.forEach((contact) => {
-      contacts.push({ name: contact.name, address: contact.address, notes: contact.notes });
+      contacts.push({name: contact.name, address: contact.address, notes: contact.notes});
     });
-    data = { wallets: wallets, contacts: contacts };
+    data = {wallets: wallets, contacts: contacts};
     this.backendObject['store_secure_app_data'](JSON.stringify(data), this.variablesService.appPass, (dataStore) => {
       this.backendCallback(dataStore, {}, callback, 'store_secure_app_data');
     });
@@ -427,11 +427,11 @@ export class BackendService {
   }
 
   closeWallet(wallet_id, callback?) {
-    this.runCommand('close_wallet', { wallet_id: +wallet_id }, callback);
+    this.runCommand('close_wallet', {wallet_id: +wallet_id}, callback);
   }
 
-  getSmartWalletInfo({ wallet_id, seed_password }, callback) {
-    this.runCommand('get_smart_wallet_info', { wallet_id: +wallet_id, seed_password }, callback);
+  getSmartWalletInfo({wallet_id, seed_password}, callback) {
+    this.runCommand('get_smart_wallet_info', {wallet_id: +wallet_id, seed_password}, callback);
   }
 
   getSeedPhraseInfo(param, callback) {
@@ -439,7 +439,7 @@ export class BackendService {
   }
 
   runWallet(wallet_id, callback?) {
-    this.runCommand('run_wallet', { wallet_id: +wallet_id }, callback);
+    this.runCommand('run_wallet', {wallet_id: +wallet_id}, callback);
   }
 
   isValidRestoreWalletText(param, callback) {
@@ -555,15 +555,15 @@ export class BackendService {
   }
 
   getMiningHistory(wallet_id, callback) {
-    this.runCommand('get_mining_history', { wallet_id: parseInt(wallet_id, 10) }, callback);
+    this.runCommand('get_mining_history', {wallet_id: parseInt(wallet_id, 10)}, callback);
   }
 
   startPosMining(wallet_id, callback?) {
-    this.runCommand('start_pos_mining', { wallet_id: parseInt(wallet_id, 10) }, callback);
+    this.runCommand('start_pos_mining', {wallet_id: parseInt(wallet_id, 10)}, callback);
   }
 
   stopPosMining(wallet_id, callback?) {
-    this.runCommand('stop_pos_mining', { wallet_id: parseInt(wallet_id, 10) }, callback);
+    this.runCommand('stop_pos_mining', {wallet_id: parseInt(wallet_id, 10)}, callback);
   }
 
   openUrlInBrowser(url, callback?) {
@@ -633,11 +633,11 @@ export class BackendService {
   }
 
   getAliasCoast(alias, callback) {
-    this.runCommand('get_alias_coast', { v: alias }, callback);
+    this.runCommand('get_alias_coast', {v: alias}, callback);
   }
 
   resyncWallet(id) {
-    this.runCommand('resync_wallet', { wallet_id: id })
+    this.runCommand('resync_wallet', {wallet_id: id});
   }
 
   getWalletAlias(address) {
@@ -699,14 +699,22 @@ export class BackendService {
 
   getVersion(callback) {
     this.runCommand('get_version', {}, (status, version) => {
-      this.runCommand('get_network_type', {}, (status, type) => {
+      this.runCommand('get_network_type', {}, (status_network, type) => {
         callback(version, type);
       });
     });
   }
 
   setLogLevel(level) {
-    return this.runCommand('set_log_level', { v: level });
+    return this.runCommand('set_log_level', {v: level});
+  }
+
+  handleCurrentActionState(callback) {
+    return this.runCommand('handle_current_action_state', {}, callback);
+  }
+
+  setEnableTor(value: boolean) {
+    return this.runCommand('set_enable_tor', {v: value});
   }
 
 }

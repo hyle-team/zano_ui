@@ -455,7 +455,7 @@
   "CONFIRM": {
     "BUTTON_CONFIRM": "Send",
     "BUTTON_CANCEL": "Cancel",
-    "TITLE": "Confirm transaction",
+    "TITLE": "Transaction",
     "MESSAGE": {
       "SEND": "Send",
       "FROM": "From",

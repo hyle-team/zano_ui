@@ -184,6 +184,7 @@
     "WHITE_THEME": "White theme",
     "GRAY_THEME": "Grey theme",
     "NOTIFICATIONS": "Notifications",
+    "USE_TOR_TO_RELAY_TRANSACTIONS": "Use TOR to relay transactions",
     "SETTINGS_SAVED": "Saved! Settings Updated",
     "APP_LOCK": {
       "TITLE": "Lock app after:",
@@ -553,7 +554,7 @@
   "CONFIRM": {
     "BUTTON_CONFIRM": "Send",
     "BUTTON_CANCEL": "Cancel",
-    "TITLE": "Confirm transaction",
+    "TITLE": "Transaction",
     "MESSAGE": {
       "SEND": "Send",
       "FROM": "From",

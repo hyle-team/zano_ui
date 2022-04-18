@@ -1,5 +1,4 @@
 <form *ngIf="!isLoading" class="form-send" [formGroup]="sendForm" (ngSubmit)="showDialog()">
-
   <div class="input-block input-block-alias">
     <label for="send-address">{{ 'SEND.ADDRESS' | translate }}</label>
     <div class="adress-input-row"><input type="text" id="send-address" formControlName="address"
@@ -123,6 +122,8 @@
 
   <button type="submit" class="blue-button" [disabled]="!sendForm.valid || !variablesService.currentWallet.loaded">{{
     'SEND.BUTTON' | translate }}</button>
-  <app-send-modal *ngIf="isModalDialogVisible" [form]="sendForm" (confirmed)="confirmed($event)"></app-send-modal>
-
 </form>
+
+<app-send-modal *ngIf="isModalDialogVisible" [form]="sendForm" (confirmed)="confirmed($event)"></app-send-modal>
+
+<app-send-details-modal *ngIf="isModalDetailsDialogVisible" (onClose)="isModalDetailsDialogVisible = false"></app-send-details-modal>

@@ -1,0 +1,34 @@
+<div class="modal">
+  <h3 class="title mb-2">{{ 'Transaction' | translate }}</h3>
+
+  <div class="status mb-2">
+    <div class="loader"></div>
+<!--    <img class="image" src="assets/icons/transaction_success.svg" alt="success">-->
+    <p class="text mt-2">Initializing...</p>
+  </div>
+
+  <div class="details mb-2">
+    <div class="header" (click)="stateDetails = !stateDetails">
+      <p class="title mr-2">{{ 'Transaction details' | translate }}</p>
+      <button class="btn-arrow" [class.rotate-180]="stateDetails">
+        <img src="assets/icons/arrows/stroke/arrow_down.svg" alt="arrow">
+      </button>
+    </div>
+    <ul class="detail-list" *ngIf="stateDetails">
+      <li class="item">
+        <span class="text mr-1">Initializing</span>
+        <img src="assets/icons/check_with_blue_bg.svg" alt="success">
+      </li>
+      <li class="item">
+        <span class="text mr-1">Downloading consensus</span>
+        <img src="assets/icons/check_with_blue_bg.svg" alt="success">
+      </li>
+      <li class="item">
+        <span class="text mr-1">Building tunnel to A</span>
+        <img src="assets/icons/check_with_blue_bg.svg" alt="success">
+      </li>
+    </ul>
+  </div>
+
+  <button class="blue-button" (click)="close()">{{ 'Ok' | translate }}</button>
+</div>

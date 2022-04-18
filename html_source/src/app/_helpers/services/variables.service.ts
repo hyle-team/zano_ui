@@ -48,6 +48,7 @@ export class VariablesService {
     appLockTime: 15,
     appLog: 0,
     scale: 8,
+    appUseTor: true,
     language: 'en',
     default_path: '/',
     viewedContracts: [],
@@ -87,7 +88,7 @@ export class VariablesService {
   public idle = new Idle()
     .whenNotInteractive()
     .do(() => {
-      if (this.appPass == '') {
+      if (this.appPass === '') {
         this.restartCountdown();
       } else {
         this.ngZone.run(() => {
