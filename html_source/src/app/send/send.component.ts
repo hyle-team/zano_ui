@@ -207,7 +207,9 @@ export class SendComponent implements OnInit, OnDestroy {
     this.isModalDetailsDialogVisible = true;
     if (confirmed) {
       this.backend.asyncCall('test_call', {});
-      this.backend.dispatchAsyncCallResult();
+      this.backend.dispatchAsyncCallResult((res) => {
+        console.log('123res is send', res);
+      });
       // this.onSend();
     }
   }

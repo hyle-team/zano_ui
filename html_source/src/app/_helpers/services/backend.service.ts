@@ -711,21 +711,16 @@ export class BackendService {
   /** TODO fix because return false by "test_call" */
   asyncCall(method_name, json_args) {
     return this.runCommand('async_call', { method_name, json_args }, (res) => {
-      console.log('123async_call response', res);
+      console.log('async_call response', res);
     });
   }
 
-  /** TODO fix not work */
-  dispatchAsyncCallResult() {
-    return this.runCommand('dispatch_async_call_result', {}, (job_id, json_resp) => {
-      console.log('123dispatch_async_call_result', job_id);
-      console.log('123dispatch_async_call_result', json_resp);
-    });
+  dispatchAsyncCallResult(callback) {
+    this.backendObject['dispatch_async_call_result'].connect(callback);
   }
 
-  /** TODO fix not work */
   handleCurrentActionState(callback) {
-    return this.runCommand('handle_current_action_state', {}, callback);
+    this.backendObject['handle_current_action_state'].connect(callback);
   }
 
   setEnableTor(value: boolean) {
