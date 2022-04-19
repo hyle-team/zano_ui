@@ -206,7 +206,9 @@ export class SendComponent implements OnInit, OnDestroy {
     /** TODO show if setting tor = true */
     this.isModalDetailsDialogVisible = true;
     if (confirmed) {
-      this.onSend();
+      this.backend.asyncCall('test_call', {});
+      this.backend.dispatchAsyncCallResult();
+      // this.onSend();
     }
   }
 

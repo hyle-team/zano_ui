@@ -270,7 +270,6 @@ export class BackendService {
     }
   }
 
-
   eventSubscribe(command, callback) {
     if (command === 'on_core_event') {
       this.backendObject[command].connect(callback);
@@ -709,6 +708,22 @@ export class BackendService {
     return this.runCommand('set_log_level', {v: level});
   }
 
+  /** TODO fix because return false by "test_call" */
+  asyncCall(method_name, json_args) {
+    return this.runCommand('async_call', { method_name, json_args }, (res) => {
+      console.log('123async_call response', res);
+    });
+  }
+
+  /** TODO fix not work */
+  dispatchAsyncCallResult() {
+    return this.runCommand('dispatch_async_call_result', {}, (job_id, json_resp) => {
+      console.log('123dispatch_async_call_result', job_id);
+      console.log('123dispatch_async_call_result', json_resp);
+    });
+  }
+
+  /** TODO fix not work */
   handleCurrentActionState(callback) {
     return this.runCommand('handle_current_action_state', {}, callback);
   }
