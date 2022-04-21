@@ -126,4 +126,4 @@
 
 <app-send-modal *ngIf="isModalDialogVisible" [form]="sendForm" (confirmed)="confirmed($event)"></app-send-modal>
 
-<app-send-details-modal *ngIf="isModalDetailsDialogVisible" (onClose)="isModalDetailsDialogVisible = false"></app-send-details-modal>
+<app-send-details-modal *ngIf="isModalDetailsDialogVisible" (close)="isModalDetailsDialogVisible = false"></app-send-details-modal>

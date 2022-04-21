@@ -1,13 +1,13 @@
-import {Component, HostListener, NgZone, OnDestroy, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {BackendService} from '../_helpers/services/backend.service';
-import {VariablesService} from '../_helpers/services/variables.service';
-import {ModalService} from '../_helpers/services/modal.service';
-import {BigNumber} from 'bignumber.js';
-import {MIXIN} from '../_shared/constants';
-import {HttpClient} from '@angular/common/http';
-import {MoneyToIntPipe} from '../_helpers/pipes/money-to-int.pipe';
-import {finalize} from 'rxjs/operators';
+import { Component, HostListener, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { BackendService } from '../_helpers/services/backend.service';
+import { VariablesService } from '../_helpers/services/variables.service';
+import { ModalService } from '../_helpers/services/modal.service';
+import { BigNumber } from 'bignumber.js';
+import { MIXIN } from '../_shared/constants';
+import { HttpClient } from '@angular/common/http';
+import { MoneyToIntPipe } from '../_helpers/pipes/money-to-int.pipe';
+import { finalize } from 'rxjs/operators';
 
 interface WrapInfo {
   tx_cost: {
@@ -131,6 +131,7 @@ export class SendComponent implements OnInit, OnDestroy {
       this.isOpen = false;
     }
   }
+
   constructor(
     private backend: BackendService,
     public variablesService: VariablesService,
@@ -203,14 +204,8 @@ export class SendComponent implements OnInit, OnDestroy {
 
   confirmed(confirmed: boolean) {
     this.isModalDialogVisible = false;
-    /** TODO show if setting tor = true */
-    this.isModalDetailsDialogVisible = true;
     if (confirmed) {
-      this.backend.asyncCall('test_call', {});
-      this.backend.dispatchAsyncCallResult((res) => {
-        console.log('123res is send', res);
-      });
-      // this.onSend();
+      this.onSend();
     }
   }
 
@@ -235,6 +230,11 @@ export class SendComponent implements OnInit, OnDestroy {
               this.sendForm.get('address').setErrors({'address_not_valid': true});
             });
           } else {
+            this.ngZone.run(() => {
+              if (this.variablesService.settings.appUseTor) {
+                this.isModalDetailsDialogVisible = true;
+              }
+            });
             this.backend.sendMoney(
               this.variablesService.currentWallet.wallet_id,
               this.sendForm.get('address').value,
@@ -243,28 +243,26 @@ export class SendComponent implements OnInit, OnDestroy {
               this.sendForm.get('mixin').value,
               this.sendForm.get('comment').value,
               this.sendForm.get('hide').value,
-              (send_status) => {
-                if (send_status) {
-                  /** TODO show if setting tor = false */
-                  this.modalService.prepareModal('success', 'SEND.SUCCESS_SENT');
-                  this.variablesService.currentWallet.send_data = {
-                    address: null,
-                    amount: null,
-                    comment: null,
-                    mixin: null,
-                    fee: null,
-                    hide: null
-                  };
-                  this.sendForm.reset({
-                    address: null,
-                    amount: null,
-                    comment: null,
-                    mixin: this.mixin,
-                    fee: this.variablesService.default_fee,
-                    hide: false
-                  });
-                }
+              () => {
               });
+
+            this.variablesService.currentWallet.send_data = {
+              address: null,
+              amount: null,
+              comment: null,
+              mixin: null,
+              fee: null,
+              hide: null
+            };
+            this.sendForm.reset({
+              address: null,
+              amount: null,
+              comment: null,
+              mixin: this.mixin,
+              fee: this.variablesService.default_fee,
+              hide: false
+            });
+            this.sendForm.markAsUntouched();
           }
         });
       } else {
@@ -275,6 +273,11 @@ export class SendComponent implements OnInit, OnDestroy {
                 this.sendForm.get('address').setErrors({'alias_not_valid': true});
               });
             } else {
+              this.ngZone.run(() => {
+                if (this.variablesService.settings.appUseTor) {
+                  this.isModalDetailsDialogVisible = true;
+                }
+              });
               this.backend.sendMoney(
                 this.variablesService.currentWallet.wallet_id,
                 alias_data.address, // this.sendForm.get('address').value,
@@ -283,27 +286,26 @@ export class SendComponent implements OnInit, OnDestroy {
                 this.sendForm.get('mixin').value,
                 this.sendForm.get('comment').value,
                 this.sendForm.get('hide').value,
-                (send_status) => {
-                  if (send_status) {
-                    this.modalService.prepareModal('success', 'SEND.SUCCESS_SENT');
-                    this.variablesService.currentWallet.send_data = {
-                      address: null,
-                      amount: null,
-                      comment: null,
-                      mixin: null,
-                      fee: null,
-                      hide: null
-                    };
-                    this.sendForm.reset({
-                      address: null,
-                      amount: null,
-                      comment: null,
-                      mixin: this.mixin,
-                      fee: this.variablesService.default_fee,
-                      hide: false
-                    });
-                  }
+                () => {
                 });
+
+              this.variablesService.currentWallet.send_data = {
+                address: null,
+                amount: null,
+                comment: null,
+                mixin: null,
+                fee: null,
+                hide: null
+              };
+              this.sendForm.reset({
+                address: null,
+                amount: null,
+                comment: null,
+                mixin: this.mixin,
+                fee: this.variablesService.default_fee,
+                hide: false
+              });
+              this.sendForm.markAsUntouched();
             }
           });
         });

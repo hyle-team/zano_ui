@@ -1,15 +1,16 @@
-import {Component, NgZone, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {TranslateService} from '@ngx-translate/core';
-import {BackendService} from './_helpers/services/backend.service';
-import {Router} from '@angular/router';
-import {VariablesService} from './_helpers/services/variables.service';
-import {ContextMenuComponent} from 'ngx-contextmenu';
-import {IntToMoneyPipe} from './_helpers/pipes/int-to-money.pipe';
-import {BigNumber} from 'bignumber.js';
-import {ModalService} from './_helpers/services/modal.service';
-import {UtilsService} from './_helpers/services/utils.service';
-import {Store} from 'store';
+import { Component, NgZone, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { TranslateService } from '@ngx-translate/core';
+import { AsyncCommandResults, BackendService } from './_helpers/services/backend.service';
+import { Router } from '@angular/router';
+import { VariablesService } from './_helpers/services/variables.service';
+import { ContextMenuComponent } from 'ngx-contextmenu';
+import { IntToMoneyPipe } from './_helpers/pipes/int-to-money.pipe';
+import { BigNumber } from 'bignumber.js';
+import { ModalService } from './_helpers/services/modal.service';
+import { UtilsService } from './_helpers/services/utils.service';
+import { Store } from 'store';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -27,6 +28,8 @@ export class AppComponent implements OnInit, OnDestroy {
   translateUsed = false;
 
   needOpenWallets = [];
+
+  private _destroy$: Subject<never> = new Subject<never>();
 
   @ViewChild('allContextMenu') public allContextMenu: ContextMenuComponent;
   @ViewChild('onlyCopyContextMenu') public onlyCopyContextMenu: ContextMenuComponent;
@@ -544,7 +547,6 @@ export class AppComponent implements OnInit, OnDestroy {
         });
       });
 
-
       this.backend.getAppData((status, data) => {
         if (data && Object.keys(data).length > 0) {
           for (const key in data) {
@@ -591,6 +593,16 @@ export class AppComponent implements OnInit, OnDestroy {
               }
             }
           });
+        }
+      });
+
+      /** Listening dispatchAsyncCallResult */
+      this.backend.dispatchAsyncCallResult((asyncCommandResults: AsyncCommandResults) => {
+        const {command, response} = asyncCommandResults;
+        const {appUseTor} = this.variablesService.settings;
+        if (command === 'transfer' && response) {
+          const {response_data: {success}} = response;
+          return appUseTor || success && this.modalService.prepareModal('success', 'SEND.SUCCESS_SENT');
         }
       });
     }, error => {
@@ -747,6 +759,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this._destroy$.next();
     if (this.intervalUpdateContractsState) {
       clearInterval(this.intervalUpdateContractsState);
     }

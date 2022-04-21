@@ -2,8 +2,8 @@
   border: 2rem solid var(--blue-text-color);
   border-top: 2rem solid transparent;
   border-radius: 50%;
-  width: 13rem;
-  height: 13rem;
+  min-width: 13rem;
+  min-height: 13rem;
   animation: spin 2s linear infinite;
 }
 
