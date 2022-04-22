@@ -88,12 +88,16 @@
     }
   }
 
-  .detail-list {
-    background-color: var(--light-blue-details);
-    padding: 1rem 2rem;
+  &-wrapper {
     max-height: 35rem;
+    background-color: var(--light-blue-details);
     overflow-y: auto;
     font-size: 1.8rem;
+    scroll-behavior: smooth;
+  }
+
+  &-list {
+    padding: 1rem 2rem;
 
     .item {
       display: flex;
@@ -118,6 +122,7 @@
         display: inline-block;
         overflow: hidden;
         text-overflow: ellipsis;
+        word-break: break-all;
       }
     }
   }

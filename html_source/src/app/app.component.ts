@@ -1,7 +1,7 @@
 import { Component, NgZone, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
-import { AsyncCommandResults, BackendService } from './_helpers/services/backend.service';
+import { BackendService } from './_helpers/services/backend.service';
 import { Router } from '@angular/router';
 import { VariablesService } from './_helpers/services/variables.service';
 import { ContextMenuComponent } from 'ngx-contextmenu';
@@ -596,15 +596,11 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       });
 
-      /** Listening dispatchAsyncCallResult */
-      this.backend.dispatchAsyncCallResult((asyncCommandResults: AsyncCommandResults) => {
-        const {command, response} = asyncCommandResults;
-        const {appUseTor} = this.variablesService.settings;
-        if (command === 'transfer' && response) {
-          const {response_data: {success}} = response;
-          return appUseTor || success && this.modalService.prepareModal('success', 'SEND.SUCCESS_SENT');
-        }
-      });
+      /** Start listening dispatchAsyncCallResult */
+      this.backend.dispatchAsyncCallResult();
+
+      /** Start listening handleCurrentActionState */
+      this.backend.handleCurrentActionState();
     }, error => {
       console.log(error);
     });

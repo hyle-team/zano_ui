@@ -23,6 +23,7 @@ interface WrapInfo {
   styleUrls: ['./send.component.scss']
 })
 export class SendComponent implements OnInit, OnDestroy {
+  job_id: number;
   isOpen = false;
   localAliases = [];
   isModalDialogVisible = false;
@@ -50,7 +51,7 @@ export class SendComponent implements OnInit, OnDestroy {
               this.isWrapShown = (data.error_code === 'WRAP');
               this.sendForm.get('amount').setValue(this.sendForm.get('amount').value);
               if (valid_status === false && !this.isWrapShown) {
-                g.setErrors(Object.assign({'address_not_valid': true}, g.errors));
+                g.setErrors(Object.assign({ 'address_not_valid': true }, g.errors));
               } else {
                 if (g.hasError('address_not_valid')) {
                   delete g.errors['address_not_valid'];
@@ -61,14 +62,14 @@ export class SendComponent implements OnInit, OnDestroy {
               }
             });
           });
-          return (g.hasError('address_not_valid')) ? {'address_not_valid': true} : null;
+          return (g.hasError('address_not_valid')) ? { 'address_not_valid': true } : null;
         } else {
           this.isOpen = true;
           this.localAliases = this.variablesService.aliases.filter((item) => {
             return item.name.indexOf(g.value) > -1;
           });
           if (!(/^@?[a-z0-9\.\-]{6,25}$/.test(g.value))) {
-            g.setErrors(Object.assign({'alias_not_valid': true}, g.errors));
+            g.setErrors(Object.assign({ 'alias_not_valid': true }, g.errors));
           } else {
             this.backend.getAliasByName(g.value.replace('@', ''), (alias_status, alias_data) => {
               this.ngZone.run(() => {
@@ -82,12 +83,12 @@ export class SendComponent implements OnInit, OnDestroy {
                     }
                   }
                 } else {
-                  g.setErrors(Object.assign({'alias_not_valid': true}, g.errors));
+                  g.setErrors(Object.assign({ 'alias_not_valid': true }, g.errors));
                 }
               });
             });
           }
-          return (g.hasError('alias_not_valid')) ? {'alias_not_valid': true} : null;
+          return (g.hasError('alias_not_valid')) ? { 'alias_not_valid': true } : null;
         }
       }
       return null;
@@ -98,18 +99,18 @@ export class SendComponent implements OnInit, OnDestroy {
       }
 
       if (g.value === 0) {
-        return {'zero': true};
+        return { 'zero': true };
       }
       const bigAmount = this.moneyToInt.transform(g.value) as BigNumber;
       if (this.isWrapShown) {
         if (!this.wrapInfo) {
-          return {wrap_info_null: true};
+          return { wrap_info_null: true };
         }
         if (bigAmount.isGreaterThan(new BigNumber(this.wrapInfo.unwraped_coins_left))) {
-          return {great_than_unwraped_coins: true};
+          return { great_than_unwraped_coins: true };
         }
         if (bigAmount.isLessThan(new BigNumber(this.wrapInfo.tx_cost.zano_needed_for_erc20))) {
-          return {less_than_zano_needed: true};
+          return { less_than_zano_needed: true };
         }
       }
       return null;
@@ -118,7 +119,7 @@ export class SendComponent implements OnInit, OnDestroy {
     mixin: new FormControl(MIXIN, Validators.required),
     fee: new FormControl(this.variablesService.default_fee, [Validators.required, (g: FormControl) => {
       if ((new BigNumber(g.value)).isLessThan(this.variablesService.default_fee)) {
-        return {'less_min': true};
+        return { 'less_min': true };
       }
       return null;
     }]),
@@ -227,14 +228,9 @@ export class SendComponent implements OnInit, OnDestroy {
         this.backend.validateAddress(this.sendForm.get('address').value, (valid_status, data) => {
           if (valid_status === false && !(data.error_code === 'WRAP')) {
             this.ngZone.run(() => {
-              this.sendForm.get('address').setErrors({'address_not_valid': true});
+              this.sendForm.get('address').setErrors({ 'address_not_valid': true });
             });
           } else {
-            this.ngZone.run(() => {
-              if (this.variablesService.settings.appUseTor) {
-                this.isModalDetailsDialogVisible = true;
-              }
-            });
             this.backend.sendMoney(
               this.variablesService.currentWallet.wallet_id,
               this.sendForm.get('address').value,
@@ -243,26 +239,29 @@ export class SendComponent implements OnInit, OnDestroy {
               this.sendForm.get('mixin').value,
               this.sendForm.get('comment').value,
               this.sendForm.get('hide').value,
-              () => {
+              (job_id) => {
+                this.ngZone.run(() => {
+                  this.job_id = job_id;
+                  this.isModalDetailsDialogVisible = true;
+                  this.variablesService.currentWallet.send_data = {
+                    address: null,
+                    amount: null,
+                    comment: null,
+                    mixin: null,
+                    fee: null,
+                    hide: null
+                  };
+                  this.sendForm.reset({
+                    address: null,
+                    amount: null,
+                    comment: null,
+                    mixin: this.mixin,
+                    fee: this.variablesService.default_fee,
+                    hide: false
+                  });
+                  this.sendForm.markAsUntouched();
+                });
               });
-
-            this.variablesService.currentWallet.send_data = {
-              address: null,
-              amount: null,
-              comment: null,
-              mixin: null,
-              fee: null,
-              hide: null
-            };
-            this.sendForm.reset({
-              address: null,
-              amount: null,
-              comment: null,
-              mixin: this.mixin,
-              fee: this.variablesService.default_fee,
-              hide: false
-            });
-            this.sendForm.markAsUntouched();
           }
         });
       } else {
@@ -270,14 +269,9 @@ export class SendComponent implements OnInit, OnDestroy {
           this.ngZone.run(() => {
             if (alias_status === false) {
               this.ngZone.run(() => {
-                this.sendForm.get('address').setErrors({'alias_not_valid': true});
+                this.sendForm.get('address').setErrors({ 'alias_not_valid': true });
               });
             } else {
-              this.ngZone.run(() => {
-                if (this.variablesService.settings.appUseTor) {
-                  this.isModalDetailsDialogVisible = true;
-                }
-              });
               this.backend.sendMoney(
                 this.variablesService.currentWallet.wallet_id,
                 alias_data.address, // this.sendForm.get('address').value,
@@ -286,26 +280,29 @@ export class SendComponent implements OnInit, OnDestroy {
                 this.sendForm.get('mixin').value,
                 this.sendForm.get('comment').value,
                 this.sendForm.get('hide').value,
-                () => {
+                (job_id) => {
+                  this.ngZone.run(() => {
+                    this.job_id = job_id;
+                    this.isModalDetailsDialogVisible = true;
+                    this.variablesService.currentWallet.send_data = {
+                      address: null,
+                      amount: null,
+                      comment: null,
+                      mixin: null,
+                      fee: null,
+                      hide: null
+                    };
+                    this.sendForm.reset({
+                      address: null,
+                      amount: null,
+                      comment: null,
+                      mixin: this.mixin,
+                      fee: this.variablesService.default_fee,
+                      hide: false
+                    });
+                    this.sendForm.markAsUntouched();
+                  });
                 });
-
-              this.variablesService.currentWallet.send_data = {
-                address: null,
-                amount: null,
-                comment: null,
-                mixin: null,
-                fee: null,
-                hide: null
-              };
-              this.sendForm.reset({
-                address: null,
-                amount: null,
-                comment: null,
-                mixin: this.mixin,
-                fee: this.variablesService.default_fee,
-                hide: false
-              });
-              this.sendForm.markAsUntouched();
             }
           });
         });
@@ -337,5 +334,10 @@ export class SendComponent implements OnInit, OnDestroy {
       return (amount as BigNumber).minus(needed);
     }
     return 0;
+  }
+
+  handeCloseDetailsModal() {
+    this.isModalDetailsDialogVisible = false;
+    this.job_id = null;
   }
 }
