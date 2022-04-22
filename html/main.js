@@ -1985,30 +1985,17 @@ var StatusCurrentActionState;
     StatusCurrentActionState["STATE_SUCCESS"] = "STATE_SUCCESS";
 })(StatusCurrentActionState || (StatusCurrentActionState = {}));
 var BackendService = /** @class */ (function () {
-    function BackendService(translate, variablesService, modalService, moneyToIntPipe) {
+    function BackendService(translate, variablesService, modalService, moneyToIntPipe, ngZone) {
         this.translate = translate;
         this.variablesService = variablesService;
         this.modalService = modalService;
         this.moneyToIntPipe = moneyToIntPipe;
-        this._asyncCommandsInProgress = [];
-        this._asyncCommandsResults = [];
+        this.ngZone = ngZone;
+        this.dispatchAsyncCallResult$ = new rxjs__WEBPACK_IMPORTED_MODULE_1__["Subject"]();
+        this.handleCurrentActionState$ = new rxjs__WEBPACK_IMPORTED_MODULE_1__["Subject"]();
         this.backendLoaded = false;
     }
     BackendService_1 = BackendService;
-    Object.defineProperty(BackendService.prototype, "asyncCommandsInProgress", {
-        get: function () {
-            return this._asyncCommandsInProgress;
-        },
-        enumerable: true,
-        configurable: true
-    });
-    Object.defineProperty(BackendService.prototype, "asyncCommandsResults", {
-        get: function () {
-            return this._asyncCommandsResults;
-        },
-        enumerable: true,
-        configurable: true
-    });
     BackendService.bigNumberParser = function (key, val) {
         if (val.constructor.name === 'BigNumber' && ['balance', 'unlocked_balance', 'amount', 'fee', 'b_fee', 'to_pay', 'a_pledge', 'b_pledge', 'coast', 'a'].indexOf(key) === -1) {
             return val.toNumber();
@@ -2641,37 +2628,28 @@ var BackendService = /** @class */ (function () {
         return this.runCommand('set_log_level', { v: level });
     };
     BackendService.prototype.asyncCall = function (command, params, callback) {
-        var _this = this;
-        return this.runCommand('async_call', [command, params], function (status, _a, res_error_code) {
+        return this.runCommand('async_call', [command, params], function (status, _a) {
             var job_id = _a.job_id;
-            var asyncCommandInProgress = {
-                job_id: job_id,
-                command: command
-            };
-            _this._asyncCommandsInProgress.push(asyncCommandInProgress);
             callback(job_id);
         });
     };
-    BackendService.prototype.dispatchAsyncCallResult = function (callback) {
+    BackendService.prototype.dispatchAsyncCallResult = function () {
         var _this = this;
         this.backendObject['dispatch_async_call_result'].connect(function (job_id, json_resp) {
-            var asyncCommandInProgress = _this._asyncCommandsInProgress.find(function (v) { return v.job_id === +job_id; });
-            if (asyncCommandInProgress) {
-                var _a = asyncCommandInProgress.command, command = _a === void 0 ? null : _a;
-                var asyncCommandResults = {
-                    job_id: +job_id,
-                    command: command,
-                    response: JSON.parse(json_resp)
-                };
-                /** Remove asyncCommandInProgress by job_id */
-                _this._asyncCommandsInProgress = _this._asyncCommandsInProgress.filter(function (v) { return v.job_id !== +job_id; });
-                _this._asyncCommandsResults.push(asyncCommandResults);
-                callback(asyncCommandResults);
-            }
+            var asyncCommandResults = {
+                job_id: +job_id,
+                response: JSON.parse(json_resp)
+            };
+            _this.ngZone.run(function () { return _this.dispatchAsyncCallResult$.next(asyncCommandResults); });
         });
     };
-    BackendService.prototype.handleCurrentActionState = function (callback) {
-        this.backendObject['handle_current_action_state'].connect(function (res) { return callback(JSON.parse(res)); });
+    BackendService.prototype.handleCurrentActionState = function () {
+        var _this = this;
+        this.backendObject['handle_current_action_state']
+            .connect(function (response) {
+            var currentActionState = JSON.parse(response);
+            _this.ngZone.run(function () { return _this.handleCurrentActionState$.next(currentActionState); });
+        });
     };
     BackendService.prototype.setEnableTor = function (value) {
         return this.runCommand('set_enable_tor', { v: value });
@@ -2682,7 +2660,8 @@ var BackendService = /** @class */ (function () {
         __metadata("design:paramtypes", [_ngx_translate_core__WEBPACK_IMPORTED_MODULE_2__["TranslateService"],
             _variables_service__WEBPACK_IMPORTED_MODULE_3__["VariablesService"],
             _modal_service__WEBPACK_IMPORTED_MODULE_4__["ModalService"],
-            _pipes_money_to_int_pipe__WEBPACK_IMPORTED_MODULE_5__["MoneyToIntPipe"]])
+            _pipes_money_to_int_pipe__WEBPACK_IMPORTED_MODULE_5__["MoneyToIntPipe"],
+            _angular_core__WEBPACK_IMPORTED_MODULE_0__["NgZone"]])
     ], BackendService);
     return BackendService;
 }());
@@ -4445,15 +4424,10 @@ var AppComponent = /** @class */ (function () {
                     });
                 }
             });
-            /** Listening dispatchAsyncCallResult */
-            _this.backend.dispatchAsyncCallResult(function (asyncCommandResults) {
-                var command = asyncCommandResults.command, response = asyncCommandResults.response;
-                var appUseTor = _this.variablesService.settings.appUseTor;
-                if (command === 'transfer' && response) {
-                    var success = response.response_data.success;
-                    return appUseTor || success && _this.modalService.prepareModal('success', 'SEND.SUCCESS_SENT');
-                }
-            });
+            /** Start listening dispatchAsyncCallResult */
+            _this.backend.dispatchAsyncCallResult();
+            /** Start listening handleCurrentActionState */
+            _this.backend.handleCurrentActionState();
         }, function (error) {
             console.log(error);
         });
@@ -8321,7 +8295,7 @@ var SeedPhraseComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"modal\">\r\n  <h3 class=\"title mb-2\">{{ 'SEND_DETAILS_MODAL.TITLE1' | translate }}</h3>\r\n\r\n  <div class=\"status mb-2\">\r\n\r\n    <div class=\"image\">\r\n      <img *ngIf=\"isSentSuccess\" src=\"assets/icons/transaction_success.svg\" alt=\"success\">\r\n    </div>\r\n\r\n    <div class=\"image\">\r\n      <img *ngIf=\"isSentFailed\" class=\"image\" src=\"assets/icons/transaction_failed.svg\" alt=\"failed\">\r\n    </div>\r\n\r\n    <ng-container *ngIf=\"!isSentSuccess && !isSentFailed\">\r\n      <div class=\"loader\"></div>\r\n      <p class=\"text mt-2\"\r\n         *ngIf=\"(currentActionState$ | async)\">{{ 'TOR_LIB_STATE' + '.' + (currentActionState$ | async)?.status | translate }}\r\n        ...</p>\r\n    </ng-container>\r\n  </div>\r\n\r\n  <div class=\"details mb-2\">\r\n    <div class=\"header\" (click)=\"toggleDetails()\">\r\n      <p class=\"title mr-2\">{{ 'SEND_DETAILS_MODAL.TITLE2' | translate }}</p>\r\n      <button class=\"btn-arrow\" [class.rotate-180]=\"stateDetails$ | async\">\r\n        <img src=\"assets/icons/arrows/stroke/arrow_down.svg\" alt=\"arrow\">\r\n      </button>\r\n    </div>\r\n    <ul class=\"detail-list scrolled-content\" *ngIf=\"stateDetails$ | async\">\r\n      <li class=\"item\" *ngFor=\"let action of (actionsList$ | async); let last = last; trackBy: trackBy\">\r\n        <span\r\n          class=\"text mr-1\">{{ 'TOR_LIB_STATE' + '.' + action?.status | translate }}{{ last && !isSentSuccess && !isSentFailed ? '...' : '' }}</span>\r\n        <ng-container *ngIf=\"!last;\">\r\n          <img *ngIf=\"isSuccess(action) && !isFailed(action)\" class=\"image\" src=\"assets/icons/check_with_blue_bg.svg\"\r\n               alt=\"success\">\r\n\r\n          <img *ngIf=\"!isSuccess(action) && isFailed(action)\" class=\"image\" src=\"assets/icons/transaction_failed.svg\"\r\n               alt=\"failed\">\r\n        </ng-container>\r\n\r\n        <ng-container *ngIf=\"last;\">\r\n          <img *ngIf=\"last && isSentSuccess && !isSentFailed\" class=\"image\"\r\n               src=\"assets/icons/check_with_blue_bg.svg\" alt=\"success\">\r\n\r\n          <img *ngIf=\"last && !isSentSuccess && isSentFailed\" class=\"image\"\r\n               src=\"assets/icons/transaction_failed.svg\" alt=\"failed\">\r\n        </ng-container>\r\n      </li>\r\n    </ul>\r\n  </div>\r\n\r\n  <button class=\"blue-button\" [disabled]=\"!isSentSuccess && !isSentFailed\" (click)=\"close.emit()\">{{ 'Ok' | translate }}</button>\r\n</div>\r\n"
+module.exports = "<div class=\"modal\">\r\n    <h3 class=\"title mb-2\">{{ 'SEND_DETAILS_MODAL.TITLE1' | translate }}</h3>\r\n\r\n    <div class=\"status mb-2\">\r\n\r\n        <div *ngIf=\"isSentSuccess\"\r\n             class=\"image\">\r\n            <img src=\"assets/icons/transaction_success.svg\"\r\n                 alt=\"success\">\r\n        </div>\r\n\r\n        <div *ngIf=\"isSentFailed\"\r\n             class=\"image\">\r\n            <img class=\"image\"\r\n                 src=\"assets/icons/transaction_failed.svg\"\r\n                 alt=\"failed\">\r\n        </div>\r\n\r\n        <div *ngIf=\"!isSentSuccess && !isSentFailed\"\r\n             class=\"loader\"></div>\r\n\r\n        <p class=\"text mt-2\">\r\n            {{ ((currentActionState$ | async) ? 'TOR_LIB_STATE' + '.' + (currentActionState$ | async)?.status : 'TOR_LIB_STATE.STATE_INITIALIZING') | translate }}\r\n            {{!isSentSuccess && !isSentFailed ? '...' : ''}}\r\n        </p>\r\n\r\n    </div>\r\n\r\n    <div class=\"details mb-2\">\r\n        <div class=\"header\"\r\n             (click)=\"isDetailsNotEmpty && toggleDetails()\">\r\n            <p class=\"title mr-2\">{{ 'SEND_DETAILS_MODAL.TITLE2' | translate }}</p>\r\n            <button *ngIf=\"isDetailsNotEmpty\"\r\n                    class=\"btn-arrow\"\r\n                    [class.rotate-180]=\"stateDetails$ | async\">\r\n                <img src=\"assets/icons/arrows/stroke/arrow_down.svg\"\r\n                     alt=\"arrow\">\r\n            </button>\r\n        </div>\r\n        <div #elDetailsWrapper\r\n             class=\"details-wrapper scrolled-content\">\r\n            <ul class=\"details-list\"\r\n                *ngIf=\"stateDetails$ | async\">\r\n                <li class=\"item\"\r\n                    *ngFor=\"let action of (currentActionStates$ | async); let last = last; trackBy: trackBy\">\r\n                    <span class=\"text mr-1\">{{ 'TOR_LIB_STATE' + '.' + action?.status | translate }}{{ last && !isSentSuccess && !isSentFailed ? '...' : '' }}</span>\r\n                    <ng-container *ngIf=\"!last\">\r\n                        <img *ngIf=\"isSuccess(action)\"\r\n                             class=\"image\"\r\n                             src=\"assets/icons/check_with_blue_bg.svg\"\r\n                             alt=\"success\">\r\n\r\n                        <img *ngIf=\"isFailed(action)\"\r\n                             class=\"image\"\r\n                             src=\"assets/icons/transaction_failed.svg\"\r\n                             alt=\"failed\">\r\n                    </ng-container>\r\n\r\n                    <ng-container *ngIf=\"last\">\r\n                        <img *ngIf=\"last && isSentSuccess\"\r\n                             class=\"image\"\r\n                             src=\"assets/icons/check_with_blue_bg.svg\"\r\n                             alt=\"success\">\r\n\r\n                        <img *ngIf=\"last && isSentFailed\"\r\n                             class=\"image\"\r\n                             src=\"assets/icons/transaction_failed.svg\"\r\n                             alt=\"failed\">\r\n                    </ng-container>\r\n                </li>\r\n\r\n                <ng-container *ngIf=\"(responseData$ | async)\">\r\n                    <li class=\"item\">\r\n                        <span class=\"text\">tx id: {{ (responseData$ | async).response_data.tx_hash }}</span>\r\n                    </li>\r\n                    <li class=\"item\">\r\n                        <span class=\"text\">tx size: {{ (responseData$ | async).response_data.tx_blob_size }}\r\n                                           bytes</span>\r\n                    </li>\r\n                </ng-container>\r\n            </ul>\r\n        </div>\r\n    </div>\r\n\r\n    <button class=\"blue-button\"\r\n            [disabled]=\"!isSentSuccess && !isSentFailed\"\r\n            (click)=\"close.emit()\">{{ 'Ok' | translate }}</button>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -8332,7 +8306,7 @@ module.exports = "<div class=\"modal\">\r\n  <h3 class=\"title mb-2\">{{ 'SEND_D
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ":host {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: rgba(255, 255, 255, 0.25); }\n\n.modal {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  padding: 2rem;\n  max-width: 54rem;\n  overflow-y: auto;\n  width: 100%;\n  background: var(--light-blue);\n  border-radius: var(--default-border-radius); }\n\n.title {\n  font-size: 1.8rem;\n  line-height: 1.3; }\n\n.rotate-180 {\n  transform: rotate(-180deg); }\n\n.status {\n  display: flex;\n  flex-direction: column;\n  align-items: center; }\n\n.status .image {\n    max-width: 13rem;\n    max-height: 13rem;\n    width: 100%;\n    height: 100%; }\n\n.status .image img {\n      width: 100%;\n      height: 100%; }\n\n.status .text {\n    color: var(--blue-text-color);\n    font-size: 1.8rem; }\n\n.details {\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  border-radius: var(--default-border-radius);\n  overflow: hidden; }\n\n.details .header {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    flex-wrap: nowrap;\n    min-height: 4rem;\n    max-height: 4rem;\n    overflow: hidden;\n    padding: 1rem 2rem;\n    width: 100%;\n    background-color: var(--light-blue-details);\n    cursor: pointer; }\n\n.details .header .title {\n      overflow: hidden;\n      text-overflow: ellipsis; }\n\n.details .header .btn-arrow {\n      display: flex;\n      align-items: center;\n      justify-content: center;\n      background: none;\n      border: none; }\n\n.details .detail-list {\n    background-color: var(--light-blue-details);\n    padding: 1rem 2rem;\n    max-height: 35rem;\n    overflow-y: auto;\n    font-size: 1.8rem; }\n\n.details .detail-list .item {\n      display: flex;\n      align-items: center;\n      flex-wrap: nowrap;\n      margin-bottom: 1.2rem;\n      color: var(--blue-text-color); }\n\n.details .detail-list .item .image {\n        max-width: 1.5rem;\n        max-height: 1.5rem;\n        width: 100%;\n        height: 100%; }\n\n.details .detail-list .item .image img {\n          width: 100%;\n          height: 100%; }\n\n.details .detail-list .item .text {\n        display: inline-block;\n        overflow: hidden;\n        text-overflow: ellipsis; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvc2VuZC1kZXRhaWxzLW1vZGFsL0Q6XFxXb3JrXFx6YW5vX3VpXFxodG1sX3NvdXJjZS9zcmNcXGFwcFxcc2VuZC1kZXRhaWxzLW1vZGFsXFxzZW5kLWRldGFpbHMtbW9kYWwuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxlQUFlO0VBQ2YsTUFBTTtFQUNOLFNBQVM7RUFDVCxPQUFPO0VBQ1AsUUFBUTtFQUNSLGFBQWE7RUFDYixtQkFBbUI7RUFDbkIsdUJBQXVCO0VBQ3ZCLHFDQUFxQyxFQUFBOztBQUd2QztFQUNFLGtCQUFrQjtFQUNsQixhQUFhO0VBQ2Isc0JBQXNCO0VBQ3RCLGFBQWE7RUFDYixnQkFBZ0I7RUFDaEIsZ0JBQWdCO0VBQ2hCLFdBQVc7RUFDWCw2QkFBNkI7RUFDN0IsMkNBQTJDLEVBQUE7O0FBRzdDO0VBQ0UsaUJBQWlCO0VBQ2pCLGdCQUFnQixFQUFBOztBQUdsQjtFQUNFLDBCQUEwQixFQUFBOztBQUc1QjtFQUNFLGFBQWE7RUFDYixzQkFBc0I7RUFDdEIsbUJBQW1CLEVBQUE7O0FBSHJCO0lBTUksZ0JBQWdCO0lBQ2hCLGlCQUFpQjtJQUNqQixXQUFXO0lBQ1gsWUFBWSxFQUFBOztBQVRoQjtNQVlNLFdBQVc7TUFDWCxZQUFZLEVBQUE7O0FBYmxCO0lBa0JJLDZCQUE2QjtJQUM3QixpQkFBaUIsRUFBQTs7QUFJckI7RUFDRSxXQUFXO0VBQ1gsYUFBYTtFQUNiLHNCQUFzQjtFQUN0QiwyQ0FBMkM7RUFDM0MsZ0JBQWdCLEVBQUE7O0FBTGxCO0lBUUksYUFBYTtJQUNiLDhCQUE4QjtJQUM5QixtQkFBbUI7SUFDbkIsaUJBQWlCO0lBQ2pCLGdCQUFnQjtJQUNoQixnQkFBZ0I7SUFDaEIsZ0JBQWdCO0lBQ2hCLGtCQUFrQjtJQUNsQixXQUFXO0lBQ1gsMkNBQTJDO0lBQzNDLGVBQWUsRUFBQTs7QUFsQm5CO01BcUJNLGdCQUFnQjtNQUNoQix1QkFBdUIsRUFBQTs7QUF0QjdCO01BMEJNLGFBQWE7TUFDYixtQkFBbUI7TUFDbkIsdUJBQXVCO01BQ3ZCLGdCQUFnQjtNQUNoQixZQUFZLEVBQUE7O0FBOUJsQjtJQW1DSSwyQ0FBMkM7SUFDM0Msa0JBQWtCO0lBQ2xCLGlCQUFpQjtJQUNqQixnQkFBZ0I7SUFDaEIsaUJBQWlCLEVBQUE7O0FBdkNyQjtNQTBDTSxhQUFhO01BQ2IsbUJBQW1CO01BQ25CLGlCQUFpQjtNQUNqQixxQkFBcUI7TUFDckIsNkJBQTZCLEVBQUE7O0FBOUNuQztRQWlEUSxpQkFBaUI7UUFDakIsa0JBQWtCO1FBQ2xCLFdBQVc7UUFDWCxZQUFZLEVBQUE7O0FBcERwQjtVQXVEVSxXQUFXO1VBQ1gsWUFBWSxFQUFBOztBQXhEdEI7UUE2RFEscUJBQXFCO1FBQ3JCLGdCQUFnQjtRQUNoQix1QkFBdUIsRUFBQSIsImZpbGUiOiJzcmMvYXBwL3NlbmQtZGV0YWlscy1tb2RhbC9zZW5kLWRldGFpbHMtbW9kYWwuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyI6aG9zdCB7XHJcbiAgcG9zaXRpb246IGZpeGVkO1xyXG4gIHRvcDogMDtcclxuICBib3R0b206IDA7XHJcbiAgbGVmdDogMDtcclxuICByaWdodDogMDtcclxuICBkaXNwbGF5OiBmbGV4O1xyXG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XHJcbiAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XHJcbiAgYmFja2dyb3VuZDogcmdiYSgyNTUsIDI1NSwgMjU1LCAwLjI1KTtcclxufVxyXG5cclxuLm1vZGFsIHtcclxuICBwb3NpdGlvbjogcmVsYXRpdmU7XHJcbiAgZGlzcGxheTogZmxleDtcclxuICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xyXG4gIHBhZGRpbmc6IDJyZW07XHJcbiAgbWF4LXdpZHRoOiA1NHJlbTtcclxuICBvdmVyZmxvdy15OiBhdXRvO1xyXG4gIHdpZHRoOiAxMDAlO1xyXG4gIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0LWJsdWUpO1xyXG4gIGJvcmRlci1yYWRpdXM6IHZhcigtLWRlZmF1bHQtYm9yZGVyLXJhZGl1cyk7XHJcbn1cclxuXHJcbi50aXRsZSB7XHJcbiAgZm9udC1zaXplOiAxLjhyZW07XHJcbiAgbGluZS1oZWlnaHQ6IDEuMztcclxufVxyXG5cclxuLnJvdGF0ZS0xODAge1xyXG4gIHRyYW5zZm9ybTogcm90YXRlKC0xODBkZWcpO1xyXG59XHJcblxyXG4uc3RhdHVzIHtcclxuICBkaXNwbGF5OiBmbGV4O1xyXG4gIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XHJcbiAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxuXHJcbiAgLmltYWdlIHtcclxuICAgIG1heC13aWR0aDogMTNyZW07XHJcbiAgICBtYXgtaGVpZ2h0OiAxM3JlbTtcclxuICAgIHdpZHRoOiAxMDAlO1xyXG4gICAgaGVpZ2h0OiAxMDAlO1xyXG5cclxuICAgIGltZyB7XHJcbiAgICAgIHdpZHRoOiAxMDAlO1xyXG4gICAgICBoZWlnaHQ6IDEwMCU7XHJcbiAgICB9XHJcbiAgfVxyXG5cclxuICAudGV4dCB7XHJcbiAgICBjb2xvcjogdmFyKC0tYmx1ZS10ZXh0LWNvbG9yKTtcclxuICAgIGZvbnQtc2l6ZTogMS44cmVtO1xyXG4gIH1cclxufVxyXG5cclxuLmRldGFpbHMge1xyXG4gIHdpZHRoOiAxMDAlO1xyXG4gIGRpc3BsYXk6IGZsZXg7XHJcbiAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcclxuICBib3JkZXItcmFkaXVzOiB2YXIoLS1kZWZhdWx0LWJvcmRlci1yYWRpdXMpO1xyXG4gIG92ZXJmbG93OiBoaWRkZW47XHJcblxyXG4gIC5oZWFkZXIge1xyXG4gICAgZGlzcGxheTogZmxleDtcclxuICAgIGp1c3RpZnktY29udGVudDogc3BhY2UtYmV0d2VlbjtcclxuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XHJcbiAgICBmbGV4LXdyYXA6IG5vd3JhcDtcclxuICAgIG1pbi1oZWlnaHQ6IDRyZW07XHJcbiAgICBtYXgtaGVpZ2h0OiA0cmVtO1xyXG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcclxuICAgIHBhZGRpbmc6IDFyZW0gMnJlbTtcclxuICAgIHdpZHRoOiAxMDAlO1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tbGlnaHQtYmx1ZS1kZXRhaWxzKTtcclxuICAgIGN1cnNvcjogcG9pbnRlcjtcclxuXHJcbiAgICAudGl0bGUge1xyXG4gICAgICBvdmVyZmxvdzogaGlkZGVuO1xyXG4gICAgICB0ZXh0LW92ZXJmbG93OiBlbGxpcHNpcztcclxuICAgIH1cclxuXHJcbiAgICAuYnRuLWFycm93IHtcclxuICAgICAgZGlzcGxheTogZmxleDtcclxuICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxuICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XHJcbiAgICAgIGJhY2tncm91bmQ6IG5vbmU7XHJcbiAgICAgIGJvcmRlcjogbm9uZTtcclxuICAgIH1cclxuICB9XHJcblxyXG4gIC5kZXRhaWwtbGlzdCB7XHJcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiB2YXIoLS1saWdodC1ibHVlLWRldGFpbHMpO1xyXG4gICAgcGFkZGluZzogMXJlbSAycmVtO1xyXG4gICAgbWF4LWhlaWdodDogMzVyZW07XHJcbiAgICBvdmVyZmxvdy15OiBhdXRvO1xyXG4gICAgZm9udC1zaXplOiAxLjhyZW07XHJcblxyXG4gICAgLml0ZW0ge1xyXG4gICAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAgICBhbGlnbi1pdGVtczogY2VudGVyO1xyXG4gICAgICBmbGV4LXdyYXA6IG5vd3JhcDtcclxuICAgICAgbWFyZ2luLWJvdHRvbTogMS4ycmVtO1xyXG4gICAgICBjb2xvcjogdmFyKC0tYmx1ZS10ZXh0LWNvbG9yKTtcclxuXHJcbiAgICAgIC5pbWFnZSB7XHJcbiAgICAgICAgbWF4LXdpZHRoOiAxLjVyZW07XHJcbiAgICAgICAgbWF4LWhlaWdodDogMS41cmVtO1xyXG4gICAgICAgIHdpZHRoOiAxMDAlO1xyXG4gICAgICAgIGhlaWdodDogMTAwJTtcclxuXHJcbiAgICAgICAgaW1nIHtcclxuICAgICAgICAgIHdpZHRoOiAxMDAlO1xyXG4gICAgICAgICAgaGVpZ2h0OiAxMDAlO1xyXG4gICAgICAgIH1cclxuICAgICAgfVxyXG5cclxuICAgICAgLnRleHQge1xyXG4gICAgICAgIGRpc3BsYXk6IGlubGluZS1ibG9jaztcclxuICAgICAgICBvdmVyZmxvdzogaGlkZGVuO1xyXG4gICAgICAgIHRleHQtb3ZlcmZsb3c6IGVsbGlwc2lzO1xyXG4gICAgICB9XHJcbiAgICB9XHJcbiAgfVxyXG59XHJcbiJdfQ== */"
+module.exports = ":host {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: rgba(255, 255, 255, 0.25); }\n\n.modal {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  padding: 2rem;\n  max-width: 54rem;\n  overflow-y: auto;\n  width: 100%;\n  background: var(--light-blue);\n  border-radius: var(--default-border-radius); }\n\n.title {\n  font-size: 1.8rem;\n  line-height: 1.3; }\n\n.rotate-180 {\n  transform: rotate(-180deg); }\n\n.status {\n  display: flex;\n  flex-direction: column;\n  align-items: center; }\n\n.status .image {\n    max-width: 13rem;\n    max-height: 13rem;\n    width: 100%;\n    height: 100%; }\n\n.status .image img {\n      width: 100%;\n      height: 100%; }\n\n.status .text {\n    color: var(--blue-text-color);\n    font-size: 1.8rem; }\n\n.details {\n  width: 100%;\n  display: flex;\n  flex-direction: column;\n  border-radius: var(--default-border-radius);\n  overflow: hidden; }\n\n.details .header {\n    display: flex;\n    justify-content: space-between;\n    align-items: center;\n    flex-wrap: nowrap;\n    min-height: 4rem;\n    max-height: 4rem;\n    overflow: hidden;\n    padding: 1rem 2rem;\n    width: 100%;\n    background-color: var(--light-blue-details);\n    cursor: pointer; }\n\n.details .header .title {\n      overflow: hidden;\n      text-overflow: ellipsis; }\n\n.details .header .btn-arrow {\n      display: flex;\n      align-items: center;\n      justify-content: center;\n      background: none;\n      border: none; }\n\n.details-wrapper {\n    max-height: 35rem;\n    background-color: var(--light-blue-details);\n    overflow-y: auto;\n    font-size: 1.8rem;\n    scroll-behavior: smooth; }\n\n.details-list {\n    padding: 1rem 2rem; }\n\n.details-list .item {\n      display: flex;\n      align-items: center;\n      flex-wrap: nowrap;\n      margin-bottom: 1.2rem;\n      color: var(--blue-text-color); }\n\n.details-list .item .image {\n        max-width: 1.5rem;\n        max-height: 1.5rem;\n        width: 100%;\n        height: 100%; }\n\n.details-list .item .image img {\n          width: 100%;\n          height: 100%; }\n\n.details-list .item .text {\n        display: inline-block;\n        overflow: hidden;\n        text-overflow: ellipsis;\n        word-break: break-all; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvc2VuZC1kZXRhaWxzLW1vZGFsL0Q6XFxXb3JrXFx6YW5vX3VpXFxodG1sX3NvdXJjZS9zcmNcXGFwcFxcc2VuZC1kZXRhaWxzLW1vZGFsXFxzZW5kLWRldGFpbHMtbW9kYWwuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxlQUFlO0VBQ2YsTUFBTTtFQUNOLFNBQVM7RUFDVCxPQUFPO0VBQ1AsUUFBUTtFQUNSLGFBQWE7RUFDYixtQkFBbUI7RUFDbkIsdUJBQXVCO0VBQ3ZCLHFDQUFxQyxFQUFBOztBQUd2QztFQUNFLGtCQUFrQjtFQUNsQixhQUFhO0VBQ2Isc0JBQXNCO0VBQ3RCLGFBQWE7RUFDYixnQkFBZ0I7RUFDaEIsZ0JBQWdCO0VBQ2hCLFdBQVc7RUFDWCw2QkFBNkI7RUFDN0IsMkNBQTJDLEVBQUE7O0FBRzdDO0VBQ0UsaUJBQWlCO0VBQ2pCLGdCQUFnQixFQUFBOztBQUdsQjtFQUNFLDBCQUEwQixFQUFBOztBQUc1QjtFQUNFLGFBQWE7RUFDYixzQkFBc0I7RUFDdEIsbUJBQW1CLEVBQUE7O0FBSHJCO0lBTUksZ0JBQWdCO0lBQ2hCLGlCQUFpQjtJQUNqQixXQUFXO0lBQ1gsWUFBWSxFQUFBOztBQVRoQjtNQVlNLFdBQVc7TUFDWCxZQUFZLEVBQUE7O0FBYmxCO0lBa0JJLDZCQUE2QjtJQUM3QixpQkFBaUIsRUFBQTs7QUFJckI7RUFDRSxXQUFXO0VBQ1gsYUFBYTtFQUNiLHNCQUFzQjtFQUN0QiwyQ0FBMkM7RUFDM0MsZ0JBQWdCLEVBQUE7O0FBTGxCO0lBUUksYUFBYTtJQUNiLDhCQUE4QjtJQUM5QixtQkFBbUI7SUFDbkIsaUJBQWlCO0lBQ2pCLGdCQUFnQjtJQUNoQixnQkFBZ0I7SUFDaEIsZ0JBQWdCO0lBQ2hCLGtCQUFrQjtJQUNsQixXQUFXO0lBQ1gsMkNBQTJDO0lBQzNDLGVBQWUsRUFBQTs7QUFsQm5CO01BcUJNLGdCQUFnQjtNQUNoQix1QkFBdUIsRUFBQTs7QUF0QjdCO01BMEJNLGFBQWE7TUFDYixtQkFBbUI7TUFDbkIsdUJBQXVCO01BQ3ZCLGdCQUFnQjtNQUNoQixZQUFZLEVBQUE7O0FBSWhCO0lBQ0UsaUJBQWlCO0lBQ2pCLDJDQUEyQztJQUMzQyxnQkFBZ0I7SUFDaEIsaUJBQWlCO0lBQ2pCLHVCQUF1QixFQUFBOztBQUd6QjtJQUNFLGtCQUFrQixFQUFBOztBQURuQjtNQUlHLGFBQWE7TUFDYixtQkFBbUI7TUFDbkIsaUJBQWlCO01BQ2pCLHFCQUFxQjtNQUNyQiw2QkFBNkIsRUFBQTs7QUFSaEM7UUFXSyxpQkFBaUI7UUFDakIsa0JBQWtCO1FBQ2xCLFdBQVc7UUFDWCxZQUFZLEVBQUE7O0FBZGpCO1VBaUJPLFdBQVc7VUFDWCxZQUFZLEVBQUE7O0FBbEJuQjtRQXVCSyxxQkFBcUI7UUFDckIsZ0JBQWdCO1FBQ2hCLHVCQUF1QjtRQUN2QixxQkFBcUIsRUFBQSIsImZpbGUiOiJzcmMvYXBwL3NlbmQtZGV0YWlscy1tb2RhbC9zZW5kLWRldGFpbHMtbW9kYWwuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyI6aG9zdCB7XHJcbiAgcG9zaXRpb246IGZpeGVkO1xyXG4gIHRvcDogMDtcclxuICBib3R0b206IDA7XHJcbiAgbGVmdDogMDtcclxuICByaWdodDogMDtcclxuICBkaXNwbGF5OiBmbGV4O1xyXG4gIGFsaWduLWl0ZW1zOiBjZW50ZXI7XHJcbiAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XHJcbiAgYmFja2dyb3VuZDogcmdiYSgyNTUsIDI1NSwgMjU1LCAwLjI1KTtcclxufVxyXG5cclxuLm1vZGFsIHtcclxuICBwb3NpdGlvbjogcmVsYXRpdmU7XHJcbiAgZGlzcGxheTogZmxleDtcclxuICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xyXG4gIHBhZGRpbmc6IDJyZW07XHJcbiAgbWF4LXdpZHRoOiA1NHJlbTtcclxuICBvdmVyZmxvdy15OiBhdXRvO1xyXG4gIHdpZHRoOiAxMDAlO1xyXG4gIGJhY2tncm91bmQ6IHZhcigtLWxpZ2h0LWJsdWUpO1xyXG4gIGJvcmRlci1yYWRpdXM6IHZhcigtLWRlZmF1bHQtYm9yZGVyLXJhZGl1cyk7XHJcbn1cclxuXHJcbi50aXRsZSB7XHJcbiAgZm9udC1zaXplOiAxLjhyZW07XHJcbiAgbGluZS1oZWlnaHQ6IDEuMztcclxufVxyXG5cclxuLnJvdGF0ZS0xODAge1xyXG4gIHRyYW5zZm9ybTogcm90YXRlKC0xODBkZWcpO1xyXG59XHJcblxyXG4uc3RhdHVzIHtcclxuICBkaXNwbGF5OiBmbGV4O1xyXG4gIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XHJcbiAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxuXHJcbiAgLmltYWdlIHtcclxuICAgIG1heC13aWR0aDogMTNyZW07XHJcbiAgICBtYXgtaGVpZ2h0OiAxM3JlbTtcclxuICAgIHdpZHRoOiAxMDAlO1xyXG4gICAgaGVpZ2h0OiAxMDAlO1xyXG5cclxuICAgIGltZyB7XHJcbiAgICAgIHdpZHRoOiAxMDAlO1xyXG4gICAgICBoZWlnaHQ6IDEwMCU7XHJcbiAgICB9XHJcbiAgfVxyXG5cclxuICAudGV4dCB7XHJcbiAgICBjb2xvcjogdmFyKC0tYmx1ZS10ZXh0LWNvbG9yKTtcclxuICAgIGZvbnQtc2l6ZTogMS44cmVtO1xyXG4gIH1cclxufVxyXG5cclxuLmRldGFpbHMge1xyXG4gIHdpZHRoOiAxMDAlO1xyXG4gIGRpc3BsYXk6IGZsZXg7XHJcbiAgZmxleC1kaXJlY3Rpb246IGNvbHVtbjtcclxuICBib3JkZXItcmFkaXVzOiB2YXIoLS1kZWZhdWx0LWJvcmRlci1yYWRpdXMpO1xyXG4gIG92ZXJmbG93OiBoaWRkZW47XHJcblxyXG4gIC5oZWFkZXIge1xyXG4gICAgZGlzcGxheTogZmxleDtcclxuICAgIGp1c3RpZnktY29udGVudDogc3BhY2UtYmV0d2VlbjtcclxuICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XHJcbiAgICBmbGV4LXdyYXA6IG5vd3JhcDtcclxuICAgIG1pbi1oZWlnaHQ6IDRyZW07XHJcbiAgICBtYXgtaGVpZ2h0OiA0cmVtO1xyXG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcclxuICAgIHBhZGRpbmc6IDFyZW0gMnJlbTtcclxuICAgIHdpZHRoOiAxMDAlO1xyXG4gICAgYmFja2dyb3VuZC1jb2xvcjogdmFyKC0tbGlnaHQtYmx1ZS1kZXRhaWxzKTtcclxuICAgIGN1cnNvcjogcG9pbnRlcjtcclxuXHJcbiAgICAudGl0bGUge1xyXG4gICAgICBvdmVyZmxvdzogaGlkZGVuO1xyXG4gICAgICB0ZXh0LW92ZXJmbG93OiBlbGxpcHNpcztcclxuICAgIH1cclxuXHJcbiAgICAuYnRuLWFycm93IHtcclxuICAgICAgZGlzcGxheTogZmxleDtcclxuICAgICAgYWxpZ24taXRlbXM6IGNlbnRlcjtcclxuICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XHJcbiAgICAgIGJhY2tncm91bmQ6IG5vbmU7XHJcbiAgICAgIGJvcmRlcjogbm9uZTtcclxuICAgIH1cclxuICB9XHJcblxyXG4gICYtd3JhcHBlciB7XHJcbiAgICBtYXgtaGVpZ2h0OiAzNXJlbTtcclxuICAgIGJhY2tncm91bmQtY29sb3I6IHZhcigtLWxpZ2h0LWJsdWUtZGV0YWlscyk7XHJcbiAgICBvdmVyZmxvdy15OiBhdXRvO1xyXG4gICAgZm9udC1zaXplOiAxLjhyZW07XHJcbiAgICBzY3JvbGwtYmVoYXZpb3I6IHNtb290aDtcclxuICB9XHJcblxyXG4gICYtbGlzdCB7XHJcbiAgICBwYWRkaW5nOiAxcmVtIDJyZW07XHJcblxyXG4gICAgLml0ZW0ge1xyXG4gICAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAgICBhbGlnbi1pdGVtczogY2VudGVyO1xyXG4gICAgICBmbGV4LXdyYXA6IG5vd3JhcDtcclxuICAgICAgbWFyZ2luLWJvdHRvbTogMS4ycmVtO1xyXG4gICAgICBjb2xvcjogdmFyKC0tYmx1ZS10ZXh0LWNvbG9yKTtcclxuXHJcbiAgICAgIC5pbWFnZSB7XHJcbiAgICAgICAgbWF4LXdpZHRoOiAxLjVyZW07XHJcbiAgICAgICAgbWF4LWhlaWdodDogMS41cmVtO1xyXG4gICAgICAgIHdpZHRoOiAxMDAlO1xyXG4gICAgICAgIGhlaWdodDogMTAwJTtcclxuXHJcbiAgICAgICAgaW1nIHtcclxuICAgICAgICAgIHdpZHRoOiAxMDAlO1xyXG4gICAgICAgICAgaGVpZ2h0OiAxMDAlO1xyXG4gICAgICAgIH1cclxuICAgICAgfVxyXG5cclxuICAgICAgLnRleHQge1xyXG4gICAgICAgIGRpc3BsYXk6IGlubGluZS1ibG9jaztcclxuICAgICAgICBvdmVyZmxvdzogaGlkZGVuO1xyXG4gICAgICAgIHRleHQtb3ZlcmZsb3c6IGVsbGlwc2lzO1xyXG4gICAgICAgIHdvcmQtYnJlYWs6IGJyZWFrLWFsbDtcclxuICAgICAgfVxyXG4gICAgfVxyXG4gIH1cclxufVxyXG4iXX0= */"
 
 /***/ }),
 
@@ -8349,6 +8323,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_helpers/services/backend.service */ "./src/app/_helpers/services/backend.service.ts");
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+/* harmony import */ var _helpers_services_variables_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_helpers/services/variables.service */ "./src/app/_helpers/services/variables.service.ts");
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8361,25 +8337,33 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
+
+var successfulStatuses = [
+    _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_1__["StatusCurrentActionState"].STATE_SENDING,
+    _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_1__["StatusCurrentActionState"].STATE_SENT_SUCCESS,
+    _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_1__["StatusCurrentActionState"].STATE_INITIALIZING,
+    _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_1__["StatusCurrentActionState"].STATE_DOWNLOADING_CONSENSUS,
+    _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_1__["StatusCurrentActionState"].STATE_MAKING_TUNNEL_A,
+    _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_1__["StatusCurrentActionState"].STATE_MAKING_TUNNEL_B,
+    _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_1__["StatusCurrentActionState"].STATE_CREATING_STREAM,
+    _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_1__["StatusCurrentActionState"].STATE_SUCCESS
+];
+var failedStatuses = [_helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_1__["StatusCurrentActionState"].STATE_SEND_FAILED, _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_1__["StatusCurrentActionState"].STATE_FAILED];
 var SendDetailsModalComponent = /** @class */ (function () {
-    function SendDetailsModalComponent(_backendService, ngZone) {
+    function SendDetailsModalComponent(_backendService, _variablesService) {
         this._backendService = _backendService;
-        this.ngZone = ngZone;
+        this._variablesService = _variablesService;
         this.close = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
+        /** BehaviorSubject with ResponseAsyncTransfer */
+        this.responseData$ = new rxjs__WEBPACK_IMPORTED_MODULE_2__["BehaviorSubject"](null);
+        /** BehaviorSubject flag for stateDetails */
         this.stateDetails$ = new rxjs__WEBPACK_IMPORTED_MODULE_2__["BehaviorSubject"](false);
+        /** BehaviorSubject with CurrentActionState */
         this.currentActionState$ = new rxjs__WEBPACK_IMPORTED_MODULE_2__["BehaviorSubject"](null);
-        this.successStatuses = [
-            _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_1__["StatusCurrentActionState"].STATE_SENDING,
-            _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_1__["StatusCurrentActionState"].STATE_SENT_SUCCESS,
-            _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_1__["StatusCurrentActionState"].STATE_INITIALIZING,
-            _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_1__["StatusCurrentActionState"].STATE_DOWNLOADING_CONSENSUS,
-            _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_1__["StatusCurrentActionState"].STATE_MAKING_TUNNEL_A,
-            _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_1__["StatusCurrentActionState"].STATE_MAKING_TUNNEL_B,
-            _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_1__["StatusCurrentActionState"].STATE_CREATING_STREAM,
-            _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_1__["StatusCurrentActionState"].STATE_SUCCESS
-        ];
-        this.failedStatuses = [_helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_1__["StatusCurrentActionState"].STATE_SEND_FAILED, _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_1__["StatusCurrentActionState"].STATE_FAILED];
-        this.actionsList$ = new rxjs__WEBPACK_IMPORTED_MODULE_2__["BehaviorSubject"]([]);
+        /** BehaviorSubject with CurrentActionState[] */
+        this.currentActionStates$ = new rxjs__WEBPACK_IMPORTED_MODULE_2__["BehaviorSubject"]([]);
+        this._destroy$ = new rxjs__WEBPACK_IMPORTED_MODULE_2__["Subject"]();
     }
     Object.defineProperty(SendDetailsModalComponent.prototype, "currentActionState", {
         get: function () {
@@ -8388,14 +8372,15 @@ var SendDetailsModalComponent = /** @class */ (function () {
         enumerable: true,
         configurable: true
     });
-    Object.defineProperty(SendDetailsModalComponent.prototype, "actionsList", {
+    Object.defineProperty(SendDetailsModalComponent.prototype, "currentActionStates", {
         get: function () {
-            return this.actionsList$.value;
+            return this.currentActionStates$.value;
         },
         enumerable: true,
         configurable: true
     });
     Object.defineProperty(SendDetailsModalComponent.prototype, "isSentSuccess", {
+        /** True, if currentActionState.status = success */
         get: function () {
             return this.currentActionState && this.currentActionState.status === _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_1__["StatusCurrentActionState"].STATE_SENT_SUCCESS;
         },
@@ -8403,37 +8388,100 @@ var SendDetailsModalComponent = /** @class */ (function () {
         configurable: true
     });
     Object.defineProperty(SendDetailsModalComponent.prototype, "isSentFailed", {
+        /** True, if currentActionState.status = failed */
         get: function () {
             return this.currentActionState && this.currentActionState.status === _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_1__["StatusCurrentActionState"].STATE_SEND_FAILED;
         },
         enumerable: true,
         configurable: true
     });
+    Object.defineProperty(SendDetailsModalComponent.prototype, "isDetailsNotEmpty", {
+        /** True, responseData$ or currentActionStates$ not empty */
+        get: function () {
+            return !!(this.responseData$.value || this.currentActionStates$.value.length);
+        },
+        enumerable: true,
+        configurable: true
+    });
     SendDetailsModalComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this._backendService.handleCurrentActionState(function (currentActionState) {
-            _this.ngZone.run(function () {
+        var _a = this._variablesService, wallet_id = _a.currentWallet.wallet_id, appUseTor = _a.settings.appUseTor;
+        if (appUseTor) {
+            /** Listening handleCurrentActionState */
+            this._backendService.handleCurrentActionState$
+                .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["takeUntil"])(this._destroy$))
+                .subscribe(function (currentActionState) {
                 _this.currentActionState$.next(currentActionState);
-                _this.actionsList$.next(_this.actionsList.concat([currentActionState]));
+                _this.currentActionStates$.next(_this.currentActionStates.concat([currentActionState]));
             });
+        }
+        else {
+            var actionState = {
+                status: _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_1__["StatusCurrentActionState"].STATE_INITIALIZING,
+                wallet_id: wallet_id
+            };
+            this.currentActionState$.next(actionState);
+            this.currentActionStates$.next(this.currentActionStates.concat([actionState]));
+        }
+        /** Listening dispatchAsyncCallResult */
+        this._backendService.dispatchAsyncCallResult$
+            .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["filter"])(function (_a) {
+            var job_id = _a.job_id, response = _a.response;
+            return _this.job_id === job_id && !!response;
+        }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_4__["takeUntil"])(this._destroy$)).subscribe(function (_a) {
+            var response = _a.response;
+            var success = response.response_data.success;
+            if (!appUseTor || !success) {
+                var actionState = {
+                    status: success ? _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_1__["StatusCurrentActionState"].STATE_SENT_SUCCESS : _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_1__["StatusCurrentActionState"].STATE_SEND_FAILED,
+                    wallet_id: wallet_id
+                };
+                _this.currentActionState$.next(actionState);
+                _this.currentActionStates$.next(_this.currentActionStates.concat([actionState]));
+            }
+            _this.responseData$.next(response);
         });
     };
-    SendDetailsModalComponent.prototype.toggleDetails = function () {
-        this.stateDetails$.next(!this.stateDetails$.value);
+    SendDetailsModalComponent.prototype.ngOnDestroy = function () {
+        this._destroy$.next();
     };
+    /** Show/Hide details transaction */
+    SendDetailsModalComponent.prototype.toggleDetails = function () {
+        var _this = this;
+        this.stateDetails$.next(!this.stateDetails$.value);
+        setTimeout(function () { return _this._scrollToBottomDetailsWrapper(); }, 100);
+    };
+    /** identification item by *ngFor */
     SendDetailsModalComponent.prototype.trackBy = function (index) {
         return index;
     };
+    /** True, if status success */
     SendDetailsModalComponent.prototype.isSuccess = function (action) {
-        return this.successStatuses.includes(action && action.status);
+        return successfulStatuses.includes(action && action.status);
     };
+    /** True, if status failed */
     SendDetailsModalComponent.prototype.isFailed = function (action) {
-        return this.failedStatuses.includes(action && action.status);
+        return failedStatuses.includes(action && action.status);
     };
+    /** Scroll elDetailsWrapper to bottom */
+    SendDetailsModalComponent.prototype._scrollToBottomDetailsWrapper = function () {
+        if (this.elDetailsWrapper) {
+            var nativeElement = this.elDetailsWrapper.nativeElement;
+            nativeElement.scrollTop = nativeElement.scrollHeight;
+        }
+    };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
+        __metadata("design:type", Number)
+    ], SendDetailsModalComponent.prototype, "job_id", void 0);
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Output"])(),
         __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"])
     ], SendDetailsModalComponent.prototype, "close", void 0);
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])('elDetailsWrapper'),
+        __metadata("design:type", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ElementRef"])
+    ], SendDetailsModalComponent.prototype, "elDetailsWrapper", void 0);
     SendDetailsModalComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-send-details-modal',
@@ -8441,7 +8489,8 @@ var SendDetailsModalComponent = /** @class */ (function () {
             changeDetection: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectionStrategy"].OnPush,
             styles: [__webpack_require__(/*! ./send-details-modal.component.scss */ "./src/app/send-details-modal/send-details-modal.component.scss")]
         }),
-        __metadata("design:paramtypes", [_helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_1__["BackendService"], _angular_core__WEBPACK_IMPORTED_MODULE_0__["NgZone"]])
+        __metadata("design:paramtypes", [_helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_1__["BackendService"],
+            _helpers_services_variables_service__WEBPACK_IMPORTED_MODULE_3__["VariablesService"]])
     ], SendDetailsModalComponent);
     return SendDetailsModalComponent;
 }());
@@ -8562,7 +8611,7 @@ var SendModalComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<form *ngIf=\"!isLoading\" class=\"form-send\" [formGroup]=\"sendForm\" (ngSubmit)=\"showDialog()\">\r\n  <div class=\"input-block input-block-alias\">\r\n    <label for=\"send-address\">{{ 'SEND.ADDRESS' | translate }}</label>\r\n    <div class=\"adress-input-row\"><input type=\"text\" id=\"send-address\" formControlName=\"address\"\r\n        [class.required-error]=\"sendForm.controls['address'].dirty || sendForm.controls['address'].touched\"\r\n        [placeholder]=\"sendForm.controls['address'].dirty || sendForm.controls['address'].touched ? ('SEND.FORM_ERRORS.ADDRESS_REQUIRED' | translate ) : ('PLACEHOLDERS.ADRESS_PLACEHOLDER' | translate)\"\r\n        (mousedown)=\"addressMouseDown($event)\" (contextmenu)=\"variablesService.onContextMenu($event)\"><span\r\n        *ngIf=\"currentAliasAdress\" class=\"curent-alias-adress\"\r\n        [class.padding-bottom-01]=\"variablesService.settings.scale > 7.5\"\r\n        [style.left]=\"lenghtOfAdress + 3 + 'rem'\">{{getShorterAdress()}}</span></div>\r\n    <div class=\"alias-dropdown scrolled-content\" *ngIf=\"isOpen\">\r\n      <div *ngFor=\"let item of localAliases\" (click)=\"setAlias(item.name)\">{{item.name}}</div>\r\n    </div>\r\n    <div class=\"error-block\"\r\n      *ngIf=\"sendForm.controls['address'].invalid && (sendForm.controls['address'].dirty || sendForm.controls['address'].touched)\">\r\n      <div *ngIf=\"sendForm.controls['address'].errors['address_not_valid']\">\r\n        {{ 'SEND.FORM_ERRORS.ADDRESS_NOT_VALID' | translate }}\r\n      </div>\r\n      <div *ngIf=\"sendForm.controls['address'].errors['alias_not_valid']\">\r\n        {{ 'SEND.FORM_ERRORS.ALIAS_NOT_VALID' | translate }}\r\n      </div>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"input-blocks-row\">\r\n    <div class=\"input-block\">\r\n      <label for=\"send-amount\">{{ 'SEND.AMOUNT' | translate }}</label>\r\n      <input type=\"text\" id=\"send-amount\" formControlName=\"amount\"\r\n        [class.required-error]=\"sendForm.controls['amount'].dirty || sendForm.controls['amount'].touched\"\r\n        [placeholder]=\"sendForm.controls['amount'].dirty || sendForm.controls['amount'].touched ? ('SEND.FORM_ERRORS.AMOUNT_REQUIRED' | translate ) : ('PLACEHOLDERS.AMOUNT_PLACEHOLDER' | translate)\"\r\n        appInputValidate=\"money\" (contextmenu)=\"variablesService.onContextMenu($event)\">\r\n      <div class=\"error-block\"\r\n        *ngIf=\"sendForm.controls['amount'].invalid && !sendForm.controls['amount'].errors['required'] && (sendForm.controls['amount'].dirty || sendForm.controls['amount'].touched)\">\r\n        <div *ngIf=\"sendForm.controls['amount'].errors['zero']\">\r\n          {{ 'SEND.FORM_ERRORS.AMOUNT_ZERO' | translate }}\r\n        </div>\r\n        <div *ngIf=\"sendForm.controls['amount'].errors['great_than_unwraped_coins']\">\r\n          {{ 'SEND.FORM_ERRORS.GREAT_THAN_UNWRAPPED_COINS' | translate }}\r\n        </div>\r\n        <div *ngIf=\"sendForm.controls['amount'].errors['less_than_zano_needed']\">\r\n          {{ 'SEND.FORM_ERRORS.LESS_THAN_ZANO_NEEDED' | translate }}\r\n        </div>\r\n        <div *ngIf=\"sendForm.controls['amount'].errors['wrap_info_null']\">\r\n          {{ 'SEND.FORM_ERRORS.WRAP_INFO_NULL' | translate }}\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"input-block\">\r\n      <label for=\"send-comment\">{{ 'SEND.COMMENT' | translate }}</label>\r\n      <input type=\"text\" id=\"send-comment\" formControlName=\"comment\"\r\n        placeholder=\"{{ 'PLACEHOLDERS.COMMENT_PLACEHOLDER' | translate }}\"\r\n        [maxLength]=\"variablesService.maxCommentLength\" (contextmenu)=\"variablesService.onContextMenu($event)\">\r\n      <div class=\"error-block\"\r\n        *ngIf=\"sendForm.get('comment').value && sendForm.get('comment').value.length >= variablesService.maxCommentLength\">\r\n        {{ 'SEND.FORM_ERRORS.MAX_LENGTH' | translate }}\r\n      </div>\r\n    </div>\r\n\r\n  </div>\r\n\r\n  <div *ngIf=\"isWrapShown && wrapInfo && !isLoading\" class=\"wrap\">\r\n    <div class=\"title\">\r\n      {{ 'SEND.WRAP.TITLE' | translate }}\r\n      <i class=\"icon info\"></i>\r\n    </div>\r\n    <div class=\"text-wrap\">\r\n      {{ 'SEND.WRAP.MAIN_TEXT' | translate }}\r\n    </div>\r\n    <div class=\"title\">{{ 'SEND.WRAP.ESTIMATE' | translate }}</div>\r\n    <table class=\"text-wrap\">\r\n      <tr>\r\n        <td>{{ 'SEND.WRAP.WILL_RECEIVE' | translate }}</td>\r\n        <td *ngIf=\"!sendForm.controls['amount'].errors\">{{getReceivedValue() | intToMoney}} {{ 'SEND.WRAP.wZANO' |\r\n          translate }}</td>\r\n        <td *ngIf=\"sendForm.controls['amount'].errors\">-</td>\r\n      </tr>\r\n      <tr>\r\n        <td>{{ 'SEND.WRAP.FEE' | translate }}</td>\r\n        <td>\r\n          {{wrapInfo?.tx_cost?.zano_needed_for_erc20 | intToMoney: 3 }}\r\n          {{ 'SEND.WRAP.ZANO' | translate }}(${{wrapInfo?.tx_cost?.usd_needed_for_erc20}})</td>\r\n      </tr>\r\n    </table>\r\n  </div>\r\n\r\n  <button type=\"button\" class=\"send-select\" (click)=\"toggleOptions()\">\r\n    <span>{{ 'SEND.DETAILS' | translate }}</span><i class=\"icon arrow\" [class.down]=\"!additionalOptions\"\r\n      [class.up]=\"additionalOptions\"></i>\r\n  </button>\r\n\r\n  <div class=\"additional-details\" *ngIf=\"additionalOptions\">\r\n    <div class=\"input-block\">\r\n      <label for=\"send-mixin\">{{ 'SEND.MIXIN' | translate }}</label>\r\n      <input type=\"text\" id=\"send-mixin\" formControlName=\"mixin\"\r\n        [class.required-error]=\"sendForm.controls['mixin'].dirty || sendForm.controls['mixin'].touched\"\r\n        [placeholder]=\"sendForm.controls['mixin'].dirty || sendForm.controls['mixin'].touched ? ('SEND.FORM_ERRORS.AMOUNT_REQUIRED' | translate ) : ('PLACEHOLDERS.AMOUNT_PLACEHOLDER' | translate)\"\r\n        appInputValidate=\"integer\" (contextmenu)=\"variablesService.onContextMenu($event)\">\r\n    </div>\r\n\r\n    <div class=\"input-block\">\r\n      <label for=\"send-fee\">{{ 'SEND.FEE' | translate }}</label>\r\n      <input type=\"text\" id=\"send-fee\" formControlName=\"fee\"\r\n        [class.required-error]=\"sendForm.controls['fee'].dirty || sendForm.controls['fee'].touched\"\r\n        [placeholder]=\"sendForm.controls['fee'].dirty || sendForm.controls['fee'].touched ? ('SEND.FORM_ERRORS.FEE_REQUIRED' | translate ) : ('PLACEHOLDERS.FEE_PLACEHOLDER' | translate)\"\r\n        appInputValidate=\"money\" (contextmenu)=\"variablesService.onContextMenu($event)\">\r\n      <div class=\"error-block\"\r\n        *ngIf=\"sendForm.controls['fee'].invalid && !sendForm.controls['fee'].errors['required'] && (sendForm.controls['fee'].dirty || sendForm.controls['fee'].touched)\">\r\n        <div *ngIf=\"sendForm.controls['fee'].errors['less_min']\">\r\n          {{ 'SEND.FORM_ERRORS.FEE_MINIMUM' | translate : {fee: variablesService.default_fee} }}\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"checkbox-block\" [ngClass]=\"{'disabled-checkbox-block': hideWalletAddress}\">\r\n      <input type=\"checkbox\" id=\"send-hide\" class=\"style-checkbox\" formControlName=\"hide\"\r\n        [checked]=\"hideWalletAddress || sendForm.controls['hide'].value\">\r\n      <label for=\"send-hide\">{{ 'SEND.HIDE' | translate }}</label>\r\n    </div>\r\n\r\n  </div>\r\n\r\n  <button type=\"submit\" class=\"blue-button\" [disabled]=\"!sendForm.valid || !variablesService.currentWallet.loaded\">{{\r\n    'SEND.BUTTON' | translate }}</button>\r\n</form>\r\n\r\n<app-send-modal *ngIf=\"isModalDialogVisible\" [form]=\"sendForm\" (confirmed)=\"confirmed($event)\"></app-send-modal>\r\n\r\n<app-send-details-modal *ngIf=\"isModalDetailsDialogVisible\" (close)=\"isModalDetailsDialogVisible = false\"></app-send-details-modal>\r\n"
+module.exports = "<form *ngIf=\"!isLoading\" class=\"form-send\" [formGroup]=\"sendForm\" (ngSubmit)=\"showDialog()\">\r\n  <div class=\"input-block input-block-alias\">\r\n    <label for=\"send-address\">{{ 'SEND.ADDRESS' | translate }}</label>\r\n    <div class=\"adress-input-row\"><input type=\"text\" id=\"send-address\" formControlName=\"address\"\r\n        [class.required-error]=\"sendForm.controls['address'].dirty || sendForm.controls['address'].touched\"\r\n        [placeholder]=\"sendForm.controls['address'].dirty || sendForm.controls['address'].touched ? ('SEND.FORM_ERRORS.ADDRESS_REQUIRED' | translate ) : ('PLACEHOLDERS.ADRESS_PLACEHOLDER' | translate)\"\r\n        (mousedown)=\"addressMouseDown($event)\" (contextmenu)=\"variablesService.onContextMenu($event)\"><span\r\n        *ngIf=\"currentAliasAdress\" class=\"curent-alias-adress\"\r\n        [class.padding-bottom-01]=\"variablesService.settings.scale > 7.5\"\r\n        [style.left]=\"lenghtOfAdress + 3 + 'rem'\">{{getShorterAdress()}}</span></div>\r\n    <div class=\"alias-dropdown scrolled-content\" *ngIf=\"isOpen\">\r\n      <div *ngFor=\"let item of localAliases\" (click)=\"setAlias(item.name)\">{{item.name}}</div>\r\n    </div>\r\n    <div class=\"error-block\"\r\n      *ngIf=\"sendForm.controls['address'].invalid && (sendForm.controls['address'].dirty || sendForm.controls['address'].touched)\">\r\n      <div *ngIf=\"sendForm.controls['address'].errors['address_not_valid']\">\r\n        {{ 'SEND.FORM_ERRORS.ADDRESS_NOT_VALID' | translate }}\r\n      </div>\r\n      <div *ngIf=\"sendForm.controls['address'].errors['alias_not_valid']\">\r\n        {{ 'SEND.FORM_ERRORS.ALIAS_NOT_VALID' | translate }}\r\n      </div>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"input-blocks-row\">\r\n    <div class=\"input-block\">\r\n      <label for=\"send-amount\">{{ 'SEND.AMOUNT' | translate }}</label>\r\n      <input type=\"text\" id=\"send-amount\" formControlName=\"amount\"\r\n        [class.required-error]=\"sendForm.controls['amount'].dirty || sendForm.controls['amount'].touched\"\r\n        [placeholder]=\"sendForm.controls['amount'].dirty || sendForm.controls['amount'].touched ? ('SEND.FORM_ERRORS.AMOUNT_REQUIRED' | translate ) : ('PLACEHOLDERS.AMOUNT_PLACEHOLDER' | translate)\"\r\n        appInputValidate=\"money\" (contextmenu)=\"variablesService.onContextMenu($event)\">\r\n      <div class=\"error-block\"\r\n        *ngIf=\"sendForm.controls['amount'].invalid && !sendForm.controls['amount'].errors['required'] && (sendForm.controls['amount'].dirty || sendForm.controls['amount'].touched)\">\r\n        <div *ngIf=\"sendForm.controls['amount'].errors['zero']\">\r\n          {{ 'SEND.FORM_ERRORS.AMOUNT_ZERO' | translate }}\r\n        </div>\r\n        <div *ngIf=\"sendForm.controls['amount'].errors['great_than_unwraped_coins']\">\r\n          {{ 'SEND.FORM_ERRORS.GREAT_THAN_UNWRAPPED_COINS' | translate }}\r\n        </div>\r\n        <div *ngIf=\"sendForm.controls['amount'].errors['less_than_zano_needed']\">\r\n          {{ 'SEND.FORM_ERRORS.LESS_THAN_ZANO_NEEDED' | translate }}\r\n        </div>\r\n        <div *ngIf=\"sendForm.controls['amount'].errors['wrap_info_null']\">\r\n          {{ 'SEND.FORM_ERRORS.WRAP_INFO_NULL' | translate }}\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"input-block\">\r\n      <label for=\"send-comment\">{{ 'SEND.COMMENT' | translate }}</label>\r\n      <input type=\"text\" id=\"send-comment\" formControlName=\"comment\"\r\n        placeholder=\"{{ 'PLACEHOLDERS.COMMENT_PLACEHOLDER' | translate }}\"\r\n        [maxLength]=\"variablesService.maxCommentLength\" (contextmenu)=\"variablesService.onContextMenu($event)\">\r\n      <div class=\"error-block\"\r\n        *ngIf=\"sendForm.get('comment').value && sendForm.get('comment').value.length >= variablesService.maxCommentLength\">\r\n        {{ 'SEND.FORM_ERRORS.MAX_LENGTH' | translate }}\r\n      </div>\r\n    </div>\r\n\r\n  </div>\r\n\r\n  <div *ngIf=\"isWrapShown && wrapInfo && !isLoading\" class=\"wrap\">\r\n    <div class=\"title\">\r\n      {{ 'SEND.WRAP.TITLE' | translate }}\r\n      <i class=\"icon info\"></i>\r\n    </div>\r\n    <div class=\"text-wrap\">\r\n      {{ 'SEND.WRAP.MAIN_TEXT' | translate }}\r\n    </div>\r\n    <div class=\"title\">{{ 'SEND.WRAP.ESTIMATE' | translate }}</div>\r\n    <table class=\"text-wrap\">\r\n      <tr>\r\n        <td>{{ 'SEND.WRAP.WILL_RECEIVE' | translate }}</td>\r\n        <td *ngIf=\"!sendForm.controls['amount'].errors\">{{getReceivedValue() | intToMoney}} {{ 'SEND.WRAP.wZANO' |\r\n          translate }}</td>\r\n        <td *ngIf=\"sendForm.controls['amount'].errors\">-</td>\r\n      </tr>\r\n      <tr>\r\n        <td>{{ 'SEND.WRAP.FEE' | translate }}</td>\r\n        <td>\r\n          {{wrapInfo?.tx_cost?.zano_needed_for_erc20 | intToMoney: 3 }}\r\n          {{ 'SEND.WRAP.ZANO' | translate }}(${{wrapInfo?.tx_cost?.usd_needed_for_erc20}})</td>\r\n      </tr>\r\n    </table>\r\n  </div>\r\n\r\n  <button type=\"button\" class=\"send-select\" (click)=\"toggleOptions()\">\r\n    <span>{{ 'SEND.DETAILS' | translate }}</span><i class=\"icon arrow\" [class.down]=\"!additionalOptions\"\r\n      [class.up]=\"additionalOptions\"></i>\r\n  </button>\r\n\r\n  <div class=\"additional-details\" *ngIf=\"additionalOptions\">\r\n    <div class=\"input-block\">\r\n      <label for=\"send-mixin\">{{ 'SEND.MIXIN' | translate }}</label>\r\n      <input type=\"text\" id=\"send-mixin\" formControlName=\"mixin\"\r\n        [class.required-error]=\"sendForm.controls['mixin'].dirty || sendForm.controls['mixin'].touched\"\r\n        [placeholder]=\"sendForm.controls['mixin'].dirty || sendForm.controls['mixin'].touched ? ('SEND.FORM_ERRORS.AMOUNT_REQUIRED' | translate ) : ('PLACEHOLDERS.AMOUNT_PLACEHOLDER' | translate)\"\r\n        appInputValidate=\"integer\" (contextmenu)=\"variablesService.onContextMenu($event)\">\r\n    </div>\r\n\r\n    <div class=\"input-block\">\r\n      <label for=\"send-fee\">{{ 'SEND.FEE' | translate }}</label>\r\n      <input type=\"text\" id=\"send-fee\" formControlName=\"fee\"\r\n        [class.required-error]=\"sendForm.controls['fee'].dirty || sendForm.controls['fee'].touched\"\r\n        [placeholder]=\"sendForm.controls['fee'].dirty || sendForm.controls['fee'].touched ? ('SEND.FORM_ERRORS.FEE_REQUIRED' | translate ) : ('PLACEHOLDERS.FEE_PLACEHOLDER' | translate)\"\r\n        appInputValidate=\"money\" (contextmenu)=\"variablesService.onContextMenu($event)\">\r\n      <div class=\"error-block\"\r\n        *ngIf=\"sendForm.controls['fee'].invalid && !sendForm.controls['fee'].errors['required'] && (sendForm.controls['fee'].dirty || sendForm.controls['fee'].touched)\">\r\n        <div *ngIf=\"sendForm.controls['fee'].errors['less_min']\">\r\n          {{ 'SEND.FORM_ERRORS.FEE_MINIMUM' | translate : {fee: variablesService.default_fee} }}\r\n        </div>\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"checkbox-block\" [ngClass]=\"{'disabled-checkbox-block': hideWalletAddress}\">\r\n      <input type=\"checkbox\" id=\"send-hide\" class=\"style-checkbox\" formControlName=\"hide\"\r\n        [checked]=\"hideWalletAddress || sendForm.controls['hide'].value\">\r\n      <label for=\"send-hide\">{{ 'SEND.HIDE' | translate }}</label>\r\n    </div>\r\n\r\n  </div>\r\n\r\n  <button type=\"submit\" class=\"blue-button\" [disabled]=\"!sendForm.valid || !variablesService.currentWallet.loaded\">{{\r\n    'SEND.BUTTON' | translate }}</button>\r\n</form>\r\n\r\n<app-send-modal *ngIf=\"isModalDialogVisible\" [form]=\"sendForm\" (confirmed)=\"confirmed($event)\"></app-send-modal>\r\n\r\n<app-send-details-modal [job_id]=\"job_id\" *ngIf=\"isModalDetailsDialogVisible\" (close)=\"handeCloseDetailsModal()\"></app-send-details-modal>\r\n"
 
 /***/ }),
 
@@ -8812,30 +8861,29 @@ var SendComponent = /** @class */ (function () {
                         });
                     }
                     else {
-                        _this.ngZone.run(function () {
-                            if (_this.variablesService.settings.appUseTor) {
+                        _this.backend.sendMoney(_this.variablesService.currentWallet.wallet_id, _this.sendForm.get('address').value, _this.sendForm.get('amount').value, _this.sendForm.get('fee').value, _this.sendForm.get('mixin').value, _this.sendForm.get('comment').value, _this.sendForm.get('hide').value, function (job_id) {
+                            _this.ngZone.run(function () {
+                                _this.job_id = job_id;
                                 _this.isModalDetailsDialogVisible = true;
-                            }
+                                _this.variablesService.currentWallet.send_data = {
+                                    address: null,
+                                    amount: null,
+                                    comment: null,
+                                    mixin: null,
+                                    fee: null,
+                                    hide: null
+                                };
+                                _this.sendForm.reset({
+                                    address: null,
+                                    amount: null,
+                                    comment: null,
+                                    mixin: _this.mixin,
+                                    fee: _this.variablesService.default_fee,
+                                    hide: false
+                                });
+                                _this.sendForm.markAsUntouched();
+                            });
                         });
-                        _this.backend.sendMoney(_this.variablesService.currentWallet.wallet_id, _this.sendForm.get('address').value, _this.sendForm.get('amount').value, _this.sendForm.get('fee').value, _this.sendForm.get('mixin').value, _this.sendForm.get('comment').value, _this.sendForm.get('hide').value, function () {
-                        });
-                        _this.variablesService.currentWallet.send_data = {
-                            address: null,
-                            amount: null,
-                            comment: null,
-                            mixin: null,
-                            fee: null,
-                            hide: null
-                        };
-                        _this.sendForm.reset({
-                            address: null,
-                            amount: null,
-                            comment: null,
-                            mixin: _this.mixin,
-                            fee: _this.variablesService.default_fee,
-                            hide: false
-                        });
-                        _this.sendForm.markAsUntouched();
                     }
                 });
             }
@@ -8848,31 +8896,30 @@ var SendComponent = /** @class */ (function () {
                             });
                         }
                         else {
-                            _this.ngZone.run(function () {
-                                if (_this.variablesService.settings.appUseTor) {
-                                    _this.isModalDetailsDialogVisible = true;
-                                }
-                            });
                             _this.backend.sendMoney(_this.variablesService.currentWallet.wallet_id, alias_data.address, // this.sendForm.get('address').value,
-                            _this.sendForm.get('amount').value, _this.sendForm.get('fee').value, _this.sendForm.get('mixin').value, _this.sendForm.get('comment').value, _this.sendForm.get('hide').value, function () {
+                            _this.sendForm.get('amount').value, _this.sendForm.get('fee').value, _this.sendForm.get('mixin').value, _this.sendForm.get('comment').value, _this.sendForm.get('hide').value, function (job_id) {
+                                _this.ngZone.run(function () {
+                                    _this.job_id = job_id;
+                                    _this.isModalDetailsDialogVisible = true;
+                                    _this.variablesService.currentWallet.send_data = {
+                                        address: null,
+                                        amount: null,
+                                        comment: null,
+                                        mixin: null,
+                                        fee: null,
+                                        hide: null
+                                    };
+                                    _this.sendForm.reset({
+                                        address: null,
+                                        amount: null,
+                                        comment: null,
+                                        mixin: _this.mixin,
+                                        fee: _this.variablesService.default_fee,
+                                        hide: false
+                                    });
+                                    _this.sendForm.markAsUntouched();
+                                });
                             });
-                            _this.variablesService.currentWallet.send_data = {
-                                address: null,
-                                amount: null,
-                                comment: null,
-                                mixin: null,
-                                fee: null,
-                                hide: null
-                            };
-                            _this.sendForm.reset({
-                                address: null,
-                                amount: null,
-                                comment: null,
-                                mixin: _this.mixin,
-                                fee: _this.variablesService.default_fee,
-                                hide: false
-                            });
-                            _this.sendForm.markAsUntouched();
                         }
                     });
                 });
@@ -8901,6 +8948,10 @@ var SendComponent = /** @class */ (function () {
             return amount.minus(needed);
         }
         return 0;
+    };
+    SendComponent.prototype.handeCloseDetailsModal = function () {
+        this.isModalDetailsDialogVisible = false;
+        this.job_id = null;
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["HostListener"])('document:click', ['$event.target']),
