@@ -1,6 +1,5 @@
-import { Component, OnInit, OnDestroy, NgZone, HostListener } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { Component, HostListener, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BackendService } from '../_helpers/services/backend.service';
 import { VariablesService } from '../_helpers/services/variables.service';
 import { ModalService } from '../_helpers/services/modal.service';
@@ -24,13 +23,6 @@ interface WrapInfo {
   styleUrls: ['./send.component.scss']
 })
 export class SendComponent implements OnInit, OnDestroy {
-  @HostListener('document:click', ['$event.target'])
-  public onClick(targetElement) {
-    if (targetElement.id !== 'send-address' && this.isOpen) {
-      this.isOpen = false;
-    }
-  }
-
   isOpen = false;
   localAliases = [];
   isModalDialogVisible = false;
@@ -49,7 +41,7 @@ export class SendComponent implements OnInit, OnDestroy {
     address: new FormControl('', [Validators.required, (g: FormControl) => {
       this.localAliases = [];
       if (g.value) {
-        this.currentAliasAdress = ''
+        this.currentAliasAdress = '';
         if (g.value.indexOf('@') !== 0) {
           this.isOpen = false;
           this.backend.validateAddress(g.value, (valid_status, data) => {
@@ -79,7 +71,7 @@ export class SendComponent implements OnInit, OnDestroy {
           } else {
             this.backend.getAliasByName(g.value.replace('@', ''), (alias_status, alias_data) => {
               this.ngZone.run(() => {
-                this.currentAliasAdress = alias_data.address
+                this.currentAliasAdress = alias_data.address;
                 this.lenghtOfAdress = g.value.length;
                 if (alias_status) {
                   if (g.hasError('alias_not_valid')) {
@@ -100,7 +92,9 @@ export class SendComponent implements OnInit, OnDestroy {
       return null;
     }]),
     amount: new FormControl(undefined, [Validators.required, (g: FormControl) => {
-      if (!g.value) { return null; }
+      if (!g.value) {
+        return null;
+      }
 
       if (g.value === 0) {
         return { 'zero': true };
@@ -130,6 +124,12 @@ export class SendComponent implements OnInit, OnDestroy {
     hide: new FormControl(false)
   });
 
+  @HostListener('document:click', ['$event.target'])
+  public onClick(targetElement) {
+    if (targetElement.id !== 'send-address' && this.isOpen) {
+      this.isOpen = false;
+    }
+  }
 
   constructor(
     private backend: BackendService,
@@ -142,8 +142,8 @@ export class SendComponent implements OnInit, OnDestroy {
   }
 
   getShorterAdress() {
-    let tempArr = this.currentAliasAdress.split("");
-    return this.currentAliasAdress.split("", 34).join('') + "..." + tempArr.splice((tempArr.length - 13), 13).join('')
+    let tempArr = this.currentAliasAdress.split('');
+    return this.currentAliasAdress.split('', 34).join('') + '...' + tempArr.splice((tempArr.length - 13), 13).join('');
   }
 
   addressMouseDown(e) {
@@ -177,14 +177,14 @@ export class SendComponent implements OnInit, OnDestroy {
 
     this.getWrapInfo();
     this.dLActionSubscribe = this.variablesService.sendActionData$.subscribe((res) => {
-      if (res.action === "send") {
-        this.actionData = res
+      if (res.action === 'send') {
+        this.actionData = res;
         setTimeout(() => {
-          this.fillDeepLinkData()
-        }, 100)
+          this.fillDeepLinkData();
+        }, 100);
         this.variablesService.sendActionData$.next({});
       }
-    })
+    });
   }
 
   private getWrapInfo() {
@@ -216,8 +216,15 @@ export class SendComponent implements OnInit, OnDestroy {
       comment: this.actionData.comment || this.actionData.comments || '',
       mixin: this.actionData.mixins || this.mixin,
       fee: this.actionData.fee || this.variablesService.default_fee,
-      hide: this.actionData.hide_sender === "true" ? true : false
+      hide: this.actionData.hide_sender === 'true' ? true : false
     });
+  }
+
+  addressToLowerCase() {
+    const control = this.sendForm.get('address');
+    const value = control.value;
+    const condition = value.indexOf('@') === 0;
+    return condition ? control.patchValue(value.toLowerCase()) : null;
   }
 
   onSend() {
@@ -319,13 +326,15 @@ export class SendComponent implements OnInit, OnDestroy {
       fee: this.sendForm.get('fee').value,
       hide: this.sendForm.get('hide').value
     };
-    this.actionData = {}
+    this.actionData = {};
   }
 
   public getReceivedValue() {
     const amount = this.moneyToInt.transform(this.sendForm.value.amount);
     const needed = new BigNumber(this.wrapInfo.tx_cost.zano_needed_for_erc20);
-    if (amount && needed) { return (amount as BigNumber).minus(needed); }
+    if (amount && needed) {
+      return (amount as BigNumber).minus(needed);
+    }
     return 0;
   }
 }
