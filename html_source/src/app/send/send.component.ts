@@ -144,7 +144,7 @@ export class SendComponent implements OnInit, OnDestroy {
   }
 
   getShorterAdress() {
-    const tempArr = this.currentAliasAdress.split('');
+    let tempArr = this.currentAliasAdress.split('');
     return this.currentAliasAdress.split('', 34).join('') + '...' + tempArr.splice((tempArr.length - 13), 13).join('');
   }
 
@@ -220,6 +220,13 @@ export class SendComponent implements OnInit, OnDestroy {
       fee: this.actionData.fee || this.variablesService.default_fee,
       hide: this.actionData.hide_sender === 'true' ? true : false
     });
+  }
+
+  addressToLowerCase() {
+    const control = this.sendForm.get('address');
+    const value = control.value;
+    const condition = value.indexOf('@') === 0;
+    return condition ? control.patchValue(value.toLowerCase()) : null;
   }
 
   onSend() {
