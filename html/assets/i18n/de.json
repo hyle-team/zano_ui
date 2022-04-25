@@ -589,5 +589,21 @@
     "RESTORE": "Sie können es wiederherstellen, indem Sie auf das Kontextmenü benutzen oder anklicken ",
     "TRAY_MENU_SHOW": "Größe ändern",
     "TRAY_MENU_MINIMIZE": "Minimieren"
+  },
+  "TOR_LIB_STATE": {
+    "STATE_SENDING": "Sending transaction",
+    "STATE_SENT_SUCCESS": "Successfully sent!",
+    "STATE_SEND_FAILED": "Sending failed",
+    "STATE_INITIALIZING": "Initializing",
+    "STATE_DOWNLOADING_CONSENSUS": "Downloading consensus",
+    "STATE_MAKING_TUNNEL_A": "Building tunnel to A",
+    "STATE_MAKING_TUNNEL_B": "Building tunnel to B",
+    "STATE_CREATING_STREAM": "Creating stream",
+    "STATE_FAILED": "Failed created stream",
+    "STATE_SUCCESS": "Successfully created stream"
+  },
+  "SEND_DETAILS_MODAL": {
+    "TITLE1": "Transaction",
+    "TITLE2": "Transaction details"
   }
 }

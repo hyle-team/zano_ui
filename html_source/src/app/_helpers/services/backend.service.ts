@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Injectable, NgZone } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { VariablesService } from './variables.service';
 import { ModalService } from './modal.service';
@@ -7,17 +7,93 @@ import { MoneyToIntPipe } from '../pipes/money-to-int.pipe';
 import JSONBigNumber from 'json-bignumber';
 import { BigNumber } from 'bignumber.js';
 
+export interface PramsObj {
+  [key: string]: any;
+}
+
+export type PramsArray = (string | PramsObj)[];
+
+export type Params = string | PramsObj | PramsArray;
+
+export enum ParamsType {
+  array = 'array',
+  object = 'object',
+  string = 'string'
+}
+
+export const getParamsType = (value: Params): ParamsType | null => {
+  if (!value) {
+    return null;
+  }
+  const array: false | ParamsType.array = Array.isArray(value) && ParamsType.array;
+  const object: false | ParamsType = Object.keys(ParamsType).includes(typeof value) && ParamsType[typeof value];
+  return array || object || null;
+};
+
+export type ConvertersObjectForTypes = {
+  [key in ParamsType]: (value: Params) => string | string[]
+};
+
+export const convertersObjectForTypes: ConvertersObjectForTypes = {
+  [ParamsType.string]: (value: string): string => value,
+  [ParamsType.object]: (value: PramsObj): string => JSONBigNumber.stringify(value),
+  [ParamsType.array]: (value: PramsArray): string[] => value.map(v => {
+    return typeof v === ParamsType.string ? v as string : JSONBigNumber.stringify(v);
+  }),
+};
+
+export const convertorParams = (value: Params): string | string[] => {
+  const type: ParamsType = getParamsType(value);
+  return convertersObjectForTypes[type](value);
+};
+
+export interface ResponseAsyncTransfer {
+  error_code: string;
+  response_data: {
+    success: boolean;
+    tx_blob_size: number,
+    tx_hash: string
+  };
+}
+
+export interface AsyncCommandResults {
+  job_id: number;
+  response: ResponseAsyncTransfer;
+}
+
+export enum StatusCurrentActionState {
+  STATE_SENDING = 'STATE_SENDING',
+  STATE_SENT_SUCCESS = 'STATE_SENT_SUCCESS',
+  STATE_SEND_FAILED = 'STATE_SEND_FAILED',
+  STATE_INITIALIZING = 'STATE_INITIALIZING',
+  STATE_DOWNLOADING_CONSENSUS = 'STATE_DOWNLOADING_CONSENSUS',
+  STATE_MAKING_TUNNEL_A = 'STATE_MAKING_TUNNEL_A',
+  STATE_MAKING_TUNNEL_B = 'STATE_MAKING_TUNNEL_B',
+  STATE_CREATING_STREAM = 'STATE_CREATING_STREAM',
+  STATE_FAILED = 'STATE_FAILED',
+  STATE_SUCCESS = 'STATE_SUCCESS'
+}
+
+export interface CurrentActionState {
+  status: StatusCurrentActionState;
+  wallet_id: number;
+}
+
 @Injectable()
 export class BackendService {
+  dispatchAsyncCallResult$ = new Subject<AsyncCommandResults>();
+  handleCurrentActionState$ = new Subject<CurrentActionState>();
 
   backendObject: any;
+
   backendLoaded = false;
 
   constructor(
     private translate: TranslateService,
     private variablesService: VariablesService,
     private modalService: ModalService,
-    private moneyToIntPipe: MoneyToIntPipe
+    private moneyToIntPipe: MoneyToIntPipe,
+    private ngZone: NgZone,
   ) {
   }
 
@@ -147,7 +223,7 @@ export class BackendService {
         error_translate = 'ERRORS.FILE_EXIST';
         break;
       case 'FAILED':
-        BackendService.Debug(0, `Error: (${error}) was triggered by command: ${command}`);
+        BackendService.Debug(0, `Error: (${ error }) was triggered by command: ${ command }`);
         break;
       default:
         error_translate = '';
@@ -163,7 +239,6 @@ export class BackendService {
       this.modalService.prepareModal('error', error_translate);
     }
   }
-
 
   private commandDebug(command, params, result) {
     BackendService.Debug(2, '----------------- ' + command + ' -----------------');
@@ -240,36 +315,42 @@ export class BackendService {
     }
   }
 
-
-  private runCommand(command, params?, callback?) {
-    if (this.backendObject) {
-      if (command === 'get_recent_transfers') {
-        this.variablesService.get_recent_transfers = true;
-      }
-      const Action = this.backendObject[command];
-      if (!Action) {
-        BackendService.Debug(0, 'Run Command Error! Command "' + command + '" don\'t found in backendObject');
-      } else {
-        const that = this;
-        params = (typeof params === 'string') ? params : JSONBigNumber.stringify(params);
-        if (params === undefined || params === '{}') {
-          if (command === 'get_recent_transfers') {
-            this.variablesService.get_recent_transfers = false;
-          }
-          Action(function (resultStr) {
-            that.commandDebug(command, params, resultStr);
-            return that.backendCallback(resultStr, params, callback, command);
-          });
-        } else {
-          Action(params, function (resultStr) {
-            that.commandDebug(command, params, resultStr);
-            return that.backendCallback(resultStr, params, callback, command);
-          });
-        }
-      }
+  private runCommand(command, params?: Params, callback?) {
+    if (!this.backendObject) {
+      return;
     }
-  }
 
+    if (command === 'get_recent_transfers') {
+      this.variablesService.get_recent_transfers = true;
+    }
+
+    const Action = this.backendObject[command];
+
+    if (!Action) {
+      BackendService.Debug(0, 'Run Command Error! Command "' + command + '" don\'t found in backendObject');
+      return;
+    }
+
+    const that = this;
+    const type: ParamsType = getParamsType(params);
+    params = params && convertorParams(params);
+
+    if (type === ParamsType.array) {
+      Action(...(params as string[]), function (resultStr) {
+        that.commandDebug(command, params, resultStr);
+        return that.backendCallback(resultStr, params, callback, command);
+      });
+      return;
+    }
+
+    if (command === 'get_recent_transfers') {
+      this.variablesService.get_recent_transfers = false;
+    }
+    Action(params, function (resultStr) {
+      that.commandDebug(command, params, resultStr);
+      return that.backendCallback(resultStr, params, callback, command);
+    });
+  }
 
   eventSubscribe(command, callback) {
     if (command === 'on_core_event') {
@@ -280,7 +361,6 @@ export class BackendService {
       });
     }
   }
-
 
   initService() {
     return new Observable(
@@ -301,7 +381,6 @@ export class BackendService {
       }
     );
   }
-
 
   webkitLaunchedScript() {
     return this.runCommand('webkit_launched_script');
@@ -338,7 +417,7 @@ export class BackendService {
   }
 
   getIsDisabledNotifications(callback) {
-    const params = {}
+    const params = {};
     this.runCommand('get_is_disabled_notifications', params, callback);
   }
 
@@ -471,7 +550,8 @@ export class BackendService {
       comment: comment,
       push_payer: !hide
     };
-    this.runCommand('transfer', params, callback);
+
+    this.asyncCall('transfer', params, callback);
   }
 
   validateAddress(address, callback) {
@@ -637,7 +717,7 @@ export class BackendService {
   }
 
   resyncWallet(id) {
-    this.runCommand('resync_wallet', { wallet_id: id })
+    this.runCommand('resync_wallet', { wallet_id: id });
   }
 
   getWalletAlias(address) {
@@ -699,7 +779,7 @@ export class BackendService {
 
   getVersion(callback) {
     this.runCommand('get_version', {}, (status, version) => {
-      this.runCommand('get_network_type', {}, (status, type) => {
+      this.runCommand('get_network_type', {}, (status_network, type) => {
         callback(version, type);
       });
     });
@@ -707,6 +787,34 @@ export class BackendService {
 
   setLogLevel(level) {
     return this.runCommand('set_log_level', { v: level });
+  }
+
+  asyncCall(command: string, params: PramsObj, callback?: (job_id?: number) => void | any) {
+    return this.runCommand('async_call', [command, params], (status, { job_id }: { job_id: number }) => {
+      callback(job_id);
+    });
+  }
+
+  dispatchAsyncCallResult() {
+    this.backendObject['dispatch_async_call_result'].connect((job_id: string, json_resp: string) => {
+        const asyncCommandResults: AsyncCommandResults = {
+          job_id: +job_id,
+          response: JSON.parse(json_resp)
+        };
+        this.ngZone.run(() => this.dispatchAsyncCallResult$.next(asyncCommandResults));
+    });
+  }
+
+  handleCurrentActionState() {
+    this.backendObject['handle_current_action_state']
+      .connect((response: string) => {
+        const currentActionState: CurrentActionState = JSON.parse(response);
+        this.ngZone.run(() => this.handleCurrentActionState$.next(currentActionState));
+      });
+  }
+
+  setEnableTor(value: boolean) {
+    return this.runCommand('set_enable_tor', <{ v: boolean }>{ v: value });
   }
 
 }

@@ -455,7 +455,7 @@
   "CONFIRM": {
     "BUTTON_CONFIRM": "Send",
     "BUTTON_CANCEL": "Cancel",
-    "TITLE": "Confirm transaction",
+    "TITLE": "Transaction",
     "MESSAGE": {
       "SEND": "Send",
       "FROM": "From",
@@ -583,5 +583,21 @@
     "RESTORE": "You can recover it by clicking or using the context menu",
     "TRAY_MENU_SHOW": "Resize",
     "TRAY_MENU_MINIMIZE": "Minimize"
+  },
+  "TOR_LIB_STATE": {
+    "STATE_SENDING": "Sending transaction",
+    "STATE_SENT_SUCCESS": "Successfully sent!",
+    "STATE_SEND_FAILED": "Sending failed",
+    "STATE_INITIALIZING": "Initializing",
+    "STATE_DOWNLOADING_CONSENSUS": "Downloading consensus",
+    "STATE_MAKING_TUNNEL_A": "Building tunnel to A",
+    "STATE_MAKING_TUNNEL_B": "Building tunnel to B",
+    "STATE_CREATING_STREAM": "Creating stream",
+    "STATE_FAILED": "Failed created stream",
+    "STATE_SUCCESS": "Successfully created stream"
+  },
+  "SEND_DETAILS_MODAL": {
+    "TITLE1": "Transaction",
+    "TITLE2": "Transaction details"
   }
 }
