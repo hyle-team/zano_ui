@@ -159,8 +159,8 @@
             class="blue-button"
             [disabled]="!sendForm.valid || !variablesService.currentWallet.loaded">{{
         'SEND.BUTTON' | translate }}</button>
-    <app-send-modal *ngIf="isModalDialogVisible"
-                    [form]="sendForm"
-                    (confirmed)="confirmed($event)"></app-send-modal>
-
 </form>
+
+<app-send-modal *ngIf="isModalDialogVisible" [form]="sendForm" (confirmed)="confirmed($event)"></app-send-modal>
+
+<app-send-details-modal [job_id]="job_id" *ngIf="isModalDetailsDialogVisible" (close)="handeCloseDetailsModal()"></app-send-details-modal>

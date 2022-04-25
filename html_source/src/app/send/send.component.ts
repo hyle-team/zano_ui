@@ -23,9 +23,11 @@ interface WrapInfo {
   styleUrls: ['./send.component.scss']
 })
 export class SendComponent implements OnInit, OnDestroy {
+  job_id: number;
   isOpen = false;
   localAliases = [];
   isModalDialogVisible = false;
+  isModalDetailsDialogVisible = false;
   hideWalletAddress = false;
   mixin: number;
   wrapInfo: WrapInfo;
@@ -202,10 +204,10 @@ export class SendComponent implements OnInit, OnDestroy {
   }
 
   confirmed(confirmed: boolean) {
+    this.isModalDialogVisible = false;
     if (confirmed) {
       this.onSend();
     }
-    this.isModalDialogVisible = false;
   }
 
   fillDeepLinkData() {
@@ -231,7 +233,6 @@ export class SendComponent implements OnInit, OnDestroy {
     if (this.sendForm.valid) {
       if (this.sendForm.get('address').value.indexOf('@') !== 0) {
         this.backend.validateAddress(this.sendForm.get('address').value, (valid_status, data) => {
-          console.log(valid_status, data.error_code === 'WRAP');
           if (valid_status === false && !(data.error_code === 'WRAP')) {
             this.ngZone.run(() => {
               this.sendForm.get('address').setErrors({ 'address_not_valid': true });
@@ -245,9 +246,10 @@ export class SendComponent implements OnInit, OnDestroy {
               this.sendForm.get('mixin').value,
               this.sendForm.get('comment').value,
               this.sendForm.get('hide').value,
-              (send_status) => {
-                if (send_status) {
-                  this.modalService.prepareModal('success', 'SEND.SUCCESS_SENT');
+              (job_id) => {
+                this.ngZone.run(() => {
+                  this.job_id = job_id;
+                  this.isModalDetailsDialogVisible = true;
                   this.variablesService.currentWallet.send_data = {
                     address: null,
                     amount: null,
@@ -264,7 +266,8 @@ export class SendComponent implements OnInit, OnDestroy {
                     fee: this.variablesService.default_fee,
                     hide: false
                   });
-                }
+                  this.sendForm.markAsUntouched();
+                });
               });
           }
         });
@@ -284,9 +287,10 @@ export class SendComponent implements OnInit, OnDestroy {
                 this.sendForm.get('mixin').value,
                 this.sendForm.get('comment').value,
                 this.sendForm.get('hide').value,
-                (send_status) => {
-                  if (send_status) {
-                    this.modalService.prepareModal('success', 'SEND.SUCCESS_SENT');
+                (job_id) => {
+                  this.ngZone.run(() => {
+                    this.job_id = job_id;
+                    this.isModalDetailsDialogVisible = true;
                     this.variablesService.currentWallet.send_data = {
                       address: null,
                       amount: null,
@@ -303,7 +307,8 @@ export class SendComponent implements OnInit, OnDestroy {
                       fee: this.variablesService.default_fee,
                       hide: false
                     });
-                  }
+                    this.sendForm.markAsUntouched();
+                  });
                 });
             }
           });
@@ -336,5 +341,10 @@ export class SendComponent implements OnInit, OnDestroy {
       return (amount as BigNumber).minus(needed);
     }
     return 0;
+  }
+
+  handeCloseDetailsModal() {
+    this.isModalDetailsDialogVisible = false;
+    this.job_id = null;
   }
 }
