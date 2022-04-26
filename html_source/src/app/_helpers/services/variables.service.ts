@@ -11,6 +11,8 @@ import { BigNumber } from 'bignumber.js';
   providedIn: 'root'
 })
 export class VariablesService {
+  public disable_price_fetch$ = new BehaviorSubject<boolean>(false);
+  public use_debug_mode$ = new BehaviorSubject<boolean>(false);
   public request_on_in = {};
   public stop_paginate = {};
   public sync_started = false;
