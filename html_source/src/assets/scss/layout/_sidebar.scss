@@ -1,39 +1,39 @@
 app-sidebar {
-  background-color: $sidebarBackgroundColor;
+  background-color: var(--sidebarBackgroundColor);
 
   .sidebar-accounts {
     .sidebar-accounts-list {
       .sidebar-account {
-        background-color: $accountBackgroundColor;
-        color: $accountMainTextColor;
+        background-color: var(--accountBackgroundColor);
+        color: var(--accountMainTextColor);
         &.auditable {
           background-color: transparent;
-          border-color: $accountAuditableBorderColor !important;
+          border-color: var(--accountAuditableBorderColor) !important;
         }
         &.watch-only {
           background-color: transparent;
-          border-color: $accountWatchOnlyBorderColor !important;
+          border-color: var(--accountWatchOnlyBorderColor) !important;
         }
         &.auditable,
         &.watch-only,
         &.tracking {
           border: 0.4rem solid;
           &.active {
-            background: $accountActiveBackgroundColor;
-            box-shadow: $accountBoxShadow;
+            background: var(--accountActiveBackgroundColor);
+            box-shadow: var(--accountBoxShadow);
           }
           &:hover:not(.active) {
             transition: all 0.25s ease;
-            background-color: $accountHoverBackgroundColor;
+            background-color: var(--accountHoverBackgroundColor);
           }
         }
 
         &.active {
           .sidebar-account-row {
             .progress-bar {
-              background-color: $progressBarAccountActiveColor;
+              background-color: var(--progressBarAccountActiveColor);
               .fill {
-                background-color: $accountMainTextColor;
+                background-color: var(--accountMainTextColor);
               }
             }
           }
@@ -41,47 +41,47 @@ app-sidebar {
 
         .sidebar-account-row {
           .text {
-            color: $accountMainTextColor;
+            color: var(--accountMainTextColor);
           }
 
           .indicator {
-            background-color: $mainTextColor;
-            color: $blueTextColor;
+            background-color: var(--mainTextColor);
+            color: var(--blueTextColor);
           }
 
           .progress-bar {
-            background-color: $progressBarAccountColor;
+            background-color: var(--progressBarAccountColor);
             .fill {
-              background-color: $greenTextColor;
+              background-color: var(--greenTextColor);
             }
           }
 
           &.account-price {
             .price {
-              color: $tooltipTextColor;
+              color: var(--tooltipTextColor);
             }
             .price-percent {
-              color: $greenTextColor;
+              color: var(--greenTextColor);
             }
           }
           &.account-synchronization {
-            color: $accountMainTextColor;
+            color: var(--accountMainTextColor);
           }
         }
 
         &.active {
-          background: $accountActiveBackgroundColor;
-          box-shadow: $accountBoxShadow;
+          background: var(--accountActiveBackgroundColor);
+          box-shadow: var(--accountBoxShadow);
           .sidebar-account-row {
             &.account-synchronization {
-              color: $accountMainTextColor;
+              color: var(--accountMainTextColor);
             }
           }
         }
 
         &:hover:not(.active) {
           transition: all 0.25s ease;
-          background-color: $accountHoverBackgroundColor;
+          background-color: var(--accountHoverBackgroundColor);
         }
       }
     }
@@ -90,15 +90,15 @@ app-sidebar {
   .sidebar-settings {
     .wrap-button {
       button {
-        color: $blueTextColor;
+        color: var(--blueTextColor);
         :hover {
-          color: $blueButtonHoverColor !important;
+          color: var(--blueButtonHoverColor) !important;
         }
       }
 
       &.active {
         button {
-          color: $blueButtonFocusColor !important;
+          color: var(--blueButtonFocusColor) !important;
         }
       }
     }

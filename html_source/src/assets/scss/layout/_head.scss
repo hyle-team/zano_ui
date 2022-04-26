@@ -6,7 +6,7 @@
   width: 100%;
   height: 3rem;
   .breadcrumbs {
-    color: $blueTextColor;
+    color: var(--blueTextColor);
     > span,
     a {
       &:not(:last-child) {
@@ -15,18 +15,20 @@
         margin-right: 3.5rem;
         outline-style: none;
         &:after {
-          @include pseudo;
+          content: '';
+          display: block;
+          position: absolute;
           top: 0.25rem;
           right: -2.5rem;
           width: 1.5rem;
           height: 2rem;
-          background: center / contain no-repeat url(~src/assets/icons/right.svg);
+          background: center / contain no-repeat url(src/assets/icons/right.svg);
         }
       }
     }
   }
   .back-btn {
-    color: $blueTextColor;
+    color: var(--blueTextColor);
     display: flex;
     align-items: center;
     background-color: transparent;
@@ -37,7 +39,7 @@
     height: auto;
     .icon {
       margin-right: 1rem;
-      background: center / contain no-repeat url(~src/assets/icons/back.svg);
+      background: center / contain no-repeat url(src/assets/icons/back.svg);
       width: 2rem;
       height: 2rem;
     }

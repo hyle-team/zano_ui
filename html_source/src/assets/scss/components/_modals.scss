@@ -1,0 +1,75 @@
+app-open-wallet-modal {
+  .modal {
+    border-radius: 2rem;
+    background: var(--modalBackground);
+    color: var(--mainTextColor);
+  }
+}
+
+app-send-modal {
+  .modal {
+    border-radius: 2rem;
+    background: var(--modalBackground);
+    color: var(--mainTextColor);
+    .title {
+      border-bottom: 0.2rem solid var(--resetButtonBackgroundColor);
+    }
+    .action-button {
+      background-color: var(--blueTextColor);
+      color: var(--alternativeTextColor);
+    }
+  }
+}
+
+app-export-history-modal {
+  .modal {
+    border-radius: 2rem;
+    background: var(--modalBackground);
+    color: var(--mainTextColor);
+    .content {
+      .inputs-container {
+        .lock-selection {
+          .custom-select {
+            .ng-dropdown-panel {
+              background-color: #1b3c75;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+app-modal-container,
+app-confirm-modal,
+app-deeplink,
+app-sync-modal {
+  .modal {
+    border-radius: 2rem;
+    background: var(--modalBackground);
+    color: var(--mainTextColor);
+    .action-button {
+      color: var(--alternativeTextColor);
+      &:hover {
+        color: var(--mainTextColor);
+      }
+    }
+  }
+  .modal.select-wallet {
+    .ng-select.custom-select .ng-dropdown-panel {
+      border: 1px solid #1f8feb;
+      font-weight: normal;
+      font-size: 1.8rem;
+      line-height: 2.1rem;
+      background-color: rgba(29, 129, 216, 0.6);
+      .ng-dropdown-panel-items {
+        .ng-option:not(:last-child) {
+          border-bottom: 1px solid #0c0c3a;
+        }
+        .ng-option {
+          border-radius: 0;
+        }
+      }
+    }
+  }
+}

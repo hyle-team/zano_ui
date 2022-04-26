@@ -1,0 +1,103 @@
+.ng-select {
+  &.custom-select {
+    width: 25rem;
+
+    &.ng-select-opened > {
+      .ng-select-container {
+        .ng-arrow {
+          top: -0.1rem;
+          border-color: transparent transparent #fff;
+          border-width: 0 0.4rem 0.7rem;
+        }
+      }
+    }
+
+    .ng-arrow-wrapper {
+      padding-right: 0;
+      border: 0.1rem solid #fff;
+      border-radius: 0.5rem;
+      height: 2rem;
+      justify-content: center;
+      display: flex;
+      align-items: center;
+      width: 2rem;
+      text-align: center;
+
+      .ng-arrow {
+        top: 0.1rem;
+        border-color: #fff transparent transparent;
+        border-width: 0.6rem 0.4rem 0.15rem;
+      }
+    }
+
+    .ng-select-container {
+      border: none;
+      border-radius: 0;
+      cursor: pointer;
+      font-size: 2rem;
+      line-height: 2.4;
+      outline: none;
+
+      background-color: var(--inputBackgroundColor);
+      color: var(--mainTextColor);
+
+      .ng-value-container {
+        padding: 0;
+
+        .ng-input {
+          top: auto;
+        }
+      }
+    }
+
+    .ng-dropdown-panel {
+      border: none;
+      border-radius: 1rem;
+      background-color: var(--selectDropdownBackgroundColor);
+
+      .ng-dropdown-panel-items {
+        .ng-option {
+          font-size: 1.8rem;
+          margin-bottom: 0.2rem;
+          border-radius: 2rem;
+          padding: 1rem;
+
+          background-color: var(--inputBackgroundColor);
+          color: var(--mainTextColor);
+
+          &.ng-option-marked {
+            background-color: var(--selectHoverColor);
+            color: var(--mainTextColor);
+          }
+
+          &.ng-option-selected {
+            background-color: var(--selectSelectedColor);
+            color: var(--mainTextColor);
+          }
+        }
+
+        &::-webkit-scrollbar {
+          background-color: transparent;
+          cursor: default;
+          width: 1rem;
+          height: 1rem;
+        }
+
+        &::-webkit-scrollbar-track {
+          background: transparent;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background-color: #556576;
+          background-clip: padding-box;
+          border: 0.25rem solid transparent;
+          border-radius: 0.5rem;
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+          background-color: #556576;
+        }
+      }
+    }
+  }
+}

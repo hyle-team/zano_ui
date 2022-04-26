@@ -1,3 +1,19 @@
+app-root {
+  display: flex;
+  flex-wrap: nowrap;
+  width: 100vw;
+  min-width: 1300px;
+  height: 100vh;
+  background: #0C0C3A;
+}
+
+.app-container {
+  display: flex;
+  overflow-x: auto;
+  overflow-y: hidden;
+  width: 100%;
+}
+
 app-main,
 app-create-wallet,
 app-open-wallet,
@@ -15,7 +31,7 @@ app-login {
     position: relative;
     padding: 3rem;
     min-height: 100%;
-    color: $mainTextColor;
+    color: var(--mainTextColor);
     .head {
       position: relative;
       top: 0;
@@ -27,7 +43,7 @@ app-main {
   .content {
     .add-wallet {
       .add-wallet-help {
-        color: $blueTextColor;
+        color: var(--blueTextColor);
       }
     }
   }

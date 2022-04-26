@@ -8,7 +8,6 @@ import { ContextMenuComponent } from 'ngx-contextmenu';
 import { IntToMoneyPipe } from './_helpers/pipes/int-to-money.pipe';
 import { BigNumber } from 'bignumber.js';
 import { ModalService } from './_helpers/services/modal.service';
-import { UtilsService } from './_helpers/services/utils.service';
 import { Store } from 'store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -16,8 +15,7 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  providers: [UtilsService]
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
 
@@ -45,7 +43,6 @@ export class AppComponent implements OnInit, OnDestroy {
     private ngZone: NgZone,
     private intToMoneyPipe: IntToMoneyPipe,
     private modalService: ModalService,
-    private utilsService: UtilsService,
     private store: Store
   ) {
     translate.addLangs(['en', 'fr', 'de', 'it', 'pt']);
@@ -555,17 +552,11 @@ export class AppComponent implements OnInit, OnDestroy {
               this.variablesService.settings[key] = data[key];
             }
           }
-          if (this.variablesService.settings.hasOwnProperty('scale') && [6, 8, 10, 12].indexOf(this.variablesService.settings.scale) !== -1) {
-            const width = this.utilsService.getMinWidthByScale(this.variablesService.settings.scale);
-            const app = document.documentElement.querySelector('app-root');
-            this.renderer.setStyle(app, 'min-width', width + 'px');
-            this.renderer.setStyle(document.documentElement, 'font-size', this.variablesService.settings.scale + 'px');
+          if (this.variablesService.settings.hasOwnProperty('scale') && ['8px', '10px', '12px', '14px'].indexOf(this.variablesService.settings.scale) !== -1) {
+            this.renderer.setStyle(document.documentElement, 'font-size', this.variablesService.settings.scale);
           } else {
-            this.variablesService.settings.scale = 8;
-            const width = this.utilsService.getMinWidthByScale(this.variablesService.settings.scale);
-            const app = document.documentElement.querySelector('app-root');
-            this.renderer.setStyle(app, 'min-width', width + 'px');
-            this.renderer.setStyle(document.documentElement, 'font-size', this.variablesService.settings.scale + 'px');
+            this.variablesService.settings.scale = '10px';
+            this.renderer.setStyle(document.documentElement, 'font-size', this.variablesService.settings.scale);
           }
         }
         this.translate.use(this.variablesService.settings.language);

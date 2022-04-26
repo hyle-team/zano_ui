@@ -1,0 +1,59 @@
+button {
+  transition: all 0.25s ease;
+  border: none;
+  outline: none;
+  background: none;
+  &.blue-button {
+    padding: 0 2rem;
+    font-size: 2.5rem;
+    line-height: 3rem;
+    font-weight: 500;
+    min-width: 20rem;
+    border-radius: 2rem;
+    height: 7rem;
+    color: var(--mainTextColor);
+    &:not(:disabled) {
+      background: var(--blueButtonBackgroundColor);
+      box-shadow: var(--blueButtonBoxShadow);
+      &:hover {
+        background: var(--blueButtonHoverColor);
+        box-shadow: var(--blueButtonHoverBoxShadow);
+      }
+      &:focus {
+        background: var(--blueButtonFocusColor);
+        box-shadow: var(--blueButtonFocusBoxShadow);
+      }
+    }
+    &:disabled {
+      background: var(--blueButtondisabledColor);
+    }
+  }
+
+  &.blue-button_reset {
+    padding: 0 1rem;
+    font-size: 2.5rem;
+    line-height: 3rem;
+    font-weight: 500;
+    min-width: 20rem;
+    border-radius: 2rem;
+    height: 7rem;
+    background-color: var(--resetButtonBackgroundColor);
+    border: 0.4rem solid;
+    &:not(:disabled) {
+      color: var(--resetButtonColor);
+      border-color: var(--resetButtonColor);
+      &:hover {
+        color: var(--resetButtonHoverColor);
+        border-color: var(--resetButtonHoverColor);
+      }
+      &:focus {
+        color: var(--resetButtonFocusColor);
+        border-color: var(--resetButtonFocusColor);
+      }
+    }
+    &:disabled {
+      color: var(--resetButtonDisabledColor);
+      border-color: var(--resetButtonDisabledColor);
+    }
+  }
+}

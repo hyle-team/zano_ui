@@ -8,7 +8,7 @@ app-export-import {
     position: relative;
     padding: 3rem;
     min-height: 100%;
-    color: $mainTextColor;
+    color: var(--mainTextColor);
     .head {
       position: relative;
       top: 0;
@@ -23,9 +23,9 @@ app-contacts {
       tbody {
         tr {
           td {
-            background-color: $selectHoverColor !important;
+            background-color: var(--selectHoverColor) !important;
             .alias {
-              color: $blueTextColor;
+              color: var(--blueTextColor);
             }
           }
         }
@@ -33,7 +33,7 @@ app-contacts {
 
       button {
         span {
-          color: $mainTextColor;
+          color: var(--mainTextColor);
         }
       }
     }
@@ -45,7 +45,7 @@ app-contacts {
 app-contact-send {
   .wallets-selection {
     button {
-      color: $blueTextColor;
+      color: var(--blueTextColor);
     }
   }
 }

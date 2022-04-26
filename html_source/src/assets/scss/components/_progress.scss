@@ -1,0 +1,11 @@
+app-progress-container {
+  .progress-bar-container {
+    color: var(--mainTextColor);
+    .progress-bar {
+      background-color: var(--progressBarBackgroundColor);
+      .progress-bar-full {
+        background-color: var(--progressBarFullBackgroundColor);
+      }
+    }
+  }
+}

@@ -1,78 +1,78 @@
 app-wallet {
-  color: $mainTextColor;
+  color: var(--mainTextColor);
   .header {
     .settings-block {
       .settings-dropdown {
-        background-color: $aliasDropdownBackground;
+        background-color: var(--aliasDropdownBackground);
         button {
           span {
-            color: $mainTextColor;
+            color: var(--mainTextColor);
           }
         }
       }
     }
     button {
-      color: $blueTextColor;
+      color: var(--blueTextColor);
       &:disabled {
         .icon svg path {
-          fill: $accountOptionalTextColor;
+          fill: var(--accountOptionalTextColor);
         }
       }
     }
   }
   .balance {
-    color: $mainTextColor;
+    color: var(--mainTextColor);
     .price-percent {
       &.negative-percent {
-        color: $redTextColor;
+        color: var(--redTextColor);
       }
       margin-left: 0.7rem;
-      color: $greenTextColor;
+      color: var(--greenTextColor);
     }
   }
   .address {
-    color: $addressTextColor;
+    color: var(--addressTextColor);
   }
   .tabs {
     .tabs-header {
       .tab {
-        color: $blueTextColor;
-        background-color: $tabInactiveBackgroundColor;
+        color: var(--blueTextColor);
+        background-color: var(--tabInactiveBackgroundColor);
         .indicator {
-          background-color: $accountIndicatorBackgroundColor;
-          color: $accountIndicatorTextColor;
+          background-color: var(--accountIndicatorBackgroundColor);
+          color: var(--accountIndicatorTextColor);
         }
         &.active {
-          background-color: $contentBackgroundColor;
+          background-color: var(--contentBackgroundColor);
         }
         &:hover:not(.active):not(.disabled) {
-          background-color: $tabHoverBackgroundColor;
+          background-color: var(--tabHoverBackgroundColor);
         }
       }
     }
     .tabs-content {
-      background-color: $contentBackgroundColor;
+      background-color: var(--contentBackgroundColor);
     }
     .pagination-wrapper {
       border-radius: 0 0 1rem 1rem;
-      background-color: $contentBackgroundColor;
+      background-color: var(--contentBackgroundColor);
       .pagination {
         button {
-          color: $mainTextColor;
+          color: var(--mainTextColor);
           &:hover {
-            color: $blueButtonHoverColor;
+            color: var(--blueButtonHoverColor);
             svg path {
-              fill: $paginationButtonHoverColor;
+              fill: var(--paginationButtonHoverColor);
             }
           }
           &.disabled {
-            color: $paginationButtonHoverColor;
+            color: var(--paginationButtonHoverColor);
             svg path {
-              fill: $paginationButtonHoverColor;
+              fill: var(--paginationButtonHoverColor);
             }
           }
           &.active {
-            color: $blueButtonBackgroundColor;
+            color: var(--blueButtonBackgroundColor);
           }
         }
       }
@@ -82,13 +82,13 @@ app-wallet {
 app-send {
   .form-send {
     .curent-alias-adress {
-      color: $placeholderTextColor;
+      color: var(--placeholderTextColor);
     }
     .send-select {
-      color: $mainTextColor;
+      color: var(--mainTextColor);
     }
     .additional-details {
-      border: 0.2rem solid $resetButtonBackgroundColor;
+      border: 0.2rem solid var(--resetButtonBackgroundColor);
     }
   }
 }
@@ -98,12 +98,12 @@ app-history {
       tr {
         .status.send {
           .status-transaction-text {
-            color: $blueTextColor;
+            color: var(--blueTextColor);
           }
         }
         .status.received {
           .status-transaction-text {
-            color: $greenTextColor;
+            color: var(--greenTextColor);
           }
         }
       }
@@ -113,20 +113,20 @@ app-history {
 app-purchase {
   .form-purchase {
     .purchase-select {
-      color: $mainTextColor;
+      color: var(--mainTextColor);
     }
     .purchase-states {
-      color: $blueTextColor;
+      color: var(--blueTextColor);
     }
     .additional-details {
-      border: 0.2rem solid $resetButtonBackgroundColor;
+      border: 0.2rem solid var(--resetButtonBackgroundColor);
     }
   }
   .progress-bar-container {
     .progress-bar {
-      background-color: $progressBarBackgroundColor;
+      background-color: var(--progressBarBackgroundColor);
       .progress-bar-full {
-        background-color: $progressBarFullBackgroundColor;
+        background-color: var(--progressBarFullBackgroundColor);
       }
     }
   }
@@ -134,33 +134,37 @@ app-purchase {
 app-typing-message {
   .head {
     .interlocutor {
-      color: $blueTextColor;
+      color: var(--blueTextColor);
     }
   }
   .messages-content {
     .messages-list {
       div {
         &.date {
-          color: $optionalTextColor;
+          color: var(--optionalTextColor);
         }
         &.my {
-          background-color: $messageMyBackgroundColor;
+          background-color: var(--messageMyBackgroundColor);
           &:before {
-            @include pseudo;
+            content: '';
+            display: block;
+            position: absolute;
             top: 0;
             left: -1.1rem;
             border: 1.2rem solid transparent;
-            border-top-color: $messageMyBackgroundColor;
+            border-top-color: var(--messageMyBackgroundColor);
           }
         }
         &.buddy {
-          background-color: $messageBuddyBackgroundColor;
+          background-color: var(--messageBuddyBackgroundColor);
           &:after {
-            @include pseudo;
+            content: '';
+            display: block;
+            position: absolute;
             right: -1.1rem;
             top: 0;
             border: 1.2rem solid transparent;
-            border-top-color: $messageBuddyBackgroundColor;
+            border-top-color: var(--messageBuddyBackgroundColor);
           }
         }
       }
@@ -171,10 +175,10 @@ app-staking {
   .chart-header {
     .general {
       .label {
-        color: $mainTextColor;
+        color: var(--mainTextColor);
       }
       .options {
-        color: $mainTextColor;
+        color: var(--mainTextColor);
       }
     }
     .selected {
@@ -187,26 +191,26 @@ app-staking {
   }
   .chart-options {
     .title {
-      color: $mainTextColor;
+      color: var(--mainTextColor);
     }
     .options {
       button {
-        color: $mainTextColor;
+        color: var(--mainTextColor);
         &:not(:disabled) {
-          background: $blueButtonBackgroundColor;
-          box-shadow: $blueButtonBoxShadow;
+          background: var(--blueButtonBackgroundColor);
+          box-shadow: var(--blueButtonBoxShadow);
           &:hover {
-            background: $blueButtonHoverColor;
-            box-shadow: $blueButtonHoverBoxShadow;
+            background: var(--blueButtonHoverColor);
+            box-shadow: var(--blueButtonHoverBoxShadow);
           }
           &:focus,
           &.active {
-            background: $blueButtonFocusColor;
-            box-shadow: $blueButtonFocusBoxShadow;
+            background: var(--blueButtonFocusColor);
+            box-shadow: var(--blueButtonFocusBoxShadow);
           }
         }
         &:disabled {
-          background: $blueButtondisabledColor;
+          background: var(--blueButtondisabledColor);
         }
       }
     }
@@ -224,14 +228,14 @@ app-staking {
     z-index: 1;
     width: 30rem;
     height: 30rem;
-    background-color: $aliasDropdownBackground;
-    color: $mainTextColor;
+    background-color: var(--aliasDropdownBackground);
+    color: var(--mainTextColor);
     div {
       font-size: 2rem;
       line-height: 2.4rem;
       margin-bottom: 1rem;
       &:hover {
-        background-color: $selectHoverColor;
+        background-color: var(--selectHoverColor);
       }
     }
   }
