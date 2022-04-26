@@ -86,7 +86,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.backend.initService().subscribe(initMessage => {
       console.log('Init message: ', initMessage);
-
+      this.backend.disablePriceFetch();
       this.backend.webkitLaunchedScript();
 
       this.backend.start_backend(false, '127.0.0.1', 11512, (st2, dd2) => {

@@ -817,6 +817,12 @@ export class BackendService {
     return this.runCommand('set_enable_tor', <{ v: boolean }>{ v: value });
   }
 
+  disablePriceFetch() {
+    return this.runCommand('disable_price_fetch', {}, (response) => {
+      console.log('123 disable_price_fetch', response);
+    });
+  }
+
 }
 
 
