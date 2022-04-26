@@ -249,8 +249,8 @@ export class BackendService {
     BackendService.Debug(2, debug);
     try {
       BackendService.Debug(2, JSONBigNumber.parse(result, BackendService.bigNumberParser));
-    } catch (e) {
-      BackendService.Debug(2, { response_data: result, error_code: 'OK' });
+    } catch ( e ) {
+      BackendService.Debug(2, {response_data: result, error_code: 'OK'});
     }
   }
 
@@ -262,8 +262,8 @@ export class BackendService {
       } else {
         try {
           Result = JSONBigNumber.parse(resultStr, BackendService.bigNumberParser);
-        } catch (e) {
-          Result = { response_data: resultStr, error_code: 'OK' };
+        } catch ( e ) {
+          Result = {response_data: resultStr, error_code: 'OK'};
         }
       }
     } else {
@@ -398,7 +398,7 @@ export class BackendService {
     if (this.variablesService.wallets.length) {
       this.variablesService.settings.wallets = [];
       this.variablesService.wallets.forEach((wallet) => {
-        this.variablesService.settings.wallets.push({ name: wallet.name, path: wallet.path });
+        this.variablesService.settings.wallets.push({name: wallet.name, path: wallet.path});
       });
     }
     this.runCommand('store_app_data', this.variablesService.settings, callback);
@@ -430,12 +430,12 @@ export class BackendService {
     const wallets = [];
     const contacts = [];
     this.variablesService.wallets.forEach((wallet) => {
-      wallets.push({ name: wallet.name, pass: wallet.pass, path: wallet.path, staking: wallet.staking });
+      wallets.push({name: wallet.name, pass: wallet.pass, path: wallet.path, staking: wallet.staking});
     });
     this.variablesService.contacts.forEach((contact) => {
-      contacts.push({ name: contact.name, address: contact.address, notes: contact.notes });
+      contacts.push({name: contact.name, address: contact.address, notes: contact.notes});
     });
-    data = { wallets: wallets, contacts: contacts };
+    data = {wallets: wallets, contacts: contacts};
     this.backendObject['store_secure_app_data'](JSON.stringify(data), this.variablesService.appPass, (dataStore) => {
       this.backendCallback(dataStore, {}, callback, 'store_secure_app_data');
     });
@@ -506,11 +506,11 @@ export class BackendService {
   }
 
   closeWallet(wallet_id, callback?) {
-    this.runCommand('close_wallet', { wallet_id: +wallet_id }, callback);
+    this.runCommand('close_wallet', {wallet_id: +wallet_id}, callback);
   }
 
-  getSmartWalletInfo({ wallet_id, seed_password }, callback) {
-    this.runCommand('get_smart_wallet_info', { wallet_id: +wallet_id, seed_password }, callback);
+  getSmartWalletInfo({wallet_id, seed_password}, callback) {
+    this.runCommand('get_smart_wallet_info', {wallet_id: +wallet_id, seed_password}, callback);
   }
 
   getSeedPhraseInfo(param, callback) {
@@ -518,7 +518,7 @@ export class BackendService {
   }
 
   runWallet(wallet_id, callback?) {
-    this.runCommand('run_wallet', { wallet_id: +wallet_id }, callback);
+    this.runCommand('run_wallet', {wallet_id: +wallet_id}, callback);
   }
 
   isValidRestoreWalletText(param, callback) {
@@ -635,15 +635,15 @@ export class BackendService {
   }
 
   getMiningHistory(wallet_id, callback) {
-    this.runCommand('get_mining_history', { wallet_id: parseInt(wallet_id, 10) }, callback);
+    this.runCommand('get_mining_history', {wallet_id: parseInt(wallet_id, 10)}, callback);
   }
 
   startPosMining(wallet_id, callback?) {
-    this.runCommand('start_pos_mining', { wallet_id: parseInt(wallet_id, 10) }, callback);
+    this.runCommand('start_pos_mining', {wallet_id: parseInt(wallet_id, 10)}, callback);
   }
 
   stopPosMining(wallet_id, callback?) {
-    this.runCommand('stop_pos_mining', { wallet_id: parseInt(wallet_id, 10) }, callback);
+    this.runCommand('stop_pos_mining', {wallet_id: parseInt(wallet_id, 10)}, callback);
   }
 
   openUrlInBrowser(url, callback?) {
@@ -713,11 +713,11 @@ export class BackendService {
   }
 
   getAliasCoast(alias, callback) {
-    this.runCommand('get_alias_coast', { v: alias }, callback);
+    this.runCommand('get_alias_coast', {v: alias}, callback);
   }
 
   resyncWallet(id) {
-    this.runCommand('resync_wallet', { wallet_id: id });
+    this.runCommand('resync_wallet', {wallet_id: id});
   }
 
   getWalletAlias(address) {
@@ -786,22 +786,22 @@ export class BackendService {
   }
 
   setLogLevel(level) {
-    return this.runCommand('set_log_level', { v: level });
+    return this.runCommand('set_log_level', {v: level});
   }
 
   asyncCall(command: string, params: PramsObj, callback?: (job_id?: number) => void | any) {
-    return this.runCommand('async_call', [command, params], (status, { job_id }: { job_id: number }) => {
+    return this.runCommand('async_call', [command, params], (status, {job_id}: { job_id: number }) => {
       callback(job_id);
     });
   }
 
   dispatchAsyncCallResult() {
     this.backendObject['dispatch_async_call_result'].connect((job_id: string, json_resp: string) => {
-        const asyncCommandResults: AsyncCommandResults = {
-          job_id: +job_id,
-          response: JSON.parse(json_resp)
-        };
-        this.ngZone.run(() => this.dispatchAsyncCallResult$.next(asyncCommandResults));
+      const asyncCommandResults: AsyncCommandResults = {
+        job_id: +job_id,
+        response: JSON.parse(json_resp)
+      };
+      this.ngZone.run(() => this.dispatchAsyncCallResult$.next(asyncCommandResults));
     });
   }
 
@@ -814,9 +814,18 @@ export class BackendService {
   }
 
   setEnableTor(value: boolean) {
-    return this.runCommand('set_enable_tor', <{ v: boolean }>{ v: value });
+    return this.runCommand('set_enable_tor', <{ v: boolean }>{v: value});
   }
 
+  getOptions() {
+    return this.runCommand(
+      'get_options',
+      {},
+      (status, {disable_price_fetch, use_debug_mode}: { disable_price_fetch: boolean; use_debug_mode: boolean }) => {
+        this.variablesService.disable_price_fetch$.next(disable_price_fetch);
+        this.variablesService.use_debug_mode$.next(use_debug_mode);
+      });
+  }
 }
 
 

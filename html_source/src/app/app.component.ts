@@ -11,6 +11,7 @@ import { ModalService } from './_helpers/services/modal.service';
 import { UtilsService } from './_helpers/services/utils.service';
 import { Store } from 'store';
 import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -86,7 +87,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.backend.initService().subscribe(initMessage => {
       console.log('Init message: ', initMessage);
-
+      this.backend.getOptions();
       this.backend.webkitLaunchedScript();
 
       this.backend.start_backend(false, '127.0.0.1', 11512, (st2, dd2) => {
@@ -577,7 +578,7 @@ export class AppComponent implements OnInit, OnDestroy {
           this.backend.haveSecureAppData((statusPass) => {
             if (statusPass) {
               this.ngZone.run(() => {
-                this.router.navigate(['/login'], {queryParams: {type: 'auth'}});
+                this.router.navigate(['/login'], { queryParams: { type: 'auth' } });
               });
             } else {
               if (Object.keys(data).length !== 0) {
@@ -588,7 +589,7 @@ export class AppComponent implements OnInit, OnDestroy {
                 });
               } else {
                 this.ngZone.run(() => {
-                  this.router.navigate(['/login'], {queryParams: {type: 'reg'}});
+                  this.router.navigate(['/login'], { queryParams: { type: 'reg' } });
                 });
               }
             }
@@ -604,11 +605,19 @@ export class AppComponent implements OnInit, OnDestroy {
     }, error => {
       console.log(error);
     });
-    this.getMoneyEquivalent();
 
-    this.intervalUpdatePriceState = setInterval(() => {
-      this.getMoneyEquivalent();
-    }, 30000);
+    this.variablesService.disable_price_fetch$.pipe(takeUntil(this._destroy$)).subscribe((disable_price_fetch) => {
+      if (!disable_price_fetch) {
+        this.getMoneyEquivalent();
+        this.intervalUpdatePriceState = setInterval(() => {
+          this.getMoneyEquivalent();
+        }, 30000);
+      } else {
+        if (this.intervalUpdatePriceState) {
+          clearInterval(this.intervalUpdatePriceState);
+        }
+      }
+    });
   }
 
   getMoneyEquivalent() {
@@ -739,18 +748,18 @@ export class AppComponent implements OnInit, OnDestroy {
       if (sync && sync.length) {
         const result = value.map(item => {
           if (item.wallet_id === wallet.wallet_id) {
-            return {sync: boolean, wallet_id: wallet.wallet_id};
+            return { sync: boolean, wallet_id: wallet.wallet_id };
           } else {
             return item;
           }
         });
         this.store.set('sync', result);
       } else {
-        value.push({sync: boolean, wallet_id: wallet.wallet_id});
+        value.push({ sync: boolean, wallet_id: wallet.wallet_id });
         this.store.set('sync', value);
       }
     } else {
-      this.store.set('sync', [{sync: boolean, wallet_id: wallet.wallet_id}]);
+      this.store.set('sync', [{ sync: boolean, wallet_id: wallet.wallet_id }]);
     }
   }
 
