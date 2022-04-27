@@ -28,7 +28,7 @@
     position: relative;
     button {
       &:disabled {
-        cursor: url(../../assets/icons/not-allowed.svg), not-allowed;
+        cursor: url(~src/assets/icons/not-allowed.svg), not-allowed;
       }
       margin: 0;
     }
@@ -45,7 +45,7 @@
         align-items: center;
         width: 100%;
         &:disabled {
-          cursor: url(../../assets/icons/not-allowed.svg), not-allowed;
+          cursor: url(~src/assets/icons/not-allowed.svg), not-allowed;
 
           .icon svg path,
           .icon svg .st0 {
@@ -75,7 +75,7 @@
             width: 1.7rem;
           }
           &.close-wallet {
-            background: center / contain no-repeat url(../../assets/icons/close-wallet-dropdown.svg);
+            background: center / contain no-repeat url(~src/assets/icons/close-wallet-dropdown.svg);
           }
         }
       }
@@ -107,16 +107,16 @@
       height: 2.4rem;
       &.account {
         height: 1.6rem;
-        background: center / contain no-repeat url(../../assets/icons/account.svg);
+        background: center / contain no-repeat url(~src/assets/icons/account.svg);
       }
       &.lock {
-        background: center / contain no-repeat url(../../assets/icons/lock.svg);
+        background: center / contain no-repeat url(~src/assets/icons/lock.svg);
       }
       &.details {
         margin-right: 0;
       }
       &.close-wallet {
-        background: center / contain no-repeat url(../../assets/icons/close-wallet.svg);
+        background: center / contain no-repeat url(~src/assets/icons/close-wallet.svg);
         margin-right: 0;
       }
     }
@@ -131,10 +131,10 @@
       width: 2.4rem;
       height: 2.4rem;
       &.edit {
-        background: center / contain no-repeat url(../../assets/icons/details.svg);
+        background: center / contain no-repeat url(~src/assets/icons/details.svg);
       }
       &.transfer {
-        background: center / contain no-repeat url(../../assets/icons/send.svg);
+        background: center / contain no-repeat url(~src/assets/icons/send.svg);
       }
     }
   }
@@ -152,10 +152,10 @@
       transition: all 0.25s ease;
       width: 2.4rem;
       height: 2.4rem;
-      background: center / contain no-repeat url(../../assets/icons/copy.svg);
+      background: center / contain no-repeat url(~src/assets/icons/copy.svg);
     }
     &.copied {
-      background: center / contain no-repeat url(../../assets/icons/complete-testwallet.svg);
+      background: center / contain no-repeat url(~src/assets/icons/complete-testwallet.svg);
     }
   }
 }
@@ -211,22 +211,22 @@
         width: 2rem;
         height: 2.4rem;
         &.send {
-          background: center / contain no-repeat url(../../assets/icons/send.svg);
+          background: center / contain no-repeat url(~src/assets/icons/send.svg);
         }
         &.receive {
-          background: center / contain no-repeat url(../../assets/icons/receive-blue.svg);
+          background: center / contain no-repeat url(~src/assets/icons/receive-blue.svg);
         }
         &.history {
-          background: center / contain no-repeat url(../../assets/icons/history.svg);
+          background: center / contain no-repeat url(~src/assets/icons/history.svg);
         }
         &.contracts {
-          background: center / contain no-repeat url(../../assets/icons/contracts.svg);
+          background: center / contain no-repeat url(~src/assets/icons/contracts.svg);
         }
         &.messages {
-          background: center / contain no-repeat url(../../assets/icons/message.svg);
+          background: center / contain no-repeat url(~src/assets/icons/message.svg);
         }
         &.staking {
-          background: center / contain no-repeat url(../../assets/icons/staking.svg);
+          background: center / contain no-repeat url(~src/assets/icons/staking.svg);
         }
       }
       .indicator {
@@ -241,7 +241,7 @@
         height: 1.6rem;
       }
       &:disabled {
-        cursor: url(../../assets/icons/not-allowed.svg), not-allowed;
+        cursor: url(~src/assets/icons/not-allowed.svg), not-allowed;
       }
       &:not(:last-child) {
         margin-right: 0.3rem;

@@ -110,7 +110,7 @@
       height: 1.6rem;
       display: block;
       content: "";
-      background: center / contain no-repeat url("../../assets/icons/close-wallet.svg");
+      background: center / contain no-repeat url("~src/assets/icons/close-wallet.svg");
     }
   }
 
@@ -235,7 +235,7 @@
     //       height: 1.6rem;
     //       display: block;
     //       content: "";
-    //       background: center / contain no-repeat url("../../assets/icons/close-wallet.svg");
+    //       background: center / contain no-repeat url("~src/assets/icons/close-wallet.svg");
     //     }
     //   }
 
@@ -360,7 +360,7 @@
         max-height: 1.2rem;
       }
       &.disabled {
-        cursor: url(../../assets/icons/not-allowed.svg) not-allowed;
+        cursor: url(~src/assets/icons/not-allowed.svg) not-allowed;
       }
       .icon {
         margin-right: 0.7rem;
@@ -370,17 +370,17 @@
         &.add-wallet {
           width: 1.4rem;
           height: 1.4rem;
-          background: center / contain no-repeat url(../../assets/icons/addnew.svg);
+          background: center / contain no-repeat url(~src/assets/icons/addnew.svg);
         }
         &.contacts {
-          background: center / contain no-repeat url(../../assets/icons/contacts.svg);
+          background: center / contain no-repeat url(~src/assets/icons/contacts.svg);
         }
         &.settings {
-          background: center / contain no-repeat url(../../assets/icons/settings-gear.svg);
+          background: center / contain no-repeat url(~src/assets/icons/settings-gear.svg);
         }
         &.logout {
           background: none;
-          background: center / contain no-repeat url(../../assets/icons/logout.png);
+          background: center / contain no-repeat url(~src/assets/icons/logout.png);
         }
       }
     }
@@ -488,10 +488,10 @@
       width: 1.2rem;
       height: 1.2rem;
       &.update {
-        background: center / contain no-repeat url(../../assets/icons/update.svg);
+        background: center / contain no-repeat url(~src/assets/icons/update.svg);
       }
       &.time {
-        background: center / contain no-repeat url(../../assets/icons/time.svg);
+        background: center / contain no-repeat url(~src/assets/icons/time.svg);
       }
     }
   }

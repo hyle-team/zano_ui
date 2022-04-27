@@ -22,7 +22,7 @@
           right: -2.5rem;
           width: 1.5rem;
           height: 2rem;
-          background: center / contain no-repeat url(src/assets/icons/right.svg);
+          background: center / contain no-repeat url(~src/assets/icons/right.svg);
         }
       }
     }
@@ -39,7 +39,7 @@
     height: auto;
     .icon {
       margin-right: 1rem;
-      background: center / contain no-repeat url(src/assets/icons/back.svg);
+      background: center / contain no-repeat url(~src/assets/icons/back.svg);
       width: 2rem;
       height: 2rem;
     }

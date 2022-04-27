@@ -7,6 +7,7 @@ import { AUDITABLE_WALLET_HELP_PAGE } from '../_shared/constants';
 import { DOWNLOADS_PAGE_URL } from '../_shared/constants';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Wallet } from '../_helpers/models/wallet.model';
+import { environment } from '../../environments/environment';
 
 
 @Component({
@@ -15,6 +16,7 @@ import { Wallet } from '../_helpers/models/wallet.model';
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit, OnDestroy {
+  environment = environment;
   walletSubRouting;
   walletActive: number;
   isModalDialogVisible = false;

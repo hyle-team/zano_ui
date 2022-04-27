@@ -77,7 +77,7 @@
       }
       &.disabled-checkbox-block {
         label {
-          cursor: url(../../assets/icons/not-allowed.svg), not-allowed;
+          cursor: url(~src/assets/icons/not-allowed.svg), not-allowed;
           &:before {
             background-color: #556576;
             border: 0.1rem solid #556576;

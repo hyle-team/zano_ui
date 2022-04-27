@@ -21,10 +21,10 @@
         transition: all 0.25s ease;
         width: 2.4rem;
         height: 2.4rem;
-        background: center / contain no-repeat url(../../assets/icons/copy.svg);
+        background: center / contain no-repeat url(~src/assets/icons/copy.svg);
       }
       &.copied {
-        background: center / contain no-repeat url(../../assets/icons/complete-testwallet.svg);
+        background: center / contain no-repeat url(~src/assets/icons/complete-testwallet.svg);
       }
     }
   }

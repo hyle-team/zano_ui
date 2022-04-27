@@ -25,13 +25,13 @@
             height: 1.7rem;
           }
           .lock-transaction {
-            background: center / contain no-repeat url(../../assets/icons/lock-transaction.svg);
+            background: center / contain no-repeat url(~src/assets/icons/lock-transaction.svg);
             margin-left: 0.7rem;
             width: 1.4rem;
             height: 1.4rem;
           }
           .unlock-transaction {
-            background: center / contain no-repeat url(../../assets/icons/unlock-transaction.svg);
+            background: center / contain no-repeat url(~src/assets/icons/unlock-transaction.svg);
             margin-left: 0.7rem;
             width: 1.4rem;
             height: 1.4rem;
@@ -87,7 +87,7 @@
     align-items: center;
     button {
       &.disabled {
-        cursor: url(../../assets/icons/not-allowed.svg), not-allowed;
+        cursor: url(~src/assets/icons/not-allowed.svg), not-allowed;
       }
       svg {
         margin-top: 0.3rem;

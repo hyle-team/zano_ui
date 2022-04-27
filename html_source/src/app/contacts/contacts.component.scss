@@ -57,13 +57,13 @@
                 width: 2rem;
                 height: 2rem;
                 &.edit {
-                  background: center / contain no-repeat url(../../assets/icons/edit.svg);
+                  background: center / contain no-repeat url(~src/assets/icons/edit.svg);
                 }
                 &.transfer {
-                  background: center / contain no-repeat url(../../assets/icons/send.svg);
+                  background: center / contain no-repeat url(~src/assets/icons/send.svg);
                 }
                 &.delete {
-                  background: center / contain no-repeat url(../../assets/icons/delete.svg);
+                  background: center / contain no-repeat url(~src/assets/icons/delete.svg);
                 }
               }
             }

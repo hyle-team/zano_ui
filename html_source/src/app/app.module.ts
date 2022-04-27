@@ -1,8 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
-
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { SettingsComponent } from './settings/settings.component';
@@ -26,7 +24,6 @@ import { PurchaseComponent } from './purchase/purchase.component';
 import { MessagesComponent } from './messages/messages.component';
 import { TypingMessageComponent } from './typing-message/typing-message.component';
 import { StakingComponent } from './staking/staking.component';
-
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -37,11 +34,9 @@ import { BackendService } from './_helpers/services/backend.service';
 import { ModalService } from './_helpers/services/modal.service';
 import { PaginationStore } from './_helpers/services/pagination.store';
 // SERVICES
-
 // Feature module
 import { Store } from 'store';
 // Feature module
-
 import { MoneyToIntPipe } from './_helpers/pipes/money-to-int.pipe';
 import { IntToMoneyPipe } from './_helpers/pipes/int-to-money.pipe';
 import { HistoryTypeMessagesPipe } from './_helpers/pipes/history-type-messages.pipe';
@@ -57,7 +52,6 @@ import { ContextMenuModule } from 'ngx-contextmenu';
 import { ChartModule, HIGHCHARTS_MODULES } from 'angular-highcharts';
 import * as highcharts from 'highcharts';
 import exporting from 'highcharts/modules/exporting.src';
-import { ProgressContainerComponent } from './_helpers/directives/progress-container/progress-container.component';
 import { InputDisableSelectionDirective } from './_helpers/directives/input-disable-selection/input-disable-selection.directive';
 import { SendModalComponent } from './send-modal/send-modal.component';
 import { ContactsComponent } from './contacts/contacts.component';
@@ -74,6 +68,7 @@ import { SyncModalComponent } from './_helpers/modals/sync-modal/sync-modal.comp
 import { ContractsTabComponent } from './contracts/contracts-tab/contracts-tab.component';
 import { SendDetailsModalComponent } from './send-details-modal/send-details-modal.component';
 import { DisablePriceFetchModule } from './_shared/directives/disable-price-fetch/disable-price-fetch.module';
+import { PagesModule } from './pages/pages.module';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
@@ -129,7 +124,6 @@ export function highchartsFactory() {
     InputValidateDirective,
     ModalContainerComponent,
     TransactionDetailsComponent,
-    ProgressContainerComponent,
     InputDisableSelectionDirective,
     SendModalComponent,
     ContactsComponent,
@@ -163,6 +157,7 @@ export function highchartsFactory() {
     ChartModule,
     PapaParseModule,
     DisablePriceFetchModule,
+    PagesModule,
     ContextMenuModule.forRoot()
   ],
   providers: [
@@ -183,4 +178,5 @@ export function highchartsFactory() {
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
