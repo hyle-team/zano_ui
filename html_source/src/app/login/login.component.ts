@@ -1,14 +1,10 @@
-import { Component, NgZone, OnInit, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BackendService } from '../_helpers/services/backend.service';
 import { VariablesService } from '../_helpers/services/variables.service';
 import { ModalService } from '../_helpers/services/modal.service';
 import { Wallet } from '../_helpers/models/wallet.model';
-import { DOWNLOADS_PAGE_URL } from '../_shared/constants'
-
-import icons from '../../assets/icons/icons.json';
-
 
 @Component({
   selector: 'app-login',
@@ -34,8 +30,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   type = 'reg';
 
-  logo = icons.logo;
-
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -43,7 +37,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     public variablesService: VariablesService,
     private modalService: ModalService,
     private ngZone: NgZone
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.queryRouting = this.route.queryParams.subscribe(params => {
@@ -95,7 +90,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (this.authForm.valid) {
       this.variablesService.appPass = this.authForm.get('password').value;
       if (this.variablesService.dataIsLoaded) {
-        this.backend.checkMasterPassword({ pass: this.variablesService.appPass }, (status, data) => {
+        this.backend.checkMasterPassword({ pass: this.variablesService.appPass }, (status) => {
           if (status) {
             this.variablesService.appLogin = true;
             if (this.variablesService.settings.appLockTime) {
@@ -203,7 +198,13 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.backend.getContracts(open_data.wallet_id, (contracts_status, contracts_data) => {
               if (contracts_status && contracts_data.hasOwnProperty('contracts')) {
                 this.ngZone.run(() => {
-                  new_wallet.prepareContractsAfterOpen(contracts_data.contracts, this.variablesService.exp_med_ts, this.variablesService.height_app, this.variablesService.settings.viewedContracts, this.variablesService.settings.notViewedContracts);
+                  new_wallet.prepareContractsAfterOpen(
+                    contracts_data.contracts,
+                    this.variablesService.exp_med_ts,
+                    this.variablesService.height_app,
+                    this.variablesService.settings.viewedContracts,
+                    this.variablesService.settings.notViewedContracts
+                  );
                 });
               }
             });
@@ -232,10 +233,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         }
       });
     });
-  }
-
-  getUpdate() {
-    this.backend.openUrlInBrowser(DOWNLOADS_PAGE_URL);
   }
 
   ngOnDestroy() {

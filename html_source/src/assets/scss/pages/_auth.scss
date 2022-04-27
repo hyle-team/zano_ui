@@ -1,0 +1,48 @@
+app-login {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  position: relative;
+
+  .wrapper {
+    margin: auto;
+    max-width: 42rem;
+    width: 100%;
+    border-radius: 0.8rem;
+    background-color: var(--light-blue);
+    overflow: hidden;
+
+    .logo {
+      max-width: 20.6rem;
+      max-height: 7rem;
+      width: 100%;
+      height: 100%;
+      margin: 3rem auto;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+      }
+    }
+
+    .form {
+      overflow: hidden;
+      &__field {
+        &--wrapper {
+          border-radius: 0.8rem;
+          background-color: var(--light-blue-details);
+        }
+      }
+    }
+  }
+
+  app-synchronization-status {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+  }
+}

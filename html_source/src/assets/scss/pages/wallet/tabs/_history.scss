@@ -1,0 +1,40 @@
+app-history {
+  width: 100%;
+  height: auto;
+
+  .history-wrap {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .wrap-table {
+    display: flex;
+    flex: auto;
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    table.history-table {
+      tbody {
+        tr {
+          .status {
+            position: relative;
+            display: flex;
+            align-items: center;
+
+            .confirmation {
+              width: 1.7rem;
+              height: 1.7rem;
+            }
+
+            img.status-transaction {
+              width: 1.5rem;
+              height: 1.5rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}

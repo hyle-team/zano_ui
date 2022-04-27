@@ -1,12 +1,24 @@
-<div class="modal">
-  <div class="content">
-    <i class="icon" [class.error]="type === 'error'" [class.success]="type === 'success'"
-      [class.info]="type === 'info'"></i>
-    <div class="message-container">
-      <span class="title">{{title}}</span>
-      <span class="message" [innerHTML]="message"></span>
+<div class="modal p-2 border-radius-0_8-rem bg-light-blue max-w-34-rem w-100 max-h-100">
+    <button type="button"
+            class="close"
+            (click)="onClose()"><i class="icon close"></i></button>
+
+    <div class="content flex flex__align-center mb-2">
+        <i class="icon min-width-4_4-rem min-height-4_4-rem flex_0_0_auto mr-1"
+           [class.error]="type === 'error'"
+           [class.success]="type === 'success'"
+           [class.info]="type === 'info'"></i>
+        <div class="message-container">
+            <h3 class="title">{{title}}</h3>
+            <p class="message"
+               [innerHTML]="message"></p>
+        </div>
     </div>
-  </div>
-  <button type="button" class="close-button" (click)="onClose()"><i class="icon close"></i></button>
-  <button type="button" class="action-button" (click)="onClose()" #btn>{{ 'MODALS.OK' | translate }}</button>
+
+    <div class="controls flex flex__justify-center">
+        <button type="button"
+                class="primary max-w-19-rem w-100 big"
+                (click)="onClose()"
+                #btn>{{ 'MODALS.OK' | translate }}</button>
+    </div>
 </div>

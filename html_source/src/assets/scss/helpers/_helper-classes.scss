@@ -1,3 +1,76 @@
-.error-text {
-  color: var(--redTextColor);
+.color-red {
+  color: var(--red);
+}
+
+.color-primary {
+  color: var(--primary);
+}
+
+.color-green {
+  color: var(--green);
+}
+
+.border-radius-0_8-rem {
+  border-radius: 0.8rem;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.text-ellipsis {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.text-align-center {
+  text-align: center;
+}
+
+.word-break-break-all {
+  word-break: break-all;
+}
+
+// background
+
+.bg-light-gray {
+  background-color: var(--light-gray-background);
+}
+
+.bg-light-blue {
+  background-color: var(--light-blue);
+}
+
+.bg-light-blue-details {
+  background-color: var(--light-blue-details);
+}
+
+// overflow
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.overflow-auto{
+  overflow: auto;
+}
+
+.overflow-x-hidden{
+  overflow-x: hidden;
+}
+
+.overflow-y-hidden{
+  overflow-y: hidden;
+}
+
+.overflow-x-auto{
+  overflow-x: auto;
+}
+
+.overflow-y-auto{
+  overflow-y: auto;
+}
+
+.no-scroll {
+  overflow: hidden;
 }

@@ -1,33 +1,45 @@
-<div class="modal">
-  <div class="title">
-    <span>{{ 'EXPORT_HISTORY.TITLE' | translate }}</span>
-  </div>
-  <div class="content">
-    <div class="inputs-container">
-      <div class="lock-selection">
-        <label class="lock-selection-title">Format:</label>
-        <ng-select class="custom-select" [items]="exportFormats" bindValue="format" bindLabel="formatName"
-          [(ngModel)]="curentFormat" [clearable]="false" [searchable]="false">
-          <ng-template ng-label-tmp let-item="item">
-            {{item.formatName}}
-          </ng-template>
-          <ng-template ng-option-tmp let-item="item" let-index="index">
-            {{item.formatName}}
-          </ng-template>
-        </ng-select>
-      </div>
-      <div class="lock-selection filter-switch">
-        <label class="lock-selection-title">{{ 'EXPORT_HISTORY.FILTER' | translate }}</label>
-        <div class="switch" (click)="posFilterIsOn = !posFilterIsOn" [ngClass]="posFilterIsOn ? 'off' : 'on'">
-          <span class="circle"></span>
+<div class="modal p-2 border-radius-0_8-rem bg-light-blue max-w-54-rem w-100 max-h-100 overflow-hidden flex flex__direction-column">
+    <form class="form flex flex__direction-column">
+        <h4 class="text-ellipsis mb-2 flex_0_0_auto">
+            {{ 'EXPORT_HISTORY.TITLE' | translate }}
+        </h4>
+
+        <div class="content flex_1_1_auto mb-2">
+            <div class="form__field">
+                <label>Format:</label>
+                <ng-select [items]="exportFormats"
+                           bindValue="format"
+                           bindLabel="formatName"
+                           name="format"
+                           [(ngModel)]="currentFormat"
+                           [clearable]="false"
+                           [searchable]="false">
+                    <ng-template ng-label-tmp
+                                 let-item="item">
+                        {{item.formatName}}
+                    </ng-template>
+                    <ng-template ng-option-tmp
+                                 let-item="item"
+                                 let-index="index">
+                        {{item.formatName}}
+                    </ng-template>
+                </ng-select>
+            </div>
+
+            <div class="flex flex__align-center mb-2">
+                <span class="color-primary mr-1">{{ 'EXPORT_HISTORY.FILTER' | translate }}</span>
+                <app-switch [value]="posFilterIsOn"
+                            (emitChange)="posFilterIsOn = !posFilterIsOn"></app-switch>
+            </div>
         </div>
-      </div>
-    </div>
-    <div class="wrapper-buttons">
-      <button type="button" class="blue-button" (click)="closeModal()">{{ 'EXPORT_HISTORY.CANCEL' | translate
-        }}</button>
-      <button type="submit" class="blue-button" (click)="confirmExport()">{{ 'EXPORT_HISTORY.EXPORT' | translate
-        }}</button>
-    </div>
-  </div>
+
+        <div class="controls flex flex__justify-between flex_0_0_auto">
+            <button type="submit"
+                    class="primary big w-100 mr-0_5"
+                    (click)="confirmExport()">{{ 'EXPORT_HISTORY.EXPORT' | translate }}</button>
+            <button type="button"
+                    class="outline big w-100 ml-0_5"
+                    (click)="closeModal()">{{ 'EXPORT_HISTORY.CANCEL' | translate }}</button>
+        </div>
+    </form>
 </div>

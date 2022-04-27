@@ -1,0 +1,83 @@
+app-contracts-tab {
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+}
+
+app-contracts {
+  width: 100%;
+  height: auto;
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+
+    .wrap-table {
+      display: flex;
+      width: 100%;
+      height: auto;
+      flex: 1 1 auto;
+      overflow-y: auto;
+      overflow-x: hidden;
+
+      table.contracts-table {
+        tbody {
+          tr {
+            cursor: pointer;
+            outline: none !important;
+
+            .contract {
+              position: relative;
+              display: flex;
+              align-items: center;
+
+              .icon {
+                flex-shrink: 0;
+
+                &.new {
+                  width: 1.7rem;
+                  height: 1.7rem;
+                }
+
+                &.alert {
+                  width: 1.7rem;
+                  height: 1.2rem;
+                }
+
+                &.purchase,
+                &.sell {
+                  width: 1.5rem;
+                  height: 1.5rem;
+                }
+              }
+
+              span {
+                text-overflow: ellipsis;
+                overflow: hidden;
+              }
+            }
+
+            .status,
+            .comment {
+              display: inline-flex;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              max-width: 100%;
+            }
+          }
+        }
+      }
+    }
+
+    .buttons-wrap {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+    }
+  }
+}

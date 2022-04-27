@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { SettingsComponent } from './settings/settings.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
-import { MainComponent } from './main/main.component';
+import { AddWalletComponent } from './add-wallet/add-wallet.component';
 import { CreateWalletComponent } from './create-wallet/create-wallet.component';
 import { OpenWalletComponent } from './open-wallet/open-wallet.component';
 import { OpenWalletModalComponent } from './open-wallet-modal/open-wallet-modal.component';
@@ -21,22 +21,16 @@ import { ReceiveComponent } from './receive/receive.component';
 import { HistoryComponent } from './history/history.component';
 import { ContractsComponent } from './contracts/contracts.component';
 import { PurchaseComponent } from './purchase/purchase.component';
-import { MessagesComponent } from './messages/messages.component';
-import { TypingMessageComponent } from './typing-message/typing-message.component';
 import { StakingComponent } from './staking/staking.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-// SERVICES
 import { BackendService } from './_helpers/services/backend.service';
 import { ModalService } from './_helpers/services/modal.service';
 import { PaginationStore } from './_helpers/services/pagination.store';
-// SERVICES
-// Feature module
 import { Store } from 'store';
-// Feature module
 import { MoneyToIntPipe } from './_helpers/pipes/money-to-int.pipe';
 import { IntToMoneyPipe } from './_helpers/pipes/int-to-money.pipe';
 import { HistoryTypeMessagesPipe } from './_helpers/pipes/history-type-messages.pipe';
@@ -68,18 +62,15 @@ import { SyncModalComponent } from './_helpers/modals/sync-modal/sync-modal.comp
 import { ContractsTabComponent } from './contracts/contracts-tab/contracts-tab.component';
 import { SendDetailsModalComponent } from './send-details-modal/send-details-modal.component';
 import { DisablePriceFetchModule } from './_shared/directives/disable-price-fetch/disable-price-fetch.module';
-import { PagesModule } from './pages/pages.module';
+import { SharedModule } from './_shared/shared.module';
+import { SynchronizationStatusComponent } from './synchronization-status/synchronization-status.component';
+import { DeeplinkModalComponent } from './deeplink-modal/deeplink-modal.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
 }
 
-// import * as more from 'highcharts/highcharts-more.src';
-// import * as exporting from 'highcharts/modules/exporting.src';
-// import * as highstock from 'highcharts/modules/stock.src';
-
 export function highchartsFactory() {
-  // Default options.
   highcharts.setOptions({
     time: {
       useUTC: false
@@ -95,7 +86,7 @@ export function highchartsFactory() {
     LoginComponent,
     SettingsComponent,
     SidebarComponent,
-    MainComponent,
+    AddWalletComponent,
     CreateWalletComponent,
     OpenWalletComponent,
     OpenWalletModalComponent,
@@ -111,9 +102,7 @@ export function highchartsFactory() {
     HistoryComponent,
     ContractsComponent,
     PurchaseComponent,
-    MessagesComponent,
     StakingComponent,
-    TypingMessageComponent,
     MoneyToIntPipe,
     IntToMoneyPipe,
     StakingSwitchComponent,
@@ -137,6 +126,8 @@ export function highchartsFactory() {
     SyncModalComponent,
     ContractsTabComponent,
     SendDetailsModalComponent,
+    SynchronizationStatusComponent,
+    DeeplinkModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -157,7 +148,7 @@ export function highchartsFactory() {
     ChartModule,
     PapaParseModule,
     DisablePriceFetchModule,
-    PagesModule,
+    SharedModule,
     ContextMenuModule.forRoot()
   ],
   providers: [
@@ -168,7 +159,6 @@ export function highchartsFactory() {
     MoneyToIntPipe,
     IntToMoneyPipe,
     { provide: HIGHCHARTS_MODULES, useFactory: highchartsFactory }
-    // {provide: HIGHCHARTS_MODULES, useFactory: () => [ highstock, more, exporting ] }
   ],
   entryComponents: [
     ModalContainerComponent,

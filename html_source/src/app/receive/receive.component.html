@@ -1,7 +1,16 @@
-<div class="wrap-qr">
-  <img src="{{qrImageSrc}}" alt="qr-code">
-  <div class="wrap-address">
-    <div class="address">{{variablesService.currentWallet.address}}</div>
-    <button type="button" class="btn-copy-address" [class.copy]="!copyAnimation" [class.copied]="copyAnimation" (click)="copyAddress()"></button>
-  </div>
+<div class="container">
+    <div class="wrap-qr mb-2">
+        <img src="{{qrImageSrc}}"
+             alt="qr-code">
+    </div>
+
+    <div class="address p-1">
+        <span class="text-ellipsis mr-1">{{variablesService.currentWallet.address}}</span>
+        <button (click)="copyAddress()"
+                class="btn-icon circle small">
+            <i class="icon small"
+               [class.copy]="!copyAnimation"
+               [class.check]="copyAnimation"></i>
+        </button>
+    </div>
 </div>

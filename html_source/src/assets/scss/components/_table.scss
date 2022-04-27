@@ -1,70 +1,134 @@
-app-transaction-details {
-  .table {
-    font-weight: 500;
-    .row {
-      .cell {
-        &.label {
-          color: var(--mainTextColor);
+table {
+  width: 100%;
+
+  .row-divider {
+    height: 1rem;
+    -webkit-transition: 0.2s height linear, 0s font-size;
+    transition: 0.2s height linear, 0s font-size;
+    transition-delay: 0s, 0.2s;
+
+    &.hide {
+      height: 0;
+    }
+  }
+
+  thead {
+    text-align: left;
+    border-radius: 0.8rem;
+    overflow: auto;
+
+    tr {
+      background-color: var(--light-blue-300);
+
+      th {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding: 2rem;
+        max-width: 10rem;
+
+        &:first-child {
+          border-radius: 0.8rem 0 0 0.8rem;
         }
-        &.value {
-          color: var(--mainTextColor);
+
+        &:last-child {
+          border-radius: 0 0.8rem 0.8rem 0;
         }
-        &.key-value {
-          color: var(--blueTextColor);
+      }
+    }
+  }
+
+  tbody {
+    text-align: left;
+
+    tr {
+      background-color: var(--light-blue-150);
+      -webkit-transition: 0.5s height linear, 0s font-size;
+      transition: 0.5s height linear, 0s font-size;
+      transition-delay: 0s, 0.5s;
+      height: auto;
+
+      td {
+        padding: 2rem;
+        vertical-align: middle;
+        white-space: nowrap;
+        max-width: 10rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        &:first-child {
+          border-radius: 0.8rem 0 0 0.8rem;
+        }
+
+        &:last-child {
+          border-radius: 0 0.8rem 0.8rem 0;
+        }
+      }
+
+      &:not(.details) {
+        cursor: pointer;
+      }
+
+      &.details {
+        -webkit-transition: 0.2s height linear, 0s font-size;
+        transition: 0.2s height linear, 0s font-size;
+        transition-delay: 0s, 0.2s;
+        overflow: hidden;
+        height: 0;
+
+        td {
+          padding: 0;
+          border-radius: 0.8rem;
+        }
+
+
+        &.open {
+          min-height: 18rem;
+        }
+
+        &.hide {
+          height: 0;
         }
       }
     }
   }
 }
 
-table {
+.table-info {
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  thead {
-    font-size: 1.4rem;
-    line-height: 1.7rem;
-    text-align: left;
-    color: var(--alternativeTextColor);
-    tr {
-      th {
-        padding-bottom: 2.5rem;
-        padding-right: 1rem;
-        &:first-child {
-          padding-left: 1.5rem;
-        }
+  border: var(--defaul-border);
+  border-radius: var(--default-border-radius);
+  overflow: hidden;
 
-        &:last-child {
-          padding-right: 1.5rem;
-        }
-      }
-    }
+  .separator {
+    border: none;
+    height: 2px;
+    color: var(--defaul-border-color); /* old IE */
+    background-color: var(--defaul-border-color); /* Modern Browsers */
   }
-  tbody {
-    color: var(--mainTextColor);
-    font-size: 1.5rem;
-    line-height: 1.8rem;
-    font-weight: 500;
-    text-align: left;
-    .row-divider {
-      height: 0.5rem;
+
+  .row {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    min-height: 6rem;
+
+    .label, .text {
+      overflow: hidden;
+      padding: 2rem;
     }
-    tr {
-      height: 4.5rem;
-      td {
-        background-color: var(--tableBackgroundColor);
-        line-height: 1.8rem;
-        padding-right: 1rem;
-        vertical-align: middle;
-        white-space: nowrap;
-        max-width: 20rem;
-        &:first-child {
-          padding-left: 1.5rem;
-          border-radius: 1rem 0 0 1rem;
-        }
-        &:last-child {
-          padding-right: 1.5rem;
-          border-radius: 0 1rem 1rem 0;
-        }
-      }
+
+    .label {
+      color: var(--primary);
+      background: var(--light-blue-details);
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .text {
+      width: 100%;
+      word-break: break-word;
     }
   }
 }

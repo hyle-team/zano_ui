@@ -1,0 +1,90 @@
+app-wallet {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    flex: 0 0 auto;
+  }
+
+  .wallet-wrapper {
+    .title {
+      display: flex;
+      align-items: center;
+    }
+
+    .controls {
+      display: flex;
+      align-items: center;
+    }
+
+    .card {
+      display: flex;
+      flex-wrap: nowrap;
+      border-radius: 0.8rem;
+      max-width: 50rem;
+      width: 100%;
+      overflow: hidden;
+      background-color: var(--light-blue);
+
+      .left, .right {
+        width: 100%;
+      };
+
+      .address {
+        width: 19rem;
+        height: 4rem;
+        overflow: hidden;
+        border: var(--border);
+        border-radius: 0.8rem;
+        display: flex;
+        align-items: center;
+      }
+
+      .balance-wrapper {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+
+        .currency {
+          margin-top: 0.5rem;
+
+          span {
+            font-size: 3.2rem;
+          }
+        }
+
+        .price {
+          .percent {
+            color: var(--green);
+
+            &.red {
+              color: var(--red);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .dropdown {
+    .content-bottom-right {
+      .list {
+        .item {
+          button {
+            white-space: nowrap;
+            justify-content: flex-start;
+            border-radius: 0;
+            &:hover, .active {
+              background-color: var(--light-gray-background);
+            }
+          }
+        }
+      }
+    }
+  }
+}

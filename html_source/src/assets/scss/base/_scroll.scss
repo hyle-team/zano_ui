@@ -10,17 +10,19 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: #556576;
+  background-color: var(--color-scroll);
   background-clip: padding-box;
   border: 0.25rem solid transparent;
-  border-radius: 0.5rem;
+  border-radius: 1rem;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #556576;
+  background-color: var(--color-scroll);
 }
 
-body::-webkit-scrollbar-corner {
-  background-color: #0c0c3a;
+body {
+  &::-webkit-scrollbar-corner {
+    background-color: var(--main-background);
+  }
 }
 

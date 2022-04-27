@@ -26,26 +26,26 @@ export class WalletComponent implements OnInit, OnDestroy {
   delWalletDialogVisible = false;
   exportHistoryDialogVisible = false;
   closeWalletId: number;
-  walletSynchVisible = false;
+  walletSyncVisible = false;
   tabs = [
     {
       title: 'WALLET.TABS.HISTORY',
-      icon: 'history',
+      icon: 'time-circle',
       link: '/history',
     },
     {
       title: 'WALLET.TABS.SEND',
-      icon: 'send',
+      icon: 'arrow-up-square',
       link: '/send',
     },
     {
       title: 'WALLET.TABS.RECEIVE',
-      icon: 'receive',
+      icon: 'arrow-down-square',
       link: '/receive',
     },
     {
       title: 'WALLET.TABS.CONTRACTS',
-      icon: 'contracts',
+      icon: 'document',
       link: '/contracts',
     },
     {
@@ -61,14 +61,14 @@ export class WalletComponent implements OnInit, OnDestroy {
   @HostListener('document:keydown.shift', ['$event.key'])
   onKeyPresed() {
     if (!this.openDropdown) {
-      this.walletSynchVisible = true;
+      this.walletSyncVisible = true;
     }
   }
 
   @HostListener('document:keyup.shift', ['$event.key'])
   onKeyUpPresed() {
     if (!this.openDropdown) {
-      this.walletSynchVisible = false;
+      this.walletSyncVisible = false;
     }
   }
 
@@ -76,7 +76,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   public onClick(targetElement) {
     if (targetElement.dataset.target !== 'wallet-dropdown-button' && this.openDropdown) {
       this.openDropdown = false;
-      this.walletSynchVisible = false;
+      this.walletSyncVisible = false;
     }
   }
 
@@ -189,12 +189,12 @@ export class WalletComponent implements OnInit, OnDestroy {
     this.backend.openUrlInBrowser(link);
   }
 
-  togleMenuDropdown() {
+  toggleMenuDropdown() {
     if (!this.openDropdown) {
       this.openDropdown = true;
     } else {
       this.openDropdown = false;
-      this.walletSynchVisible = false;
+      this.walletSyncVisible = false;
     }
   }
 

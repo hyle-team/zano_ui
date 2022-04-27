@@ -3,13 +3,16 @@
   border-radius: 1rem;
   background: var(--tooltipBackgroundColor);
   color: var(--tooltipTextColor);
+
   .tooltip-inner {
     font-size: 1.4rem;
-    line-height: 1.7rem;
+    line-height: 1.2;
     white-space: pre-wrap;
   }
+
   &.ng-tooltip-top {
     margin-top: -1rem;
+
     &:after {
       content: "";
       display: block;
@@ -22,8 +25,10 @@
       left: calc(50% - 0.5rem);
     }
   }
+
   .ng-tooltip-bottom-left {
     margin-top: 1rem;
+
     &::before {
       content: "";
       position: absolute;
@@ -36,8 +41,10 @@
       transform: rotate(45deg);
     }
   }
+
   &.ng-tooltip-top-left {
     margin-top: -1rem;
+
     &:after {
       content: "";
       position: absolute;
@@ -50,8 +57,10 @@
       transform: rotate(45deg);
     }
   }
+
   &.ng-tooltip-top-right {
     margin-top: -1rem;
+
     &:after {
       content: "";
       position: absolute;
@@ -64,8 +73,10 @@
       transform: rotate(45deg);
     }
   }
+
   &.ng-tooltip-bottom {
     margin-top: 1rem;
+
     &:before {
       content: "";
       position: absolute;
@@ -78,8 +89,10 @@
       transform: rotate(45deg);
     }
   }
+
   &.ng-tooltip-bottom-left {
     margin-top: 1rem;
+
     &::before {
       content: "";
       position: absolute;
@@ -92,9 +105,11 @@
       transform: rotate(45deg);
     }
   }
+
   &.ng-tooltip-bottom-right {
     position: relative;
     margin-top: 1rem;
+
     &:before {
       content: "";
       position: absolute;
@@ -107,8 +122,10 @@
       transform: rotate(45deg);
     }
   }
+
   &.ng-tooltip-left {
     margin-left: -1rem;
+
     &:after {
       content: "";
       position: absolute;
@@ -121,8 +138,10 @@
       transform: rotate(45deg);
     }
   }
+
   &.ng-tooltip-right {
     margin-left: 1rem;
+
     &:before {
       content: "";
       position: absolute;
@@ -150,36 +169,46 @@
   border-radius: 1rem;
   background: var(--tooltipBackgroundColor);
   color: var(--tooltipTextColor);
+
   .tooltip-inner {
     display: flex;
     flex-direction: column;
     font-size: 1.3rem;
+
     .available {
       margin-bottom: 1.7rem;
+
       b {
         font-weight: 600;
       }
     }
+
     .locked {
       margin-bottom: 0.7rem;
+
       b {
         font-weight: 600;
       }
     }
+
     .link {
       cursor: pointer;
-      color: var(--blueTextColor);
+      color: var(--primary);
     }
   }
+
   &.ng-tooltip-top {
     margin-top: -1rem;
   }
+
   &.ng-tooltip-bottom {
     margin-top: 1rem;
   }
+
   &.ng-tooltip-left {
     margin-left: -1rem;
   }
+
   &.ng-tooltip-right {
     margin-left: 1rem;
   }
@@ -205,72 +234,87 @@
   padding: 1rem;
   background: var(--tooltipBackgroundColor);
   color: var(--tooltipTextColor);
+
   &.important {
     background: var(--tooltipImportantBackgroundColor);
-    color: var(--accountMainTextColor);
+    color: var(--main-text);
+
     &.ng-tooltip-left-bottom {
       &:after {
         border-color: transparent transparent var(--tooltipImportantBackgroundColor) var(--tooltipImportantBackgroundColor);
       }
     }
+
     &.ng-tooltip-right-bottom {
       &:before {
         border-color: transparent var(--tooltipImportantBackgroundColor) var(--tooltipImportantBackgroundColor) transparent;
       }
     }
   }
+
   &.critical {
     padding: 2.5rem;
     background: var(--tooltipCriticalBackgroundColor);
-    color: var(--accountMainTextColor);
+    color: var(--main-text);
+
     .tooltip-inner {
       display: flex;
       flex-direction: column;
       align-items: center;
     }
+
     &.ng-tooltip-left-bottom {
       &:after {
         border-color: transparent transparent var(--tooltipCriticalBackgroundColor) var(--tooltipCriticalBackgroundColor);
       }
     }
+
     &.ng-tooltip-right-bottom {
       &:before {
         border-color: transparent var(--tooltipCriticalBackgroundColor) var(--tooltipCriticalBackgroundColor) transparent;
       }
     }
   }
+
   .tooltip-inner {
     font-size: 1.3rem;
-    line-height: 1.8rem;
+    line-height: 1.2;
     white-space: pre-wrap;
+
     .standard-update {
       font-size: 1.5rem;
-      line-height: 2.7rem;
-      color: var(--blueTextColor);
+      line-height: 1.2;
+      color: var(--primary);
     }
+
     .important-update {
       font-size: 1.5rem;
-      line-height: 2.7rem;
+      line-height: 1.2;
       color: var(--tooltipImportantTextColor);
     }
+
     .critical-update {
       font-size: 1.5rem;
-      line-height: 2.7rem;
+      line-height: 1.2;
       text-align: center;
     }
+
     .wrong-time {
       font-size: 1.5rem;
-      line-height: 2.7rem;
+      line-height: 1.2;
       color: var(--tooltipImportantTextColor);
     }
+
     .icon {
       margin: 1.5rem 0;
       width: 5rem;
       height: 5rem;
     }
   }
+
   &.ng-tooltip-left-bottom {
     margin-left: -1.5rem;
+
     &:after {
       content: "";
       position: absolute;
@@ -281,8 +325,10 @@
       border-color: transparent transparent var(--tooltipBackgroundColor) var(--tooltipBackgroundColor);
     }
   }
+
   &.ng-tooltip-right-bottom {
     margin-left: 1.5rem;
+
     &:before {
       content: "";
       position: absolute;
@@ -298,7 +344,7 @@
 .update-tooltip {
   .tooltip-inner {
     .icon {
-      background: center / contain no-repeat url(~src/assets/icons/update-alert.svg);
+      background: center / contain no-repeat url(~src/assets/icons/red/update-alert.svg);
     }
   }
 }

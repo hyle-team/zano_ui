@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { UiKitComponent } from './ui-kit.component';
 
 const routes: Routes = [
-  { path: 'ui-kit', component: UiKitComponent },
+  { path: '', component: UiKitComponent },
 ];
 
 @NgModule({

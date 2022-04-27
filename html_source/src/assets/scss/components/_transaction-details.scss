@@ -1,0 +1,36 @@
+app-transaction-details {
+  width: 100%;
+
+  .table {
+    padding: 1rem 0;
+
+    .row {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      width: 100%;
+
+      .cell {
+        padding: 1rem 2rem;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        &.label {
+          color: var(--main-text);
+        }
+
+        &.value {
+          color: var(--main-text);
+        }
+
+        &.key-value {
+          cursor: pointer;
+          color: var(--primary);
+        }
+      }
+    }
+  }
+}
+
+
+

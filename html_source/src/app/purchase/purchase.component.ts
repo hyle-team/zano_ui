@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, NgZone, HostListener } from '@angular/core';
+import { Component, HostListener, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BackendService } from '../_helpers/services/backend.service';
@@ -8,17 +8,11 @@ import { Location } from '@angular/common';
 import { IntToMoneyPipe } from '../_helpers/pipes/int-to-money.pipe';
 
 @Component({
-  selector: 'app-purchase',
-  templateUrl: './purchase.component.html',
-  styleUrls: ['./purchase.component.scss']
-})
+             selector: 'app-purchase',
+             templateUrl: './purchase.component.html',
+             styleUrls: ['./purchase.component.scss']
+           })
 export class PurchaseComponent implements OnInit, OnDestroy {
-  @HostListener('document:click', ['$event.target'])
-  public onClick(targetElement) {
-    if (targetElement.id !== 'purchase-seller' && this.isOpen) {
-      this.isOpen = false;
-    }
-  }
   isOpen = false;
   localAliases = [];
   currentWalletId;
@@ -27,7 +21,7 @@ export class PurchaseComponent implements OnInit, OnDestroy {
   actionData;
   private dLActionSubscribe;
   historyBlock;
-  sameAmountChecked: boolean = false;
+  sameAmountChecked = false;
   additionalOptions = false;
   currentContract = null;
   heightAppEvent;
@@ -35,79 +29,86 @@ export class PurchaseComponent implements OnInit, OnDestroy {
   showNullify = false;
 
   purchaseForm = new FormGroup({
-    description: new FormControl('', Validators.required),
-    seller: new FormControl('', [Validators.required, (g: FormControl) => {
-      if (g.value === this.variablesService.currentWallet.address) {
-        return { 'address_same': true };
-      }
-      return null;
-    }, (g: FormControl) => {
-      this.localAliases = [];
-      if (g.value) {
-        if (g.value.indexOf('@') !== 0) {
-          this.isOpen = false;
-          this.backend.validateAddress(g.value, (valid_status) => {
-            this.ngZone.run(() => {
-              if (valid_status === false) {
-                g.setErrors(Object.assign({ 'address_not_valid': true }, g.errors));
-              } else {
-                if (g.hasError('address_not_valid')) {
-                  delete g.errors['address_not_valid'];
-                  if (Object.keys(g.errors).length === 0) {
-                    g.setErrors(null);
-                  }
-                }
-              }
-            });
-          });
-          return (g.hasError('address_not_valid')) ? { 'address_not_valid': true } : null;
-        } else {
-          this.isOpen = true;
-          this.localAliases = this.variablesService.aliases.filter((item) => {
-            return item.name.indexOf(g.value) > -1;
-          });
-          if (!(/^@?[a-z0-9\.\-]{6,25}$/.test(g.value))) {
-            g.setErrors(Object.assign({ 'alias_not_valid': true }, g.errors));
-          } else {
-            this.backend.getAliasByName(g.value.replace('@', ''), (alias_status, alias_data) => {
-              this.ngZone.run(() => {
-                if (alias_status) {
-                  if (alias_data.address === this.variablesService.currentWallet.address) {
-                    g.setErrors(Object.assign({ 'address_same': true }, g.errors));
-                  }
-                  if (g.hasError('alias_not_valid')) {
-                    delete g.errors['alias_not_valid'];
-                    if (Object.keys(g.errors).length === 0) {
-                      g.setErrors(null);
-                    }
-                  }
-                } else {
-                  g.setErrors(Object.assign({ 'alias_not_valid': true }, g.errors));
-                }
-              });
-            });
-          }
-          return (g.hasError('alias_not_valid')) ? { 'alias_not_valid': true } : null;
-        }
-      }
-      return null;
-    }]),
-    amount: new FormControl(null, [Validators.required, (g: FormControl) => {
-      if (parseFloat(g.value) === 0) {
-        return { 'amount_zero': true };
-      }
-      return null;
-    }]),
-    yourDeposit: new FormControl(null, Validators.required),
-    sellerDeposit: new FormControl(null, Validators.required),
-    sameAmount: new FormControl({ value: false, disabled: false }),
-    comment: new FormControl(''),
-    fee: new FormControl(this.variablesService.default_fee),
-    time: new FormControl({ value: 12, disabled: false }),
-    timeCancel: new FormControl({ value: 12, disabled: false }),
-    payment: new FormControl(''),
-    password: new FormControl('')
-  });
+                                 description: new FormControl('', Validators.required),
+                                 seller: new FormControl('', [Validators.required, (g: FormControl) => {
+                                   if (g.value === this.variablesService.currentWallet.address) {
+                                     return { 'address_same': true };
+                                   }
+                                   return null;
+                                 }, (g: FormControl) => {
+                                   this.localAliases = [];
+                                   if (g.value) {
+                                     if (g.value.indexOf('@') !== 0) {
+                                       this.isOpen = false;
+                                       this.backend.validateAddress(g.value, (valid_status) => {
+                                         this.ngZone.run(() => {
+                                           if (valid_status === false) {
+                                             g.setErrors(Object.assign({ 'address_not_valid': true }, g.errors));
+                                           } else {
+                                             if (g.hasError('address_not_valid')) {
+                                               delete g.errors['address_not_valid'];
+                                               if (Object.keys(g.errors).length === 0) {
+                                                 g.setErrors(null);
+                                               }
+                                             }
+                                           }
+                                         });
+                                       });
+                                       return (g.hasError('address_not_valid')) ? { 'address_not_valid': true } : null;
+                                     } else {
+                                       this.isOpen = true;
+                                       this.localAliases = this.variablesService.aliases.filter((item) => {
+                                         return item.name.indexOf(g.value) > -1;
+                                       });
+                                       if (!(/^@?[a-z\d\-]{6,25}$/.test(g.value))) {
+                                         g.setErrors(Object.assign({ 'alias_not_valid': true }, g.errors));
+                                       } else {
+                                         this.backend.getAliasByName(g.value.replace('@', ''), (alias_status, alias_data) => {
+                                           this.ngZone.run(() => {
+                                             if (alias_status) {
+                                               if (alias_data.address === this.variablesService.currentWallet.address) {
+                                                 g.setErrors(Object.assign({ 'address_same': true }, g.errors));
+                                               }
+                                               if (g.hasError('alias_not_valid')) {
+                                                 delete g.errors['alias_not_valid'];
+                                                 if (Object.keys(g.errors).length === 0) {
+                                                   g.setErrors(null);
+                                                 }
+                                               }
+                                             } else {
+                                               g.setErrors(Object.assign({ 'alias_not_valid': true }, g.errors));
+                                             }
+                                           });
+                                         });
+                                       }
+                                       return (g.hasError('alias_not_valid')) ? { 'alias_not_valid': true } : null;
+                                     }
+                                   }
+                                   return null;
+                                 }]),
+                                 amount: new FormControl(null, [Validators.required, (g: FormControl) => {
+                                   if (parseFloat(g.value) === 0) {
+                                     return { 'amount_zero': true };
+                                   }
+                                   return null;
+                                 }]),
+                                 yourDeposit: new FormControl(null, Validators.required),
+                                 sellerDeposit: new FormControl(null, Validators.required),
+                                 sameAmount: new FormControl({ value: false, disabled: false }),
+                                 comment: new FormControl(''),
+                                 fee: new FormControl(this.variablesService.default_fee),
+                                 time: new FormControl({ value: 12, disabled: false }),
+                                 timeCancel: new FormControl({ value: 12, disabled: false }),
+                                 payment: new FormControl(''),
+                                 password: new FormControl('')
+                               });
+
+  @HostListener('document:click', ['$event.target'])
+  public onClick(targetElement) {
+    if (targetElement.id !== 'purchase-seller' && this.isOpen) {
+      this.isOpen = false;
+    }
+  }
 
   constructor(
     private route: ActivatedRoute,
@@ -122,9 +123,11 @@ export class PurchaseComponent implements OnInit, OnDestroy {
 
   checkAndChangeHistory() {
     if (this.currentContract.state === 201) {
-      this.historyBlock = this.variablesService.currentWallet.history.find(item => item.tx_type === 8 && item.contract[0].contract_id === this.currentContract.contract_id && item.contract[0].is_a === this.currentContract.is_a);
+      this.historyBlock = this.variablesService.currentWallet.history.find(
+        item => item.tx_type === 8 && item.contract[0].contract_id === this.currentContract.contract_id && item.contract[0].is_a === this.currentContract.is_a);
     } else if (this.currentContract.state === 601) {
-      this.historyBlock = this.variablesService.currentWallet.history.find(item => item.tx_type === 12 && item.contract[0].contract_id === this.currentContract.contract_id && item.contract[0].is_a === this.currentContract.is_a);
+      this.historyBlock = this.variablesService.currentWallet.history.find(
+        item => item.tx_type === 12 && item.contract[0].contract_id === this.currentContract.contract_id && item.contract[0].is_a === this.currentContract.is_a);
     }
   }
 
@@ -145,18 +148,19 @@ export class PurchaseComponent implements OnInit, OnDestroy {
         this.purchaseForm.controls['seller'].setValidators([]);
         this.purchaseForm.updateValueAndValidity();
         this.purchaseForm.setValue({
-          description: this.currentContract.private_detailes.t,
-          seller: this.currentContract.private_detailes.b_addr,
-          amount: this.intToMoneyPipe.transform(this.currentContract.private_detailes.to_pay),
-          yourDeposit: this.intToMoneyPipe.transform(this.currentContract.private_detailes.a_pledge),
-          sellerDeposit: this.intToMoneyPipe.transform(this.currentContract.private_detailes.b_pledge),
-          sameAmount: this.currentContract.private_detailes.to_pay.isEqualTo(this.currentContract.private_detailes.b_pledge),
-          comment: this.currentContract.private_detailes.c,
-          fee: this.variablesService.default_fee,
-          time: 12,
-          timeCancel: 12,
-          payment: this.currentContract.payment_id
-        });
+                                     description: this.currentContract.private_detailes.t,
+                                     seller: this.currentContract.private_detailes.b_addr,
+                                     amount: this.intToMoneyPipe.transform(this.currentContract.private_detailes.to_pay),
+                                     yourDeposit: this.intToMoneyPipe.transform(this.currentContract.private_detailes.a_pledge),
+                                     sellerDeposit: this.intToMoneyPipe.transform(this.currentContract.private_detailes.b_pledge),
+                                     sameAmount: this.currentContract.private_detailes.to_pay.isEqualTo(this.currentContract.private_detailes.b_pledge),
+                                     comment: this.currentContract.private_detailes.c,
+                                     fee: this.variablesService.default_fee,
+                                     time: 12,
+                                     timeCancel: 12,
+                                     payment: this.currentContract.payment_id,
+                                     password: this.variablesService.appPass
+                                   });
         this.purchaseForm.get('sameAmount').disable();
         this.newPurchase = false;
 
@@ -178,10 +182,10 @@ export class PurchaseComponent implements OnInit, OnDestroy {
           }
           if (!findViewedCont) {
             this.variablesService.settings.viewedContracts.push({
-              contract_id: this.currentContract.contract_id,
-              is_a: this.currentContract.is_a,
-              state: this.currentContract.state
-            });
+                                                                  contract_id: this.currentContract.contract_id,
+                                                                  is_a: this.currentContract.is_a,
+                                                                  state: this.currentContract.state
+                                                                });
           }
           this.currentContract.is_new = false;
           setTimeout(() => {
@@ -228,25 +232,25 @@ export class PurchaseComponent implements OnInit, OnDestroy {
             : null;
         }
         return null;
-      }])
+      }]);
     }
     this.dLActionSubscribe = this.variablesService.sendActionData$.subscribe((res) => {
-      if (res.action === "escrow") {
-        this.actionData = res
-        this.fillDeepLinkData()
+      if (res.action === 'escrow') {
+        this.actionData = res;
+        this.fillDeepLinkData();
         this.variablesService.sendActionData$.next({});
       }
-    })
+    });
   }
 
   fillDeepLinkData() {
     this.additionalOptions = true;
-    this.purchaseForm.get("description").setValue(this.actionData.description || '');
-    this.purchaseForm.get("seller").setValue(this.actionData.seller_address || '');
-    this.purchaseForm.get("amount").setValue(this.actionData.amount || '');
-    this.purchaseForm.get("yourDeposit").setValue(this.actionData.my_deposit || '');
-    this.purchaseForm.get("sellerDeposit").setValue(this.actionData.seller_deposit || '');
-    this.purchaseForm.get("comment").setValue(this.actionData.comment || this.actionData.comments || '');
+    this.purchaseForm.get('description').setValue(this.actionData.description || '');
+    this.purchaseForm.get('seller').setValue(this.actionData.seller_address || '');
+    this.purchaseForm.get('amount').setValue(this.actionData.amount || '');
+    this.purchaseForm.get('yourDeposit').setValue(this.actionData.my_deposit || '');
+    this.purchaseForm.get('sellerDeposit').setValue(this.actionData.seller_deposit || '');
+    this.purchaseForm.get('comment').setValue(this.actionData.comment || this.actionData.comments || '');
   }
 
   toggleOptions() {
@@ -291,7 +295,8 @@ export class PurchaseComponent implements OnInit, OnDestroy {
 
   createPurchase() {
     if (this.purchaseForm.valid) {
-      const sellerDeposit = this.purchaseForm.get('sameAmount').value ? this.purchaseForm.get('amount').value : this.purchaseForm.get('sellerDeposit').value;
+      const sellerDeposit = this.purchaseForm.get('sameAmount').value ? this.purchaseForm.get('amount').value : this.purchaseForm.get(
+        'sellerDeposit').value;
       if (this.purchaseForm.get('seller').value.indexOf('@') !== 0) {
         this.backend.createProposal(
           this.variablesService.currentWallet.wallet_id,
@@ -366,11 +371,11 @@ export class PurchaseComponent implements OnInit, OnDestroy {
     }
     if (!findViewedCont) {
       this.variablesService.settings.notViewedContracts.push({
-        contract_id: this.currentContract.contract_id,
-        is_a: this.currentContract.is_a,
-        state: 110,
-        time: this.currentContract.expiration_time
-      });
+                                                               contract_id: this.currentContract.contract_id,
+                                                               is_a: this.currentContract.is_a,
+                                                               state: 110,
+                                                               time: this.currentContract.expiration_time
+                                                             });
     }
     this.currentContract.is_new = true;
     this.currentContract.state = 110;
@@ -382,30 +387,33 @@ export class PurchaseComponent implements OnInit, OnDestroy {
   }
 
   productNotGot() {
-    this.backend.releaseProposal(this.variablesService.currentWallet.wallet_id, this.currentContract.contract_id, 'REL_B', (release_status) => {
-      if (release_status) {
-        this.modalService.prepareModal('info', 'PURCHASE.BURN_PROPOSAL');
-        this.back();
-      }
-    });
+    this.backend.releaseProposal(this.variablesService.currentWallet.wallet_id, this.currentContract.contract_id, 'REL_B',
+                                 (release_status) => {
+                                   if (release_status) {
+                                     this.modalService.prepareModal('info', 'PURCHASE.BURN_PROPOSAL');
+                                     this.back();
+                                   }
+                                 });
   }
 
   dealsDetailsFinish() {
-    this.backend.releaseProposal(this.variablesService.currentWallet.wallet_id, this.currentContract.contract_id, 'REL_N', (release_status) => {
-      if (release_status) {
-        this.modalService.prepareModal('success', 'PURCHASE.SUCCESS_FINISH_PROPOSAL');
-        this.back();
-      }
-    });
+    this.backend.releaseProposal(this.variablesService.currentWallet.wallet_id, this.currentContract.contract_id, 'REL_N',
+                                 (release_status) => {
+                                   if (release_status) {
+                                     this.modalService.prepareModal('success', 'PURCHASE.SUCCESS_FINISH_PROPOSAL');
+                                     this.back();
+                                   }
+                                 });
   }
 
   dealsDetailsCancel() {
-    this.backend.requestCancelContract(this.variablesService.currentWallet.wallet_id, this.currentContract.contract_id, this.purchaseForm.get('timeCancel').value, (cancel_status) => {
-      if (cancel_status) {
-        this.modalService.prepareModal('info', 'PURCHASE.SEND_CANCEL_PROPOSAL');
-        this.back();
-      }
-    });
+    this.backend.requestCancelContract(this.variablesService.currentWallet.wallet_id, this.currentContract.contract_id,
+                                       this.purchaseForm.get('timeCancel').value, (cancel_status) => {
+        if (cancel_status) {
+          this.modalService.prepareModal('info', 'PURCHASE.SEND_CANCEL_PROPOSAL');
+          this.back();
+        }
+      });
   }
 
   dealsDetailsDontCanceling() {
@@ -421,11 +429,11 @@ export class PurchaseComponent implements OnInit, OnDestroy {
     }
     if (!findViewedCont) {
       this.variablesService.settings.notViewedContracts.push({
-        contract_id: this.currentContract.contract_id,
-        is_a: this.currentContract.is_a,
-        state: 130,
-        time: this.currentContract.cancel_expiration_time
-      });
+                                                               contract_id: this.currentContract.contract_id,
+                                                               is_a: this.currentContract.is_a,
+                                                               state: 130,
+                                                               time: this.currentContract.cancel_expiration_time
+                                                             });
     }
     this.currentContract.is_new = true;
     this.currentContract.state = 130;
@@ -445,7 +453,7 @@ export class PurchaseComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.actionData = {}
+    this.actionData = {};
     this.dLActionSubscribe.unsubscribe();
     this.subRouting.unsubscribe();
     this.heightAppEvent.unsubscribe();

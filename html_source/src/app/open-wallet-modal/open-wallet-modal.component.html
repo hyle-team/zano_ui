@@ -1,18 +1,36 @@
-<div class="modal">
-  <h3 class="title">{{ 'OPEN_WALLET.MODAL.TITLE' | translate }}</h3>
-  <form class="open-form" (ngSubmit)="openWallet()">
-    <div class="wallet-path">{{ wallet.name }}</div>
-    <div class="wallet-path">{{ wallet.path }}</div>
-    <div class="input-block" *ngIf="!wallet.notFound">
-      <label for="password">{{ 'OPEN_WALLET.MODAL.LABEL' | translate }}</label>
-      <input type="password" id="password" name="password" [(ngModel)]="wallet.pass" (contextmenu)="variablesService.onContextMenuPasteSelect($event)"/>
+<div class="modal flex p-2 border-radius-0_8-rem bg-light-blue max-w-34-rem w-100 max-h-100">
+    <div class="wrapper w-100 overflow-y-auto overflow-x-hidden">
+        <h3 class="mb-2">{{ 'OPEN_WALLET.MODAL.TITLE' | translate }}</h3>
+
+        <div class="word-break-break-all mb-2">{{ wallet.name }}</div>
+        <div class="word-break-break-all mb-2">{{ wallet.path }}</div>
+
+        <form class="form"
+              (ngSubmit)="openWallet()">
+
+            <div class="form__field"
+                 *ngIf="!wallet.notFound">
+                <label for="password">{{ 'OPEN_WALLET.MODAL.LABEL' | translate }}</label>
+                <input class="form__field--input"
+                       type="password"
+                       id="password"
+                       name="password"
+                       [(ngModel)]="wallet.pass"
+                       (contextmenu)="variablesService.onContextMenuPasteSelect($event)"/>
+                <div class="error"
+                     *ngIf="wallet.notFound">
+                    {{ 'OPEN_WALLET.MODAL.NOT_FOUND' | translate }}
+                </div>
+            </div>
+
+            <div class="flex w-100">
+                <button type="submit"
+                        class="primary big w-100 mr-0_5"
+                        [disabled]="wallet.notFound">{{ 'OPEN_WALLET.MODAL.OPEN' | translate }}</button>
+                <button type="button"
+                        class="outline big w-100 ml-0_5"
+                        (click)="skipWallet()">{{ 'OPEN_WALLET.MODAL.SKIP' | translate }}</button>
+            </div>
+        </form>
     </div>
-    <div class="error-block" *ngIf="wallet.notFound">
-      {{ 'OPEN_WALLET.MODAL.NOT_FOUND' | translate }}
-    </div>
-    <div class="wrap-button">
-      <button type="submit" class="blue-button" [disabled]="wallet.notFound">{{ 'OPEN_WALLET.MODAL.OPEN' | translate }}</button>
-      <button type="button" class="blue-button" (click)="skipWallet()">{{ 'OPEN_WALLET.MODAL.SKIP' | translate }}</button>
-    </div>
-  </form>
 </div>

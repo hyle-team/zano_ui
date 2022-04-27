@@ -9,4 +9,5 @@ import { DisablePriceFetchDirective } from './disable-price-fetch.directive';
   ],
   exports: [DisablePriceFetchDirective]
 })
-export class DisablePriceFetchModule { }
+export class DisablePriceFetchModule {
+}

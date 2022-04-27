@@ -1,0 +1,56 @@
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+  flex: 0 0 auto;
+
+  .scrolled {
+    flex-wrap: nowrap;
+    overflow: hidden;
+
+    &:hover {
+      overflow-x: auto;
+    }
+  }
+
+  .breadcrumb {
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    > span,
+    a {
+      white-space: nowrap;
+      color: var(--main-text);
+      outline-style: none;
+      transition: opacity 0.2s ease-in-out;
+      opacity: 0.75;
+    }
+
+    &:not(:last-child) {
+      position: relative;
+      cursor: pointer;
+      padding-right: 3.5rem;
+
+
+      &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 50%;
+        right: 0.8rem;
+        transform: translateY(-50%);
+        width: 1.8rem;
+        height: 1.8rem;
+        background: center / contain no-repeat url(~src/assets/icons/white/dropdown-arrow-right.svg);
+      }
+    }
+
+    &:last-child, &:hover {
+      > span,
+      a {
+        opacity: 1;
+      }
+    }
+  }
+}

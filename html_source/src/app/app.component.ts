@@ -32,6 +32,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   @ViewChild('allContextMenu') public allContextMenu: ContextMenuComponent;
   @ViewChild('onlyCopyContextMenu') public onlyCopyContextMenu: ContextMenuComponent;
+  @ViewChild('pasteSelectContextMenu') public pasteSelectContextMenu: ContextMenuComponent;
 
   constructor(
     private http: HttpClient,
@@ -81,6 +82,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.variablesService.allContextMenu = this.allContextMenu;
     this.variablesService.onlyCopyContextMenu = this.onlyCopyContextMenu;
+    this.variablesService.pasteSelectContextMenu = this.pasteSelectContextMenu;
 
     this.backend.initService().subscribe(initMessage => {
       console.log('Init message: ', initMessage);

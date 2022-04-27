@@ -1,0 +1,67 @@
+.flex-inline {
+  display: inline-flex;
+}
+
+.flex {
+  display: flex;
+
+  &_0_0_auto {
+    flex: 0 0 auto;
+  }
+
+  &_1_0_auto {
+    flex: 1 0 auto;
+  }
+
+  &_0_1_auto {
+    flex: 0 1 auto;
+  }
+
+  &_1_1_auto {
+    flex: 1 1 auto;
+  }
+
+  $directions: (
+          row: row,
+          column: column,
+          row-reverse: row-reverse,
+          column-reverse: column-reverse
+  );
+
+  $justify-positions: (
+          start: flex-start,
+          end: flex-end,
+          center: center,
+          around: space-around,
+          between: space-between,
+          evenly: space-evenly
+  );
+  $align-positions: (
+          start: flex-start,
+          end: flex-end,
+          center: center,
+          stretch: stretch,
+          baseline: baseline
+  );
+
+  @mixin just-align($name,$prop,$arr) {
+    @each $mod, $dir in $arr {
+      &__#{$name}-#{$mod} {
+        #{$prop}: #{$dir};
+      }
+    }
+  }
+
+  @mixin direction($name,$prop,$arr) {
+    @each $mod, $dir in $arr {
+      &__#{$name}-#{$mod} {
+        #{$prop}: #{$dir};
+      }
+    }
+  }
+
+  @include just-align('align','align-items', $align-positions);
+  @include just-align('justify','justify-content', $justify-positions);
+  @include direction('direction','flex-direction', $directions);
+}
+

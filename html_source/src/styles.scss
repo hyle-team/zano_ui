@@ -1,11 +1,11 @@
 @import "assets/scss/base/index";
 
-@import "assets/scss/helpers/index";
-
 @import "assets/scss/layout/index";
 
 @import "assets/scss/components/index";
 
+@import "assets/scss/modals/index";
+
 @import "assets/scss/pages/index";
 
-@import "~@ng-select/ng-select/themes/default.theme.css";
+@import "assets/scss/helpers/index";

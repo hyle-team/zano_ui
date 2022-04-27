@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
-
-// Components
-import { MainComponent } from './main/main.component';
+import { RouterModule, Routes } from '@angular/router';
+import { AddWalletComponent } from './add-wallet/add-wallet.component';
 import { LoginComponent } from './login/login.component';
 import { WalletComponent } from './wallet/wallet.component';
 import { SendComponent } from './send/send.component';
@@ -10,8 +8,6 @@ import { ReceiveComponent } from './receive/receive.component';
 import { HistoryComponent } from './history/history.component';
 import { ContractsComponent } from './contracts/contracts.component';
 import { PurchaseComponent } from './purchase/purchase.component';
-import { MessagesComponent } from './messages/messages.component';
-import { TypingMessageComponent } from './typing-message/typing-message.component';
 import { StakingComponent } from './staking/staking.component';
 import { SettingsComponent } from './settings/settings.component';
 import { CreateWalletComponent } from './create-wallet/create-wallet.component';
@@ -32,11 +28,11 @@ import { ContractsTabComponent } from './contracts/contracts-tab/contracts-tab.c
 const routes: Routes = [
   {
     path: '',
-    component: MainComponent
+    component: AddWalletComponent
   },
   {
-    path: 'main',
-    component: MainComponent
+    path: 'add-wallet',
+    component: AddWalletComponent
   },
   {
     path: 'login',
@@ -79,14 +75,7 @@ const routes: Routes = [
           },
         ]
       },
-      {
-        path: 'messages',
-        component: MessagesComponent,
-      },
-      {
-        path: 'messages/:id',
-        component: TypingMessageComponent,
-      },
+
       {
         path: 'staking',
         component: StakingComponent
@@ -159,6 +148,10 @@ const routes: Routes = [
     component: DeeplinkComponent
   },
   {
+    path: 'ui-kit',
+    loadChildren: './pages/ui-kit/ui-kit.module#UiKitModule'
+  },
+  {
     path: '',
     redirectTo: '/',
     pathMatch: 'full'
@@ -171,4 +164,5 @@ const routes: Routes = [
 })
 
 
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

@@ -1,181 +1,331 @@
-.input-block {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  margin-bottom: 2.2rem;
-  input[type="text"].required-error,
-  input[type="password"].required-error {
-    &::placeholder {
-      color: var(--redTextColor);
-    }
-  }
-  .wrap-label {
+.form {
+  max-width: 50rem;
+  width: 100%;
+  border-radius: 0.8rem;
+
+  &__field {
     display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    min-height: 2.4rem;
-  }
-  label {
-    a {
-      margin-left: 0.6rem;
-      display: inline-flex;
-    }
-    font-size: 1.6rem;
-    line-height: 2rem;
-    margin-bottom: 1.2rem;
-    color: var(--blueTextColor);
-  }
-  input[type="text"],
-  input[type="password"],
-  select {
-    &::placeholder {
-      color: var(--placeholderTextColor);
-      font-size: 2rem;
-      line-height: 2rem;
-    }
-    border: none;
-    font-size: 2rem;
-    line-height: 2rem;
-    outline: none;
-    padding: 0.2rem 0;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 2rem;
     width: 100%;
-    background-color: var(--inputBackgroundColor);
-    color: var(--mainTextColor);
-  }
-  &.textarea {
-    height: auto;
 
-    textarea {
-      &::placeholder {
-        color: var(--placeholderTextColor);
-        font-size: 2rem;
-        line-height: 2rem;
+    label {
+      margin-bottom: 0.8rem;
+      color: var(--primary);
+    }
+
+    &--row {
+      display: flex;
+
+      > div {
+        max-width: calc(50% - 1rem);
+        width: 100%;
+
+        &:first-child {
+          margin-right: 1rem;
+        }
+
+        &:last-child {
+          margin-left: 1rem;
+        }
       }
-      font-size: 2rem;
-      line-height: 2.4rem;
-      border: none;
+    }
+
+    &--input,
+    &--select {
+      border: var(--border);
+      border-radius: 0.8rem;
       outline: none;
-      padding: 1rem;
+      padding: 0 1.2rem;
       width: 100%;
-      min-width: 100%;
-      height: 100%;
-      min-height: 7.5rem;
-      max-height: 7.5rem;
-      overflow: auto;
-      resize: none;
-      background-color: var(--inputBackgroundColor);
-      color: var(--mainTextColor);
-    }
-  }
-  .error-block {
-    color: var(--redTextColor);
-  }
-  .success-block {
-    color: var(--greenTextColor);
-  }
-}
+      height: 4rem;
+      background-color: transparent;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: var(--main-text);
+      font-size: 1.8rem;
+      line-height: 1.2;
+      transition: border 0.2s ease-in-out;
 
-input[type="radio"].style-radio {
-  & + label {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    font-weight: 400;
-    padding-left: 2.4rem;
-    color: var(--optionalTextColor);
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-  }
-  &:not(checked) {
-    position: absolute;
-    opacity: 0;
-    & + label {
+      &:disabled {
+        border: var(--border-disabled);
+        cursor: not-allowed;
+      }
+
+      &:read-only {
+        cursor: not-allowed;
+      }
+
+      &:not(:disabled):not(:read-only) {
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      &:not(:disabled):not(:read-only):not(.invalid):not(.ng-invalid) {
+        &:hover {
+          border: var(--border-not-empty);
+        }
+      }
+
+      &::placeholder {
+        color: var(--placeholder);
+      }
+
+      &.ng-touched {
+        &.ng-invalid {
+          border: var(--border-error);
+          // TODO удалить после перевода ошибок в блок error
+          //&::placeholder {
+          //  color: var(--red);
+          //}
+        }
+      }
+
+      &.invalid {
+        border: var(--border-error);
+
+        &::placeholder {
+          color: var(--red);
+        }
+      }
+    }
+
+    &--input {
+      /* If input is not empty */
+      &:not(:placeholder-shown):not(.invalid):not(.ng-invalid) {
+        /* You need to add a placeholder to your fields. For example: <input "placeholder=" "/> */
+        border: var(--border-not-empty);
+      }
+
+      /* If input is empty */
+      &:placeholder-shown {
+        border: var(--border);
+      }
+    }
+
+    &.textarea {
+      width: 100%;
+      height: auto;
+
+      textarea {
+        border: var(--border);
+        border-radius: 0.8rem;
+        outline: none;
+        padding: 1rem;
+        width: 100%;
+        min-width: 100%;
+        height: 100%;
+        min-height: 7.5rem;
+        max-height: 7.5rem;
+        overflow: auto;
+        resize: none;
+        background-color: transparent;
+        color: var(--main-text);
+        font-size: 1.8rem;
+        line-height: 1.2;
+
+        &:disabled {
+          border: var(--border-disabled);
+          cursor: not-allowed;
+        }
+
+        &:not(:disabled) {
+          &:hover {
+            cursor: pointer;
+          }
+        }
+
+        &::placeholder {
+          color: var(--placeholder);
+        }
+
+        /* If input is not empty */
+        &:not(:placeholder-shown) {
+          /* You need to add a placeholder to your fields. For example: <input "placeholder=" "/> */
+          border: var(--border-not-empty);
+        }
+
+        /* If input is empty */
+        &:placeholder-shown {
+          border: var(--border);
+        }
+
+        &.ng-touched {
+          .ng-invalid {
+            border: var(--border-error);
+          }
+        }
+
+        &.invalid {
+          border: var(--border-error);
+
+          &::placeholder {
+            color: var(--red);
+          }
+        }
+      }
+    }
+
+    .error, .success, .info {
+      overflow: hidden;
+      width: 100%;
+      margin-top: 1rem;
+    }
+
+    .error {
+      color: var(--red);
+    }
+
+    .success {
+      color: var(--green);
+    }
+
+    &-dropdown {
       position: relative;
-    }
-    & + label:before {
-      content: "";
-      position: absolute;
-      top: 0.7rem;
-      left: 0;
-      background: transparent;
-      border-radius: 50%;
-      width: 1.4rem;
-      height: 1.4rem;
-      border: 0.1rem solid var(--blueTextColor);
-    }
-    & + label:after {
-      content: "";
-      position: absolute;
-      top: 1rem;
-      left: 0.3rem;
-      border-radius: 50%;
-      opacity: 0;
-      width: 0.8rem;
-      height: 0.8rem;
-      background-color: var(--blueTextColor);
+
+      .dropdown {
+        position: absolute;
+        top: calc(100% + 1rem);
+        left: 0;
+        max-width: 100%;
+        width: 100%;
+        max-height: 15rem;
+        border: var(--border);
+
+        .item {
+          &:hover {
+            background-color: var(--light-gray-background-hover);
+          }
+        }
+      }
     }
   }
-  &:checked {
-    & + label:after {
-      opacity: 1;
+
+  .details {
+    .header {
+      padding: 1.2rem 2rem;
+      width: 100%;
+      max-width: 20rem;
+      background-color: var(--light-blue-details);
+      border-radius: 0.8rem 0.8rem 0 0;
+
+      &.border-radius-all {
+        border-radius: 0.8rem;
+      }
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      padding: 2rem;
+      background-color: var(--light-blue-details);
+      border-radius: 0 0.8rem 0.8rem 0.8rem;
     }
   }
 }
 
-input[type="checkbox"].style-checkbox {
-  & + label {
+.checkbox {
+  display: flex;
+  align-items: center;
+  min-height: 2.4rem;
+
+  label {
     display: flex;
     align-items: center;
     cursor: pointer;
-    font-weight: 400;
     padding-left: 3.6rem;
-    color: var(--mainTextColor);
-    -webkit-touch-collout: none;
+    color: var(--main-text);
     -webkit-user-select: none;
-    -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
   }
-  &:not(checked) {
-    position: absolute;
-    top: 50%;
-    left: 1.6rem;
-    transform: translateY(-50%);
-    visibility: hidden;
-    & + label {
-      position: relative;
+
+  input[type="checkbox"] {
+    &:disabled {
+      & + label {
+        cursor: not-allowed;
+      }
+
+      & + label:before {
+        border: var(--border-disabled);
+        cursor: not-allowed;
+      }
     }
-    & + label:before {
-      content: "";
+
+    &:not(checked) {
       position: absolute;
       top: 50%;
-      left: 1.6rem;
+      left: 0;
       transform: translateY(-50%);
-      background: transparent;
-      width: 1.4rem;
-      height: 1.4rem;
-      border: 0.1rem solid var(--blueTextColor);
+      visibility: hidden;
+
+      & + label {
+        position: relative;
+      }
+
+      & + label:before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        background: transparent;
+        width: 2.4rem;
+        height: 2.4rem;
+        border: var(--border);
+        border-radius: 0.5rem;
+      }
     }
-  }
-  &:checked {
-    & + label:before {
-      background: url(~src/assets/icons/complete-testwallet.svg);
+
+    &:checked {
+      & + label:after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 0.5rem;
+        transform: translateY(-50%);
+        width: 1.4rem;
+        height: 1.4rem;
+        background-color: var(--checked);
+        border-radius: 0.5rem;
+      }
     }
   }
 }
 
 .switch {
+  display: flex;
+  align-items: center;
+  border-radius: 1.1rem;
+  cursor: pointer;
+  padding: 0.2rem;
+  width: 3.6rem;
+  height: 2.2rem;
+  transition: all 0.2s ease-in-out;
+
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
   &.on {
-    background-color: var(--switchOnBackgroundColor);
+    justify-content: flex-end;
+    background-color: var(--green);
   }
+
   &.off {
-    background-color: var(--switchOffBackgroundColor);
+    justify-content: flex-start;
+    background-color: var(--light-gray);
   }
+
   .circle {
-    background-color: var(--mainTextColor);
+    border-radius: 50%;
+    width: 1.8rem;
+    height: 1.8rem;
+    background-color: var(--switchCircele);
     box-shadow: var(--switchCirceleBoxShadow);
   }
 }
