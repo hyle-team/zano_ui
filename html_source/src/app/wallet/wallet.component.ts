@@ -32,27 +32,32 @@ export class WalletComponent implements OnInit, OnDestroy {
       title: 'WALLET.TABS.HISTORY',
       icon: 'history',
       link: '/history',
+      disabled: false
     },
     {
       title: 'WALLET.TABS.SEND',
       icon: 'send',
       link: '/send',
+      disabled: true
     },
     {
       title: 'WALLET.TABS.RECEIVE',
       icon: 'receive',
       link: '/receive',
+      disabled: false
     },
     {
       title: 'WALLET.TABS.CONTRACTS',
       icon: 'contracts',
       link: '/contracts',
+      disabled: true
     },
     {
       title: 'WALLET.TABS.STAKING',
       icon: 'staking',
       link: '/staking',
       indicator: false,
+      disabled: true
     },
   ];
   aliasSubscription: Subscription;
@@ -107,6 +112,7 @@ export class WalletComponent implements OnInit, OnDestroy {
       .select('sync')
       .pipe(filter(Boolean), distinctUntilChanged())
       .subscribe((value: any) => {
+        console.log(value, '<fucker')
         const data = value.filter(
           (item: Sync) => item.wallet_id === this.variablesService.currentWallet.wallet_id
         )[0];
@@ -139,6 +145,9 @@ export class WalletComponent implements OnInit, OnDestroy {
       }
     );
     this.updateWalletStatus();
+    this.variablesService.getWalletChangedEvent.subscribe(v => {
+      this.setTabsDisabled(this.variablesService.currentWallet.balance.eq(0))
+    })
   }
 
   copyAddress() {
@@ -252,6 +261,7 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   updateWalletStatus() {
     this.backend.eventSubscribe('wallet_sync_progress', (data) => {
+      console.log(data, 'sync')
       const wallet_id = data.wallet_id;
       if (wallet_id === this.variablesService.currentWallet.wallet_id) {
         this.ngZone.run(() => {
@@ -269,10 +279,19 @@ export class WalletComponent implements OnInit, OnDestroy {
               this.variablesService.getWallet(this.variablesService.currentWallet.wallet_id).loaded)
               ? true
               : false;
+          if (this.walletLoaded) {
+            this.setTabsDisabled(this.variablesService.currentWallet.balance.eq(0))
+          }
         } else {
           this.walletLoaded = false;
         }
       });
     });
+  }
+
+  setTabsDisabled(disabled: boolean): void {
+    this.tabs[1].disabled = disabled
+    this.tabs[3].disabled = disabled
+    this.tabs[4].disabled = disabled
   }
 }
