@@ -4,12 +4,12 @@
   }
 }
 
-$ng-select-highlight: var(--light-gray-background-hover) !default;
-$ng-select-primary-text: var(--main-text) !important;
-$ng-select-disabled-text: var(--main-text) !default;
-$ng-select-border: var(--border-color) !default;
+$ng-select-highlight: var(--gray-900) !default;
+$ng-select-primary-text: var(--white-500) !important;
+$ng-select-disabled-text: var(--white-500) !default;
+$ng-select-border: var(--gray-800) !default;
 $ng-select-border-radius: 0.8rem !default;
-$ng-select-bg: var(--ng-select-background) !default;
+$ng-select-bg: var(--blue-500) !default;
 $ng-select-selected: $ng-select-highlight !default;
 $ng-select-selected-text: $ng-select-primary-text !default;
 
@@ -17,7 +17,7 @@ $ng-select-marked: $ng-select-highlight !default;
 $ng-select-marked-text: $ng-select-primary-text !default;
 
 $ng-select-box-shadow: none;
-$ng-select-placeholder: var(--placeholder) !default;
+$ng-select-placeholder: var(--gray-800) !default;
 $ng-select-height: 4rem !default;
 $ng-select-value-padding-left: 1rem !default;
 $ng-select-value-font-size: 1.8rem !default;
@@ -25,13 +25,13 @@ $ng-select-value-text: $ng-select-primary-text !default;
 
 $ng-select-dropdown-bg: $ng-select-bg !default;
 $ng-select-dropdown-border: $ng-select-border !default;
-$ng-select-dropdown-optgroup-text: var(--main-text) !default;
+$ng-select-dropdown-optgroup-text: var(--white-500) !default;
 $ng-select-dropdown-optgroup-marked: $ng-select-dropdown-optgroup-text !default;
 $ng-select-dropdown-option-bg: $ng-select-dropdown-bg !default;
-$ng-select-dropdown-option-text: var(--main-text) !default;
+$ng-select-dropdown-option-text: var(--white-500) !default;
 $ng-select-dropdown-option-disabled: $ng-select-primary-text !default;
 
-$ng-select-input-text: var(--main-text) !default;
+$ng-select-input-text: var(--white-500) !default;
 
 $circle-border: 0.15rem solid white !default;
 $circle-background: white !default;
@@ -146,7 +146,7 @@ $circle-background: white !default;
           padding-right: 5rem;
 
           > input {
-            color: var(--main-text);
+            color: var(--white-500);
             font-size: 1.8rem;
           }
 

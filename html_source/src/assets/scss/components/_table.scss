@@ -18,7 +18,7 @@ table {
     overflow: auto;
 
     tr {
-      background-color: var(--light-blue-300);
+      background-color: var(--blue-400);
 
       th {
         overflow: hidden;
@@ -41,7 +41,7 @@ table {
     text-align: left;
 
     tr {
-      background-color: var(--light-blue-150);
+      background-color: var(--blue-300);
       -webkit-transition: 0.5s height linear, 0s font-size;
       transition: 0.5s height linear, 0s font-size;
       transition-delay: 0s, 0.5s;
@@ -97,15 +97,15 @@ table {
   display: flex;
   flex-direction: column;
   width: 100%;
-  border: var(--defaul-border);
-  border-radius: var(--default-border-radius);
+  border: var(--border);
+  border-radius: 0.8rem;
   overflow: hidden;
 
   .separator {
     border: none;
     height: 2px;
-    color: var(--defaul-border-color); /* old IE */
-    background-color: var(--defaul-border-color); /* Modern Browsers */
+    color: var(--gray-800); /* old IE */
+    background-color: var(--gray-800); /* Modern Browsers */
   }
 
   .row {
@@ -120,8 +120,8 @@ table {
     }
 
     .label {
-      color: var(--primary);
-      background: var(--light-blue-details);
+      color: var(--azure-500);
+      background: var(--blue-500);
       overflow: hidden;
       text-overflow: ellipsis;
     }

@@ -17,7 +17,7 @@ app-send-details-modal {
     width: 100%;
     display: flex;
     flex-direction: column;
-    border-radius: var(--default-border-radius);
+    border-radius: 0.8rem;
     overflow: hidden;
 
     .header {
@@ -30,13 +30,13 @@ app-send-details-modal {
       overflow: hidden;
       padding: 1rem 2rem;
       width: 100%;
-      background-color: var(--light-blue-details);
+      background-color: var(--blue-500);
       cursor: pointer;
     }
 
     &-wrapper {
       max-height: 35rem;
-      background-color: var(--light-blue-details);
+      background-color: var(--blue-500);
       overflow-y: auto;
       scroll-behavior: smooth;
     }

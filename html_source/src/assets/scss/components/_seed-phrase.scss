@@ -19,7 +19,7 @@
       align-items: center;
       flex-wrap: nowrap;
       border: var(--border);
-      background-color: var(--light-gray-background);
+      background-color: var(--gray-900);
 
       .number {
         display: flex;
@@ -29,7 +29,7 @@
         height: 1.8rem;
         border-radius: 50%;
         font-size: 1rem;
-        background-color: var(--seed-phrase-item-background);
+        background-color: var(--gray-600);
       }
 
       .word {

@@ -29,7 +29,7 @@ app-wallet {
       max-width: 50rem;
       width: 100%;
       overflow: hidden;
-      background-color: var(--light-blue);
+      background-color: var(--blue-700);
 
       .left, .right {
         width: 100%;
@@ -60,10 +60,10 @@ app-wallet {
 
         .price {
           .percent {
-            color: var(--green);
+            color: var(--aqua-500);
 
             &.red {
-              color: var(--red);
+              color: var(--red-500);
             }
           }
         }
@@ -80,7 +80,7 @@ app-wallet {
             justify-content: flex-start;
             border-radius: 0;
             &:hover, .active {
-              background-color: var(--light-gray-background);
+              background-color: var(--gray-900);
             }
           }
         }

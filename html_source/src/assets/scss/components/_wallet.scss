@@ -8,8 +8,8 @@
   width: 100%;
   min-height: 11.2rem;
   padding: 1.2rem;
-  background-color: var(--light-blue-details);
-  border: 0.15rem solid var(--light-blue-details);
+  background-color: var(--blue-500);
+  border: 0.15rem solid var(--blue-500);
   cursor: pointer;
 
   .header {
@@ -34,8 +34,8 @@
           margin-right: 0.8rem;
           font-size: 1.2rem;
           line-height: 1;
-          background-color: var(--main-text);
-          color: var(--primary);
+          background-color: var(--white-500);
+          color: var(--azure-500);
         }
       }
     }
@@ -55,11 +55,11 @@
     .percent {
       font-size: 1.4rem;
       line-height: 1.2;
-      color: var(--green);
+      color: var(--aqua-500);
       margin-left: 0.7rem;
 
       &.red {
-        color: var(--red);
+        color: var(--red-500);
       }
     }
   }
@@ -98,12 +98,12 @@
 
   &.auditable {
     background-color: transparent;
-    border-color: var(--accountAuditableBorderColor);
+    border-color: var(--white-500);
   }
 
   &.watch-only {
     background-color: transparent;
-    border-color: var(--accountWatchOnlyBorderColor);
+    border-color: var(--amethyst-500);
   }
 
   &.auditable,
@@ -111,26 +111,26 @@
   &.tracking {
     &.active {
       padding: 1.35rem;
-      background: var(--accountActiveBackgroundColor);
+      background: var(--gradietAquaToBlue);
     }
   }
 
   &.active {
     border: none;
     padding: 1.35rem;
-    background: var(--accountActiveBackgroundColor);
+    background: var(--gradietAquaToBlue);
 
     .progress-bar {
-      background-color: var(--progressBarAccountActiveColor);
+      background-color: var(--gray-800);
 
       .fill {
-        background-color: var(--main-text);
+        background-color: var(--white-500);
       }
     }
   }
 
   &:hover:not(.active) {
-    border-color: var(--border-color);
+    border-color: var(--gray-800);
   }
 
   &:focus {

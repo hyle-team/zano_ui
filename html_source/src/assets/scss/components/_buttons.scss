@@ -2,7 +2,7 @@ button, .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: var(--main-text);
+  color: var(--white-500);
   transition: all 0.25s ease;
   border: none;
   outline: none;
@@ -34,22 +34,22 @@ button, .btn {
 
   &.primary {
     padding: 1rem;
-    background-color: var(--primary);
+    background-color: var(--azure-500);
 
     &:not(:disabled) {
       &:focus, &:hover, &.active {
-        background-color: var(--primary-hover);
+        background-color: var(--azure-600);
       }
     }
   }
 
   &.outline {
     padding: 1rem;
-    border: 0.15rem solid var(--primary);
+    border: 0.15rem solid var(--azure-500);
 
     &:not(:disabled) {
       &:hover, &:focus, &.active {
-        background-color: var(--light-gray-background-hover);
+        background-color: var(--gray-900);
       }
     }
   }
@@ -68,7 +68,7 @@ button, .btn {
   }
 
   &.btn-icon {
-    background-color: var(--light-gray-background);
+    background-color: var(--gray-900);
 
     &.circle {
       border-radius: 50%;

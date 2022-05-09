@@ -12,7 +12,7 @@ app-login {
     max-width: 42rem;
     width: 100%;
     border-radius: 0.8rem;
-    background-color: var(--light-blue);
+    background-color: var(--blue-700);
     overflow: hidden;
 
     .logo {
@@ -34,7 +34,7 @@ app-login {
       &__field {
         &--wrapper {
           border-radius: 0.8rem;
-          background-color: var(--light-blue-details);
+          background-color: var(--blue-500);
         }
       }
     }

@@ -12,7 +12,7 @@
 
     label {
       margin-bottom: 0.8rem;
-      color: var(--primary);
+      color: var(--azure-500);
     }
 
     &--row {
@@ -43,7 +43,7 @@
       background-color: transparent;
       overflow: hidden;
       text-overflow: ellipsis;
-      color: var(--main-text);
+      color: var(--white-500);
       font-size: 1.8rem;
       line-height: 1.2;
       transition: border 0.2s ease-in-out;
@@ -70,16 +70,12 @@
       }
 
       &::placeholder {
-        color: var(--placeholder);
+        color: var(--gray-800);
       }
 
       &.ng-touched {
         &.ng-invalid {
           border: var(--border-error);
-          // TODO удалить после перевода ошибок в блок error
-          //&::placeholder {
-          //  color: var(--red);
-          //}
         }
       }
 
@@ -87,7 +83,7 @@
         border: var(--border-error);
 
         &::placeholder {
-          color: var(--red);
+          color: var(--red-500);
         }
       }
     }
@@ -122,7 +118,7 @@
         overflow: auto;
         resize: none;
         background-color: transparent;
-        color: var(--main-text);
+        color: var(--white-500);
         font-size: 1.8rem;
         line-height: 1.2;
 
@@ -138,7 +134,7 @@
         }
 
         &::placeholder {
-          color: var(--placeholder);
+          color: var(--gray-800);
         }
 
         /* If input is not empty */
@@ -162,7 +158,7 @@
           border: var(--border-error);
 
           &::placeholder {
-            color: var(--red);
+            color: var(--red-500);
           }
         }
       }
@@ -175,11 +171,11 @@
     }
 
     .error {
-      color: var(--red);
+      color: var(--red-500);
     }
 
     .success {
-      color: var(--green);
+      color: var(--aqua-500);
     }
 
     &-dropdown {
@@ -196,7 +192,7 @@
 
         .item {
           &:hover {
-            background-color: var(--light-gray-background-hover);
+            background-color: var(--gray-900);
           }
         }
       }
@@ -208,7 +204,7 @@
       padding: 1.2rem 2rem;
       width: 100%;
       max-width: 20rem;
-      background-color: var(--light-blue-details);
+      background-color: var(--blue-500);
       border-radius: 0.8rem 0.8rem 0 0;
 
       &.border-radius-all {
@@ -220,7 +216,7 @@
       display: flex;
       flex-direction: column;
       padding: 2rem;
-      background-color: var(--light-blue-details);
+      background-color: var(--blue-500);
       border-radius: 0 0.8rem 0.8rem 0.8rem;
     }
   }
@@ -236,7 +232,7 @@
     align-items: center;
     cursor: pointer;
     padding-left: 3.6rem;
-    color: var(--main-text);
+    color: var(--white-500);
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -289,7 +285,7 @@
         transform: translateY(-50%);
         width: 1.4rem;
         height: 1.4rem;
-        background-color: var(--checked);
+        background-color: var(--white-500);
         border-radius: 0.5rem;
       }
     }
@@ -313,19 +309,19 @@
 
   &.on {
     justify-content: flex-end;
-    background-color: var(--green);
+    background-color: var(--aqua-500);
   }
 
   &.off {
     justify-content: flex-start;
-    background-color: var(--light-gray);
+    background-color: var(--gray-800);
   }
 
   .circle {
     border-radius: 50%;
     width: 1.8rem;
     height: 1.8rem;
-    background-color: var(--switchCircele);
-    box-shadow: var(--switchCirceleBoxShadow);
+    background-color: var(--white-500);
+    box-shadow: var(--shadow-gray);
   }
 }

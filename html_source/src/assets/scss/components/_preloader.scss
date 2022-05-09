@@ -9,7 +9,7 @@
   .loading-bar {
     display: block;
     animation: move 5s linear infinite;
-    background-color: var(--primary);
+    background-color: var(--azure-500);
     background-image: -webkit-gradient(
                     linear, 0 0, 100% 100%,
                     color-stop(.125, rgba(0, 0, 0, .15)), color-stop(.125, transparent),

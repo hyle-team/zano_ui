@@ -3,7 +3,7 @@
     border: none;
     padding: 0;
     background-color: var(--chartOptionsBackgroundColor);
-    box-shadow: var(--tooltipShadow);
+    box-shadow: var(--shadow-black-300);
   }
 
   li {
@@ -16,11 +16,11 @@
   a {
     display: block;
     padding: 0.5em 1em;
-    color: var(--main-text);
+    color: var(--white-500);
 
     &:hover {
       background-color: var(--chartOptionsHoverColor);
-      color: var(--main-text);
+      color: var(--white-500);
     }
   }
 }

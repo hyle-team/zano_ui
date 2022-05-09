@@ -7,7 +7,7 @@ app-sidebar {
   max-width: 23rem;
   width: 100%;
   height: 100%;
-  background-color: var(--light-blue);
+  background-color: var(--blue-700);
 
   .sidebar {
     &-header {
@@ -82,15 +82,15 @@ app-sidebar {
 
 .cdk-drag-preview {
   &.wallet {
-    color: var(--main-text);
-    background: var(--light-blue-details);
+    color: var(--white-500);
+    background: var(--blue-500);
 
     &.price {
-      color: var(--placeholder);
+      color: var(--gray-800);
 
 
       .percent {
-        color: var(--placeholder);
+        color: var(--gray-800);
       }
     }
   }

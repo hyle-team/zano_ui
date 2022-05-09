@@ -6,7 +6,7 @@ body {
   height: 100vh;
   min-height: 700px;
 
-  background: var(--main-background);
+  background: var(--blue-900);
 }
 
 app-root {
@@ -52,7 +52,7 @@ app-root {
     overflow: hidden;
     padding: 2rem;
     border-radius: 0.8rem;
-    background-color: var(--light-blue);
+    background-color: var(--blue-700);
 
     .scrolled-content {
       display: flex;

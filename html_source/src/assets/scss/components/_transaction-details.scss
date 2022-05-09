@@ -16,16 +16,16 @@ app-transaction-details {
         text-overflow: ellipsis;
 
         &.label {
-          color: var(--main-text);
+          color: var(--white-500);
         }
 
         &.value {
-          color: var(--main-text);
+          color: var(--white-500);
         }
 
         &.key-value {
           cursor: pointer;
-          color: var(--primary);
+          color: var(--azure-500);
         }
       }
     }
