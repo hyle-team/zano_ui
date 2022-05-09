@@ -1,0 +1,18 @@
+.pagination-wrapper {
+  .pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .left, .right {
+      display: flex;
+      align-items: center;
+    }
+
+    button {
+      &.active {
+        color: var(--azure-500);
+      }
+    }
+  }
+}
