@@ -7,7 +7,7 @@
 
                 <div *ngIf="isSentSuccess"
                      class="image">
-                    <img src="assets/icons/green/transaction_success.svg"
+                    <img src="assets/icons/aqua/transaction_success.svg"
                          alt="success">
                 </div>
 
@@ -28,8 +28,8 @@
 
             </div>
 
-            <div class="details">
-                <div class="header"
+            <div class="details w-100 flex flex__direction-column border-radius-0_8-rem overflow-hidden">
+                <div class="header flex flex__justify-between flex__align-center overflow-hidden py-1 px-2 w-100 cursor-pointer"
                      (click)="isDetailsNotEmpty && toggleDetails()">
                     <p class="title text-ellipsis mr-2">{{ 'SEND_DETAILS_MODAL.TITLE2' | translate }}</p>
                     <button *ngIf="isDetailsNotEmpty"
@@ -43,10 +43,10 @@
                     </button>
                 </div>
                 <div #elDetailsWrapper
-                     class="details-wrapper scrolled-content">
-                    <ul class="details-list"
+                     class="details-wrapper overflow-y-auto scrolled-content">
+                    <ul class="details-list px-2 py-1"
                         *ngIf="stateDetails$ | async">
-                        <li class="item color-primary"
+                        <li class="item flex flex__align-center flex-nowrap mb-1 color-primary"
                             *ngFor="let action of (currentActionStates$ | async); let last = last; trackBy: trackBy">
                             <span class="text text-ellipsis mr-1">{{ 'TOR_LIB_STATE' + '.' + action?.status | translate }}{{ last && !isSentSuccess && !isSentFailed ? '...' : '' }}</span>
                             <ng-container *ngIf="!last">
@@ -75,10 +75,10 @@
                         </li>
 
                         <ng-container *ngIf="(responseData$ | async)">
-                            <li class="item">
+                            <li class="item flex flex__align-center flex-nowrap mb-1 color-primary">
                                 <span class="word-break-break-all">tx id: {{ (responseData$ | async).response_data.tx_hash }}</span>
                             </li>
-                            <li class="item">
+                            <li class="item flex flex__align-center flex-nowrap mb-1 color-primary">
                                 <div class="word-break-break-all">tx
                                                                   size: {{ (responseData$ | async).response_data.tx_blob_size }}
                                                                   bytes

@@ -1,10 +1,10 @@
-<div class="container">
-    <div class="wrap-qr mb-2">
+<div class="container flex flex__direction-column flex__justify-center flex__align-center w-100 h-100 overflow-auto">
+    <div class="wrap-qr flex flex__direction-column flex__align-center overflow-hidden border-radius-0_8-rem mb-2">
         <img src="{{qrImageSrc}}"
              alt="qr-code">
     </div>
 
-    <div class="address p-1">
+    <div class="address flex flex__align-center border-radius-0_8-rem overflow-hidden p-1">
         <span class="text-ellipsis mr-1">{{variablesService.currentWallet.address}}</span>
         <button (click)="copyAddress()"
                 class="btn-icon circle small">

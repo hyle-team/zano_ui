@@ -16,7 +16,7 @@
         <div class="scrolled-content">
             <ng-container *ngIf="this.variablesService.contacts.length !== 0; else emptyList">
                 <div class="contacts w-100 flex flex__direction-column">
-                    <div class="wrap-table mb-1">
+                    <div class="wrap-table flex flex_1_1_auto overflow-x-hidden overflow-y-auto mb-1">
                         <table class="contacts-table">
                             <thead>
                             <tr #head
@@ -78,7 +78,7 @@
 </div>
 
 <ng-template #emptyList>
-    <div class="empty-list">
+    <div class="empty-list flex flex__direction-column flex__justify-center flex__align-center w-100">
         <h4 class="mb-2">{{ 'CONTACTS.TABLE.EMPTY' | translate }}</h4>
         <ng-container *ngTemplateOutlet="tempButtonAdd"></ng-container>
     </div>

@@ -1,6 +1,6 @@
-<div class="container">
+<div class="container w-100 h-100 overflow-auto">
     <form *ngIf="!isLoading"
-          class="form"
+          class="form max-w-50-rem w-100 flex flex__direction-column"
           [formGroup]="sendForm"
           (ngSubmit)="showDialog()">
 

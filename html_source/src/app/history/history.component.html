@@ -1,5 +1,5 @@
-<div class="history-wrap">
-    <div class="wrap-table mb-2">
+<div class="history-wrap w-100 h-100 flex flex__direction-column">
+    <div class="wrap-table flex flex_1_1_auto overflow-x-hidden overflow-y-auto mb-2">
         <table class="history-table">
             <thead>
             <tr #head
@@ -17,7 +17,7 @@
                 <tr (click)="openDetails(item.tx_hash)"
                     [class.locked-transaction]="!item.is_mining && item.unlock_time > 0">
                     <td>
-                        <div class="status text-ellipsis"
+                        <div class="status flex flex__align-center text-ellipsis"
                              [ngClass]="item.is_income ? 'received' : 'send'">
                             <ng-container *ngIf="getHeight(item) < 10">
                                 <svg class="confirmation mr-1"
@@ -55,7 +55,7 @@
                                      alt="">
                                 <img *ngIf="item.is_income"
                                      class="status-transaction mr-1"
-                                     src="assets/icons/green/receive.svg"
+                                     src="assets/icons/aqua/receive.svg"
                                      alt="">
                             </ng-container>
                             <span class="status-transaction-text">{{ (item.is_income ? 'HISTORY.RECEIVED' : 'HISTORY.SEND') | translate }}</span>
@@ -130,8 +130,8 @@
         </table>
     </div>
     <div class="pagination-wrapper">
-        <div class="pagination">
-            <div class="left">
+        <div class="pagination flex flex__justify-between flex__align-center">
+            <div class="left flex flex__align-center">
                 <button class="btn-icon circle small mr-1"
                         [disabled]="variablesService.currentWallet.currentPage === 1 || variablesService.sync_started || wallet"
                         (click)="setPage(variablesService.currentWallet.currentPage - 1)">
@@ -140,14 +140,14 @@
 
                 <ng-container *ngIf="!mining">
                     <button *ngFor="let page of variablesService.currentWallet.pages"
-                            [class.active]="variablesService.currentWallet.currentPage === page"
+                            [class.color-primary]="variablesService.currentWallet.currentPage === page"
                             class="mr-0_5"
                             (click)="setPage(page)">{{page}}</button>
                 </ng-container>
 
                 <ng-container *ngIf="mining">
                     <button class="mr-0_5"
-                            [ngClass]="{ 'active': variablesService.currentWallet.currentPage, 'disabled': variablesService.sync_started || wallet}"
+                            [ngClass]="{ 'color-primary': variablesService.currentWallet.currentPage, 'disabled': variablesService.sync_started || wallet}"
                             [disabled]="stop_paginate || variablesService.sync_started || wallet"
                             (click)="setPage(variablesService.currentWallet.currentPage)">
                         {{variablesService.currentWallet.currentPage}}
@@ -160,7 +160,7 @@
                     <i class="icon arrow-right-stroke"></i>
                 </button>
             </div>
-            <div class="right">
+            <div class="right flex flex__align-center">
                 <span class="switch-text mr-2">Hide mining transactions</span>
                 <app-switch [value]="mining"
                             [disabled]="variablesService.sync_started || !!wallet"
