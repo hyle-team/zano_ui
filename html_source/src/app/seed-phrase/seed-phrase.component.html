@@ -107,34 +107,34 @@
 
                 <ng-template #seedPhraseContent>
                     <div class="seed-phrase bg-light-blue-details p-2 border-radius-0_8-rem">
-                        <div class="header mb-2">
+                        <div class="header flex flex__justify-between flex__align-center mb-2">
                             <div class="left">
                                 <span>{{ 'WALLET_DETAILS.LABEL_SEED_PHRASE' | translate }}</span>
                             </div>
                             <div class="right">
-                                <span class="status color-red"
+                                <span class="status flex flex__align-center color-red"
                                       *ngIf="seedPhraseForm.controls.password.value.length == 0">
                                     {{ 'WALLET_DETAILS.SEED_IS_UNSECURED' | translate }}
                                     <i class="icon unsecured ml-1"></i>
                                 </span>
-                                <span class="status color-aqua"
+                                <span class="status flex flex__align-center color-aqua"
                                       *ngIf="seedPhraseForm.controls.password.value.length > 0">
                                     {{ 'WALLET_DETAILS.SEED_IS_SECURED' | translate }}
                                     <i class="icon secured ml-1"></i>
                                 </span>
                             </div>
                         </div>
-                        <div class="content mb-1"
+                        <div class="content flex flex-wrap mb-1"
                              (contextmenu)="variablesService.onContextMenuOnlyCopy($event, seedPhrase)">
                             <ng-container *ngFor="let word of seedPhrase.split(' '); let index = index">
-                                <div class="item p-1 mr-1 mb-1 border-radius-0_8-rem">
-                                    <div class="number p-1 mr-1">{{ index + 1 }}</div>
+                                <div class="item flex flex__align-center flex-nowrap p-1 mr-1 mb-1 border-radius-0_8-rem">
+                                    <div class="number flex flex__justify-center flex__align-center p-1 mr-1">{{ index + 1 }}</div>
                                     <span class="word">{{ word }}</span>
                                 </div>
                             </ng-container>
                         </div>
-                        <div class="footer">
-                            <div class="wrap-buttons mb-2"
+                        <div class="footer flex flex__direction-column flex__align-center max-w-50-rem w-100">
+                            <div class="wrap-buttons w-100 flex flex-nowrap mb-2"
                                  *ngIf="showSeed">
                                 <button type="button"
                                         class="primary big w-100 mr-1"
