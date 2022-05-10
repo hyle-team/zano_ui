@@ -1,6 +1,6 @@
-<div class="container">
+<div class="container flex flex__direction-column flex__justify-center flex__align-center w-100 h-100 overflow-hidden">
     <ng-container *ngIf="variablesService.currentWallet.contracts.length; else emptyContracts">
-        <div class="wrap-table mb-2">
+        <div class="wrap-table flex w-100 flex_1_1_auto overflow-y-auto overflow-x-hidden mb-2">
             <table class="contracts-table">
                 <thead>
                 <tr>
@@ -16,7 +16,7 @@
                     <div class="row-divider"></div>
                     <tr [routerLink]="'/wallet/contracts/purchase/' + item.contract_id">
                         <td>
-                            <div class="contract">
+                            <div class="contract flex flex__align-center">
                                 <i class="icon alert mr-1"
                                    *ngIf="!item.is_new"></i>
                                 <i class="icon new mr-1"
@@ -64,7 +64,7 @@
             </table>
         </div>
 
-        <div class="buttons-wrap w-100">
+        <div class="buttons-wrap flex flex__align-center flex_0_0_auto w-100">
             <button type="button"
                     class="primary big max-w-19-rem w-100 mr-1"
                     [routerLink]="'/wallet/contracts/purchase'">{{

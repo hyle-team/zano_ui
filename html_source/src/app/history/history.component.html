@@ -1,5 +1,5 @@
-<div class="history-wrap">
-    <div class="wrap-table mb-2">
+<div class="history-wrap w-100 h-100 flex flex__direction-column">
+    <div class="wrap-table flex flex_1_1_auto overflow-x-hidden overflow-y-auto mb-2">
         <table class="history-table">
             <thead>
             <tr #head
@@ -17,7 +17,7 @@
                 <tr (click)="openDetails(item.tx_hash)"
                     [class.locked-transaction]="!item.is_mining && item.unlock_time > 0">
                     <td>
-                        <div class="status text-ellipsis"
+                        <div class="status flex flex__align-center text-ellipsis"
                              [ngClass]="item.is_income ? 'received' : 'send'">
                             <ng-container *ngIf="getHeight(item) < 10">
                                 <svg class="confirmation mr-1"

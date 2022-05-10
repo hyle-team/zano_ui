@@ -1,91 +1,40 @@
 app-staking {
-  width: 100%;
-  height: auto;
-}
+  .chart {
+    &-header {
+      .selected-group {
+        min-width: 19rem;
+      }
 
-.chart {
-  &-wrap {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    overflow: auto;
-  }
+      .items {
 
-  &-header {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    flex: 0 0 auto;
+        .item {
+          min-width: 18rem;
+          max-width: 25rem;
+          min-height: 4rem;
+          border: var(--border);
 
-    .left, .right {
-      display: flex;
-      align-items: center;
-    }
-
-    .right {
-      justify-content: flex-end;
-    }
-
-    .selected-group {
-      min-width: 19rem;
-    }
-
-    .items {
-      display: flex;
-
-      .item {
-        min-width: 18rem;
-        max-width: 25rem;
-        min-height: 4rem;
-        overflow: hidden;
-        border: var(--border);
-        display: flex;
-        flex-wrap: nowrap;
-        justify-content: space-between;
-        align-items: center;
-
-        .left, .right {
-          display: flex;
-          align-items: center;
-          overflow: hidden;
-        }
-
-        .left {
-          min-width: fit-content;
-          width: auto;
-        }
-
-        .right {
-          width: 100%;
-          justify-content: flex-end;
+          .left {
+            min-width: fit-content;
+            width: auto;
+          }
         }
       }
     }
-  }
 
-  & {
-    position: relative;
-    display: flex;
-    align-items: center;
-    flex: 1 1 auto;
-    border-radius: 0.8rem;
-    border: var(--border);
-    min-height: 29rem;
+    & {
+      position: relative;
+      border: var(--border);
+      min-height: 29rem;
 
-    > div {
-      position: absolute;
-      width: 100%;
-      height: 100%;
+      > div {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+      }
     }
   }
-
-  &-options {
-    display: flex;
-    align-items: center;
-    flex: 0 0 auto;
-  }
 }
+
 
 
 

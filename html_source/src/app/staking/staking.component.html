@@ -1,35 +1,35 @@
-<div class="chart-wrap">
-    <div class="chart-header">
-        <div class="left mr-1">
+<div class="chart-wrap w-100 h-100 flex flex__direction-column overflow-auto">
+    <div class="chart-header flex flex__justify-between flex-wrap flex_0_0_auto">
+        <div class="left flex flex__align-center mr-1">
 
-            <div class="items">
-                <div class="item p-1 border-radius-0_8-rem mr-1 mb-2"
+            <div class="items flex">
+                <div class="item flex flex__justify-between flex__align-center flex-nowrap overflow-hidden p-1 border-radius-0_8-rem mr-1 mb-2"
                      *ngIf="(!variablesService.currentWallet.is_auditable && !variablesService.currentWallet.is_watch_only)
                 || (variablesService.currentWallet.is_auditable && !variablesService.currentWallet.is_watch_only)">
-                    <div class="left mr-1">{{ 'STAKING.TITLE' | translate }}</div>
+                    <div class="left flex flex__align-center overflow-hidden mr-1">{{ 'STAKING.TITLE' | translate }}</div>
 
-                    <div class="right">
+                    <div class="right flex flex__align-center overflow-hidden w-100 flex__justify-end">
                         <app-staking-switch
                               [wallet_id]="variablesService.currentWallet.wallet_id"
                               [(staking)]="variablesService.currentWallet.staking">
                         </app-staking-switch>
                     </div>
                 </div>
-                <div class="item p-1 border-radius-0_8-rem mr-1 mb-2">
-                    <div class="left mr-1">{{ 'STAKING.TITLE_PENDING' | translate }}:</div>
-                    <div class="right">
+                <div class="item flex flex__justify-between flex__align-center flex-nowrap overflow-hidden p-1 border-radius-0_8-rem mr-1 mb-2">
+                    <div class="left flex flex__align-center overflow-hidden mr-1">{{ 'STAKING.TITLE_PENDING' | translate }}:</div>
+                    <div class="right flex flex__align-center overflow-hidden w-100 flex__justify-end">
                         <div class="text-ellipsis mr-1">{{pending.total | intToMoney}}</div>
                         {{variablesService.defaultCurrency}}</div>
                 </div>
-                <div class="item p-1 border-radius-0_8-rem mb-2">
-                    <div class="left mr-1">{{ 'STAKING.TITLE_TOTAL' | translate }}:</div>
-                    <div class="right">
+                <div class="item flex flex__justify-between flex__align-center flex-nowrap overflow-hidden p-1 border-radius-0_8-rem mb-2">
+                    <div class="left flex flex__align-center overflow-hidden mr-1">{{ 'STAKING.TITLE_TOTAL' | translate }}:</div>
+                    <div class="right flex flex__align-center overflow-hidden w-100 flex__justify-end">
                         <div class="text-ellipsis mr-1">{{total | intToMoney}}</div>
                         {{variablesService.defaultCurrency}}</div>
                 </div>
             </div>
         </div>
-        <div class="right">
+        <div class="right flex flex__justify-end flex__align-center">
             <div class="selected mr-1 mb-2"
                  *ngIf="selectedDate && selectedDate.date">
                 <span>{{selectedDate.date | date : 'EEEE, MMMM d, y'}}</span>
@@ -57,11 +57,11 @@
         </div>
     </div>
 
-    <div class="chart">
+    <div class="chart flex flex__align-center flex_1_1_auto border-radius-0_8-rem">
         <div [chart]="chart"></div>
     </div>
 
-    <div class="chart-options mt-2">
+    <div class="chart-options flex flex__align-center flex_0_0_auto mt-2">
         <ng-container *ngFor="let period of periods; let last = last">
             <button type="button"
                     class="big w-100"
