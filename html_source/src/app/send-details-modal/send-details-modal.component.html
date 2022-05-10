@@ -75,10 +75,10 @@
                         </li>
 
                         <ng-container *ngIf="(responseData$ | async)">
-                            <li class="item">
+                            <li class="item color-primary">
                                 <span class="word-break-break-all">tx id: {{ (responseData$ | async).response_data.tx_hash }}</span>
                             </li>
-                            <li class="item">
+                            <li class="item color-primary">
                                 <div class="word-break-break-all">tx
                                                                   size: {{ (responseData$ | async).response_data.tx_blob_size }}
                                                                   bytes
