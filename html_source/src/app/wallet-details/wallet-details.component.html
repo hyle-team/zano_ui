@@ -38,6 +38,9 @@
                                (contextmenu)="variablesService.onContextMenu($event)">
                         <div class="error"
                              *ngIf="detailsForm.controls['name'].invalid && (detailsForm.controls['name'].dirty || detailsForm.controls['name'].touched)">
+                            <div *ngIf="detailsForm.controls['name'].errors['same']">
+                                {{ 'WALLET_DETAILS.FORM_ERRORS.NAME_DUPLICATE' | translate }}
+                            </div>
                             <div *ngIf="detailsForm.controls['name'].errors['duplicate']">
                                 {{ 'WALLET_DETAILS.FORM_ERRORS.NAME_DUPLICATE' | translate }}
                             </div>
