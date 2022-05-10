@@ -1,14 +1,5 @@
 app-contacts {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-
   .wrap-table {
-    display: flex;
-    flex: auto;
-    overflow-x: hidden;
-    overflow-y: auto;
-
     table.contacts-table {
       thead {
         tr {
@@ -39,14 +30,6 @@ app-contacts {
         }
       }
     }
-  }
-
-  .empty-list {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
   }
 }
 
