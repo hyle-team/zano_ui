@@ -24,38 +24,35 @@ import { ContactSendComponent } from './contact-send/contact-send.component';
 import { ExportImportComponent } from './export-import/export-import.component';
 import { DeeplinkComponent } from './deeplink/deeplink.component';
 import { ContractsTabComponent } from './contracts/contracts-tab/contracts-tab.component';
+import { paths, pathChildrenContracts, pathChildrenWallet } from './paths';
 
 const routes: Routes = [
   {
-    path: '',
+    path: paths.addWallet,
     component: AddWalletComponent
   },
   {
-    path: 'add-wallet',
-    component: AddWalletComponent
-  },
-  {
-    path: 'login',
+    path: paths.login,
     component: LoginComponent
   },
   {
-    path: 'wallet',
+    path: paths.wallet,
     component: WalletComponent,
     children: [
       {
-        path: 'send',
+        path: pathChildrenWallet.send,
         component: SendComponent
       },
       {
-        path: 'receive',
+        path: pathChildrenWallet.receive,
         component: ReceiveComponent
       },
       {
-        path: 'history',
+        path: pathChildrenWallet.history,
         component: HistoryComponent
       },
       {
-        path: 'contracts',
+        path: pathChildrenWallet.contracts,
         component: ContractsTabComponent,
         children: [
           {
@@ -63,11 +60,11 @@ const routes: Routes = [
             component: ContractsComponent,
           },
           {
-            path: 'purchase',
+            path: pathChildrenContracts.purchase,
             component: PurchaseComponent
           },
           {
-            path: 'purchase/:id',
+            path: `${ pathChildrenContracts.purchase }/:id`,
             component: PurchaseComponent
           },
           {
@@ -77,91 +74,91 @@ const routes: Routes = [
       },
 
       {
-        path: 'staking',
+        path: pathChildrenWallet.staking,
         component: StakingComponent
       },
       {
         path: '',
-        redirectTo: 'history',
+        redirectTo: pathChildrenWallet.history,
         pathMatch: 'full'
       }
     ]
   },
   {
-    path: 'create',
+    path: paths.create,
     component: CreateWalletComponent
   },
   {
-    path: 'open',
+    path: paths.open,
     component: OpenWalletComponent
   },
   {
-    path: 'restore',
+    path: paths.restore,
     component: RestoreWalletComponent
   },
   {
-    path: 'seed-phrase',
+    path: paths.seedPhrase,
     component: SeedPhraseComponent
   },
   {
-    path: 'details',
+    path: paths.details,
     component: WalletDetailsComponent
   },
   {
-    path: 'assign-alias',
+    path: paths.assignAlias,
     component: AssignAliasComponent
   },
   {
-    path: 'edit-alias',
+    path: paths.editAlias,
     component: EditAliasComponent
   },
   {
-    path: 'transfer-alias',
+    path: paths.transferAlias,
     component: TransferAliasComponent
   },
   {
-    path: 'settings',
+    path: paths.settings,
     component: SettingsComponent
   },
   {
-    path: 'contacts',
+    path: paths.contacts,
     component: ContactsComponent
   },
   {
-    path: 'add-contacts',
+    path: paths.addContacts,
     component: AddContactsComponent
   },
   {
-    path: 'edit-contacts/:id',
+    path: `${ paths.editContacts }/:id`,
     component: AddContactsComponent
   },
   {
-    path: 'contact-send/:id',
+    path: `${ paths.contactSend }/:id`,
     component: ContactSendComponent
   },
   {
-    path: 'import',
+    path: paths.import,
     component: ExportImportComponent
   },
   {
-    path: 'deeplink',
+    path: paths.deeplink,
     component: DeeplinkComponent
   },
   {
-    path: 'ui-kit',
+    path: paths.uiKit,
     loadChildren: './pages/ui-kit/ui-kit.module#UiKitModule'
   },
   {
     path: '',
-    redirectTo: '/',
+    redirectTo: paths.addWallet,
     pathMatch: 'full'
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
+            imports: [RouterModule.forRoot(routes)],
+            exports: [RouterModule]
+          })
 
 
 export class AppRoutingModule {
