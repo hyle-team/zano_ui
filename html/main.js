@@ -3321,7 +3321,7 @@ var VariablesService = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"checkbox\">\r\n    <input type=\"checkbox\"\r\n           [id]=\"id\"\r\n           [value]=\"value\"\r\n           (change)=\"handlerChange($event)\"\r\n           [disabled]=\"disabled\">\r\n    <label [for]=\"id\">{{ label }}</label>\r\n</div>\r\n"
+module.exports = "<div class=\"checkbox\">\r\n    <input type=\"checkbox\"\r\n           [id]=\"id\"\r\n           [checked]=\"value\"\r\n           (change)=\"handlerChange($event)\"\r\n           [disabled]=\"disabled\">\r\n    <label [for]=\"id\">{{ label }}</label>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -4202,6 +4202,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _export_import_export_import_component__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./export-import/export-import.component */ "./src/app/export-import/export-import.component.ts");
 /* harmony import */ var _deeplink_deeplink_component__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./deeplink/deeplink.component */ "./src/app/deeplink/deeplink.component.ts");
 /* harmony import */ var _contracts_contracts_tab_contracts_tab_component__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./contracts/contracts-tab/contracts-tab.component */ "./src/app/contracts/contracts-tab/contracts-tab.component.ts");
+/* harmony import */ var _paths__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./paths */ "./src/app/paths.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4234,37 +4235,34 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
 var routes = [
     {
-        path: '',
+        path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].addWallet,
         component: _add_wallet_add_wallet_component__WEBPACK_IMPORTED_MODULE_2__["AddWalletComponent"]
     },
     {
-        path: 'add-wallet',
-        component: _add_wallet_add_wallet_component__WEBPACK_IMPORTED_MODULE_2__["AddWalletComponent"]
-    },
-    {
-        path: 'login',
+        path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].login,
         component: _login_login_component__WEBPACK_IMPORTED_MODULE_3__["LoginComponent"]
     },
     {
-        path: 'wallet',
+        path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].wallet,
         component: _wallet_wallet_component__WEBPACK_IMPORTED_MODULE_4__["WalletComponent"],
         children: [
             {
-                path: 'send',
+                path: _paths__WEBPACK_IMPORTED_MODULE_26__["pathChildrenWallet"].send,
                 component: _send_send_component__WEBPACK_IMPORTED_MODULE_5__["SendComponent"]
             },
             {
-                path: 'receive',
+                path: _paths__WEBPACK_IMPORTED_MODULE_26__["pathChildrenWallet"].receive,
                 component: _receive_receive_component__WEBPACK_IMPORTED_MODULE_6__["ReceiveComponent"]
             },
             {
-                path: 'history',
+                path: _paths__WEBPACK_IMPORTED_MODULE_26__["pathChildrenWallet"].history,
                 component: _history_history_component__WEBPACK_IMPORTED_MODULE_7__["HistoryComponent"]
             },
             {
-                path: 'contracts',
+                path: _paths__WEBPACK_IMPORTED_MODULE_26__["pathChildrenWallet"].contracts,
                 component: _contracts_contracts_tab_contracts_tab_component__WEBPACK_IMPORTED_MODULE_25__["ContractsTabComponent"],
                 children: [
                     {
@@ -4272,11 +4270,11 @@ var routes = [
                         component: _contracts_contracts_component__WEBPACK_IMPORTED_MODULE_8__["ContractsComponent"],
                     },
                     {
-                        path: 'purchase',
+                        path: _paths__WEBPACK_IMPORTED_MODULE_26__["pathChildrenContracts"].purchase,
                         component: _purchase_purchase_component__WEBPACK_IMPORTED_MODULE_9__["PurchaseComponent"]
                     },
                     {
-                        path: 'purchase/:id',
+                        path: _paths__WEBPACK_IMPORTED_MODULE_26__["pathChildrenContracts"].purchase + "/:id",
                         component: _purchase_purchase_component__WEBPACK_IMPORTED_MODULE_9__["PurchaseComponent"]
                     },
                     {
@@ -4285,83 +4283,83 @@ var routes = [
                 ]
             },
             {
-                path: 'staking',
+                path: _paths__WEBPACK_IMPORTED_MODULE_26__["pathChildrenWallet"].staking,
                 component: _staking_staking_component__WEBPACK_IMPORTED_MODULE_10__["StakingComponent"]
             },
             {
                 path: '',
-                redirectTo: 'history',
+                redirectTo: _paths__WEBPACK_IMPORTED_MODULE_26__["pathChildrenWallet"].history,
                 pathMatch: 'full'
             }
         ]
     },
     {
-        path: 'create',
+        path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].create,
         component: _create_wallet_create_wallet_component__WEBPACK_IMPORTED_MODULE_12__["CreateWalletComponent"]
     },
     {
-        path: 'open',
+        path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].open,
         component: _open_wallet_open_wallet_component__WEBPACK_IMPORTED_MODULE_13__["OpenWalletComponent"]
     },
     {
-        path: 'restore',
+        path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].restore,
         component: _restore_wallet_restore_wallet_component__WEBPACK_IMPORTED_MODULE_14__["RestoreWalletComponent"]
     },
     {
-        path: 'seed-phrase',
+        path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].seedPhrase,
         component: _seed_phrase_seed_phrase_component__WEBPACK_IMPORTED_MODULE_15__["SeedPhraseComponent"]
     },
     {
-        path: 'details',
+        path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].details,
         component: _wallet_details_wallet_details_component__WEBPACK_IMPORTED_MODULE_16__["WalletDetailsComponent"]
     },
     {
-        path: 'assign-alias',
+        path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].assignAlias,
         component: _assign_alias_assign_alias_component__WEBPACK_IMPORTED_MODULE_17__["AssignAliasComponent"]
     },
     {
-        path: 'edit-alias',
+        path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].editAlias,
         component: _edit_alias_edit_alias_component__WEBPACK_IMPORTED_MODULE_18__["EditAliasComponent"]
     },
     {
-        path: 'transfer-alias',
+        path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].transferAlias,
         component: _transfer_alias_transfer_alias_component__WEBPACK_IMPORTED_MODULE_19__["TransferAliasComponent"]
     },
     {
-        path: 'settings',
+        path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].settings,
         component: _settings_settings_component__WEBPACK_IMPORTED_MODULE_11__["SettingsComponent"]
     },
     {
-        path: 'contacts',
+        path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].contacts,
         component: _contacts_contacts_component__WEBPACK_IMPORTED_MODULE_20__["ContactsComponent"]
     },
     {
-        path: 'add-contacts',
+        path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].addContacts,
         component: _add_contacts_add_contacts_component__WEBPACK_IMPORTED_MODULE_21__["AddContactsComponent"]
     },
     {
-        path: 'edit-contacts/:id',
+        path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].editContacts + "/:id",
         component: _add_contacts_add_contacts_component__WEBPACK_IMPORTED_MODULE_21__["AddContactsComponent"]
     },
     {
-        path: 'contact-send/:id',
+        path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].contactSend + "/:id",
         component: _contact_send_contact_send_component__WEBPACK_IMPORTED_MODULE_22__["ContactSendComponent"]
     },
     {
-        path: 'import',
+        path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].import,
         component: _export_import_export_import_component__WEBPACK_IMPORTED_MODULE_23__["ExportImportComponent"]
     },
     {
-        path: 'deeplink',
+        path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].deeplink,
         component: _deeplink_deeplink_component__WEBPACK_IMPORTED_MODULE_24__["DeeplinkComponent"]
     },
     {
-        path: 'ui-kit',
+        path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].uiKit,
         loadChildren: './pages/ui-kit/ui-kit.module#UiKitModule'
     },
     {
         path: '',
-        redirectTo: '/',
+        redirectTo: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].addWallet,
         pathMatch: 'full'
     }
 ];
@@ -7722,6 +7720,56 @@ var OpenWalletComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/paths.ts":
+/*!**************************!*\
+  !*** ./src/app/paths.ts ***!
+  \**************************/
+/*! exports provided: paths, pathChildrenWallet, pathChildrenContracts */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "paths", function() { return paths; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "pathChildrenWallet", function() { return pathChildrenWallet; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "pathChildrenContracts", function() { return pathChildrenContracts; });
+var paths;
+(function (paths) {
+    paths["addWallet"] = "add-wallet";
+    paths["login"] = "login";
+    paths["wallet"] = "wallet";
+    paths["create"] = "create";
+    paths["open"] = "open";
+    paths["restore"] = "restore";
+    paths["seedPhrase"] = "seed-phrase";
+    paths["details"] = "details";
+    paths["assignAlias"] = "assign-alias";
+    paths["editAlias"] = "edit-alias";
+    paths["transferAlias"] = "transfer-alias";
+    paths["settings"] = "settings";
+    paths["contacts"] = "contacts";
+    paths["addContacts"] = "add-contacts";
+    paths["editContacts"] = "edit-contacts";
+    paths["contactSend"] = "contact-send";
+    paths["import"] = "import";
+    paths["deeplink"] = "deeplink";
+    paths["uiKit"] = "ui-kit";
+})(paths || (paths = {}));
+var pathChildrenWallet;
+(function (pathChildrenWallet) {
+    pathChildrenWallet["send"] = "send";
+    pathChildrenWallet["receive"] = "receive";
+    pathChildrenWallet["history"] = "history";
+    pathChildrenWallet["contracts"] = "contracts";
+    pathChildrenWallet["staking"] = "staking";
+})(pathChildrenWallet || (pathChildrenWallet = {}));
+var pathChildrenContracts;
+(function (pathChildrenContracts) {
+    pathChildrenContracts["purchase"] = "purchase";
+})(pathChildrenContracts || (pathChildrenContracts = {}));
+
+
+/***/ }),
+
 /***/ "./src/app/purchase/purchase.component.html":
 /*!**************************************************!*\
   !*** ./src/app/purchase/purchase.component.html ***!
@@ -9773,7 +9821,7 @@ var SettingsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"sidebar-header mb-2\">\r\n    <div class=\"logo\">\r\n        <img src=\"assets/icons/blue/zano-logo.svg\"\r\n             alt=\"zano-logo\">\r\n    </div>\r\n</div>\r\n\r\n<div class=\"sidebar-content\">\r\n    <div class=\"sidebar-content-list mb-1\"\r\n         cdkDropList\r\n         cdkDropListLockAxis=\"y\"\r\n         #scrollContainer\r\n         (cdkDropListDropped)=\"drop($event)\">\r\n        <ng-container *ngFor=\"let wallet of variablesService.wallets\">\r\n            <div class=\"wallet\"\r\n                 cdkDrag\r\n                 vsDragScroll\r\n                 [class.active]=\"wallet?.wallet_id === variablesService?.currentWallet?.wallet_id\"\r\n                 [class.auditable]=\"wallet.is_auditable && !wallet.is_watch_only\"\r\n                 [class.watch-only]=\"wallet.is_watch_only\"\r\n                 [vsDragScrollContainer]=\"scrollContainer\"\r\n                 [cdkDragData]=\"wallet\"\r\n                 (click)=\"selectWallet(wallet.wallet_id)\">\r\n\r\n                <div class=\"header\">\r\n                    <div class=\"left\">\r\n                        <div class=\"name text-ellipsis\">\r\n                            <span class=\"indicator\"\r\n                                  *ngIf=\"wallet.new_contracts\">\r\n                                {{ wallet.new_contracts }}\r\n                            </span>\r\n\r\n                            <span class=\"name\"\r\n                                  tooltip=\"{{ wallet.name }}\"\r\n                                  placement=\"top-left\"\r\n                                  tooltipClass=\"table-tooltip account-tooltip\"\r\n                                  [delay]=\"500\"\r\n                                  [showWhenNoOverflow]=\"false\">\r\n                              {{!wallet.alias['name'] ? wallet.name : wallet.alias['name']}}\r\n                          </span>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"right\">\r\n                        <button type=\"button\"\r\n                                tooltip=\"{{ 'WALLET.TOOLTIPS.CLOSE' | translate }}\"\r\n                                placement=\"top-left\"\r\n                                tooltipClass=\"table-tooltip account-tooltip\"\r\n                                [delay]=\"500\"\r\n                                [timeDelay]=\"500\"\r\n                                (click)=\"showDialog(wallet.wallet_id)\">\r\n                            <i class=\"icon close\"></i>\r\n                        </button>\r\n                    </div>\r\n                </div>\r\n\r\n                <div class=\"balance\">\r\n                    <span class=\"text-ellipsis mr-1\">{{wallet.balance | intToMoney : '3' }}</span>\r\n                    <span>{{variablesService.defaultCurrency}}</span>\r\n                </div>\r\n\r\n                <h4 class=\"price\"\r\n                    *appDisablePriceFetch>\r\n                    ${{wallet.getMoneyEquivalent(variablesService.moneyEquivalent) | intToMoney | number :'1.2-2'}}\r\n\r\n                    <span class=\"percent\"\r\n                          [class.red]=\"variablesService.moneyEquivalentPercent < 0\">\r\n                            {{ variablesService.moneyEquivalentPercent | number : '1.1-2' }}%\r\n                    </span>\r\n                </h4>\r\n\r\n                <ng-container\r\n                      *ngIf=\"(!wallet.is_auditable && !wallet.is_watch_only) || (wallet.is_auditable && !wallet.is_watch_only)\">\r\n                    <div class=\"staking\"\r\n                         *ngIf=\"!(!wallet.loaded && variablesService.daemon_state === 2)\">\r\n                        <span class=\"text\">{{ 'SIDEBAR.ACCOUNT.STAKING' | translate }}</span>\r\n                        <app-staking-switch [wallet_id]=\"wallet.wallet_id\"\r\n                                            [(staking)]=\"wallet.staking\"></app-staking-switch>\r\n                    </div>\r\n                </ng-container>\r\n\r\n                <div class=\"account-synchronization\"\r\n                     *ngIf=\"!wallet.loaded && variablesService.daemon_state === 2\">\r\n                    <div class=\"progress-bar\">\r\n                        <div class=\"fill\"\r\n                             [style.width]=\"wallet.progress + '%'\"></div>\r\n                    </div>\r\n                    <div class=\"progress-percent\">{{ wallet.progress }}%</div>\r\n                </div>\r\n            </div>\r\n        </ng-container>\r\n    </div>\r\n\r\n    <div class=\"sidebar-nav w-100\">\r\n        <!-- ui-kit -->\r\n        <!-- <button class=\"outline small w-100 mb-1\"-->\r\n        <!--  routerLinkActive=\"active\"-->\r\n        <!--  [routerLink]=\"['/ui-kit']\">-->\r\n        <!--  <span>ui-kit</span>-->\r\n        <!-- </button>-->\r\n\r\n        <!-- add wallet -->\r\n        <button class=\"outline small w-100 mb-1\"\r\n                (click)=\"goMainPage()\">\r\n            <i class=\"icon plus mr-1\"></i>\r\n            <span>{{ 'SIDEBAR.ADD_NEW' | translate }}</span>\r\n        </button>\r\n\r\n        <!-- contact -->\r\n        <ng-container *ngIf=\"variablesService.appPass === ''; else contactsShow\">\r\n            <button class=\"outline small w-100 mb-1\"\r\n                    routerLinkActive=\"active\"\r\n                    tooltip=\"{{ 'SIDEBAR.CONTACTS_TOOLTIP' | translate }}\"\r\n                    placement=\"top\"\r\n                    tooltipClass=\"table-tooltip account-tooltip\"\r\n                    [delay]=\"500\"\r\n                    [timeDelay]=\"500\"\r\n                    [disabled]=\"variablesService.daemon_state !== 2 || variablesService.appPass === ''\"\r\n                    (click)=\"contactsRoute()\">\r\n                <i class=\"icon contacts mr-1\"></i>\r\n                <span>{{ 'SIDEBAR.CONTACTS' | translate }}</span>\r\n            </button>\r\n        </ng-container>\r\n\r\n        <ng-template #contactsShow>\r\n            <button class=\"outline small w-100 mb-1\"\r\n                    routerLinkActive=\"active\"\r\n                    (click)=\"contactsRoute()\"\r\n                    [disabled]=\"variablesService.daemon_state !== 2\">\r\n                <i class=\"icon contacts mr-1\"></i>\r\n                <span>{{ 'SIDEBAR.CONTACTS' | translate }}</span>\r\n            </button>\r\n        </ng-template>\r\n\r\n        <!-- settings -->\r\n        <button class=\"outline small w-100 mb-1\"\r\n                routerLinkActive=\"active\"\r\n                [routerLink]=\"['/settings']\">\r\n            <i class=\"icon settings mr-1\"></i>\r\n            <span> {{ 'SIDEBAR.SETTINGS' | translate }}</span>\r\n        </button>\r\n\r\n        <!-- Log out -->\r\n        <ng-container *ngIf=\"variablesService.appPass === ''; else masterPass\">\r\n            <button class=\"outline small w-100 mb-1\"\r\n                    tooltip=\"{{ 'SIDEBAR.LOG_OUT_TOOLTIP' | translate }}\"\r\n                    placement=\"bottom\"\r\n                    tooltipClass=\"table-tooltip account-tooltip\"\r\n                    [delay]=\"500\"\r\n                    [timeDelay]=\"500\"\r\n                    [disabled]=\"variablesService.appPass === ''\"\r\n                    (click)=\"logOut()\">\r\n                <i class=\"icon logout mr-1\"></i>\r\n                <span> {{ 'SIDEBAR.LOG_OUT' | translate }}</span>\r\n            </button>\r\n        </ng-container>\r\n\r\n        <ng-template #masterPass>\r\n            <button class=\"outline small w-100\"\r\n                    (click)=\"logOut()\">\r\n                <i class=\"icon logout mr-1\"></i>\r\n                <span> {{ 'SIDEBAR.LOG_OUT' | translate }}</span>\r\n            </button>\r\n        </ng-template>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"sidebar-footer\">\r\n    <app-synchronization-status></app-synchronization-status>\r\n</div>\r\n\r\n<app-confirm-modal *ngIf=\"isModalDialogVisible\"\r\n                   [title]=\" 'WALLET.CONFIRM.TITLE' | translate \"\r\n                   [message]=\" 'WALLET.CONFIRM.MESSAGE' | translate \"\r\n                   (confirmed)=\"confirmed($event)\"></app-confirm-modal>\r\n<app-deeplink></app-deeplink>\r\n"
+module.exports = "<div class=\"sidebar-header mb-2\">\r\n    <div class=\"logo\">\r\n        <img src=\"assets/icons/blue/zano-logo.svg\"\r\n             alt=\"zano-logo\">\r\n    </div>\r\n</div>\r\n\r\n<div class=\"sidebar-content\">\r\n    <div class=\"sidebar-content-list mb-1\"\r\n         cdkDropList\r\n         cdkDropListLockAxis=\"y\"\r\n         #scrollContainer\r\n         (cdkDropListDropped)=\"drop($event)\">\r\n        <ng-container *ngFor=\"let wallet of variablesService.wallets\">\r\n            <div class=\"wallet\"\r\n                 cdkDrag\r\n                 vsDragScroll\r\n                 [class.active]=\"wallet?.wallet_id === variablesService?.currentWallet?.wallet_id\"\r\n                 [class.auditable]=\"wallet.is_auditable && !wallet.is_watch_only\"\r\n                 [class.watch-only]=\"wallet.is_watch_only\"\r\n                 [vsDragScrollContainer]=\"scrollContainer\"\r\n                 [cdkDragData]=\"wallet\"\r\n                 (click)=\"selectWallet(wallet.wallet_id)\">\r\n\r\n                <div class=\"header\">\r\n                    <div class=\"left\">\r\n                        <div class=\"name text-ellipsis\">\r\n                            <span class=\"indicator\"\r\n                                  *ngIf=\"wallet.new_contracts\">\r\n                                {{ wallet.new_contracts }}\r\n                            </span>\r\n\r\n                            <span class=\"name\"\r\n                                  tooltip=\"{{ wallet.name }}\"\r\n                                  placement=\"top-left\"\r\n                                  tooltipClass=\"table-tooltip account-tooltip\"\r\n                                  [delay]=\"500\"\r\n                                  [showWhenNoOverflow]=\"false\">\r\n                              {{!wallet.alias['name'] ? wallet.name : wallet.alias['name']}}\r\n                          </span>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"right\">\r\n                        <button type=\"button\"\r\n                                tooltip=\"{{ 'WALLET.TOOLTIPS.CLOSE' | translate }}\"\r\n                                placement=\"top-left\"\r\n                                tooltipClass=\"table-tooltip account-tooltip\"\r\n                                [delay]=\"500\"\r\n                                [timeDelay]=\"500\"\r\n                                (click)=\"showDialog(wallet.wallet_id)\">\r\n                            <i class=\"icon close\"></i>\r\n                        </button>\r\n                    </div>\r\n                </div>\r\n\r\n                <div class=\"balance\">\r\n                    <span class=\"text-ellipsis mr-1\">{{wallet.balance | intToMoney : '3' }}</span>\r\n                    <span>{{variablesService.defaultCurrency}}</span>\r\n                </div>\r\n\r\n                <h4 class=\"price\"\r\n                    *appDisablePriceFetch>\r\n                    ${{wallet.getMoneyEquivalent(variablesService.moneyEquivalent) | intToMoney | number :'1.2-2'}}\r\n\r\n                    <span class=\"percent\"\r\n                          [class.red]=\"variablesService.moneyEquivalentPercent < 0\">\r\n                            {{ variablesService.moneyEquivalentPercent | number : '1.1-2' }}%\r\n                    </span>\r\n                </h4>\r\n\r\n                <ng-container\r\n                      *ngIf=\"(!wallet.is_auditable && !wallet.is_watch_only) || (wallet.is_auditable && !wallet.is_watch_only)\">\r\n                    <div class=\"staking\"\r\n                         *ngIf=\"!(!wallet.loaded && variablesService.daemon_state === 2)\">\r\n                        <span class=\"text\">{{ 'SIDEBAR.ACCOUNT.STAKING' | translate }}</span>\r\n                        <app-staking-switch [wallet_id]=\"wallet.wallet_id\"\r\n                                            [(staking)]=\"wallet.staking\"></app-staking-switch>\r\n                    </div>\r\n                </ng-container>\r\n\r\n                <div class=\"account-synchronization\"\r\n                     *ngIf=\"!wallet.loaded && variablesService.daemon_state === 2\">\r\n                    <div class=\"progress-bar\">\r\n                        <div class=\"fill\"\r\n                             [style.width]=\"wallet.progress + '%'\"></div>\r\n                    </div>\r\n                    <div class=\"progress-percent\">{{ wallet.progress }}%</div>\r\n                </div>\r\n            </div>\r\n        </ng-container>\r\n    </div>\r\n\r\n    <div class=\"sidebar-nav w-100\">\r\n        <!-- ui-kit -->\r\n<!--        <button class=\"outline small w-100 mb-1\"-->\r\n<!--                routerLinkActive=\"active\"-->\r\n<!--                [routerLink]=\"['/ui-kit']\">-->\r\n<!--            <span>ui-kit</span>-->\r\n<!--        </button>-->\r\n\r\n        <!-- add wallet -->\r\n        <button class=\"outline small w-100 mb-1\"\r\n                (click)=\"goMainPage()\">\r\n            <i class=\"icon plus mr-1\"></i>\r\n            <span>{{ 'SIDEBAR.ADD_NEW' | translate }}</span>\r\n        </button>\r\n\r\n        <!-- contact -->\r\n        <ng-container *ngIf=\"variablesService.appPass === ''; else contactsShow\">\r\n            <button class=\"outline small w-100 mb-1\"\r\n                    routerLinkActive=\"active\"\r\n                    tooltip=\"{{ 'SIDEBAR.CONTACTS_TOOLTIP' | translate }}\"\r\n                    placement=\"top\"\r\n                    tooltipClass=\"table-tooltip account-tooltip\"\r\n                    [delay]=\"500\"\r\n                    [timeDelay]=\"500\"\r\n                    [disabled]=\"variablesService.daemon_state !== 2 || variablesService.appPass === ''\"\r\n                    (click)=\"contactsRoute()\">\r\n                <i class=\"icon contacts mr-1\"></i>\r\n                <span>{{ 'SIDEBAR.CONTACTS' | translate }}</span>\r\n            </button>\r\n        </ng-container>\r\n\r\n        <ng-template #contactsShow>\r\n            <button class=\"outline small w-100 mb-1\"\r\n                    routerLinkActive=\"active\"\r\n                    (click)=\"contactsRoute()\"\r\n                    [disabled]=\"variablesService.daemon_state !== 2\">\r\n                <i class=\"icon contacts mr-1\"></i>\r\n                <span>{{ 'SIDEBAR.CONTACTS' | translate }}</span>\r\n            </button>\r\n        </ng-template>\r\n\r\n        <!-- settings -->\r\n        <button class=\"outline small w-100 mb-1\"\r\n                routerLinkActive=\"active\"\r\n                [routerLink]=\"['/settings']\">\r\n            <i class=\"icon settings mr-1\"></i>\r\n            <span> {{ 'SIDEBAR.SETTINGS' | translate }}</span>\r\n        </button>\r\n\r\n        <!-- Log out -->\r\n        <ng-container *ngIf=\"variablesService.appPass === ''; else masterPass\">\r\n            <button class=\"outline small w-100 mb-1\"\r\n                    tooltip=\"{{ 'SIDEBAR.LOG_OUT_TOOLTIP' | translate }}\"\r\n                    placement=\"bottom\"\r\n                    tooltipClass=\"table-tooltip account-tooltip\"\r\n                    [delay]=\"500\"\r\n                    [timeDelay]=\"500\"\r\n                    [disabled]=\"variablesService.appPass === ''\"\r\n                    (click)=\"logOut()\">\r\n                <i class=\"icon logout mr-1\"></i>\r\n                <span> {{ 'SIDEBAR.LOG_OUT' | translate }}</span>\r\n            </button>\r\n        </ng-container>\r\n\r\n        <ng-template #masterPass>\r\n            <button class=\"outline small w-100\"\r\n                    (click)=\"logOut()\">\r\n                <i class=\"icon logout mr-1\"></i>\r\n                <span> {{ 'SIDEBAR.LOG_OUT' | translate }}</span>\r\n            </button>\r\n        </ng-template>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"sidebar-footer\">\r\n    <app-synchronization-status></app-synchronization-status>\r\n</div>\r\n\r\n<app-confirm-modal *ngIf=\"isModalDialogVisible\"\r\n                   [title]=\" 'WALLET.CONFIRM.TITLE' | translate \"\r\n                   [message]=\" 'WALLET.CONFIRM.MESSAGE' | translate \"\r\n                   (confirmed)=\"confirmed($event)\"></app-confirm-modal>\r\n<app-deeplink></app-deeplink>\r\n"
 
 /***/ }),
 

@@ -1,5 +1,68 @@
 (window["webpackJsonp"] = window["webpackJsonp"] || []).push([["pages-ui-kit-ui-kit-module"],{
 
+/***/ "./src/app/pages/ui-kit/modules/components/breadcrumbs/breadcrumbs.component.html":
+/*!****************************************************************************************!*\
+  !*** ./src/app/pages/ui-kit/modules/components/breadcrumbs/breadcrumbs.component.html ***!
+  \****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<h3>Default</h3>\n<div class=\"breadcrumbs mb-2\">\n    <div class=\"breadcrumb\">\n        <a>test 1 (link)</a>\n    </div>\n    <div class=\"breadcrumb\">\n        <span>test 2 (text)</span>\n    </div>\n    <div class=\"breadcrumb\">\n        <a>test 3 (link)</a>\n    </div>\n    <div class=\"breadcrumb\">\n        <span>test 4 (text)</span>\n    </div>\n    <div class=\"breadcrumb\">\n        <a>test 5 (link)</a>\n    </div>\n    <div class=\"breadcrumb\">\n        <a>test 6 (link)</a>\n    </div>\n    <div class=\"breadcrumb\">\n        <span>last item (text)</span>\n    </div>\n</div>\n\n<h3>With scroll</h3>\n<div class=\"breadcrumbs scrolled mb-2\">\n    <div class=\"breadcrumb\">\n        <a>test 1 (link)</a>\n    </div>\n    <div class=\"breadcrumb\">\n        <span>test 2 (text)</span>\n    </div>\n    <div class=\"breadcrumb\">\n        <a>test 3 (link)</a>\n    </div>\n    <div class=\"breadcrumb\">\n        <span>test 4 (text)</span>\n    </div>\n    <div class=\"breadcrumb\">\n        <a>test 5 (link)</a>\n    </div>\n    <div class=\"breadcrumb\">\n        <a>test 6 (link)</a>\n    </div>\n    <div class=\"breadcrumb\">\n        <a>test 7 (link)</a>\n    </div>\n    <div class=\"breadcrumb\">\n        <span>test 8 (text)</span>\n    </div>\n    <div class=\"breadcrumb\">\n        <a>test 9 (link)</a>\n    </div>\n    <div class=\"breadcrumb\">\n        <span>test 10 (text)</span>\n    </div>\n    <div class=\"breadcrumb\">\n        <a>test 11 (link)</a>\n    </div>\n    <div class=\"breadcrumb\">\n        <a>test 12 (link)</a>\n    </div>\n    <div class=\"breadcrumb\">\n        <span>last item (text)</span>\n    </div>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/pages/ui-kit/modules/components/breadcrumbs/breadcrumbs.component.scss":
+/*!****************************************************************************************!*\
+  !*** ./src/app/pages/ui-kit/modules/components/breadcrumbs/breadcrumbs.component.scss ***!
+  \****************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3BhZ2VzL3VpLWtpdC9tb2R1bGVzL2NvbXBvbmVudHMvYnJlYWRjcnVtYnMvYnJlYWRjcnVtYnMuY29tcG9uZW50LnNjc3MifQ== */"
+
+/***/ }),
+
+/***/ "./src/app/pages/ui-kit/modules/components/breadcrumbs/breadcrumbs.component.ts":
+/*!**************************************************************************************!*\
+  !*** ./src/app/pages/ui-kit/modules/components/breadcrumbs/breadcrumbs.component.ts ***!
+  \**************************************************************************************/
+/*! exports provided: BreadcrumbsComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BreadcrumbsComponent", function() { return BreadcrumbsComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var BreadcrumbsComponent = /** @class */ (function () {
+    function BreadcrumbsComponent() {
+    }
+    BreadcrumbsComponent.prototype.ngOnInit = function () {
+    };
+    BreadcrumbsComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-breadcrumbs',
+            template: __webpack_require__(/*! ./breadcrumbs.component.html */ "./src/app/pages/ui-kit/modules/components/breadcrumbs/breadcrumbs.component.html"),
+            styles: [__webpack_require__(/*! ./breadcrumbs.component.scss */ "./src/app/pages/ui-kit/modules/components/breadcrumbs/breadcrumbs.component.scss")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], BreadcrumbsComponent);
+    return BreadcrumbsComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/pages/ui-kit/modules/components/buttons/buttons.component.html":
 /*!********************************************************************************!*\
   !*** ./src/app/pages/ui-kit/modules/components/buttons/buttons.component.html ***!
@@ -7,7 +70,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h3 class=\"m-1\">Primary</h3>\r\n<button class=\"m-1 primary small\">Add Wallet</button>\r\n<button class=\"m-1 primary big\">Add / Save</button>\r\n<button class=\"m-1 primary big\"\r\n        disabled>Add / Save\r\n</button>\r\n\r\n<h3 class=\"m-1\">Outline</h3>\r\n<button class=\"m-1 outline small\"><i class=\"icon plus mr-1\"></i>Add Wallet</button>\r\n<button class=\"m-1 outline big\">Add / Save</button>\r\n<button class=\"m-1 outline big\"\r\n        disabled>Add / Save\r\n</button>\r\n"
+module.exports = "<h3 class=\"mb-1\">Primary</h3>\r\n<button class=\"m-1 primary small\">Add Wallet</button>\r\n<button class=\"m-1 primary big\">Add / Save</button>\r\n<button class=\"m-1 primary big\"\r\n        disabled>Add / Save\r\n</button>\r\n\r\n<h3 class=\"mb-1\">Outline</h3>\r\n<button class=\"m-1 outline small\"><i class=\"icon plus mr-1\"></i>Add Wallet</button>\r\n<button class=\"m-1 outline big\">Add / Save</button>\r\n<button class=\"m-1 outline big\"\r\n        disabled>Add / Save\r\n</button>\r\n\r\n<h3 class=\"mb-1\">Circle</h3>\r\n<button class=\"m-1 btn-icon circle small mr-2\"><i class=\"icon dropdown-arrow-left\"></i></button>\r\n<button class=\"m-1 btn-icon circle big mr-2\"><i class=\"icon dropdown-arrow-left\"></i></button>\r\n<button class=\"m-1 btn-icon circle big mr-2\" disabled><i class=\"icon dropdown-arrow-left\"></i></button>\r\n"
 
 /***/ }),
 
@@ -76,6 +139,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
 /* harmony import */ var ___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ */ "./src/app/pages/ui-kit/modules/components/index.ts");
+/* harmony import */ var _breadcrumbs_breadcrumbs_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./breadcrumbs/breadcrumbs.component */ "./src/app/pages/ui-kit/modules/components/breadcrumbs/breadcrumbs.component.ts");
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
+/* harmony import */ var _wallets_wallets_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./wallets/wallets.component */ "./src/app/pages/ui-kit/modules/components/wallets/wallets.component.ts");
+/* harmony import */ var _shared_shared_module__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../../_shared/shared.module */ "./src/app/_shared/shared.module.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -85,16 +152,22 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
+
+
+
 var ComponentsModule = /** @class */ (function () {
     function ComponentsModule() {
     }
     ComponentsModule = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
-            declarations: [___WEBPACK_IMPORTED_MODULE_2__["ButtonsComponent"], ___WEBPACK_IMPORTED_MODULE_2__["ProgressBarsComponent"]],
+            declarations: [___WEBPACK_IMPORTED_MODULE_2__["ButtonsComponent"], ___WEBPACK_IMPORTED_MODULE_2__["ProgressBarsComponent"], _breadcrumbs_breadcrumbs_component__WEBPACK_IMPORTED_MODULE_3__["BreadcrumbsComponent"], _wallets_wallets_component__WEBPACK_IMPORTED_MODULE_5__["WalletsComponent"]],
             imports: [
-                _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"]
+                _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"],
+                _ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateModule"],
+                _shared_shared_module__WEBPACK_IMPORTED_MODULE_6__["SharedModule"]
             ],
-            exports: [___WEBPACK_IMPORTED_MODULE_2__["ButtonsComponent"], ___WEBPACK_IMPORTED_MODULE_2__["ProgressBarsComponent"]]
+            exports: [___WEBPACK_IMPORTED_MODULE_2__["ButtonsComponent"], ___WEBPACK_IMPORTED_MODULE_2__["ProgressBarsComponent"], _breadcrumbs_breadcrumbs_component__WEBPACK_IMPORTED_MODULE_3__["BreadcrumbsComponent"], _wallets_wallets_component__WEBPACK_IMPORTED_MODULE_5__["WalletsComponent"]]
         })
     ], ComponentsModule);
     return ComponentsModule;
@@ -132,7 +205,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p>\r\n  progress-bars works!\r\n</p>\r\n"
+module.exports = "<div class=\"synchronization-status flex flex__direction-column\">\r\n    <div class=\"status-container\">\r\n        <div class=\"offline mb-0_5\">\r\n            <span>{{ 'SIDEBAR.SYNCHRONIZATION.OFFLINE' | translate }}</span>\r\n        </div>\r\n        <div class=\"syncing mb-0_5\">\r\n            {{ 'SIDEBAR.SYNCHRONIZATION.SYNCING' | translate }} {{ 100 }}{{\r\n            'SIDEBAR.SYNCHRONIZATION.SLASH' | translate }}{{ 20000 }}\r\n        </div>\r\n        <div class=\"online mb-0_5\">\r\n            <span>{{ 'SIDEBAR.SYNCHRONIZATION.ONLINE' | translate }}</span>\r\n        </div>\r\n        <div class=\"loading mb-0_5\">\r\n            {{ 'SIDEBAR.SYNCHRONIZATION.LOADING' | translate }}\r\n        </div>\r\n        <div class=\"offline mb-0_5\">\r\n            {{ 'SIDEBAR.SYNCHRONIZATION.ERROR' | translate }}\r\n        </div>\r\n        <div class=\"online mb-0_5\">\r\n            {{ 'SIDEBAR.SYNCHRONIZATION.COMPLETE' | translate }}\r\n        </div>\r\n        <div class=\"syncing mb-0_5\">\r\n            {{ 'SIDEBAR.SYNCHRONIZATION.DOWNLOADING' | translate }}\r\n            {{ 2345 }}\r\n            {{ 'SIDEBAR.SYNCHRONIZATION.SLASH' | translate }}\r\n            {{ 18000 }}{{ 'SIDEBAR.SYNCHRONIZATION.MB' | translate }}\r\n        </div>\r\n\r\n        <div class=\"progress-bar-container mb-1\">\r\n            <div class=\"syncing\">\r\n                <div class=\"progress-bar\">\r\n                    <div class=\"fill\"\r\n                         [style.width]=\"50 + '%'\"></div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n\r\n        <div class=\"progress-bar-container mb-1\">\r\n            <div class=\"loading\"></div>\r\n        </div>\r\n\r\n        <div class=\"progress-bar-container mb-1\">\r\n            <div class=\"syncing downloading\">\r\n                <div class=\"progress-bar\">\r\n                    <div class=\"fill\"\r\n                         [style.width]=\"44 + '%'\"></div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"update-container\">\r\n\r\n        <div class=\"update-text standard mb-0_5\">\r\n            <span [style.cursor]=\"'pointer'\">{{ 'SIDEBAR.UPDATE.STANDARD' | translate }}</span>\r\n        </div>\r\n        <i class=\"icon update standard\"></i>\r\n    </div>\r\n\r\n    <div class=\"update-container\">\r\n        <div class=\"update-text important\">\r\n            <span [style.cursor]=\"'pointer'\">{{ 'SIDEBAR.UPDATE.IMPORTANT' | translate }}</span>\r\n            <span style=\"font-size: 1rem\">{{ 'SIDEBAR.UPDATE.IMPORTANT_HINT' | translate }}</span>\r\n        </div>\r\n        <i class=\"icon update important\"></i>\r\n    </div>\r\n\r\n    <div class=\"update-container\">\r\n        <div class=\"update-text critical\">\r\n            <span [style.cursor]=\"'pointer'\">{{ 'SIDEBAR.UPDATE.CRITICAL' | translate }}</span>\r\n            <span style=\"font-size: 1rem\">{{ 'SIDEBAR.UPDATE.IMPORTANT_HINT' | translate }}</span>\r\n        </div>\r\n        <i class=\"icon update critical\"></i>\r\n    </div>\r\n\r\n    <div class=\"update-container\">\r\n        <div class=\"update-text time-orange\">\r\n            <span>{{ 'SIDEBAR.UPDATE.TIME' | translate }}</span>\r\n        </div>\r\n        <i class=\"icon time-orange\"></i>\r\n    </div>\r\n</div>\r\n\r\n"
 
 /***/ }),
 
@@ -188,6 +261,77 @@ var ProgressBarsComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/pages/ui-kit/modules/components/wallets/wallets.component.html":
+/*!********************************************************************************!*\
+  !*** ./src/app/pages/ui-kit/modules/components/wallets/wallets.component.html ***!
+  \********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<form class=\"mb-2 flex flex__direction-column\">\n    <app-checkbox class=\"mb-1\"\n                  label=\"classWalletActive\"\n                  [value]=\"classWalletActive\"\n                  (emitChange)=\"classWalletActive = !classWalletActive\"></app-checkbox>\n    <app-checkbox class=\"mb-1\"\n                  label=\"classWalletAuditable\"\n                  [value]=\"classWalletAuditable\"\n                  (emitChange)=\"classWalletAuditable = !classWalletAuditable\"></app-checkbox>\n    <app-checkbox class=\"mb-1\"\n                  label=\"classWalletWatchOnly\"\n                  [value]=\"classWalletWatchOnly\"\n                  (emitChange)=\"classWalletWatchOnly = !classWalletWatchOnly\"></app-checkbox>\n    <app-checkbox class=\"mb-1\"\n                  label=\"showIndicator\"\n                  [value]=\"showIndicator\"\n                  (emitChange)=\"showIndicator = !showIndicator\"></app-checkbox>\n    <app-checkbox class=\"mb-1\"\n                  label=\"showPrice\"\n                  [value]=\"showPrice\"\n                  (emitChange)=\"showPrice = !showPrice\"></app-checkbox>\n    <app-checkbox class=\"mb-1\"\n                  label=\"percentRed\"\n                  [value]=\"percentRed\"\n                  (emitChange)=\"percentRed = !percentRed\"></app-checkbox>\n    <app-checkbox class=\"mb-1\"\n                  label=\"showStaking\"\n                  [value]=\"showStaking\"\n                  (emitChange)=\"showStaking = !showStaking\"></app-checkbox>\n    <app-checkbox class=\"mb-1\"\n                  label=\"showProgressBar\"\n                  [value]=\"showProgressBar\"\n                  (emitChange)=\"showProgressBar = !showProgressBar\"></app-checkbox>\n</form>\n\n<div class=\"wallet\"\n     cdkDrag\n     vsDragScroll\n     [class.active]=\"classWalletActive\"\n     [class.auditable]=\"classWalletAuditable\"\n     [class.watch-only]=\"classWalletWatchOnly\">\n\n    <div class=\"header\">\n        <div class=\"left\">\n            <div class=\"name text-ellipsis\">\n                            <span class=\"indicator\"\n                                  *ngIf=\"showIndicator\">\n                                12\n                            </span>\n\n                <span class=\"name\">test</span>\n            </div>\n        </div>\n        <div class=\"right\">\n            <button type=\"button\">\n                <i class=\"icon close\"></i>\n            </button>\n        </div>\n    </div>\n\n    <div class=\"balance\">\n        <span class=\"text-ellipsis mr-1\">9999</span>\n        <span>ZANO</span>\n    </div>\n\n    <ng-container *ngIf=\"showPrice\">\n        <h4 class=\"price\">\n            $999\n\n            <span class=\"percent\"\n                  [class.red]=\"percentRed\">20%</span>\n        </h4>\n    </ng-container>\n\n    <ng-container *ngIf=\"showStaking\">\n        <div class=\"staking\">\n            <span class=\"text\">{{ 'SIDEBAR.ACCOUNT.STAKING' | translate }}</span>\n            <app-switch></app-switch>\n        </div>\n    </ng-container>\n\n    <div class=\"account-synchronization\"\n         *ngIf=\"showProgressBar\">\n        <div class=\"progress-bar\">\n            <div class=\"fill\"\n                 [style.width]=\"33 + '%'\"></div>\n        </div>\n        <div class=\"progress-percent\">33%</div>\n    </div>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/pages/ui-kit/modules/components/wallets/wallets.component.scss":
+/*!********************************************************************************!*\
+  !*** ./src/app/pages/ui-kit/modules/components/wallets/wallets.component.scss ***!
+  \********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL3BhZ2VzL3VpLWtpdC9tb2R1bGVzL2NvbXBvbmVudHMvd2FsbGV0cy93YWxsZXRzLmNvbXBvbmVudC5zY3NzIn0= */"
+
+/***/ }),
+
+/***/ "./src/app/pages/ui-kit/modules/components/wallets/wallets.component.ts":
+/*!******************************************************************************!*\
+  !*** ./src/app/pages/ui-kit/modules/components/wallets/wallets.component.ts ***!
+  \******************************************************************************/
+/*! exports provided: WalletsComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "WalletsComponent", function() { return WalletsComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var WalletsComponent = /** @class */ (function () {
+    function WalletsComponent() {
+        this.classWalletActive = true;
+        this.classWalletAuditable = false;
+        this.classWalletWatchOnly = false;
+        this.showIndicator = false;
+        this.showPrice = true;
+        this.percentRed = false;
+        this.showStaking = true;
+        this.showProgressBar = false;
+    }
+    WalletsComponent.prototype.ngOnInit = function () {
+    };
+    WalletsComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-wallets',
+            template: __webpack_require__(/*! ./wallets.component.html */ "./src/app/pages/ui-kit/modules/components/wallets/wallets.component.html"),
+            styles: [__webpack_require__(/*! ./wallets.component.scss */ "./src/app/pages/ui-kit/modules/components/wallets/wallets.component.scss")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], WalletsComponent);
+    return WalletsComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/pages/ui-kit/modules/form/components/checkboxs/checkboxs.component.html":
 /*!*****************************************************************************************!*\
   !*** ./src/app/pages/ui-kit/modules/form/components/checkboxs/checkboxs.component.html ***!
@@ -195,7 +339,7 @@ var ProgressBarsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<h3 class=\"mb-2\">Disabled = true</h3>\r\n<app-checkbox class=\"mb-1\" label=\"Label\" [disabled]=\"true\"></app-checkbox>\r\n\r\n<h3 class=\"mb-2\">Default</h3>\r\n<app-checkbox class=\"mb-1\" label=\"Label\"></app-checkbox>\r\n"
+module.exports = "<h3 class=\"mb-2\">Disabled = true</h3>\r\n<app-checkbox class=\"mb-1 max-w-50-rem w-100\" [disabled]=\"true\" label=\"LabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabelLabel\" ></app-checkbox>\r\n\r\n<h3 class=\"mb-2\">Default</h3>\r\n<app-checkbox class=\"mb-1 max-w-50-rem w-100\" label=\"Label\"></app-checkbox>\r\n"
 
 /***/ }),
 
@@ -656,7 +800,7 @@ var UiKitRoutingModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"mb-2\">\r\n    <h2 class=\"mb-1\">Buttons</h2>\r\n    <app-buttons></app-buttons>\r\n</div>\r\n\r\n<div class=\"mb-2\">\r\n    <h2 class=\"mb-1\">Form</h2>\r\n    <app-form></app-form>\r\n</div>\r\n\r\n<div class=\"mb-2\">\r\n    <h2 class=\"mb-1\">Progress bars</h2>\r\n    <app-progress-bars></app-progress-bars>\r\n</div>\r\n"
+module.exports = "<div class=\"flex flex__direction-column max-w-50-rem w-100\">\r\n    <div class=\"mb-2\">\r\n        <h2 class=\"mb-1\">Buttons</h2>\r\n        <app-buttons></app-buttons>\r\n    </div>\r\n\r\n    <div class=\"mb-2\">\r\n        <h2 class=\"mb-1\">Form</h2>\r\n        <app-form></app-form>\r\n    </div>\r\n\r\n    <div class=\"mb-2\">\r\n        <h2 class=\"mb-1\">Breadcrumbs</h2>\r\n        <app-breadcrumbs></app-breadcrumbs>\r\n    </div>\r\n\r\n    <div class=\"mb-2\">\r\n        <h2 class=\"mb-1\">Progress bars</h2>\r\n        <app-progress-bars></app-progress-bars>\r\n    </div>\r\n\r\n    <div class=\"mb-2\">\r\n        <h2 class=\"mb-1\">Wallets</h2>\r\n        <app-wallets></app-wallets>\r\n    </div>\r\n\r\n\r\n</div>\r\n"
 
 /***/ }),
 

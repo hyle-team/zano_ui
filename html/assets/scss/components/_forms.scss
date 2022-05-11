@@ -226,11 +226,15 @@
   display: flex;
   align-items: center;
   min-height: 2.4rem;
+  overflow: hidden;
 
   label {
-    display: flex;
-    align-items: center;
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
     cursor: pointer;
+    min-height: 2.4rem;
+    line-height: 2.4rem;
     padding-left: 3.6rem;
     color: var(--white-500);
     -webkit-user-select: none;
@@ -281,7 +285,7 @@
         content: "";
         position: absolute;
         top: 50%;
-        left: 0.5rem;
+        left: 0.55rem;
         transform: translateY(-50%);
         width: 1.4rem;
         height: 1.4rem;
