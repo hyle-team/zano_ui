@@ -119,13 +119,13 @@
     border: none;
     padding: 1.35rem;
     background: var(--gradietAquaToBlue);
+  }
 
-    .progress-bar {
-      background-color: var(--gray-800);
+  .progress-bar {
+    background-color: var(--gray-800);
 
-      .fill {
-        background-color: var(--white-500);
-      }
+    .fill {
+      background-color: var(--white-500);
     }
   }
 

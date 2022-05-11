@@ -56,6 +56,9 @@ button, .btn {
 
   // button size for circle
   &.btn-icon {
+    min-width: 2rem;
+    min-height: 2rem;
+
     &.small {
       min-width: 2.8rem;
       min-height: 2.8rem;
@@ -69,9 +72,14 @@ button, .btn {
 
   &.btn-icon {
     background-color: var(--gray-900);
+    transition: background-color 0.2s ease-in-out;
 
     &.circle {
       border-radius: 50%;
+    }
+
+    &:hover {
+      background-color: var(--gray-700);
     }
   }
 }

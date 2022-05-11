@@ -5,16 +5,13 @@
   width: 100%;
   flex: 0 0 auto;
 
-  .scrolled {
+  &.scrolled {
     flex-wrap: nowrap;
-    overflow: hidden;
-
-    &:hover {
-      overflow-x: auto;
-    }
+    overflow-x: auto;
   }
 
   .breadcrumb {
+    flex: 0 0 auto;
     overflow: hidden;
     text-overflow: ellipsis;
 
@@ -27,11 +24,20 @@
       opacity: 0.75;
     }
 
+    a {
+      cursor: pointer;
+    }
+
+    &:last-child, &:hover {
+      > span,
+      a {
+        opacity: 1;
+      }
+    }
+
     &:not(:last-child) {
       position: relative;
-      cursor: pointer;
       padding-right: 3.5rem;
-
 
       &:after {
         content: '';
@@ -43,13 +49,6 @@
         width: 1.8rem;
         height: 1.8rem;
         background: center / contain no-repeat url(~src/assets/icons/white/dropdown-arrow-right.svg);
-      }
-    }
-
-    &:last-child, &:hover {
-      > span,
-      a {
-        opacity: 1;
       }
     }
   }
