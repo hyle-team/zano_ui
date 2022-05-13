@@ -7,8 +7,8 @@
         </div>
         <div class="syncing"
              *ngIf="variablesService.daemon_state === 1">
-            {{ 'SIDEBAR.SYNCHRONIZATION.SYNCING' | translate }} {{ variablesService.height_app }}{{
-            'SIDEBAR.SYNCHRONIZATION.SLASH' | translate }}{{ variablesService.height_max }}
+            {{ 'SIDEBAR.SYNCHRONIZATION.SYNCING' | translate }}
+            {{ variablesService.sync.progress_value_text }}%
         </div>
         <div class="online"
              *ngIf="variablesService.daemon_state === 2">
@@ -29,9 +29,7 @@
         <div class="syncing"
              *ngIf="variablesService.daemon_state === 6">
             {{ 'SIDEBAR.SYNCHRONIZATION.DOWNLOADING' | translate }}
-            {{ variablesService.downloaded }}
-            {{ 'SIDEBAR.SYNCHRONIZATION.SLASH' | translate }}
-            {{ variablesService.total }}{{ 'SIDEBAR.SYNCHRONIZATION.MB' | translate }}
+            {{ variablesService.download.progress_value_text }}%
         </div>
 
         <div class="progress-bar-container"
@@ -42,7 +40,6 @@
                     <div class="fill"
                          [style.width]="variablesService.sync.progress_value + '%'"></div>
                 </div>
-                <!-- <div class="progress-percent">{{ variablesService.sync.progress_value_text }}%</div>-->
             </div>
             <div class="loading"
                  *ngIf="variablesService.daemon_state === 3"></div>
@@ -56,7 +53,6 @@
                     <div class="fill"
                          [style.width]="variablesService.download.progress_value + '%'"></div>
                 </div>
-                <!-- <div class="progress-percent">{{ variablesService.download.progress_value_text }}%</div>-->
             </div>
         </div>
     </div>

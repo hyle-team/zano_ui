@@ -1,14 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UiKitComponent } from './ui-kit.component';
+import { pathsChildrenAuth } from '../../paths';
 
 const routes: Routes = [
-  { path: '', component: UiKitComponent },
+  {
+    path: pathsChildrenAuth.noWallet,
+    loadChildren: './no-wallet/no-wallet.module#NoWalletModule',
+  }
 ];
 
 @NgModule({
             imports: [RouterModule.forChild(routes)],
             exports: [RouterModule]
           })
-export class UiKitRoutingModule {
+export class AuthRoutingModule {
 }

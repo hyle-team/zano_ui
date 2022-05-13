@@ -8,8 +8,8 @@ import { ContextMenuComponent, ContextMenuService } from 'ngx-contextmenu';
 import { BigNumber } from 'bignumber.js';
 
 @Injectable({
-  providedIn: 'root'
-})
+              providedIn: 'root'
+            })
 export class VariablesService {
   public disable_price_fetch$ = new BehaviorSubject<boolean>(false);
   public use_debug_mode$ = new BehaviorSubject<boolean>(false);
@@ -42,7 +42,7 @@ export class VariablesService {
     progress_value: 0,
     progress_value_text: '0'
   };
-  public get_recent_transfers = false; // avoid of execute function before collback complete
+  public get_recent_transfers = false; // avoid of execute function before callback complete
   public default_fee = '0.010000000000';
   public default_fee_big = new BigNumber('10000000000');
 
@@ -199,10 +199,10 @@ export class VariablesService {
     $event.target['contextSelectionEnd'] = $event.target['selectionEnd'];
     if ($event.target && ($event.target['nodeName'].toUpperCase() === 'TEXTAREA' || $event.target['nodeName'].toUpperCase() === 'INPUT') && !$event.target['readOnly']) {
       this.contextMenuService.show.next({
-        contextMenu: this.allContextMenu,
-        event: $event,
-        item: $event.target,
-      });
+                                          contextMenu: this.allContextMenu,
+                                          event: $event,
+                                          item: $event.target,
+                                        });
       $event.preventDefault();
       $event.stopPropagation();
     }
@@ -210,10 +210,10 @@ export class VariablesService {
 
   public onContextMenuOnlyCopy($event: MouseEvent, copyText?: string): void {
     this.contextMenuService.show.next({
-      contextMenu: this.onlyCopyContextMenu,
-      event: $event,
-      item: copyText
-    });
+                                        contextMenu: this.onlyCopyContextMenu,
+                                        event: $event,
+                                        item: copyText
+                                      });
     $event.preventDefault();
     $event.stopPropagation();
   }
@@ -228,10 +228,10 @@ export class VariablesService {
 
     if ($event.target && ($event.target['nodeName'].toUpperCase() === 'TEXTAREA' || $event.target['nodeName'].toUpperCase() === 'INPUT') && !$event.target['readOnly']) {
       this.contextMenuService.show.next({
-        contextMenu: this.pasteSelectContextMenu,
-        event: $event,
-        item: $event.target,
-      });
+                                          contextMenu: this.pasteSelectContextMenu,
+                                          event: $event,
+                                          item: $event.target,
+                                        });
       $event.preventDefault();
       $event.stopPropagation();
     }

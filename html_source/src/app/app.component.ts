@@ -11,12 +11,13 @@ import { ModalService } from './_helpers/services/modal.service';
 import { Store } from 'store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { pathsChildrenAuth, paths } from './paths';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
-})
+             selector: 'app-root',
+             templateUrl: './app.component.html',
+             styleUrls: ['./app.component.scss']
+           })
 export class AppComponent implements OnInit, OnDestroy {
 
   intervalUpdatePriceState;
@@ -174,7 +175,6 @@ export class AppComponent implements OnInit, OnDestroy {
           });
         }
       });
-
 
       this.backend.eventSubscribe('update_daemon_state', (data) => {
         console.log('----------------- update_daemon_state -----------------');
@@ -566,6 +566,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
         this.backend.setLogLevel(this.variablesService.settings.appLog);
         this.backend.setEnableTor(this.variablesService.settings.appUseTor);
+
+        if (!this.variablesService.settings.wallets || !this.variablesService.settings.wallets.length) {
+          return this.router.navigate([`${ paths.auth }/${ pathsChildrenAuth.noWallet }`]).then();
+        }
 
         if (this.router.url !== '/login') {
           this.backend.haveSecureAppData((statusPass) => {

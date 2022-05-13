@@ -1,18 +1,16 @@
-<app-sidebar *ngIf="variablesService.appLogin"></app-sidebar>
+<router-outlet *ngIf="[0, 1, 2, 6].indexOf(variablesService.daemon_state) !== -1"></router-outlet>
 
-<div class="flex overflow-auto w-100 h-100 p-2">
-    <router-outlet *ngIf="[0, 1, 2, 6].indexOf(variablesService.daemon_state) !== -1"></router-outlet>
-    <div class="preloader"
-         *ngIf="[3, 4, 5].indexOf(variablesService.daemon_state) !== -1">
-        <p class="mb-2"
-           *ngIf="variablesService.daemon_state === 3">{{ 'SIDEBAR.SYNCHRONIZATION.LOADING' | translate }}</p>
-        <p class="mb-2"
-           *ngIf="variablesService.daemon_state === 4">{{ 'SIDEBAR.SYNCHRONIZATION.ERROR' | translate }}</p>
-        <p class="mb-2"
-           *ngIf="variablesService.daemon_state === 5">{{ 'SIDEBAR.SYNCHRONIZATION.COMPLETE' | translate }}</p>
-        <div class="loading-bar"></div>
-    </div>
+<div class="preloader"
+     *ngIf="[3, 4, 5].indexOf(variablesService.daemon_state) !== -1">
+    <p class="mb-2"
+       *ngIf="variablesService.daemon_state === 3">{{ 'SIDEBAR.SYNCHRONIZATION.LOADING' | translate }}</p>
+    <p class="mb-2"
+       *ngIf="variablesService.daemon_state === 4">{{ 'SIDEBAR.SYNCHRONIZATION.ERROR' | translate }}</p>
+    <p class="mb-2"
+       *ngIf="variablesService.daemon_state === 5">{{ 'SIDEBAR.SYNCHRONIZATION.COMPLETE' | translate }}</p>
+    <div class="loading-bar"></div>
 </div>
+
 
 <context-menu #allContextMenu>
     <ng-template contextMenuItem

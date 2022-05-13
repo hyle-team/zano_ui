@@ -1,4 +1,5 @@
 export enum paths {
+  auth = 'auth',
   addWallet = 'add-wallet',
   login = 'login',
   wallet = 'wallet',
@@ -20,7 +21,11 @@ export enum paths {
   uiKit = 'ui-kit'
 }
 
-export enum pathChildrenWallet {
+export enum pathsChildrenAuth {
+  noWallet = 'no-wallet',
+}
+
+export enum pathsChildrenWallet {
   send = 'send',
   receive = 'receive',
   history = 'history',
@@ -28,6 +33,6 @@ export enum pathChildrenWallet {
   staking = 'staking'
 }
 
-export enum pathChildrenContracts {
+export enum pathsChildrenContracts {
   purchase = 'purchase'
 }

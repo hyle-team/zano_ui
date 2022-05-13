@@ -5,28 +5,29 @@ import { BackendService } from '../_helpers/services/backend.service';
 import { VariablesService } from '../_helpers/services/variables.service';
 import { ModalService } from '../_helpers/services/modal.service';
 import { Wallet } from '../_helpers/models/wallet.model';
+import { ValidationErrors } from '@angular/forms/src/directives/validators';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
-})
+             selector: 'app-login',
+             templateUrl: './login.component.html',
+             styleUrls: ['./login.component.scss']
+           })
 export class LoginComponent implements OnInit, OnDestroy {
 
   queryRouting;
 
   regForm = new FormGroup({
-    password: new FormControl('',
-      Validators.pattern(this.variablesService.pattern)),
-    confirmation: new FormControl('')
-  }, [function (g: FormGroup) {
+                            password: new FormControl('',
+                                                      Validators.pattern(this.variablesService.pattern)),
+                            confirmation: new FormControl('')
+                          }, [function (g: FormGroup) {
     return g.get('password').value === g.get('confirmation').value ? null : { 'mismatch': true };
   }
-  ]);
+                          ]);
 
   authForm = new FormGroup({
-    password: new FormControl('')
-  });
+                             password: new FormControl('')
+                           });
 
   type = 'reg';
 
@@ -99,6 +100,10 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.ngZone.run(() => {
               this.router.navigate(['/'], { queryParams: { prevUrl: 'login' } });
             });
+          } else {
+            this.ngZone.run(() => {
+              this.setAuthPassError({ wrong_password: true });
+            });
           }
         });
       } else {
@@ -110,6 +115,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   getData(appPass) {
     this.backend.getSecureAppData({ pass: appPass }, (status, data) => {
       if (!data.error_code) {
+        this.setAuthPassError(null);
         this.variablesService.appLogin = true;
         this.variablesService.dataIsLoaded = true;
         if (this.variablesService.settings.appLockTime) {
@@ -150,7 +156,17 @@ export class LoginComponent implements OnInit, OnDestroy {
           }
         }
       }
+
+      if (data.error_code === 'WRONG_PASSWORD') {
+        this.ngZone.run(() => {
+          this.setAuthPassError({ wrong_password: true });
+        });
+      }
     });
+  }
+
+  private setAuthPassError(errors: ValidationErrors | null) {
+    this.authForm.controls['password'].setErrors(errors);
   }
 
   getWalletData(walletData) {
