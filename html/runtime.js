@@ -63,7 +63,7 @@
 /******/
 /******/ 	// script path function
 /******/ 	function jsonpScriptSrc(chunkId) {
-/******/ 		return __webpack_require__.p + "" + ({"pages-ui-kit-ui-kit-module":"pages-ui-kit-ui-kit-module"}[chunkId]||chunkId) + ".js"
+/******/ 		return __webpack_require__.p + "" + ({"common":"common","pages-auth-auth-module":"pages-auth-auth-module","pages-ui-kit-ui-kit-module":"pages-ui-kit-ui-kit-module"}[chunkId]||chunkId) + ".js"
 /******/ 	}
 /******/
 /******/ 	// The require function

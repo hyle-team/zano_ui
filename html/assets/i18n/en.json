@@ -49,7 +49,7 @@
       "ONLINE": "Online",
       "ERROR": "System error",
       "COMPLETE": "Completion",
-      "SYNCING": "Syncing block",
+      "SYNCING": "Syncing blockchain",
       "LOADING": "Loading blockchain data",
       "DOWNLOADING": "Downloading",
       "SLASH": "/",

@@ -100,7 +100,8 @@ export class PurchaseComponent implements OnInit, OnDestroy {
                                  time: new FormControl({ value: 12, disabled: false }),
                                  timeCancel: new FormControl({ value: 12, disabled: false }),
                                  payment: new FormControl(''),
-                                 password: new FormControl('')
+                                 password: new FormControl(''),
+                                 // hide: new FormControl(false)
                                });
 
   @HostListener('document:click', ['$event.target'])

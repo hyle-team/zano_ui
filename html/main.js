@@ -8,6 +8,15 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
+	"./no-wallet/no-wallet.module": [
+		"./src/app/pages/auth/no-wallet/no-wallet.module.ts",
+		"common"
+	],
+	"./pages/auth/auth.module": [
+		"./src/app/pages/auth/auth.module.ts",
+		"common",
+		"pages-auth-auth-module"
+	],
 	"./pages/ui-kit/ui-kit.module": [
 		"./src/app/pages/ui-kit/ui-kit.module.ts",
 		"pages-ui-kit-ui-kit-module"
@@ -22,7 +31,7 @@ function webpackAsyncContext(req) {
 			throw e;
 		});
 	}
-	return __webpack_require__.e(ids[1]).then(function() {
+	return Promise.all(ids.slice(1).map(__webpack_require__.e)).then(function() {
 		var id = ids[0];
 		return __webpack_require__(id);
 	});
@@ -315,6 +324,47 @@ var StakingSwitchComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [_services_backend_service__WEBPACK_IMPORTED_MODULE_1__["BackendService"], _services_variables_service__WEBPACK_IMPORTED_MODULE_2__["VariablesService"]])
     ], StakingSwitchComponent);
     return StakingSwitchComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/_helpers/directives/staking-switch/staking-switch.module.ts":
+/*!*****************************************************************************!*\
+  !*** ./src/app/_helpers/directives/staking-switch/staking-switch.module.ts ***!
+  \*****************************************************************************/
+/*! exports provided: StakingSwitchModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StakingSwitchModule", function() { return StakingSwitchModule; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var _staking_switch_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./staking-switch.component */ "./src/app/_helpers/directives/staking-switch/staking-switch.component.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+var StakingSwitchModule = /** @class */ (function () {
+    function StakingSwitchModule() {
+    }
+    StakingSwitchModule = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
+            declarations: [_staking_switch_component__WEBPACK_IMPORTED_MODULE_2__["StakingSwitchComponent"]],
+            imports: [
+                _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"]
+            ],
+            exports: [_staking_switch_component__WEBPACK_IMPORTED_MODULE_2__["StakingSwitchComponent"]]
+        })
+    ], StakingSwitchModule);
+    return StakingSwitchModule;
 }());
 
 
@@ -623,6 +673,47 @@ var TooltipDirective = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/_helpers/directives/tooltip.module.ts":
+/*!*******************************************************!*\
+  !*** ./src/app/_helpers/directives/tooltip.module.ts ***!
+  \*******************************************************/
+/*! exports provided: TooltipModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "TooltipModule", function() { return TooltipModule; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var _tooltip_directive__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./tooltip.directive */ "./src/app/_helpers/directives/tooltip.directive.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+var TooltipModule = /** @class */ (function () {
+    function TooltipModule() {
+    }
+    TooltipModule = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
+            declarations: [_tooltip_directive__WEBPACK_IMPORTED_MODULE_2__["TooltipDirective"]],
+            imports: [
+                _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"]
+            ],
+            exports: [_tooltip_directive__WEBPACK_IMPORTED_MODULE_2__["TooltipDirective"]]
+        })
+    ], TooltipModule);
+    return TooltipModule;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/_helpers/directives/transaction-details/transaction-details.component.html":
 /*!********************************************************************************************!*\
   !*** ./src/app/_helpers/directives/transaction-details/transaction-details.component.html ***!
@@ -815,6 +906,51 @@ var ConfirmModalComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [_angular_core__WEBPACK_IMPORTED_MODULE_0__["Renderer2"]])
     ], ConfirmModalComponent);
     return ConfirmModalComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/_helpers/modals/confirm-modal/confirm-modal.module.ts":
+/*!***********************************************************************!*\
+  !*** ./src/app/_helpers/modals/confirm-modal/confirm-modal.module.ts ***!
+  \***********************************************************************/
+/*! exports provided: ConfirmModalModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ConfirmModalModule", function() { return ConfirmModalModule; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var _confirm_modal_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./confirm-modal.component */ "./src/app/_helpers/modals/confirm-modal/confirm-modal.component.ts");
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+var ConfirmModalModule = /** @class */ (function () {
+    function ConfirmModalModule() {
+    }
+    ConfirmModalModule = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
+            declarations: [_confirm_modal_component__WEBPACK_IMPORTED_MODULE_2__["ConfirmModalComponent"]],
+            imports: [
+                _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"],
+                _ngx_translate_core__WEBPACK_IMPORTED_MODULE_3__["TranslateModule"]
+            ],
+            exports: [_confirm_modal_component__WEBPACK_IMPORTED_MODULE_2__["ConfirmModalComponent"]],
+            entryComponents: [_confirm_modal_component__WEBPACK_IMPORTED_MODULE_2__["ConfirmModalComponent"]]
+        })
+    ], ConfirmModalModule);
+    return ConfirmModalModule;
 }());
 
 
@@ -1133,6 +1269,48 @@ var SyncModalComponent = /** @class */ (function () {
         __metadata("design:paramtypes", [_angular_core__WEBPACK_IMPORTED_MODULE_0__["Renderer2"]])
     ], SyncModalComponent);
     return SyncModalComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/_helpers/modals/sync-modal/sync-modal.module.ts":
+/*!*****************************************************************!*\
+  !*** ./src/app/_helpers/modals/sync-modal/sync-modal.module.ts ***!
+  \*****************************************************************/
+/*! exports provided: SyncModalModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SyncModalModule", function() { return SyncModalModule; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var _sync_modal_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./sync-modal.component */ "./src/app/_helpers/modals/sync-modal/sync-modal.component.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+var SyncModalModule = /** @class */ (function () {
+    function SyncModalModule() {
+    }
+    SyncModalModule = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
+            declarations: [_sync_modal_component__WEBPACK_IMPORTED_MODULE_2__["SyncModalComponent"]],
+            imports: [
+                _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"]
+            ],
+            exports: [_sync_modal_component__WEBPACK_IMPORTED_MODULE_2__["SyncModalComponent"]],
+            entryComponents: [_sync_modal_component__WEBPACK_IMPORTED_MODULE_2__["SyncModalComponent"]]
+        })
+    ], SyncModalModule);
+    return SyncModalModule;
 }());
 
 
@@ -1876,6 +2054,58 @@ var MoneyToIntPipe = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/_helpers/pipes/pipes.module.ts":
+/*!************************************************!*\
+  !*** ./src/app/_helpers/pipes/pipes.module.ts ***!
+  \************************************************/
+/*! exports provided: PipesModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "PipesModule", function() { return PipesModule; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var _int_to_money_pipe__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./int-to-money.pipe */ "./src/app/_helpers/pipes/int-to-money.pipe.ts");
+/* harmony import */ var _safe_html_pipe__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./safe-html.pipe */ "./src/app/_helpers/pipes/safe-html.pipe.ts");
+/* harmony import */ var _money_to_int_pipe__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./money-to-int.pipe */ "./src/app/_helpers/pipes/money-to-int.pipe.ts");
+/* harmony import */ var _history_type_messages_pipe__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./history-type-messages.pipe */ "./src/app/_helpers/pipes/history-type-messages.pipe.ts");
+/* harmony import */ var _contract_time_left_pipe__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./contract-time-left.pipe */ "./src/app/_helpers/pipes/contract-time-left.pipe.ts");
+/* harmony import */ var _contract_status_messages_pipe__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./contract-status-messages.pipe */ "./src/app/_helpers/pipes/contract-status-messages.pipe.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+
+
+
+var PipesModule = /** @class */ (function () {
+    function PipesModule() {
+    }
+    PipesModule = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
+            declarations: [_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_2__["IntToMoneyPipe"], _safe_html_pipe__WEBPACK_IMPORTED_MODULE_3__["SafeHTMLPipe"], _money_to_int_pipe__WEBPACK_IMPORTED_MODULE_4__["MoneyToIntPipe"], _history_type_messages_pipe__WEBPACK_IMPORTED_MODULE_5__["HistoryTypeMessagesPipe"], _contract_time_left_pipe__WEBPACK_IMPORTED_MODULE_6__["ContractTimeLeftPipe"], _contract_status_messages_pipe__WEBPACK_IMPORTED_MODULE_7__["ContractStatusMessagesPipe"]],
+            imports: [
+                _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"]
+            ],
+            exports: [_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_2__["IntToMoneyPipe"], _safe_html_pipe__WEBPACK_IMPORTED_MODULE_3__["SafeHTMLPipe"], _money_to_int_pipe__WEBPACK_IMPORTED_MODULE_4__["MoneyToIntPipe"], _history_type_messages_pipe__WEBPACK_IMPORTED_MODULE_5__["HistoryTypeMessagesPipe"], _contract_time_left_pipe__WEBPACK_IMPORTED_MODULE_6__["ContractTimeLeftPipe"], _contract_status_messages_pipe__WEBPACK_IMPORTED_MODULE_7__["ContractStatusMessagesPipe"]],
+            providers: [_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_2__["IntToMoneyPipe"], _safe_html_pipe__WEBPACK_IMPORTED_MODULE_3__["SafeHTMLPipe"], _money_to_int_pipe__WEBPACK_IMPORTED_MODULE_4__["MoneyToIntPipe"], _history_type_messages_pipe__WEBPACK_IMPORTED_MODULE_5__["HistoryTypeMessagesPipe"], _contract_time_left_pipe__WEBPACK_IMPORTED_MODULE_6__["ContractTimeLeftPipe"], _contract_status_messages_pipe__WEBPACK_IMPORTED_MODULE_7__["ContractStatusMessagesPipe"]]
+        })
+    ], PipesModule);
+    return PipesModule;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/_helpers/pipes/safe-html.pipe.ts":
 /*!**************************************************!*\
   !*** ./src/app/_helpers/pipes/safe-html.pipe.ts ***!
@@ -2094,12 +2324,12 @@ var BackendService = /** @class */ (function () {
             case 'WALLET_WATCH_ONLY_NOT_SUPPORTED':
                 error_translate = 'ERRORS.WALLET_WATCH_ONLY_NOT_SUPPORTED';
                 break;
-            case 'WRONG_PASSWORD':
-                params = JSON.parse(params);
-                if (!params.testEmpty) {
-                    error_translate = 'ERRORS.WRONG_PASSWORD';
-                }
-                break;
+            // case 'WRONG_PASSWORD':
+            // params = JSON.parse(params);
+            // if (!params.testEmpty) {
+            //   error_translate = 'ERRORS.WRONG_PASSWORD';
+            // }
+            // break;
             case 'FILE_RESTORED':
                 if (command === 'open_wallet') {
                     error_translate = 'ERRORS.FILE_RESTORED';
@@ -3140,7 +3370,7 @@ var VariablesService = /** @class */ (function () {
             progress_value: 0,
             progress_value_text: '0'
         };
-        this.get_recent_transfers = false; // avoid of execute function before collback complete
+        this.get_recent_transfers = false; // avoid of execute function before callback complete
         this.default_fee = '0.010000000000';
         this.default_fee_big = new bignumber_js__WEBPACK_IMPORTED_MODULE_5__["BigNumber"]('10000000000');
         this.settings = {
@@ -4061,7 +4291,7 @@ var AddContactsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"page-container\">\r\n\r\n    <div class=\"toolbar mb-2\">\r\n        <div class=\"left\">\r\n            <button type=\"button\"\r\n                    class=\"btn-icon circle big mr-2\"\r\n                    (click)=\"back()\">\r\n                <i class=\"icon dropdown-arrow-left\"></i>\r\n            </button>\r\n            <h1>{{ 'BREADCRUMBS.ADD_WALLET' | translate }}</h1>\r\n        </div>\r\n        <div class=\"right\"></div>\r\n    </div>\r\n\r\n    <div class=\"page-content\">\r\n        <div class=\"scrolled-content\">\r\n            <div class=\"add-wallet flex flex__justify-center flex flex__align-center w-100\">\r\n                <div class=\"wrap-controls text-align-center max-w-38-rem\">\r\n                    <h4 class=\"mb-2\">{{ 'MAIN.TITLE' | translate }}</h4>\r\n\r\n                    <button type=\"button\"\r\n                            class=\"primary big w-100 mb-1\"\r\n                            [routerLink]=\"['/create']\">\r\n                        {{ 'MAIN.BUTTON_NEW_WALLET' | translate}}\r\n                    </button>\r\n\r\n                    <button type=\"button\"\r\n                            class=\"primary big w-100 mb-1\"\r\n                            (click)=\"openWallet()\">{{ 'MAIN.BUTTON_OPEN_WALLET' | translate\r\n                        }}</button>\r\n\r\n                    <button type=\"button\"\r\n                            class=\"outline big w-100 mb-2\"\r\n                            [routerLink]=\"['/restore']\">{{ 'MAIN.BUTTON_RESTORE_BACKUP' |\r\n                          translate\r\n                        }}</button>\r\n\r\n                    <p class=\"flex flex__justify-center flex flex__align-center cursor-pointer\"\r\n                       (click)=\"openInBrowser()\">\r\n                        <i class=\"icon question-circle mr-1\"></i>\r\n                        <span class=\"color-primary\">{{ 'MAIN.HELP' | translate }}</span>\r\n                    </p>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n"
+module.exports = "<div class=\"page-container\">\r\n\r\n    <div class=\"toolbar mb-2\">\r\n        <div class=\"left\">\r\n            <button type=\"button\"\r\n                    class=\"btn-icon circle big mr-2\"\r\n                    (click)=\"back()\">\r\n                <i class=\"icon dropdown-arrow-left\"></i>\r\n            </button>\r\n            <h1>{{ 'BREADCRUMBS.ADD_WALLET' | translate }}</h1>\r\n        </div>\r\n        <div class=\"right\"></div>\r\n    </div>\r\n\r\n    <div class=\"page-content\">\r\n        <div class=\"scrolled-content\">\r\n            <div class=\"add-wallet flex flex__justify-center flex flex__align-center w-100\">\r\n                <div class=\"wrap-controls text-align-center max-w-38-rem\">\r\n                    <h4 class=\"mb-2\">{{ 'MAIN.TITLE' | translate }}</h4>\r\n\r\n                    <button type=\"button\"\r\n                            class=\"primary big w-100 mb-1\"\r\n                            [routerLink]=\"['/create']\">\r\n                        {{ 'MAIN.BUTTON_NEW_WALLET' | translate}}\r\n                    </button>\r\n\r\n                    <button type=\"button\"\r\n                            class=\"primary big w-100 mb-1\"\r\n                            (click)=\"openWallet()\">{{ 'MAIN.BUTTON_OPEN_WALLET' | translate\r\n                        }}</button>\r\n\r\n                    <button type=\"button\"\r\n                            class=\"outline big w-100 mb-2\"\r\n                            [routerLink]=\"['/restore']\">{{ 'MAIN.BUTTON_RESTORE_BACKUP' |\r\n                          translate\r\n                        }}</button>\r\n\r\n                    <p class=\"text-align-center cursor-pointer\"\r\n                       (click)=\"openInBrowser()\">\r\n                        <i class=\"icon question-circle mr-1\"></i>\r\n                        <span class=\"color-primary\">{{ 'MAIN.HELP' | translate }}</span>\r\n                    </p>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -4203,6 +4433,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _deeplink_deeplink_component__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! ./deeplink/deeplink.component */ "./src/app/deeplink/deeplink.component.ts");
 /* harmony import */ var _contracts_contracts_tab_contracts_tab_component__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! ./contracts/contracts-tab/contracts-tab.component */ "./src/app/contracts/contracts-tab/contracts-tab.component.ts");
 /* harmony import */ var _paths__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./paths */ "./src/app/paths.ts");
+/* harmony import */ var _layouts_full_layout_full_layout_component__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./layouts/full-layout/full-layout.component */ "./src/app/layouts/full-layout/full-layout.component.ts");
+/* harmony import */ var _layouts_with_sidebar_layout_with_sidebar_layout_component__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./layouts/with-sidebar-layout/with-sidebar-layout.component */ "./src/app/layouts/with-sidebar-layout/with-sidebar-layout.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4236,126 +4468,245 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
+
 var routes = [
     {
+        path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].auth,
+        component: _layouts_full_layout_full_layout_component__WEBPACK_IMPORTED_MODULE_27__["FullLayoutComponent"],
+        loadChildren: './pages/auth/auth.module#AuthModule'
+    },
+    {
         path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].addWallet,
-        component: _add_wallet_add_wallet_component__WEBPACK_IMPORTED_MODULE_2__["AddWalletComponent"]
+        component: _layouts_with_sidebar_layout_with_sidebar_layout_component__WEBPACK_IMPORTED_MODULE_28__["WithSidebarLayoutComponent"],
+        children: [
+            {
+                path: '', component: _add_wallet_add_wallet_component__WEBPACK_IMPORTED_MODULE_2__["AddWalletComponent"]
+            }
+        ]
     },
     {
         path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].login,
-        component: _login_login_component__WEBPACK_IMPORTED_MODULE_3__["LoginComponent"]
+        component: _layouts_full_layout_full_layout_component__WEBPACK_IMPORTED_MODULE_27__["FullLayoutComponent"],
+        children: [
+            {
+                path: '', component: _login_login_component__WEBPACK_IMPORTED_MODULE_3__["LoginComponent"]
+            }
+        ]
     },
     {
         path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].wallet,
-        component: _wallet_wallet_component__WEBPACK_IMPORTED_MODULE_4__["WalletComponent"],
+        component: _layouts_with_sidebar_layout_with_sidebar_layout_component__WEBPACK_IMPORTED_MODULE_28__["WithSidebarLayoutComponent"],
         children: [
             {
-                path: _paths__WEBPACK_IMPORTED_MODULE_26__["pathChildrenWallet"].send,
-                component: _send_send_component__WEBPACK_IMPORTED_MODULE_5__["SendComponent"]
-            },
-            {
-                path: _paths__WEBPACK_IMPORTED_MODULE_26__["pathChildrenWallet"].receive,
-                component: _receive_receive_component__WEBPACK_IMPORTED_MODULE_6__["ReceiveComponent"]
-            },
-            {
-                path: _paths__WEBPACK_IMPORTED_MODULE_26__["pathChildrenWallet"].history,
-                component: _history_history_component__WEBPACK_IMPORTED_MODULE_7__["HistoryComponent"]
-            },
-            {
-                path: _paths__WEBPACK_IMPORTED_MODULE_26__["pathChildrenWallet"].contracts,
-                component: _contracts_contracts_tab_contracts_tab_component__WEBPACK_IMPORTED_MODULE_25__["ContractsTabComponent"],
+                path: '',
+                component: _wallet_wallet_component__WEBPACK_IMPORTED_MODULE_4__["WalletComponent"],
                 children: [
                     {
+                        path: _paths__WEBPACK_IMPORTED_MODULE_26__["pathsChildrenWallet"].send,
+                        component: _send_send_component__WEBPACK_IMPORTED_MODULE_5__["SendComponent"]
+                    },
+                    {
+                        path: _paths__WEBPACK_IMPORTED_MODULE_26__["pathsChildrenWallet"].receive,
+                        component: _receive_receive_component__WEBPACK_IMPORTED_MODULE_6__["ReceiveComponent"]
+                    },
+                    {
+                        path: _paths__WEBPACK_IMPORTED_MODULE_26__["pathsChildrenWallet"].history,
+                        component: _history_history_component__WEBPACK_IMPORTED_MODULE_7__["HistoryComponent"]
+                    },
+                    {
+                        path: _paths__WEBPACK_IMPORTED_MODULE_26__["pathsChildrenWallet"].contracts,
+                        component: _contracts_contracts_tab_contracts_tab_component__WEBPACK_IMPORTED_MODULE_25__["ContractsTabComponent"],
+                        children: [
+                            {
+                                path: '',
+                                component: _contracts_contracts_component__WEBPACK_IMPORTED_MODULE_8__["ContractsComponent"],
+                            },
+                            {
+                                path: _paths__WEBPACK_IMPORTED_MODULE_26__["pathsChildrenContracts"].purchase,
+                                component: _purchase_purchase_component__WEBPACK_IMPORTED_MODULE_9__["PurchaseComponent"]
+                            },
+                            {
+                                path: _paths__WEBPACK_IMPORTED_MODULE_26__["pathsChildrenContracts"].purchase + "/:id",
+                                component: _purchase_purchase_component__WEBPACK_IMPORTED_MODULE_9__["PurchaseComponent"]
+                            },
+                            {
+                                path: '**', redirectTo: '',
+                            },
+                        ]
+                    },
+                    {
+                        path: _paths__WEBPACK_IMPORTED_MODULE_26__["pathsChildrenWallet"].staking,
+                        component: _staking_staking_component__WEBPACK_IMPORTED_MODULE_10__["StakingComponent"]
+                    },
+                    {
                         path: '',
-                        component: _contracts_contracts_component__WEBPACK_IMPORTED_MODULE_8__["ContractsComponent"],
-                    },
-                    {
-                        path: _paths__WEBPACK_IMPORTED_MODULE_26__["pathChildrenContracts"].purchase,
-                        component: _purchase_purchase_component__WEBPACK_IMPORTED_MODULE_9__["PurchaseComponent"]
-                    },
-                    {
-                        path: _paths__WEBPACK_IMPORTED_MODULE_26__["pathChildrenContracts"].purchase + "/:id",
-                        component: _purchase_purchase_component__WEBPACK_IMPORTED_MODULE_9__["PurchaseComponent"]
-                    },
-                    {
-                        path: '**', redirectTo: '',
-                    },
+                        redirectTo: _paths__WEBPACK_IMPORTED_MODULE_26__["pathsChildrenWallet"].history,
+                        pathMatch: 'full'
+                    }
                 ]
-            },
-            {
-                path: _paths__WEBPACK_IMPORTED_MODULE_26__["pathChildrenWallet"].staking,
-                component: _staking_staking_component__WEBPACK_IMPORTED_MODULE_10__["StakingComponent"]
-            },
-            {
-                path: '',
-                redirectTo: _paths__WEBPACK_IMPORTED_MODULE_26__["pathChildrenWallet"].history,
-                pathMatch: 'full'
             }
         ]
     },
     {
         path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].create,
-        component: _create_wallet_create_wallet_component__WEBPACK_IMPORTED_MODULE_12__["CreateWalletComponent"]
+        component: _layouts_with_sidebar_layout_with_sidebar_layout_component__WEBPACK_IMPORTED_MODULE_28__["WithSidebarLayoutComponent"],
+        children: [
+            {
+                path: '',
+                component: _create_wallet_create_wallet_component__WEBPACK_IMPORTED_MODULE_12__["CreateWalletComponent"]
+            }
+        ]
     },
     {
         path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].open,
-        component: _open_wallet_open_wallet_component__WEBPACK_IMPORTED_MODULE_13__["OpenWalletComponent"]
+        component: _layouts_with_sidebar_layout_with_sidebar_layout_component__WEBPACK_IMPORTED_MODULE_28__["WithSidebarLayoutComponent"],
+        children: [
+            {
+                path: '',
+                component: _open_wallet_open_wallet_component__WEBPACK_IMPORTED_MODULE_13__["OpenWalletComponent"]
+            }
+        ]
     },
     {
         path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].restore,
-        component: _restore_wallet_restore_wallet_component__WEBPACK_IMPORTED_MODULE_14__["RestoreWalletComponent"]
+        component: _layouts_with_sidebar_layout_with_sidebar_layout_component__WEBPACK_IMPORTED_MODULE_28__["WithSidebarLayoutComponent"],
+        children: [
+            {
+                path: '',
+                component: _restore_wallet_restore_wallet_component__WEBPACK_IMPORTED_MODULE_14__["RestoreWalletComponent"]
+            }
+        ]
     },
     {
         path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].seedPhrase,
-        component: _seed_phrase_seed_phrase_component__WEBPACK_IMPORTED_MODULE_15__["SeedPhraseComponent"]
+        component: _layouts_with_sidebar_layout_with_sidebar_layout_component__WEBPACK_IMPORTED_MODULE_28__["WithSidebarLayoutComponent"],
+        children: [
+            {
+                path: '',
+                component: _seed_phrase_seed_phrase_component__WEBPACK_IMPORTED_MODULE_15__["SeedPhraseComponent"]
+            }
+        ]
     },
     {
         path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].details,
-        component: _wallet_details_wallet_details_component__WEBPACK_IMPORTED_MODULE_16__["WalletDetailsComponent"]
+        component: _layouts_with_sidebar_layout_with_sidebar_layout_component__WEBPACK_IMPORTED_MODULE_28__["WithSidebarLayoutComponent"],
+        children: [
+            {
+                path: '',
+                component: _wallet_details_wallet_details_component__WEBPACK_IMPORTED_MODULE_16__["WalletDetailsComponent"]
+            }
+        ]
     },
     {
         path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].assignAlias,
-        component: _assign_alias_assign_alias_component__WEBPACK_IMPORTED_MODULE_17__["AssignAliasComponent"]
+        component: _layouts_with_sidebar_layout_with_sidebar_layout_component__WEBPACK_IMPORTED_MODULE_28__["WithSidebarLayoutComponent"],
+        children: [
+            {
+                path: '',
+                component: _assign_alias_assign_alias_component__WEBPACK_IMPORTED_MODULE_17__["AssignAliasComponent"]
+            }
+        ]
     },
     {
         path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].editAlias,
-        component: _edit_alias_edit_alias_component__WEBPACK_IMPORTED_MODULE_18__["EditAliasComponent"]
+        component: _layouts_with_sidebar_layout_with_sidebar_layout_component__WEBPACK_IMPORTED_MODULE_28__["WithSidebarLayoutComponent"],
+        children: [
+            {
+                path: '',
+                component: _edit_alias_edit_alias_component__WEBPACK_IMPORTED_MODULE_18__["EditAliasComponent"]
+            }
+        ]
     },
     {
         path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].transferAlias,
-        component: _transfer_alias_transfer_alias_component__WEBPACK_IMPORTED_MODULE_19__["TransferAliasComponent"]
+        component: _layouts_with_sidebar_layout_with_sidebar_layout_component__WEBPACK_IMPORTED_MODULE_28__["WithSidebarLayoutComponent"],
+        children: [
+            {
+                path: '',
+                component: _transfer_alias_transfer_alias_component__WEBPACK_IMPORTED_MODULE_19__["TransferAliasComponent"]
+            }
+        ]
     },
     {
         path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].settings,
-        component: _settings_settings_component__WEBPACK_IMPORTED_MODULE_11__["SettingsComponent"]
+        component: _layouts_with_sidebar_layout_with_sidebar_layout_component__WEBPACK_IMPORTED_MODULE_28__["WithSidebarLayoutComponent"],
+        children: [
+            {
+                path: '',
+                component: _settings_settings_component__WEBPACK_IMPORTED_MODULE_11__["SettingsComponent"]
+            }
+        ]
     },
     {
         path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].contacts,
-        component: _contacts_contacts_component__WEBPACK_IMPORTED_MODULE_20__["ContactsComponent"]
+        component: _layouts_with_sidebar_layout_with_sidebar_layout_component__WEBPACK_IMPORTED_MODULE_28__["WithSidebarLayoutComponent"],
+        children: [
+            {
+                path: '',
+                component: _contacts_contacts_component__WEBPACK_IMPORTED_MODULE_20__["ContactsComponent"]
+            }
+        ]
     },
     {
         path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].addContacts,
-        component: _add_contacts_add_contacts_component__WEBPACK_IMPORTED_MODULE_21__["AddContactsComponent"]
+        component: _layouts_with_sidebar_layout_with_sidebar_layout_component__WEBPACK_IMPORTED_MODULE_28__["WithSidebarLayoutComponent"],
+        children: [
+            {
+                path: '',
+                component: _add_contacts_add_contacts_component__WEBPACK_IMPORTED_MODULE_21__["AddContactsComponent"]
+            }
+        ]
     },
     {
         path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].editContacts + "/:id",
-        component: _add_contacts_add_contacts_component__WEBPACK_IMPORTED_MODULE_21__["AddContactsComponent"]
+        component: _layouts_with_sidebar_layout_with_sidebar_layout_component__WEBPACK_IMPORTED_MODULE_28__["WithSidebarLayoutComponent"],
+        children: [
+            {
+                path: '',
+                component: _add_contacts_add_contacts_component__WEBPACK_IMPORTED_MODULE_21__["AddContactsComponent"]
+            }
+        ]
     },
     {
         path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].contactSend + "/:id",
-        component: _contact_send_contact_send_component__WEBPACK_IMPORTED_MODULE_22__["ContactSendComponent"]
+        component: _layouts_with_sidebar_layout_with_sidebar_layout_component__WEBPACK_IMPORTED_MODULE_28__["WithSidebarLayoutComponent"],
+        children: [
+            {
+                path: '',
+                component: _contact_send_contact_send_component__WEBPACK_IMPORTED_MODULE_22__["ContactSendComponent"]
+            }
+        ]
     },
     {
         path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].import,
-        component: _export_import_export_import_component__WEBPACK_IMPORTED_MODULE_23__["ExportImportComponent"]
+        component: _layouts_with_sidebar_layout_with_sidebar_layout_component__WEBPACK_IMPORTED_MODULE_28__["WithSidebarLayoutComponent"],
+        children: [
+            {
+                path: '',
+                component: _export_import_export_import_component__WEBPACK_IMPORTED_MODULE_23__["ExportImportComponent"]
+            }
+        ]
     },
     {
         path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].deeplink,
-        component: _deeplink_deeplink_component__WEBPACK_IMPORTED_MODULE_24__["DeeplinkComponent"]
+        component: _layouts_with_sidebar_layout_with_sidebar_layout_component__WEBPACK_IMPORTED_MODULE_28__["WithSidebarLayoutComponent"],
+        children: [
+            {
+                path: '',
+                component: _deeplink_deeplink_component__WEBPACK_IMPORTED_MODULE_24__["DeeplinkComponent"]
+            }
+        ]
     },
     {
         path: _paths__WEBPACK_IMPORTED_MODULE_26__["paths"].uiKit,
-        loadChildren: './pages/ui-kit/ui-kit.module#UiKitModule'
+        component: _layouts_with_sidebar_layout_with_sidebar_layout_component__WEBPACK_IMPORTED_MODULE_28__["WithSidebarLayoutComponent"],
+        children: [
+            {
+                path: '',
+                loadChildren: './pages/ui-kit/ui-kit.module#UiKitModule'
+            }
+        ]
     },
     {
         path: '',
@@ -4386,7 +4737,7 @@ var AppRoutingModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<app-sidebar *ngIf=\"variablesService.appLogin\"></app-sidebar>\r\n\r\n<div class=\"flex overflow-auto w-100 h-100 p-2\">\r\n    <router-outlet *ngIf=\"[0, 1, 2, 6].indexOf(variablesService.daemon_state) !== -1\"></router-outlet>\r\n    <div class=\"preloader\"\r\n         *ngIf=\"[3, 4, 5].indexOf(variablesService.daemon_state) !== -1\">\r\n        <p class=\"mb-2\"\r\n           *ngIf=\"variablesService.daemon_state === 3\">{{ 'SIDEBAR.SYNCHRONIZATION.LOADING' | translate }}</p>\r\n        <p class=\"mb-2\"\r\n           *ngIf=\"variablesService.daemon_state === 4\">{{ 'SIDEBAR.SYNCHRONIZATION.ERROR' | translate }}</p>\r\n        <p class=\"mb-2\"\r\n           *ngIf=\"variablesService.daemon_state === 5\">{{ 'SIDEBAR.SYNCHRONIZATION.COMPLETE' | translate }}</p>\r\n        <div class=\"loading-bar\"></div>\r\n    </div>\r\n</div>\r\n\r\n<context-menu #allContextMenu>\r\n    <ng-template contextMenuItem\r\n                 (execute)=\"contextMenuCopy($event.item)\">{{ 'CONTEXT_MENU.COPY' | translate }}</ng-template>\r\n    <ng-template contextMenuItem\r\n                 (execute)=\"contextMenuPaste($event.item)\">{{ 'CONTEXT_MENU.PASTE' | translate }}</ng-template>\r\n    <ng-template contextMenuItem\r\n                 (execute)=\"contextMenuSelect($event.item)\">{{ 'CONTEXT_MENU.SELECT' | translate }}</ng-template>\r\n</context-menu>\r\n\r\n<context-menu #onlyCopyContextMenu>\r\n    <ng-template contextMenuItem\r\n                 (execute)=\"contextMenuOnlyCopy($event.item)\">{{ 'CONTEXT_MENU.COPY' | translate }}</ng-template>\r\n</context-menu>\r\n\r\n<context-menu #pasteSelectContextMenu>\r\n    <ng-template contextMenuItem\r\n                 (execute)=\"contextMenuPaste($event.item)\">{{ 'CONTEXT_MENU.PASTE' | translate }}</ng-template>\r\n    <ng-template contextMenuItem\r\n                 (execute)=\"contextMenuSelect($event.item)\">{{ 'CONTEXT_MENU.SELECT' | translate }}</ng-template>\r\n</context-menu>\r\n\r\n\r\n<app-open-wallet-modal *ngIf=\"needOpenWallets.length\"\r\n                       [wallets]=\"needOpenWallets\"></app-open-wallet-modal>\r\n"
+module.exports = "<router-outlet *ngIf=\"[0, 1, 2, 6].indexOf(variablesService.daemon_state) !== -1\"></router-outlet>\r\n\r\n<div class=\"preloader\"\r\n     *ngIf=\"[3, 4, 5].indexOf(variablesService.daemon_state) !== -1\">\r\n    <p class=\"mb-2\"\r\n       *ngIf=\"variablesService.daemon_state === 3\">{{ 'SIDEBAR.SYNCHRONIZATION.LOADING' | translate }}</p>\r\n    <p class=\"mb-2\"\r\n       *ngIf=\"variablesService.daemon_state === 4\">{{ 'SIDEBAR.SYNCHRONIZATION.ERROR' | translate }}</p>\r\n    <p class=\"mb-2\"\r\n       *ngIf=\"variablesService.daemon_state === 5\">{{ 'SIDEBAR.SYNCHRONIZATION.COMPLETE' | translate }}</p>\r\n    <div class=\"loading-bar\"></div>\r\n</div>\r\n\r\n\r\n<context-menu #allContextMenu>\r\n    <ng-template contextMenuItem\r\n                 (execute)=\"contextMenuCopy($event.item)\">{{ 'CONTEXT_MENU.COPY' | translate }}</ng-template>\r\n    <ng-template contextMenuItem\r\n                 (execute)=\"contextMenuPaste($event.item)\">{{ 'CONTEXT_MENU.PASTE' | translate }}</ng-template>\r\n    <ng-template contextMenuItem\r\n                 (execute)=\"contextMenuSelect($event.item)\">{{ 'CONTEXT_MENU.SELECT' | translate }}</ng-template>\r\n</context-menu>\r\n\r\n<context-menu #onlyCopyContextMenu>\r\n    <ng-template contextMenuItem\r\n                 (execute)=\"contextMenuOnlyCopy($event.item)\">{{ 'CONTEXT_MENU.COPY' | translate }}</ng-template>\r\n</context-menu>\r\n\r\n<context-menu #pasteSelectContextMenu>\r\n    <ng-template contextMenuItem\r\n                 (execute)=\"contextMenuPaste($event.item)\">{{ 'CONTEXT_MENU.PASTE' | translate }}</ng-template>\r\n    <ng-template contextMenuItem\r\n                 (execute)=\"contextMenuSelect($event.item)\">{{ 'CONTEXT_MENU.SELECT' | translate }}</ng-template>\r\n</context-menu>\r\n\r\n\r\n<app-open-wallet-modal *ngIf=\"needOpenWallets.length\"\r\n                       [wallets]=\"needOpenWallets\"></app-open-wallet-modal>\r\n"
 
 /***/ }),
 
@@ -4425,6 +4776,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var store__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! store */ "./src/store.ts");
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! rxjs/operators */ "./node_modules/rxjs/_esm5/operators/index.js");
+/* harmony import */ var _paths__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./paths */ "./src/app/paths.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -4434,6 +4786,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -4970,6 +5323,9 @@ var AppComponent = /** @class */ (function () {
                 _this.setBackendLocalization();
                 _this.backend.setLogLevel(_this.variablesService.settings.appLog);
                 _this.backend.setEnableTor(_this.variablesService.settings.appUseTor);
+                if (!_this.variablesService.settings.wallets || !_this.variablesService.settings.wallets.length) {
+                    return _this.router.navigate([_paths__WEBPACK_IMPORTED_MODULE_13__["paths"].auth + "/" + _paths__WEBPACK_IMPORTED_MODULE_13__["pathsChildrenAuth"].noWallet]).then();
+                }
                 if (_this.router.url !== '/login') {
                     _this.backend.haveSecureAppData(function (statusPass) {
                         if (statusPass) {
@@ -5214,69 +5570,61 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _app_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./app.component */ "./src/app/app.component.ts");
 /* harmony import */ var _login_login_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./login/login.component */ "./src/app/login/login.component.ts");
 /* harmony import */ var _settings_settings_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./settings/settings.component */ "./src/app/settings/settings.component.ts");
-/* harmony import */ var _sidebar_sidebar_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./sidebar/sidebar.component */ "./src/app/sidebar/sidebar.component.ts");
-/* harmony import */ var _add_wallet_add_wallet_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./add-wallet/add-wallet.component */ "./src/app/add-wallet/add-wallet.component.ts");
-/* harmony import */ var _create_wallet_create_wallet_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./create-wallet/create-wallet.component */ "./src/app/create-wallet/create-wallet.component.ts");
-/* harmony import */ var _open_wallet_open_wallet_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./open-wallet/open-wallet.component */ "./src/app/open-wallet/open-wallet.component.ts");
-/* harmony import */ var _open_wallet_modal_open_wallet_modal_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./open-wallet-modal/open-wallet-modal.component */ "./src/app/open-wallet-modal/open-wallet-modal.component.ts");
-/* harmony import */ var _restore_wallet_restore_wallet_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./restore-wallet/restore-wallet.component */ "./src/app/restore-wallet/restore-wallet.component.ts");
-/* harmony import */ var _seed_phrase_seed_phrase_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./seed-phrase/seed-phrase.component */ "./src/app/seed-phrase/seed-phrase.component.ts");
-/* harmony import */ var _wallet_details_wallet_details_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./wallet-details/wallet-details.component */ "./src/app/wallet-details/wallet-details.component.ts");
-/* harmony import */ var _assign_alias_assign_alias_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./assign-alias/assign-alias.component */ "./src/app/assign-alias/assign-alias.component.ts");
-/* harmony import */ var _edit_alias_edit_alias_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./edit-alias/edit-alias.component */ "./src/app/edit-alias/edit-alias.component.ts");
-/* harmony import */ var _transfer_alias_transfer_alias_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./transfer-alias/transfer-alias.component */ "./src/app/transfer-alias/transfer-alias.component.ts");
-/* harmony import */ var _wallet_wallet_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./wallet/wallet.component */ "./src/app/wallet/wallet.component.ts");
-/* harmony import */ var _send_send_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./send/send.component */ "./src/app/send/send.component.ts");
-/* harmony import */ var _receive_receive_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./receive/receive.component */ "./src/app/receive/receive.component.ts");
-/* harmony import */ var _history_history_component__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./history/history.component */ "./src/app/history/history.component.ts");
-/* harmony import */ var _contracts_contracts_component__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./contracts/contracts.component */ "./src/app/contracts/contracts.component.ts");
-/* harmony import */ var _purchase_purchase_component__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./purchase/purchase.component */ "./src/app/purchase/purchase.component.ts");
-/* harmony import */ var _staking_staking_component__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./staking/staking.component */ "./src/app/staking/staking.component.ts");
-/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
-/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
-/* harmony import */ var _ngx_translate_http_loader__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! @ngx-translate/http-loader */ "./node_modules/@ngx-translate/http-loader/fesm5/ngx-translate-http-loader.js");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
-/* harmony import */ var _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! @ng-select/ng-select */ "./node_modules/@ng-select/ng-select/fesm5/ng-select.js");
-/* harmony import */ var _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./_helpers/services/backend.service */ "./src/app/_helpers/services/backend.service.ts");
-/* harmony import */ var _helpers_services_modal_service__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./_helpers/services/modal.service */ "./src/app/_helpers/services/modal.service.ts");
-/* harmony import */ var _helpers_services_pagination_store__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./_helpers/services/pagination.store */ "./src/app/_helpers/services/pagination.store.ts");
-/* harmony import */ var store__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! store */ "./src/store.ts");
-/* harmony import */ var _helpers_pipes_money_to_int_pipe__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./_helpers/pipes/money-to-int.pipe */ "./src/app/_helpers/pipes/money-to-int.pipe.ts");
-/* harmony import */ var _helpers_pipes_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./_helpers/pipes/int-to-money.pipe */ "./src/app/_helpers/pipes/int-to-money.pipe.ts");
-/* harmony import */ var _helpers_pipes_history_type_messages_pipe__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ./_helpers/pipes/history-type-messages.pipe */ "./src/app/_helpers/pipes/history-type-messages.pipe.ts");
-/* harmony import */ var _helpers_pipes_contract_status_messages_pipe__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! ./_helpers/pipes/contract-status-messages.pipe */ "./src/app/_helpers/pipes/contract-status-messages.pipe.ts");
-/* harmony import */ var _helpers_pipes_contract_time_left_pipe__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! ./_helpers/pipes/contract-time-left.pipe */ "./src/app/_helpers/pipes/contract-time-left.pipe.ts");
-/* harmony import */ var _helpers_pipes_safe_html_pipe__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! ./_helpers/pipes/safe-html.pipe */ "./src/app/_helpers/pipes/safe-html.pipe.ts");
-/* harmony import */ var _helpers_directives_tooltip_directive__WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! ./_helpers/directives/tooltip.directive */ "./src/app/_helpers/directives/tooltip.directive.ts");
-/* harmony import */ var _helpers_directives_input_validate_input_validate_directive__WEBPACK_IMPORTED_MODULE_40__ = __webpack_require__(/*! ./_helpers/directives/input-validate/input-validate.directive */ "./src/app/_helpers/directives/input-validate/input-validate.directive.ts");
-/* harmony import */ var _helpers_directives_staking_switch_staking_switch_component__WEBPACK_IMPORTED_MODULE_41__ = __webpack_require__(/*! ./_helpers/directives/staking-switch/staking-switch.component */ "./src/app/_helpers/directives/staking-switch/staking-switch.component.ts");
-/* harmony import */ var _helpers_modals_modal_container_modal_container_component__WEBPACK_IMPORTED_MODULE_42__ = __webpack_require__(/*! ./_helpers/modals/modal-container/modal-container.component */ "./src/app/_helpers/modals/modal-container/modal-container.component.ts");
-/* harmony import */ var _helpers_directives_transaction_details_transaction_details_component__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(/*! ./_helpers/directives/transaction-details/transaction-details.component */ "./src/app/_helpers/directives/transaction-details/transaction-details.component.ts");
-/* harmony import */ var ngx_contextmenu__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(/*! ngx-contextmenu */ "./node_modules/ngx-contextmenu/fesm5/ngx-contextmenu.js");
-/* harmony import */ var angular_highcharts__WEBPACK_IMPORTED_MODULE_45__ = __webpack_require__(/*! angular-highcharts */ "./node_modules/angular-highcharts/fesm5/angular-highcharts.js");
-/* harmony import */ var highcharts__WEBPACK_IMPORTED_MODULE_46__ = __webpack_require__(/*! highcharts */ "./node_modules/highcharts/highcharts.js");
-/* harmony import */ var highcharts__WEBPACK_IMPORTED_MODULE_46___default = /*#__PURE__*/__webpack_require__.n(highcharts__WEBPACK_IMPORTED_MODULE_46__);
-/* harmony import */ var highcharts_modules_exporting_src__WEBPACK_IMPORTED_MODULE_47__ = __webpack_require__(/*! highcharts/modules/exporting.src */ "./node_modules/highcharts/modules/exporting.src.js");
-/* harmony import */ var highcharts_modules_exporting_src__WEBPACK_IMPORTED_MODULE_47___default = /*#__PURE__*/__webpack_require__.n(highcharts_modules_exporting_src__WEBPACK_IMPORTED_MODULE_47__);
-/* harmony import */ var _helpers_directives_input_disable_selection_input_disable_selection_directive__WEBPACK_IMPORTED_MODULE_48__ = __webpack_require__(/*! ./_helpers/directives/input-disable-selection/input-disable-selection.directive */ "./src/app/_helpers/directives/input-disable-selection/input-disable-selection.directive.ts");
-/* harmony import */ var _send_modal_send_modal_component__WEBPACK_IMPORTED_MODULE_49__ = __webpack_require__(/*! ./send-modal/send-modal.component */ "./src/app/send-modal/send-modal.component.ts");
-/* harmony import */ var _contacts_contacts_component__WEBPACK_IMPORTED_MODULE_50__ = __webpack_require__(/*! ./contacts/contacts.component */ "./src/app/contacts/contacts.component.ts");
-/* harmony import */ var _add_contacts_add_contacts_component__WEBPACK_IMPORTED_MODULE_51__ = __webpack_require__(/*! ./add-contacts/add-contacts.component */ "./src/app/add-contacts/add-contacts.component.ts");
-/* harmony import */ var _contact_send_contact_send_component__WEBPACK_IMPORTED_MODULE_52__ = __webpack_require__(/*! ./contact-send/contact-send.component */ "./src/app/contact-send/contact-send.component.ts");
-/* harmony import */ var _export_import_export_import_component__WEBPACK_IMPORTED_MODULE_53__ = __webpack_require__(/*! ./export-import/export-import.component */ "./src/app/export-import/export-import.component.ts");
-/* harmony import */ var _helpers_modals_confirm_modal_confirm_modal_component__WEBPACK_IMPORTED_MODULE_54__ = __webpack_require__(/*! ./_helpers/modals/confirm-modal/confirm-modal.component */ "./src/app/_helpers/modals/confirm-modal/confirm-modal.component.ts");
-/* harmony import */ var _angular_cdk_drag_drop__WEBPACK_IMPORTED_MODULE_55__ = __webpack_require__(/*! @angular/cdk/drag-drop */ "./node_modules/@angular/cdk/esm5/drag-drop.es5.js");
-/* harmony import */ var ngx_papaparse__WEBPACK_IMPORTED_MODULE_56__ = __webpack_require__(/*! ngx-papaparse */ "./node_modules/ngx-papaparse/fesm5/ngx-papaparse.js");
-/* harmony import */ var _helpers_modals_export_history_modal_export_history_modal_component__WEBPACK_IMPORTED_MODULE_57__ = __webpack_require__(/*! ./_helpers/modals/export-history-modal/export-history-modal.component */ "./src/app/_helpers/modals/export-history-modal/export-history-modal.component.ts");
-/* harmony import */ var cdk_drag_scroll__WEBPACK_IMPORTED_MODULE_58__ = __webpack_require__(/*! cdk-drag-scroll */ "./node_modules/cdk-drag-scroll/fesm5/cdk-drag-scroll.js");
-/* harmony import */ var _deeplink_deeplink_component__WEBPACK_IMPORTED_MODULE_59__ = __webpack_require__(/*! ./deeplink/deeplink.component */ "./src/app/deeplink/deeplink.component.ts");
-/* harmony import */ var _helpers_modals_sync_modal_sync_modal_component__WEBPACK_IMPORTED_MODULE_60__ = __webpack_require__(/*! ./_helpers/modals/sync-modal/sync-modal.component */ "./src/app/_helpers/modals/sync-modal/sync-modal.component.ts");
-/* harmony import */ var _contracts_contracts_tab_contracts_tab_component__WEBPACK_IMPORTED_MODULE_61__ = __webpack_require__(/*! ./contracts/contracts-tab/contracts-tab.component */ "./src/app/contracts/contracts-tab/contracts-tab.component.ts");
-/* harmony import */ var _send_details_modal_send_details_modal_component__WEBPACK_IMPORTED_MODULE_62__ = __webpack_require__(/*! ./send-details-modal/send-details-modal.component */ "./src/app/send-details-modal/send-details-modal.component.ts");
-/* harmony import */ var _shared_directives_disable_price_fetch_disable_price_fetch_module__WEBPACK_IMPORTED_MODULE_63__ = __webpack_require__(/*! ./_shared/directives/disable-price-fetch/disable-price-fetch.module */ "./src/app/_shared/directives/disable-price-fetch/disable-price-fetch.module.ts");
-/* harmony import */ var _shared_shared_module__WEBPACK_IMPORTED_MODULE_64__ = __webpack_require__(/*! ./_shared/shared.module */ "./src/app/_shared/shared.module.ts");
-/* harmony import */ var _synchronization_status_synchronization_status_component__WEBPACK_IMPORTED_MODULE_65__ = __webpack_require__(/*! ./synchronization-status/synchronization-status.component */ "./src/app/synchronization-status/synchronization-status.component.ts");
-/* harmony import */ var _deeplink_modal_deeplink_modal_component__WEBPACK_IMPORTED_MODULE_66__ = __webpack_require__(/*! ./deeplink-modal/deeplink-modal.component */ "./src/app/deeplink-modal/deeplink-modal.component.ts");
+/* harmony import */ var _add_wallet_add_wallet_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./add-wallet/add-wallet.component */ "./src/app/add-wallet/add-wallet.component.ts");
+/* harmony import */ var _create_wallet_create_wallet_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./create-wallet/create-wallet.component */ "./src/app/create-wallet/create-wallet.component.ts");
+/* harmony import */ var _open_wallet_open_wallet_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./open-wallet/open-wallet.component */ "./src/app/open-wallet/open-wallet.component.ts");
+/* harmony import */ var _open_wallet_modal_open_wallet_modal_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./open-wallet-modal/open-wallet-modal.component */ "./src/app/open-wallet-modal/open-wallet-modal.component.ts");
+/* harmony import */ var _restore_wallet_restore_wallet_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./restore-wallet/restore-wallet.component */ "./src/app/restore-wallet/restore-wallet.component.ts");
+/* harmony import */ var _seed_phrase_seed_phrase_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./seed-phrase/seed-phrase.component */ "./src/app/seed-phrase/seed-phrase.component.ts");
+/* harmony import */ var _wallet_details_wallet_details_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./wallet-details/wallet-details.component */ "./src/app/wallet-details/wallet-details.component.ts");
+/* harmony import */ var _assign_alias_assign_alias_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./assign-alias/assign-alias.component */ "./src/app/assign-alias/assign-alias.component.ts");
+/* harmony import */ var _edit_alias_edit_alias_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./edit-alias/edit-alias.component */ "./src/app/edit-alias/edit-alias.component.ts");
+/* harmony import */ var _transfer_alias_transfer_alias_component__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ./transfer-alias/transfer-alias.component */ "./src/app/transfer-alias/transfer-alias.component.ts");
+/* harmony import */ var _wallet_wallet_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./wallet/wallet.component */ "./src/app/wallet/wallet.component.ts");
+/* harmony import */ var _send_send_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ./send/send.component */ "./src/app/send/send.component.ts");
+/* harmony import */ var _receive_receive_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./receive/receive.component */ "./src/app/receive/receive.component.ts");
+/* harmony import */ var _history_history_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./history/history.component */ "./src/app/history/history.component.ts");
+/* harmony import */ var _contracts_contracts_component__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./contracts/contracts.component */ "./src/app/contracts/contracts.component.ts");
+/* harmony import */ var _purchase_purchase_component__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./purchase/purchase.component */ "./src/app/purchase/purchase.component.ts");
+/* harmony import */ var _staking_staking_component__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./staking/staking.component */ "./src/app/staking/staking.component.ts");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
+/* harmony import */ var _ngx_translate_http_loader__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @ngx-translate/http-loader */ "./node_modules/@ngx-translate/http-loader/fesm5/ngx-translate-http-loader.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! @ng-select/ng-select */ "./node_modules/@ng-select/ng-select/fesm5/ng-select.js");
+/* harmony import */ var _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./_helpers/services/backend.service */ "./src/app/_helpers/services/backend.service.ts");
+/* harmony import */ var _helpers_services_modal_service__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./_helpers/services/modal.service */ "./src/app/_helpers/services/modal.service.ts");
+/* harmony import */ var _helpers_services_pagination_store__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./_helpers/services/pagination.store */ "./src/app/_helpers/services/pagination.store.ts");
+/* harmony import */ var store__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! store */ "./src/store.ts");
+/* harmony import */ var _helpers_directives_input_validate_input_validate_directive__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./_helpers/directives/input-validate/input-validate.directive */ "./src/app/_helpers/directives/input-validate/input-validate.directive.ts");
+/* harmony import */ var _helpers_modals_modal_container_modal_container_component__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./_helpers/modals/modal-container/modal-container.component */ "./src/app/_helpers/modals/modal-container/modal-container.component.ts");
+/* harmony import */ var _helpers_directives_transaction_details_transaction_details_component__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! ./_helpers/directives/transaction-details/transaction-details.component */ "./src/app/_helpers/directives/transaction-details/transaction-details.component.ts");
+/* harmony import */ var ngx_contextmenu__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! ngx-contextmenu */ "./node_modules/ngx-contextmenu/fesm5/ngx-contextmenu.js");
+/* harmony import */ var angular_highcharts__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! angular-highcharts */ "./node_modules/angular-highcharts/fesm5/angular-highcharts.js");
+/* harmony import */ var highcharts__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! highcharts */ "./node_modules/highcharts/highcharts.js");
+/* harmony import */ var highcharts__WEBPACK_IMPORTED_MODULE_37___default = /*#__PURE__*/__webpack_require__.n(highcharts__WEBPACK_IMPORTED_MODULE_37__);
+/* harmony import */ var highcharts_modules_exporting_src__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! highcharts/modules/exporting.src */ "./node_modules/highcharts/modules/exporting.src.js");
+/* harmony import */ var highcharts_modules_exporting_src__WEBPACK_IMPORTED_MODULE_38___default = /*#__PURE__*/__webpack_require__.n(highcharts_modules_exporting_src__WEBPACK_IMPORTED_MODULE_38__);
+/* harmony import */ var _helpers_directives_input_disable_selection_input_disable_selection_directive__WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! ./_helpers/directives/input-disable-selection/input-disable-selection.directive */ "./src/app/_helpers/directives/input-disable-selection/input-disable-selection.directive.ts");
+/* harmony import */ var _send_modal_send_modal_component__WEBPACK_IMPORTED_MODULE_40__ = __webpack_require__(/*! ./send-modal/send-modal.component */ "./src/app/send-modal/send-modal.component.ts");
+/* harmony import */ var _contacts_contacts_component__WEBPACK_IMPORTED_MODULE_41__ = __webpack_require__(/*! ./contacts/contacts.component */ "./src/app/contacts/contacts.component.ts");
+/* harmony import */ var _add_contacts_add_contacts_component__WEBPACK_IMPORTED_MODULE_42__ = __webpack_require__(/*! ./add-contacts/add-contacts.component */ "./src/app/add-contacts/add-contacts.component.ts");
+/* harmony import */ var _contact_send_contact_send_component__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(/*! ./contact-send/contact-send.component */ "./src/app/contact-send/contact-send.component.ts");
+/* harmony import */ var _export_import_export_import_component__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(/*! ./export-import/export-import.component */ "./src/app/export-import/export-import.component.ts");
+/* harmony import */ var ngx_papaparse__WEBPACK_IMPORTED_MODULE_45__ = __webpack_require__(/*! ngx-papaparse */ "./node_modules/ngx-papaparse/fesm5/ngx-papaparse.js");
+/* harmony import */ var _helpers_modals_export_history_modal_export_history_modal_component__WEBPACK_IMPORTED_MODULE_46__ = __webpack_require__(/*! ./_helpers/modals/export-history-modal/export-history-modal.component */ "./src/app/_helpers/modals/export-history-modal/export-history-modal.component.ts");
+/* harmony import */ var _contracts_contracts_tab_contracts_tab_component__WEBPACK_IMPORTED_MODULE_47__ = __webpack_require__(/*! ./contracts/contracts-tab/contracts-tab.component */ "./src/app/contracts/contracts-tab/contracts-tab.component.ts");
+/* harmony import */ var _send_details_modal_send_details_modal_component__WEBPACK_IMPORTED_MODULE_48__ = __webpack_require__(/*! ./send-details-modal/send-details-modal.component */ "./src/app/send-details-modal/send-details-modal.component.ts");
+/* harmony import */ var _shared_directives_disable_price_fetch_disable_price_fetch_module__WEBPACK_IMPORTED_MODULE_49__ = __webpack_require__(/*! ./_shared/directives/disable-price-fetch/disable-price-fetch.module */ "./src/app/_shared/directives/disable-price-fetch/disable-price-fetch.module.ts");
+/* harmony import */ var _shared_shared_module__WEBPACK_IMPORTED_MODULE_50__ = __webpack_require__(/*! ./_shared/shared.module */ "./src/app/_shared/shared.module.ts");
+/* harmony import */ var _synchronization_status_synchronization_status_module__WEBPACK_IMPORTED_MODULE_51__ = __webpack_require__(/*! ./synchronization-status/synchronization-status.module */ "./src/app/synchronization-status/synchronization-status.module.ts");
+/* harmony import */ var _helpers_directives_tooltip_module__WEBPACK_IMPORTED_MODULE_52__ = __webpack_require__(/*! ./_helpers/directives/tooltip.module */ "./src/app/_helpers/directives/tooltip.module.ts");
+/* harmony import */ var _layouts_with_sidebar_layout_with_sidebar_layout_module__WEBPACK_IMPORTED_MODULE_53__ = __webpack_require__(/*! ./layouts/with-sidebar-layout/with-sidebar-layout.module */ "./src/app/layouts/with-sidebar-layout/with-sidebar-layout.module.ts");
+/* harmony import */ var _layouts_full_layout_full_layout_module__WEBPACK_IMPORTED_MODULE_54__ = __webpack_require__(/*! ./layouts/full-layout/full-layout.module */ "./src/app/layouts/full-layout/full-layout.module.ts");
+/* harmony import */ var _helpers_pipes_pipes_module__WEBPACK_IMPORTED_MODULE_55__ = __webpack_require__(/*! ./_helpers/pipes/pipes.module */ "./src/app/_helpers/pipes/pipes.module.ts");
+/* harmony import */ var _helpers_modals_confirm_modal_confirm_modal_module__WEBPACK_IMPORTED_MODULE_56__ = __webpack_require__(/*! ./_helpers/modals/confirm-modal/confirm-modal.module */ "./src/app/_helpers/modals/confirm-modal/confirm-modal.module.ts");
+/* harmony import */ var _deeplink_deeplink_module__WEBPACK_IMPORTED_MODULE_57__ = __webpack_require__(/*! ./deeplink/deeplink.module */ "./src/app/deeplink/deeplink.module.ts");
+/* harmony import */ var _helpers_directives_staking_switch_staking_switch_module__WEBPACK_IMPORTED_MODULE_58__ = __webpack_require__(/*! ./_helpers/directives/staking-switch/staking-switch.module */ "./src/app/_helpers/directives/staking-switch/staking-switch.module.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -5342,24 +5690,16 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
-
-
-
-
-
-
-
-
 function HttpLoaderFactory(httpClient) {
-    return new _ngx_translate_http_loader__WEBPACK_IMPORTED_MODULE_26__["TranslateHttpLoader"](httpClient, './assets/i18n/', '.json');
+    return new _ngx_translate_http_loader__WEBPACK_IMPORTED_MODULE_25__["TranslateHttpLoader"](httpClient, './assets/i18n/', '.json');
 }
 function highchartsFactory() {
-    highcharts__WEBPACK_IMPORTED_MODULE_46__["setOptions"]({
+    highcharts__WEBPACK_IMPORTED_MODULE_37__["setOptions"]({
         time: {
             useUTC: false
         }
     });
-    return [highcharts_modules_exporting_src__WEBPACK_IMPORTED_MODULE_47___default.a];
+    return [highcharts_modules_exporting_src__WEBPACK_IMPORTED_MODULE_38___default.a];
 }
 var AppModule = /** @class */ (function () {
     function AppModule() {
@@ -5370,86 +5710,75 @@ var AppModule = /** @class */ (function () {
                 _app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"],
                 _login_login_component__WEBPACK_IMPORTED_MODULE_4__["LoginComponent"],
                 _settings_settings_component__WEBPACK_IMPORTED_MODULE_5__["SettingsComponent"],
-                _sidebar_sidebar_component__WEBPACK_IMPORTED_MODULE_6__["SidebarComponent"],
-                _add_wallet_add_wallet_component__WEBPACK_IMPORTED_MODULE_7__["AddWalletComponent"],
-                _create_wallet_create_wallet_component__WEBPACK_IMPORTED_MODULE_8__["CreateWalletComponent"],
-                _open_wallet_open_wallet_component__WEBPACK_IMPORTED_MODULE_9__["OpenWalletComponent"],
-                _open_wallet_modal_open_wallet_modal_component__WEBPACK_IMPORTED_MODULE_10__["OpenWalletModalComponent"],
-                _restore_wallet_restore_wallet_component__WEBPACK_IMPORTED_MODULE_11__["RestoreWalletComponent"],
-                _seed_phrase_seed_phrase_component__WEBPACK_IMPORTED_MODULE_12__["SeedPhraseComponent"],
-                _wallet_details_wallet_details_component__WEBPACK_IMPORTED_MODULE_13__["WalletDetailsComponent"],
-                _assign_alias_assign_alias_component__WEBPACK_IMPORTED_MODULE_14__["AssignAliasComponent"],
-                _edit_alias_edit_alias_component__WEBPACK_IMPORTED_MODULE_15__["EditAliasComponent"],
-                _transfer_alias_transfer_alias_component__WEBPACK_IMPORTED_MODULE_16__["TransferAliasComponent"],
-                _wallet_wallet_component__WEBPACK_IMPORTED_MODULE_17__["WalletComponent"],
-                _send_send_component__WEBPACK_IMPORTED_MODULE_18__["SendComponent"],
-                _receive_receive_component__WEBPACK_IMPORTED_MODULE_19__["ReceiveComponent"],
-                _history_history_component__WEBPACK_IMPORTED_MODULE_20__["HistoryComponent"],
-                _contracts_contracts_component__WEBPACK_IMPORTED_MODULE_21__["ContractsComponent"],
-                _purchase_purchase_component__WEBPACK_IMPORTED_MODULE_22__["PurchaseComponent"],
-                _staking_staking_component__WEBPACK_IMPORTED_MODULE_23__["StakingComponent"],
-                _helpers_pipes_money_to_int_pipe__WEBPACK_IMPORTED_MODULE_33__["MoneyToIntPipe"],
-                _helpers_pipes_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_34__["IntToMoneyPipe"],
-                _helpers_directives_staking_switch_staking_switch_component__WEBPACK_IMPORTED_MODULE_41__["StakingSwitchComponent"],
-                _helpers_pipes_history_type_messages_pipe__WEBPACK_IMPORTED_MODULE_35__["HistoryTypeMessagesPipe"],
-                _helpers_pipes_contract_status_messages_pipe__WEBPACK_IMPORTED_MODULE_36__["ContractStatusMessagesPipe"],
-                _helpers_pipes_contract_time_left_pipe__WEBPACK_IMPORTED_MODULE_37__["ContractTimeLeftPipe"],
-                _helpers_directives_tooltip_directive__WEBPACK_IMPORTED_MODULE_39__["TooltipDirective"],
-                _helpers_directives_input_validate_input_validate_directive__WEBPACK_IMPORTED_MODULE_40__["InputValidateDirective"],
-                _helpers_modals_modal_container_modal_container_component__WEBPACK_IMPORTED_MODULE_42__["ModalContainerComponent"],
-                _helpers_directives_transaction_details_transaction_details_component__WEBPACK_IMPORTED_MODULE_43__["TransactionDetailsComponent"],
-                _helpers_directives_input_disable_selection_input_disable_selection_directive__WEBPACK_IMPORTED_MODULE_48__["InputDisableSelectionDirective"],
-                _send_modal_send_modal_component__WEBPACK_IMPORTED_MODULE_49__["SendModalComponent"],
-                _contacts_contacts_component__WEBPACK_IMPORTED_MODULE_50__["ContactsComponent"],
-                _add_contacts_add_contacts_component__WEBPACK_IMPORTED_MODULE_51__["AddContactsComponent"],
-                _contact_send_contact_send_component__WEBPACK_IMPORTED_MODULE_52__["ContactSendComponent"],
-                _export_import_export_import_component__WEBPACK_IMPORTED_MODULE_53__["ExportImportComponent"],
-                _helpers_pipes_safe_html_pipe__WEBPACK_IMPORTED_MODULE_38__["SafeHTMLPipe"],
-                _helpers_modals_confirm_modal_confirm_modal_component__WEBPACK_IMPORTED_MODULE_54__["ConfirmModalComponent"],
-                _helpers_modals_export_history_modal_export_history_modal_component__WEBPACK_IMPORTED_MODULE_57__["ExportHistoryModalComponent"],
-                _deeplink_deeplink_component__WEBPACK_IMPORTED_MODULE_59__["DeeplinkComponent"],
-                _helpers_modals_sync_modal_sync_modal_component__WEBPACK_IMPORTED_MODULE_60__["SyncModalComponent"],
-                _contracts_contracts_tab_contracts_tab_component__WEBPACK_IMPORTED_MODULE_61__["ContractsTabComponent"],
-                _send_details_modal_send_details_modal_component__WEBPACK_IMPORTED_MODULE_62__["SendDetailsModalComponent"],
-                _synchronization_status_synchronization_status_component__WEBPACK_IMPORTED_MODULE_65__["SynchronizationStatusComponent"],
-                _deeplink_modal_deeplink_modal_component__WEBPACK_IMPORTED_MODULE_66__["DeeplinkModalComponent"],
+                _add_wallet_add_wallet_component__WEBPACK_IMPORTED_MODULE_6__["AddWalletComponent"],
+                _create_wallet_create_wallet_component__WEBPACK_IMPORTED_MODULE_7__["CreateWalletComponent"],
+                _open_wallet_open_wallet_component__WEBPACK_IMPORTED_MODULE_8__["OpenWalletComponent"],
+                _open_wallet_modal_open_wallet_modal_component__WEBPACK_IMPORTED_MODULE_9__["OpenWalletModalComponent"],
+                _restore_wallet_restore_wallet_component__WEBPACK_IMPORTED_MODULE_10__["RestoreWalletComponent"],
+                _seed_phrase_seed_phrase_component__WEBPACK_IMPORTED_MODULE_11__["SeedPhraseComponent"],
+                _wallet_details_wallet_details_component__WEBPACK_IMPORTED_MODULE_12__["WalletDetailsComponent"],
+                _assign_alias_assign_alias_component__WEBPACK_IMPORTED_MODULE_13__["AssignAliasComponent"],
+                _edit_alias_edit_alias_component__WEBPACK_IMPORTED_MODULE_14__["EditAliasComponent"],
+                _transfer_alias_transfer_alias_component__WEBPACK_IMPORTED_MODULE_15__["TransferAliasComponent"],
+                _wallet_wallet_component__WEBPACK_IMPORTED_MODULE_16__["WalletComponent"],
+                _send_send_component__WEBPACK_IMPORTED_MODULE_17__["SendComponent"],
+                _receive_receive_component__WEBPACK_IMPORTED_MODULE_18__["ReceiveComponent"],
+                _history_history_component__WEBPACK_IMPORTED_MODULE_19__["HistoryComponent"],
+                _contracts_contracts_component__WEBPACK_IMPORTED_MODULE_20__["ContractsComponent"],
+                _purchase_purchase_component__WEBPACK_IMPORTED_MODULE_21__["PurchaseComponent"],
+                _staking_staking_component__WEBPACK_IMPORTED_MODULE_22__["StakingComponent"],
+                _helpers_directives_input_validate_input_validate_directive__WEBPACK_IMPORTED_MODULE_32__["InputValidateDirective"],
+                _helpers_modals_modal_container_modal_container_component__WEBPACK_IMPORTED_MODULE_33__["ModalContainerComponent"],
+                _helpers_directives_transaction_details_transaction_details_component__WEBPACK_IMPORTED_MODULE_34__["TransactionDetailsComponent"],
+                _helpers_directives_input_disable_selection_input_disable_selection_directive__WEBPACK_IMPORTED_MODULE_39__["InputDisableSelectionDirective"],
+                _send_modal_send_modal_component__WEBPACK_IMPORTED_MODULE_40__["SendModalComponent"],
+                _contacts_contacts_component__WEBPACK_IMPORTED_MODULE_41__["ContactsComponent"],
+                _add_contacts_add_contacts_component__WEBPACK_IMPORTED_MODULE_42__["AddContactsComponent"],
+                _contact_send_contact_send_component__WEBPACK_IMPORTED_MODULE_43__["ContactSendComponent"],
+                _export_import_export_import_component__WEBPACK_IMPORTED_MODULE_44__["ExportImportComponent"],
+                _helpers_modals_export_history_modal_export_history_modal_component__WEBPACK_IMPORTED_MODULE_46__["ExportHistoryModalComponent"],
+                _contracts_contracts_tab_contracts_tab_component__WEBPACK_IMPORTED_MODULE_47__["ContractsTabComponent"],
+                _send_details_modal_send_details_modal_component__WEBPACK_IMPORTED_MODULE_48__["SendDetailsModalComponent"],
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
                 _app_routing_module__WEBPACK_IMPORTED_MODULE_2__["AppRoutingModule"],
-                _angular_common_http__WEBPACK_IMPORTED_MODULE_24__["HttpClientModule"],
-                _angular_cdk_drag_drop__WEBPACK_IMPORTED_MODULE_55__["DragDropModule"],
-                cdk_drag_scroll__WEBPACK_IMPORTED_MODULE_58__["DragScrollModule"],
-                _ngx_translate_core__WEBPACK_IMPORTED_MODULE_25__["TranslateModule"].forRoot({
+                _angular_common_http__WEBPACK_IMPORTED_MODULE_23__["HttpClientModule"],
+                _ngx_translate_core__WEBPACK_IMPORTED_MODULE_24__["TranslateModule"].forRoot({
                     loader: {
-                        provide: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_25__["TranslateLoader"],
+                        provide: _ngx_translate_core__WEBPACK_IMPORTED_MODULE_24__["TranslateLoader"],
                         useFactory: HttpLoaderFactory,
-                        deps: [_angular_common_http__WEBPACK_IMPORTED_MODULE_24__["HttpClient"]]
+                        deps: [_angular_common_http__WEBPACK_IMPORTED_MODULE_23__["HttpClient"]]
                     }
                 }),
-                _angular_forms__WEBPACK_IMPORTED_MODULE_27__["FormsModule"],
-                _angular_forms__WEBPACK_IMPORTED_MODULE_27__["ReactiveFormsModule"],
-                _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_28__["NgSelectModule"],
-                angular_highcharts__WEBPACK_IMPORTED_MODULE_45__["ChartModule"],
-                ngx_papaparse__WEBPACK_IMPORTED_MODULE_56__["PapaParseModule"],
-                _shared_directives_disable_price_fetch_disable_price_fetch_module__WEBPACK_IMPORTED_MODULE_63__["DisablePriceFetchModule"],
-                _shared_shared_module__WEBPACK_IMPORTED_MODULE_64__["SharedModule"],
-                ngx_contextmenu__WEBPACK_IMPORTED_MODULE_44__["ContextMenuModule"].forRoot()
+                _angular_forms__WEBPACK_IMPORTED_MODULE_26__["FormsModule"],
+                _angular_forms__WEBPACK_IMPORTED_MODULE_26__["ReactiveFormsModule"],
+                _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_27__["NgSelectModule"],
+                angular_highcharts__WEBPACK_IMPORTED_MODULE_36__["ChartModule"],
+                ngx_papaparse__WEBPACK_IMPORTED_MODULE_45__["PapaParseModule"],
+                _shared_directives_disable_price_fetch_disable_price_fetch_module__WEBPACK_IMPORTED_MODULE_49__["DisablePriceFetchModule"],
+                _helpers_directives_tooltip_module__WEBPACK_IMPORTED_MODULE_52__["TooltipModule"],
+                _helpers_modals_confirm_modal_confirm_modal_module__WEBPACK_IMPORTED_MODULE_56__["ConfirmModalModule"],
+                _helpers_pipes_pipes_module__WEBPACK_IMPORTED_MODULE_55__["PipesModule"],
+                _deeplink_deeplink_module__WEBPACK_IMPORTED_MODULE_57__["DeeplinkModule"],
+                _helpers_directives_staking_switch_staking_switch_module__WEBPACK_IMPORTED_MODULE_58__["StakingSwitchModule"],
+                _layouts_full_layout_full_layout_module__WEBPACK_IMPORTED_MODULE_54__["FullLayoutModule"],
+                _layouts_with_sidebar_layout_with_sidebar_layout_module__WEBPACK_IMPORTED_MODULE_53__["WithSidebarLayoutModule"],
+                _synchronization_status_synchronization_status_module__WEBPACK_IMPORTED_MODULE_51__["SynchronizationStatusModule"],
+                _shared_shared_module__WEBPACK_IMPORTED_MODULE_50__["SharedModule"],
+                ngx_contextmenu__WEBPACK_IMPORTED_MODULE_35__["ContextMenuModule"].forRoot(),
             ],
             providers: [
-                store__WEBPACK_IMPORTED_MODULE_32__["Store"],
-                _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_29__["BackendService"],
-                _helpers_services_modal_service__WEBPACK_IMPORTED_MODULE_30__["ModalService"],
-                _helpers_services_pagination_store__WEBPACK_IMPORTED_MODULE_31__["PaginationStore"],
-                _helpers_pipes_money_to_int_pipe__WEBPACK_IMPORTED_MODULE_33__["MoneyToIntPipe"],
-                _helpers_pipes_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_34__["IntToMoneyPipe"],
-                { provide: angular_highcharts__WEBPACK_IMPORTED_MODULE_45__["HIGHCHARTS_MODULES"], useFactory: highchartsFactory }
+                store__WEBPACK_IMPORTED_MODULE_31__["Store"],
+                _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_28__["BackendService"],
+                _helpers_services_modal_service__WEBPACK_IMPORTED_MODULE_29__["ModalService"],
+                _helpers_services_pagination_store__WEBPACK_IMPORTED_MODULE_30__["PaginationStore"],
+                { provide: angular_highcharts__WEBPACK_IMPORTED_MODULE_36__["HIGHCHARTS_MODULES"], useFactory: highchartsFactory }
             ],
             entryComponents: [
-                _helpers_modals_modal_container_modal_container_component__WEBPACK_IMPORTED_MODULE_42__["ModalContainerComponent"],
-                _send_modal_send_modal_component__WEBPACK_IMPORTED_MODULE_49__["SendModalComponent"],
-                _helpers_modals_confirm_modal_confirm_modal_component__WEBPACK_IMPORTED_MODULE_54__["ConfirmModalComponent"],
-                _helpers_modals_export_history_modal_export_history_modal_component__WEBPACK_IMPORTED_MODULE_57__["ExportHistoryModalComponent"],
+                _helpers_modals_modal_container_modal_container_component__WEBPACK_IMPORTED_MODULE_33__["ModalContainerComponent"],
+                _send_modal_send_modal_component__WEBPACK_IMPORTED_MODULE_40__["SendModalComponent"],
+                _helpers_modals_export_history_modal_export_history_modal_component__WEBPACK_IMPORTED_MODULE_46__["ExportHistoryModalComponent"],
             ],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_3__["AppComponent"]]
         })
@@ -5910,7 +6239,7 @@ var ContractsTabComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container flex flex__direction-column flex__justify-center flex__align-center w-100 h-100 overflow-hidden\">\r\n    <ng-container *ngIf=\"variablesService.currentWallet.contracts.length; else emptyContracts\">\r\n        <div class=\"wrap-table flex w-100 flex_1_1_auto overflow-y-auto overflow-x-hidden mb-2\">\r\n            <table class=\"contracts-table\">\r\n                <thead>\r\n                <tr>\r\n                    <th>{{ 'CONTRACTS.CONTRACTS' | translate }}</th>\r\n                    <th>{{ 'CONTRACTS.DATE' | translate }}</th>\r\n                    <th>{{ 'CONTRACTS.AMOUNT' | translate }}</th>\r\n                    <th>{{ 'CONTRACTS.STATUS' | translate }}</th>\r\n                    <th>{{ 'CONTRACTS.COMMENTS' | translate }}</th>\r\n                </tr>\r\n                </thead>\r\n                <tbody>\r\n                <ng-container *ngFor=\"let item of sortedArrayContracts\">\r\n                    <div class=\"row-divider\"></div>\r\n                    <tr [routerLink]=\"'/wallet/contracts/purchase/' + item.contract_id\">\r\n                        <td>\r\n                            <div class=\"contract flex flex__align-center\">\r\n                                <i class=\"icon alert mr-1\"\r\n                                   *ngIf=\"!item.is_new\"></i>\r\n                                <i class=\"icon new mr-1\"\r\n                                   *ngIf=\"item.is_new\"></i>\r\n                                <i class=\"icon mr-1\"\r\n                                   [class.purchase-arrow-down]=\"item.is_a\"\r\n                                   [class.purchase-arrow-up]=\"!item.is_a\"></i>\r\n                                <span tooltip=\"{{ item.private_detailes.t }}\"\r\n                                      placement=\"top-left\"\r\n                                      tooltipClass=\"table-tooltip\"\r\n                                      [delay]=\"500\"\r\n                                      [showWhenNoOverflow]=\"false\">{{item.private_detailes.t}}</span>\r\n                            </div>\r\n                        </td>\r\n                        <td>\r\n                            <div>{{item.timestamp * 1000 | date : 'dd-MM-yyyy HH:mm'}}</div>\r\n                        </td>\r\n                        <td>\r\n                            <div>{{item.private_detailes.to_pay | intToMoney}} {{variablesService.defaultCurrency}}</div>\r\n                        </td>\r\n                        <td>\r\n                            <div class=\"status\"\r\n                                 [class.color-red]=\"item.state === 4\"\r\n                                 tooltip=\"{{item.state | contractStatusMessages : item.is_a}}\"\r\n                                 placement=\"top\"\r\n                                 tooltipClass=\"table-tooltip\"\r\n                                 [delay]=\"500\">\r\n                                {{item.state | contractStatusMessages : item.is_a}}\r\n                            </div>\r\n                        </td>\r\n                        <td>\r\n                            <div class=\"comment\"\r\n                                 tooltip=\"{{ item.private_detailes.c }}\"\r\n                                 placement=\"top-right\"\r\n                                 tooltipClass=\"table-tooltip\"\r\n                                 [delay]=\"500\"\r\n                                 [showWhenNoOverflow]=\"false\">\r\n                                {{item.private_detailes.c}}\r\n                            </div>\r\n                        </td>\r\n                    </tr>\r\n                    <div class=\"row-divider\"></div>\r\n                </ng-container>\r\n                </tbody>\r\n            </table>\r\n        </div>\r\n\r\n        <div class=\"buttons-wrap flex flex__align-center flex_0_0_auto w-100\">\r\n            <button type=\"button\"\r\n                    class=\"primary big max-w-19-rem w-100 mr-1\"\r\n                    [routerLink]=\"'/wallet/contracts/purchase'\">{{\r\n                'CONTRACTS.PURCHASE_BUTTON' | translate }}</button>\r\n            <button type=\"button\"\r\n                    class=\"outline big max-w-19-rem w-100\"\r\n                    disabled>{{ 'CONTRACTS.LISTING_BUTTON' | translate }}</button>\r\n        </div>\r\n    </ng-container>\r\n</div>\r\n\r\n<ng-template #emptyContracts>\r\n    <span class=\"mb-2\">{{ 'CONTRACTS.EMPTY' | translate }}</span>\r\n    <button type=\"button\"\r\n            class=\"primary big max-w-19-rem w-100\"\r\n            [routerLink]=\"'/wallet/contracts/purchase'\">{{\r\n        'CONTRACTS.PURCHASE_BUTTON' | translate }}</button>\r\n</ng-template>\r\n"
+module.exports = "<div class=\"container flex flex__direction-column flex__justify-center flex__align-center w-100 h-100 overflow-hidden\">\r\n    <ng-container *ngIf=\"variablesService.currentWallet.contracts.length; else emptyContracts\">\r\n        <div class=\"wrap-table flex w-100 flex_1_1_auto overflow-y-auto overflow-x-hidden mb-2\">\r\n            <table class=\"contracts-table\">\r\n                <thead>\r\n                <tr>\r\n                    <th>{{ 'CONTRACTS.CONTRACTS' | translate }}</th>\r\n                    <th>{{ 'CONTRACTS.DATE' | translate }}</th>\r\n                    <th>{{ 'CONTRACTS.AMOUNT' | translate }}</th>\r\n                    <th>{{ 'CONTRACTS.STATUS' | translate }}</th>\r\n                    <th>{{ 'CONTRACTS.COMMENTS' | translate }}</th>\r\n                </tr>\r\n                </thead>\r\n                <tbody>\r\n                <ng-container *ngFor=\"let item of sortedArrayContracts\">\r\n                    <div class=\"row-divider\"></div>\r\n                    <tr [routerLink]=\"'/wallet/contracts/purchase/' + item.contract_id\">\r\n                        <td>\r\n                            <div class=\"contract flex flex__align-center\">\r\n                                <i class=\"icon alert mr-1\"\r\n                                   *ngIf=\"!item.is_new\"></i>\r\n                                <i class=\"icon new mr-1\"\r\n                                   *ngIf=\"item.is_new\"></i>\r\n                                <i class=\"icon mr-1\"\r\n                                   [class.purchase-arrow-down]=\"item.is_a\"\r\n                                   [class.purchase-arrow-up]=\"!item.is_a\"></i>\r\n                                <span tooltip=\"{{ item.private_detailes.t }}\"\r\n                                      placement=\"top-left\"\r\n                                      tooltipClass=\"table-tooltip\"\r\n                                      [delay]=\"500\"\r\n                                      [showWhenNoOverflow]=\"false\">{{item.private_detailes.t}}</span>\r\n                            </div>\r\n                        </td>\r\n                        <td>\r\n                            <div>{{item.timestamp * 1000 | date : 'dd-MM-yyyy HH:mm'}}</div>\r\n                        </td>\r\n                        <td>\r\n                            <div>{{item.private_detailes.to_pay | intToMoney}} {{variablesService.defaultCurrency}}</div>\r\n                        </td>\r\n                        <td>\r\n                            <div class=\"status\"\r\n                                 [class.color-red]=\"item.state === 4\"\r\n                                 tooltip=\"{{item.state | contractStatusMessages : item.is_a}}\"\r\n                                 placement=\"top\"\r\n                                 tooltipClass=\"table-tooltip\"\r\n                                 [delay]=\"500\">\r\n                                {{item.state | contractStatusMessages : item.is_a}}\r\n                            </div>\r\n                        </td>\r\n                        <td>\r\n                            <div class=\"comment\"\r\n                                 tooltip=\"{{ item.private_detailes.c }}\"\r\n                                 placement=\"top-right\"\r\n                                 tooltipClass=\"table-tooltip\"\r\n                                 [delay]=\"500\"\r\n                                 [showWhenNoOverflow]=\"false\">\r\n                                {{item.private_detailes.c}}\r\n                            </div>\r\n                        </td>\r\n                    </tr>\r\n                    <div class=\"row-divider\"></div>\r\n                </ng-container>\r\n                </tbody>\r\n            </table>\r\n        </div>\r\n\r\n        <div class=\"buttons-wrap flex flex__align-center flex_0_0_auto w-100\">\r\n            <button type=\"button\"\r\n                    class=\"primary big max-w-19-rem w-100\"\r\n                    [routerLink]=\"'/wallet/contracts/purchase'\">{{\r\n                'CONTRACTS.PURCHASE_BUTTON' | translate }}</button>\r\n        </div>\r\n    </ng-container>\r\n</div>\r\n\r\n<ng-template #emptyContracts>\r\n    <span class=\"mb-2\">{{ 'CONTRACTS.EMPTY' | translate }}</span>\r\n    <button type=\"button\"\r\n            class=\"primary big max-w-19-rem w-100\"\r\n            [routerLink]=\"'/wallet/contracts/purchase'\">{{\r\n        'CONTRACTS.PURCHASE_BUTTON' | translate }}</button>\r\n</ng-template>\r\n"
 
 /***/ }),
 
@@ -6378,6 +6707,57 @@ var DeeplinkModalComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/deeplink-modal/deeplink-modal.module.ts":
+/*!*********************************************************!*\
+  !*** ./src/app/deeplink-modal/deeplink-modal.module.ts ***!
+  \*********************************************************/
+/*! exports provided: DeeplinkModalModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DeeplinkModalModule", function() { return DeeplinkModalModule; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var _deeplink_modal_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./deeplink-modal.component */ "./src/app/deeplink-modal/deeplink-modal.component.ts");
+/* harmony import */ var _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ng-select/ng-select */ "./node_modules/@ng-select/ng-select/fesm5/ng-select.js");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+
+var DeeplinkModalModule = /** @class */ (function () {
+    function DeeplinkModalModule() {
+    }
+    DeeplinkModalModule = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
+            declarations: [_deeplink_modal_component__WEBPACK_IMPORTED_MODULE_2__["DeeplinkModalComponent"]],
+            imports: [
+                _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"],
+                _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_3__["NgSelectModule"],
+                _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormsModule"],
+                _ngx_translate_core__WEBPACK_IMPORTED_MODULE_5__["TranslateModule"]
+            ],
+            exports: [_deeplink_modal_component__WEBPACK_IMPORTED_MODULE_2__["DeeplinkModalComponent"]],
+            entryComponents: [_deeplink_modal_component__WEBPACK_IMPORTED_MODULE_2__["DeeplinkModalComponent"]]
+        })
+    ], DeeplinkModalModule);
+    return DeeplinkModalModule;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/deeplink/deeplink.component.html":
 /*!**************************************************!*\
   !*** ./src/app/deeplink/deeplink.component.html ***!
@@ -6459,6 +6839,54 @@ var DeeplinkComponent = /** @class */ (function () {
             _angular_core__WEBPACK_IMPORTED_MODULE_2__["NgZone"]])
     ], DeeplinkComponent);
     return DeeplinkComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/deeplink/deeplink.module.ts":
+/*!*********************************************!*\
+  !*** ./src/app/deeplink/deeplink.module.ts ***!
+  \*********************************************/
+/*! exports provided: DeeplinkModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DeeplinkModule", function() { return DeeplinkModule; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var _deeplink_modal_deeplink_modal_module__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../deeplink-modal/deeplink-modal.module */ "./src/app/deeplink-modal/deeplink-modal.module.ts");
+/* harmony import */ var _helpers_modals_sync_modal_sync_modal_module__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../_helpers/modals/sync-modal/sync-modal.module */ "./src/app/_helpers/modals/sync-modal/sync-modal.module.ts");
+/* harmony import */ var _deeplink_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./deeplink.component */ "./src/app/deeplink/deeplink.component.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+var DeeplinkModule = /** @class */ (function () {
+    function DeeplinkModule() {
+    }
+    DeeplinkModule = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
+            declarations: [_deeplink_component__WEBPACK_IMPORTED_MODULE_4__["DeeplinkComponent"]],
+            imports: [
+                _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"],
+                _deeplink_modal_deeplink_modal_module__WEBPACK_IMPORTED_MODULE_2__["DeeplinkModalModule"],
+                _helpers_modals_sync_modal_sync_modal_module__WEBPACK_IMPORTED_MODULE_3__["SyncModalModule"]
+            ],
+            exports: [_deeplink_component__WEBPACK_IMPORTED_MODULE_4__["DeeplinkComponent"], _deeplink_modal_deeplink_modal_module__WEBPACK_IMPORTED_MODULE_2__["DeeplinkModalModule"], _helpers_modals_sync_modal_sync_modal_module__WEBPACK_IMPORTED_MODULE_3__["SyncModalModule"]],
+            entryComponents: [_deeplink_component__WEBPACK_IMPORTED_MODULE_4__["DeeplinkComponent"]]
+        })
+    ], DeeplinkModule);
+    return DeeplinkModule;
 }());
 
 
@@ -7053,6 +7481,223 @@ var HistoryComponent = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/layouts/full-layout/full-layout.component.html":
+/*!****************************************************************!*\
+  !*** ./src/app/layouts/full-layout/full-layout.component.html ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"flex overflow-auto w-100 h-100 p-2\">\n    <router-outlet></router-outlet>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/layouts/full-layout/full-layout.component.scss":
+/*!****************************************************************!*\
+  !*** ./src/app/layouts/full-layout/full-layout.component.scss ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ":host {\n  width: 100%;\n  height: 100%;\n  overflow: hidden; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvbGF5b3V0cy9mdWxsLWxheW91dC9EOlxcV29ya1xcemFub191aVxcaHRtbF9zb3VyY2Uvc3JjXFxhcHBcXGxheW91dHNcXGZ1bGwtbGF5b3V0XFxmdWxsLWxheW91dC5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLFdBQVc7RUFDWCxZQUFZO0VBQ1osZ0JBQWdCLEVBQUEiLCJmaWxlIjoic3JjL2FwcC9sYXlvdXRzL2Z1bGwtbGF5b3V0L2Z1bGwtbGF5b3V0LmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiOmhvc3Qge1xyXG4gIHdpZHRoOiAxMDAlO1xyXG4gIGhlaWdodDogMTAwJTtcclxuICBvdmVyZmxvdzogaGlkZGVuO1xyXG59XHJcbiJdfQ== */"
+
+/***/ }),
+
+/***/ "./src/app/layouts/full-layout/full-layout.component.ts":
+/*!**************************************************************!*\
+  !*** ./src/app/layouts/full-layout/full-layout.component.ts ***!
+  \**************************************************************/
+/*! exports provided: FullLayoutComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FullLayoutComponent", function() { return FullLayoutComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var FullLayoutComponent = /** @class */ (function () {
+    function FullLayoutComponent() {
+    }
+    FullLayoutComponent.prototype.ngOnInit = function () {
+    };
+    FullLayoutComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-full-layout',
+            template: __webpack_require__(/*! ./full-layout.component.html */ "./src/app/layouts/full-layout/full-layout.component.html"),
+            styles: [__webpack_require__(/*! ./full-layout.component.scss */ "./src/app/layouts/full-layout/full-layout.component.scss")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], FullLayoutComponent);
+    return FullLayoutComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/layouts/full-layout/full-layout.module.ts":
+/*!***********************************************************!*\
+  !*** ./src/app/layouts/full-layout/full-layout.module.ts ***!
+  \***********************************************************/
+/*! exports provided: FullLayoutModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FullLayoutModule", function() { return FullLayoutModule; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var _full_layout_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./full-layout.component */ "./src/app/layouts/full-layout/full-layout.component.ts");
+/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../app-routing.module */ "./src/app/app-routing.module.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+var FullLayoutModule = /** @class */ (function () {
+    function FullLayoutModule() {
+    }
+    FullLayoutModule = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
+            declarations: [_full_layout_component__WEBPACK_IMPORTED_MODULE_2__["FullLayoutComponent"]],
+            imports: [
+                _app_routing_module__WEBPACK_IMPORTED_MODULE_3__["AppRoutingModule"],
+                _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"]
+            ],
+            exports: [_full_layout_component__WEBPACK_IMPORTED_MODULE_2__["FullLayoutComponent"]]
+        })
+    ], FullLayoutModule);
+    return FullLayoutModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/layouts/with-sidebar-layout/with-sidebar-layout.component.html":
+/*!********************************************************************************!*\
+  !*** ./src/app/layouts/with-sidebar-layout/with-sidebar-layout.component.html ***!
+  \********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<app-sidebar></app-sidebar>\n\n<div class=\"flex overflow-auto w-100 h-100 p-2\">\n    <router-outlet></router-outlet>\n</div>\n"
+
+/***/ }),
+
+/***/ "./src/app/layouts/with-sidebar-layout/with-sidebar-layout.component.scss":
+/*!********************************************************************************!*\
+  !*** ./src/app/layouts/with-sidebar-layout/with-sidebar-layout.component.scss ***!
+  \********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ":host {\n  width: 100%;\n  height: 100%;\n  overflow: hidden;\n  display: flex; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvbGF5b3V0cy93aXRoLXNpZGViYXItbGF5b3V0L0Q6XFxXb3JrXFx6YW5vX3VpXFxodG1sX3NvdXJjZS9zcmNcXGFwcFxcbGF5b3V0c1xcd2l0aC1zaWRlYmFyLWxheW91dFxcd2l0aC1zaWRlYmFyLWxheW91dC5jb21wb25lbnQuc2NzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFLFdBQVc7RUFDWCxZQUFZO0VBQ1osZ0JBQWdCO0VBRWhCLGFBQWEsRUFBQSIsImZpbGUiOiJzcmMvYXBwL2xheW91dHMvd2l0aC1zaWRlYmFyLWxheW91dC93aXRoLXNpZGViYXItbGF5b3V0LmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiOmhvc3Qge1xyXG4gIHdpZHRoOiAxMDAlO1xyXG4gIGhlaWdodDogMTAwJTtcclxuICBvdmVyZmxvdzogaGlkZGVuO1xyXG5cclxuICBkaXNwbGF5OiBmbGV4O1xyXG59XHJcbiJdfQ== */"
+
+/***/ }),
+
+/***/ "./src/app/layouts/with-sidebar-layout/with-sidebar-layout.component.ts":
+/*!******************************************************************************!*\
+  !*** ./src/app/layouts/with-sidebar-layout/with-sidebar-layout.component.ts ***!
+  \******************************************************************************/
+/*! exports provided: WithSidebarLayoutComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "WithSidebarLayoutComponent", function() { return WithSidebarLayoutComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var WithSidebarLayoutComponent = /** @class */ (function () {
+    function WithSidebarLayoutComponent() {
+    }
+    WithSidebarLayoutComponent.prototype.ngOnInit = function () {
+    };
+    WithSidebarLayoutComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-with-sidebar-layout',
+            template: __webpack_require__(/*! ./with-sidebar-layout.component.html */ "./src/app/layouts/with-sidebar-layout/with-sidebar-layout.component.html"),
+            styles: [__webpack_require__(/*! ./with-sidebar-layout.component.scss */ "./src/app/layouts/with-sidebar-layout/with-sidebar-layout.component.scss")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], WithSidebarLayoutComponent);
+    return WithSidebarLayoutComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/layouts/with-sidebar-layout/with-sidebar-layout.module.ts":
+/*!***************************************************************************!*\
+  !*** ./src/app/layouts/with-sidebar-layout/with-sidebar-layout.module.ts ***!
+  \***************************************************************************/
+/*! exports provided: WithSidebarLayoutModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "WithSidebarLayoutModule", function() { return WithSidebarLayoutModule; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var _with_sidebar_layout_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./with-sidebar-layout.component */ "./src/app/layouts/with-sidebar-layout/with-sidebar-layout.component.ts");
+/* harmony import */ var _app_routing_module__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../app-routing.module */ "./src/app/app-routing.module.ts");
+/* harmony import */ var _sidebar_sidebar_module__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../sidebar/sidebar.module */ "./src/app/sidebar/sidebar.module.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+var WithSidebarLayoutModule = /** @class */ (function () {
+    function WithSidebarLayoutModule() {
+    }
+    WithSidebarLayoutModule = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
+            declarations: [_with_sidebar_layout_component__WEBPACK_IMPORTED_MODULE_2__["WithSidebarLayoutComponent"]],
+            imports: [
+                _app_routing_module__WEBPACK_IMPORTED_MODULE_3__["AppRoutingModule"],
+                _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"],
+                _sidebar_sidebar_module__WEBPACK_IMPORTED_MODULE_4__["SidebarModule"]
+            ],
+            exports: [_with_sidebar_layout_component__WEBPACK_IMPORTED_MODULE_2__["WithSidebarLayoutComponent"]]
+        })
+    ], WithSidebarLayoutModule);
+    return WithSidebarLayoutModule;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/login/login.component.html":
 /*!********************************************!*\
   !*** ./src/app/login/login.component.html ***!
@@ -7060,7 +7705,7 @@ var HistoryComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"wrapper p-2\">\r\n\r\n    <div class=\"logo\">\r\n        <img src=\"assets/icons/blue/zano-logo.svg\"\r\n             alt=\"zano-logo\">\r\n    </div>\r\n\r\n    <form *ngIf=\"type === 'reg'\"\r\n          class=\"form\"\r\n          [formGroup]=\"regForm\"\r\n          (ngSubmit)=\"onSubmitCreatePass()\">\r\n        <div class=\"form__field--wrapper pt-2 pl-2 pr-2 pb-1 mb-2\">\r\n            <div class=\"form__field mb-2\">\r\n                <label for=\"master-pass\">{{ 'LOGIN.SETUP_MASTER_PASS' | translate }}</label>\r\n                <input class=\"form__field--input\"\r\n                       type=\"password\"\r\n                       id=\"master-pass\"\r\n                       formControlName=\"password\"\r\n                       placeholder=\"{{ 'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate }}\"\r\n                       (contextmenu)=\"variablesService.onContextMenuPasteSelect($event)\">\r\n                <div class=\"error\"\r\n                     *ngIf=\"regForm.controls['password'].dirty && regForm.controls['password'].errors\">\r\n                    <div *ngIf=\"regForm.controls['password'].errors.pattern\">\r\n                        {{ 'ERRORS.WRONG_PASSWORD' | translate }}\r\n                    </div>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"form__field\">\r\n                <label for=\"confirm-pass\">{{ 'LOGIN.SETUP_CONFIRM_PASS' | translate }}</label>\r\n                <input class=\"form__field--input\"\r\n                       type=\"password\"\r\n                       id=\"confirm-pass\"\r\n                       placeholder=\"{{ 'PLACEHOLDERS.PLACEHOLDER_CONFIRM' | translate }}\"\r\n                       formControlName=\"confirmation\"\r\n                       (contextmenu)=\"variablesService.onContextMenuPasteSelect($event)\">\r\n                <div class=\"error\"\r\n                     *ngIf=\"regForm.controls['password'].dirty && regForm.controls['confirmation'].dirty && regForm.errors\">\r\n                    <div *ngIf=\"regForm.errors['mismatch']\">\r\n                        {{ 'LOGIN.FORM_ERRORS.MISMATCH' | translate }}\r\n                    </div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n\r\n        <button type=\"submit\"\r\n                class=\"primary big w-100 mb-1\"\r\n                [disabled]=\"!regForm.controls['password'].value.length || !regForm.controls['confirmation'].value.length || (regForm.errors && regForm.errors['mismatch']) || regForm.controls['password'].errors\">{{\r\n            'LOGIN.BUTTON_NEXT' | translate }}</button>\r\n\r\n        <button type=\"button\"\r\n                class=\"primary big w-100\"\r\n                (click)=\"onSkipCreatePass()\"\r\n                [disabled]=\"regForm.controls['password'].value.length || regForm.controls['confirmation'].value.length\">{{\r\n            'LOGIN.BUTTON_SKIP' | translate }}</button>\r\n\r\n    </form>\r\n\r\n    <form *ngIf=\"type !== 'reg'\"\r\n          class=\"form\"\r\n          [formGroup]=\"authForm\"\r\n          (ngSubmit)=\"onSubmitAuthPass()\">\r\n        <div class=\"form__field--wrapper pt-2 pl-2 pr-2 pb-1 mb-2\">\r\n            <div class=\"form__field\">\r\n                <label for=\"master-pass-login\">{{ 'LOGIN.MASTER_PASS' | translate }}</label>\r\n                <input class=\"form__field--input\"\r\n                       type=\"password\"\r\n                       id=\"master-pass-login\"\r\n                       [placeholder]=\"'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate\"\r\n                       formControlName=\"password\"\r\n                       autofocus\r\n                       (contextmenu)=\"variablesService.onContextMenuPasteSelect($event)\">\r\n            </div>\r\n        </div>\r\n        <button type=\"submit\"\r\n                class=\"primary big w-100 mb-1\">\r\n            {{'LOGIN.BUTTON_NEXT' | translate }}</button>\r\n\r\n        <button type=\"button\"\r\n                class=\"outline big w-100\"\r\n                (click)=\"dropSecureAppData()\">\r\n            {{ 'LOGIN.BUTTON_RESET' | translate }}</button>\r\n    </form>\r\n\r\n</div>\r\n\r\n<app-synchronization-status class=\"max-w-19-rem\"></app-synchronization-status>\r\n"
+module.exports = "<div class=\"auth flex flex__justify-center flex__align-center w-100 h-100\">\r\n    <div class=\"card max-w-42-rem max-h-100 w-100 p-2 border-radius-0_8-rem bg-light-blue overflow-x-hidden overflow-y-auto\">\r\n\r\n        <div class=\"logo flex flex__justify-center border-radius-0_8-rem overflow-hidden mb-3\">\r\n            <img src=\"assets/icons/blue/zano-logo.svg\"\r\n                 alt=\"zano-logo\">\r\n        </div>\r\n\r\n        <form *ngIf=\"type === 'reg'\"\r\n              class=\"form bg-light-blue-details\"\r\n              [formGroup]=\"regForm\"\r\n              (ngSubmit)=\"onSubmitCreatePass()\">\r\n            <div class=\"form__field--wrapper pt-2 pl-2 pr-2 pb-1 mb-2 bg-light-blue-details border-radius-0_8-rem overflow-hidden\">\r\n                <div class=\"form__field mb-2\">\r\n                    <label for=\"master-pass\">{{ 'LOGIN.SETUP_MASTER_PASS' | translate }}</label>\r\n                    <input class=\"form__field--input\"\r\n                           type=\"password\"\r\n                           id=\"master-pass\"\r\n                           formControlName=\"password\"\r\n                           placeholder=\"{{ 'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate }}\"\r\n                           (contextmenu)=\"variablesService.onContextMenuPasteSelect($event)\">\r\n                    <div class=\"error\"\r\n                         *ngIf=\"regForm.controls['password'].dirty && regForm.controls['password'].errors\">\r\n                        <div *ngIf=\"regForm.controls['password'].errors.pattern\">\r\n                            {{ 'ERRORS.WRONG_PASSWORD' | translate }}\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n\r\n                <div class=\"form__field\">\r\n                    <label for=\"confirm-pass\">{{ 'LOGIN.SETUP_CONFIRM_PASS' | translate }}</label>\r\n                    <input class=\"form__field--input\"\r\n                           type=\"password\"\r\n                           id=\"confirm-pass\"\r\n                           placeholder=\"{{ 'PLACEHOLDERS.PLACEHOLDER_CONFIRM' | translate }}\"\r\n                           formControlName=\"confirmation\"\r\n                           (contextmenu)=\"variablesService.onContextMenuPasteSelect($event)\">\r\n                    <div class=\"error\"\r\n                         *ngIf=\"regForm.controls['password'].dirty && regForm.controls['confirmation'].dirty && regForm.errors\">\r\n                        <div *ngIf=\"regForm.errors['mismatch']\">\r\n                            {{ 'LOGIN.FORM_ERRORS.MISMATCH' | translate }}\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n\r\n            <button type=\"submit\"\r\n                    class=\"primary big w-100 mb-1\"\r\n                    [disabled]=\"!regForm.controls['password'].value.length || !regForm.controls['confirmation'].value.length || (regForm.errors && regForm.errors['mismatch']) || regForm.controls['password'].errors\">{{\r\n                'LOGIN.BUTTON_NEXT' | translate }}</button>\r\n\r\n            <button type=\"button\"\r\n                    class=\"primary big w-100\"\r\n                    (click)=\"onSkipCreatePass()\"\r\n                    [disabled]=\"regForm.controls['password'].value.length || regForm.controls['confirmation'].value.length\">{{\r\n                'LOGIN.BUTTON_SKIP' | translate }}</button>\r\n\r\n        </form>\r\n\r\n        <form *ngIf=\"type !== 'reg'\"\r\n              class=\"form\"\r\n              [formGroup]=\"authForm\"\r\n              (ngSubmit)=\"onSubmitAuthPass()\">\r\n            <div class=\"form__field--wrapper pt-2 pl-2 pr-2 pb-1 mb-2 bg-light-blue-details border-radius-0_8-rem overflow-hidden\">\r\n                <div class=\"form__field\">\r\n                    <label for=\"master-pass-login\">{{ 'LOGIN.MASTER_PASS' | translate }}</label>\r\n                    <input class=\"form__field--input\"\r\n                           type=\"password\"\r\n                           id=\"master-pass-login\"\r\n                           [placeholder]=\"'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate\"\r\n                           formControlName=\"password\"\r\n                           autofocus\r\n                           (contextmenu)=\"variablesService.onContextMenuPasteSelect($event)\">\r\n                    <div class=\"error\"\r\n                         *ngIf=\"authForm.controls['password'].invalid && (authForm.controls['password'].dirty || authForm.controls['password'].touched)\">\r\n                        <div *ngIf=\"authForm.controls['password'].hasError('wrong_password')\">\r\n                            {{ 'LOGIN.FORM_ERRORS.INVALID_PASS' | translate }}\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n            <button type=\"submit\"\r\n                    class=\"primary big w-100 mb-1\">\r\n                {{'LOGIN.BUTTON_NEXT' | translate }}</button>\r\n\r\n            <button type=\"button\"\r\n                    class=\"outline big w-100\"\r\n                    (click)=\"dropSecureAppData()\">\r\n                {{ 'LOGIN.BUTTON_RESET' | translate }}</button>\r\n        </form>\r\n    </div>\r\n\r\n    <app-synchronization-status class=\"max-w-19-rem\"></app-synchronization-status>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -7071,7 +7716,7 @@ module.exports = "<div class=\"wrapper p-2\">\r\n\r\n    <div class=\"logo\">\r\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL2xvZ2luL2xvZ2luLmNvbXBvbmVudC5zY3NzIn0= */"
+module.exports = ":host {\n  width: 100%;\n  height: 100%;\n  overflow: hidden; }\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvbG9naW4vRDpcXFdvcmtcXHphbm9fdWlcXGh0bWxfc291cmNlL3NyY1xcYXBwXFxsb2dpblxcbG9naW4uY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxXQUFXO0VBQ1gsWUFBWTtFQUNaLGdCQUFnQixFQUFBIiwiZmlsZSI6InNyYy9hcHAvbG9naW4vbG9naW4uY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyI6aG9zdCB7XHJcbiAgd2lkdGg6IDEwMCU7XHJcbiAgaGVpZ2h0OiAxMDAlO1xyXG4gIG92ZXJmbG93OiBoaWRkZW47XHJcbn1cclxuIl19 */"
 
 /***/ }),
 
@@ -7189,6 +7834,11 @@ var LoginComponent = /** @class */ (function () {
                             _this.router.navigate(['/'], { queryParams: { prevUrl: 'login' } });
                         });
                     }
+                    else {
+                        _this.ngZone.run(function () {
+                            _this.setAuthPassError({ wrong_password: true });
+                        });
+                    }
                 });
             }
             else {
@@ -7200,6 +7850,7 @@ var LoginComponent = /** @class */ (function () {
         var _this = this;
         this.backend.getSecureAppData({ pass: appPass }, function (status, data) {
             if (!data.error_code) {
+                _this.setAuthPassError(null);
                 _this.variablesService.appLogin = true;
                 _this.variablesService.dataIsLoaded = true;
                 if (_this.variablesService.settings.appLockTime) {
@@ -7241,7 +7892,15 @@ var LoginComponent = /** @class */ (function () {
                     }
                 }
             }
+            if (data.error_code === 'WRONG_PASSWORD') {
+                _this.ngZone.run(function () {
+                    _this.setAuthPassError({ wrong_password: true });
+                });
+            }
         });
+    };
+    LoginComponent.prototype.setAuthPassError = function (errors) {
+        this.authForm.controls['password'].setErrors(errors);
     };
     LoginComponent.prototype.getWalletData = function (walletData) {
         var _this = this;
@@ -7724,16 +8383,18 @@ var OpenWalletComponent = /** @class */ (function () {
 /*!**************************!*\
   !*** ./src/app/paths.ts ***!
   \**************************/
-/*! exports provided: paths, pathChildrenWallet, pathChildrenContracts */
+/*! exports provided: paths, pathsChildrenAuth, pathsChildrenWallet, pathsChildrenContracts */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "paths", function() { return paths; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "pathChildrenWallet", function() { return pathChildrenWallet; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "pathChildrenContracts", function() { return pathChildrenContracts; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "pathsChildrenAuth", function() { return pathsChildrenAuth; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "pathsChildrenWallet", function() { return pathsChildrenWallet; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "pathsChildrenContracts", function() { return pathsChildrenContracts; });
 var paths;
 (function (paths) {
+    paths["auth"] = "auth";
     paths["addWallet"] = "add-wallet";
     paths["login"] = "login";
     paths["wallet"] = "wallet";
@@ -7754,18 +8415,22 @@ var paths;
     paths["deeplink"] = "deeplink";
     paths["uiKit"] = "ui-kit";
 })(paths || (paths = {}));
-var pathChildrenWallet;
-(function (pathChildrenWallet) {
-    pathChildrenWallet["send"] = "send";
-    pathChildrenWallet["receive"] = "receive";
-    pathChildrenWallet["history"] = "history";
-    pathChildrenWallet["contracts"] = "contracts";
-    pathChildrenWallet["staking"] = "staking";
-})(pathChildrenWallet || (pathChildrenWallet = {}));
-var pathChildrenContracts;
-(function (pathChildrenContracts) {
-    pathChildrenContracts["purchase"] = "purchase";
-})(pathChildrenContracts || (pathChildrenContracts = {}));
+var pathsChildrenAuth;
+(function (pathsChildrenAuth) {
+    pathsChildrenAuth["noWallet"] = "no-wallet";
+})(pathsChildrenAuth || (pathsChildrenAuth = {}));
+var pathsChildrenWallet;
+(function (pathsChildrenWallet) {
+    pathsChildrenWallet["send"] = "send";
+    pathsChildrenWallet["receive"] = "receive";
+    pathsChildrenWallet["history"] = "history";
+    pathsChildrenWallet["contracts"] = "contracts";
+    pathsChildrenWallet["staking"] = "staking";
+})(pathsChildrenWallet || (pathsChildrenWallet = {}));
+var pathsChildrenContracts;
+(function (pathsChildrenContracts) {
+    pathsChildrenContracts["purchase"] = "purchase";
+})(pathsChildrenContracts || (pathsChildrenContracts = {}));
 
 
 /***/ }),
@@ -7777,7 +8442,7 @@ var pathChildrenContracts;
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container flex flex__direction-column flex__justify-center flex__align-center w-100 h-100 overflow-hidden\">\r\n    <div class=\"breadcrumbs mb-2\">\r\n        <div class=\"breadcrumb\">\r\n            <a [routerLink]=\"'/wallet/contracts'\">{{ 'BREADCRUMBS.CONTRACTS' | translate }}</a>\r\n        </div>\r\n        <div class=\"breadcrumb\"\r\n             *ngIf=\"newPurchase\">\r\n            <span>{{ 'BREADCRUMBS.NEW_PURCHASE' | translate }}</span>\r\n        </div>\r\n        <div class=\"breadcrumb\"\r\n             *ngIf=\"!newPurchase\">\r\n            <span>{{ 'BREADCRUMBS.OLD_PURCHASE' | translate }}</span>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"form-wrap w-100 flex_1_1_auto overflow-x-hidden overflow-y-auto\">\r\n        <form class=\"form\"\r\n              [formGroup]=\"purchaseForm\">\r\n            <div class=\"form__field\">\r\n                <label for=\"purchase-description\">{{ 'PURCHASE.DESCRIPTION' | translate }}</label>\r\n                <input class=\"form__field--input\"\r\n                       type=\"text\"\r\n                       id=\"purchase-description\"\r\n                       formControlName=\"description\"\r\n                       [placeholder]=\"'PLACEHOLDERS.DESCRIPTION_PLACEHOLDER' | translate\"\r\n                       maxlength=\"100\"\r\n                       [readonly]=\"!newPurchase\"\r\n                       (contextmenu)=\"variablesService.onContextMenu($event)\">\r\n                <div class=\"error\"\r\n                     *ngIf=\"purchaseForm.controls['description'].invalid && (purchaseForm.controls['description'].dirty || purchaseForm.controls['description'].touched)\">\r\n                    <div *ngIf=\"newPurchase && purchaseForm.controls['description'].value.length >= 100\">\r\n                        {{ 'PURCHASE.FORM_ERRORS.COMMENT_MAXIMUM' | translate }}\r\n                    </div>\r\n                    <div *ngIf=\"purchaseForm.controls['description'].hasError('required')\">\r\n                        {{ 'PURCHASE.FORM_ERRORS.DESC_REQUIRED' | translate }}\r\n                    </div>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"form__field--row\">\r\n                <div class=\"form__field form__field-alias\">\r\n                    <label for=\"purchase-seller\">{{ 'PURCHASE.SELLER' | translate }}</label>\r\n                    <input class=\"form__field--input\"\r\n                           type=\"text\"\r\n                           id=\"purchase-seller\"\r\n                           [placeholder]=\"'PLACEHOLDERS.SELLER_PLACEHOLDER' | translate\"\r\n                           formControlName=\"seller\"\r\n                           [readonly]=\"!newPurchase\"\r\n                           (mousedown)=\"addressMouseDown($event)\"\r\n                           (contextmenu)=\"(!newPurchase) ? variablesService.onContextMenuOnlyCopy($event, purchaseForm.controls['seller'].value) : variablesService.onContextMenu($event)\">\r\n                    <div class=\"alias-dropdown scrolled-content\"\r\n                         *ngIf=\"isOpen\">\r\n                        <div *ngFor=\"let item of localAliases\"\r\n                             (click)=\"setAlias(item.name)\">{{item.name}}</div>\r\n                    </div>\r\n                    <div class=\"error\"\r\n                         *ngIf=\"purchaseForm.controls['seller'].invalid && (purchaseForm.controls['seller'].dirty || purchaseForm.controls['seller'].touched)\">\r\n                        <div *ngIf=\"purchaseForm.controls['seller'].errors['address_not_valid']\">\r\n                            {{ 'PURCHASE.FORM_ERRORS.SELLER_NOT_VALID' | translate }}\r\n                        </div>\r\n                        <div *ngIf=\"purchaseForm.controls['seller'].errors['address_same']\">\r\n                            {{ 'PURCHASE.FORM_ERRORS.SELLER_SAME' | translate }}\r\n                        </div>\r\n                        <div *ngIf=\"purchaseForm.controls['seller'].errors['alias_not_valid']\">\r\n                            {{ 'PURCHASE.FORM_ERRORS.ALIAS_NOT_VALID' | translate }}\r\n                        </div>\r\n                        <div *ngIf=\"purchaseForm.controls['seller'].hasError('required')\">\r\n                            {{ 'PURCHASE.FORM_ERRORS.SELLER_REQUIRED' | translate }}\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n\r\n                <div class=\"form__field\">\r\n                    <label for=\"purchase-amount\">{{ 'PURCHASE.AMOUNT' | translate }}</label>\r\n                    <input class=\"form__field--input\"\r\n                           type=\"text\"\r\n                           id=\"purchase-amount\"\r\n                           formControlName=\"amount\"\r\n                           [placeholder]=\"'PLACEHOLDERS.AMOUNT_PLACEHOLDER' | translate\"\r\n                           appInputValidate=\"money\"\r\n                           [readonly]=\"!newPurchase\"\r\n                           (contextmenu)=\"variablesService.onContextMenu($event)\">\r\n                    <div class=\"error\"\r\n                         *ngIf=\"purchaseForm.controls['amount'].invalid && (purchaseForm.controls['amount'].dirty || purchaseForm.controls['amount'].touched)\">\r\n                        <div *ngIf=\"purchaseForm.controls['amount'].errors['amount_zero']\">\r\n                            {{ 'PURCHASE.FORM_ERRORS.AMOUNT_ZERO' | translate }}\r\n                        </div>\r\n                        <div *ngIf=\"purchaseForm.controls['amount'].hasError('required')\">\r\n                            {{ 'PURCHASE.FORM_ERRORS.AMOUNT_REQUIRED' | translate }}\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"form__field--row\">\r\n                <div class=\"form__field\">\r\n                    <label for=\"purchase-your-deposit\">{{ ((currentContract && !currentContract.is_a) ? 'PURCHASE.BUYER_DEPOSIT' :\r\n                          'PURCHASE.YOUR_DEPOSIT') | translate }}</label>\r\n                    <input class=\"form__field--input\"\r\n                           type=\"text\"\r\n                           [placeholder]=\"'PLACEHOLDERS.DEPOSIT_PLACEHOLDER' | translate\"\r\n                           id=\"purchase-your-deposit\"\r\n                           formControlName=\"yourDeposit\"\r\n                           appInputValidate=\"money\"\r\n                           [readonly]=\"!newPurchase\"\r\n                           (contextmenu)=\"variablesService.onContextMenu($event)\">\r\n                    <div class=\"error\"\r\n                         *ngIf=\"purchaseForm.controls['yourDeposit'].invalid && (purchaseForm.controls['yourDeposit'].dirty || purchaseForm.controls['yourDeposit'].touched)\">\r\n                        <div *ngIf=\"purchaseForm.controls['yourDeposit'].hasError('required')\">\r\n                            {{ 'PURCHASE.FORM_ERRORS.YOUR_DEPOSIT_REQUIRED' | translate }}\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n\r\n                <div class=\"form__field\">\r\n                    <div>\r\n                        <label for=\"purchase-seller-deposit\">{{ ((currentContract && !currentContract.is_a) ? 'PURCHASE.YOUR_DEPOSIT' :\r\n                              'PURCHASE.SELLER_DEPOSIT') | translate }}\r\n                        </label>\r\n                        <app-checkbox\r\n                              class=\"ml-2\"\r\n                              formControlName=\"sameAmount\"\r\n                              label=\"{{ 'PURCHASE.SAME_AMOUNT' | translate }}\"\r\n                              (emitChange)=\"sameAmountChange()\">\r\n                        </app-checkbox>\r\n                    </div>\r\n                    <input class=\"form__field--input\"\r\n                           type=\"text\"\r\n                           id=\"purchase-seller-deposit\"\r\n                           [value]=\"sameAmountChecked ? purchaseForm.controls['amount'].value : ''\"\r\n                           [placeholder]=\"'PLACEHOLDERS.SELLER_DEPOSIT_PLACEHOLDER' | translate\"\r\n                           formControlName=\"sellerDeposit\"\r\n                           appInputValidate=\"money\"\r\n                           [readonly]=\"!newPurchase\"\r\n                           (contextmenu)=\"variablesService.onContextMenu($event)\">\r\n                    <div class=\"error\"\r\n                         *ngIf=\"purchaseForm.controls['sellerDeposit'].invalid && (purchaseForm.controls['sellerDeposit'].dirty || purchaseForm.controls['sellerDeposit'].touched)\">\r\n                        <div *ngIf=\"purchaseForm.controls['sellerDeposit'].hasError('required')\">\r\n                            {{ 'PURCHASE.FORM_ERRORS.SELLER_DEPOSIT_REQUIRED' | translate }}\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"form__field\">\r\n                <label for=\"purchase-comment\">{{ 'PURCHASE.COMMENT' | translate }}</label>\r\n                <input class=\"form__field--input\"\r\n                       type=\"text\"\r\n                       id=\"purchase-comment\"\r\n                       formControlName=\"comment\"\r\n                       placeholder=\"{{ 'PLACEHOLDERS.COMMENT_PLACEHOLDER' | translate }}\"\r\n                       maxlength=\"100\"\r\n                       [readonly]=\"!newPurchase\"\r\n                       (contextmenu)=\"variablesService.onContextMenu($event)\">\r\n                <div class=\"error\"\r\n                     *ngIf=\"newPurchase && purchaseForm.controls['comment'].value.length >= 100\">\r\n                    <div>\r\n                        {{ 'PURCHASE.FORM_ERRORS.COMMENT_MAXIMUM' | translate }}\r\n                    </div>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"form__field max-w-50-rem\"\r\n                 *ngIf=\"variablesService.appPass\">\r\n                <label for=\"password\">{{ 'LOGIN.MASTER_PASS' | translate }}</label>\r\n                <input class=\"form__field--input\"\r\n                       type=\"password\"\r\n                       id=\"password\"\r\n                       formControlName=\"password\"\r\n                       [readonly]=\"!newPurchase\"\r\n                       [placeholder]=\"'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate\"\r\n                       autofocus\r\n                       (contextmenu)=\"variablesService.onContextMenuPasteSelect($event)\"/>\r\n                <div class=\"error\"\r\n                     *ngIf=\"purchaseForm.controls['password'].invalid && (purchaseForm.controls['password'].dirty || purchaseForm.controls['password'].touched)\">\r\n                    <div *ngIf=\"purchaseForm.controls['password'].hasError('required')\">\r\n                        {{ 'LOGIN.FORM_ERRORS.PASS_REQUIRED' | translate }}\r\n                    </div>\r\n                </div>\r\n\r\n                <div class=\"error\"\r\n                     *ngIf=\"purchaseForm.controls.password.errors && purchaseForm.controls.password.errors.password_not_match\">\r\n                    <div>\r\n                        {{ 'LOGIN.FORM_ERRORS.MISMATCH' | translate }}\r\n                    </div>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"details mb-2\">\r\n                <button type=\"button\"\r\n                        class=\"header\"\r\n                        [class.border-radius-all]=\"!additionalOptions\"\r\n                        (click)=\"toggleOptions()\">\r\n                    <span>{{ 'PURCHASE.DETAILS'| translate }}</span>\r\n                    <i class=\"icon ml-1\"\r\n                       [class.dropdown-arrow-down]=\"!additionalOptions\"\r\n                       [class.dropdown-arrow-up]=\"additionalOptions\"></i>\r\n                </button>\r\n\r\n                <div class=\"content\"\r\n                     *ngIf=\"additionalOptions\">\r\n                    <div class=\"form__field--row\">\r\n                        <div class=\"form__field\">\r\n                            <label for=\"purchase-fee\">{{ 'PURCHASE.FEE' | translate }}</label>\r\n                            <input class=\"form__field--input\"\r\n                                   type=\"text\"\r\n                                   id=\"purchase-fee\"\r\n                                   formControlName=\"fee\"\r\n                                   readonly>\r\n                        </div>\r\n                        <div class=\"form__field\"\r\n                             *ngIf=\"newPurchase\">\r\n                            <label for=\"purchase-time\">{{ 'PURCHASE.WAITING_TIME' | translate }}</label>\r\n                            <ng-select id=\"purchase-time\"\r\n                                       class=\"custom-select\"\r\n                                       [clearable]=\"false\"\r\n                                       [searchable]=\"false\"\r\n                                       formControlName=\"time\">\r\n                                <ng-option [value]=\"1\">1 {{ 'PURCHASE.HOUR' | translate }}</ng-option>\r\n                                <ng-option *ngFor=\"let title of [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]\"\r\n                                           [value]=\"title\">\r\n                                    {{title}} {{ 'PURCHASE.HOURS' | translate }}\r\n                                </ng-option>\r\n                            </ng-select>\r\n                        </div>\r\n                        <div class=\"form__field\">\r\n                            <label for=\"purchase-payment\">{{ 'PURCHASE.PAYMENT' | translate }}</label>\r\n                            <input class=\"form__field--input\"\r\n                                   type=\"text\"\r\n                                   id=\"purchase-payment\"\r\n                                   placeholder=\"{{ 'PLACEHOLDERS.PURCHASE_PAYMENT_PLACEHOLDER' | translate }}\"\r\n                                   formControlName=\"payment\"\r\n                                   [readonly]=\"!newPurchase\"\r\n                                   (contextmenu)=\"variablesService.onContextMenu($event)\">\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n\r\n            <button type=\"button\"\r\n                    class=\"primary big max-w-19-rem w-100\"\r\n                    *ngIf=\"newPurchase\"\r\n                    [disabled]=\"!purchaseForm.valid\"\r\n                    (click)=\"createPurchase()\">{{ 'PURCHASE.SEND_BUTTON' | translate }}</button>\r\n\r\n            <div class=\"purchase-states flex flex__direction-column flex__justify-center flex__align-center mt-2 mb-2\"\r\n                 *ngIf=\"!newPurchase\">\r\n                <ng-container\r\n                      *ngIf=\"currentContract.state == 1 && !currentContract.is_a && currentContract.private_detailes.b_pledge.plus(variablesService.default_fee_big).plus(variablesService.default_fee_big).isGreaterThan(variablesService.currentWallet.unlocked_balance)\">\r\n                    <span>{{ 'PURCHASE.NEED_MONEY' | translate }}</span>\r\n                </ng-container>\r\n            </div>\r\n\r\n            <div class=\"purchase-buttons flex flex__justify-start\"\r\n                 *ngIf=\"!newPurchase\">\r\n\r\n                <ng-container *ngIf=\"!currentContract.is_a && currentContract.state == 1\">\r\n                    <button type=\"button\"\r\n                            class=\"primary big\"\r\n                            (click)=\"acceptState();\"\r\n                            [disabled]=\"currentContract.private_detailes.b_pledge.plus(variablesService.default_fee_big).plus(variablesService.default_fee_big).isGreaterThan(variablesService.currentWallet.unlocked_balance)\">\r\n                        {{'PURCHASE.BUTTON_MAKE_PLEDGE' | translate}}\r\n                    </button>\r\n                    <button type=\"button\"\r\n                            class=\"outline big\"\r\n                            (click)=\"ignoredContract();\">\r\n                        {{'PURCHASE.BUTTON_IGNORE' | translate}}\r\n                    </button>\r\n                </ng-container>\r\n\r\n                <ng-container\r\n                      *ngIf=\"!showNullify && !showTimeSelect && currentContract.is_a && (currentContract.state == 201 || currentContract.state == 2 || currentContract.state == 120 || currentContract.state == 130)\">\r\n                    <button type=\"button\"\r\n                            class=\"primary big\"\r\n                            (click)=\"dealsDetailsFinish();\"\r\n                            [disabled]=\"currentContract.cancel_expiration_time == 0 && (currentContract.height == 0 || (variablesService.height_app - currentContract.height) < 10)\">\r\n                        {{'PURCHASE.BUTTON_RECEIVED' | translate}}\r\n                    </button>\r\n                    <button type=\"button\"\r\n                            class=\"outline big\"\r\n                            (click)=\"showNullify = true;\"\r\n                            [disabled]=\"currentContract.cancel_expiration_time == 0 && (currentContract.height == 0 || (variablesService.height_app - currentContract.height) < 10)\">\r\n                        {{'PURCHASE.BUTTON_NULLIFY' | translate}}\r\n                    </button>\r\n                    <button type=\"button\"\r\n                            class=\"outline big\"\r\n                            (click)=\"showTimeSelect = true;\"\r\n                            [disabled]=\"currentContract.cancel_expiration_time == 0 && (currentContract.height == 0 || (variablesService.height_app - currentContract.height) < 10)\">\r\n                        {{'PURCHASE.BUTTON_CANCEL_BUYER' | translate}}\r\n                    </button>\r\n                </ng-container>\r\n\r\n                <ng-container *ngIf=\"!currentContract.is_a && currentContract.state == 5\">\r\n                    <button type=\"button\"\r\n                            class=\"outline big\"\r\n                            (click)=\"dealsDetailsDontCanceling();\">\r\n                        {{'PURCHASE.BUTTON_NOT_CANCEL' | translate}}\r\n                    </button>\r\n                    <button type=\"button\"\r\n                            class=\"primary big\"\r\n                            (click)=\"dealsDetailsSellerCancel();\">\r\n                        {{'PURCHASE.BUTTON_CANCEL_SELLER' | translate}}\r\n                    </button>\r\n                </ng-container>\r\n            </div>\r\n\r\n            <div class=\"nullify-block-row flex flex__direction-column flex__justify-center flex__align-center\"\r\n                 *ngIf=\"showNullify\">\r\n                <div>{{'PURCHASE.NULLIFY_QUESTION' | translate}}</div>\r\n                <div class=\"nullify-block-buttons flex flex__justify-center flex__align-center my-1 mx-0 w-100\">\r\n                    <button type=\"button\"\r\n                            class=\"primary big\"\r\n                            (click)=\"showNullify = false;\">{{ 'PURCHASE.CANCEL' | translate\r\n                        }}</button>\r\n                    <button type=\"button\"\r\n                            class=\"primary big\"\r\n                            (click)=\"productNotGot();\">{{ 'PURCHASE.BUTTON_NULLIFY_SHORT' |\r\n                          translate }}</button>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"time-cancel-block-row flex flex__direction-column flex__justify-center flex__align-center\"\r\n                 *ngIf=\"showTimeSelect && !newPurchase && currentContract.is_a && (currentContract.state == 201 || currentContract.state == 2 || currentContract.state == 120 || currentContract.state == 130)\">\r\n                <div class=\"time-cancel-block-question mb-1\">{{ 'PURCHASE.WAITING_TIME_QUESTION' | translate }}</div>\r\n                <label class=\"mb-1\" for=\"purchase-timeCancel\">{{ 'PURCHASE.WAITING_TIME' | translate }}</label>\r\n                <div class=\"form__field\">\r\n                    <ng-select id=\"purchase-timeCancel\"\r\n                               [clearable]=\"false\"\r\n                               [searchable]=\"false\"\r\n                               formControlName=\"timeCancel\">\r\n                        <ng-option [value]=\"1\">1 {{ 'PURCHASE.HOUR' | translate }}</ng-option>\r\n                        <ng-option *ngFor=\"let title of [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]\"\r\n                                   [value]=\"title\">\r\n                            {{title}} {{ 'PURCHASE.HOURS' | translate }}\r\n                        </ng-option>\r\n                    </ng-select>\r\n                </div>\r\n                <div class=\"time-cancel-block-buttons flex flex__justify-center flex__align-center my-1 mx-0 w-100\">\r\n                    <button type=\"button\"\r\n                            class=\"outline big\"\r\n                            (click)=\"showTimeSelect = false;\">{{ 'PURCHASE.CANCEL' | translate\r\n                        }}</button>\r\n                    <button type=\"button\"\r\n                            class=\"primary big\"\r\n                            (click)=\"dealsDetailsCancel();\">{{ 'PURCHASE.BUTTON_CANCEL_BUYER' |\r\n                          translate }}</button>\r\n                </div>\r\n            </div>\r\n\r\n        </form>\r\n    </div>\r\n\r\n    <div class=\"progress-bar-container\">\r\n        <div class=\"progress-bar\">\r\n            <div class=\"progress-bar-full\"\r\n                 [style.width]=\"getProgressBarWidth()\"></div>\r\n        </div>\r\n        <div class=\"progress-labels flex flex__justify-center flex__align-center h-100\">\r\n            <ng-container *ngIf=\"newPurchase\">\r\n                <span>{{ 'PURCHASE.STATUS_MESSAGES.NEW_PURCHASE' | translate }}</span>\r\n            </ng-container>\r\n\r\n            <ng-container *ngIf=\"!newPurchase && currentContract.is_a\">\r\n                <span *ngIf=\"currentContract.state == 1\">{{ 'PURCHASE.STATUS_MESSAGES.WAITING_SELLER' | translate }}</span>\r\n                <span *ngIf=\"currentContract.state == 110\">{{ 'PURCHASE.STATUS_MESSAGES.IGNORED_SELLER' | translate }}</span>\r\n                <span *ngIf=\"currentContract.state == 120\">{{ 'PURCHASE.STATUS_MESSAGES.WAITING_DELIVERY' | translate }}</span>\r\n                <span *ngIf=\"currentContract.state == 130\">{{ 'PURCHASE.STATUS_MESSAGES.IGNORED_CANCEL_SELLER' | translate\r\n                    }}</span>\r\n                <span *ngIf=\"currentContract.state == 140\">{{ 'PURCHASE.STATUS_MESSAGES.EXPIRED' | translate }}</span>\r\n                <span *ngIf=\"currentContract.state == 2\">{{ 'PURCHASE.STATUS_MESSAGES.WAITING_SELLER' | translate }}</span>\r\n                <span *ngIf=\"currentContract.state == 201\">{{ 'PURCHASE.STATUS_MESSAGES.WAITING_CONFIRMATION' | translate }}\r\n                    <ng-container *ngIf=\"currentContract.height === 0\">(0/10)</ng-container>\r\n        <ng-container\r\n              *ngIf=\"currentContract.height !== 0 && (variablesService.height_app - currentContract.height) < 10\">\r\n          ({{variablesService.height_app - currentContract.height}}/10)</ng-container>\r\n      </span>\r\n                <span *ngIf=\"currentContract.state == 3\">{{ 'PURCHASE.STATUS_MESSAGES.COMPLETED' | translate }}</span>\r\n                <span *ngIf=\"currentContract.state == 4\"\r\n                      class=\"color-red\">\r\n        {{ 'PURCHASE.STATUS_MESSAGES.NOT_RECEIVED' | translate }}. {{ 'PURCHASE.STATUS_MESSAGES.NULLIFIED' | translate\r\n                    }}\r\n      </span>\r\n                <span *ngIf=\"currentContract.state == 5\">{{ 'PURCHASE.STATUS_MESSAGES.PROPOSAL_CANCEL_SELLER' | translate\r\n                    }}</span>\r\n                <span *ngIf=\"currentContract.state == 6\">{{ 'PURCHASE.STATUS_MESSAGES.CANCELLED' | translate }}</span>\r\n                <span *ngIf=\"currentContract.state == 601\">\r\n        {{ 'PURCHASE.STATUS_MESSAGES.BEING_CANCELLED' | translate }}\r\n                    <ng-container *ngIf=\"currentContract.height === 0\">(0/10)</ng-container>\r\n        <ng-container\r\n              *ngIf=\"currentContract.height !== 0 && (variablesService.height_app - currentContract.height) < 10\">\r\n          ({{variablesService.height_app - currentContract.height}}/10)</ng-container>\r\n      </span>\r\n            </ng-container>\r\n\r\n            <ng-container *ngIf=\"!newPurchase && !currentContract.is_a\">\r\n                <span *ngIf=\"currentContract.state == 1\">{{ 'PURCHASE.STATUS_MESSAGES.WAITING_BUYER' | translate }}</span>\r\n                <span *ngIf=\"currentContract.state == 110\">{{ 'PURCHASE.STATUS_MESSAGES.IGNORED_BUYER' | translate }}</span>\r\n                <span *ngIf=\"currentContract.state == 130\">{{ 'PURCHASE.STATUS_MESSAGES.IGNORED_CANCEL_BUYER' | translate\r\n                    }}</span>\r\n                <span *ngIf=\"currentContract.state == 140\">{{ 'PURCHASE.STATUS_MESSAGES.EXPIRED' | translate }}</span>\r\n                <span *ngIf=\"currentContract.state == 2\">{{ 'PURCHASE.STATUS_MESSAGES.WAITING_DELIVERY' | translate }}</span>\r\n                <span *ngIf=\"currentContract.state == 201\">\r\n        {{ 'PURCHASE.STATUS_MESSAGES.WAITING_CONFIRMATION' | translate }}\r\n                    <ng-container *ngIf=\"currentContract.height === 0\">(0/10)</ng-container>\r\n        <ng-container\r\n              *ngIf=\"currentContract.height !== 0 && (variablesService.height_app - currentContract.height) < 10\">\r\n          ({{variablesService.height_app - currentContract.height}}/10)</ng-container>\r\n      </span>\r\n                <span *ngIf=\"currentContract.state == 3\">{{ 'PURCHASE.STATUS_MESSAGES.COMPLETED' | translate }}</span>\r\n                <span *ngIf=\"currentContract.state == 4\"\r\n                      class=\"color-red\">\r\n        {{ 'PURCHASE.STATUS_MESSAGES.NOT_RECEIVED' | translate }}. {{ 'PURCHASE.STATUS_MESSAGES.NULLIFIED' | translate}}\r\n      </span>\r\n                <span *ngIf=\"currentContract.state == 5\">{{ 'PURCHASE.STATUS_MESSAGES.PROPOSAL_CANCEL_BUYER' | translate }}</span>\r\n                <span *ngIf=\"currentContract.state == 6\">{{ 'PURCHASE.STATUS_MESSAGES.CANCELLED' | translate }}</span>\r\n                <span *ngIf=\"currentContract.state == 601\">\r\n        {{ 'PURCHASE.STATUS_MESSAGES.BEING_CANCELLED' | translate }}\r\n                    <ng-container *ngIf=\"currentContract.height === 0\">(0/10)</ng-container>\r\n        <ng-container\r\n              *ngIf=\"currentContract.height !== 0 && (variablesService.height_app - currentContract.height) < 10\">\r\n          ({{variablesService.height_app - currentContract.height}}/10)</ng-container>\r\n      </span>\r\n            </ng-container>\r\n        </div>\r\n        <div class=\"progress-time\"\r\n             *ngIf=\"!newPurchase\">\r\n            <span *ngIf=\"currentContract.is_a && currentContract.state == 1\">\r\n                {{currentContract.expiration_time | contractTimeLeft: 0}}\r\n            </span>\r\n            <span *ngIf=\"currentContract.is_a && currentContract.state == 5\">\r\n                {{currentContract.cancel_expiration_time | contractTimeLeft: 2}}\r\n            </span>\r\n            <span *ngIf=\"!currentContract.is_a && currentContract.state == 1\">\r\n                {{currentContract.expiration_time | contractTimeLeft: 1}}\r\n            </span>\r\n            <span *ngIf=\"!currentContract.is_a && currentContract.state == 5\">\r\n                {{currentContract.cancel_expiration_time | contractTimeLeft: 1}}\r\n            </span>\r\n        </div>\r\n    </div>\r\n</div>\r\n"
+module.exports = "<div class=\"container flex flex__direction-column flex__justify-center flex__align-center w-100 h-100 overflow-hidden\">\r\n    <div class=\"breadcrumbs mb-2\">\r\n        <div class=\"breadcrumb\">\r\n            <a [routerLink]=\"'/wallet/contracts'\">{{ 'BREADCRUMBS.CONTRACTS' | translate }}</a>\r\n        </div>\r\n        <div class=\"breadcrumb\"\r\n             *ngIf=\"newPurchase\">\r\n            <span>{{ 'BREADCRUMBS.NEW_PURCHASE' | translate }}</span>\r\n        </div>\r\n        <div class=\"breadcrumb\"\r\n             *ngIf=\"!newPurchase\">\r\n            <span>{{ 'BREADCRUMBS.OLD_PURCHASE' | translate }}</span>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"form-wrap w-100 flex_1_1_auto overflow-x-hidden overflow-y-auto\">\r\n        <form class=\"form\"\r\n              [formGroup]=\"purchaseForm\">\r\n            <div class=\"form__field\">\r\n                <label for=\"purchase-description\">{{ 'PURCHASE.DESCRIPTION' | translate }}</label>\r\n                <input class=\"form__field--input\"\r\n                       type=\"text\"\r\n                       id=\"purchase-description\"\r\n                       formControlName=\"description\"\r\n                       [placeholder]=\"'PLACEHOLDERS.DESCRIPTION_PLACEHOLDER' | translate\"\r\n                       maxlength=\"100\"\r\n                       [readonly]=\"!newPurchase\"\r\n                       (contextmenu)=\"variablesService.onContextMenu($event)\">\r\n                <div class=\"error\"\r\n                     *ngIf=\"purchaseForm.controls['description'].invalid && (purchaseForm.controls['description'].dirty || purchaseForm.controls['description'].touched)\">\r\n                    <div *ngIf=\"newPurchase && purchaseForm.controls['description'].value.length >= 100\">\r\n                        {{ 'PURCHASE.FORM_ERRORS.COMMENT_MAXIMUM' | translate }}\r\n                    </div>\r\n                    <div *ngIf=\"purchaseForm.controls['description'].hasError('required')\">\r\n                        {{ 'PURCHASE.FORM_ERRORS.DESC_REQUIRED' | translate }}\r\n                    </div>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"form__field--row\">\r\n                <div class=\"form__field form__field-alias\">\r\n                    <label for=\"purchase-seller\">{{ 'PURCHASE.SELLER' | translate }}</label>\r\n                    <input class=\"form__field--input\"\r\n                           type=\"text\"\r\n                           id=\"purchase-seller\"\r\n                           [placeholder]=\"'PLACEHOLDERS.SELLER_PLACEHOLDER' | translate\"\r\n                           formControlName=\"seller\"\r\n                           [readonly]=\"!newPurchase\"\r\n                           (mousedown)=\"addressMouseDown($event)\"\r\n                           (contextmenu)=\"(!newPurchase) ? variablesService.onContextMenuOnlyCopy($event, purchaseForm.controls['seller'].value) : variablesService.onContextMenu($event)\">\r\n                    <div class=\"alias-dropdown scrolled-content\"\r\n                         *ngIf=\"isOpen\">\r\n                        <div *ngFor=\"let item of localAliases\"\r\n                             (click)=\"setAlias(item.name)\">{{item.name}}</div>\r\n                    </div>\r\n                    <div class=\"error\"\r\n                         *ngIf=\"purchaseForm.controls['seller'].invalid && (purchaseForm.controls['seller'].dirty || purchaseForm.controls['seller'].touched)\">\r\n                        <div *ngIf=\"purchaseForm.controls['seller'].errors['address_not_valid']\">\r\n                            {{ 'PURCHASE.FORM_ERRORS.SELLER_NOT_VALID' | translate }}\r\n                        </div>\r\n                        <div *ngIf=\"purchaseForm.controls['seller'].errors['address_same']\">\r\n                            {{ 'PURCHASE.FORM_ERRORS.SELLER_SAME' | translate }}\r\n                        </div>\r\n                        <div *ngIf=\"purchaseForm.controls['seller'].errors['alias_not_valid']\">\r\n                            {{ 'PURCHASE.FORM_ERRORS.ALIAS_NOT_VALID' | translate }}\r\n                        </div>\r\n                        <div *ngIf=\"purchaseForm.controls['seller'].hasError('required')\">\r\n                            {{ 'PURCHASE.FORM_ERRORS.SELLER_REQUIRED' | translate }}\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n\r\n                <div class=\"form__field\">\r\n                    <label for=\"purchase-amount\">{{ 'PURCHASE.AMOUNT' | translate }}</label>\r\n                    <input class=\"form__field--input\"\r\n                           type=\"text\"\r\n                           id=\"purchase-amount\"\r\n                           formControlName=\"amount\"\r\n                           [placeholder]=\"'PLACEHOLDERS.AMOUNT_PLACEHOLDER' | translate\"\r\n                           appInputValidate=\"money\"\r\n                           [readonly]=\"!newPurchase\"\r\n                           (contextmenu)=\"variablesService.onContextMenu($event)\">\r\n                    <div class=\"error\"\r\n                         *ngIf=\"purchaseForm.controls['amount'].invalid && (purchaseForm.controls['amount'].dirty || purchaseForm.controls['amount'].touched)\">\r\n                        <div *ngIf=\"purchaseForm.controls['amount'].errors['amount_zero']\">\r\n                            {{ 'PURCHASE.FORM_ERRORS.AMOUNT_ZERO' | translate }}\r\n                        </div>\r\n                        <div *ngIf=\"purchaseForm.controls['amount'].hasError('required')\">\r\n                            {{ 'PURCHASE.FORM_ERRORS.AMOUNT_REQUIRED' | translate }}\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"form__field--row\">\r\n                <div class=\"form__field\">\r\n                    <label for=\"purchase-your-deposit\">{{ ((currentContract && !currentContract.is_a) ? 'PURCHASE.BUYER_DEPOSIT' :\r\n                          'PURCHASE.YOUR_DEPOSIT') | translate }}</label>\r\n                    <input class=\"form__field--input\"\r\n                           type=\"text\"\r\n                           [placeholder]=\"'PLACEHOLDERS.DEPOSIT_PLACEHOLDER' | translate\"\r\n                           id=\"purchase-your-deposit\"\r\n                           formControlName=\"yourDeposit\"\r\n                           appInputValidate=\"money\"\r\n                           [readonly]=\"!newPurchase\"\r\n                           (contextmenu)=\"variablesService.onContextMenu($event)\">\r\n                    <div class=\"error\"\r\n                         *ngIf=\"purchaseForm.controls['yourDeposit'].invalid && (purchaseForm.controls['yourDeposit'].dirty || purchaseForm.controls['yourDeposit'].touched)\">\r\n                        <div *ngIf=\"purchaseForm.controls['yourDeposit'].hasError('required')\">\r\n                            {{ 'PURCHASE.FORM_ERRORS.YOUR_DEPOSIT_REQUIRED' | translate }}\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n\r\n                <div class=\"form__field\">\r\n                    <div>\r\n                        <label for=\"purchase-seller-deposit\">{{ ((currentContract && !currentContract.is_a) ? 'PURCHASE.YOUR_DEPOSIT' :\r\n                              'PURCHASE.SELLER_DEPOSIT') | translate }}\r\n                        </label>\r\n                        <app-checkbox\r\n                              class=\"ml-2\"\r\n                              formControlName=\"sameAmount\"\r\n                              label=\"{{ 'PURCHASE.SAME_AMOUNT' | translate }}\"\r\n                              (emitChange)=\"sameAmountChange()\">\r\n                        </app-checkbox>\r\n                    </div>\r\n                    <input class=\"form__field--input\"\r\n                           type=\"text\"\r\n                           id=\"purchase-seller-deposit\"\r\n                           [value]=\"sameAmountChecked ? purchaseForm.controls['amount'].value : ''\"\r\n                           [placeholder]=\"'PLACEHOLDERS.SELLER_DEPOSIT_PLACEHOLDER' | translate\"\r\n                           formControlName=\"sellerDeposit\"\r\n                           appInputValidate=\"money\"\r\n                           [readonly]=\"!newPurchase\"\r\n                           (contextmenu)=\"variablesService.onContextMenu($event)\">\r\n                    <div class=\"error\"\r\n                         *ngIf=\"purchaseForm.controls['sellerDeposit'].invalid && (purchaseForm.controls['sellerDeposit'].dirty || purchaseForm.controls['sellerDeposit'].touched)\">\r\n                        <div *ngIf=\"purchaseForm.controls['sellerDeposit'].hasError('required')\">\r\n                            {{ 'PURCHASE.FORM_ERRORS.SELLER_DEPOSIT_REQUIRED' | translate }}\r\n                        </div>\r\n                    </div>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"form__field\">\r\n                <label for=\"purchase-comment\">{{ 'PURCHASE.COMMENT' | translate }}</label>\r\n                <input class=\"form__field--input\"\r\n                       type=\"text\"\r\n                       id=\"purchase-comment\"\r\n                       formControlName=\"comment\"\r\n                       placeholder=\"{{ 'PLACEHOLDERS.COMMENT_PLACEHOLDER' | translate }}\"\r\n                       maxlength=\"100\"\r\n                       [readonly]=\"!newPurchase\"\r\n                       (contextmenu)=\"variablesService.onContextMenu($event)\">\r\n                <div class=\"error\"\r\n                     *ngIf=\"newPurchase && purchaseForm.controls['comment'].value.length >= 100\">\r\n                    <div>\r\n                        {{ 'PURCHASE.FORM_ERRORS.COMMENT_MAXIMUM' | translate }}\r\n                    </div>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"form__field max-w-50-rem\"\r\n                 *ngIf=\"variablesService.appPass\">\r\n                <label for=\"password\">{{ 'LOGIN.MASTER_PASS' | translate }}</label>\r\n                <input class=\"form__field--input\"\r\n                       type=\"password\"\r\n                       id=\"password\"\r\n                       formControlName=\"password\"\r\n                       [readonly]=\"!newPurchase\"\r\n                       [placeholder]=\"'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate\"\r\n                       autofocus\r\n                       (contextmenu)=\"variablesService.onContextMenuPasteSelect($event)\"/>\r\n                <div class=\"error\"\r\n                     *ngIf=\"purchaseForm.controls['password'].invalid && (purchaseForm.controls['password'].dirty || purchaseForm.controls['password'].touched)\">\r\n                    <div *ngIf=\"purchaseForm.controls['password'].hasError('required')\">\r\n                        {{ 'LOGIN.FORM_ERRORS.PASS_REQUIRED' | translate }}\r\n                    </div>\r\n                </div>\r\n\r\n                <div class=\"error\"\r\n                     *ngIf=\"purchaseForm.controls.password.errors && purchaseForm.controls.password.errors.password_not_match\">\r\n                    <div>\r\n                        {{ 'LOGIN.FORM_ERRORS.MISMATCH' | translate }}\r\n                    </div>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"details mb-2\">\r\n                <button type=\"button\"\r\n                        class=\"header\"\r\n                        [class.border-radius-all]=\"!additionalOptions\"\r\n                        (click)=\"toggleOptions()\">\r\n                    <span>{{ 'PURCHASE.DETAILS'| translate }}</span>\r\n                    <i class=\"icon ml-1\"\r\n                       [class.dropdown-arrow-down]=\"!additionalOptions\"\r\n                       [class.dropdown-arrow-up]=\"additionalOptions\"></i>\r\n                </button>\r\n\r\n                <div class=\"content\"\r\n                     *ngIf=\"additionalOptions\">\r\n                    <div class=\"form__field--row\">\r\n                        <div class=\"form__field\">\r\n                            <label for=\"purchase-fee\">{{ 'PURCHASE.FEE' | translate }}</label>\r\n                            <input class=\"form__field--input\"\r\n                                   type=\"text\"\r\n                                   id=\"purchase-fee\"\r\n                                   formControlName=\"fee\"\r\n                                   readonly>\r\n                        </div>\r\n                        <div class=\"form__field\"\r\n                             *ngIf=\"newPurchase\">\r\n                            <label for=\"purchase-time\">{{ 'PURCHASE.WAITING_TIME' | translate }}</label>\r\n                            <ng-select id=\"purchase-time\"\r\n                                       class=\"custom-select\"\r\n                                       [clearable]=\"false\"\r\n                                       [searchable]=\"false\"\r\n                                       formControlName=\"time\">\r\n                                <ng-option [value]=\"1\">1 {{ 'PURCHASE.HOUR' | translate }}</ng-option>\r\n                                <ng-option *ngFor=\"let title of [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]\"\r\n                                           [value]=\"title\">\r\n                                    {{title}} {{ 'PURCHASE.HOURS' | translate }}\r\n                                </ng-option>\r\n                            </ng-select>\r\n                        </div>\r\n                        <div class=\"form__field\">\r\n                            <label for=\"purchase-payment\">{{ 'PURCHASE.PAYMENT' | translate }}</label>\r\n                            <input class=\"form__field--input\"\r\n                                   type=\"text\"\r\n                                   id=\"purchase-payment\"\r\n                                   placeholder=\"{{ 'PLACEHOLDERS.PURCHASE_PAYMENT_PLACEHOLDER' | translate }}\"\r\n                                   formControlName=\"payment\"\r\n                                   [readonly]=\"!newPurchase\"\r\n                                   (contextmenu)=\"variablesService.onContextMenu($event)\">\r\n                        </div>\r\n                    </div>\r\n\r\n<!--                    <app-checkbox class=\"mt-1\"-->\r\n<!--                                  [value]=\"\"-->\r\n<!--                                  formControlName=\"hide\"-->\r\n<!--                                  [label]=\"'SEND.HIDE' | translate\"></app-checkbox>-->\r\n                </div>\r\n            </div>\r\n\r\n            <button type=\"button\"\r\n                    class=\"primary big max-w-19-rem w-100\"\r\n                    *ngIf=\"newPurchase\"\r\n                    [disabled]=\"!purchaseForm.valid\"\r\n                    (click)=\"createPurchase()\">{{ 'PURCHASE.SEND_BUTTON' | translate }}</button>\r\n\r\n            <div class=\"purchase-states flex flex__direction-column flex__justify-center flex__align-center mt-2 mb-2\"\r\n                 *ngIf=\"!newPurchase\">\r\n                <ng-container\r\n                      *ngIf=\"currentContract.state == 1 && !currentContract.is_a && currentContract.private_detailes.b_pledge.plus(variablesService.default_fee_big).plus(variablesService.default_fee_big).isGreaterThan(variablesService.currentWallet.unlocked_balance)\">\r\n                    <span>{{ 'PURCHASE.NEED_MONEY' | translate }}</span>\r\n                </ng-container>\r\n            </div>\r\n\r\n            <div class=\"purchase-buttons flex flex__justify-start\"\r\n                 *ngIf=\"!newPurchase\">\r\n\r\n                <ng-container *ngIf=\"!currentContract.is_a && currentContract.state == 1\">\r\n                    <button type=\"button\"\r\n                            class=\"primary big\"\r\n                            (click)=\"acceptState();\"\r\n                            [disabled]=\"currentContract.private_detailes.b_pledge.plus(variablesService.default_fee_big).plus(variablesService.default_fee_big).isGreaterThan(variablesService.currentWallet.unlocked_balance)\">\r\n                        {{'PURCHASE.BUTTON_MAKE_PLEDGE' | translate}}\r\n                    </button>\r\n                    <button type=\"button\"\r\n                            class=\"outline big\"\r\n                            (click)=\"ignoredContract();\">\r\n                        {{'PURCHASE.BUTTON_IGNORE' | translate}}\r\n                    </button>\r\n                </ng-container>\r\n\r\n                <ng-container\r\n                      *ngIf=\"!showNullify && !showTimeSelect && currentContract.is_a && (currentContract.state == 201 || currentContract.state == 2 || currentContract.state == 120 || currentContract.state == 130)\">\r\n                    <button type=\"button\"\r\n                            class=\"primary big\"\r\n                            (click)=\"dealsDetailsFinish();\"\r\n                            [disabled]=\"currentContract.cancel_expiration_time == 0 && (currentContract.height == 0 || (variablesService.height_app - currentContract.height) < 10)\">\r\n                        {{'PURCHASE.BUTTON_RECEIVED' | translate}}\r\n                    </button>\r\n                    <button type=\"button\"\r\n                            class=\"outline big\"\r\n                            (click)=\"showNullify = true;\"\r\n                            [disabled]=\"currentContract.cancel_expiration_time == 0 && (currentContract.height == 0 || (variablesService.height_app - currentContract.height) < 10)\">\r\n                        {{'PURCHASE.BUTTON_NULLIFY' | translate}}\r\n                    </button>\r\n                    <button type=\"button\"\r\n                            class=\"outline big\"\r\n                            (click)=\"showTimeSelect = true;\"\r\n                            [disabled]=\"currentContract.cancel_expiration_time == 0 && (currentContract.height == 0 || (variablesService.height_app - currentContract.height) < 10)\">\r\n                        {{'PURCHASE.BUTTON_CANCEL_BUYER' | translate}}\r\n                    </button>\r\n                </ng-container>\r\n\r\n                <ng-container *ngIf=\"!currentContract.is_a && currentContract.state == 5\">\r\n                    <button type=\"button\"\r\n                            class=\"outline big\"\r\n                            (click)=\"dealsDetailsDontCanceling();\">\r\n                        {{'PURCHASE.BUTTON_NOT_CANCEL' | translate}}\r\n                    </button>\r\n                    <button type=\"button\"\r\n                            class=\"primary big\"\r\n                            (click)=\"dealsDetailsSellerCancel();\">\r\n                        {{'PURCHASE.BUTTON_CANCEL_SELLER' | translate}}\r\n                    </button>\r\n                </ng-container>\r\n            </div>\r\n\r\n            <div class=\"nullify-block-row flex flex__direction-column flex__justify-center flex__align-center\"\r\n                 *ngIf=\"showNullify\">\r\n                <div>{{'PURCHASE.NULLIFY_QUESTION' | translate}}</div>\r\n                <div class=\"nullify-block-buttons flex flex__justify-center flex__align-center my-1 mx-0 w-100\">\r\n                    <button type=\"button\"\r\n                            class=\"primary big\"\r\n                            (click)=\"showNullify = false;\">{{ 'PURCHASE.CANCEL' | translate\r\n                        }}</button>\r\n                    <button type=\"button\"\r\n                            class=\"primary big\"\r\n                            (click)=\"productNotGot();\">{{ 'PURCHASE.BUTTON_NULLIFY_SHORT' |\r\n                          translate }}</button>\r\n                </div>\r\n            </div>\r\n\r\n            <div class=\"time-cancel-block-row flex flex__direction-column flex__justify-center flex__align-center\"\r\n                 *ngIf=\"showTimeSelect && !newPurchase && currentContract.is_a && (currentContract.state == 201 || currentContract.state == 2 || currentContract.state == 120 || currentContract.state == 130)\">\r\n                <div class=\"time-cancel-block-question mb-1\">{{ 'PURCHASE.WAITING_TIME_QUESTION' | translate }}</div>\r\n                <label class=\"mb-1\" for=\"purchase-timeCancel\">{{ 'PURCHASE.WAITING_TIME' | translate }}</label>\r\n                <div class=\"form__field\">\r\n                    <ng-select id=\"purchase-timeCancel\"\r\n                               [clearable]=\"false\"\r\n                               [searchable]=\"false\"\r\n                               formControlName=\"timeCancel\">\r\n                        <ng-option [value]=\"1\">1 {{ 'PURCHASE.HOUR' | translate }}</ng-option>\r\n                        <ng-option *ngFor=\"let title of [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]\"\r\n                                   [value]=\"title\">\r\n                            {{title}} {{ 'PURCHASE.HOURS' | translate }}\r\n                        </ng-option>\r\n                    </ng-select>\r\n                </div>\r\n                <div class=\"time-cancel-block-buttons flex flex__justify-center flex__align-center my-1 mx-0 w-100\">\r\n                    <button type=\"button\"\r\n                            class=\"outline big\"\r\n                            (click)=\"showTimeSelect = false;\">{{ 'PURCHASE.CANCEL' | translate\r\n                        }}</button>\r\n                    <button type=\"button\"\r\n                            class=\"primary big\"\r\n                            (click)=\"dealsDetailsCancel();\">{{ 'PURCHASE.BUTTON_CANCEL_BUYER' |\r\n                          translate }}</button>\r\n                </div>\r\n            </div>\r\n\r\n        </form>\r\n    </div>\r\n\r\n<!-- TODO - Do not delete, may be needed later. 12.05 decided to temporarily remove.  -->\r\n<!--    <div class=\"progress-bar-container\">-->\r\n<!--        <div class=\"progress-bar\">-->\r\n<!--            <div class=\"progress-bar-full\"-->\r\n<!--                 [style.width]=\"getProgressBarWidth()\"></div>-->\r\n<!--        </div>-->\r\n<!--        <div class=\"progress-labels flex flex__justify-center flex__align-center h-100\">-->\r\n<!--            <ng-container *ngIf=\"newPurchase\">-->\r\n<!--                <span>{{ 'PURCHASE.STATUS_MESSAGES.NEW_PURCHASE' | translate }}</span>-->\r\n<!--            </ng-container>-->\r\n\r\n<!--            <ng-container *ngIf=\"!newPurchase && currentContract.is_a\">-->\r\n<!--                <span *ngIf=\"currentContract.state == 1\">{{ 'PURCHASE.STATUS_MESSAGES.WAITING_SELLER' | translate }}</span>-->\r\n<!--                <span *ngIf=\"currentContract.state == 110\">{{ 'PURCHASE.STATUS_MESSAGES.IGNORED_SELLER' | translate }}</span>-->\r\n<!--                <span *ngIf=\"currentContract.state == 120\">{{ 'PURCHASE.STATUS_MESSAGES.WAITING_DELIVERY' | translate }}</span>-->\r\n<!--                <span *ngIf=\"currentContract.state == 130\">{{ 'PURCHASE.STATUS_MESSAGES.IGNORED_CANCEL_SELLER' | translate-->\r\n<!--                    }}</span>-->\r\n<!--                <span *ngIf=\"currentContract.state == 140\">{{ 'PURCHASE.STATUS_MESSAGES.EXPIRED' | translate }}</span>-->\r\n<!--                <span *ngIf=\"currentContract.state == 2\">{{ 'PURCHASE.STATUS_MESSAGES.WAITING_SELLER' | translate }}</span>-->\r\n<!--                <span *ngIf=\"currentContract.state == 201\">{{ 'PURCHASE.STATUS_MESSAGES.WAITING_CONFIRMATION' | translate }}-->\r\n<!--                    <ng-container *ngIf=\"currentContract.height === 0\">(0/10)</ng-container>-->\r\n<!--        <ng-container-->\r\n<!--              *ngIf=\"currentContract.height !== 0 && (variablesService.height_app - currentContract.height) < 10\">-->\r\n<!--          ({{variablesService.height_app - currentContract.height}}/10)</ng-container>-->\r\n<!--      </span>-->\r\n<!--                <span *ngIf=\"currentContract.state == 3\">{{ 'PURCHASE.STATUS_MESSAGES.COMPLETED' | translate }}</span>-->\r\n<!--                <span *ngIf=\"currentContract.state == 4\"-->\r\n<!--                      class=\"color-red\">-->\r\n<!--        {{ 'PURCHASE.STATUS_MESSAGES.NOT_RECEIVED' | translate }}. {{ 'PURCHASE.STATUS_MESSAGES.NULLIFIED' | translate-->\r\n<!--                    }}-->\r\n<!--      </span>-->\r\n<!--                <span *ngIf=\"currentContract.state == 5\">{{ 'PURCHASE.STATUS_MESSAGES.PROPOSAL_CANCEL_SELLER' | translate-->\r\n<!--                    }}</span>-->\r\n<!--                <span *ngIf=\"currentContract.state == 6\">{{ 'PURCHASE.STATUS_MESSAGES.CANCELLED' | translate }}</span>-->\r\n<!--                <span *ngIf=\"currentContract.state == 601\">-->\r\n<!--        {{ 'PURCHASE.STATUS_MESSAGES.BEING_CANCELLED' | translate }}-->\r\n<!--                    <ng-container *ngIf=\"currentContract.height === 0\">(0/10)</ng-container>-->\r\n<!--        <ng-container-->\r\n<!--              *ngIf=\"currentContract.height !== 0 && (variablesService.height_app - currentContract.height) < 10\">-->\r\n<!--          ({{variablesService.height_app - currentContract.height}}/10)</ng-container>-->\r\n<!--      </span>-->\r\n<!--            </ng-container>-->\r\n\r\n<!--            <ng-container *ngIf=\"!newPurchase && !currentContract.is_a\">-->\r\n<!--                <span *ngIf=\"currentContract.state == 1\">{{ 'PURCHASE.STATUS_MESSAGES.WAITING_BUYER' | translate }}</span>-->\r\n<!--                <span *ngIf=\"currentContract.state == 110\">{{ 'PURCHASE.STATUS_MESSAGES.IGNORED_BUYER' | translate }}</span>-->\r\n<!--                <span *ngIf=\"currentContract.state == 130\">{{ 'PURCHASE.STATUS_MESSAGES.IGNORED_CANCEL_BUYER' | translate-->\r\n<!--                    }}</span>-->\r\n<!--                <span *ngIf=\"currentContract.state == 140\">{{ 'PURCHASE.STATUS_MESSAGES.EXPIRED' | translate }}</span>-->\r\n<!--                <span *ngIf=\"currentContract.state == 2\">{{ 'PURCHASE.STATUS_MESSAGES.WAITING_DELIVERY' | translate }}</span>-->\r\n<!--                <span *ngIf=\"currentContract.state == 201\">-->\r\n<!--        {{ 'PURCHASE.STATUS_MESSAGES.WAITING_CONFIRMATION' | translate }}-->\r\n<!--                    <ng-container *ngIf=\"currentContract.height === 0\">(0/10)</ng-container>-->\r\n<!--        <ng-container-->\r\n<!--              *ngIf=\"currentContract.height !== 0 && (variablesService.height_app - currentContract.height) < 10\">-->\r\n<!--          ({{variablesService.height_app - currentContract.height}}/10)</ng-container>-->\r\n<!--      </span>-->\r\n<!--                <span *ngIf=\"currentContract.state == 3\">{{ 'PURCHASE.STATUS_MESSAGES.COMPLETED' | translate }}</span>-->\r\n<!--                <span *ngIf=\"currentContract.state == 4\"-->\r\n<!--                      class=\"color-red\">-->\r\n<!--        {{ 'PURCHASE.STATUS_MESSAGES.NOT_RECEIVED' | translate }}. {{ 'PURCHASE.STATUS_MESSAGES.NULLIFIED' | translate}}-->\r\n<!--      </span>-->\r\n<!--                <span *ngIf=\"currentContract.state == 5\">{{ 'PURCHASE.STATUS_MESSAGES.PROPOSAL_CANCEL_BUYER' | translate }}</span>-->\r\n<!--                <span *ngIf=\"currentContract.state == 6\">{{ 'PURCHASE.STATUS_MESSAGES.CANCELLED' | translate }}</span>-->\r\n<!--                <span *ngIf=\"currentContract.state == 601\">-->\r\n<!--        {{ 'PURCHASE.STATUS_MESSAGES.BEING_CANCELLED' | translate }}-->\r\n<!--                    <ng-container *ngIf=\"currentContract.height === 0\">(0/10)</ng-container>-->\r\n<!--        <ng-container-->\r\n<!--              *ngIf=\"currentContract.height !== 0 && (variablesService.height_app - currentContract.height) < 10\">-->\r\n<!--          ({{variablesService.height_app - currentContract.height}}/10)</ng-container>-->\r\n<!--      </span>-->\r\n<!--            </ng-container>-->\r\n<!--        </div>-->\r\n<!--        <div class=\"progress-time\"-->\r\n<!--             *ngIf=\"!newPurchase\">-->\r\n<!--            <span *ngIf=\"currentContract.is_a && currentContract.state == 1\">-->\r\n<!--                {{currentContract.expiration_time | contractTimeLeft: 0}}-->\r\n<!--            </span>-->\r\n<!--            <span *ngIf=\"currentContract.is_a && currentContract.state == 5\">-->\r\n<!--                {{currentContract.cancel_expiration_time | contractTimeLeft: 2}}-->\r\n<!--            </span>-->\r\n<!--            <span *ngIf=\"!currentContract.is_a && currentContract.state == 1\">-->\r\n<!--                {{currentContract.expiration_time | contractTimeLeft: 1}}-->\r\n<!--            </span>-->\r\n<!--            <span *ngIf=\"!currentContract.is_a && currentContract.state == 5\">-->\r\n<!--                {{currentContract.cancel_expiration_time | contractTimeLeft: 1}}-->\r\n<!--            </span>-->\r\n<!--        </div>-->\r\n<!--    </div>-->\r\n</div>\r\n"
 
 /***/ }),
 
@@ -7921,7 +8586,7 @@ var PurchaseComponent = /** @class */ (function () {
             time: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"]({ value: 12, disabled: false }),
             timeCancel: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"]({ value: 12, disabled: false }),
             payment: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"](''),
-            password: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"]('')
+            password: new _angular_forms__WEBPACK_IMPORTED_MODULE_2__["FormControl"](''),
         });
     }
     PurchaseComponent.prototype.onClick = function (targetElement) {
@@ -9821,7 +10486,7 @@ var SettingsComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"sidebar-header mb-2\">\r\n    <div class=\"logo\">\r\n        <img src=\"assets/icons/blue/zano-logo.svg\"\r\n             alt=\"zano-logo\">\r\n    </div>\r\n</div>\r\n\r\n<div class=\"sidebar-content\">\r\n    <div class=\"sidebar-content-list mb-1\"\r\n         cdkDropList\r\n         cdkDropListLockAxis=\"y\"\r\n         #scrollContainer\r\n         (cdkDropListDropped)=\"drop($event)\">\r\n        <ng-container *ngFor=\"let wallet of variablesService.wallets\">\r\n            <div class=\"wallet\"\r\n                 cdkDrag\r\n                 vsDragScroll\r\n                 [class.active]=\"wallet?.wallet_id === variablesService?.currentWallet?.wallet_id\"\r\n                 [class.auditable]=\"wallet.is_auditable && !wallet.is_watch_only\"\r\n                 [class.watch-only]=\"wallet.is_watch_only\"\r\n                 [vsDragScrollContainer]=\"scrollContainer\"\r\n                 [cdkDragData]=\"wallet\"\r\n                 (click)=\"selectWallet(wallet.wallet_id)\">\r\n\r\n                <div class=\"header\">\r\n                    <div class=\"left\">\r\n                        <div class=\"name text-ellipsis\">\r\n                            <span class=\"indicator\"\r\n                                  *ngIf=\"wallet.new_contracts\">\r\n                                {{ wallet.new_contracts }}\r\n                            </span>\r\n\r\n                            <span class=\"name\"\r\n                                  tooltip=\"{{ wallet.name }}\"\r\n                                  placement=\"top-left\"\r\n                                  tooltipClass=\"table-tooltip account-tooltip\"\r\n                                  [delay]=\"500\"\r\n                                  [showWhenNoOverflow]=\"false\">\r\n                              {{!wallet.alias['name'] ? wallet.name : wallet.alias['name']}}\r\n                          </span>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"right\">\r\n                        <button type=\"button\"\r\n                                tooltip=\"{{ 'WALLET.TOOLTIPS.CLOSE' | translate }}\"\r\n                                placement=\"top-left\"\r\n                                tooltipClass=\"table-tooltip account-tooltip\"\r\n                                [delay]=\"500\"\r\n                                [timeDelay]=\"500\"\r\n                                (click)=\"showDialog(wallet.wallet_id)\">\r\n                            <i class=\"icon close\"></i>\r\n                        </button>\r\n                    </div>\r\n                </div>\r\n\r\n                <div class=\"balance\">\r\n                    <span class=\"text-ellipsis mr-1\">{{wallet.balance | intToMoney : '3' }}</span>\r\n                    <span>{{variablesService.defaultCurrency}}</span>\r\n                </div>\r\n\r\n                <h4 class=\"price\"\r\n                    *appDisablePriceFetch>\r\n                    ${{wallet.getMoneyEquivalent(variablesService.moneyEquivalent) | intToMoney | number :'1.2-2'}}\r\n\r\n                    <span class=\"percent\"\r\n                          [class.red]=\"variablesService.moneyEquivalentPercent < 0\">\r\n                            {{ variablesService.moneyEquivalentPercent | number : '1.1-2' }}%\r\n                    </span>\r\n                </h4>\r\n\r\n                <ng-container\r\n                      *ngIf=\"(!wallet.is_auditable && !wallet.is_watch_only) || (wallet.is_auditable && !wallet.is_watch_only)\">\r\n                    <div class=\"staking\"\r\n                         *ngIf=\"!(!wallet.loaded && variablesService.daemon_state === 2)\">\r\n                        <span class=\"text\">{{ 'SIDEBAR.ACCOUNT.STAKING' | translate }}</span>\r\n                        <app-staking-switch [wallet_id]=\"wallet.wallet_id\"\r\n                                            [(staking)]=\"wallet.staking\"></app-staking-switch>\r\n                    </div>\r\n                </ng-container>\r\n\r\n                <div class=\"account-synchronization\"\r\n                     *ngIf=\"!wallet.loaded && variablesService.daemon_state === 2\">\r\n                    <div class=\"progress-bar\">\r\n                        <div class=\"fill\"\r\n                             [style.width]=\"wallet.progress + '%'\"></div>\r\n                    </div>\r\n                    <div class=\"progress-percent\">{{ wallet.progress }}%</div>\r\n                </div>\r\n            </div>\r\n        </ng-container>\r\n    </div>\r\n\r\n    <div class=\"sidebar-nav w-100\">\r\n        <!-- ui-kit -->\r\n<!--        <button class=\"outline small w-100 mb-1\"-->\r\n<!--                routerLinkActive=\"active\"-->\r\n<!--                [routerLink]=\"['/ui-kit']\">-->\r\n<!--            <span>ui-kit</span>-->\r\n<!--        </button>-->\r\n\r\n        <!-- add wallet -->\r\n        <button class=\"outline small w-100 mb-1\"\r\n                (click)=\"goMainPage()\">\r\n            <i class=\"icon plus mr-1\"></i>\r\n            <span>{{ 'SIDEBAR.ADD_NEW' | translate }}</span>\r\n        </button>\r\n\r\n        <!-- contact -->\r\n        <ng-container *ngIf=\"variablesService.appPass === ''; else contactsShow\">\r\n            <button class=\"outline small w-100 mb-1\"\r\n                    routerLinkActive=\"active\"\r\n                    tooltip=\"{{ 'SIDEBAR.CONTACTS_TOOLTIP' | translate }}\"\r\n                    placement=\"top\"\r\n                    tooltipClass=\"table-tooltip account-tooltip\"\r\n                    [delay]=\"500\"\r\n                    [timeDelay]=\"500\"\r\n                    [disabled]=\"variablesService.daemon_state !== 2 || variablesService.appPass === ''\"\r\n                    (click)=\"contactsRoute()\">\r\n                <i class=\"icon contacts mr-1\"></i>\r\n                <span>{{ 'SIDEBAR.CONTACTS' | translate }}</span>\r\n            </button>\r\n        </ng-container>\r\n\r\n        <ng-template #contactsShow>\r\n            <button class=\"outline small w-100 mb-1\"\r\n                    routerLinkActive=\"active\"\r\n                    (click)=\"contactsRoute()\"\r\n                    [disabled]=\"variablesService.daemon_state !== 2\">\r\n                <i class=\"icon contacts mr-1\"></i>\r\n                <span>{{ 'SIDEBAR.CONTACTS' | translate }}</span>\r\n            </button>\r\n        </ng-template>\r\n\r\n        <!-- settings -->\r\n        <button class=\"outline small w-100 mb-1\"\r\n                routerLinkActive=\"active\"\r\n                [routerLink]=\"['/settings']\">\r\n            <i class=\"icon settings mr-1\"></i>\r\n            <span> {{ 'SIDEBAR.SETTINGS' | translate }}</span>\r\n        </button>\r\n\r\n        <!-- Log out -->\r\n        <ng-container *ngIf=\"variablesService.appPass === ''; else masterPass\">\r\n            <button class=\"outline small w-100 mb-1\"\r\n                    tooltip=\"{{ 'SIDEBAR.LOG_OUT_TOOLTIP' | translate }}\"\r\n                    placement=\"bottom\"\r\n                    tooltipClass=\"table-tooltip account-tooltip\"\r\n                    [delay]=\"500\"\r\n                    [timeDelay]=\"500\"\r\n                    [disabled]=\"variablesService.appPass === ''\"\r\n                    (click)=\"logOut()\">\r\n                <i class=\"icon logout mr-1\"></i>\r\n                <span> {{ 'SIDEBAR.LOG_OUT' | translate }}</span>\r\n            </button>\r\n        </ng-container>\r\n\r\n        <ng-template #masterPass>\r\n            <button class=\"outline small w-100\"\r\n                    (click)=\"logOut()\">\r\n                <i class=\"icon logout mr-1\"></i>\r\n                <span> {{ 'SIDEBAR.LOG_OUT' | translate }}</span>\r\n            </button>\r\n        </ng-template>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"sidebar-footer\">\r\n    <app-synchronization-status></app-synchronization-status>\r\n</div>\r\n\r\n<app-confirm-modal *ngIf=\"isModalDialogVisible\"\r\n                   [title]=\" 'WALLET.CONFIRM.TITLE' | translate \"\r\n                   [message]=\" 'WALLET.CONFIRM.MESSAGE' | translate \"\r\n                   (confirmed)=\"confirmed($event)\"></app-confirm-modal>\r\n<app-deeplink></app-deeplink>\r\n"
+module.exports = "<div class=\"sidebar-header mb-2\">\r\n    <div class=\"logo\">\r\n        <img src=\"assets/icons/blue/zano-logo.svg\"\r\n             alt=\"zano-logo\">\r\n    </div>\r\n</div>\r\n\r\n<div class=\"sidebar-content\">\r\n    <div class=\"sidebar-content-list mb-1\"\r\n         cdkDropList\r\n         cdkDropListLockAxis=\"y\"\r\n         #scrollContainer\r\n         (cdkDropListDropped)=\"drop($event)\">\r\n        <ng-container *ngFor=\"let wallet of variablesService.wallets\">\r\n            <div class=\"wallet\"\r\n                 cdkDrag\r\n                 vsDragScroll\r\n                 [class.active]=\"wallet?.wallet_id === variablesService?.currentWallet?.wallet_id\"\r\n                 [class.auditable]=\"wallet.is_auditable && !wallet.is_watch_only\"\r\n                 [class.watch-only]=\"wallet.is_watch_only\"\r\n                 [vsDragScrollContainer]=\"scrollContainer\"\r\n                 [cdkDragData]=\"wallet\"\r\n                 (click)=\"selectWallet(wallet.wallet_id)\">\r\n\r\n                <div class=\"header\">\r\n                    <div class=\"left\">\r\n                        <div class=\"name text-ellipsis\">\r\n                            <span class=\"indicator\"\r\n                                  *ngIf=\"wallet.new_contracts\">\r\n                                {{ wallet.new_contracts }}\r\n                            </span>\r\n\r\n                            <span class=\"name\"\r\n                                  tooltip=\"{{ wallet.name }}\"\r\n                                  placement=\"top-left\"\r\n                                  tooltipClass=\"table-tooltip account-tooltip\"\r\n                                  [delay]=\"500\"\r\n                                  [showWhenNoOverflow]=\"false\">\r\n                              {{!wallet.alias['name'] ? wallet.name : wallet.alias['name']}}\r\n                          </span>\r\n                        </div>\r\n                    </div>\r\n                    <div class=\"right\">\r\n                        <button type=\"button\"\r\n                                tooltip=\"{{ 'WALLET.TOOLTIPS.CLOSE' | translate }}\"\r\n                                placement=\"top-left\"\r\n                                tooltipClass=\"table-tooltip account-tooltip\"\r\n                                [delay]=\"500\"\r\n                                [timeDelay]=\"500\"\r\n                                (click)=\"showDialog(wallet.wallet_id)\">\r\n                            <i class=\"icon close\"></i>\r\n                        </button>\r\n                    </div>\r\n                </div>\r\n\r\n                <div class=\"balance\">\r\n                    <span class=\"text-ellipsis mr-1\">{{wallet.balance | intToMoney : '3' }}</span>\r\n                    <span>{{variablesService.defaultCurrency}}</span>\r\n                </div>\r\n\r\n                <h4 class=\"price\"\r\n                    *appDisablePriceFetch>\r\n                    ${{wallet.getMoneyEquivalent(variablesService.moneyEquivalent) | intToMoney | number :'1.2-2'}}\r\n\r\n                    <span class=\"percent\"\r\n                          [class.red]=\"variablesService.moneyEquivalentPercent < 0\">\r\n                            {{ variablesService.moneyEquivalentPercent | number : '1.1-2' }}%\r\n                    </span>\r\n                </h4>\r\n\r\n                <ng-container\r\n                      *ngIf=\"(!wallet.is_auditable && !wallet.is_watch_only) || (wallet.is_auditable && !wallet.is_watch_only)\">\r\n                    <div class=\"staking\"\r\n                         *ngIf=\"!(!wallet.loaded && variablesService.daemon_state === 2)\">\r\n                        <span class=\"text\">{{ 'SIDEBAR.ACCOUNT.STAKING' | translate }}</span>\r\n                        <app-staking-switch [wallet_id]=\"wallet.wallet_id\"\r\n                                            [(staking)]=\"wallet.staking\"></app-staking-switch>\r\n                    </div>\r\n                </ng-container>\r\n\r\n                <div class=\"account-synchronization\"\r\n                     *ngIf=\"!wallet.loaded && variablesService.daemon_state === 2\">\r\n                    <div class=\"progress-bar\">\r\n                        <div class=\"fill\"\r\n                             [style.width]=\"wallet.progress + '%'\"></div>\r\n                    </div>\r\n                    <div class=\"progress-percent\">{{ wallet.progress }}%</div>\r\n                </div>\r\n            </div>\r\n        </ng-container>\r\n    </div>\r\n\r\n    <div class=\"sidebar-nav w-100\">\r\n        <!-- ui-kit -->\r\n        <ng-container *ngIf=\"false\">\r\n            <button class=\"outline small w-100 mb-1\"\r\n                    routerLinkActive=\"active\"\r\n                    [routerLink]=\"['/ui-kit']\">\r\n                <span>ui-kit</span>\r\n            </button>\r\n        </ng-container>\r\n\r\n        <!-- add wallet -->\r\n        <button class=\"outline small w-100 mb-1\"\r\n                (click)=\"goMainPage()\">\r\n            <i class=\"icon plus mr-1\"></i>\r\n            <span>{{ 'SIDEBAR.ADD_NEW' | translate }}</span>\r\n        </button>\r\n\r\n        <!-- contact -->\r\n        <ng-container *ngIf=\"variablesService.appPass === ''; else contactsShow\">\r\n            <button class=\"outline small w-100 mb-1\"\r\n                    routerLinkActive=\"active\"\r\n                    tooltip=\"{{ 'SIDEBAR.CONTACTS_TOOLTIP' | translate }}\"\r\n                    placement=\"top\"\r\n                    tooltipClass=\"table-tooltip account-tooltip\"\r\n                    [delay]=\"500\"\r\n                    [timeDelay]=\"500\"\r\n                    [disabled]=\"variablesService.daemon_state !== 2 || variablesService.appPass === ''\"\r\n                    (click)=\"contactsRoute()\">\r\n                <i class=\"icon contacts mr-1\"></i>\r\n                <span>{{ 'SIDEBAR.CONTACTS' | translate }}</span>\r\n            </button>\r\n        </ng-container>\r\n\r\n        <ng-template #contactsShow>\r\n            <button class=\"outline small w-100 mb-1\"\r\n                    routerLinkActive=\"active\"\r\n                    (click)=\"contactsRoute()\"\r\n                    [disabled]=\"variablesService.daemon_state !== 2\">\r\n                <i class=\"icon contacts mr-1\"></i>\r\n                <span>{{ 'SIDEBAR.CONTACTS' | translate }}</span>\r\n            </button>\r\n        </ng-template>\r\n\r\n        <!-- settings -->\r\n        <button class=\"outline small w-100 mb-1\"\r\n                routerLinkActive=\"active\"\r\n                [routerLink]=\"['/settings']\">\r\n            <i class=\"icon settings mr-1\"></i>\r\n            <span> {{ 'SIDEBAR.SETTINGS' | translate }}</span>\r\n        </button>\r\n\r\n        <!-- Log out -->\r\n        <ng-container *ngIf=\"variablesService.appPass === ''; else masterPass\">\r\n            <button class=\"outline small w-100 mb-1\"\r\n                    tooltip=\"{{ 'SIDEBAR.LOG_OUT_TOOLTIP' | translate }}\"\r\n                    placement=\"bottom\"\r\n                    tooltipClass=\"table-tooltip account-tooltip\"\r\n                    [delay]=\"500\"\r\n                    [timeDelay]=\"500\"\r\n                    [disabled]=\"variablesService.appPass === ''\"\r\n                    (click)=\"logOut()\">\r\n                <i class=\"icon logout mr-1\"></i>\r\n                <span> {{ 'SIDEBAR.LOG_OUT' | translate }}</span>\r\n            </button>\r\n        </ng-container>\r\n\r\n        <ng-template #masterPass>\r\n            <button class=\"outline small w-100\"\r\n                    (click)=\"logOut()\">\r\n                <i class=\"icon logout mr-1\"></i>\r\n                <span> {{ 'SIDEBAR.LOG_OUT' | translate }}</span>\r\n            </button>\r\n        </ng-template>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"sidebar-footer\">\r\n    <app-synchronization-status></app-synchronization-status>\r\n</div>\r\n\r\n<app-confirm-modal *ngIf=\"isModalDialogVisible\"\r\n                   [title]=\" 'WALLET.CONFIRM.TITLE' | translate \"\r\n                   [message]=\" 'WALLET.CONFIRM.MESSAGE' | translate \"\r\n                   (confirmed)=\"confirmed($event)\"></app-confirm-modal>\r\n<app-deeplink></app-deeplink>\r\n"
 
 /***/ }),
 
@@ -9971,6 +10636,80 @@ var SidebarComponent = /** @class */ (function () {
             _angular_core__WEBPACK_IMPORTED_MODULE_0__["NgZone"]])
     ], SidebarComponent);
     return SidebarComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/sidebar/sidebar.module.ts":
+/*!*******************************************!*\
+  !*** ./src/app/sidebar/sidebar.module.ts ***!
+  \*******************************************/
+/*! exports provided: SidebarModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SidebarModule", function() { return SidebarModule; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var _sidebar_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./sidebar.component */ "./src/app/sidebar/sidebar.component.ts");
+/* harmony import */ var _angular_cdk_drag_drop__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/cdk/drag-drop */ "./node_modules/@angular/cdk/esm5/drag-drop.es5.js");
+/* harmony import */ var cdk_drag_scroll__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! cdk-drag-scroll */ "./node_modules/cdk-drag-scroll/fesm5/cdk-drag-scroll.js");
+/* harmony import */ var _helpers_directives_tooltip_module__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../_helpers/directives/tooltip.module */ "./src/app/_helpers/directives/tooltip.module.ts");
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _synchronization_status_synchronization_status_module__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../synchronization-status/synchronization-status.module */ "./src/app/synchronization-status/synchronization-status.module.ts");
+/* harmony import */ var _helpers_pipes_pipes_module__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../_helpers/pipes/pipes.module */ "./src/app/_helpers/pipes/pipes.module.ts");
+/* harmony import */ var _shared_directives_disable_price_fetch_disable_price_fetch_module__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../_shared/directives/disable-price-fetch/disable-price-fetch.module */ "./src/app/_shared/directives/disable-price-fetch/disable-price-fetch.module.ts");
+/* harmony import */ var _helpers_modals_confirm_modal_confirm_modal_module__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../_helpers/modals/confirm-modal/confirm-modal.module */ "./src/app/_helpers/modals/confirm-modal/confirm-modal.module.ts");
+/* harmony import */ var _deeplink_deeplink_module__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../deeplink/deeplink.module */ "./src/app/deeplink/deeplink.module.ts");
+/* harmony import */ var _helpers_directives_staking_switch_staking_switch_module__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../_helpers/directives/staking-switch/staking-switch.module */ "./src/app/_helpers/directives/staking-switch/staking-switch.module.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var SidebarModule = /** @class */ (function () {
+    function SidebarModule() {
+    }
+    SidebarModule = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
+            declarations: [_sidebar_component__WEBPACK_IMPORTED_MODULE_2__["SidebarComponent"]],
+            imports: [
+                _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"],
+                _angular_router__WEBPACK_IMPORTED_MODULE_7__["RouterModule"],
+                _angular_cdk_drag_drop__WEBPACK_IMPORTED_MODULE_3__["DragDropModule"],
+                cdk_drag_scroll__WEBPACK_IMPORTED_MODULE_4__["DragScrollModule"],
+                _helpers_directives_tooltip_module__WEBPACK_IMPORTED_MODULE_5__["TooltipModule"],
+                _helpers_pipes_pipes_module__WEBPACK_IMPORTED_MODULE_9__["PipesModule"],
+                _ngx_translate_core__WEBPACK_IMPORTED_MODULE_6__["TranslateModule"],
+                _shared_directives_disable_price_fetch_disable_price_fetch_module__WEBPACK_IMPORTED_MODULE_10__["DisablePriceFetchModule"],
+                _helpers_modals_confirm_modal_confirm_modal_module__WEBPACK_IMPORTED_MODULE_11__["ConfirmModalModule"],
+                _synchronization_status_synchronization_status_module__WEBPACK_IMPORTED_MODULE_8__["SynchronizationStatusModule"],
+                _deeplink_deeplink_module__WEBPACK_IMPORTED_MODULE_12__["DeeplinkModule"],
+                _helpers_directives_staking_switch_staking_switch_module__WEBPACK_IMPORTED_MODULE_13__["StakingSwitchModule"]
+            ],
+            exports: [_sidebar_component__WEBPACK_IMPORTED_MODULE_2__["SidebarComponent"]]
+        })
+    ], SidebarModule);
+    return SidebarModule;
 }());
 
 
@@ -10445,7 +11184,7 @@ var StakingComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"synchronization-status\"\r\n     [ngStyle]=\"{'align-items': variablesService.daemon_state === 1 || variablesService.daemon_state === 6 ? 'flex-start' : 'center'}\">\r\n    <div class=\"status-container\">\r\n        <div class=\"offline\"\r\n             *ngIf=\"variablesService.daemon_state === 0\">\r\n            <span>{{ 'SIDEBAR.SYNCHRONIZATION.OFFLINE' | translate }}</span>\r\n        </div>\r\n        <div class=\"syncing\"\r\n             *ngIf=\"variablesService.daemon_state === 1\">\r\n            {{ 'SIDEBAR.SYNCHRONIZATION.SYNCING' | translate }} {{ variablesService.height_app }}{{\r\n            'SIDEBAR.SYNCHRONIZATION.SLASH' | translate }}{{ variablesService.height_max }}\r\n        </div>\r\n        <div class=\"online\"\r\n             *ngIf=\"variablesService.daemon_state === 2\">\r\n            <span>{{ 'SIDEBAR.SYNCHRONIZATION.ONLINE' | translate }}</span>\r\n        </div>\r\n        <div class=\"loading\"\r\n             *ngIf=\"variablesService.daemon_state === 3\">\r\n            {{ 'SIDEBAR.SYNCHRONIZATION.LOADING' | translate }}\r\n        </div>\r\n        <div class=\"offline\"\r\n             *ngIf=\"variablesService.daemon_state === 4\">\r\n            {{ 'SIDEBAR.SYNCHRONIZATION.ERROR' | translate }}\r\n        </div>\r\n        <div class=\"online\"\r\n             *ngIf=\"variablesService.daemon_state === 5\">\r\n            {{ 'SIDEBAR.SYNCHRONIZATION.COMPLETE' | translate }}\r\n        </div>\r\n        <div class=\"syncing\"\r\n             *ngIf=\"variablesService.daemon_state === 6\">\r\n            {{ 'SIDEBAR.SYNCHRONIZATION.DOWNLOADING' | translate }}\r\n            {{ variablesService.downloaded }}\r\n            {{ 'SIDEBAR.SYNCHRONIZATION.SLASH' | translate }}\r\n            {{ variablesService.total }}{{ 'SIDEBAR.SYNCHRONIZATION.MB' | translate }}\r\n        </div>\r\n\r\n        <div class=\"progress-bar-container\"\r\n             *ngIf=\"variablesService.daemon_state === 1 || variablesService.daemon_state === 3\">\r\n            <div class=\"syncing\"\r\n                 *ngIf=\"variablesService.daemon_state === 1\">\r\n                <div class=\"progress-bar\">\r\n                    <div class=\"fill\"\r\n                         [style.width]=\"variablesService.sync.progress_value + '%'\"></div>\r\n                </div>\r\n                <!-- <div class=\"progress-percent\">{{ variablesService.sync.progress_value_text }}%</div>-->\r\n            </div>\r\n            <div class=\"loading\"\r\n                 *ngIf=\"variablesService.daemon_state === 3\"></div>\r\n        </div>\r\n\r\n        <div class=\"progress-bar-container\"\r\n             *ngIf=\"variablesService.daemon_state === 6\">\r\n            <div class=\"syncing downloading\"\r\n                 *ngIf=\"variablesService.daemon_state === 6\">\r\n                <div class=\"progress-bar\">\r\n                    <div class=\"fill\"\r\n                         [style.width]=\"variablesService.download.progress_value + '%'\"></div>\r\n                </div>\r\n                <!-- <div class=\"progress-percent\">{{ variablesService.download.progress_value_text }}%</div>-->\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"update-container\"\r\n         *ngIf=\"(variablesService.daemon_state === 0 || variablesService.daemon_state === 2) && [2, 3, 4].indexOf(variablesService.last_build_displaymode) !== -1\">\r\n        <ng-container *ngIf=\"variablesService.last_build_displaymode === 2\">\r\n            <div class=\"update-text standard\">\r\n                <span [style.cursor]=\"'pointer'\"\r\n                      (click)=\"getUpdate()\">{{ 'SIDEBAR.UPDATE.STANDARD' | translate }}</span>\r\n            </div>\r\n            <i class=\"icon update standard\"\r\n               tooltip=\"{{ 'SIDEBAR.UPDATE.STANDARD_TOOLTIP' | translate }}\"\r\n               placement=\"right-bottom\"\r\n               tooltipClass=\"update-tooltip\"\r\n               [delay]=\"500\"></i>\r\n        </ng-container>\r\n\r\n        <ng-container *ngIf=\"variablesService.last_build_displaymode === 3\">\r\n            <div class=\"update-text important\">\r\n                <span [style.cursor]=\"'pointer'\"\r\n                      (click)=\"getUpdate()\">{{ 'SIDEBAR.UPDATE.IMPORTANT' | translate }}</span>\r\n                <span style=\"font-size: 1rem\">{{ 'SIDEBAR.UPDATE.IMPORTANT_HINT' | translate }}</span>\r\n            </div>\r\n            <i class=\"icon update important\"\r\n               tooltip=\"{{ 'SIDEBAR.UPDATE.IMPORTANT_TOOLTIP' | translate }}\"\r\n               placement=\"right-bottom\"\r\n               tooltipClass=\"update-tooltip important\"\r\n               [delay]=\"500\"></i>\r\n        </ng-container>\r\n\r\n        <ng-container *ngIf=\"variablesService.last_build_displaymode === 4\">\r\n            <div class=\"update-text critical\">\r\n                <span [style.cursor]=\"'pointer'\"\r\n                      (click)=\"getUpdate()\">{{ 'SIDEBAR.UPDATE.CRITICAL' | translate }}</span>\r\n                <span style=\"font-size: 1rem\">{{ 'SIDEBAR.UPDATE.IMPORTANT_HINT' | translate }}</span>\r\n            </div>\r\n            <i class=\"icon update critical\"\r\n               tooltip=\"{{ 'SIDEBAR.UPDATE.CRITICAL_TOOLTIP' | translate }}\"\r\n               placement=\"right-bottom\"\r\n               tooltipClass=\"update-tooltip critical\"\r\n               [delay]=\"500\"></i>\r\n        </ng-container>\r\n    </div>\r\n\r\n    <div class=\"update-container\"\r\n         *ngIf=\"variablesService.daemon_state === 2 && variablesService.net_time_delta_median !== 0\">\r\n        <div class=\"update-text time-orange\">\r\n            <span>{{ 'SIDEBAR.UPDATE.TIME' | translate }}</span>\r\n        </div>\r\n        <i class=\"icon time-orange\"\r\n           tooltip=\"{{ 'SIDEBAR.UPDATE.TIME_TOOLTIP' | translate }}\"\r\n           placement=\"right-bottom\"\r\n           tooltipClass=\"update-tooltip important\"\r\n           [delay]=\"500\"></i>\r\n    </div>\r\n</div>\r\n"
+module.exports = "<div class=\"synchronization-status\"\r\n     [ngStyle]=\"{'align-items': variablesService.daemon_state === 1 || variablesService.daemon_state === 6 ? 'flex-start' : 'center'}\">\r\n    <div class=\"status-container\">\r\n        <div class=\"offline\"\r\n             *ngIf=\"variablesService.daemon_state === 0\">\r\n            <span>{{ 'SIDEBAR.SYNCHRONIZATION.OFFLINE' | translate }}</span>\r\n        </div>\r\n        <div class=\"syncing\"\r\n             *ngIf=\"variablesService.daemon_state === 1\">\r\n            {{ 'SIDEBAR.SYNCHRONIZATION.SYNCING' | translate }}\r\n            {{ variablesService.sync.progress_value_text }}%\r\n        </div>\r\n        <div class=\"online\"\r\n             *ngIf=\"variablesService.daemon_state === 2\">\r\n            <span>{{ 'SIDEBAR.SYNCHRONIZATION.ONLINE' | translate }}</span>\r\n        </div>\r\n        <div class=\"loading\"\r\n             *ngIf=\"variablesService.daemon_state === 3\">\r\n            {{ 'SIDEBAR.SYNCHRONIZATION.LOADING' | translate }}\r\n        </div>\r\n        <div class=\"offline\"\r\n             *ngIf=\"variablesService.daemon_state === 4\">\r\n            {{ 'SIDEBAR.SYNCHRONIZATION.ERROR' | translate }}\r\n        </div>\r\n        <div class=\"online\"\r\n             *ngIf=\"variablesService.daemon_state === 5\">\r\n            {{ 'SIDEBAR.SYNCHRONIZATION.COMPLETE' | translate }}\r\n        </div>\r\n        <div class=\"syncing\"\r\n             *ngIf=\"variablesService.daemon_state === 6\">\r\n            {{ 'SIDEBAR.SYNCHRONIZATION.DOWNLOADING' | translate }}\r\n            {{ variablesService.download.progress_value_text }}%\r\n        </div>\r\n\r\n        <div class=\"progress-bar-container\"\r\n             *ngIf=\"variablesService.daemon_state === 1 || variablesService.daemon_state === 3\">\r\n            <div class=\"syncing\"\r\n                 *ngIf=\"variablesService.daemon_state === 1\">\r\n                <div class=\"progress-bar\">\r\n                    <div class=\"fill\"\r\n                         [style.width]=\"variablesService.sync.progress_value + '%'\"></div>\r\n                </div>\r\n            </div>\r\n            <div class=\"loading\"\r\n                 *ngIf=\"variablesService.daemon_state === 3\"></div>\r\n        </div>\r\n\r\n        <div class=\"progress-bar-container\"\r\n             *ngIf=\"variablesService.daemon_state === 6\">\r\n            <div class=\"syncing downloading\"\r\n                 *ngIf=\"variablesService.daemon_state === 6\">\r\n                <div class=\"progress-bar\">\r\n                    <div class=\"fill\"\r\n                         [style.width]=\"variablesService.download.progress_value + '%'\"></div>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    </div>\r\n\r\n    <div class=\"update-container\"\r\n         *ngIf=\"(variablesService.daemon_state === 0 || variablesService.daemon_state === 2) && [2, 3, 4].indexOf(variablesService.last_build_displaymode) !== -1\">\r\n        <ng-container *ngIf=\"variablesService.last_build_displaymode === 2\">\r\n            <div class=\"update-text standard\">\r\n                <span [style.cursor]=\"'pointer'\"\r\n                      (click)=\"getUpdate()\">{{ 'SIDEBAR.UPDATE.STANDARD' | translate }}</span>\r\n            </div>\r\n            <i class=\"icon update standard\"\r\n               tooltip=\"{{ 'SIDEBAR.UPDATE.STANDARD_TOOLTIP' | translate }}\"\r\n               placement=\"right-bottom\"\r\n               tooltipClass=\"update-tooltip\"\r\n               [delay]=\"500\"></i>\r\n        </ng-container>\r\n\r\n        <ng-container *ngIf=\"variablesService.last_build_displaymode === 3\">\r\n            <div class=\"update-text important\">\r\n                <span [style.cursor]=\"'pointer'\"\r\n                      (click)=\"getUpdate()\">{{ 'SIDEBAR.UPDATE.IMPORTANT' | translate }}</span>\r\n                <span style=\"font-size: 1rem\">{{ 'SIDEBAR.UPDATE.IMPORTANT_HINT' | translate }}</span>\r\n            </div>\r\n            <i class=\"icon update important\"\r\n               tooltip=\"{{ 'SIDEBAR.UPDATE.IMPORTANT_TOOLTIP' | translate }}\"\r\n               placement=\"right-bottom\"\r\n               tooltipClass=\"update-tooltip important\"\r\n               [delay]=\"500\"></i>\r\n        </ng-container>\r\n\r\n        <ng-container *ngIf=\"variablesService.last_build_displaymode === 4\">\r\n            <div class=\"update-text critical\">\r\n                <span [style.cursor]=\"'pointer'\"\r\n                      (click)=\"getUpdate()\">{{ 'SIDEBAR.UPDATE.CRITICAL' | translate }}</span>\r\n                <span style=\"font-size: 1rem\">{{ 'SIDEBAR.UPDATE.IMPORTANT_HINT' | translate }}</span>\r\n            </div>\r\n            <i class=\"icon update critical\"\r\n               tooltip=\"{{ 'SIDEBAR.UPDATE.CRITICAL_TOOLTIP' | translate }}\"\r\n               placement=\"right-bottom\"\r\n               tooltipClass=\"update-tooltip critical\"\r\n               [delay]=\"500\"></i>\r\n        </ng-container>\r\n    </div>\r\n\r\n    <div class=\"update-container\"\r\n         *ngIf=\"variablesService.daemon_state === 2 && variablesService.net_time_delta_median !== 0\">\r\n        <div class=\"update-text time-orange\">\r\n            <span>{{ 'SIDEBAR.UPDATE.TIME' | translate }}</span>\r\n        </div>\r\n        <i class=\"icon time-orange\"\r\n           tooltip=\"{{ 'SIDEBAR.UPDATE.TIME_TOOLTIP' | translate }}\"\r\n           placement=\"right-bottom\"\r\n           tooltipClass=\"update-tooltip important\"\r\n           [delay]=\"500\"></i>\r\n    </div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -10505,6 +11244,53 @@ var SynchronizationStatusComponent = /** @class */ (function () {
             _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_3__["BackendService"]])
     ], SynchronizationStatusComponent);
     return SynchronizationStatusComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/synchronization-status/synchronization-status.module.ts":
+/*!*************************************************************************!*\
+  !*** ./src/app/synchronization-status/synchronization-status.module.ts ***!
+  \*************************************************************************/
+/*! exports provided: SynchronizationStatusModule */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SynchronizationStatusModule", function() { return SynchronizationStatusModule; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var _synchronization_status_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./synchronization-status.component */ "./src/app/synchronization-status/synchronization-status.component.ts");
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
+/* harmony import */ var _helpers_directives_tooltip_module__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../_helpers/directives/tooltip.module */ "./src/app/_helpers/directives/tooltip.module.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+
+
+var SynchronizationStatusModule = /** @class */ (function () {
+    function SynchronizationStatusModule() {
+    }
+    SynchronizationStatusModule = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
+            declarations: [_synchronization_status_component__WEBPACK_IMPORTED_MODULE_2__["SynchronizationStatusComponent"]],
+            imports: [
+                _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"],
+                _ngx_translate_core__WEBPACK_IMPORTED_MODULE_3__["TranslateModule"],
+                _helpers_directives_tooltip_module__WEBPACK_IMPORTED_MODULE_4__["TooltipModule"]
+            ],
+            exports: [_synchronization_status_component__WEBPACK_IMPORTED_MODULE_2__["SynchronizationStatusComponent"]]
+        })
+    ], SynchronizationStatusModule);
+    return SynchronizationStatusModule;
 }());
 
 
