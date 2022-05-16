@@ -20,7 +20,7 @@ export class SwitchComponent implements OnInit, ControlValueAccessor {
 
   @Output() emitChange = new EventEmitter<boolean>();
 
-  onChange = () => {
+  onChange = (_: boolean) => {
   }
 
   onTouched = () => {
@@ -36,6 +36,7 @@ export class SwitchComponent implements OnInit, ControlValueAccessor {
     if (!this.disabled) {
       this.value = !this.value;
       this.emitChange.emit(this.value);
+      this.onChange(this.value);
     }
   }
 

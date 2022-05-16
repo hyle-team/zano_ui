@@ -3,6 +3,7 @@
            [id]="id"
            [checked]="value"
            (change)="handlerChange($event)"
+           [readonly]="readonly"
            [disabled]="disabled">
     <label [for]="id">{{ label }}</label>
 </div>

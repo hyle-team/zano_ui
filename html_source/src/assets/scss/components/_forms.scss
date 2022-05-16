@@ -243,6 +243,16 @@
     user-select: none;
   }
 
+  input[readonly] {
+    & + label {
+      pointer-events: none;
+    }
+
+    & + label:before {
+      pointer-events: none;
+    }
+  }
+
   input[type="checkbox"] {
     &:disabled {
       & + label {

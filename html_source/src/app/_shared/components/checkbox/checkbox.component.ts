@@ -22,9 +22,11 @@ export class CheckboxComponent implements OnInit, ControlValueAccessor {
 
   @Input() disabled = false;
 
+  @Input() readonly = false;
+
   @Output() emitChange = new EventEmitter<boolean>();
 
-  onChange = () => {
+  onChange = (_: boolean) => {
   }
 
   onTouched = () => {
@@ -40,6 +42,7 @@ export class CheckboxComponent implements OnInit, ControlValueAccessor {
     const { checked } = target as HTMLInputElement;
     this.value = checked;
     this.emitChange.emit(checked);
+    this.onChange(checked);
   }
 
   registerOnChange(fn: any): void {
