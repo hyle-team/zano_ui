@@ -1,7 +1,13 @@
-<div class="auth flex flex__justify-center flex__align-center w-100 h-100">
-    <div class="card max-w-42-rem max-h-100 w-100 p-2 border-radius-0_8-rem bg-light-blue overflow-x-hidden overflow-y-auto">
+<div class="auth"
+     fxLayout="row"
+     fxLayoutAlign="center center"
+     fxFlexFill>
+    <div
+          class="card max-w-42-rem max-h-100 w-100 p-2 border-radius-0_8-rem bg-light-blue overflow-x-hidden overflow-y-auto">
 
-        <div class="logo flex flex__justify-center border-radius-0_8-rem overflow-hidden mb-3">
+        <div class="logo border-radius-0_8-rem overflow-hidden mb-3"
+             fxLayout="row"
+             fxLayoutAlign="center center">
             <img src="assets/icons/blue/zano-logo.svg"
                  alt="zano-logo">
         </div>
@@ -10,7 +16,8 @@
               class="form bg-light-blue-details"
               [formGroup]="regForm"
               (ngSubmit)="onSubmitCreatePass()">
-            <div class="form__field--wrapper pt-2 pl-2 pr-2 pb-1 mb-2 bg-light-blue-details border-radius-0_8-rem overflow-hidden">
+            <div
+                  class="form__field--wrapper pt-2 pl-2 pr-2 pb-1 mb-2 bg-light-blue-details border-radius-0_8-rem overflow-hidden">
                 <div class="form__field mb-2">
                     <label for="master-pass">{{ 'LOGIN.SETUP_MASTER_PASS' | translate }}</label>
                     <input class="form__field--input"
@@ -61,7 +68,8 @@
               class="form"
               [formGroup]="authForm"
               (ngSubmit)="onSubmitAuthPass()">
-            <div class="form__field--wrapper pt-2 pl-2 pr-2 pb-1 mb-2 bg-light-blue-details border-radius-0_8-rem overflow-hidden">
+            <div
+                  class="form__field--wrapper pt-2 pl-2 pr-2 pb-1 mb-2 bg-light-blue-details border-radius-0_8-rem overflow-hidden">
                 <div class="form__field">
                     <label for="master-pass-login">{{ 'LOGIN.MASTER_PASS' | translate }}</label>
                     <input class="form__field--input"

@@ -29,6 +29,7 @@ app-root {
     align-items: center;
     justify-content: space-between;
     min-height: 40px;
+    flex: 0 0 auto;
 
     .left, .right {
       display: flex;

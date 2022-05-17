@@ -1,7 +1,13 @@
-<div class="header flex flex__justify-between flex_0_0_auto mb-2">
+<div class="header mb-2"
+     fxFlex="0 0 auto"
+     fxLayout="row"
+     fxLayoutAlign="space-between start">
     <div class="left">
-        <div class="wallet-wrapper">
-            <div class="title flex flex__align-center mb-2">
+        <div class="wallet-wrapper"
+             fxLayout="column">
+            <div class="title mb-2"
+                 fxLayout="row"
+                 fxLayoutAlign="start center">
                 <h1 class="mr-2"
                     tooltip="{{ variablesService.currentWallet.name }}"
                     placement="bottom-left"
@@ -11,7 +17,9 @@
                     {{variablesService.currentWallet.name}}
                 </h1>
 
-                <div class="controls flex flex__align-center"
+                <div class="controls"
+                     fxLayout="row"
+                     fxLayoutAlign="start center"
                      *ngIf="!variablesService.currentWallet.is_auditable">
 
                     <ng-container *ngIf="!variablesService.currentWallet.alias.hasOwnProperty('name') && variablesService.currentWallet.loaded && variablesService.daemon_state === 2 && variablesService.currentWallet.alias_available">
@@ -52,17 +60,23 @@
                 </div>
             </div>
 
-            <div class="card flex flex-nowrap border-radius-0_8-rem max-w-50-rem w-100 overflow-hidden p-2">
-                <div class="left mr-2 overflow-hidden">
-                    <div class="balance-wrapper flex flex__direction-column overflow-hidden">
-                        <div class="currency flex">
+            <div class="card border-radius-0_8-rem overflow-hidden p-2 max-w-50-rem w-100"
+                 fxLayout="row nowrap"
+                 fxLayoutAlign="space-between start"
+                 fxLayoutGap="2rem">
+                <div class="left overflow-hidden" fxFlex="50%">
+                    <div class="balance-wrapper overflow-hidden"
+                         fxLayout="column"
+                         fxLayoutAlign="start none">
+                        <div class="currency"
+                             fxLayout="row">
                             <h1 class="amount text-ellipsis mr-0_5"
-                                  [tooltip]="getTooltip()"
-                                  [placement]="'bottom'"
-                                  [tooltipClass]="'balance-tooltip'"
-                                  [delay]="150"
-                                  [timeout]="0"
-                                  (onHide)="onHideTooltip()">
+                                [tooltip]="getTooltip()"
+                                [placement]="'bottom'"
+                                [tooltipClass]="'balance-tooltip'"
+                                [delay]="150"
+                                [timeout]="0"
+                                (onHide)="onHideTooltip()">
                                 {{variablesService.currentWallet.balance | intToMoney : '3'}}
                             </h1>
                             <h1>{{variablesService.defaultCurrency}}</h1>
@@ -82,8 +96,10 @@
                     </div>
                 </div>
                 <div class="right">
-                    <div class="address border-radius-0_8-rem flex flex__align-center overflow-hidden p-1">
-                        <span class="text-ellipsis mr-1">{{variablesService.currentWallet.address}}</span>
+                    <div class="address border-radius-0_8-rem overflow-hidden p-1"
+                         fxLayout="row"
+                         fxLayoutAlign="start center">
+                        <span class="text-ellipsis mr-1">{{ variablesService.currentWallet.address | slice:0:6 }}...{{ variablesService.currentWallet.address | slice:-6 }}</span>
                         <button (click)="copyAddress()"
                                 class="btn-icon circle small">
                             <i class="icon small"

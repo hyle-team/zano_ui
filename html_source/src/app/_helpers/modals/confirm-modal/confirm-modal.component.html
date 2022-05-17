@@ -3,21 +3,27 @@
             class="close"
             (click)="close()"><i class="icon close"></i></button>
 
-    <div class="content flex flex__justify-center mb-2">
-        <i class="icon modal-info mr-1"></i>
+    <div class="content mb-2"
+         fxLayout="row"
+         fxLayoutAlign="center center"
+         fxLayoutGap="1rem">
+        <i class="icon modal-info"></i>
 
-        <div class="flex flex__direction-column flex__justify-start">
+        <div fxLayout="column"
+             fxLayoutAlign="start stretch">
             <h3 class="title">{{title}}</h3>
             <p class="message">{{message}}</p>
         </div>
     </div>
 
-    <div class="controls flex">
+    <div class="controls"
+         fxLayout="row nowrap"
+         fxLayoutGap="1rem">
         <button type="button"
-                class="outline big w-100 mr-0_5"
+                class="outline big w-100"
                 (click)="close()">{{ 'MODALS.CANCEL' | translate }}</button>
         <button type="button"
-                class="primary big w-100 ml-0_5"
+                class="primary big w-100"
                 (click)="onSubmit()"
                 #btn>{{ 'MODALS.OK' | translate }}</button>
     </div>

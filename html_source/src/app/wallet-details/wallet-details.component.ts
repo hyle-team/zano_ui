@@ -6,10 +6,10 @@ import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-wallet-details',
-  templateUrl: './wallet-details.component.html',
-  styleUrls: ['./wallet-details.component.scss'],
-})
+             selector: 'app-wallet-details',
+             templateUrl: './wallet-details.component.html',
+             styleUrls: ['./wallet-details.component.scss'],
+           })
 export class WalletDetailsComponent implements OnInit, OnDestroy {
   seedPhrase = '';
   showSeed = false;
@@ -18,26 +18,26 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
   ifSaved = false;
 
   detailsForm = new FormGroup({
-    name: new FormControl('', [
-      Validators.required,
-      (g: FormControl) => {
-        for (let i = 0; i < this.variablesService.wallets.length; i++) {
-          if (g.value === this.variablesService.wallets[i].name) {
-            if (
-              this.variablesService.wallets[i].wallet_id ===
-              this.variablesService.currentWallet.wallet_id
-            ) {
-              return { same: true };
-            } else {
-              return { duplicate: true };
-            }
-          }
-        }
-        return null;
-      },
-    ]),
-    path: new FormControl(''),
-  });
+                                name: new FormControl('', [
+                                  Validators.required,
+                                  (g: FormControl) => {
+                                    for (let i = 0; i < this.variablesService.wallets.length; i++) {
+                                      if (g.value === this.variablesService.wallets[i].name) {
+                                        if (
+                                          this.variablesService.wallets[i].wallet_id ===
+                                          this.variablesService.currentWallet.wallet_id
+                                        ) {
+                                          return { same: true };
+                                        } else {
+                                          return { duplicate: true };
+                                        }
+                                      }
+                                    }
+                                    return null;
+                                  },
+                                ]),
+                                path: new FormControl(''),
+                              });
 
   seedPhraseForm = new FormGroup(
     {

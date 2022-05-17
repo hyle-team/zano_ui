@@ -4,6 +4,7 @@ import { NoWalletComponent } from './no-wallet.component';
 import { NoWalletRoutingModule } from './no-wallet-routing.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { SynchronizationStatusModule } from '../../../synchronization-status/synchronization-status.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
             declarations: [NoWalletComponent],
@@ -11,6 +12,7 @@ import { SynchronizationStatusModule } from '../../../synchronization-status/syn
               CommonModule,
               NoWalletRoutingModule,
               TranslateModule,
+              FlexLayoutModule,
               SynchronizationStatusModule
             ]
           })

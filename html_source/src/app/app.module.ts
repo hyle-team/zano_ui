@@ -57,6 +57,7 @@ import { PipesModule } from './_helpers/pipes/pipes.module';
 import { ConfirmModalModule } from './_helpers/modals/confirm-modal/confirm-modal.module';
 import { DeeplinkModule } from './deeplink/deeplink.module';
 import { StakingSwitchModule } from './_helpers/directives/staking-switch/staking-switch.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
@@ -122,6 +123,7 @@ export function highchartsFactory() {
               ReactiveFormsModule,
               NgSelectModule,
               ChartModule,
+              FlexLayoutModule,
               PapaParseModule,
               DisablePriceFetchModule,
               TooltipModule,

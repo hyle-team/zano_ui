@@ -1,11 +1,16 @@
-<div class="modal flex p-2 border-radius-0_8-rem bg-light-blue max-w-54-rem w-100 max-h-100">
+<div class="modal p-2 border-radius-0_8-rem bg-light-blue max-w-54-rem w-100 max-h-100"
+     fxLayout="row">
     <div class="wrapper">
-        <form class="flex flex__direction-column w-100 h-100 overflow-hidden"
+        <form class="overflow-hidden"
+              fxLayout="column"
+              fxFlexFill
               [formGroup]="confirmForm"
               (ngSubmit)="submit()">
-            <h3 class="title mb-2 flex_0_0_auto">{{ 'CONFIRM.TITLE' | translate }}</h3>
+            <h3 class="title mb-2"
+                fxFlex="0 0 auto">{{ 'CONFIRM.TITLE' | translate }}</h3>
 
-            <div class="content mb-2 w-100 flex_1_1_auto overflow-y-auto overflow-x-hidden">
+            <div class="content mb-2 w-100 overflow-y-auto overflow-x-hidden"
+                 fxFlex="1 1 auto">
                 <div class="table-info mb-2">
                     <div class="row">
                         <div class="label max-w-19-rem w-100">{{ 'CONFIRM.MESSAGE.SEND' | translate }}</div>
@@ -47,7 +52,8 @@
                            [placeholder]="'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate"
                            autofocus
                            (contextmenu)="variablesService.onContextMenuPasteSelect($event)"/>
-                    <div class="error" *ngIf="confirmForm.controls['password'].invalid && (confirmForm.controls['password'].dirty || confirmForm.controls['password'].touched)">
+                    <div class="error"
+                         *ngIf="confirmForm.controls['password'].invalid && (confirmForm.controls['password'].dirty || confirmForm.controls['password'].touched)">
                         <div *ngIf="confirmForm.controls['password'].errors && confirmForm.controls['password'].errors.passwordNotMatch">
                             {{ 'LOGIN.FORM_ERRORS.MISMATCH' | translate }}
                         </div>
@@ -58,12 +64,15 @@
                 </div>
             </div>
 
-            <div class="controls flex flex_0_0_auto w-100">
+            <div class="controls w-100"
+                 fxLayout="row nowrap"
+                 fxLayoutGap="1rem"
+                 fxFlex="0 0 auto">
                 <button type="button"
-                        class="outline big w-100 mr-0_5"
+                        class="outline big w-100"
                         (click)="onClose()">{{ 'CONFIRM.BUTTON_CANCEL' | translate }}</button>
                 <button type="submit"
-                        class="primary big w-100 ml-0_5">{{ 'CONFIRM.BUTTON_CONFIRM' | translate }}</button>
+                        class="primary big w-100">{{ 'CONFIRM.BUTTON_CONFIRM' | translate }}</button>
             </div>
         </form>
     </div>

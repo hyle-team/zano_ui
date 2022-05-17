@@ -1,5 +1,8 @@
-<div class="history-wrap w-100 h-100 flex flex__direction-column">
-    <div class="wrap-table flex flex_1_1_auto overflow-x-hidden overflow-y-auto mb-2">
+<div class="history-wrap"
+     fxLayout="column"
+     fxFlexFill>
+    <div class="wrap-table overflow-x-hidden overflow-y-auto mb-2"
+         fxFlex="1 1 auto">
         <table class="history-table">
             <thead>
             <tr #head
@@ -17,7 +20,9 @@
                 <tr (click)="openDetails(item.tx_hash)"
                     [class.locked-transaction]="!item.is_mining && item.unlock_time > 0">
                     <td>
-                        <div class="status flex flex__align-center text-ellipsis"
+                        <div class="status text-ellipsis"
+                             fxLayout="row"
+                             fxLayoutAlign=" center"
                              [ngClass]="item.is_income ? 'received' : 'send'">
                             <ng-container *ngIf="getHeight(item) < 10">
                                 <svg class="confirmation mr-1"
@@ -58,7 +63,8 @@
                                      src="assets/icons/aqua/receive.svg"
                                      alt="">
                             </ng-container>
-                            <span class="status-transaction-text">{{ (item.is_income ? 'HISTORY.RECEIVED' : 'HISTORY.SEND') | translate }}</span>
+                            <span
+                                  class="status-transaction-text">{{ (item.is_income ? 'HISTORY.RECEIVED' : 'HISTORY.SEND') | translate }}</span>
                             <ng-container *ngIf="item.unlock_time !== 0 && item.tx_type !== 6">
                                 <ng-container *ngIf="isLocked(item); else unlock">
                                     <ng-container *ngIf="item.unlock_time < 500000000">
@@ -105,7 +111,9 @@
                         <div class="text-ellipsis">
                             <span *ngIf="!(item.tx_type === 0 && item.remote_addresses && item.remote_addresses[0])">{{item | historyTypeMessages}}</span>
                             <span *ngIf="item.tx_type === 0 && item.remote_addresses && item.remote_addresses[0]"
-                                  (contextmenu)="variablesService.onContextMenuOnlyCopy($event, item.remote_addresses[0])">{{item.remote_addresses[0]}}</span>
+                                  (contextmenu)="variablesService.onContextMenuOnlyCopy($event, item.remote_addresses[0])">
+                                {{ item.remote_addresses[0] | slice:0:6 }}...{{ item.remote_addresses[0] | slice:-6 }}
+                            </span>
                         </div>
                     </td>
                     <td>
@@ -130,8 +138,12 @@
         </table>
     </div>
     <div class="pagination-wrapper">
-        <div class="pagination flex flex__justify-between flex__align-center">
-            <div class="left flex flex__align-center">
+        <div class="pagination"
+             fxLayout="row"
+             fxLayoutAlign="space-between center">
+            <div class="left"
+                 fxLayout="row"
+                 fxLayoutAlign=" center">
                 <button class="btn-icon circle small mr-1"
                         [disabled]="variablesService.currentWallet.currentPage === 1 || variablesService.sync_started || wallet"
                         (click)="setPage(variablesService.currentWallet.currentPage - 1)">
@@ -160,7 +172,9 @@
                     <i class="icon arrow-right-stroke"></i>
                 </button>
             </div>
-            <div class="right flex flex__align-center">
+            <div class="right"
+                 fxLayout="row"
+                 fxLayoutAlign=" center">
                 <span class="switch-text mr-2">Hide mining transactions</span>
                 <app-switch [value]="mining"
                             [disabled]="variablesService.sync_started || !!wallet"

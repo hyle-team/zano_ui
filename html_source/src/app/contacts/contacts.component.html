@@ -15,8 +15,12 @@
     <div class="page-content">
         <div class="scrolled-content">
             <ng-container *ngIf="this.variablesService.contacts.length !== 0; else emptyList">
-                <div class="contacts w-100 flex flex__direction-column">
-                    <div class="wrap-table flex flex_1_1_auto overflow-x-hidden overflow-y-auto mb-1">
+                <div class="contacts w-100"
+                     fxLayout="column"
+                     fxLayoutAlign="start stretch">
+                    <div class="wrap-table overflow-x-hidden overflow-y-auto mb-1"
+                         fxLayout="column"
+                         fxFlex="1 1 auto">
                         <table class="contacts-table">
                             <thead>
                             <tr #head
@@ -40,8 +44,8 @@
                                             <span>{{ contact.alias }}</span>
                                         </ng-container>
                                     </td>
-                                    <td class="remote-address">
-                                        {{ contact.address }}
+                                    <td class="remote-address" (contextmenu)="variablesService.onContextMenuOnlyCopy($event, contact.address)">
+                                        {{ contact.address | slice:0:6 }}...{{ contact.address | slice:-6 }}
                                     </td>
                                     <td class="remote-notes">
                                         {{ contact.notes }}
@@ -78,7 +82,9 @@
 </div>
 
 <ng-template #emptyList>
-    <div class="empty-list flex flex__direction-column flex__justify-center flex__align-center w-100">
+    <div class="empty-list w-100"
+         fxLayout="column"
+         fxLayoutAlign="center center">
         <h4 class="mb-2">{{ 'CONTACTS.TABLE.EMPTY' | translate }}</h4>
         <ng-container *ngTemplateOutlet="tempButtonAdd"></ng-container>
     </div>

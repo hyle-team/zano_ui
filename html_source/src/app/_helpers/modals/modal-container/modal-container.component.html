@@ -3,8 +3,11 @@
             class="close"
             (click)="onClose()"><i class="icon close"></i></button>
 
-    <div class="content flex flex__align-center mb-2">
-        <i class="icon min-width-4_4-rem min-height-4_4-rem flex_0_0_auto mr-1"
+    <div class="content mb-2"
+         fxLayout="row"
+         fxLayoutAlign="start center">
+        <i class="icon min-width-4_4-rem min-height-4_4-rem mr-1"
+           fxFlex="0 0 auto"
            [class.error]="type === 'error'"
            [class.success]="type === 'success'"
            [class.info]="type === 'info'"></i>
@@ -15,7 +18,9 @@
         </div>
     </div>
 
-    <div class="controls flex flex__justify-center">
+    <div class="controls"
+         fxLayout="row"
+         fxLayoutAlign="center center">
         <button type="button"
                 class="primary max-w-19-rem w-100 big"
                 (click)="onClose()"

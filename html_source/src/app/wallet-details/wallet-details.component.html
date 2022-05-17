@@ -23,7 +23,9 @@
         </div>
 
         <div class="scrolled-content">
-            <div class="flex flex__direction-column w-100 h-100">
+            <div fxLayout="column"
+                 fxLayoutAlign="start stretch"
+                 fxFlexFill>
                 <form class="form"
                       [formGroup]="detailsForm"
                       (ngSubmit)="onSubmitEdit()">
@@ -73,7 +75,9 @@
                 </form>
 
                 <ng-container *ngIf="!showSeed else seedPhraseContent">
-                    <form class="flex flex__direction-column flex__align-center form bg-light-blue-details p-2"
+                    <form class="form bg-light-blue-details p-2"
+                          fxLayout="column"
+                          fxLayoutAlign="start center"
                           [formGroup]="seedPhraseForm"
                           (ngSubmit)="onSubmitSeed()">
                         <div class="form__field">
@@ -106,7 +110,9 @@
                                 [disabled]="!seedPhraseForm.valid"><i class="icon check-shield mr-1"></i>
                             {{ 'WALLET_DETAILS.FORM.GENERATE_SECURE_SEED' | translate }}</button>
 
-                        <p class="color-primary flex-inline flex__align-center">
+                        <p class="color-primary"
+                           fxLayout="row"
+                           fxLayoutAlign="center center">
                             <i class="icon info-circle mr-1"></i>
                             {{ 'WALLET_DETAILS.FORM.SECURED_SEED_WILL_REQUIRE' | translate }}
                         </p>
@@ -114,34 +120,48 @@
                 </ng-container>
 
                 <ng-template #seedPhraseContent>
-                    <div class="seed-phrase bg-light-blue-details p-2 border-radius-0_8-rem">
-                        <div class="header flex flex__justify-between flex__align-center mb-2">
+                    <div class="seed-phrase bg-light-blue-details p-2 border-radius-0_8-rem"
+                         fxLayout="column">
+                        <div class="header mb-2"
+                             fxLayout="row"
+                             fxLayoutAlign="space-between center">
                             <div class="left">
                                 <span>{{ 'WALLET_DETAILS.LABEL_SEED_PHRASE' | translate }}</span>
                             </div>
                             <div class="right">
-                                <span class="status flex flex__align-center color-red"
+                                <span class="status color-red"
+                                      fxLayout="row"
+                                      fxLayoutAlign="start center"
                                       *ngIf="seedPhraseForm.controls.password.value.length == 0">
                                     {{ 'WALLET_DETAILS.SEED_IS_UNSECURED' | translate }}
                                     <i class="icon unsecured ml-1"></i>
                                 </span>
-                                <span class="status flex flex__align-center color-aqua"
+                                <span class="status color-aqua"
+                                      fxLayout="row"
+                                      fxLayoutAlign="start center"
                                       *ngIf="seedPhraseForm.controls.password.value.length > 0">
                                     {{ 'WALLET_DETAILS.SEED_IS_SECURED' | translate }}
                                     <i class="icon secured ml-1"></i>
                                 </span>
                             </div>
                         </div>
-                        <div class="content flex flex-wrap mb-1"
+                        <div class="content mb-1"
+                             fxLayout="row wrap"
                              (contextmenu)="variablesService.onContextMenuOnlyCopy($event, seedPhrase)">
                             <ng-container *ngFor="let word of seedPhrase.split(' '); let index = index">
-                                <div class="item flex flex__align-center flex-nowrap p-1 mr-1 mb-1 border-radius-0_8-rem">
-                                    <div class="number flex flex__justify-center flex__align-center p-1 mr-1">{{ index + 1 }}</div>
-                                    <span class="word">{{ word }}</span>
+                                <div class="item p-1 mr-1 mb-1 border-radius-0_8-rem"
+                                     fxLayout="row nowrap"
+                                     fxLayoutAlign="start center">
+                                    <div class="number p-1 mr-1"
+                                         fxLayout="row"
+                                         fxLayoutAlign="center center">{{ index + 1 }}</div>
+                                    <span class="word"
+                                          fxLayout="row">{{ word }}</span>
                                 </div>
                             </ng-container>
                         </div>
-                        <div class="footer flex flex__direction-column flex__align-center max-w-50-rem w-100">
+                        <div class="footer max-w-50-rem w-100"
+                             fxLayout="column">
                             <button type="button"
                                     class="outline big w-100 mb-2"
                                     (click)="copySeedPhrase()">
@@ -154,7 +174,7 @@
                                     {{ 'SEED_PHRASE.BUTTON_COPIED' | translate }}
                                 </ng-container>
                             </button>
-                            <p class="text-align-center flex-inline flex__align-center"
+                            <p class="text-align-center"
                                *ngIf="seedPhraseForm.controls.password.value.length > 0">
                                 <i class="icon info-circle mr-1"></i>
                                 <span class="color-primary">{{ 'WALLET_DETAILS.REMEMBER_YOU_WILL_REQUIRE' | translate}}</span>

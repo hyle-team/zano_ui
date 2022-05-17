@@ -14,7 +14,11 @@
 
     <div class="page-content">
         <div class="scrolled-content">
-            <div class="settings flex flex__direction-column max-w-50-rem w-100 h-100">
+            <div class="settings"
+                 fxFlex="0 1 50rem"
+                 fxLayout="column"
+                 fxLayoutAlign="start stretch"
+                 fxFlexFill>
                 <div class="form__field mb-2">
                     <label>{{ 'SETTINGS.LANGUAGE.TITLE' | translate }}</label>
                     <ng-select class="with-circle"

@@ -1,6 +1,10 @@
-<div class="container flex flex__direction-column flex__justify-center flex__align-center w-100 h-100 overflow-hidden">
+<div class="container overflow-hidden"
+     fxLayout="column"
+     fxLayoutAlign="center center"
+     fxFlexFill>
     <ng-container *ngIf="variablesService.currentWallet.contracts.length; else emptyContracts">
-        <div class="wrap-table flex w-100 flex_1_1_auto overflow-y-auto overflow-x-hidden mb-2">
+        <div class="wrap-table overflow-y-auto overflow-x-hidden mb-2 w-100"
+             fxFlex="1 1 auto">
             <table class="contracts-table">
                 <thead>
                 <tr>
@@ -10,13 +14,15 @@
                     <th>{{ 'CONTRACTS.STATUS' | translate }}</th>
                     <th>{{ 'CONTRACTS.COMMENTS' | translate }}</th>
                 </tr>
+                <div class="row-divider"></div>
                 </thead>
                 <tbody>
                 <ng-container *ngFor="let item of sortedArrayContracts">
-                    <div class="row-divider"></div>
                     <tr [routerLink]="'/wallet/contracts/purchase/' + item.contract_id">
                         <td>
-                            <div class="contract flex flex__align-center">
+                            <div class="contract"
+                                 fxLayout="row"
+                                 fxLayoutAlign=" center">
                                 <i class="icon alert mr-1"
                                    *ngIf="!item.is_new"></i>
                                 <i class="icon new mr-1"
@@ -64,7 +70,10 @@
             </table>
         </div>
 
-        <div class="buttons-wrap flex flex__align-center flex_0_0_auto w-100">
+        <div class="buttons-wrap w-100"
+             fxFlex="0 0 auto"
+             fxLayout="row"
+             fxLayoutAlign="start center">
             <button type="button"
                     class="primary big max-w-19-rem w-100"
                     [routerLink]="'/wallet/contracts/purchase'">{{

@@ -1,6 +1,9 @@
 <div class="container w-100 h-100 overflow-auto">
     <form *ngIf="!isLoading"
-          class="form max-w-50-rem w-100 flex flex__direction-column"
+          class="form"
+          fxFlex="0 1 50rem"
+          fxLayout="column"
+          fxLayoutAlign="start stretch"
           [formGroup]="sendForm"
           (ngSubmit)="showDialog()">
 
@@ -16,8 +19,9 @@
                        (contextmenu)="variablesService.onContextMenu($event)"
                        (input)="addressToLowerCase()">
 
-                <div class="dropdown py-0_5 border-radius-0_8-rem bg-light-blue-details overflow-x-hidden overflow-y-auto"
-                     *ngIf="isOpen && !!localAliases.length">
+                <div
+                      class="dropdown py-0_5 border-radius-0_8-rem bg-light-blue-details overflow-x-hidden overflow-y-auto"
+                      *ngIf="isOpen && !!localAliases.length">
                     <div class="item p-1 text-ellipsis"
                          *ngFor="let item of localAliases"
                          (click)="setAlias(item.name)">{{item.name}}</div>
@@ -90,7 +94,7 @@
              class="wrap mt-2 mb-2 p-2">
             <div class="title">
                 {{ 'SEND.WRAP.TITLE' | translate }}
-                <i class="icon info"></i>
+                <i class="icon info-circle"></i>
             </div>
             <div class="text-wrap">
                 {{ 'SEND.WRAP.MAIN_TEXT' | translate }}
@@ -173,7 +177,7 @@
         </div>
 
         <button type="submit"
-                class="primary big max-w-19-rem"
+                class="primary big max-w-19-rem w-100"
                 [disabled]="!sendForm.valid || !variablesService.currentWallet.loaded">
             {{'SEND.BUTTON' | translate }}
         </button>

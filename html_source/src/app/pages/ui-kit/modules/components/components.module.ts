@@ -5,6 +5,7 @@ import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { WalletsComponent } from './wallets/wallets.component';
 import { SharedModule } from '../../../../_shared/shared.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [ButtonsComponent, ProgressBarsComponent, BreadcrumbsComponent, WalletsComponent],
@@ -12,6 +13,7 @@ import { SharedModule } from '../../../../_shared/shared.module';
     CommonModule,
     TranslateModule,
     FormModule,
+    FlexLayoutModule,
     SharedModule
   ],
   exports: [ButtonsComponent, ProgressBarsComponent, BreadcrumbsComponent, WalletsComponent, FormModule]

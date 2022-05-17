@@ -1,10 +1,17 @@
-<div class="modal p-2 border-radius-0_8-rem bg-light-blue max-w-54-rem w-100 max-h-100 overflow-hidden flex flex__direction-column">
-    <form class="form flex flex__direction-column">
-        <h4 class="text-ellipsis mb-2 flex_0_0_auto">
+<div class="modal p-2 border-radius-0_8-rem bg-light-blue max-h-100 overflow-hidden"
+     fxFlex="0 1 54rem"
+     fxLayout="column"
+     fxLayoutAlign="start stretch">
+    <form class="form overflow-y-auto"
+          fxLayout="column"
+          fxLayoutAlign="start stretch">
+        <h4 class="text-ellipsis mb-2"
+            fxFlex="0 0 auto">
             {{ 'EXPORT_HISTORY.TITLE' | translate }}
         </h4>
 
-        <div class="content flex_1_1_auto mb-2">
+        <div class="content mb-2"
+             fxFlex="1 1 auto">
             <div class="form__field">
                 <label>Format:</label>
                 <ng-select [items]="exportFormats"
@@ -26,14 +33,19 @@
                 </ng-select>
             </div>
 
-            <div class="flex flex__align-center mb-2">
+            <div class="mb-2"
+                 fxLayout="row"
+                 fxLayoutAlign="start center">
                 <span class="color-primary mr-1">{{ 'EXPORT_HISTORY.FILTER' | translate }}</span>
                 <app-switch [value]="posFilterIsOn"
                             (emitChange)="posFilterIsOn = !posFilterIsOn"></app-switch>
             </div>
         </div>
 
-        <div class="controls flex flex__justify-between flex_0_0_auto">
+        <div class="controls"
+             fxFlex="0 0 auto"
+             fxLayout="row"
+             fxLayoutAlign="space-between center">
             <button type="submit"
                     class="primary big w-100 mr-0_5"
                     (click)="confirmExport()">{{ 'EXPORT_HISTORY.EXPORT' | translate }}</button>

@@ -1,9 +1,18 @@
-<div class="modal flex p-2 border-radius-0_8-rem bg-light-blue max-w-54-rem w-100 max-h-100">
-    <div class="wrapper w-100 flex flex__direction-column">
-        <h3 class="title mb-2 flex_0_0_auto">{{ 'SEND_DETAILS_MODAL.TITLE1' | translate }}</h3>
+<div class="modal p-2 border-radius-0_8-rem bg-light-blue w-100 max-h-100"
+     fxFlex="0 1 54rem">
+    <div class="wrapper w-100"
+         fxFlex
+         fxLayout="column">
+        <h3 class="title mb-2"
+            fxFlex="0 0 auto">{{ 'SEND_DETAILS_MODAL.TITLE1' | translate }}</h3>
 
-        <div class="content mb-2 flex_1_1_auto overflow-y-auto overflow-x-hidden">
-            <div class="status mb-2 flex flex__direction-column flex__align-center">
+        <div class="content mb-2 overflow-y-auto overflow-x-hidden"
+             fxFlex="1 1 auto"
+             fxLayout="column">
+            <div class="status mb-2"
+                 fxFlex="0 0 auto"
+                 fxLayout="column"
+                 fxLayoutAlign=" center">
 
                 <div *ngIf="isSentSuccess"
                      class="image">
@@ -28,12 +37,17 @@
 
             </div>
 
-            <div class="details w-100 flex flex__direction-column border-radius-0_8-rem overflow-hidden">
-                <div class="header flex flex__justify-between flex__align-center overflow-hidden py-1 px-2 w-100 cursor-pointer"
+            <div class="details border-radius-0_8-rem overflow-hidden"
+                 fxFlex="0 0 auto"
+                 fxLayout="column">
+                <div class="header overflow-hidden py-1 px-2 w-100 cursor-pointer"
+                     fxLayout="row"
+                     fxLayoutAlign="space-between center"
                      (click)="isDetailsNotEmpty && toggleDetails()">
                     <p class="title text-ellipsis mr-2">{{ 'SEND_DETAILS_MODAL.TITLE2' | translate }}</p>
                     <button *ngIf="isDetailsNotEmpty"
-                            class="flex flex__justify-center flex__align-center">
+                            fxLayout="row"
+                            fxLayoutAlign="center center">
                         <img *ngIf="!(stateDetails$ | async)"
                              src="assets/icons/white/dropdown-arrow-down.svg"
                              alt="dropdown-arrow-down">
@@ -46,9 +60,12 @@
                      class="details-wrapper overflow-y-auto scrolled-content">
                     <ul class="details-list px-2 py-1"
                         *ngIf="stateDetails$ | async">
-                        <li class="item flex flex__align-center flex-nowrap mb-1 color-primary"
+                        <li class="item mb-1 color-primary"
+                            fxLayout="row nowrap"
+                            fxLayoutAlign=" center"
                             *ngFor="let action of (currentActionStates$ | async); let last = last; trackBy: trackBy">
-                            <span class="text text-ellipsis mr-1">{{ 'TOR_LIB_STATE' + '.' + action?.status | translate }}{{ last && !isSentSuccess && !isSentFailed ? '...' : '' }}</span>
+              <span
+                    class="text text-ellipsis mr-1">{{ 'TOR_LIB_STATE' + '.' + action?.status | translate }}{{ last && !isSentSuccess && !isSentFailed ? '...' : '' }}</span>
                             <ng-container *ngIf="!last">
                                 <img *ngIf="isSuccess(action)"
                                      class="image"
@@ -75,10 +92,14 @@
                         </li>
 
                         <ng-container *ngIf="(responseData$ | async)">
-                            <li class="item flex flex__align-center flex-nowrap mb-1 color-primary">
+                            <li class="item mb-1 color-primary"
+                                fxLayout="row nowrap"
+                                fxLayoutAlign=" center">
                                 <span class="word-break-break-all">tx id: {{ (responseData$ | async).response_data.tx_hash }}</span>
                             </li>
-                            <li class="item flex flex__align-center flex-nowrap mb-1 color-primary">
+                            <li class="item mb-1 color-primary"
+                                fxLayout="row nowrap"
+                                fxLayoutAlign=" center">
                                 <div class="word-break-break-all">tx
                                                                   size: {{ (responseData$ | async).response_data.tx_blob_size }}
                                                                   bytes
@@ -89,7 +110,8 @@
                 </div>
             </div>
         </div>
-        <div class="controls w-100 flex_0_0_auto">
+        <div class="controls"
+             fxFlex="0 0 auto">
             <button class="primary big w-100"
                     [disabled]="!isSentSuccess && !isSentFailed"
                     (click)="close.emit()">{{ 'Ok' | translate }}</button>

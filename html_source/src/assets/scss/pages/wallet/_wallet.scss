@@ -10,7 +10,8 @@ app-wallet {
       background-color: var(--blue-700);
 
       .address {
-        width: 19rem;
+        min-width: 19rem;
+        max-width: 21rem;
         height: 4rem;
         border: var(--border);
       }

@@ -1,7 +1,12 @@
-<div class="modal flex flex__direction-column p-2 border-radius-0_8-rem bg-light-blue max-w-54-rem w-100 max-h-100">
+<div class="modal p-2 border-radius-0_8-rem bg-light-blue max-h-100"
+     fxFlex="0 1 54rem"
+     fxLayout="column">
     <ng-container *ngIf="this.walletsTopay.length > 1 && !secondStep">
-        <div class="content flex flex__direction-column flex_1_1_auto overflow-x-hidden overflow-y-auto mb-2">
-            <div class="form__field flex_0_0_auto">
+        <div class="content mb-2"
+             fxFlex="0 0 auto"
+             fxLayout="column">
+            <div class="form__field"
+                 fxFlex="0 0 auto">
                 <label>Select wallet for action:</label>
                 <ng-select [items]="walletsTopay"
                            bindValue="wallet_id"
@@ -22,25 +27,31 @@
             </div>
         </div>
 
-        <div class="controls flex flex__justify-between flex_0_0_auto">
+        <div class="controls"
+             fxLayoutGap="1rem"
+             fxFlex="0 0 auto"
+             fxLayout="row nowrap"
+             fxLayoutAlign="space-between center">
             <button type="button"
-                    class="outline big w-100 mr-0_5"
-                    (click)="canselAction()">{{ 'EXPORT_HISTORY.CANCEL' |
-                  translate
-                }}</button>
+                    class="outline big w-100"
+                    (click)="canselAction()">{{ 'EXPORT_HISTORY.CANCEL' | translate }}</button>
             <button type="submit"
-                    class="primary big w-100 ml-0_5"
+                    class="primary big w-100"
                     (click)="nextStep()">Next...
             </button>
         </div>
     </ng-container>
 
     <ng-container *ngIf="secondStep && marketplaceModalShow && actionData.action === 'marketplace_offer_create'">
-        <h4 class="flex_0_0_auto mb-2">
+        <h4 class="mb-2"
+            fxFlex="0 0 auto">
             Creating a marketplace offer
         </h4>
-        <div class="content flex flex__direction-column flex_1_1_auto overflow-x-hidden overflow-y-auto mb-2">
-            <div class="table-info flex_0_0_auto">
+        <div class="content overflow-x-hidden overflow-y-auto mb-2"
+             fxFlex="1 1 auto"
+             fxLayout="column">
+            <div class="table-info"
+                 fxFlex="0 0 auto">
                 <div class="row">
                     <div class="label max-w-19-rem w-100">{{ 'Offer title' | translate }}</div>
                     <div class="text">{{ actionData.title }}</div>
@@ -107,13 +118,17 @@
             </div>
         </div>
 
-        <div class="controls flex flex__justify-between flex_0_0_auto">
+        <div class="controls"
+             fxFlex="0 0 auto"
+             fxLayout="row nowrap"
+             fxLayoutAlign="space-between center"
+             fxLayoutGap="1rem">
             <button type="button"
-                    class="outline big w-100 mr-0_5"
+                    class="outline big w-100"
                     (click)="canselAction()">{{ 'EXPORT_HISTORY.CANCEL' | translate
                 }}</button>
             <button type="submit"
-                    class="primary big w-100 ml-0_5"
+                    class="primary big w-100"
                     (click)="marketplaceSend()">Sign & Send...
             </button>
         </div>
@@ -121,15 +136,21 @@
     </ng-container>
 
     <ng-container *ngIf="marketplaceConfirmHash">
-        <h4 class="flex_0_0_auto mb-2">
+        <h4 class="mb-2"
+            fxFlex="0 0 auto">
             Operation successful
         </h4>
 
-        <div class="content flex flex__direction-column flex_1_1_auto overflow-x-hidden overflow-y-auto mb-2">
-            <div class="table-info flex_0_0_auto">
+        <div class="content overflow-x-hidden overflow-y-auto mb-2"
+             fxLayout="column"
+             fxFlex="1 1 auto">
+            <div class="table-info"
+                 fxFlex="0 0 auto">
                 <div class="row">
                     <div class="label max-w-19-rem w-100">{{ 'Operation hash' | translate }}</div>
-                    <div class="text flex-inline flex__align-center"
+                    <div class="text"
+                         fxLayout="row"
+                         fxLayoutAlign="start center"
                          (contextmenu)="variablesService.onContextMenuOnlyCopy($event, marketplaceConfirmHash)">
                         {{marketplaceConfirmHash}}
                         <i class="icon ml-1"
@@ -141,7 +162,10 @@
             </div>
         </div>
 
-        <div class="controls flex flex__justify-between flex_0_0_auto">
+        <div class="controls"
+             fxFlex="0 0 auto"
+             fxLayout="row"
+             fxLayoutAlign="space-between center">
             <button type="button"
                     class="primary big w-100"
                     (click)="canselAction()">

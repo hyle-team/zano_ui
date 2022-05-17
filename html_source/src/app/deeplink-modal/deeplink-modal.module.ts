@@ -4,6 +4,7 @@ import { DeeplinkModalComponent } from './deeplink-modal.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [DeeplinkModalComponent],
@@ -11,6 +12,7 @@ import { TranslateModule } from '@ngx-translate/core';
               CommonModule,
               NgSelectModule,
               FormsModule,
+              FlexLayoutModule,
               TranslateModule
             ],
   exports: [DeeplinkModalComponent],
