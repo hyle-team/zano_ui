@@ -48,7 +48,7 @@ var NoWalletRoutingModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"no-wallet-wrapper flex flex__justify-center flex__align-center w-100 h-100\">\n    <div class=\"card max-w-42-rem max-h-100 w-100 p-2 border-radius-0_8-rem bg-light-blue overflow-x-hidden overflow-y-auto\">\n\n        <div class=\"logo flex flex__justify-center mb-3\">\n            <img src=\"assets/icons/blue/zano-logo.svg\"\n                 alt=\"zano-logo\">\n        </div>\n\n        <h4 class=\"mb-2 text-align-center\">{{ 'MAIN.TITLE' | translate }}</h4>\n\n        <button type=\"button\"\n                class=\"primary big w-100 mb-1\"\n                [routerLink]=\"['/' + paths.create]\">\n            {{ 'MAIN.BUTTON_NEW_WALLET' | translate}}\n        </button>\n\n        <button type=\"button\"\n                class=\"primary big w-100 mb-1\"\n                (click)=\"openWallet()\">{{ 'MAIN.BUTTON_OPEN_WALLET' | translate\n            }}</button>\n\n        <button type=\"button\"\n                class=\"outline big w-100 mb-2\"\n                [routerLink]=\"['/' + paths.restore]\">{{ 'MAIN.BUTTON_RESTORE_BACKUP' |\n              translate\n            }}</button>\n\n        <p class=\"text-align-center cursor-pointer\"\n           (click)=\"openInBrowser()\">\n            <i class=\"icon question-circle mr-1\"></i>\n            <span class=\"color-primary\">{{ 'MAIN.HELP' | translate }}</span>\n        </p>\n    </div>\n\n    <app-synchronization-status class=\"max-w-19-rem\"></app-synchronization-status>\n</div>\n"
+module.exports = "<div class=\"no-wallet-wrapper\"\n     fxLayout=\"row\"\n     fxLayoutAlign=\"center center\"\n     fxFlexFill>\n    <div class=\"card max-w-42-rem max-h-100 w-100 p-2 border-radius-0_8-rem bg-light-blue overflow-x-hidden overflow-y-auto\">\n\n        <div class=\"logo mb-3\"\n             fxLayout=\"row\"\n             fxLayoutAlign=\"center center\">\n            <img src=\"assets/icons/blue/zano-logo.svg\"\n                 alt=\"zano-logo\">\n        </div>\n\n        <h4 class=\"mb-2 text-align-center\">{{ 'MAIN.TITLE' | translate }}</h4>\n\n        <button type=\"button\"\n                class=\"primary big w-100 mb-1\"\n                [routerLink]=\"['/' + paths.create]\">\n            {{ 'MAIN.BUTTON_NEW_WALLET' | translate}}\n        </button>\n\n        <button type=\"button\"\n                class=\"primary big w-100 mb-1\"\n                (click)=\"openWallet()\">{{ 'MAIN.BUTTON_OPEN_WALLET' | translate\n            }}</button>\n\n        <button type=\"button\"\n                class=\"outline big w-100 mb-2\"\n                [routerLink]=\"['/' + paths.restore]\">{{ 'MAIN.BUTTON_RESTORE_BACKUP' |\n              translate\n            }}</button>\n\n        <p class=\"text-align-center cursor-pointer\"\n           (click)=\"openInBrowser()\">\n            <i class=\"icon question-circle mr-1\"></i>\n            <span class=\"color-primary\">{{ 'MAIN.HELP' | translate }}</span>\n        </p>\n    </div>\n\n    <app-synchronization-status class=\"max-w-19-rem\"></app-synchronization-status>\n</div>\n"
 
 /***/ }),
 
@@ -160,12 +160,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _no_wallet_routing_module__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./no-wallet-routing.module */ "./src/app/pages/auth/no-wallet/no-wallet-routing.module.ts");
 /* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
 /* harmony import */ var _synchronization_status_synchronization_status_module__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../synchronization-status/synchronization-status.module */ "./src/app/synchronization-status/synchronization-status.module.ts");
+/* harmony import */ var _angular_flex_layout__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/flex-layout */ "./node_modules/@angular/flex-layout/esm5/flex-layout.es5.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -182,6 +184,7 @@ var NoWalletModule = /** @class */ (function () {
                 _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"],
                 _no_wallet_routing_module__WEBPACK_IMPORTED_MODULE_3__["NoWalletRoutingModule"],
                 _ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateModule"],
+                _angular_flex_layout__WEBPACK_IMPORTED_MODULE_6__["FlexLayoutModule"],
                 _synchronization_status_synchronization_status_module__WEBPACK_IMPORTED_MODULE_5__["SynchronizationStatusModule"]
             ]
         })
