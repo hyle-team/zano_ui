@@ -4,16 +4,16 @@ import { VariablesService } from '../_helpers/services/variables.service';
 import { BackendService } from '../_helpers/services/backend.service';
 import { TranslateService } from '@ngx-translate/core';
 import { IntToMoneyPipe } from '../_helpers/pipes/int-to-money.pipe';
-import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { LOCKED_BALANCE_HELP_PAGE } from '../_shared/constants';
 import { Store, Sync } from 'store';
-import { distinctUntilChanged, filter } from 'rxjs/operators';
+import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-wallet',
-  templateUrl: './wallet.component.html',
-  styleUrls: ['./wallet.component.scss'],
-})
+             selector: 'app-wallet',
+             templateUrl: './wallet.component.html',
+             styleUrls: ['./wallet.component.scss'],
+           })
 export class WalletComponent implements OnInit, OnDestroy {
   settingsButtonInterval;
   settingsButtonDisabled = true;
@@ -32,31 +32,36 @@ export class WalletComponent implements OnInit, OnDestroy {
       title: 'WALLET.TABS.HISTORY',
       icon: 'time-circle',
       link: '/history',
+      disabled: false
     },
     {
       title: 'WALLET.TABS.SEND',
       icon: 'arrow-up-square',
       link: '/send',
+      disabled: true
     },
     {
       title: 'WALLET.TABS.RECEIVE',
       icon: 'arrow-down-square',
       link: '/receive',
+      disabled: false
     },
     {
       title: 'WALLET.TABS.CONTRACTS',
       icon: 'document',
       link: '/contracts',
+      disabled: true
     },
     {
       title: 'WALLET.TABS.STAKING',
       icon: 'staking',
       link: '/staking',
       indicator: false,
+      disabled: true
     },
   ];
-  aliasSubscription: Subscription;
-  walletsSubscription: Subscription;
+
+  private _destroy$ = new Subject<never>();
 
   @HostListener('document:keydown.shift', ['$event.key'])
   onKeyPresed() {
@@ -93,7 +98,7 @@ export class WalletComponent implements OnInit, OnDestroy {
     if (!this.variablesService.currentWallet && this.variablesService.wallets.length > 0) {
       this.variablesService.setCurrentWallet(0);
     }
-    this.walletLoaded = this.variablesService.currentWallet.loaded ? true : false;
+    this.walletLoaded = this.variablesService.currentWallet.loaded;
   }
 
   ngOnInit() {
@@ -103,9 +108,9 @@ export class WalletComponent implements OnInit, OnDestroy {
         clearInterval(this.settingsButtonInterval);
       }
     }, 1000);
-    this.walletsSubscription = this.store
+    this.store
       .select('sync')
-      .pipe(filter(Boolean), distinctUntilChanged())
+      .pipe(filter(Boolean), distinctUntilChanged(), takeUntil(this._destroy$))
       .subscribe((value: any) => {
         const data = value.filter(
           (item: Sync) => item.wallet_id === this.variablesService.currentWallet.wallet_id
@@ -131,7 +136,7 @@ export class WalletComponent implements OnInit, OnDestroy {
     if (this.variablesService.currentWallet.alias.hasOwnProperty('name')) {
       this.variablesService.currentWallet.wakeAlias = false;
     }
-    this.aliasSubscription = this.variablesService.getAliasChangedEvent.subscribe(
+    this.variablesService.getAliasChangedEvent.pipe(takeUntil(this._destroy$)).subscribe(
       () => {
         if (this.variablesService.currentWallet.alias.hasOwnProperty('name')) {
           this.variablesService.currentWallet.wakeAlias = false;
@@ -139,6 +144,9 @@ export class WalletComponent implements OnInit, OnDestroy {
       }
     );
     this.updateWalletStatus();
+    this.variablesService.getWalletChangedEvent.pipe(takeUntil(this._destroy$)).subscribe(() => {
+      this.setTabsDisabled(this.variablesService.currentWallet.balance.eq(0));
+    });
   }
 
   copyAddress() {
@@ -242,10 +250,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.aliasSubscription.unsubscribe();
-    if (this.walletsSubscription) {
-      this.walletsSubscription.unsubscribe();
-    }
+    this._destroy$.next();
     clearTimeout(this.copyAnimationTimeout);
   }
 
@@ -266,13 +271,20 @@ export class WalletComponent implements OnInit, OnDestroy {
         if (wallet_state === 2 && wallet_id === this.variablesService.currentWallet.wallet_id) {
           this.walletLoaded =
             (this.variablesService.getWallet(this.variablesService.currentWallet.wallet_id) !== null &&
-              this.variablesService.getWallet(this.variablesService.currentWallet.wallet_id).loaded)
-              ? true
-              : false;
+              this.variablesService.getWallet(this.variablesService.currentWallet.wallet_id).loaded);
+          if (this.walletLoaded) {
+            this.setTabsDisabled(this.variablesService.currentWallet.balance.eq(0));
+          }
         } else {
           this.walletLoaded = false;
         }
       });
     });
+  }
+
+  setTabsDisabled(disabled: boolean): void {
+    this.tabs[1].disabled = disabled;
+    this.tabs[3].disabled = disabled;
+    this.tabs[4].disabled = disabled;
   }
 }

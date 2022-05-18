@@ -69,7 +69,7 @@
                 </h4>
 
                 <ng-container
-                      *ngIf="(!wallet.is_auditable && !wallet.is_watch_only) || (wallet.is_auditable && !wallet.is_watch_only)">
+                      *ngIf="(!wallet.is_auditable && !wallet.is_watch_only && wallet.balance.gt(0)) || (wallet.is_auditable && !wallet.is_watch_only && wallet.balance.gt(0))">
                     <div class="staking"
                          *ngIf="!(!wallet.loaded && variablesService.daemon_state === 2)">
                         <span class="text">{{ 'SIDEBAR.ACCOUNT.STAKING' | translate }}</span>
