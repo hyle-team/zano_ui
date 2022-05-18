@@ -26,7 +26,8 @@ export class EditAliasComponent implements OnInit {
     public variablesService: VariablesService,
     private modalService: ModalService,
     private ngZone: NgZone
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.wallet = this.variablesService.currentWallet;

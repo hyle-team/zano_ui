@@ -1,11 +1,11 @@
-import {Component, NgZone, OnInit, OnDestroy} from '@angular/core';
-import {VariablesService} from '../_helpers/services/variables.service';
-import {Chart} from 'angular-highcharts';
-import {BackendService} from '../_helpers/services/backend.service';
-import {ActivatedRoute} from '@angular/router';
-import {IntToMoneyPipe} from '../_helpers/pipes/int-to-money.pipe';
-import {TranslateService} from '@ngx-translate/core';
-import {BigNumber} from 'bignumber.js';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { VariablesService } from '../_helpers/services/variables.service';
+import { Chart } from 'angular-highcharts';
+import { BackendService } from '../_helpers/services/backend.service';
+import { ActivatedRoute } from '@angular/router';
+import { IntToMoneyPipe } from '../_helpers/pipes/int-to-money.pipe';
+import { TranslateService } from '@ngx-translate/core';
+import { BigNumber } from 'bignumber.js';
 
 @Component({
   selector: 'app-staking',
@@ -59,20 +59,22 @@ export class StakingComponent implements OnInit, OnDestroy {
   groups = [
     {
       title: this.translate.instant('STAKING.GROUP.DAY'),
-      key: 'day',
+      key: 'Day',
       active: true
     },
     {
       title: this.translate.instant('STAKING.GROUP.WEEK'),
-      key: 'week',
+      key: 'Week',
       active: false
     },
     {
       title: this.translate.instant('STAKING.GROUP.MONTH'),
-      key: 'month',
+      key: 'Month',
       active: false
     }
   ];
+
+  selectedGroup = this.groups[0].key;
 
   selectedDate = {
     date: null,
@@ -139,10 +141,10 @@ export class StakingComponent implements OnInit, OnDestroy {
 
   drawChart(data) {
     this.chart = new Chart({
-      title: {text: ''},
-      credits: {enabled: false},
-      exporting: {enabled: false},
-      legend: {enabled: false},
+      title: { text: '' },
+      credits: { enabled: false },
+      exporting: { enabled: false },
+      legend: { enabled: false },
       chart: {
         type: 'line',
         backgroundColor: 'transparent',

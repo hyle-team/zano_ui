@@ -1,20 +1,19 @@
-import {Component, NgZone, OnInit, Renderer2} from '@angular/core';
-import {VariablesService} from '../_helpers/services/variables.service';
-import {BackendService} from '../_helpers/services/backend.service';
-import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {Location} from '@angular/common';
-import {TranslateService} from '@ngx-translate/core';
-import {UtilsService} from '../_helpers/services/utils.service';
+import { Component, NgZone, OnInit, Renderer2 } from '@angular/core';
+import { VariablesService } from '../_helpers/services/variables.service';
+import { BackendService } from '../_helpers/services/backend.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Location } from '@angular/common';
+import { TranslateService } from '@ngx-translate/core';
+import { scaleItems } from '../_helpers/data/scale-items';
 
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss'],
-  providers: [UtilsService]
+  styleUrls: ['./settings.component.scss']
 })
 export class SettingsComponent implements OnInit {
   ifSaved = false;
-  scale: number;
+  scale: string;
   appUseTor: boolean;
   changeForm: any;
   public currentNotificationsState;
@@ -62,24 +61,7 @@ export class SettingsComponent implements OnInit {
       name: 'SETTINGS.APP_LOCK.TIME4'
     }
   ];
-  appScaleOptions = [
-    {
-      id: 6,
-      name: 'SETTINGS.SCALE.75'
-    },
-    {
-      id: 8,
-      name: 'SETTINGS.SCALE.100'
-    },
-    {
-      id: 10,
-      name: 'SETTINGS.SCALE.125'
-    },
-    {
-      id: 12,
-      name: 'SETTINGS.SCALE.150'
-    }
-  ];
+  appScaleOptions = scaleItems;
   appLogOptions = [
     {
       id: -1
@@ -110,8 +92,7 @@ export class SettingsComponent implements OnInit {
     private backend: BackendService,
     private location: Location,
     public translate: TranslateService,
-    private ngZone: NgZone,
-    private utilsService: UtilsService
+    private ngZone: NgZone
   ) {
     this.scale = this.variablesService.settings.scale;
     this.appUseTor = this.variablesService.settings.appUseTor;
@@ -120,10 +101,10 @@ export class SettingsComponent implements OnInit {
       new_password: new FormControl('', Validators.pattern(this.variablesService.pattern)),
       new_confirmation: new FormControl('')
     }, [(g: FormGroup) => {
-      return g.get('new_password').value === g.get('new_confirmation').value ? null : {'confirm_mismatch': true};
+      return g.get('new_password').value === g.get('new_confirmation').value ? null : { 'confirm_mismatch': true };
     }, (g: FormGroup) => {
       if (this.variablesService.appPass) {
-        return g.get('password').value === this.variablesService.appPass ? null : {'pass_mismatch': true};
+        return g.get('password').value === this.variablesService.appPass ? null : { 'pass_mismatch': true };
       }
       return null;
     }]);
@@ -148,10 +129,7 @@ export class SettingsComponent implements OnInit {
 
   setScale() {
     this.scale = this.variablesService.settings.scale;
-    const width = this.utilsService.getMinWidthByScale(this.scale);
-    const app = document.documentElement.querySelector('app-root');
-    this.renderer.setStyle(app, 'min-width', width + 'px');
-    this.renderer.setStyle(document.documentElement, 'font-size', this.scale + 'px');
+    this.renderer.setStyle(document.documentElement, 'font-size', this.scale);
     this.backend.storeAppData();
   }
 
@@ -160,9 +138,9 @@ export class SettingsComponent implements OnInit {
       this.onSave();
       this.variablesService.appPass = this.changeForm.get('new_password').value;
       if (this.variablesService.appPass) {
-        this.backend.setMasterPassword({pass: this.variablesService.appPass}, (status, data) => {
+        this.backend.setMasterPassword({ pass: this.variablesService.appPass }, (status, data) => {
           if (status) {
-            this.backend.storeSecureAppData({pass: this.variablesService.appPass});
+            this.backend.storeSecureAppData({ pass: this.variablesService.appPass });
             this.variablesService.appLogin = true;
             this.variablesService.dataIsLoaded = true;
             if (this.variablesService.settings.appLockTime) {

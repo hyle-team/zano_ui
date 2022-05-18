@@ -1,11 +1,12 @@
-import {Directive, HostListener} from '@angular/core';
+import { Directive, HostListener } from '@angular/core';
 
 @Directive({
   selector: 'input'
 })
 export class InputDisableSelectionDirective {
 
-  constructor() {}
+  constructor() {
+  }
 
   @HostListener('mousedown', ['$event'])
   handleInput(event: Event) {

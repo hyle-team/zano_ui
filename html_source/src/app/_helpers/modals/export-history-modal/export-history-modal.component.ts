@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, OnDestroy, OnInit, Output, Renderer2 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BackendService } from '../../services/backend.service';
 import { VariablesService } from '../../services/variables.service';
@@ -8,16 +8,18 @@ import { VariablesService } from '../../services/variables.service';
   templateUrl: './export-history-modal.component.html',
   styleUrls: ['./export-history-modal.component.scss']
 })
-export class ExportHistoryModalComponent {
-  posFilterIsOn: boolean = true;
-  public curentFormat: string;
-  exportPath: string
+export class ExportHistoryModalComponent implements OnInit, OnDestroy {
+  @HostBinding('class.modal-overlay') modalOverlay = true;
+
+  posFilterIsOn = true;
+  currentFormat: string;
+  exportPath: string;
   exportData = {
     wallet_id: 0,
     include_pos_transactions: false,
-    path: "C:\\some_file.txt",
+    path: 'C:\\some_file.txt',
     format: 'json'
-  }
+  };
   exportFormats = [
     {
       format: 'json',
@@ -40,9 +42,18 @@ export class ExportHistoryModalComponent {
   constructor(
     private backend: BackendService,
     public variablesService: VariablesService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private renderer: Renderer2
   ) {
-    this.curentFormat = this.exportFormats[0].format;
+    this.currentFormat = this.exportFormats[0].format;
+  }
+
+  ngOnInit() {
+    this.renderer.addClass(document.body, 'no-scroll');
+  }
+
+  ngOnDestroy() {
+    this.renderer.removeClass(document.body, 'no-scroll');
   }
 
   closeModal() {
@@ -50,20 +61,24 @@ export class ExportHistoryModalComponent {
   }
 
   confirmExport() {
-    this.exportData.format = `${this.curentFormat}`;
+    this.exportData.format = `${ this.currentFormat }`;
     this.exportData.wallet_id = this.currentWalletId;
     this.exportData.include_pos_transactions = this.posFilterIsOn;
 
-    this.backend.saveFileDialog(this.translate.instant('EXPORT_HISTORY.SAVED_FILE'), `${this.exportData.format}`, this.variablesService.settings.default_path, (file_status, file_data) => {
-      if (this.exportData.format === 'text') {
-        this.exportData.path = file_data.path + '.txt';
-      } else {
-        this.exportData.path = file_data.path + `.${this.exportData.format}`;
-      }
-      if (file_status) {
-        this.backend.exportWalletHistory(JSON.stringify(this.exportData))
-        this.closeExportModal.emit(true);
-      };
-    });
+    this.backend.saveFileDialog(
+      this.translate.instant('EXPORT_HISTORY.SAVED_FILE'),
+      `${ this.exportData.format }`,
+      this.variablesService.settings.default_path,
+      (file_status, file_data) => {
+        if (this.exportData.format === 'text') {
+          this.exportData.path = file_data.path + '.txt';
+        } else {
+          this.exportData.path = file_data.path + `.${ this.exportData.format }`;
+        }
+        if (file_status) {
+          this.backend.exportWalletHistory(JSON.stringify(this.exportData));
+          this.closeExportModal.emit(true);
+        }
+      });
   }
 }

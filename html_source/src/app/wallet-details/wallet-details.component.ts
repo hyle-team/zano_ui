@@ -1,43 +1,43 @@
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BackendService } from '../_helpers/services/backend.service';
 import { VariablesService } from '../_helpers/services/variables.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 @Component({
-  selector: 'app-wallet-details',
-  templateUrl: './wallet-details.component.html',
-  styleUrls: ['./wallet-details.component.scss'],
-})
+             selector: 'app-wallet-details',
+             templateUrl: './wallet-details.component.html',
+             styleUrls: ['./wallet-details.component.scss'],
+           })
 export class WalletDetailsComponent implements OnInit, OnDestroy {
   seedPhrase = '';
   showSeed = false;
   copyAnimation = false;
   seedPhraseCopied = false;
-  ifSaved: boolean = false;
+  ifSaved = false;
 
   detailsForm = new FormGroup({
-    name: new FormControl('', [
-      Validators.required,
-      (g: FormControl) => {
-        for (let i = 0; i < this.variablesService.wallets.length; i++) {
-          if (g.value === this.variablesService.wallets[i].name) {
-            if (
-              this.variablesService.wallets[i].wallet_id ===
-              this.variablesService.currentWallet.wallet_id
-            ) {
-              return { same: true };
-            } else {
-              return { duplicate: true };
-            }
-          }
-        }
-        return null;
-      },
-    ]),
-    path: new FormControl(''),
-  });
+                                name: new FormControl('', [
+                                  Validators.required,
+                                  (g: FormControl) => {
+                                    for (let i = 0; i < this.variablesService.wallets.length; i++) {
+                                      if (g.value === this.variablesService.wallets[i].name) {
+                                        if (
+                                          this.variablesService.wallets[i].wallet_id ===
+                                          this.variablesService.currentWallet.wallet_id
+                                        ) {
+                                          return { same: true };
+                                        } else {
+                                          return { duplicate: true };
+                                        }
+                                      }
+                                    }
+                                    return null;
+                                  },
+                                ]),
+                                path: new FormControl(''),
+                              });
 
   seedPhraseForm = new FormGroup(
     {
@@ -66,7 +66,8 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
     public variablesService: VariablesService,
     private ngZone: NgZone,
     private location: Location
-  ) { }
+  ) {
+  }
 
   ngOnInit() {
     this.showSeed = false;
@@ -104,7 +105,7 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
     this.ifSaved = true;
     setTimeout(() => {
       this.ifSaved = false;
-    }, 3000)
+    }, 3000);
   }
 
 
@@ -114,7 +115,7 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
       this.variablesService.currentWallet.name = this.detailsForm.get(
         'name'
       ).value;
-      this.detailsForm.reset({ name: this.variablesService.currentWallet.name, path: this.variablesService.currentWallet.path })
+      this.detailsForm.reset({ name: this.variablesService.currentWallet.name, path: this.variablesService.currentWallet.path });
     }
   }
 
@@ -144,12 +145,13 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
       }
     );
   }
+
   copySeedPhrase() {
     this.backend.setClipboard(this.seedPhrase, () => {
       this.ngZone.run(() => {
         setTimeout(() => {
           this.seedPhraseCopied = false;
-        }, 4000)
+        }, 4000);
         this.seedPhraseCopied = true;
       });
     });
@@ -160,6 +162,5 @@ export class WalletDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-
   }
 }
