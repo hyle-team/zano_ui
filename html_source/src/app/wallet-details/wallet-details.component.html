@@ -78,6 +78,7 @@
                     <form class="form bg-light-blue-details p-2"
                           fxLayout="column"
                           fxLayoutAlign="start center"
+                          fxFlex="0 0 auto"
                           [formGroup]="seedPhraseForm"
                           (ngSubmit)="onSubmitSeed()">
                         <div class="form__field">
@@ -121,9 +122,11 @@
 
                 <ng-template #seedPhraseContent>
                     <div class="seed-phrase bg-light-blue-details p-2 border-radius-0_8-rem"
-                         fxLayout="column">
+                         fxLayout="column"
+                         fxFlex="0 0 auto">
                         <div class="header mb-2"
                              fxLayout="row"
+                             fxFlex="0 0 auto"
                              fxLayoutAlign="space-between center">
                             <div class="left">
                                 <span>{{ 'WALLET_DETAILS.LABEL_SEED_PHRASE' | translate }}</span>

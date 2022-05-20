@@ -49,7 +49,7 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
 
   @Output() close: EventEmitter<never> = new EventEmitter<never>();
 
-  @ViewChild('elDetailsWrapper') elDetailsWrapper: ElementRef;
+  @ViewChild('elDetailsList') elDetailsList: ElementRef;
 
   /** BehaviorSubject with ResponseAsyncTransfer */
   responseData$ = new BehaviorSubject<ResponseAsyncTransfer>(null);
@@ -143,7 +143,7 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
   /** Show/Hide details transaction */
   toggleDetails(): any {
     this.stateDetails$.next(!this.stateDetails$.value);
-    setTimeout(() => this._scrollToBottomDetailsWrapper(), 100);
+    setTimeout(() => this._scrollToBottomDetailsList(), 100);
   }
 
   /** identification item by *ngFor */
@@ -162,9 +162,9 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
   }
 
   /** Scroll elDetailsWrapper to bottom */
-  private _scrollToBottomDetailsWrapper() {
-    if (this.elDetailsWrapper) {
-      const { nativeElement } = this.elDetailsWrapper;
+  private _scrollToBottomDetailsList() {
+    if (this.elDetailsList) {
+      const { nativeElement } = this.elDetailsList;
       nativeElement.scrollTop = nativeElement.scrollHeight;
     }
   }

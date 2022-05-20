@@ -19,7 +19,7 @@
       }
 
       &:not(:placeholder-shown) {
-        &.invalid, &.ng-invalid {
+        &.invalid, &.ng-touched.ng-invalid {
           border: var(--border-error);
         }
       }

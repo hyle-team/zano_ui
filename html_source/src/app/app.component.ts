@@ -605,10 +605,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
     this.variablesService.disable_price_fetch$.pipe(takeUntil(this._destroy$)).subscribe((disable_price_fetch) => {
       if (!disable_price_fetch) {
-        // this.getMoneyEquivalent();
-        // this.intervalUpdatePriceState = setInterval(() => {
-        //   this.getMoneyEquivalent();
-        // }, 30000);
+        this.getMoneyEquivalent();
+        this.intervalUpdatePriceState = setInterval(() => {
+          this.getMoneyEquivalent();
+        }, 30000);
       } else {
         if (this.intervalUpdatePriceState) {
           clearInterval(this.intervalUpdatePriceState);

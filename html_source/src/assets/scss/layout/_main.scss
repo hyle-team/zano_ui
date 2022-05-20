@@ -51,17 +51,8 @@ app-root {
     flex-direction: column;
     flex: auto;
     overflow: hidden;
-    padding: 2rem 0.8rem 2rem 2rem;
+    padding: 2rem;
     border-radius: 0.8rem;
     background-color: var(--blue-700);
-
-    .scrolled-content {
-      display: flex;
-      flex: auto;
-      width: 100%;
-      height: auto;
-      overflow-y: scroll;
-      overflow-x: hidden;
-    }
   }
 }

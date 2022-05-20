@@ -6,7 +6,7 @@
         <h3 class="title mb-2"
             fxFlex="0 0 auto">{{ 'SEND_DETAILS_MODAL.TITLE1' | translate }}</h3>
 
-        <div class="content mb-2 overflow-y-auto overflow-x-hidden"
+        <div class="content mb-2 overflow-x-hidden overflow-y-auto"
              fxFlex="1 1 auto"
              fxLayout="column">
             <div class="status mb-2"
@@ -56,10 +56,14 @@
                              alt="dropdown-arrow-up">
                     </button>
                 </div>
-                <div #elDetailsWrapper
-                     class="details-wrapper overflow-y-auto scrolled-content">
-                    <ul class="details-list px-2 py-1"
-                        *ngIf="stateDetails$ | async">
+                <div [fxHide]="!(stateDetails$ | async)"
+                     [class.px-2]="(stateDetails$ | async)"
+                     [class.py-1]="(stateDetails$ | async)"
+                     class="details-wrapper"
+                     fxFlex="1 1 auto"
+                     fxLayout="row">
+                    <ul #elDetailsList
+                        class="details-list scrolled-content">
                         <li class="item mb-1 color-primary"
                             fxLayout="row nowrap"
                             fxLayoutAlign=" center"
