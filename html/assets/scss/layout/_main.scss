@@ -1,11 +1,18 @@
-body {
+html, body {
+  position: fixed;
+  overflow: hidden;
+  overscroll-behavior: none;
+
   width: 100%;
   min-width: 1000px;
   max-width: 100vw;
 
   height: 100vh;
   min-height: 700px;
+}
 
+
+body {
   background: var(--blue-900);
 }
 
@@ -47,14 +54,5 @@ app-root {
     padding: 2rem;
     border-radius: 0.8rem;
     background-color: var(--blue-700);
-
-    .scrolled-content {
-      display: flex;
-      flex: auto;
-      width: 100%;
-      height: auto;
-      overflow-y: auto;
-      overflow-x: hidden;
-    }
   }
 }

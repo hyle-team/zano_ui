@@ -7,7 +7,7 @@
 $ng-select-highlight: var(--gray-900) !default;
 $ng-select-primary-text: var(--white-500) !important;
 $ng-select-disabled-text: var(--white-500) !default;
-$ng-select-border: var(--gray-800) !default;
+$ng-select-border: var(--gray-500) !default;
 $ng-select-border-radius: 0.8rem !default;
 $ng-select-bg: var(--blue-500) !default;
 $ng-select-selected: $ng-select-highlight !default;
@@ -17,7 +17,7 @@ $ng-select-marked: $ng-select-highlight !default;
 $ng-select-marked-text: $ng-select-primary-text !default;
 
 $ng-select-box-shadow: none;
-$ng-select-placeholder: var(--gray-800) !default;
+$ng-select-placeholder: var(--gray-700) !default;
 $ng-select-height: 4rem !default;
 $ng-select-value-padding-left: 1rem !default;
 $ng-select-value-font-size: 1.8rem !default;
@@ -95,10 +95,11 @@ $circle-background: white !default;
   }
 
   &.ng-select-disabled {
-    cursor: not-allowed;
+    cursor: not-allowed !important;
 
     > .ng-select-container {
       background-color: $ng-select-disabled-text;
+      cursor: not-allowed !important;
     }
   }
 
@@ -114,8 +115,10 @@ $circle-background: white !default;
     border: 0.15rem solid $ng-select-bg;
     min-height: $ng-select-height;
     transition: border 0.2s ease-in-out;
+    cursor: pointer !important;
 
-    &:hover, &.ng-has-value {
+    // &.ng-has-value show border if select has value
+    &:hover {
       box-shadow: none;
       border: 0.15rem solid $ng-select-border;
     }
@@ -301,6 +304,12 @@ $circle-background: white !default;
       background: center / contain no-repeat url(~src/assets/icons/white/dropdown-arrow-down.svg);
     }
   }
+
+  &.invalid, &.ng-touched.ng-invalid  {
+    > .ng-select-container, .ng-dropdown-panel {
+      border: var(--border-error);
+    }
+  }
 }
 
 .ng-dropdown-panel {
@@ -470,29 +479,21 @@ $circle-background: white !default;
 
         &:after {
           position: absolute;
+          top: 50%;
+          right: 1rem;
+          transform: translateY(-50%);
           display: block;
           content: '';
           width: 1.8rem;
           height: 1.8rem;
-          border-radius: 50%;
-          border: $circle-border;
-          top: 50%;
-          right: 0.7rem;
-          transform: translateY(-50%);
+          background-image: url('~src/assets/icons/white/radio.svg');
+          background-size: contain;
+          background-repeat: no-repeat;
         }
 
         &.ng-option-selected {
-          &:before {
-            position: absolute;
-            display: block;
-            content: '';
-            width: 1.4rem;
-            height: 1.4rem;
-            border-radius: 50%;
-            background-color: $circle-background;
-            top: 50%;
-            right: 0.9rem;
-            transform: translateY(-50%);
+          &:after {
+            background-image: url('~src/assets/icons/white/radio-active.svg');
           }
         }
       }
