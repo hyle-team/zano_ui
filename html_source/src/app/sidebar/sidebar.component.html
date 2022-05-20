@@ -43,7 +43,7 @@
                     <div class="right">
                         <button type="button"
                                 tooltip="{{ 'WALLET.TOOLTIPS.CLOSE' | translate }}"
-                                placement="top-left"
+                                placement="top"
                                 tooltipClass="table-tooltip account-tooltip"
                                 [delay]="500"
                                 [timeDelay]="500"
@@ -92,7 +92,7 @@
 
     <div class="sidebar-nav w-100">
         <!-- ui-kit -->
-        <ng-container *ngIf="false">
+        <ng-container *ngIf="true">
             <button class="outline small w-100 mb-1"
                     routerLinkActive="active"
                     [routerLink]="['/ui-kit']">
@@ -143,7 +143,7 @@
 
         <!-- Log out -->
         <ng-container *ngIf="variablesService.appPass === ''; else masterPass">
-            <button class="outline small w-100 mb-1"
+            <button class="outline small w-100"
                     tooltip="{{ 'SIDEBAR.LOG_OUT_TOOLTIP' | translate }}"
                     placement="bottom"
                     tooltipClass="table-tooltip account-tooltip"

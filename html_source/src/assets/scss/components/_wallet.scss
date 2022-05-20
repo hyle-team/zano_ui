@@ -119,6 +119,13 @@
     border: none;
     padding: 1.35rem;
     background: var(--gradietAquaToBlue);
+    .price {
+      .percent {
+        &.red {
+          color: var(--red-100);
+        }
+      }
+    }
   }
 
   .progress-bar {

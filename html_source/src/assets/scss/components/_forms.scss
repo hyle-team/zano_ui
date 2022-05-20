@@ -11,6 +11,25 @@
     margin-bottom: 2rem;
     width: 100%;
 
+    &--input {
+      /* If input is not empty */
+      &:not(:placeholder-shown):not(.invalid):not(.ng-invalid) {
+        /* You need to add a placeholder to your fields. For example: <input "placeholder=" "/> */
+        border: var(--border-not-empty);
+      }
+
+      &:not(:placeholder-shown) {
+        &.invalid, &.ng-invalid {
+          border: var(--border-error);
+        }
+      }
+
+      /* If input is empty */
+      &:placeholder-shown {
+        border: var(--border);
+      }
+    }
+
     label {
       margin-bottom: 0.8rem;
       color: var(--azure-500);
@@ -65,41 +84,30 @@
         }
       }
 
-      &:not(:disabled):not(:read-only):not(.invalid):not(.ng-invalid) {
-        &:hover {
-          border: var(--border-not-empty);
-        }
-      }
-
       &::placeholder {
         color: var(--gray-800);
       }
 
-      &.ng-touched {
-        &.ng-invalid {
-          border: var(--border-error);
-        }
-      }
-
-      &.invalid {
+      &.invalid, &.ng-touched.ng-invalid {
         border: var(--border-error);
 
         &::placeholder {
           color: var(--red-500);
         }
       }
-    }
 
-    &--input {
-      /* If input is not empty */
-      &:not(:placeholder-shown):not(.invalid):not(.ng-invalid) {
-        /* You need to add a placeholder to your fields. For example: <input "placeholder=" "/> */
-        border: var(--border-not-empty);
-      }
+      &:not(:disabled):not(:read-only) {
+        &:hover {
+          border: var(--border-not-empty);
 
-      /* If input is empty */
-      &:placeholder-shown {
-        border: var(--border);
+          &.invalid, &.ng-touched.ng-invalid {
+            border: var(--border-error);
+
+            &::placeholder {
+              color: var(--red-500);
+            }
+          }
+        }
       }
     }
 
@@ -150,11 +158,12 @@
           border: var(--border);
         }
 
-        &.ng-touched {
+        .ng-touched {
           .ng-invalid {
             border: var(--border-error);
           }
         }
+
 
         &.invalid {
           border: var(--border-error);
@@ -257,53 +266,47 @@
   }
 
   input[type="checkbox"] {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    visibility: hidden;
+
+    & + label {
+      position: relative;
+    }
+
+    & + label:before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      width: 2.4rem;
+      height: 2.4rem;
+      transition: all 0.2s ease-in-out;
+      background-image: url('~src/assets/icons/white/checkbox.svg');
+      background-size: contain;
+      background-repeat: no-repeat;
+    }
+
+    &:not(:disabled) + label:hover:before {
+      background-image: url('~src/assets/icons/white/checkbox-hover.svg');
+    }
+
+    &:checked {
+      & + label:before, & + label:hover:before {
+        background-image: url('~src/assets/icons/white/checkbox-active.svg');
+      }
+    }
+
     &:disabled {
       & + label {
         cursor: not-allowed;
       }
 
       & + label:before {
-        border: var(--border-disabled);
         cursor: not-allowed;
-      }
-    }
-
-    &:not(checked) {
-      position: absolute;
-      top: 50%;
-      left: 0;
-      transform: translateY(-50%);
-      visibility: hidden;
-
-      & + label {
-        position: relative;
-      }
-
-      & + label:before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 0;
-        transform: translateY(-50%);
-        background: transparent;
-        width: 2.4rem;
-        height: 2.4rem;
-        border: var(--border);
-        border-radius: 0.5rem;
-      }
-    }
-
-    &:checked {
-      & + label:after {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 0.55rem;
-        transform: translateY(-50%);
-        width: 1.4rem;
-        height: 1.4rem;
-        background-color: var(--white-500);
-        border-radius: 0.5rem;
       }
     }
   }
