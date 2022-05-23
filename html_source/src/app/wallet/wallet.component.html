@@ -1,14 +1,16 @@
 <div class="header mb-2"
      fxFlex="0 0 auto"
-     fxLayout="row"
+     fxLayout="row nowrap"
+     fxLayoutGap="1rem"
      fxLayoutAlign="space-between start">
-    <div class="left">
+    <div class="left overflow-hidden">
         <div class="wallet-wrapper"
-             fxLayout="column">
+             fxLayout="column"
+             fxLayoutAlign="start start">
             <div class="title mb-2"
-                 fxLayout="row"
+                 fxLayout="row nowrap"
                  fxLayoutAlign="start center">
-                <h1 class="mr-2"
+                <h1 class="text-ellipsis mr-2"
                     tooltip="{{ variablesService.currentWallet.name }}"
                     placement="bottom-left"
                     tooltipClass="table-tooltip"
@@ -17,7 +19,7 @@
                     {{variablesService.currentWallet.name}}
                 </h1>
 
-                <div class="controls"
+                <div fxFlex="0 0 auto" class="controls"
                      fxLayout="row"
                      fxLayoutAlign="start center"
                      *ngIf="!variablesService.currentWallet.is_auditable">
@@ -60,7 +62,7 @@
                 </div>
             </div>
 
-            <div class="card border-radius-0_8-rem overflow-hidden p-2 max-w-50-rem w-100"
+            <div class="card border-radius-0_8-rem overflow-hidden p-2 max-w-50-rem"
                  fxLayout="row nowrap"
                  fxLayoutAlign="space-between start"
                  fxLayoutGap="2rem">
@@ -88,7 +90,7 @@
                                 ${{variablesService.currentWallet.getMoneyEquivalent(variablesService.moneyEquivalent) | intToMoney | number :'1.2-2'}}
                             </span>
 
-                            <span class="percent ml-1"
+                            <span class="percent ml-0_5"
                                   [class.red]="variablesService.moneyEquivalentPercent < 0">
                               {{ variablesService.moneyEquivalentPercent | number : '1.1-2' }}%
                             </span>
@@ -96,9 +98,9 @@
                     </div>
                 </div>
                 <div class="right">
-                    <div class="address border-radius-0_8-rem overflow-hidden p-1"
+                    <div class="address border-radius-0_8-rem overflow-hidden pl-1 pr-0_5 pt-0_5 pb-0_5"
                          fxLayout="row"
-                         fxLayoutAlign="start center">
+                         fxLayoutAlign="space-between center">
                         <span class="text-ellipsis mr-1">{{ variablesService.currentWallet.address | slice:0:6 }}...{{ variablesService.currentWallet.address | slice:-6 }}</span>
                         <button (click)="copyAddress()"
                                 class="btn-icon circle small">
@@ -171,7 +173,7 @@
                                 type="button"
                                 (click)="showConfirmDialog(variablesService.currentWallet.wallet_id)"
                                 tooltip="{{ 'WALLET.TOOLTIPS.CLOSE' | translate }}"
-                                placement="top-left"
+                                placement="left"
                                 tooltipClass="table-tooltip account-tooltip"
                                 [delay]="500"
                                 [timeDelay]="500">
@@ -201,7 +203,7 @@
         </ng-container>
     </div>
     <div #scrolledContent
-         class="tabs-content p-2">
+         class="tabs-content">
         <router-outlet></router-outlet>
     </div>
 </div>

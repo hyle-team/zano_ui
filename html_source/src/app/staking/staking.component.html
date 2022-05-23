@@ -1,117 +1,120 @@
-<div class="chart-wrap w-100 h-100 overflow-auto"
-     fxLayout="column">
-    <div class="chart-header"
-         fxFlex="0 0 auto"
-         fxLayoutGap="1rem"
-         fxLayout="row nowrap"
-         fxLayoutAlign="space-between center">
-        <div class="left"
-             fxLayout="row wrap"
-             fxLayoutAlign="start center">
+<div class="chart-wrap"
+     fxLayout="column"
+     fxFlexFill>
+    <div class="scrolled-content h-100" fxLayout="column" fxFlex="1 1 auto">
+        <div class="chart-header"
+             fxFlex="0 0 auto"
+             fxLayoutGap="1rem"
+             fxLayout="row nowrap"
+             fxLayoutAlign="space-between center">
+            <div class="left"
+                 fxLayout="row wrap"
+                 fxLayoutAlign="start center">
 
-            <div class="items"
-                 fxLayout="row wrap">
-                <div
-                      class="item overflow-hidden p-1 border-radius-0_8-rem mr-1 mb-2"
-                      fxLayout="row nowrap"
-                      fxLayoutAlign="space-between center"
-                      *ngIf="(!variablesService.currentWallet.is_auditable && !variablesService.currentWallet.is_watch_only)
+                <div class="items"
+                     fxLayout="row wrap">
+                    <div
+                          class="item overflow-hidden p-1 border-radius-0_8-rem mr-1 mb-2"
+                          fxLayout="row nowrap"
+                          fxLayoutAlign="space-between center"
+                          *ngIf="(!variablesService.currentWallet.is_auditable && !variablesService.currentWallet.is_watch_only)
                 || (variablesService.currentWallet.is_auditable && !variablesService.currentWallet.is_watch_only)">
-                    <div
-                          class="left overflow-hidden mr-1"
-                          fxLayout="row"
-                          fxLayoutAlign="start center">{{ 'STAKING.TITLE' | translate }}</div>
+                        <div
+                              class="left overflow-hidden mr-1"
+                              fxLayout="row"
+                              fxLayoutAlign="start center">{{ 'STAKING.TITLE' | translate }}</div>
 
-                    <div class="right overflow-hidden w-100"
-                         fxLayout="row"
-                         fxLayoutAlign="end center">
-                        <app-staking-switch
-                              [wallet_id]="variablesService.currentWallet.wallet_id"
-                              [(staking)]="variablesService.currentWallet.staking">
-                        </app-staking-switch>
+                        <div class="right overflow-hidden w-100"
+                             fxLayout="row"
+                             fxLayoutAlign="end center">
+                            <app-staking-switch
+                                  [wallet_id]="variablesService.currentWallet.wallet_id"
+                                  [(staking)]="variablesService.currentWallet.staking">
+                            </app-staking-switch>
+                        </div>
                     </div>
-                </div>
-                <div
-                      class="item overflow-hidden p-1 border-radius-0_8-rem mr-1 mb-2"
-                      fxLayout="row nowrap"
-                      fxLayoutAlign="space-between center">
                     <div
-                          class="left overflow-hidden mr-1"
-                          fxLayout="row"
-                          fxLayoutAlign="start center">{{ 'STAKING.TITLE_PENDING' | translate }}
-                        :
+                          class="item overflow-hidden p-1 border-radius-0_8-rem mr-1 mb-2"
+                          fxLayout="row nowrap"
+                          fxLayoutAlign="space-between center">
+                        <div
+                              class="left overflow-hidden mr-1"
+                              fxLayout="row"
+                              fxLayoutAlign="start center">{{ 'STAKING.TITLE_PENDING' | translate }}
+                            :
+                        </div>
+                        <div class="right overflow-hidden w-100"
+                             fxLayout="row"
+                             fxLayoutAlign="end center">
+                            <div class="text-ellipsis mr-1">{{pending.total | intToMoney}}</div>
+                            {{variablesService.defaultCurrency}}</div>
                     </div>
-                    <div class="right overflow-hidden w-100"
-                         fxLayout="row"
-                         fxLayoutAlign="end center">
-                        <div class="text-ellipsis mr-1">{{pending.total | intToMoney}}</div>
-                        {{variablesService.defaultCurrency}}</div>
-                </div>
-                <div
-                      class="item overflow-hidden p-1 border-radius-0_8-rem mb-2"
-                      fxLayout="row nowrap"
-                      fxLayoutAlign="space-between center">
                     <div
-                          class="left overflow-hidden mr-1"
-                          fxLayout="row"
-                          fxLayoutAlign="start center">{{ 'STAKING.TITLE_TOTAL' | translate }}
-                        :
+                          class="item overflow-hidden p-1 border-radius-0_8-rem mb-2"
+                          fxLayout="row nowrap"
+                          fxLayoutAlign="space-between center">
+                        <div
+                              class="left overflow-hidden mr-1"
+                              fxLayout="row"
+                              fxLayoutAlign="start center">{{ 'STAKING.TITLE_TOTAL' | translate }}
+                            :
+                        </div>
+                        <div class="right overflow-hidden w-100"
+                             fxLayout="row"
+                             fxLayoutAlign="end center">
+                            <div class="text-ellipsis mr-1">{{total | intToMoney}}</div>
+                            {{variablesService.defaultCurrency}}</div>
                     </div>
-                    <div class="right overflow-hidden w-100"
-                         fxLayout="row"
-                         fxLayoutAlign="end center">
-                        <div class="text-ellipsis mr-1">{{total | intToMoney}}</div>
-                        {{variablesService.defaultCurrency}}</div>
                 </div>
             </div>
-        </div>
-        <div class="right"
-             fxLayout="row"
-             fxLayoutAlign="end center">
-            <div class="selected mr-1 mb-2"
-                 *ngIf="selectedDate && selectedDate.date">
-                <span>{{selectedDate.date | date : 'EEEE, MMMM d, y'}}</span>
-                <span>{{selectedDate.amount}} {{variablesService.defaultCurrency}}</span>
+            <div class="right"
+                 fxLayout="row"
+                 fxLayoutAlign="end center">
+                <div class="selected mr-1 mb-2"
+                     *ngIf="selectedDate && selectedDate.date">
+                    <span>{{selectedDate.date | date : 'EEEE, MMMM d, y'}}</span>
+                    <span>{{selectedDate.amount}} {{variablesService.defaultCurrency}}</span>
+                </div>
+
+                <ng-select class="selected-group max-w-19-rem w-100 mb-2"
+                           [items]="groups"
+                           bindValue="key"
+                           bindLabel="title"
+                           [(ngModel)]="selectedGroup"
+                           [clearable]="false"
+                           [searchable]="false"
+                           (change)="changeGroup($event)">
+                    <ng-template ng-label-tmp
+                                 let-item="item">
+                        Sort by {{(item.title | translate | lowercase) + 's'}}
+                    </ng-template>
+                    <ng-template ng-option-tmp
+                                 let-item="item"
+                                 let-index="index">
+                        {{item.title | translate}}
+                    </ng-template>
+                </ng-select>
             </div>
-
-            <ng-select class="selected-group max-w-19-rem w-100 mb-2"
-                       [items]="groups"
-                       bindValue="key"
-                       bindLabel="title"
-                       [(ngModel)]="selectedGroup"
-                       [clearable]="false"
-                       [searchable]="false"
-                       (change)="changeGroup($event)">
-                <ng-template ng-label-tmp
-                             let-item="item">
-                    Sort by {{(item.title | translate | lowercase) + 's'}}
-                </ng-template>
-                <ng-template ng-option-tmp
-                             let-item="item"
-                             let-index="index">
-                    {{item.title | translate}}
-                </ng-template>
-            </ng-select>
         </div>
-    </div>
 
-    <div class="chart border-radius-0_8-rem"
-         fxFlex="1 1 auto"
-         fxLayoutAlign=" center">
-        <div [chart]="chart"></div>
-    </div>
+        <div class="chart border-radius-0_8-rem"
+             fxFlex="1 1 auto"
+             fxLayoutAlign=" center">
+            <div [chart]="chart"></div>
+        </div>
 
-    <div class="chart-options mt-2"
-         fxFlex="0 0 auto"
-         fxLayoutAlign=" center">
-        <ng-container *ngFor="let period of periods; let last = last">
-            <button type="button"
-                    class="big w-100"
-                    [class.outline]="!last"
-                    [class.primary]="last"
-                    [class.mr-1]="!last"
-                    [class.active]="period.active"
-                    (click)="changePeriod(period)">{{period.title}}</button>
-        </ng-container>
+        <div class="chart-options mt-2"
+             fxFlex="0 0 auto"
+             fxLayoutAlign=" center">
+            <ng-container *ngFor="let period of periods; let last = last">
+                <button type="button"
+                        class="big w-100"
+                        [class.outline]="!last"
+                        [class.primary]="last"
+                        [class.mr-1]="!last"
+                        [class.active]="period.active"
+                        (click)="changePeriod(period)">{{period.title}}</button>
+            </ng-container>
+        </div>
     </div>
 </div>

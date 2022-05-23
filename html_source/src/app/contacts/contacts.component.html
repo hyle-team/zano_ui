@@ -13,12 +13,13 @@
     </div>
 
     <div class="page-content">
-        <div class="scrolled-content">
+        <div fxFlex="1 1 auto" fxLayout="row">
             <ng-container *ngIf="this.variablesService.contacts.length !== 0; else emptyList">
                 <div class="contacts w-100"
                      fxLayout="column"
+                     fxLayoutGap="2rem"
                      fxLayoutAlign="start stretch">
-                    <div class="wrap-table overflow-x-hidden overflow-y-auto mb-1"
+                    <div class="wrap-table scrolled-content"
                          fxLayout="column"
                          fxFlex="1 1 auto">
                         <table class="contacts-table">

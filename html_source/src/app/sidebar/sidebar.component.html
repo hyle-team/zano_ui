@@ -6,7 +6,7 @@
 </div>
 
 <div class="sidebar-content">
-    <div class="sidebar-content-list mb-1"
+    <div class="sidebar-content-list scrolled-content mb-1"
          cdkDropList
          cdkDropListLockAxis="y"
          #scrollContainer
@@ -43,7 +43,7 @@
                     <div class="right">
                         <button type="button"
                                 tooltip="{{ 'WALLET.TOOLTIPS.CLOSE' | translate }}"
-                                placement="top-left"
+                                placement="top"
                                 tooltipClass="table-tooltip account-tooltip"
                                 [delay]="500"
                                 [timeDelay]="500"
@@ -90,7 +90,7 @@
         </ng-container>
     </div>
 
-    <div class="sidebar-nav w-100">
+    <div class="sidebar-nav scrolled-content">
         <!-- ui-kit -->
         <ng-container *ngIf="false">
             <button class="outline small w-100 mb-1"
@@ -143,7 +143,7 @@
 
         <!-- Log out -->
         <ng-container *ngIf="variablesService.appPass === ''; else masterPass">
-            <button class="outline small w-100 mb-1"
+            <button class="outline small w-100"
                     tooltip="{{ 'SIDEBAR.LOG_OUT_TOOLTIP' | translate }}"
                     placement="bottom"
                     tooltipClass="table-tooltip account-tooltip"

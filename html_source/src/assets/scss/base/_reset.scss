@@ -2,6 +2,7 @@ html {
   box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
+  overscroll-behavior: none;
 }
 
 *, *:before, *:after {
@@ -10,6 +11,7 @@ html {
   -moz-box-sizing: inherit;
   margin: 0;
   padding: 0;
+  -webkit-backface-visibility: hidden;
   -webkit-touch-collout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;

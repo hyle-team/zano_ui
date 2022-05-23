@@ -10,10 +10,10 @@
              alt="qr-code">
     </div>
 
-    <div class="address border-radius-0_8-rem overflow-hidden p-1"
+    <div class="address border-radius-0_8-rem overflow-hidden pl-1 pr-0_5 pt-0_5 pb-0_5"
          fxLayout="row"
          fxFlex="0 0 auto"
-         fxLayoutAlign="center center">
+         fxLayoutAlign="space-between center">
         <span class="text-ellipsis mr-1">{{ variablesService.currentWallet.address | slice:0:10 }}...{{ variablesService.currentWallet.address | slice:-10 }}</span>
         <button (click)="copyAddress()"
                 class="btn-icon circle small">
