@@ -38,7 +38,6 @@ app-contracts {
 
             .status,
             .comment {
-              display: inline-flex;
               text-overflow: ellipsis;
               overflow: hidden;
               max-width: 100%;

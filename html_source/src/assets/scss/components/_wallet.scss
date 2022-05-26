@@ -98,18 +98,18 @@
   }
 
   &.auditable {
-    background-color: transparent;
+    background: transparent;
     border-color: var(--white-500);
   }
 
   &.watch-only {
-    background-color: transparent;
-    border-color: var(--amethyst-500);
+    border: none;
+    padding: 1.35rem;
+    background: var(--gradietAmethystToPurpurle);
   }
 
   &.auditable,
-  &.watch-only,
-  &.tracking {
+  &.watch-only {
     &.active {
       padding: 1.35rem;
       background: var(--gradietAquaToBlue);
@@ -137,7 +137,7 @@
     }
   }
 
-  &:hover:not(.active) {
+  &:hover:not(.active):not(.watch-only):not(.auditable) {
     border-color: var(--gray-800);
   }
 

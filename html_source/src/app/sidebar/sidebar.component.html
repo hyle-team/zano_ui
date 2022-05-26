@@ -92,8 +92,10 @@
 
     <div class="sidebar-nav scrolled-content">
         <!-- ui-kit -->
-        <ng-container *ngIf="false">
-            <button class="outline small w-100 mb-1"
+        <ng-container *ngIf="true">
+            <button class="outline small w-100 mb-1 px-2"
+                    fxLayout="row inline wrap"
+                    fxLayoutAlign="start center"
                     routerLinkActive="active"
                     [routerLink]="['/ui-kit']">
                 <span>ui-kit</span>
@@ -101,7 +103,9 @@
         </ng-container>
 
         <!-- add wallet -->
-        <button class="outline small w-100 mb-1"
+        <button class="outline small w-100 mb-1 px-2"
+                fxLayout="row inline wrap"
+                fxLayoutAlign="start center"
                 (click)="goMainPage()">
             <i class="icon plus mr-1"></i>
             <span>{{ 'SIDEBAR.ADD_NEW' | translate }}</span>
@@ -109,7 +113,9 @@
 
         <!-- contact -->
         <ng-container *ngIf="variablesService.appPass === ''; else contactsShow">
-            <button class="outline small w-100 mb-1"
+            <button class="outline small w-100 mb-1 px-2"
+                    fxLayout="row inline wrap"
+                    fxLayoutAlign="start center"
                     routerLinkActive="active"
                     tooltip="{{ 'SIDEBAR.CONTACTS_TOOLTIP' | translate }}"
                     placement="top"
@@ -124,7 +130,9 @@
         </ng-container>
 
         <ng-template #contactsShow>
-            <button class="outline small w-100 mb-1"
+            <button class="outline small w-100 mb-1 px-2"
+                    fxLayout="row inline wrap"
+                    fxLayoutAlign="start center"
                     routerLinkActive="active"
                     (click)="contactsRoute()"
                     [disabled]="variablesService.daemon_state !== 2">
@@ -134,7 +142,9 @@
         </ng-template>
 
         <!-- settings -->
-        <button class="outline small w-100 mb-1"
+        <button class="outline small w-100 mb-1 px-2"
+                fxLayout="row inline wrap"
+                fxLayoutAlign="start center"
                 routerLinkActive="active"
                 [routerLink]="['/settings']">
             <i class="icon settings mr-1"></i>
@@ -143,7 +153,9 @@
 
         <!-- Log out -->
         <ng-container *ngIf="variablesService.appPass === ''; else masterPass">
-            <button class="outline small w-100"
+            <button class="outline small w-100 px-2"
+                    fxLayout="row inline wrap"
+                    fxLayoutAlign="start center"
                     tooltip="{{ 'SIDEBAR.LOG_OUT_TOOLTIP' | translate }}"
                     placement="bottom"
                     tooltipClass="table-tooltip account-tooltip"
@@ -157,7 +169,9 @@
         </ng-container>
 
         <ng-template #masterPass>
-            <button class="outline small w-100"
+            <button class="outline small w-100 px-2"
+                    fxLayout="row inline wrap"
+                    fxLayoutAlign="start center"
                     (click)="logOut()">
                 <i class="icon logout mr-1"></i>
                 <span> {{ 'SIDEBAR.LOG_OUT' | translate }}</span>
