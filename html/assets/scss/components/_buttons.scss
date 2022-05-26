@@ -11,6 +11,7 @@ button, .btn {
   text-overflow: ellipsis;
   border-radius: 0.8rem;
   font-size: 1.8rem;
+  padding: 1rem;
 
   &:not(:disabled):hover {
     cursor: pointer;
@@ -33,7 +34,6 @@ button, .btn {
   }
 
   &.primary {
-    padding: 1rem;
     background-color: var(--azure-500);
 
     &:not(:disabled) {
@@ -44,7 +44,6 @@ button, .btn {
   }
 
   &.outline {
-    padding: 1rem;
     border: 0.15rem solid var(--azure-500);
 
     &:not(:disabled) {
