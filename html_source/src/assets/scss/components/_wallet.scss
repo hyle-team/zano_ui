@@ -13,6 +13,10 @@
   border: 0.15rem solid var(--blue-500);
   cursor: pointer;
 
+  .content {
+    z-index: 10;
+  }
+
   .header {
     display: flex;
     flex-wrap: nowrap;
@@ -94,32 +98,13 @@
       line-height: 1.2;
       padding-left: 1rem;
     }
-
-  }
-
-  &.auditable {
-    background: transparent;
-    border-color: var(--white-500);
-  }
-
-  &.watch-only {
-    border: none;
-    padding: 1.35rem;
-    background: var(--gradietAmethystToPurpurle);
-  }
-
-  &.auditable,
-  &.watch-only {
-    &.active {
-      padding: 1.35rem;
-      background: var(--gradietAquaToBlue);
-    }
   }
 
   &.active {
     border: none;
     padding: 1.35rem;
     background: var(--gradietAquaToBlue);
+
     .price {
       .percent {
         &.red {
@@ -129,15 +114,53 @@
     }
   }
 
-  .progress-bar {
-    background-color: var(--gray-800);
+  &.auditable, &.watch-only {
+    border-width: 0;
+    padding: 1.35rem;
+    background: var(--gradietLightAmethystToPurpurle);
+  }
 
-    .fill {
-      background-color: var(--white-500);
+  &.auditable {
+    &:hover:not(.active) {
+      padding: 1.2rem;
+      border-width: 0.15rem;
+    }
+
+    &.active {
+      padding: 1.35rem;
+      border: none;
+      background: var(--gradietAmethystToPurpurle);
     }
   }
 
-  &:hover:not(.active):not(.watch-only):not(.auditable) {
+  &.watch-only {
+    &:after {
+      content: '';
+      display: block;
+      background: var(--blue-500);
+      position: absolute;
+      border-radius: 0.8rem;
+      left: 0.25rem;
+      right: 0.25rem;
+      top: 0.25rem;
+      bottom: 0.25rem;
+      z-index: 1;
+    }
+
+    &.active, &:hover {
+      background: var(--gradietAmethystToPurpurle);
+    }
+
+    .price {
+      .percent {
+        &.red {
+          color: var(--red-500);
+        }
+      }
+    }
+  }
+
+  &:hover:not(.active):not(.watch-only) {
     border-color: var(--gray-800);
   }
 
@@ -147,5 +170,13 @@
 
   &:last-child {
     margin-bottom: 0 !important;
+  }
+
+  .progress-bar {
+    background-color: var(--gray-800);
+
+    .fill {
+      background-color: var(--white-500);
+    }
   }
 }

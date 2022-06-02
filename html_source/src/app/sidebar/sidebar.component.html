@@ -21,70 +21,71 @@
                  [vsDragScrollContainer]="scrollContainer"
                  [cdkDragData]="wallet"
                  (click)="selectWallet(wallet.wallet_id)">
-
-                <div class="header">
-                    <div class="left">
-                        <div class="name text-ellipsis">
+                <div class="content">
+                    <div class="header">
+                        <div class="left">
+                            <div class="name text-ellipsis">
                             <span class="indicator"
                                   *ngIf="wallet.new_contracts">
                                 {{ wallet.new_contracts }}
                             </span>
 
-                            <span class="name"
-                                  tooltip="{{ wallet.name }}"
-                                  placement="top-left"
-                                  tooltipClass="table-tooltip account-tooltip"
-                                  [delay]="500"
-                                  [showWhenNoOverflow]="false">
+                                <span class="name"
+                                      tooltip="{{ wallet.name }}"
+                                      placement="top-left"
+                                      tooltipClass="table-tooltip account-tooltip"
+                                      [delay]="500"
+                                      [showWhenNoOverflow]="false">
                               {{!wallet.alias['name'] ? wallet.name : wallet.alias['name']}}
                           </span>
+                            </div>
+                        </div>
+                        <div class="right">
+                            <button type="button"
+                                    tooltip="{{ 'WALLET.TOOLTIPS.CLOSE' | translate }}"
+                                    placement="top"
+                                    tooltipClass="table-tooltip account-tooltip"
+                                    [delay]="500"
+                                    [timeDelay]="500"
+                                    (click)="showDialog(wallet.wallet_id)">
+                                <i class="icon close"></i>
+                            </button>
                         </div>
                     </div>
-                    <div class="right">
-                        <button type="button"
-                                tooltip="{{ 'WALLET.TOOLTIPS.CLOSE' | translate }}"
-                                placement="top"
-                                tooltipClass="table-tooltip account-tooltip"
-                                [delay]="500"
-                                [timeDelay]="500"
-                                (click)="showDialog(wallet.wallet_id)">
-                            <i class="icon close"></i>
-                        </button>
+
+                    <div class="balance">
+                        <span class="text-ellipsis mr-1">{{wallet.balance | intToMoney : '3' }}</span>
+                        <span>{{variablesService.defaultCurrency}}</span>
                     </div>
-                </div>
 
-                <div class="balance">
-                    <span class="text-ellipsis mr-1">{{wallet.balance | intToMoney : '3' }}</span>
-                    <span>{{variablesService.defaultCurrency}}</span>
-                </div>
+                    <h4 class="price"
+                        *appDisablePriceFetch>
+                        ${{wallet.getMoneyEquivalent(variablesService.moneyEquivalent) | intToMoney | number :'1.2-2'}}
 
-                <h4 class="price"
-                    *appDisablePriceFetch>
-                    ${{wallet.getMoneyEquivalent(variablesService.moneyEquivalent) | intToMoney | number :'1.2-2'}}
-
-                    <span class="percent"
-                          [class.red]="variablesService.moneyEquivalentPercent < 0">
+                        <span class="percent"
+                              [class.red]="variablesService.moneyEquivalentPercent < 0">
                             {{ variablesService.moneyEquivalentPercent | number : '1.1-2' }}%
                     </span>
-                </h4>
+                    </h4>
 
-                <ng-container
-                      *ngIf="(!wallet.is_auditable && !wallet.is_watch_only && wallet.balance.gt(0)) || (wallet.is_auditable && !wallet.is_watch_only && wallet.balance.gt(0))">
-                    <div class="staking"
-                         *ngIf="!(!wallet.loaded && variablesService.daemon_state === 2)">
-                        <span class="text">{{ 'SIDEBAR.ACCOUNT.STAKING' | translate }}</span>
-                        <app-staking-switch [wallet_id]="wallet.wallet_id"
-                                            [(staking)]="wallet.staking"></app-staking-switch>
-                    </div>
-                </ng-container>
+                    <ng-container
+                          *ngIf="(!wallet.is_auditable && !wallet.is_watch_only && wallet.balance.gt(0)) || (wallet.is_auditable && !wallet.is_watch_only && wallet.balance.gt(0))">
+                        <div class="staking"
+                             *ngIf="!(!wallet.loaded && variablesService.daemon_state === 2)">
+                            <span class="text">{{ 'SIDEBAR.ACCOUNT.STAKING' | translate }}</span>
+                            <app-staking-switch [wallet_id]="wallet.wallet_id"
+                                                [(staking)]="wallet.staking"></app-staking-switch>
+                        </div>
+                    </ng-container>
 
-                <div class="account-synchronization"
-                     *ngIf="!wallet.loaded && variablesService.daemon_state === 2">
-                    <div class="progress-bar">
-                        <div class="fill"
-                             [style.width]="wallet.progress + '%'"></div>
+                    <div class="account-synchronization"
+                         *ngIf="!wallet.loaded && variablesService.daemon_state === 2">
+                        <div class="progress-bar">
+                            <div class="fill"
+                                 [style.width]="wallet.progress + '%'"></div>
+                        </div>
+                        <div class="progress-percent">{{ wallet.progress }}%</div>
                     </div>
-                    <div class="progress-percent">{{ wallet.progress }}%</div>
                 </div>
             </div>
         </ng-container>
