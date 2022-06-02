@@ -1,11 +1,11 @@
-<div class="synchronization-status"
+<div class="synchronization-status overflow-hidden"
      [ngStyle]="{'align-items': variablesService.daemon_state === 1 || variablesService.daemon_state === 6 ? 'flex-start' : 'center'}">
     <div class="status-container">
         <div class="offline"
              *ngIf="variablesService.daemon_state === 0">
             <span>{{ 'SIDEBAR.SYNCHRONIZATION.OFFLINE' | translate }}</span>
         </div>
-        <div class="syncing"
+        <div class="syncing text-ellipsis"
              *ngIf="variablesService.daemon_state === 1">
             {{ 'SIDEBAR.SYNCHRONIZATION.SYNCING' | translate }}
             {{ variablesService.sync.progress_value_text }}%
@@ -26,7 +26,7 @@
              *ngIf="variablesService.daemon_state === 5">
             {{ 'SIDEBAR.SYNCHRONIZATION.COMPLETE' | translate }}
         </div>
-        <div class="syncing"
+        <div class="syncing text-ellipsis"
              *ngIf="variablesService.daemon_state === 6">
             {{ 'SIDEBAR.SYNCHRONIZATION.DOWNLOADING' | translate }}
             {{ variablesService.download.progress_value_text }}%

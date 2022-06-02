@@ -12,6 +12,7 @@ import { DisablePriceFetchModule } from '../_shared/directives/disable-price-fet
 import { ConfirmModalModule } from '../_helpers/modals/confirm-modal/confirm-modal.module';
 import { DeeplinkModule } from '../deeplink/deeplink.module';
 import { StakingSwitchModule } from '../_helpers/directives/staking-switch/staking-switch.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [SidebarComponent],
@@ -27,7 +28,8 @@ import { StakingSwitchModule } from '../_helpers/directives/staking-switch/staki
               ConfirmModalModule,
               SynchronizationStatusModule,
               DeeplinkModule,
-              StakingSwitchModule
+              StakingSwitchModule,
+              FlexLayoutModule
             ],
   exports: [SidebarComponent]
 })
