@@ -26,11 +26,11 @@
                             <thead>
                             <tr #head
                                 (window:resize)="calculateWidth()">
-                                <th>{{ 'CONTACTS.TABLE.NAME' | translate }}</th>
-                                <th>{{ 'CONTACTS.TABLE.ALIAS' | translate }}</th>
-                                <th>{{ 'CONTACTS.TABLE.ADDRESS' | translate }}</th>
-                                <th>{{ 'CONTACTS.TABLE.NOTES' | translate }}</th>
-                                <th></th>
+                                <th><div class="bg title">{{ 'CONTACTS.TABLE.NAME' | translate }}</div></th>
+                                <th><div class="bg title">{{ 'CONTACTS.TABLE.ALIAS' | translate }}</div></th>
+                                <th><div class="bg title">{{ 'CONTACTS.TABLE.ADDRESS' | translate }}</div></th>
+                                <th><div class="bg title">{{ 'CONTACTS.TABLE.NOTES' | translate }}</div></th>
+                              <th><div class="bg title">&nbsp;</div></th>
                             </tr>
                             <div class="row-divider"></div>
                             </thead>

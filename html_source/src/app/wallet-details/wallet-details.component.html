@@ -66,10 +66,11 @@
 
                     <div class="form__field">
                         <label for="wallet-location">{{ 'WALLET_DETAILS.LABEL_FILE_LOCATION' | translate }}</label>
-                        <input class="form__field--input"
+                        <input class="form__field--input cursor-default"
                                type="text"
                                id="wallet-location"
                                formControlName="path"
+                               (contextmenu)="variablesService.onContextMenuOnlyCopy($event, detailsForm.get('path')?.value)"
                                readonly>
                     </div>
                 </form>

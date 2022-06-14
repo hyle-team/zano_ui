@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Wallet } from '../_helpers/models/wallet.model';
 import { TranslateService } from '@ngx-translate/core';
 import { Location } from '@angular/common';
+import { ValidationErrors } from '@angular/forms/src/directives/validators';
 
 @Component({
   selector: 'app-open-wallet',
@@ -69,6 +70,15 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
         this.variablesService.count,
         false,
         (open_status, open_data, open_error) => {
+          if (open_error === 'WRONG_PASSWORD') {
+            this.ngZone.run(() => {
+              this.openForm.get('password').setErrors({
+                wrong_password: {
+                  text: 'Wrong password'
+                }
+              } as ValidationErrors);
+            });
+          }
           if (open_error && open_error === 'FILE_NOT_FOUND') {
             let error_translate = this.translate.instant('OPEN_WALLET.FILE_NOT_FOUND1');
             error_translate += ':<br>' + this.filePath;

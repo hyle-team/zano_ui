@@ -59,17 +59,17 @@ export class StakingComponent implements OnInit, OnDestroy {
   groups = [
     {
       title: this.translate.instant('STAKING.GROUP.DAY'),
-      key: 'Day',
+      key: 'day',
       active: true
     },
     {
       title: this.translate.instant('STAKING.GROUP.WEEK'),
-      key: 'Week',
+      key: 'week',
       active: false
     },
     {
       title: this.translate.instant('STAKING.GROUP.MONTH'),
-      key: 'Month',
+      key: 'month',
       active: false
     }
   ];
