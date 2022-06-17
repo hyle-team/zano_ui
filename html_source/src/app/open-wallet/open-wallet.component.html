@@ -58,6 +58,10 @@
                            formControlName="password"
                            placeholder="{{ 'PLACEHOLDERS.PASS_PLACEHOLDER' | translate }}"
                            (contextmenu)="variablesService.onContextMenuPasteSelect($event)">
+                  <div class="error"
+                       *ngIf="openForm.controls['password'].invalid && (openForm.controls['password'].dirty || openForm.controls['password'].touched)">
+                    {{ openForm.controls['password']?.errors['wrong_password']?.text }}
+                  </div>
                 </div>
 
 

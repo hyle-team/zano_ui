@@ -193,6 +193,7 @@
       position: relative;
 
       .dropdown {
+		  overflow-y: auto;
         position: absolute;
         top: calc(100% + 1rem);
         left: 0;
@@ -200,13 +201,6 @@
         width: 100%;
         max-height: 15rem;
         border: var(--border);
-
-        .item {
-          &:hover {
-            background-color: var(--gray-900);
-            cursor: pointer;
-          }
-        }
       }
     }
   }

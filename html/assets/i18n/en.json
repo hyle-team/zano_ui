@@ -579,9 +579,9 @@
     },
     "TITLE_GROUP": "Group:",
     "GROUP": {
-      "DAY": "day",
-      "WEEK": "week",
-      "MONTH": "month"
+      "DAY": "Day",
+      "WEEK": "Week",
+      "MONTH": "Month"
     },
     "SWITCH": {
       "ON": "ON",

@@ -14,7 +14,13 @@
          fxLayout="row"
          fxFlex="0 0 auto"
          fxLayoutAlign="space-between center">
-        <span class="text-ellipsis mr-1">{{ variablesService.currentWallet.address | slice:0:10 }}...{{ variablesService.currentWallet.address | slice:-10 }}</span>
+        <span
+          [tooltip]="variablesService.currentWallet.address"
+          [placement]="'bottom'"
+          [tooltipClass]="'table-tooltip'"
+          [delay]="150"
+          [timeout]="0"
+          class="text-ellipsis mr-1">{{ variablesService.currentWallet.address | slice:0:9 }}...{{ variablesService.currentWallet.address | slice:-9 }}</span>
         <button (click)="copyAddress()"
                 class="btn-icon circle small">
             <i class="icon small"

@@ -18,6 +18,10 @@
   cursor: pointer;
 }
 
+.cursor-default {
+  cursor: default !important;
+}
+
 .text-ellipsis {
   text-overflow: ellipsis;
   overflow: hidden;

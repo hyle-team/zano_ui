@@ -68,7 +68,7 @@ export class SendComponent implements OnInit, OnDestroy {
           this.localAliases = this.variablesService.aliases.filter((item) => {
             return item.name.indexOf(g.value) > -1;
           });
-          if (!(/^@?[a-z\d\-]{6,25}$/.test(g.value))) {
+          if (!(/^@?[a-z\d\-]{0,25}$/.test(g.value))) {
             g.setErrors(Object.assign({ 'alias_not_valid': true }, g.errors));
           } else {
             this.backend.getAliasByName(g.value.replace('@', ''), (alias_status, alias_data) => {

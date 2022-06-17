@@ -16,10 +16,11 @@
         <div class="scrolled-content">
             <div class="settings"
                  fxFlex="0 1 50rem"
+                 fxLayoutGap="2rem"
                  fxLayout="column"
                  fxLayoutAlign="start stretch"
                  fxFlexFill>
-                <div class="form__field mb-2">
+                <div class="form__field">
                     <label>{{ 'SETTINGS.LANGUAGE.TITLE' | translate }}</label>
                     <ng-select class="with-circle"
                                [items]="languagesOptions"
@@ -41,7 +42,7 @@
                     </ng-select>
                 </div>
 
-                <div class="form__field mb-2">
+                <div class="form__field">
                     <label>{{ 'SETTINGS.APP_LOCK.TITLE' | translate }}</label>
                     <ng-select class="with-circle"
                                [items]="appLockOptions"
@@ -63,7 +64,7 @@
                     </ng-select>
                 </div>
 
-                <div class="form__field mb-2">
+                <div class="form__field">
                     <label>{{ 'SETTINGS.SCALE.TITLE' | translate }}</label>
                     <ng-select class="with-circle"
                                [items]="appScaleOptions"
@@ -85,7 +86,7 @@
                     </ng-select>
                 </div>
 
-                <div class="form__field mb-2">
+                <div class="form__field">
                     <label>{{ 'SETTINGS.APP_LOG_TITLE' | translate }}</label>
                     <ng-select class="with-circle"
                                [items]="appLogOptions"
@@ -98,14 +99,14 @@
                     </ng-select>
                 </div>
 
-                <div class="form__field mb-2">
+                <div class="form__field">
                     <label>{{ 'SETTINGS.NOTIFICATIONS' | translate }}</label>
                     <app-switch
                           [value]="currentNotificationsState"
                           (emitChange)="toggleNotifications()"></app-switch>
                 </div>
 
-                <div class="form__field mb-2">
+                <div class="form__field">
                     <label>{{ 'SETTINGS.USE_TOR_TO_RELAY_TRANSACTIONS' | translate }}</label>
                     <app-switch
                           [value]="appUseTor"
@@ -175,6 +176,7 @@
                               [class.active]="ifSaved">{{ 'SETTINGS.SETTINGS_SAVED' | translate }}</span>
                     </div>
                 </form>
+                <p>Build version: {{ currentBuild }}</p>
             </div>
         </div>
     </div>

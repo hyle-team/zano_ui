@@ -18,21 +18,43 @@ table {
     overflow: auto;
 
     tr {
-      background-color: var(--blue-400);
 
       th {
+        background-color: var(--blue-700);
+        z-index: 5;
+        max-width: 10rem;
         overflow: hidden;
         text-overflow: ellipsis;
-        padding: 2rem;
-        max-width: 10rem;
+
+        .bg {
+          background-color: var(--blue-400);
+        }
+
+        .title {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          padding: 2rem;
+          width: 100%;
+        }
 
         &:first-child {
-          border-radius: 0.8rem 0 0 0.8rem;
+          .title {
+            border-radius: 0.8rem 0 0 0.8rem;
+          }
+
         }
 
         &:last-child {
-          border-radius: 0 0.8rem 0.8rem 0;
+          .title {
+            border-radius: 0 0.8rem 0.8rem 0;
+          }
         }
+      }
+
+      /** Sticky header */
+      th {
+        position: sticky;
+        top: 0;
       }
     }
   }

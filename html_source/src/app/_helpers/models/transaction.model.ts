@@ -16,6 +16,7 @@ export class Transaction {
   timestamp: number;
   tx_blob_size: number;
   remote_addresses?: string[];
+  remote_aliases?: string[];
   tx_hash: string;
   tx_type: number;
   unlock_time: number;
