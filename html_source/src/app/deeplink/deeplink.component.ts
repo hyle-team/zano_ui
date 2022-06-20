@@ -21,9 +21,7 @@ export class DeeplinkComponent implements OnDestroy {
   ) {
     this.variablesService.deeplink$.pipe(takeUntil(this.destroy$)).subscribe((data) => {
       this.ngZone.run(() => {
-        if (data) {
-          this.deeplink = data;
-        }
+        this.deeplink = data;
       });
     });
   }

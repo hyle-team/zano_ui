@@ -1,4 +1,5 @@
 import { Component, HostBinding, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { VariablesService } from '../../services/variables.service';
 
 @Component({
   selector: 'app-sync-modal',
@@ -9,7 +10,8 @@ export class SyncModalComponent implements OnInit, OnDestroy {
   @HostBinding('class.modal-overlay') modalOverlay = true;
 
   constructor(
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    public variablesService: VariablesService,
   ) {
   }
 
@@ -19,6 +21,11 @@ export class SyncModalComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.renderer.removeClass(document.body, 'no-scroll');
+  }
+
+  canselAction() {
+    this.variablesService.deeplink$.next(null);
+    this.variablesService.sendActionData$.next({});
   }
 
 }
