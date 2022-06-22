@@ -98,13 +98,13 @@
                            (contextmenu)="variablesService.onContextMenu($event)">
                     <div class="error"
                          *ngIf="restoreForm.controls['key'].invalid && (restoreForm.controls['key'].dirty || restoreForm.controls['key'].touched)">
-                        <div *ngIf="restoreForm.controls['key'].errors['key_not_valid']">
-                            {{ 'RESTORE_WALLET.FORM_ERRORS.KEY_NOT_VALID' | translate }}
-                        </div>
                         <div *ngIf="restoreForm.controls['key'].errors['required']">
                             {{ 'RESTORE_WALLET.FORM_ERRORS.KEY_REQUIRED' | translate }}
                         </div>
                     </div>
+					<div class="error" *ngIf="(restoreForm.controls['key'].dirty || restoreForm.controls['key'].touched) && !this.seedPhraseInfo?.syntax_correct">
+						{{ 'Seed phrase not valid' | translate }}
+					</div>
                 </div>
                 <div class="form__field"
                      *ngIf="this.seedPhraseInfo?.syntax_correct && this.seedPhraseInfo?.require_password">
