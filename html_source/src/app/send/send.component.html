@@ -26,7 +26,7 @@
                     <div class="item"
                          *ngFor="let item of localAliases"
                          (click)="setAlias(item.name)">
-						<div class="alias" [class.pl-1]="item.name.length > 6" [class.available]="item.name.length >= 1 && item.name.length <= 6">
+						<div class="alias" [class.pl-1]="item.name.length > 6" [class.available]="item.name.length >= 2 && item.name.length <= 6">
 							<div class="text-ellipsis">{{item.name}}</div>
 						</div>
 					</div>

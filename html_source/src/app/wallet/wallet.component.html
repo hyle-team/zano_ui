@@ -35,7 +35,7 @@
 					<ng-container
 						*ngIf="variablesService.currentWallet.alias.hasOwnProperty('name') && variablesService.currentWallet.loaded && variablesService.daemon_state === 2">
 
-						<div class="alias mr-1" [class.available]="variablesService.currentWallet.alias['name'].length >= 1 && variablesService.currentWallet.alias['name'].length <= 6">
+						<div class="alias mr-1" [class.available]="variablesService.currentWallet.alias['name'].length >= 2 && variablesService.currentWallet.alias['name'].length <= 6">
 							{{variablesService.currentWallet.alias['name']}}
 						</div>
 
