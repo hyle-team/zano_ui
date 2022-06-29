@@ -138,7 +138,7 @@
 									<div *ngFor="let alias of item.remote_aliases"
 										 fxLayout="row inline"
 										 class="alias"
-										 [class.available]="alias.length <= 5"
+										 [class.available]="alias.length >= 1 && alias.length <= 5"
 										 [class.mr-0_5]="item.remote_aliases.length >= 2"
 										 [class.mb-0_5]="item.remote_aliases.length >= 2"
 										 (contextmenu)="variablesService.onContextMenuOnlyCopy($event, '@' + alias)">
