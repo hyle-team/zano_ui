@@ -32,7 +32,7 @@ export class VariablesService {
   public last_build_available = '';
   public last_build_displaymode = 0;
   public daemon_state = 3;
-  public deeplink$ = new BehaviorSubject<string>('');
+  public deeplink$ = new BehaviorSubject<string | null>(null);
   public sendActionData$ = new BehaviorSubject<DeeplinkParams>({});
   public sync = {
     progress_value: 0,
