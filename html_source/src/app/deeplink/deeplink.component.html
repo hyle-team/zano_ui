@@ -1,4 +1,6 @@
-<app-deeplink-modal *ngIf="deeplink && (variablesService.daemon_state === 2 || variablesService.sync_started === false)"></app-deeplink-modal>
+<ng-container *ngIf="deeplink$ | async">
+	<app-deeplink-modal *ngIf="(variablesService?.daemon_state === 2 || !variablesService?.sync_started)"></app-deeplink-modal>
 
-<app-sync-modal *ngIf="deeplink && (variablesService.daemon_state !== 2 || variablesService.sync_started === true)">
-</app-sync-modal>
+	<app-sync-modal *ngIf="(variablesService?.daemon_state !== 2 || variablesService?.sync_started)">
+	</app-sync-modal>
+</ng-container>

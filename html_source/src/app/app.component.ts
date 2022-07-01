@@ -382,9 +382,11 @@ export class AppComponent implements OnInit, OnDestroy {
       this.backend.backendObject['handle_deeplink_click'].connect((data) => {
         console.log('----------------- handle_deeplink_click -----------------');
         console.log(data);
-        if (data) {
-          this.variablesService.deeplink$.next(data);
-        }
+        this.ngZone.run(() => {
+          if (data) {
+            this.variablesService.deeplink$.next(data);
+          }
+        });
       });
 
       this.backend.eventSubscribe('money_transfer_cancel', (data) => {

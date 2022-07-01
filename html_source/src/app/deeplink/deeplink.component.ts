@@ -1,29 +1,29 @@
-import { takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
-import { Component, NgZone, OnDestroy } from '@angular/core';
+import { delay, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { VariablesService } from '../_helpers/services/variables.service';
-import { BackendService } from '../_helpers/services/backend.service';
 
 @Component({
   selector: 'app-deeplink',
   templateUrl: './deeplink.component.html',
   styleUrls: ['./deeplink.component.scss']
 })
-export class DeeplinkComponent implements OnDestroy {
-  deeplink: string | null = null;
+export class DeeplinkComponent implements OnInit, OnDestroy {
+  deeplink$: BehaviorSubject<string | null> = new BehaviorSubject(null);
 
   private destroy$ = new Subject<never>();
 
   constructor(
     public variablesService: VariablesService,
-    private backend: BackendService,
-    private ngZone: NgZone,
   ) {
-    this.variablesService.deeplink$.pipe(takeUntil(this.destroy$)).subscribe((data) => {
-      this.ngZone.run(() => {
-        this.deeplink = data;
+  }
+
+  ngOnInit(): void {
+    this.variablesService.deeplink$
+      .pipe(delay(200), takeUntil(this.destroy$))
+      .subscribe((data) => {
+        this.deeplink$.next(data);
       });
-    });
   }
 
   ngOnDestroy() {
