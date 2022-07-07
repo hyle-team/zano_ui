@@ -52,7 +52,7 @@ export class PaginationService {
     const currentPage = (this.variables.currentWallet.currentPage);
     let offset = ((currentPage - 1) * this.variables.count);
     if (!mining) {
-      return offset;
+      return offset || 0;
     }
     const value = this.paginationStore.value;
     const pages = value.filter(item => item.walletID === walletID);
@@ -60,10 +60,10 @@ export class PaginationService {
       const max = _.maxBy(pages, 'page');
       const isForward = this.paginationStore.isForward(pages, currentPage);
       if (isForward) {
-        offset = max.offset;
+        offset = max.offset || 0;
       } else {
         const index = pages.findIndex(item => item.page === (currentPage));
-        offset = pages[index].offset;
+        offset = pages[index].offset || 0;
       }
     }
     return offset;

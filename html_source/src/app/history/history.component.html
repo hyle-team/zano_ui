@@ -135,15 +135,18 @@
 							</div>
 							<ng-container *ngIf="item.remote_aliases && item.remote_aliases.length">
 								<div fxLayout="row wrap">
-									<div *ngFor="let alias of item.remote_aliases"
-										 fxLayout="row inline"
-										 class="alias"
-										 [class.available]="alias.length >= 1 && alias.length <= 5"
-										 [class.mr-0_5]="item.remote_aliases.length >= 2"
-										 [class.mb-0_5]="item.remote_aliases.length >= 2"
-										 (contextmenu)="variablesService.onContextMenuOnlyCopy($event, '@' + alias)">
-										{{ '@' + alias }}
-									</div>
+									<ng-container *ngFor="let alias of item.remote_aliases">
+										<ng-container *ngIf="alias && alias.length">
+											<div fxLayout="row inline"
+												 class="alias"
+												 [class.available]="alias.length >= 1 && alias.length <= 5"
+												 [class.mr-0_5]="item.remote_aliases.length >= 2"
+												 [class.mb-0_5]="item.remote_aliases.length >= 2"
+												 (contextmenu)="variablesService.onContextMenuOnlyCopy($event, '@' + alias)">
+												{{ '@' + alias }}
+											</div>
+										</ng-container>
+									</ng-container>
 								</div>
 							</ng-container>
 						</ng-template>
