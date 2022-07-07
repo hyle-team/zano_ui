@@ -7,6 +7,8 @@ import { PaginationService } from '../_helpers/services/pagination.service';
 import { PaginationStore } from '../_helpers/services/pagination.store';
 import { Wallet } from '../_helpers/models/wallet.model';
 import { BackendService } from '../_helpers/services/backend.service';
+import { Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-history',
@@ -26,6 +28,7 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
   x = new BigNumber(3);
   y = new BigNumber(0.2);
 
+  private destroy$: Subject<never> = new Subject<never>();
 
   constructor(
     private route: ActivatedRoute,
@@ -78,7 +81,15 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
     if (this.wallet) {
       this.tick();
     }
-    this.mining = this.variablesService.currentWallet.exclude_mining_txs;
+
+    this.variablesService
+      .getWalletChangedEvent
+      .pipe(
+        filter(w => !!w),
+        takeUntil(this.destroy$)
+      ).subscribe((currentWallet: Wallet) => {
+      this.mining = currentWallet.exclude_mining_txs;
+    });
   }
 
   ngAfterViewChecked() {
@@ -279,6 +290,7 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   ngOnDestroy() {
     this.parentRouting.unsubscribe();
+    this.destroy$.next();
   }
 
 }
