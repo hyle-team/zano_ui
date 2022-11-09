@@ -1,0 +1,22 @@
+<div class="left" [class.visibility]="this.leftDisabled">
+	<button class="btn-left" (click)="$event.stopPropagation(); actionScrollLeft()">
+		<i class="icon arrow-left-stroke"></i>
+	</button>
+</div>
+<div class="scroll"
+		 [class.smooth]="scrollSmooth"
+		 #scrollMenu
+		 (scroll)="onScroll()"
+		 (mousedown)="startDragging($event)"
+		 (mouseup)="stopDragging($event)"
+		 (mouseleave)="stopDragging($event)"
+		 (mousemove)="mouseMove($event)">
+	<div class="scroll-content scroll-delay">
+		<ng-content></ng-content>
+	</div>
+</div>
+<div class="right" [class.visibility]="this.rightDisabled">
+	<button class="btn-right" (click)="$event.stopPropagation(); actionScrollRight()">
+		<i class="icon arrow-right-stroke"></i>
+	</button>
+</div>

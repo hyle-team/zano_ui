@@ -58,6 +58,10 @@ import { ConfirmModalModule } from './_helpers/modals/confirm-modal/confirm-moda
 import { DeeplinkModule } from './deeplink/deeplink.module';
 import { StakingSwitchModule } from './_helpers/directives/staking-switch/staking-switch.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { ScrollXModule } from './_shared/components/scroll-x/scroll-x.module';
+import { CardTokenModule } from './_shared/components/card-token/card-token.module';
+import { OverlayModule } from '@angular/cdk/overlay';
+import { AddCustomTokenModule } from './_helpers/modals/add-custom-token/add-custom-token.module';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
@@ -108,35 +112,39 @@ export function highchartsFactory() {
               ContractsTabComponent,
               SendDetailsModalComponent,
             ],
-            imports: [
-              BrowserModule,
-              AppRoutingModule,
-              HttpClientModule,
-              TranslateModule.forRoot({
-                                        loader: {
-                                          provide: TranslateLoader,
-                                          useFactory: HttpLoaderFactory,
-                                          deps: [HttpClient]
-                                        }
-                                      }),
-              FormsModule,
-              ReactiveFormsModule,
-              NgSelectModule,
-              ChartModule,
-              FlexLayoutModule,
-              PapaParseModule,
-              DisablePriceFetchModule,
-              TooltipModule,
-              ConfirmModalModule,
-              PipesModule,
-              DeeplinkModule,
-              StakingSwitchModule,
-              FullLayoutModule,
-              WithSidebarLayoutModule,
-              SynchronizationStatusModule,
-              SharedModule,
-              ContextMenuModule.forRoot(),
-            ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
+    FormsModule,
+    ReactiveFormsModule,
+    NgSelectModule,
+    ChartModule,
+    FlexLayoutModule,
+    PapaParseModule,
+    DisablePriceFetchModule,
+    TooltipModule,
+    ConfirmModalModule,
+    PipesModule,
+    DeeplinkModule,
+    StakingSwitchModule,
+    FullLayoutModule,
+    WithSidebarLayoutModule,
+    SynchronizationStatusModule,
+    SharedModule,
+    ContextMenuModule.forRoot(),
+    ScrollXModule,
+    CardTokenModule,
+    OverlayModule,
+    AddCustomTokenModule
+  ],
             providers: [
               Store,
               BackendService,

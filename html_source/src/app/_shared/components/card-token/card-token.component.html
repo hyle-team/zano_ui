@@ -1,0 +1,70 @@
+<div class="card-token">
+	<div class="card-token-logo mr-1">
+		<img src="#" zanoDefaultImg alt="#" defaultImgSrc="assets/icons/currency-icons/custom_token.svg" defaultImgAlt="currency">
+	</div>
+	<div class="card-token-body">
+		<h4 class="title">Wrapped Ethereum</h4>
+		<p class="sub-title">3 WETH</p>
+	</div>
+	<div class="card-token-action ml-1">
+		<button class="btn-icon circle small"
+						[disabled]="false"
+						(click)="$event.stopPropagation(); toggleMenuDropdown()"
+						type="button"
+						cdkOverlayOrigin
+						#trigger="cdkOverlayOrigin">
+			<i class="icon dots rotate-90"></i>
+		</button>
+
+		<ng-template
+			cdkConnectedOverlay
+			[cdkConnectedOverlayHasBackdrop]="true"
+			[cdkConnectedOverlayOrigin]="trigger"
+			[cdkConnectedOverlayBackdropClass]="'opacity-0'"
+			[cdkConnectedOverlayOpen]="openDropdown"
+			[cdkConnectedOverlayPositions]="[{
+				originX: 'end',
+				originY: 'top',
+				overlayX: 'end',
+				overlayY: 'top',
+				offsetY: 60
+			}]"
+			(backdropClick)="$event.stopPropagation(); (openDropdown = false)"
+		>
+			<ul class="list" (click)="openDropdown = false">
+				<li class="item">
+					<button class="w-100 px-2 py-1"
+									type="button"
+									[disabled]="false">
+						<i class="icon temp mr-1"></i>
+						<span>{{ 'Link 1' | translate }}</span>
+					</button>
+				</li>
+				<li class="item">
+					<button class="w-100 px-2 py-1"
+									type="button"
+									[disabled]="false">
+						<i class="icon temp mr-1"></i>
+						<span>{{ 'Link 2' | translate }}</span>
+					</button>
+				</li>
+				<li class="item">
+					<button class="w-100 px-2 py-1"
+									type="button"
+									[disabled]="false">
+						<i class="icon temp mr-1"></i>
+						<span>{{ 'Link 3' | translate }}</span>
+					</button>
+				</li>
+				<li class="item">
+					<button class="w-100 px-2 py-1"
+									type="button"
+									[disabled]="false">
+						<i class="icon delete mr-1"></i>
+						<span>{{ 'Remove from list' | translate }}</span>
+					</button>
+				</li>
+			</ul>
+		</ng-template>
+	</div>
+</div>

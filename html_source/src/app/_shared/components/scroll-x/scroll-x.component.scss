@@ -1,0 +1,67 @@
+:host {
+	position: relative;
+
+	&:hover, &:focus {
+		.scroll {
+			visibility: visible;
+		}
+	}
+}
+
+.scroll {
+	overflow-x: auto;
+	width: 100%;
+	z-index: 5;
+	visibility: hidden;
+
+	.scroll-content {
+		display: flex;
+		flex-wrap: nowrap;
+		visibility: visible;
+	}
+
+	.scroll-delay, .scroll-delay:hover {
+		transition: visibility 0.2s;
+	}
+}
+
+.smooth {
+	scroll-behavior: smooth;
+}
+
+.left, .right {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	height: 100%;
+	top: 0;
+	bottom: 0;
+	z-index: 10;
+}
+
+.left {
+	left: 0;
+	background: linear-gradient(to left, rgba(12, 12, 58, 0) 0%, var(--blue-900) 100%);
+}
+
+.right {
+	right: 0;
+	background: linear-gradient(to right, rgba(12, 12, 58, 0) 0%, var(--blue-900) 100%);
+}
+
+.btn-left, .btn-right {
+	width: 2.8rem;
+	height: 2.8rem;
+	background: var(--gray-700);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	cursor: pointer;
+}
+
+.visibility {
+	display: none !important;
+}
+

@@ -25,6 +25,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   openDropdown: boolean;
   delWalletDialogVisible = false;
   exportHistoryDialogVisible = false;
+  stateVisibleAddCustomToken = false;
   closeWalletId: number;
   walletSyncVisible = false;
   tabs = [
@@ -103,6 +104,7 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.settingsButtonInterval = setInterval(() => {
+      // tslint:disable-next-line:triple-equals
       if (this.variablesService.daemon_state == 2 || this.walletLoaded) {
         this.settingsButtonDisabled = false;
         clearInterval(this.settingsButtonInterval);

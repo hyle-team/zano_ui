@@ -29,22 +29,4 @@ app-wallet {
 			}
 		}
 	}
-
-	.dropdown {
-		.content-bottom-right {
-			.list {
-				.item {
-					&:hover, .active {
-						background-color: var(--gray-900);
-					}
-
-					button {
-						white-space: nowrap;
-						justify-content: flex-start;
-						border-radius: 0;
-					}
-				}
-			}
-		}
-	}
 }
