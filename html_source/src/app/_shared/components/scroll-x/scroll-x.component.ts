@@ -7,7 +7,8 @@ import { AfterViewInit, Component, ElementRef, HostListener, Input, OnInit, View
 })
 export class ScrollXComponent implements OnInit, AfterViewInit {
   @ViewChild('scrollMenu') scrollMenu: ElementRef;
-  @Input() value = 208;
+
+  @Input() scrollDistance = 300;
 
   rightDisabled = true;
 
@@ -17,7 +18,9 @@ export class ScrollXComponent implements OnInit, AfterViewInit {
 
   // For dragging
   private mouseDown = false;
+
   private startX: any;
+
   private scrollLeft: any;
 
   @HostListener('window:resize', ['$event'])
@@ -36,12 +39,12 @@ export class ScrollXComponent implements OnInit, AfterViewInit {
   }
 
   actionScrollLeft() {
-    this.scrollMenu.nativeElement.scrollLeft -= this.value;
+    this.scrollMenu.nativeElement.scrollLeft -= this.scrollDistance;
     this.checkScroll();
   }
 
   actionScrollRight() {
-    this.scrollMenu.nativeElement.scrollLeft += this.value;
+    this.scrollMenu.nativeElement.scrollLeft += this.scrollDistance;
     this.checkScroll();
   }
 
@@ -74,11 +77,11 @@ export class ScrollXComponent implements OnInit, AfterViewInit {
 
   mouseMove(e): void {
     e.preventDefault();
-    if (!e || !this.mouseDown) { return; }
+    if (!e || !this.mouseDown) {
+      return;
+    }
     const x = e.pageX - this.scrollMenu.nativeElement.offsetLeft;
     const scroll = x - this.startX;
-    setTimeout(() => {
-      this.scrollMenu.nativeElement.scrollLeft = this.scrollLeft - scroll;
-    }, 50);
+    this.scrollMenu.nativeElement.scrollLeft = this.scrollLeft - scroll;
   }
 }

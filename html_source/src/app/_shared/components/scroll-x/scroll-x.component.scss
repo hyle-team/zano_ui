@@ -6,6 +6,16 @@
 			visibility: visible;
 		}
 	}
+
+	::ng-deep {
+		.scroll-content > * {
+			margin-right: 2rem;
+		}
+
+		.scroll-content > *:last-child {
+			margin-right: 0;
+		}
+	}
 }
 
 .scroll {

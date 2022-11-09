@@ -48,8 +48,16 @@ i {
 		background: center / contain no-repeat url(~src/assets/icons/white/arrow-left-stroke.svg);
 	}
 
+	&.arrow-left-slider {
+		background: center / contain no-repeat url(~src/assets/icons/white/arrow-left-slider.svg);
+	}
+
 	&.arrow-right-stroke {
 		background: center / contain no-repeat url(~src/assets/icons/white/arrow-right-stroke.svg);
+	}
+
+	&.arrow-right-slider {
+		background: center / contain no-repeat url(~src/assets/icons/white/arrow-right-slider.svg);
 	}
 
 	&.arrow-up-square {
