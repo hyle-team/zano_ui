@@ -7,11 +7,11 @@
 		 [class.smooth]="scrollSmooth"
 		 #scrollMenu
 		 (scroll)="onScroll()"
-		 (mousedown)="startDragging($event)"
-		 (mouseup)="stopDragging($event)"
-		 (mouseleave)="stopDragging($event)"
-		 (mousemove)="mouseMove($event)">
-	<div class="scroll-content scroll-delay">
+		 (mousedown)="$event.stopPropagation(); startDragging($event)"
+		 (mouseup)="$event.stopPropagation(); stopDragging()"
+		 (mouseleave)="$event.stopPropagation(); stopDragging()"
+		 (mousemove)="$event.stopPropagation(); mouseMove($event)">
+	<div class="scroll-content scroll-delay" #scrollContent>
 		<ng-content></ng-content>
 	</div>
 </div>
