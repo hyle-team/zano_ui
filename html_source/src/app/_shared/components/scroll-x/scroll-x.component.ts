@@ -79,7 +79,7 @@ export class ScrollXComponent implements AfterContentInit, AfterContentChecked {
     this.checkScroll();
   }
 
-  onScroll() {
+  onScroll(): void {
     this.checkScroll();
     if (this.scrollByButton) {
       clearTimeout(this.timer);
@@ -89,11 +89,11 @@ export class ScrollXComponent implements AfterContentInit, AfterContentChecked {
     }
   }
 
-  onScrollStop() {
+  onScrollStop(): void {
     this.scrollByButton = false;
   }
 
-  checkScroll() {
+  checkScroll(): void {
     this.scrollMenu.nativeElement.scrollLeft === 0 ? this.leftDisabled = true : this.leftDisabled = false;
 
     const newScrollLeft = this.scrollMenu.nativeElement.scrollLeft;
