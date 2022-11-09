@@ -5,7 +5,6 @@ import { BackendService } from '../_helpers/services/backend.service';
 import { TranslateService } from '@ngx-translate/core';
 import { IntToMoneyPipe } from '../_helpers/pipes/int-to-money.pipe';
 import { Subject } from 'rxjs';
-import { LOCKED_BALANCE_HELP_PAGE } from '../_shared/constants';
 import { Store, Sync } from 'store';
 import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 
@@ -19,7 +18,6 @@ export class WalletComponent implements OnInit, OnDestroy {
   settingsButtonDisabled = true;
   copyAnimation = false;
   copyAnimationTimeout;
-  balanceTooltip;
   walletLoaded = false;
 
   openDropdown: boolean;
@@ -157,46 +155,6 @@ export class WalletComponent implements OnInit, OnDestroy {
     this.copyAnimationTimeout = window.setTimeout(() => {
       this.copyAnimation = false;
     }, 2000);
-  }
-
-  getTooltip() {
-    this.balanceTooltip = document.createElement('div');
-    const available = document.createElement('span');
-    available.setAttribute('class', 'available');
-    available.innerHTML = this.translate.instant('WALLET.AVAILABLE_BALANCE', {
-      available: this.intToMoneyPipe.transform(
-        this.variablesService.currentWallet.unlocked_balance
-      ),
-      currency: this.variablesService.defaultCurrency,
-    });
-    this.balanceTooltip.appendChild(available);
-    const locked = document.createElement('span');
-    locked.setAttribute('class', 'locked');
-    locked.innerHTML = this.translate.instant('WALLET.LOCKED_BALANCE', {
-      locked: this.intToMoneyPipe.transform(
-        this.variablesService.currentWallet.balance.minus(
-          this.variablesService.currentWallet.unlocked_balance
-        )
-      ),
-      currency: this.variablesService.defaultCurrency,
-    });
-    this.balanceTooltip.appendChild(locked);
-    const link = document.createElement('span');
-    link.setAttribute('class', 'link');
-    link.innerHTML = this.translate.instant('WALLET.LOCKED_BALANCE_LINK');
-    link.addEventListener('click', () => {
-      this.openInBrowser(LOCKED_BALANCE_HELP_PAGE);
-    });
-    this.balanceTooltip.appendChild(link);
-    return this.balanceTooltip;
-  }
-
-  onHideTooltip() {
-    this.balanceTooltip = null;
-  }
-
-  openInBrowser(link) {
-    this.backend.openUrlInBrowser(link);
   }
 
   toggleMenuDropdown() {

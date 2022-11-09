@@ -3,9 +3,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { VariablesService } from '../_helpers/services/variables.service';
 import { BackendService } from '../_helpers/services/backend.service';
 import { ModalService } from '../_helpers/services/modal.service';
-import { DOWNLOADS_PAGE_URL } from '../_shared/constants';
+import { DOWNLOADS_PAGE_URL, LOCKED_BALANCE_HELP_PAGE } from '../_shared/constants';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Wallet } from '../_helpers/models/wallet.model';
+import { TranslateService } from '@ngx-translate/core';
+import { IntToMoneyPipe } from '../_helpers/pipes/int-to-money.pipe';
 
 @Component({
   selector: 'app-sidebar',
@@ -23,6 +25,8 @@ export class SidebarComponent {
     public variablesService: VariablesService,
     private backend: BackendService,
     private modal: ModalService,
+    private translate: TranslateService,
+    private intToMoneyPipe: IntToMoneyPipe,
     private ngZone: NgZone
   ) {
   }
@@ -109,5 +113,44 @@ export class SidebarComponent {
     this.ngZone.run(() => {
       this.router.navigate(['/login'], { queryParams: { type: 'auth' } });
     });
+  }
+
+  getBalanceTooltip(id: number) {
+    const wallet = this.variablesService.getWallet(id);
+    if (!wallet) { return null; }
+    let tooltip;
+    tooltip = document.createElement('div');
+    const available = document.createElement('span');
+    available.setAttribute('class', 'available');
+    available.innerHTML = this.translate.instant('WALLET.AVAILABLE_BALANCE', {
+      available: this.intToMoneyPipe.transform(
+        wallet.unlocked_balance
+      ),
+      currency: this.variablesService.defaultCurrency,
+    });
+    tooltip.appendChild(available);
+    const locked = document.createElement('span');
+    locked.setAttribute('class', 'locked');
+    locked.innerHTML = this.translate.instant('WALLET.LOCKED_BALANCE', {
+      locked: this.intToMoneyPipe.transform(
+        wallet.balance.minus(
+          wallet.unlocked_balance
+        )
+      ),
+      currency: this.variablesService.defaultCurrency,
+    });
+    tooltip.appendChild(locked);
+    const link = document.createElement('span');
+    link.setAttribute('class', 'link');
+    link.innerHTML = this.translate.instant('WALLET.LOCKED_BALANCE_LINK');
+    link.addEventListener('click', () => {
+      this.openInBrowser(LOCKED_BALANCE_HELP_PAGE);
+    });
+    tooltip.appendChild(link);
+    return tooltip;
+  }
+
+  openInBrowser(link) {
+    this.backend.openUrlInBrowser(link);
   }
 }

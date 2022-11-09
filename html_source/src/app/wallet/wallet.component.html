@@ -7,17 +7,25 @@
 		<div class="wallet-wrapper"
 				 fxLayout="column"
 				 fxLayoutAlign="start start">
-			<div class="title mb-2"
+			<div class="title"
 					 fxLayout="row nowrap"
 					 fxLayoutAlign="start center">
-				<h1 class="text-ellipsis mr-2"
-						tooltip="{{ variablesService.currentWallet.name }}"
-						placement="bottom-left"
-						tooltipClass="table-tooltip"
-						[delay]="500"
-						[showWhenNoOverflow]="false">
-					{{variablesService.currentWallet.name}}
+				<h1 class="text-ellipsis mr-1"
+						[tooltip]="variablesService.currentWallet.address"
+						[placement]="'bottom'"
+						[tooltipClass]="'table-tooltip'"
+						[delay]="150"
+						[timeout]="0">
+					{{ variablesService.currentWallet.address | slice:0:6 }}...
+					{{ variablesService.currentWallet.address | slice:-6 }}
 				</h1>
+
+				<button (click)="copyAddress()"
+								class="btn-icon circle small mr-1">
+					<i class="icon small"
+						 [class.copy]="!copyAnimation"
+						 [class.check]="copyAnimation"></i>
+				</button>
 
 				<div fxFlex="0 0 auto" class="controls"
 						 fxLayout="row"
@@ -64,63 +72,6 @@
 						</ng-container>
 
 					</ng-container>
-				</div>
-			</div>
-
-			<div class="card border-radius-0_8-rem overflow-hidden p-2 max-w-100"
-					 fxLayout="row nowrap"
-					 fxLayoutAlign="space-between start"
-					 fxLayoutGap="2rem">
-				<div class="left overflow-hidden">
-					<div class="balance-wrapper overflow-hidden"
-							 fxLayout="column"
-							 fxLayoutAlign="start none">
-						<div class="currency"
-								 fxLayout="row">
-							<h1 class="amount text-ellipsis mr-0_5"
-									[tooltip]="getTooltip()"
-									[placement]="'bottom'"
-									[tooltipClass]="'balance-tooltip'"
-									[delay]="150"
-									[timeout]="0"
-									(onHide)="onHideTooltip()">
-								{{variablesService.currentWallet.balance | intToMoney : '3'}}
-							</h1>
-							<h1>{{variablesService.defaultCurrency}}</h1>
-						</div>
-
-						<div class="price mt-1"
-								 *appDisablePriceFetch>
-                            <span class="amount text-ellipsis">
-                                ${{variablesService.currentWallet.getMoneyEquivalent(variablesService.moneyEquivalent) | intToMoney | number :'1.2-2'}}
-                            </span>
-
-							<span class="percent ml-0_5"
-										[class.red]="variablesService.moneyEquivalentPercent < 0">
-                              {{ variablesService.moneyEquivalentPercent | number : '1.1-2' }}%
-                            </span>
-						</div>
-					</div>
-				</div>
-				<div class="right">
-					<div class="address border-radius-0_8-rem overflow-hidden pl-1 pr-0_5 pt-0_5 pb-0_5"
-							 fxLayout="row"
-							 fxLayoutAlign="space-between center">
-                        <span
-													[tooltip]="variablesService.currentWallet.address"
-													[placement]="'bottom'"
-													[tooltipClass]="'table-tooltip'"
-													[delay]="150"
-													[timeout]="0"
-													class="text-ellipsis mr-1">{{ variablesService.currentWallet.address | slice:0:6 }}
-													...{{ variablesService.currentWallet.address | slice:-6 }}</span>
-						<button (click)="copyAddress()"
-										class="btn-icon circle small">
-							<i class="icon small"
-								 [class.copy]="!copyAnimation"
-								 [class.check]="copyAnimation"></i>
-						</button>
-					</div>
 				</div>
 			</div>
 		</div>
