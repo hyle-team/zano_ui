@@ -2,7 +2,7 @@ import { AfterContentChecked, AfterContentInit, Component, ElementRef, HostListe
 
 const activeClass = 'scroll-item-active';
 
-const scrollIntoViewOptions: ScrollIntoViewOptions = { behavior: 'smooth' };
+const scrollIntoViewOptions: ScrollIntoViewOptions = { behavior: 'smooth', inline: 'start' };
 
 @Component({
   selector: 'app-scroll-x',
