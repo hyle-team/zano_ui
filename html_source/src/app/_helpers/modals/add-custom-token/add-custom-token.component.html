@@ -1,0 +1,31 @@
+<form [formGroup]="formGroup" class="modal p-2 border-radius-0_8-rem bg-light-blue max-w-54-rem w-100 max-h-100" (ngSubmit)="beforeSubmit()">
+	<div class="content"
+			 fxLayout="column">
+		<h3 class="mb-2">{{ 'WALLET.MODAL_ADD_CUSTOM_TOKEN.TITLE' | translate }}</h3>
+
+		<div class="form__field">
+			<label for="assetID">{{ 'WALLET.MODAL_ADD_CUSTOM_TOKEN.FIELD_TITLE' | translate }}</label>
+			<input class="form__field--input"
+						 type="text"
+						 id="assetID"
+						 formControlName="assetID"
+						 placeholder="Enter Asset ID"
+						 name="assetID"/>
+			<div class="error"
+					 *ngIf="false">
+				Some text
+			</div>
+		</div>
+	</div>
+
+	<div class="controls"
+			 fxLayout="row nowrap"
+			 fxLayoutGap="1rem">
+		<button type="button"
+						class="outline big w-100"
+						(click)="eventClose.emit()">{{ 'MODALS.CANCEL' | translate }}</button>
+		<button type="submit"
+						[disabled]="formGroup.invalid"
+						class="primary big w-100">{{ 'MODALS.ADD_TOKEN' | translate }}</button>
+	</div>
+</form>
