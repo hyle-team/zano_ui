@@ -12,4 +12,5 @@ import { FlexLayoutModule } from '@angular/flex-layout';
   exports: [SyncModalComponent],
   entryComponents: [SyncModalComponent]
 })
-export class SyncModalModule { }
+export class SyncModalModule {
+}

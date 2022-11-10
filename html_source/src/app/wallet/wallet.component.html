@@ -1,8 +1,8 @@
 <div class="header mb-2"
 		 fxFlex="0 0 auto"
 		 fxLayout="row nowrap"
-		 fxLayoutGap="1rem"
-		 fxLayoutAlign="space-between start">
+		 fxLayoutAlign="space-between start"
+		 fxLayoutGap="1rem">
 	<div class="left overflow-hidden">
 		<div class="wallet-wrapper"
 				 fxLayout="column"
@@ -10,29 +10,29 @@
 			<div class="title"
 					 fxLayout="row nowrap"
 					 fxLayoutAlign="start center">
-				<h1 class="text-ellipsis mr-1"
-						[tooltip]="variablesService.currentWallet.address"
+				<h1 [delay]="150"
 						[placement]="'bottom'"
+						[timeout]="0"
 						[tooltipClass]="'table-tooltip'"
-						[delay]="150"
-						[timeout]="0">
+						[tooltip]="variablesService.currentWallet.address"
+						class="text-ellipsis mr-1">
 					{{ variablesService.currentWallet.address | zanoShortString }}
 				</h1>
 
 				<app-copy-button
-					class="mr-1"
-					[value]="variablesService.currentWallet.address">
+					[value]="variablesService.currentWallet.address"
+					class="mr-1">
 				</app-copy-button>
 
-				<div fxFlex="0 0 auto" class="controls"
+				<div *ngIf="!variablesService.currentWallet.is_auditable" class="controls"
+						 fxFlex="0 0 auto"
 						 fxLayout="row"
-						 fxLayoutAlign="start center"
-						 *ngIf="!variablesService.currentWallet.is_auditable">
+						 fxLayoutAlign="start center">
 
 					<ng-container
 						*ngIf="!variablesService.currentWallet.alias.hasOwnProperty('name') && variablesService.currentWallet.loaded && variablesService.daemon_state === 2 && variablesService.currentWallet.alias_available">
-						<button class="px-1 py-0_5 bg-light-gray"
-										[routerLink]="['/assign-alias']">
+						<button [routerLink]="['/assign-alias']"
+										class="px-1 py-0_5 bg-light-gray">
 							{{ 'WALLET.REGISTER_ALIAS' | translate }}
 						</button>
 					</ng-container>
@@ -40,30 +40,30 @@
 					<ng-container
 						*ngIf="variablesService.currentWallet.alias.hasOwnProperty('name') && variablesService.currentWallet.loaded && variablesService.daemon_state === 2">
 
-						<div class="alias mr-1"
-								 [class.available]="variablesService.currentWallet.alias | isAvailableAliasName">
+						<div [class.available]="variablesService.currentWallet.alias | isAvailableAliasName"
+								 class="alias mr-1">
 							{{variablesService.currentWallet.alias.name}}
 						</div>
 
 						<ng-container *ngIf="variablesService.currentWallet.alias_available">
-							<button class="btn-icon circle small mr-1"
+							<button [delay]="500"
 											[routerLink]="['/edit-alias']"
-											tooltip="{{ 'WALLET.TOOLTIPS.EDIT_ALIAS' | translate }}"
+											[timeDelay]="500"
+											class="btn-icon circle small mr-1"
 											placement="bottom-right"
-											tooltipClass="table-tooltip account-tooltip"
-											[delay]="500"
-											[timeDelay]="500">
+											tooltip="{{ 'WALLET.TOOLTIPS.EDIT_ALIAS' | translate }}"
+											tooltipClass="table-tooltip account-tooltip">
 
 								<i class="icon edit-square"></i>
 							</button>
 
-							<button class="btn-icon circle small"
+							<button [delay]="500"
 											[routerLink]="['/transfer-alias']"
-											tooltip="{{ 'WALLET.TOOLTIPS.TRANSFER_ALIAS' | translate }}"
+											[timeDelay]="500"
+											class="btn-icon circle small"
 											placement="right"
-											tooltipClass="table-tooltip account-tooltip"
-											[delay]="500"
-											[timeDelay]="500">
+											tooltip="{{ 'WALLET.TOOLTIPS.TRANSFER_ALIAS' | translate }}"
+											tooltipClass="table-tooltip account-tooltip">
 								<i class="icon arrow-up-square"></i>
 							</button>
 						</ng-container>
@@ -74,9 +74,9 @@
 	</div>
 	<div class="right">
 		<div class="dropdown">
-			<button class="btn-icon circle big"
+			<button (click)="$event.stopPropagation(); toggleMenuDropdown()"
 							[disabled]="settingsButtonDisabled && !variablesService.currentWallet.loaded"
-							(click)="$event.stopPropagation(); toggleMenuDropdown()"
+							class="btn-icon circle big"
 							data-target="wallet-dropdown-button">
 				<i class="icon dots"></i>
 			</button>
@@ -84,72 +84,72 @@
 					 class="content-bottom-right py-0_5">
 				<ul class="list">
 					<li class="item">
-						<button class="w-100 px-2 py-1"
-										type="button"
+						<button [delay]="500"
+										[disabled]="!variablesService.currentWallet.loaded"
 										[routerLink]="['/details']"
+										[timeDelay]="500"
+										class="w-100 px-2 py-1"
+										placement="left"
 										routerLinkActive="active"
 										tooltip="{{ 'WALLET.TOOLTIPS.SETTINGS' | translate }}"
-										placement="left"
 										tooltipClass="table-tooltip account-tooltip"
-										[delay]="500"
-										[timeDelay]="500"
-										[disabled]="!variablesService.currentWallet.loaded">
+										type="button">
 							<i class="icon settings mr-1"></i>
 							<span>{{ 'WALLET_DETAILS.WALLET_OPTIONS' | translate }}</span>
 						</button>
 					</li>
 					<li class="item">
-						<button class="w-100 px-2 py-1"
-										type="button"
-										tooltip="{{ 'WALLET.TOOLTIPS.ADD_CUSTOM_TOKEN' | translate }}"
-										placement="left"
-										tooltipClass="table-tooltip account-tooltip"
+						<button (click)="stateVisibleAddCustomToken = true"
 										[delay]="500"
-										[timeDelay]="500"
 										[disabled]="false"
-										(click)="stateVisibleAddCustomToken = true">
+										[timeDelay]="500"
+										class="w-100 px-2 py-1"
+										placement="left"
+										tooltip="{{ 'WALLET.TOOLTIPS.ADD_CUSTOM_TOKEN' | translate }}"
+										tooltipClass="table-tooltip account-tooltip"
+										type="button">
 							<i class="icon add mr-1"></i>
 							<span>{{ 'WALLET_DETAILS.ADD_CUSTOM_TOKEN' | translate }}</span>
 						</button>
 					</li>
 					<li class="item">
-						<button class="w-100 px-2 py-1"
-										type="button"
-										tooltip="{{ 'EXPORT_HISTORY.TOOLTIP' | translate }}"
-										placement="left"
-										tooltipClass="table-tooltip account-tooltip"
+						<button (click)="exportHistoryDialogVisible = !exportHistoryDialogVisible"
 										[delay]="500"
+										[disabled]="variablesService.currentWallet.history.length <= 0"
 										[timeDelay]="500"
-										(click)="exportHistoryDialogVisible = !exportHistoryDialogVisible"
-										[disabled]="variablesService.currentWallet.history.length <= 0">
+										class="w-100 px-2 py-1"
+										placement="left"
+										tooltip="{{ 'EXPORT_HISTORY.TOOLTIP' | translate }}"
+										tooltipClass="table-tooltip account-tooltip"
+										type="button">
 							<i class="icon export mr-1"></i>
 							<span>{{ 'EXPORT_HISTORY.EXPORT_BUTTON' | translate }}</span>
 						</button>
 					</li>
 					<ng-container *ngIf="walletSyncVisible">
 						<li class="item">
-							<button class="w-100 px-2 py-1"
-											type="button"
-											tooltip="{{ 'WALLET_DETAILS.RESYNC_WALLET' | translate }}"
-											placement="left"
-											tooltipClass="table-tooltip account-tooltip"
-											[disabled]="!variablesService.currentWallet.loaded"
+							<button (click)="resyncCurrentWallet(variablesService.currentWallet.wallet_id)"
 											[delay]="500"
+											[disabled]="!variablesService.currentWallet.loaded"
 											[timeDelay]="500"
-											(click)="resyncCurrentWallet(variablesService.currentWallet.wallet_id)">
+											class="w-100 px-2 py-1"
+											placement="left"
+											tooltip="{{ 'WALLET_DETAILS.RESYNC_WALLET' | translate }}"
+											tooltipClass="table-tooltip account-tooltip"
+											type="button">
 								<i class="icon update mr-1"></i><span>{{ 'WALLET_DETAILS.RESYNC_WALLET_BUTTON' | translate }}</span>
 							</button>
 						</li>
 					</ng-container>
 					<li class="item">
-						<button class="w-100 px-2 py-1"
-										type="button"
-										(click)="showConfirmDialog(variablesService.currentWallet.wallet_id)"
-										tooltip="{{ 'WALLET.TOOLTIPS.CLOSE' | translate }}"
-										placement="left"
-										tooltipClass="table-tooltip account-tooltip"
+						<button (click)="showConfirmDialog(variablesService.currentWallet.wallet_id)"
 										[delay]="500"
-										[timeDelay]="500">
+										[timeDelay]="500"
+										class="w-100 px-2 py-1"
+										placement="left"
+										tooltip="{{ 'WALLET.TOOLTIPS.CLOSE' | translate }}"
+										tooltipClass="table-tooltip account-tooltip"
+										type="button">
 							<i class="icon close-square mr-1"></i><span>{{ 'WALLET_DETAILS.BUTTON_REMOVE' | translate }}</span>
 						</button>
 					</li>
@@ -166,16 +166,16 @@
 <div class="tabs">
 	<div class="tabs-header">
 		<ng-container *ngFor="let tab of tabs; let index = index">
-			<button class="tab-header"
-							[routerLink]="['/wallet' + tab.link]"
-							routerLinkActive="active"
+			<button [disabled]="tab.disabled"
 							[ngClass]="{ 'hide': ((tab.link === '/send' || tab.link === '/contracts') && variablesService.currentWallet.is_watch_only && variablesService.currentWallet.is_auditable) }"
-							[disabled]="tab.disabled">
-				<i class="icon mr-1"
-					 [ngClass]="tab.icon"></i>
+							[routerLink]="['/wallet' + tab.link]"
+							class="tab-header"
+							routerLinkActive="active">
+				<i [ngClass]="tab.icon"
+					 class="icon mr-1"></i>
 				<span>{{ tab.title | translate }}</span>
-				<span class="indicator"
-							*ngIf="tab.indicator">{{variablesService.currentWallet.new_contracts}}</span>
+				<span *ngIf="tab.indicator"
+							class="indicator">{{variablesService.currentWallet.new_contracts}}</span>
 			</button>
 		</ng-container>
 	</div>
@@ -184,16 +184,16 @@
 	</div>
 </div>
 
-<app-confirm-modal *ngIf="delWalletDialogVisible"
-									 [title]=" 'WALLET.CONFIRM.TITLE' | translate "
+<app-confirm-modal (confirmed)="confirmed($event)"
+									 *ngIf="delWalletDialogVisible"
 									 [message]=" 'WALLET.CONFIRM.MESSAGE' | translate "
-									 (confirmed)="confirmed($event)"></app-confirm-modal>
+									 [title]=" 'WALLET.CONFIRM.TITLE' | translate "></app-confirm-modal>
 
-<app-export-history-modal [currentWalletId]="variablesService.currentWallet.wallet_id"
+<app-export-history-modal (closeExportModal)="closeExportModal($event)"
 													*ngIf="exportHistoryDialogVisible"
-													(closeExportModal)="closeExportModal($event)"></app-export-history-modal>
+													[currentWalletId]="variablesService.currentWallet.wallet_id"></app-export-history-modal>
 
-<app-add-custom-token *ngIf="stateVisibleAddCustomToken"
-											(eventClose)="stateVisibleAddCustomToken = false"
+<app-add-custom-token (eventClose)="stateVisibleAddCustomToken = false"
 											(eventSubmit)="stateVisibleAddCustomToken = false"
+											*ngIf="stateVisibleAddCustomToken"
 ></app-add-custom-token>

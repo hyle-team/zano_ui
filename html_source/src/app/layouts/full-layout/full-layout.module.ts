@@ -5,13 +5,13 @@ import { AppRoutingModule } from '../../app-routing.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
-            declarations: [FullLayoutComponent],
-            imports: [
-              AppRoutingModule,
-              FlexLayoutModule,
-              CommonModule
-            ],
-            exports: [FullLayoutComponent]
-          })
+  declarations: [FullLayoutComponent],
+  imports: [
+    AppRoutingModule,
+    FlexLayoutModule,
+    CommonModule
+  ],
+  exports: [FullLayoutComponent]
+})
 export class FullLayoutModule {
 }

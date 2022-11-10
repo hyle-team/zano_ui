@@ -18,4 +18,5 @@ import { FlexLayoutModule } from '@angular/flex-layout';
   ],
   exports: [ButtonsComponent, ProgressBarsComponent, BreadcrumbsComponent, WalletsComponent, FormModule]
 })
-export class ComponentsModule { }
+export class ComponentsModule {
+}

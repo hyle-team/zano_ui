@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Input, HostListener } from '@angular/core';
+import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 import { VariablesService } from '../../services/variables.service';
 
 @Directive({

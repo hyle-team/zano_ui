@@ -13,10 +13,15 @@ import { scaleItems } from '../_helpers/data/scale-items';
 })
 export class SettingsComponent implements OnInit {
   ifSaved = false;
+
   scale: string;
+
   appUseTor: boolean;
+
   changeForm: any;
+
   public currentNotificationsState;
+
   languagesOptions = [
     {
       name: 'en',
@@ -43,6 +48,7 @@ export class SettingsComponent implements OnInit {
       language: 'SETTINGS.LANGUAGE.PT'
     }
   ];
+
   appLockOptions = [
     {
       id: 5,
@@ -61,7 +67,9 @@ export class SettingsComponent implements OnInit {
       name: 'SETTINGS.APP_LOCK.TIME4'
     }
   ];
+
   appScaleOptions = scaleItems;
+
   appLogOptions = [
     {
       id: -1
@@ -84,14 +92,15 @@ export class SettingsComponent implements OnInit {
   ];
 
   currentBuild = '';
+
   appPass: any;
 
   constructor(
-    private renderer: Renderer2,
+    public translate: TranslateService,
     public variablesService: VariablesService,
+    private renderer: Renderer2,
     private backend: BackendService,
     private location: Location,
-    public translate: TranslateService,
     private ngZone: NgZone
   ) {
     this.scale = this.variablesService.settings.scale;
@@ -110,7 +119,7 @@ export class SettingsComponent implements OnInit {
     }]);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.backend.getVersion((version, type) => {
       this.ngZone.run(() => {
         this.currentBuild = version;
@@ -127,13 +136,13 @@ export class SettingsComponent implements OnInit {
     });
   }
 
-  setScale() {
+  setScale(): void {
     this.scale = this.variablesService.settings.scale;
     this.renderer.setStyle(document.documentElement, 'font-size', this.scale);
     this.backend.storeAppData();
   }
 
-  onSubmitChangePass() {
+  onSubmitChangePass(): void {
     if (this.changeForm.valid) {
       this.onSave();
       this.variablesService.appPass = this.changeForm.get('new_password').value;
@@ -158,7 +167,7 @@ export class SettingsComponent implements OnInit {
     }
   }
 
-  toggleNotifications() {
+  toggleNotifications(): void {
     if (!this.currentNotificationsState) {
       this.backend.setIsDisabledNotifications('true');
       this.currentNotificationsState = true;
@@ -168,37 +177,37 @@ export class SettingsComponent implements OnInit {
     }
   }
 
-  toggleUseTor() {
+  toggleUseTor(): void {
     this.appUseTor = !this.appUseTor;
     this.variablesService.settings.appUseTor = this.appUseTor;
     this.backend.setEnableTor(this.appUseTor);
     this.backend.storeAppData();
   }
 
-  onSave() {
+  onSave(): void {
     this.ifSaved = true;
     setTimeout(() => {
       this.ifSaved = false;
     }, 3000);
   }
 
-  onLockChange() {
+  onLockChange(): void {
     if (this.variablesService.appLogin && this.variablesService.settings.appLockTime) {
       this.variablesService.restartCountdown();
     }
   }
 
-  onLogChange() {
+  onLogChange(): void {
     this.backend.setLogLevel(this.variablesService.settings.appLog);
     this.backend.storeAppData();
   }
 
-  onLanguageChange() {
+  onLanguageChange(): void {
     this.translate.use(this.variablesService.settings.language);
     this.backend.storeAppData();
   }
 
-  back() {
+  back(): void {
     this.location.back();
   }
 

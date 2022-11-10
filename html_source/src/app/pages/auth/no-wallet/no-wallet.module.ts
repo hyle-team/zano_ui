@@ -7,14 +7,14 @@ import { SynchronizationStatusModule } from '../../../synchronization-status/syn
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
-            declarations: [NoWalletComponent],
-            imports: [
-              CommonModule,
-              NoWalletRoutingModule,
-              TranslateModule,
-              FlexLayoutModule,
-              SynchronizationStatusModule
-            ]
-          })
+  declarations: [NoWalletComponent],
+  imports: [
+    CommonModule,
+    NoWalletRoutingModule,
+    TranslateModule,
+    FlexLayoutModule,
+    SynchronizationStatusModule
+  ]
+})
 export class NoWalletModule {
 }

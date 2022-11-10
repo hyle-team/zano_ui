@@ -9,9 +9,9 @@ import { VariablesService } from '../_helpers/services/variables.service';
   styleUrls: ['./deeplink.component.scss']
 })
 export class DeeplinkComponent implements OnInit, OnDestroy {
-  deeplink$: BehaviorSubject<string | null> = new BehaviorSubject(null);
+  deeplink$ = new BehaviorSubject<string | null>(null);
 
-  private destroy$ = new Subject<never>();
+  private destroy$ = new Subject<void>();
 
   constructor(
     public variablesService: VariablesService,
@@ -26,7 +26,8 @@ export class DeeplinkComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next();
+    this.destroy$.complete();
   }
 }

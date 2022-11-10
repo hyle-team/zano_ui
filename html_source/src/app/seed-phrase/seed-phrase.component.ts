@@ -12,12 +12,16 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./seed-phrase.component.scss']
 })
 export class SeedPhraseComponent implements OnInit, OnDestroy {
-
   queryRouting;
+
   seedPhrase = '';
+
   showSeed = false;
+
   wallet_id: number;
+
   seedPhraseCopied = false;
+
   progressWidth = '66%';
 
   detailsForm = new FormGroup({
@@ -56,6 +60,27 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
     { validators: this.checkPasswords }
   );
 
+  constructor(
+    public variablesService: VariablesService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private location: Location,
+    private backend: BackendService,
+    private modalService: ModalService,
+    private ngZone: NgZone
+  ) {
+  }
+
+  ngOnInit(): void {
+    this.showSeed = false;
+    this.getWalletId();
+    this.setWalletInfoNamePath();
+  }
+
+  ngOnDestroy(): void {
+    this.queryRouting.unsubscribe();
+  }
+
   checkPasswords(group: FormGroup) {
     const pass = group.controls.password.value;
     const confirmPass = group.controls.confirmPassword.value;
@@ -63,43 +88,7 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
     return pass === confirmPass ? null : { notSame: true };
   }
 
-
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private location: Location,
-    private backend: BackendService,
-    public variablesService: VariablesService,
-    private modalService: ModalService,
-    private ngZone: NgZone
-  ) {
-  }
-
-  ngOnInit() {
-    this.showSeed = false;
-    this.getWalletId();
-    this.setWalletInfoNamePath();
-  }
-
-  private setWalletInfoNamePath() {
-    this.detailsForm
-      .get('name')
-      .setValue(this.variablesService.opening_wallet.name);
-    this.detailsForm
-      .get('path')
-      .setValue(this.variablesService.opening_wallet.path);
-  }
-
-  private getWalletId() {
-    this.queryRouting = this.route.queryParams.subscribe(params => {
-      if (params.wallet_id) {
-        this.wallet_id = params.wallet_id;
-      }
-    });
-  }
-
-
-  runWallet() {
+  runWallet(): void {
     let exists = false;
     this.variablesService.wallets.forEach((wallet) => {
       if (wallet.address === this.variablesService.opening_wallet.address) {
@@ -132,7 +121,7 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
     }
   }
 
-  copySeedPhrase() {
+  copySeedPhrase(): void {
     this.backend.setClipboard(this.seedPhrase, () => {
       this.ngZone.run(() => {
         setTimeout(() => {
@@ -143,16 +132,16 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
     });
   }
 
-  back() {
+  back(): void {
     this.location.back();
   }
 
-  showSeedPhrase() {
+  showSeedPhrase(): void {
     this.showSeed = true;
     this.progressWidth = '100%';
   }
 
-  onSubmitSeed() {
+  onSubmitSeed(): void {
     if (this.seedPhraseForm.valid) {
       this.showSeedPhrase();
       const wallet_id = this.wallet_id;
@@ -170,7 +159,20 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
-    this.queryRouting.unsubscribe();
+  private setWalletInfoNamePath(): void {
+    this.detailsForm
+      .get('name')
+      .setValue(this.variablesService.opening_wallet.name);
+    this.detailsForm
+      .get('path')
+      .setValue(this.variablesService.opening_wallet.path);
+  }
+
+  private getWalletId(): void {
+    this.queryRouting = this.route.queryParams.subscribe(params => {
+      if (params.wallet_id) {
+        this.wallet_id = params.wallet_id;
+      }
+    });
   }
 }

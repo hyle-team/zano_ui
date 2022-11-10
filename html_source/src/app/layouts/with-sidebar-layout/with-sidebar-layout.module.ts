@@ -6,14 +6,14 @@ import { SidebarModule } from '../../sidebar/sidebar.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
-            declarations: [WithSidebarLayoutComponent],
-            imports: [
-              AppRoutingModule,
-              CommonModule,
-              FlexLayoutModule,
-              SidebarModule
-            ],
-            exports: [WithSidebarLayoutComponent]
-          })
+  declarations: [WithSidebarLayoutComponent],
+  imports: [
+    AppRoutingModule,
+    CommonModule,
+    FlexLayoutModule,
+    SidebarModule
+  ],
+  exports: [WithSidebarLayoutComponent]
+})
 export class WithSidebarLayoutModule {
 }

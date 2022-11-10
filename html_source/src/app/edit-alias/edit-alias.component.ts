@@ -12,24 +12,27 @@ import { Wallet } from '../_helpers/models/wallet.model';
   styleUrls: ['./edit-alias.component.scss']
 })
 export class EditAliasComponent implements OnInit {
-
   wallet: Wallet;
+
   alias: any;
+
   oldAliasComment: string;
+
   notEnoughMoney: boolean;
+
   requestProcessing = false;
 
   constructor(
+    public variablesService: VariablesService,
     private location: Location,
     private router: Router,
     private backend: BackendService,
-    public variablesService: VariablesService,
     private modalService: ModalService,
     private ngZone: NgZone
   ) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.wallet = this.variablesService.currentWallet;
     const alias = this.backend.getWalletAlias(this.wallet.address);
     this.alias = {
@@ -41,7 +44,7 @@ export class EditAliasComponent implements OnInit {
     this.notEnoughMoney = this.wallet.unlocked_balance.isLessThan(this.variablesService.default_fee_big);
   }
 
-  updateAlias() {
+  updateAlias(): void {
     if (this.requestProcessing || this.notEnoughMoney || this.oldAliasComment === this.alias.comment || this.alias.comment.length > this.variablesService.maxCommentLength) {
       return;
     }
@@ -58,7 +61,7 @@ export class EditAliasComponent implements OnInit {
     });
   }
 
-  back() {
+  back(): void {
     this.location.back();
   }
 }

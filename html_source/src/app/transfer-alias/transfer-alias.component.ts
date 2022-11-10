@@ -12,27 +12,33 @@ import { Wallet } from '../_helpers/models/wallet.model';
   styleUrls: ['./transfer-alias.component.scss']
 })
 export class TransferAliasComponent implements OnInit {
-
   wallet: Wallet;
+
   alias: any;
+
   transferAddress = '';
+
   transferAddressValid: boolean;
+
   transferAddressAlias: boolean;
+
   permissionSend: boolean;
+
   notEnoughMoney: boolean;
+
   requestProcessing = false;
 
   constructor(
+    public variablesService: VariablesService,
     private location: Location,
     private router: Router,
     private backend: BackendService,
-    public variablesService: VariablesService,
     private modalService: ModalService,
     private ngZone: NgZone
   ) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.wallet = this.variablesService.currentWallet;
     const alias = this.backend.getWalletAlias(this.wallet.address);
     this.alias = {
@@ -44,7 +50,7 @@ export class TransferAliasComponent implements OnInit {
     this.notEnoughMoney = this.wallet.unlocked_balance.isLessThan(this.variablesService.default_fee_big);
   }
 
-  changeAddress() {
+  changeAddress(): void {
     this.backend.validateAddress(this.transferAddress, status => {
       this.transferAddressValid = status;
       if (status) {
@@ -61,7 +67,7 @@ export class TransferAliasComponent implements OnInit {
     });
   }
 
-  setStatus(statusSet) {
+  setStatus(statusSet): void {
     this.permissionSend = statusSet;
     if (statusSet) {
       this.backend.getAliasByAddress(this.transferAddress, (status) => {
@@ -81,7 +87,7 @@ export class TransferAliasComponent implements OnInit {
     }
   }
 
-  transferAlias() {
+  transferAlias(): void {
     if (this.requestProcessing || !this.permissionSend || !this.transferAddressValid || this.notEnoughMoney) {
       return;
     }
@@ -103,7 +109,7 @@ export class TransferAliasComponent implements OnInit {
     });
   }
 
-  back() {
+  back(): void {
     this.location.back();
   }
 }

@@ -9,8 +9,9 @@ import { BackendService } from '../_helpers/services/backend.service';
   styleUrls: ['./contacts.component.scss']
 })
 export class ContactsComponent implements OnInit {
-  calculatedWidth = [];
   @ViewChild('head') head: ElementRef;
+
+  calculatedWidth = [];
 
   constructor(
     private location: Location,
@@ -19,18 +20,18 @@ export class ContactsComponent implements OnInit {
   ) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.backend.getContactAlias();
   }
 
-  delete(index: number) {
+  delete(index: number): void {
     if (this.variablesService.appPass) {
       this.variablesService.contacts.splice(index, 1);
       this.backend.storeSecureAppData();
     }
   }
 
-  calculateWidth() {
+  calculateWidth(): void {
     this.calculatedWidth = [];
     this.calculatedWidth.push(
       this.head.nativeElement.childNodes[0].clientWidth
@@ -47,7 +48,7 @@ export class ContactsComponent implements OnInit {
     );
   }
 
-  back() {
+  back(): void {
     this.location.back();
   }
 }

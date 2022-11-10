@@ -6,13 +6,13 @@ import { ComponentsModule } from './modules';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
-            declarations: [UiKitComponent],
-            imports: [
-              CommonModule,
-              ComponentsModule,
-              UiKitRoutingModule,
-              FlexLayoutModule
-            ]
-          })
+  declarations: [UiKitComponent],
+  imports: [
+    CommonModule,
+    ComponentsModule,
+    UiKitRoutingModule,
+    FlexLayoutModule
+  ]
+})
 export class UiKitModule {
 }

@@ -13,7 +13,7 @@ interface WrapInfo {
   tx_cost: {
     usd_needed_for_erc20: string;
     zano_needed_for_erc20: string;
-};
+  };
   unwraped_coins_left: string;
 }
 
@@ -24,21 +24,35 @@ interface WrapInfo {
 })
 export class SendComponent implements OnInit, OnDestroy {
   job_id: number;
+
   isOpen = false;
+
   localAliases = [];
+
   isModalDialogVisible = false;
+
   isModalDetailsDialogVisible = false;
+
   hideWalletAddress = false;
+
   mixin: number;
+
   wrapInfo: WrapInfo;
+
   isLoading = true;
+
   isWrapShown = false;
+
   currentAliasAddress: string;
+
   lenghtOfAdress: number;
+
   additionalOptions = false;
+
   parentRouting;
+
   actionData;
-  private dLActionSubscribe;
+
   sendForm = new FormGroup({
     address: new FormControl('', [Validators.required, (g: FormControl) => {
       this.localAliases = [];
@@ -126,12 +140,7 @@ export class SendComponent implements OnInit, OnDestroy {
     hide: new FormControl(false)
   });
 
-  @HostListener('document:click', ['$event.target'])
-  public onClick(targetElement) {
-    if (targetElement.id !== 'send-address' && this.isOpen) {
-      this.isOpen = false;
-    }
-  }
+  private dLActionSubscribe;
 
   constructor(
     private backend: BackendService,
@@ -143,22 +152,14 @@ export class SendComponent implements OnInit, OnDestroy {
   ) {
   }
 
-  getShorterAdress() {
-    const tempArr = this.currentAliasAddress.split('');
-    return this.currentAliasAddress.split('', 13).join('') + '...' + tempArr.splice((tempArr.length - 4), 4).join('');
-  }
-
-  addressMouseDown(e) {
-    if (e['button'] === 0 && this.sendForm.get('address').value && this.sendForm.get('address').value.indexOf('@') === 0) {
-      this.isOpen = true;
+  @HostListener('document:click', ['$event.target'])
+  onClick(targetElement): void {
+    if (targetElement.id !== 'send-address' && this.isOpen) {
+      this.isOpen = false;
     }
   }
 
-  setAlias(alias) {
-    this.sendForm.get('address').setValue(alias);
-  }
-
-  ngOnInit() {
+  ngOnInit(): void {
     this.mixin = this.variablesService.currentWallet.send_data['mixin'] || MIXIN;
     if (this.variablesService.currentWallet.is_auditable) {
       this.mixin = 0;
@@ -189,28 +190,46 @@ export class SendComponent implements OnInit, OnDestroy {
     });
   }
 
-  private getWrapInfo() {
-    this.http.get<WrapInfo>('https://wrapped.zano.org/api2/get_wrap_info')
-      .pipe(finalize(() => {
-        this.isLoading = false;
-      }))
-      .subscribe(info => {
-        this.wrapInfo = info;
-      });
+  ngOnDestroy(): void {
+    this.dLActionSubscribe.unsubscribe();
+    this.variablesService.currentWallet.send_data = {
+      address: this.sendForm.get('address').value,
+      amount: this.sendForm.get('amount').value,
+      comment: this.sendForm.get('comment').value,
+      mixin: this.sendForm.get('mixin').value,
+      fee: this.sendForm.get('fee').value,
+      hide: this.sendForm.get('hide').value
+    };
+    this.actionData = {};
   }
 
-  showDialog() {
+  getShorterAddress(): string {
+    const tempArr = this.currentAliasAddress.split('');
+    return this.currentAliasAddress.split('', 13).join('') + '...' + tempArr.splice((tempArr.length - 4), 4).join('');
+  }
+
+  addressMouseDown(e): void {
+    if (e['button'] === 0 && this.sendForm.get('address').value && this.sendForm.get('address').value.indexOf('@') === 0) {
+      this.isOpen = true;
+    }
+  }
+
+  setAlias(alias): void {
+    this.sendForm.get('address').setValue(alias);
+  }
+
+  showDialog(): void {
     this.isModalDialogVisible = true;
   }
 
-  confirmed(confirmed: boolean) {
+  confirmed(confirmed: boolean): void {
     this.isModalDialogVisible = false;
     if (confirmed) {
       this.onSend();
     }
   }
 
-  fillDeepLinkData() {
+  fillDeepLinkData(): void {
     this.additionalOptions = true;
     this.sendForm.reset({
       address: this.actionData.address,
@@ -222,14 +241,14 @@ export class SendComponent implements OnInit, OnDestroy {
     });
   }
 
-  addressToLowerCase() {
+  addressToLowerCase(): void | null {
     const control = this.sendForm.get('address');
     const value = control.value;
     const condition = value.indexOf('@') === 0;
     return condition ? control.patchValue(value.toLowerCase()) : null;
   }
 
-  onSend() {
+  onSend(): void {
     if (this.sendForm.valid) {
       if (this.sendForm.get('address').value.indexOf('@') !== 0) {
         this.backend.validateAddress(this.sendForm.get('address').value, (valid_status, data) => {
@@ -317,24 +336,11 @@ export class SendComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleOptions() {
+  toggleOptions(): void {
     this.additionalOptions = !this.additionalOptions;
   }
 
-  ngOnDestroy() {
-    this.dLActionSubscribe.unsubscribe();
-    this.variablesService.currentWallet.send_data = {
-      address: this.sendForm.get('address').value,
-      amount: this.sendForm.get('amount').value,
-      comment: this.sendForm.get('comment').value,
-      mixin: this.sendForm.get('mixin').value,
-      fee: this.sendForm.get('fee').value,
-      hide: this.sendForm.get('hide').value
-    };
-    this.actionData = {};
-  }
-
-  public getReceivedValue() {
+  getReceivedValue(): number | BigNumber {
     const amount = this.moneyToInt.transform(this.sendForm.value.amount);
     const needed = new BigNumber(this.wrapInfo.tx_cost.zano_needed_for_erc20);
     if (amount && needed) {
@@ -343,8 +349,18 @@ export class SendComponent implements OnInit, OnDestroy {
     return 0;
   }
 
-  handeCloseDetailsModal() {
+  handeCloseDetailsModal(): void {
     this.isModalDetailsDialogVisible = false;
     this.job_id = null;
+  }
+
+  private getWrapInfo(): void {
+    this.http.get<WrapInfo>('https://wrapped.zano.org/api2/get_wrap_info')
+      .pipe(finalize(() => {
+        this.isLoading = false;
+      }))
+      .subscribe(info => {
+        this.wrapInfo = info;
+      });
   }
 }

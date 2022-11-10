@@ -10,7 +10,8 @@ import { ScaleItems } from 'src/app/_helpers/models/scale.model';
 export class SelectsComponent implements OnInit {
   scaleItems: ScaleItems = [...scaleItems];
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }

@@ -129,243 +129,6 @@ export class BackendService {
     }
   }
 
-  private informerRun(error, params, command) {
-    let error_translate = '';
-    switch (error) {
-      case 'NOT_ENOUGH_MONEY':
-        error_translate = 'ERRORS.NOT_ENOUGH_MONEY';
-        // error_translate = 'ERRORS.NO_MONEY'; maybe that one?
-        if (command === 'cancel_offer') {
-          error_translate = this.translate.instant('ERRORS.NO_MONEY_REMOVE_OFFER', {
-            'fee': this.variablesService.default_fee,
-            'currency': this.variablesService.defaultCurrency
-          });
-        }
-        break;
-      case 'CORE_BUSY':
-        error_translate = 'ERRORS.CORE_BUSY';
-        break;
-      case 'BUSY':
-        error_translate = 'ERRORS.DAEMON_BUSY';
-        break;
-      case 'OVERFLOW':
-        if (command !== 'get_all_aliases') {
-          error_translate = '';
-        }
-        break;
-      case 'NOT_ENOUGH_OUTPUTS_FOR_MIXING':
-        error_translate = 'ERRORS.NOT_ENOUGH_OUTPUTS_TO_MIX';
-        break;
-      case 'TX_IS_TOO_BIG':
-        error_translate = 'ERRORS.TRANSACTION_IS_TO_BIG';
-        break;
-      case 'DISCONNECTED':
-        error_translate = 'ERRORS.TRANSFER_ATTEMPT';
-        break;
-      case 'ACCESS_DENIED':
-        error_translate = 'ERRORS.ACCESS_DENIED';
-        break;
-      case 'TX_REJECTED':
-        // if (command === 'request_alias_registration') {
-        // error_translate = 'INFORMER.ALIAS_IN_REGISTER';
-        // } else {
-        error_translate = 'ERRORS.TRANSACTION_ERROR';
-        // }
-        break;
-      case 'INTERNAL_ERROR':
-        error_translate = 'ERRORS.TRANSACTION_ERROR';
-        break;
-      case 'BAD_ARG':
-        error_translate = 'ERRORS.BAD_ARG';
-        break;
-      case 'WALLET_WRONG_ID':
-        error_translate = 'ERRORS.WALLET_WRONG_ID';
-        break;
-      case 'WALLET_WATCH_ONLY_NOT_SUPPORTED':
-        error_translate = 'ERRORS.WALLET_WATCH_ONLY_NOT_SUPPORTED';
-        break;
-      // case 'WRONG_PASSWORD':
-        // params = JSON.parse(params);
-        // if (!params.testEmpty) {
-        //   error_translate = 'ERRORS.WRONG_PASSWORD';
-        // }
-        // break;
-      case 'FILE_RESTORED':
-        if (command === 'open_wallet') {
-          error_translate = 'ERRORS.FILE_RESTORED';
-        }
-        break;
-      case 'FILE_NOT_FOUND':
-        if (command !== 'open_wallet' && command !== 'get_alias_info_by_name' && command !== 'get_alias_info_by_address') {
-          error_translate = this.translate.instant('ERRORS.FILE_NOT_FOUND');
-          params = JSON.parse(params);
-          if (params.path) {
-            error_translate += ': ' + params.path;
-          }
-        }
-        break;
-      case 'NOT_FOUND':
-        if (command !== 'open_wallet' && command !== 'get_alias_info_by_name' && command !== 'get_alias_info_by_address') {
-          error_translate = this.translate.instant('ERRORS.FILE_NOT_FOUND');
-          params = JSON.parse(params);
-          if (params.path) {
-            error_translate += ': ' + params.path;
-          }
-        }
-        break;
-      case 'CANCELED':
-      case '':
-        break;
-      case 'FAIL':
-        if (
-          command === 'create_proposal' ||
-          command === 'accept_proposal' ||
-          command === 'release_contract' ||
-          command === 'request_cancel_contract' ||
-          command === 'accept_cancel_contract'
-        ) {
-          error_translate = ' ';
-        }
-        break;
-      case 'ALREADY_EXISTS':
-        error_translate = 'ERRORS.FILE_EXIST';
-        break;
-      case 'FAILED':
-        BackendService.Debug(0, `Error: (${ error }) was triggered by command: ${ command }`);
-        break;
-      default:
-        error_translate = '';
-    }
-    if (error.indexOf('FAIL:failed to save file') > -1) {
-      error_translate = 'ERRORS.FILE_NOT_SAVED';
-    }
-    if (error.indexOf('FAILED:failed to open binary wallet file for saving') > -1 && command === 'generate_wallet') {
-      error_translate = '';
-    }
-
-    if (error_translate !== '') {
-      this.modalService.prepareModal('error', error_translate);
-    }
-  }
-
-  private commandDebug(command, params, result) {
-    BackendService.Debug(2, '----------------- ' + command + ' -----------------');
-    const debug = {
-      _send_params: params,
-      _result: result
-    };
-    BackendService.Debug(2, debug);
-    try {
-      BackendService.Debug(2, JSONBigNumber.parse(result, BackendService.bigNumberParser));
-    } catch (e) {
-      BackendService.Debug(2, { response_data: result, error_code: 'OK' });
-    }
-  }
-
-  private backendCallback(resultStr, params, callback, command) {
-    let Result = resultStr;
-    if (command !== 'get_clipboard') {
-      if (!resultStr || resultStr === '') {
-        Result = {};
-      } else {
-        try {
-          Result = JSONBigNumber.parse(resultStr, BackendService.bigNumberParser);
-        } catch (e) {
-          Result = { response_data: resultStr, error_code: 'OK' };
-        }
-      }
-    } else {
-      Result = {
-        error_code: 'OK',
-        response_data: Result
-      };
-    }
-
-    const core_busy = Result.error_code === 'CORE_BUSY';
-    const Status = (Result.error_code === 'OK' || Result.error_code === 'TRUE');
-
-    if (!Status && Status !== undefined && Result.error_code !== undefined) {
-      BackendService.Debug(1, 'API error for command: "' + command + '". Error code: ' + Result.error_code);
-    }
-    const data = ((typeof Result === 'object') && 'response_data' in Result) ? Result.response_data : Result;
-
-    let res_error_code = false;
-    if (
-      typeof Result === 'object' &&
-      'error_code' in Result && Result.error_code !== 'OK' &&
-      Result.error_code !== 'TRUE' &&
-      Result.error_code !== 'FALSE' &&
-      Result.error_code !== 'WRAP'
-    ) {
-      if (core_busy) {
-        setTimeout(() => {
-          // this is will avoid update data when user
-          // on other wallet after CORE_BUSY (blink of data)
-          if (command !== 'get_recent_transfers') {
-            this.runCommand(command, params, callback);
-          } else {
-            const current_wallet_id = this.variablesService.currentWallet.wallet_id;
-            if (current_wallet_id === params.wallet_id) {
-              this.runCommand(command, params, callback);
-            }
-          }
-        }, 50);
-      } else {
-        this.informerRun(Result.error_code, params, command);
-        res_error_code = Result.error_code;
-      }
-    }
-
-    // if ( command === 'get_offers_ex' ){
-    //   Service.printLog( "get_offers_ex offers count "+((data.offers)?data.offers.length:0) );
-    // }
-
-    if (!core_busy) {
-      if (typeof callback === 'function') {
-        callback(Status, data, res_error_code);
-      } else {
-        return data;
-      }
-    }
-  }
-
-  private runCommand(command, params?: Params, callback?) {
-    if (!this.backendObject) {
-      return;
-    }
-
-    if (command === 'get_recent_transfers') {
-      this.variablesService.get_recent_transfers = true;
-    }
-
-    const Action = this.backendObject[command];
-
-    if (!Action) {
-      BackendService.Debug(0, 'Run Command Error! Command "' + command + '" don\'t found in backendObject');
-      return;
-    }
-
-    const that = this;
-    const type: ParamsType = getParamsType(params);
-    params = params && convertorParams(params);
-
-    if (type === ParamsType.array) {
-      Action(...(params as string[]), function (resultStr) {
-        that.commandDebug(command, params, resultStr);
-        return that.backendCallback(resultStr, params, callback, command);
-      });
-      return;
-    }
-
-    if (command === 'get_recent_transfers') {
-      this.variablesService.get_recent_transfers = false;
-    }
-    Action(params, function (resultStr) {
-      that.commandDebug(command, params, resultStr);
-      return that.backendCallback(resultStr, params, callback, command);
-    });
-  }
-
   eventSubscribe(command, callback) {
     if (command === 'on_core_event') {
       this.backendObject[command].connect(callback);
@@ -839,6 +602,243 @@ export class BackendService {
         this.variablesService.disable_price_fetch$.next(disable_price_fetch);
         this.variablesService.use_debug_mode$.next(use_debug_mode);
       });
+  }
+
+  private informerRun(error, params, command) {
+    let error_translate = '';
+    switch (error) {
+      case 'NOT_ENOUGH_MONEY':
+        error_translate = 'ERRORS.NOT_ENOUGH_MONEY';
+        // error_translate = 'ERRORS.NO_MONEY'; maybe that one?
+        if (command === 'cancel_offer') {
+          error_translate = this.translate.instant('ERRORS.NO_MONEY_REMOVE_OFFER', {
+            'fee': this.variablesService.default_fee,
+            'currency': this.variablesService.defaultCurrency
+          });
+        }
+        break;
+      case 'CORE_BUSY':
+        error_translate = 'ERRORS.CORE_BUSY';
+        break;
+      case 'BUSY':
+        error_translate = 'ERRORS.DAEMON_BUSY';
+        break;
+      case 'OVERFLOW':
+        if (command !== 'get_all_aliases') {
+          error_translate = '';
+        }
+        break;
+      case 'NOT_ENOUGH_OUTPUTS_FOR_MIXING':
+        error_translate = 'ERRORS.NOT_ENOUGH_OUTPUTS_TO_MIX';
+        break;
+      case 'TX_IS_TOO_BIG':
+        error_translate = 'ERRORS.TRANSACTION_IS_TO_BIG';
+        break;
+      case 'DISCONNECTED':
+        error_translate = 'ERRORS.TRANSFER_ATTEMPT';
+        break;
+      case 'ACCESS_DENIED':
+        error_translate = 'ERRORS.ACCESS_DENIED';
+        break;
+      case 'TX_REJECTED':
+        // if (command === 'request_alias_registration') {
+        // error_translate = 'INFORMER.ALIAS_IN_REGISTER';
+        // } else {
+        error_translate = 'ERRORS.TRANSACTION_ERROR';
+        // }
+        break;
+      case 'INTERNAL_ERROR':
+        error_translate = 'ERRORS.TRANSACTION_ERROR';
+        break;
+      case 'BAD_ARG':
+        error_translate = 'ERRORS.BAD_ARG';
+        break;
+      case 'WALLET_WRONG_ID':
+        error_translate = 'ERRORS.WALLET_WRONG_ID';
+        break;
+      case 'WALLET_WATCH_ONLY_NOT_SUPPORTED':
+        error_translate = 'ERRORS.WALLET_WATCH_ONLY_NOT_SUPPORTED';
+        break;
+      // case 'WRONG_PASSWORD':
+      // params = JSON.parse(params);
+      // if (!params.testEmpty) {
+      //   error_translate = 'ERRORS.WRONG_PASSWORD';
+      // }
+      // break;
+      case 'FILE_RESTORED':
+        if (command === 'open_wallet') {
+          error_translate = 'ERRORS.FILE_RESTORED';
+        }
+        break;
+      case 'FILE_NOT_FOUND':
+        if (command !== 'open_wallet' && command !== 'get_alias_info_by_name' && command !== 'get_alias_info_by_address') {
+          error_translate = this.translate.instant('ERRORS.FILE_NOT_FOUND');
+          params = JSON.parse(params);
+          if (params.path) {
+            error_translate += ': ' + params.path;
+          }
+        }
+        break;
+      case 'NOT_FOUND':
+        if (command !== 'open_wallet' && command !== 'get_alias_info_by_name' && command !== 'get_alias_info_by_address') {
+          error_translate = this.translate.instant('ERRORS.FILE_NOT_FOUND');
+          params = JSON.parse(params);
+          if (params.path) {
+            error_translate += ': ' + params.path;
+          }
+        }
+        break;
+      case 'CANCELED':
+      case '':
+        break;
+      case 'FAIL':
+        if (
+          command === 'create_proposal' ||
+          command === 'accept_proposal' ||
+          command === 'release_contract' ||
+          command === 'request_cancel_contract' ||
+          command === 'accept_cancel_contract'
+        ) {
+          error_translate = ' ';
+        }
+        break;
+      case 'ALREADY_EXISTS':
+        error_translate = 'ERRORS.FILE_EXIST';
+        break;
+      case 'FAILED':
+        BackendService.Debug(0, `Error: (${ error }) was triggered by command: ${ command }`);
+        break;
+      default:
+        error_translate = '';
+    }
+    if (error.indexOf('FAIL:failed to save file') > -1) {
+      error_translate = 'ERRORS.FILE_NOT_SAVED';
+    }
+    if (error.indexOf('FAILED:failed to open binary wallet file for saving') > -1 && command === 'generate_wallet') {
+      error_translate = '';
+    }
+
+    if (error_translate !== '') {
+      this.modalService.prepareModal('error', error_translate);
+    }
+  }
+
+  private commandDebug(command, params, result) {
+    BackendService.Debug(2, '----------------- ' + command + ' -----------------');
+    const debug = {
+      _send_params: params,
+      _result: result
+    };
+    BackendService.Debug(2, debug);
+    try {
+      BackendService.Debug(2, JSONBigNumber.parse(result, BackendService.bigNumberParser));
+    } catch ( e ) {
+      BackendService.Debug(2, { response_data: result, error_code: 'OK' });
+    }
+  }
+
+  private backendCallback(resultStr, params, callback, command) {
+    let Result = resultStr;
+    if (command !== 'get_clipboard') {
+      if (!resultStr || resultStr === '') {
+        Result = {};
+      } else {
+        try {
+          Result = JSONBigNumber.parse(resultStr, BackendService.bigNumberParser);
+        } catch ( e ) {
+          Result = { response_data: resultStr, error_code: 'OK' };
+        }
+      }
+    } else {
+      Result = {
+        error_code: 'OK',
+        response_data: Result
+      };
+    }
+
+    const core_busy = Result.error_code === 'CORE_BUSY';
+    const Status = (Result.error_code === 'OK' || Result.error_code === 'TRUE');
+
+    if (!Status && Status !== undefined && Result.error_code !== undefined) {
+      BackendService.Debug(1, 'API error for command: "' + command + '". Error code: ' + Result.error_code);
+    }
+    const data = ((typeof Result === 'object') && 'response_data' in Result) ? Result.response_data : Result;
+
+    let res_error_code = false;
+    if (
+      typeof Result === 'object' &&
+      'error_code' in Result && Result.error_code !== 'OK' &&
+      Result.error_code !== 'TRUE' &&
+      Result.error_code !== 'FALSE' &&
+      Result.error_code !== 'WRAP'
+    ) {
+      if (core_busy) {
+        setTimeout(() => {
+          // this is will avoid update data when user
+          // on other wallet after CORE_BUSY (blink of data)
+          if (command !== 'get_recent_transfers') {
+            this.runCommand(command, params, callback);
+          } else {
+            const current_wallet_id = this.variablesService.currentWallet.wallet_id;
+            if (current_wallet_id === params.wallet_id) {
+              this.runCommand(command, params, callback);
+            }
+          }
+        }, 50);
+      } else {
+        this.informerRun(Result.error_code, params, command);
+        res_error_code = Result.error_code;
+      }
+    }
+
+    // if ( command === 'get_offers_ex' ){
+    //   Service.printLog( "get_offers_ex offers count "+((data.offers)?data.offers.length:0) );
+    // }
+
+    if (!core_busy) {
+      if (typeof callback === 'function') {
+        callback(Status, data, res_error_code);
+      } else {
+        return data;
+      }
+    }
+  }
+
+  private runCommand(command, params?: Params, callback?) {
+    if (!this.backendObject) {
+      return;
+    }
+
+    if (command === 'get_recent_transfers') {
+      this.variablesService.get_recent_transfers = true;
+    }
+
+    const Action = this.backendObject[command];
+
+    if (!Action) {
+      BackendService.Debug(0, 'Run Command Error! Command "' + command + '" don\'t found in backendObject');
+      return;
+    }
+
+    const that = this;
+    const type: ParamsType = getParamsType(params);
+    params = params && convertorParams(params);
+
+    if (type === ParamsType.array) {
+      Action(...(params as string[]), function (resultStr) {
+        that.commandDebug(command, params, resultStr);
+        return that.backendCallback(resultStr, params, callback, command);
+      });
+      return;
+    }
+
+    if (command === 'get_recent_transfers') {
+      this.variablesService.get_recent_transfers = false;
+    }
+    Action(params, function (resultStr) {
+      that.commandDebug(command, params, resultStr);
+      return that.backendCallback(resultStr, params, callback, command);
+    });
   }
 }
 

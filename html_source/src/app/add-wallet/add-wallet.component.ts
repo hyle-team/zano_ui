@@ -12,27 +12,26 @@ import { CREATE_NEW_WALLET_HELP_PAGE } from '../_shared/constants';
   styleUrls: ['./add-wallet.component.scss']
 })
 export class AddWalletComponent implements OnInit {
-
-  public prevUrl = '';
+  prevUrl = '';
 
   constructor(
+    public variablesService: VariablesService,
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
     private backend: BackendService,
-    public variablesService: VariablesService,
     private ngZone: NgZone,
     private translate: TranslateService
   ) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     if (this.route.snapshot.queryParams && this.route.snapshot.queryParams.prevUrl) {
       this.prevUrl = this.route.snapshot.queryParams.prevUrl;
     }
   }
 
-  openWallet() {
+  openWallet(): void {
     this.backend.openFileDialog(
       this.translate.instant('MAIN.CHOOSE_PATH'),
       '*', this.variablesService.settings.default_path,
@@ -48,12 +47,11 @@ export class AddWalletComponent implements OnInit {
       });
   }
 
-  openInBrowser() {
+  openInBrowser(): void {
     this.backend.openUrlInBrowser(CREATE_NEW_WALLET_HELP_PAGE);
   }
 
-  back() {
+  back(): void {
     this.location.back();
   }
-
 }

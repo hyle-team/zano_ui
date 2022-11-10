@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BackendService } from '../_helpers/services/backend.service';
 import { VariablesService } from '../_helpers/services/variables.service';
@@ -13,8 +13,7 @@ import { Location } from '@angular/common';
   templateUrl: './create-wallet.component.html',
   styleUrls: ['./create-wallet.component.scss']
 })
-export class CreateWalletComponent implements OnInit {
-
+export class CreateWalletComponent {
   createForm = new FormGroup({
     name: new FormControl('', [Validators.required, (g: FormControl) => {
       for (let i = 0; i < this.variablesService.wallets.length; i++) {
@@ -35,34 +34,30 @@ export class CreateWalletComponent implements OnInit {
   };
 
   walletSaved = false;
+
   walletSavedName = '';
+
   progressWidth = '9rem';
 
   constructor(
+    public variablesService: VariablesService,
     private router: Router,
     private backend: BackendService,
-    public variablesService: VariablesService,
     private modalService: ModalService,
     private ngZone: NgZone,
     private translate: TranslateService,
     private location: Location,
   ) {
-
   }
 
-
-  ngOnInit() {
-
-  }
-
-  createWallet() {
+  createWallet(): void {
     this.ngZone.run(() => {
       this.progressWidth = '100%';
       this.router.navigate(['/seed-phrase'], { queryParams: { wallet_id: this.wallet.id } });
     });
   }
 
-  saveWallet() {
+  saveWallet(): void {
     if (this.createForm.valid && this.createForm.get('name').value.length <= this.variablesService.maxWalletNameLength) {
       this.backend.saveFileDialog(this.translate.instant('CREATE_WALLET.TITLE_SAVE'), '*', this.variablesService.settings.default_path,
         (file_status, file_data) => {
@@ -106,7 +101,7 @@ export class CreateWalletComponent implements OnInit {
     }
   }
 
-  back() {
+  back(): void {
     this.location.back();
   }
 }

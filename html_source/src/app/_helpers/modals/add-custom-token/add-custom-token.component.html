@@ -1,4 +1,5 @@
-<form [formGroup]="formGroup" class="modal p-2 border-radius-0_8-rem bg-light-blue max-w-54-rem w-100 max-h-100" (ngSubmit)="beforeSubmit()">
+<form (ngSubmit)="beforeSubmit()" [formGroup]="formGroup"
+			class="modal p-2 border-radius-0_8-rem bg-light-blue max-w-54-rem w-100 max-h-100">
 	<div class="content"
 			 fxLayout="column">
 		<h3 class="mb-2">{{ 'WALLET.MODAL_ADD_CUSTOM_TOKEN.TITLE' | translate }}</h3>
@@ -6,13 +7,13 @@
 		<div class="form__field">
 			<label for="assetID">{{ 'WALLET.MODAL_ADD_CUSTOM_TOKEN.FIELD_TITLE' | translate }}</label>
 			<input class="form__field--input"
-						 type="text"
-						 id="assetID"
 						 formControlName="assetID"
+						 id="assetID"
+						 name="assetID"
 						 placeholder="Enter Asset ID"
-						 name="assetID"/>
-			<div class="error"
-					 *ngIf="false">
+						 type="text"/>
+			<div *ngIf="false"
+					 class="error">
 				Some text
 			</div>
 		</div>
@@ -21,11 +22,11 @@
 	<div class="controls"
 			 fxLayout="row nowrap"
 			 fxLayoutGap="1rem">
-		<button type="button"
+		<button (click)="eventClose.emit()"
 						class="outline big w-100"
-						(click)="eventClose.emit()">{{ 'MODALS.CANCEL' | translate }}</button>
-		<button type="submit"
-						[disabled]="formGroup.invalid"
-						class="primary big w-100">{{ 'MODALS.ADD_TOKEN' | translate }}</button>
+						type="button">{{ 'MODALS.CANCEL' | translate }}</button>
+		<button [disabled]="formGroup.invalid"
+						class="primary big w-100"
+						type="submit">{{ 'MODALS.ADD_TOKEN' | translate }}</button>
 	</div>
 </form>

@@ -14,4 +14,5 @@ import { DeeplinkComponent } from './deeplink.component';
   exports: [DeeplinkComponent, DeeplinkModalModule, SyncModalModule],
   entryComponents: [DeeplinkComponent]
 })
-export class DeeplinkModule { }
+export class DeeplinkModule {
+}

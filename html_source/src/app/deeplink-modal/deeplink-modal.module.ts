@@ -8,14 +8,15 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [DeeplinkModalComponent],
-            imports: [
-              CommonModule,
-              NgSelectModule,
-              FormsModule,
-              FlexLayoutModule,
-              TranslateModule
-            ],
+  imports: [
+    CommonModule,
+    NgSelectModule,
+    FormsModule,
+    FlexLayoutModule,
+    TranslateModule
+  ],
   exports: [DeeplinkModalComponent],
   entryComponents: [DeeplinkModalComponent]
 })
-export class DeeplinkModalModule { }
+export class DeeplinkModalModule {
+}

@@ -9,4 +9,5 @@ import { TooltipDirective } from './tooltip.directive';
   ],
   exports: [TooltipDirective]
 })
-export class TooltipModule { }
+export class TooltipModule {
+}

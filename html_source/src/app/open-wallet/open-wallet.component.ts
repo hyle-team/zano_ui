@@ -15,9 +15,10 @@ import { ValidationErrors } from '@angular/forms/src/directives/validators';
   styleUrls: ['./open-wallet.component.scss']
 })
 export class OpenWalletComponent implements OnInit, OnDestroy {
-
   queryRouting;
+
   filePath: string;
+
   openForm = new FormGroup({
     name: new FormControl('', [Validators.required, (g: FormControl) => {
       for (let i = 0; i < this.variablesService.wallets.length; i++) {
@@ -31,10 +32,10 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
   });
 
   constructor(
+    public variablesService: VariablesService,
     private route: ActivatedRoute,
     private router: Router,
     private backend: BackendService,
-    public variablesService: VariablesService,
     private modalService: ModalService,
     private ngZone: NgZone,
     private location: Location,
@@ -42,7 +43,7 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
   ) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.queryRouting = this.route.queryParams.subscribe(params => {
       if (params.path) {
         this.filePath = params.path;
@@ -61,8 +62,11 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
     });
   }
 
+  ngOnDestroy(): void {
+    this.queryRouting.unsubscribe();
+  }
 
-  openWallet() {
+  openWallet(): void {
     if (this.openForm.valid && this.openForm.get('name').value.length <= this.variablesService.maxWalletNameLength) {
       this.backend.openWallet(
         this.filePath,
@@ -164,12 +168,7 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
-    this.queryRouting.unsubscribe();
-  }
-
-  back() {
+  back(): void {
     this.location.back();
   }
-
 }

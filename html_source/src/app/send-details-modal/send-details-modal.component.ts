@@ -1,23 +1,5 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  EventEmitter,
-  HostBinding,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  Renderer2,
-  ViewChild
-} from '@angular/core';
-import {
-  AsyncCommandResults,
-  BackendService,
-  CurrentActionState,
-  ResponseAsyncTransfer,
-  StatusCurrentActionState
-} from '../_helpers/services/backend.service';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostBinding, Input, OnDestroy, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
+import { AsyncCommandResults, BackendService, CurrentActionState, ResponseAsyncTransfer, StatusCurrentActionState } from '../_helpers/services/backend.service';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { VariablesService } from '../_helpers/services/variables.service';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -60,12 +42,20 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
   /** BehaviorSubject with CurrentActionState */
   currentActionState$ = new BehaviorSubject<CurrentActionState>(null);
 
+  /** BehaviorSubject with CurrentActionState[] */
+  currentActionStates$ = new BehaviorSubject<CurrentActionState[]>([]);
+
+  private destroy$: Subject<never> = new Subject<never>();
+
+  constructor(
+    private backendService: BackendService,
+    private variablesService: VariablesService,
+    private renderer: Renderer2) {
+  }
+
   get currentActionState(): CurrentActionState {
     return this.currentActionState$.value;
   }
-
-  /** BehaviorSubject with CurrentActionState[] */
-  currentActionStates$ = new BehaviorSubject<CurrentActionState[]>([]);
 
   get currentActionStates(): CurrentActionState[] {
     return this.currentActionStates$.value;
@@ -86,22 +76,14 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
     return !!(this.responseData$.value || this.currentActionStates$.value.length);
   }
 
-  private _destroy$: Subject<never> = new Subject<never>();
-
-  constructor(
-    private _backendService: BackendService,
-    private _variablesService: VariablesService,
-    private _renderer: Renderer2) {
-  }
-
-  ngOnInit() {
-    this._renderer.addClass(document.body, 'no-scroll');
-    const { currentWallet: { wallet_id }, settings: { appUseTor } } = this._variablesService;
+  ngOnInit(): void {
+    this.renderer.addClass(document.body, 'no-scroll');
+    const { currentWallet: { wallet_id }, settings: { appUseTor } } = this.variablesService;
 
     if (appUseTor) {
       /** Listening handleCurrentActionState */
-      this._backendService.handleCurrentActionState$
-        .pipe(takeUntil(this._destroy$))
+      this.backendService.handleCurrentActionState$
+        .pipe(takeUntil(this.destroy$))
         .subscribe((currentActionState: CurrentActionState) => {
           this.currentActionState$.next(currentActionState);
           this.currentActionStates$.next([...this.currentActionStates, currentActionState]);
@@ -116,10 +98,10 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
     }
 
     /** Listening dispatchAsyncCallResult */
-    this._backendService.dispatchAsyncCallResult$
+    this.backendService.dispatchAsyncCallResult$
       .pipe(
         filter(({ job_id, response }: AsyncCommandResults) => this.job_id === job_id && !!response),
-        takeUntil(this._destroy$)
+        takeUntil(this.destroy$)
       ).subscribe(({ response }: AsyncCommandResults) => {
       const { response_data: { success } } = response;
       if (!appUseTor || !success) {
@@ -135,15 +117,16 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
-    this._renderer.removeClass(document.body, 'no-scroll');
-    this._destroy$.next();
+  ngOnDestroy(): void {
+    this.renderer.removeClass(document.body, 'no-scroll');
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   /** Show/Hide details transaction */
-  toggleDetails(): any {
+  toggleDetails(): void {
     this.stateDetails$.next(!this.stateDetails$.value);
-    setTimeout(() => this._scrollToBottomDetailsList(), 100);
+    setTimeout(() => this.scrollToBottomDetailsList(), 100);
   }
 
   /** identification item by *ngFor */
@@ -162,7 +145,7 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
   }
 
   /** Scroll elDetailsWrapper to bottom */
-  private _scrollToBottomDetailsList() {
+  private scrollToBottomDetailsList() {
     if (this.elDetailsList) {
       const { nativeElement } = this.elDetailsList;
       nativeElement.scrollTop = nativeElement.scrollHeight;

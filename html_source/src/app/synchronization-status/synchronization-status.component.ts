@@ -16,7 +16,7 @@ export class SynchronizationStatusComponent {
   ) {
   }
 
-  getUpdate() {
+  getUpdate(): void {
     this.backend.openUrlInBrowser(DOWNLOADS_PAGE_URL);
   }
 

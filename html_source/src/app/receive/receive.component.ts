@@ -16,7 +16,7 @@ export class ReceiveComponent implements OnInit {
   ) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     QRCode.toDataURL(this.variablesService.currentWallet.address, {
       width: 200 * RCV_ADDR_QR_SCALE,
       height: 200 * RCV_ADDR_QR_SCALE

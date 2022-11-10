@@ -15,7 +15,8 @@ export class WalletsComponent implements OnInit {
   showStaking = true;
   showProgressBar = false;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }

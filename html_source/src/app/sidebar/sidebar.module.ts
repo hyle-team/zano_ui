@@ -16,21 +16,22 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [SidebarComponent],
-            imports: [
-              CommonModule,
-              RouterModule,
-              DragDropModule,
-              DragScrollModule,
-              TooltipModule,
-              PipesModule,
-              TranslateModule,
-              DisablePriceFetchModule,
-              ConfirmModalModule,
-              SynchronizationStatusModule,
-              DeeplinkModule,
-              StakingSwitchModule,
-              FlexLayoutModule
-            ],
+  imports: [
+    CommonModule,
+    RouterModule,
+    DragDropModule,
+    DragScrollModule,
+    TooltipModule,
+    PipesModule,
+    TranslateModule,
+    DisablePriceFetchModule,
+    ConfirmModalModule,
+    SynchronizationStatusModule,
+    DeeplinkModule,
+    StakingSwitchModule,
+    FlexLayoutModule
+  ],
   exports: [SidebarComponent]
 })
-export class SidebarModule { }
+export class SidebarModule {
+}

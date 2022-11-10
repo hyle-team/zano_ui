@@ -13,9 +13,10 @@ import { BigNumber } from 'bignumber.js';
   styleUrls: ['./staking.component.scss']
 })
 export class StakingComponent implements OnInit, OnDestroy {
-
   parentRouting;
+
   heightAppEvent;
+
   refreshStackingEvent;
 
   periods = [
@@ -86,14 +87,15 @@ export class StakingComponent implements OnInit, OnDestroy {
   chart: Chart;
 
   total = new BigNumber(0);
+
   pending = {
     list: [],
     total: new BigNumber(0)
   };
 
   constructor(
-    private route: ActivatedRoute,
     public variablesService: VariablesService,
+    private route: ActivatedRoute,
     private backend: BackendService,
     private ngZone: NgZone,
     private intToMoneyPipe: IntToMoneyPipe,
@@ -111,7 +113,7 @@ export class StakingComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.parentRouting = this.route.parent.params.subscribe(() => {
       this.getMiningHistory();
     });
@@ -138,8 +140,13 @@ export class StakingComponent implements OnInit, OnDestroy {
     });
   }
 
+  ngOnDestroy(): void {
+    this.parentRouting.unsubscribe();
+    this.heightAppEvent.unsubscribe();
+    this.refreshStackingEvent.unsubscribe();
+  }
 
-  drawChart(data) {
+  drawChart(data): void {
     this.chart = new Chart({
       title: { text: '' },
       credits: { enabled: false },
@@ -256,8 +263,7 @@ export class StakingComponent implements OnInit, OnDestroy {
     });
   }
 
-
-  getMiningHistory() {
+  getMiningHistory(): void {
     if (this.variablesService.currentWallet.loaded) {
       this.backend.getMiningHistory(this.variablesService.currentWallet.wallet_id, (status, data) => {
         this.total = new BigNumber(0);
@@ -289,7 +295,7 @@ export class StakingComponent implements OnInit, OnDestroy {
     }
   }
 
-  changePeriod(period?) {
+  changePeriod(period?): void {
     if (period) {
       this.periods.forEach((p) => {
         p.active = false;
@@ -393,18 +399,11 @@ export class StakingComponent implements OnInit, OnDestroy {
     this.chart.ref.xAxis[0].setExtremes(min, null);
   }
 
-  changeGroup(group) {
+  changeGroup(group): void {
     this.groups.forEach((g) => {
       g.active = false;
     });
     group.active = true;
     this.changePeriod();
   }
-
-  ngOnDestroy() {
-    this.parentRouting.unsubscribe();
-    this.heightAppEvent.unsubscribe();
-    this.refreshStackingEvent.unsubscribe();
-  }
-
 }

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { VariablesService } from '../_helpers/services/variables.service';
 
 @Component({
@@ -6,13 +6,13 @@ import { VariablesService } from '../_helpers/services/variables.service';
   templateUrl: './contracts.component.html',
   styleUrls: ['./contracts.component.scss']
 })
-export class ContractsComponent implements OnInit, OnDestroy {
+export class ContractsComponent {
   constructor(
     public variablesService: VariablesService
   ) {
   }
 
-  public get sortedArrayContracts(): any[] {
+  get sortedArrayContracts(): any[] {
     return this.variablesService.currentWallet.contracts.sort((a, b) => {
       if (a.is_new < b.is_new) {
         return 1;
@@ -35,12 +35,4 @@ export class ContractsComponent implements OnInit, OnDestroy {
       return 0;
     });
   }
-
-  ngOnInit() {
-
-  }
-
-  ngOnDestroy() {
-  }
-
 }

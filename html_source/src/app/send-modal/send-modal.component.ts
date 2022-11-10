@@ -24,7 +24,7 @@ export class SendModalComponent implements OnInit, OnDestroy {
   ) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.renderer.addClass(document.body, 'no-scroll');
     if (this.variablesService.appPass) {
       this.confirmForm.controls['password'].setValidators([Validators.required]);
@@ -32,11 +32,11 @@ export class SendModalComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.renderer.removeClass(document.body, 'no-scroll');
   }
 
-  submit() {
+  submit(): void {
     if (this.variablesService.appPass) {
       if (this.confirmForm.controls['password'].value === '') {
         this.confirmForm.controls['password'].setErrors({ requiredPass: true });
@@ -53,8 +53,7 @@ export class SendModalComponent implements OnInit, OnDestroy {
     }
   }
 
-  onClose() {
+  onClose(): void {
     this.confirmed.emit(false);
   }
-
 }

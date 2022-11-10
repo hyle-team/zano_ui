@@ -11,4 +11,5 @@ import { AuthRoutingModule } from './auth-routing.module';
     NoWalletModule
   ]
 })
-export class AuthModule { }
+export class AuthModule {
+}

@@ -24,7 +24,7 @@ import { ContactSendComponent } from './contact-send/contact-send.component';
 import { ExportImportComponent } from './export-import/export-import.component';
 import { DeeplinkComponent } from './deeplink/deeplink.component';
 import { ContractsTabComponent } from './contracts/contracts-tab/contracts-tab.component';
-import { pathsChildrenContracts, pathsChildrenWallet, paths } from './paths';
+import { paths, pathsChildrenContracts, pathsChildrenWallet } from './paths';
 import { FullLayoutComponent } from './layouts/full-layout/full-layout.component';
 import { WithSidebarLayoutComponent } from './layouts/with-sidebar-layout/with-sidebar-layout.component';
 
@@ -276,9 +276,9 @@ const routes: Routes = [
 ];
 
 @NgModule({
-            imports: [RouterModule.forRoot(routes)],
-            exports: [RouterModule]
-          })
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
 
 
 export class AppRoutingModule {

@@ -17,8 +17,8 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./assign-alias.component.scss']
 })
 export class AssignAliasComponent implements OnInit, OnDestroy {
-
   wallet: Wallet;
+
   assignForm = new FormGroup({
     name: new FormControl('', [Validators.required, Validators.pattern(/^@?[a-z\d\.\-]{6,25}$/)]),
     comment: new FormControl('', [(g: FormControl) => {
@@ -29,7 +29,9 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
       }
     }])
   });
+
   assignFormSubscription: Subscription;
+
   alias = {
     name: '',
     fee: this.variablesService.default_fee,
@@ -39,22 +41,24 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
     comment: '',
     exists: false
   };
+
   canRegister = false;
+
   notEnoughMoney = false;
 
   constructor(
+    public variablesService: VariablesService,
     private ngZone: NgZone,
     private location: Location,
     private router: Router,
     private backend: BackendService,
-    public variablesService: VariablesService,
     private modalService: ModalService,
     private moneyToInt: MoneyToIntPipe,
     private intToMoney: IntToMoneyPipe
   ) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.wallet = this.variablesService.currentWallet;
     this.assignFormSubscription = this.assignForm.get('name').valueChanges.subscribe(value => {
       this.canRegister = false;
@@ -94,8 +98,11 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
     });
   }
 
+  ngOnDestroy(): void {
+    this.assignFormSubscription.unsubscribe();
+  }
 
-  assignAlias() {
+  assignAlias(): void {
     const alias = this.backend.getWalletAlias(this.wallet.address);
     if (alias.hasOwnProperty('name')) {
       this.modalService.prepareModal('info', 'ASSIGN_ALIAS.ONE_ALIAS');
@@ -114,11 +121,7 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
     }
   }
 
-  back() {
+  back(): void {
     this.location.back();
-  }
-
-  ngOnDestroy() {
-    this.assignFormSubscription.unsubscribe();
   }
 }

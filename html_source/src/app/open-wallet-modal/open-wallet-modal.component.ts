@@ -33,7 +33,7 @@ export class OpenWalletModalComponent implements OnInit, OnDestroy {
   ) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.renderer.addClass(document.body, 'no-scroll');
     if (this.wallets.length) {
       this.wallet = this.wallets[0];
@@ -41,11 +41,11 @@ export class OpenWalletModalComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.renderer.removeClass(document.body, 'no-scroll');
   }
 
-  openWallet() {
+  openWallet(): void {
     if (this.wallets.length === 0) {
       return;
     }
@@ -127,7 +127,7 @@ export class OpenWalletModalComponent implements OnInit, OnDestroy {
       });
   }
 
-  skipWallet() {
+  skipWallet(): void {
     this.ngZone.run(() => {
       if (this.wallets.length) {
         this.wallets.splice(0, 1);
@@ -135,5 +135,4 @@ export class OpenWalletModalComponent implements OnInit, OnDestroy {
       }
     });
   }
-
 }

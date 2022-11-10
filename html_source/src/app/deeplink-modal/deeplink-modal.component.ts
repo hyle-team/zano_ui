@@ -15,20 +15,30 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class DeeplinkModalComponent implements OnInit, OnDestroy {
   @HostBinding('class.modal-overlay') modalOverlay = true;
+
   secondStep = false;
+
   walletToPayId = 0;
+
   nextStepInterval;
+
   marketplaceModalShow = true;
+
   copyAnimation = false;
+
   marketplaceConfirmHash: any = null;
+
   actionData: DeeplinkParams = {};
+
   defaultMixin = MIXIN;
+
   walletsToPay: Array<Wallet> = [];
-  private destroy$ = new Subject<never>();
+
+  private destroy$ = new Subject<void>();
 
   constructor(
-    private _router: Router,
     public variablesService: VariablesService,
+    private _router: Router,
     private backend: BackendService,
     private ngZone: NgZone,
     private renderer: Renderer2
@@ -67,6 +77,12 @@ export class DeeplinkModalComponent implements OnInit, OnDestroy {
           }
         }
       });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.variablesService.deeplink$.next(null);
+    this.renderer.removeClass(document.body, 'no-scroll');
   }
 
   parseDeeplink(deeplink): DeeplinkParams {
@@ -145,11 +161,4 @@ export class DeeplinkModalComponent implements OnInit, OnDestroy {
       this.secondStep = true;
     }
   }
-
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.variablesService.deeplink$.next(null);
-    this.renderer.removeClass(document.body, 'no-scroll');
-  }
-
 }

@@ -20,9 +20,9 @@ export class SidebarComponent {
   closeWalletId: number;
 
   constructor(
+    public variablesService: VariablesService,
     private route: ActivatedRoute,
     private router: Router,
-    public variablesService: VariablesService,
     private backend: BackendService,
     private modal: ModalService,
     private translate: TranslateService,
@@ -31,7 +31,7 @@ export class SidebarComponent {
   ) {
   }
 
-  goMainPage() {
+  goMainPage(): void {
     if (this.route.snapshot.queryParams && this.route.snapshot.queryParams.prevUrl === 'login') {
       this.ngZone.run(() => {
         this.router.navigate(['/'], { queryParams: { prevUrl: 'login' } });
@@ -44,14 +44,14 @@ export class SidebarComponent {
 
   }
 
-  selectWallet(id: number) {
+  selectWallet(id: number): void {
     this.ngZone.run(() => {
       this.variablesService.setCurrentWallet(id);
       this.router.navigate(['/wallet/history']);
     });
   }
 
-  contactsRoute() {
+  contactsRoute(): void {
     if (this.variablesService.appPass) {
       this.ngZone.run(() => {
         this.router.navigate(['/contacts']);
@@ -65,23 +65,23 @@ export class SidebarComponent {
     }
   }
 
-  drop(event: CdkDragDrop<Wallet[]>) {
+  drop(event: CdkDragDrop<Wallet[]>): void {
     moveItemInArray(this.variablesService.wallets, event.previousIndex, event.currentIndex);
   }
 
-  showDialog(wallet_id) {
+  showDialog(wallet_id): void {
     this.isModalDialogVisible = true;
     this.closeWalletId = wallet_id;
   }
 
-  confirmed(confirmed: boolean) {
+  confirmed(confirmed: boolean): void {
     if (confirmed) {
       this.closeWallet(this.closeWalletId);
     }
     this.isModalDialogVisible = false;
   }
 
-  closeWallet(wallet_id) {
+  closeWallet(wallet_id): void {
     this.backend.closeWallet(wallet_id, () => {
       for (let i = this.variablesService.wallets.length - 1; i >= 0; i--) {
         if (this.variablesService.wallets[i].wallet_id === this.variablesService.currentWallet.wallet_id) {
@@ -102,11 +102,11 @@ export class SidebarComponent {
     });
   }
 
-  getUpdate() {
+  getUpdate(): void {
     this.backend.openUrlInBrowser(DOWNLOADS_PAGE_URL);
   }
 
-  logOut() {
+  logOut(): void {
     this.variablesService.stopCountdown();
     this.variablesService.appLogin = false;
     this.variablesService.appPass = '';
@@ -115,9 +115,11 @@ export class SidebarComponent {
     });
   }
 
-  getBalanceTooltip(id: number) {
+  getBalanceTooltip(id: number): null | any {
     const wallet = this.variablesService.getWallet(id);
-    if (!wallet) { return null; }
+    if (!wallet) {
+      return null;
+    }
     let tooltip;
     tooltip = document.createElement('div');
     const available = document.createElement('span');
@@ -150,7 +152,7 @@ export class SidebarComponent {
     return tooltip;
   }
 
-  openInBrowser(link) {
+  openInBrowser(link): void {
     this.backend.openUrlInBrowser(link);
   }
 }

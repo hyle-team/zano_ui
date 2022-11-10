@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { Location } from '@angular/common';
 import { BackendService } from '../_helpers/services/backend.service';
 import { VariablesService } from '../_helpers/services/variables.service';
@@ -13,9 +13,7 @@ import { Router } from '@angular/router';
   templateUrl: './export-import.component.html',
   styleUrls: ['./export-import.component.scss']
 })
-export class ExportImportComponent implements OnInit {
-  csvContent;
-
+export class ExportImportComponent {
   constructor(
     private location: Location,
     private variablesService: VariablesService,
@@ -28,10 +26,7 @@ export class ExportImportComponent implements OnInit {
   ) {
   }
 
-  ngOnInit() {
-  }
-
-  import() {
+  import(): void {
     this.backend.openFileDialog(
       '',
       '*',
@@ -104,7 +99,7 @@ export class ExportImportComponent implements OnInit {
     );
   }
 
-  export() {
+  export(): void {
     const contacts: Array<Contact> = [];
     this.variablesService.contacts.forEach(contact => {
       delete contact.alias;
@@ -130,11 +125,11 @@ export class ExportImportComponent implements OnInit {
     );
   }
 
-  isValid(file) {
+  isValid(file): boolean {
     return file.endsWith('.csv');
   }
 
-  back() {
+  back(): void {
     this.location.back();
   }
 }

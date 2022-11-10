@@ -14,6 +14,10 @@ export interface Pages {
 export class PaginationStore {
   private subject = new BehaviorSubject<Pages[] | null>(null);
 
+  get value(): Pages[] | null {
+    return this.subject.value;
+  }
+
   isForward(pages, currentPage): boolean {
     const max = _.maxBy(pages, 'page');
     return !max || max.page < currentPage || max.page === currentPage;
@@ -27,10 +31,6 @@ export class PaginationStore {
     }
     newPages.push({ page: pageNumber, offset, walletID });
     this.subject.next(newPages);
-  }
-
-  get value(): Pages[] | null {
-    return this.subject.value;
   }
 
 }

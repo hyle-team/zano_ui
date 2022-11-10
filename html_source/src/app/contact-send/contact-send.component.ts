@@ -10,20 +10,20 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./contact-send.component.scss']
 })
 export class ContactSendComponent implements OnInit, OnDestroy {
-
   queryRouting;
+
   address;
 
   constructor(
-    private location: Location,
     public variablesService: VariablesService,
+    private location: Location,
     private route: ActivatedRoute,
     private ngZone: NgZone,
     private router: Router,
   ) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.queryRouting = this.route.queryParams.subscribe(params => {
       if (params.address) {
         this.address = params.address;
@@ -31,7 +31,11 @@ export class ContactSendComponent implements OnInit, OnDestroy {
     });
   }
 
-  goToWallet(id) {
+  ngOnDestroy(): void {
+    this.queryRouting.unsubscribe();
+  }
+
+  goToWallet(id): void {
     this.variablesService.setCurrentWallet(id);
     this.variablesService.currentWallet.send_data['address'] = this.address;
     this.ngZone.run(() => {
@@ -39,12 +43,7 @@ export class ContactSendComponent implements OnInit, OnDestroy {
     });
   }
 
-  back() {
+  back(): void {
     this.location.back();
   }
-
-  ngOnDestroy() {
-    this.queryRouting.unsubscribe();
-  }
-
 }

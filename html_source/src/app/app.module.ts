@@ -72,49 +72,49 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
 
 export function highchartsFactory() {
   highcharts.setOptions({
-                          time: {
-                            useUTC: false
-                          }
-                        });
+    time: {
+      useUTC: false
+    }
+  });
 
   return [exporting];
 }
 
 @NgModule({
-            declarations: [
-              AppComponent,
-              LoginComponent,
-              SettingsComponent,
-              AddWalletComponent,
-              CreateWalletComponent,
-              OpenWalletComponent,
-              OpenWalletModalComponent,
-              RestoreWalletComponent,
-              SeedPhraseComponent,
-              WalletDetailsComponent,
-              AssignAliasComponent,
-              EditAliasComponent,
-              TransferAliasComponent,
-              WalletComponent,
-              SendComponent,
-              ReceiveComponent,
-              HistoryComponent,
-              ContractsComponent,
-              PurchaseComponent,
-              StakingComponent,
-              InputValidateDirective,
-              ModalContainerComponent,
-              TransactionDetailsComponent,
-              InputDisableSelectionDirective,
-              SendModalComponent,
-              ContactsComponent,
-              AddContactsComponent,
-              ContactSendComponent,
-              ExportImportComponent,
-              ExportHistoryModalComponent,
-              ContractsTabComponent,
-              SendDetailsModalComponent,
-            ],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    SettingsComponent,
+    AddWalletComponent,
+    CreateWalletComponent,
+    OpenWalletComponent,
+    OpenWalletModalComponent,
+    RestoreWalletComponent,
+    SeedPhraseComponent,
+    WalletDetailsComponent,
+    AssignAliasComponent,
+    EditAliasComponent,
+    TransferAliasComponent,
+    WalletComponent,
+    SendComponent,
+    ReceiveComponent,
+    HistoryComponent,
+    ContractsComponent,
+    PurchaseComponent,
+    StakingComponent,
+    InputValidateDirective,
+    ModalContainerComponent,
+    TransactionDetailsComponent,
+    InputDisableSelectionDirective,
+    SendModalComponent,
+    ContactsComponent,
+    AddContactsComponent,
+    ContactSendComponent,
+    ExportImportComponent,
+    ExportHistoryModalComponent,
+    ContractsTabComponent,
+    SendDetailsModalComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -151,19 +151,19 @@ export function highchartsFactory() {
     IsAvailableAliasNamePipeModule,
     CopyButtonModule
   ],
-            providers: [
-              Store,
-              BackendService,
-              ModalService,
-              PaginationStore,
-              { provide: HIGHCHARTS_MODULES, useFactory: highchartsFactory }
-            ],
-            entryComponents: [
-              ModalContainerComponent,
-              SendModalComponent,
-              ExportHistoryModalComponent,
-            ],
-            bootstrap: [AppComponent]
-          })
+  providers: [
+    Store,
+    BackendService,
+    ModalService,
+    PaginationStore,
+    { provide: HIGHCHARTS_MODULES, useFactory: highchartsFactory }
+  ],
+  entryComponents: [
+    ModalContainerComponent,
+    SendModalComponent,
+    ExportHistoryModalComponent,
+  ],
+  bootstrap: [AppComponent]
+})
 export class AppModule {
 }

@@ -9,4 +9,5 @@ import { StakingSwitchComponent } from './staking-switch.component';
   ],
   exports: [StakingSwitchComponent]
 })
-export class StakingSwitchModule { }
+export class StakingSwitchModule {
+}

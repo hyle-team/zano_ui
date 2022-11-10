@@ -15,4 +15,5 @@ import { ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule
   ]
 })
-export class AddCustomTokenModule { }
+export class AddCustomTokenModule {
+}

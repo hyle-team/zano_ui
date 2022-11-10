@@ -13,8 +13,11 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class AddContactsComponent implements OnInit, OnDestroy {
   id: number;
+
   queryRouting;
+
   isModalDialogVisible;
+
   addContactForm = new FormGroup({
     address: new FormControl('', [
       Validators.required,
@@ -84,16 +87,16 @@ export class AddContactsComponent implements OnInit, OnDestroy {
   });
 
   constructor(
+    public variablesService: VariablesService,
     private route: ActivatedRoute,
     private backend: BackendService,
-    public variablesService: VariablesService,
     private modalService: ModalService,
     private ngZone: NgZone,
     private location: Location
   ) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.queryRouting = this.route.queryParams.subscribe(params => {
       if (params.id) {
         this.id = parseInt(params.id, 10);
@@ -112,8 +115,18 @@ export class AddContactsComponent implements OnInit, OnDestroy {
     });
   }
 
+  ngOnDestroy(): void {
+    if (!(this.id || this.id === 0)) {
+      this.variablesService.newContact = {
+        name: this.addContactForm.get('name').value,
+        address: this.addContactForm.get('address').value,
+        notes: this.addContactForm.get('notes').value
+      };
+    }
+    this.queryRouting.unsubscribe();
+  }
 
-  add() {
+  add(): void {
     if (!this.variablesService.appPass) {
       this.modalService.prepareModal(
         'error',
@@ -172,22 +185,10 @@ export class AddContactsComponent implements OnInit, OnDestroy {
     }
   }
 
-  confirmed() {
-
+  confirmed(): void {
   }
 
-  back() {
+  back(): void {
     this.location.back();
-  }
-
-  ngOnDestroy() {
-    if (!(this.id || this.id === 0)) {
-      this.variablesService.newContact = {
-        name: this.addContactForm.get('name').value,
-        address: this.addContactForm.get('address').value,
-        notes: this.addContactForm.get('notes').value
-      };
-    }
-    this.queryRouting.unsubscribe();
   }
 }

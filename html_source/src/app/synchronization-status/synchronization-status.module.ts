@@ -5,13 +5,13 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TooltipModule } from '../_helpers/directives/tooltip/tooltip.module';
 
 @NgModule({
-            declarations: [SynchronizationStatusComponent],
-            imports: [
-              CommonModule,
-              TranslateModule,
-              TooltipModule
-            ],
-            exports: [SynchronizationStatusComponent]
-          })
+  declarations: [SynchronizationStatusComponent],
+  imports: [
+    CommonModule,
+    TranslateModule,
+    TooltipModule
+  ],
+  exports: [SynchronizationStatusComponent]
+})
 export class SynchronizationStatusModule {
 }

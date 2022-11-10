@@ -49,15 +49,19 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
   };
 
   walletSaved = false;
+
   walletSavedName = '';
+
   progressWidth = '9rem';
+
   seedPhraseInfo = null;
-  unsubscribeAll = new Subject<boolean>();
+
+  private destroy$ = new Subject<void>();
 
   constructor(
+    public variablesService: VariablesService,
     private router: Router,
     private backend: BackendService,
-    public variablesService: VariablesService,
     private modalService: ModalService,
     private ngZone: NgZone,
     private location: Location,
@@ -65,31 +69,30 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
   ) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.checkValidSeedPhrasePassword();
     this.changeDetectionSeedPhrasePassword();
   }
 
-  ngOnDestroy() {
-    this.unsubscribeAll.next(true);
-    this.unsubscribeAll.complete();
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
-
-  changeDetectionSeedPhrasePassword() {
+  changeDetectionSeedPhrasePassword(): void {
     this.restoreForm.controls.seedPassword.valueChanges
-      .pipe(startWith(null), pairwise(), takeUntil(this.unsubscribeAll))
+      .pipe(startWith(null), pairwise(), takeUntil(this.destroy$))
       .subscribe(() => {
         this.checkValidSeedPhrasePassword();
       });
     this.restoreForm.controls.key.valueChanges
-      .pipe(startWith(null), pairwise(), takeUntil(this.unsubscribeAll))
+      .pipe(startWith(null), pairwise(), takeUntil(this.destroy$))
       .subscribe(() => {
         this.checkValidSeedPhrasePassword();
       });
   }
 
-  checkValidSeedPhrasePassword() {
+  checkValidSeedPhrasePassword(): void {
     const seed_password = this.restoreForm.controls.seedPassword.value;
     const seed_phrase = this.restoreForm.controls.key.value;
     this.backend.getSeedPhraseInfo({ seed_phrase, seed_password }, (status, data) => {
@@ -99,14 +102,14 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
     });
   }
 
-  createWallet() {
+  createWallet(): void {
     this.ngZone.run(() => {
       this.progressWidth = '100%';
       this.runWallet();
     });
   }
 
-  saveWallet() {
+  saveWallet(): void {
     if (
       this.restoreForm.valid &&
       this.restoreForm.get('name').value.length <=
@@ -237,7 +240,7 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
     }
   }
 
-  runWallet() {
+  runWallet(): void {
     // add flag when wallet was restored form seed
     this.variablesService.after_sync_request[this.wallet.id] = true;
     let exists = false;
@@ -277,7 +280,7 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
     }
   }
 
-  back() {
+  back(): void {
     this.location.back();
   }
 }
