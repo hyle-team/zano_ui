@@ -18,6 +18,10 @@
 	}
 }
 
+.hide-scroll::-webkit-scrollbar {
+	display: none;
+}
+
 .scroll {
 	overflow-x: auto;
 	width: 100%;

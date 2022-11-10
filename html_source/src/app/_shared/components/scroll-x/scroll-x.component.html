@@ -1,9 +1,10 @@
 <div class="left" [class.visibility]="this.leftDisabled">
-	<button class="btn-left" (click)="$event.stopPropagation(); actionScrollLeft()">
+	<button class="btn-left" (click)="$event.stopPropagation(); actionScroll(Direction.left)">
 		<i class="icon arrow-left-slider"></i>
 	</button>
 </div>
-<div class="scroll"
+<div class="scroll hide-scroll"
+		 [class.hide-scroll]="hideScroll"
 		 [class.smooth]="scrollSmooth"
 		 #scrollMenu
 		 (scroll)="onScroll()"
@@ -16,7 +17,7 @@
 	</div>
 </div>
 <div class="right" [class.visibility]="this.rightDisabled">
-	<button class="btn-right" (click)="$event.stopPropagation(); actionScrollRight()">
+	<button class="btn-right" (click)="$event.stopPropagation(); actionScroll(Direction.right)">
 		<i class="icon arrow-right-slider"></i>
 	</button>
 </div>

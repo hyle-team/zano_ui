@@ -4,6 +4,11 @@ const activeClass = 'scroll-item-active';
 
 const scrollIntoViewOptions: ScrollIntoViewOptions = { behavior: 'smooth', inline: 'start' };
 
+enum Direction {
+  left = 'left',
+  right = 'right'
+}
+
 @Component({
   selector: 'app-scroll-x',
   templateUrl: './scroll-x.component.html',
@@ -18,6 +23,10 @@ export class ScrollXComponent implements AfterContentInit, AfterContentChecked {
 
   @Input() scrollDistance = 300;
 
+  @Input() hideScroll = false;
+
+  Direction = Direction;
+
   rightDisabled = true;
 
   leftDisabled = true;
@@ -30,7 +39,6 @@ export class ScrollXComponent implements AfterContentInit, AfterContentChecked {
 
   private children: HTMLElement[] = [];
 
-  // For dragging
   private mouseDown = false;
 
   private startX: any;
@@ -47,7 +55,7 @@ export class ScrollXComponent implements AfterContentInit, AfterContentChecked {
 
   ngAfterContentInit(): void {
     this.checkScroll();
-    this.children = Array.from(this.scrollContent.nativeElement.children);
+    this.updateChildren();
     const first = this.children[0];
     if (first) {
       first.classList.add(activeClass);
@@ -56,25 +64,19 @@ export class ScrollXComponent implements AfterContentInit, AfterContentChecked {
 
   ngAfterContentChecked(): void {
     this.checkScroll();
-    this.children = Array.from(this.scrollContent.nativeElement.children);
+    this.updateChildren();
   }
 
-  actionScrollLeft(): void {
+  actionScroll(direction: Direction): void {
     if (!this.scrollToFixDistance) {
       this.scrollByButton = true;
-      this.getElToScroll('left').scrollIntoView(scrollIntoViewOptions);
+      this.getElToScroll(direction).scrollIntoView(scrollIntoViewOptions);
     } else {
-      this.scrollMenu.nativeElement.scrollLeft -= this.scrollDistance;
-    }
-    this.checkScroll();
-  }
-
-  actionScrollRight(): void {
-    if (!this.scrollToFixDistance) {
-      this.scrollByButton = true;
-      this.getElToScroll('right').scrollIntoView(scrollIntoViewOptions);
-    } else {
-      this.scrollMenu.nativeElement.scrollLeft += this.scrollDistance;
+      if (direction === Direction.left) {
+        this.scrollMenu.nativeElement.scrollLeft -= this.scrollDistance;
+      } else {
+        this.scrollMenu.nativeElement.scrollLeft += this.scrollDistance;
+      }
     }
     this.checkScroll();
   }
@@ -123,6 +125,11 @@ export class ScrollXComponent implements AfterContentInit, AfterContentChecked {
     this.scrollMenu.nativeElement.scrollLeft = this.scrollLeft - scroll;
   }
 
+  private updateChildren(): HTMLElement[] {
+    this.children = Array.from(this.scrollContent.nativeElement.children);
+    return this.children;
+  }
+
   private updateActiveClass(): void {
     const scrollLeft = this.scrollMenu.nativeElement.scrollLeft;
     const nextActiveIndex = this.children.findIndex(({ offsetLeft, offsetWidth }) => {
@@ -141,12 +148,12 @@ export class ScrollXComponent implements AfterContentInit, AfterContentChecked {
     }
   }
 
-  private getElToScroll(direction: 'left' | 'right'): HTMLElement {
+  private getElToScroll(direction: Direction): HTMLElement {
     const minPosition = 0;
     const maxPosition = this.children.length - 1 || minPosition;
     const currentPosition = this.children.findIndex((el) => el.classList.contains(activeClass));
-    const calcNewPosition = currentPosition + (direction === 'right' ? 1 : -1);
-    const nextPosition = calcNewPosition >= minPosition && calcNewPosition <= maxPosition ? calcNewPosition : direction === 'right' ? maxPosition : minPosition;
+    const calcNewPosition = currentPosition + (direction === Direction.right ? 1 : -1);
+    const nextPosition = calcNewPosition >= minPosition && calcNewPosition <= maxPosition ? calcNewPosition : direction === Direction.right ? maxPosition : minPosition;
     this.children[currentPosition].classList.remove(activeClass);
     const nextEl = this.children[nextPosition];
     nextEl.classList.add(activeClass);
