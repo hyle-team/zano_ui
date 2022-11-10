@@ -1,7 +1,7 @@
-<div class="switch"
-     [class.disabled]="disabled"
-     (click)="toggle(); $event.stopPropagation()"
-     [class.on]="value"
-     [class.off]="!value">
-    <span class="circle"></span>
+<div (click)="toggle(); $event.stopPropagation()"
+		 [class.disabled]="disabled"
+		 [class.off]="!value"
+		 [class.on]="value"
+		 class="switch">
+	<span class="circle"></span>
 </div>

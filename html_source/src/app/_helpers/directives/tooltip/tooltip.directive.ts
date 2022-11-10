@@ -1,29 +1,39 @@
 import { Directive, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnDestroy, Output, Renderer2 } from '@angular/core';
 
 @Directive({
+  // tslint:disable-next-line:directive-selector
   selector: '[tooltip]'
 })
-
 export class TooltipDirective implements OnDestroy {
-
   @HostBinding('style.cursor') cursor;
 
   @Input('tooltip') tooltipInner: any;
+
   @Input() placement: string;
+
   @Input() tooltipClass: string;
+
   @Input() timeout = 0;
+
   @Input() timeDelay = 0;
+
   @Input() delay = 0;
+
   @Input() showWhenNoOverflow = true;
-  @Output() onHide = new EventEmitter<boolean>();
+
+  @Output() eventHide = new EventEmitter<boolean>();
+
   tooltip: HTMLElement;
-  private enter: (event: MouseEvent) => void;
-  private leave: (event: MouseEvent) => void;
 
   removeTooltipTimeout;
+
   removeTooltipTimeoutInner;
 
   removeTooltipTimeDelay;
+
+  private enter: (event: MouseEvent) => void;
+
+  private leave: (event: MouseEvent) => void;
 
   constructor(private el: ElementRef, private renderer: Renderer2) {
   }
@@ -66,7 +76,7 @@ export class TooltipDirective implements OnDestroy {
         this.tooltip.removeEventListener('mouseenter', this.enter);
         this.tooltip.removeEventListener('mouseleave', this.leave);
         this.tooltip = null;
-        this.onHide.emit(true);
+        this.eventHide.emit(true);
       }, this.delay);
     }, this.timeout);
   }

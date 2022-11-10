@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SynchronizationStatusComponent } from './synchronization-status.component';
 import { TranslateModule } from '@ngx-translate/core';
-import { TooltipModule } from '../_helpers/directives/tooltip.module';
+import { TooltipModule } from '../_helpers/directives/tooltip/tooltip.module';
 
 @NgModule({
             declarations: [SynchronizationStatusComponent],

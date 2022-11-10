@@ -1,6 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import QRCode from 'qrcode';
-import { BackendService } from '../_helpers/services/backend.service';
 import { VariablesService } from '../_helpers/services/variables.service';
 import { RCV_ADDR_QR_SCALE } from '../_shared/constants';
 
@@ -9,14 +8,10 @@ import { RCV_ADDR_QR_SCALE } from '../_shared/constants';
   templateUrl: './receive.component.html',
   styleUrls: ['./receive.component.scss']
 })
-export class ReceiveComponent implements OnInit, OnDestroy {
+export class ReceiveComponent implements OnInit {
   qrImageSrc: string;
-  parentRouting;
-  copyAnimation = false;
-  copyAnimationTimeout;
 
   constructor(
-    private backend: BackendService,
     public variablesService: VariablesService
   ) {
   }
@@ -31,17 +26,4 @@ export class ReceiveComponent implements OnInit, OnDestroy {
       console.error(err);
     });
   }
-
-  public copyAddress() {
-    this.backend.setClipboard(this.variablesService.currentWallet.address);
-    this.copyAnimation = true;
-    this.copyAnimationTimeout = window.setTimeout(() => {
-      this.copyAnimation = false;
-    }, 2000);
-  }
-
-  ngOnDestroy() {
-    clearTimeout(this.copyAnimationTimeout);
-  }
-
 }

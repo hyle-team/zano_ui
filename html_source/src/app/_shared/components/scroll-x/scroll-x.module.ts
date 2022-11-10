@@ -9,4 +9,5 @@ import { ScrollXComponent } from './scroll-x.component';
     CommonModule
   ]
 })
-export class ScrollXModule { }
+export class ScrollXModule {
+}

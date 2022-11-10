@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { BackendService } from '../../services/backend.service';
 import { VariablesService } from '../../services/variables.service';
 
@@ -7,26 +7,24 @@ import { VariablesService } from '../../services/variables.service';
   templateUrl: './staking-switch.component.html',
   styleUrls: ['./staking-switch.component.scss']
 })
-export class StakingSwitchComponent implements OnInit {
-
+export class StakingSwitchComponent {
   @Input() wallet_id: number;
+
   @Input() staking: boolean;
+
   @Output() stakingChange = new EventEmitter<boolean>();
 
-  constructor(private backend: BackendService, private variablesService: VariablesService) {
+  constructor(private backendService: BackendService, private variablesService: VariablesService) {
   }
 
-  ngOnInit() {
-  }
-
-  toggleStaking() {
+  toggleStaking(): void {
     const wallet = this.variablesService.getWallet(this.wallet_id);
     if (wallet && wallet.loaded) {
       this.stakingChange.emit(!this.staking);
       if (!this.staking) {
-        this.backend.startPosMining(this.wallet_id);
+        this.backendService.startPosMining(this.wallet_id);
       } else {
-        this.backend.stopPosMining(this.wallet_id);
+        this.backendService.stopPosMining(this.wallet_id);
       }
     }
   }

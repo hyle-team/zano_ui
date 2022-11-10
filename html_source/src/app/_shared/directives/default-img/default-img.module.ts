@@ -7,4 +7,5 @@ import { DefaultImgDirective } from './default-img.directive';
   exports: [DefaultImgDirective],
   imports: [CommonModule],
 })
-export class DefaultImgModule {}
+export class DefaultImgModule {
+}

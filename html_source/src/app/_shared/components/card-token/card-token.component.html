@@ -1,27 +1,28 @@
 <div class="card-token">
 	<div class="card-token-logo mr-1">
-		<img src="#" zanoDefaultImg alt="#" defaultImgSrc="assets/icons/currency-icons/custom_token.svg" defaultImgAlt="currency">
+		<img alt="#" defaultImgAlt="currency" defaultImgSrc="assets/icons/currency-icons/custom_token.svg" src="#"
+				 zanoDefaultImg>
 	</div>
 	<div class="card-token-body">
 		<h4 class="title">Wrapped Ethereum</h4>
 		<p class="sub-title">3 WETH</p>
 	</div>
 	<div class="card-token-action ml-1">
-		<button class="btn-icon circle small"
-						[disabled]="false"
+		<button #trigger="cdkOverlayOrigin"
 						(click)="$event.stopPropagation(); toggleMenuDropdown()"
-						type="button"
+						[disabled]="false"
 						cdkOverlayOrigin
-						#trigger="cdkOverlayOrigin">
+						class="btn-icon circle small"
+						type="button">
 			<i class="icon dots rotate-90"></i>
 		</button>
 
 		<ng-template
-			cdkConnectedOverlay
-			[cdkConnectedOverlayHasBackdrop]="true"
-			[cdkConnectedOverlayOrigin]="trigger"
+			(backdropClick)="$event.stopPropagation(); (openDropdown = false)"
 			[cdkConnectedOverlayBackdropClass]="'opacity-0'"
+			[cdkConnectedOverlayHasBackdrop]="true"
 			[cdkConnectedOverlayOpen]="openDropdown"
+			[cdkConnectedOverlayOrigin]="trigger"
 			[cdkConnectedOverlayPositions]="[{
 				originX: 'end',
 				originY: 'top',
@@ -29,37 +30,37 @@
 				overlayY: 'top',
 				offsetY: 60
 			}]"
-			(backdropClick)="$event.stopPropagation(); (openDropdown = false)"
+			cdkConnectedOverlay
 		>
-			<ul class="list" (click)="openDropdown = false">
+			<ul (click)="openDropdown = false" class="list">
 				<li class="item">
-					<button class="w-100 px-2 py-1"
-									type="button"
-									[disabled]="false">
+					<button [disabled]="false"
+									class="w-100 px-2 py-1"
+									type="button">
 						<i class="icon temp mr-1"></i>
 						<span>{{ 'Link 1' | translate }}</span>
 					</button>
 				</li>
 				<li class="item">
-					<button class="w-100 px-2 py-1"
-									type="button"
-									[disabled]="false">
+					<button [disabled]="false"
+									class="w-100 px-2 py-1"
+									type="button">
 						<i class="icon temp mr-1"></i>
 						<span>{{ 'Link 2' | translate }}</span>
 					</button>
 				</li>
 				<li class="item">
-					<button class="w-100 px-2 py-1"
-									type="button"
-									[disabled]="false">
+					<button [disabled]="false"
+									class="w-100 px-2 py-1"
+									type="button">
 						<i class="icon temp mr-1"></i>
 						<span>{{ 'Link 3' | translate }}</span>
 					</button>
 				</li>
 				<li class="item">
-					<button class="w-100 px-2 py-1"
-									type="button"
-									[disabled]="false">
+					<button [disabled]="false"
+									class="w-100 px-2 py-1"
+									type="button">
 						<i class="icon delete mr-1"></i>
 						<span>{{ 'Remove from list' | translate }}</span>
 					</button>

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { SidebarComponent } from './sidebar.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { DragScrollModule } from 'cdk-drag-scroll';
-import { TooltipModule } from '../_helpers/directives/tooltip.module';
+import { TooltipModule } from '../_helpers/directives/tooltip/tooltip.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { SynchronizationStatusModule } from '../synchronization-status/synchronization-status.module';

@@ -2,6 +2,13 @@ import { Contract } from './contract.model';
 import { Transaction } from './transaction.model';
 import { BigNumber } from 'bignumber.js';
 
+export interface Alias {
+  name: string;
+  address: string;
+  comment: string;
+  tracking_key?: string;
+}
+
 export class Wallet {
   stop_paginate: boolean;
   open_from_exist: boolean;
@@ -20,7 +27,7 @@ export class Wallet {
   exclude_mining_txs: boolean;
   alias_available: boolean;
 
-  alias?: object;
+  alias?: Partial<Alias>;
   wakeAlias?: boolean;
   staking?: boolean;
   new_messages?: number;
@@ -89,7 +96,12 @@ export class Wallet {
       item.sortAmount = new BigNumber(0);
     } else if (item.tx_type === 3) {
       item.sortFee = new BigNumber(0);
-    } else if ((item.hasOwnProperty('contract') && (item.contract[0].state === 3 || item.contract[0].state === 6 || item.contract[0].state === 601) && !item.contract[0].is_a)) {
+    } else if (
+      (
+        item.hasOwnProperty('contract') &&
+        (item.contract[0].state === 3 || item.contract[0].state === 6 || item.contract[0].state === 601) && !item.contract[0].is_a
+      )
+    ) {
       item.sortFee = item.fee.negated();
       item.sortAmount = item.amount;
     } else {
@@ -105,7 +117,10 @@ export class Wallet {
 
   prepareHistory(items: Transaction[]): void {
     for (let i = 0; i < items.length; i++) {
-      if ((items[i].tx_type === 7 && items[i].is_income) || (items[i].tx_type === 11 && items[i].is_income) || (items[i].amount.eq(0) && items[i].fee.eq(0) && !items[i].is_mining)) {
+      if (
+        (items[i].tx_type === 7 && items[i].is_income) || (items[i].tx_type === 11 && items[i].is_income) ||
+        (items[i].amount.eq(0) && items[i].fee.eq(0) && !items[i].is_mining)
+      ) {
         let exists = false;
         for (let j = 0; j < this.excluded_history.length; j++) {
           if (this.excluded_history[j].tx_hash === items[i].tx_hash) {
@@ -269,21 +284,21 @@ export interface DeeplinkParams {
 }
 
 export interface PushOffer {
-  wallet_id: number,
+  wallet_id: number;
   od: {
-    ap: string,
-    at: string,
-    cat: string,
-    cnt: string,
-    com: string,
-    do: string,
-    et: number,
-    fee: BigNumber,
-    lci: string,
-    lco: string,
-    ot: number,
-    pt: string,
-    t: string,
-    url: string,
-  }
+    ap: string;
+    at: string;
+    cat: string;
+    cnt: string;
+    com: string;
+    do: string;
+    et: number;
+    fee: BigNumber;
+    lci: string;
+    lco: string;
+    ot: number;
+    pt: string;
+    t: string;
+    url: string;
+  };
 }

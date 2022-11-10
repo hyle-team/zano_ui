@@ -7,28 +7,32 @@ import { Component, ElementRef, EventEmitter, HostBinding, Input, OnDestroy, OnI
 })
 export class ConfirmModalComponent implements OnInit, OnDestroy {
   @HostBinding('class.modal-overlay') modalOverlay = true;
+
   @Input() title: string;
+
   @Input() message: string;
+
   @Output() confirmed: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   @ViewChild('btn') button: ElementRef;
 
   constructor(private renderer: Renderer2) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.renderer.addClass(document.body, 'no-scroll');
     this.button.nativeElement.focus();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.renderer.removeClass(document.body, 'no-scroll');
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.confirmed.emit(true);
   }
 
-  close() {
+  close(): void {
     this.confirmed.emit(false);
   }
 }

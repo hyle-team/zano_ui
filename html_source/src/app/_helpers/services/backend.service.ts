@@ -6,6 +6,7 @@ import { ModalService } from './modal.service';
 import { MoneyToIntPipe } from '../pipes/money-to-int.pipe';
 import JSONBigNumber from 'json-bignumber';
 import { BigNumber } from 'bignumber.js';
+import { Alias } from '../models/wallet.model';
 
 export interface PramsObj {
   [key: string]: any;
@@ -733,7 +734,7 @@ export class BackendService {
     this.runCommand('resync_wallet', { wallet_id: id });
   }
 
-  getWalletAlias(address) {
+  getWalletAlias(address): Partial<Alias> {
     if (address !== null && this.variablesService.daemon_state === 2) {
       if (this.variablesService.aliasesChecked[address] == null) {
         this.variablesService.aliasesChecked[address] = {};

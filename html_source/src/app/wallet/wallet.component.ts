@@ -9,23 +9,29 @@ import { Store, Sync } from 'store';
 import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 
 @Component({
-             selector: 'app-wallet',
-             templateUrl: './wallet.component.html',
-             styleUrls: ['./wallet.component.scss'],
-           })
+  selector: 'app-wallet',
+  templateUrl: './wallet.component.html',
+  styleUrls: ['./wallet.component.scss'],
+})
 export class WalletComponent implements OnInit, OnDestroy {
   settingsButtonInterval;
+
   settingsButtonDisabled = true;
-  copyAnimation = false;
-  copyAnimationTimeout;
+
   walletLoaded = false;
 
   openDropdown: boolean;
+
   delWalletDialogVisible = false;
+
   exportHistoryDialogVisible = false;
+
   stateVisibleAddCustomToken = false;
+
   closeWalletId: number;
+
   walletSyncVisible = false;
+
   tabs = [
     {
       title: 'WALLET.TABS.HISTORY',
@@ -60,29 +66,7 @@ export class WalletComponent implements OnInit, OnDestroy {
     },
   ];
 
-  private _destroy$ = new Subject<never>();
-
-  @HostListener('document:keydown.shift', ['$event.key'])
-  onKeyPresed() {
-    if (!this.openDropdown) {
-      this.walletSyncVisible = true;
-    }
-  }
-
-  @HostListener('document:keyup.shift', ['$event.key'])
-  onKeyUpPresed() {
-    if (!this.openDropdown) {
-      this.walletSyncVisible = false;
-    }
-  }
-
-  @HostListener('document:click', ['$event.target'])
-  public onClick(targetElement) {
-    if (targetElement.dataset.target !== 'wallet-dropdown-button' && this.openDropdown) {
-      this.openDropdown = false;
-      this.walletSyncVisible = false;
-    }
-  }
+  private destroy$ = new Subject<void>();
 
   constructor(
     private route: ActivatedRoute,
@@ -100,7 +84,29 @@ export class WalletComponent implements OnInit, OnDestroy {
     this.walletLoaded = this.variablesService.currentWallet.loaded;
   }
 
-  ngOnInit() {
+  @HostListener('document:keydown.shift', ['$event.key'])
+  onKeyPressed(): void {
+    if (!this.openDropdown) {
+      this.walletSyncVisible = true;
+    }
+  }
+
+  @HostListener('document:keyup.shift', ['$event.key'])
+  onKeyUpPressed(): void {
+    if (!this.openDropdown) {
+      this.walletSyncVisible = false;
+    }
+  }
+
+  @HostListener('document:click', ['$event.target'])
+  onClick(targetElement): void {
+    if (targetElement.dataset.target !== 'wallet-dropdown-button' && this.openDropdown) {
+      this.openDropdown = false;
+      this.walletSyncVisible = false;
+    }
+  }
+
+  ngOnInit(): void {
     this.settingsButtonInterval = setInterval(() => {
       // tslint:disable-next-line:triple-equals
       if (this.variablesService.daemon_state == 2 || this.walletLoaded) {
@@ -110,7 +116,7 @@ export class WalletComponent implements OnInit, OnDestroy {
     }, 1000);
     this.store
       .select('sync')
-      .pipe(filter(Boolean), distinctUntilChanged(), takeUntil(this._destroy$))
+      .pipe(filter(Boolean), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((value: any) => {
         const data = value.filter(
           (item: Sync) => item.wallet_id === this.variablesService.currentWallet.wallet_id
@@ -131,12 +137,10 @@ export class WalletComponent implements OnInit, OnDestroy {
           }
         }
       });
-
-    this.copyAnimation = false;
     if (this.variablesService.currentWallet.alias.hasOwnProperty('name')) {
       this.variablesService.currentWallet.wakeAlias = false;
     }
-    this.variablesService.getAliasChangedEvent.pipe(takeUntil(this._destroy$)).subscribe(
+    this.variablesService.getAliasChangedEvent.pipe(takeUntil(this.destroy$)).subscribe(
       () => {
         if (this.variablesService.currentWallet.alias.hasOwnProperty('name')) {
           this.variablesService.currentWallet.wakeAlias = false;
@@ -144,20 +148,12 @@ export class WalletComponent implements OnInit, OnDestroy {
       }
     );
     this.updateWalletStatus();
-    this.variablesService.getWalletChangedEvent.pipe(takeUntil(this._destroy$)).subscribe(() => {
+    this.variablesService.getWalletChangedEvent.pipe(takeUntil(this.destroy$)).subscribe(() => {
       this.setTabsDisabled(this.variablesService.currentWallet.balance.eq(0));
     });
   }
 
-  copyAddress() {
-    this.backend.setClipboard(this.variablesService.currentWallet.address);
-    this.copyAnimation = true;
-    this.copyAnimationTimeout = window.setTimeout(() => {
-      this.copyAnimation = false;
-    }, 2000);
-  }
-
-  toggleMenuDropdown() {
+  toggleMenuDropdown(): void {
     if (!this.openDropdown) {
       this.openDropdown = true;
     } else {
@@ -166,29 +162,29 @@ export class WalletComponent implements OnInit, OnDestroy {
     }
   }
 
-  resyncCurrentWallet(id) {
+  resyncCurrentWallet(id): void {
     this.backend.resyncWallet(id);
   }
 
-  showConfirmDialog(wallet_id) {
+  showConfirmDialog(wallet_id): void {
     this.delWalletDialogVisible = true;
     this.closeWalletId = wallet_id;
   }
 
-  closeExportModal(confirmed: boolean) {
+  closeExportModal(confirmed: boolean): void {
     if (confirmed) {
       this.exportHistoryDialogVisible = false;
     }
   }
 
-  confirmed(confirmed: boolean) {
+  confirmed(confirmed: boolean): void {
     if (confirmed) {
       this.closeWallet(this.closeWalletId);
     }
     this.delWalletDialogVisible = false;
   }
 
-  closeWallet(wallet_id) {
+  closeWallet(wallet_id): void {
     this.backend.closeWallet(wallet_id, () => {
       for (let i = this.variablesService.wallets.length - 1; i >= 0; i--) {
         if (this.variablesService.wallets[i].wallet_id === this.variablesService.currentWallet.wallet_id) {
@@ -209,13 +205,13 @@ export class WalletComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
-    this._destroy$.next();
-    clearTimeout(this.copyAnimationTimeout);
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 
-  updateWalletStatus() {
+  updateWalletStatus(): void {
     this.backend.eventSubscribe('wallet_sync_progress', (data) => {
       const wallet_id = data.wallet_id;
       if (wallet_id === this.variablesService.currentWallet.wallet_id) {

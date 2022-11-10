@@ -50,9 +50,6 @@ export class ScrollXComponent implements AfterContentInit, AfterContentChecked {
     this.checkScroll();
   }
 
-  constructor() {
-  }
-
   ngAfterContentInit(): void {
     this.checkScroll();
     this.updateChildren();

@@ -8,6 +8,9 @@ export class DefaultImgDirective {
   @Input() defaultImgSrc!: string | null | undefined;
   @Input() defaultImgAlt: string | null | undefined;
 
+  constructor(private elementRef: ElementRef) {
+  }
+
   @HostListener('error')
   handlerOnError(): void {
     const elementImg: HTMLImageElement = <HTMLImageElement>(
@@ -17,6 +20,4 @@ export class DefaultImgDirective {
     elementImg.src = this.defaultImgSrc || '---';
     elementImg.alt = this.defaultImgAlt || '---';
   }
-
-  constructor(private elementRef: ElementRef) {}
 }

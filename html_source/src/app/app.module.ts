@@ -50,7 +50,7 @@ import { SendDetailsModalComponent } from './send-details-modal/send-details-mod
 import { DisablePriceFetchModule } from './_shared/directives/disable-price-fetch/disable-price-fetch.module';
 import { SharedModule } from './_shared/shared.module';
 import { SynchronizationStatusModule } from './synchronization-status/synchronization-status.module';
-import { TooltipModule } from './_helpers/directives/tooltip.module';
+import { TooltipModule } from './_helpers/directives/tooltip/tooltip.module';
 import { WithSidebarLayoutModule } from './layouts/with-sidebar-layout/with-sidebar-layout.module';
 import { FullLayoutModule } from './layouts/full-layout/full-layout.module';
 import { PipesModule } from './_helpers/pipes/pipes.module';
@@ -62,6 +62,9 @@ import { ScrollXModule } from './_shared/components/scroll-x/scroll-x.module';
 import { CardTokenModule } from './_shared/components/card-token/card-token.module';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { AddCustomTokenModule } from './_helpers/modals/add-custom-token/add-custom-token.module';
+import { ShortStringPipeModule } from './_shared/pipes/short-string-pipe/short-string-pipe.module';
+import { IsAvailableAliasNamePipeModule } from './_shared/pipes/is-available-alias-name-pipe/is-available-alias-name-pipe.module';
+import { CopyButtonModule } from './_shared/components/copy-button/copy-button.module';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
@@ -143,7 +146,10 @@ export function highchartsFactory() {
     ScrollXModule,
     CardTokenModule,
     OverlayModule,
-    AddCustomTokenModule
+    AddCustomTokenModule,
+    ShortStringPipeModule,
+    IsAvailableAliasNamePipeModule,
+    CopyButtonModule
   ],
             providers: [
               Store,

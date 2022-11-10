@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Transaction } from '../../models/transaction.model';
 import { VariablesService } from '../../services/variables.service';
 import { BackendService } from '../../services/backend.service';
@@ -10,17 +10,23 @@ import { BLOCK_EXPLORER_TN_TX_URL_PREFIX, BLOCK_EXPLORER_TX_URL_PREFIX } from '.
   templateUrl: './transaction-details.component.html',
   styleUrls: ['./transaction-details.component.scss']
 })
-export class TransactionDetailsComponent implements OnInit, OnDestroy {
-
+export class TransactionDetailsComponent implements OnInit {
   @Input() transaction: Transaction;
+
   @Input() sizes: Array<number>;
+
   inputs: Array<string> = [];
+
   outputs: Array<string> = [];
 
-  constructor(public variablesService: VariablesService, private backendService: BackendService, private intToMoneyPipe: IntToMoneyPipe) {
+  constructor(
+    public variablesService: VariablesService,
+    private backendService: BackendService,
+    private intToMoneyPipe: IntToMoneyPipe
+  ) {
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     for (const input in this.transaction.td['spn']) {
       if (this.transaction.td['spn'].hasOwnProperty(input)) {
         this.inputs.push(this.intToMoneyPipe.transform(this.transaction.td['spn'][input]));
@@ -33,12 +39,9 @@ export class TransactionDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  openInBrowser(tr) {
+  openInBrowser(tr): void {
     this.backendService.openUrlInBrowser(
       (this.variablesService.testnet ? BLOCK_EXPLORER_TN_TX_URL_PREFIX : BLOCK_EXPLORER_TX_URL_PREFIX) + tr
     );
-  }
-
-  ngOnDestroy() {
   }
 }

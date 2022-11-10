@@ -20,7 +20,6 @@ export class Transaction {
   tx_hash: string;
   tx_type: number;
   unlock_time: number;
-
   sortAmount?: BigNumber;
   sortFee?: BigNumber;
 }

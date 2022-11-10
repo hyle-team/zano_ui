@@ -1,4 +1,4 @@
-import { Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -13,7 +13,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     },
   ]
 })
-export class SwitchComponent implements OnInit, ControlValueAccessor {
+export class SwitchComponent implements ControlValueAccessor {
   @Input() value = false;
 
   @Input() disabled = false;
@@ -26,13 +26,7 @@ export class SwitchComponent implements OnInit, ControlValueAccessor {
   onTouched = () => {
   }
 
-  constructor() {
-  }
-
-  ngOnInit() {
-  }
-
-  toggle() {
+  toggle(): void {
     if (!this.disabled) {
       this.value = !this.value;
       this.emitChange.emit(this.value);

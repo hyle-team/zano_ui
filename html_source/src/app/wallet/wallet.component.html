@@ -16,16 +16,13 @@
 						[tooltipClass]="'table-tooltip'"
 						[delay]="150"
 						[timeout]="0">
-					{{ variablesService.currentWallet.address | slice:0:6 }}...
-					{{ variablesService.currentWallet.address | slice:-6 }}
+					{{ variablesService.currentWallet.address | zanoShortString }}
 				</h1>
 
-				<button (click)="copyAddress()"
-								class="btn-icon circle small mr-1">
-					<i class="icon small"
-						 [class.copy]="!copyAnimation"
-						 [class.check]="copyAnimation"></i>
-				</button>
+				<app-copy-button
+					class="mr-1"
+					[value]="variablesService.currentWallet.address">
+				</app-copy-button>
 
 				<div fxFlex="0 0 auto" class="controls"
 						 fxLayout="row"
@@ -44,8 +41,8 @@
 						*ngIf="variablesService.currentWallet.alias.hasOwnProperty('name') && variablesService.currentWallet.loaded && variablesService.daemon_state === 2">
 
 						<div class="alias mr-1"
-								 [class.available]="variablesService.currentWallet.alias['name'].length >= 2 && variablesService.currentWallet.alias['name'].length <= 6">
-							{{variablesService.currentWallet.alias['name']}}
+								 [class.available]="variablesService.currentWallet.alias | isAvailableAliasName">
+							{{variablesService.currentWallet.alias.name}}
 						</div>
 
 						<ng-container *ngIf="variablesService.currentWallet.alias_available">
@@ -70,7 +67,6 @@
 								<i class="icon arrow-up-square"></i>
 							</button>
 						</ng-container>
-
 					</ng-container>
 				</div>
 			</div>
@@ -183,8 +179,7 @@
 			</button>
 		</ng-container>
 	</div>
-	<div #scrolledContent
-			 class="tabs-content">
+	<div class="tabs-content">
 		<router-outlet></router-outlet>
 	</div>
 </div>

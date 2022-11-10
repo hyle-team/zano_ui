@@ -26,13 +26,13 @@ export class CheckboxComponent implements OnInit, ControlValueAccessor {
 
   @Output() emitChange = new EventEmitter<boolean>();
 
+  constructor() {
+  }
+
   onChange = (_: boolean) => {
   }
 
   onTouched = () => {
-  }
-
-  constructor() {
   }
 
   ngOnInit() {

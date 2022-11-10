@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import * as _ from 'lodash';
 
 export interface Pages {
@@ -12,18 +12,14 @@ export interface Pages {
   providedIn: 'root'
 })
 export class PaginationStore {
-  constructor() {
-  }
+  private subject = new BehaviorSubject<Pages[] | null>(null);
 
-  private subject = new BehaviorSubject<Pages[]>(null);
-  pages$: Observable<Pages[]> = this.subject.asObservable();
-
-  isForward(pages, currentPage) {
+  isForward(pages, currentPage): boolean {
     const max = _.maxBy(pages, 'page');
     return !max || max.page < currentPage || max.page === currentPage;
   }
 
-  setPage(pageNumber: number, offset: number, walletID: number) {
+  setPage(pageNumber: number, offset: number, walletID: number): void {
     let newPages: Pages[] = [];
     const pages = this.subject.getValue();
     if (pages && pages.length) {
@@ -33,7 +29,7 @@ export class PaginationStore {
     this.subject.next(newPages);
   }
 
-  get value() {
+  get value(): Pages[] | null {
     return this.subject.value;
   }
 

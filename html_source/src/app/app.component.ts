@@ -11,37 +11,43 @@ import { ModalService } from './_helpers/services/modal.service';
 import { Store } from 'store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { pathsChildrenAuth, paths } from './paths';
+import { paths, pathsChildrenAuth } from './paths';
 
 @Component({
-             selector: 'app-root',
-             templateUrl: './app.component.html',
-             styleUrls: ['./app.component.scss']
-           })
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
+})
 export class AppComponent implements OnInit, OnDestroy {
-
   intervalUpdatePriceState;
+
   intervalUpdateContractsState;
+
   expMedTsEvent;
+
   onQuitRequest = false;
+
   firstOnlineState = false;
+
   translateUsed = false;
 
   needOpenWallets = [];
 
-  private _destroy$: Subject<never> = new Subject<never>();
-
   @ViewChild('allContextMenu') public allContextMenu: ContextMenuComponent;
+
   @ViewChild('onlyCopyContextMenu') public onlyCopyContextMenu: ContextMenuComponent;
+
   @ViewChild('pasteSelectContextMenu') public pasteSelectContextMenu: ContextMenuComponent;
 
+  private destroy$ = new Subject<void>();
+
   constructor(
+    public variablesService: VariablesService,
+    public translate: TranslateService,
     private http: HttpClient,
     private renderer: Renderer2,
-    public translate: TranslateService,
     private backend: BackendService,
     private router: Router,
-    public variablesService: VariablesService,
     private ngZone: NgZone,
     private intToMoneyPipe: IntToMoneyPipe,
     private modalService: ModalService,
@@ -80,7 +86,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.variablesService.allContextMenu = this.allContextMenu;
     this.variablesService.onlyCopyContextMenu = this.onlyCopyContextMenu;
     this.variablesService.pasteSelectContextMenu = this.pasteSelectContextMenu;
@@ -304,19 +310,23 @@ export class AppComponent implements OnInit, OnDestroy {
               } else if (contract.state === 5 && contract.cancel_expiration_time < exp_med_ts) {
                 contract.state = 130;
               } else if (contract.state === 1) {
-                const searchResult2 = this.variablesService.settings.notViewedContracts.find(elem => elem.state === 110 && elem.is_a === contract.is_a && elem.contract_id === contract.contract_id);
+                const searchResult2 =
+                  this.variablesService.settings.notViewedContracts
+                    .find(elem => elem.state === 110 && elem.is_a === contract.is_a && elem.contract_id === contract.contract_id);
                 if (searchResult2) {
                   if (searchResult2.time === contract.expiration_time) {
                     contract.state = 110;
                   } else {
                     for (let j = 0; j < this.variablesService.settings.notViewedContracts.length; j++) {
-                      if (this.variablesService.settings.notViewedContracts[j].contract_id === contract.contract_id && this.variablesService.settings.notViewedContracts[j].is_a === contract.is_a) {
+                      if (this.variablesService.settings.notViewedContracts[j].contract_id === contract.contract_id &&
+                        this.variablesService.settings.notViewedContracts[j].is_a === contract.is_a) {
                         this.variablesService.settings.notViewedContracts.splice(j, 1);
                         break;
                       }
                     }
                     for (let j = 0; j < this.variablesService.settings.viewedContracts.length; j++) {
-                      if (this.variablesService.settings.viewedContracts[j].contract_id === contract.contract_id && this.variablesService.settings.viewedContracts[j].is_a === contract.is_a) {
+                      if (this.variablesService.settings.viewedContracts[j].contract_id === contract.contract_id &&
+                        this.variablesService.settings.viewedContracts[j].is_a === contract.is_a) {
                         this.variablesService.settings.viewedContracts.splice(j, 1);
                         break;
                       }
@@ -326,24 +336,30 @@ export class AppComponent implements OnInit, OnDestroy {
               } else if (contract.state === 2 && (contract.height === 0 || (height_app - contract.height) < 10)) {
                 contract.state = 201;
               } else if (contract.state === 2) {
-                const searchResult3 = this.variablesService.settings.viewedContracts.some(elem => elem.state === 120 && elem.is_a === contract.is_a && elem.contract_id === contract.contract_id);
+                const searchResult3 =
+                  this.variablesService.settings.viewedContracts
+                    .some(elem => elem.state === 120 && elem.is_a === contract.is_a && elem.contract_id === contract.contract_id);
                 if (searchResult3) {
                   contract.state = 120;
                 }
               } else if (contract.state === 5) {
-                const searchResult4 = this.variablesService.settings.notViewedContracts.find(elem => elem.state === 130 && elem.is_a === contract.is_a && elem.contract_id === contract.contract_id);
+                const searchResult4 =
+                  this.variablesService.settings.notViewedContracts
+                    .find(elem => elem.state === 130 && elem.is_a === contract.is_a && elem.contract_id === contract.contract_id);
                 if (searchResult4) {
                   if (searchResult4.time === contract.cancel_expiration_time) {
                     contract.state = 130;
                   } else {
                     for (let j = 0; j < this.variablesService.settings.notViewedContracts.length; j++) {
-                      if (this.variablesService.settings.notViewedContracts[j].contract_id === contract.contract_id && this.variablesService.settings.notViewedContracts[j].is_a === contract.is_a) {
+                      if (this.variablesService.settings.notViewedContracts[j].contract_id === contract.contract_id &&
+                        this.variablesService.settings.notViewedContracts[j].is_a === contract.is_a) {
                         this.variablesService.settings.notViewedContracts.splice(j, 1);
                         break;
                       }
                     }
                     for (let j = 0; j < this.variablesService.settings.viewedContracts.length; j++) {
-                      if (this.variablesService.settings.viewedContracts[j].contract_id === contract.contract_id && this.variablesService.settings.viewedContracts[j].is_a === contract.is_a) {
+                      if (this.variablesService.settings.viewedContracts[j].contract_id === contract.contract_id &&
+                        this.variablesService.settings.viewedContracts[j].is_a === contract.is_a) {
                         this.variablesService.settings.viewedContracts.splice(j, 1);
                         break;
                       }
@@ -354,7 +370,9 @@ export class AppComponent implements OnInit, OnDestroy {
                 contract.state = 601;
               }
 
-              const searchResult = this.variablesService.settings.viewedContracts.some(elem => elem.state === contract.state && elem.is_a === contract.is_a && elem.contract_id === contract.contract_id);
+              const searchResult =
+                this.variablesService.settings.viewedContracts
+                  .some(elem => elem.state === contract.state && elem.is_a === contract.is_a && elem.contract_id === contract.contract_id);
               contract.is_new = !searchResult;
 
               let findContract = false;
@@ -605,7 +623,7 @@ export class AppComponent implements OnInit, OnDestroy {
       console.log(error);
     });
 
-    this.variablesService.disable_price_fetch$.pipe(takeUntil(this._destroy$)).subscribe((disable_price_fetch) => {
+    this.variablesService.disable_price_fetch$.pipe(takeUntil(this.destroy$)).subscribe((disable_price_fetch) => {
       if (!disable_price_fetch) {
         this.getMoneyEquivalent();
         this.intervalUpdatePriceState = setInterval(() => {
@@ -619,7 +637,18 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
 
-  getMoneyEquivalent() {
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    if (this.intervalUpdateContractsState) {
+      clearInterval(this.intervalUpdateContractsState);
+    }
+    if (this.intervalUpdatePriceState) {
+      clearInterval(this.intervalUpdatePriceState);
+    }
+    this.expMedTsEvent.unsubscribe();
+  }
+
+  getMoneyEquivalent(): void {
     this.http.get('https://api.coingecko.com/api/v3/ping').subscribe(
       () => {
         this.http.get('https://api.coingecko.com/api/v3/simple/price?ids=zano&vs_currencies=usd&include_24hr_change=true').subscribe(
@@ -641,7 +670,7 @@ export class AppComponent implements OnInit, OnDestroy {
     );
   }
 
-  getAliases() {
+  getAliases(): void {
     this.backend.getAllAliases((status, data, error) => {
 
       console.warn(error);
@@ -692,7 +721,7 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
 
-  contextMenuCopy(target) {
+  contextMenuCopy(target): void {
     if (target && (target['nodeName'].toUpperCase() === 'TEXTAREA' || target['nodeName'].toUpperCase() === 'INPUT')) {
       const start = (target['contextSelectionStart']) ? 'contextSelectionStart' : 'selectionStart';
       const end = (target['contextSelectionEnd']) ? 'contextSelectionEnd' : 'selectionEnd';
@@ -702,13 +731,13 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  contextMenuOnlyCopy(text) {
+  contextMenuOnlyCopy(text): void {
     if (text) {
       this.backend.setClipboard(String(text));
     }
   }
 
-  contextMenuPaste(target) {
+  contextMenuPaste(target): void {
     if (target && (target['nodeName'].toUpperCase() === 'TEXTAREA' || target['nodeName'].toUpperCase() === 'INPUT')) {
       this.backend.getClipboard((status, clipboard) => {
         clipboard = String(clipboard);
@@ -731,7 +760,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  contextMenuSelect(target) {
+  contextMenuSelect(target): void {
     if (target && (target['nodeName'].toUpperCase() === 'TEXTAREA' || target['nodeName'].toUpperCase() === 'INPUT')) {
       target['focus']();
       setTimeout(() => {
@@ -740,7 +769,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   }
 
-  addToStore(wallet, boolean) {
+  addToStore(wallet, boolean): void {
     const value = this.store.value.sync;
     if (value && value.length) {
       const sync = value.filter(item => item.wallet_id === wallet.wallet_id);
@@ -761,16 +790,4 @@ export class AppComponent implements OnInit, OnDestroy {
       this.store.set('sync', [{ sync: boolean, wallet_id: wallet.wallet_id }]);
     }
   }
-
-  ngOnDestroy() {
-    this._destroy$.next();
-    if (this.intervalUpdateContractsState) {
-      clearInterval(this.intervalUpdateContractsState);
-    }
-    if (this.intervalUpdatePriceState) {
-      clearInterval(this.intervalUpdatePriceState);
-    }
-    this.expMedTsEvent.unsubscribe();
-  }
-
 }

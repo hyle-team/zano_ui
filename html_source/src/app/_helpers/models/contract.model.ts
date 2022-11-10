@@ -19,6 +19,4 @@ export class Contract {
     this.height = height;
     this.timestamp = timestamp;
   }
-
-
 }

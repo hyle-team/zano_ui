@@ -8,45 +8,72 @@ import { ContextMenuComponent, ContextMenuService } from 'ngx-contextmenu';
 import { BigNumber } from 'bignumber.js';
 
 @Injectable({
-              providedIn: 'root'
-            })
+  providedIn: 'root'
+})
 export class VariablesService {
-  public disable_price_fetch$ = new BehaviorSubject<boolean>(false);
-  public use_debug_mode$ = new BehaviorSubject<boolean>(false);
-  public request_on_in = {};
-  public stop_paginate = {};
-  public sync_started = false;
-  public digits = 12;
-  public appPass = '';
-  public appLogin = false;
-  public moneyEquivalent = 0;
-  public moneyEquivalentPercent = 0;
-  public defaultCurrency = 'ZANO';
-  public opening_wallet: Wallet;
-  public exp_med_ts = 0;
-  public net_time_delta_median = 0;
-  public height_app = 0;
-  public height_max = 0;
-  public downloaded = 0;
-  public total = 0;
-  public last_build_available = '';
-  public last_build_displaymode = 0;
-  public daemon_state = 3;
-  public deeplink$ = new BehaviorSubject<string | null>(null);
-  public sendActionData$ = new BehaviorSubject<DeeplinkParams>({});
-  public sync = {
-    progress_value: 0,
-    progress_value_text: '0'
-  };
-  public download = {
-    progress_value: 0,
-    progress_value_text: '0'
-  };
-  public get_recent_transfers = false; // avoid of execute function before callback complete
-  public default_fee = '0.010000000000';
-  public default_fee_big = new BigNumber('10000000000');
+  disable_price_fetch$ = new BehaviorSubject<boolean>(false);
 
-  public settings = {
+  use_debug_mode$ = new BehaviorSubject<boolean>(false);
+
+  request_on_in = {};
+
+  stop_paginate = {};
+
+  sync_started = false;
+
+  digits = 12;
+
+  appPass = '';
+
+  appLogin = false;
+
+  moneyEquivalent = 0;
+
+  moneyEquivalentPercent = 0;
+
+  defaultCurrency = 'ZANO';
+
+  opening_wallet: Wallet;
+
+  exp_med_ts = 0;
+
+  net_time_delta_median = 0;
+
+  height_app = 0;
+
+  height_max = 0;
+
+  downloaded = 0;
+
+  total = 0;
+
+  last_build_available = '';
+
+  last_build_displaymode = 0;
+
+  daemon_state = 3;
+
+  deeplink$ = new BehaviorSubject<string | null>(null);
+
+  sendActionData$ = new BehaviorSubject<DeeplinkParams>({});
+
+  sync = {
+    progress_value: 0,
+    progress_value_text: '0'
+  };
+
+  download = {
+    progress_value: 0,
+    progress_value_text: '0'
+  };
+
+  get_recent_transfers = false; // avoid of execute function before callback complete
+
+  default_fee = '0.010000000000';
+
+  default_fee_big = new BigNumber('10000000000');
+
+  settings = {
     appLockTime: 15,
     appLog: 0,
     scale: '10px',
@@ -58,37 +85,57 @@ export class VariablesService {
     wallets: []
   };
 
-  public count = 40;
-  public maxPages = 5;
+  count = 40;
 
-  public testnet = false;
-  public networkType = '';  // testnet of mainnet
+  maxPages = 5;
 
-  public wallets: Array<Wallet> = [];
-  public currentWallet: Wallet;
-  public selectWallet: number;
-  public aliases: any = [];
-  public aliasesChecked: any = {};
-  public enableAliasSearch = false;
-  public maxWalletNameLength = 25;
-  public maxCommentLength = 255;
-  public dataIsLoaded = false;
+  testnet = false;
 
-  public contacts: Array<Contact> = [];
-  public newContact: Contact = { name: null, address: null, notes: null };
+  networkType = ''; // testnet of mainnet
 
-  public pattern = '^[a-zA-Z0-9_.\\\]\*\|\~\!\?\@\#\$\%\^\&\+\{\}\(\)\<\>\:\;\"\'\-\=\/\,\[\\\\]*$';
-  public after_sync_request: any = {};
+  wallets: Array<Wallet> = [];
+
+  currentWallet: Wallet;
+
+  selectWallet: number;
+
+  aliases: any = [];
+
+  aliasesChecked: any = {};
+
+  enableAliasSearch = false;
+
+  maxWalletNameLength = 25;
+
+  maxCommentLength = 255;
+
+  dataIsLoaded = false;
+
+  contacts: Array<Contact> = [];
+
+  newContact: Contact = { name: null, address: null, notes: null };
+
+  pattern = '^[a-zA-Z0-9_.\\\]\*\|\~\!\?\@\#\$\%\^\&\+\{\}\(\)\<\>\:\;\"\'\-\=\/\,\[\\\\]*$';
+
+  after_sync_request: any = {};
+
   getExpMedTsEvent = new BehaviorSubject(null);
+
   getHeightAppEvent = new BehaviorSubject(null);
+
   getHeightMaxEvent = new BehaviorSubject(null);
+
   getDownloadedAppEvent = new BehaviorSubject(null);
+
   getTotalEvent = new BehaviorSubject(null);
+
   getRefreshStackingEvent = new BehaviorSubject(null);
+
   getAliasChangedEvent = new BehaviorSubject(null);
+
   getWalletChangedEvent = new BehaviorSubject(null);
 
-  public idle = new Idle()
+  idle = new Idle()
     .whenNotInteractive()
     .do(() => {
       if (this.appPass === '') {
@@ -103,53 +150,55 @@ export class VariablesService {
       }
     });
 
-  public allContextMenu: ContextMenuComponent;
-  public onlyCopyContextMenu: ContextMenuComponent;
-  public pasteSelectContextMenu: ContextMenuComponent;
+  allContextMenu: ContextMenuComponent;
+
+  onlyCopyContextMenu: ContextMenuComponent;
+
+  pasteSelectContextMenu: ContextMenuComponent;
 
   constructor(private router: Router, private ngZone: NgZone, private contextMenuService: ContextMenuService) {
   }
 
-  setExpMedTs(timestamp: number) {
+  setExpMedTs(timestamp: number): void {
     if (timestamp !== this.exp_med_ts) {
       this.exp_med_ts = timestamp;
       this.getExpMedTsEvent.next(timestamp);
     }
   }
 
-  setHeightApp(height: number) {
+  setHeightApp(height: number): void {
     if (height !== this.height_app) {
       this.height_app = height;
       this.getHeightAppEvent.next(height);
     }
   }
 
-  setHeightMax(height: number) {
+  setHeightMax(height: number): void {
     if (height !== this.height_max) {
       this.height_max = height;
       this.getHeightMaxEvent.next(height);
     }
   }
 
-  setDownloadedBytes(bytes: number) {
+  setDownloadedBytes(bytes: number): void {
     if (bytes !== this.downloaded) {
       this.downloaded = this.bytesToMb(bytes);
       this.getDownloadedAppEvent.next(bytes);
     }
   }
 
-  setTotalBytes(bytes: number) {
+  setTotalBytes(bytes: number): void {
     if (bytes !== this.total) {
       this.total = this.bytesToMb(bytes);
       this.getTotalEvent.next(bytes);
     }
   }
 
-  setRefreshStacking(wallet_id: number) {
+  setRefreshStacking(wallet_id: number): void {
     this.getHeightAppEvent.next(wallet_id);
   }
 
-  changeAliases() {
+  changeAliases(): void {
     this.getAliasChangedEvent.next(true);
   }
 
@@ -162,7 +211,7 @@ export class VariablesService {
     });
   }
 
-  getWallet(id): Wallet {
+  getWallet(id): Wallet | null {
     for (let i = 0; i < this.wallets.length; i++) {
       if (this.wallets[i].wallet_id === id) {
         return this.wallets[i];
@@ -171,7 +220,7 @@ export class VariablesService {
     return null;
   }
 
-  getNotLoadedWallet() {
+  getNotLoadedWallet(): Wallet | null {
     for (let i = 0; i < this.wallets.length; i++) {
       if (!this.wallets[i].loaded) {
         return this.wallets[i];
@@ -180,47 +229,47 @@ export class VariablesService {
     return null;
   }
 
-  startCountdown() {
+  startCountdown(): void {
     this.idle.within(this.settings.appLockTime).start();
   }
 
-  stopCountdown() {
+  stopCountdown(): void {
     this.idle.stop();
   }
 
-  restartCountdown() {
+  restartCountdown(): void {
     this.idle.within(this.settings.appLockTime).restart();
   }
 
-  bytesToMb(bytes) {
+  bytesToMb(bytes): number {
     return Number((bytes / Math.pow(1024, 2)).toFixed(1));
   }
 
-  public onContextMenu($event: MouseEvent): void {
+  onContextMenu($event: MouseEvent): void {
     $event.target['contextSelectionStart'] = $event.target['selectionStart'];
     $event.target['contextSelectionEnd'] = $event.target['selectionEnd'];
     if ($event.target && ($event.target['nodeName'].toUpperCase() === 'TEXTAREA' || $event.target['nodeName'].toUpperCase() === 'INPUT') && !$event.target['readOnly']) {
       this.contextMenuService.show.next({
-                                          contextMenu: this.allContextMenu,
-                                          event: $event,
-                                          item: $event.target,
-                                        });
+        contextMenu: this.allContextMenu,
+        event: $event,
+        item: $event.target,
+      });
       $event.preventDefault();
       $event.stopPropagation();
     }
   }
 
-  public onContextMenuOnlyCopy($event: MouseEvent, copyText?: string): void {
-    this.contextMenuService.show.next({
-                                        contextMenu: this.onlyCopyContextMenu,
-                                        event: $event,
-                                        item: copyText
-                                      });
+  onContextMenuOnlyCopy($event: MouseEvent, copyText?: string): void {
     $event.preventDefault();
     $event.stopPropagation();
+    this.contextMenuService.show.next({
+      contextMenu: this.onlyCopyContextMenu,
+      event: $event,
+      item: copyText
+    });
   }
 
-  public onContextMenuPasteSelect($event: MouseEvent): void {
+  onContextMenuPasteSelect($event: MouseEvent): void {
     $event.target['contextSelectionStart'] = $event.target['selectionStart'];
     $event.target['contextSelectionEnd'] = $event.target['selectionEnd'];
 
@@ -230,10 +279,10 @@ export class VariablesService {
 
     if ($event.target && ($event.target['nodeName'].toUpperCase() === 'TEXTAREA' || $event.target['nodeName'].toUpperCase() === 'INPUT') && !$event.target['readOnly']) {
       this.contextMenuService.show.next({
-                                          contextMenu: this.pasteSelectContextMenu,
-                                          event: $event,
-                                          item: $event.target,
-                                        });
+        contextMenu: this.pasteSelectContextMenu,
+        event: $event,
+        item: $event.target,
+      });
       $event.preventDefault();
       $event.stopPropagation();
     }

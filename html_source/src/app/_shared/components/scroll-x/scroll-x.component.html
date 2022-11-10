@@ -1,23 +1,23 @@
-<div class="left" [class.visibility]="this.leftDisabled">
-	<button class="btn-left" (click)="$event.stopPropagation(); actionScroll(Direction.left)">
+<div [class.visibility]="this.leftDisabled" class="left">
+	<button (click)="$event.stopPropagation(); actionScroll(Direction.left)" class="btn-left">
 		<i class="icon arrow-left-slider"></i>
 	</button>
 </div>
-<div class="scroll hide-scroll"
+<div #scrollMenu
+		 (mousedown)="$event.stopPropagation(); startDragging($event)"
+		 (mouseleave)="$event.stopPropagation(); stopDragging()"
+		 (mousemove)="$event.stopPropagation(); mouseMove($event)"
+		 (mouseup)="$event.stopPropagation(); stopDragging()"
+		 (scroll)="onScroll()"
 		 [class.hide-scroll]="hideScroll"
 		 [class.smooth]="scrollSmooth"
-		 #scrollMenu
-		 (scroll)="onScroll()"
-		 (mousedown)="$event.stopPropagation(); startDragging($event)"
-		 (mouseup)="$event.stopPropagation(); stopDragging()"
-		 (mouseleave)="$event.stopPropagation(); stopDragging()"
-		 (mousemove)="$event.stopPropagation(); mouseMove($event)">
-	<div class="scroll-content scroll-delay" #scrollContent>
+		 class="scroll hide-scroll">
+	<div #scrollContent class="scroll-content scroll-delay">
 		<ng-content></ng-content>
 	</div>
 </div>
-<div class="right" [class.visibility]="this.rightDisabled">
-	<button class="btn-right" (click)="$event.stopPropagation(); actionScroll(Direction.right)">
+<div [class.visibility]="this.rightDisabled" class="right">
+	<button (click)="$event.stopPropagation(); actionScroll(Direction.right)" class="btn-right">
 		<i class="icon arrow-right-slider"></i>
 	</button>
 </div>
