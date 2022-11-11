@@ -6,9 +6,9 @@ import { VariablesService } from '../_helpers/services/variables.service';
 import { ModalService } from '../_helpers/services/modal.service';
 import { Wallet } from '../_helpers/models/wallet.model';
 import { TranslateService } from '@ngx-translate/core';
-import { Subject } from 'rxjs/internal/Subject';
 import { pairwise, startWith, takeUntil } from 'rxjs/operators';
 import { Location } from '@angular/common';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-restore-wallet',
