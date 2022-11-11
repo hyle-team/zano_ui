@@ -31,6 +31,10 @@
             "styles": [
               "src/styles.scss"
             ],
+						"allowedCommonJsDependencies": [
+							"lodash",
+							"papaparse/papaparse.min.js"
+						],
             "scripts": []
           },
           "configurations": {
