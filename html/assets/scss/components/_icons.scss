@@ -1,189 +1,209 @@
 i {
-  display: inline-block;
+	display: inline-block;
 
-  svg {
-    width: 100%;
-    height: 100%;
-  }
+	svg {
+		width: 100%;
+		height: 100%;
+	}
 }
 
 .icon {
-  display: inline-flex;
-  min-width: 1.8rem;
-  min-height: 1.8rem;
-  transition: all 0.25s ease;
+	display: inline-flex;
+	min-width: 1.8rem;
+	min-height: 1.8rem;
+	transition: all 0.25s ease;
 
-  &.small {
-    min-width: 1.4rem;
-    min-height: 1.4rem;
-  }
+	&.small {
+		min-width: 1.4rem;
+		min-height: 1.4rem;
+	}
 
-  // BLUE
-  &.question-circle {
-    background: center / contain no-repeat url(~src/assets/icons/blue/question-circle.svg);
-  }
+	// BLUE
+	&.question-circle {
+		background: center / contain no-repeat url(~src/assets/icons/blue/question-circle.svg);
+	}
 
-  &.info-circle {
-    background: center / contain no-repeat url(~src/assets/icons/blue/info-circle.svg);
-  }
+	&.info-circle {
+		background: center / contain no-repeat url(~src/assets/icons/blue/info-circle.svg);
+	}
 
-  &.purchase-arrow-down {
-    background: center / contain no-repeat url(~src/assets/icons/blue/purchase-arrow-down.svg);
-  }
+	&.purchase-arrow-down {
+		background: center / contain no-repeat url(~src/assets/icons/blue/purchase-arrow-down.svg);
+	}
 
-  &.purchase-arrow-up {
-    background: center / contain no-repeat url(~src/assets/icons/blue/purchase-arrow-up.svg);
-  }
+	&.purchase-arrow-up {
+		background: center / contain no-repeat url(~src/assets/icons/blue/purchase-arrow-up.svg);
+	}
 
-  // WHITE
-  &.arrow-down-square {
-    background: center / contain no-repeat url(~src/assets/icons/white/arrow-down-square.svg);
-  }
+	// WHITE
+	&.arrow-down-square {
+		background: center / contain no-repeat url(~src/assets/icons/white/arrow-down-square.svg);
+	}
 
-  &.arrow-left-stroke {
-    background: center / contain no-repeat url(~src/assets/icons/white/arrow-left-stroke.svg);
-  }
+	&.add {
+		background: center / contain no-repeat url(~src/assets/icons/white/add.svg);
+	}
 
-  &.arrow-right-stroke {
-    background: center / contain no-repeat url(~src/assets/icons/white/arrow-right-stroke.svg);
-  }
+	&.arrow-left-stroke {
+		background: center / contain no-repeat url(~src/assets/icons/white/arrow-left-stroke.svg);
+	}
 
-  &.arrow-up-square {
-    background: center / contain no-repeat url(~src/assets/icons/white/arrow-up-square.svg);
-  }
+	&.arrow-left-slider {
+		background: center / contain no-repeat url(~src/assets/icons/white/arrow-left-slider.svg);
+	}
 
-  &.close {
-    background: center / contain no-repeat url(~src/assets/icons/white/close.svg);
-  }
+	&.arrow-right-stroke {
+		background: center / contain no-repeat url(~src/assets/icons/white/arrow-right-stroke.svg);
+	}
 
-  &.close-square {
-    background: center / contain no-repeat url(~src/assets/icons/white/close-square.svg);
-  }
+	&.arrow-right-slider {
+		background: center / contain no-repeat url(~src/assets/icons/white/arrow-right-slider.svg);
+	}
 
-  &.check-shield {
-    background: center / contain no-repeat url(~src/assets/icons/white/check-shield.svg);
-  }
+	&.arrow-up-square {
+		background: center / contain no-repeat url(~src/assets/icons/white/arrow-up-square.svg);
+	}
 
-  &.contacts {
-    background: center / contain no-repeat url(~src/assets/icons/white/contacts.svg);
-  }
+	&.close {
+		background: center / contain no-repeat url(~src/assets/icons/white/close.svg);
+	}
 
-  &.copy {
-    background: center / contain no-repeat url(~src/assets/icons/white/copy.svg);
-  }
+	&.close-square {
+		background: center / contain no-repeat url(~src/assets/icons/white/close-square.svg);
+	}
 
-  &.check {
-    background: center / contain no-repeat url(~src/assets/icons/white/check.svg);
-  }
+	&.check-shield {
+		background: center / contain no-repeat url(~src/assets/icons/white/check-shield.svg);
+	}
 
-  &.check-circle {
-    background: center / contain no-repeat url(~src/assets/icons/white/check-circle.svg);
-  }
+	&.contacts {
+		background: center / contain no-repeat url(~src/assets/icons/white/contacts.svg);
+	}
 
-  &.delete {
-    background: center / contain no-repeat url(~src/assets/icons/white/delete.svg);
-  }
+	&.copy {
+		background: center / contain no-repeat url(~src/assets/icons/white/copy.svg);
+	}
 
-  &.document {
-    background: center / contain no-repeat url(~src/assets/icons/white/document.svg);
-  }
+	&.check {
+		background: center / contain no-repeat url(~src/assets/icons/white/check.svg);
+	}
 
-  &.dots {
-    background: center / contain no-repeat url(~src/assets/icons/white/dots.svg);
-  }
+	&.check-circle {
+		background: center / contain no-repeat url(~src/assets/icons/white/check-circle.svg);
+	}
 
-  &.dropdown-arrow-down {
-    background: center / contain no-repeat url(~src/assets/icons/white/dropdown-arrow-down.svg);
-  }
+	&.delete {
+		background: center / contain no-repeat url(~src/assets/icons/white/delete.svg);
+	}
 
-  &.dropdown-arrow-left {
-    background: center / contain no-repeat url(~src/assets/icons/white/dropdown-arrow-left.svg);
-  }
+	&.options-vertical {
+		background: center / contain no-repeat url(~src/assets/icons/white/options-vertical.svg);
+	}
 
-  &.dropdown-arrow-right {
-    background: center / contain no-repeat url(~src/assets/icons/white/dropdown-arrow-right.svg);
-  }
+	&.temp {
+		background: center / contain no-repeat url(~src/assets/icons/white/temp.svg);
+	}
 
-  &.dropdown-arrow-up {
-    background: center / contain no-repeat url(~src/assets/icons/white/dropdown-arrow-up.svg);
-  }
+	&.document {
+		background: center / contain no-repeat url(~src/assets/icons/white/document.svg);
+	}
 
-  &.edit-square {
-    background: center / contain no-repeat url(~src/assets/icons/white/edit-square.svg);
-  }
+	&.dots {
+		background: center / contain no-repeat url(~src/assets/icons/white/dots.svg);
+	}
 
-  &.export {
-    background: center / contain no-repeat url(~src/assets/icons/white/export.svg);
-  }
+	&.dropdown-arrow-down {
+		background: center / contain no-repeat url(~src/assets/icons/white/dropdown-arrow-down.svg);
+	}
 
-  &.logout {
-    background: center / contain no-repeat url(~src/assets/icons/white/logout.svg);
-  }
+	&.dropdown-arrow-left {
+		background: center / contain no-repeat url(~src/assets/icons/white/dropdown-arrow-left.svg);
+	}
 
-  &.plus {
-    background: center / contain no-repeat url(~src/assets/icons/white/plus.svg);
-  }
+	&.dropdown-arrow-right {
+		background: center / contain no-repeat url(~src/assets/icons/white/dropdown-arrow-right.svg);
+	}
 
-  &.settings {
-    background: center / contain no-repeat url(~src/assets/icons/white/settings.svg);
-  }
+	&.dropdown-arrow-up {
+		background: center / contain no-repeat url(~src/assets/icons/white/dropdown-arrow-up.svg);
+	}
 
-  &.staking {
-    background: center / contain no-repeat url(~src/assets/icons/white/staking.svg);
-  }
+	&.edit-square {
+		background: center / contain no-repeat url(~src/assets/icons/white/edit-square.svg);
+	}
 
-  &.time-circle {
-    background: center / contain no-repeat url(~src/assets/icons/white/time-circle.svg);
-  }
+	&.export {
+		background: center / contain no-repeat url(~src/assets/icons/white/export.svg);
+	}
 
-  &.wallet-options {
-    background: center / contain no-repeat url(~src/assets/icons/white/wallet-options.svg);
-  }
+	&.logout {
+		background: center / contain no-repeat url(~src/assets/icons/white/logout.svg);
+	}
 
-  &.update {
-    background: center / contain no-repeat url(~src/assets/icons/white/update.svg);
-  }
+	&.plus {
+		background: center / contain no-repeat url(~src/assets/icons/white/plus.svg);
+	}
 
-  &.lock-transaction {
-    background: center / contain no-repeat url(~src/assets/icons/white/lock-transaction.svg);
-  }
+	&.settings {
+		background: center / contain no-repeat url(~src/assets/icons/white/settings.svg);
+	}
 
-  &.unlock-transaction {
-    background: center / contain no-repeat url(~src/assets/icons/white/unlock-transaction.svg);
-  }
+	&.staking {
+		background: center / contain no-repeat url(~src/assets/icons/white/staking.svg);
+	}
 
-  &.modal-info {
-    background: center / contain no-repeat url(~src/assets/icons/white/modal-info.svg);
-  }
+	&.time-circle {
+		background: center / contain no-repeat url(~src/assets/icons/white/time-circle.svg);
+	}
 
-  // orange
-  &.time-orange {
-    background: center / contain no-repeat url(~src/assets/icons/orange/time.svg);
-  }
+	&.wallet-options {
+		background: center / contain no-repeat url(~src/assets/icons/white/wallet-options.svg);
+	}
 
-  // red
-  &.unsecured {
-    background: center / contain no-repeat url(~src/assets/icons/red/unsecured.svg);
-  }
+	&.update {
+		background: center / contain no-repeat url(~src/assets/icons/white/update.svg);
+	}
 
-  &.new {
-    background: center / contain no-repeat url(~src/assets/icons/red/new.svg);
-  }
+	&.lock-transaction {
+		background: center / contain no-repeat url(~src/assets/icons/white/lock-transaction.svg);
+	}
 
-  &.alert {
-    background: center / contain no-repeat url(~src/assets/icons/red/alert.svg);
-  }
+	&.unlock-transaction {
+		background: center / contain no-repeat url(~src/assets/icons/white/unlock-transaction.svg);
+	}
 
-  &.error {
-    background: center / contain no-repeat url(~src/assets/icons/red/modal-alert.svg);
-  }
+	&.modal-info {
+		background: center / contain no-repeat url(~src/assets/icons/white/modal-info.svg);
+	}
 
-  // aqua
-  &.secured {
-    background: center / contain no-repeat url(~src/assets/icons/aqua/secured.svg);
-  }
+	// orange
+	&.time-orange {
+		background: center / contain no-repeat url(~src/assets/icons/orange/time.svg);
+	}
 
-  &.success {
-    background: center / contain no-repeat url(~src/assets/icons/aqua/modal-success.svg);
-  }
+	// red
+	&.unsecured {
+		background: center / contain no-repeat url(~src/assets/icons/red/unsecured.svg);
+	}
+
+	&.new {
+		background: center / contain no-repeat url(~src/assets/icons/red/new.svg);
+	}
+
+	&.alert {
+		background: center / contain no-repeat url(~src/assets/icons/red/alert.svg);
+	}
+
+	&.error {
+		background: center / contain no-repeat url(~src/assets/icons/red/modal-alert.svg);
+	}
+
+	// aqua
+	&.secured {
+		background: center / contain no-repeat url(~src/assets/icons/aqua/secured.svg);
+	}
+
+	&.success {
+		background: center / contain no-repeat url(~src/assets/icons/aqua/modal-success.svg);
+	}
 }
