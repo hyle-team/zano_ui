@@ -125,7 +125,7 @@ export class TooltipDirective implements OnDestroy {
     this.renderer.setStyle(this.tooltip, '-o-transition', `opacity ${ this.delay }ms`);
     this.renderer.setStyle(this.tooltip, 'transition', `opacity ${ this.delay }ms`);
     window.setTimeout(() => {
-      this.renderer.setStyle(this.tooltip, 'opacity', '1');
+      return this.tooltip && this.renderer.setStyle(this.tooltip, 'opacity', '1');
     }, 0);
   }
 

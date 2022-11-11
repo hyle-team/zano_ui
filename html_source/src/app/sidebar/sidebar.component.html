@@ -6,8 +6,7 @@
 </div>
 
 <div class="sidebar-content">
-	<div #scrollContainer
-			 (cdkDropListDropped)="drop($event)"
+	<div (cdkDropListDropped)="drop($event)"
 			 cdkDropList
 			 cdkDropListLockAxis="y"
 			 class="sidebar-content-list scrolled-content mb-1">
@@ -17,10 +16,9 @@
 					 [class.active]="wallet?.wallet_id === variablesService?.currentWallet?.wallet_id"
 					 [class.auditable]="wallet.is_auditable && !wallet.is_watch_only"
 					 [class.watch-only]="wallet.is_watch_only"
-					 [vsDragScrollContainer]="scrollContainer"
 					 cdkDrag
 					 class="wallet"
-					 vsDragScroll>
+					 >
 				<div class="content">
 					<div class="header">
 						<div class="left">

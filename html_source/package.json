@@ -28,7 +28,6 @@
     "@ngx-translate/http-loader": "^4.0.0",
     "angular-highcharts": "^12.0.0",
     "bignumber.js": "^9.1.0",
-    "cdk-drag-scroll": "^0.0.6",
     "core-js": "^2.5.4",
     "highcharts": "^9.3.3",
     "idlejs": "^2.0.1",
