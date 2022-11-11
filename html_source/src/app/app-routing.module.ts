@@ -32,7 +32,7 @@ const routes: Routes = [
   {
     path: paths.auth,
     component: FullLayoutComponent,
-    loadChildren: './pages/auth/auth.module#AuthModule'
+    loadChildren: () => import('./pages/auth/auth.module').then(m => m.AuthModule)
   },
   {
     path: paths.addWallet,
@@ -264,7 +264,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        loadChildren: './pages/ui-kit/ui-kit.module#UiKitModule'
+        loadChildren: () => import('./pages/ui-kit/ui-kit.module').then(m => m.UiKitModule)
       }
     ]
   },

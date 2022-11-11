@@ -43,7 +43,6 @@ import { ContactsComponent } from './contacts/contacts.component';
 import { AddContactsComponent } from './add-contacts/add-contacts.component';
 import { ContactSendComponent } from './contact-send/contact-send.component';
 import { ExportImportComponent } from './export-import/export-import.component';
-import { PapaParseModule } from 'ngx-papaparse';
 import { ExportHistoryModalComponent } from './_helpers/modals/export-history-modal/export-history-modal.component';
 import { ContractsTabComponent } from './contracts/contracts-tab/contracts-tab.component';
 import { SendDetailsModalComponent } from './send-details-modal/send-details-modal.component';
@@ -131,7 +130,6 @@ export function highchartsFactory() {
     NgSelectModule,
     ChartModule,
     FlexLayoutModule,
-    PapaParseModule,
     DisablePriceFetchModule,
     TooltipModule,
     ConfirmModalModule,

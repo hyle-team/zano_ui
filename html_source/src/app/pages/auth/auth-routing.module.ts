@@ -5,7 +5,7 @@ import { pathsChildrenAuth } from '../../paths';
 const routes: Routes = [
   {
     path: pathsChildrenAuth.noWallet,
-    loadChildren: './no-wallet/no-wallet.module#NoWalletModule',
+    loadChildren: () => import('./no-wallet/no-wallet.module').then(m => m.NoWalletModule),
   }
 ];
 
