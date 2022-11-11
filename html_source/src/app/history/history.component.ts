@@ -34,7 +34,7 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   y = new BigNumber(0.2);
 
-  private destroy$: Subject<never> = new Subject<never>();
+  private destroy$: Subject<void> = new Subject<void>();
 
   constructor(
     private route: ActivatedRoute,

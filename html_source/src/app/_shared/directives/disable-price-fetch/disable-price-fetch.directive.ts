@@ -8,7 +8,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class DisablePriceFetchDirective implements OnDestroy {
 
-  private destroy$: Subject<never> = new Subject<never>();
+  private destroy$: Subject<void> = new Subject<void>();
 
   constructor(
     private _variablesService: VariablesService,
@@ -24,6 +24,7 @@ export class DisablePriceFetchDirective implements OnDestroy {
 
   ngOnDestroy() {
     this.destroy$.next();
+    this.destroy$.complete();
   }
 
 }

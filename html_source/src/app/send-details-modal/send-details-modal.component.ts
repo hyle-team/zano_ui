@@ -45,7 +45,7 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
   /** BehaviorSubject with CurrentActionState[] */
   currentActionStates$ = new BehaviorSubject<CurrentActionState[]>([]);
 
-  private destroy$: Subject<never> = new Subject<never>();
+  private destroy$: Subject<void> = new Subject<void>();
 
   constructor(
     private backendService: BackendService,
