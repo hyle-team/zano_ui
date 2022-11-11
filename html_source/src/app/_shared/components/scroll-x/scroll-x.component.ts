@@ -15,9 +15,9 @@ enum Direction {
   styleUrls: ['./scroll-x.component.scss']
 })
 export class ScrollXComponent implements AfterContentInit, AfterContentChecked {
-  @ViewChild('scrollMenu') scrollMenu: ElementRef;
+  @ViewChild('scrollMenu', { static: true }) scrollMenu: ElementRef;
 
-  @ViewChild('scrollContent') scrollContent: ElementRef;
+  @ViewChild('scrollContent', { static: true }) scrollContent: ElementRef;
 
   @Input() scrollToFixDistance = false;
 

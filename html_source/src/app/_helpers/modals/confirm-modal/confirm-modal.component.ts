@@ -14,7 +14,7 @@ export class ConfirmModalComponent implements OnInit, OnDestroy {
 
   @Output() confirmed: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  @ViewChild('btn') button: ElementRef;
+  @ViewChild('btn', { static: true }) button: ElementRef;
 
   constructor(private renderer: Renderer2) {
   }

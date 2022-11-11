@@ -31,7 +31,7 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
 
   @Output() close: EventEmitter<never> = new EventEmitter<never>();
 
-  @ViewChild('elDetailsList') elDetailsList: ElementRef;
+  @ViewChild('elDetailsList', { static: true }) elDetailsList: ElementRef;
 
   /** BehaviorSubject with ResponseAsyncTransfer */
   responseData$ = new BehaviorSubject<ResponseAsyncTransfer>(null);

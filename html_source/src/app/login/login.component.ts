@@ -1,11 +1,10 @@
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, ValidationErrors } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BackendService } from '../_helpers/services/backend.service';
 import { VariablesService } from '../_helpers/services/variables.service';
 import { ModalService } from '../_helpers/services/modal.service';
 import { Wallet } from '../_helpers/models/wallet.model';
-import { ValidationErrors } from '@angular/forms/src/directives/validators';
 
 @Component({
   selector: 'app-login',

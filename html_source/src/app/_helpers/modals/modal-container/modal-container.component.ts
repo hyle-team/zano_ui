@@ -12,7 +12,7 @@ export class ModalContainerComponent implements OnInit, OnDestroy {
   @Input() type: string;
   @Input() message: string;
   @Output() close = new EventEmitter<boolean>();
-  @ViewChild('btn') button: ElementRef;
+  @ViewChild('btn', { static: true }) button: ElementRef;
 
   constructor(private translate: TranslateService, private renderer: Renderer2) {
   }

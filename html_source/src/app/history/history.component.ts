@@ -16,7 +16,7 @@ import { filter, takeUntil } from 'rxjs/operators';
   styleUrls: ['./history.component.scss']
 })
 export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
-  @ViewChild('head') head: ElementRef;
+  @ViewChild('head', { static: true }) head: ElementRef;
 
   parentRouting;
 

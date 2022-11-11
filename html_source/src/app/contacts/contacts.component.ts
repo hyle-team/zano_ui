@@ -9,7 +9,7 @@ import { BackendService } from '../_helpers/services/backend.service';
   styleUrls: ['./contacts.component.scss']
 })
 export class ContactsComponent implements OnInit {
-  @ViewChild('head') head: ElementRef;
+  @ViewChild('head', { static: true }) head: ElementRef;
 
   calculatedWidth = [];
 

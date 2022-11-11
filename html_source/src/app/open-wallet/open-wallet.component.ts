@@ -1,5 +1,5 @@
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, ValidationErrors } from '@angular/forms';
 import { BackendService } from '../_helpers/services/backend.service';
 import { VariablesService } from '../_helpers/services/variables.service';
 import { ModalService } from '../_helpers/services/modal.service';
@@ -7,7 +7,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Wallet } from '../_helpers/models/wallet.model';
 import { TranslateService } from '@ngx-translate/core';
 import { Location } from '@angular/common';
-import { ValidationErrors } from '@angular/forms/src/directives/validators';
 
 @Component({
   selector: 'app-open-wallet',

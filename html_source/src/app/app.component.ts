@@ -33,11 +33,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
   needOpenWallets = [];
 
-  @ViewChild('allContextMenu') public allContextMenu: ContextMenuComponent;
+  @ViewChild('allContextMenu', { static: true }) public allContextMenu: ContextMenuComponent;
 
-  @ViewChild('onlyCopyContextMenu') public onlyCopyContextMenu: ContextMenuComponent;
+  @ViewChild('onlyCopyContextMenu', { static: true }) public onlyCopyContextMenu: ContextMenuComponent;
 
-  @ViewChild('pasteSelectContextMenu') public pasteSelectContextMenu: ContextMenuComponent;
+  @ViewChild('pasteSelectContextMenu', { static: true }) public pasteSelectContextMenu: ContextMenuComponent;
 
   private destroy$ = new Subject<void>();
 

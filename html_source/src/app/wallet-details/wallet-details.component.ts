@@ -1,10 +1,9 @@
 import { Component, NgZone, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, ValidationErrors } from '@angular/forms';
 import { BackendService } from '../_helpers/services/backend.service';
 import { VariablesService } from '../_helpers/services/variables.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { ValidationErrors } from '@angular/forms/src/directives/validators';
 
 @Component({
   selector: 'app-wallet-details',
