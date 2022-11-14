@@ -79,6 +79,7 @@ export class CreateWalletComponent {
                     generate_data['wi'].mined_total,
                     generate_data['wi'].tracking_hey
                   );
+                  this.backend.getWalletInfo(this.variablesService.opening_wallet);
                   this.variablesService.opening_wallet.alias = this.backend.getWalletAlias(generate_data['wi'].address);
                   this.variablesService.opening_wallet.total_history_item = 0;
                   this.variablesService.opening_wallet.pages = new Array(1).fill(1);

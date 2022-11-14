@@ -44,13 +44,29 @@
 		}
 
 		.sub-title {
+			display: inline-flex;
+			align-items: center;
+			flex-wrap: nowrap;
+			white-space: nowrap;
+		}
+
+		.sub-title, .balance {
 			font-size: 1.6rem;
 			font-weight: 400;
 			color: var(--gray-400);
 			line-height: 1.2;
 		}
+
+		.balance, .ticker {
+			display: inline-block;
+			text-overflow: ellipsis;
+			max-width: 200px;
+			overflow: hidden;
+			white-space: nowrap;
+		}
 	}
 
 	&-action {
+		margin-left: auto;
 	}
 }

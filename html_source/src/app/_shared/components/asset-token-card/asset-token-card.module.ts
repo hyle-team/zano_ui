@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CardTokenComponent } from './card-token.component';
+import { AssetTokenCardComponent } from './asset-token-card.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { TooltipModule } from '../../../_helpers/directives/tooltip/tooltip.module';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { DefaultImgModule } from '../../directives/default-img';
 
 @NgModule({
-  declarations: [CardTokenComponent],
-  exports: [CardTokenComponent],
+  declarations: [AssetTokenCardComponent],
+  exports: [AssetTokenCardComponent],
   imports: [
     CommonModule,
     TranslateModule,
@@ -17,5 +17,5 @@ import { DefaultImgModule } from '../../directives/default-img';
     DefaultImgModule
   ]
 })
-export class CardTokenModule {
+export class AssetTokenCardModule {
 }

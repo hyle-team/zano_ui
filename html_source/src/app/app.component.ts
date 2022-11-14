@@ -8,7 +8,7 @@ import { ContextMenuComponent } from 'ngx-contextmenu';
 import { IntToMoneyPipe } from './_helpers/pipes/int-to-money.pipe';
 import { BigNumber } from 'bignumber.js';
 import { ModalService } from './_helpers/services/modal.service';
-import { Store } from 'store';
+import { StateKeys, Store } from 'store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { paths, pathsChildrenAuth } from './paths';
@@ -770,7 +770,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   addToStore(wallet, boolean): void {
-    const value = this.store.value.sync;
+    const value = this.store.state.sync;
     if (value && value.length) {
       const sync = value.filter(item => item.wallet_id === wallet.wallet_id);
       if (sync && sync.length) {
@@ -781,13 +781,13 @@ export class AppComponent implements OnInit, OnDestroy {
             return item;
           }
         });
-        this.store.set('sync', result);
+        this.store.set(StateKeys.sync, result);
       } else {
         value.push({ sync: boolean, wallet_id: wallet.wallet_id });
-        this.store.set('sync', value);
+        this.store.set(StateKeys.sync, value);
       }
     } else {
-      this.store.set('sync', [{ sync: boolean, wallet_id: wallet.wallet_id }]);
+      this.store.set(StateKeys.sync, [{ sync: boolean, wallet_id: wallet.wallet_id }]);
     }
   }
 }

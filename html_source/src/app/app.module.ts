@@ -58,12 +58,13 @@ import { DeeplinkModule } from './deeplink/deeplink.module';
 import { StakingSwitchModule } from './_helpers/directives/staking-switch/staking-switch.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ScrollXModule } from './_shared/components/scroll-x/scroll-x.module';
-import { CardTokenModule } from './_shared/components/card-token/card-token.module';
+import { AssetTokenCardModule } from './_shared/components/asset-token-card/asset-token-card.module';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { AddCustomTokenModule } from './_helpers/modals/add-custom-token/add-custom-token.module';
 import { ShortStringPipeModule } from './_shared/pipes/short-string-pipe/short-string-pipe.module';
 import { IsAvailableAliasNamePipeModule } from './_shared/pipes/is-available-alias-name-pipe/is-available-alias-name-pipe.module';
 import { CopyButtonModule } from './_shared/components/copy-button/copy-button.module';
+import { GetAssetInfoByIdModule } from './_shared/pipes/get-asset-info-by-id/get-asset-info-by-id.module';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
@@ -142,12 +143,13 @@ export function highchartsFactory() {
     SharedModule,
     ContextMenuModule.forRoot(),
     ScrollXModule,
-    CardTokenModule,
+    AssetTokenCardModule,
     OverlayModule,
     AddCustomTokenModule,
     ShortStringPipeModule,
     IsAvailableAliasNamePipeModule,
-    CopyButtonModule
+    CopyButtonModule,
+    GetAssetInfoByIdModule
   ],
   providers: [
     Store,

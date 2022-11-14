@@ -1,6 +1,7 @@
 import { Contract } from './contract.model';
 import { Transaction } from './transaction.model';
 import { BigNumber } from 'bignumber.js';
+import { Assets } from './assets';
 
 export interface Alias {
   name: string;
@@ -54,6 +55,8 @@ export class Wallet {
     fee: null,
     hide: null
   };
+
+  assets: Assets | null | undefined;
 
   constructor(id, name, pass, path, address, balance, unlocked_balance, mined = 0, tracking = '') {
     this.wallet_id = id;

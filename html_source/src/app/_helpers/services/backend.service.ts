@@ -6,7 +6,9 @@ import { ModalService } from './modal.service';
 import { MoneyToIntPipe } from '../pipes/money-to-int.pipe';
 import JSONBigNumber from 'json-bignumber';
 import { BigNumber } from 'bignumber.js';
-import { Alias } from '../models/wallet.model';
+import { Alias, Wallet } from '../models/wallet.model';
+import { Assets, AssetsInfo } from '../models/assets';
+import { StateKeys, Store } from 'store';
 
 export interface PramsObj {
   [key: string]: any;
@@ -95,7 +97,9 @@ export class BackendService {
     private modalService: ModalService,
     private moneyToIntPipe: MoneyToIntPipe,
     private ngZone: NgZone,
+    private store: Store
   ) {
+    this.getAssetsInfo();
   }
 
   static bigNumberParser(key, val) {
@@ -602,6 +606,48 @@ export class BackendService {
         this.variablesService.disable_price_fetch$.next(disable_price_fetch);
         this.variablesService.use_debug_mode$.next(use_debug_mode);
       });
+  }
+
+  getWalletInfo(wallet: Wallet) {
+    const { wallet_id } = wallet;
+    // TODO: after change backend
+    const mockAssets: Assets = [
+      {
+        'asset_id': '4a6013cdcbe82978e043c32b76e8ee9cf91100a8368875063a1eba5034e23d07',
+        'balance': 200000,
+        'unlocked_balance': 200000
+      },
+      {
+        'asset_id': '5a6013cdcbe82978e043c32b76e8ee9cf91100a8368875063a1eba5034e23d07',
+        'balance': 100000,
+        'unlocked_balance': 100000
+      }
+    ];
+    wallet.assets = mockAssets;
+    // return this.runCommand('get_wallet_info', { wallet_id }, ({ assets }: { assets: Assets }) => {
+    //   wallet.assets = assets;
+    // });
+  }
+
+  getAssetsInfo() {
+    const mockAssetsInfo: AssetsInfo = [
+      {
+        'asset_id': '4a6013cdcbe82978e043c32b76e8ee9cf91100a8368875063a1eba5034e23d07',
+        'logo': 'https://some.link.png',
+        'ticker': 'WUSD',
+        'title': 'Wrapped USD'
+      },
+      {
+        'asset_id': '5a6013cdcbe82978e043c32b76e8ee9cf91100a8368875063a1eba5034e23d07',
+        'logo': 'https://some.link2.png',
+        'ticker': 'WBTC',
+        'title': 'Wrapped BTC'
+      },
+    ];
+    this.store.set(StateKeys.assetsInfo, mockAssetsInfo);
+    // return this.runCommand('some_command...', {}, ({ assets }: { assets: AssetsInfo }) => {
+    //  this.store.set(StateKeys.assetsInfo, assets);
+    // });
   }
 
   private informerRun(error, params, command) {

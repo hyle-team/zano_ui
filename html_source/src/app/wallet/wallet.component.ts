@@ -4,9 +4,10 @@ import { VariablesService } from '../_helpers/services/variables.service';
 import { BackendService } from '../_helpers/services/backend.service';
 import { TranslateService } from '@ngx-translate/core';
 import { IntToMoneyPipe } from '../_helpers/pipes/int-to-money.pipe';
-import { Subject } from 'rxjs';
-import { Store, Sync } from 'store';
+import { Observable, Subject } from 'rxjs';
+import { StateKeys, Store, Sync } from 'store';
 import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
+import { AssetsInfo } from '../_helpers/models/assets';
 
 @Component({
   selector: 'app-wallet',
@@ -66,6 +67,10 @@ export class WalletComponent implements OnInit, OnDestroy {
     },
   ];
 
+  get assetsInfo$(): Observable<AssetsInfo | null | undefined> {
+    return this.store.select<AssetsInfo | null | undefined>(StateKeys.assetsInfo);
+  }
+
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -115,7 +120,7 @@ export class WalletComponent implements OnInit, OnDestroy {
       }
     }, 1000);
     this.store
-      .select('sync')
+      .select(StateKeys.sync)
       .pipe(filter(Boolean), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((value: any) => {
         const data = value.filter(
@@ -123,7 +128,7 @@ export class WalletComponent implements OnInit, OnDestroy {
         )[0];
         if (data && !data.sync) {
           let in_progress;
-          const values = this.store.value.sync;
+          const values = this.store.state.sync;
           if (values && values.length) {
             in_progress = values.filter((item) => item.sync);
             this.variablesService.sync_started = !!(

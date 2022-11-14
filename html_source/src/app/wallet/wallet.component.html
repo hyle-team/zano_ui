@@ -159,7 +159,13 @@
 	</div>
 </div>
 
-<app-scroll-x class="mb-2">
+<app-scroll-x *ngIf="variablesService.currentWallet.assets as assets" class="mb-2">
+	<ng-container *ngFor="let asset of assets">
+		<app-asset-token-card
+			[asset]="asset"
+			[assetInfo]="assetsInfo$ | async | getAssetInfoById: asset.asset_id">
+		</app-asset-token-card>
+	</ng-container>
 </app-scroll-x>
 
 <div class="tabs">
