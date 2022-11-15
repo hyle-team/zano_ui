@@ -10,6 +10,7 @@ import { BackendService } from '../_helpers/services/backend.service';
 import { VariablesService } from '../_helpers/services/variables.service';
 import { ModalService } from '../_helpers/services/modal.service';
 import { Wallet } from '../_helpers/models/wallet.model';
+import { hasOwnProperty } from '../_helpers/functions/hasOwnProperty';
 
 @Component({
   selector: 'app-login',
@@ -155,14 +156,14 @@ export class LoginComponent implements OnInit, OnDestroy {
           });
           return;
         }
-        if (data.hasOwnProperty('contacts')) {
+        if (hasOwnProperty(data, 'contracts')) {
           if (Object.keys(data['contacts']).length !== 0) {
             data['contacts'].map(contact => {
               this.variablesService.contacts.push(contact);
             });
           }
         }
-        if (data.hasOwnProperty('wallets')) {
+        if (hasOwnProperty(data, 'wallets')) {
           if (Object.keys(data['wallets']).length !== 0) {
             this.getWalletData(data['wallets']);
           } else {
@@ -172,8 +173,8 @@ export class LoginComponent implements OnInit, OnDestroy {
           }
         }
         if (
-          !data.hasOwnProperty('wallets') &&
-          !data.hasOwnProperty('contacts')
+          !hasOwnProperty(data, 'wallets') &&
+          !hasOwnProperty(data, 'contracts')
         ) {
           if (data.length !== 0 && !isEmptyObject) {
             this.getWalletData(data);
@@ -259,7 +260,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                 (contracts_status, contracts_data) => {
                   if (
                     contracts_status &&
-                    contracts_data.hasOwnProperty('contracts')
+                    hasOwnProperty(contracts_data, 'contracts')
                   ) {
                     this.ngZone.run(() => {
                       new_wallet.prepareContractsAfterOpen(

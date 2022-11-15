@@ -14,6 +14,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { pairwise, startWith, takeUntil } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Subject } from 'rxjs';
+import { hasOwnProperty } from '../_helpers/functions/hasOwnProperty';
 
 @Component({
   selector: 'app-restore-wallet',
@@ -216,7 +217,7 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
                           (contracts_status, contracts_data) => {
                             if (
                               contracts_status &&
-                              contracts_data.hasOwnProperty('contracts')
+                              hasOwnProperty(contracts_data, 'contracts')
                             ) {
                               this.ngZone.run(() => {
                                 this.variablesService.opening_wallet.prepareContractsAfterOpen(

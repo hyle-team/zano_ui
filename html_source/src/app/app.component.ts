@@ -19,6 +19,7 @@ import { StateKeys, Store } from 'store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { paths, pathsChildrenAuth } from './paths';
+import { hasOwnProperty } from './_helpers/functions/hasOwnProperty';
 
 @Component({
   selector: 'app-root',
@@ -342,7 +343,7 @@ export class AppComponent implements OnInit, OnDestroy {
                 }
               }
 
-              if (tr_info.hasOwnProperty('contract')) {
+              if (hasOwnProperty(tr_info, 'contract')) {
                 const exp_med_ts = this.variablesService.exp_med_ts;
                 const height_app = this.variablesService.height_app;
                 const contract = tr_info.contract[0];
@@ -523,7 +524,7 @@ export class AppComponent implements OnInit, OnDestroy {
                     wallet.contracts[i].is_a === contract.is_a
                   ) {
                     for (const prop in contract) {
-                      if (contract.hasOwnProperty(prop)) {
+                      if (hasOwnProperty(contract, prop)) {
                         wallet.contracts[i][prop] = contract[prop];
                       }
                     }
@@ -567,7 +568,7 @@ export class AppComponent implements OnInit, OnDestroy {
           const wallet = this.variablesService.getWallet(wallet_id);
 
           if (wallet) {
-            if (tr_info.hasOwnProperty('contract')) {
+            if (hasOwnProperty(tr_info, 'contract')) {
               for (let i = 0; i < wallet.contracts.length; i++) {
                 if (
                   wallet.contracts[i].contract_id ===
@@ -691,7 +692,8 @@ export class AppComponent implements OnInit, OnDestroy {
                 case 'CORE_EVENT_UPDATE_ALIAS':
                   for (const address in this.variablesService.aliasesChecked) {
                     if (
-                      this.variablesService.aliasesChecked.hasOwnProperty(
+                      hasOwnProperty(
+                        this.variablesService.aliasesChecked,
                         address
                       )
                     ) {
@@ -808,14 +810,14 @@ export class AppComponent implements OnInit, OnDestroy {
           if (data && Object.keys(data).length > 0) {
             for (const key in data) {
               if (
-                data.hasOwnProperty(key) &&
-                this.variablesService.settings.hasOwnProperty(key)
+                hasOwnProperty(data, key) &&
+                hasOwnProperty(this.variablesService.settings, key)
               ) {
                 this.variablesService.settings[key] = data[key];
               }
             }
             if (
-              this.variablesService.settings.hasOwnProperty('scale') &&
+              hasOwnProperty(this.variablesService.settings, 'scale') &&
               ['8px', '10px', '12px', '14px'].indexOf(
                 this.variablesService.settings.scale
               ) !== -1

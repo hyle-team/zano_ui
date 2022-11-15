@@ -14,6 +14,7 @@ import { Observable, Subject } from 'rxjs';
 import { StateKeys, Store, Sync } from 'store';
 import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { AssetsInfo } from '../_helpers/models/assets';
+import { hasOwnProperty } from '../_helpers/functions/hasOwnProperty';
 
 @Component({
   selector: 'app-wallet',
@@ -157,13 +158,13 @@ export class WalletComponent implements OnInit, OnDestroy {
           }
         }
       });
-    if (this.variablesService.currentWallet.alias.hasOwnProperty('name')) {
+    if (hasOwnProperty(this.variablesService.currentWallet.alias, 'name')) {
       this.variablesService.currentWallet.wakeAlias = false;
     }
     this.variablesService.getAliasChangedEvent
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
-        if (this.variablesService.currentWallet.alias.hasOwnProperty('name')) {
+        if (hasOwnProperty(this.variablesService.currentWallet.alias, 'name')) {
           this.variablesService.currentWallet.wakeAlias = false;
         }
       });

@@ -7,6 +7,7 @@ import {
   BLOCK_EXPLORER_TN_TX_URL_PREFIX,
   BLOCK_EXPLORER_TX_URL_PREFIX,
 } from '../../../_shared/constants';
+import { hasOwnProperty } from '../../functions/hasOwnProperty';
 
 @Component({
   selector: 'app-transaction-details',
@@ -30,14 +31,14 @@ export class TransactionDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     for (const input in this.transaction.td['spn']) {
-      if (this.transaction.td['spn'].hasOwnProperty(input)) {
+      if (hasOwnProperty(this.transaction.td['spn'], input)) {
         this.inputs.push(
           this.intToMoneyPipe.transform(this.transaction.td['spn'][input])
         );
       }
     }
     for (const output in this.transaction.td['rcv']) {
-      if (this.transaction.td['rcv'].hasOwnProperty(output)) {
+      if (hasOwnProperty(this.transaction.td['rcv'], output)) {
         this.outputs.push(
           this.intToMoneyPipe.transform(this.transaction.td['rcv'][output])
         );

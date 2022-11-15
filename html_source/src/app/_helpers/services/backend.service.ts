@@ -134,7 +134,7 @@ export class BackendService {
     return val;
   }
 
-  static Debug(type, message) {
+  static Debug(type, message): void {
     switch (type) {
       case 0:
         console.error(message);
@@ -165,11 +165,10 @@ export class BackendService {
     return new Observable(observer => {
       if (!this.backendLoaded) {
         this.backendLoaded = true;
-        const that = this;
         (<any>window).QWebChannel(
           (<any>window).qt.webChannelTransport,
-          function (channel) {
-            that.backendObject = channel.objects.mediator_object;
+          channel => {
+            this.backendObject = channel.objects.mediator_object;
             observer.next('ok');
           }
         );
@@ -771,7 +770,7 @@ export class BackendService {
     // });
   }
 
-  private informerRun(error, params, command): void {
+  private informerRun(error: string, params, command: string): void {
     let error_translate = '';
     switch (error) {
       case 'NOT_ENOUGH_MONEY':
@@ -1030,14 +1029,13 @@ export class BackendService {
       return;
     }
 
-    const that = this;
     const type: ParamsType = getParamsType(params);
     params = params && convertorParams(params);
 
     if (type === ParamsType.array) {
-      Action(...(params as string[]), function (resultStr) {
-        that.commandDebug(command, params, resultStr);
-        return that.backendCallback(resultStr, params, callback, command);
+      Action(...(params as string[]), resultStr => {
+        this.commandDebug(command, params, resultStr);
+        return this.backendCallback(resultStr, params, callback, command);
       });
       return;
     }
@@ -1045,9 +1043,9 @@ export class BackendService {
     if (command === 'get_recent_transfers') {
       this.variablesService.get_recent_transfers = false;
     }
-    Action(params, function (resultStr) {
-      that.commandDebug(command, params, resultStr);
-      return that.backendCallback(resultStr, params, callback, command);
+    Action(params, resultStr => {
+      this.commandDebug(command, params, resultStr);
+      return this.backendCallback(resultStr, params, callback, command);
     });
   }
 }

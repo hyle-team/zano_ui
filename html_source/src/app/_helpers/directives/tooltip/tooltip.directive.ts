@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 
 @Directive({
-  // tslint:disable-next-line:directive-selector
+  // eslint-disable-next-line
   selector: '[tooltip]',
 })
 export class TooltipDirective implements OnDestroy {

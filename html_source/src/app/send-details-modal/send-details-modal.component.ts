@@ -50,7 +50,7 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
   /** Working id is traceable */
   @Input() job_id: number;
 
-  @Output() close = new EventEmitter<void>();
+  @Output() eventClose = new EventEmitter<void>();
 
   @ViewChild('elDetailsList', { static: true }) elDetailsList: ElementRef;
 

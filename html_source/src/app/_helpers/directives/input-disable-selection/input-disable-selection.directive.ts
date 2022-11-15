@@ -1,6 +1,7 @@
 import { Directive, HostListener } from '@angular/core';
 
 @Directive({
+  // eslint-disable-next-line
   selector: 'input',
 })
 export class InputDisableSelectionDirective {

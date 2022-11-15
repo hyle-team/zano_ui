@@ -15,6 +15,7 @@ import { MoneyToIntPipe } from '../_helpers/pipes/money-to-int.pipe';
 import { IntToMoneyPipe } from '../_helpers/pipes/int-to-money.pipe';
 import BigNumber from 'bignumber.js';
 import { Subscription } from 'rxjs';
+import { hasOwnProperty } from '../_helpers/functions/hasOwnProperty';
 
 @Component({
   selector: 'app-assign-alias',
@@ -27,6 +28,7 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
   assignForm = new UntypedFormGroup({
     name: new UntypedFormControl('', [
       Validators.required,
+      // eslint-disable-next-line
       Validators.pattern(/^@?[a-z\d\.\-]{6,25}$/),
     ]),
     comment: new UntypedFormControl('', [
@@ -78,7 +80,7 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
         if (
           !(
             this.assignForm.controls['name'].errors &&
-            this.assignForm.controls['name'].errors.hasOwnProperty('pattern')
+            hasOwnProperty(this.assignForm.controls['name'].errors, 'pattern')
           ) &&
           newName.length >= 6 &&
           newName.length <= 25
@@ -132,7 +134,7 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
 
   assignAlias(): void {
     const alias = this.backend.getWalletAlias(this.wallet.address);
-    if (alias.hasOwnProperty('name')) {
+    if (hasOwnProperty(alias, 'name')) {
       this.modalService.prepareModal('info', 'ASSIGN_ALIAS.ONE_ALIAS');
     } else {
       this.alias.comment = this.assignForm.get('comment').value;

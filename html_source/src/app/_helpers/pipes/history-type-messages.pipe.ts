@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
+import { hasOwnProperty } from '../functions/hasOwnProperty';
 
 @Pipe({
   name: 'historyTypeMessages',
@@ -21,7 +22,7 @@ export class HistoryTypeMessagesPipe implements PipeTransform {
     } else if (item.tx_type === 6 && item.height === 0) {
       return 'unknown';
     } else if (item.tx_type === 9) {
-      if (item.hasOwnProperty('contract') && item.contract[0].is_a) {
+      if (hasOwnProperty(item, 'contract') && item.contract[0].is_a) {
         return this.translate.instant('HISTORY.TYPE_MESSAGES.COMPLETE_BUYER');
       } else {
         return this.translate.instant('HISTORY.TYPE_MESSAGES.COMPLETE_SELLER');

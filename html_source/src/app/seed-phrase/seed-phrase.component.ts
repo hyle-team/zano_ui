@@ -10,6 +10,7 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
+import { hasOwnProperty } from '../_helpers/functions/hasOwnProperty';
 
 @Component({
   selector: 'app-seed-phrase',
@@ -62,7 +63,14 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
         Validators.pattern(this.variablesService.pattern)
       ),
     },
-    { validators: this.checkPasswords }
+    {
+      validators: (group: UntypedFormGroup): ValidationErrors | null => {
+        const pass = group.controls.password.value;
+        const confirmPass = group.controls.confirmPassword.value;
+
+        return pass === confirmPass ? null : { notSame: true };
+      },
+    }
   );
 
   constructor(
@@ -83,13 +91,6 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.queryRouting.unsubscribe();
-  }
-
-  checkPasswords(group: UntypedFormGroup): ValidationErrors | null {
-    const pass = group.controls.password.value;
-    const confirmPass = group.controls.confirmPassword.value;
-
-    return pass === confirmPass ? null : { notSame: true };
   }
 
   runWallet(): void {
@@ -158,7 +159,7 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
       this.backend.getSmartWalletInfo(
         { wallet_id, seed_password },
         (status, data) => {
-          if (data.hasOwnProperty('seed_phrase')) {
+          if (hasOwnProperty(data, 'seed_phrase')) {
             this.ngZone.run(() => {
               this.seedPhrase = data['seed_phrase'].trim();
             });

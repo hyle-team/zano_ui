@@ -2,13 +2,14 @@ import { Component, NgZone, OnInit } from '@angular/core';
 import {
   UntypedFormControl,
   UntypedFormGroup,
-  Validators,
   ValidationErrors,
+  Validators,
 } from '@angular/forms';
 import { BackendService } from '../_helpers/services/backend.service';
 import { VariablesService } from '../_helpers/services/variables.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { hasOwnProperty } from '../_helpers/functions/hasOwnProperty';
 
 @Component({
   selector: 'app-wallet-details',
@@ -57,7 +58,14 @@ export class WalletDetailsComponent implements OnInit {
         Validators.pattern(this.variablesService.pattern)
       ),
     },
-    { validators: this.checkPasswords }
+    {
+      validators: (group: UntypedFormGroup): ValidationErrors | null => {
+        const pass = group.controls.password.value;
+        const confirmPass = group.controls.confirmPassword.value;
+
+        return pass === confirmPass ? null : { notSame: true };
+      },
+    }
   );
 
   constructor(
@@ -78,13 +86,6 @@ export class WalletDetailsComponent implements OnInit {
       .setValue(this.variablesService.currentWallet.path);
   }
 
-  checkPasswords(group: UntypedFormGroup): ValidationErrors | null {
-    const pass = group.controls.password.value;
-    const confirmPass = group.controls.confirmPassword.value;
-
-    return pass === confirmPass ? null : { notSame: true };
-  }
-
   showSeedPhrase(): void {
     this.showSeed = true;
   }
@@ -97,7 +98,7 @@ export class WalletDetailsComponent implements OnInit {
       this.backend.getSmartWalletInfo(
         { wallet_id, seed_password },
         (status, data) => {
-          if (data.hasOwnProperty('seed_phrase')) {
+          if (hasOwnProperty(data, 'seed_phrase')) {
             this.ngZone.run(() => {
               this.seedPhrase = data['seed_phrase'].trim();
             });

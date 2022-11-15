@@ -2,6 +2,7 @@ import { Contract } from './contract.model';
 import { Transaction } from './transaction.model';
 import { BigNumber } from 'bignumber.js';
 import { Assets } from './assets';
+import { hasOwnProperty } from '../functions/hasOwnProperty';
 
 export interface Alias {
   name: string;
@@ -110,7 +111,7 @@ export class Wallet {
     } else if (item.tx_type === 3) {
       item.sortFee = new BigNumber(0);
     } else if (
-      item.hasOwnProperty('contract') &&
+      hasOwnProperty(item, 'contract') &&
       (item.contract[0].state === 3 ||
         item.contract[0].state === 6 ||
         item.contract[0].state === 601) &&
@@ -190,20 +191,19 @@ export class Wallet {
     viewedContracts,
     notViewedContracts
   ): void {
-    const wallet = this;
     for (let i = 0; i < items.length; i++) {
       const contract = items[i];
       let contractTransactionExist = false;
-      if (wallet && wallet.history) {
-        contractTransactionExist = wallet.history.some(
+      if (this.history) {
+        contractTransactionExist = this.history.some(
           elem =>
             elem.contract &&
             elem.contract.length > 0 &&
             elem.contract[0].contract_id === contract.contract_id
         );
       }
-      if (!contractTransactionExist && wallet && wallet.excluded_history) {
-        contractTransactionExist = wallet.excluded_history.some(
+      if (!contractTransactionExist && this.excluded_history) {
+        contractTransactionExist = this.excluded_history.some(
           elem =>
             elem.contract &&
             elem.contract.length > 0 &&
@@ -325,7 +325,7 @@ export class Wallet {
       );
       contract.is_new = !searchResult;
 
-      wallet.contracts.push(contract);
+      this.contracts.push(contract);
     }
     this.recountNewContracts();
   }

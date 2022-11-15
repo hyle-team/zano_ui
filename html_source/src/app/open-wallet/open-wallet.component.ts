@@ -12,6 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Wallet } from '../_helpers/models/wallet.model';
 import { TranslateService } from '@ngx-translate/core';
 import { Location } from '@angular/common';
+import { hasOwnProperty } from '../_helpers/functions/hasOwnProperty';
 
 @Component({
   selector: 'app-open-wallet',
@@ -173,7 +174,7 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
                   (contracts_status, contracts_data) => {
                     if (
                       contracts_status &&
-                      contracts_data.hasOwnProperty('contracts')
+                      hasOwnProperty(contracts_data, 'contracts')
                     ) {
                       this.ngZone.run(() => {
                         new_wallet.prepareContractsAfterOpen(

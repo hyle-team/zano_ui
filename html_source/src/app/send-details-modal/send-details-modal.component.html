@@ -161,7 +161,7 @@
     </div>
     <div class="controls" fxFlex="0 0 auto">
       <button
-        (click)="close.emit()"
+        (click)="eventClose.emit()"
         [disabled]="!isSentSuccess && !isSentFailed"
         class="primary big w-100"
       >

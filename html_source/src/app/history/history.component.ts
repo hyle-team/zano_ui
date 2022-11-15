@@ -17,6 +17,7 @@ import { Wallet } from '../_helpers/models/wallet.model';
 import { BackendService } from '../_helpers/services/backend.service';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
+import { hasOwnProperty } from '../_helpers/functions/hasOwnProperty';
 
 @Component({
   selector: 'app-history',
@@ -59,8 +60,9 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
     });
     let restore = false;
     if (
-      this.variablesService.after_sync_request.hasOwnProperty(
-        this.variablesService.currentWallet.wallet_id
+      hasOwnProperty(
+        this.variablesService.after_sync_request,
+        String(this.variablesService.currentWallet.wallet_id)
       )
     ) {
       restore =
@@ -85,8 +87,9 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
     let after_sync_request = false;
     if (
-      this.variablesService.after_sync_request.hasOwnProperty(
-        this.variablesService.currentWallet.wallet_id
+      hasOwnProperty(
+        this.variablesService.after_sync_request,
+        String(this.variablesService.currentWallet.wallet_id)
       )
     ) {
       after_sync_request =
@@ -100,8 +103,9 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
     }
 
     if (
-      this.variablesService.stop_paginate.hasOwnProperty(
-        this.variablesService.currentWallet.wallet_id
+      hasOwnProperty(
+        this.variablesService.stop_paginate,
+        String(this.variablesService.currentWallet.wallet_id)
       )
     ) {
       this.stop_paginate =
@@ -298,8 +302,9 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.ngZone.run(() => {
           this.variablesService.get_recent_transfers = false;
           if (
-            this.variablesService.after_sync_request.hasOwnProperty(
-              this.variablesService.currentWallet.wallet_id
+            hasOwnProperty(
+              this.variablesService.after_sync_request,
+              String(this.variablesService.currentWallet.wallet_id)
             )
           ) {
             // this is will complete get_recent_transfers request

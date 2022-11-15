@@ -12,6 +12,7 @@ import { Wallet } from '../_helpers/models/wallet.model';
 import { BackendService } from '../_helpers/services/backend.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ModalService } from '../_helpers/services/modal.service';
+import { hasOwnProperty } from '../_helpers/functions/hasOwnProperty';
 
 @Component({
   selector: 'app-open-wallet-modal',
@@ -137,7 +138,7 @@ export class OpenWalletModalComponent implements OnInit, OnDestroy {
                 (contracts_status, contracts_data) => {
                   if (
                     contracts_status &&
-                    contracts_data.hasOwnProperty('contracts')
+                    hasOwnProperty(contracts_data, 'contracts')
                   ) {
                     this.ngZone.run(() => {
                       new_wallet.prepareContractsAfterOpen(

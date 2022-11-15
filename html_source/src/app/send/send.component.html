@@ -264,7 +264,7 @@
 ></app-send-modal>
 
 <app-send-details-modal
-  (close)="handeCloseDetailsModal()"
+  (eventClose)="handeCloseDetailsModal()"
   *ngIf="isModalDetailsDialogVisible"
   [job_id]="job_id"
 ></app-send-details-modal>

@@ -19,6 +19,7 @@ import { Location } from '@angular/common';
 import { IntToMoneyPipe } from '../_helpers/pipes/int-to-money.pipe';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { hasOwnProperty } from '../_helpers/functions/hasOwnProperty';
 
 @Component({
   selector: 'app-purchase',
@@ -87,6 +88,7 @@ export class PurchaseComponent implements OnInit, OnDestroy {
             this.localAliases = this.variablesService.aliases.filter(item => {
               return item.name.indexOf(g.value) > -1;
             });
+            // eslint-disable-next-line
             if (!/^@?[a-z\d\-]{6,25}$/.test(g.value)) {
               g.setErrors(Object.assign({ alias_not_valid: true }, g.errors));
             } else {
@@ -167,7 +169,7 @@ export class PurchaseComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe(params => {
-      if (params.hasOwnProperty('id')) {
+      if (hasOwnProperty(params, 'id')) {
         this.currentContract = this.variablesService.currentWallet.getContract(
           params['id']
         );

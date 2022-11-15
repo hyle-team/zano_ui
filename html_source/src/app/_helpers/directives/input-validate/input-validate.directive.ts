@@ -29,6 +29,7 @@ export class InputValidateDirective {
   private moneyValidation(event: Event): void {
     let currentValue = (<HTMLInputElement>event.target).value;
     const originalValue = currentValue;
+    // eslint-disable-next-line
     const OnlyD = /[^\d\.]/g;
     const _has_error = currentValue.match(OnlyD);
     if (_has_error && _has_error.length) {

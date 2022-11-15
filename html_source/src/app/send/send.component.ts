@@ -101,6 +101,7 @@ export class SendComponent implements OnInit, OnDestroy {
             this.localAliases = this.variablesService.aliases.filter(item => {
               return item.name.indexOf(g.value) > -1;
             });
+            // eslint-disable-next-line
             if (!/^@?[a-z\d\-]{0,25}$/.test(g.value)) {
               g.setErrors(Object.assign({ alias_not_valid: true }, g.errors));
             } else {

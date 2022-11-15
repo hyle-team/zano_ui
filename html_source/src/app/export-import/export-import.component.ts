@@ -73,9 +73,9 @@ export class ExportImportComponent {
                       }
                       if (indexName !== -1 && indexAddress === -1) {
                         this.variablesService.contacts.push({
-                          name: `${element.name} ${this.translate.instant(
-                            'CONTACTS.COPY'
-                          )}`,
+                          name: `${(element.name as string) || '---'} ${
+                            this.translate.instant('CONTACTS.COPY') as string
+                          }`,
                           address: element.address,
                           notes: element.notes,
                         });
@@ -124,7 +124,7 @@ export class ExportImportComponent {
         }
         const path = this.isValid(file_data.path)
           ? file_data.path
-          : `${file_data.path}.csv`;
+          : `${(file_data.path as string) || 'base-name'}.csv`;
         if (
           file_status &&
           this.isValid(path) &&
