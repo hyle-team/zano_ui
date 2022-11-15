@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { BackendService } from '../_helpers/services/backend.service';
 import { VariablesService } from '../_helpers/services/variables.service';
 import { ModalService } from '../_helpers/services/modal.service';
@@ -14,8 +14,8 @@ import { Location } from '@angular/common';
   styleUrls: ['./create-wallet.component.scss']
 })
 export class CreateWalletComponent {
-  createForm = new FormGroup({
-    name: new FormControl('', [Validators.required, (g: FormControl) => {
+  createForm = new UntypedFormGroup({
+    name: new UntypedFormControl('', [Validators.required, (g: UntypedFormControl) => {
       for (let i = 0; i < this.variablesService.wallets.length; i++) {
         if (g.value === this.variablesService.wallets[i].name) {
           return { 'duplicate': true };
@@ -23,9 +23,9 @@ export class CreateWalletComponent {
       }
       return null;
     }]),
-    password: new FormControl('', Validators.pattern(this.variablesService.pattern)),
-    confirm: new FormControl('')
-  }, function (g: FormGroup) {
+    password: new UntypedFormControl('', Validators.pattern(this.variablesService.pattern)),
+    confirm: new UntypedFormControl('')
+  }, function (g: UntypedFormGroup) {
     return g.get('password').value === g.get('confirm').value ? null : { 'confirm_mismatch': true };
   });
 

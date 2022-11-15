@@ -1,5 +1,5 @@
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BackendService } from '../_helpers/services/backend.service';
 import { VariablesService } from '../_helpers/services/variables.service';
@@ -16,11 +16,11 @@ import { Subject } from 'rxjs';
   styleUrls: ['./restore-wallet.component.scss'],
 })
 export class RestoreWalletComponent implements OnInit, OnDestroy {
-  restoreForm = new FormGroup(
+  restoreForm = new UntypedFormGroup(
     {
-      name: new FormControl('', [
+      name: new UntypedFormControl('', [
         Validators.required,
-        (g: FormControl) => {
+        (g: UntypedFormControl) => {
           for (let i = 0; i < this.variablesService.wallets.length; i++) {
             if (g.value === this.variablesService.wallets[i].name) {
               return { duplicate: true };
@@ -29,15 +29,15 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
           return null;
         },
       ]),
-      key: new FormControl('', Validators.required),
-      password: new FormControl(
+      key: new UntypedFormControl('', Validators.required),
+      password: new UntypedFormControl(
         '',
         Validators.pattern(this.variablesService.pattern)
       ),
-      confirm: new FormControl(''),
-      seedPassword: new FormControl('', Validators.pattern(this.variablesService.pattern)),
+      confirm: new UntypedFormControl(''),
+      seedPassword: new UntypedFormControl('', Validators.pattern(this.variablesService.pattern)),
     },
-    function (g: FormGroup) {
+    function (g: UntypedFormGroup) {
       return g.get('password').value === g.get('confirm').value
         ? null
         : { confirm_mismatch: true };

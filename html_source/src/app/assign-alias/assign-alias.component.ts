@@ -1,5 +1,5 @@
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { BackendService } from '../_helpers/services/backend.service';
@@ -19,9 +19,9 @@ import { Subscription } from 'rxjs';
 export class AssignAliasComponent implements OnInit, OnDestroy {
   wallet: Wallet;
 
-  assignForm = new FormGroup({
-    name: new FormControl('', [Validators.required, Validators.pattern(/^@?[a-z\d\.\-]{6,25}$/)]),
-    comment: new FormControl('', [(g: FormControl) => {
+  assignForm = new UntypedFormGroup({
+    name: new UntypedFormControl('', [Validators.required, Validators.pattern(/^@?[a-z\d\.\-]{6,25}$/)]),
+    comment: new UntypedFormControl('', [(g: UntypedFormControl) => {
       if (g.value > this.variablesService.maxCommentLength) {
         return { 'maxLength': true };
       } else {
