@@ -1,4 +1,12 @@
-import { Component, HostBinding, Input, NgZone, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import {
+  Component,
+  HostBinding,
+  Input,
+  NgZone,
+  OnDestroy,
+  OnInit,
+  Renderer2,
+} from '@angular/core';
 import { VariablesService } from '../_helpers/services/variables.service';
 import { Wallet } from '../_helpers/models/wallet.model';
 import { BackendService } from '../_helpers/services/backend.service';
@@ -8,7 +16,7 @@ import { ModalService } from '../_helpers/services/modal.service';
 @Component({
   selector: 'app-open-wallet-modal',
   templateUrl: './open-wallet-modal.component.html',
-  styleUrls: ['./open-wallet-modal.component.scss']
+  styleUrls: ['./open-wallet-modal.component.scss'],
 })
 export class OpenWalletModalComponent implements OnInit, OnDestroy {
   @HostBinding('class.modal-overlay') modalOverlay = true;
@@ -20,7 +28,7 @@ export class OpenWalletModalComponent implements OnInit, OnDestroy {
     path: '',
     pass: '',
     notFound: false,
-    emptyPass: false
+    emptyPass: false,
   };
 
   constructor(
@@ -30,8 +38,7 @@ export class OpenWalletModalComponent implements OnInit, OnDestroy {
     private modalService: ModalService,
     private ngZone: NgZone,
     private renderer: Renderer2
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.renderer.addClass(document.body, 'no-scroll');
@@ -59,22 +66,28 @@ export class OpenWalletModalComponent implements OnInit, OnDestroy {
           this.ngZone.run(() => {
             this.wallet.notFound = true;
           });
-          let error_translate = this.translate.instant('OPEN_WALLET.FILE_NOT_FOUND1');
+          let error_translate = this.translate.instant(
+            'OPEN_WALLET.FILE_NOT_FOUND1'
+          );
           error_translate += ':<br>' + this.wallet.path;
-          error_translate += this.translate.instant('OPEN_WALLET.FILE_NOT_FOUND2');
+          error_translate += this.translate.instant(
+            'OPEN_WALLET.FILE_NOT_FOUND2'
+          );
           this.modalService.prepareModal('error', error_translate);
         } else {
           if (open_status || open_error === 'FILE_RESTORED') {
-
             let exists = false;
-            this.variablesService.wallets.forEach((wallet) => {
+            this.variablesService.wallets.forEach(wallet => {
               if (wallet.address === open_data['wi'].address) {
                 exists = true;
               }
             });
 
             if (exists) {
-              this.modalService.prepareModal('error', 'OPEN_WALLET.WITH_ADDRESS_ALREADY_OPEN');
+              this.modalService.prepareModal(
+                'error',
+                'OPEN_WALLET.WITH_ADDRESS_ALREADY_OPEN'
+              );
               this.backend.closeWallet(open_data.wallet_id);
             } else {
               const new_wallet = new Wallet(
@@ -89,43 +102,63 @@ export class OpenWalletModalComponent implements OnInit, OnDestroy {
                 open_data['wi'].tracking_hey
               );
               this.backend.getWalletInfo(new_wallet);
-              new_wallet.alias = this.backend.getWalletAlias(new_wallet.address);
+              new_wallet.alias = this.backend.getWalletAlias(
+                new_wallet.address
+              );
               new_wallet.is_auditable = open_data['wi'].is_auditable;
               new_wallet.is_watch_only = open_data['wi'].is_watch_only;
               new_wallet.currentPage = 1;
               new_wallet.exclude_mining_txs = false;
-              if (open_data.recent_history && open_data.recent_history.history) {
-                new_wallet.total_history_item = open_data.recent_history.total_history_items;
-                new_wallet.totalPages = Math.ceil(open_data.recent_history.total_history_items / this.variablesService.count);
+              if (
+                open_data.recent_history &&
+                open_data.recent_history.history
+              ) {
+                new_wallet.total_history_item =
+                  open_data.recent_history.total_history_items;
+                new_wallet.totalPages = Math.ceil(
+                  open_data.recent_history.total_history_items /
+                    this.variablesService.count
+                );
                 new_wallet.totalPages > this.variablesService.maxPages
-                  ? new_wallet.pages = new Array(5).fill(1).map((value, index) => value + index)
-                  : new_wallet.pages = new Array(new_wallet.totalPages).fill(1).map((value, index) => value + index);
+                  ? (new_wallet.pages = new Array(5)
+                      .fill(1)
+                      .map((value, index) => value + index))
+                  : (new_wallet.pages = new Array(new_wallet.totalPages)
+                      .fill(1)
+                      .map((value, index) => value + index));
                 new_wallet.prepareHistory(open_data.recent_history.history);
               } else {
                 new_wallet.total_history_item = 0;
                 new_wallet.pages = new Array(1).fill(1);
                 new_wallet.totalPages = 1;
               }
-              this.backend.getContracts(open_data.wallet_id, (contracts_status, contracts_data) => {
-                if (contracts_status && contracts_data.hasOwnProperty('contracts')) {
-                  this.ngZone.run(() => {
-                    new_wallet.prepareContractsAfterOpen(
-                      contracts_data.contracts,
-                      this.variablesService.exp_med_ts,
-                      this.variablesService.height_app,
-                      this.variablesService.settings.viewedContracts,
-                      this.variablesService.settings.notViewedContracts
-                    );
-                  });
+              this.backend.getContracts(
+                open_data.wallet_id,
+                (contracts_status, contracts_data) => {
+                  if (
+                    contracts_status &&
+                    contracts_data.hasOwnProperty('contracts')
+                  ) {
+                    this.ngZone.run(() => {
+                      new_wallet.prepareContractsAfterOpen(
+                        contracts_data.contracts,
+                        this.variablesService.exp_med_ts,
+                        this.variablesService.height_app,
+                        this.variablesService.settings.viewedContracts,
+                        this.variablesService.settings.notViewedContracts
+                      );
+                    });
+                  }
                 }
-              });
+              );
               this.variablesService.wallets.push(new_wallet);
               this.backend.runWallet(open_data.wallet_id);
               this.skipWallet();
             }
           }
         }
-      });
+      }
+    );
   }
 
   skipWallet(): void {

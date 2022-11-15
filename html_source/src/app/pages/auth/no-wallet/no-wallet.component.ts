@@ -9,7 +9,7 @@ import { paths } from '../../../paths';
 @Component({
   selector: 'app-no-wallet',
   templateUrl: './no-wallet.component.html',
-  styleUrls: ['./no-wallet.component.scss']
+  styleUrls: ['./no-wallet.component.scss'],
 })
 export class NoWalletComponent {
   paths = paths;
@@ -20,23 +20,31 @@ export class NoWalletComponent {
     private backend: BackendService,
     private ngZone: NgZone,
     private translate: TranslateService
-  ) {
-  }
+  ) {}
 
   openWallet(): void {
     this.backend.openFileDialog(
       this.translate.instant('MAIN.CHOOSE_PATH'),
-      '*', this.variablesService.settings.default_path,
+      '*',
+      this.variablesService.settings.default_path,
       (file_status, file_data) => {
         if (file_status) {
-          this.variablesService.settings.default_path = file_data.path.substr(0, file_data.path.lastIndexOf('/'));
+          this.variablesService.settings.default_path = file_data.path.substr(
+            0,
+            file_data.path.lastIndexOf('/')
+          );
           this.ngZone.run(() => {
-            this.router.navigate(['/' + paths.open], { queryParams: { path: file_data.path } }).then();
+            this.router
+              .navigate(['/' + paths.open], {
+                queryParams: { path: file_data.path },
+              })
+              .then();
           });
         } else {
           console.log(file_data['error_code']);
         }
-      });
+      }
+    );
   }
 
   openInBrowser(): void {

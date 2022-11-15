@@ -114,7 +114,8 @@
     }
   }
 
-  &.auditable, &.watch-only {
+  &.auditable,
+  &.watch-only {
     border-width: 0;
     padding: 1.35rem;
     background: var(--gradietLightAmethystToPurpurle);
@@ -147,7 +148,8 @@
       z-index: 1;
     }
 
-    &.active, &:hover {
+    &.active,
+    &:hover {
       background: var(--gradietAmethystToPurpurle);
     }
 

@@ -53,12 +53,22 @@ export class Wallet {
     comment: null,
     mixin: null,
     fee: null,
-    hide: null
+    hide: null,
   };
 
   assets: Assets | null | undefined;
 
-  constructor(id, name, pass, path, address, balance, unlocked_balance, mined = 0, tracking = '') {
+  constructor(
+    id,
+    name,
+    pass,
+    path,
+    address,
+    balance,
+    unlocked_balance,
+    mined = 0,
+    tracking = ''
+  ) {
     this.wallet_id = id;
     this.name = name;
     this.pass = pass;
@@ -86,7 +96,7 @@ export class Wallet {
   }
 
   havePass(): boolean {
-    return (this.pass !== '' && this.pass !== null);
+    return this.pass !== '' && this.pass !== null;
   }
 
   isActive(id): boolean {
@@ -100,10 +110,11 @@ export class Wallet {
     } else if (item.tx_type === 3) {
       item.sortFee = new BigNumber(0);
     } else if (
-      (
-        item.hasOwnProperty('contract') &&
-        (item.contract[0].state === 3 || item.contract[0].state === 6 || item.contract[0].state === 601) && !item.contract[0].is_a
-      )
+      item.hasOwnProperty('contract') &&
+      (item.contract[0].state === 3 ||
+        item.contract[0].state === 6 ||
+        item.contract[0].state === 601) &&
+      !item.contract[0].is_a
     ) {
       item.sortFee = item.fee.negated();
       item.sortAmount = item.amount;
@@ -121,7 +132,8 @@ export class Wallet {
   prepareHistory(items: Transaction[]): void {
     for (let i = 0; i < items.length; i++) {
       if (
-        (items[i].tx_type === 7 && items[i].is_income) || (items[i].tx_type === 11 && items[i].is_income) ||
+        (items[i].tx_type === 7 && items[i].is_income) ||
+        (items[i].tx_type === 11 && items[i].is_income) ||
         (items[i].amount.eq(0) && items[i].fee.eq(0) && !items[i].is_mining)
       ) {
         let exists = false;
@@ -149,7 +161,10 @@ export class Wallet {
           }
         }
         if (!exists) {
-          if ((this.history.length > 0) && items[i].timestamp >= this.history[0].timestamp) {
+          if (
+            this.history.length > 0 &&
+            items[i].timestamp >= this.history[0].timestamp
+          ) {
             this.history.unshift(this.prepareHistoryItem(items[i]));
           } else {
             this.history.push(this.prepareHistoryItem(items[i]));
@@ -168,79 +183,146 @@ export class Wallet {
     }
   }
 
-  prepareContractsAfterOpen(items: any[], exp_med_ts, height_app, viewedContracts, notViewedContracts): void {
+  prepareContractsAfterOpen(
+    items: any[],
+    exp_med_ts,
+    height_app,
+    viewedContracts,
+    notViewedContracts
+  ): void {
     const wallet = this;
     for (let i = 0; i < items.length; i++) {
       const contract = items[i];
       let contractTransactionExist = false;
       if (wallet && wallet.history) {
-        contractTransactionExist = wallet.history.some(elem => elem.contract && (elem.contract.length > 0) && elem.contract[0].contract_id === contract.contract_id);
+        contractTransactionExist = wallet.history.some(
+          elem =>
+            elem.contract &&
+            elem.contract.length > 0 &&
+            elem.contract[0].contract_id === contract.contract_id
+        );
       }
       if (!contractTransactionExist && wallet && wallet.excluded_history) {
-        contractTransactionExist = wallet.excluded_history.some(elem => elem.contract && (elem.contract.length > 0) && elem.contract[0].contract_id === contract.contract_id);
+        contractTransactionExist = wallet.excluded_history.some(
+          elem =>
+            elem.contract &&
+            elem.contract.length > 0 &&
+            elem.contract[0].contract_id === contract.contract_id
+        );
       }
 
       if (!contractTransactionExist) {
         contract.state = 140;
-      } else if (contract.state === 1 && contract.expiration_time < exp_med_ts) {
+      } else if (
+        contract.state === 1 &&
+        contract.expiration_time < exp_med_ts
+      ) {
         contract.state = 110;
-      } else if (contract.state === 2 && contract.cancel_expiration_time !== 0 && contract.cancel_expiration_time < exp_med_ts && contract.height === 0) {
-        const searchResult1 = viewedContracts.some(elem => elem.state === 2 && elem.is_a === contract.is_a && elem.contract_id === contract.contract_id);
+      } else if (
+        contract.state === 2 &&
+        contract.cancel_expiration_time !== 0 &&
+        contract.cancel_expiration_time < exp_med_ts &&
+        contract.height === 0
+      ) {
+        const searchResult1 = viewedContracts.some(
+          elem =>
+            elem.state === 2 &&
+            elem.is_a === contract.is_a &&
+            elem.contract_id === contract.contract_id
+        );
         if (!searchResult1) {
           contract.state = 130;
           contract.is_new = true;
         }
       } else if (contract.state === 1) {
-        const searchResult2 = notViewedContracts.find(elem => elem.state === 110 && elem.is_a === contract.is_a && elem.contract_id === contract.contract_id);
+        const searchResult2 = notViewedContracts.find(
+          elem =>
+            elem.state === 110 &&
+            elem.is_a === contract.is_a &&
+            elem.contract_id === contract.contract_id
+        );
         if (searchResult2) {
           if (searchResult2.time === contract.expiration_time) {
             contract.state = 110;
           } else {
             for (let j = 0; j < notViewedContracts.length; j++) {
-              if (notViewedContracts[j].contract_id === contract.contract_id && notViewedContracts[j].is_a === contract.is_a) {
+              if (
+                notViewedContracts[j].contract_id === contract.contract_id &&
+                notViewedContracts[j].is_a === contract.is_a
+              ) {
                 notViewedContracts.splice(j, 1);
                 break;
               }
             }
             for (let j = 0; j < viewedContracts.length; j++) {
-              if (viewedContracts[j].contract_id === contract.contract_id && viewedContracts[j].is_a === contract.is_a) {
+              if (
+                viewedContracts[j].contract_id === contract.contract_id &&
+                viewedContracts[j].is_a === contract.is_a
+              ) {
                 viewedContracts.splice(j, 1);
                 break;
               }
             }
           }
         }
-      } else if (contract.state === 2 && (contract.height === 0 || (height_app - contract.height) < 10)) {
+      } else if (
+        contract.state === 2 &&
+        (contract.height === 0 || height_app - contract.height < 10)
+      ) {
         contract.state = 201;
       } else if (contract.state === 2) {
-        const searchResult3 = viewedContracts.some(elem => elem.state === 120 && elem.is_a === contract.is_a && elem.contract_id === contract.contract_id);
+        const searchResult3 = viewedContracts.some(
+          elem =>
+            elem.state === 120 &&
+            elem.is_a === contract.is_a &&
+            elem.contract_id === contract.contract_id
+        );
         if (searchResult3) {
           contract.state = 120;
         }
       } else if (contract.state === 5) {
-        const searchResult4 = notViewedContracts.find(elem => elem.state === 130 && elem.is_a === contract.is_a && elem.contract_id === contract.contract_id);
+        const searchResult4 = notViewedContracts.find(
+          elem =>
+            elem.state === 130 &&
+            elem.is_a === contract.is_a &&
+            elem.contract_id === contract.contract_id
+        );
         if (searchResult4) {
           if (searchResult4.time === contract.cancel_expiration_time) {
             contract.state = 130;
           } else {
             for (let j = 0; j < notViewedContracts.length; j++) {
-              if (notViewedContracts[j].contract_id === contract.contract_id && notViewedContracts[j].is_a === contract.is_a) {
+              if (
+                notViewedContracts[j].contract_id === contract.contract_id &&
+                notViewedContracts[j].is_a === contract.is_a
+              ) {
                 notViewedContracts.splice(j, 1);
                 break;
               }
             }
             for (let j = 0; j < viewedContracts.length; j++) {
-              if (viewedContracts[j].contract_id === contract.contract_id && viewedContracts[j].is_a === contract.is_a) {
+              if (
+                viewedContracts[j].contract_id === contract.contract_id &&
+                viewedContracts[j].is_a === contract.is_a
+              ) {
                 viewedContracts.splice(j, 1);
                 break;
               }
             }
           }
         }
-      } else if (contract.state === 6 && (contract.height === 0 || (height_app - contract.height) < 10)) {
+      } else if (
+        contract.state === 6 &&
+        (contract.height === 0 || height_app - contract.height < 10)
+      ) {
         contract.state = 601;
       }
-      const searchResult = viewedContracts.some(elem => elem.state === contract.state && elem.is_a === contract.is_a && elem.contract_id === contract.contract_id);
+      const searchResult = viewedContracts.some(
+        elem =>
+          elem.state === contract.state &&
+          elem.is_a === contract.is_a &&
+          elem.contract_id === contract.contract_id
+      );
       contract.is_new = !searchResult;
 
       wallet.contracts.push(contract);
@@ -249,7 +331,9 @@ export class Wallet {
   }
 
   recountNewContracts() {
-    this.new_contracts = (this.contracts.filter(item => item.is_new === true)).length;
+    this.new_contracts = this.contracts.filter(
+      item => item.is_new === true
+    ).length;
   }
 
   getContract(id): Contract {
@@ -260,8 +344,6 @@ export class Wallet {
     }
     return null;
   }
-
-
 }
 
 export interface DeeplinkParams {

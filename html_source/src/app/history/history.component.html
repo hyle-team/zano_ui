@@ -1,220 +1,319 @@
-<div class="history-wrap"
-		 fxFlexFill
-		 fxLayout="column">
-	<div class="wrap-table scrolled-content mb-2"
-			 fxFlex="1 1 auto">
-		<table class="history-table">
-			<thead>
-			<tr #head
-					(window:resize)="calculateWidth()">
-				<th>
-					<div class="bg title">{{ 'HISTORY.STATUS' | translate }}</div>
-				</th>
-				<th>
-					<div class="bg title">{{ 'HISTORY.AMOUNT' | translate }}</div>
-				</th>
-				<th>
-					<div class="bg title">{{ 'HISTORY.FEE' | translate }}</div>
-				</th>
-				<th>
-					<div class="bg title">{{ 'HISTORY.ADDRESS' | translate }}</div>
-				</th>
-				<th>
-					<div class="bg title">{{ 'HISTORY.DATE' | translate }}</div>
-				</th>
-			</tr>
-			<div class="row-divider"></div>
-			</thead>
-			<tbody>
-			<ng-container *ngFor="let item of variablesService.currentWallet.history">
-				<tr (click)="openDetails(item.tx_hash)"
-						[class.locked-transaction]="!item.is_mining && item.unlock_time > 0">
-					<td>
-						<div [ngClass]="item.is_income ? 'received' : 'send'"
-								 class="status text-ellipsis"
-								 fxLayout="row"
-								 fxLayoutAlign=" center">
-							<ng-container *ngIf="getHeight(item) < 10">
-								<svg [delay]="500"
-										 class="confirmation mr-1"
-										 placement="bottom-left"
-										 style="transform: rotateZ(-90deg)"
-										 tooltip="{{ 'HISTORY.STATUS_TOOLTIP' | translate : {'current': getHeight(item), 'total': 10} }}"
-										 tooltipClass="table-tooltip">
-									<circle cx="50%"
-													cy="50%"
-													fill="transparent"
-													r="0.7rem"
-													stroke="rgba(31, 143, 235, 0.33)"
-													stroke-dasharray="100"
-													stroke-dashoffset="0"
-													stroke-width="0.3rem">
-									</circle>
-									<circle [style.stroke-dashoffset]="strokeSize(item)"
-													[style.stroke]="item.is_income ? '#16d1d6' : '#1f8feb'"
-													class="progress-circle"
-													cx="50%"
-													cy="50%"
-													fill="transparent"
-													r="0.7rem"
-													stroke-dasharray="4.5rem"
-													stroke-dashoffset="4.5rem"
-													stroke-linecap="round"
-													stroke-width="0.3rem"></circle>
-								</svg>
-							</ng-container>
-							<ng-container *ngIf="getHeight(item) === 10">
-								<img *ngIf="!item.is_income"
-										 alt=""
-										 class="status-transaction mr-1"
-										 src="assets/icons/blue/send.svg">
-								<img *ngIf="item.is_income"
-										 alt=""
-										 class="status-transaction mr-1"
-										 src="assets/icons/aqua/receive.svg">
-							</ng-container>
-							<span
-								class="status-transaction-text">{{ (item.is_income ? 'HISTORY.RECEIVED' : 'HISTORY.SEND') | translate }}</span>
-							<ng-container *ngIf="item.unlock_time !== 0 && item.tx_type !== 6">
-								<ng-container *ngIf="isLocked(item); else unlock">
-									<ng-container *ngIf="item.unlock_time < 500000000">
-										<i [class.position]="variablesService.height_app - item.height < 10 || item.height === 0 && item.timestamp > 0"
-											 [delay]="500"
-											 class="icon lock-transaction mr-1"
-											 placement="bottom-left"
-											 tooltip="{{ 'HISTORY.LOCK_TOOLTIP' | translate : {'date': time(item) | date : 'MM.dd.yy'} }}"
-											 tooltipClass="table-tooltip"></i>
-									</ng-container>
-									<ng-container *ngIf="item.unlock_time > 500000000">
-										<i [class.position]="variablesService.height_app - item.height < 10 || item.height === 0 && item.timestamp > 0"
-											 [delay]="500"
-											 class="icon lock-transaction mr-1"
-											 placement="bottom-left"
-											 tooltip="{{ 'HISTORY.LOCK_TOOLTIP' | translate : {'date': item.unlock_time * 1000 | date : 'MM.dd.yy'} }}"
-											 tooltipClass="table-tooltip"></i>
-									</ng-container>
-								</ng-container>
-								<ng-template #unlock>
-									<i [class.position]="variablesService.height_app - item.height < 10 || item.height === 0 && item.timestamp > 0"
-										 class="icon unlock-transaction mr-1"></i>
-								</ng-template>
-							</ng-container>
-						</div>
-					</td>
-					<td>
-						<div class="text-ellipsis">
-                              <span *ngIf="item.sortAmount && item.sortAmount.toString() !== '0'">
-                                  {{item.sortAmount | intToMoney}}
-																{{variablesService.defaultCurrency}}
-                              </span>
-						</div>
-					</td>
-					<td>
-						<div class="text-ellipsis">
-                            <span *ngIf="item.sortFee && item.sortFee.toString() !== '0'">
-                                {{item.sortFee | intToMoney}}
-															{{variablesService.defaultCurrency}}
-                            </span>
-						</div>
-					</td>
-					<td class="remote-address">
-						<ng-container *ngIf="!(item.tx_type === 0); else walletOrAliases" class="text-ellipsis">
-							<span
-								*ngIf="!(item.tx_type === 0 && item.remote_addresses && item.remote_addresses[0])">
-								{{item | historyTypeMessages}}
-							</span>
-						</ng-container>
-						<ng-template #walletOrAliases>
-							<div *ngIf="item.tx_type === 0 && item.remote_addresses && item.remote_addresses[0] && !item.remote_aliases?.length"
-									 class="text-ellipsis">
-								<span
-									(contextmenu)="variablesService.onContextMenuOnlyCopy($event, item.remote_addresses[0])">
-                                	{{ item.remote_addresses[0] | slice:0:6 }}
-									...{{ item.remote_addresses[0] | slice:-6 }}
-                            	</span>
-							</div>
-							<ng-container *ngIf="item.remote_aliases && item.remote_aliases.length">
-								<div fxLayout="row wrap">
-									<ng-container *ngFor="let alias of item.remote_aliases">
-										<ng-container *ngIf="alias && alias.length">
-											<div (contextmenu)="variablesService.onContextMenuOnlyCopy($event, '@' + alias)"
-													 [class.available]="alias.length >= 1 && alias.length <= 5"
-													 [class.mb-0_5]="item.remote_aliases.length >= 2"
-													 [class.mr-0_5]="item.remote_aliases.length >= 2"
-													 class="alias"
-													 fxLayout="row inline">
-												{{ '@' + alias }}
-											</div>
-										</ng-container>
-									</ng-container>
-								</div>
-							</ng-container>
-						</ng-template>
-					</td>
-					<td>
-						<div class="text-ellipsis">
-							{{item.timestamp * 1000 | date : 'dd-MM-yyyy HH:mm'}}
-						</div>
-					</td>
-				</tr>
-				<div class="row-divider"></div>
-				<tr [class.open]="item.tx_hash === openedDetails"
-						class="details">
-					<td colspan="5">
-						<app-transaction-details *ngIf="item.tx_hash === openedDetails"
-																		 [sizes]="calculatedWidth"
-																		 [transaction]="item"></app-transaction-details>
-					</td>
-				</tr>
-				<div [class.hide]="item.tx_hash !== openedDetails"
-						 class="row-divider"></div>
-			</ng-container>
-			</tbody>
-		</table>
-	</div>
-	<div class="pagination-wrapper">
-		<div class="pagination"
-				 fxLayout="row"
-				 fxLayoutAlign="space-between center">
-			<div class="left"
-					 fxLayout="row"
-					 fxLayoutAlign=" center">
-				<button (click)="setPage(variablesService.currentWallet.currentPage - 1)"
-								[disabled]="variablesService.currentWallet.currentPage === 1 || variablesService.sync_started || wallet"
-								class="btn-icon circle small mr-1">
-					<i class="icon arrow-left-stroke"></i>
-				</button>
+<div class="history-wrap" fxFlexFill fxLayout="column">
+  <div class="wrap-table scrolled-content mb-2" fxFlex="1 1 auto">
+    <table class="history-table">
+      <thead>
+        <tr #head (window:resize)="calculateWidth()">
+          <th>
+            <div class="bg title">{{ 'HISTORY.STATUS' | translate }}</div>
+          </th>
+          <th>
+            <div class="bg title">{{ 'HISTORY.AMOUNT' | translate }}</div>
+          </th>
+          <th>
+            <div class="bg title">{{ 'HISTORY.FEE' | translate }}</div>
+          </th>
+          <th>
+            <div class="bg title">{{ 'HISTORY.ADDRESS' | translate }}</div>
+          </th>
+          <th>
+            <div class="bg title">{{ 'HISTORY.DATE' | translate }}</div>
+          </th>
+        </tr>
+        <div class="row-divider"></div>
+      </thead>
+      <tbody>
+        <ng-container
+          *ngFor="let item of variablesService.currentWallet.history"
+        >
+          <tr
+            (click)="openDetails(item.tx_hash)"
+            [class.locked-transaction]="!item.is_mining && item.unlock_time > 0"
+          >
+            <td>
+              <div
+                [ngClass]="item.is_income ? 'received' : 'send'"
+                class="status text-ellipsis"
+                fxLayout="row"
+                fxLayoutAlign=" center"
+              >
+                <ng-container *ngIf="getHeight(item) < 10">
+                  <svg
+                    [delay]="500"
+                    class="confirmation mr-1"
+                    placement="bottom-left"
+                    style="transform: rotateZ(-90deg)"
+                    tooltip="{{
+                      'HISTORY.STATUS_TOOLTIP'
+                        | translate: { current: getHeight(item), total: 10 }
+                    }}"
+                    tooltipClass="table-tooltip"
+                  >
+                    <circle
+                      cx="50%"
+                      cy="50%"
+                      fill="transparent"
+                      r="0.7rem"
+                      stroke="rgba(31, 143, 235, 0.33)"
+                      stroke-dasharray="100"
+                      stroke-dashoffset="0"
+                      stroke-width="0.3rem"
+                    ></circle>
+                    <circle
+                      [style.stroke-dashoffset]="strokeSize(item)"
+                      [style.stroke]="item.is_income ? '#16d1d6' : '#1f8feb'"
+                      class="progress-circle"
+                      cx="50%"
+                      cy="50%"
+                      fill="transparent"
+                      r="0.7rem"
+                      stroke-dasharray="4.5rem"
+                      stroke-dashoffset="4.5rem"
+                      stroke-linecap="round"
+                      stroke-width="0.3rem"
+                    ></circle>
+                  </svg>
+                </ng-container>
+                <ng-container *ngIf="getHeight(item) === 10">
+                  <img
+                    *ngIf="!item.is_income"
+                    alt=""
+                    class="status-transaction mr-1"
+                    src="assets/icons/blue/send.svg"
+                  />
+                  <img
+                    *ngIf="item.is_income"
+                    alt=""
+                    class="status-transaction mr-1"
+                    src="assets/icons/aqua/receive.svg"
+                  />
+                </ng-container>
+                <span class="status-transaction-text">{{
+                  (item.is_income ? 'HISTORY.RECEIVED' : 'HISTORY.SEND')
+                    | translate
+                }}</span>
+                <ng-container
+                  *ngIf="item.unlock_time !== 0 && item.tx_type !== 6"
+                >
+                  <ng-container *ngIf="isLocked(item); else unlock">
+                    <ng-container *ngIf="item.unlock_time < 500000000">
+                      <i
+                        [class.position]="
+                          variablesService.height_app - item.height < 10 ||
+                          (item.height === 0 && item.timestamp > 0)
+                        "
+                        [delay]="500"
+                        class="icon lock-transaction mr-1"
+                        placement="bottom-left"
+                        tooltip="{{
+                          'HISTORY.LOCK_TOOLTIP'
+                            | translate: { date: time(item) | date: 'MM.dd.yy' }
+                        }}"
+                        tooltipClass="table-tooltip"
+                      ></i>
+                    </ng-container>
+                    <ng-container *ngIf="item.unlock_time > 500000000">
+                      <i
+                        [class.position]="
+                          variablesService.height_app - item.height < 10 ||
+                          (item.height === 0 && item.timestamp > 0)
+                        "
+                        [delay]="500"
+                        class="icon lock-transaction mr-1"
+                        placement="bottom-left"
+                        tooltip="{{
+                          'HISTORY.LOCK_TOOLTIP'
+                            | translate
+                              : {
+                                  date:
+                                    item.unlock_time * 1000 | date: 'MM.dd.yy'
+                                }
+                        }}"
+                        tooltipClass="table-tooltip"
+                      ></i>
+                    </ng-container>
+                  </ng-container>
+                  <ng-template #unlock>
+                    <i
+                      [class.position]="
+                        variablesService.height_app - item.height < 10 ||
+                        (item.height === 0 && item.timestamp > 0)
+                      "
+                      class="icon unlock-transaction mr-1"
+                    ></i>
+                  </ng-template>
+                </ng-container>
+              </div>
+            </td>
+            <td>
+              <div class="text-ellipsis">
+                <span
+                  *ngIf="item.sortAmount && item.sortAmount.toString() !== '0'"
+                >
+                  {{ item.sortAmount | intToMoney }}
+                  {{ variablesService.defaultCurrency }}
+                </span>
+              </div>
+            </td>
+            <td>
+              <div class="text-ellipsis">
+                <span *ngIf="item.sortFee && item.sortFee.toString() !== '0'">
+                  {{ item.sortFee | intToMoney }}
+                  {{ variablesService.defaultCurrency }}
+                </span>
+              </div>
+            </td>
+            <td class="remote-address">
+              <ng-container
+                *ngIf="!(item.tx_type === 0); else walletOrAliases"
+                class="text-ellipsis"
+              >
+                <span
+                  *ngIf="
+                    !(
+                      item.tx_type === 0 &&
+                      item.remote_addresses &&
+                      item.remote_addresses[0]
+                    )
+                  "
+                >
+                  {{ item | historyTypeMessages }}
+                </span>
+              </ng-container>
+              <ng-template #walletOrAliases>
+                <div
+                  *ngIf="
+                    item.tx_type === 0 &&
+                    item.remote_addresses &&
+                    item.remote_addresses[0] &&
+                    !item.remote_aliases?.length
+                  "
+                  class="text-ellipsis"
+                >
+                  <span
+                    (contextmenu)="
+                      variablesService.onContextMenuOnlyCopy(
+                        $event,
+                        item.remote_addresses[0]
+                      )
+                    "
+                  >
+                    {{ item.remote_addresses[0] | slice: 0:6 }}
+                    ...{{ item.remote_addresses[0] | slice: -6 }}
+                  </span>
+                </div>
+                <ng-container
+                  *ngIf="item.remote_aliases && item.remote_aliases.length"
+                >
+                  <div fxLayout="row wrap">
+                    <ng-container *ngFor="let alias of item.remote_aliases">
+                      <ng-container *ngIf="alias && alias.length">
+                        <div
+                          (contextmenu)="
+                            variablesService.onContextMenuOnlyCopy(
+                              $event,
+                              '@' + alias
+                            )
+                          "
+                          [class.available]="
+                            alias.length >= 1 && alias.length <= 5
+                          "
+                          [class.mb-0_5]="item.remote_aliases.length >= 2"
+                          [class.mr-0_5]="item.remote_aliases.length >= 2"
+                          class="alias"
+                          fxLayout="row inline"
+                        >
+                          {{ '@' + alias }}
+                        </div>
+                      </ng-container>
+                    </ng-container>
+                  </div>
+                </ng-container>
+              </ng-template>
+            </td>
+            <td>
+              <div class="text-ellipsis">
+                {{ item.timestamp * 1000 | date: 'dd-MM-yyyy HH:mm' }}
+              </div>
+            </td>
+          </tr>
+          <div class="row-divider"></div>
+          <tr [class.open]="item.tx_hash === openedDetails" class="details">
+            <td colspan="5">
+              <app-transaction-details
+                *ngIf="item.tx_hash === openedDetails"
+                [sizes]="calculatedWidth"
+                [transaction]="item"
+              ></app-transaction-details>
+            </td>
+          </tr>
+          <div
+            [class.hide]="item.tx_hash !== openedDetails"
+            class="row-divider"
+          ></div>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+  <div class="pagination-wrapper">
+    <div class="pagination" fxLayout="row" fxLayoutAlign="space-between center">
+      <div class="left" fxLayout="row" fxLayoutAlign=" center">
+        <button
+          (click)="setPage(variablesService.currentWallet.currentPage - 1)"
+          [disabled]="
+            variablesService.currentWallet.currentPage === 1 ||
+            variablesService.sync_started ||
+            wallet
+          "
+          class="btn-icon circle small mr-1"
+        >
+          <i class="icon arrow-left-stroke"></i>
+        </button>
 
-				<ng-container *ngIf="!mining">
-					<button (click)="setPage(page)"
-									*ngFor="let page of variablesService.currentWallet.pages"
-									[class.color-primary]="variablesService.currentWallet.currentPage === page"
-									class="mr-0_5">{{page}}</button>
-				</ng-container>
+        <ng-container *ngIf="!mining">
+          <button
+            (click)="setPage(page)"
+            *ngFor="let page of variablesService.currentWallet.pages"
+            [class.color-primary]="
+              variablesService.currentWallet.currentPage === page
+            "
+            class="mr-0_5"
+          >
+            {{ page }}
+          </button>
+        </ng-container>
 
-				<ng-container *ngIf="mining">
-					<button (click)="setPage(variablesService.currentWallet.currentPage)"
-									[disabled]="stop_paginate || variablesService.sync_started || wallet"
-									[ngClass]="{ 'color-primary': variablesService.currentWallet.currentPage, 'disabled': variablesService.sync_started || wallet}"
-									class="mr-0_5">
-						{{variablesService.currentWallet.currentPage}}
-					</button>
-				</ng-container>
+        <ng-container *ngIf="mining">
+          <button
+            (click)="setPage(variablesService.currentWallet.currentPage)"
+            [disabled]="
+              stop_paginate || variablesService.sync_started || wallet
+            "
+            [ngClass]="{
+              'color-primary': variablesService.currentWallet.currentPage,
+              disabled: variablesService.sync_started || wallet
+            }"
+            class="mr-0_5"
+          >
+            {{ variablesService.currentWallet.currentPage }}
+          </button>
+        </ng-container>
 
-				<button (click)="setPage(variablesService.currentWallet.currentPage + 1)"
-								[disabled]="stop_paginate || variablesService.sync_started || wallet"
-								class="btn-icon circle small ml-0_5">
-					<i class="icon arrow-right-stroke"></i>
-				</button>
-			</div>
-			<div class="right"
-					 fxLayout="row"
-					 fxLayoutAlign=" center">
-				<span class="switch-text mr-2">Hide mining transactions</span>
-				<app-switch (emitChange)="toggleMiningTransactions()"
-										[disabled]="variablesService.sync_started || !!wallet"
-										[value]="mining"></app-switch>
-			</div>
-		</div>
-	</div>
+        <button
+          (click)="setPage(variablesService.currentWallet.currentPage + 1)"
+          [disabled]="stop_paginate || variablesService.sync_started || wallet"
+          class="btn-icon circle small ml-0_5"
+        >
+          <i class="icon arrow-right-stroke"></i>
+        </button>
+      </div>
+      <div class="right" fxLayout="row" fxLayoutAlign=" center">
+        <span class="switch-text mr-2">Hide mining transactions</span>
+        <app-switch
+          (emitChange)="toggleMiningTransactions()"
+          [disabled]="variablesService.sync_started || !!wallet"
+          [value]="mining"
+        ></app-switch>
+      </div>
+    </div>
+  </div>
 </div>

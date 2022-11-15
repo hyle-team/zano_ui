@@ -1,11 +1,15 @@
 import { Component, EventEmitter, HostBinding, Output } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { VariablesService } from '../../services/variables.service';
 
 @Component({
   selector: 'app-add-custom-token',
   templateUrl: './add-custom-token.component.html',
-  styleUrls: ['./add-custom-token.component.scss']
+  styleUrls: ['./add-custom-token.component.scss'],
 })
 export class AddCustomTokenComponent {
   @HostBinding('class.modal-overlay') modalOverlay = true;
@@ -15,11 +19,13 @@ export class AddCustomTokenComponent {
   @Output() eventSubmit: EventEmitter<string> = new EventEmitter<string>();
 
   formGroup = new UntypedFormGroup({
-    assetID: new UntypedFormControl(null, Validators.compose([Validators.required])),
+    assetID: new UntypedFormControl(
+      null,
+      Validators.compose([Validators.required])
+    ),
   });
 
-  constructor(public variablesService: VariablesService) {
-  }
+  constructor(public variablesService: VariablesService) {}
 
   beforeSubmit(): void {
     if (this.formGroup.invalid) {

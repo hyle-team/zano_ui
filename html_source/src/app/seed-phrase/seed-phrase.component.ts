@@ -4,12 +4,16 @@ import { BackendService } from '../_helpers/services/backend.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VariablesService } from '../_helpers/services/variables.service';
 import { ModalService } from '../_helpers/services/modal.service';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-seed-phrase',
   templateUrl: './seed-phrase.component.html',
-  styleUrls: ['./seed-phrase.component.scss']
+  styleUrls: ['./seed-phrase.component.scss'],
 })
 export class SeedPhraseComponent implements OnInit, OnDestroy {
   queryRouting;
@@ -68,8 +72,7 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
     private backend: BackendService,
     private modalService: ModalService,
     private ngZone: NgZone
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.showSeed = false;
@@ -90,7 +93,7 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
 
   runWallet(): void {
     let exists = false;
-    this.variablesService.wallets.forEach((wallet) => {
+    this.variablesService.wallets.forEach(wallet => {
       if (wallet.address === this.variablesService.opening_wallet.address) {
         exists = true;
       }
@@ -98,7 +101,9 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
     if (!exists) {
       this.backend.runWallet(this.wallet_id, (run_status, run_data) => {
         if (run_status) {
-          this.variablesService.wallets.push(this.variablesService.opening_wallet);
+          this.variablesService.wallets.push(
+            this.variablesService.opening_wallet
+          );
           if (this.variablesService.appPass) {
             this.backend.storeSecureAppData();
           }
@@ -112,7 +117,10 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
       });
     } else {
       this.variablesService.opening_wallet = null;
-      this.modalService.prepareModal('error', 'OPEN_WALLET.WITH_ADDRESS_ALREADY_OPEN');
+      this.modalService.prepareModal(
+        'error',
+        'OPEN_WALLET.WITH_ADDRESS_ALREADY_OPEN'
+      );
       this.backend.closeWallet(this.wallet_id, () => {
         this.ngZone.run(() => {
           this.router.navigate(['/']);

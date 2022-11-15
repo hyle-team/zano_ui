@@ -5,9 +5,6 @@ import { ShortStringPipe } from './short-string.pipe';
 @NgModule({
   declarations: [ShortStringPipe],
   exports: [ShortStringPipe],
-  imports: [
-    CommonModule
-  ]
+  imports: [CommonModule],
 })
-export class ShortStringPipeModule {
-}
+export class ShortStringPipeModule {}

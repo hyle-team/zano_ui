@@ -1,10 +1,16 @@
-import { ApplicationRef, ComponentFactoryResolver, EmbeddedViewRef, Injectable, Injector, NgZone } from '@angular/core';
+import {
+  ApplicationRef,
+  ComponentFactoryResolver,
+  EmbeddedViewRef,
+  Injectable,
+  Injector,
+  NgZone,
+} from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ModalContainerComponent } from '../modals/modal-container/modal-container.component';
 
 @Injectable()
 export class ModalService {
-
   private components: any[] = [];
 
   constructor(
@@ -13,16 +19,19 @@ export class ModalService {
     private injector: Injector,
     private ngZone: NgZone,
     private translate: TranslateService
-  ) {
-  }
+  ) {}
 
   prepareModal(type, message) {
     const length = this.components.push(
-      this.componentFactoryResolver.resolveComponentFactory(ModalContainerComponent).create(this.injector)
+      this.componentFactoryResolver
+        .resolveComponentFactory(ModalContainerComponent)
+        .create(this.injector)
     );
 
     this.components[length - 1].instance['type'] = type;
-    this.components[length - 1].instance['message'] = message.length ? this.translate.instant(message) : '';
+    this.components[length - 1].instance['message'] = message.length
+      ? this.translate.instant(message)
+      : '';
     this.components[length - 1].instance['close'].subscribe(() => {
       this.removeModal(length - 1);
     });
@@ -35,7 +44,8 @@ export class ModalService {
   appendModal(index) {
     setTimeout(() => {
       this.appRef.attachView(this.components[index].hostView);
-      const domElem = (this.components[index].hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
+      const domElem = (this.components[index].hostView as EmbeddedViewRef<any>)
+        .rootNodes[0] as HTMLElement;
       document.body.appendChild(domElem);
     });
   }

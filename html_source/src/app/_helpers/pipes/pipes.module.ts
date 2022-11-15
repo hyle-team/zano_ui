@@ -8,12 +8,30 @@ import { ContractTimeLeftPipe } from './contract-time-left.pipe';
 import { ContractStatusMessagesPipe } from './contract-status-messages.pipe';
 
 @NgModule({
-  declarations: [IntToMoneyPipe, SafeHTMLPipe, MoneyToIntPipe, HistoryTypeMessagesPipe, ContractTimeLeftPipe, ContractStatusMessagesPipe],
-  imports: [
-    CommonModule
+  declarations: [
+    IntToMoneyPipe,
+    SafeHTMLPipe,
+    MoneyToIntPipe,
+    HistoryTypeMessagesPipe,
+    ContractTimeLeftPipe,
+    ContractStatusMessagesPipe,
   ],
-  exports: [IntToMoneyPipe, SafeHTMLPipe, MoneyToIntPipe, HistoryTypeMessagesPipe, ContractTimeLeftPipe, ContractStatusMessagesPipe],
-  providers: [IntToMoneyPipe, SafeHTMLPipe, MoneyToIntPipe, HistoryTypeMessagesPipe, ContractTimeLeftPipe, ContractStatusMessagesPipe]
+  imports: [CommonModule],
+  exports: [
+    IntToMoneyPipe,
+    SafeHTMLPipe,
+    MoneyToIntPipe,
+    HistoryTypeMessagesPipe,
+    ContractTimeLeftPipe,
+    ContractStatusMessagesPipe,
+  ],
+  providers: [
+    IntToMoneyPipe,
+    SafeHTMLPipe,
+    MoneyToIntPipe,
+    HistoryTypeMessagesPipe,
+    ContractTimeLeftPipe,
+    ContractStatusMessagesPipe,
+  ],
 })
-export class PipesModule {
-}
+export class PipesModule {}

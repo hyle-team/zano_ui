@@ -1,183 +1,245 @@
 <div class="page-container">
+  <div class="toolbar mb-2">
+    <div class="left">
+      <button (click)="back()" class="btn-icon circle big mr-2" type="button">
+        <i class="icon dropdown-arrow-left"></i>
+      </button>
+      <h1>{{ 'SETTINGS.TITLE' | translate }}</h1>
+    </div>
+    <div class="right"></div>
+  </div>
 
-	<div class="toolbar mb-2">
-		<div class="left">
-			<button (click)="back()"
-							class="btn-icon circle big mr-2"
-							type="button">
-				<i class="icon dropdown-arrow-left"></i>
-			</button>
-			<h1>{{ 'SETTINGS.TITLE' | translate }}</h1>
-		</div>
-		<div class="right"></div>
-	</div>
+  <div class="page-content">
+    <div class="scrolled-content">
+      <div
+        class="settings"
+        fxFlex="0 1 50rem"
+        fxFlexFill
+        fxLayout="column"
+        fxLayoutAlign="start stretch"
+        fxLayoutGap="2rem"
+      >
+        <div class="form__field">
+          <label>{{ 'SETTINGS.LANGUAGE.TITLE' | translate }}</label>
+          <ng-select
+            (change)="onLanguageChange()"
+            [(ngModel)]="variablesService.settings.language"
+            [clearable]="false"
+            [items]="languagesOptions"
+            [searchable]="false"
+            bindLabel="language"
+            bindValue="name"
+            class="with-circle"
+          >
+            <ng-template let-item="item" ng-label-tmp>
+              {{ item.language | translate }}
+            </ng-template>
+            <ng-template let-index="index" let-item="item" ng-option-tmp>
+              {{ item.language | translate }}
+            </ng-template>
+          </ng-select>
+        </div>
 
-	<div class="page-content">
-		<div class="scrolled-content">
-			<div class="settings"
-					 fxFlex="0 1 50rem"
-					 fxFlexFill
-					 fxLayout="column"
-					 fxLayoutAlign="start stretch"
-					 fxLayoutGap="2rem">
-				<div class="form__field">
-					<label>{{ 'SETTINGS.LANGUAGE.TITLE' | translate }}</label>
-					<ng-select (change)="onLanguageChange()"
-										 [(ngModel)]="variablesService.settings.language"
-										 [clearable]="false"
-										 [items]="languagesOptions"
-										 [searchable]="false"
-										 bindLabel="language"
-										 bindValue="name"
-										 class="with-circle">
-						<ng-template let-item="item"
-												 ng-label-tmp>
-							{{item.language | translate}}
-						</ng-template>
-						<ng-template let-index="index"
-												 let-item="item"
-												 ng-option-tmp>
-							{{item.language | translate}}
-						</ng-template>
-					</ng-select>
-				</div>
+        <div class="form__field">
+          <label>{{ 'SETTINGS.APP_LOCK.TITLE' | translate }}</label>
+          <ng-select
+            (change)="onLockChange()"
+            [(ngModel)]="variablesService.settings.appLockTime"
+            [clearable]="false"
+            [items]="appLockOptions"
+            [searchable]="false"
+            bindLabel="name"
+            bindValue="id"
+            class="with-circle"
+          >
+            <ng-template let-item="item" ng-label-tmp>
+              {{ item.name | translate }}
+            </ng-template>
+            <ng-template let-index="index" let-item="item" ng-option-tmp>
+              {{ item.name | translate }}
+            </ng-template>
+          </ng-select>
+        </div>
 
-				<div class="form__field">
-					<label>{{ 'SETTINGS.APP_LOCK.TITLE' | translate }}</label>
-					<ng-select (change)="onLockChange()"
-										 [(ngModel)]="variablesService.settings.appLockTime"
-										 [clearable]="false"
-										 [items]="appLockOptions"
-										 [searchable]="false"
-										 bindLabel="name"
-										 bindValue="id"
-										 class="with-circle">
-						<ng-template let-item="item"
-												 ng-label-tmp>
-							{{item.name | translate}}
-						</ng-template>
-						<ng-template let-index="index"
-												 let-item="item"
-												 ng-option-tmp>
-							{{item.name | translate}}
-						</ng-template>
-					</ng-select>
-				</div>
+        <div class="form__field">
+          <label>{{ 'SETTINGS.SCALE.TITLE' | translate }}</label>
+          <ng-select
+            (change)="setScale()"
+            [(ngModel)]="variablesService.settings.scale"
+            [clearable]="false"
+            [items]="appScaleOptions"
+            [searchable]="false"
+            bindLabel="name"
+            bindValue="value"
+            class="with-circle"
+          >
+            <ng-template let-item="item" ng-label-tmp>
+              {{ item.name | translate }}
+            </ng-template>
+            <ng-template let-index="index" let-item="item" ng-option-tmp>
+              {{ item.name | translate }}
+            </ng-template>
+          </ng-select>
+        </div>
 
-				<div class="form__field">
-					<label>{{ 'SETTINGS.SCALE.TITLE' | translate }}</label>
-					<ng-select (change)="setScale()"
-										 [(ngModel)]="variablesService.settings.scale"
-										 [clearable]="false"
-										 [items]="appScaleOptions"
-										 [searchable]="false"
-										 bindLabel="name"
-										 bindValue="value"
-										 class="with-circle">
-						<ng-template let-item="item"
-												 ng-label-tmp>
-							{{item.name | translate}}
-						</ng-template>
-						<ng-template let-index="index"
-												 let-item="item"
-												 ng-option-tmp>
-							{{item.name | translate}}
-						</ng-template>
-					</ng-select>
-				</div>
+        <div class="form__field">
+          <label>{{ 'SETTINGS.APP_LOG_TITLE' | translate }}</label>
+          <ng-select
+            (change)="onLogChange()"
+            [(ngModel)]="variablesService.settings.appLog"
+            [clearable]="false"
+            [items]="appLogOptions"
+            [searchable]="false"
+            bindLabel="id"
+            bindValue="id"
+            class="with-circle"
+          >
+          </ng-select>
+        </div>
 
-				<div class="form__field">
-					<label>{{ 'SETTINGS.APP_LOG_TITLE' | translate }}</label>
-					<ng-select (change)="onLogChange()"
-										 [(ngModel)]="variablesService.settings.appLog"
-										 [clearable]="false"
-										 [items]="appLogOptions"
-										 [searchable]="false"
-										 bindLabel="id"
-										 bindValue="id"
-										 class="with-circle">
-					</ng-select>
-				</div>
+        <div class="form__field">
+          <label>{{ 'SETTINGS.NOTIFICATIONS' | translate }}</label>
+          <app-switch
+            (emitChange)="toggleNotifications()"
+            [value]="currentNotificationsState"
+          ></app-switch>
+        </div>
 
-				<div class="form__field">
-					<label>{{ 'SETTINGS.NOTIFICATIONS' | translate }}</label>
-					<app-switch
-						(emitChange)="toggleNotifications()"
-						[value]="currentNotificationsState"></app-switch>
-				</div>
+        <div class="form__field">
+          <label>{{
+            'SETTINGS.USE_TOR_TO_RELAY_TRANSACTIONS' | translate
+          }}</label>
+          <app-switch
+            (emitChange)="toggleUseTor()"
+            [value]="appUseTor"
+          ></app-switch>
+        </div>
 
-				<div class="form__field">
-					<label>{{ 'SETTINGS.USE_TOR_TO_RELAY_TRANSACTIONS' | translate }}</label>
-					<app-switch
-						(emitChange)="toggleUseTor()"
-						[value]="appUseTor"></app-switch>
-				</div>
+        <form
+          (ngSubmit)="onSubmitChangePass()"
+          [formGroup]="changeForm"
+          class="form"
+        >
+          <h4 class="master-password-title mb-2">
+            {{ 'SETTINGS.MASTER_PASSWORD.TITLE' | translate }}
+          </h4>
 
-				<form (ngSubmit)="onSubmitChangePass()"
-							[formGroup]="changeForm"
-							class="form">
+          <div *ngIf="variablesService.appPass" class="form__field">
+            <label for="old-password">{{
+              'SETTINGS.MASTER_PASSWORD.OLD' | translate
+            }}</label>
+            <input
+              (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
+              [class.invalid]="
+                changeForm.invalid &&
+                changeForm.controls['password'].valid &&
+                (changeForm.controls['password'].dirty ||
+                  changeForm.controls['password'].touched) &&
+                changeForm.errors &&
+                changeForm.errors['pass_mismatch'] &&
+                changeForm.get('password').value.length > 0
+              "
+              class="form__field--input"
+              formControlName="password"
+              id="old-password"
+              placeholder="{{ 'PLACEHOLDERS.PLACEHOLDER_OLD' | translate }}"
+              type="password"
+            />
+            <div
+              *ngIf="
+                changeForm.invalid &&
+                changeForm.controls['password'].valid &&
+                (changeForm.controls['password'].dirty ||
+                  changeForm.controls['password'].touched) &&
+                changeForm.errors &&
+                changeForm.errors['pass_mismatch'] &&
+                changeForm.get('password').value.length > 0
+              "
+              class="error"
+            >
+              {{ 'SETTINGS.FORM_ERRORS.PASS_NOT_MATCH' | translate }}
+            </div>
+          </div>
 
-					<h4 class="master-password-title mb-2">{{ 'SETTINGS.MASTER_PASSWORD.TITLE' | translate }}</h4>
+          <div class="form__field">
+            <label for="new-password">{{
+              'SETTINGS.MASTER_PASSWORD.NEW' | translate
+            }}</label>
+            <input
+              (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
+              [class.invalid]="changeForm.controls['new_password'].errors"
+              class="form__field--input"
+              formControlName="new_password"
+              id="new-password"
+              placeholder="{{ 'PLACEHOLDERS.PLACEHOLDER_NEW' | translate }}"
+              type="password"
+            />
+            <div
+              *ngIf="
+                changeForm.controls['new_password'].dirty &&
+                changeForm.controls['new_password'].errors
+              "
+              class="error"
+            >
+              <div *ngIf="changeForm.controls['new_password'].errors?.pattern">
+                {{ 'ERRORS.WRONG_PASSWORD' | translate }}
+              </div>
+            </div>
+          </div>
 
-					<div *ngIf="variablesService.appPass"
-							 class="form__field">
-						<label for="old-password">{{ 'SETTINGS.MASTER_PASSWORD.OLD' | translate }}</label>
-						<input (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
-									 [class.invalid]="changeForm.invalid && changeForm.controls['password'].valid && (changeForm.controls['password'].dirty || changeForm.controls['password'].touched) && changeForm.errors && changeForm.errors['pass_mismatch'] && changeForm.get('password').value.length > 0"
-									 class="form__field--input"
-									 formControlName="password"
-									 id="old-password"
-									 placeholder="{{ 'PLACEHOLDERS.PLACEHOLDER_OLD' | translate }}"
-									 type="password"/>
-						<div *ngIf="changeForm.invalid && changeForm.controls['password'].valid && (changeForm.controls['password'].dirty || changeForm.controls['password'].touched) && changeForm.errors && changeForm.errors['pass_mismatch'] && changeForm.get('password').value.length > 0"
-								 class="error">
-							{{ 'SETTINGS.FORM_ERRORS.PASS_NOT_MATCH' | translate }}
-						</div>
-					</div>
+          <div class="form__field">
+            <label for="confirm-password">{{
+              'SETTINGS.MASTER_PASSWORD.CONFIRM' | translate
+            }}</label>
+            <input
+              (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
+              [class.invalid]="
+                changeForm.invalid &&
+                (changeForm.controls['new_confirmation'].dirty ||
+                  changeForm.controls['new_confirmation'].touched) &&
+                changeForm.errors &&
+                changeForm.errors['confirm_mismatch'] &&
+                changeForm.get('new_confirmation').value.length > 0
+              "
+              class="form__field--input"
+              formControlName="new_confirmation"
+              id="confirm-password"
+              placeholder="{{ 'PLACEHOLDERS.PLACEHOLDER_CONFIRM' | translate }}"
+              type="password"
+            />
+            <div
+              *ngIf="
+                changeForm.invalid &&
+                (changeForm.controls['new_confirmation'].dirty ||
+                  changeForm.controls['new_confirmation'].touched) &&
+                changeForm.errors &&
+                changeForm.errors['confirm_mismatch'] &&
+                changeForm.get('new_confirmation').value.length > 0
+              "
+              class="error"
+            >
+              {{ 'SETTINGS.FORM_ERRORS.CONFIRM_NOT_MATCH' | translate }}
+            </div>
+          </div>
 
-					<div class="form__field">
-						<label for="new-password">{{ 'SETTINGS.MASTER_PASSWORD.NEW' | translate }}</label>
-						<input (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
-									 [class.invalid]="changeForm.controls['new_password'].errors"
-									 class="form__field--input"
-									 formControlName="new_password"
-									 id="new-password"
-									 placeholder="{{ 'PLACEHOLDERS.PLACEHOLDER_NEW' | translate }}"
-									 type="password"/>
-						<div *ngIf="changeForm.controls['new_password'].dirty && changeForm.controls['new_password'].errors"
-								 class="error">
-							<div *ngIf="changeForm.controls['new_password'].errors.pattern">
-								{{ 'ERRORS.WRONG_PASSWORD' | translate }}
-							</div>
-						</div>
-					</div>
-
-					<div class="form__field">
-						<label for="confirm-password">{{ 'SETTINGS.MASTER_PASSWORD.CONFIRM' | translate }}</label>
-						<input (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
-									 [class.invalid]="changeForm.invalid && (changeForm.controls['new_confirmation'].dirty || changeForm.controls['new_confirmation'].touched) && changeForm.errors && changeForm.errors['confirm_mismatch'] && changeForm.get('new_confirmation').value.length > 0"
-									 class="form__field--input"
-									 formControlName="new_confirmation"
-									 id="confirm-password"
-									 placeholder="{{ 'PLACEHOLDERS.PLACEHOLDER_CONFIRM' | translate }}"
-									 type="password"/>
-						<div *ngIf="changeForm.invalid && (changeForm.controls['new_confirmation'].dirty || changeForm.controls['new_confirmation'].touched) && changeForm.errors && changeForm.errors['confirm_mismatch'] && changeForm.get('new_confirmation').value.length > 0"
-								 class="error">
-							{{ 'SETTINGS.FORM_ERRORS.CONFIRM_NOT_MATCH' | translate }}
-						</div>
-					</div>
-
-					<div class="submit-button-container">
-						<button [disabled]="!changeForm.valid"
-										class="primary big max-w-19-rem w-100"
-										type="submit">{{ 'SETTINGS.MASTER_PASSWORD.BUTTON' | translate }}</button>
-						<span *ngIf="ifSaved"
-									[class.active]="ifSaved"
-									class="ml-1 color-aqua">{{ 'SETTINGS.SETTINGS_SAVED' | translate }}</span>
-					</div>
-				</form>
-				<p>Build version: {{ currentBuild }}</p>
-			</div>
-		</div>
-	</div>
+          <div class="submit-button-container">
+            <button
+              [disabled]="!changeForm.valid"
+              class="primary big max-w-19-rem w-100"
+              type="submit"
+            >
+              {{ 'SETTINGS.MASTER_PASSWORD.BUTTON' | translate }}
+            </button>
+            <span
+              *ngIf="ifSaved"
+              [class.active]="ifSaved"
+              class="ml-1 color-aqua"
+              >{{ 'SETTINGS.SETTINGS_SAVED' | translate }}</span
+            >
+          </div>
+        </form>
+        <p>Build version: {{ currentBuild }}</p>
+      </div>
+    </div>
+  </div>
 </div>

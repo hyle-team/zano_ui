@@ -1,77 +1,75 @@
 <div class="card-token">
-	<div class="card-token-logo mr-1">
-		<img [src]="assetInfo?.logo || defaultImgSrc"
-				 [alt]="assetInfo?.ticker"
-				 defaultImgAlt="default"
-				 [defaultImgSrc]="defaultImgSrc"
-				 zanoDefaultImg>
-	</div>
-	<div class="card-token-body mr-1">
-		<h4 class="title">{{ assetInfo?.title || '---' }}</h4>
-		<p class="sub-title">
-			<span class="balance mr-1">{{ asset.balance }}</span>
-			<span class="ticker">{{ assetInfo?.ticker || '---' }}</span>
-		</p>
-	</div>
-	<div class="card-token-action">
-		<button #trigger="cdkOverlayOrigin"
-						(click)="$event.stopPropagation(); toggleMenuDropdown()"
-						[disabled]="false"
-						cdkOverlayOrigin
-						class="btn-icon circle small"
-						type="button">
-			<i class="icon dots rotate-90"></i>
-		</button>
-	</div>
+  <div class="card-token-logo mr-1">
+    <img
+      [src]="assetInfo?.logo || defaultImgSrc"
+      [alt]="assetInfo?.ticker"
+      defaultImgAlt="default"
+      [defaultImgSrc]="defaultImgSrc"
+      zanoDefaultImg
+    />
+  </div>
+  <div class="card-token-body mr-1">
+    <h4 class="title">{{ assetInfo?.title || '---' }}</h4>
+    <p class="sub-title">
+      <span class="balance mr-1">{{ asset.balance }}</span>
+      <span class="ticker">{{ assetInfo?.ticker || '---' }}</span>
+    </p>
+  </div>
+  <div class="card-token-action">
+    <button
+      #trigger="cdkOverlayOrigin"
+      (click)="$event.stopPropagation(); toggleMenuDropdown()"
+      [disabled]="false"
+      cdkOverlayOrigin
+      class="btn-icon circle small"
+      type="button"
+    >
+      <i class="icon dots rotate-90"></i>
+    </button>
+  </div>
 </div>
 
 <ng-template
-	(backdropClick)="$event.stopPropagation(); (stateMenuDropdown = false)"
-	[cdkConnectedOverlayBackdropClass]="'opacity-0'"
-	[cdkConnectedOverlayHasBackdrop]="true"
-	[cdkConnectedOverlayOpen]="stateMenuDropdown"
-	[cdkConnectedOverlayOrigin]="trigger"
-	[cdkConnectedOverlayPositions]="[{
-				originX: 'end',
-				originY: 'top',
-				overlayX: 'end',
-				overlayY: 'top',
-				offsetY: 60
-			}]"
-	cdkConnectedOverlay
+  (backdropClick)="$event.stopPropagation(); stateMenuDropdown = false"
+  [cdkConnectedOverlayBackdropClass]="'opacity-0'"
+  [cdkConnectedOverlayHasBackdrop]="true"
+  [cdkConnectedOverlayOpen]="stateMenuDropdown"
+  [cdkConnectedOverlayOrigin]="trigger"
+  [cdkConnectedOverlayPositions]="[
+    {
+      originX: 'end',
+      originY: 'top',
+      overlayX: 'end',
+      overlayY: 'top',
+      offsetY: 60
+    }
+  ]"
+  cdkConnectedOverlay
 >
-	<ul (click)="stateMenuDropdown = false" class="list">
-		<li class="item">
-			<button [disabled]="false"
-							class="w-100 px-2 py-1"
-							type="button">
-				<i class="icon temp mr-1"></i>
-				<span>{{ 'Link 1' | translate }}</span>
-			</button>
-		</li>
-		<li class="item">
-			<button [disabled]="false"
-							class="w-100 px-2 py-1"
-							type="button">
-				<i class="icon temp mr-1"></i>
-				<span>{{ 'Link 2' | translate }}</span>
-			</button>
-		</li>
-		<li class="item">
-			<button [disabled]="false"
-							class="w-100 px-2 py-1"
-							type="button">
-				<i class="icon temp mr-1"></i>
-				<span>{{ 'Link 3' | translate }}</span>
-			</button>
-		</li>
-		<li class="item">
-			<button [disabled]="false"
-							class="w-100 px-2 py-1"
-							type="button">
-				<i class="icon delete mr-1"></i>
-				<span>{{ 'Remove from list' | translate }}</span>
-			</button>
-		</li>
-	</ul>
+  <ul (click)="stateMenuDropdown = false" class="list">
+    <li class="item">
+      <button [disabled]="false" class="w-100 px-2 py-1" type="button">
+        <i class="icon temp mr-1"></i>
+        <span>{{ 'Link 1' | translate }}</span>
+      </button>
+    </li>
+    <li class="item">
+      <button [disabled]="false" class="w-100 px-2 py-1" type="button">
+        <i class="icon temp mr-1"></i>
+        <span>{{ 'Link 2' | translate }}</span>
+      </button>
+    </li>
+    <li class="item">
+      <button [disabled]="false" class="w-100 px-2 py-1" type="button">
+        <i class="icon temp mr-1"></i>
+        <span>{{ 'Link 3' | translate }}</span>
+      </button>
+    </li>
+    <li class="item">
+      <button [disabled]="false" class="w-100 px-2 py-1" type="button">
+        <i class="icon delete mr-1"></i>
+        <span>{{ 'Remove from list' | translate }}</span>
+      </button>
+    </li>
+  </ul>
 </ng-template>

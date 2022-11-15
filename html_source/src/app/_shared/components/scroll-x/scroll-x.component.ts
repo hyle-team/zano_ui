@@ -1,18 +1,29 @@
-import { AfterContentChecked, AfterContentInit, Component, ElementRef, HostListener, Input, ViewChild } from '@angular/core';
+import {
+  AfterContentChecked,
+  AfterContentInit,
+  Component,
+  ElementRef,
+  HostListener,
+  Input,
+  ViewChild,
+} from '@angular/core';
 
 const activeClass = 'scroll-item-active';
 
-const scrollIntoViewOptions: ScrollIntoViewOptions = { behavior: 'smooth', inline: 'start' };
+const scrollIntoViewOptions: ScrollIntoViewOptions = {
+  behavior: 'smooth',
+  inline: 'start',
+};
 
 enum Direction {
   left = 'left',
-  right = 'right'
+  right = 'right',
 }
 
 @Component({
   selector: 'app-scroll-x',
   templateUrl: './scroll-x.component.html',
-  styleUrls: ['./scroll-x.component.scss']
+  styleUrls: ['./scroll-x.component.scss'],
 })
 export class ScrollXComponent implements AfterContentInit, AfterContentChecked {
   @ViewChild('scrollMenu', { static: true }) scrollMenu: ElementRef;
@@ -93,12 +104,16 @@ export class ScrollXComponent implements AfterContentInit, AfterContentChecked {
   }
 
   checkScroll(): void {
-    this.scrollMenu.nativeElement.scrollLeft === 0 ? this.leftDisabled = true : this.leftDisabled = false;
+    this.scrollMenu.nativeElement.scrollLeft === 0
+      ? (this.leftDisabled = true)
+      : (this.leftDisabled = false);
 
     const newScrollLeft = this.scrollMenu.nativeElement.scrollLeft;
     const width = this.scrollMenu.nativeElement.clientWidth;
     const scrollWidth = this.scrollMenu.nativeElement.scrollWidth;
-    scrollWidth - (newScrollLeft + width) < 20 ? this.rightDisabled = true : this.rightDisabled = false;
+    scrollWidth - (newScrollLeft + width) < 20
+      ? (this.rightDisabled = true)
+      : (this.rightDisabled = false);
   }
 
   startDragging(e): void {
@@ -129,12 +144,18 @@ export class ScrollXComponent implements AfterContentInit, AfterContentChecked {
 
   private updateActiveClass(): void {
     const scrollLeft = this.scrollMenu.nativeElement.scrollLeft;
-    const nextActiveIndex = this.children.findIndex(({ offsetLeft, offsetWidth }) => {
-      return (offsetLeft >= scrollLeft) && (scrollLeft <= offsetLeft + offsetWidth);
-    });
+    const nextActiveIndex = this.children.findIndex(
+      ({ offsetLeft, offsetWidth }) => {
+        return (
+          offsetLeft >= scrollLeft && scrollLeft <= offsetLeft + offsetWidth
+        );
+      }
+    );
 
     if (nextActiveIndex >= 0) {
-      const activeItem = this.children.find((el) => el.classList.contains(activeClass));
+      const activeItem = this.children.find(el =>
+        el.classList.contains(activeClass)
+      );
       if (activeItem) {
         activeItem.classList.remove(activeClass);
       }
@@ -148,9 +169,17 @@ export class ScrollXComponent implements AfterContentInit, AfterContentChecked {
   private getElToScroll(direction: Direction): HTMLElement {
     const minPosition = 0;
     const maxPosition = this.children.length - 1 || minPosition;
-    const currentPosition = this.children.findIndex((el) => el.classList.contains(activeClass));
-    const calcNewPosition = currentPosition + (direction === Direction.right ? 1 : -1);
-    const nextPosition = calcNewPosition >= minPosition && calcNewPosition <= maxPosition ? calcNewPosition : direction === Direction.right ? maxPosition : minPosition;
+    const currentPosition = this.children.findIndex(el =>
+      el.classList.contains(activeClass)
+    );
+    const calcNewPosition =
+      currentPosition + (direction === Direction.right ? 1 : -1);
+    const nextPosition =
+      calcNewPosition >= minPosition && calcNewPosition <= maxPosition
+        ? calcNewPosition
+        : direction === Direction.right
+        ? maxPosition
+        : minPosition;
     this.children[currentPosition].classList.remove(activeClass);
     const nextEl = this.children[nextPosition];
     nextEl.classList.add(activeClass);

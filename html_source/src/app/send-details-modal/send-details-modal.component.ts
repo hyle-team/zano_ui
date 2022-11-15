@@ -1,5 +1,23 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostBinding, Input, OnDestroy, OnInit, Output, Renderer2, ViewChild } from '@angular/core';
-import { AsyncCommandResults, BackendService, CurrentActionState, ResponseAsyncTransfer, StatusCurrentActionState } from '../_helpers/services/backend.service';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostBinding,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  Renderer2,
+  ViewChild,
+} from '@angular/core';
+import {
+  AsyncCommandResults,
+  BackendService,
+  CurrentActionState,
+  ResponseAsyncTransfer,
+  StatusCurrentActionState,
+} from '../_helpers/services/backend.service';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { VariablesService } from '../_helpers/services/variables.service';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -12,16 +30,19 @@ const successfulStatuses: string[] = [
   StatusCurrentActionState.STATE_MAKING_TUNNEL_A,
   StatusCurrentActionState.STATE_MAKING_TUNNEL_B,
   StatusCurrentActionState.STATE_CREATING_STREAM,
-  StatusCurrentActionState.STATE_SUCCESS
+  StatusCurrentActionState.STATE_SUCCESS,
 ];
 
-const failedStatuses: string[] = [StatusCurrentActionState.STATE_SEND_FAILED, StatusCurrentActionState.STATE_FAILED];
+const failedStatuses: string[] = [
+  StatusCurrentActionState.STATE_SEND_FAILED,
+  StatusCurrentActionState.STATE_FAILED,
+];
 
 @Component({
   selector: 'app-send-details-modal',
   templateUrl: './send-details-modal.component.html',
   styleUrls: ['./send-details-modal.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SendDetailsModalComponent implements OnInit, OnDestroy {
   @HostBinding('class.modal-overlay') modalOverlay = true;
@@ -50,8 +71,8 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
   constructor(
     private backendService: BackendService,
     private variablesService: VariablesService,
-    private renderer: Renderer2) {
-  }
+    private renderer: Renderer2
+  ) {}
 
   get currentActionState(): CurrentActionState {
     return this.currentActionState$.value;
@@ -63,22 +84,35 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
 
   /** True, if currentActionState.status = success */
   get isSentSuccess(): boolean {
-    return this.currentActionState && this.currentActionState.status === StatusCurrentActionState.STATE_SENT_SUCCESS;
+    return (
+      this.currentActionState &&
+      this.currentActionState.status ===
+        StatusCurrentActionState.STATE_SENT_SUCCESS
+    );
   }
 
   /** True, if currentActionState.status = failed */
   get isSentFailed(): boolean {
-    return this.currentActionState && this.currentActionState.status === StatusCurrentActionState.STATE_SEND_FAILED;
+    return (
+      this.currentActionState &&
+      this.currentActionState.status ===
+        StatusCurrentActionState.STATE_SEND_FAILED
+    );
   }
 
   /** True, responseData$ or currentActionStates$ not empty */
   get isDetailsNotEmpty(): boolean {
-    return !!(this.responseData$.value || (this.currentActionStates$.value.length > 0));
+    return !!(
+      this.responseData$.value || this.currentActionStates$.value.length > 0
+    );
   }
 
   ngOnInit(): void {
     this.renderer.addClass(document.body, 'no-scroll');
-    const { currentWallet: { wallet_id }, settings: { appUseTor } } = this.variablesService;
+    const {
+      currentWallet: { wallet_id },
+      settings: { appUseTor },
+    } = this.variablesService;
 
     if (appUseTor) {
       /** Listening handleCurrentActionState */
@@ -86,35 +120,52 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
         .pipe(takeUntil(this.destroy$))
         .subscribe((currentActionState: CurrentActionState) => {
           this.currentActionState$.next(currentActionState);
-          this.currentActionStates$.next([...this.currentActionStates, currentActionState]);
+          this.currentActionStates$.next([
+            ...this.currentActionStates,
+            currentActionState,
+          ]);
         });
     } else {
       const actionState: CurrentActionState = {
         status: StatusCurrentActionState.STATE_INITIALIZING,
-        wallet_id
+        wallet_id,
       };
       this.currentActionState$.next(actionState);
-      this.currentActionStates$.next([...this.currentActionStates, actionState]);
+      this.currentActionStates$.next([
+        ...this.currentActionStates,
+        actionState,
+      ]);
     }
 
     /** Listening dispatchAsyncCallResult */
     this.backendService.dispatchAsyncCallResult$
       .pipe(
-        filter(({ job_id, response }: AsyncCommandResults) => this.job_id === job_id && !!response),
+        filter(
+          ({ job_id, response }: AsyncCommandResults) =>
+            this.job_id === job_id && !!response
+        ),
         takeUntil(this.destroy$)
-      ).subscribe(({ response }: AsyncCommandResults) => {
-      const { response_data: { success } } = response;
-      if (!appUseTor || !success) {
-        const actionState: CurrentActionState = {
-          status: success ? StatusCurrentActionState.STATE_SENT_SUCCESS : StatusCurrentActionState.STATE_SEND_FAILED,
-          wallet_id
-        };
-        this.currentActionState$.next(actionState);
-        this.currentActionStates$.next([...this.currentActionStates, actionState]);
-      }
+      )
+      .subscribe(({ response }: AsyncCommandResults) => {
+        const {
+          response_data: { success },
+        } = response;
+        if (!appUseTor || !success) {
+          const actionState: CurrentActionState = {
+            status: success
+              ? StatusCurrentActionState.STATE_SENT_SUCCESS
+              : StatusCurrentActionState.STATE_SEND_FAILED,
+            wallet_id,
+          };
+          this.currentActionState$.next(actionState);
+          this.currentActionStates$.next([
+            ...this.currentActionStates,
+            actionState,
+          ]);
+        }
 
-      this.responseData$.next(response);
-    });
+        this.responseData$.next(response);
+      });
   }
 
   ngOnDestroy(): void {

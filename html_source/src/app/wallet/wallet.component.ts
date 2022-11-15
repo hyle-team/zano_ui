@@ -1,4 +1,10 @@
-import { Component, HostListener, NgZone, OnDestroy, OnInit, } from '@angular/core';
+import {
+  Component,
+  HostListener,
+  NgZone,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VariablesService } from '../_helpers/services/variables.service';
 import { BackendService } from '../_helpers/services/backend.service';
@@ -38,37 +44,39 @@ export class WalletComponent implements OnInit, OnDestroy {
       title: 'WALLET.TABS.HISTORY',
       icon: 'time-circle',
       link: '/history',
-      disabled: false
+      disabled: false,
     },
     {
       title: 'WALLET.TABS.SEND',
       icon: 'arrow-up-square',
       link: '/send',
-      disabled: true
+      disabled: true,
     },
     {
       title: 'WALLET.TABS.RECEIVE',
       icon: 'arrow-down-square',
       link: '/receive',
-      disabled: false
+      disabled: false,
     },
     {
       title: 'WALLET.TABS.CONTRACTS',
       icon: 'document',
       link: '/contracts',
-      disabled: true
+      disabled: true,
     },
     {
       title: 'WALLET.TABS.STAKING',
       icon: 'staking',
       link: '/staking',
       indicator: false,
-      disabled: true
+      disabled: true,
     },
   ];
 
   get assetsInfo$(): Observable<AssetsInfo | null | undefined> {
-    return this.store.select<AssetsInfo | null | undefined>(StateKeys.assetsInfo);
+    return this.store.select<AssetsInfo | null | undefined>(
+      StateKeys.assetsInfo
+    );
   }
 
   private destroy$ = new Subject<void>();
@@ -83,7 +91,10 @@ export class WalletComponent implements OnInit, OnDestroy {
     private intToMoneyPipe: IntToMoneyPipe,
     private store: Store
   ) {
-    if (!this.variablesService.currentWallet && this.variablesService.wallets.length > 0) {
+    if (
+      !this.variablesService.currentWallet &&
+      this.variablesService.wallets.length > 0
+    ) {
       this.variablesService.setCurrentWallet(0);
     }
     this.walletLoaded = this.variablesService.currentWallet.loaded;
@@ -105,7 +116,10 @@ export class WalletComponent implements OnInit, OnDestroy {
 
   @HostListener('document:click', ['$event.target'])
   onClick(targetElement): void {
-    if (targetElement.dataset.target !== 'wallet-dropdown-button' && this.openDropdown) {
+    if (
+      targetElement.dataset.target !== 'wallet-dropdown-button' &&
+      this.openDropdown
+    ) {
       this.openDropdown = false;
       this.walletSyncVisible = false;
     }
@@ -124,13 +138,14 @@ export class WalletComponent implements OnInit, OnDestroy {
       .pipe(filter(Boolean), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((value: any) => {
         const data = value.filter(
-          (item: Sync) => item.wallet_id === this.variablesService.currentWallet.wallet_id
+          (item: Sync) =>
+            item.wallet_id === this.variablesService.currentWallet.wallet_id
         )[0];
         if (data && !data.sync) {
           let in_progress;
           const values = this.store.state.sync;
-          if (values && (values.length > 0)) {
-            in_progress = values.filter((item) => item.sync);
+          if (values && values.length > 0) {
+            in_progress = values.filter(item => item.sync);
             this.variablesService.sync_started = !!(
               in_progress && in_progress.length
             );
@@ -145,17 +160,19 @@ export class WalletComponent implements OnInit, OnDestroy {
     if (this.variablesService.currentWallet.alias.hasOwnProperty('name')) {
       this.variablesService.currentWallet.wakeAlias = false;
     }
-    this.variablesService.getAliasChangedEvent.pipe(takeUntil(this.destroy$)).subscribe(
-      () => {
+    this.variablesService.getAliasChangedEvent
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
         if (this.variablesService.currentWallet.alias.hasOwnProperty('name')) {
           this.variablesService.currentWallet.wakeAlias = false;
         }
-      }
-    );
+      });
     this.updateWalletStatus();
-    this.variablesService.getWalletChangedEvent.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      this.setTabsDisabled(this.variablesService.currentWallet.balance.eq(0));
-    });
+    this.variablesService.getWalletChangedEvent
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.setTabsDisabled(this.variablesService.currentWallet.balance.eq(0));
+      });
   }
 
   toggleMenuDropdown(): void {
@@ -192,13 +209,17 @@ export class WalletComponent implements OnInit, OnDestroy {
   closeWallet(wallet_id): void {
     this.backend.closeWallet(wallet_id, () => {
       for (let i = this.variablesService.wallets.length - 1; i >= 0; i--) {
-        if (this.variablesService.wallets[i].wallet_id === this.variablesService.currentWallet.wallet_id) {
+        if (
+          this.variablesService.wallets[i].wallet_id ===
+          this.variablesService.currentWallet.wallet_id
+        ) {
           this.variablesService.wallets.splice(i, 1);
         }
       }
       this.ngZone.run(() => {
         if (this.variablesService.wallets.length > 0) {
-          this.variablesService.currentWallet = this.variablesService.wallets[0];
+          this.variablesService.currentWallet =
+            this.variablesService.wallets[0];
           this.router.navigate(['/wallet/']);
         } else {
           this.router.navigate(['/']);
@@ -215,9 +236,8 @@ export class WalletComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-
   updateWalletStatus(): void {
-    this.backend.eventSubscribe('wallet_sync_progress', (data) => {
+    this.backend.eventSubscribe('wallet_sync_progress', data => {
       const wallet_id = data.wallet_id;
       if (wallet_id === this.variablesService.currentWallet.wallet_id) {
         this.ngZone.run(() => {
@@ -225,14 +245,22 @@ export class WalletComponent implements OnInit, OnDestroy {
         });
       }
     });
-    this.backend.eventSubscribe('update_wallet_status', (data) => {
+    this.backend.eventSubscribe('update_wallet_status', data => {
       const wallet_state = data.wallet_state;
       const wallet_id = data.wallet_id;
       this.ngZone.run(() => {
-        if (wallet_state === 2 && wallet_id === this.variablesService.currentWallet.wallet_id) {
-          this.walletLoaded = this.variablesService.getWallet(this.variablesService.currentWallet.wallet_id)?.loaded || false;
+        if (
+          wallet_state === 2 &&
+          wallet_id === this.variablesService.currentWallet.wallet_id
+        ) {
+          this.walletLoaded =
+            this.variablesService.getWallet(
+              this.variablesService.currentWallet.wallet_id
+            )?.loaded || false;
           if (this.walletLoaded) {
-            this.setTabsDisabled(this.variablesService.currentWallet.balance.eq(0));
+            this.setTabsDisabled(
+              this.variablesService.currentWallet.balance.eq(0)
+            );
           }
         } else {
           this.walletLoaded = false;

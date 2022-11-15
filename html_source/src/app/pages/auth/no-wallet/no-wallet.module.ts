@@ -13,8 +13,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     NoWalletRoutingModule,
     TranslateModule,
     FlexLayoutModule,
-    SynchronizationStatusModule
-  ]
+    SynchronizationStatusModule,
+  ],
 })
-export class NoWalletModule {
-}
+export class NoWalletModule {}

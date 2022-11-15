@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-export-import',
   templateUrl: './export-import.component.html',
-  styleUrls: ['./export-import.component.scss']
+  styleUrls: ['./export-import.component.scss'],
 })
 export class ExportImportComponent {
   constructor(
@@ -23,8 +23,7 @@ export class ExportImportComponent {
     private translate: TranslateService,
     private router: Router,
     private ngZone: NgZone
-  ) {
-  }
+  ) {}
 
   import(): void {
     this.backend.openFileDialog(
@@ -46,33 +45,39 @@ export class ExportImportComponent {
                 );
               } else {
                 const options = {
-                  header: true
+                  header: true,
                 };
                 const elements = this.papa.parse(data, options);
                 const isArray = Array.isArray(elements.data);
-                if (isArray && elements.data.length !== 0 && (elements.errors.length === 0)) {
+                if (
+                  isArray &&
+                  elements.data.length !== 0 &&
+                  elements.errors.length === 0
+                ) {
                   if (this.variablesService.contacts.length === 0) {
                     elements.data.forEach(element => {
                       this.variablesService.contacts.push(element);
                     });
                   } else {
                     elements.data.forEach(element => {
-                      const indexName = this.variablesService.contacts.findIndex(
-                        contact => contact.name === element.name
-                      );
-                      const indexAddress = this.variablesService.contacts.findIndex(
-                        contact => contact.address === element.address
-                      );
+                      const indexName =
+                        this.variablesService.contacts.findIndex(
+                          contact => contact.name === element.name
+                        );
+                      const indexAddress =
+                        this.variablesService.contacts.findIndex(
+                          contact => contact.address === element.address
+                        );
                       if (indexAddress === -1 && indexName === -1) {
                         this.variablesService.contacts.push(element);
                       }
                       if (indexName !== -1 && indexAddress === -1) {
                         this.variablesService.contacts.push({
-                          name: `${ element.name } ${ this.translate.instant(
+                          name: `${element.name} ${this.translate.instant(
                             'CONTACTS.COPY'
-                          ) }`,
+                          )}`,
                           address: element.address,
-                          notes: element.notes
+                          notes: element.notes,
                         });
                       }
                     });
@@ -111,11 +116,20 @@ export class ExportImportComponent {
       '*',
       this.variablesService.settings.default_path,
       (file_status, file_data) => {
-        if ((this.variablesService.contacts.length === 0) && !(file_data.error_code === 'CANCELED')) {
+        if (
+          this.variablesService.contacts.length === 0 &&
+          !(file_data.error_code === 'CANCELED')
+        ) {
           this.modalService.prepareModal('error', 'CONTACTS.ERROR_EMPTY_LIST');
         }
-        const path = this.isValid(file_data.path) ? file_data.path : `${ file_data.path }.csv`;
-        if (file_status && this.isValid(path) && (this.variablesService.contacts.length > 0)) {
+        const path = this.isValid(file_data.path)
+          ? file_data.path
+          : `${file_data.path}.csv`;
+        if (
+          file_status &&
+          this.isValid(path) &&
+          this.variablesService.contacts.length > 0
+        ) {
           this.backend.storeFile(path, this.papa.unparse(contacts));
         }
         if (!(file_data.error_code === 'CANCELED') && !this.isValid(path)) {

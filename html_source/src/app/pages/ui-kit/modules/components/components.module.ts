@@ -6,17 +6,29 @@ import { TranslateModule } from '@ngx-translate/core';
 import { WalletsComponent } from './wallets/wallets.component';
 import { SharedModule } from '../../../../_shared/shared.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
-  declarations: [ButtonsComponent, ProgressBarsComponent, BreadcrumbsComponent, WalletsComponent],
+  declarations: [
+    ButtonsComponent,
+    ProgressBarsComponent,
+    BreadcrumbsComponent,
+    WalletsComponent,
+  ],
   imports: [
     CommonModule,
     TranslateModule,
     FormModule,
     FlexLayoutModule,
-    SharedModule
+    SharedModule,
+    DragDropModule,
   ],
-  exports: [ButtonsComponent, ProgressBarsComponent, BreadcrumbsComponent, WalletsComponent, FormModule]
+  exports: [
+    ButtonsComponent,
+    ProgressBarsComponent,
+    BreadcrumbsComponent,
+    WalletsComponent,
+    FormModule,
+  ],
 })
-export class ComponentsModule {
-}
+export class ComponentsModule {}

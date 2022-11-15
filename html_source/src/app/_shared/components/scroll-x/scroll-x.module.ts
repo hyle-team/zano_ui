@@ -5,9 +5,6 @@ import { ScrollXComponent } from './scroll-x.component';
 @NgModule({
   declarations: [ScrollXComponent],
   exports: [ScrollXComponent],
-  imports: [
-    CommonModule
-  ]
+  imports: [CommonModule],
 })
-export class ScrollXModule {
-}
+export class ScrollXModule {}

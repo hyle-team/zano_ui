@@ -6,7 +6,7 @@ import { BackendService } from '../_helpers/services/backend.service';
 @Component({
   selector: 'app-contacts',
   templateUrl: './contacts.component.html',
-  styleUrls: ['./contacts.component.scss']
+  styleUrls: ['./contacts.component.scss'],
 })
 export class ContactsComponent implements OnInit {
   @ViewChild('head', { static: true }) head: ElementRef;
@@ -17,8 +17,7 @@ export class ContactsComponent implements OnInit {
     private location: Location,
     public variablesService: VariablesService,
     private backend: BackendService
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.backend.getContactAlias();
@@ -38,7 +37,7 @@ export class ContactsComponent implements OnInit {
     );
     this.calculatedWidth.push(
       this.head.nativeElement.childNodes[1].clientWidth +
-      this.head.nativeElement.childNodes[2].clientWidth
+        this.head.nativeElement.childNodes[2].clientWidth
     );
     this.calculatedWidth.push(
       this.head.nativeElement.childNodes[3].clientWidth

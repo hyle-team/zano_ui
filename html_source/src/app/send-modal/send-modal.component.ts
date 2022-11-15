@@ -1,11 +1,24 @@
-import { Component, EventEmitter, HostBinding, Input, OnDestroy, OnInit, Output, Renderer2 } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  Component,
+  EventEmitter,
+  HostBinding,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  Renderer2,
+} from '@angular/core';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { VariablesService } from '../_helpers/services/variables.service';
 
 @Component({
   selector: 'app-send-modal',
   templateUrl: './send-modal.component.html',
-  styleUrls: ['./send-modal.component.scss']
+  styleUrls: ['./send-modal.component.scss'],
 })
 export class SendModalComponent implements OnInit, OnDestroy {
   @HostBinding('class.modal-overlay') modalOverlay = true;
@@ -15,19 +28,20 @@ export class SendModalComponent implements OnInit, OnDestroy {
   @Output() confirmed: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   confirmForm = new UntypedFormGroup({
-    password: new UntypedFormControl('')
+    password: new UntypedFormControl(''),
   });
 
   constructor(
     public variablesService: VariablesService,
     private renderer: Renderer2
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.renderer.addClass(document.body, 'no-scroll');
     if (this.variablesService.appPass) {
-      this.confirmForm.controls['password'].setValidators([Validators.required]);
+      this.confirmForm.controls['password'].setValidators([
+        Validators.required,
+      ]);
       this.confirmForm.updateValueAndValidity();
     }
   }
@@ -43,10 +57,15 @@ export class SendModalComponent implements OnInit, OnDestroy {
         return;
       }
       this.confirmForm.controls['password'].setErrors({ requiredPass: false });
-      if (this.variablesService.appPass === this.confirmForm.controls['password'].value) {
+      if (
+        this.variablesService.appPass ===
+        this.confirmForm.controls['password'].value
+      ) {
         this.confirmed.emit(true);
       } else {
-        this.confirmForm.controls['password'].setErrors({ passwordNotMatch: true });
+        this.confirmForm.controls['password'].setErrors({
+          passwordNotMatch: true,
+        });
       }
     } else {
       this.confirmed.emit(true);

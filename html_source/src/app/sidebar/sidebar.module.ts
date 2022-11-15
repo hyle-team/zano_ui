@@ -27,9 +27,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     SynchronizationStatusModule,
     DeeplinkModule,
     StakingSwitchModule,
-    FlexLayoutModule
+    FlexLayoutModule,
   ],
-  exports: [SidebarComponent]
+  exports: [SidebarComponent],
 })
-export class SidebarModule {
-}
+export class SidebarModule {}

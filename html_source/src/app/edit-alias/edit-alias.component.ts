@@ -9,7 +9,7 @@ import { Wallet } from '../_helpers/models/wallet.model';
 @Component({
   selector: 'app-edit-alias',
   templateUrl: './edit-alias.component.html',
-  styleUrls: ['./edit-alias.component.scss']
+  styleUrls: ['./edit-alias.component.scss'],
 })
 export class EditAliasComponent implements OnInit {
   wallet: Wallet;
@@ -29,8 +29,7 @@ export class EditAliasComponent implements OnInit {
     private backend: BackendService,
     private modalService: ModalService,
     private ngZone: NgZone
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.wallet = this.variablesService.currentWallet;
@@ -38,27 +37,39 @@ export class EditAliasComponent implements OnInit {
     this.alias = {
       name: alias.name,
       address: alias.address,
-      comment: alias.comment
+      comment: alias.comment,
     };
     this.oldAliasComment = alias.comment;
-    this.notEnoughMoney = this.wallet.unlocked_balance.isLessThan(this.variablesService.default_fee_big);
+    this.notEnoughMoney = this.wallet.unlocked_balance.isLessThan(
+      this.variablesService.default_fee_big
+    );
   }
 
   updateAlias(): void {
-    if (this.requestProcessing || this.notEnoughMoney || this.oldAliasComment === this.alias.comment || this.alias.comment.length > this.variablesService.maxCommentLength) {
+    if (
+      this.requestProcessing ||
+      this.notEnoughMoney ||
+      this.oldAliasComment === this.alias.comment ||
+      this.alias.comment.length > this.variablesService.maxCommentLength
+    ) {
       return;
     }
     this.requestProcessing = true;
-    this.backend.updateAlias(this.wallet.wallet_id, this.alias, this.variablesService.default_fee, (status) => {
-      if (status) {
-        this.modalService.prepareModal('success', '');
-        this.wallet.alias['comment'] = this.alias.comment;
-        this.ngZone.run(() => {
-          this.router.navigate(['/wallet/']);
-        });
+    this.backend.updateAlias(
+      this.wallet.wallet_id,
+      this.alias,
+      this.variablesService.default_fee,
+      status => {
+        if (status) {
+          this.modalService.prepareModal('success', '');
+          this.wallet.alias['comment'] = this.alias.comment;
+          this.ngZone.run(() => {
+            this.router.navigate(['/wallet/']);
+          });
+        }
+        this.requestProcessing = false;
       }
-      this.requestProcessing = false;
-    });
+    );
   }
 
   back(): void {

@@ -6,22 +6,19 @@ import { VariablesService } from '../_helpers/services/variables.service';
 @Component({
   selector: 'app-deeplink',
   templateUrl: './deeplink.component.html',
-  styleUrls: ['./deeplink.component.scss']
+  styleUrls: ['./deeplink.component.scss'],
 })
 export class DeeplinkComponent implements OnInit, OnDestroy {
   deeplink$ = new BehaviorSubject<string | null>(null);
 
   private destroy$ = new Subject<void>();
 
-  constructor(
-    public variablesService: VariablesService,
-  ) {
-  }
+  constructor(public variablesService: VariablesService) {}
 
   ngOnInit(): void {
     this.variablesService.deeplink$
       .pipe(delay(200), takeUntil(this.destroy$))
-      .subscribe((data) => {
+      .subscribe(data => {
         this.deeplink$.next(data);
       });
   }

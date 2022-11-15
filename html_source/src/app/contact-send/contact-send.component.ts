@@ -3,11 +3,10 @@ import { Location } from '@angular/common';
 import { VariablesService } from '../_helpers/services/variables.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-contact-send',
   templateUrl: './contact-send.component.html',
-  styleUrls: ['./contact-send.component.scss']
+  styleUrls: ['./contact-send.component.scss'],
 })
 export class ContactSendComponent implements OnInit, OnDestroy {
   queryRouting;
@@ -19,9 +18,8 @@ export class ContactSendComponent implements OnInit, OnDestroy {
     private location: Location,
     private route: ActivatedRoute,
     private ngZone: NgZone,
-    private router: Router,
-  ) {
-  }
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.queryRouting = this.route.queryParams.subscribe(params => {

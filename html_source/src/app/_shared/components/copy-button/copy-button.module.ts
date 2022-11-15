@@ -5,9 +5,6 @@ import { CopyButtonComponent } from './copy-button.component';
 @NgModule({
   declarations: [CopyButtonComponent],
   exports: [CopyButtonComponent],
-  imports: [
-    CommonModule
-  ]
+  imports: [CommonModule],
 })
-export class CopyButtonModule {
-}
+export class CopyButtonModule {}

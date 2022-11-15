@@ -1,4 +1,12 @@
-import { AfterViewChecked, Component, ElementRef, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewChecked,
+  Component,
+  ElementRef,
+  NgZone,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { VariablesService } from '../_helpers/services/variables.service';
 import { ActivatedRoute } from '@angular/router';
 import { Transaction } from '../_helpers/models/transaction.model';
@@ -13,7 +21,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-history',
   templateUrl: './history.component.html',
-  styleUrls: ['./history.component.scss']
+  styleUrls: ['./history.component.scss'],
 })
 export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('head', { static: true }) head: ElementRef;
@@ -42,33 +50,48 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
     private pagination: PaginationService,
     private backend: BackendService,
     private ngZone: NgZone,
-    private paginationStore: PaginationStore,
-  ) {
-  }
+    private paginationStore: PaginationStore
+  ) {}
 
   ngOnInit(): void {
     this.parentRouting = this.route.parent.params.subscribe(() => {
       this.openedDetails = '';
     });
     let restore = false;
-    if (this.variablesService.after_sync_request.hasOwnProperty(this.variablesService.currentWallet.wallet_id)) {
-      restore = this.variablesService.after_sync_request[this.variablesService.currentWallet.wallet_id];
+    if (
+      this.variablesService.after_sync_request.hasOwnProperty(
+        this.variablesService.currentWallet.wallet_id
+      )
+    ) {
+      restore =
+        this.variablesService.after_sync_request[
+          this.variablesService.currentWallet.wallet_id
+        ];
     }
-    if (!this.variablesService.sync_started && restore && this.variablesService.currentWallet.wallet_id) {
+    if (
+      !this.variablesService.sync_started &&
+      restore &&
+      this.variablesService.currentWallet.wallet_id
+    ) {
       this.wallet = this.variablesService.getNotLoadedWallet();
       if (this.wallet) {
         this.tick();
       }
       // if this is was restore wallet and it was selected on moment when sync completed
       this.getRecentTransfers();
-      this.variablesService.after_sync_request[this.variablesService.currentWallet.wallet_id] = false;
+      this.variablesService.after_sync_request[
+        this.variablesService.currentWallet.wallet_id
+      ] = false;
     }
     let after_sync_request = false;
     if (
-      this.variablesService.after_sync_request.hasOwnProperty(this.variablesService.currentWallet.wallet_id)
-    ) {
-      after_sync_request = this.variablesService.after_sync_request[
+      this.variablesService.after_sync_request.hasOwnProperty(
         this.variablesService.currentWallet.wallet_id
+      )
+    ) {
+      after_sync_request =
+        this.variablesService.after_sync_request[
+          this.variablesService.currentWallet.wallet_id
         ];
     }
     if (after_sync_request && !this.variablesService.sync_started) {
@@ -76,8 +99,15 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.getRecentTransfers();
     }
 
-    if (this.variablesService.stop_paginate.hasOwnProperty(this.variablesService.currentWallet.wallet_id)) {
-      this.stop_paginate = this.variablesService.stop_paginate[this.variablesService.currentWallet.wallet_id];
+    if (
+      this.variablesService.stop_paginate.hasOwnProperty(
+        this.variablesService.currentWallet.wallet_id
+      )
+    ) {
+      this.stop_paginate =
+        this.variablesService.stop_paginate[
+          this.variablesService.currentWallet.wallet_id
+        ];
     } else {
       this.stop_paginate = false;
     }
@@ -87,14 +117,14 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.tick();
     }
 
-    this.variablesService
-      .getWalletChangedEvent
+    this.variablesService.getWalletChangedEvent
       .pipe(
         filter(w => !!w),
         takeUntil(this.destroy$)
-      ).subscribe((currentWallet: Wallet) => {
-      this.mining = currentWallet.exclude_mining_txs;
-    });
+      )
+      .subscribe((currentWallet: Wallet) => {
+        this.mining = currentWallet.exclude_mining_txs;
+      });
   }
 
   ngAfterViewChecked(): void {
@@ -109,21 +139,32 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   strokeSize(item): number {
     const rem = this.variablesService.settings.scale;
-    if ((this.variablesService.height_app - item.height >= 10 && item.height !== 0) || (item.is_mining === true && item.height === 0)) {
+    if (
+      (this.variablesService.height_app - item.height >= 10 &&
+        item.height !== 0) ||
+      (item.is_mining === true && item.height === 0)
+    ) {
       return 0;
     } else {
-      if (item.height === 0 || this.variablesService.height_app - item.height < 0) {
-        return (4.5 * parseInt(rem, 10));
+      if (
+        item.height === 0 ||
+        this.variablesService.height_app - item.height < 0
+      ) {
+        return 4.5 * parseInt(rem, 10);
       } else {
-        return ((4.5 * parseInt(rem, 10)) - (((4.5 * parseInt(rem, 10)) / 100) * ((this.variablesService.height_app - item.height) * 10)));
+        return (
+          4.5 * parseInt(rem, 10) -
+          ((4.5 * parseInt(rem, 10)) / 100) *
+            ((this.variablesService.height_app - item.height) * 10)
+        );
       }
     }
   }
 
   resetPaginationValues(): void {
     this.ngZone.run(() => {
-      const total_history_item = this.variablesService.currentWallet
-        .total_history_item;
+      const total_history_item =
+        this.variablesService.currentWallet.total_history_item;
       const count = this.variablesService.count;
       this.variablesService.currentWallet.totalPages = Math.ceil(
         total_history_item / count
@@ -137,16 +178,15 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
       this.variablesService.currentWallet.totalPages >
       this.variablesService.maxPages
         ? (this.variablesService.currentWallet.pages = new Array(5)
-          .fill(1)
-          .map((value, index) => value + index))
+            .fill(1)
+            .map((value, index) => value + index))
         : (this.variablesService.currentWallet.pages = new Array(
-          this.variablesService.currentWallet.totalPages
-        )
-          .fill(1)
-          .map((value, index) => value + index));
+            this.variablesService.currentWallet.totalPages
+          )
+            .fill(1)
+            .map((value, index) => value + index));
     });
   }
-
 
   setPage(pageNumber: number): void {
     // this is will allow pagination for wallets that was open from existed wallets'
@@ -173,11 +213,22 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
     if (!this.variablesService.sync_started && !this.wallet) {
       const value = this.paginationStore.value;
       if (!value) {
-        this.paginationStore.setPage(1, 0, this.variablesService.currentWallet.wallet_id); // add back page for the first page
+        this.paginationStore.setPage(
+          1,
+          0,
+          this.variablesService.currentWallet.wallet_id
+        ); // add back page for the first page
       } else {
-        const pages = value.filter((item) => item.walletID === this.variablesService.currentWallet.wallet_id);
+        const pages = value.filter(
+          item =>
+            item.walletID === this.variablesService.currentWallet.wallet_id
+        );
         if (pages.length === 0) {
-          this.paginationStore.setPage(1, 0, this.variablesService.currentWallet.wallet_id); // add back page for the first page
+          this.paginationStore.setPage(
+            1,
+            0,
+            this.variablesService.currentWallet.wallet_id
+          ); // add back page for the first page
         }
       }
       this.mining = !this.mining;
@@ -187,10 +238,15 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   getRecentTransfers(): void {
-    const offset = this.pagination.getOffset(this.variablesService.currentWallet.wallet_id);
+    const offset = this.pagination.getOffset(
+      this.variablesService.currentWallet.wallet_id
+    );
     const value = this.paginationStore.value;
     const pages = value
-      ? value.filter((item) => item.walletID === this.variablesService.currentWallet.wallet_id)
+      ? value.filter(
+          item =>
+            item.walletID === this.variablesService.currentWallet.wallet_id
+        )
       : [];
 
     this.backend.getRecentTransfers(
@@ -208,10 +264,19 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
 
         const history = data && data.history;
-        this.variablesService.stop_paginate[this.variablesService.currentWallet.wallet_id] =
+        this.variablesService.stop_paginate[
+          this.variablesService.currentWallet.wallet_id
+        ] =
           (history && history.length < this.variablesService.count) || !history;
-        this.stop_paginate = this.variablesService.stop_paginate[this.variablesService.currentWallet.wallet_id];
-        if (!this.variablesService.stop_paginate[this.variablesService.currentWallet.wallet_id]) {
+        this.stop_paginate =
+          this.variablesService.stop_paginate[
+            this.variablesService.currentWallet.wallet_id
+          ];
+        if (
+          !this.variablesService.stop_paginate[
+            this.variablesService.currentWallet.wallet_id
+          ]
+        ) {
           const page = this.variablesService.currentWallet.currentPage + 1;
           if (
             isForward &&
@@ -239,7 +304,9 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
           ) {
             // this is will complete get_recent_transfers request
             // this will switch of
-            this.variablesService.after_sync_request[this.variablesService.currentWallet.wallet_id] = false;
+            this.variablesService.after_sync_request[
+              this.variablesService.currentWallet.wallet_id
+            ] = false;
           }
         });
       }
@@ -256,13 +323,20 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   getHeight(item): number {
-    if ((this.variablesService.height_app - item.height >= 10 && item.height !== 0) || (item.is_mining === true && item.height === 0)) {
+    if (
+      (this.variablesService.height_app - item.height >= 10 &&
+        item.height !== 0) ||
+      (item.is_mining === true && item.height === 0)
+    ) {
       return 10;
     } else {
-      if (item.height === 0 || this.variablesService.height_app - item.height < 0) {
+      if (
+        item.height === 0 ||
+        this.variablesService.height_app - item.height < 0
+      ) {
         return 0;
       } else {
-        return (this.variablesService.height_app - item.height);
+        return this.variablesService.height_app - item.height;
       }
     }
   }
@@ -277,25 +351,38 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   calculateWidth(): void {
     this.calculatedWidth = [];
-    this.calculatedWidth.push(this.head.nativeElement.childNodes[0].clientWidth);
-    this.calculatedWidth.push(this.head.nativeElement.childNodes[1].clientWidth + this.head.nativeElement.childNodes[2].clientWidth);
-    this.calculatedWidth.push(this.head.nativeElement.childNodes[3].clientWidth);
-    this.calculatedWidth.push(this.head.nativeElement.childNodes[4].clientWidth);
+    this.calculatedWidth.push(
+      this.head.nativeElement.childNodes[0].clientWidth
+    );
+    this.calculatedWidth.push(
+      this.head.nativeElement.childNodes[1].clientWidth +
+        this.head.nativeElement.childNodes[2].clientWidth
+    );
+    this.calculatedWidth.push(
+      this.head.nativeElement.childNodes[3].clientWidth
+    );
+    this.calculatedWidth.push(
+      this.head.nativeElement.childNodes[4].clientWidth
+    );
   }
 
   time(item: Transaction): number {
     const now = new Date().getTime();
-    const unlockTime = now + ((item.unlock_time - this.variablesService.height_max) * 60 * 1000);
+    const unlockTime =
+      now + (item.unlock_time - this.variablesService.height_max) * 60 * 1000;
     return unlockTime;
   }
 
   isLocked(item: Transaction): boolean {
-    if ((item.unlock_time > 500000000) && (item.unlock_time > new Date().getTime() / 1000)) {
+    if (
+      item.unlock_time > 500000000 &&
+      item.unlock_time > new Date().getTime() / 1000
+    ) {
       return true;
     }
-    if ((item.unlock_time < 500000000) && (item.unlock_time > this.variablesService.height_max)) {
-      return true;
-    }
-    return false;
+    return (
+      item.unlock_time < 500000000 &&
+      item.unlock_time > this.variablesService.height_max
+    );
   }
 }

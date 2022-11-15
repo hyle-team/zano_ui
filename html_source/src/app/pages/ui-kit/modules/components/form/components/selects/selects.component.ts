@@ -5,15 +5,12 @@ import { ScaleItems } from 'src/app/_helpers/models/scale.model';
 @Component({
   selector: 'app-selects',
   templateUrl: './selects.component.html',
-  styleUrls: ['./selects.component.scss']
+  styleUrls: ['./selects.component.scss'],
 })
 export class SelectsComponent implements OnInit {
   scaleItems: ScaleItems = [...scaleItems];
 
-  constructor() {
-  }
+  constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

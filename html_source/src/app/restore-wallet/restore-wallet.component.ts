@@ -1,5 +1,9 @@
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { BackendService } from '../_helpers/services/backend.service';
 import { VariablesService } from '../_helpers/services/variables.service';
@@ -35,7 +39,10 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
         Validators.pattern(this.variablesService.pattern)
       ),
       confirm: new UntypedFormControl(''),
-      seedPassword: new UntypedFormControl('', Validators.pattern(this.variablesService.pattern)),
+      seedPassword: new UntypedFormControl(
+        '',
+        Validators.pattern(this.variablesService.pattern)
+      ),
     },
     function (g: UntypedFormGroup) {
       return g.get('password').value === g.get('confirm').value
@@ -66,8 +73,7 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
     private ngZone: NgZone,
     private location: Location,
     private translate: TranslateService
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.checkValidSeedPhrasePassword();
@@ -95,11 +101,14 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
   checkValidSeedPhrasePassword(): void {
     const seed_password = this.restoreForm.controls.seedPassword.value;
     const seed_phrase = this.restoreForm.controls.key.value;
-    this.backend.getSeedPhraseInfo({ seed_phrase, seed_password }, (status, data) => {
-      this.ngZone.run(() => {
-        this.seedPhraseInfo = data;
-      });
-    });
+    this.backend.getSeedPhraseInfo(
+      { seed_phrase, seed_password },
+      (status, data) => {
+        this.ngZone.run(() => {
+          this.seedPhraseInfo = data;
+        });
+      }
+    );
   }
 
   createWallet(): void {
@@ -113,7 +122,7 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
     if (
       this.restoreForm.valid &&
       this.restoreForm.get('name').value.length <=
-      this.variablesService.maxWalletNameLength
+        this.variablesService.maxWalletNameLength
     ) {
       this.backend.isValidRestoreWalletText(
         {
@@ -132,10 +141,8 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
               this.variablesService.settings.default_path,
               (save_status, save_data) => {
                 if (save_status) {
-                  this.variablesService.settings.default_path = save_data.path.substr(
-                    0,
-                    save_data.path.lastIndexOf('/')
-                  );
+                  this.variablesService.settings.default_path =
+                    save_data.path.substr(0, save_data.path.lastIndexOf('/'));
                   this.walletSavedName = save_data.path.substr(
                     save_data.path.lastIndexOf('/') + 1,
                     save_data.path.length - 1
@@ -159,15 +166,18 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
                           restore_data['wi'].mined_total,
                           restore_data['wi'].tracking_hey
                         );
-                        this.backend.getWalletInfo(this.variablesService.opening_wallet);
+                        this.backend.getWalletInfo(
+                          this.variablesService.opening_wallet
+                        );
                         this.variablesService.opening_wallet.is_auditable =
                           restore_data['wi'].is_auditable;
                         this.variablesService.opening_wallet.is_watch_only =
                           restore_data['wi'].is_watch_only;
                         this.variablesService.opening_wallet.currentPage = 1;
-                        this.variablesService.opening_wallet.alias = this.backend.getWalletAlias(
-                          this.variablesService.opening_wallet.address
-                        );
+                        this.variablesService.opening_wallet.alias =
+                          this.backend.getWalletAlias(
+                            this.variablesService.opening_wallet.address
+                          );
                         this.variablesService.opening_wallet.pages = new Array(
                           1
                         ).fill(1);
@@ -179,22 +189,23 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
                           restore_data.recent_history &&
                           restore_data.recent_history.history
                         ) {
-                          this.variablesService.opening_wallet.totalPages = Math.ceil(
-                            restore_data.recent_history.total_history_items /
-                            this.variablesService.count
-                          );
+                          this.variablesService.opening_wallet.totalPages =
+                            Math.ceil(
+                              restore_data.recent_history.total_history_items /
+                                this.variablesService.count
+                            );
                           this.variablesService.opening_wallet.totalPages >
                           this.variablesService.maxPages
-                            ? (this.variablesService.opening_wallet.pages = new Array(
-                              5
-                            )
-                              .fill(1)
-                              .map((value, index) => value + index))
-                            : (this.variablesService.opening_wallet.pages = new Array(
-                              this.variablesService.opening_wallet.totalPages
-                            )
-                              .fill(1)
-                              .map((value, index) => value + index));
+                            ? (this.variablesService.opening_wallet.pages =
+                                new Array(5)
+                                  .fill(1)
+                                  .map((value, index) => value + index))
+                            : (this.variablesService.opening_wallet.pages =
+                                new Array(
+                                  this.variablesService.opening_wallet.totalPages
+                                )
+                                  .fill(1)
+                                  .map((value, index) => value + index));
                           this.variablesService.opening_wallet.prepareHistory(
                             restore_data.recent_history.history
                           );
@@ -245,7 +256,7 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
     // add flag when wallet was restored form seed
     this.variablesService.after_sync_request[this.wallet.id] = true;
     let exists = false;
-    this.variablesService.wallets.forEach((wallet) => {
+    this.variablesService.wallets.forEach(wallet => {
       if (wallet.address === this.variablesService.opening_wallet.address) {
         exists = true;
       }

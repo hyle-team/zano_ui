@@ -18,7 +18,7 @@ export enum paths {
   contactSend = 'contact-send',
   import = 'import',
   deeplink = 'deeplink',
-  uiKit = 'ui-kit'
+  uiKit = 'ui-kit',
 }
 
 export enum pathsChildrenAuth {
@@ -30,9 +30,9 @@ export enum pathsChildrenWallet {
   receive = 'receive',
   history = 'history',
   contracts = 'contracts',
-  staking = 'staking'
+  staking = 'staking',
 }
 
 export enum pathsChildrenContracts {
-  purchase = 'purchase'
+  purchase = 'purchase',
 }

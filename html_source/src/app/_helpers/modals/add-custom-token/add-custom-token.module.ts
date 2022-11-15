@@ -8,12 +8,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [AddCustomTokenComponent],
   exports: [AddCustomTokenComponent],
-  imports: [
-    CommonModule,
-    FlexModule,
-    TranslateModule,
-    ReactiveFormsModule
-  ]
+  imports: [CommonModule, FlexModule, TranslateModule, ReactiveFormsModule],
 })
-export class AddCustomTokenModule {
-}
+export class AddCustomTokenModule {}

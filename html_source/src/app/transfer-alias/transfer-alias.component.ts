@@ -9,7 +9,7 @@ import { Wallet } from '../_helpers/models/wallet.model';
 @Component({
   selector: 'app-transfer-alias',
   templateUrl: './transfer-alias.component.html',
-  styleUrls: ['./transfer-alias.component.scss']
+  styleUrls: ['./transfer-alias.component.scss'],
 })
 export class TransferAliasComponent implements OnInit {
   wallet: Wallet;
@@ -35,8 +35,7 @@ export class TransferAliasComponent implements OnInit {
     private backend: BackendService,
     private modalService: ModalService,
     private ngZone: NgZone
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.wallet = this.variablesService.currentWallet;
@@ -45,9 +44,11 @@ export class TransferAliasComponent implements OnInit {
       name: alias.name,
       address: alias.address,
       comment: alias.comment,
-      tracking_key: alias.tracking_key
+      tracking_key: alias.tracking_key,
     };
-    this.notEnoughMoney = this.wallet.unlocked_balance.isLessThan(this.variablesService.default_fee_big);
+    this.notEnoughMoney = this.wallet.unlocked_balance.isLessThan(
+      this.variablesService.default_fee_big
+    );
   }
 
   changeAddress(): void {
@@ -55,8 +56,15 @@ export class TransferAliasComponent implements OnInit {
       this.transferAddressValid = status;
       if (status) {
         this.backend.getPoolInfo((statusPool, dataPool) => {
-          if (dataPool.hasOwnProperty('aliases_que') && dataPool.aliases_que.length) {
-            this.setStatus(!dataPool.aliases_que.some((el) => el.address === this.transferAddress));
+          if (
+            dataPool.hasOwnProperty('aliases_que') &&
+            dataPool.aliases_que.length
+          ) {
+            this.setStatus(
+              !dataPool.aliases_que.some(
+                el => el.address === this.transferAddress
+              )
+            );
           } else {
             this.setStatus(status);
           }
@@ -70,7 +78,7 @@ export class TransferAliasComponent implements OnInit {
   setStatus(statusSet): void {
     this.permissionSend = statusSet;
     if (statusSet) {
-      this.backend.getAliasByAddress(this.transferAddress, (status) => {
+      this.backend.getAliasByAddress(this.transferAddress, status => {
         this.ngZone.run(() => {
           if (status) {
             this.transferAddressAlias = true;
@@ -88,7 +96,12 @@ export class TransferAliasComponent implements OnInit {
   }
 
   transferAlias(): void {
-    if (this.requestProcessing || !this.permissionSend || !this.transferAddressValid || this.notEnoughMoney) {
+    if (
+      this.requestProcessing ||
+      !this.permissionSend ||
+      !this.transferAddressValid ||
+      this.notEnoughMoney
+    ) {
       return;
     }
     this.requestProcessing = true;
@@ -96,17 +109,25 @@ export class TransferAliasComponent implements OnInit {
       name: this.alias.name,
       address: this.transferAddress,
       comment: this.alias.comment,
-      tracking_key: this.alias.tracking_key
+      tracking_key: this.alias.tracking_key,
     };
-    this.backend.updateAlias(this.wallet.wallet_id, newAlias, this.variablesService.default_fee, (status, data) => {
-      if (status && data.hasOwnProperty('success') && data.success) {
-        this.modalService.prepareModal('info', 'TRANSFER_ALIAS.REQUEST_SEND_REG');
-        this.ngZone.run(() => {
-          this.router.navigate(['/wallet/']);
-        });
+    this.backend.updateAlias(
+      this.wallet.wallet_id,
+      newAlias,
+      this.variablesService.default_fee,
+      (status, data) => {
+        if (status && data.hasOwnProperty('success') && data.success) {
+          this.modalService.prepareModal(
+            'info',
+            'TRANSFER_ALIAS.REQUEST_SEND_REG'
+          );
+          this.ngZone.run(() => {
+            this.router.navigate(['/wallet/']);
+          });
+        }
+        this.requestProcessing = false;
       }
-      this.requestProcessing = false;
-    });
+    );
   }
 
   back(): void {

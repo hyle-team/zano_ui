@@ -11,8 +11,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     CommonModule,
     ComponentsModule,
     UiKitRoutingModule,
-    FlexLayoutModule
-  ]
+    FlexLayoutModule,
+  ],
 })
-export class UiKitModule {
-}
+export class UiKitModule {}

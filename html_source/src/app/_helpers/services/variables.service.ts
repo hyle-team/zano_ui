@@ -4,11 +4,14 @@ import { Contact } from '../models/contact.model';
 import { BehaviorSubject } from 'rxjs';
 import { Idle } from 'idlejs/dist';
 import { Router } from '@angular/router';
-import { ContextMenuComponent, ContextMenuService } from '@perfectmemory/ngx-contextmenu';
+import {
+  ContextMenuComponent,
+  ContextMenuService,
+} from '@perfectmemory/ngx-contextmenu';
 import { BigNumber } from 'bignumber.js';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class VariablesService {
   disable_price_fetch$ = new BehaviorSubject<boolean>(false);
@@ -59,12 +62,12 @@ export class VariablesService {
 
   sync = {
     progress_value: 0,
-    progress_value_text: '0'
+    progress_value_text: '0',
   };
 
   download = {
     progress_value: 0,
-    progress_value_text: '0'
+    progress_value_text: '0',
   };
 
   get_recent_transfers = false; // avoid of execute function before callback complete
@@ -82,7 +85,7 @@ export class VariablesService {
     default_path: '/',
     viewedContracts: [],
     notViewedContracts: [],
-    wallets: []
+    wallets: [],
   };
 
   count = 40;
@@ -115,7 +118,7 @@ export class VariablesService {
 
   newContact: Contact = { name: null, address: null, notes: null };
 
-  pattern = '^[a-zA-Z0-9_.\\\]\*\|\~\!\?\@\#\$\%\^\&\+\{\}\(\)\<\>\:\;\"\'\-\=\/\,\[\\\\]*$';
+  pattern = '^[a-zA-Z0-9_.\\]*|~!?@#$%^&+{}()<>:;"\'-=/,[\\\\]*$';
 
   after_sync_request: any = {};
 
@@ -135,20 +138,18 @@ export class VariablesService {
 
   getWalletChangedEvent = new BehaviorSubject(null);
 
-  idle = new Idle()
-    .whenNotInteractive()
-    .do(() => {
-      if (this.appPass === '') {
-        this.restartCountdown();
-      } else {
-        this.ngZone.run(() => {
-          this.idle.stop();
-          this.appPass = '';
-          this.appLogin = false;
-          this.router.navigate(['/login'], { queryParams: { type: 'auth' } });
-        });
-      }
-    });
+  idle = new Idle().whenNotInteractive().do(() => {
+    if (this.appPass === '') {
+      this.restartCountdown();
+    } else {
+      this.ngZone.run(() => {
+        this.idle.stop();
+        this.appPass = '';
+        this.appLogin = false;
+        this.router.navigate(['/login'], { queryParams: { type: 'auth' } });
+      });
+    }
+  });
 
   allContextMenu: ContextMenuComponent<any>;
 
@@ -156,8 +157,11 @@ export class VariablesService {
 
   pasteSelectContextMenu: ContextMenuComponent<any>;
 
-  constructor(private router: Router, private ngZone: NgZone, private contextMenuService: ContextMenuService<any>) {
-  }
+  constructor(
+    private router: Router,
+    private ngZone: NgZone,
+    private contextMenuService: ContextMenuService<any>
+  ) {}
 
   setExpMedTs(timestamp: number): void {
     if (timestamp !== this.exp_med_ts) {
@@ -203,7 +207,7 @@ export class VariablesService {
   }
 
   setCurrentWallet(id): void {
-    this.wallets.forEach((wallet) => {
+    this.wallets.forEach(wallet => {
       if (wallet.wallet_id === id) {
         this.currentWallet = wallet;
         this.getWalletChangedEvent.next(wallet);
@@ -248,9 +252,13 @@ export class VariablesService {
   onContextMenu($event: MouseEvent): void {
     $event.target['contextSelectionStart'] = $event.target['selectionStart'];
     $event.target['contextSelectionEnd'] = $event.target['selectionEnd'];
-    if ($event.target && ($event.target['nodeName'].toUpperCase() === 'TEXTAREA' || $event.target['nodeName'].toUpperCase() === 'INPUT') && !$event.target['readOnly']) {
-      this.contextMenuService.show(this.allContextMenu,
-        {
+    if (
+      $event.target &&
+      ($event.target['nodeName'].toUpperCase() === 'TEXTAREA' ||
+        $event.target['nodeName'].toUpperCase() === 'INPUT') &&
+      !$event.target['readOnly']
+    ) {
+      this.contextMenuService.show(this.allContextMenu, {
         x: $event.x,
         y: $event.y,
         value: $event.target,
@@ -263,11 +271,11 @@ export class VariablesService {
   onContextMenuOnlyCopy($event: MouseEvent, copyText?: string): void {
     $event.preventDefault();
     $event.stopPropagation();
-    this.contextMenuService.show(
-      this.onlyCopyContextMenu,
-      {
-        value: copyText, x: $event.x, y: $event.y
-      });
+    this.contextMenuService.show(this.onlyCopyContextMenu, {
+      value: copyText,
+      x: $event.x,
+      y: $event.y,
+    });
   }
 
   onContextMenuPasteSelect($event: MouseEvent): void {
@@ -277,8 +285,12 @@ export class VariablesService {
     console.warn($event.target);
     console.warn($event.target['disabled']);
 
-
-    if ($event.target && ($event.target['nodeName'].toUpperCase() === 'TEXTAREA' || $event.target['nodeName'].toUpperCase() === 'INPUT') && !$event.target['readOnly']) {
+    if (
+      $event.target &&
+      ($event.target['nodeName'].toUpperCase() === 'TEXTAREA' ||
+        $event.target['nodeName'].toUpperCase() === 'INPUT') &&
+      !$event.target['readOnly']
+    ) {
       this.contextMenuService.show(this.pasteSelectContextMenu, {
         x: $event.x,
         y: $event.y,
@@ -288,5 +300,4 @@ export class VariablesService {
       $event.stopPropagation();
     }
   }
-
 }

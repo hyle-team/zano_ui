@@ -3,12 +3,10 @@ import { VariablesService } from '../services/variables.service';
 import { BigNumber } from 'bignumber.js';
 
 @Pipe({
-  name: 'intToMoney'
+  name: 'intToMoney',
 })
 export class IntToMoneyPipe implements PipeTransform {
-
-  constructor(private variablesService: VariablesService) {
-  }
+  constructor(private variablesService: VariablesService) {}
 
   transform(value: any, args?: any): any {
     if (value === 0 || value === undefined) {
@@ -19,7 +17,7 @@ export class IntToMoneyPipe implements PipeTransform {
       maxFraction = parseInt(args, 10);
     }
     const power = Math.pow(10, this.variablesService.digits);
-    let str = (new BigNumber(value)).div(power).toFixed(maxFraction);
+    let str = new BigNumber(value).div(power).toFixed(maxFraction);
 
     for (let i = str.length - 1; i >= 0; i--) {
       if (str[i] !== '0') {
@@ -32,5 +30,4 @@ export class IntToMoneyPipe implements PipeTransform {
     }
     return str;
   }
-
 }

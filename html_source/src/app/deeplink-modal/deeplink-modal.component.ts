@@ -1,6 +1,17 @@
-import { Component, HostBinding, NgZone, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import {
+  Component,
+  HostBinding,
+  NgZone,
+  OnDestroy,
+  OnInit,
+  Renderer2,
+} from '@angular/core';
 import { VariablesService } from '../_helpers/services/variables.service';
-import { DeeplinkParams, PushOffer, Wallet } from '../_helpers/models/wallet.model';
+import {
+  DeeplinkParams,
+  PushOffer,
+  Wallet,
+} from '../_helpers/models/wallet.model';
 import { BigNumber } from 'bignumber.js';
 import { MIXIN } from '../_shared/constants';
 import { Subject } from 'rxjs';
@@ -11,7 +22,7 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-deeplink-modal',
   templateUrl: './deeplink-modal.component.html',
-  styleUrls: ['./deeplink-modal.component.scss']
+  styleUrls: ['./deeplink-modal.component.scss'],
 })
 export class DeeplinkModalComponent implements OnInit, OnDestroy {
   @HostBinding('class.modal-overlay') modalOverlay = true;
@@ -43,7 +54,9 @@ export class DeeplinkModalComponent implements OnInit, OnDestroy {
     private ngZone: NgZone,
     private renderer: Renderer2
   ) {
-    this.walletsToPay = this.variablesService.wallets.filter(wallet => !wallet.is_watch_only || !wallet.is_auditable);
+    this.walletsToPay = this.variablesService.wallets.filter(
+      wallet => !wallet.is_watch_only || !wallet.is_auditable
+    );
   }
 
   ngOnInit(): void {
@@ -51,7 +64,7 @@ export class DeeplinkModalComponent implements OnInit, OnDestroy {
 
     this.variablesService.deeplink$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((deeplink) => {
+      .subscribe(deeplink => {
         this.actionData = {};
 
         if (deeplink) {
@@ -91,9 +104,12 @@ export class DeeplinkModalComponent implements OnInit, OnDestroy {
     const newObj = {};
 
     const newString = deeplink.substr(5); // delete zano:;
-    newString.split('&').forEach((str) => {
+    newString.split('&').forEach(str => {
       const [key, value] = str.split('=');
-      newObj[key] = value.replace(quotesRex, '').replace(spaceSymbolRex, ' ').trim();
+      newObj[key] = value
+        .replace(quotesRex, '')
+        .replace(spaceSymbolRex, ' ')
+        .trim();
     });
     return newObj;
   }
@@ -116,7 +132,11 @@ export class DeeplinkModalComponent implements OnInit, OnDestroy {
         com: this.actionData.comment || this.actionData.comments || '',
         do: this.actionData.description || '',
         et: 10,
-        fee: new BigNumber('' + ((+this.actionData.fee || +this.variablesService.default_fee) * 1000000000000)),
+        fee: new BigNumber(
+          '' +
+            (+this.actionData.fee || +this.variablesService.default_fee) *
+              1000000000000
+        ),
         lci: '',
         lco: 'World Wide',
         ot: 1,
@@ -140,7 +160,7 @@ export class DeeplinkModalComponent implements OnInit, OnDestroy {
   copyHash(): void {
     this.backend.setClipboard(this.marketplaceConfirmHash);
     this.copyAnimation = true;
-    setTimeout(() => this.copyAnimation = false, 2000);
+    setTimeout(() => (this.copyAnimation = false), 2000);
   }
 
   nextStep(): void {
@@ -156,7 +176,6 @@ export class DeeplinkModalComponent implements OnInit, OnDestroy {
       this.variablesService.setCurrentWallet(this.walletToPayId);
       this._router.navigate(['/wallet/contracts/purchase']).then();
       this.secondStep = false;
-
     } else {
       this.secondStep = true;
     }

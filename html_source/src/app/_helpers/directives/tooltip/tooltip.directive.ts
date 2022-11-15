@@ -1,8 +1,18 @@
-import { Directive, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnDestroy, Output, Renderer2 } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  EventEmitter,
+  HostBinding,
+  HostListener,
+  Input,
+  OnDestroy,
+  Output,
+  Renderer2,
+} from '@angular/core';
 
 @Directive({
   // tslint:disable-next-line:directive-selector
-  selector: '[tooltip]'
+  selector: '[tooltip]',
 })
 export class TooltipDirective implements OnDestroy {
   @HostBinding('style.cursor') cursor;
@@ -35,11 +45,14 @@ export class TooltipDirective implements OnDestroy {
 
   private leave: (event: MouseEvent) => void;
 
-  constructor(private el: ElementRef, private renderer: Renderer2) {
-  }
+  constructor(private el: ElementRef, private renderer: Renderer2) {}
 
   @HostListener('mouseenter') onMouseEnter() {
-    if (this.showWhenNoOverflow || (!this.showWhenNoOverflow && this.el.nativeElement.offsetWidth < this.el.nativeElement.scrollWidth)) {
+    if (
+      this.showWhenNoOverflow ||
+      (!this.showWhenNoOverflow &&
+        this.el.nativeElement.offsetWidth < this.el.nativeElement.scrollWidth)
+    ) {
       this.cursor = 'pointer';
       if (!this.tooltip) {
         if (this.timeDelay !== 0) {
@@ -120,20 +133,46 @@ export class TooltipDirective implements OnDestroy {
       }
     }
     this.renderer.setStyle(this.tooltip, 'opacity', '0');
-    this.renderer.setStyle(this.tooltip, '-webkit-transition', `opacity ${ this.delay }ms`);
-    this.renderer.setStyle(this.tooltip, '-moz-transition', `opacity ${ this.delay }ms`);
-    this.renderer.setStyle(this.tooltip, '-o-transition', `opacity ${ this.delay }ms`);
-    this.renderer.setStyle(this.tooltip, 'transition', `opacity ${ this.delay }ms`);
+    this.renderer.setStyle(
+      this.tooltip,
+      '-webkit-transition',
+      `opacity ${this.delay}ms`
+    );
+    this.renderer.setStyle(
+      this.tooltip,
+      '-moz-transition',
+      `opacity ${this.delay}ms`
+    );
+    this.renderer.setStyle(
+      this.tooltip,
+      '-o-transition',
+      `opacity ${this.delay}ms`
+    );
+    this.renderer.setStyle(
+      this.tooltip,
+      'transition',
+      `opacity ${this.delay}ms`
+    );
     window.setTimeout(() => {
-      return this.tooltip && this.renderer.setStyle(this.tooltip, 'opacity', '1');
+      return (
+        this.tooltip && this.renderer.setStyle(this.tooltip, 'opacity', '1')
+      );
     }, 0);
   }
 
   setPosition(placement) {
     const hostPos = this.el.nativeElement.getBoundingClientRect();
     this.renderer.addClass(this.tooltip, 'ng-tooltip-' + placement);
-    const topExit = hostPos.top - this.tooltip.getBoundingClientRect().height - parseInt(getComputedStyle(this.tooltip).marginTop, 10) < 0;
-    const bottomExit = window.innerHeight < hostPos.bottom + this.tooltip.getBoundingClientRect().height + parseInt(getComputedStyle(this.tooltip).marginTop, 10);
+    const topExit =
+      hostPos.top -
+        this.tooltip.getBoundingClientRect().height -
+        parseInt(getComputedStyle(this.tooltip).marginTop, 10) <
+      0;
+    const bottomExit =
+      window.innerHeight <
+      hostPos.bottom +
+        this.tooltip.getBoundingClientRect().height +
+        parseInt(getComputedStyle(this.tooltip).marginTop, 10);
 
     switch (placement) {
       case 'top':
@@ -145,8 +184,16 @@ export class TooltipDirective implements OnDestroy {
           this.renderer.setStyle(
             this.tooltip,
             'left',
-            hostPos.left + (hostPos.right - hostPos.left) / 2 - this.tooltip.getBoundingClientRect().width / 2 + 'px');
-          this.renderer.setStyle(this.tooltip, 'top', hostPos.top - this.tooltip.getBoundingClientRect().height + 'px');
+            hostPos.left +
+              (hostPos.right - hostPos.left) / 2 -
+              this.tooltip.getBoundingClientRect().width / 2 +
+              'px'
+          );
+          this.renderer.setStyle(
+            this.tooltip,
+            'top',
+            hostPos.top - this.tooltip.getBoundingClientRect().height + 'px'
+          );
           this.checkSides();
         }
         break;
@@ -157,7 +204,11 @@ export class TooltipDirective implements OnDestroy {
           return;
         } else {
           this.renderer.setStyle(this.tooltip, 'left', hostPos.left + 'px');
-          this.renderer.setStyle(this.tooltip, 'top', hostPos.top - this.tooltip.getBoundingClientRect().height + 'px');
+          this.renderer.setStyle(
+            this.tooltip,
+            'top',
+            hostPos.top - this.tooltip.getBoundingClientRect().height + 'px'
+          );
           this.checkSides();
         }
         break;
@@ -167,8 +218,16 @@ export class TooltipDirective implements OnDestroy {
           this.setPosition('bottom-right');
           return;
         } else {
-          this.renderer.setStyle(this.tooltip, 'left', hostPos.right - this.tooltip.offsetWidth + 'px');
-          this.renderer.setStyle(this.tooltip, 'top', hostPos.top - this.tooltip.getBoundingClientRect().height + 'px');
+          this.renderer.setStyle(
+            this.tooltip,
+            'left',
+            hostPos.right - this.tooltip.offsetWidth + 'px'
+          );
+          this.renderer.setStyle(
+            this.tooltip,
+            'top',
+            hostPos.top - this.tooltip.getBoundingClientRect().height + 'px'
+          );
           this.checkSides();
         }
         break;
@@ -179,9 +238,14 @@ export class TooltipDirective implements OnDestroy {
           return;
         } else {
           this.renderer.setStyle(this.tooltip, 'top', hostPos.bottom + 'px');
-          this.renderer.setStyle(this.tooltip,
+          this.renderer.setStyle(
+            this.tooltip,
             'left',
-            hostPos.left + (hostPos.right - hostPos.left) / 2 - this.tooltip.getBoundingClientRect().width / 2 + 'px');
+            hostPos.left +
+              (hostPos.right - hostPos.left) / 2 -
+              this.tooltip.getBoundingClientRect().width / 2 +
+              'px'
+          );
           this.checkSides();
         }
         break;
@@ -203,35 +267,59 @@ export class TooltipDirective implements OnDestroy {
           return;
         } else {
           this.renderer.setStyle(this.tooltip, 'top', hostPos.bottom + 'px');
-          this.renderer.setStyle(this.tooltip, 'left', hostPos.right - this.tooltip.offsetWidth + 'px');
+          this.renderer.setStyle(
+            this.tooltip,
+            'left',
+            hostPos.right - this.tooltip.offsetWidth + 'px'
+          );
           this.checkSides();
         }
         break;
       case 'left':
-        this.renderer.setStyle(this.tooltip, 'left', hostPos.left - this.tooltip.getBoundingClientRect().width + 'px');
-        this.renderer.setStyle(this.tooltip,
+        this.renderer.setStyle(
+          this.tooltip,
+          'left',
+          hostPos.left - this.tooltip.getBoundingClientRect().width + 'px'
+        );
+        this.renderer.setStyle(
+          this.tooltip,
           'top',
-          hostPos.top + (hostPos.bottom - hostPos.top) / 2 - this.tooltip.getBoundingClientRect().height / 2 + 'px');
+          hostPos.top +
+            (hostPos.bottom - hostPos.top) / 2 -
+            this.tooltip.getBoundingClientRect().height / 2 +
+            'px'
+        );
         break;
       case 'left-top':
         this.renderer.setStyle(this.tooltip, 'top', hostPos.top + 'px');
-        this.renderer.setStyle(this.tooltip,
+        this.renderer.setStyle(
+          this.tooltip,
           'left',
-          hostPos.left - this.tooltip.getBoundingClientRect().width + 'px');
+          hostPos.left - this.tooltip.getBoundingClientRect().width + 'px'
+        );
         break;
       case 'left-bottom':
-        this.renderer.setStyle(this.tooltip,
+        this.renderer.setStyle(
+          this.tooltip,
           'left',
-          hostPos.left - this.tooltip.getBoundingClientRect().width + 'px');
-        this.renderer.setStyle(this.tooltip,
+          hostPos.left - this.tooltip.getBoundingClientRect().width + 'px'
+        );
+        this.renderer.setStyle(
+          this.tooltip,
           'top',
-          hostPos.bottom - this.tooltip.getBoundingClientRect().height + 'px');
+          hostPos.bottom - this.tooltip.getBoundingClientRect().height + 'px'
+        );
         break;
       case 'right':
         this.renderer.setStyle(this.tooltip, 'left', hostPos.right + 'px');
-        this.renderer.setStyle(this.tooltip,
+        this.renderer.setStyle(
+          this.tooltip,
           'top',
-          hostPos.top + (hostPos.bottom - hostPos.top) / 2 - this.tooltip.getBoundingClientRect().height / 2 + 'px');
+          hostPos.top +
+            (hostPos.bottom - hostPos.top) / 2 -
+            this.tooltip.getBoundingClientRect().height / 2 +
+            'px'
+        );
         break;
       case 'right-top':
         this.renderer.setStyle(this.tooltip, 'top', hostPos.top + 'px');
@@ -239,9 +327,11 @@ export class TooltipDirective implements OnDestroy {
         break;
       case 'right-bottom':
         this.renderer.setStyle(this.tooltip, 'left', hostPos.right + 'px');
-        this.renderer.setStyle(this.tooltip,
+        this.renderer.setStyle(
+          this.tooltip,
           'top',
-          hostPos.bottom - this.tooltip.getBoundingClientRect().height + 'px');
+          hostPos.bottom - this.tooltip.getBoundingClientRect().height + 'px'
+        );
         break;
     }
   }
@@ -251,7 +341,11 @@ export class TooltipDirective implements OnDestroy {
       this.renderer.setStyle(this.tooltip, 'left', 0);
     }
     if (this.tooltip.getBoundingClientRect().right > window.innerWidth) {
-      this.renderer.setStyle(this.tooltip, 'left', window.innerWidth - this.tooltip.getBoundingClientRect().width + 'px');
+      this.renderer.setStyle(
+        this.tooltip,
+        'left',
+        window.innerWidth - this.tooltip.getBoundingClientRect().width + 'px'
+      );
     }
   }
 
@@ -264,5 +358,4 @@ export class TooltipDirective implements OnDestroy {
       this.tooltip = null;
     }
   }
-
 }

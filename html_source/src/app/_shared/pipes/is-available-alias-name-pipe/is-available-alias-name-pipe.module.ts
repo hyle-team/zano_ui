@@ -4,12 +4,7 @@ import { IsAvailableAliasNamePipe } from './is-available-alias-name.pipe';
 
 @NgModule({
   declarations: [IsAvailableAliasNamePipe],
-  exports: [
-    IsAvailableAliasNamePipe
-  ],
-  imports: [
-    CommonModule
-  ]
+  exports: [IsAvailableAliasNamePipe],
+  imports: [CommonModule],
 })
-export class IsAvailableAliasNamePipeModule {
-}
+export class IsAvailableAliasNamePipeModule {}

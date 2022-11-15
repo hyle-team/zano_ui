@@ -1,5 +1,10 @@
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators, ValidationErrors } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+  ValidationErrors,
+} from '@angular/forms';
 import { BackendService } from '../_helpers/services/backend.service';
 import { VariablesService } from '../_helpers/services/variables.service';
 import { ModalService } from '../_helpers/services/modal.service';
@@ -11,7 +16,7 @@ import { Location } from '@angular/common';
 @Component({
   selector: 'app-open-wallet',
   templateUrl: './open-wallet.component.html',
-  styleUrls: ['./open-wallet.component.scss']
+  styleUrls: ['./open-wallet.component.scss'],
 })
 export class OpenWalletComponent implements OnInit, OnDestroy {
   queryRouting;
@@ -19,15 +24,18 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
   filePath: string;
 
   openForm = new UntypedFormGroup({
-    name: new UntypedFormControl('', [Validators.required, (g: UntypedFormControl) => {
-      for (let i = 0; i < this.variablesService.wallets.length; i++) {
-        if (g.value === this.variablesService.wallets[i].name) {
-          return { 'duplicate': true };
+    name: new UntypedFormControl('', [
+      Validators.required,
+      (g: UntypedFormControl) => {
+        for (let i = 0; i < this.variablesService.wallets.length; i++) {
+          if (g.value === this.variablesService.wallets[i].name) {
+            return { duplicate: true };
+          }
         }
-      }
-      return null;
-    }]),
-    password: new UntypedFormControl('')
+        return null;
+      },
+    ]),
+    password: new UntypedFormControl(''),
   });
 
   constructor(
@@ -39,8 +47,7 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
     private ngZone: NgZone,
     private location: Location,
     private translate: TranslateService
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.queryRouting = this.route.queryParams.subscribe(params => {
@@ -50,7 +57,10 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
         if (params.path.lastIndexOf('.') === -1) {
           filename = params.path.substr(params.path.lastIndexOf('/') + 1);
         } else {
-          filename = params.path.substr(params.path.lastIndexOf('/') + 1, params.path.lastIndexOf('.') - 1 - params.path.lastIndexOf('/'));
+          filename = params.path.substr(
+            params.path.lastIndexOf('/') + 1,
+            params.path.lastIndexOf('.') - 1 - params.path.lastIndexOf('/')
+          );
         }
         if (filename.length > 25) {
           filename = filename.slice(0, 25);
@@ -66,7 +76,11 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
   }
 
   openWallet(): void {
-    if (this.openForm.valid && this.openForm.get('name').value.length <= this.variablesService.maxWalletNameLength) {
+    if (
+      this.openForm.valid &&
+      this.openForm.get('name').value.length <=
+        this.variablesService.maxWalletNameLength
+    ) {
       this.backend.openWallet(
         this.filePath,
         this.openForm.get('password').value,
@@ -77,28 +91,34 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
             this.ngZone.run(() => {
               this.openForm.get('password').setErrors({
                 wrong_password: {
-                  text: 'Wrong password'
-                }
+                  text: 'Wrong password',
+                },
               } as ValidationErrors);
             });
           }
           if (open_error && open_error === 'FILE_NOT_FOUND') {
-            let error_translate = this.translate.instant('OPEN_WALLET.FILE_NOT_FOUND1');
+            let error_translate = this.translate.instant(
+              'OPEN_WALLET.FILE_NOT_FOUND1'
+            );
             error_translate += ':<br>' + this.filePath;
-            error_translate += this.translate.instant('OPEN_WALLET.FILE_NOT_FOUND2');
+            error_translate += this.translate.instant(
+              'OPEN_WALLET.FILE_NOT_FOUND2'
+            );
             this.modalService.prepareModal('error', error_translate);
           } else {
             if (open_status || open_error === 'FILE_RESTORED') {
-
               let exists = false;
-              this.variablesService.wallets.forEach((wallet) => {
+              this.variablesService.wallets.forEach(wallet => {
                 if (wallet.address === open_data['wi'].address) {
                   exists = true;
                 }
               });
 
               if (exists) {
-                this.modalService.prepareModal('error', 'OPEN_WALLET.WITH_ADDRESS_ALREADY_OPEN');
+                this.modalService.prepareModal(
+                  'error',
+                  'OPEN_WALLET.WITH_ADDRESS_ALREADY_OPEN'
+                );
                 this.backend.closeWallet(open_data.wallet_id, () => {
                   this.ngZone.run(() => {
                     this.router.navigate(['/']);
@@ -117,54 +137,80 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
                   open_data['wi'].tracking_hey
                 );
                 this.backend.getWalletInfo(new_wallet);
-                new_wallet.alias = this.backend.getWalletAlias(new_wallet.address);
+                new_wallet.alias = this.backend.getWalletAlias(
+                  new_wallet.address
+                );
                 new_wallet.currentPage = 1;
                 new_wallet.open_from_exist = true;
                 new_wallet.exclude_mining_txs = false;
                 new_wallet.is_auditable = open_data['wi'].is_auditable;
                 new_wallet.is_watch_only = open_data['wi'].is_watch_only;
-                if (open_data.recent_history && open_data.recent_history.history) {
-                  new_wallet.total_history_item = open_data.recent_history.total_history_items;
-                  new_wallet.totalPages = Math.ceil(open_data.recent_history.total_history_items / this.variablesService.count);
+                if (
+                  open_data.recent_history &&
+                  open_data.recent_history.history
+                ) {
+                  new_wallet.total_history_item =
+                    open_data.recent_history.total_history_items;
+                  new_wallet.totalPages = Math.ceil(
+                    open_data.recent_history.total_history_items /
+                      this.variablesService.count
+                  );
                   new_wallet.totalPages > this.variablesService.maxPages
-                    ? new_wallet.pages = new Array(5).fill(1).map((value, index) => value + index)
-                    : new_wallet.pages = new Array(new_wallet.totalPages).fill(1).map((value, index) => value + index);
+                    ? (new_wallet.pages = new Array(5)
+                        .fill(1)
+                        .map((value, index) => value + index))
+                    : (new_wallet.pages = new Array(new_wallet.totalPages)
+                        .fill(1)
+                        .map((value, index) => value + index));
                   new_wallet.prepareHistory(open_data.recent_history.history);
                 } else {
                   new_wallet.total_history_item = 0;
                   new_wallet.pages = new Array(1).fill(1);
                   new_wallet.totalPages = 1;
                 }
-                this.backend.getContracts(open_data.wallet_id, (contracts_status, contracts_data) => {
-                  if (contracts_status && contracts_data.hasOwnProperty('contracts')) {
-                    this.ngZone.run(() => {
-                      new_wallet.prepareContractsAfterOpen(
-                        contracts_data.contracts,
-                        this.variablesService.exp_med_ts,
-                        this.variablesService.height_app,
-                        this.variablesService.settings.viewedContracts,
-                        this.variablesService.settings.notViewedContracts);
-                    });
-                  }
-                });
-                this.variablesService.wallets.push(new_wallet);
-                this.backend.runWallet(open_data.wallet_id, (run_status, run_data) => {
-                  if (run_status) {
-                    if (this.variablesService.appPass) {
-                      this.backend.storeSecureAppData();
+                this.backend.getContracts(
+                  open_data.wallet_id,
+                  (contracts_status, contracts_data) => {
+                    if (
+                      contracts_status &&
+                      contracts_data.hasOwnProperty('contracts')
+                    ) {
+                      this.ngZone.run(() => {
+                        new_wallet.prepareContractsAfterOpen(
+                          contracts_data.contracts,
+                          this.variablesService.exp_med_ts,
+                          this.variablesService.height_app,
+                          this.variablesService.settings.viewedContracts,
+                          this.variablesService.settings.notViewedContracts
+                        );
+                      });
                     }
-                    this.ngZone.run(() => {
-                      this.variablesService.setCurrentWallet(open_data.wallet_id);
-                      this.router.navigate(['/wallet/']);
-                    });
-                  } else {
-                    console.log(run_data['error_code']);
                   }
-                });
+                );
+                this.variablesService.wallets.push(new_wallet);
+                this.backend.runWallet(
+                  open_data.wallet_id,
+                  (run_status, run_data) => {
+                    if (run_status) {
+                      if (this.variablesService.appPass) {
+                        this.backend.storeSecureAppData();
+                      }
+                      this.ngZone.run(() => {
+                        this.variablesService.setCurrentWallet(
+                          open_data.wallet_id
+                        );
+                        this.router.navigate(['/wallet/']);
+                      });
+                    } else {
+                      console.log(run_data['error_code']);
+                    }
+                  }
+                );
               }
             }
           }
-        });
+        }
+      );
     }
   }
 

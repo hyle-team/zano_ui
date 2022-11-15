@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-wallets',
   templateUrl: './wallets.component.html',
-  styleUrls: ['./wallets.component.scss']
+  styleUrls: ['./wallets.component.scss'],
 })
 export class WalletsComponent implements OnInit {
   classWalletActive = true;
@@ -15,10 +15,7 @@ export class WalletsComponent implements OnInit {
   showStaking = true;
   showProgressBar = false;
 
-  constructor() {
-  }
+  constructor() {}
 
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

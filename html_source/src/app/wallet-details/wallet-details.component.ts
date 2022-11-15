@@ -1,5 +1,10 @@
 import { Component, NgZone, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators, ValidationErrors } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+  ValidationErrors,
+} from '@angular/forms';
 import { BackendService } from '../_helpers/services/backend.service';
 import { VariablesService } from '../_helpers/services/variables.service';
 import { Router } from '@angular/router';
@@ -61,8 +66,7 @@ export class WalletDetailsComponent implements OnInit {
     private backend: BackendService,
     private ngZone: NgZone,
     private location: Location
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.showSeed = false;
@@ -113,10 +117,12 @@ export class WalletDetailsComponent implements OnInit {
   onSubmitEdit(): void {
     if (this.detailsForm.value) {
       this.onSave();
-      this.variablesService.currentWallet.name = this.detailsForm.get(
-        'name'
-      ).value;
-      this.detailsForm.reset({ name: this.variablesService.currentWallet.name, path: this.variablesService.currentWallet.path });
+      this.variablesService.currentWallet.name =
+        this.detailsForm.get('name').value;
+      this.detailsForm.reset({
+        name: this.variablesService.currentWallet.name,
+        path: this.variablesService.currentWallet.path,
+      });
     }
   }
 

@@ -1,4 +1,10 @@
-import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  forwardRef,
+  Input,
+  Output,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
@@ -9,9 +15,9 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => SwitchComponent),
-      multi: true
+      multi: true,
     },
-  ]
+  ],
 })
 export class SwitchComponent implements ControlValueAccessor {
   @Input() value = false;
@@ -20,11 +26,9 @@ export class SwitchComponent implements ControlValueAccessor {
 
   @Output() emitChange = new EventEmitter<boolean>();
 
-  onChange = (_: boolean) => {
-  }
+  onChange = (_: boolean) => {};
 
-  onTouched = () => {
-  }
+  onTouched = () => {};
 
   toggle(): void {
     if (!this.disabled) {

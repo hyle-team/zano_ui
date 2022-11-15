@@ -1,69 +1,79 @@
 <div class="page-container">
+  <div class="toolbar mb-2">
+    <div class="left">
+      <button (click)="back()" class="btn-icon circle big mr-2" type="button">
+        <i class="icon dropdown-arrow-left"></i>
+      </button>
+      <h1>{{ 'CONTACTS.TITLE' | translate }}</h1>
+    </div>
+    <div class="right"></div>
+  </div>
 
-	<div class="toolbar mb-2">
-		<div class="left">
-			<button (click)="back()"
-							class="btn-icon circle big mr-2"
-							type="button">
-				<i class="icon dropdown-arrow-left"></i>
-			</button>
-			<h1>{{ 'CONTACTS.TITLE' | translate }}</h1>
-		</div>
-		<div class="right"></div>
-	</div>
+  <div class="page-content">
+    <div class="breadcrumbs mb-2">
+      <div class="breadcrumb">
+        <a [routerLink]="['/contacts']">{{ 'CONTACTS.TITLE' | translate }}</a>
+      </div>
+      <div class="breadcrumb">
+        <span>{{ 'CONTACTS.SEND' | translate }}</span>
+      </div>
+    </div>
 
-	<div class="page-content">
-		<div class="breadcrumbs mb-2">
-			<div class="breadcrumb">
-				<a [routerLink]="['/contacts']">{{'CONTACTS.TITLE' | translate}}</a>
-			</div>
-			<div class="breadcrumb">
-				<span>{{ 'CONTACTS.SEND' | translate }}</span>
-			</div>
-		</div>
+    <div class="scrolled-content">
+      <form class="form">
+        <div class="form__field--row">
+          <div class="form__field">
+            <label>
+              {{ 'CONTACTS.SEND_FROM' | translate }}
+            </label>
+            <ng-select
+              [(ngModel)]="this.variablesService.selectWallet"
+              [clearable]="false"
+              [items]="this.variablesService.wallets"
+              [searchable]="false"
+              bindLabel="name"
+              bindValue="wallet_id"
+              class="custom-select"
+              name="wallets"
+            >
+            </ng-select>
+          </div>
+          <div>
+            <button
+              [routerLink]="['/add-wallet']"
+              class="outline w-100 mt-3 p-1"
+            >
+              {{ 'CONTACTS.OPEN_ADD_WALLET' | translate }}
+            </button>
+          </div>
+        </div>
 
-		<div class="scrolled-content">
-			<form class="form">
-				<div class="form__field--row">
-					<div class="form__field">
-						<label>
-							{{ 'CONTACTS.SEND_FROM' | translate }}
-						</label>
-						<ng-select [(ngModel)]="this.variablesService.selectWallet"
-											 [clearable]="false"
-											 [items]="this.variablesService.wallets"
-											 [searchable]="false"
-											 bindLabel="name"
-											 bindValue="wallet_id"
-											 class="custom-select"
-											 name="wallets">
-						</ng-select>
-					</div>
-					<div>
-						<button [routerLink]="['/add-wallet']"
-										class="outline w-100 mt-3 p-1">
-							{{ 'CONTACTS.OPEN_ADD_WALLET' | translate }}
-						</button>
-					</div>
-				</div>
+        <div class="form__field">
+          <label for="address">{{ 'CONTACTS.SEND_TO' | translate }}</label>
+          <input
+            [(ngModel)]="address"
+            [readonly]="true"
+            class="form__field--input"
+            id="address"
+            name="address"
+            type="text"
+          />
+        </div>
 
-				<div class="form__field">
-					<label for="address">{{ 'CONTACTS.SEND_TO' | translate }}</label>
-					<input [(ngModel)]="address"
-								 [readonly]="true"
-								 class="form__field--input"
-								 id="address"
-								 name="address"
-								 type="text"/>
-				</div>
-
-				<button (click)="goToWallet(this.variablesService.selectWallet)"
-								[disabled]="!(this.variablesService.selectWallet === 0 || this.variablesService.selectWallet)"
-								class="primary big w-100"
-								type="button">
-					{{'CONTACTS.BUTTON.GO_TO_WALLET' | translate }}
-				</button>
-			</form>
-		</div>
-	</div>
+        <button
+          (click)="goToWallet(this.variablesService.selectWallet)"
+          [disabled]="
+            !(
+              this.variablesService.selectWallet === 0 ||
+              this.variablesService.selectWallet
+            )
+          "
+          class="primary big w-100"
+          type="button"
+        >
+          {{ 'CONTACTS.BUTTON.GO_TO_WALLET' | translate }}
+        </button>
+      </form>
+    </div>
+  </div>
 </div>

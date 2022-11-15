@@ -14,8 +14,7 @@ import { DefaultImgModule } from '../../directives/default-img';
     TranslateModule,
     TooltipModule,
     OverlayModule,
-    DefaultImgModule
-  ]
+    DefaultImgModule,
+  ],
 })
-export class AssetTokenCardModule {
-}
+export class AssetTokenCardModule {}

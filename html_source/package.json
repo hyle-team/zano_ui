@@ -9,7 +9,8 @@
     "build --html": "ng build --output-path \"../html/\"",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+		"format": "npm prettier --write ."
   },
   "private": true,
   "dependencies": {
@@ -32,13 +33,17 @@
     "angular-highcharts": "^12.0.0",
     "bignumber.js": "^9.1.0",
     "core-js": "^3.26.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "highcharts": "^9.3.3",
     "idlejs": "^3.0.0",
     "json-bignumber": "^1.1.1",
     "lodash": "^4.17.20",
     "ngx-papaparse": "^5.1.0",
+    "prettier-eslint": "^15.0.1",
     "qrcode": "^1.5.1",
     "rxjs": "~7.5.7",
+    "save-dev": "0.0.1-security",
     "tslib": "^2.4.1",
     "zone.js": "~0.12.0"
   },
@@ -66,6 +71,7 @@
     "karma-coverage-istanbul-reporter": "^3.0.2",
     "karma-jasmine": "^5.1.0",
     "karma-jasmine-html-reporter": "^2.0.0",
+    "prettier": "^2.7.1",
     "protractor": "^7.0.0",
     "ts-node": "^10.9.1",
     "tslint": "^6.1.0",

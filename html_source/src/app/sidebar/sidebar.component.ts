@@ -3,7 +3,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { VariablesService } from '../_helpers/services/variables.service';
 import { BackendService } from '../_helpers/services/backend.service';
 import { ModalService } from '../_helpers/services/modal.service';
-import { DOWNLOADS_PAGE_URL, LOCKED_BALANCE_HELP_PAGE } from '../_shared/constants';
+import {
+  DOWNLOADS_PAGE_URL,
+  LOCKED_BALANCE_HELP_PAGE,
+} from '../_shared/constants';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Wallet } from '../_helpers/models/wallet.model';
 import { TranslateService } from '@ngx-translate/core';
@@ -12,7 +15,7 @@ import { IntToMoneyPipe } from '../_helpers/pipes/int-to-money.pipe';
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss']
+  styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent {
   isModalDialogVisible = false;
@@ -28,11 +31,13 @@ export class SidebarComponent {
     private translate: TranslateService,
     private intToMoneyPipe: IntToMoneyPipe,
     private ngZone: NgZone
-  ) {
-  }
+  ) {}
 
   goMainPage(): void {
-    if (this.route.snapshot.queryParams && this.route.snapshot.queryParams.prevUrl === 'login') {
+    if (
+      this.route.snapshot.queryParams &&
+      this.route.snapshot.queryParams.prevUrl === 'login'
+    ) {
       this.ngZone.run(() => {
         this.router.navigate(['/'], { queryParams: { prevUrl: 'login' } });
       });
@@ -41,7 +46,6 @@ export class SidebarComponent {
         this.router.navigate(['/']);
       });
     }
-
   }
 
   selectWallet(id: number): void {
@@ -56,7 +60,6 @@ export class SidebarComponent {
       this.ngZone.run(() => {
         this.router.navigate(['/contacts']);
       });
-
     } else {
       this.modal.prepareModal(
         'error',
@@ -66,7 +69,11 @@ export class SidebarComponent {
   }
 
   drop(event: CdkDragDrop<Wallet[]>): void {
-    moveItemInArray(this.variablesService.wallets, event.previousIndex, event.currentIndex);
+    moveItemInArray(
+      this.variablesService.wallets,
+      event.previousIndex,
+      event.currentIndex
+    );
   }
 
   showDialog(wallet_id): void {
@@ -84,13 +91,17 @@ export class SidebarComponent {
   closeWallet(wallet_id): void {
     this.backend.closeWallet(wallet_id, () => {
       for (let i = this.variablesService.wallets.length - 1; i >= 0; i--) {
-        if (this.variablesService.wallets[i].wallet_id === this.variablesService.currentWallet.wallet_id) {
+        if (
+          this.variablesService.wallets[i].wallet_id ===
+          this.variablesService.currentWallet.wallet_id
+        ) {
           this.variablesService.wallets.splice(i, 1);
         }
       }
       this.ngZone.run(() => {
         if (this.variablesService.wallets.length > 0) {
-          this.variablesService.currentWallet = this.variablesService.wallets[0];
+          this.variablesService.currentWallet =
+            this.variablesService.wallets[0];
           this.router.navigate(['/wallet/']);
         } else {
           this.router.navigate(['/']);
@@ -125,9 +136,7 @@ export class SidebarComponent {
     const available = document.createElement('span');
     available.setAttribute('class', 'available');
     available.innerHTML = this.translate.instant('WALLET.AVAILABLE_BALANCE', {
-      available: this.intToMoneyPipe.transform(
-        wallet.unlocked_balance
-      ),
+      available: this.intToMoneyPipe.transform(wallet.unlocked_balance),
       currency: this.variablesService.defaultCurrency,
     });
     tooltip.appendChild(available);
@@ -135,9 +144,7 @@ export class SidebarComponent {
     locked.setAttribute('class', 'locked');
     locked.innerHTML = this.translate.instant('WALLET.LOCKED_BALANCE', {
       locked: this.intToMoneyPipe.transform(
-        wallet.balance.minus(
-          wallet.unlocked_balance
-        )
+        wallet.balance.minus(wallet.unlocked_balance)
       ),
       currency: this.variablesService.defaultCurrency,
     });

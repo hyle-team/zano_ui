@@ -4,13 +4,10 @@ import { VariablesService } from '../_helpers/services/variables.service';
 @Component({
   selector: 'app-contracts',
   templateUrl: './contracts.component.html',
-  styleUrls: ['./contracts.component.scss']
+  styleUrls: ['./contracts.component.scss'],
 })
 export class ContractsComponent {
-  constructor(
-    public variablesService: VariablesService
-  ) {
-  }
+  constructor(public variablesService: VariablesService) {}
 
   get sortedArrayContracts(): any[] {
     return this.variablesService.currentWallet.contracts.sort((a, b) => {

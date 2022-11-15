@@ -5,11 +5,6 @@ import { AuthRoutingModule } from './auth-routing.module';
 
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule,
-    AuthRoutingModule,
-    NoWalletModule
-  ]
+  imports: [CommonModule, AuthRoutingModule, NoWalletModule],
 })
-export class AuthModule {
-}
+export class AuthModule {}

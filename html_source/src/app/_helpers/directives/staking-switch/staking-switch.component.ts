@@ -5,7 +5,7 @@ import { VariablesService } from '../../services/variables.service';
 @Component({
   selector: 'app-staking-switch',
   templateUrl: './staking-switch.component.html',
-  styleUrls: ['./staking-switch.component.scss']
+  styleUrls: ['./staking-switch.component.scss'],
 })
 export class StakingSwitchComponent {
   @Input() wallet_id: number;
@@ -14,8 +14,10 @@ export class StakingSwitchComponent {
 
   @Output() stakingChange = new EventEmitter<boolean>();
 
-  constructor(private backendService: BackendService, private variablesService: VariablesService) {
-  }
+  constructor(
+    private backendService: BackendService,
+    private variablesService: VariablesService
+  ) {}
 
   toggleStaking(): void {
     const wallet = this.variablesService.getWallet(this.wallet_id);

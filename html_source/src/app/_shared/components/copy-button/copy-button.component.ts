@@ -5,7 +5,7 @@ import { VariablesService } from '../../../_helpers/services/variables.service';
 @Component({
   selector: 'app-copy-button',
   templateUrl: './copy-button.component.html',
-  styleUrls: ['./copy-button.component.scss']
+  styleUrls: ['./copy-button.component.scss'],
 })
 export class CopyButtonComponent {
   @Input() value: string;
@@ -19,8 +19,7 @@ export class CopyButtonComponent {
   constructor(
     private backend: BackendService,
     public variablesService: VariablesService
-  ) {
-  }
+  ) {}
 
   copy(): void {
     this.backend.setClipboard(this.value || '');

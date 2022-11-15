@@ -32,25 +32,28 @@ const routes: Routes = [
   {
     path: paths.auth,
     component: FullLayoutComponent,
-    loadChildren: () => import('./pages/auth/auth.module').then(m => m.AuthModule)
+    loadChildren: () =>
+      import('./pages/auth/auth.module').then(m => m.AuthModule),
   },
   {
     path: paths.addWallet,
     component: WithSidebarLayoutComponent,
     children: [
       {
-        path: '', component: AddWalletComponent
-      }
-    ]
+        path: '',
+        component: AddWalletComponent,
+      },
+    ],
   },
   {
     path: paths.login,
     component: FullLayoutComponent,
     children: [
       {
-        path: '', component: LoginComponent
-      }
-    ]
+        path: '',
+        component: LoginComponent,
+      },
+    ],
   },
   {
     path: paths.wallet,
@@ -62,15 +65,15 @@ const routes: Routes = [
         children: [
           {
             path: pathsChildrenWallet.send,
-            component: SendComponent
+            component: SendComponent,
           },
           {
             path: pathsChildrenWallet.receive,
-            component: ReceiveComponent
+            component: ReceiveComponent,
           },
           {
             path: pathsChildrenWallet.history,
-            component: HistoryComponent
+            component: HistoryComponent,
           },
           {
             path: pathsChildrenWallet.contracts,
@@ -82,31 +85,31 @@ const routes: Routes = [
               },
               {
                 path: pathsChildrenContracts.purchase,
-                component: PurchaseComponent
+                component: PurchaseComponent,
               },
               {
-                path: `${ pathsChildrenContracts.purchase }/:id`,
-                component: PurchaseComponent
+                path: `${pathsChildrenContracts.purchase}/:id`,
+                component: PurchaseComponent,
               },
               {
-                path: '**', redirectTo: '',
+                path: '**',
+                redirectTo: '',
               },
-            ]
+            ],
           },
 
           {
             path: pathsChildrenWallet.staking,
-            component: StakingComponent
+            component: StakingComponent,
           },
           {
             path: '',
             redirectTo: pathsChildrenWallet.history,
-            pathMatch: 'full'
-          }
-        ]
-      }
-    ]
-
+            pathMatch: 'full',
+          },
+        ],
+      },
+    ],
   },
   {
     path: paths.create,
@@ -114,9 +117,9 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: CreateWalletComponent
-      }
-    ]
+        component: CreateWalletComponent,
+      },
+    ],
   },
   {
     path: paths.open,
@@ -124,9 +127,9 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: OpenWalletComponent
-      }
-    ]
+        component: OpenWalletComponent,
+      },
+    ],
   },
   {
     path: paths.restore,
@@ -134,9 +137,9 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: RestoreWalletComponent
-      }
-    ]
+        component: RestoreWalletComponent,
+      },
+    ],
   },
   {
     path: paths.seedPhrase,
@@ -144,9 +147,9 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: SeedPhraseComponent
-      }
-    ]
+        component: SeedPhraseComponent,
+      },
+    ],
   },
   {
     path: paths.details,
@@ -154,9 +157,9 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: WalletDetailsComponent
-      }
-    ]
+        component: WalletDetailsComponent,
+      },
+    ],
   },
   {
     path: paths.assignAlias,
@@ -164,9 +167,9 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: AssignAliasComponent
-      }
-    ]
+        component: AssignAliasComponent,
+      },
+    ],
   },
   {
     path: paths.editAlias,
@@ -174,9 +177,9 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: EditAliasComponent
-      }
-    ]
+        component: EditAliasComponent,
+      },
+    ],
   },
   {
     path: paths.transferAlias,
@@ -184,9 +187,9 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: TransferAliasComponent
-      }
-    ]
+        component: TransferAliasComponent,
+      },
+    ],
   },
   {
     path: paths.settings,
@@ -194,9 +197,9 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: SettingsComponent
-      }
-    ]
+        component: SettingsComponent,
+      },
+    ],
   },
   {
     path: paths.contacts,
@@ -204,9 +207,9 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: ContactsComponent
-      }
-    ]
+        component: ContactsComponent,
+      },
+    ],
   },
   {
     path: paths.addContacts,
@@ -214,29 +217,29 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: AddContactsComponent
-      }
-    ]
+        component: AddContactsComponent,
+      },
+    ],
   },
   {
-    path: `${ paths.editContacts }/:id`,
+    path: `${paths.editContacts}/:id`,
     component: WithSidebarLayoutComponent,
     children: [
       {
         path: '',
-        component: AddContactsComponent
-      }
-    ]
+        component: AddContactsComponent,
+      },
+    ],
   },
   {
-    path: `${ paths.contactSend }/:id`,
+    path: `${paths.contactSend}/:id`,
     component: WithSidebarLayoutComponent,
     children: [
       {
         path: '',
-        component: ContactSendComponent
-      }
-    ]
+        component: ContactSendComponent,
+      },
+    ],
   },
   {
     path: paths.import,
@@ -244,9 +247,9 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: ExportImportComponent
-      }
-    ]
+        component: ExportImportComponent,
+      },
+    ],
   },
   {
     path: paths.deeplink,
@@ -254,9 +257,9 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        component: DeeplinkComponent
-      }
-    ]
+        component: DeeplinkComponent,
+      },
+    ],
   },
   {
     path: paths.uiKit,
@@ -264,22 +267,20 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        loadChildren: () => import('./pages/ui-kit/ui-kit.module').then(m => m.UiKitModule)
-      }
-    ]
+        loadChildren: () =>
+          import('./pages/ui-kit/ui-kit.module').then(m => m.UiKitModule),
+      },
+    ],
   },
   {
     path: '',
     redirectTo: paths.addWallet,
-    pathMatch: 'full'
-  }
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-
-
-export class AppRoutingModule {
-}
+export class AppRoutingModule {}

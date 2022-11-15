@@ -3,15 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CheckboxModule, SwitchModule } from './components';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    SwitchModule,
-    CheckboxModule
-  ],
-  exports: [
-    SwitchModule,
-    CheckboxModule
-  ]
+  imports: [CommonModule, SwitchModule, CheckboxModule],
+  exports: [SwitchModule, CheckboxModule],
 })
-export class SharedModule {
-}
+export class SharedModule {}

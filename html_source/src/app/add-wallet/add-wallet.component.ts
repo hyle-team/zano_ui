@@ -9,7 +9,7 @@ import { CREATE_NEW_WALLET_HELP_PAGE } from '../_shared/constants';
 @Component({
   selector: 'app-add-wallet',
   templateUrl: './add-wallet.component.html',
-  styleUrls: ['./add-wallet.component.scss']
+  styleUrls: ['./add-wallet.component.scss'],
 })
 export class AddWalletComponent implements OnInit {
   prevUrl = '';
@@ -22,11 +22,13 @@ export class AddWalletComponent implements OnInit {
     private backend: BackendService,
     private ngZone: NgZone,
     private translate: TranslateService
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
-    if (this.route.snapshot.queryParams && this.route.snapshot.queryParams.prevUrl) {
+    if (
+      this.route.snapshot.queryParams &&
+      this.route.snapshot.queryParams.prevUrl
+    ) {
       this.prevUrl = this.route.snapshot.queryParams.prevUrl;
     }
   }
@@ -34,17 +36,24 @@ export class AddWalletComponent implements OnInit {
   openWallet(): void {
     this.backend.openFileDialog(
       this.translate.instant('MAIN.CHOOSE_PATH'),
-      '*', this.variablesService.settings.default_path,
+      '*',
+      this.variablesService.settings.default_path,
       (file_status, file_data) => {
         if (file_status) {
-          this.variablesService.settings.default_path = file_data.path.substr(0, file_data.path.lastIndexOf('/'));
+          this.variablesService.settings.default_path = file_data.path.substr(
+            0,
+            file_data.path.lastIndexOf('/')
+          );
           this.ngZone.run(() => {
-            this.router.navigate(['/open'], { queryParams: { path: file_data.path } });
+            this.router.navigate(['/open'], {
+              queryParams: { path: file_data.path },
+            });
           });
         } else {
           console.log(file_data['error_code']);
         }
-      });
+      }
+    );
   }
 
   openInBrowser(): void {

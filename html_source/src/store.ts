@@ -17,7 +17,7 @@ export enum StateKeys {
 
 export interface State {
   [StateKeys.wallets]: Wallet[] | null | undefined;
-  [StateKeys.sync]: Sync[]| null | undefined;
+  [StateKeys.sync]: Sync[] | null | undefined;
   [StateKeys.assetsInfo]: AssetsInfo | null | undefined;
 }
 
@@ -32,15 +32,17 @@ export class Store {
   private subject = new BehaviorSubject<State>(initialState);
   private store = this.subject.asObservable().pipe(distinctUntilChanged());
 
-  get state() {
+  get state(): State {
     return this.subject.value;
   }
 
   select<T>(name: StateKeys): Observable<T> {
-    return this.store.pipe(map((state) => state[name])) as unknown as Observable<T>;
+    return this.store.pipe(
+      map(state => state[name])
+    ) as unknown as Observable<T>;
   }
 
-  set(name: StateKeys, value: any) {
+  set(name: StateKeys, value: any): void {
     this.subject.next({ ...this.state, [name]: value });
   }
 }

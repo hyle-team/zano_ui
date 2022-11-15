@@ -8,8 +8,7 @@ export class DefaultImgDirective {
   @Input() defaultImgSrc!: string | null | undefined;
   @Input() defaultImgAlt: string | null | undefined;
 
-  constructor(private elementRef: ElementRef) {
-  }
+  constructor(private elementRef: ElementRef) {}
 
   @HostListener('error')
   handlerOnError(): void {

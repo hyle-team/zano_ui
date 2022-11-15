@@ -4,10 +4,7 @@ import { StakingSwitchComponent } from './staking-switch.component';
 
 @NgModule({
   declarations: [StakingSwitchComponent],
-  imports: [
-    CommonModule
-  ],
-  exports: [StakingSwitchComponent]
+  imports: [CommonModule],
+  exports: [StakingSwitchComponent],
 })
-export class StakingSwitchModule {
-}
+export class StakingSwitchModule {}

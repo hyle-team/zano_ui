@@ -1,13 +1,17 @@
-import { Directive, OnDestroy, TemplateRef, ViewContainerRef } from '@angular/core';
+import {
+  Directive,
+  OnDestroy,
+  TemplateRef,
+  ViewContainerRef,
+} from '@angular/core';
 import { VariablesService } from '../../../_helpers/services/variables.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Directive({
-  selector: '[appDisablePriceFetch]'
+  selector: '[appDisablePriceFetch]',
 })
 export class DisablePriceFetchDirective implements OnDestroy {
-
   private destroy$: Subject<void> = new Subject<void>();
 
   constructor(
@@ -18,7 +22,9 @@ export class DisablePriceFetchDirective implements OnDestroy {
     this._variablesService.disable_price_fetch$
       .pipe(takeUntil(this.destroy$))
       .subscribe((disable_price_fetch: boolean) => {
-        return !disable_price_fetch ? this._viewContainer.createEmbeddedView(this._templateRef) : this._viewContainer.clear();
+        return !disable_price_fetch
+          ? this._viewContainer.createEmbeddedView(this._templateRef)
+          : this._viewContainer.clear();
       });
   }
 
@@ -26,5 +32,4 @@ export class DisablePriceFetchDirective implements OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
   }
-
 }

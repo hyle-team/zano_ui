@@ -4,10 +4,7 @@ import { DisablePriceFetchDirective } from './disable-price-fetch.directive';
 
 @NgModule({
   declarations: [DisablePriceFetchDirective],
-  imports: [
-    CommonModule
-  ],
-  exports: [DisablePriceFetchDirective]
+  imports: [CommonModule],
+  exports: [DisablePriceFetchDirective],
 })
-export class DisablePriceFetchModule {
-}
+export class DisablePriceFetchModule {}

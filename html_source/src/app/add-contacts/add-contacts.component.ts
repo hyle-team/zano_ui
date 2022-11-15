@@ -1,5 +1,9 @@
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators,
+} from '@angular/forms';
 import { BackendService } from '../_helpers/services/backend.service';
 import { VariablesService } from '../_helpers/services/variables.service';
 import { ModalService } from '../_helpers/services/modal.service';
@@ -9,7 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-add-contacts',
   templateUrl: './add-contacts.component.html',
-  styleUrls: ['./add-contacts.component.scss']
+  styleUrls: ['./add-contacts.component.scss'],
 })
 export class AddContactsComponent implements OnInit, OnDestroy {
   id: number;
@@ -53,7 +57,7 @@ export class AddContactsComponent implements OnInit, OnDestroy {
           return { dublicated: true };
         }
         return null;
-      }
+      },
     ]),
     notes: new UntypedFormControl('', [
       (g: UntypedFormControl) => {
@@ -66,7 +70,7 @@ export class AddContactsComponent implements OnInit, OnDestroy {
         } else {
           return null;
         }
-      }
+      },
     ]),
     name: new UntypedFormControl('', [
       Validators.required,
@@ -82,8 +86,8 @@ export class AddContactsComponent implements OnInit, OnDestroy {
           }
           return null;
         }
-      }
-    ])
+      },
+    ]),
   });
 
   constructor(
@@ -93,8 +97,7 @@ export class AddContactsComponent implements OnInit, OnDestroy {
     private modalService: ModalService,
     private ngZone: NgZone,
     private location: Location
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.queryRouting = this.route.queryParams.subscribe(params => {
@@ -103,13 +106,13 @@ export class AddContactsComponent implements OnInit, OnDestroy {
         this.addContactForm.reset({
           name: this.variablesService.contacts[params.id]['name'],
           address: this.variablesService.contacts[params.id]['address'],
-          notes: this.variablesService.contacts[params.id]['notes']
+          notes: this.variablesService.contacts[params.id]['notes'],
         });
       } else {
         this.addContactForm.reset({
           name: this.variablesService.newContact['name'],
           address: this.variablesService.newContact['address'],
-          notes: this.variablesService.newContact['notes']
+          notes: this.variablesService.newContact['notes'],
         });
       }
     });
@@ -120,7 +123,7 @@ export class AddContactsComponent implements OnInit, OnDestroy {
       this.variablesService.newContact = {
         name: this.addContactForm.get('name').value,
         address: this.addContactForm.get('address').value,
-        notes: this.addContactForm.get('notes').value
+        notes: this.addContactForm.get('notes').value,
       };
     }
     this.queryRouting.unsubscribe();
@@ -163,7 +166,7 @@ export class AddContactsComponent implements OnInit, OnDestroy {
                 this.variablesService.contacts.push({
                   name: this.addContactForm.get('name').value.trim(),
                   address: this.addContactForm.get('address').value,
-                  notes: this.addContactForm.get('notes').value || ''
+                  notes: this.addContactForm.get('notes').value || '',
                 });
                 this.backend.storeSecureAppData();
                 this.backend.getContactAlias();
@@ -174,7 +177,7 @@ export class AddContactsComponent implements OnInit, OnDestroy {
                 this.variablesService.newContact = {
                   name: null,
                   address: null,
-                  notes: null
+                  notes: null,
                 };
                 this.addContactForm.reset();
               }
@@ -185,8 +188,7 @@ export class AddContactsComponent implements OnInit, OnDestroy {
     }
   }
 
-  confirmed(): void {
-  }
+  confirmed(): void {}
 
   back(): void {
     this.location.back();
