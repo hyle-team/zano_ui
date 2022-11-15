@@ -129,7 +129,7 @@ export class WalletComponent implements OnInit, OnDestroy {
         if (data && !data.sync) {
           let in_progress;
           const values = this.store.state.sync;
-          if (values && values.length) {
+          if (values && (values.length > 0)) {
             in_progress = values.filter((item) => item.sync);
             this.variablesService.sync_started = !!(
               in_progress && in_progress.length
@@ -197,7 +197,7 @@ export class WalletComponent implements OnInit, OnDestroy {
         }
       }
       this.ngZone.run(() => {
-        if (this.variablesService.wallets.length) {
+        if (this.variablesService.wallets.length > 0) {
           this.variablesService.currentWallet = this.variablesService.wallets[0];
           this.router.navigate(['/wallet/']);
         } else {
@@ -230,9 +230,7 @@ export class WalletComponent implements OnInit, OnDestroy {
       const wallet_id = data.wallet_id;
       this.ngZone.run(() => {
         if (wallet_state === 2 && wallet_id === this.variablesService.currentWallet.wallet_id) {
-          this.walletLoaded =
-            (this.variablesService.getWallet(this.variablesService.currentWallet.wallet_id) !== null &&
-              this.variablesService.getWallet(this.variablesService.currentWallet.wallet_id).loaded);
+          this.walletLoaded = this.variablesService.getWallet(this.variablesService.currentWallet.wallet_id)?.loaded || false;
           if (this.walletLoaded) {
             this.setTabsDisabled(this.variablesService.currentWallet.balance.eq(0));
           }

@@ -89,7 +89,7 @@ export class SidebarComponent {
         }
       }
       this.ngZone.run(() => {
-        if (this.variablesService.wallets.length) {
+        if (this.variablesService.wallets.length > 0) {
           this.variablesService.currentWallet = this.variablesService.wallets[0];
           this.router.navigate(['/wallet/']);
         } else {

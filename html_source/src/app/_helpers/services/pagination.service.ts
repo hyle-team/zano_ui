@@ -56,7 +56,7 @@ export class PaginationService {
     }
     const value = this.paginationStore.value;
     const pages = value.filter(item => item.walletID === walletID);
-    if (pages && pages.length) {
+    if (pages && (pages.length > 0)) {
       const max = _.maxBy(pages, 'page');
       const isForward = this.paginationStore.isForward(pages, currentPage);
       if (isForward) {

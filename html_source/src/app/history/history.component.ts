@@ -176,7 +176,7 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.paginationStore.setPage(1, 0, this.variablesService.currentWallet.wallet_id); // add back page for the first page
       } else {
         const pages = value.filter((item) => item.walletID === this.variablesService.currentWallet.wallet_id);
-        if (!pages.length) {
+        if (pages.length === 0) {
           this.paginationStore.setPage(1, 0, this.variablesService.currentWallet.wallet_id); // add back page for the first page
         }
       }

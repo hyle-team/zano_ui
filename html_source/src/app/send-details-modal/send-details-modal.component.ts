@@ -73,7 +73,7 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
 
   /** True, responseData$ or currentActionStates$ not empty */
   get isDetailsNotEmpty(): boolean {
-    return !!(this.responseData$.value || this.currentActionStates$.value.length);
+    return !!(this.responseData$.value || (this.currentActionStates$.value.length > 0));
   }
 
   ngOnInit(): void {

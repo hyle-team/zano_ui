@@ -26,7 +26,7 @@ export class PaginationStore {
   setPage(pageNumber: number, offset: number, walletID: number): void {
     let newPages: Pages[] = [];
     const pages = this.subject.getValue();
-    if (pages && pages.length) {
+    if (pages && (pages.length > 0)) {
       newPages = pages.slice(0);
     }
     newPages.push({ page: pageNumber, offset, walletID });

@@ -149,7 +149,7 @@ export class Wallet {
           }
         }
         if (!exists) {
-          if (this.history.length && items[i].timestamp >= this.history[0].timestamp) {
+          if ((this.history.length > 0) && items[i].timestamp >= this.history[0].timestamp) {
             this.history.unshift(this.prepareHistoryItem(items[i]));
           } else {
             this.history.push(this.prepareHistoryItem(items[i]));
@@ -174,10 +174,10 @@ export class Wallet {
       const contract = items[i];
       let contractTransactionExist = false;
       if (wallet && wallet.history) {
-        contractTransactionExist = wallet.history.some(elem => elem.contract && elem.contract.length && elem.contract[0].contract_id === contract.contract_id);
+        contractTransactionExist = wallet.history.some(elem => elem.contract && (elem.contract.length > 0) && elem.contract[0].contract_id === contract.contract_id);
       }
       if (!contractTransactionExist && wallet && wallet.excluded_history) {
-        contractTransactionExist = wallet.excluded_history.some(elem => elem.contract && elem.contract.length && elem.contract[0].contract_id === contract.contract_id);
+        contractTransactionExist = wallet.excluded_history.some(elem => elem.contract && (elem.contract.length > 0) && elem.contract[0].contract_id === contract.contract_id);
       }
 
       if (!contractTransactionExist) {

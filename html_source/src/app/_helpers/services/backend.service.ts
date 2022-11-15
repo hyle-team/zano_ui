@@ -176,7 +176,7 @@ export class BackendService {
   }
 
   storeAppData(callback?) {
-    if (this.variablesService.wallets.length) {
+    if (this.variablesService.wallets.length > 0) {
       this.variablesService.settings.wallets = [];
       this.variablesService.wallets.forEach((wallet) => {
         this.variablesService.settings.wallets.push({ name: wallet.name, path: wallet.path });
@@ -529,7 +529,7 @@ export class BackendService {
   }
 
   getContactAlias() {
-    if (this.variablesService.contacts.length && this.variablesService.daemon_state === 2) {
+    if ((this.variablesService.contacts.length > 0) && this.variablesService.daemon_state === 2) {
       this.variablesService.contacts.map(contact => {
         this.getAliasByAddress(contact.address, (status, data) => {
           if (status) {

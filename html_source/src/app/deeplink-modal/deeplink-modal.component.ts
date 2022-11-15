@@ -55,7 +55,7 @@ export class DeeplinkModalComponent implements OnInit, OnDestroy {
         this.actionData = {};
 
         if (deeplink) {
-          if (!this.walletsToPay.length) {
+          if (this.walletsToPay.length === 0) {
             this.canselAction();
             return;
           }

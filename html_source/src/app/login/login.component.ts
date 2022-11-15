@@ -127,7 +127,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.variablesService.appPass = appPass;
         const isEmptyObject = Object.keys(data).length === 0 && data.constructor === Object;
 
-        if (this.variablesService.wallets.length) {
+        if (this.variablesService.wallets.length > 0) {
           this.ngZone.run(() => {
             this.router.navigate(['/wallet/']);
           });

@@ -110,7 +110,7 @@ export class AppComponent implements OnInit, OnDestroy {
           const saveFunction = () => {
             this.backend.storeAppData(() => {
               const recursionCloseWallets = () => {
-                if (this.variablesService.wallets.length) {
+                if (this.variablesService.wallets.length > 0) {
                   const lastIndex = this.variablesService.wallets.length - 1;
                   this.backend.closeWallet(this.variablesService.wallets[lastIndex].wallet_id, () => {
                     this.variablesService.wallets.splice(lastIndex, 1);
@@ -587,7 +587,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.backend.setLogLevel(this.variablesService.settings.appLog);
         this.backend.setEnableTor(this.variablesService.settings.appUseTor);
 
-        if (!this.variablesService.settings.wallets || !this.variablesService.settings.wallets.length) {
+        if (!this.variablesService.settings.wallets || (this.variablesService.settings.wallets.length === 0)) {
           return this.router.navigate([`${ paths.auth }/${ pathsChildrenAuth.noWallet }`]).then();
         }
 
@@ -771,9 +771,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
   addToStore(wallet, boolean): void {
     const value = this.store.state.sync;
-    if (value && value.length) {
+    if (value && (value.length > 0)) {
       const sync = value.filter(item => item.wallet_id === wallet.wallet_id);
-      if (sync && sync.length) {
+      if (sync && (sync.length > 0)) {
         const result = value.map(item => {
           if (item.wallet_id === wallet.wallet_id) {
             return { sync: boolean, wallet_id: wallet.wallet_id };
