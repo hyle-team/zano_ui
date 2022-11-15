@@ -50,7 +50,7 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
   /** Working id is traceable */
   @Input() job_id: number;
 
-  @Output() close: EventEmitter<never> = new EventEmitter<never>();
+  @Output() close = new EventEmitter<void>();
 
   @ViewChild('elDetailsList', { static: true }) elDetailsList: ElementRef;
 
@@ -196,7 +196,7 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
   }
 
   /** Scroll elDetailsWrapper to bottom */
-  private scrollToBottomDetailsList() {
+  private scrollToBottomDetailsList(): void {
     if (this.elDetailsList) {
       const { nativeElement } = this.elDetailsList;
       nativeElement.scrollTop = nativeElement.scrollHeight;

@@ -1,8 +1,7 @@
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 
 @Directive({
-  // tslint:disable-next-line:directive-selector
-  selector: '[zanoDefaultImg]',
+  selector: '[appDefaultImg]',
 })
 export class DefaultImgDirective {
   @Input() defaultImgSrc!: string | null | undefined;

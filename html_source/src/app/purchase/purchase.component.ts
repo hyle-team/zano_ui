@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 import {
   UntypedFormControl,
   UntypedFormGroup,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { BackendService } from '../_helpers/services/backend.service';
@@ -51,13 +52,13 @@ export class PurchaseComponent implements OnInit, OnDestroy {
     description: new UntypedFormControl('', Validators.required),
     seller: new UntypedFormControl('', [
       Validators.required,
-      (g: UntypedFormControl) => {
+      (g: UntypedFormControl): ValidationErrors | null => {
         if (g.value === this.variablesService.currentWallet.address) {
           return { address_same: true };
         }
         return null;
       },
-      (g: UntypedFormControl) => {
+      (g: UntypedFormControl): ValidationErrors | null => {
         this.localAliases = [];
         if (g.value) {
           if (g.value.indexOf('@') !== 0) {
@@ -127,7 +128,7 @@ export class PurchaseComponent implements OnInit, OnDestroy {
     ]),
     amount: new UntypedFormControl(null, [
       Validators.required,
-      (g: UntypedFormControl) => {
+      (g: UntypedFormControl): ValidationErrors | null => {
         if (parseFloat(g.value) === 0) {
           return { amount_zero: true };
         }
@@ -276,7 +277,7 @@ export class PurchaseComponent implements OnInit, OnDestroy {
     if (this.variablesService.appPass) {
       this.purchaseForm.controls.password.setValidators([
         Validators.required,
-        (g: UntypedFormControl) => {
+        (g: UntypedFormControl): ValidationErrors | null => {
           if (g.value) {
             this.backend.checkMasterPassword({ pass: g.value }, status => {
               this.ngZone.run(() => {
@@ -432,7 +433,7 @@ export class PurchaseComponent implements OnInit, OnDestroy {
 
       const b_pledge = sameAmount ? amount : sellerDeposit;
 
-      const callback = create_status => {
+      const callback = (create_status): void => {
         if (create_status) {
           this.back();
         }
@@ -634,7 +635,7 @@ export class PurchaseComponent implements OnInit, OnDestroy {
     this.back();
   }
 
-  dealsDetailsSellerCancel() {
+  dealsDetailsSellerCancel(): void {
     this.backend.acceptCancelContract(
       this.variablesService.currentWallet.wallet_id,
       this.currentContract.contract_id,

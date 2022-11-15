@@ -28,7 +28,7 @@ export class DisablePriceFetchDirective implements OnDestroy {
       });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
   }

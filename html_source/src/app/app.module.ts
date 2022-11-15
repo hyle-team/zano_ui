@@ -69,11 +69,11 @@ import { IsAvailableAliasNamePipeModule } from './_shared/pipes/is-available-ali
 import { CopyButtonModule } from './_shared/components/copy-button/copy-button.module';
 import { GetAssetInfoByIdModule } from './_shared/pipes/get-asset-info-by-id/get-asset-info-by-id.module';
 
-export function HttpLoaderFactory(httpClient: HttpClient) {
+export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
 }
 
-export function highchartsFactory() {
+export function highchartsFactory(): any[] {
   highcharts.setOptions({
     time: {
       useUTC: false,

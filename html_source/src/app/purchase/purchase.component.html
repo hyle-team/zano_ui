@@ -409,7 +409,7 @@
         >
           <ng-container
             *ngIf="
-              currentContract.state == 1 &&
+              currentContract.state === 1 &&
               !currentContract.is_a &&
               currentContract.private_detailes.b_pledge
                 .plus(variablesService.default_fee_big)
@@ -428,7 +428,7 @@
           fxLayoutAlign="start center"
         >
           <ng-container
-            *ngIf="!currentContract.is_a && currentContract.state == 1"
+            *ngIf="!currentContract.is_a && currentContract.state === 1"
           >
             <button
               (click)="acceptState()"
@@ -459,17 +459,17 @@
               !showNullify &&
               !showTimeSelect &&
               currentContract.is_a &&
-              (currentContract.state == 201 ||
-                currentContract.state == 2 ||
-                currentContract.state == 120 ||
-                currentContract.state == 130)
+              (currentContract.state === 201 ||
+                currentContract.state === 2 ||
+                currentContract.state === 120 ||
+                currentContract.state === 130)
             "
           >
             <button
               (click)="dealsDetailsFinish()"
               [disabled]="
-                currentContract.cancel_expiration_time == 0 &&
-                (currentContract.height == 0 ||
+                currentContract.cancel_expiration_time === 0 &&
+                (currentContract.height === 0 ||
                   variablesService.height_app - currentContract.height < 10)
               "
               class="primary big"
@@ -480,8 +480,8 @@
             <button
               (click)="showNullify = true"
               [disabled]="
-                currentContract.cancel_expiration_time == 0 &&
-                (currentContract.height == 0 ||
+                currentContract.cancel_expiration_time === 0 &&
+                (currentContract.height === 0 ||
                   variablesService.height_app - currentContract.height < 10)
               "
               class="outline big"
@@ -492,8 +492,8 @@
             <button
               (click)="showTimeSelect = true"
               [disabled]="
-                currentContract.cancel_expiration_time == 0 &&
-                (currentContract.height == 0 ||
+                currentContract.cancel_expiration_time === 0 &&
+                (currentContract.height === 0 ||
                   variablesService.height_app - currentContract.height < 10)
               "
               class="outline big"
@@ -504,7 +504,7 @@
           </ng-container>
 
           <ng-container
-            *ngIf="!currentContract.is_a && currentContract.state == 5"
+            *ngIf="!currentContract.is_a && currentContract.state === 5"
           >
             <button
               (click)="dealsDetailsDontCanceling()"
@@ -553,10 +553,10 @@
             showTimeSelect &&
             !newPurchase &&
             currentContract.is_a &&
-            (currentContract.state == 201 ||
-              currentContract.state == 2 ||
-              currentContract.state == 120 ||
-              currentContract.state == 130)
+            (currentContract.state === 201 ||
+              currentContract.state === 2 ||
+              currentContract.state === 120 ||
+              currentContract.state === 130)
           "
           class="time-cancel-block-row"
           fxLayout="column"

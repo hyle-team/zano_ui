@@ -120,11 +120,7 @@
           {{ 'CONTACTS.BUTTON.ADD_EDIT' | translate }}
         </button>
 
-        <app-send-modal
-          (confirmed)="confirmed()"
-          *ngIf="isModalDialogVisible"
-          [form]="addContactForm"
-        >
+        <app-send-modal *ngIf="isModalDialogVisible" [form]="addContactForm">
         </app-send-modal>
       </form>
     </div>

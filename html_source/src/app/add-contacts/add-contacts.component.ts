@@ -2,6 +2,7 @@ import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import {
   UntypedFormControl,
   UntypedFormGroup,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { BackendService } from '../_helpers/services/backend.service';
@@ -25,7 +26,7 @@ export class AddContactsComponent implements OnInit, OnDestroy {
   addContactForm = new UntypedFormGroup({
     address: new UntypedFormControl('', [
       Validators.required,
-      (g: UntypedFormControl) => {
+      (g: UntypedFormControl): ValidationErrors | null => {
         if (g.value) {
           this.backend.validateAddress(g.value, valid_status => {
             this.ngZone.run(() => {
@@ -49,7 +50,7 @@ export class AddContactsComponent implements OnInit, OnDestroy {
         }
         return null;
       },
-      (g: UntypedFormControl) => {
+      (g: UntypedFormControl): ValidationErrors | null => {
         const isDublicated = this.variablesService.contacts.findIndex(
           contact => contact.address === g.value
         );
@@ -60,7 +61,7 @@ export class AddContactsComponent implements OnInit, OnDestroy {
       },
     ]),
     notes: new UntypedFormControl('', [
-      (g: UntypedFormControl) => {
+      (g: UntypedFormControl): ValidationErrors | null => {
         if (g.value) {
           if (g.value.length > this.variablesService.maxCommentLength) {
             return { maxLength: true };
@@ -76,7 +77,7 @@ export class AddContactsComponent implements OnInit, OnDestroy {
       Validators.required,
       Validators.minLength(4),
       Validators.maxLength(25),
-      (g: UntypedFormControl) => {
+      (g: UntypedFormControl): ValidationErrors | null => {
         if (g.value) {
           const isDublicated = this.variablesService.contacts.findIndex(
             contact => contact.name === g.value.trim()
@@ -187,8 +188,6 @@ export class AddContactsComponent implements OnInit, OnDestroy {
       }
     }
   }
-
-  confirmed(): void {}
 
   back(): void {
     this.location.back();

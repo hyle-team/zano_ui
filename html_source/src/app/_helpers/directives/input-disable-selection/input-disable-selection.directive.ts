@@ -5,7 +5,7 @@ import { Directive, HostListener } from '@angular/core';
 })
 export class InputDisableSelectionDirective {
   @HostListener('mousedown', ['$event'])
-  handleInput(event: Event) {
+  handleInput(event: Event): void {
     if ((<HTMLInputElement>event.target).readOnly) {
       event.preventDefault();
     }

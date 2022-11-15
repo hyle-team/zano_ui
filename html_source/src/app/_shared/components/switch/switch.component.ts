@@ -26,9 +26,9 @@ export class SwitchComponent implements ControlValueAccessor {
 
   @Output() emitChange = new EventEmitter<boolean>();
 
-  onChange = (_: boolean) => {};
+  onTouched!: () => void;
 
-  onTouched = () => {};
+  onChange!: (value: boolean) => void;
 
   toggle(): void {
     if (!this.disabled) {

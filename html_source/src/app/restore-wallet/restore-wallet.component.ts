@@ -2,6 +2,7 @@ import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import {
   UntypedFormControl,
   UntypedFormGroup,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -24,7 +25,7 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
     {
       name: new UntypedFormControl('', [
         Validators.required,
-        (g: UntypedFormControl) => {
+        (g: UntypedFormControl): ValidationErrors | null => {
           for (let i = 0; i < this.variablesService.wallets.length; i++) {
             if (g.value === this.variablesService.wallets[i].name) {
               return { duplicate: true };

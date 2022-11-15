@@ -57,19 +57,19 @@ export class ExportHistoryModalComponent implements OnInit, OnDestroy {
     this.currentFormat = this.exportFormats[0].format;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.renderer.addClass(document.body, 'no-scroll');
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.renderer.removeClass(document.body, 'no-scroll');
   }
 
-  closeModal() {
+  closeModal(): void {
     this.closeExportModal.emit(true);
   }
 
-  confirmExport() {
+  confirmExport(): void {
     this.exportData.format = `${this.currentFormat}`;
     this.exportData.wallet_id = this.currentWalletId;
     this.exportData.include_pos_transactions = this.posFilterIsOn;

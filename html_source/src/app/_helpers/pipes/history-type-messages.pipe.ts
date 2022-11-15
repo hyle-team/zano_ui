@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class HistoryTypeMessagesPipe implements PipeTransform {
   constructor(private translate: TranslateService) {}
 
-  transform(item: any, args?: any): any {
+  transform(item: any): any {
     if (item.tx_type === 0) {
       if (item.remote_addresses && item.remote_addresses[0]) {
         return item.remote_addresses[0];

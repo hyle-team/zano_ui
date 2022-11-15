@@ -27,7 +27,7 @@ export class WalletDetailsComponent implements OnInit {
   detailsForm = new UntypedFormGroup({
     name: new UntypedFormControl('', [
       Validators.required,
-      (g: UntypedFormControl) => {
+      (g: UntypedFormControl): ValidationErrors | null => {
         for (let i = 0; i < this.variablesService.wallets.length; i++) {
           if (g.value === this.variablesService.wallets[i].name) {
             if (

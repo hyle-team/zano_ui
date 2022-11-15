@@ -102,7 +102,7 @@ export class StakingComponent implements OnInit, OnDestroy {
     private translate: TranslateService
   ) {}
 
-  static makeGroupTime(key, date) {
+  static makeGroupTime(key, date): number {
     if (key === 'day') {
       return date.setHours(0, 0, 0, 0);
     } else if (key === 'week') {
@@ -169,7 +169,7 @@ export class StakingComponent implements OnInit, OnDestroy {
         height: null,
         zoomType: null,
         events: {
-          load: () => {
+          load: (): void => {
             this.changePeriod();
           },
         },
@@ -251,14 +251,14 @@ export class StakingComponent implements OnInit, OnDestroy {
         series: {
           point: {
             events: {
-              mouseOver: obj => {
+              mouseOver: (obj): void => {
                 this.selectedDate.date = obj.target['x'];
                 this.selectedDate.amount = obj.target['y'];
               },
             },
           },
           events: {
-            mouseOut: () => {
+            mouseOut: (): void => {
               this.selectedDate.date = null;
               this.selectedDate.amount = null;
             },

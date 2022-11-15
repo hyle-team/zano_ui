@@ -72,7 +72,7 @@ export class AppComponent implements OnInit, OnDestroy {
     });
   }
 
-  setBackendLocalization() {
+  setBackendLocalization(): void {
     if (this.translateUsed) {
       const stringsArray = [
         this.translate.instant('BACKEND_LOCALIZATION.QUIT'),
@@ -125,9 +125,9 @@ export class AppComponent implements OnInit, OnDestroy {
             });
             this.needOpenWallets = [];
             this.variablesService.daemon_state = 5;
-            const saveFunction = () => {
-              this.backend.storeAppData(() => {
-                const recursionCloseWallets = () => {
+            const saveFunction = (): void => {
+              this.backend.storeAppData((): void => {
+                const recursionCloseWallets = (): void => {
                   if (this.variablesService.wallets.length > 0) {
                     const lastIndex = this.variablesService.wallets.length - 1;
                     this.backend.closeWallet(

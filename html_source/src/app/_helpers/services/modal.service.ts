@@ -21,7 +21,7 @@ export class ModalService {
     private translate: TranslateService
   ) {}
 
-  prepareModal(type, message) {
+  prepareModal(type, message): void {
     const length = this.components.push(
       this.componentFactoryResolver
         .resolveComponentFactory(ModalContainerComponent)
@@ -41,7 +41,7 @@ export class ModalService {
     });
   }
 
-  appendModal(index) {
+  appendModal(index): void {
     setTimeout(() => {
       this.appRef.attachView(this.components[index].hostView);
       const domElem = (this.components[index].hostView as EmbeddedViewRef<any>)
@@ -50,7 +50,7 @@ export class ModalService {
     });
   }
 
-  removeModal(index) {
+  removeModal(index): void {
     if (this.components[index]) {
       this.appRef.detachView(this.components[index].hostView);
       this.components[index].destroy();

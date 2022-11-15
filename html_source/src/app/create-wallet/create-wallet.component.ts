@@ -2,6 +2,7 @@ import { Component, NgZone } from '@angular/core';
 import {
   UntypedFormControl,
   UntypedFormGroup,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { BackendService } from '../_helpers/services/backend.service';
@@ -22,7 +23,7 @@ export class CreateWalletComponent {
     {
       name: new UntypedFormControl('', [
         Validators.required,
-        (g: UntypedFormControl) => {
+        (g: UntypedFormControl): ValidationErrors | null => {
           for (let i = 0; i < this.variablesService.wallets.length; i++) {
             if (g.value === this.variablesService.wallets[i].name) {
               return { duplicate: true };

@@ -13,7 +13,7 @@ export class PaginationService {
     private paginationStore: PaginationStore
   ) {}
 
-  paginate(currentPage = 1) {
+  paginate(currentPage = 1): void {
     if (currentPage < 1) {
       currentPage = 1;
     } else if (currentPage > this.variables.currentWallet.totalPages) {
@@ -51,7 +51,7 @@ export class PaginationService {
     });
   }
 
-  getOffset(walletID) {
+  getOffset(walletID): number {
     const mining = this.variables.currentWallet.exclude_mining_txs;
     const currentPage = this.variables.currentWallet.currentPage;
     let offset = (currentPage - 1) * this.variables.count;
@@ -73,7 +73,7 @@ export class PaginationService {
     return offset;
   }
 
-  calcPages(data) {
+  calcPages(data): void {
     if (data.total_history_items && data && data.history) {
       this.variables.currentWallet.totalPages = Math.ceil(
         data.total_history_items / this.variables.count
@@ -103,7 +103,7 @@ export class PaginationService {
     }
   }
 
-  prepareHistory(data, status) {
+  prepareHistory(data, status): void {
     if (status && data && data.total_history_items) {
       this.variables.currentWallet.history.splice(
         0,

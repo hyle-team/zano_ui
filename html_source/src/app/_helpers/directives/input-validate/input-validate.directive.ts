@@ -18,7 +18,7 @@ export class InputValidateDirective {
   }
 
   @HostListener('input', ['$event'])
-  handleInput(event: Event) {
+  handleInput(event: Event): void {
     if (this.type === 'money') {
       this.moneyValidation(event);
     } else if (this.type === 'integer') {
@@ -26,7 +26,7 @@ export class InputValidateDirective {
     }
   }
 
-  private moneyValidation(event: Event) {
+  private moneyValidation(event: Event): void {
     let currentValue = (<HTMLInputElement>event.target).value;
     const originalValue = currentValue;
     const OnlyD = /[^\d\.]/g;
@@ -61,7 +61,7 @@ export class InputValidateDirective {
     }
   }
 
-  private integerValidation(event: Event) {
+  private integerValidation(event: Event): void {
     let currentValue = (<HTMLInputElement>event.target).value;
     const originalValue = currentValue;
     const OnlyD = /\D/g;

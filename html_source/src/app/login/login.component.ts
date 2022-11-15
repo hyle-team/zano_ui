@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit, OnDestroy {
       confirmation: new UntypedFormControl(''),
     },
     [
-      function (g: UntypedFormGroup) {
+      function (g: UntypedFormGroup): ValidationErrors | null {
         return g.get('password').value === g.get('confirmation').value
           ? null
           : { mismatch: true };
@@ -136,7 +136,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
-  getData(appPass) {
+  getData(appPass): void {
     this.backend.getSecureAppData({ pass: appPass }, (status, data) => {
       if (!data.error_code) {
         this.setAuthPassError(null);
@@ -193,7 +193,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
   }
 
-  getWalletData(walletData) {
+  getWalletData(walletData): void {
     let openWallets = 0;
     let runWallets = 0;
     walletData.forEach((wallet, wallet_index) => {
@@ -304,7 +304,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     });
   }
 
-  private setAuthPassError(errors: ValidationErrors | null) {
+  private setAuthPassError(errors: ValidationErrors | null): void {
     this.authForm.controls['password'].setErrors(errors);
   }
 }

@@ -8,6 +8,7 @@ import {
 import {
   UntypedFormControl,
   UntypedFormGroup,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { BackendService } from '../_helpers/services/backend.service';
@@ -66,7 +67,7 @@ export class SendComponent implements OnInit, OnDestroy {
   sendForm = new UntypedFormGroup({
     address: new UntypedFormControl('', [
       Validators.required,
-      (g: UntypedFormControl) => {
+      (g: UntypedFormControl): ValidationErrors | null => {
         this.localAliases = [];
         if (g.value) {
           this.currentAliasAddress = '';
@@ -135,7 +136,7 @@ export class SendComponent implements OnInit, OnDestroy {
     ]),
     amount: new UntypedFormControl(undefined, [
       Validators.required,
-      (g: UntypedFormControl) => {
+      (g: UntypedFormControl): ValidationErrors | null => {
         if (!g.value) {
           return null;
         }
@@ -170,7 +171,7 @@ export class SendComponent implements OnInit, OnDestroy {
     mixin: new UntypedFormControl(MIXIN, Validators.required),
     fee: new UntypedFormControl(this.variablesService.default_fee, [
       Validators.required,
-      (g: UntypedFormControl) => {
+      (g: UntypedFormControl): ValidationErrors | null => {
         if (
           new BigNumber(g.value).isLessThan(this.variablesService.default_fee)
         ) {

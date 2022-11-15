@@ -91,7 +91,7 @@ export class Wallet {
     this.loaded = false;
   }
 
-  getMoneyEquivalent(equivalent) {
+  getMoneyEquivalent(equivalent): string {
     return this.balance.multipliedBy(equivalent).toFixed(0);
   }
 
@@ -330,7 +330,7 @@ export class Wallet {
     this.recountNewContracts();
   }
 
-  recountNewContracts() {
+  recountNewContracts(): void {
     this.new_contracts = this.contracts.filter(
       item => item.is_new === true
     ).length;

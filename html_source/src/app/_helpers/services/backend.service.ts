@@ -108,7 +108,7 @@ export class BackendService {
     this.getAssetsInfo();
   }
 
-  static bigNumberParser(key, val) {
+  static bigNumberParser(key, val): any {
     if (
       val.constructor.name === 'BigNumber' &&
       [
@@ -151,7 +151,7 @@ export class BackendService {
     }
   }
 
-  eventSubscribe(command, callback) {
+  eventSubscribe(command, callback): void {
     if (command === 'on_core_event') {
       this.backendObject[command].connect(callback);
     } else {
@@ -161,7 +161,7 @@ export class BackendService {
     }
   }
 
-  initService() {
+  initService(): Observable<unknown> {
     return new Observable(observer => {
       if (!this.backendLoaded) {
         this.backendLoaded = true;
@@ -182,19 +182,19 @@ export class BackendService {
     });
   }
 
-  webkitLaunchedScript() {
+  webkitLaunchedScript(): any {
     return this.runCommand('webkit_launched_script');
   }
 
-  quitRequest() {
+  quitRequest(): any {
     return this.runCommand('on_request_quit');
   }
 
-  getAppData(callback) {
+  getAppData(callback): void {
     this.runCommand('get_app_data', {}, callback);
   }
 
-  storeAppData(callback?) {
+  storeAppData(callback?): void {
     if (this.variablesService.wallets.length > 0) {
       this.variablesService.settings.wallets = [];
       this.variablesService.wallets.forEach(wallet => {
@@ -207,29 +207,28 @@ export class BackendService {
     this.runCommand('store_app_data', this.variablesService.settings, callback);
   }
 
-  getSecureAppData(pass, callback) {
+  getSecureAppData(pass, callback): void {
     this.runCommand('get_secure_app_data', pass, callback);
   }
 
-  setMasterPassword(pass, callback) {
+  setMasterPassword(pass, callback): void {
     this.runCommand('set_master_password', pass, callback);
   }
 
-  checkMasterPassword(pass, callback) {
+  checkMasterPassword(pass, callback): void {
     this.runCommand('check_master_password', pass, callback);
   }
 
-  getIsDisabledNotifications(callback) {
+  getIsDisabledNotifications(callback): void {
     const params = {};
     this.runCommand('get_is_disabled_notifications', params, callback);
   }
 
-  setIsDisabledNotifications(state) {
+  setIsDisabledNotifications(state): void {
     this.runCommand('set_is_disabled_notifications', state);
   }
 
-  storeSecureAppData(callback?) {
-    let data;
+  storeSecureAppData(callback?): void {
     const wallets = [];
     const contacts = [];
     this.variablesService.wallets.forEach(wallet => {
@@ -247,7 +246,7 @@ export class BackendService {
         notes: contact.notes,
       });
     });
-    data = { wallets: wallets, contacts: contacts };
+    const data = { wallets: wallets, contacts: contacts };
     this.backendObject['store_secure_app_data'](
       JSON.stringify(data),
       this.variablesService.appPass,
@@ -257,17 +256,17 @@ export class BackendService {
     );
   }
 
-  dropSecureAppData(callback?) {
+  dropSecureAppData(callback?): void {
     this.backendObject['drop_secure_app_data'](dataStore => {
       this.backendCallback(dataStore, {}, callback, 'drop_secure_app_data');
     });
   }
 
-  haveSecureAppData(callback) {
+  haveSecureAppData(callback): void {
     this.runCommand('have_secure_app_data', {}, callback);
   }
 
-  saveFileDialog(caption, fileMask, default_path, callback) {
+  saveFileDialog(caption, fileMask, default_path, callback): void {
     const dir = default_path ? default_path : '/';
     const params = {
       caption: caption,
@@ -277,7 +276,7 @@ export class BackendService {
     this.runCommand('show_savefile_dialog', params, callback);
   }
 
-  openFileDialog(caption, fileMask, default_path, callback) {
+  openFileDialog(caption, fileMask, default_path, callback): void {
     const dir = default_path ? default_path : '/';
     const params = {
       caption: caption,
@@ -287,19 +286,19 @@ export class BackendService {
     this.runCommand('show_openfile_dialog', params, callback);
   }
 
-  storeFile(path, buff) {
+  storeFile(path, buff): void {
     this.backendObject['store_to_file'](path, buff);
   }
 
-  loadFile(path, callback) {
+  loadFile(path, callback): void {
     this.runCommand('load_from_file', path, callback);
   }
 
-  push_offer(params, callback) {
+  push_offer(params, callback): void {
     this.runCommand('push_offer', params, callback);
   }
 
-  generateWallet(path, pass, callback) {
+  generateWallet(path, pass, callback): void {
     const params = {
       path: path,
       pass: pass,
@@ -307,11 +306,11 @@ export class BackendService {
     this.runCommand('generate_wallet', params, callback);
   }
 
-  exportWalletHistory(json_string) {
+  exportWalletHistory(json_string): void {
     this.runCommand('export_wallet_history', json_string);
   }
 
-  openWallet(path, pass, txs_to_return, testEmpty, callback) {
+  openWallet(path, pass, txs_to_return, testEmpty, callback): void {
     const params = {
       path: path,
       pass: pass,
@@ -321,11 +320,11 @@ export class BackendService {
     this.runCommand('open_wallet', params, callback);
   }
 
-  closeWallet(wallet_id, callback?) {
+  closeWallet(wallet_id, callback?): void {
     this.runCommand('close_wallet', { wallet_id: +wallet_id }, callback);
   }
 
-  getSmartWalletInfo({ wallet_id, seed_password }, callback) {
+  getSmartWalletInfo({ wallet_id, seed_password }, callback): void {
     this.runCommand(
       'get_smart_wallet_info',
       { wallet_id: +wallet_id, seed_password },
@@ -333,19 +332,19 @@ export class BackendService {
     );
   }
 
-  getSeedPhraseInfo(param, callback) {
+  getSeedPhraseInfo(param, callback): void {
     this.runCommand('get_seed_phrase_info', param, callback);
   }
 
-  runWallet(wallet_id, callback?) {
+  runWallet(wallet_id, callback?): void {
     this.runCommand('run_wallet', { wallet_id: +wallet_id }, callback);
   }
 
-  isValidRestoreWalletText(param, callback) {
+  isValidRestoreWalletText(param, callback): void {
     this.runCommand('is_valid_restore_wallet_text', param, callback);
   }
 
-  restoreWallet(path, pass, seed_phrase, seed_pass, callback) {
+  restoreWallet(path, pass, seed_phrase, seed_pass, callback): void {
     const params = {
       seed_phrase: seed_phrase,
       path: path,
@@ -364,7 +363,7 @@ export class BackendService {
     comment,
     hide,
     callback
-  ) {
+  ): void {
     const params = {
       wallet_id: parseInt(from_wallet_id, 10),
       destinations: [
@@ -383,15 +382,15 @@ export class BackendService {
     this.asyncCall('transfer', params, callback);
   }
 
-  validateAddress(address, callback) {
+  validateAddress(address, callback): void {
     this.runCommand('validate_address', address, callback);
   }
 
-  setClipboard(str, callback?) {
+  setClipboard(str, callback?): any {
     return this.runCommand('set_clipboard', str, callback);
   }
 
-  getClipboard(callback) {
+  getClipboard(callback): any {
     return this.runCommand('get_clipboard', {}, callback);
   }
 
@@ -407,7 +406,7 @@ export class BackendService {
     time,
     payment_id,
     callback
-  ) {
+  ): void {
     const params = {
       wallet_id: parseInt(wallet_id, 10),
       details: {
@@ -428,7 +427,7 @@ export class BackendService {
     this.runCommand('create_proposal', params, callback);
   }
 
-  getContracts(wallet_id, callback) {
+  getContracts(wallet_id, callback): void {
     const params = {
       wallet_id: parseInt(wallet_id, 10),
     };
@@ -436,7 +435,7 @@ export class BackendService {
     this.runCommand('get_contracts', params, callback);
   }
 
-  acceptProposal(wallet_id, contract_id, callback) {
+  acceptProposal(wallet_id, contract_id, callback): void {
     const params = {
       wallet_id: parseInt(wallet_id, 10),
       contract_id: contract_id,
@@ -445,7 +444,7 @@ export class BackendService {
     this.runCommand('accept_proposal', params, callback);
   }
 
-  releaseProposal(wallet_id, contract_id, release_type, callback) {
+  releaseProposal(wallet_id, contract_id, release_type, callback): void {
     const params = {
       wallet_id: parseInt(wallet_id, 10),
       contract_id: contract_id,
@@ -455,7 +454,7 @@ export class BackendService {
     this.runCommand('release_contract', params, callback);
   }
 
-  requestCancelContract(wallet_id, contract_id, time, callback) {
+  requestCancelContract(wallet_id, contract_id, time, callback): void {
     const params = {
       wallet_id: parseInt(wallet_id, 10),
       contract_id: contract_id,
@@ -466,7 +465,7 @@ export class BackendService {
     this.runCommand('request_cancel_contract', params, callback);
   }
 
-  acceptCancelContract(wallet_id, contract_id, callback) {
+  acceptCancelContract(wallet_id, contract_id, callback): void {
     const params = {
       wallet_id: parseInt(wallet_id, 10),
       contract_id: contract_id,
@@ -475,7 +474,7 @@ export class BackendService {
     this.runCommand('accept_cancel_contract', params, callback);
   }
 
-  getMiningHistory(wallet_id, callback) {
+  getMiningHistory(wallet_id, callback): void {
     this.runCommand(
       'get_mining_history',
       { wallet_id: parseInt(wallet_id, 10) },
@@ -483,7 +482,7 @@ export class BackendService {
     );
   }
 
-  startPosMining(wallet_id, callback?) {
+  startPosMining(wallet_id, callback?): void {
     this.runCommand(
       'start_pos_mining',
       { wallet_id: parseInt(wallet_id, 10) },
@@ -491,7 +490,7 @@ export class BackendService {
     );
   }
 
-  stopPosMining(wallet_id, callback?) {
+  stopPosMining(wallet_id, callback?): void {
     this.runCommand(
       'stop_pos_mining',
       { wallet_id: parseInt(wallet_id, 10) },
@@ -499,11 +498,11 @@ export class BackendService {
     );
   }
 
-  openUrlInBrowser(url, callback?) {
+  openUrlInBrowser(url, callback?): void {
     this.runCommand('open_url_in_browser', url, callback);
   }
 
-  start_backend(node, host, port, callback) {
+  start_backend(node, host, port, callback): void {
     const params = {
       configure_for_remote_node: node,
       remote_node_host: host,
@@ -512,11 +511,11 @@ export class BackendService {
     this.runCommand('start_backend', params, callback);
   }
 
-  getDefaultFee(callback) {
+  getDefaultFee(callback): void {
     this.runCommand('get_default_fee', {}, callback);
   }
 
-  setBackendLocalization(stringsArray, title, callback?) {
+  setBackendLocalization(stringsArray, title, callback?): void {
     const params = {
       strings: stringsArray,
       language_title: title,
@@ -524,7 +523,15 @@ export class BackendService {
     this.runCommand('set_localization_strings', params, callback);
   }
 
-  registerAlias(wallet_id, alias, address, fee, comment, reward, callback) {
+  registerAlias(
+    wallet_id,
+    alias,
+    address,
+    fee,
+    comment,
+    reward,
+    callback
+  ): void {
     const params = {
       wallet_id: wallet_id,
       alias: {
@@ -539,7 +546,7 @@ export class BackendService {
     this.runCommand('request_alias_registration', params, callback);
   }
 
-  updateAlias(wallet_id, alias, fee, callback) {
+  updateAlias(wallet_id, alias, fee, callback): void {
     const params = {
       wallet_id: wallet_id,
       alias: {
@@ -553,23 +560,23 @@ export class BackendService {
     this.runCommand('request_alias_update', params, callback);
   }
 
-  getAllAliases(callback) {
+  getAllAliases(callback): void {
     this.runCommand('get_all_aliases', {}, callback);
   }
 
-  getAliasByName(value, callback) {
+  getAliasByName(value, callback): any {
     return this.runCommand('get_alias_info_by_name', value, callback);
   }
 
-  getAliasByAddress(value, callback) {
+  getAliasByAddress(value, callback): any {
     return this.runCommand('get_alias_info_by_address', value, callback);
   }
 
-  getAliasCoast(alias, callback) {
+  getAliasCoast(alias, callback): void {
     this.runCommand('get_alias_coast', { v: alias }, callback);
   }
 
-  resyncWallet(id) {
+  resyncWallet(id): void {
     this.runCommand('resync_wallet', { wallet_id: id });
   }
 
@@ -613,7 +620,7 @@ export class BackendService {
     return {};
   }
 
-  getContactAlias() {
+  getContactAlias(): void {
     if (
       this.variablesService.contacts.length > 0 &&
       this.variablesService.daemon_state === 2
@@ -632,7 +639,7 @@ export class BackendService {
     }
   }
 
-  getRecentTransfers(id, offset, count, exclude_mining_txs, callback) {
+  getRecentTransfers(id, offset, count, exclude_mining_txs, callback): void {
     const params = {
       wallet_id: id,
       offset: offset,
@@ -642,11 +649,11 @@ export class BackendService {
     this.runCommand('get_recent_transfers', params, callback);
   }
 
-  getPoolInfo(callback) {
+  getPoolInfo(callback): void {
     this.runCommand('get_tx_pool_info', {}, callback);
   }
 
-  getVersion(callback) {
+  getVersion(callback): void {
     this.runCommand('get_version', {}, (status, version) => {
       this.runCommand('get_network_type', {}, (status_network, type) => {
         callback(version, type);
@@ -654,7 +661,7 @@ export class BackendService {
     });
   }
 
-  setLogLevel(level) {
+  setLogLevel(level): any {
     return this.runCommand('set_log_level', { v: level });
   }
 
@@ -662,7 +669,7 @@ export class BackendService {
     command: string,
     params: PramsObj,
     callback?: (job_id?: number) => void | any
-  ) {
+  ): any {
     return this.runCommand(
       'async_call',
       [command, params],
@@ -672,7 +679,7 @@ export class BackendService {
     );
   }
 
-  dispatchAsyncCallResult() {
+  dispatchAsyncCallResult(): void {
     this.backendObject['dispatch_async_call_result'].connect(
       (job_id: string, json_resp: string) => {
         const asyncCommandResults: AsyncCommandResults = {
@@ -686,7 +693,7 @@ export class BackendService {
     );
   }
 
-  handleCurrentActionState() {
+  handleCurrentActionState(): void {
     this.backendObject['handle_current_action_state'].connect(
       (response: string) => {
         const currentActionState: CurrentActionState = JSON.parse(response);
@@ -697,11 +704,11 @@ export class BackendService {
     );
   }
 
-  setEnableTor(value: boolean) {
+  setEnableTor(value: boolean): any {
     return this.runCommand('set_enable_tor', <{ v: boolean }>{ v: value });
   }
 
-  getOptions() {
+  getOptions(): any {
     return this.runCommand(
       'get_options',
       {},
@@ -718,8 +725,8 @@ export class BackendService {
     );
   }
 
-  getWalletInfo(wallet: Wallet) {
-    const { wallet_id } = wallet;
+  getWalletInfo(wallet: Wallet): any {
+    // const { wallet_id } = wallet;
     // TODO: after change backend
     const mockAssets: Assets = [
       {
@@ -741,7 +748,7 @@ export class BackendService {
     // });
   }
 
-  getAssetsInfo() {
+  getAssetsInfo(): any {
     const mockAssetsInfo: AssetsInfo = [
       {
         asset_id:
@@ -764,7 +771,7 @@ export class BackendService {
     // });
   }
 
-  private informerRun(error, params, command) {
+  private informerRun(error, params, command): void {
     let error_translate = '';
     switch (error) {
       case 'NOT_ENOUGH_MONEY':
@@ -901,7 +908,7 @@ export class BackendService {
     }
   }
 
-  private commandDebug(command, params, result) {
+  private commandDebug(command, params, result): void {
     BackendService.Debug(
       2,
       '----------------- ' + command + ' -----------------'
@@ -921,7 +928,7 @@ export class BackendService {
     }
   }
 
-  private backendCallback(resultStr, params, callback, command) {
+  private backendCallback(resultStr, params, callback, command): any {
     let Result = resultStr;
     if (command !== 'get_clipboard') {
       if (!resultStr || resultStr === '') {
@@ -1002,7 +1009,7 @@ export class BackendService {
     }
   }
 
-  private runCommand(command, params?: Params, callback?) {
+  private runCommand(command, params?: Params, callback?): any {
     if (!this.backendObject) {
       return;
     }

@@ -47,7 +47,7 @@ export class TooltipDirective implements OnDestroy {
 
   constructor(private el: ElementRef, private renderer: Renderer2) {}
 
-  @HostListener('mouseenter') onMouseEnter() {
+  @HostListener('mouseenter') onMouseEnter(): void {
     if (
       this.showWhenNoOverflow ||
       (!this.showWhenNoOverflow &&
@@ -68,20 +68,20 @@ export class TooltipDirective implements OnDestroy {
     }
   }
 
-  @HostListener('mouseleave') onMouseLeave() {
+  @HostListener('mouseleave') onMouseLeave(): void {
     clearTimeout(this.removeTooltipTimeDelay);
     if (this.tooltip) {
       this.hide();
     }
   }
 
-  show() {
+  show(): void {
     this.create();
     this.placement = this.placement === null ? 'top' : this.placement;
     this.setPosition(this.placement);
   }
 
-  hide() {
+  hide(): void {
     this.removeTooltipTimeout = setTimeout(() => {
       this.renderer.setStyle(this.tooltip, 'opacity', '0');
       this.removeTooltipTimeoutInner = setTimeout(() => {
@@ -94,13 +94,13 @@ export class TooltipDirective implements OnDestroy {
     }, this.timeout);
   }
 
-  cancelHide() {
+  cancelHide(): void {
     clearTimeout(this.removeTooltipTimeout);
     clearTimeout(this.removeTooltipTimeoutInner);
     this.renderer.setStyle(this.tooltip, 'opacity', '1');
   }
 
-  create() {
+  create(): void {
     this.tooltip = this.renderer.createElement('div');
     let innerBlock = this.renderer.createElement('div');
     if (typeof this.tooltipInner === 'string') {
@@ -113,11 +113,11 @@ export class TooltipDirective implements OnDestroy {
     this.renderer.appendChild(this.tooltip, innerBlock);
     this.renderer.appendChild(document.body, this.tooltip);
 
-    this.enter = () => {
+    this.enter = (): void => {
       this.cancelHide();
     };
     this.tooltip.addEventListener('mouseenter', this.enter);
-    this.leave = () => {
+    this.leave = (): void => {
       if (this.tooltip) {
         this.hide();
       }
@@ -160,7 +160,7 @@ export class TooltipDirective implements OnDestroy {
     }, 0);
   }
 
-  setPosition(placement) {
+  setPosition(placement): void {
     const hostPos = this.el.nativeElement.getBoundingClientRect();
     this.renderer.addClass(this.tooltip, 'ng-tooltip-' + placement);
     const topExit =
@@ -336,7 +336,7 @@ export class TooltipDirective implements OnDestroy {
     }
   }
 
-  checkSides() {
+  checkSides(): void {
     if (this.tooltip.getBoundingClientRect().left < 0) {
       this.renderer.setStyle(this.tooltip, 'left', 0);
     }
@@ -349,7 +349,7 @@ export class TooltipDirective implements OnDestroy {
     }
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     clearTimeout(this.removeTooltipTimeout);
     clearTimeout(this.removeTooltipTimeoutInner);
     clearTimeout(this.removeTooltipTimeDelay);

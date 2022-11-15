@@ -3,7 +3,6 @@ import {
   EventEmitter,
   forwardRef,
   Input,
-  OnInit,
   Output,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -20,7 +19,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
     },
   ],
 })
-export class CheckboxComponent implements OnInit, ControlValueAccessor {
+export class CheckboxComponent implements ControlValueAccessor {
   @Input() value = false;
 
   @Input() label = '';
@@ -33,15 +32,11 @@ export class CheckboxComponent implements OnInit, ControlValueAccessor {
 
   @Output() emitChange = new EventEmitter<boolean>();
 
-  constructor() {}
+  onChange!: (value: boolean) => void;
 
-  onChange = (_: boolean) => {};
+  onTouched!: () => void;
 
-  onTouched = () => {};
-
-  ngOnInit() {}
-
-  handlerChange({ target }: Event) {
+  handlerChange({ target }: Event): void {
     const { checked } = target as HTMLInputElement;
     this.value = checked;
     this.emitChange.emit(checked);

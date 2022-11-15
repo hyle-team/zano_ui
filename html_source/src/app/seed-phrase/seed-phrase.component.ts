@@ -7,6 +7,7 @@ import { ModalService } from '../_helpers/services/modal.service';
 import {
   UntypedFormControl,
   UntypedFormGroup,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 
@@ -31,7 +32,7 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
   detailsForm = new UntypedFormGroup({
     name: new UntypedFormControl('', [
       Validators.required,
-      (g: UntypedFormControl) => {
+      (g: UntypedFormControl): ValidationErrors | null => {
         for (let i = 0; i < this.variablesService.wallets.length; i++) {
           if (g.value === this.variablesService.wallets[i].name) {
             if (
@@ -84,7 +85,7 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
     this.queryRouting.unsubscribe();
   }
 
-  checkPasswords(group: UntypedFormGroup) {
+  checkPasswords(group: UntypedFormGroup): ValidationErrors | null {
     const pass = group.controls.password.value;
     const confirmPass = group.controls.confirmPassword.value;
 

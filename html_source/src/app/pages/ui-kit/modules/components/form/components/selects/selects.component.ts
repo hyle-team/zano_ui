@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { scaleItems } from 'src/app/_helpers/data/scale-items';
 import { ScaleItems } from 'src/app/_helpers/models/scale.model';
 
@@ -7,10 +7,6 @@ import { ScaleItems } from 'src/app/_helpers/models/scale.model';
   templateUrl: './selects.component.html',
   styleUrls: ['./selects.component.scss'],
 })
-export class SelectsComponent implements OnInit {
+export class SelectsComponent {
   scaleItems: ScaleItems = [...scaleItems];
-
-  constructor() {}
-
-  ngOnInit() {}
 }

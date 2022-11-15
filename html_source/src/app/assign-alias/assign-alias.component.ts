@@ -2,6 +2,7 @@ import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import {
   UntypedFormControl,
   UntypedFormGroup,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { Location } from '@angular/common';
@@ -29,7 +30,7 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
       Validators.pattern(/^@?[a-z\d\.\-]{6,25}$/),
     ]),
     comment: new UntypedFormControl('', [
-      (g: UntypedFormControl) => {
+      (g: UntypedFormControl): ValidationErrors | null => {
         if (g.value > this.variablesService.maxCommentLength) {
           return { maxLength: true };
         } else {

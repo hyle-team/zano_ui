@@ -19,10 +19,15 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class ModalContainerComponent implements OnInit, OnDestroy {
   @HostBinding('class.modal-overlay') modalOverlay = true;
+
   public title: string;
+
   @Input() type: string;
+
   @Input() message: string;
-  @Output() close = new EventEmitter<boolean>();
+
+  @Output() eventClose = new EventEmitter<void>();
+
   @ViewChild('btn', { static: true }) button: ElementRef;
 
   constructor(
@@ -30,7 +35,7 @@ export class ModalContainerComponent implements OnInit, OnDestroy {
     private renderer: Renderer2
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.renderer.addClass(document.body, 'no-scroll');
     this.button.nativeElement.focus();
     switch (this.type) {
@@ -46,11 +51,11 @@ export class ModalContainerComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.renderer.removeClass(document.body, 'no-scroll');
   }
 
-  onClose() {
-    this.close.emit();
+  onClose(): void {
+    this.eventClose.emit();
   }
 }

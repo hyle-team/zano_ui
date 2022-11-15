@@ -20,15 +20,15 @@ export class SyncModalComponent implements OnInit, OnDestroy {
     public variablesService: VariablesService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.renderer.addClass(document.body, 'no-scroll');
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.renderer.removeClass(document.body, 'no-scroll');
   }
 
-  canselAction() {
+  canselAction(): void {
     this.variablesService.deeplink$.next(null);
     this.variablesService.sendActionData$.next({});
   }

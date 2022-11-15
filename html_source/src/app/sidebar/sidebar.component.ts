@@ -131,8 +131,7 @@ export class SidebarComponent {
     if (!wallet) {
       return null;
     }
-    let tooltip;
-    tooltip = document.createElement('div');
+    const tooltip = document.createElement('div');
     const available = document.createElement('span');
     available.setAttribute('class', 'available');
     available.innerHTML = this.translate.instant('WALLET.AVAILABLE_BALANCE', {

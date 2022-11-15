@@ -8,7 +8,7 @@ import { BigNumber } from 'bignumber.js';
 export class MoneyToIntPipe implements PipeTransform {
   constructor(private variablesService: VariablesService) {}
 
-  transform(value: any, args?: any): any {
+  transform(value: any): any {
     const CURRENCY_DISPLAY_DECIMAL_POINT = this.variablesService.digits;
     let result;
     if (value) {

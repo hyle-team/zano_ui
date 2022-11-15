@@ -4,6 +4,7 @@ import { BackendService } from '../_helpers/services/backend.service';
 import {
   UntypedFormControl,
   UntypedFormGroup,
+  ValidationErrors,
   Validators,
 } from '@angular/forms';
 import { Location } from '@angular/common';
@@ -119,12 +120,12 @@ export class SettingsComponent implements OnInit {
         new_confirmation: new UntypedFormControl(''),
       },
       [
-        (g: UntypedFormGroup) => {
+        (g: UntypedFormGroup): ValidationErrors | null => {
           return g.get('new_password').value === g.get('new_confirmation').value
             ? null
             : { confirm_mismatch: true };
         },
-        (g: UntypedFormGroup) => {
+        (g: UntypedFormGroup): ValidationErrors | null => {
           if (this.variablesService.appPass) {
             return g.get('password').value === this.variablesService.appPass
               ? null
