@@ -158,11 +158,6 @@ export function highchartsFactory() {
     PaginationStore,
     { provide: HIGHCHARTS_MODULES, useFactory: highchartsFactory }
   ],
-  entryComponents: [
-    ModalContainerComponent,
-    SendModalComponent,
-    ExportHistoryModalComponent,
-  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {

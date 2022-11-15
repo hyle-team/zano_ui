@@ -1,5 +1,5 @@
 /*!*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[5].rules[0].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[5].rules[0].oneOf[1].use[2]!./node_modules/resolve-url-loader/index.js??ruleSet[1].rules[5].rules[1].use[0]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[5].rules[1].use[1]!./src/styles.scss ***!
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].rules[0].oneOf[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].rules[0].oneOf[0].use[2]!./node_modules/resolve-url-loader/index.js??ruleSet[1].rules[6].rules[1].use[0]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[6].rules[1].use[1]!./src/styles.scss ***!
   \*********************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 .cdk-overlay-container,.cdk-global-overlay-wrapper{pointer-events:none;top:0;left:0;height:100%;width:100%}.cdk-overlay-container{position:fixed;z-index:1000}.cdk-overlay-container:empty{display:none}.cdk-global-overlay-wrapper{display:flex;position:absolute;z-index:1000}.cdk-overlay-pane{position:absolute;pointer-events:auto;box-sizing:border-box;z-index:1000;display:flex;max-width:100%;max-height:100%}.cdk-overlay-backdrop{position:absolute;top:0;bottom:0;left:0;right:0;z-index:1000;pointer-events:auto;-webkit-tap-highlight-color:transparent;transition:opacity 400ms cubic-bezier(0.25, 0.8, 0.25, 1);opacity:0}.cdk-overlay-backdrop.cdk-overlay-backdrop-showing{opacity:1}.cdk-high-contrast-active .cdk-overlay-backdrop.cdk-overlay-backdrop-showing{opacity:.6}.cdk-overlay-dark-backdrop{background:rgba(0,0,0,.32)}.cdk-overlay-transparent-backdrop,.cdk-overlay-transparent-backdrop.cdk-overlay-backdrop-showing{opacity:0}.cdk-overlay-connected-position-bounding-box{position:absolute;z-index:1000;display:flex;flex-direction:column;min-width:1px;min-height:1px}.cdk-global-scrollblock{position:fixed;width:100%;overflow-y:scroll}:root {
   --red-600: rgba(255, 103, 103, 0.75);
@@ -51,7 +51,6 @@
   -webkit-backface-visibility: hidden;
   -webkit-touch-collout: none;
   -webkit-user-select: none;
-  -moz-user-select: none;
   user-select: none;
 }html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -136,7 +135,6 @@ input[type=search]::-webkit-search-decoration {
   src: url('SF-Pro-Rounded-Semibold.ttf');
   font-weight: 600;
 }html, input, textarea, select, button {
-  color: #ffffff;
   color: var(--white-500);
   font-family: SF-Pro-Rounded, sans-serif;
   font-weight: 400;
@@ -172,16 +170,13 @@ time, mark, audio, video {
 }::-webkit-scrollbar-track {
   background: transparent;
 }::-webkit-scrollbar-thumb {
-  background-color: #8898B5;
   background-color: var(--silver-500);
   background-clip: padding-box;
   border: 0.25rem solid transparent;
   border-radius: 1rem;
 }::-webkit-scrollbar-thumb:hover {
-  background-color: #8898B5;
   background-color: var(--silver-500);
 }body::-webkit-scrollbar-corner {
-  background-color: #0C0C3A;
   background-color: var(--blue-900);
 }.scrolled-content {
   overflow-y: scroll;
@@ -202,7 +197,6 @@ time, mark, audio, video {
   height: 100vh;
   min-height: 700px;
 }body {
-  background: #0C0C3A;
   background: var(--blue-900);
 }app-root {
   display: flex;
@@ -233,7 +227,6 @@ time, mark, audio, video {
   overflow: hidden;
   padding: 2rem;
   border-radius: 0.8rem;
-  background-color: #0F2055;
   background-color: var(--blue-700);
 }.alias {
   display: flex;
@@ -241,7 +234,6 @@ time, mark, audio, video {
 }.alias.available {
   padding: 0.4rem 1.6rem;
   min-height: 3.2rem;
-  background: radial-gradient(100% 188.88% at 0% 0%, #16d1d6 0%, #274cff 100%);
   background: var(--gradietAquaToBlue);
   border-radius: 0.8rem;
   position: relative;
@@ -273,7 +265,6 @@ time, mark, audio, video {
 }.breadcrumbs .breadcrumb > span,
 .breadcrumbs .breadcrumb a {
   white-space: nowrap;
-  color: #ffffff;
   color: var(--white-500);
   outline-style: none;
   transition: opacity 0.2s ease-in-out;
@@ -301,7 +292,6 @@ time, mark, audio, video {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  color: #ffffff;
   color: var(--white-500);
   transition: all 0.25s ease;
   border: none;
@@ -321,16 +311,12 @@ time, mark, audio, video {
 }button.primary.big, button.outline.big, .btn.primary.big, .btn.outline.big {
   min-height: 5.3rem;
 }button.primary, .btn.primary {
-  background-color: #1F8FEB;
   background-color: var(--azure-500);
 }button.primary:not(:disabled):focus, button.primary:not(:disabled):hover, button.primary:not(:disabled).active, .btn.primary:not(:disabled):focus, .btn.primary:not(:disabled):hover, .btn.primary:not(:disabled).active {
-  background-color: #1C72B9;
   background-color: var(--azure-600);
 }button.outline, .btn.outline {
-  border: 0.15rem solid #1F8FEB;
   border: 0.15rem solid var(--azure-500);
 }button.outline:not(:disabled):hover, button.outline:not(:disabled):focus, button.outline:not(:disabled).active, .btn.outline:not(:disabled):hover, .btn.outline:not(:disabled):focus, .btn.outline:not(:disabled).active {
-  background-color: rgba(255, 255, 255, 0.1);
   background-color: var(--gray-900);
 }button.btn-icon, .btn.btn-icon {
   min-width: 2rem;
@@ -342,20 +328,16 @@ time, mark, audio, video {
   min-width: 4rem;
   min-height: 4rem;
 }button.btn-icon, .btn.btn-icon {
-  background-color: rgba(255, 255, 255, 0.1);
   background-color: var(--gray-900);
   transition: background-color 0.2s ease-in-out;
 }button.btn-icon.circle, .btn.btn-icon.circle {
   border-radius: 50%;
 }button.btn-icon:hover, .btn.btn-icon:hover {
-  background-color: rgba(255, 255, 255, 0.3);
   background-color: var(--gray-700);
 }.ngx-contextmenu .dropdown-menu {
   border: none;
   padding: 0;
-  background-color: #2b3644;
   background-color: var(--chartOptionsBackgroundColor);
-  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.6);
   box-shadow: var(--shadow-black-300);
 }.ngx-contextmenu li {
   display: block;
@@ -365,12 +347,9 @@ time, mark, audio, video {
 }.ngx-contextmenu a {
   display: block;
   padding: 0.5em 1em;
-  color: #ffffff;
   color: var(--white-500);
 }.ngx-contextmenu a:hover {
-  background-color: #556576;
   background-color: var(--chartOptionsHoverColor);
-  color: #ffffff;
   color: var(--white-500);
 }.dropdown {
   position: relative;
@@ -386,7 +365,6 @@ time, mark, audio, video {
   align-items: center;
   padding: 0.5rem;
 }.dropdown .item:hover {
-  background-color: rgba(255, 255, 255, 0.1);
   background-color: var(--gray-900);
   cursor: pointer;
 }.dropdown .item .alias {
@@ -395,12 +373,9 @@ time, mark, audio, video {
   padding: 0.4rem 1rem;
 }.list {
   border-radius: 0.8rem;
-  background-color: #11316B;
   background-color: var(--blue-500);
-  border: 0.15rem solid rgba(255, 255, 255, 0.2);
   border: var(--border);
 }.list .item:hover, .list .item .active {
-  background-color: rgba(255, 255, 255, 0.1);
   background-color: var(--gray-900);
 }.list .item button {
   white-space: nowrap;
@@ -424,29 +399,15 @@ time, mark, audio, video {
 }.form__field--input {
   /* If input is not empty */
   /* If input is empty */
-}.form__field--input:not(:-moz-placeholder-shown):not(.invalid):not(.ng-invalid) {
-  /* You need to add a placeholder to your fields. For example: <input "placeholder=" "/> */
-  border: 0.15rem solid rgba(255, 255, 255, 0.5);
-  border: var(--border-not-empty);
 }.form__field--input:not(:placeholder-shown):not(.invalid):not(.ng-invalid) {
   /* You need to add a placeholder to your fields. For example: <input "placeholder=" "/> */
-  border: 0.15rem solid rgba(255, 255, 255, 0.5);
   border: var(--border-not-empty);
-}.form__field--input:not(:-moz-placeholder-shown).invalid, .form__field--input:not(:-moz-placeholder-shown).ng-touched.ng-invalid {
-  border: 0.15rem solid rgba(255, 103, 103, 0.75);
-  border: var(--border-error);
 }.form__field--input:not(:placeholder-shown).invalid, .form__field--input:not(:placeholder-shown).ng-touched.ng-invalid {
-  border: 0.15rem solid rgba(255, 103, 103, 0.75);
   border: var(--border-error);
-}.form__field--input:-moz-placeholder-shown {
-  border: 0.15rem solid rgba(255, 255, 255, 0.2);
-  border: var(--border);
 }.form__field--input:placeholder-shown {
-  border: 0.15rem solid rgba(255, 255, 255, 0.2);
   border: var(--border);
 }.form__field label {
   margin-bottom: 0.8rem;
-  color: #1F8FEB;
   color: var(--azure-500);
 }.form__field--row {
   display: flex;
@@ -459,7 +420,6 @@ time, mark, audio, video {
 }.form__field--row > div:last-child {
   margin-left: 1rem;
 }.form__field--input, .form__field--select {
-  border: 0.15rem solid rgba(255, 255, 255, 0.2);
   border: var(--border);
   border-radius: 0.8rem;
   outline: none;
@@ -469,64 +429,33 @@ time, mark, audio, video {
   background-color: transparent;
   overflow: hidden;
   text-overflow: ellipsis;
-  color: #ffffff;
   color: var(--white-500);
   font-size: 1.8rem;
   line-height: 1.2;
   transition: border 0.2s ease-in-out;
 }.form__field--input:disabled, .form__field--select:disabled {
-  border: 0.15rem solid rgba(255, 255, 255, 0.2);
   border: var(--border-disabled);
-  cursor: not-allowed;
-}.form__field--input:-moz-read-only, .form__field--select:-moz-read-only {
   cursor: not-allowed;
 }.form__field--input:read-only, .form__field--select:read-only {
   cursor: not-allowed;
-}.form__field--input:not(:disabled):not(:-moz-read-only):hover, .form__field--select:not(:disabled):not(:-moz-read-only):hover {
-  cursor: pointer;
 }.form__field--input:not(:disabled):not(:read-only):hover, .form__field--select:not(:disabled):not(:read-only):hover {
   cursor: pointer;
-}.form__field--input::-moz-placeholder, .form__field--select::-moz-placeholder {
-  color: rgba(255, 255, 255, 0.2);
-  color: var(--gray-800);
 }.form__field--input::placeholder, .form__field--select::placeholder {
-  color: rgba(255, 255, 255, 0.2);
   color: var(--gray-800);
 }.form__field--input.invalid, .form__field--input.ng-touched.ng-invalid, .form__field--select.invalid, .form__field--select.ng-touched.ng-invalid {
-  border: 0.15rem solid rgba(255, 103, 103, 0.75);
   border: var(--border-error);
-}.form__field--input.invalid::-moz-placeholder, .form__field--input.ng-touched.ng-invalid::-moz-placeholder, .form__field--select.invalid::-moz-placeholder, .form__field--select.ng-touched.ng-invalid::-moz-placeholder {
-  color: #FF6767;
-  color: var(--red-500);
 }.form__field--input.invalid::placeholder, .form__field--input.ng-touched.ng-invalid::placeholder, .form__field--select.invalid::placeholder, .form__field--select.ng-touched.ng-invalid::placeholder {
-  color: #FF6767;
   color: var(--red-500);
-}.form__field--input:not(:disabled):not(:-moz-read-only):hover, .form__field--select:not(:disabled):not(:-moz-read-only):hover {
-  border: 0.15rem solid rgba(255, 255, 255, 0.5);
-  border: var(--border-not-empty);
 }.form__field--input:not(:disabled):not(:read-only):hover, .form__field--select:not(:disabled):not(:read-only):hover {
-  border: 0.15rem solid rgba(255, 255, 255, 0.5);
   border: var(--border-not-empty);
-}.form__field--input:not(:disabled):not(:-moz-read-only):hover.invalid, .form__field--input:not(:disabled):not(:-moz-read-only):hover.ng-touched.ng-invalid, .form__field--select:not(:disabled):not(:-moz-read-only):hover.invalid, .form__field--select:not(:disabled):not(:-moz-read-only):hover.ng-touched.ng-invalid {
-  border: 0.15rem solid rgba(255, 103, 103, 0.75);
-  border: var(--border-error);
 }.form__field--input:not(:disabled):not(:read-only):hover.invalid, .form__field--input:not(:disabled):not(:read-only):hover.ng-touched.ng-invalid, .form__field--select:not(:disabled):not(:read-only):hover.invalid, .form__field--select:not(:disabled):not(:read-only):hover.ng-touched.ng-invalid {
-  border: 0.15rem solid rgba(255, 103, 103, 0.75);
   border: var(--border-error);
-}.form__field--input:not(:disabled):not(:read-only):hover.invalid::-moz-placeholder, .form__field--input:not(:disabled):not(:read-only):hover.ng-touched.ng-invalid::-moz-placeholder, .form__field--select:not(:disabled):not(:read-only):hover.invalid::-moz-placeholder, .form__field--select:not(:disabled):not(:read-only):hover.ng-touched.ng-invalid::-moz-placeholder {
-  color: #FF6767;
-  color: var(--red-500);
-}.form__field--input:not(:disabled):not(:-moz-read-only):hover.invalid::placeholder, .form__field--input:not(:disabled):not(:-moz-read-only):hover.ng-touched.ng-invalid::placeholder, .form__field--select:not(:disabled):not(:-moz-read-only):hover.invalid::placeholder, .form__field--select:not(:disabled):not(:-moz-read-only):hover.ng-touched.ng-invalid::placeholder {
-  color: #FF6767;
-  color: var(--red-500);
 }.form__field--input:not(:disabled):not(:read-only):hover.invalid::placeholder, .form__field--input:not(:disabled):not(:read-only):hover.ng-touched.ng-invalid::placeholder, .form__field--select:not(:disabled):not(:read-only):hover.invalid::placeholder, .form__field--select:not(:disabled):not(:read-only):hover.ng-touched.ng-invalid::placeholder {
-  color: #FF6767;
   color: var(--red-500);
 }.form__field.textarea {
   width: 100%;
   height: auto;
 }.form__field.textarea textarea {
-  border: 0.15rem solid rgba(255, 255, 255, 0.2);
   border: var(--border);
   border-radius: 0.8rem;
   outline: none;
@@ -539,59 +468,36 @@ time, mark, audio, video {
   overflow: auto;
   resize: none;
   background-color: transparent;
-  color: #ffffff;
   color: var(--white-500);
   font-size: 1.8rem;
   line-height: 1.2;
   /* If input is not empty */
   /* If input is empty */
 }.form__field.textarea textarea:disabled {
-  border: 0.15rem solid rgba(255, 255, 255, 0.2);
   border: var(--border-disabled);
   cursor: not-allowed;
 }.form__field.textarea textarea:not(:disabled):hover {
   cursor: pointer;
-}.form__field.textarea textarea::-moz-placeholder {
-  color: rgba(255, 255, 255, 0.2);
-  color: var(--gray-800);
 }.form__field.textarea textarea::placeholder {
-  color: rgba(255, 255, 255, 0.2);
   color: var(--gray-800);
-}.form__field.textarea textarea:not(:-moz-placeholder-shown) {
-  /* You need to add a placeholder to your fields. For example: <input "placeholder=" "/> */
-  border: 0.15rem solid rgba(255, 255, 255, 0.5);
-  border: var(--border-not-empty);
 }.form__field.textarea textarea:not(:placeholder-shown) {
   /* You need to add a placeholder to your fields. For example: <input "placeholder=" "/> */
-  border: 0.15rem solid rgba(255, 255, 255, 0.5);
   border: var(--border-not-empty);
-}.form__field.textarea textarea:-moz-placeholder-shown {
-  border: 0.15rem solid rgba(255, 255, 255, 0.2);
-  border: var(--border);
 }.form__field.textarea textarea:placeholder-shown {
-  border: 0.15rem solid rgba(255, 255, 255, 0.2);
   border: var(--border);
 }.form__field.textarea textarea .ng-touched .ng-invalid {
-  border: 0.15rem solid rgba(255, 103, 103, 0.75);
   border: var(--border-error);
 }.form__field.textarea textarea.invalid {
-  border: 0.15rem solid rgba(255, 103, 103, 0.75);
   border: var(--border-error);
-}.form__field.textarea textarea.invalid::-moz-placeholder {
-  color: #FF6767;
-  color: var(--red-500);
 }.form__field.textarea textarea.invalid::placeholder {
-  color: #FF6767;
   color: var(--red-500);
 }.form__field .error, .form__field .success, .form__field .info {
   overflow: hidden;
   width: 100%;
   margin-top: 1rem;
 }.form__field .error {
-  color: #FF6767;
   color: var(--red-500);
 }.form__field .success {
-  color: #16D1D6;
   color: var(--aqua-500);
 }.form__field-dropdown {
   position: relative;
@@ -603,13 +509,11 @@ time, mark, audio, video {
   max-width: 100%;
   width: 100%;
   max-height: 15rem;
-  border: 0.15rem solid rgba(255, 255, 255, 0.2);
   border: var(--border);
 }.form .details .header {
   padding: 1.2rem 2rem;
   width: 100%;
   max-width: 20rem;
-  background-color: #11316B;
   background-color: var(--blue-500);
   border-radius: 0.8rem 0.8rem 0 0;
 }.form .details .header.border-radius-all {
@@ -618,7 +522,6 @@ time, mark, audio, video {
   display: flex;
   flex-direction: column;
   padding: 2rem;
-  background-color: #11316B;
   background-color: var(--blue-500);
   border-radius: 0 0.8rem 0.8rem 0.8rem;
 }.checkbox {
@@ -634,10 +537,8 @@ time, mark, audio, video {
   min-height: 2.4rem;
   line-height: 2.4rem;
   padding-left: 3.6rem;
-  color: #ffffff;
   color: var(--white-500);
   -webkit-user-select: none;
-  -moz-user-select: none;
   user-select: none;
 }.checkbox input[readonly] + label {
   pointer-events: none;
@@ -685,19 +586,15 @@ time, mark, audio, video {
   cursor: not-allowed;
 }.switch.on {
   justify-content: flex-end;
-  background-color: #16D1D6;
   background-color: var(--aqua-500);
 }.switch.off {
   justify-content: flex-start;
-  background-color: rgba(255, 255, 255, 0.2);
   background-color: var(--gray-800);
 }.switch .circle {
   border-radius: 50%;
   width: 1.8rem;
   height: 1.8rem;
-  background-color: #ffffff;
   background-color: var(--white-500);
-  box-shadow: 0px 2.11765px 5.64706px rgba(0, 0, 0, 0.15), 0px 2.11765px 0.705882px rgba(0, 0, 0, 0.06);
   box-shadow: var(--shadow-gray);
 }i {
   display: inline-block;
@@ -805,7 +702,6 @@ time, mark, audio, video {
 }.icon.success {
   background: center/contain no-repeat url('modal-success.svg');
 }.loader {
-  border: 2rem solid #1F8FEB;
   border: 2rem solid var(--azure-500);
   border-top: 2rem solid transparent;
   border-radius: 50%;
@@ -828,7 +724,6 @@ time, mark, audio, video {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(0, 0, 0, 0.6);
   background: var(--black-300);
   padding: 2rem;
   z-index: 100;
@@ -841,9 +736,7 @@ time, mark, audio, video {
 }.ng-select {
   width: 100%;
 }.ng-select.ng-select-opened > .ng-select-container {
-  background: #11316B;
   background: var(--blue-500);
-  border-color: rgba(255, 255, 255, 0.5);
   border-color: var(--gray-500);
 }.ng-select.ng-select-opened > .ng-select-container:hover {
   box-shadow: none;
@@ -867,32 +760,26 @@ time, mark, audio, video {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }.ng-select.ng-select-focused:not(.ng-select-opened) > .ng-select-container {
-  border-color: rgba(255, 255, 255, 0.5);
   border-color: var(--gray-500);
   box-shadow: none;
 }.ng-select.ng-select-disabled {
   cursor: not-allowed !important;
 }.ng-select.ng-select-disabled > .ng-select-container {
-  background-color: #ffffff;
   background-color: var(--white-500);
   cursor: not-allowed !important;
 }.ng-select .ng-has-value .ng-placeholder {
   display: none;
 }.ng-select .ng-select-container {
   align-items: center;
-  color: #ffffff !important;
   color: var(--white-500) !important;
-  background-color: #11316B;
   background-color: var(--blue-500);
   border-radius: 0.8rem;
-  border: 0.15rem solid #11316B;
   border: 0.15rem solid var(--blue-500);
   min-height: 4rem;
   transition: border 0.2s ease-in-out;
   cursor: pointer !important;
 }.ng-select .ng-select-container:hover {
   box-shadow: none;
-  border: 0.15rem solid rgba(255, 255, 255, 0.5);
   border: 0.15rem solid var(--gray-500);
 }.ng-select .ng-select-container .ng-value-container {
   align-items: center;
@@ -901,7 +788,6 @@ time, mark, audio, video {
   padding-right: 1rem;
   padding-left: 0;
 }.ng-select .ng-select-container .ng-value-container .ng-placeholder {
-  color: rgba(255, 255, 255, 0.3);
   color: var(--gray-700);
 }.ng-select.ng-select-single .ng-select-container {
   height: 4rem;
@@ -911,7 +797,6 @@ time, mark, audio, video {
   padding-left: 1rem;
   padding-right: 5rem;
 }.ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input > input {
-  color: #ffffff;
   color: var(--white-500);
   font-size: 1.8rem;
 }[dir=rtl] .ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input {
@@ -920,9 +805,7 @@ time, mark, audio, video {
 }.ng-select.ng-select-multiple.ng-select-disabled {
   cursor: not-allowed;
 }.ng-select.ng-select-multiple.ng-select-disabled > .ng-select-container .ng-value-container .ng-value {
-  background-color: #ffffff;
   background-color: var(--white-500);
-  border: 0.15rem solid rgba(255, 255, 255, 0.5);
   border: 0.15rem solid var(--gray-500);
 }.ng-select.ng-select-multiple.ng-select-disabled > .ng-select-container .ng-value-container .ng-value .ng-value-label {
   padding: 0 0.5rem;
@@ -935,9 +818,7 @@ time, mark, audio, video {
 }.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value {
   font-size: 1.8rem;
   margin-bottom: 0.5rem;
-  color: #ffffff !important;
   color: var(--white-500) !important;
-  background-color: rgba(255, 255, 255, 0.1);
   background-color: var(--gray-900);
   border-radius: 0.2rem;
   margin-right: 0.5rem;
@@ -945,7 +826,6 @@ time, mark, audio, video {
   margin-right: 0;
   margin-left: 0.5rem;
 }.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value.ng-value-disabled {
-  background-color: #ffffff;
   background-color: var(--white-500);
 }.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value.ng-value-disabled .ng-value-label {
   padding-left: 0.5rem;
@@ -959,28 +839,22 @@ time, mark, audio, video {
   display: inline-block;
   padding: 0.1rem 0.5rem;
 }.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon:hover {
-  background-color: rgba(255, 255, 255, 0.1), 5;
   background-color: var(--gray-900), 5;
 }.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon.left {
-  border-right: 0.15rem solid rgba(255, 255, 255, 0.1);
   border-right: 0.15rem solid var(--gray-900);
 }[dir=rtl] .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon.left {
-  border-left: 0.15rem solid rgba(255, 255, 255, 0.1);
   border-left: 0.15rem solid var(--gray-900);
   border-right: none;
 }.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon.right {
-  border-left: 0.15rem solid rgba(255, 255, 255, 0.1);
   border-left: 0.15rem solid var(--gray-900);
 }[dir=rtl] .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-value .ng-value-icon.right {
   border-left: 0;
-  border-right: 0.15rem solid rgba(255, 255, 255, 0.1);
   border-right: 0.15rem solid var(--gray-900);
 }.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-input {
   padding: 0 0 0.3rem 0.3rem;
 }[dir=rtl] .ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-input {
   padding: 0 0.3rem 0.3rem 0;
 }.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-input > input {
-  color: #ffffff;
   color: var(--white-500);
   font-size: 1.8rem;
 }.ng-select.ng-select-multiple .ng-select-container .ng-value-container .ng-placeholder {
@@ -991,7 +865,6 @@ time, mark, audio, video {
   padding-right: 0.3rem;
   padding-left: 0;
 }.ng-select .ng-clear-wrapper {
-  color: rgba(255, 255, 255, 0.5);
   color: var(--gray-500);
 }.ng-select .ng-clear-wrapper:hover .ng-clear {
   color: #D0021B;
@@ -1006,7 +879,6 @@ time, mark, audio, video {
   padding-left: 0.5rem;
   padding-right: 0;
 }.ng-select .ng-arrow-wrapper:hover .ng-arrow {
-  border-top-color: rgba(255, 255, 255, 0.5);
   border-top-color: var(--gray-500);
 }.ng-select .ng-arrow-wrapper .ng-arrow {
   display: flex !important;
@@ -1016,12 +888,9 @@ time, mark, audio, video {
   min-height: 1.8rem;
   background: center/contain no-repeat url('dropdown-arrow-down.svg');
 }.ng-select.invalid > .ng-select-container, .ng-select.invalid .ng-dropdown-panel, .ng-select.ng-touched.ng-invalid > .ng-select-container, .ng-select.ng-touched.ng-invalid .ng-dropdown-panel {
-  border: 0.15rem solid rgba(255, 103, 103, 0.75);
   border: var(--border-error);
 }.ng-dropdown-panel {
-  background-color: #11316B;
   background-color: var(--blue-500);
-  border: 0.15rem solid rgba(255, 255, 255, 0.5);
   border: 0.15rem solid var(--gray-500);
   box-shadow: none;
   left: 0;
@@ -1029,7 +898,6 @@ time, mark, audio, video {
   bottom: 100%;
   border-top-right-radius: 0.8rem;
   border-top-left-radius: 0.8rem;
-  border-bottom-color: rgba(255, 255, 255, 0.5);
   border-bottom-color: var(--gray-500);
   margin-bottom: -0.1rem;
 }.ng-dropdown-panel.ng-select-top .ng-dropdown-panel-items .ng-option:first-child {
@@ -1041,7 +909,6 @@ time, mark, audio, video {
   border-top-right-radius: 0.8rem;
   border-bottom-right-radius: 0.8rem;
   border-bottom-left-radius: 0.8rem;
-  border-bottom-color: rgba(255, 255, 255, 0.5);
   border-bottom-color: var(--gray-500);
   margin-bottom: -0.1rem;
 }.ng-dropdown-panel.ng-select-right .ng-dropdown-panel-items .ng-option:first-child {
@@ -1050,7 +917,6 @@ time, mark, audio, video {
   top: 100%;
   border-bottom-right-radius: 0.8rem;
   border-bottom-left-radius: 0.8rem;
-  border-top-color: rgba(255, 255, 255, 0.5);
   border-top-color: var(--gray-500);
   margin-top: -0.1rem;
 }.ng-dropdown-panel.ng-select-bottom .ng-dropdown-panel-items .ng-option:last-child {
@@ -1062,59 +928,44 @@ time, mark, audio, video {
   border-top-left-radius: 0.8rem;
   border-bottom-right-radius: 0.8rem;
   border-bottom-left-radius: 0.8rem;
-  border-bottom-color: rgba(255, 255, 255, 0.5);
   border-bottom-color: var(--gray-500);
   margin-bottom: -0.1rem;
 }.ng-dropdown-panel.ng-select-left .ng-dropdown-panel-items .ng-option:first-child {
   border-top-left-radius: 0.8rem;
 }.ng-dropdown-panel .ng-dropdown-header {
-  border-bottom: 0.15rem solid rgba(255, 255, 255, 0.5);
   border-bottom: 0.15rem solid var(--gray-500);
   padding: 0.5rem 0.7rem;
 }.ng-dropdown-panel .ng-dropdown-footer {
-  border-top: 0.15rem solid rgba(255, 255, 255, 0.5);
   border-top: 0.15rem solid var(--gray-500);
   padding: 0.5rem 0.7rem;
 }.ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup {
   -webkit-user-select: none;
-     -moz-user-select: none;
           user-select: none;
   padding: 0.8rem 1rem;
   font-weight: 500;
-  color: #ffffff;
   color: var(--white-500);
   cursor: pointer;
 }.ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup.ng-option-disabled {
   cursor: not-allowed;
 }.ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup.ng-option-marked {
-  background-color: rgba(255, 255, 255, 0.1);
   background-color: var(--gray-900);
 }.ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup.ng-option-selected, .ng-dropdown-panel .ng-dropdown-panel-items .ng-optgroup.ng-option-selected.ng-option-marked {
-  color: #ffffff;
   color: var(--white-500);
-  background-color: rgba(255, 255, 255, 0.1);
   background-color: var(--gray-900);
   font-weight: 600;
 }.ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
-  background-color: #11316B;
   background-color: var(--blue-500);
-  color: #ffffff;
   color: var(--white-500);
   padding: 0.8rem 1rem;
 }.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected, .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected.ng-option-marked {
-  color: #ffffff !important;
   color: var(--white-500) !important;
-  background-color: rgba(255, 255, 255, 0.1);
   background-color: var(--gray-900);
 }.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected .ng-option-label, .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected.ng-option-marked .ng-option-label {
   font-weight: 600;
 }.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked {
-  background-color: rgba(255, 255, 255, 0.1);
   background-color: var(--gray-900);
-  color: #ffffff !important;
   color: var(--white-500) !important;
 }.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-disabled {
-  color: #ffffff !important;
   color: var(--white-500) !important;
 }.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-child {
   padding-left: 2.2rem;
@@ -1158,7 +1009,6 @@ time, mark, audio, video {
 }.preloader .loading-bar {
   display: block;
   animation: move 5s linear infinite;
-  background-color: #1F8FEB;
   background-color: var(--azure-500);
   background-image: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(0.125, rgba(0, 0, 0, 0.15)), color-stop(0.125, transparent), color-stop(0.25, transparent), color-stop(0.25, rgba(0, 0, 0, 0.1)), color-stop(0.375, rgba(0, 0, 0, 0.1)), color-stop(0.375, transparent), color-stop(0.5, transparent), color-stop(0.5, rgba(0, 0, 0, 0.15)), color-stop(0.625, rgba(0, 0, 0, 0.15)), color-stop(0.625, transparent), color-stop(0.75, transparent), color-stop(0.75, rgba(0, 0, 0, 0.1)), color-stop(0.875, rgba(0, 0, 0, 0.1)), color-stop(0.875, transparent), to(transparent)), -webkit-gradient(linear, 0 100%, 100% 0, color-stop(0.125, rgba(0, 0, 0, 0.3)), color-stop(0.125, transparent), color-stop(0.25, transparent), color-stop(0.25, rgba(0, 0, 0, 0.25)), color-stop(0.375, rgba(0, 0, 0, 0.25)), color-stop(0.375, transparent), color-stop(0.5, transparent), color-stop(0.5, rgba(0, 0, 0, 0.3)), color-stop(0.625, rgba(0, 0, 0, 0.3)), color-stop(0.625, transparent), color-stop(0.75, transparent), color-stop(0.75, rgba(0, 0, 0, 0.25)), color-stop(0.875, rgba(0, 0, 0, 0.25)), color-stop(0.875, transparent), to(transparent));
   background-size: 10rem 10rem;
@@ -1172,25 +1022,19 @@ time, mark, audio, video {
     background-position: 100% 10rem;
   }
 }app-progress-container .progress-bar-container {
-  color: #ffffff;
   color: var(--white-500);
 }app-progress-container .progress-bar-container .progress-bar {
-  background-color: rgba(31, 143, 235, 0.15);
   background-color: var(--blue-300);
 }app-progress-container .progress-bar-container .progress-bar .progress-bar-full {
-  background-color: #1F8FEB;
   background-color: var(--azure-500);
 }.seed-phrase .content .item {
-  border: 0.15rem solid rgba(255, 255, 255, 0.2);
   border: var(--border);
-  background-color: rgba(255, 255, 255, 0.1);
   background-color: var(--gray-900);
 }.seed-phrase .content .item .number {
   width: 1.8rem;
   height: 1.8rem;
   border-radius: 50%;
   font-size: 1rem;
-  background-color: rgba(255, 255, 255, 0.4);
   background-color: var(--gray-600);
 }.seed-phrase .content .item .word {
   white-space: nowrap;
@@ -1203,7 +1047,6 @@ time, mark, audio, video {
   max-width: 23rem;
   width: 100%;
   height: 100%;
-  background-color: #0F2055;
   background-color: var(--blue-700);
 }app-sidebar .sidebar-header .logo {
   margin: 0 auto;
@@ -1214,8 +1057,7 @@ time, mark, audio, video {
 }app-sidebar .sidebar-header .logo img {
   width: 100%;
   height: 100%;
-  -o-object-fit: contain;
-     object-fit: contain;
+  object-fit: contain;
 }app-sidebar .sidebar-content {
   display: flex;
   flex-direction: column;
@@ -1241,15 +1083,11 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
 }.cdk-drag-animating {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }.cdk-drag-preview.wallet {
-  color: #ffffff;
   color: var(--white-500);
-  background: #11316B;
   background: var(--blue-500);
 }.cdk-drag-preview.wallet.price {
-  color: rgba(255, 255, 255, 0.2);
   color: var(--gray-800);
 }.cdk-drag-preview.wallet.price .percent {
-  color: rgba(255, 255, 255, 0.2);
   color: var(--gray-800);
 }app-synchronization-status {
   width: 100%;
@@ -1257,7 +1095,6 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  color: #ffffff;
   color: var(--white-500);
   width: 100%;
 }.synchronization-status .status-container {
@@ -1282,10 +1119,8 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   width: 1rem;
   height: 1rem;
 }.synchronization-status .status-container .offline > span:before {
-  background-color: #FF6767;
   background-color: var(--red-500);
 }.synchronization-status .status-container .online > span:before {
-  background-color: #16D1D6;
   background-color: var(--aqua-500);
 }.synchronization-status .status-container .syncing, .synchronization-status .status-container .loading {
   font-size: 1.4rem;
@@ -1303,21 +1138,17 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   height: 0.6rem;
   width: 100%;
   overflow: hidden;
-  background-color: rgba(255, 255, 255, 0.1);
   background-color: var(--gray-900);
 }.synchronization-status .status-container .progress-bar-container .syncing .progress-bar .fill {
   border-radius: 0.2rem;
   height: 100%;
-  background-color: #16D1D6;
   background-color: var(--aqua-500);
 }.synchronization-status .status-container .progress-bar-container .syncing .progress-percent {
-  color: #16D1D6;
   color: var(--aqua-500);
   font-size: 1.4rem;
   line-height: 1.2;
   padding-left: 1rem;
 }.synchronization-status .status-container .progress-bar-container .loading {
-  background-color: #16D1D6;
   background-color: var(--aqua-500);
   animation: move 5s linear infinite;
   background-image: -webkit-gradient(linear, 0 0, 100% 100%, color-stop(0.125, rgba(0, 0, 0, 0.15)), color-stop(0.125, transparent), color-stop(0.25, transparent), color-stop(0.25, rgba(0, 0, 0, 0.1)), color-stop(0.375, rgba(0, 0, 0, 0.1)), color-stop(0.375, transparent), color-stop(0.5, transparent), color-stop(0.5, rgba(0, 0, 0, 0.15)), color-stop(0.625, rgba(0, 0, 0, 0.15)), color-stop(0.625, transparent), color-stop(0.75, transparent), color-stop(0.75, rgba(0, 0, 0, 0.1)), color-stop(0.875, rgba(0, 0, 0, 0.1)), color-stop(0.875, transparent), to(transparent)), -webkit-gradient(linear, 0 100%, 100% 0, color-stop(0.125, rgba(0, 0, 0, 0.3)), color-stop(0.125, transparent), color-stop(0.25, transparent), color-stop(0.25, rgba(0, 0, 0, 0.25)), color-stop(0.375, rgba(0, 0, 0, 0.25)), color-stop(0.375, transparent), color-stop(0.5, transparent), color-stop(0.5, rgba(0, 0, 0, 0.3)), color-stop(0.625, rgba(0, 0, 0, 0.3)), color-stop(0.625, transparent), color-stop(0.75, transparent), color-stop(0.75, rgba(0, 0, 0, 0.25)), color-stop(0.875, rgba(0, 0, 0, 0.25)), color-stop(0.875, transparent), to(transparent));
@@ -1343,25 +1174,18 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   width: 1.2rem;
   height: 1.2rem;
 }.synchronization-status .update-container .standard {
-  color: #16D1D6;
   color: var(--aqua-500);
 }.synchronization-status .update-container .important {
-  color: #ff6f00;
   color: var(--orange-500);
 }.synchronization-status .update-container .critical {
-  color: #FF6767;
   color: var(--red-500);
 }.synchronization-status .update-container .time-orange {
-  color: #ff6f00;
   color: var(--orange-500);
 }.synchronization-status .update-container .icon.standard .st0 {
-  fill: #16D1D6;
   fill: var(--aqua-500);
 }.synchronization-status .update-container .icon.important .st0 {
-  fill: #ff6f00;
   fill: var(--orange-500);
 }.synchronization-status .update-container .icon.critical .st0 {
-  fill: #FF6767;
   fill: var(--red-500);
 }@keyframes move {
   0% {
@@ -1385,14 +1209,12 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
 }table thead tr {
   /** Sticky header */
 }table thead tr th {
-  background-color: #0F2055;
   background-color: var(--blue-700);
   z-index: 5;
   max-width: 10rem;
   overflow: hidden;
   text-overflow: ellipsis;
 }table thead tr th .bg {
-  background-color: rgba(31, 143, 235, 0.3);
   background-color: var(--blue-400);
 }table thead tr th .title {
   overflow: hidden;
@@ -1409,7 +1231,6 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
 }table tbody {
   text-align: left;
 }table tbody tr {
-  background-color: rgba(31, 143, 235, 0.15);
   background-color: var(--blue-300);
   transition: 0.5s height linear, 0s font-size;
   transition-delay: 0s, 0.5s;
@@ -1443,17 +1264,14 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   display: flex;
   flex-direction: column;
   width: 100%;
-  border: 0.15rem solid rgba(255, 255, 255, 0.2);
   border: var(--border);
   border-radius: 0.8rem;
   overflow: hidden;
 }.table-info .separator {
   border: none;
   height: 2px;
-  color: rgba(255, 255, 255, 0.2);
   color: var(--gray-800);
   /* old IE */
-  background-color: rgba(255, 255, 255, 0.2);
   background-color: var(--gray-800);
   /* Modern Browsers */
 }.table-info .row {
@@ -1465,9 +1283,7 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   overflow: hidden;
   padding: 2rem;
 }.table-info .row .label {
-  color: #1F8FEB;
   color: var(--azure-500);
-  background: #11316B;
   background: var(--blue-500);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -1483,7 +1299,6 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   justify-content: space-between;
   min-height: 5.8rem;
 }.tabs .tabs-header .tab-header {
-  background-color: #0C1243;
   background-color: var(--blue-800);
   border-radius: 0.8rem 0.8rem 0 0;
   display: flex;
@@ -1497,7 +1312,6 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   opacity: 0.75;
   transition: opacity 0.25s ease-in-out;
 }.tabs .tabs-header .tab-header.active, .tabs .tabs-header .tab-header:hover:not(.active):not(.disabled) {
-  background-color: #0F2055;
   background-color: var(--blue-700);
 }.tabs .tabs-header .tab-header.active i, .tabs .tabs-header .tab-header.active span, .tabs .tabs-header .tab-header:hover:not(.active):not(.disabled) i, .tabs .tabs-header .tab-header:hover:not(.active):not(.disabled) span {
   opacity: 1;
@@ -1522,16 +1336,13 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   flex: auto;
   overflow: hidden;
   border-radius: 0 0 0.8rem 0.8rem;
-  background-color: #0F2055;
   background-color: var(--blue-700);
   padding: 2rem;
 }.table-tooltip {
   z-index: 999;
   padding: 1rem;
   border-radius: 0.8rem;
-  background: #144182;
   background: var(--blue-450);
-  color: #ffffff;
   color: var(--white-500);
 }.table-tooltip .tooltip-inner {
   font-size: 1.4rem;
@@ -1544,7 +1355,6 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   display: block;
   width: 1rem;
   height: 1rem;
-  background: #144182;
   background: var(--blue-450);
   transform: rotate(45deg);
   position: absolute;
@@ -1560,7 +1370,6 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   display: block;
   width: 1rem;
   height: 1rem;
-  background-color: #144182;
   background-color: var(--blue-450);
   transform: rotate(45deg);
 }.table-tooltip.ng-tooltip-top-left {
@@ -1573,7 +1382,6 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   display: block;
   width: 1rem;
   height: 1rem;
-  background: #144182;
   background: var(--blue-450);
   transform: rotate(45deg);
 }.table-tooltip.ng-tooltip-top-right {
@@ -1586,7 +1394,6 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   display: block;
   width: 1rem;
   height: 1rem;
-  background: #144182;
   background: var(--blue-450);
   transform: rotate(45deg);
 }.table-tooltip.ng-tooltip-bottom {
@@ -1599,7 +1406,6 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   display: block;
   width: 1rem;
   height: 1rem;
-  background: #144182;
   background: var(--blue-450);
   transform: rotate(45deg);
 }.table-tooltip.ng-tooltip-bottom-left {
@@ -1612,7 +1418,6 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   display: block;
   width: 1rem;
   height: 1rem;
-  background-color: #144182;
   background-color: var(--blue-450);
   transform: rotate(45deg);
 }.table-tooltip.ng-tooltip-bottom-right {
@@ -1626,7 +1431,6 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   display: block;
   width: 1rem;
   height: 1rem;
-  background: #144182;
   background: var(--blue-450);
   transform: rotate(45deg);
 }.table-tooltip.ng-tooltip-left {
@@ -1639,7 +1443,6 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   display: block;
   width: 1rem;
   height: 1rem;
-  background: #144182;
   background: var(--blue-450);
   transform: rotate(45deg);
 }.table-tooltip.ng-tooltip-right {
@@ -1652,7 +1455,6 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   display: block;
   width: 1rem;
   height: 1rem;
-  background: #144182;
   background: var(--blue-450);
   transform: rotate(45deg);
 }.table-tooltip-dimensions .tooltip-inner {
@@ -1663,18 +1465,14 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   z-index: 999;
   padding: 1rem;
   border-radius: 0.6rem;
-  background-color: #144182;
   background-color: var(--blue-450);
-  color: #ffffff;
   color: var(--white-500);
   font-size: 1.2rem;
 }.balance-tooltip {
   z-index: 999;
   padding: 1rem;
   border-radius: 1rem;
-  background-color: #144182;
   background-color: var(--blue-450);
-  color: #ffffff;
   color: var(--white-500);
 }.balance-tooltip .tooltip-inner {
   display: flex;
@@ -1690,7 +1488,6 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   font-weight: 600;
 }.balance-tooltip .tooltip-inner .link {
   cursor: pointer;
-  color: #1F8FEB;
   color: var(--azure-500);
 }.balance-tooltip.ng-tooltip-top {
   margin-top: -1rem;
@@ -1702,18 +1499,14 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   margin-left: 1rem;
 }.account-tooltip {
   z-index: 999;
-  background-color: #144182;
   background-color: var(--blue-450);
-  color: #ffffff;
   color: var(--white-500);
 }.account-tooltip .tooltip-inner {
   word-break: break-word;
   max-width: 18rem;
 }.comment-tooltip {
   z-index: 999;
-  background-color: #144182;
   background-color: var(--blue-450);
-  color: #ffffff;
   color: var(--white-500);
 }.comment-tooltip .tooltip-inner {
   overflow: auto;
@@ -1723,36 +1516,26 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
 }.update-tooltip {
   z-index: 999;
   padding: 1rem;
-  background-color: #144182;
   background-color: var(--blue-450);
-  color: #ffffff;
   color: var(--white-500);
 }.update-tooltip.important {
-  background: #FF6767;
   background: var(--red-500);
-  color: #ffffff;
   color: var(--white-500);
 }.update-tooltip.important.ng-tooltip-left-bottom:after {
-  border-color: transparent transparent #FF6767 #FF6767;
   border-color: transparent transparent var(--red-500) var(--red-500);
 }.update-tooltip.important.ng-tooltip-right-bottom:before {
-  border-color: transparent #FF6767 #FF6767 transparent;
   border-color: transparent var(--red-500) var(--red-500) transparent;
 }.update-tooltip.critical {
   padding: 2.5rem;
-  background: #FF6767;
   background: var(--red-500);
-  color: #ffffff;
   color: var(--white-500);
 }.update-tooltip.critical .tooltip-inner {
   display: flex;
   flex-direction: column;
   align-items: center;
 }.update-tooltip.critical.ng-tooltip-left-bottom:after {
-  border-color: transparent transparent #FF6767 #FF6767;
   border-color: transparent transparent var(--red-500) var(--red-500);
 }.update-tooltip.critical.ng-tooltip-right-bottom:before {
-  border-color: transparent #FF6767 #FF6767 transparent;
   border-color: transparent var(--red-500) var(--red-500) transparent;
 }.update-tooltip .tooltip-inner {
   font-size: 1.3rem;
@@ -1761,12 +1544,10 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
 }.update-tooltip .tooltip-inner .standard-update {
   font-size: 1.5rem;
   line-height: 1.2;
-  color: #1F8FEB;
   color: var(--azure-500);
 }.update-tooltip .tooltip-inner .important-update {
   font-size: 1.5rem;
   line-height: 1.2;
-  color: #ff6f00;
   color: var(--orange-500);
 }.update-tooltip .tooltip-inner .critical-update {
   font-size: 1.5rem;
@@ -1775,7 +1556,6 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
 }.update-tooltip .tooltip-inner .wrong-time {
   font-size: 1.5rem;
   line-height: 1.2;
-  color: #ff6f00;
   color: var(--orange-500);
 }.update-tooltip .tooltip-inner .icon {
   margin: 1.5rem 0;
@@ -1790,7 +1570,6 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   right: -1rem;
   border-width: 0.5rem;
   border-style: solid;
-  border-color: transparent transparent #144182 #144182;
   border-color: transparent transparent var(--blue-450) var(--blue-450);
 }.update-tooltip.ng-tooltip-right-bottom {
   margin-left: 1.5rem;
@@ -1801,13 +1580,10 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   left: -1rem;
   border-width: 0.5rem;
   border-style: solid;
-  border-color: transparent #144182 #144182 transparent;
   border-color: transparent var(--blue-450) var(--blue-450) transparent;
 }.update-tooltip {
   z-index: 999;
-  background-color: #144182;
   background-color: var(--blue-450);
-  color: #ffffff;
   color: var(--white-500);
 }.update-tooltip .tooltip-inner .icon {
   background: center/contain no-repeat url('update-alert.svg');
@@ -1822,9 +1598,7 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   width: 100%;
   min-height: 11.2rem;
   padding: 1.2rem;
-  background-color: #11316B;
   background-color: var(--blue-500);
-  border: 0.15rem solid #11316B;
   border: 0.15rem solid var(--blue-500);
   cursor: pointer;
 }.wallet .content {
@@ -1848,9 +1622,7 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   margin-right: 0.8rem;
   font-size: 1.2rem;
   line-height: 1;
-  background-color: #ffffff;
   background-color: var(--white-500);
-  color: #1F8FEB;
   color: var(--azure-500);
 }.wallet .balance {
   display: flex;
@@ -1863,11 +1635,9 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
 }.wallet .price .percent {
   font-size: 1.4rem;
   line-height: 1.2;
-  color: #16D1D6;
   color: var(--aqua-500);
   margin-left: 0.7rem;
 }.wallet .price .percent.red {
-  color: #FF6767;
   color: var(--red-500);
 }.wallet .staking {
   margin-top: 0.8rem;
@@ -1893,15 +1663,12 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
 }.wallet.active {
   border: none;
   padding: 1.35rem;
-  background: radial-gradient(100% 188.88% at 0% 0%, #16d1d6 0%, #274cff 100%);
   background: var(--gradietAquaToBlue);
 }.wallet.active .price .percent.red {
-  color: #FFCBCB;
   color: var(--red-100);
 }.wallet.auditable, .wallet.watch-only {
   border-width: 0;
   padding: 1.35rem;
-  background: radial-gradient(100% 246.57% at 0% 0%, rgba(163, 102, 255, 0.5) 0%, rgba(96, 31, 255, 0.5) 100%);
   background: var(--gradietLightAmethystToPurpurle);
 }.wallet.auditable:hover:not(.active) {
   padding: 1.2rem;
@@ -1909,12 +1676,10 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
 }.wallet.auditable.active {
   padding: 1.35rem;
   border: none;
-  background: radial-gradient(100% 246.57% at 0% 0%, #A366FF 0%, #601FFF 100%);
   background: var(--gradietAmethystToPurpurle);
 }.wallet.watch-only:after {
   content: "";
   display: block;
-  background: #11316B;
   background: var(--blue-500);
   position: absolute;
   border-radius: 0.8rem;
@@ -1924,23 +1689,18 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   bottom: 0.25rem;
   z-index: 1;
 }.wallet.watch-only.active, .wallet.watch-only:hover {
-  background: radial-gradient(100% 246.57% at 0% 0%, #A366FF 0%, #601FFF 100%);
   background: var(--gradietAmethystToPurpurle);
 }.wallet.watch-only .price .percent.red {
-  color: #FF6767;
   color: var(--red-500);
 }.wallet:hover:not(.active):not(.watch-only) {
-  border-color: rgba(255, 255, 255, 0.2);
   border-color: var(--gray-800);
 }.wallet:focus {
   outline: none;
 }.wallet:last-child {
   margin-bottom: 0 !important;
 }.wallet .progress-bar {
-  background-color: rgba(255, 255, 255, 0.2);
   background-color: var(--gray-800);
 }.wallet .progress-bar .fill {
-  background-color: #ffffff;
   background-color: var(--white-500);
 }app-send-details-modal .status .image {
   max-width: 13rem;
@@ -1953,11 +1713,9 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
 }app-send-details-modal .details .header {
   min-height: 4rem;
   max-height: 4rem;
-  background-color: #11316B;
   background-color: var(--blue-500);
 }app-send-details-modal .details-wrapper {
   max-height: 35rem;
-  background-color: #11316B;
   background-color: var(--blue-500);
   scroll-behavior: smooth;
 }app-send-details-modal .details-list .item .image {
@@ -1971,9 +1729,7 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
 }app-assign-alias .assign-alias-tooltip {
   z-index: 999;
   max-width: 46rem;
-  background-color: #144182;
   background-color: var(--blue-450);
-  color: #ffffff;
   color: var(--white-500);
 }app-assign-alias .has-no-edit-symbol {
   position: relative;
@@ -2047,20 +1803,16 @@ app-contracts .container .wrap-table table.contracts-table tbody tr .comment {
 }app-receive .container .wrap-qr img {
   width: 100%;
   height: 100%;
-  -o-object-fit: contain;
-     object-fit: contain;
+  object-fit: contain;
 }app-receive .container .address {
   width: 27.1rem;
   height: 4rem;
-  border: 0.15rem solid rgba(255, 255, 255, 0.2);
   border: var(--border);
 }app-send .container .form .wrap {
-  border: 0.15rem solid rgba(255, 255, 255, 0.2);
   border: var(--border);
 }app-send .container .form .wrap .title {
   font-size: 100%;
   margin-bottom: 1.5rem;
-  color: #1F8FEB;
   color: var(--azure-500);
 }app-send .container .form .wrap .title .icon {
   width: 2rem;
@@ -2080,7 +1832,6 @@ app-contracts .container .wrap-table table.contracts-table tbody tr .comment {
   min-width: 18rem;
   max-width: 25rem;
   min-height: 4rem;
-  border: 0.15rem solid rgba(255, 255, 255, 0.2);
   border: var(--border);
 }app-staking .chart-header .items .item .left {
   min-width: -moz-fit-content;
@@ -2088,7 +1839,6 @@ app-contracts .container .wrap-table table.contracts-table tbody tr .comment {
   width: auto;
 }app-staking .chart {
   position: relative;
-  border: 0.15rem solid rgba(255, 255, 255, 0.2);
   border: var(--border);
   min-height: 29rem;
 }app-staking .chart > div {
@@ -2124,13 +1874,10 @@ app-contracts .container .wrap-table table.contracts-table tbody tr .comment {
 }app-contacts .wrap-table table.contacts-table tbody tr td .button-wrapper button:last-child {
   margin-right: 0;
 }.color-red {
-  color: #FF6767;
   color: var(--red-500);
 }.color-primary {
-  color: #1F8FEB;
   color: var(--azure-500);
 }.color-aqua {
-  color: #16D1D6;
   color: var(--aqua-500);
 }.border-radius-0_8-rem {
   border-radius: 0.8rem;
@@ -2147,13 +1894,10 @@ app-contracts .container .wrap-table table.contracts-table tbody tr .comment {
 }.word-break-break-all {
   word-break: break-all;
 }.bg-light-gray {
-  background-color: rgba(255, 255, 255, 0.1);
   background-color: var(--gray-900);
 }.bg-light-blue {
-  background-color: #0F2055;
   background-color: var(--blue-700);
 }.bg-light-blue-details {
-  background-color: #11316B;
   background-color: var(--blue-500);
 }.overflow-hidden {
   overflow: hidden;

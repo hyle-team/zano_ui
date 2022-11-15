@@ -5,14 +5,13 @@ import { SyncModalModule } from '../_helpers/modals/sync-modal/sync-modal.module
 import { DeeplinkComponent } from './deeplink.component';
 
 @NgModule({
-  declarations: [DeeplinkComponent],
-  imports: [
-    CommonModule,
-    DeeplinkModalModule,
-    SyncModalModule
-  ],
-  exports: [DeeplinkComponent, DeeplinkModalModule, SyncModalModule],
-  entryComponents: [DeeplinkComponent]
+    declarations: [DeeplinkComponent],
+    imports: [
+        CommonModule,
+        DeeplinkModalModule,
+        SyncModalModule
+    ],
+    exports: [DeeplinkComponent, DeeplinkModalModule, SyncModalModule]
 })
 export class DeeplinkModule {
 }
