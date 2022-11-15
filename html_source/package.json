@@ -28,6 +28,7 @@
     "@ng-select/ng-select": "^8.3.0",
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",
+    "@perfectmemory/ngx-contextmenu": "^14.1.0",
     "angular-highcharts": "^12.0.0",
     "bignumber.js": "^9.1.0",
     "core-js": "^3.26.0",
@@ -35,7 +36,6 @@
     "idlejs": "^3.0.0",
     "json-bignumber": "^1.1.1",
     "lodash": "^4.17.20",
-    "ngx-contextmenu": "^6.0.0",
     "ngx-papaparse": "^5.1.0",
     "qrcode": "^1.5.1",
     "rxjs": "~7.5.7",
@@ -47,11 +47,11 @@
     "@angular/cli": "^14.2.9",
     "@angular/compiler-cli": "^14.2.10",
     "@angular/language-service": "^14.2.10",
-    "@types/jasmine": "^3.6.0",
+    "@types/jasmine": "^3.10.6",
     "@types/jasminewd2": "^2.0.3",
     "@types/node": "^12.11.1",
     "codelyzer": "^6.0.0",
-    "jasmine-core": "^3.6.0",
+    "jasmine-core": "^3.99.1",
     "jasmine-spec-reporter": "^7.0.0",
     "karma": "^6.4.1",
     "karma-chrome-launcher": "^3.1.0",
@@ -61,6 +61,6 @@
     "protractor": "^7.0.0",
     "ts-node": "^7.0.0",
     "tslint": "^6.1.0",
-    "typescript": "^4.6.4"
+    "typescript": "^4.8.4"
   }
 }

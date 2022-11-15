@@ -33,7 +33,7 @@ import { Store } from 'store';
 import { InputValidateDirective } from './_helpers/directives/input-validate/input-validate.directive';
 import { ModalContainerComponent } from './_helpers/modals/modal-container/modal-container.component';
 import { TransactionDetailsComponent } from './_helpers/directives/transaction-details/transaction-details.component';
-import { ContextMenuModule } from 'ngx-contextmenu';
+import { ContextMenuModule, ContextMenuService } from '@perfectmemory/ngx-contextmenu';
 import { ChartModule, HIGHCHARTS_MODULES } from 'angular-highcharts';
 import * as highcharts from 'highcharts';
 import exporting from 'highcharts/modules/exporting.src';
@@ -80,83 +80,84 @@ export function highchartsFactory() {
 }
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        LoginComponent,
-        SettingsComponent,
-        AddWalletComponent,
-        CreateWalletComponent,
-        OpenWalletComponent,
-        OpenWalletModalComponent,
-        RestoreWalletComponent,
-        SeedPhraseComponent,
-        WalletDetailsComponent,
-        AssignAliasComponent,
-        EditAliasComponent,
-        TransferAliasComponent,
-        WalletComponent,
-        SendComponent,
-        ReceiveComponent,
-        HistoryComponent,
-        ContractsComponent,
-        PurchaseComponent,
-        StakingComponent,
-        InputValidateDirective,
-        ModalContainerComponent,
-        TransactionDetailsComponent,
-        InputDisableSelectionDirective,
-        SendModalComponent,
-        ContactsComponent,
-        AddContactsComponent,
-        ContactSendComponent,
-        ExportImportComponent,
-        ExportHistoryModalComponent,
-        ContractsTabComponent,
-        SendDetailsModalComponent,
-    ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        HttpClientModule,
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: HttpLoaderFactory,
-                deps: [HttpClient]
-            }
-        }),
-        FormsModule,
-        ReactiveFormsModule,
-        NgSelectModule,
-        ChartModule,
-        FlexLayoutModule,
-        DisablePriceFetchModule,
-        TooltipModule,
-        ConfirmModalModule,
-        PipesModule,
-        DeeplinkModule,
-        StakingSwitchModule,
-        FullLayoutModule,
-        WithSidebarLayoutModule,
-        SynchronizationStatusModule,
-        SharedModule,
-        ContextMenuModule.forRoot(),
-        ScrollXModule,
-        CardTokenModule,
-        OverlayModule,
-        AddCustomTokenModule,
-        ShortStringPipeModule,
-        IsAvailableAliasNamePipeModule,
-        CopyButtonModule
-    ],
-    providers: [
-        Store,
-        BackendService,
-        ModalService,
-        PaginationStore,
-        { provide: HIGHCHARTS_MODULES, useFactory: highchartsFactory }
-    ],
-    bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    SettingsComponent,
+    AddWalletComponent,
+    CreateWalletComponent,
+    OpenWalletComponent,
+    OpenWalletModalComponent,
+    RestoreWalletComponent,
+    SeedPhraseComponent,
+    WalletDetailsComponent,
+    AssignAliasComponent,
+    EditAliasComponent,
+    TransferAliasComponent,
+    WalletComponent,
+    SendComponent,
+    ReceiveComponent,
+    HistoryComponent,
+    ContractsComponent,
+    PurchaseComponent,
+    StakingComponent,
+    InputValidateDirective,
+    ModalContainerComponent,
+    TransactionDetailsComponent,
+    InputDisableSelectionDirective,
+    SendModalComponent,
+    ContactsComponent,
+    AddContactsComponent,
+    ContactSendComponent,
+    ExportImportComponent,
+    ExportHistoryModalComponent,
+    ContractsTabComponent,
+    SendDetailsModalComponent,
+  ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
+    FormsModule,
+    ReactiveFormsModule,
+    NgSelectModule,
+    ChartModule,
+    FlexLayoutModule,
+    DisablePriceFetchModule,
+    TooltipModule,
+    ConfirmModalModule,
+    PipesModule,
+    DeeplinkModule,
+    StakingSwitchModule,
+    FullLayoutModule,
+    WithSidebarLayoutModule,
+    SynchronizationStatusModule,
+    SharedModule,
+    ContextMenuModule,
+    ScrollXModule,
+    CardTokenModule,
+    OverlayModule,
+    AddCustomTokenModule,
+    ShortStringPipeModule,
+    IsAvailableAliasNamePipeModule,
+    CopyButtonModule
+  ],
+  providers: [
+    Store,
+    BackendService,
+    ModalService,
+    PaginationStore,
+    ContextMenuService,
+    { provide: HIGHCHARTS_MODULES, useFactory: highchartsFactory }
+  ],
+  bootstrap: [AppComponent]
 })
 export class AppModule {
 }

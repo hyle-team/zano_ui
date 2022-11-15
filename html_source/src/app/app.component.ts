@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { BackendService } from './_helpers/services/backend.service';
 import { Router } from '@angular/router';
 import { VariablesService } from './_helpers/services/variables.service';
-import { ContextMenuComponent } from 'ngx-contextmenu';
+import { ContextMenuComponent } from '@perfectmemory/ngx-contextmenu';
 import { IntToMoneyPipe } from './_helpers/pipes/int-to-money.pipe';
 import { BigNumber } from 'bignumber.js';
 import { ModalService } from './_helpers/services/modal.service';
@@ -33,11 +33,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
   needOpenWallets = [];
 
-  @ViewChild('allContextMenu', { static: true }) public allContextMenu: ContextMenuComponent;
+  @ViewChild('allContextMenu', { static: true }) public allContextMenu: ContextMenuComponent<any>;
 
-  @ViewChild('onlyCopyContextMenu', { static: true }) public onlyCopyContextMenu: ContextMenuComponent;
+  @ViewChild('onlyCopyContextMenu', { static: true }) public onlyCopyContextMenu: ContextMenuComponent<any>;
 
-  @ViewChild('pasteSelectContextMenu', { static: true }) public pasteSelectContextMenu: ContextMenuComponent;
+  @ViewChild('pasteSelectContextMenu', { static: true }) public pasteSelectContextMenu: ContextMenuComponent<any>;
 
   private destroy$ = new Subject<void>();
 
