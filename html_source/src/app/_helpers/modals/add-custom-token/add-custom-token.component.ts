@@ -1,5 +1,6 @@
 import { Component, EventEmitter, HostBinding, Output } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { VariablesService } from '../../services/variables.service';
 
 @Component({
   selector: 'app-add-custom-token',
@@ -13,9 +14,12 @@ export class AddCustomTokenComponent {
 
   @Output() eventSubmit: EventEmitter<string> = new EventEmitter<string>();
 
-  formGroup = new FormGroup({
-    assetID: new FormControl(null, Validators.compose([Validators.required])),
+  formGroup = new UntypedFormGroup({
+    assetID: new UntypedFormControl(null, Validators.compose([Validators.required])),
   });
+
+  constructor(public variablesService: VariablesService) {
+  }
 
   beforeSubmit(): void {
     if (this.formGroup.invalid) {

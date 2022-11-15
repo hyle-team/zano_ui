@@ -1,6 +1,6 @@
 import { Component, HostListener, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { BackendService } from '../_helpers/services/backend.service';
 import { VariablesService } from '../_helpers/services/variables.service';
 import { ModalService } from '../_helpers/services/modal.service';
@@ -37,14 +37,14 @@ export class PurchaseComponent implements OnInit, OnDestroy {
 
   showNullify = false;
 
-  purchaseForm = new FormGroup({
-    description: new FormControl('', Validators.required),
-    seller: new FormControl('', [Validators.required, (g: FormControl) => {
+  purchaseForm = new UntypedFormGroup({
+    description: new UntypedFormControl('', Validators.required),
+    seller: new UntypedFormControl('', [Validators.required, (g: UntypedFormControl) => {
       if (g.value === this.variablesService.currentWallet.address) {
         return { 'address_same': true };
       }
       return null;
-    }, (g: FormControl) => {
+    }, (g: UntypedFormControl) => {
       this.localAliases = [];
       if (g.value) {
         if (g.value.indexOf('@') !== 0) {
@@ -95,21 +95,21 @@ export class PurchaseComponent implements OnInit, OnDestroy {
       }
       return null;
     }]),
-    amount: new FormControl(null, [Validators.required, (g: FormControl) => {
+    amount: new UntypedFormControl(null, [Validators.required, (g: UntypedFormControl) => {
       if (parseFloat(g.value) === 0) {
         return { 'amount_zero': true };
       }
       return null;
     }]),
-    yourDeposit: new FormControl(null, Validators.required),
-    sellerDeposit: new FormControl(null, Validators.required),
-    sameAmount: new FormControl({ value: false, disabled: false }),
-    comment: new FormControl(''),
-    fee: new FormControl(this.variablesService.default_fee),
-    time: new FormControl({ value: 12, disabled: false }),
-    timeCancel: new FormControl({ value: 12, disabled: false }),
-    payment: new FormControl(''),
-    password: new FormControl('')
+    yourDeposit: new UntypedFormControl(null, Validators.required),
+    sellerDeposit: new UntypedFormControl(null, Validators.required),
+    sameAmount: new UntypedFormControl({ value: false, disabled: false }),
+    comment: new UntypedFormControl(''),
+    fee: new UntypedFormControl(this.variablesService.default_fee),
+    time: new UntypedFormControl({ value: 12, disabled: false }),
+    timeCancel: new UntypedFormControl({ value: 12, disabled: false }),
+    payment: new UntypedFormControl(''),
+    password: new UntypedFormControl('')
   });
 
   private destroy$ = new Subject<void>();
@@ -209,7 +209,7 @@ export class PurchaseComponent implements OnInit, OnDestroy {
     });
 
     if (this.variablesService.appPass) {
-      this.purchaseForm.controls.password.setValidators([Validators.required, (g: FormControl) => {
+      this.purchaseForm.controls.password.setValidators([Validators.required, (g: UntypedFormControl) => {
         if (g.value) {
           this.backend.checkMasterPassword({ pass: g.value }, (status) => {
             this.ngZone.run(() => {

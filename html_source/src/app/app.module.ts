@@ -33,7 +33,7 @@ import { Store } from 'store';
 import { InputValidateDirective } from './_helpers/directives/input-validate/input-validate.directive';
 import { ModalContainerComponent } from './_helpers/modals/modal-container/modal-container.component';
 import { TransactionDetailsComponent } from './_helpers/directives/transaction-details/transaction-details.component';
-import { ContextMenuModule } from 'ngx-contextmenu';
+import { ContextMenuModule, ContextMenuService } from '@perfectmemory/ngx-contextmenu';
 import { ChartModule, HIGHCHARTS_MODULES } from 'angular-highcharts';
 import * as highcharts from 'highcharts';
 import exporting from 'highcharts/modules/exporting.src';
@@ -141,7 +141,7 @@ export function highchartsFactory() {
     WithSidebarLayoutModule,
     SynchronizationStatusModule,
     SharedModule,
-    ContextMenuModule.forRoot(),
+    ContextMenuModule,
     ScrollXModule,
     AssetTokenCardModule,
     OverlayModule,
@@ -156,6 +156,7 @@ export function highchartsFactory() {
     BackendService,
     ModalService,
     PaginationStore,
+    ContextMenuService,
     { provide: HIGHCHARTS_MODULES, useFactory: highchartsFactory }
   ],
   bootstrap: [AppComponent]

@@ -1,5 +1,5 @@
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators, ValidationErrors } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators, ValidationErrors } from '@angular/forms';
 import { BackendService } from '../_helpers/services/backend.service';
 import { VariablesService } from '../_helpers/services/variables.service';
 import { ModalService } from '../_helpers/services/modal.service';
@@ -18,8 +18,8 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
 
   filePath: string;
 
-  openForm = new FormGroup({
-    name: new FormControl('', [Validators.required, (g: FormControl) => {
+  openForm = new UntypedFormGroup({
+    name: new UntypedFormControl('', [Validators.required, (g: UntypedFormControl) => {
       for (let i = 0; i < this.variablesService.wallets.length; i++) {
         if (g.value === this.variablesService.wallets[i].name) {
           return { 'duplicate': true };
@@ -27,7 +27,7 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
       }
       return null;
     }]),
-    password: new FormControl('')
+    password: new UntypedFormControl('')
   });
 
   constructor(

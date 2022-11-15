@@ -13,23 +13,23 @@
 
 
 <context-menu #allContextMenu>
-	<ng-template (execute)="contextMenuCopy($event.item)"
+	<ng-template (execute)="contextMenuCopy($event.value)"
 							 contextMenuItem>{{ 'CONTEXT_MENU.COPY' | translate }}</ng-template>
-	<ng-template (execute)="contextMenuPaste($event.item)"
+	<ng-template (execute)="contextMenuPaste($event.value)"
 							 contextMenuItem>{{ 'CONTEXT_MENU.PASTE' | translate }}</ng-template>
-	<ng-template (execute)="contextMenuSelect($event.item)"
+	<ng-template (execute)="contextMenuSelect($event.value)"
 							 contextMenuItem>{{ 'CONTEXT_MENU.SELECT' | translate }}</ng-template>
 </context-menu>
 
 <context-menu #onlyCopyContextMenu>
-	<ng-template (execute)="contextMenuOnlyCopy($event.item)"
+	<ng-template (execute)="contextMenuOnlyCopy($event.value)"
 							 contextMenuItem>{{ 'CONTEXT_MENU.COPY' | translate }}</ng-template>
 </context-menu>
 
 <context-menu #pasteSelectContextMenu>
-	<ng-template (execute)="contextMenuPaste($event.item)"
+	<ng-template (execute)="contextMenuPaste($event.value)"
 							 contextMenuItem>{{ 'CONTEXT_MENU.PASTE' | translate }}</ng-template>
-	<ng-template (execute)="contextMenuSelect($event.item)"
+	<ng-template (execute)="contextMenuSelect($event.value)"
 							 contextMenuItem>{{ 'CONTEXT_MENU.SELECT' | translate }}</ng-template>
 </context-menu>
 

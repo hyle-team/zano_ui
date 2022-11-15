@@ -1,5 +1,5 @@
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { BackendService } from '../_helpers/services/backend.service';
 import { VariablesService } from '../_helpers/services/variables.service';
 import { ModalService } from '../_helpers/services/modal.service';
@@ -18,10 +18,10 @@ export class AddContactsComponent implements OnInit, OnDestroy {
 
   isModalDialogVisible;
 
-  addContactForm = new FormGroup({
-    address: new FormControl('', [
+  addContactForm = new UntypedFormGroup({
+    address: new UntypedFormControl('', [
       Validators.required,
-      (g: FormControl) => {
+      (g: UntypedFormControl) => {
         if (g.value) {
           this.backend.validateAddress(g.value, valid_status => {
             this.ngZone.run(() => {
@@ -45,7 +45,7 @@ export class AddContactsComponent implements OnInit, OnDestroy {
         }
         return null;
       },
-      (g: FormControl) => {
+      (g: UntypedFormControl) => {
         const isDublicated = this.variablesService.contacts.findIndex(
           contact => contact.address === g.value
         );
@@ -55,8 +55,8 @@ export class AddContactsComponent implements OnInit, OnDestroy {
         return null;
       }
     ]),
-    notes: new FormControl('', [
-      (g: FormControl) => {
+    notes: new UntypedFormControl('', [
+      (g: UntypedFormControl) => {
         if (g.value) {
           if (g.value.length > this.variablesService.maxCommentLength) {
             return { maxLength: true };
@@ -68,11 +68,11 @@ export class AddContactsComponent implements OnInit, OnDestroy {
         }
       }
     ]),
-    name: new FormControl('', [
+    name: new UntypedFormControl('', [
       Validators.required,
       Validators.minLength(4),
       Validators.maxLength(25),
-      (g: FormControl) => {
+      (g: UntypedFormControl) => {
         if (g.value) {
           const isDublicated = this.variablesService.contacts.findIndex(
             contact => contact.name === g.value.trim()

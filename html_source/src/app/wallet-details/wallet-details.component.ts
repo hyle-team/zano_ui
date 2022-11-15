@@ -1,5 +1,5 @@
 import { Component, NgZone, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators, ValidationErrors } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators, ValidationErrors } from '@angular/forms';
 import { BackendService } from '../_helpers/services/backend.service';
 import { VariablesService } from '../_helpers/services/variables.service';
 import { Router } from '@angular/router';
@@ -19,10 +19,10 @@ export class WalletDetailsComponent implements OnInit {
 
   ifSaved = false;
 
-  detailsForm = new FormGroup({
-    name: new FormControl('', [
+  detailsForm = new UntypedFormGroup({
+    name: new UntypedFormControl('', [
       Validators.required,
-      (g: FormControl) => {
+      (g: UntypedFormControl) => {
         for (let i = 0; i < this.variablesService.wallets.length; i++) {
           if (g.value === this.variablesService.wallets[i].name) {
             if (
@@ -38,16 +38,16 @@ export class WalletDetailsComponent implements OnInit {
         return null;
       },
     ]),
-    path: new FormControl(''),
+    path: new UntypedFormControl(''),
   });
 
-  seedPhraseForm = new FormGroup(
+  seedPhraseForm = new UntypedFormGroup(
     {
-      password: new FormControl(
+      password: new UntypedFormControl(
         '',
         Validators.pattern(this.variablesService.pattern)
       ),
-      confirmPassword: new FormControl(
+      confirmPassword: new UntypedFormControl(
         '',
         Validators.pattern(this.variablesService.pattern)
       ),
@@ -74,7 +74,7 @@ export class WalletDetailsComponent implements OnInit {
       .setValue(this.variablesService.currentWallet.path);
   }
 
-  checkPasswords(group: FormGroup): ValidationErrors | null {
+  checkPasswords(group: UntypedFormGroup): ValidationErrors | null {
     const pass = group.controls.password.value;
     const confirmPass = group.controls.confirmPassword.value;
 

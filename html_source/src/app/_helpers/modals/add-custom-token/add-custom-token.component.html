@@ -6,7 +6,8 @@
 
 		<div class="form__field">
 			<label for="assetID">{{ 'WALLET.MODAL_ADD_CUSTOM_TOKEN.FIELD_TITLE' | translate }}</label>
-			<input class="form__field--input"
+			<input (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
+							class="form__field--input"
 						 formControlName="assetID"
 						 id="assetID"
 						 name="assetID"

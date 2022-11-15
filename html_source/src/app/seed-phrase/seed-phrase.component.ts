@@ -4,7 +4,7 @@ import { BackendService } from '../_helpers/services/backend.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VariablesService } from '../_helpers/services/variables.service';
 import { ModalService } from '../_helpers/services/modal.service';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-seed-phrase',
@@ -24,10 +24,10 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
 
   progressWidth = '66%';
 
-  detailsForm = new FormGroup({
-    name: new FormControl('', [
+  detailsForm = new UntypedFormGroup({
+    name: new UntypedFormControl('', [
       Validators.required,
-      (g: FormControl) => {
+      (g: UntypedFormControl) => {
         for (let i = 0; i < this.variablesService.wallets.length; i++) {
           if (g.value === this.variablesService.wallets[i].name) {
             if (
@@ -43,16 +43,16 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
         return null;
       },
     ]),
-    path: new FormControl(''),
+    path: new UntypedFormControl(''),
   });
 
-  seedPhraseForm = new FormGroup(
+  seedPhraseForm = new UntypedFormGroup(
     {
-      password: new FormControl(
+      password: new UntypedFormControl(
         '',
         Validators.pattern(this.variablesService.pattern)
       ),
-      confirmPassword: new FormControl(
+      confirmPassword: new UntypedFormControl(
         '',
         Validators.pattern(this.variablesService.pattern)
       ),
@@ -81,7 +81,7 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
     this.queryRouting.unsubscribe();
   }
 
-  checkPasswords(group: FormGroup) {
+  checkPasswords(group: UntypedFormGroup) {
     const pass = group.controls.password.value;
     const confirmPass = group.controls.confirmPassword.value;
 

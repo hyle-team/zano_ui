@@ -1,5 +1,5 @@
 import { Component, HostListener, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { BackendService } from '../_helpers/services/backend.service';
 import { VariablesService } from '../_helpers/services/variables.service';
 import { ModalService } from '../_helpers/services/modal.service';
@@ -53,8 +53,8 @@ export class SendComponent implements OnInit, OnDestroy {
 
   actionData;
 
-  sendForm = new FormGroup({
-    address: new FormControl('', [Validators.required, (g: FormControl) => {
+  sendForm = new UntypedFormGroup({
+    address: new UntypedFormControl('', [Validators.required, (g: UntypedFormControl) => {
       this.localAliases = [];
       if (g.value) {
         this.currentAliasAddress = '';
@@ -107,7 +107,7 @@ export class SendComponent implements OnInit, OnDestroy {
       }
       return null;
     }]),
-    amount: new FormControl(undefined, [Validators.required, (g: FormControl) => {
+    amount: new UntypedFormControl(undefined, [Validators.required, (g: UntypedFormControl) => {
       if (!g.value) {
         return null;
       }
@@ -129,15 +129,15 @@ export class SendComponent implements OnInit, OnDestroy {
       }
       return null;
     }]),
-    comment: new FormControl(''),
-    mixin: new FormControl(MIXIN, Validators.required),
-    fee: new FormControl(this.variablesService.default_fee, [Validators.required, (g: FormControl) => {
+    comment: new UntypedFormControl(''),
+    mixin: new UntypedFormControl(MIXIN, Validators.required),
+    fee: new UntypedFormControl(this.variablesService.default_fee, [Validators.required, (g: UntypedFormControl) => {
       if ((new BigNumber(g.value)).isLessThan(this.variablesService.default_fee)) {
         return { 'less_min': true };
       }
       return null;
     }]),
-    hide: new FormControl(false)
+    hide: new UntypedFormControl(false)
   });
 
   private dLActionSubscribe;

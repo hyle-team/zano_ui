@@ -4,7 +4,7 @@ import { Contact } from '../models/contact.model';
 import { BehaviorSubject } from 'rxjs';
 import { Idle } from 'idlejs/dist';
 import { Router } from '@angular/router';
-import { ContextMenuComponent, ContextMenuService } from 'ngx-contextmenu';
+import { ContextMenuComponent, ContextMenuService } from '@perfectmemory/ngx-contextmenu';
 import { BigNumber } from 'bignumber.js';
 
 @Injectable({
@@ -150,13 +150,13 @@ export class VariablesService {
       }
     });
 
-  allContextMenu: ContextMenuComponent;
+  allContextMenu: ContextMenuComponent<any>;
 
-  onlyCopyContextMenu: ContextMenuComponent;
+  onlyCopyContextMenu: ContextMenuComponent<any>;
 
-  pasteSelectContextMenu: ContextMenuComponent;
+  pasteSelectContextMenu: ContextMenuComponent<any>;
 
-  constructor(private router: Router, private ngZone: NgZone, private contextMenuService: ContextMenuService) {
+  constructor(private router: Router, private ngZone: NgZone, private contextMenuService: ContextMenuService<any>) {
   }
 
   setExpMedTs(timestamp: number): void {
@@ -249,10 +249,11 @@ export class VariablesService {
     $event.target['contextSelectionStart'] = $event.target['selectionStart'];
     $event.target['contextSelectionEnd'] = $event.target['selectionEnd'];
     if ($event.target && ($event.target['nodeName'].toUpperCase() === 'TEXTAREA' || $event.target['nodeName'].toUpperCase() === 'INPUT') && !$event.target['readOnly']) {
-      this.contextMenuService.show.next({
-        contextMenu: this.allContextMenu,
-        event: $event,
-        item: $event.target,
+      this.contextMenuService.show(this.allContextMenu,
+        {
+        x: $event.x,
+        y: $event.y,
+        value: $event.target,
       });
       $event.preventDefault();
       $event.stopPropagation();
@@ -262,11 +263,11 @@ export class VariablesService {
   onContextMenuOnlyCopy($event: MouseEvent, copyText?: string): void {
     $event.preventDefault();
     $event.stopPropagation();
-    this.contextMenuService.show.next({
-      contextMenu: this.onlyCopyContextMenu,
-      event: $event,
-      item: copyText
-    });
+    this.contextMenuService.show(
+      this.onlyCopyContextMenu,
+      {
+        value: copyText, x: $event.x, y: $event.y
+      });
   }
 
   onContextMenuPasteSelect($event: MouseEvent): void {
@@ -278,10 +279,10 @@ export class VariablesService {
 
 
     if ($event.target && ($event.target['nodeName'].toUpperCase() === 'TEXTAREA' || $event.target['nodeName'].toUpperCase() === 'INPUT') && !$event.target['readOnly']) {
-      this.contextMenuService.show.next({
-        contextMenu: this.pasteSelectContextMenu,
-        event: $event,
-        item: $event.target,
+      this.contextMenuService.show(this.pasteSelectContextMenu, {
+        x: $event.x,
+        y: $event.y,
+        value: $event.target,
       });
       $event.preventDefault();
       $event.stopPropagation();
