@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import QRCode from 'qrcode';
-import { VariablesService } from '../_helpers/services/variables.service';
-import { RCV_ADDR_QR_SCALE } from '../_shared/constants';
+import { VariablesService } from '../../../../_helpers/services/variables.service';
+import { RCV_ADDR_QR_SCALE } from '../../../../_shared/constants';
 
 @Component({
   selector: 'app-receive',

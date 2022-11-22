@@ -7,13 +7,13 @@ import {
   pathsChildrenWallet,
 } from '../../paths';
 import { SendComponent } from '../../send/send.component';
-import { ReceiveComponent } from '../../receive/receive.component';
-import { HistoryComponent } from '../../history/history.component';
-import { ContractsTabComponent } from '../../contracts/contracts-tab/contracts-tab.component';
-import { ContractsComponent } from '../../contracts/contracts.component';
+import { ReceiveComponent } from './tabs/receive/receive.component';
+import { HistoryComponent } from './tabs/history/history.component';
+import { ContractsTabComponent } from './tabs/contracts/contracts-tab/contracts-tab.component';
+import { ContractsComponent } from './tabs/contracts/contracts.component';
 import { PurchaseComponent } from '../../purchase/purchase.component';
-import { StakingComponent } from '../../staking/staking.component';
-import { AssetsComponent } from './assets/assets.component';
+import { StakingComponent } from './tabs/staking/staking.component';
+import { AssetsComponent } from './tabs/assets/assets.component';
 import { WithSidebarLayoutComponent } from '../../layouts/with-sidebar-layout/with-sidebar-layout.component';
 import { WalletDetailsComponent } from './wallet-details/wallet-details.component';
 

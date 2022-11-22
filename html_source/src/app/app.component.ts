@@ -120,6 +120,7 @@ export class AppComponent implements OnInit, OnDestroy {
         });
 
         this.backend.eventSubscribe('quit_requested', () => {
+          this.variablesService.event_quit_requested$.next();
           if (!this.onQuitRequest) {
             this.ngZone.run(() => {
               this.router.navigate(['/']);

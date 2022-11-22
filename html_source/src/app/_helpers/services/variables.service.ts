@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { DeeplinkParams, Wallet } from '../models/wallet.model';
 import { Contact } from '../models/contact.model';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { Idle } from 'idlejs/dist';
 import { Router } from '@angular/router';
 import {
@@ -55,6 +55,8 @@ export class VariablesService {
   last_build_displaymode = 0;
 
   daemon_state = 3;
+
+  event_quit_requested$ = new Subject<void>();
 
   deeplink$ = new BehaviorSubject<string | null>(null);
 

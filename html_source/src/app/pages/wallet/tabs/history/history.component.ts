@@ -7,17 +7,17 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { VariablesService } from '../_helpers/services/variables.service';
+import { VariablesService } from '../../../../_helpers/services/variables.service';
 import { ActivatedRoute } from '@angular/router';
-import { Transaction } from '../_helpers/models/transaction.model';
+import { Transaction } from '../../../../_helpers/models/transaction.model';
 import BigNumber from 'bignumber.js';
-import { PaginationService } from '../_helpers/services/pagination.service';
-import { PaginationStore } from '../_helpers/services/pagination.store';
-import { Wallet } from '../_helpers/models/wallet.model';
-import { BackendService } from '../_helpers/services/backend.service';
+import { PaginationService } from '../../../../_helpers/services/pagination.service';
+import { PaginationStore } from '../../../../_helpers/services/pagination.store';
+import { Wallet } from '../../../../_helpers/models/wallet.model';
+import { BackendService } from '../../../../_helpers/services/backend.service';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { hasOwnProperty } from '../_helpers/functions/hasOwnProperty';
+import { hasOwnProperty } from '../../../../_helpers/functions/hasOwnProperty';
 
 @Component({
   selector: 'app-history',

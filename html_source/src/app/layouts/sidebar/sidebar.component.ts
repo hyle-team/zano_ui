@@ -1,16 +1,16 @@
 import { Component, NgZone } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { VariablesService } from '../_helpers/services/variables.service';
-import { BackendService } from '../_helpers/services/backend.service';
-import { ModalService } from '../_helpers/services/modal.service';
+import { VariablesService } from '../../_helpers/services/variables.service';
+import { BackendService } from '../../_helpers/services/backend.service';
+import { ModalService } from '../../_helpers/services/modal.service';
 import {
   DOWNLOADS_PAGE_URL,
   LOCKED_BALANCE_HELP_PAGE,
-} from '../_shared/constants';
+} from '../../_shared/constants';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Wallet } from '../_helpers/models/wallet.model';
+import { Wallet } from '../../_helpers/models/wallet.model';
 import { TranslateService } from '@ngx-translate/core';
-import { IntToMoneyPipe } from '../_helpers/pipes/int-to-money.pipe';
+import { IntToMoneyPipe } from '../../_helpers/pipes/int-to-money.pipe';
 
 @Component({
   selector: 'app-sidebar',

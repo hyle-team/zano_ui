@@ -10,7 +10,7 @@ import { SeedPhraseComponent } from './seed-phrase/seed-phrase.component';
 import { AssignAliasComponent } from './assign-alias/assign-alias.component';
 import { EditAliasComponent } from './edit-alias/edit-alias.component';
 import { TransferAliasComponent } from './transfer-alias/transfer-alias.component';
-import { ContactsComponent } from './contacts/contacts.component';
+import { ContactsComponent } from './pages/contacts/contacts.component';
 import { AddContactsComponent } from './add-contacts/add-contacts.component';
 import { ContactSendComponent } from './contact-send/contact-send.component';
 import { ExportImportComponent } from './export-import/export-import.component';
