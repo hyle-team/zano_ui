@@ -1,23 +1,24 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AddWalletComponent } from './add-wallet/add-wallet.component';
-import { LoginComponent } from './login/login.component';
-import { SettingsComponent } from './settings/settings.component';
-import { CreateWalletComponent } from './create-wallet/create-wallet.component';
-import { OpenWalletComponent } from './open-wallet/open-wallet.component';
-import { RestoreWalletComponent } from './restore-wallet/restore-wallet.component';
-import { SeedPhraseComponent } from './seed-phrase/seed-phrase.component';
-import { AssignAliasComponent } from './assign-alias/assign-alias.component';
-import { EditAliasComponent } from './edit-alias/edit-alias.component';
-import { TransferAliasComponent } from './transfer-alias/transfer-alias.component';
+import { AddWalletComponent } from './pages/add-wallet/add-wallet.component';
+import { LoginComponent } from './pages/auth/login/login.component';
+import { SettingsComponent } from './pages/settings/settings.component';
+import { CreateWalletComponent } from './pages/create-wallet/create-wallet.component';
+import { OpenWalletComponent } from './pages/open-wallet/open-wallet.component';
+import { RestoreWalletComponent } from './pages/restore-wallet/restore-wallet.component';
+import { SeedPhraseComponent } from './pages/seed-phrase/seed-phrase.component';
+import { AssignAliasComponent } from './pages/assign-alias/assign-alias.component';
+import { EditAliasComponent } from './pages/edit-alias/edit-alias.component';
+import { TransferAliasComponent } from './_helpers/components/transfer-alias/transfer-alias.component';
 import { ContactsComponent } from './pages/contacts/contacts.component';
-import { AddContactsComponent } from './add-contacts/add-contacts.component';
-import { ContactSendComponent } from './contact-send/contact-send.component';
-import { ExportImportComponent } from './export-import/export-import.component';
-import { DeeplinkComponent } from './deeplink/deeplink.component';
+import { AddContactsComponent } from './pages/add-contacts/add-contacts.component';
+import { ContactSendComponent } from './pages/contact-send/contact-send.component';
+import { ExportImportComponent } from './_helpers/components/export-import/export-import.component';
+import { DeeplinkComponent } from './pages/deeplink/deeplink.component';
 import { paths } from './paths';
 import { FullLayoutComponent } from './layouts/full-layout/full-layout.component';
 import { WithSidebarLayoutComponent } from './layouts/with-sidebar-layout/with-sidebar-layout.component';
+import { WalletDetailsComponent } from './pages/wallet-details/wallet-details.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,16 @@ const routes: Routes = [
       {
         path: '',
         component: AddWalletComponent,
+      },
+    ],
+  },
+  {
+    path: paths.details,
+    component: WithSidebarLayoutComponent,
+    children: [
+      {
+        path: '',
+        component: WalletDetailsComponent,
       },
     ],
   },

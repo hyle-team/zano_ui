@@ -6,16 +6,15 @@ import {
   pathsChildrenContracts,
   pathsChildrenWallet,
 } from '../../paths';
-import { SendComponent } from '../../send/send.component';
+import { SendComponent } from './tabs/send/send.component';
 import { ReceiveComponent } from './tabs/receive/receive.component';
 import { HistoryComponent } from './tabs/history/history.component';
 import { ContractsTabComponent } from './tabs/contracts/contracts-tab/contracts-tab.component';
 import { ContractsComponent } from './tabs/contracts/contracts.component';
-import { PurchaseComponent } from '../../purchase/purchase.component';
+import { PurchaseComponent } from './tabs/contracts/purchase/purchase.component';
 import { StakingComponent } from './tabs/staking/staking.component';
 import { AssetsComponent } from './tabs/assets/assets.component';
 import { WithSidebarLayoutComponent } from '../../layouts/with-sidebar-layout/with-sidebar-layout.component';
-import { WalletDetailsComponent } from './wallet-details/wallet-details.component';
 
 const routes: Routes = [
   {
@@ -74,16 +73,6 @@ const routes: Routes = [
             pathMatch: 'full',
           },
         ],
-      },
-    ],
-  },
-  {
-    path: paths.details,
-    component: WithSidebarLayoutComponent,
-    children: [
-      {
-        path: '',
-        component: WalletDetailsComponent,
       },
     ],
   },

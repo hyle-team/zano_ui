@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { AuthRoutingModule } from './auth-routing.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { SynchronizationStatusModule } from '../../synchronization-status/synchronization-status.module';
+import { SynchronizationStatusModule } from '../../_helpers/components/synchronization-status/synchronization-status.module';
 import { NoWalletComponent } from './no-wallet/no-wallet.component';
 
 @NgModule({

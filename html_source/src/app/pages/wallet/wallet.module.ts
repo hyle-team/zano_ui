@@ -12,7 +12,7 @@ import { IsAvailableAliasNamePipeModule } from '../../_shared/pipes/is-available
 import { ConfirmModalModule } from '../../_helpers/modals/confirm-modal/confirm-modal.module';
 import { AddCustomTokenModule } from '../../_helpers/modals/add-custom-token/add-custom-token.module';
 import { ExportHistoryModalModule } from '../../_helpers/modals/export-history-modal/export-history-modal.module';
-import { WalletDetailsComponent } from './wallet-details/wallet-details.component';
+import { WalletDetailsComponent } from '../wallet-details/wallet-details.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { DefaultImgModule } from '../../_shared/directives/default-img';
