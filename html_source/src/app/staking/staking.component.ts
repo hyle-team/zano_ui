@@ -167,7 +167,6 @@ export class StakingComponent implements OnInit, OnDestroy {
         type: 'line',
         backgroundColor: 'transparent',
         height: null,
-        zoomType: null,
         events: {
           load: (): void => {
             this.changePeriod();
@@ -198,7 +197,6 @@ export class StakingComponent implements OnInit, OnDestroy {
           },
           format: '{value} ' + this.variablesService.defaultCurrency,
         },
-        showLastLabel: false,
       },
 
       xAxis: {
@@ -343,7 +341,7 @@ export class StakingComponent implements OnInit, OnDestroy {
           newData.push([time, item[1]]);
         }
       });
-      this.chart.ref.series[0].setData(newData, true);
+      this.chart.ref?.series[0].setData(newData, true);
       min = Date.UTC(
         d.getFullYear(),
         d.getMonth(),
@@ -366,7 +364,7 @@ export class StakingComponent implements OnInit, OnDestroy {
           newData.push([time, item[1]]);
         }
       });
-      this.chart.ref.series[0].setData(newData, true);
+      this.chart.ref?.series[0].setData(newData, true);
       min = Date.UTC(
         d.getFullYear(),
         d.getMonth(),
@@ -389,7 +387,7 @@ export class StakingComponent implements OnInit, OnDestroy {
           newData.push([time, item[1]]);
         }
       });
-      this.chart.ref.series[0].setData(newData, true);
+      this.chart.ref?.series[0].setData(newData, true);
       min = Date.UTC(
         d.getFullYear(),
         d.getMonth() - 1,
@@ -412,7 +410,7 @@ export class StakingComponent implements OnInit, OnDestroy {
           newData.push([time, item[1]]);
         }
       });
-      this.chart.ref.series[0].setData(newData, true);
+      this.chart.ref?.series[0].setData(newData, true);
       min = Date.UTC(
         d.getFullYear(),
         d.getMonth() - 3,
@@ -435,7 +433,7 @@ export class StakingComponent implements OnInit, OnDestroy {
           newData.push([time, item[1]]);
         }
       });
-      this.chart.ref.series[0].setData(newData, true);
+      this.chart.ref?.series[0].setData(newData, true);
       min = Date.UTC(
         d.getFullYear(),
         d.getMonth() - 6,
@@ -458,7 +456,7 @@ export class StakingComponent implements OnInit, OnDestroy {
           newData.push([time, item[1]]);
         }
       });
-      this.chart.ref.series[0].setData(newData, true);
+      this.chart.ref?.series[0].setData(newData, true);
       min = Date.UTC(
         d.getFullYear() - 1,
         d.getMonth(),
@@ -481,10 +479,10 @@ export class StakingComponent implements OnInit, OnDestroy {
           newData.push([time, item[1]]);
         }
       });
-      this.chart.ref.series[0].setData(newData, true);
+      this.chart.ref?.series[0].setData(newData, true);
     }
 
-    this.chart.ref.xAxis[0].setExtremes(min, null);
+    this.chart.ref?.xAxis[0].setExtremes(min, null);
   }
 
   changeGroup(group): void {
