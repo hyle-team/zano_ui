@@ -11,14 +11,14 @@
   <div class="card-token-body mr-1">
     <h4 class="title">{{ assetInfo?.title || '---' }}</h4>
     <p class="sub-title">
-      <span class="balance mr-1">{{ asset.balance }}</span>
+      <span class="balance mr-1">{{ asset?.balance || 0 }}</span>
       <span class="ticker">{{ assetInfo?.ticker || '---' }}</span>
     </p>
   </div>
   <div class="card-token-action">
     <button
       #trigger="cdkOverlayOrigin"
-      (click)="$event.stopPropagation(); toggleMenuDropdown()"
+      (click)="$event.stopPropagation()"
       [disabled]="false"
       cdkOverlayOrigin
       class="btn-icon circle small"

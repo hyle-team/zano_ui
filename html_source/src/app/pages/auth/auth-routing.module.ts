@@ -1,12 +1,19 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { pathsChildrenAuth } from '../../paths';
+import { paths, pathsChildrenAuth } from '../../paths';
+import { NoWalletComponent } from './no-wallet/no-wallet.component';
+import { FullLayoutComponent } from '../../layouts/full-layout/full-layout.component';
 
 const routes: Routes = [
   {
-    path: pathsChildrenAuth.noWallet,
-    loadChildren: () =>
-      import('./no-wallet/no-wallet.module').then(m => m.NoWalletModule),
+    path: paths.auth,
+    component: FullLayoutComponent,
+    children: [
+      {
+        path: pathsChildrenAuth.noWallet,
+        component: NoWalletComponent,
+      },
+    ],
   },
 ];
 

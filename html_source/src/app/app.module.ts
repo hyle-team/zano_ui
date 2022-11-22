@@ -10,11 +10,9 @@ import { OpenWalletComponent } from './open-wallet/open-wallet.component';
 import { OpenWalletModalComponent } from './open-wallet-modal/open-wallet-modal.component';
 import { RestoreWalletComponent } from './restore-wallet/restore-wallet.component';
 import { SeedPhraseComponent } from './seed-phrase/seed-phrase.component';
-import { WalletDetailsComponent } from './wallet-details/wallet-details.component';
 import { AssignAliasComponent } from './assign-alias/assign-alias.component';
 import { EditAliasComponent } from './edit-alias/edit-alias.component';
 import { TransferAliasComponent } from './transfer-alias/transfer-alias.component';
-import { WalletComponent } from './wallet/wallet.component';
 import { SendComponent } from './send/send.component';
 import { ReceiveComponent } from './receive/receive.component';
 import { HistoryComponent } from './history/history.component';
@@ -46,7 +44,6 @@ import { ContactsComponent } from './contacts/contacts.component';
 import { AddContactsComponent } from './add-contacts/add-contacts.component';
 import { ContactSendComponent } from './contact-send/contact-send.component';
 import { ExportImportComponent } from './export-import/export-import.component';
-import { ExportHistoryModalComponent } from './_helpers/modals/export-history-modal/export-history-modal.component';
 import { ContractsTabComponent } from './contracts/contracts-tab/contracts-tab.component';
 import { SendDetailsModalComponent } from './send-details-modal/send-details-modal.component';
 import { DisablePriceFetchModule } from './_shared/directives/disable-price-fetch/disable-price-fetch.module';
@@ -68,6 +65,8 @@ import { ShortStringPipeModule } from './_shared/pipes/short-string-pipe/short-s
 import { IsAvailableAliasNamePipeModule } from './_shared/pipes/is-available-alias-name-pipe/is-available-alias-name-pipe.module';
 import { CopyButtonModule } from './_shared/components/copy-button/copy-button.module';
 import { GetAssetInfoByIdModule } from './_shared/pipes/get-asset-info-by-id/get-asset-info-by-id.module';
+import { PagesModule } from './pages/pages.module';
+import { DefaultImgModule } from './_shared/directives/default-img';
 
 export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
@@ -94,11 +93,9 @@ export function highchartsFactory(): any[] {
     OpenWalletModalComponent,
     RestoreWalletComponent,
     SeedPhraseComponent,
-    WalletDetailsComponent,
     AssignAliasComponent,
     EditAliasComponent,
     TransferAliasComponent,
-    WalletComponent,
     SendComponent,
     ReceiveComponent,
     HistoryComponent,
@@ -114,7 +111,6 @@ export function highchartsFactory(): any[] {
     AddContactsComponent,
     ContactSendComponent,
     ExportImportComponent,
-    ExportHistoryModalComponent,
     ContractsTabComponent,
     SendDetailsModalComponent,
   ],
@@ -153,6 +149,8 @@ export function highchartsFactory(): any[] {
     IsAvailableAliasNamePipeModule,
     CopyButtonModule,
     GetAssetInfoByIdModule,
+    PagesModule,
+    DefaultImgModule,
   ],
   providers: [
     Store,

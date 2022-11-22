@@ -10,7 +10,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-		"format": "npm prettier --write ."
+    "format": "npm prettier --write ."
   },
   "private": true,
   "dependencies": {
@@ -39,6 +39,7 @@
     "idlejs": "^3.0.0",
     "json-bignumber": "^1.1.1",
     "lodash": "^4.17.20",
+    "ngx-pagination": "^6.0.3",
     "ngx-papaparse": "^5.1.0",
     "prettier-eslint": "^15.0.1",
     "qrcode": "^1.5.1",

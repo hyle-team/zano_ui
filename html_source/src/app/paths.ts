@@ -26,6 +26,7 @@ export enum pathsChildrenAuth {
 }
 
 export enum pathsChildrenWallet {
+  assets = 'assets',
   send = 'send',
   receive = 'receive',
   history = 'history',

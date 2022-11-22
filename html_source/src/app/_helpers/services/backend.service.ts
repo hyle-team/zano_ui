@@ -741,7 +741,7 @@ export class BackendService {
         unlocked_balance: 100000,
       },
     ];
-    wallet.assets = mockAssets;
+    wallet.assets = [...mockAssets];
     // return this.runCommand('get_wallet_info', { wallet_id }, ({ assets }: { assets: Assets }) => {
     //   wallet.assets = assets;
     // });

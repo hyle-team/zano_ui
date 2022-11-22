@@ -51,7 +51,7 @@ export class SidebarComponent {
   selectWallet(id: number): void {
     this.ngZone.run(() => {
       this.variablesService.setCurrentWallet(id);
-      this.router.navigate(['/wallet/history']);
+      this.router.navigate(['/wallet/assets']);
     });
   }
 

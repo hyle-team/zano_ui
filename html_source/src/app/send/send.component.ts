@@ -6,6 +6,7 @@ import {
   OnInit,
 } from '@angular/core';
 import {
+  FormControl,
   UntypedFormControl,
   UntypedFormGroup,
   ValidationErrors,
@@ -19,6 +20,9 @@ import { MIXIN } from '../_shared/constants';
 import { HttpClient } from '@angular/common/http';
 import { MoneyToIntPipe } from '../_helpers/pipes/money-to-int.pipe';
 import { finalize } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { AssetInfo, AssetsInfo } from '../_helpers/models/assets';
+import { StateKeys, Store } from 'store';
 
 interface WrapInfo {
   tx_cost: {
@@ -169,6 +173,7 @@ export class SendComponent implements OnInit, OnDestroy {
       },
     ]),
     comment: new UntypedFormControl(''),
+    assets: new FormControl<AssetInfo | null>(null, Validators.compose([])),
     mixin: new UntypedFormControl(MIXIN, Validators.required),
     fee: new UntypedFormControl(this.variablesService.default_fee, [
       Validators.required,
@@ -184,6 +189,14 @@ export class SendComponent implements OnInit, OnDestroy {
     hide: new UntypedFormControl(false),
   });
 
+  defaultImgSrc = 'assets/icons/currency-icons/custom_token.svg';
+
+  get assetsInfo$(): Observable<AssetsInfo | null | undefined> {
+    return this.store.select<AssetsInfo | null | undefined>(
+      StateKeys.assetsInfo
+    );
+  }
+
   private dLActionSubscribe;
 
   constructor(
@@ -192,7 +205,8 @@ export class SendComponent implements OnInit, OnDestroy {
     private modalService: ModalService,
     private ngZone: NgZone,
     private http: HttpClient,
-    private moneyToInt: MoneyToIntPipe
+    private moneyToInt: MoneyToIntPipe,
+    private store: Store
   ) {}
 
   @HostListener('document:click', ['$event.target'])

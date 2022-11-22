@@ -49,6 +49,14 @@ i {
     background: center / contain no-repeat url(~src/assets/icons/white/add.svg);
   }
 
+  &.balance-icon {
+    background: center / contain no-repeat url(~src/assets/icons/white/balance_icon.svg);
+  }
+
+  &.info-icon {
+    background: center / contain no-repeat url(~src/assets/icons/white/info_icon.svg);
+  }
+
   &.arrow-left-stroke {
     background: center / contain no-repeat
       url(~src/assets/icons/white/arrow-left-stroke.svg);

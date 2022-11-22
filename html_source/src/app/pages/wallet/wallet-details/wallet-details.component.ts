@@ -5,11 +5,11 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { BackendService } from '../_helpers/services/backend.service';
-import { VariablesService } from '../_helpers/services/variables.service';
+import { BackendService } from '../../../_helpers/services/backend.service';
+import { VariablesService } from '../../../_helpers/services/variables.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { hasOwnProperty } from '../_helpers/functions/hasOwnProperty';
+import { hasOwnProperty } from '../../../_helpers/functions/hasOwnProperty';
 
 @Component({
   selector: 'app-wallet-details',

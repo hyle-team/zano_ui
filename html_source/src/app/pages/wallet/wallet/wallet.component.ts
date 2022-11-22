@@ -6,15 +6,14 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { VariablesService } from '../_helpers/services/variables.service';
-import { BackendService } from '../_helpers/services/backend.service';
+import { VariablesService } from '../../../_helpers/services/variables.service';
+import { BackendService } from '../../../_helpers/services/backend.service';
 import { TranslateService } from '@ngx-translate/core';
-import { IntToMoneyPipe } from '../_helpers/pipes/int-to-money.pipe';
-import { Observable, Subject } from 'rxjs';
+import { IntToMoneyPipe } from '../../../_helpers/pipes/int-to-money.pipe';
+import { Subject } from 'rxjs';
 import { StateKeys, Store, Sync } from 'store';
 import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
-import { AssetsInfo } from '../_helpers/models/assets';
-import { hasOwnProperty } from '../_helpers/functions/hasOwnProperty';
+import { hasOwnProperty } from '../../../_helpers/functions/hasOwnProperty';
 
 @Component({
   selector: 'app-wallet',
@@ -41,6 +40,12 @@ export class WalletComponent implements OnInit, OnDestroy {
   walletSyncVisible = false;
 
   tabs = [
+    {
+      title: 'WALLET.TABS.ASSETS',
+      icon: 'balance-icon',
+      link: '/assets',
+      disabled: false,
+    },
     {
       title: 'WALLET.TABS.HISTORY',
       icon: 'time-circle',
@@ -73,12 +78,6 @@ export class WalletComponent implements OnInit, OnDestroy {
       disabled: true,
     },
   ];
-
-  get assetsInfo$(): Observable<AssetsInfo | null | undefined> {
-    return this.store.select<AssetsInfo | null | undefined>(
-      StateKeys.assetsInfo
-    );
-  }
 
   private destroy$ = new Subject<void>();
 
@@ -271,8 +270,8 @@ export class WalletComponent implements OnInit, OnDestroy {
   }
 
   setTabsDisabled(disabled: boolean): void {
-    this.tabs[1].disabled = disabled;
-    this.tabs[3].disabled = disabled;
+    this.tabs[2].disabled = disabled;
     this.tabs[4].disabled = disabled;
+    this.tabs[5].disabled = disabled;
   }
 }

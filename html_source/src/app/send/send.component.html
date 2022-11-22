@@ -164,6 +164,40 @@
       </table>
     </div>
 
+    <div class="form__field">
+      <label>
+        {{ 'Assets' | translate }}
+      </label>
+      <ng-select
+        [clearable]="false"
+        [items]="variablesService.currentWallet.assets"
+        [searchable]="false"
+        formControlName="assets"
+        class="custom-select with-circle"
+      >
+        <ng-template ng-option-tmp ng-label-tmp let-asset="item">
+          <ng-container
+            *ngIf="
+              assetsInfo$
+                | async
+                | getAssetInfoById: asset.asset_id as assetInfo
+            "
+          >
+            <img
+              height="15"
+              width="15"
+              [src]="assetInfo?.logo || defaultImgSrc"
+              [alt]="assetInfo?.ticker"
+              defaultImgAlt="default"
+              [defaultImgSrc]="defaultImgSrc"
+              appDefaultImg
+            />
+            {{ assetInfo?.title || '---' }}
+          </ng-container>
+        </ng-template>
+      </ng-select>
+    </div>
+
     <div class="details mb-2">
       <button
         (click)="toggleOptions()"

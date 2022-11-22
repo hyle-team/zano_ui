@@ -237,6 +237,7 @@
       "MESSAGE": "To access it you’ll have to add it again"
     },
     "TABS": {
+      "ASSETS": "Assets",
       "SEND": "Send",
       "RECEIVE": "Receive",
       "HISTORY": "History",
