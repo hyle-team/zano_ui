@@ -167,7 +167,12 @@
 >
   <ul (click)="isOpenDropDownMenu = false" class="list">
     <li class="item">
-      <button [disabled]="false" class="w-100 px-2 py-1" type="button" (click)="assetDetails()">
+      <button
+        [disabled]="false"
+        class="w-100 px-2 py-1"
+        type="button"
+        (click)="assetDetails()"
+      >
         <i class="icon info-icon mr-1"></i>
         <span>{{ 'Asset Details' | translate }}</span>
       </button>

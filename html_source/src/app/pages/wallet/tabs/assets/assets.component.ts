@@ -1,13 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { VariablesService } from '../../../../_helpers/services/variables.service';
+import { VariablesService } from '@zano-helpers/services/variables.service';
 import { Observable, Subject } from 'rxjs';
-import { Asset, AssetsInfo } from '../../../../_helpers/models/assets';
+import { Asset, AssetsInfo } from '@zano-helpers/models/assets';
 import { StateKeys, Store } from 'store';
 import { PaginatePipeArgs } from 'ngx-pagination';
 import { takeUntil } from 'rxjs/operators';
 import { CdkOverlayOrigin } from '@angular/cdk/overlay';
 import { AssetDetailsComponent } from './dialogs/asset-details/asset-details.component';
-import { MatDialog } from '@angular/material/dialog';
 import { Dialog } from '@angular/cdk/dialog';
 
 @Component({
