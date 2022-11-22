@@ -9,17 +9,17 @@
     <div class="wallet-wrapper" fxLayout="column" fxLayoutAlign="start start">
       <div class="title" fxLayout="row nowrap" fxLayoutAlign="start center">
         <h1
-          [delay]="150"
-          [placement]="'bottom'"
-          [timeout]="0"
-          [tooltipClass]="'table-tooltip'"
-          [tooltip]="variablesService.currentWallet.address"
           class="text-ellipsis mr-1"
         >
           {{ variablesService.currentWallet.address | zanoShortString }}
         </h1>
 
         <app-copy-button
+          [delay]="150"
+          [placement]="'bottom'"
+          [timeout]="0"
+          [tooltipClass]="'table-tooltip'"
+          [tooltip]="variablesService.currentWallet.address"
           [value]="variablesService.currentWallet.address"
           class="mr-1"
         >
