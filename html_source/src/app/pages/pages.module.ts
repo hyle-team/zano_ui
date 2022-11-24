@@ -15,9 +15,7 @@ import { SeedPhraseComponent } from './seed-phrase/seed-phrase.component';
 import { AssignAliasComponent } from './assign-alias/assign-alias.component';
 import { EditAliasComponent } from './edit-alias/edit-alias.component';
 import { PurchaseComponent } from './wallet/tabs/contracts/purchase/purchase.component';
-import { InputValidateDirective } from '@parts/directives/input-validate/input-validate.directive';
 import { ModalContainerComponent } from '@parts/modals/modal-container/modal-container.component';
-import { InputDisableSelectionDirective } from '@parts/directives/input-disable-selection/input-disable-selection.directive';
 import { ContactsComponent } from './contacts/contacts.component';
 import { AddContactsComponent } from './add-contacts/add-contacts.component';
 import { ContactSendComponent } from './contact-send/contact-send.component';
@@ -26,7 +24,7 @@ import { DisablePriceFetchModule } from '../parts/directives/disable-price-fetch
 import { TooltipModule } from '@parts/directives/tooltip/tooltip.module';
 import { ConfirmModalModule } from '@parts/modals/confirm-modal/confirm-modal.module';
 import { DeeplinkModule } from './deeplink/deeplink.module';
-import { StakingSwitchModule } from '@parts/directives/staking-switch/staking-switch.module';
+import { StakingSwitchModule } from '@parts/components/staking-switch/staking-switch.module';
 import { FullLayoutModule } from '../layouts/full-layout/full-layout.module';
 import { WithSidebarLayoutModule } from '../layouts/with-sidebar-layout/with-sidebar-layout.module';
 import { SynchronizationStatusModule } from '@parts/components/synchronization-status/synchronization-status.module';
@@ -50,6 +48,8 @@ import {
   SafeHtmlPipeModule,
   ShortStringPipeModule,
 } from '@parts/pipes';
+import { InputValidateModule } from '@parts/directives/input-validate';
+import { InputDisableSelectionModule } from '@parts/directives/input-disable-selection';
 
 @NgModule({
   declarations: [
@@ -65,9 +65,7 @@ import {
     EditAliasComponent,
     TransferAliasComponent,
     PurchaseComponent,
-    InputValidateDirective,
     ModalContainerComponent,
-    InputDisableSelectionDirective,
     ContactsComponent,
     AddContactsComponent,
     ContactSendComponent,
@@ -106,6 +104,8 @@ import {
     MoneyToIntPipeModule,
     SafeHtmlPipeModule,
     ShortStringPipeModule,
+    InputValidateModule,
+    InputDisableSelectionModule,
   ],
 })
 export class PagesModule {}

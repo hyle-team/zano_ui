@@ -9,7 +9,7 @@ import { SynchronizationStatusModule } from '../../parts/components/synchronizat
 import { DisablePriceFetchModule } from '../../parts/directives/disable-price-fetch/disable-price-fetch.module';
 import { ConfirmModalModule } from '../../parts/modals/confirm-modal/confirm-modal.module';
 import { DeeplinkModule } from '../../pages/deeplink/deeplink.module';
-import { StakingSwitchModule } from '../../parts/directives/staking-switch/staking-switch.module';
+import { StakingSwitchModule } from '../../parts/components/staking-switch/staking-switch.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { IntToMoneyPipeModule } from '@parts/pipes';
 
