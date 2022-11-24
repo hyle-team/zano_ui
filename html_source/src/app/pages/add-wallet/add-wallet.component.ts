@@ -4,7 +4,7 @@ import { BackendService } from '@zano-helpers/services/backend.service';
 import { VariablesService } from '@zano-helpers/services/variables.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { CREATE_NEW_WALLET_HELP_PAGE } from '@zano-shared/constants';
+import { CREATE_NEW_WALLET_HELP_PAGE } from '@zano-helpers/data/constants';
 
 @Component({
   selector: 'app-add-wallet',

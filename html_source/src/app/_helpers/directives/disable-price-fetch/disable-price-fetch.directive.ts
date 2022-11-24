@@ -4,7 +4,7 @@ import {
   TemplateRef,
   ViewContainerRef,
 } from '@angular/core';
-import { VariablesService } from '../../../_helpers/services/variables.service';
+import { VariablesService } from '../../services/variables.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 

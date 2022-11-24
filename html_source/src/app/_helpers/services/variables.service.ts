@@ -1,6 +1,6 @@
 import { Injectable, NgZone } from '@angular/core';
-import { DeeplinkParams, Wallet } from '../models/wallet.model';
-import { Contact } from '../models/contact.model';
+import { DeeplinkParams, Wallet } from '../../api/models/wallet.model';
+import { Contact } from '../../api/models/contact.model';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { Idle } from 'idlejs/dist';
 import { Router } from '@angular/router';

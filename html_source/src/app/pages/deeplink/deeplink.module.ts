@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DeeplinkModalModule } from './dialogs/deeplink-modal/deeplink-modal.module';
-import { SyncModalModule } from '@zano-helpers/modals/sync-modal/sync-modal.module';
+import { DeeplinkModalModule } from './modals/deeplink-modal/deeplink-modal.module';
 import { DeeplinkComponent } from './deeplink.component';
+import { SyncModalModule } from './modals/sync-modal/sync-modal.module';
 
 @NgModule({
   declarations: [DeeplinkComponent],

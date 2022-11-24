@@ -18,7 +18,7 @@ import { ModalService } from './_helpers/services/modal.service';
 import { StateKeys, Store } from 'store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { paths, pathsChildrenAuth } from './paths';
+import { paths, pathsChildrenAuth } from './pages/paths';
 import { hasOwnProperty } from './_helpers/functions/hasOwnProperty';
 
 @Component({

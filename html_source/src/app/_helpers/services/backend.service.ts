@@ -6,8 +6,8 @@ import { ModalService } from './modal.service';
 import { MoneyToIntPipe } from '../pipes/money-to-int.pipe';
 import JSONBigNumber from 'json-bignumber';
 import { BigNumber } from 'bignumber.js';
-import { Alias, Wallet } from '../models/wallet.model';
-import { Assets, AssetsInfo } from '../models/assets';
+import { Alias, Wallet } from '../../api/models/wallet.model';
+import { Assets, AssetsInfo } from '../../api/models/assets.model';
 import { StateKeys, Store } from 'store';
 
 export interface PramsObj {
@@ -88,7 +88,9 @@ export interface CurrentActionState {
   wallet_id: number;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class BackendService {
   dispatchAsyncCallResult$ = new Subject<AsyncCommandResults>();
   handleCurrentActionState$ = new Subject<CurrentActionState>();
@@ -742,7 +744,7 @@ export class BackendService {
       },
     ];
     wallet.assets = [...mockAssets];
-    // return this.runCommand('get_wallet_info', { wallet_id }, ({ assets }: { assets: Assets }) => {
+    // return this.runCommand('get_wallet_info', { wallet_id }, ({ assets }: { assets: AssetsModel }) => {
     //   wallet.assets = assets;
     // });
   }

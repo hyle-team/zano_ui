@@ -9,7 +9,9 @@ import {
 import { TranslateService } from '@ngx-translate/core';
 import { ModalContainerComponent } from '../modals/modal-container/modal-container.component';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class ModalService {
   private components: any[] = [];
 

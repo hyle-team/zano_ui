@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 import { BackendService } from '@zano-helpers/services/backend.service';
 import { VariablesService } from '@zano-helpers/services/variables.service';
 import { ModalService } from '@zano-helpers/services/modal.service';
-import { Wallet } from '@zano-helpers/models/wallet.model';
+import { Wallet } from '../../api/models/wallet.model';
 import { MoneyToIntPipe } from '@zano-helpers/pipes/money-to-int.pipe';
 import { IntToMoneyPipe } from '@zano-helpers/pipes/int-to-money.pipe';
 import BigNumber from 'bignumber.js';

@@ -6,9 +6,9 @@ import { ModalService } from '../../_helpers/services/modal.service';
 import {
   DOWNLOADS_PAGE_URL,
   LOCKED_BALANCE_HELP_PAGE,
-} from '../../_shared/constants';
+} from '@zano-helpers/data/constants';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Wallet } from '../../_helpers/models/wallet.model';
+import { Wallet } from '../../api/models/wallet.model';
 import { TranslateService } from '@ngx-translate/core';
 import { IntToMoneyPipe } from '../../_helpers/pipes/int-to-money.pipe';
 

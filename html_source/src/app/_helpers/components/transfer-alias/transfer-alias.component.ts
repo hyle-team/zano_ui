@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { BackendService } from '../../services/backend.service';
 import { VariablesService } from '../../services/variables.service';
 import { ModalService } from '../../services/modal.service';
-import { Wallet } from '../../models/wallet.model';
+import { Wallet } from '../../../api/models/wallet.model';
 import { hasOwnProperty } from '../../functions/hasOwnProperty';
 
 @Component({

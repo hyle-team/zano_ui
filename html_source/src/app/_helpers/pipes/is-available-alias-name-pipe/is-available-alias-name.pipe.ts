@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Alias } from '../../../_helpers/models/wallet.model';
+import { Alias } from '../../../api/models/wallet.model';
 
 @Pipe({
   name: 'isAvailableAliasName',

@@ -7,9 +7,10 @@ import {
   SelectsComponent,
   SwitchesComponent,
 } from './components';
-import { SharedModule } from 'src/app/_shared/shared.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
+import { CheckboxModule } from '../../../../../_helpers/components/checkbox/checkbox.module';
+import { SwitchModule } from '../../../../../_helpers/components/switch/switch.module';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,13 @@ import { TranslateModule } from '@ngx-translate/core';
     CheckboxsComponent,
     SwitchesComponent,
   ],
-  imports: [CommonModule, SharedModule, NgSelectModule, TranslateModule],
+  imports: [
+    CommonModule,
+    SwitchModule,
+    CheckboxModule,
+    NgSelectModule,
+    TranslateModule,
+  ],
   exports: [
     FormComponent,
     InputsComponent,

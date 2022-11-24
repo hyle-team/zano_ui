@@ -7,7 +7,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { SynchronizationStatusModule } from '../../_helpers/components/synchronization-status/synchronization-status.module';
 import { PipesModule } from '../../_helpers/pipes/pipes.module';
-import { DisablePriceFetchModule } from '../../_shared/directives/disable-price-fetch/disable-price-fetch.module';
+import { DisablePriceFetchModule } from '../../_helpers/directives/disable-price-fetch/disable-price-fetch.module';
 import { ConfirmModalModule } from '../../_helpers/modals/confirm-modal/confirm-modal.module';
 import { DeeplinkModule } from '../../pages/deeplink/deeplink.module';
 import { StakingSwitchModule } from '../../_helpers/directives/staking-switch/staking-switch.module';

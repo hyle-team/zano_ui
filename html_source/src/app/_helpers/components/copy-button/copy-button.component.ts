@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { BackendService } from '../../../_helpers/services/backend.service';
-import { VariablesService } from '../../../_helpers/services/variables.service';
+import { BackendService } from '../../services/backend.service';
+import { VariablesService } from '../../services/variables.service';
 
 @Component({
   selector: 'app-copy-button',

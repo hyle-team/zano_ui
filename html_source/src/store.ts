@@ -1,8 +1,8 @@
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Wallet } from './app/_helpers/models/wallet.model';
+import { Wallet } from './app/api/models/wallet.model';
 import { Injectable } from '@angular/core';
-import { AssetsInfo } from './app/_helpers/models/assets';
+import { AssetsInfo } from './app/api/models/assets.model';
 
 export interface Sync {
   sync: boolean;
@@ -27,7 +27,9 @@ const initialState: State = {
   assetsInfo: undefined,
 };
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class Store {
   private subject = new BehaviorSubject<State>(initialState);
   private store = this.subject.asObservable().pipe(distinctUntilChanged());

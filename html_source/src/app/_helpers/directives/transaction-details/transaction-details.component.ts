@@ -1,12 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Transaction } from '../../models/transaction.model';
+import { Transaction } from '../../../api/models/transaction.model';
 import { VariablesService } from '../../services/variables.service';
 import { BackendService } from '../../services/backend.service';
 import { IntToMoneyPipe } from '../../pipes/int-to-money.pipe';
 import {
   BLOCK_EXPLORER_TN_TX_URL_PREFIX,
   BLOCK_EXPLORER_TX_URL_PREFIX,
-} from '../../../_shared/constants';
+} from '../../data/constants';
 import { hasOwnProperty } from '../../functions/hasOwnProperty';
 
 @Component({

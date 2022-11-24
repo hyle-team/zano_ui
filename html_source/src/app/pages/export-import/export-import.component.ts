@@ -1,9 +1,9 @@
 import { Component, NgZone } from '@angular/core';
 import { Location } from '@angular/common';
-import { BackendService } from '../../services/backend.service';
-import { VariablesService } from '../../services/variables.service';
-import { Contact } from '../../models/contact.model';
-import { ModalService } from '../../services/modal.service';
+import { BackendService } from '@zano-helpers/services/backend.service';
+import { VariablesService } from '@zano-helpers/services/variables.service';
+import { Contact } from '../../api/models/contact.model';
+import { ModalService } from '@zano-helpers/services/modal.service';
 import { Papa } from 'ngx-papaparse';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';

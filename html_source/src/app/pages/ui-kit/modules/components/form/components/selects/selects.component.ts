@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { scaleItems } from 'src/app/_helpers/data/scale-items';
-import { ScaleItems } from 'src/app/_helpers/models/scale.model';
+import { ScaleItems } from 'src/app/api/models/scale.model';
 
 @Component({
   selector: 'app-selects',

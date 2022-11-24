@@ -8,7 +8,7 @@ import {
   Renderer2,
 } from '@angular/core';
 import { VariablesService } from '../../services/variables.service';
-import { Wallet } from '../../models/wallet.model';
+import { Wallet } from '../../../api/models/wallet.model';
 import { BackendService } from '../../services/backend.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ModalService } from '../../services/modal.service';

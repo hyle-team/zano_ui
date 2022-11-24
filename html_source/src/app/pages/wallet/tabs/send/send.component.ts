@@ -16,12 +16,12 @@ import { BackendService } from '@zano-helpers/services/backend.service';
 import { VariablesService } from '@zano-helpers/services/variables.service';
 import { ModalService } from '@zano-helpers/services/modal.service';
 import { BigNumber } from 'bignumber.js';
-import { MIXIN } from '@zano-shared/constants';
+import { MIXIN } from '@zano-helpers/data/constants';
 import { HttpClient } from '@angular/common/http';
 import { MoneyToIntPipe } from '@zano-helpers/pipes/money-to-int.pipe';
 import { finalize } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { AssetInfo, AssetsInfo } from '@zano-helpers/models/assets';
+import { AssetInfo, AssetsInfo } from '../../../../api/models/assets.model';
 import { StateKeys, Store } from 'store';
 
 interface WrapInfo {

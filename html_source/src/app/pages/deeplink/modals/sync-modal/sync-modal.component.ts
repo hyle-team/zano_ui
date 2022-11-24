@@ -5,7 +5,7 @@ import {
   OnInit,
   Renderer2,
 } from '@angular/core';
-import { VariablesService } from '../../services/variables.service';
+import { VariablesService } from '@zano-helpers/services/variables.service';
 
 @Component({
   selector: 'app-sync-modal',

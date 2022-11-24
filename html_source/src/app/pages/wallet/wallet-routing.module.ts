@@ -1,11 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { WalletComponent } from './wallet/wallet.component';
-import {
-  paths,
-  pathsChildrenContracts,
-  pathsChildrenWallet,
-} from '../../paths';
+import { paths, pathsChildrenContracts, pathsChildrenWallet } from '../paths';
 import { SendComponent } from './tabs/send/send.component';
 import { ReceiveComponent } from './tabs/receive/receive.component';
 import { HistoryComponent } from './tabs/history/history.component';

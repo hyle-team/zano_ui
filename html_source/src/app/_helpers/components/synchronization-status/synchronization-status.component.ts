@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { VariablesService } from '../../services/variables.service';
-import { DOWNLOADS_PAGE_URL } from '@zano-shared/constants';
+import { DOWNLOADS_PAGE_URL } from '@zano-helpers/data/constants';
 import { BackendService } from '../../services/backend.service';
 
 @Component({

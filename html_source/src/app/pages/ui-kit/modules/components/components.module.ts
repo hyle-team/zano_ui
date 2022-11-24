@@ -4,9 +4,10 @@ import { ButtonsComponent, FormModule, ProgressBarsComponent } from './';
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { WalletsComponent } from './wallets/wallets.component';
-import { SharedModule } from '../../../../_shared/shared.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { SwitchModule } from '../../../../_helpers/components/switch/switch.module';
+import { CheckboxModule } from '../../../../_helpers/components/checkbox/checkbox.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     TranslateModule,
     FormModule,
     FlexLayoutModule,
-    SharedModule,
+    SwitchModule,
+    CheckboxModule,
     DragDropModule,
   ],
   exports: [

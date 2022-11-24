@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { AssetInfo, AssetsInfo } from '../../../_helpers/models/assets';
+import { AssetInfo, AssetsInfo } from '../../../api/models/assets.model';
 
 @Pipe({
   name: 'getAssetInfoById',

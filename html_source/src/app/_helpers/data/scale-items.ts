@@ -1,4 +1,4 @@
-import { ScaleItems } from '../models/scale.model';
+import { ScaleItems } from '../../api/models/scale.model';
 
 /** List of items with supported scale */
 export const scaleItems: ScaleItems = [

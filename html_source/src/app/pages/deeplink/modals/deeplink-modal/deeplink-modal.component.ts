@@ -11,9 +11,9 @@ import {
   DeeplinkParams,
   PushOffer,
   Wallet,
-} from '@zano-helpers/models/wallet.model';
+} from '../../../../api/models/wallet.model';
 import { BigNumber } from 'bignumber.js';
-import { MIXIN } from '@zano-shared/constants';
+import { MIXIN } from '@zano-helpers/data/constants';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { BackendService } from '@zano-helpers/services/backend.service';
