@@ -5,17 +5,17 @@ import { AssetsComponent } from './tabs/assets/assets.component';
 import { WalletComponent } from './wallet/wallet.component';
 import { FlexLayoutModule, FlexModule } from '@angular/flex-layout';
 import { TooltipModule } from '@parts/directives/tooltip/tooltip.module';
-import { ShortStringPipeModule } from '../../parts/pipes/short-string-pipe/short-string-pipe.module';
-import { CopyButtonModule } from '../../parts/components/copy-button/copy-button.module';
+import { ShortStringPipeModule } from '@parts/pipes';
+import { CopyButtonModule } from '@parts/components/copy-button/copy-button.module';
 import { TranslateModule } from '@ngx-translate/core';
-import { IsAvailableAliasNamePipeModule } from '../../parts/pipes/is-available-alias-name-pipe/is-available-alias-name-pipe.module';
+import { IsAvailableAliasNamePipeModule } from '@parts/pipes';
 import { ConfirmModalModule } from '@parts/modals/confirm-modal/confirm-modal.module';
 import { AddCustomTokenModule } from './wallet/modals/add-custom-token/add-custom-token.module';
 import { ExportHistoryModalModule } from './wallet/modals/export-history-modal/export-history-modal.module';
 import { WalletDetailsComponent } from '../wallet-details/wallet-details.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { DefaultImgModule } from '../../parts/directives/default-img';
+import { DefaultImgModule } from '@parts/directives';
 import { GetAssetInfoByIdPipeModule } from '@parts/pipes/get-asset-info-by-id-pipe/get-asset-info-by-id-pipe.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { HistoryComponent } from './tabs/history/history.component';
@@ -33,7 +33,7 @@ import { SendDetailsModalComponent } from './tabs/send/modals/send-details-modal
 import { SendModalComponent } from './tabs/send/modals/send-modal/send-modal.component';
 import { SendComponent } from './tabs/send/send.component';
 import { ExportImportComponent } from '../export-import/export-import.component';
-import { SwitchModule } from '../../parts/components/switch/switch.module';
+import { SwitchModule } from '@parts/components/switch/switch.module';
 import {
   ContractStatusMessagesPipeModule,
   HistoryTypeMessagesPipeModule,

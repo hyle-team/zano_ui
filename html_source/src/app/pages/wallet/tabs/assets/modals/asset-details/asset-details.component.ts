@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DialogRef } from '@angular/cdk/dialog';
-import { VariablesService } from '../../../../../../parts/services/variables.service';
+import { VariablesService } from '@parts/services/variables.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 

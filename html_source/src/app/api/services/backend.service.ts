@@ -8,7 +8,7 @@ import JSONBigNumber from 'json-bignumber';
 import { BigNumber } from 'bignumber.js';
 import { Alias, Wallet } from '../models/wallet.model';
 import { Assets, AssetsInfo } from '../models/assets.model';
-import { StateKeys, Store } from '../../store/store';
+import { StateKeys, Store } from '@store/store';
 
 export interface PramsObj {
   [key: string]: any;

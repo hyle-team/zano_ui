@@ -7,16 +7,12 @@ import {
   Renderer2,
 } from '@angular/core';
 import { VariablesService } from '@parts/services/variables.service';
-import {
-  DeeplinkParams,
-  PushOffer,
-  Wallet,
-} from '../../../../api/models/wallet.model';
+import { DeeplinkParams, PushOffer, Wallet } from '@api/models/wallet.model';
 import { BigNumber } from 'bignumber.js';
 import { MIXIN } from '@parts/data/constants';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
-import { BackendService } from '../../../../api/services/backend.service';
+import { BackendService } from '@api/services/backend.service';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({

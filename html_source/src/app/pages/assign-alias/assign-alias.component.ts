@@ -7,10 +7,10 @@ import {
 } from '@angular/forms';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
-import { BackendService } from '../../api/services/backend.service';
+import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { ModalService } from '@parts/services/modal.service';
-import { Wallet } from '../../api/models/wallet.model';
+import { Wallet } from '@api/models/wallet.model';
 import { MoneyToIntPipe } from '@parts/pipes/money-to-int-pipe/money-to-int.pipe';
 import { IntToMoneyPipe } from '@parts/pipes/int-to-money-pipe/int-to-money.pipe';
 import BigNumber from 'bignumber.js';

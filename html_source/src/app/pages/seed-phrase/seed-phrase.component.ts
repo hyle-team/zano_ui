@@ -1,6 +1,6 @@
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { BackendService } from '../../api/services/backend.service';
+import { BackendService } from '@api/services/backend.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VariablesService } from '@parts/services/variables.service';
 import { ModalService } from '@parts/services/modal.service';

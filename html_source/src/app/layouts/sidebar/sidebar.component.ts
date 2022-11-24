@@ -1,14 +1,14 @@
 import { Component, NgZone } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { VariablesService } from '../../parts/services/variables.service';
-import { BackendService } from '../../api/services/backend.service';
-import { ModalService } from '../../parts/services/modal.service';
+import { VariablesService } from '@parts/services/variables.service';
+import { BackendService } from '@api/services/backend.service';
+import { ModalService } from '@parts/services/modal.service';
 import {
   DOWNLOADS_PAGE_URL,
   LOCKED_BALANCE_HELP_PAGE,
 } from '@parts/data/constants';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
-import { Wallet } from '../../api/models/wallet.model';
+import { Wallet } from '@api/models/wallet.model';
 import { TranslateService } from '@ngx-translate/core';
 import { IntToMoneyPipe } from '@parts/pipes/int-to-money-pipe/int-to-money.pipe';
 

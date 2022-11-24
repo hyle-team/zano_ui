@@ -17,7 +17,7 @@ import {
   CurrentActionState,
   ResponseAsyncTransfer,
   StatusCurrentActionState,
-} from '../../../../../../api/services/backend.service';
+} from '@api/services/backend.service';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { VariablesService } from '@parts/services/variables.service';
 import { filter, takeUntil } from 'rxjs/operators';

@@ -1,6 +1,6 @@
 import { Component, NgZone, OnInit, Renderer2 } from '@angular/core';
 import { VariablesService } from '@parts/services/variables.service';
-import { BackendService } from '../../api/services/backend.service';
+import { BackendService } from '@api/services/backend.service';
 import {
   UntypedFormControl,
   UntypedFormGroup,

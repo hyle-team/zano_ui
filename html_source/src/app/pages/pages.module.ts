@@ -20,7 +20,7 @@ import { ContactsComponent } from './contacts/contacts.component';
 import { AddContactsComponent } from './add-contacts/add-contacts.component';
 import { ContactSendComponent } from './contact-send/contact-send.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { DisablePriceFetchModule } from '../parts/directives/disable-price-fetch/disable-price-fetch.module';
+import { DisablePriceFetchModule, DefaultImgModule } from '@parts/directives';
 import { TooltipModule } from '@parts/directives/tooltip/tooltip.module';
 import { ConfirmModalModule } from '@parts/modals/confirm-modal/confirm-modal.module';
 import { DeeplinkModule } from './deeplink/deeplink.module';
@@ -29,13 +29,12 @@ import { FullLayoutModule } from '../layouts/full-layout/full-layout.module';
 import { WithSidebarLayoutModule } from '../layouts/with-sidebar-layout/with-sidebar-layout.module';
 import { SynchronizationStatusModule } from '@parts/components/synchronization-status/synchronization-status.module';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { CopyButtonModule } from '../parts/components/copy-button/copy-button.module';
-import { DefaultImgModule } from '../parts/directives/default-img';
+import { CopyButtonModule } from '@parts/components/copy-button/copy-button.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { SwitchModule } from '../parts/components/switch/switch.module';
-import { CheckboxModule } from '../parts/components/checkbox/checkbox.module';
+import { SwitchModule } from '@parts/components/switch/switch.module';
+import { CheckboxModule } from '@parts/components/checkbox/checkbox.module';
 import { TransferAliasComponent } from './transfer-alias/transfer-alias.component';
 import {
   ContractStatusMessagesPipeModule,

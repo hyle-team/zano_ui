@@ -1,8 +1,8 @@
 import { Component, NgZone } from '@angular/core';
 import { Location } from '@angular/common';
-import { BackendService } from '../../api/services/backend.service';
+import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
-import { Contact } from '../../api/models/contact.model';
+import { Contact } from '@api/models/contact.model';
 import { ModalService } from '@parts/services/modal.service';
 import { Papa } from 'ngx-papaparse';
 import { TranslateService } from '@ngx-translate/core';

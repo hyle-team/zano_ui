@@ -6,8 +6,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { WalletsComponent } from './wallets/wallets.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { SwitchModule } from '../../../../parts/components/switch/switch.module';
-import { CheckboxModule } from '../../../../parts/components/checkbox/checkbox.module';
+import { SwitchModule } from '@parts/components/switch/switch.module';
+import { CheckboxModule } from '@parts/components/checkbox/checkbox.module';
 
 @NgModule({
   declarations: [

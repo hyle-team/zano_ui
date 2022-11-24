@@ -5,11 +5,11 @@ import {
   Validators,
   ValidationErrors,
 } from '@angular/forms';
-import { BackendService } from '../../api/services/backend.service';
+import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { ModalService } from '@parts/services/modal.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Wallet } from '../../api/models/wallet.model';
+import { Wallet } from '@api/models/wallet.model';
 import { TranslateService } from '@ngx-translate/core';
 import { Location } from '@angular/common';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import QRCode from 'qrcode';
-import { VariablesService } from '../../../../parts/services/variables.service';
+import { VariablesService } from '@parts/services/variables.service';
 import { RCV_ADDR_QR_SCALE } from '@parts/data/constants';
 
 @Component({

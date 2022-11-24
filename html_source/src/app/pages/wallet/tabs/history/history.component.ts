@@ -7,17 +7,17 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { VariablesService } from '../../../../parts/services/variables.service';
+import { VariablesService } from '@parts/services/variables.service';
 import { ActivatedRoute } from '@angular/router';
-import { Transaction } from '../../../../api/models/transaction.model';
+import { Transaction } from '@api/models/transaction.model';
 import BigNumber from 'bignumber.js';
 import { PaginationService } from '@store/pagination/pagination.service';
 import { PaginationStore } from '@store/pagination/pagination.store';
-import { Wallet } from '../../../../api/models/wallet.model';
-import { BackendService } from '../../../../api/services/backend.service';
+import { Wallet } from '@api/models/wallet.model';
+import { BackendService } from '@api/services/backend.service';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { hasOwnProperty } from '../../../../parts/functions/hasOwnProperty';
+import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 
 @Component({
   selector: 'app-history',
