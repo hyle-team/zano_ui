@@ -12,7 +12,7 @@ import { BackendService } from './api/services/backend.service';
 import { Router } from '@angular/router';
 import { VariablesService } from './parts/services/variables.service';
 import { ContextMenuComponent } from '@perfectmemory/ngx-contextmenu';
-import { IntToMoneyPipe } from './parts/pipes/int-to-money.pipe';
+import { IntToMoneyPipe } from '@parts/pipes/int-to-money-pipe/int-to-money.pipe';
 import { BigNumber } from 'bignumber.js';
 import { ModalService } from './parts/services/modal.service';
 import { StateKeys, Store } from './store/store';

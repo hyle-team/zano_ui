@@ -16,10 +16,9 @@ import { WalletDetailsComponent } from '../wallet-details/wallet-details.compone
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { DefaultImgModule } from '../../parts/directives/default-img';
-import { GetAssetInfoByIdModule } from '../../parts/pipes/get-asset-info-by-id/get-asset-info-by-id.module';
+import { GetAssetInfoByIdPipeModule } from '@parts/pipes/get-asset-info-by-id-pipe/get-asset-info-by-id-pipe.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { HistoryComponent } from './tabs/history/history.component';
-import { PipesModule } from '@parts/pipes/pipes.module';
 import { TransactionDetailsModule } from '@parts/directives/transaction-details/transaction-details.module';
 import { StakingComponent } from './tabs/staking/staking.component';
 import { ChartModule } from 'angular-highcharts';
@@ -35,6 +34,11 @@ import { SendModalComponent } from './tabs/send/modals/send-modal/send-modal.com
 import { SendComponent } from './tabs/send/send.component';
 import { ExportImportComponent } from '../export-import/export-import.component';
 import { SwitchModule } from '../../parts/components/switch/switch.module';
+import {
+  ContractStatusMessagesPipeModule,
+  HistoryTypeMessagesPipeModule,
+  IntToMoneyPipeModule,
+} from '@parts/pipes';
 
 @NgModule({
   declarations: [
@@ -67,10 +71,9 @@ import { SwitchModule } from '../../parts/components/switch/switch.module';
     ReactiveFormsModule,
     OverlayModule,
     DefaultImgModule,
-    GetAssetInfoByIdModule,
+    GetAssetInfoByIdPipeModule,
     NgxPaginationModule,
     SwitchModule,
-    PipesModule,
     TransactionDetailsModule,
     ChartModule,
     NgSelectModule,
@@ -78,6 +81,9 @@ import { SwitchModule } from '../../parts/components/switch/switch.module';
     FlexLayoutModule,
     StakingSwitchModule,
     DialogModule,
+    IntToMoneyPipeModule,
+    ContractStatusMessagesPipeModule,
+    HistoryTypeMessagesPipeModule,
   ],
 })
 export class WalletModule {}

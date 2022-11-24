@@ -10,7 +10,7 @@ import {
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Wallet } from '../../api/models/wallet.model';
 import { TranslateService } from '@ngx-translate/core';
-import { IntToMoneyPipe } from '../../parts/pipes/int-to-money.pipe';
+import { IntToMoneyPipe } from '@parts/pipes/int-to-money-pipe/int-to-money.pipe';
 
 @Component({
   selector: 'app-sidebar',

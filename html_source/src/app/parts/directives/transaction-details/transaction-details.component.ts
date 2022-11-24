@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Transaction } from '../../../api/models/transaction.model';
 import { VariablesService } from '../../services/variables.service';
 import { BackendService } from '../../../api/services/backend.service';
-import { IntToMoneyPipe } from '../../pipes/int-to-money.pipe';
+import { IntToMoneyPipe } from '../../pipes/int-to-money-pipe/int-to-money.pipe';
 import {
   BLOCK_EXPLORER_TN_TX_URL_PREFIX,
   BLOCK_EXPLORER_TX_URL_PREFIX,

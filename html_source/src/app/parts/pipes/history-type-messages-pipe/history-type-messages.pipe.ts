@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { hasOwnProperty } from '../functions/hasOwnProperty';
+import { hasOwnProperty } from '../../functions/hasOwnProperty';
 
 @Pipe({
   name: 'historyTypeMessages',

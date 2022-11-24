@@ -19,6 +19,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ChartModule, HIGHCHARTS_MODULES } from 'angular-highcharts';
 import * as highcharts from 'highcharts';
 import exporting from 'highcharts/modules/exporting.src';
+import { MoneyToIntPipeModule } from '@parts/pipes';
 
 export function highchartsFactory(): any[] {
   highcharts.setOptions({
@@ -59,6 +60,7 @@ export const translateModuleConfig: TranslateModuleConfig = {
     PagesModule,
     ContextMenuModule,
     ChartModule,
+    MoneyToIntPipeModule,
   ],
   providers: [ContextMenuService, provideHighchartsFactory],
   bootstrap: [AppComponent],

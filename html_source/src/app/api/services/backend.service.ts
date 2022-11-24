@@ -3,7 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { VariablesService } from '@parts/services/variables.service';
 import { ModalService } from '@parts/services/modal.service';
-import { MoneyToIntPipe } from '@parts/pipes/money-to-int.pipe';
+import { MoneyToIntPipe } from '@parts/pipes/money-to-int-pipe/money-to-int.pipe';
 import JSONBigNumber from 'json-bignumber';
 import { BigNumber } from 'bignumber.js';
 import { Alias, Wallet } from '../models/wallet.model';

@@ -16,7 +16,7 @@ import { BackendService } from '../../../../../api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { ModalService } from '@parts/services/modal.service';
 import { Location } from '@angular/common';
-import { IntToMoneyPipe } from '@parts/pipes/int-to-money.pipe';
+import { IntToMoneyPipe } from '@parts/pipes/int-to-money-pipe/int-to-money.pipe';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';

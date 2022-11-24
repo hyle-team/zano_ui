@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { VariablesService } from '../services/variables.service';
+import { VariablesService } from '../../services/variables.service';
 import { BigNumber } from 'bignumber.js';
 
 @Pipe({

@@ -18,7 +18,7 @@ import { ModalService } from '@parts/services/modal.service';
 import { BigNumber } from 'bignumber.js';
 import { MIXIN } from '@parts/data/constants';
 import { HttpClient } from '@angular/common/http';
-import { MoneyToIntPipe } from '@parts/pipes/money-to-int.pipe';
+import { MoneyToIntPipe } from '@parts/pipes/money-to-int-pipe/money-to-int.pipe';
 import { finalize } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AssetInfo, AssetsInfo } from '../../../../api/models/assets.model';

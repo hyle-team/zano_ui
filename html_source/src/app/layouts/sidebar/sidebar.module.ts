@@ -6,12 +6,12 @@ import { TooltipModule } from '../../parts/directives/tooltip/tooltip.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
 import { SynchronizationStatusModule } from '../../parts/components/synchronization-status/synchronization-status.module';
-import { PipesModule } from '../../parts/pipes/pipes.module';
 import { DisablePriceFetchModule } from '../../parts/directives/disable-price-fetch/disable-price-fetch.module';
 import { ConfirmModalModule } from '../../parts/modals/confirm-modal/confirm-modal.module';
 import { DeeplinkModule } from '../../pages/deeplink/deeplink.module';
 import { StakingSwitchModule } from '../../parts/directives/staking-switch/staking-switch.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { IntToMoneyPipeModule } from '@parts/pipes';
 
 @NgModule({
   declarations: [SidebarComponent],
@@ -20,7 +20,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     RouterModule,
     DragDropModule,
     TooltipModule,
-    PipesModule,
     TranslateModule,
     DisablePriceFetchModule,
     ConfirmModalModule,
@@ -28,6 +27,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     DeeplinkModule,
     StakingSwitchModule,
     FlexLayoutModule,
+    IntToMoneyPipeModule,
   ],
   exports: [SidebarComponent],
 })

@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { VariablesService } from '../services/variables.service';
+import { VariablesService } from '../../services/variables.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Pipe({

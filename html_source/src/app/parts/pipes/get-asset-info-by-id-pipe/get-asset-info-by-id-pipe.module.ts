@@ -5,6 +5,7 @@ import { GetAssetInfoByIdPipe } from './get-asset-info-by-id.pipe';
 @NgModule({
   declarations: [GetAssetInfoByIdPipe],
   imports: [CommonModule],
+  providers: [CommonModule],
   exports: [GetAssetInfoByIdPipe],
 })
-export class GetAssetInfoByIdModule {}
+export class GetAssetInfoByIdPipeModule {}
