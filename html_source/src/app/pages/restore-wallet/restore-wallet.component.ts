@@ -6,15 +6,15 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { BackendService } from '@zano-helpers/services/backend.service';
-import { VariablesService } from '@zano-helpers/services/variables.service';
-import { ModalService } from '@zano-helpers/services/modal.service';
+import { BackendService } from '../../api/services/backend.service';
+import { VariablesService } from '@parts/services/variables.service';
+import { ModalService } from '@parts/services/modal.service';
 import { Wallet } from '../../api/models/wallet.model';
 import { TranslateService } from '@ngx-translate/core';
 import { pairwise, startWith, takeUntil } from 'rxjs/operators';
 import { Location } from '@angular/common';
 import { Subject } from 'rxjs';
-import { hasOwnProperty } from '@zano-helpers/functions/hasOwnProperty';
+import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 
 @Component({
   selector: 'app-restore-wallet',

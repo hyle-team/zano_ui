@@ -5,8 +5,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FlexModule } from '@angular/flex-layout';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
-import { SwitchModule } from '../../../../../_helpers/components/switch/switch.module';
-import { CheckboxModule } from '../../../../../_helpers/components/checkbox/checkbox.module';
+import { SwitchModule } from '../../../../../parts/components/switch/switch.module';
+import { CheckboxModule } from '../../../../../parts/components/checkbox/checkbox.module';
 
 @NgModule({
   declarations: [ExportHistoryModalComponent],

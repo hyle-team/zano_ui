@@ -5,9 +5,9 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { BackendService } from '@zano-helpers/services/backend.service';
-import { VariablesService } from '@zano-helpers/services/variables.service';
-import { ModalService } from '@zano-helpers/services/modal.service';
+import { BackendService } from '../../api/services/backend.service';
+import { VariablesService } from '@parts/services/variables.service';
+import { ModalService } from '@parts/services/modal.service';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 

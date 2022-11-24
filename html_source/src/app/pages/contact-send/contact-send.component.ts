@@ -1,6 +1,6 @@
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { VariablesService } from '@zano-helpers/services/variables.service';
+import { VariablesService } from '@parts/services/variables.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({

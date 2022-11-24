@@ -1,7 +1,7 @@
 import { delay, takeUntil } from 'rxjs/operators';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { VariablesService } from '@zano-helpers/services/variables.service';
+import { VariablesService } from '@parts/services/variables.service';
 
 @Component({
   selector: 'app-deeplink',

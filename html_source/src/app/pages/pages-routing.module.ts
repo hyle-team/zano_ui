@@ -11,7 +11,6 @@ import { RestoreWalletComponent } from './restore-wallet/restore-wallet.componen
 import { SeedPhraseComponent } from './seed-phrase/seed-phrase.component';
 import { AssignAliasComponent } from './assign-alias/assign-alias.component';
 import { EditAliasComponent } from './edit-alias/edit-alias.component';
-import { TransferAliasComponent } from '@zano-helpers/components/transfer-alias/transfer-alias.component';
 import { SettingsComponent } from './settings/settings.component';
 import { ContactsComponent } from './contacts/contacts.component';
 import { AddContactsComponent } from './add-contacts/add-contacts.component';
@@ -19,6 +18,7 @@ import { ContactSendComponent } from './contact-send/contact-send.component';
 import { DeeplinkComponent } from './deeplink/deeplink.component';
 import { NgModule } from '@angular/core';
 import { ExportImportComponent } from './export-import/export-import.component';
+import { TransferAliasComponent } from './transfer-alias/transfer-alias.component';
 
 const routes: Routes = [
   {

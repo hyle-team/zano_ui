@@ -1,8 +1,8 @@
 import { Component, NgZone } from '@angular/core';
-import { CREATE_NEW_WALLET_HELP_PAGE } from '@zano-helpers/data/constants';
+import { CREATE_NEW_WALLET_HELP_PAGE } from '@parts/data/constants';
 import { Router } from '@angular/router';
-import { BackendService } from '../../../_helpers/services/backend.service';
-import { VariablesService } from '../../../_helpers/services/variables.service';
+import { BackendService } from '../../../api/services/backend.service';
+import { VariablesService } from '../../../parts/services/variables.service';
 import { TranslateService } from '@ngx-translate/core';
 import { paths } from '../../paths';
 

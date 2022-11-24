@@ -5,11 +5,11 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { BackendService } from '@zano-helpers/services/backend.service';
-import { VariablesService } from '@zano-helpers/services/variables.service';
+import { BackendService } from '../../api/services/backend.service';
+import { VariablesService } from '@parts/services/variables.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { hasOwnProperty } from '@zano-helpers/functions/hasOwnProperty';
+import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 
 @Component({
   selector: 'app-wallet-details',

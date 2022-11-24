@@ -6,11 +6,11 @@ import {
   ValidationErrors,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BackendService } from '@zano-helpers/services/backend.service';
-import { VariablesService } from '@zano-helpers/services/variables.service';
-import { ModalService } from '@zano-helpers/services/modal.service';
+import { BackendService } from '../../../api/services/backend.service';
+import { VariablesService } from '@parts/services/variables.service';
+import { ModalService } from '@parts/services/modal.service';
 import { Wallet } from '../../../api/models/wallet.model';
-import { hasOwnProperty } from '@zano-helpers/functions/hasOwnProperty';
+import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 
 @Component({
   selector: 'app-login',

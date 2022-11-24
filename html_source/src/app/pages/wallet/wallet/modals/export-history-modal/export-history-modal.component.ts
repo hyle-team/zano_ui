@@ -9,8 +9,8 @@ import {
   Renderer2,
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { BackendService } from '@zano-helpers/services/backend.service';
-import { VariablesService } from '@zano-helpers/services/variables.service';
+import { BackendService } from '../../../../../api/services/backend.service';
+import { VariablesService } from '@parts/services/variables.service';
 
 @Component({
   selector: 'app-export-history-modal',

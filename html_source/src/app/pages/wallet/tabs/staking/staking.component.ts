@@ -1,9 +1,9 @@
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { VariablesService } from '../../../../_helpers/services/variables.service';
+import { VariablesService } from '../../../../parts/services/variables.service';
 import { Chart } from 'angular-highcharts';
-import { BackendService } from '../../../../_helpers/services/backend.service';
+import { BackendService } from '../../../../api/services/backend.service';
 import { ActivatedRoute } from '@angular/router';
-import { IntToMoneyPipe } from '../../../../_helpers/pipes/int-to-money.pipe';
+import { IntToMoneyPipe } from '../../../../parts/pipes/int-to-money.pipe';
 import { TranslateService } from '@ngx-translate/core';
 import { BigNumber } from 'bignumber.js';
 

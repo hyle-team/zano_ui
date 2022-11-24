@@ -1,8 +1,8 @@
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Wallet } from './app/api/models/wallet.model';
+import { Wallet } from '../api/models/wallet.model';
 import { Injectable } from '@angular/core';
-import { AssetsInfo } from './app/api/models/assets.model';
+import { AssetsInfo } from '../api/models/assets.model';
 
 export interface Sync {
   sync: boolean;

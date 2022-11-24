@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Location } from '@angular/common';
-import { VariablesService } from '../../_helpers/services/variables.service';
-import { BackendService } from '../../_helpers/services/backend.service';
+import { VariablesService } from '../../parts/services/variables.service';
+import { BackendService } from '../../api/services/backend.service';
 
 @Component({
   selector: 'app-contacts',

@@ -1,14 +1,14 @@
 import { Injectable, NgZone } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
-import { VariablesService } from './variables.service';
-import { ModalService } from './modal.service';
-import { MoneyToIntPipe } from '../pipes/money-to-int.pipe';
+import { VariablesService } from '@parts/services/variables.service';
+import { ModalService } from '@parts/services/modal.service';
+import { MoneyToIntPipe } from '@parts/pipes/money-to-int.pipe';
 import JSONBigNumber from 'json-bignumber';
 import { BigNumber } from 'bignumber.js';
-import { Alias, Wallet } from '../../api/models/wallet.model';
-import { Assets, AssetsInfo } from '../../api/models/assets.model';
-import { StateKeys, Store } from 'store';
+import { Alias, Wallet } from '../models/wallet.model';
+import { Assets, AssetsInfo } from '../models/assets.model';
+import { StateKeys, Store } from '../../store/store';
 
 export interface PramsObj {
   [key: string]: any;

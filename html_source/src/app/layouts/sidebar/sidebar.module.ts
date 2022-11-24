@@ -2,15 +2,15 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from './sidebar.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { TooltipModule } from '../../_helpers/directives/tooltip/tooltip.module';
+import { TooltipModule } from '../../parts/directives/tooltip/tooltip.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterModule } from '@angular/router';
-import { SynchronizationStatusModule } from '../../_helpers/components/synchronization-status/synchronization-status.module';
-import { PipesModule } from '../../_helpers/pipes/pipes.module';
-import { DisablePriceFetchModule } from '../../_helpers/directives/disable-price-fetch/disable-price-fetch.module';
-import { ConfirmModalModule } from '../../_helpers/modals/confirm-modal/confirm-modal.module';
+import { SynchronizationStatusModule } from '../../parts/components/synchronization-status/synchronization-status.module';
+import { PipesModule } from '../../parts/pipes/pipes.module';
+import { DisablePriceFetchModule } from '../../parts/directives/disable-price-fetch/disable-price-fetch.module';
+import { ConfirmModalModule } from '../../parts/modals/confirm-modal/confirm-modal.module';
 import { DeeplinkModule } from '../../pages/deeplink/deeplink.module';
-import { StakingSwitchModule } from '../../_helpers/directives/staking-switch/staking-switch.module';
+import { StakingSwitchModule } from '../../parts/directives/staking-switch/staking-switch.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({

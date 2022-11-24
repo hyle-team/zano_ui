@@ -1,6 +1,6 @@
 import { Component, NgZone, OnInit, Renderer2 } from '@angular/core';
-import { VariablesService } from '@zano-helpers/services/variables.service';
-import { BackendService } from '@zano-helpers/services/backend.service';
+import { VariablesService } from '@parts/services/variables.service';
+import { BackendService } from '../../api/services/backend.service';
 import {
   UntypedFormControl,
   UntypedFormGroup,
@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
-import { scaleItems } from '@zano-helpers/data/scale-items';
+import { scaleItems } from '@parts/data/scale-items';
 
 @Component({
   selector: 'app-settings',

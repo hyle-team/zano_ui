@@ -8,18 +8,18 @@ import {
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
-import { BackendService } from './_helpers/services/backend.service';
+import { BackendService } from './api/services/backend.service';
 import { Router } from '@angular/router';
-import { VariablesService } from './_helpers/services/variables.service';
+import { VariablesService } from './parts/services/variables.service';
 import { ContextMenuComponent } from '@perfectmemory/ngx-contextmenu';
-import { IntToMoneyPipe } from './_helpers/pipes/int-to-money.pipe';
+import { IntToMoneyPipe } from './parts/pipes/int-to-money.pipe';
 import { BigNumber } from 'bignumber.js';
-import { ModalService } from './_helpers/services/modal.service';
-import { StateKeys, Store } from 'store';
+import { ModalService } from './parts/services/modal.service';
+import { StateKeys, Store } from './store/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { paths, pathsChildrenAuth } from './pages/paths';
-import { hasOwnProperty } from './_helpers/functions/hasOwnProperty';
+import { hasOwnProperty } from './parts/functions/hasOwnProperty';
 
 @Component({
   selector: 'app-root',

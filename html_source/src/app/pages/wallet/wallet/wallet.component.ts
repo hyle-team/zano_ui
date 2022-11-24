@@ -6,14 +6,14 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { VariablesService } from '../../../_helpers/services/variables.service';
-import { BackendService } from '../../../_helpers/services/backend.service';
+import { VariablesService } from '../../../parts/services/variables.service';
+import { BackendService } from '../../../api/services/backend.service';
 import { TranslateService } from '@ngx-translate/core';
-import { IntToMoneyPipe } from '../../../_helpers/pipes/int-to-money.pipe';
+import { IntToMoneyPipe } from '../../../parts/pipes/int-to-money.pipe';
 import { Subject } from 'rxjs';
-import { StateKeys, Store, Sync } from 'store';
+import { StateKeys, Store, Sync } from '../../../store/store';
 import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
-import { hasOwnProperty } from '../../../_helpers/functions/hasOwnProperty';
+import { hasOwnProperty } from '../../../parts/functions/hasOwnProperty';
 
 @Component({
   selector: 'app-wallet',

@@ -1,11 +1,11 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
-import { BackendService } from '../../services/backend.service';
-import { VariablesService } from '../../services/variables.service';
-import { ModalService } from '../../services/modal.service';
-import { Wallet } from '../../../api/models/wallet.model';
-import { hasOwnProperty } from '../../functions/hasOwnProperty';
+import { BackendService } from '@api/services/backend.service';
+import { VariablesService } from '@parts/services/variables.service';
+import { ModalService } from '@parts/services/modal.service';
+import { Wallet } from '@api/models/wallet.model';
+import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 
 @Component({
   selector: 'app-transfer-alias',

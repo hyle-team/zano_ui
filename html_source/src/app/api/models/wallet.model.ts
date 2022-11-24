@@ -2,7 +2,7 @@ import { Contract } from './contract.model';
 import { Transaction } from './transaction.model';
 import { BigNumber } from 'bignumber.js';
 import { Assets } from './assets.model';
-import { hasOwnProperty } from '@zano-helpers/functions/hasOwnProperty';
+import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 
 export interface Alias {
   name: string;

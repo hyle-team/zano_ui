@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { scaleItems } from 'src/app/_helpers/data/scale-items';
+import { scaleItems } from 'src/app/parts/data/scale-items';
 import { ScaleItems } from 'src/app/api/models/scale.model';
 
 @Component({

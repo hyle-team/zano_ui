@@ -12,14 +12,14 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { BackendService } from '@zano-helpers/services/backend.service';
-import { VariablesService } from '@zano-helpers/services/variables.service';
-import { ModalService } from '@zano-helpers/services/modal.service';
+import { BackendService } from '../../../../../api/services/backend.service';
+import { VariablesService } from '@parts/services/variables.service';
+import { ModalService } from '@parts/services/modal.service';
 import { Location } from '@angular/common';
-import { IntToMoneyPipe } from '@zano-helpers/pipes/int-to-money.pipe';
+import { IntToMoneyPipe } from '@parts/pipes/int-to-money.pipe';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { hasOwnProperty } from '@zano-helpers/functions/hasOwnProperty';
+import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 
 @Component({
   selector: 'app-purchase',

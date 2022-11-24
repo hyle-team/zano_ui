@@ -12,17 +12,17 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { BackendService } from '@zano-helpers/services/backend.service';
-import { VariablesService } from '@zano-helpers/services/variables.service';
-import { ModalService } from '@zano-helpers/services/modal.service';
+import { BackendService } from '../../../../api/services/backend.service';
+import { VariablesService } from '@parts/services/variables.service';
+import { ModalService } from '@parts/services/modal.service';
 import { BigNumber } from 'bignumber.js';
-import { MIXIN } from '@zano-helpers/data/constants';
+import { MIXIN } from '@parts/data/constants';
 import { HttpClient } from '@angular/common/http';
-import { MoneyToIntPipe } from '@zano-helpers/pipes/money-to-int.pipe';
+import { MoneyToIntPipe } from '@parts/pipes/money-to-int.pipe';
 import { finalize } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AssetInfo, AssetsInfo } from '../../../../api/models/assets.model';
-import { StateKeys, Store } from 'store';
+import { StateKeys, Store } from '../../../../store/store';
 
 interface WrapInfo {
   tx_cost: {

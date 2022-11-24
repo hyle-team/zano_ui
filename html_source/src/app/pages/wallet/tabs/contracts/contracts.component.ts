@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { VariablesService } from '../../../../_helpers/services/variables.service';
+import { VariablesService } from '../../../../parts/services/variables.service';
 
 @Component({
   selector: 'app-contracts',

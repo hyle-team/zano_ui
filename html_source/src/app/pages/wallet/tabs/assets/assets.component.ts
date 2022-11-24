@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { VariablesService } from '@zano-helpers/services/variables.service';
+import { VariablesService } from '@parts/services/variables.service';
 import { Observable, Subject } from 'rxjs';
 import { Asset, AssetsInfo } from '../../../../api/models/assets.model';
-import { StateKeys, Store } from 'store';
+import { StateKeys, Store } from '../../../../store/store';
 import { PaginatePipeArgs } from 'ngx-pagination';
 import { takeUntil } from 'rxjs/operators';
 import { CdkOverlayOrigin } from '@angular/cdk/overlay';

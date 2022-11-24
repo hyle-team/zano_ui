@@ -17,9 +17,9 @@ import {
   CurrentActionState,
   ResponseAsyncTransfer,
   StatusCurrentActionState,
-} from '@zano-helpers/services/backend.service';
+} from '../../../../../../api/services/backend.service';
 import { BehaviorSubject, Subject } from 'rxjs';
-import { VariablesService } from '@zano-helpers/services/variables.service';
+import { VariablesService } from '@parts/services/variables.service';
 import { filter, takeUntil } from 'rxjs/operators';
 
 const successfulStatuses: string[] = [

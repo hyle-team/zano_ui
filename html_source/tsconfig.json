@@ -3,8 +3,9 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "store": ["src/store.ts"],
-      "@zano-helpers/*": ["src/app/_helpers/*"],
+      "@store/*": ["src/app/store/*"],
+      "@parts/*": ["src/app/parts/*"],
+      "@api/*": ["src/app/api/*"],
     },
     "outDir": "./dist/out-tsc",
     "sourceMap": true,

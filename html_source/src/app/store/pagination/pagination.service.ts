@@ -1,5 +1,5 @@
 import { Injectable, NgZone } from '@angular/core';
-import { VariablesService } from './variables.service';
+import { VariablesService } from '@parts/services/variables.service';
 import { PaginationStore } from './pagination.store';
 import * as _ from 'lodash';
 

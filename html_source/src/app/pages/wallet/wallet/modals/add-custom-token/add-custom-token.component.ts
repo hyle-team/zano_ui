@@ -4,7 +4,7 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
-import { VariablesService } from '@zano-helpers/services/variables.service';
+import { VariablesService } from '@parts/services/variables.service';
 
 @Component({
   selector: 'app-add-custom-token',

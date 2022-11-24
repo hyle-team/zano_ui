@@ -9,8 +9,8 @@ import {
 } from './components';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
-import { CheckboxModule } from '../../../../../_helpers/components/checkbox/checkbox.module';
-import { SwitchModule } from '../../../../../_helpers/components/switch/switch.module';
+import { CheckboxModule } from '../../../../../parts/components/checkbox/checkbox.module';
+import { SwitchModule } from '../../../../../parts/components/switch/switch.module';
 
 @NgModule({
   declarations: [

@@ -1,16 +1,16 @@
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { BackendService } from '@zano-helpers/services/backend.service';
+import { BackendService } from '../../api/services/backend.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { VariablesService } from '@zano-helpers/services/variables.service';
-import { ModalService } from '@zano-helpers/services/modal.service';
+import { VariablesService } from '@parts/services/variables.service';
+import { ModalService } from '@parts/services/modal.service';
 import {
   UntypedFormControl,
   UntypedFormGroup,
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { hasOwnProperty } from '@zano-helpers/functions/hasOwnProperty';
+import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 
 @Component({
   selector: 'app-seed-phrase',

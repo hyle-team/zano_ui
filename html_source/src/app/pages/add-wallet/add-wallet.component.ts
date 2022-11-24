@@ -1,10 +1,10 @@
 import { Component, NgZone, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { BackendService } from '@zano-helpers/services/backend.service';
-import { VariablesService } from '@zano-helpers/services/variables.service';
+import { BackendService } from '../../api/services/backend.service';
+import { VariablesService } from '@parts/services/variables.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { CREATE_NEW_WALLET_HELP_PAGE } from '@zano-helpers/data/constants';
+import { CREATE_NEW_WALLET_HELP_PAGE } from '@parts/data/constants';
 
 @Component({
   selector: 'app-add-wallet',
