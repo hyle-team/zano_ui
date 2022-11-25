@@ -136,42 +136,52 @@ export class WalletComponent implements OnInit, OnDestroy {
     this.store
       .select(StateKeys.sync)
       .pipe(filter(Boolean), distinctUntilChanged(), takeUntil(this.destroy$))
-      .subscribe((value: any) => {
-        const data = value.filter(
-          (item: Sync) =>
-            item.wallet_id === this.variablesService.currentWallet.wallet_id
-        )[0];
-        if (data && !data.sync) {
-          let in_progress;
-          const values = this.store.state.sync;
-          if (values && values.length > 0) {
-            in_progress = values.filter(item => item.sync);
-            this.variablesService.sync_started = !!(
-              in_progress && in_progress.length
-            );
-            if (!in_progress) {
+      .subscribe({
+        next: (value: any) => {
+          const data = value.filter(
+            (item: Sync) =>
+              item.wallet_id === this.variablesService.currentWallet.wallet_id
+          )[0];
+          if (data && !data.sync) {
+            let in_progress;
+            const values = this.store.state.sync;
+            if (values && values.length > 0) {
+              in_progress = values.filter(item => item.sync);
+              this.variablesService.sync_started = !!(
+                in_progress && in_progress.length
+              );
+              if (!in_progress) {
+                this.variablesService.sync_started = false;
+              }
+            } else {
               this.variablesService.sync_started = false;
             }
-          } else {
-            this.variablesService.sync_started = false;
           }
-        }
+        },
       });
     if (hasOwnProperty(this.variablesService.currentWallet.alias, 'name')) {
       this.variablesService.currentWallet.wakeAlias = false;
     }
     this.variablesService.getAliasChangedEvent
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        if (hasOwnProperty(this.variablesService.currentWallet.alias, 'name')) {
-          this.variablesService.currentWallet.wakeAlias = false;
-        }
+      .subscribe({
+        next: () => {
+          if (
+            hasOwnProperty(this.variablesService.currentWallet.alias, 'name')
+          ) {
+            this.variablesService.currentWallet.wakeAlias = false;
+          }
+        },
       });
     this.updateWalletStatus();
     this.variablesService.getWalletChangedEvent
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.setTabsDisabled(this.variablesService.currentWallet.balance.eq(0));
+      .subscribe({
+        next: () => {
+          this.setTabsDisabled(
+            this.variablesService.currentWallet.balance.eq(0)
+          );
+        },
       });
   }
 

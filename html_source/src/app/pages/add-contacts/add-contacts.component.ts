@@ -101,21 +101,23 @@ export class AddContactsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.queryRouting = this.route.queryParams.subscribe(params => {
-      if (params.id) {
-        this.id = parseInt(params.id, 10);
-        this.addContactForm.reset({
-          name: this.variablesService.contacts[params.id]['name'],
-          address: this.variablesService.contacts[params.id]['address'],
-          notes: this.variablesService.contacts[params.id]['notes'],
-        });
-      } else {
-        this.addContactForm.reset({
-          name: this.variablesService.newContact['name'],
-          address: this.variablesService.newContact['address'],
-          notes: this.variablesService.newContact['notes'],
-        });
-      }
+    this.queryRouting = this.route.queryParams.subscribe({
+      next: params => {
+        if (params.id) {
+          this.id = parseInt(params.id, 10);
+          this.addContactForm.reset({
+            name: this.variablesService.contacts[params.id]['name'],
+            address: this.variablesService.contacts[params.id]['address'],
+            notes: this.variablesService.contacts[params.id]['notes'],
+          });
+        } else {
+          this.addContactForm.reset({
+            name: this.variablesService.newContact['name'],
+            address: this.variablesService.newContact['address'],
+            notes: this.variablesService.newContact['notes'],
+          });
+        }
+      },
     });
   }
 

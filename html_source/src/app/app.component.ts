@@ -67,8 +67,10 @@ export class AppComponent implements OnInit, OnDestroy {
     translate.setDefaultLang('en');
     // const browserLang = translate.getBrowserLang();
     // translate.use(browserLang.match(/en|fr/) ? browserLang : 'en');
-    translate.use('en').subscribe(() => {
-      this.translateUsed = true;
+    translate.use('en').subscribe({
+      next: () => {
+        this.translateUsed = true;
+      },
     });
   }
 
@@ -108,8 +110,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.variablesService.onlyCopyContextMenu = this.onlyCopyContextMenu;
     this.variablesService.pasteSelectContextMenu = this.pasteSelectContextMenu;
 
-    this.backend.initService().subscribe(
-      initMessage => {
+    this.backend.initService().subscribe({
+      next: initMessage => {
         console.log('Init message: ', initMessage);
         this.backend.getOptions();
         this.backend.webkitLaunchedScript();
@@ -782,8 +784,8 @@ export class AppComponent implements OnInit, OnDestroy {
           });
         }, 30000);
 
-        this.expMedTsEvent = this.variablesService.getExpMedTsEvent.subscribe(
-          (newTimestamp: number) => {
+        this.expMedTsEvent = this.variablesService.getExpMedTsEvent.subscribe({
+          next: (newTimestamp: number) => {
             this.variablesService.wallets.forEach(wallet => {
               wallet.contracts.forEach(contract => {
                 if (
@@ -803,8 +805,8 @@ export class AppComponent implements OnInit, OnDestroy {
                 }
               });
             });
-          }
-        );
+          },
+        });
 
         this.backend.getAppData((status, data) => {
           if (data && Object.keys(data).length > 0) {
@@ -886,24 +888,26 @@ export class AppComponent implements OnInit, OnDestroy {
         /** Start listening handleCurrentActionState */
         this.backend.handleCurrentActionState();
       },
-      error => {
+      error: error => {
         console.log(error);
-      }
-    );
+      },
+    });
 
     this.variablesService.disable_price_fetch$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(disable_price_fetch => {
-        if (!disable_price_fetch) {
-          this.getMoneyEquivalent();
-          this.intervalUpdatePriceState = setInterval(() => {
+      .subscribe({
+        next: disable_price_fetch => {
+          if (!disable_price_fetch) {
             this.getMoneyEquivalent();
-          }, 30000);
-        } else {
-          if (this.intervalUpdatePriceState) {
-            clearInterval(this.intervalUpdatePriceState);
+            this.intervalUpdatePriceState = setInterval(() => {
+              this.getMoneyEquivalent();
+            }, 30000);
+          } else {
+            if (this.intervalUpdatePriceState) {
+              clearInterval(this.intervalUpdatePriceState);
+            }
           }
-        }
+        },
       });
   }
 
@@ -919,30 +923,30 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   getMoneyEquivalent(): void {
-    this.http.get('https://api.coingecko.com/api/v3/ping').subscribe(
-      () => {
+    this.http.get('https://api.coingecko.com/api/v3/ping').subscribe({
+      next: () => {
         this.http
           .get(
             'https://api.coingecko.com/api/v3/simple/price?ids=zano&vs_currencies=usd&include_24hr_change=true'
           )
-          .subscribe(
-            data => {
+          .subscribe({
+            next: data => {
               this.variablesService.moneyEquivalent = data['zano']['usd'];
               this.variablesService.moneyEquivalentPercent =
                 data['zano']['usd_24h_change'];
             },
-            error => {
+            error: error => {
               console.warn('api.coingecko.com price error: ', error);
-            }
-          );
+            },
+          });
       },
-      error => {
+      error: error => {
         console.warn('api.coingecko.com error: ', error);
         setTimeout(() => {
           this.getMoneyEquivalent();
         }, 30000);
-      }
-    );
+      },
+    });
   }
 
   getAliases(): void {

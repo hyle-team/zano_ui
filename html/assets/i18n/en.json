@@ -237,6 +237,7 @@
       "MESSAGE": "To access it you’ll have to add it again"
     },
     "TABS": {
+      "ASSETS": "Assets",
       "SEND": "Send",
       "RECEIVE": "Receive",
       "HISTORY": "History",
@@ -251,10 +252,10 @@
       "ADD_CUSTOM_TOKEN": "Add Custom Token",
       "CLOSE": "Close wallet"
     },
-		"MODAL_ADD_CUSTOM_TOKEN": {
-			"TITLE": "Add Custom Token",
-			"FIELD_TITLE": "Asset ID"
-		}
+    "MODAL_ADD_CUSTOM_TOKEN": {
+      "TITLE": "Add Custom Token",
+      "FIELD_TITLE": "Asset ID"
+    }
   },
   "WALLET_DETAILS": {
     "LABEL_NAME": "Wallet Name",
@@ -557,8 +558,8 @@
     "INFO": "Information",
     "OK": "OK",
     "CANCEL": "Cancel",
-		"ADD_TOKEN": "Add token"
-	},
+    "ADD_TOKEN": "Add token"
+  },
   "CONFIRM": {
     "BUTTON_CONFIRM": "Send",
     "BUTTON_CANCEL": "Cancel",

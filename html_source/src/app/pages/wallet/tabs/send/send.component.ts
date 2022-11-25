@@ -241,8 +241,8 @@ export class SendComponent implements OnInit, OnDestroy {
     });
 
     this.getWrapInfo();
-    this.dLActionSubscribe = this.variablesService.sendActionData$.subscribe(
-      res => {
+    this.dLActionSubscribe = this.variablesService.sendActionData$.subscribe({
+      next: res => {
         if (res.action === 'send') {
           this.actionData = res;
           setTimeout(() => {
@@ -250,8 +250,8 @@ export class SendComponent implements OnInit, OnDestroy {
           }, 100);
           this.variablesService.sendActionData$.next({});
         }
-      }
-    );
+      },
+    });
   }
 
   ngOnDestroy(): void {
@@ -446,8 +446,10 @@ export class SendComponent implements OnInit, OnDestroy {
           this.isLoading = false;
         })
       )
-      .subscribe(info => {
-        this.wrapInfo = info;
+      .subscribe({
+        next: info => {
+          this.wrapInfo = info;
+        },
       });
   }
 }

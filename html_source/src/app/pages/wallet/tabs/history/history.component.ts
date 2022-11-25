@@ -55,8 +55,10 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
   ) {}
 
   ngOnInit(): void {
-    this.parentRouting = this.route.parent.params.subscribe(() => {
-      this.openedDetails = '';
+    this.parentRouting = this.route.parent.params.subscribe({
+      next: () => {
+        this.openedDetails = '';
+      },
     });
     let restore = false;
     if (
@@ -126,8 +128,10 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
         filter(w => !!w),
         takeUntil(this.destroy$)
       )
-      .subscribe((currentWallet: Wallet) => {
-        this.mining = currentWallet.exclude_mining_txs;
+      .subscribe({
+        next: (currentWallet: Wallet) => {
+          this.mining = currentWallet.exclude_mining_txs;
+        },
       });
   }
 

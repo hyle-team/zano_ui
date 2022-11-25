@@ -118,11 +118,13 @@ export class StakingComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.parentRouting = this.route.parent.params.subscribe(() => {
-      this.getMiningHistory();
+    this.parentRouting = this.route.parent.params.subscribe({
+      next: () => {
+        this.getMiningHistory();
+      },
     });
-    this.heightAppEvent = this.variablesService.getHeightAppEvent.subscribe(
-      (newHeight: number) => {
+    this.heightAppEvent = this.variablesService.getHeightAppEvent.subscribe({
+      next: (newHeight: number) => {
         if (!this.pending.total.isZero()) {
           const pendingCount = this.pending.list.length;
           for (let i = pendingCount - 1; i >= 0; i--) {
@@ -139,16 +141,16 @@ export class StakingComponent implements OnInit, OnDestroy {
             }
           }
         }
-      }
-    );
+      },
+    });
     this.refreshStackingEvent =
-      this.variablesService.getRefreshStackingEvent.subscribe(
-        (wallet_id: number) => {
+      this.variablesService.getRefreshStackingEvent.subscribe({
+        next: (wallet_id: number) => {
           if (this.variablesService.currentWallet.wallet_id === wallet_id) {
             this.getMiningHistory();
           }
-        }
-      );
+        },
+      });
   }
 
   ngOnDestroy(): void {

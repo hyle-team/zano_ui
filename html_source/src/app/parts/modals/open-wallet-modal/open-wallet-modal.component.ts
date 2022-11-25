@@ -8,8 +8,8 @@ import {
   Renderer2,
 } from '@angular/core';
 import { VariablesService } from '../../services/variables.service';
-import { Wallet } from '../../../api/models/wallet.model';
-import { BackendService } from '../../../api/services/backend.service';
+import { Wallet } from '@api/models/wallet.model';
+import { BackendService } from '@api/services/backend.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ModalService } from '../../services/modal.service';
 import { hasOwnProperty } from '../../functions/hasOwnProperty';

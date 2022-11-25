@@ -179,10 +179,12 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
   }
 
   private getWalletId(): void {
-    this.queryRouting = this.route.queryParams.subscribe(params => {
-      if (params.wallet_id) {
-        this.wallet_id = params.wallet_id;
-      }
+    this.queryRouting = this.route.queryParams.subscribe({
+      next: params => {
+        if (params.wallet_id) {
+          this.wallet_id = params.wallet_id;
+        }
+      },
     });
   }
 }

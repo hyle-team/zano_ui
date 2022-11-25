@@ -163,7 +163,7 @@ export class BackendService {
     }
   }
 
-  initService(): Observable<unknown> {
+  initService(): Observable<string> {
     return new Observable(observer => {
       if (!this.backendLoaded) {
         this.backendLoaded = true;

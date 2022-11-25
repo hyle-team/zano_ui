@@ -22,10 +22,12 @@ export class ContactSendComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.queryRouting = this.route.queryParams.subscribe(params => {
-      if (params.address) {
-        this.address = params.address;
-      }
+    this.queryRouting = this.route.queryParams.subscribe({
+      next: params => {
+        if (params.address) {
+          this.address = params.address;
+        }
+      },
     });
   }
 

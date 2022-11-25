@@ -168,112 +168,115 @@ export class PurchaseComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.route.params.pipe(takeUntil(this.destroy$)).subscribe(params => {
-      if (hasOwnProperty(params, 'id')) {
-        this.currentContract = this.variablesService.currentWallet.getContract(
-          params['id']
-        );
-        this.purchaseForm.controls['seller'].setValidators([]);
-        this.purchaseForm.updateValueAndValidity();
-        this.purchaseForm.setValue({
-          description: this.currentContract.private_detailes.t,
-          seller: this.currentContract.private_detailes.b_addr,
-          amount: this.intToMoneyPipe.transform(
-            this.currentContract.private_detailes.to_pay
-          ),
-          yourDeposit: this.intToMoneyPipe.transform(
-            this.currentContract.private_detailes.a_pledge
-          ),
-          sellerDeposit: this.intToMoneyPipe.transform(
-            this.currentContract.private_detailes.b_pledge
-          ),
-          sameAmount: this.currentContract.private_detailes.to_pay.isEqualTo(
-            this.currentContract.private_detailes.b_pledge
-          ),
-          comment: this.currentContract.private_detailes.c,
-          fee: this.variablesService.default_fee,
-          time: 12,
-          timeCancel: 12,
-          payment: this.currentContract.payment_id,
-          password: this.variablesService.appPass,
-        });
-        this.purchaseForm.get('sameAmount').disable();
-        this.newPurchase = false;
+    this.route.params.pipe(takeUntil(this.destroy$)).subscribe({
+      next: params => {
+        if (hasOwnProperty(params, 'id')) {
+          this.currentContract =
+            this.variablesService.currentWallet.getContract(params['id']);
+          this.purchaseForm.controls['seller'].setValidators([]);
+          this.purchaseForm.updateValueAndValidity();
+          this.purchaseForm.setValue({
+            description: this.currentContract.private_detailes.t,
+            seller: this.currentContract.private_detailes.b_addr,
+            amount: this.intToMoneyPipe.transform(
+              this.currentContract.private_detailes.to_pay
+            ),
+            yourDeposit: this.intToMoneyPipe.transform(
+              this.currentContract.private_detailes.a_pledge
+            ),
+            sellerDeposit: this.intToMoneyPipe.transform(
+              this.currentContract.private_detailes.b_pledge
+            ),
+            sameAmount: this.currentContract.private_detailes.to_pay.isEqualTo(
+              this.currentContract.private_detailes.b_pledge
+            ),
+            comment: this.currentContract.private_detailes.c,
+            fee: this.variablesService.default_fee,
+            time: 12,
+            timeCancel: 12,
+            payment: this.currentContract.payment_id,
+            password: this.variablesService.appPass,
+          });
+          this.purchaseForm.get('sameAmount').disable();
+          this.newPurchase = false;
 
-        if (this.currentContract.is_new) {
-          if (this.currentContract.is_a && this.currentContract.state === 2) {
-            this.currentContract.state = 120;
-          }
-          if (
-            this.currentContract.state === 130 &&
-            this.currentContract.cancel_expiration_time !== 0 &&
-            this.currentContract.cancel_expiration_time <
-              this.variablesService.exp_med_ts
-          ) {
-            this.currentContract.state = 2;
-          }
-          this.variablesService.settings.viewedContracts = this.variablesService
-            .settings.viewedContracts
-            ? this.variablesService.settings.viewedContracts
-            : [];
-          let findViewedCont = false;
-          for (
-            let j = 0;
-            j < this.variablesService.settings.viewedContracts.length;
-            j++
-          ) {
-            if (
-              this.variablesService.settings.viewedContracts[j].contract_id ===
-                this.currentContract.contract_id &&
-              this.variablesService.settings.viewedContracts[j].is_a ===
-                this.currentContract.is_a
-            ) {
-              this.variablesService.settings.viewedContracts[j].state =
-                this.currentContract.state;
-              findViewedCont = true;
-              break;
+          if (this.currentContract.is_new) {
+            if (this.currentContract.is_a && this.currentContract.state === 2) {
+              this.currentContract.state = 120;
             }
+            if (
+              this.currentContract.state === 130 &&
+              this.currentContract.cancel_expiration_time !== 0 &&
+              this.currentContract.cancel_expiration_time <
+                this.variablesService.exp_med_ts
+            ) {
+              this.currentContract.state = 2;
+            }
+            this.variablesService.settings.viewedContracts = this
+              .variablesService.settings.viewedContracts
+              ? this.variablesService.settings.viewedContracts
+              : [];
+            let findViewedCont = false;
+            for (
+              let j = 0;
+              j < this.variablesService.settings.viewedContracts.length;
+              j++
+            ) {
+              if (
+                this.variablesService.settings.viewedContracts[j]
+                  .contract_id === this.currentContract.contract_id &&
+                this.variablesService.settings.viewedContracts[j].is_a ===
+                  this.currentContract.is_a
+              ) {
+                this.variablesService.settings.viewedContracts[j].state =
+                  this.currentContract.state;
+                findViewedCont = true;
+                break;
+              }
+            }
+            if (!findViewedCont) {
+              this.variablesService.settings.viewedContracts.push({
+                contract_id: this.currentContract.contract_id,
+                is_a: this.currentContract.is_a,
+                state: this.currentContract.state,
+              });
+            }
+            this.currentContract.is_new = false;
+            setTimeout(() => {
+              this.variablesService.currentWallet.recountNewContracts();
+            }, 0);
           }
-          if (!findViewedCont) {
-            this.variablesService.settings.viewedContracts.push({
-              contract_id: this.currentContract.contract_id,
-              is_a: this.currentContract.is_a,
-              state: this.currentContract.state,
-            });
-          }
-          this.currentContract.is_new = false;
-          setTimeout(() => {
-            this.variablesService.currentWallet.recountNewContracts();
-          }, 0);
+          this.checkAndChangeHistory();
+        } else {
+          this.newPurchase = true;
         }
-        this.checkAndChangeHistory();
-      } else {
-        this.newPurchase = true;
-      }
+      },
     });
 
     this.variablesService.getHeightAppEvent
       .pipe(takeUntil(this.destroy$))
-      .subscribe((newHeight: number) => {
-        if (
-          this.currentContract &&
-          this.currentContract.state === 201 &&
-          this.currentContract.height !== 0 &&
-          newHeight - this.currentContract.height >= 10
-        ) {
-          this.currentContract.state = 2;
-          this.currentContract.is_new = true;
-          this.variablesService.currentWallet.recountNewContracts();
-        } else if (
-          this.currentContract &&
-          this.currentContract.state === 601 &&
-          this.currentContract.height !== 0 &&
-          newHeight - this.currentContract.height >= 10
-        ) {
-          this.currentContract.state = 6;
-          this.currentContract.is_new = true;
-          this.variablesService.currentWallet.recountNewContracts();
-        }
+      .subscribe({
+        next: (newHeight: number) => {
+          if (
+            this.currentContract &&
+            this.currentContract.state === 201 &&
+            this.currentContract.height !== 0 &&
+            newHeight - this.currentContract.height >= 10
+          ) {
+            this.currentContract.state = 2;
+            this.currentContract.is_new = true;
+            this.variablesService.currentWallet.recountNewContracts();
+          } else if (
+            this.currentContract &&
+            this.currentContract.state === 601 &&
+            this.currentContract.height !== 0 &&
+            newHeight - this.currentContract.height >= 10
+          ) {
+            this.currentContract.state = 6;
+            this.currentContract.is_new = true;
+            this.variablesService.currentWallet.recountNewContracts();
+          }
+        },
       });
 
     if (this.variablesService.appPass) {
@@ -307,12 +310,14 @@ export class PurchaseComponent implements OnInit, OnDestroy {
     }
     this.variablesService.sendActionData$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(res => {
-        if (res.action === 'escrow') {
-          this.actionData = res;
-          this.fillDeepLinkData();
-          this.variablesService.sendActionData$.next({});
-        }
+      .subscribe({
+        next: res => {
+          if (res.action === 'escrow') {
+            this.actionData = res;
+            this.fillDeepLinkData();
+            this.variablesService.sendActionData$.next({});
+          }
+        },
       });
   }
 

@@ -21,10 +21,12 @@ export class DisablePriceFetchDirective implements OnDestroy {
   ) {
     this._variablesService.disable_price_fetch$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((disable_price_fetch: boolean) => {
-        return !disable_price_fetch
-          ? this._viewContainer.createEmbeddedView(this._templateRef)
-          : this._viewContainer.clear();
+      .subscribe({
+        next: (disable_price_fetch: boolean) => {
+          return !disable_price_fetch
+            ? this._viewContainer.createEmbeddedView(this._templateRef)
+            : this._viewContainer.clear();
+        },
       });
   }
 

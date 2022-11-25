@@ -58,9 +58,8 @@ export class DeeplinkModalComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.renderer.addClass(document.body, 'no-scroll');
 
-    this.variablesService.deeplink$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(deeplink => {
+    this.variablesService.deeplink$.pipe(takeUntil(this.destroy$)).subscribe({
+      next: deeplink => {
         this.actionData = {};
 
         if (deeplink) {
@@ -85,7 +84,8 @@ export class DeeplinkModalComponent implements OnInit, OnDestroy {
             }
           }
         }
-      });
+      },
+    });
   }
 
   ngOnDestroy(): void {

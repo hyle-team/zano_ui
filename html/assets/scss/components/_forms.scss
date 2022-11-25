@@ -19,7 +19,8 @@
       }
 
       &:not(:placeholder-shown) {
-        &.invalid, &.ng-touched.ng-invalid {
+        &.invalid,
+        &.ng-touched.ng-invalid {
           border: var(--border-error);
         }
       }
@@ -88,7 +89,8 @@
         color: var(--gray-800);
       }
 
-      &.invalid, &.ng-touched.ng-invalid {
+      &.invalid,
+      &.ng-touched.ng-invalid {
         border: var(--border-error);
 
         &::placeholder {
@@ -100,7 +102,8 @@
         &:hover {
           border: var(--border-not-empty);
 
-          &.invalid, &.ng-touched.ng-invalid {
+          &.invalid,
+          &.ng-touched.ng-invalid {
             border: var(--border-error);
 
             &::placeholder {
@@ -164,7 +167,6 @@
           }
         }
 
-
         &.invalid {
           border: var(--border-error);
 
@@ -175,7 +177,9 @@
       }
     }
 
-    .error, .success, .info {
+    .error,
+    .success,
+    .info {
       overflow: hidden;
       width: 100%;
       margin-top: 1rem;
@@ -193,7 +197,7 @@
       position: relative;
 
       .dropdown {
-		  overflow-y: auto;
+        overflow-y: auto;
         position: absolute;
         top: calc(100% + 1rem);
         left: 0;
@@ -259,7 +263,7 @@
     }
   }
 
-  input[type="checkbox"] {
+  input[type='checkbox'] {
     position: absolute;
     top: 50%;
     left: 0;
@@ -271,7 +275,7 @@
     }
 
     & + label:before {
-      content: "";
+      content: '';
       position: absolute;
       top: 50%;
       left: 0;
@@ -289,7 +293,8 @@
     }
 
     &:checked {
-      & + label:before, & + label:hover:before {
+      & + label:before,
+      & + label:hover:before {
         background-image: url('~src/assets/icons/white/checkbox-active.svg');
       }
     }

@@ -18,8 +18,10 @@ export class DeeplinkComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.variablesService.deeplink$
       .pipe(delay(200), takeUntil(this.destroy$))
-      .subscribe(data => {
-        this.deeplink$.next(data);
+      .subscribe({
+        next: data => {
+          this.deeplink$.next(data);
+        },
       });
   }
 

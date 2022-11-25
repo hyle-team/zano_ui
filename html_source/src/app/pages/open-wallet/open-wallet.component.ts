@@ -51,24 +51,26 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.queryRouting = this.route.queryParams.subscribe(params => {
-      if (params.path) {
-        this.filePath = params.path;
-        let filename = '';
-        if (params.path.lastIndexOf('.') === -1) {
-          filename = params.path.substr(params.path.lastIndexOf('/') + 1);
-        } else {
-          filename = params.path.substr(
-            params.path.lastIndexOf('/') + 1,
-            params.path.lastIndexOf('.') - 1 - params.path.lastIndexOf('/')
-          );
+    this.queryRouting = this.route.queryParams.subscribe({
+      next: params => {
+        if (params.path) {
+          this.filePath = params.path;
+          let filename = '';
+          if (params.path.lastIndexOf('.') === -1) {
+            filename = params.path.substr(params.path.lastIndexOf('/') + 1);
+          } else {
+            filename = params.path.substr(
+              params.path.lastIndexOf('/') + 1,
+              params.path.lastIndexOf('.') - 1 - params.path.lastIndexOf('/')
+            );
+          }
+          if (filename.length > 25) {
+            filename = filename.slice(0, 25);
+          }
+          this.openForm.get('name').setValue(filename);
+          this.openForm.get('name').markAsTouched();
         }
-        if (filename.length > 25) {
-          filename = filename.slice(0, 25);
-        }
-        this.openForm.get('name').setValue(filename);
-        this.openForm.get('name').markAsTouched();
-      }
+      },
     });
   }
 

@@ -53,10 +53,12 @@ export class LoginComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.queryRouting = this.route.queryParams.subscribe(params => {
-      if (params.type) {
-        this.type = params.type;
-      }
+    this.queryRouting = this.route.queryParams.subscribe({
+      next: params => {
+        if (params.type) {
+          this.type = params.type;
+        }
+      },
     });
   }
 

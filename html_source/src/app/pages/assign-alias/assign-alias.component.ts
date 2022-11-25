@@ -73,58 +73,63 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
     this.wallet = this.variablesService.currentWallet;
     this.assignFormSubscription = this.assignForm
       .get('name')
-      .valueChanges.subscribe(value => {
-        this.canRegister = false;
-        this.alias.exists = false;
-        const newName = value.toLowerCase().replace('@', '');
-        if (
-          !(
-            this.assignForm.controls['name'].errors &&
-            hasOwnProperty(this.assignForm.controls['name'].errors, 'pattern')
-          ) &&
-          newName.length >= 6 &&
-          newName.length <= 25
-        ) {
-          this.backend.getAliasByName(newName, status => {
-            this.ngZone.run(() => {
-              this.alias.exists = status;
-            });
-            if (!status) {
-              this.alias.price = new BigNumber(0);
-              this.backend.getAliasCoast(newName, (statusPrice, dataPrice) => {
-                this.ngZone.run(() => {
-                  if (statusPrice) {
-                    this.alias.price = BigNumber.sum(
-                      dataPrice['coast'],
-                      this.variablesService.default_fee_big
-                    );
-                  }
-                  this.notEnoughMoney = this.alias.price.isGreaterThan(
-                    this.wallet.unlocked_balance
-                  );
-                  this.alias.reward = this.intToMoney.transform(
-                    this.alias.price,
-                    false
-                  );
-                  this.alias.rewardOriginal = this.intToMoney.transform(
-                    dataPrice['coast'],
-                    false
-                  );
-                  this.canRegister = !this.notEnoughMoney;
-                });
+      .valueChanges.subscribe({
+        next: value => {
+          this.canRegister = false;
+          this.alias.exists = false;
+          const newName = value.toLowerCase().replace('@', '');
+          if (
+            !(
+              this.assignForm.controls['name'].errors &&
+              hasOwnProperty(this.assignForm.controls['name'].errors, 'pattern')
+            ) &&
+            newName.length >= 6 &&
+            newName.length <= 25
+          ) {
+            this.backend.getAliasByName(newName, status => {
+              this.ngZone.run(() => {
+                this.alias.exists = status;
               });
-            } else {
-              this.notEnoughMoney = false;
-              this.alias.reward = '0';
-              this.alias.rewardOriginal = '0';
-            }
-          });
-        } else {
-          this.notEnoughMoney = false;
-          this.alias.reward = '0';
-          this.alias.rewardOriginal = '0';
-        }
-        this.alias.name = newName;
+              if (!status) {
+                this.alias.price = new BigNumber(0);
+                this.backend.getAliasCoast(
+                  newName,
+                  (statusPrice, dataPrice) => {
+                    this.ngZone.run(() => {
+                      if (statusPrice) {
+                        this.alias.price = BigNumber.sum(
+                          dataPrice['coast'],
+                          this.variablesService.default_fee_big
+                        );
+                      }
+                      this.notEnoughMoney = this.alias.price.isGreaterThan(
+                        this.wallet.unlocked_balance
+                      );
+                      this.alias.reward = this.intToMoney.transform(
+                        this.alias.price,
+                        false
+                      );
+                      this.alias.rewardOriginal = this.intToMoney.transform(
+                        dataPrice['coast'],
+                        false
+                      );
+                      this.canRegister = !this.notEnoughMoney;
+                    });
+                  }
+                );
+              } else {
+                this.notEnoughMoney = false;
+                this.alias.reward = '0';
+                this.alias.rewardOriginal = '0';
+              }
+            });
+          } else {
+            this.notEnoughMoney = false;
+            this.alias.reward = '0';
+            this.alias.rewardOriginal = '0';
+          }
+          this.alias.name = newName;
+        },
       });
   }
 

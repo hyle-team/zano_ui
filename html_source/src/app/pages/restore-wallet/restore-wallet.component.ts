@@ -90,13 +90,17 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
   changeDetectionSeedPhrasePassword(): void {
     this.restoreForm.controls.seedPassword.valueChanges
       .pipe(startWith(null), pairwise(), takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.checkValidSeedPhrasePassword();
+      .subscribe({
+        next: () => {
+          this.checkValidSeedPhrasePassword();
+        },
       });
     this.restoreForm.controls.key.valueChanges
       .pipe(startWith(null), pairwise(), takeUntil(this.destroy$))
-      .subscribe(() => {
-        this.checkValidSeedPhrasePassword();
+      .subscribe({
+        next: () => {
+          this.checkValidSeedPhrasePassword();
+        },
       });
   }
 

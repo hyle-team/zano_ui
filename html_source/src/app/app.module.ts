@@ -20,6 +20,7 @@ import { ChartModule, HIGHCHARTS_MODULES } from 'angular-highcharts';
 import * as highcharts from 'highcharts';
 import exporting from 'highcharts/modules/exporting.src';
 import { MoneyToIntPipeModule } from '@parts/pipes';
+import { OpenWalletModalComponent } from '@parts/modals/open-wallet-modal/open-wallet-modal.component';
 
 export function highchartsFactory(): any[] {
   highcharts.setOptions({
@@ -49,7 +50,7 @@ export const translateModuleConfig: TranslateModuleConfig = {
 };
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, OpenWalletModalComponent],
   imports: [
     CommonModule,
     BrowserModule,

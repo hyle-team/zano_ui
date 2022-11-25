@@ -118,12 +118,14 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
       /** Listening handleCurrentActionState */
       this.backendService.handleCurrentActionState$
         .pipe(takeUntil(this.destroy$))
-        .subscribe((currentActionState: CurrentActionState) => {
-          this.currentActionState$.next(currentActionState);
-          this.currentActionStates$.next([
-            ...this.currentActionStates,
-            currentActionState,
-          ]);
+        .subscribe({
+          next: (currentActionState: CurrentActionState) => {
+            this.currentActionState$.next(currentActionState);
+            this.currentActionStates$.next([
+              ...this.currentActionStates,
+              currentActionState,
+            ]);
+          },
         });
     } else {
       const actionState: CurrentActionState = {
@@ -146,25 +148,27 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
         ),
         takeUntil(this.destroy$)
       )
-      .subscribe(({ response }: AsyncCommandResults) => {
-        const {
-          response_data: { success },
-        } = response;
-        if (!appUseTor || !success) {
-          const actionState: CurrentActionState = {
-            status: success
-              ? StatusCurrentActionState.STATE_SENT_SUCCESS
-              : StatusCurrentActionState.STATE_SEND_FAILED,
-            wallet_id,
-          };
-          this.currentActionState$.next(actionState);
-          this.currentActionStates$.next([
-            ...this.currentActionStates,
-            actionState,
-          ]);
-        }
+      .subscribe({
+        next: ({ response }: AsyncCommandResults) => {
+          const {
+            response_data: { success },
+          } = response;
+          if (!appUseTor || !success) {
+            const actionState: CurrentActionState = {
+              status: success
+                ? StatusCurrentActionState.STATE_SENT_SUCCESS
+                : StatusCurrentActionState.STATE_SEND_FAILED,
+              wallet_id,
+            };
+            this.currentActionState$.next(actionState);
+            this.currentActionStates$.next([
+              ...this.currentActionStates,
+              actionState,
+            ]);
+          }
 
-        this.responseData$.next(response);
+          this.responseData$.next(response);
+        },
       });
   }
 

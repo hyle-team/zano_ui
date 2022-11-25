@@ -9,7 +9,6 @@ import { SettingsComponent } from './settings/settings.component';
 import { AddWalletComponent } from './add-wallet/add-wallet.component';
 import { CreateWalletComponent } from './create-wallet/create-wallet.component';
 import { OpenWalletComponent } from './open-wallet/open-wallet.component';
-import { OpenWalletModalComponent } from '@parts/modals/open-wallet-modal/open-wallet-modal.component';
 import { RestoreWalletComponent } from './restore-wallet/restore-wallet.component';
 import { SeedPhraseComponent } from './seed-phrase/seed-phrase.component';
 import { AssignAliasComponent } from './assign-alias/assign-alias.component';
@@ -57,7 +56,6 @@ import { InputDisableSelectionModule } from '@parts/directives/input-disable-sel
     AddWalletComponent,
     CreateWalletComponent,
     OpenWalletComponent,
-    OpenWalletModalComponent,
     RestoreWalletComponent,
     SeedPhraseComponent,
     AssignAliasComponent,

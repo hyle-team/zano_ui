@@ -170,6 +170,7 @@
     "LOCKED_BALANCE": "Terkunci <b>{{locked}} {{currency}}<b/>",
     "LOCKED_BALANCE_LINK": "Apa yang dimaksudkan?\n",
     "TABS": {
+      "ASSETS": "Assets",
       "SEND": "Kirim",
       "RECEIVE": "Terima",
       "HISTORY": "Riwayat",
