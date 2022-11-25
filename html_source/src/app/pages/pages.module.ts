@@ -48,6 +48,7 @@ import {
 } from '@parts/pipes';
 import { InputValidateModule } from '@parts/directives/input-validate';
 import { InputDisableSelectionModule } from '@parts/directives/input-disable-selection';
+import { BackButtonModule } from '@parts/directives/back-button/back-button.module';
 
 @NgModule({
   declarations: [
@@ -103,6 +104,7 @@ import { InputDisableSelectionModule } from '@parts/directives/input-disable-sel
     ShortStringPipeModule,
     InputValidateModule,
     InputDisableSelectionModule,
+    BackButtonModule,
   ],
 })
 export class PagesModule {}

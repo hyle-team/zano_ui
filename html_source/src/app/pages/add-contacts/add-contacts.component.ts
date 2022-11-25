@@ -8,7 +8,6 @@ import {
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { ModalService } from '@parts/services/modal.service';
-import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -96,8 +95,7 @@ export class AddContactsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private backend: BackendService,
     private modalService: ModalService,
-    private ngZone: NgZone,
-    private location: Location
+    private ngZone: NgZone
   ) {}
 
   ngOnInit(): void {
@@ -189,9 +187,5 @@ export class AddContactsComponent implements OnInit, OnDestroy {
         );
       }
     }
-  }
-
-  back(): void {
-    this.location.back();
   }
 }

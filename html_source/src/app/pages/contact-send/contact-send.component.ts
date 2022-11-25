@@ -1,5 +1,4 @@
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
 import { VariablesService } from '@parts/services/variables.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -15,7 +14,6 @@ export class ContactSendComponent implements OnInit, OnDestroy {
 
   constructor(
     public variablesService: VariablesService,
-    private location: Location,
     private route: ActivatedRoute,
     private ngZone: NgZone,
     private router: Router
@@ -41,9 +39,5 @@ export class ContactSendComponent implements OnInit, OnDestroy {
     this.ngZone.run(() => {
       this.router.navigate(['/wallet/send'], { queryParams: { send: true } });
     });
-  }
-
-  back(): void {
-    this.location.back();
   }
 }

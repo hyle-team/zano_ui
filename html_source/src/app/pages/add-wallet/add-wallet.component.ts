@@ -1,5 +1,4 @@
 import { Component, NgZone, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -18,7 +17,6 @@ export class AddWalletComponent implements OnInit {
     public variablesService: VariablesService,
     private route: ActivatedRoute,
     private router: Router,
-    private location: Location,
     private backend: BackendService,
     private ngZone: NgZone,
     private translate: TranslateService
@@ -58,9 +56,5 @@ export class AddWalletComponent implements OnInit {
 
   openInBrowser(): void {
     this.backend.openUrlInBrowser(CREATE_NEW_WALLET_HELP_PAGE);
-  }
-
-  back(): void {
-    this.location.back();
   }
 }

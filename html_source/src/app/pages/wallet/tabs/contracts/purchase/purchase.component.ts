@@ -15,11 +15,11 @@ import {
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { ModalService } from '@parts/services/modal.service';
-import { Location } from '@angular/common';
 import { IntToMoneyPipe } from '@parts/pipes/int-to-money-pipe/int-to-money.pipe';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
+import { NavigationService } from '@parts/services/back.service';
 
 @Component({
   selector: 'app-purchase',
@@ -156,8 +156,8 @@ export class PurchaseComponent implements OnInit, OnDestroy {
     private backend: BackendService,
     private modalService: ModalService,
     private ngZone: NgZone,
-    private location: Location,
-    private intToMoneyPipe: IntToMoneyPipe
+    private intToMoneyPipe: IntToMoneyPipe,
+    private navigationService: NavigationService
   ) {}
 
   @HostListener('document:click', ['$event.target'])
@@ -422,6 +422,10 @@ export class PurchaseComponent implements OnInit, OnDestroy {
     }
   }
 
+  back(): void {
+    this.navigationService.back();
+  }
+
   createPurchase(): void {
     if (this.purchaseForm.valid) {
       const {
@@ -491,10 +495,6 @@ export class PurchaseComponent implements OnInit, OnDestroy {
         );
       }
     }
-  }
-
-  back(): void {
-    this.location.back();
   }
 
   acceptState(): void {

@@ -39,6 +39,7 @@ import {
   HistoryTypeMessagesPipeModule,
   IntToMoneyPipeModule,
 } from '@parts/pipes';
+import { BackButtonModule } from '@parts/directives/back-button/back-button.module';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,7 @@ import {
     IntToMoneyPipeModule,
     ContractStatusMessagesPipeModule,
     HistoryTypeMessagesPipeModule,
+    BackButtonModule,
   ],
 })
 export class WalletModule {}

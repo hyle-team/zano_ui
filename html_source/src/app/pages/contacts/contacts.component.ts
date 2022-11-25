@@ -1,5 +1,4 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Location } from '@angular/common';
 import { VariablesService } from '@parts/services/variables.service';
 import { BackendService } from '@api/services/backend.service';
 
@@ -14,7 +13,6 @@ export class ContactsComponent implements OnInit {
   calculatedWidth = [];
 
   constructor(
-    private location: Location,
     public variablesService: VariablesService,
     private backend: BackendService
   ) {}
@@ -45,9 +43,5 @@ export class ContactsComponent implements OnInit {
     this.calculatedWidth.push(
       this.head.nativeElement.childNodes[4].clientWidth
     );
-  }
-
-  back(): void {
-    this.location.back();
   }
 }

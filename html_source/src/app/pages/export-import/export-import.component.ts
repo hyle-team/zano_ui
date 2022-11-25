@@ -1,5 +1,4 @@
 import { Component, NgZone } from '@angular/core';
-import { Location } from '@angular/common';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { Contact } from '@api/models/contact.model';
@@ -15,7 +14,6 @@ import { Router } from '@angular/router';
 })
 export class ExportImportComponent {
   constructor(
-    private location: Location,
     private variablesService: VariablesService,
     private backend: BackendService,
     private modalService: ModalService,
@@ -141,9 +139,5 @@ export class ExportImportComponent {
 
   isValid(file): boolean {
     return file.endsWith('.csv');
-  }
-
-  back(): void {
-    this.location.back();
   }
 }

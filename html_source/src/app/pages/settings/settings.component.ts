@@ -7,7 +7,6 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { Location } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 import { scaleItems } from '@parts/data/scale-items';
 
@@ -105,7 +104,6 @@ export class SettingsComponent implements OnInit {
     public variablesService: VariablesService,
     private renderer: Renderer2,
     private backend: BackendService,
-    private location: Location,
     private ngZone: NgZone
   ) {
     this.scale = this.variablesService.settings.scale;
@@ -231,9 +229,5 @@ export class SettingsComponent implements OnInit {
   onLanguageChange(): void {
     this.translate.use(this.variablesService.settings.language);
     this.backend.storeAppData();
-  }
-
-  back(): void {
-    this.location.back();
   }
 }

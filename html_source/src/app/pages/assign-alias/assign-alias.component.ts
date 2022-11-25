@@ -5,7 +5,6 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
@@ -61,7 +60,6 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
   constructor(
     public variablesService: VariablesService,
     private ngZone: NgZone,
-    private location: Location,
     private router: Router,
     private backend: BackendService,
     private modalService: ModalService,
@@ -164,9 +162,5 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
         }
       );
     }
-  }
-
-  back(): void {
-    this.location.back();
   }
 }

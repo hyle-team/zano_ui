@@ -1,5 +1,4 @@
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
 import { BackendService } from '@api/services/backend.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VariablesService } from '@parts/services/variables.service';
@@ -77,7 +76,6 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
     public variablesService: VariablesService,
     private route: ActivatedRoute,
     private router: Router,
-    private location: Location,
     private backend: BackendService,
     private modalService: ModalService,
     private ngZone: NgZone
@@ -140,10 +138,6 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
         this.seedPhraseCopied = true;
       });
     });
-  }
-
-  back(): void {
-    this.location.back();
   }
 
   showSeedPhrase(): void {

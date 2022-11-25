@@ -11,7 +11,6 @@ import { ModalService } from '@parts/services/modal.service';
 import { Router } from '@angular/router';
 import { Wallet } from '@api/models/wallet.model';
 import { TranslateService } from '@ngx-translate/core';
-import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-create-wallet',
@@ -61,8 +60,7 @@ export class CreateWalletComponent {
     private backend: BackendService,
     private modalService: ModalService,
     private ngZone: NgZone,
-    private translate: TranslateService,
-    private location: Location
+    private translate: TranslateService
   ) {}
 
   createWallet(): void {
@@ -145,9 +143,5 @@ export class CreateWalletComponent {
         }
       );
     }
-  }
-
-  back(): void {
-    this.location.back();
   }
 }

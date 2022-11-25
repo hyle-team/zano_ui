@@ -12,7 +12,6 @@ import { ModalService } from '@parts/services/modal.service';
 import { Wallet } from '@api/models/wallet.model';
 import { TranslateService } from '@ngx-translate/core';
 import { pairwise, startWith, takeUntil } from 'rxjs/operators';
-import { Location } from '@angular/common';
 import { Subject } from 'rxjs';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 
@@ -73,7 +72,6 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
     private backend: BackendService,
     private modalService: ModalService,
     private ngZone: NgZone,
-    private location: Location,
     private translate: TranslateService
   ) {}
 
@@ -296,9 +294,5 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
         });
       });
     }
-  }
-
-  back(): void {
-    this.location.back();
   }
 }

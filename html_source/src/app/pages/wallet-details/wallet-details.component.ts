@@ -8,7 +8,6 @@ import {
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { Router } from '@angular/router';
-import { Location } from '@angular/common';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 
 @Component({
@@ -72,8 +71,7 @@ export class WalletDetailsComponent implements OnInit {
     public variablesService: VariablesService,
     private router: Router,
     private backend: BackendService,
-    private ngZone: NgZone,
-    private location: Location
+    private ngZone: NgZone
   ) {}
 
   ngOnInit(): void {
@@ -136,9 +134,5 @@ export class WalletDetailsComponent implements OnInit {
         this.seedPhraseCopied = true;
       });
     });
-  }
-
-  back(): void {
-    this.location.back();
   }
 }

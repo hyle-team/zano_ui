@@ -11,7 +11,6 @@ import { ModalService } from '@parts/services/modal.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Wallet } from '@api/models/wallet.model';
 import { TranslateService } from '@ngx-translate/core';
-import { Location } from '@angular/common';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 
 @Component({
@@ -46,7 +45,6 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
     private backend: BackendService,
     private modalService: ModalService,
     private ngZone: NgZone,
-    private location: Location,
     private translate: TranslateService
   ) {}
 
@@ -215,9 +213,5 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
         }
       );
     }
-  }
-
-  back(): void {
-    this.location.back();
   }
 }

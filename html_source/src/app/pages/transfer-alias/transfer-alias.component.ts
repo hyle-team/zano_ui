@@ -1,5 +1,4 @@
 import { Component, NgZone, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
@@ -31,7 +30,6 @@ export class TransferAliasComponent implements OnInit {
 
   constructor(
     public variablesService: VariablesService,
-    private location: Location,
     private router: Router,
     private backend: BackendService,
     private modalService: ModalService,
@@ -129,9 +127,5 @@ export class TransferAliasComponent implements OnInit {
         this.requestProcessing = false;
       }
     );
-  }
-
-  back(): void {
-    this.location.back();
   }
 }
