@@ -10,6 +10,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-seed-phrase',
@@ -17,8 +19,6 @@ import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
   styleUrls: ['./seed-phrase.component.scss'],
 })
 export class SeedPhraseComponent implements OnInit, OnDestroy {
-  queryRouting;
-
   seedPhrase = '';
 
   showSeed = false;
@@ -72,6 +72,8 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
     }
   );
 
+  private destroy$ = new Subject<void>();
+
   constructor(
     public variablesService: VariablesService,
     private route: ActivatedRoute,
@@ -88,7 +90,8 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.queryRouting.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   runWallet(): void {
@@ -173,7 +176,7 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
   }
 
   private getWalletId(): void {
-    this.queryRouting = this.route.queryParams.subscribe({
+    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe({
       next: params => {
         if (params.wallet_id) {
           this.wallet_id = params.wallet_id;

@@ -31,8 +31,6 @@ export class PurchaseComponent implements OnInit, OnDestroy {
 
   localAliases = [];
 
-  currentWalletId;
-
   newPurchase = false;
 
   actionData = null;

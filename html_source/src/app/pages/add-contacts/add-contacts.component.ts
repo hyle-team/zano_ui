@@ -9,6 +9,7 @@ import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { ModalService } from '@parts/services/modal.service';
 import { ActivatedRoute } from '@angular/router';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-add-contacts',
@@ -17,8 +18,6 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class AddContactsComponent implements OnInit, OnDestroy {
   id: number;
-
-  queryRouting;
 
   isModalDialogVisible;
 
@@ -90,6 +89,8 @@ export class AddContactsComponent implements OnInit, OnDestroy {
     ]),
   });
 
+  private destroy$ = new Subject<void>();
+
   constructor(
     public variablesService: VariablesService,
     private route: ActivatedRoute,
@@ -99,7 +100,7 @@ export class AddContactsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.queryRouting = this.route.queryParams.subscribe({
+    this.route.queryParams.subscribe({
       next: params => {
         if (params.id) {
           this.id = parseInt(params.id, 10);
@@ -127,7 +128,8 @@ export class AddContactsComponent implements OnInit, OnDestroy {
         notes: this.addContactForm.get('notes').value,
       };
     }
-    this.queryRouting.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   add(): void {

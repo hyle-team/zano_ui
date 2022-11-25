@@ -6,6 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 import { IntToMoneyPipe } from '@parts/pipes/int-to-money-pipe/int-to-money.pipe';
 import { TranslateService } from '@ngx-translate/core';
 import { BigNumber } from 'bignumber.js';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-staking',
@@ -13,12 +15,6 @@ import { BigNumber } from 'bignumber.js';
   styleUrls: ['./staking.component.scss'],
 })
 export class StakingComponent implements OnInit, OnDestroy {
-  parentRouting;
-
-  heightAppEvent;
-
-  refreshStackingEvent;
-
   periods = [
     {
       title: this.translate.instant('STAKING.PERIOD.WEEK1'),
@@ -93,6 +89,8 @@ export class StakingComponent implements OnInit, OnDestroy {
     total: new BigNumber(0),
   };
 
+  private destroy$ = new Subject<void>();
+
   constructor(
     public variablesService: VariablesService,
     private route: ActivatedRoute,
@@ -118,33 +116,36 @@ export class StakingComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.parentRouting = this.route.parent.params.subscribe({
+    this.route.parent.params.pipe(takeUntil(this.destroy$)).subscribe({
       next: () => {
         this.getMiningHistory();
       },
     });
-    this.heightAppEvent = this.variablesService.getHeightAppEvent.subscribe({
-      next: (newHeight: number) => {
-        if (!this.pending.total.isZero()) {
-          const pendingCount = this.pending.list.length;
-          for (let i = pendingCount - 1; i >= 0; i--) {
-            if (newHeight - this.pending.list[i].h >= 10) {
-              this.pending.list.splice(i, 1);
+    this.variablesService.getHeightAppEvent
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (newHeight: number) => {
+          if (!this.pending.total.isZero()) {
+            const pendingCount = this.pending.list.length;
+            for (let i = pendingCount - 1; i >= 0; i--) {
+              if (newHeight - this.pending.list[i].h >= 10) {
+                this.pending.list.splice(i, 1);
+              }
+            }
+            if (pendingCount !== this.pending.list.length) {
+              this.pending.total = new BigNumber(0);
+              for (let i = 0; i < this.pending.list.length; i++) {
+                this.pending.total = this.pending.total.plus(
+                  this.pending.list[i].a
+                );
+              }
             }
           }
-          if (pendingCount !== this.pending.list.length) {
-            this.pending.total = new BigNumber(0);
-            for (let i = 0; i < this.pending.list.length; i++) {
-              this.pending.total = this.pending.total.plus(
-                this.pending.list[i].a
-              );
-            }
-          }
-        }
-      },
-    });
-    this.refreshStackingEvent =
-      this.variablesService.getRefreshStackingEvent.subscribe({
+        },
+      });
+    this.variablesService.getRefreshStackingEvent
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
         next: (wallet_id: number) => {
           if (this.variablesService.currentWallet.wallet_id === wallet_id) {
             this.getMiningHistory();
@@ -154,9 +155,8 @@ export class StakingComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.parentRouting.unsubscribe();
-    this.heightAppEvent.unsubscribe();
-    this.refreshStackingEvent.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   drawChart(data): void {

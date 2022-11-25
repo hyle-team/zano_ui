@@ -11,6 +11,8 @@ import { VariablesService } from '@parts/services/variables.service';
 import { ModalService } from '@parts/services/modal.service';
 import { Wallet } from '@api/models/wallet.model';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-login',
@@ -18,8 +20,6 @@ import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
   styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  queryRouting;
-
   regForm = new UntypedFormGroup(
     {
       password: new UntypedFormControl(
@@ -43,6 +43,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   type = 'reg';
 
+  private destroy$ = new Subject<void>();
+
   constructor(
     public variablesService: VariablesService,
     private route: ActivatedRoute,
@@ -53,7 +55,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.queryRouting = this.route.queryParams.subscribe({
+    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe({
       next: params => {
         if (params.type) {
           this.type = params.type;
@@ -63,7 +65,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.queryRouting.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   onSubmitCreatePass(): void {

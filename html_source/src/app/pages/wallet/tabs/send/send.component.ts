@@ -19,8 +19,8 @@ import { BigNumber } from 'bignumber.js';
 import { MIXIN } from '@parts/data/constants';
 import { HttpClient } from '@angular/common/http';
 import { MoneyToIntPipe } from '@parts/pipes/money-to-int-pipe/money-to-int.pipe';
-import { finalize } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { finalize, takeUntil } from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
 import { AssetInfo, AssetsInfo } from '@api/models/assets.model';
 import { StateKeys, Store } from '@store/store';
 
@@ -197,7 +197,7 @@ export class SendComponent implements OnInit, OnDestroy {
     );
   }
 
-  private dLActionSubscribe;
+  private destroy$ = new Subject<void>();
 
   constructor(
     private backend: BackendService,
@@ -241,21 +241,24 @@ export class SendComponent implements OnInit, OnDestroy {
     });
 
     this.getWrapInfo();
-    this.dLActionSubscribe = this.variablesService.sendActionData$.subscribe({
-      next: res => {
-        if (res.action === 'send') {
-          this.actionData = res;
-          setTimeout(() => {
-            this.fillDeepLinkData();
-          }, 100);
-          this.variablesService.sendActionData$.next({});
-        }
-      },
-    });
+    this.variablesService.sendActionData$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: res => {
+          if (res.action === 'send') {
+            this.actionData = res;
+            setTimeout(() => {
+              this.fillDeepLinkData();
+            }, 100);
+            this.variablesService.sendActionData$.next({});
+          }
+        },
+      });
   }
 
   ngOnDestroy(): void {
-    this.dLActionSubscribe.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
     this.variablesService.currentWallet.send_data = {
       address: this.sendForm.get('address').value,
       amount: this.sendForm.get('amount').value,

@@ -1,6 +1,8 @@
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { VariablesService } from '@parts/services/variables.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-contact-send',
@@ -8,9 +10,9 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./contact-send.component.scss'],
 })
 export class ContactSendComponent implements OnInit, OnDestroy {
-  queryRouting;
-
   address;
+
+  private destroy$ = new Subject<void>();
 
   constructor(
     public variablesService: VariablesService,
@@ -20,7 +22,7 @@ export class ContactSendComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.queryRouting = this.route.queryParams.subscribe({
+    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe({
       next: params => {
         if (params.address) {
           this.address = params.address;
@@ -30,7 +32,8 @@ export class ContactSendComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.queryRouting.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   goToWallet(id): void {

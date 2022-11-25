@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { BackendService } from '../../../api/services/backend.service';
+import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '../../services/variables.service';
 
 @Component({

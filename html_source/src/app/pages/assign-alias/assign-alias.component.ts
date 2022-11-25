@@ -13,8 +13,9 @@ import { Wallet } from '@api/models/wallet.model';
 import { MoneyToIntPipe } from '@parts/pipes/money-to-int-pipe/money-to-int.pipe';
 import { IntToMoneyPipe } from '@parts/pipes/int-to-money-pipe/int-to-money.pipe';
 import BigNumber from 'bignumber.js';
-import { Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-assign-alias',
@@ -41,8 +42,6 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
     ]),
   });
 
-  assignFormSubscription: Subscription;
-
   alias = {
     name: '',
     fee: this.variablesService.default_fee,
@@ -57,6 +56,8 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
 
   notEnoughMoney = false;
 
+  private destroy$ = new Subject<void>();
+
   constructor(
     public variablesService: VariablesService,
     private ngZone: NgZone,
@@ -69,9 +70,10 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.wallet = this.variablesService.currentWallet;
-    this.assignFormSubscription = this.assignForm
+    this.assignForm
       .get('name')
-      .valueChanges.subscribe({
+      .valueChanges.pipe(takeUntil(this.destroy$))
+      .subscribe({
         next: value => {
           this.canRegister = false;
           this.alias.exists = false;
@@ -132,7 +134,8 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.assignFormSubscription.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   assignAlias(): void {

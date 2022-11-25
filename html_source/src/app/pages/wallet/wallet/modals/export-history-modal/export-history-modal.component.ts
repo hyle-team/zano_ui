@@ -9,7 +9,7 @@ import {
   Renderer2,
 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { BackendService } from '../../../../../api/services/backend.service';
+import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
 
 @Component({
@@ -45,6 +45,7 @@ export class ExportHistoryModalComponent implements OnInit, OnDestroy {
   ];
 
   @Input() currentWalletId;
+
   @Output() closeExportModal: EventEmitter<boolean> =
     new EventEmitter<boolean>();
 

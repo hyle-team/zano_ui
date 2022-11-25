@@ -12,6 +12,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Wallet } from '@api/models/wallet.model';
 import { TranslateService } from '@ngx-translate/core';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-open-wallet',
@@ -19,8 +21,6 @@ import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
   styleUrls: ['./open-wallet.component.scss'],
 })
 export class OpenWalletComponent implements OnInit, OnDestroy {
-  queryRouting;
-
   filePath: string;
 
   openForm = new UntypedFormGroup({
@@ -38,6 +38,8 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
     password: new UntypedFormControl(''),
   });
 
+  private destroy$ = new Subject<void>();
+
   constructor(
     public variablesService: VariablesService,
     private route: ActivatedRoute,
@@ -49,7 +51,7 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.queryRouting = this.route.queryParams.subscribe({
+    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe({
       next: params => {
         if (params.path) {
           this.filePath = params.path;
@@ -73,7 +75,8 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.queryRouting.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   openWallet(): void {

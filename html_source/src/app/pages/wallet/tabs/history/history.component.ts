@@ -27,8 +27,6 @@ import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
   @ViewChild('head', { static: true }) head: ElementRef;
 
-  parentRouting;
-
   openedDetails = '';
 
   calculatedWidth = [];
@@ -43,7 +41,7 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
 
   y = new BigNumber(0.2);
 
-  private destroy$: Subject<void> = new Subject<void>();
+  private destroy$ = new Subject<void>();
 
   constructor(
     private route: ActivatedRoute,
@@ -55,7 +53,7 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
   ) {}
 
   ngOnInit(): void {
-    this.parentRouting = this.route.parent.params.subscribe({
+    this.route.parent.params.pipe(takeUntil(this.destroy$)).subscribe({
       next: () => {
         this.openedDetails = '';
       },
@@ -140,7 +138,6 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnDestroy(): void {
-    this.parentRouting.unsubscribe();
     this.destroy$.next();
     this.destroy$.complete();
   }

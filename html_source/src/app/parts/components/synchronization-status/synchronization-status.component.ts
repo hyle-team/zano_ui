@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { VariablesService } from '../../services/variables.service';
 import { DOWNLOADS_PAGE_URL } from '@parts/data/constants';
-import { BackendService } from '../../../api/services/backend.service';
+import { BackendService } from '@api/services/backend.service';
 
 @Component({
   selector: 'app-synchronization-status',
