@@ -98,6 +98,8 @@
     <div class="dropdown">
       <button
         (click)="$event.stopPropagation(); toggleMenuDropdown()"
+        #trigger="cdkOverlayOrigin"
+        cdkOverlayOrigin
         [disabled]="
           settingsButtonDisabled && !variablesService.currentWallet.loaded
         "
@@ -106,101 +108,124 @@
       >
         <i class="icon dots"></i>
       </button>
-      <div *ngIf="openDropdown" class="content-bottom-right py-0_5">
-        <ul class="list">
-          <li class="item">
-            <button
-              [delay]="500"
-              [disabled]="!variablesService.currentWallet.loaded"
-              [routerLink]="['/details']"
-              [timeDelay]="500"
-              class="w-100 px-2 py-1"
-              placement="left"
-              routerLinkActive="active"
-              tooltip="{{ 'WALLET.TOOLTIPS.SETTINGS' | translate }}"
-              tooltipClass="table-tooltip account-tooltip"
-              type="button"
-            >
-              <i class="icon settings mr-1"></i>
-              <span>{{ 'WALLET_DETAILS.WALLET_OPTIONS' | translate }}</span>
-            </button>
-          </li>
-          <li class="item">
-            <button
-              (click)="stateVisibleAddCustomToken = true"
-              [delay]="500"
-              [disabled]="false"
-              [timeDelay]="500"
-              class="w-100 px-2 py-1"
-              placement="left"
-              tooltip="{{ 'WALLET.TOOLTIPS.ADD_CUSTOM_TOKEN' | translate }}"
-              tooltipClass="table-tooltip account-tooltip"
-              type="button"
-            >
-              <i class="icon add mr-1"></i>
-              <span>{{ 'WALLET_DETAILS.ADD_CUSTOM_TOKEN' | translate }}</span>
-            </button>
-          </li>
-          <li class="item">
-            <button
-              (click)="exportHistoryDialogVisible = !exportHistoryDialogVisible"
-              [delay]="500"
-              [disabled]="variablesService.currentWallet.history.length <= 0"
-              [timeDelay]="500"
-              class="w-100 px-2 py-1"
-              placement="left"
-              tooltip="{{ 'EXPORT_HISTORY.TOOLTIP' | translate }}"
-              tooltipClass="table-tooltip account-tooltip"
-              type="button"
-            >
-              <i class="icon export mr-1"></i>
-              <span>{{ 'EXPORT_HISTORY.EXPORT_BUTTON' | translate }}</span>
-            </button>
-          </li>
-          <ng-container *ngIf="walletSyncVisible">
-            <li class="item">
-              <button
-                (click)="
-                  resyncCurrentWallet(variablesService.currentWallet.wallet_id)
-                "
-                [delay]="500"
-                [disabled]="!variablesService.currentWallet.loaded"
-                [timeDelay]="500"
-                class="w-100 px-2 py-1"
-                placement="left"
-                tooltip="{{ 'WALLET_DETAILS.RESYNC_WALLET' | translate }}"
-                tooltipClass="table-tooltip account-tooltip"
-                type="button"
-              >
-                <i class="icon update mr-1"></i
-                ><span>{{
-                  'WALLET_DETAILS.RESYNC_WALLET_BUTTON' | translate
-                }}</span>
-              </button>
-            </li>
-          </ng-container>
-          <li class="item">
-            <button
-              (click)="
-                showConfirmDialog(variablesService.currentWallet.wallet_id)
-              "
-              [delay]="500"
-              [timeDelay]="500"
-              class="w-100 px-2 py-1"
-              placement="left"
-              tooltip="{{ 'WALLET.TOOLTIPS.CLOSE' | translate }}"
-              tooltipClass="table-tooltip account-tooltip"
-              type="button"
-            >
-              <i class="icon close-square mr-1"></i
-              ><span>{{ 'WALLET_DETAILS.BUTTON_REMOVE' | translate }}</span>
-            </button>
-          </li>
-        </ul>
-      </div>
     </div>
   </div>
 </div>
+
+<ng-template
+  (backdropClick)="$event.stopPropagation(); toggleMenuDropdown()"
+  [cdkConnectedOverlayBackdropClass]="'opacity-0'"
+  [cdkConnectedOverlayHasBackdrop]="true"
+  [cdkConnectedOverlayOrigin]="trigger"
+  [cdkConnectedOverlayOpen]="openDropdown"
+  [cdkConnectedOverlayPositions]="[
+          {
+            originX: 'end',
+            originY: 'top',
+            overlayX: 'end',
+            overlayY: 'top',
+            offsetY: 40
+          }
+        ]"
+  cdkConnectedOverlay
+>
+  <div (click)="toggleMenuDropdown()" class="content-bottom-right py-0_5">
+    <ul class="list">
+      <li class="item">
+        <button
+          [delay]="500"
+          [disabled]="!variablesService.currentWallet.loaded"
+          [routerLink]="['/details']"
+          [timeDelay]="500"
+          class="w-100 px-2 py-1"
+          placement="left"
+          routerLinkActive="active"
+          tooltip="{{ 'WALLET.TOOLTIPS.SETTINGS' | translate }}"
+          tooltipClass="table-tooltip account-tooltip"
+          type="button"
+        >
+          <i class="icon settings mr-1"></i>
+          <span>{{ 'WALLET_DETAILS.WALLET_OPTIONS' | translate }}</span>
+        </button>
+      </li>
+      <li class="item">
+        <button
+          (click)="stateVisibleAddCustomToken = true"
+          [delay]="500"
+          [disabled]="false"
+          [timeDelay]="500"
+          class="w-100 px-2 py-1"
+          placement="left"
+          tooltip="{{ 'WALLET.TOOLTIPS.ADD_CUSTOM_TOKEN' | translate }}"
+          tooltipClass="table-tooltip account-tooltip"
+          type="button"
+        >
+          <i class="icon add mr-1"></i>
+          <span>{{ 'WALLET_DETAILS.ADD_CUSTOM_TOKEN' | translate }}</span>
+        </button>
+      </li>
+      <li class="item">
+        <button
+          (click)="
+                  exportHistoryDialogVisible = !exportHistoryDialogVisible
+                "
+          [delay]="500"
+          [disabled]="variablesService.currentWallet.history.length <= 0"
+          [timeDelay]="500"
+          class="w-100 px-2 py-1"
+          placement="left"
+          tooltip="{{ 'EXPORT_HISTORY.TOOLTIP' | translate }}"
+          tooltipClass="table-tooltip account-tooltip"
+          type="button"
+        >
+          <i class="icon export mr-1"></i>
+          <span>{{ 'EXPORT_HISTORY.EXPORT_BUTTON' | translate }}</span>
+        </button>
+      </li>
+      <ng-container *ngIf="walletSyncVisible">
+        <li class="item">
+          <button
+            (click)="
+                    resyncCurrentWallet(
+                      variablesService.currentWallet.wallet_id
+                    )
+                  "
+            [delay]="500"
+            [disabled]="!variablesService.currentWallet.loaded"
+            [timeDelay]="500"
+            class="w-100 px-2 py-1"
+            placement="left"
+            tooltip="{{ 'WALLET_DETAILS.RESYNC_WALLET' | translate }}"
+            tooltipClass="table-tooltip account-tooltip"
+            type="button"
+          >
+            <i class="icon update mr-1"></i
+            ><span>{{
+            'WALLET_DETAILS.RESYNC_WALLET_BUTTON' | translate
+            }}</span>
+          </button>
+        </li>
+      </ng-container>
+      <li class="item">
+        <button
+          (click)="
+                  showConfirmDialog(variablesService.currentWallet.wallet_id)
+                "
+          [delay]="500"
+          [timeDelay]="500"
+          class="w-100 px-2 py-1"
+          placement="left"
+          tooltip="{{ 'WALLET.TOOLTIPS.CLOSE' | translate }}"
+          tooltipClass="table-tooltip account-tooltip"
+          type="button"
+        >
+          <i class="icon close-square mr-1"></i
+          ><span>{{ 'WALLET_DETAILS.BUTTON_REMOVE' | translate }}</span>
+        </button>
+      </li>
+    </ul>
+  </div>
+</ng-template>
 
 <div class="tabs">
   <div class="tabs-header">

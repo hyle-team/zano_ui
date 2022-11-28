@@ -114,17 +114,6 @@ export class WalletComponent implements OnInit, OnDestroy {
     }
   }
 
-  @HostListener('document:click', ['$event.target'])
-  onClick(targetElement): void {
-    if (
-      targetElement.dataset.target !== 'wallet-dropdown-button' &&
-      this.openDropdown
-    ) {
-      this.openDropdown = false;
-      this.walletSyncVisible = false;
-    }
-  }
-
   ngOnInit(): void {
     this.settingsButtonInterval = setInterval(() => {
       // tslint:disable-next-line:triple-equals
