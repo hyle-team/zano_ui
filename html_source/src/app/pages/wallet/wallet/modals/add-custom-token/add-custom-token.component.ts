@@ -5,6 +5,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { VariablesService } from '@parts/services/variables.service';
+import { ZanoValidators } from '@parts/utils/zano-validators';
 
 @Component({
   selector: 'app-add-custom-token',
@@ -21,7 +22,7 @@ export class AddCustomTokenComponent {
   formGroup = new UntypedFormGroup({
     assetID: new UntypedFormControl(
       null,
-      Validators.compose([Validators.required])
+      Validators.compose([Validators.required, ZanoValidators.hash])
     ),
   });
 

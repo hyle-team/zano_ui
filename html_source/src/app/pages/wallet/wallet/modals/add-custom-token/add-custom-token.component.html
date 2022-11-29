@@ -21,7 +21,7 @@
         placeholder="Enter Asset ID"
         type="text"
       />
-      <div *ngIf="false" class="error">Some text</div>
+      <div *ngIf="formGroup.get('assetID').touched && formGroup.get('assetID').hasError('invalidHash')" class="error">Invalid hash</div>
     </div>
   </div>
 
