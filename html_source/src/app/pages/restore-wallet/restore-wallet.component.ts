@@ -170,9 +170,6 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
                           restore_data['wi'].mined_total,
                           restore_data['wi'].tracking_hey
                         );
-                        this.backend.getWalletInfo(
-                          this.variablesService.opening_wallet
-                        );
                         this.variablesService.opening_wallet.is_auditable =
                           restore_data['wi'].is_auditable;
                         this.variablesService.opening_wallet.is_watch_only =

@@ -168,7 +168,9 @@ export class WalletComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           this.setTabsDisabled(
-            this.variablesService.currentWallet.balance.eq(0)
+            // this.variablesService.currentWallet.balance.eq(0)
+            // TODO: fix
+            false
           );
         },
       });
@@ -258,7 +260,9 @@ export class WalletComponent implements OnInit, OnDestroy {
             )?.loaded || false;
           if (this.walletLoaded) {
             this.setTabsDisabled(
-              this.variablesService.currentWallet.balance.eq(0)
+              // this.variablesService.currentWallet.balance.eq(0)
+              // TODO: fix
+              false
             );
           }
         } else {

@@ -12,7 +12,6 @@ export interface Alias {
 }
 
 export class Wallet {
-  stop_paginate: boolean;
   open_from_exist: boolean;
   updated = false;
   wallet_id: number;
@@ -20,8 +19,7 @@ export class Wallet {
   pass: string;
   path: string;
   address: string;
-  balance: BigNumber;
-  unlocked_balance: BigNumber;
+  balances: Assets | null | undefined;
   mined_total: number;
   tracking_hey: string;
   is_auditable: boolean;
@@ -57,8 +55,6 @@ export class Wallet {
     hide: null,
   };
 
-  assets: Assets | null | undefined;
-
   constructor(
     id,
     name,
@@ -75,8 +71,7 @@ export class Wallet {
     this.pass = pass;
     this.path = path;
     this.address = address;
-    this.balance = balance;
-    this.unlocked_balance = unlocked_balance;
+    this.balances = balance;
     this.mined_total = mined;
     this.tracking_hey = tracking;
 
@@ -90,18 +85,6 @@ export class Wallet {
 
     this.progress = 0;
     this.loaded = false;
-  }
-
-  getMoneyEquivalent(equivalent): string {
-    return this.balance.multipliedBy(equivalent).toFixed(0);
-  }
-
-  havePass(): boolean {
-    return this.pass !== '' && this.pass !== null;
-  }
-
-  isActive(id): boolean {
-    return this.wallet_id === id;
   }
 
   prepareHistoryItem(item: Transaction): any {

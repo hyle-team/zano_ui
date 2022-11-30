@@ -1,8 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { DialogRef } from '@angular/cdk/dialog';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { DialogRef, DIALOG_DATA } from '@angular/cdk/dialog';
 import { VariablesService } from '@parts/services/variables.service';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { Asset } from '@api/models/assets.model';
 
 @Component({
   selector: 'app-asset-details',
@@ -12,10 +13,15 @@ import { takeUntil } from 'rxjs/operators';
 export class AssetDetailsComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
+  asset!: Asset;
+
   constructor(
     public variablesService: VariablesService,
-    private dialogRef: DialogRef
-  ) {}
+    private dialogRef: DialogRef,
+    @Inject(DIALOG_DATA) { asset }: { asset: Asset }
+  ) {
+    this.asset = asset;
+  }
 
   ngOnInit(): void {
     this.listenEventQuitRequested();

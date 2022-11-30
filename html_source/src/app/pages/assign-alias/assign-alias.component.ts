@@ -102,9 +102,10 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
                           this.variablesService.default_fee_big
                         );
                       }
-                      this.notEnoughMoney = this.alias.price.isGreaterThan(
-                        this.wallet.unlocked_balance
-                      );
+                      // this.notEnoughMoney = this.alias.price.isGreaterThan(
+                      //   this.wallet.unlocked_balance
+                      // );
+                      this.notEnoughMoney = false;
                       this.alias.reward = this.intToMoney.transform(
                         this.alias.price,
                         false

@@ -60,26 +60,17 @@
             </div>
           </div>
 
-          <div class="balance">
-            <span
-              [delay]="500"
-              [placement]="'bottom'"
-              [timeDelay]="1000"
-              [tooltipClass]="'balance-tooltip'"
-              [tooltip]="getBalanceTooltip(wallet.wallet_id)"
-              class="text-ellipsis mr-1"
-              >{{ wallet.balance | intToMoney: '3' }}</span
-            >
-            <span>{{ variablesService.defaultCurrency }}</span>
-          </div>
-
-          <h4 *appDisablePriceFetch class="price">
-            ${{
-              wallet.getMoneyEquivalent(variablesService.moneyEquivalent)
-                | intToMoney
-                | number: '1.2-2'
-            }}
-
+          <h4
+            *appDisablePriceFetch
+            class="price"
+            [delay]="500"
+            [placement]="'bottom'"
+            [timeDelay]="1000"
+            [tooltipClass]="'balance-tooltip'"
+            [tooltip]="getBalanceTooltip(wallet.wallet_id)"
+          >
+            <!-- TODO: Fix balance wallet  -->
+            ${{ 0 | intToMoney | number: '1.2-2' || '---' }}
             <span
               [class.red]="variablesService.moneyEquivalentPercent < 0"
               class="percent"
@@ -90,12 +81,8 @@
 
           <ng-container
             *ngIf="
-              (!wallet.is_auditable &&
-                !wallet.is_watch_only &&
-                wallet.balance.gt(0)) ||
-              (wallet.is_auditable &&
-                !wallet.is_watch_only &&
-                wallet.balance.gt(0))
+              (!wallet.is_auditable && !wallet.is_watch_only) ||
+              (wallet.is_auditable && !wallet.is_watch_only)
             "
           >
             <div

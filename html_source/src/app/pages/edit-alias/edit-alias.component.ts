@@ -38,9 +38,10 @@ export class EditAliasComponent implements OnInit {
       comment: alias.comment,
     };
     this.oldAliasComment = alias.comment;
-    this.notEnoughMoney = this.wallet.unlocked_balance.isLessThan(
-      this.variablesService.default_fee_big
-    );
+    // this.notEnoughMoney = this.wallet.unlocked_balance.isLessThan(
+    //   this.variablesService.default_fee_big
+    // );
+    this.notEnoughMoney = false;
   }
 
   updateAlias(): void {

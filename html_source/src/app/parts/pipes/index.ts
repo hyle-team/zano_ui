@@ -1,6 +1,5 @@
 export * from './contract-status-messages-pipe';
 export * from './contract-time-left-pipe';
-export * from './get-asset-info-by-id-pipe';
 export * from './history-type-messages-pipe';
 export * from './int-to-money-pipe';
 export * from './is-available-alias-name-pipe';

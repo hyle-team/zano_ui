@@ -91,6 +91,7 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
         this.variablesService.count,
         false,
         (open_status, open_data, open_error) => {
+          console.log('open_data', open_data);
           if (open_error === 'WRONG_PASSWORD') {
             this.ngZone.run(() => {
               this.openForm.get('password').setErrors({
@@ -140,7 +141,6 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
                   open_data['wi'].mined_total,
                   open_data['wi'].tracking_hey
                 );
-                this.backend.getWalletInfo(new_wallet);
                 new_wallet.alias = this.backend.getWalletAlias(
                   new_wallet.address
                 );

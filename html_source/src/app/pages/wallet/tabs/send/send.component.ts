@@ -20,9 +20,9 @@ import { MIXIN } from '@parts/data/constants';
 import { HttpClient } from '@angular/common/http';
 import { MoneyToIntPipe } from '@parts/pipes/money-to-int-pipe/money-to-int.pipe';
 import { finalize, takeUntil } from 'rxjs/operators';
-import { Observable, Subject } from 'rxjs';
-import { AssetInfo, AssetsInfo } from '@api/models/assets.model';
-import { StateKeys, Store } from '@store/store';
+import { Subject } from 'rxjs';
+import { AssetInfo } from '@api/models/assets.model';
+import { Store } from '@store/store';
 
 interface WrapInfo {
   tx_cost: {
@@ -190,12 +190,6 @@ export class SendComponent implements OnInit, OnDestroy {
   });
 
   defaultImgSrc = 'assets/icons/currency-icons/custom_token.svg';
-
-  get assetsInfo$(): Observable<AssetsInfo | null | undefined> {
-    return this.store.select<AssetsInfo | null | undefined>(
-      StateKeys.assetsInfo
-    );
-  }
 
   private destroy$ = new Subject<void>();
 

@@ -21,6 +21,8 @@ import * as highcharts from 'highcharts';
 import exporting from 'highcharts/modules/exporting.src';
 import { MoneyToIntPipeModule } from '@parts/pipes';
 import { OpenWalletModalComponent } from '@parts/modals/open-wallet-modal/open-wallet-modal.component';
+import { FlexModule } from '@angular/flex-layout';
+import { FormsModule } from '@angular/forms';
 
 export function highchartsFactory(): any[] {
   highcharts.setOptions({
@@ -62,6 +64,8 @@ export const translateModuleConfig: TranslateModuleConfig = {
     ContextMenuModule,
     ChartModule,
     MoneyToIntPipeModule,
+    FlexModule,
+    FormsModule,
   ],
   providers: [ContextMenuService, provideHighchartsFactory],
   bootstrap: [AppComponent],

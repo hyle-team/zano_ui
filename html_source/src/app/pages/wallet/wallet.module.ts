@@ -16,7 +16,6 @@ import { WalletDetailsComponent } from '../wallet-details/wallet-details.compone
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { DefaultImgModule } from '@parts/directives';
-import { GetAssetInfoByIdPipeModule } from '@parts/pipes/get-asset-info-by-id-pipe/get-asset-info-by-id-pipe.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { HistoryComponent } from './tabs/history/history.component';
 import { TransactionDetailsModule } from '@parts/components/transaction-details/transaction-details.module';
@@ -72,7 +71,6 @@ import { BackButtonModule } from '@parts/directives/back-button/back-button.modu
     ReactiveFormsModule,
     OverlayModule,
     DefaultImgModule,
-    GetAssetInfoByIdPipeModule,
     NgxPaginationModule,
     SwitchModule,
     TransactionDetailsModule,

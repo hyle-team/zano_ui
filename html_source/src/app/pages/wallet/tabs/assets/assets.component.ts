@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { VariablesService } from '@parts/services/variables.service';
-import { Observable, Subject } from 'rxjs';
-import { Asset, AssetsInfo } from '@api/models/assets.model';
-import { StateKeys, Store } from '@store/store';
+import { Subject } from 'rxjs';
+import { Asset } from '@api/models/assets.model';
+import { Store } from '@store/store';
 import { PaginatePipeArgs } from 'ngx-pagination';
 import { takeUntil } from 'rxjs/operators';
 import { CdkOverlayOrigin } from '@angular/cdk/overlay';
@@ -30,22 +30,21 @@ export class AssetsComponent implements OnInit, OnDestroy {
   }
 
   get isShowPagination(): boolean {
-    return (
-      this.variablesService.currentWallet.assets.length > this.itemsPerPage
-    );
+    const { currentWallet } = this.variablesService;
+    if (currentWallet) {
+      const { balances } = currentWallet;
+      return (balances?.length || 0) > this.itemsPerPage;
+    }
+    return false;
   }
 
   triggerOrigin!: CdkOverlayOrigin;
 
+  currentAsset!: Asset;
+
   isOpenDropDownMenu = false;
 
   defaultImgSrc = 'assets/icons/currency-icons/custom_token.svg';
-
-  get assetsInfo$(): Observable<AssetsInfo | null | undefined> {
-    return this.store.select<AssetsInfo | null | undefined>(
-      StateKeys.assetsInfo
-    );
-  }
 
   private destroy$ = new Subject<void>();
 
@@ -64,12 +63,21 @@ export class AssetsComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  toggleDropDownMenu(trigger: CdkOverlayOrigin): void {
-    this.triggerOrigin = trigger;
+  toggleDropDownMenu(trigger: CdkOverlayOrigin, asset: Asset): void {
     this.isOpenDropDownMenu = !this.isOpenDropDownMenu;
+    if (this.isOpenDropDownMenu) {
+      this.triggerOrigin = trigger;
+      this.currentAsset = asset;
+    } else {
+      this.triggerOrigin = undefined;
+      this.currentAsset = undefined;
+    }
   }
 
-  trackByAssets(index: number, { asset_id }: Asset): number | string {
+  trackByAssets(
+    index: number,
+    { asset_info: { asset_id } }: Asset
+  ): number | string {
     return asset_id || index;
   }
 
@@ -78,7 +86,17 @@ export class AssetsComponent implements OnInit, OnDestroy {
   }
 
   assetDetails(): void {
-    this.dialog.open(AssetDetailsComponent);
+    const config = {
+      data: {
+        asset: this.currentAsset,
+      },
+    };
+    this.dialog.open(AssetDetailsComponent, config);
+  }
+
+  removeAsset(): void {
+    // TODO: add functionality
+    return;
   }
 
   private listenChangeWallet(): void {

@@ -170,29 +170,25 @@
       </label>
       <ng-select
         [clearable]="false"
-        [items]="variablesService.currentWallet.assets"
+        [items]="variablesService.currentWallet.balances"
         [searchable]="false"
         formControlName="assets"
         class="custom-select with-circle"
       >
         <ng-template ng-option-tmp ng-label-tmp let-asset="item">
           <ng-container
-            *ngIf="
-              assetsInfo$
-                | async
-                | getAssetInfoById: asset.asset_id as assetInfo
-            "
+            *ngIf="true"
           >
             <img
               height="15"
               width="15"
-              [src]="assetInfo?.logo || defaultImgSrc"
-              [alt]="assetInfo?.ticker"
+              [src]="defaultImgSrc"
+              [alt]="asset.asset_info.ticker"
               defaultImgAlt="default"
               [defaultImgSrc]="defaultImgSrc"
               appDefaultImg
             />
-            {{ assetInfo?.title || '---' }}
+            {{ asset.asset_info.full_name || '---' }}
           </ng-container>
         </ng-template>
       </ng-select>

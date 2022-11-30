@@ -45,9 +45,10 @@ export class TransferAliasComponent implements OnInit {
       comment: alias.comment,
       tracking_key: alias.tracking_key,
     };
-    this.notEnoughMoney = this.wallet.unlocked_balance.isLessThan(
-      this.variablesService.default_fee_big
-    );
+    // this.notEnoughMoney = this.wallet.unlocked_balance.isLessThan(
+    //   this.variablesService.default_fee_big
+    // );
+    this.notEnoughMoney = false;
   }
 
   changeAddress(): void {

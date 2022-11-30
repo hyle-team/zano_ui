@@ -28,17 +28,13 @@
       <tbody>
         <ng-container
           *ngIf="
-            variablesService.currentWallet.assets
+            variablesService.currentWallet.balances
               | paginate: paginatePipeArgs as assets
           "
         >
           <ng-container *ngFor="let asset of assets; trackBy: trackByAssets">
             <ng-container
-              *ngIf="
-                assetsInfo$
-                  | async
-                  | getAssetInfoById: asset.asset_id as assetInfo
-              "
+              *ngIf="true"
             >
               <tr>
                 <td>
@@ -50,29 +46,29 @@
                   >
                     <div class="token-logo mr-1">
                       <img
-                        [src]="assetInfo?.logo || defaultImgSrc"
-                        [alt]="assetInfo?.ticker"
+                        [src]="defaultImgSrc"
+                        [alt]="asset.asset_info.ticker"
                         defaultImgAlt="default"
                         [defaultImgSrc]="defaultImgSrc"
                         appDefaultImg
                       />
                     </div>
-                    <b>{{ assetInfo?.title || '---' }}</b>
+                    <b>{{ asset.asset_info.full_name || '---' }}</b>
                   </div>
                 </td>
                 <td>
                   <div class="text-ellipsis">
-                    <b>{{ asset.balance }} {{ assetInfo?.ticker || '---' }}</b>
+                    <b>{{ asset.total | intToMoney }} {{ asset.asset_info.ticker || '---' }}</b>
                   </div>
                 </td>
                 <td>
                   <div class="text-ellipsis">
-                    <b>{{ 152 | currency: 'USD' }}</b>
+                    <b>{{ 999 | currency: 'USD' }}</b>
                   </div>
                 </td>
                 <td>
                   <div class="text-ellipsis">
-                    <b class="mr-0_5">{{ 1.02 | currency: 'USD' }}</b>
+                    <b class="mr-0_5">{{ 999 | currency: 'USD' }}</b>
                     <span [class.color-aqua]="true" [class.color-red]="false"
                       >+2.2%</span
                     >
@@ -87,7 +83,7 @@
                     <button
                       #trigger="cdkOverlayOrigin"
                       (click)="
-                        $event.stopPropagation(); toggleDropDownMenu(trigger)
+                        $event.stopPropagation(); toggleDropDownMenu(trigger, asset)
                       "
                       [disabled]="false"
                       cdkOverlayOrigin
@@ -178,7 +174,7 @@
       </button>
     </li>
     <li class="item">
-      <button [disabled]="false" class="w-100 px-2 py-1" type="button">
+      <button [disabled]="false" class="w-100 px-2 py-1" type="button" (click)="removeAsset()">
         <i class="icon delete mr-1"></i>
         <span>{{ 'Remove assets' | translate }}</span>
       </button>

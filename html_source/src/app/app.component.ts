@@ -16,7 +16,7 @@ import { IntToMoneyPipe } from '@parts/pipes';
 import { BigNumber } from 'bignumber.js';
 import { ModalService } from '@parts/services/modal.service';
 import { StateKeys, Store } from '@store/store';
-import { Subject } from 'rxjs';
+import { Subject, take } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { paths, pathsChildrenAuth } from './pages/paths';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
@@ -180,8 +180,8 @@ export class AppComponent implements OnInit, OnDestroy {
                 // error
                 // wallet.error = true;
               }
-              wallet.balance = data.balance;
-              wallet.unlocked_balance = data.unlocked_balance;
+              wallet.balances = data.balances;
+              // wallet.unlocked_balance = data.unlocked_balance;
               wallet.mined_total = data.minied_total;
               wallet.alias_available = data.is_alias_operations_available;
             });
@@ -310,11 +310,11 @@ export class AppComponent implements OnInit, OnDestroy {
             }
             this.ngZone.run(() => {
               if (!wallet.loaded) {
-                wallet.balance = data.balance;
-                wallet.unlocked_balance = data.unlocked_balance;
+                wallet.balances = data.balances;
+                // wallet.unlocked_balance = data.unlocked_balance;
               } else {
-                wallet.balance = data.balance;
-                wallet.unlocked_balance = data.unlocked_balance;
+                wallet.balances = data.balances;
+                // wallet.unlocked_balance = data.unlocked_balance;
               }
 
               if (tr_info.tx_type === 6) {
@@ -898,9 +898,9 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe({
         next: disable_price_fetch => {
           if (!disable_price_fetch) {
-            this.getMoneyEquivalent();
+            this.updateMoneyEquivalent();
             this.intervalUpdatePriceState = setInterval(() => {
-              this.getMoneyEquivalent();
+              this.updateMoneyEquivalent();
             }, 30000);
           } else {
             if (this.intervalUpdatePriceState) {
@@ -922,31 +922,35 @@ export class AppComponent implements OnInit, OnDestroy {
     this.expMedTsEvent.unsubscribe();
   }
 
-  getMoneyEquivalent(): void {
-    this.http.get('https://api.coingecko.com/api/v3/ping').subscribe({
-      next: () => {
-        this.http
-          .get(
-            'https://api.coingecko.com/api/v3/simple/price?ids=zano&vs_currencies=usd&include_24hr_change=true'
-          )
-          .subscribe({
-            next: data => {
-              this.variablesService.moneyEquivalent = data['zano']['usd'];
-              this.variablesService.moneyEquivalentPercent =
-                data['zano']['usd_24h_change'];
-            },
-            error: error => {
-              console.warn('api.coingecko.com price error: ', error);
-            },
-          });
-      },
-      error: error => {
-        console.warn('api.coingecko.com error: ', error);
-        setTimeout(() => {
-          this.getMoneyEquivalent();
-        }, 30000);
-      },
-    });
+  updateMoneyEquivalent(): void {
+    this.http
+      .get('https://api.coingecko.com/api/v3/ping')
+      .pipe(take(1))
+      .subscribe({
+        next: () => {
+          this.http
+            .get(
+              'https://api.coingecko.com/api/v3/simple/price?ids=zano&vs_currencies=usd&include_24hr_change=true'
+            )
+            .pipe(take(1))
+            .subscribe({
+              next: data => {
+                this.variablesService.moneyEquivalent = data['zano']['usd'];
+                this.variablesService.moneyEquivalentPercent =
+                  data['zano']['usd_24h_change'];
+              },
+              error: error => {
+                console.warn('api.coingecko.com price error: ', error);
+              },
+            });
+        },
+        error: error => {
+          console.warn('api.coingecko.com error: ', error);
+          setTimeout(() => {
+            this.updateMoneyEquivalent();
+          }, 30000);
+        },
+      });
   }
 
   getAliases(): void {

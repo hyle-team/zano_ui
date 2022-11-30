@@ -38,7 +38,6 @@ import { TransferAliasComponent } from './transfer-alias/transfer-alias.componen
 import {
   ContractStatusMessagesPipeModule,
   ContractTimeLeftPipeModule,
-  GetAssetInfoByIdPipeModule,
   HistoryTypeMessagesPipeModule,
   IntToMoneyPipeModule,
   IsAvailableAliasNamePipeModule,
@@ -95,7 +94,6 @@ import { BackButtonModule } from '@parts/directives/back-button/back-button.modu
     DefaultImgModule,
     ContractStatusMessagesPipeModule,
     ContractTimeLeftPipeModule,
-    GetAssetInfoByIdPipeModule,
     HistoryTypeMessagesPipeModule,
     IntToMoneyPipeModule,
     IsAvailableAliasNamePipeModule,
