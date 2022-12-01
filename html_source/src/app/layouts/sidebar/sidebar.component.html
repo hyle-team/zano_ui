@@ -68,16 +68,19 @@
               [tooltipClass]="'balance-tooltip'"
               [tooltip]="getBalanceTooltip(wallet.wallet_id)"
               class="text-ellipsis mr-1"
-            >{{ (wallet.getBalanceByTicker('ZANO')?.total || 0) | intToMoney: '3' }}</span
+              >{{
+                wallet.getBalanceByTicker('ZANO')?.total || 0 | intToMoney: '3'
+              }}</span
             >
             <span>{{ variablesService.defaultCurrency }}</span>
           </div>
 
-          <h4
-            *appDisablePriceFetch
-            class="price"
-          >
-            ${{ wallet.getMoneyEquivalentForZano(variablesService.moneyEquivalent) | intToMoney | number: '1.2-2' || '---' }}
+          <h4 *appDisablePriceFetch class="price">
+            ${{
+              wallet.getMoneyEquivalentForZano(variablesService.moneyEquivalent)
+                | intToMoney
+                | number: '1.2-2' || '---'
+            }}
             <span
               [class.red]="variablesService.moneyEquivalentPercent < 0"
               class="percent"

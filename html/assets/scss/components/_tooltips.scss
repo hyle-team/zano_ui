@@ -187,7 +187,7 @@
     font-size: 1.3rem;
 
     .available {
-      margin-bottom: 1.7rem;
+      margin-bottom: 0.7rem;
 
       b {
         font-weight: 600;
@@ -206,6 +206,13 @@
       cursor: pointer;
       color: var(--azure-500);
     }
+  }
+
+  .balance-scroll-list {
+    display: flex;
+    flex-direction: column;
+    max-height: 20rem;
+    overflow-y: auto;
   }
 
   &.ng-tooltip-top {

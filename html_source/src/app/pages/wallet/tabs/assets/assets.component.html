@@ -33,9 +33,7 @@
           "
         >
           <ng-container *ngFor="let asset of assets; trackBy: trackByAssets">
-            <ng-container
-              *ngIf="true"
-            >
+            <ng-container *ngIf="true">
               <tr>
                 <td>
                   <div
@@ -58,7 +56,10 @@
                 </td>
                 <td>
                   <div class="text-ellipsis">
-                    <b>{{ asset.total | intToMoney }} {{ asset.asset_info.ticker || '---' }}</b>
+                    <b
+                      >{{ asset.total | intToMoney }}
+                      {{ asset.asset_info.ticker || '---' }}</b
+                    >
                   </div>
                 </td>
                 <td>
@@ -83,7 +84,8 @@
                     <button
                       #trigger="cdkOverlayOrigin"
                       (click)="
-                        $event.stopPropagation(); toggleDropDownMenu(trigger, asset)
+                        $event.stopPropagation();
+                        toggleDropDownMenu(trigger, asset)
                       "
                       [disabled]="false"
                       cdkOverlayOrigin
@@ -174,7 +176,12 @@
       </button>
     </li>
     <li class="item">
-      <button [disabled]="false" class="w-100 px-2 py-1" type="button" (click)="removeAsset()">
+      <button
+        [disabled]="false"
+        class="w-100 px-2 py-1"
+        type="button"
+        (click)="removeAsset()"
+      >
         <i class="icon delete mr-1"></i>
         <span>{{ 'Remove assets' | translate }}</span>
       </button>

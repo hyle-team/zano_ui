@@ -119,14 +119,14 @@
   [cdkConnectedOverlayOrigin]="trigger"
   [cdkConnectedOverlayOpen]="openDropdown"
   [cdkConnectedOverlayPositions]="[
-          {
-            originX: 'end',
-            originY: 'top',
-            overlayX: 'end',
-            overlayY: 'top',
-            offsetY: 40
-          }
-        ]"
+    {
+      originX: 'end',
+      originY: 'top',
+      overlayX: 'end',
+      overlayY: 'top',
+      offsetY: 40
+    }
+  ]"
   cdkConnectedOverlay
 >
   <div (click)="toggleMenuDropdown()" class="content-bottom-right py-0_5">
@@ -166,9 +166,7 @@
       </li>
       <li class="item">
         <button
-          (click)="
-                  exportHistoryDialogVisible = !exportHistoryDialogVisible
-                "
+          (click)="exportHistoryDialogVisible = !exportHistoryDialogVisible"
           [delay]="500"
           [disabled]="variablesService.currentWallet.history.length <= 0"
           [timeDelay]="500"
@@ -186,10 +184,8 @@
         <li class="item">
           <button
             (click)="
-                    resyncCurrentWallet(
-                      variablesService.currentWallet.wallet_id
-                    )
-                  "
+              resyncCurrentWallet(variablesService.currentWallet.wallet_id)
+            "
             [delay]="500"
             [disabled]="!variablesService.currentWallet.loaded"
             [timeDelay]="500"
@@ -201,16 +197,14 @@
           >
             <i class="icon update mr-1"></i
             ><span>{{
-            'WALLET_DETAILS.RESYNC_WALLET_BUTTON' | translate
+              'WALLET_DETAILS.RESYNC_WALLET_BUTTON' | translate
             }}</span>
           </button>
         </li>
       </ng-container>
       <li class="item">
         <button
-          (click)="
-                  showConfirmDialog(variablesService.currentWallet.wallet_id)
-                "
+          (click)="showConfirmDialog(variablesService.currentWallet.wallet_id)"
           [delay]="500"
           [timeDelay]="500"
           class="w-100 px-2 py-1"
