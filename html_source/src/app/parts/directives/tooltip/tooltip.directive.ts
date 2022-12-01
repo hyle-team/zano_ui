@@ -48,6 +48,9 @@ export class TooltipDirective implements OnDestroy {
   constructor(private el: ElementRef, private renderer: Renderer2) {}
 
   @HostListener('mouseenter') onMouseEnter(): void {
+    if (!this.tooltipInner) {
+      return;
+    }
     if (
       this.showWhenNoOverflow ||
       (!this.showWhenNoOverflow &&
@@ -106,7 +109,9 @@ export class TooltipDirective implements OnDestroy {
     if (typeof this.tooltipInner === 'string') {
       innerBlock.innerHTML = this.tooltipInner;
     } else {
-      innerBlock = this.tooltipInner;
+      if (this.tooltipInner) {
+        innerBlock = this.tooltipInner;
+      }
     }
     this.renderer.addClass(innerBlock, 'tooltip-inner');
     this.renderer.addClass(innerBlock, 'scrolled-content');

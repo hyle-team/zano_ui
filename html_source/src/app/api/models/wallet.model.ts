@@ -1,7 +1,7 @@
 import { Contract } from './contract.model';
 import { Transaction } from './transaction.model';
 import { BigNumber } from 'bignumber.js';
-import { Assets } from './assets.model';
+import { Asset, Assets } from './assets.model';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 
 export interface Alias {
@@ -85,6 +85,17 @@ export class Wallet {
 
     this.progress = 0;
     this.loaded = false;
+  }
+
+  getBalanceByTicker(searchTicker: string): Asset | undefined {
+    return this.balances?.find(
+      ({ asset_info: { ticker } }) => ticker === searchTicker
+    );
+  }
+
+  getMoneyEquivalentForZano(equivalent): string {
+    const balanceZano = this.getBalanceByTicker('ZANO')?.total || 0;
+    return new BigNumber(balanceZano).multipliedBy(equivalent).toFixed(0);
   }
 
   prepareHistoryItem(item: Transaction): any {

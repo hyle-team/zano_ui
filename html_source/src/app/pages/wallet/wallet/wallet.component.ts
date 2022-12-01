@@ -167,11 +167,7 @@ export class WalletComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: () => {
-          this.setTabsDisabled(
-            // this.variablesService.currentWallet.balance.eq(0)
-            // TODO: fix
-            false
-          );
+          this.setTabsDisabled(!this.variablesService.currentWallet.balances);
         },
       });
   }
@@ -259,11 +255,7 @@ export class WalletComponent implements OnInit, OnDestroy {
               this.variablesService.currentWallet.wallet_id
             )?.loaded || false;
           if (this.walletLoaded) {
-            this.setTabsDisabled(
-              // this.variablesService.currentWallet.balance.eq(0)
-              // TODO: fix
-              false
-            );
+            this.setTabsDisabled(!this.variablesService.currentWallet.balances);
           }
         } else {
           this.walletLoaded = false;

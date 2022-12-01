@@ -7,7 +7,7 @@ import { PaginatePipeArgs } from 'ngx-pagination';
 import { takeUntil } from 'rxjs/operators';
 import { CdkOverlayOrigin } from '@angular/cdk/overlay';
 import { AssetDetailsComponent } from './modals/asset-details/asset-details.component';
-import { Dialog } from '@angular/cdk/dialog';
+import { Dialog, DialogConfig } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-assets',
@@ -86,12 +86,12 @@ export class AssetsComponent implements OnInit, OnDestroy {
   }
 
   assetDetails(): void {
-    const config = {
+    const dialogConfig: DialogConfig = {
       data: {
         asset: this.currentAsset,
       },
     };
-    this.dialog.open(AssetDetailsComponent, config);
+    this.dialog.open(AssetDetailsComponent, dialogConfig);
   }
 
   removeAsset(): void {

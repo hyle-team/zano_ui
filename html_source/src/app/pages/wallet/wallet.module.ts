@@ -15,7 +15,7 @@ import { ExportHistoryModalModule } from './wallet/modals/export-history-modal/e
 import { WalletDetailsComponent } from '../wallet-details/wallet-details.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { DefaultImgModule } from '@parts/directives';
+import { DefaultImgModule, InputValidateModule } from '@parts/directives';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { HistoryComponent } from './tabs/history/history.component';
 import { TransactionDetailsModule } from '@parts/components/transaction-details/transaction-details.module';
@@ -39,6 +39,7 @@ import {
   IntToMoneyPipeModule,
 } from '@parts/pipes';
 import { BackButtonModule } from '@parts/directives/back-button/back-button.module';
+import { CheckboxModule } from '@parts/components/checkbox/checkbox.module';
 
 @NgModule({
   declarations: [
@@ -84,6 +85,8 @@ import { BackButtonModule } from '@parts/directives/back-button/back-button.modu
     ContractStatusMessagesPipeModule,
     HistoryTypeMessagesPipeModule,
     BackButtonModule,
+    InputValidateModule,
+    CheckboxModule,
   ],
 })
 export class WalletModule {}

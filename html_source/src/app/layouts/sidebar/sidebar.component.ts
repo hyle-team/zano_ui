@@ -124,11 +124,11 @@ export class SidebarComponent {
     });
   }
 
-  getBalanceTooltip(id: number): null | any {
+  getBalanceTooltip(id: number): HTMLDivElement {
     const wallet = this.variablesService.getWallet(id);
     const tooltip = document.createElement('div');
     const scrollWrapper = document.createElement('div');
-    if (!wallet || !wallet.balances || !tooltip || !scrollWrapper) {
+    if (!wallet || !wallet.balances) {
       return null;
     }
 

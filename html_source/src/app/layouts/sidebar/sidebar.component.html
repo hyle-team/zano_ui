@@ -60,17 +60,24 @@
             </div>
           </div>
 
+          <div class="balance">
+            <span
+              [delay]="500"
+              [placement]="'bottom'"
+              [timeDelay]="1000"
+              [tooltipClass]="'balance-tooltip'"
+              [tooltip]="getBalanceTooltip(wallet.wallet_id)"
+              class="text-ellipsis mr-1"
+            >{{ (wallet.getBalanceByTicker('ZANO')?.total || 0) | intToMoney: '3' }}</span
+            >
+            <span>{{ variablesService.defaultCurrency }}</span>
+          </div>
+
           <h4
             *appDisablePriceFetch
             class="price"
-            [delay]="500"
-            [placement]="'bottom'"
-            [timeDelay]="1000"
-            [tooltipClass]="'balance-tooltip'"
-            [tooltip]="getBalanceTooltip(wallet.wallet_id)"
           >
-            <!-- TODO: Fix balance wallet  -->
-            ${{ 0 | intToMoney | number: '1.2-2' || '---' }}
+            ${{ wallet.getMoneyEquivalentForZano(variablesService.moneyEquivalent) | intToMoney | number: '1.2-2' || '---' }}
             <span
               [class.red]="variablesService.moneyEquivalentPercent < 0"
               class="percent"
