@@ -1,0 +1,190 @@
+<div fxFlexFill fxLayout="column">
+  <div
+    class="scrolled-content"
+    [class.mb-2]="isShowPagination"
+    fxFlex="1 1 auto"
+  >
+    <table class="assets-table">
+      <thead>
+        <tr>
+          <th>
+            <div class="bg title">{{ 'Name' | translate }}</div>
+          </th>
+          <th>
+            <div class="bg title">{{ 'Balance' | translate }}</div>
+          </th>
+          <th>
+            <div class="bg title">{{ 'Value' | translate }}</div>
+          </th>
+          <th>
+            <div class="bg title">{{ 'Price' | translate }}</div>
+          </th>
+          <th>
+            <div class="bg title">&nbsp;</div>
+          </th>
+        </tr>
+        <div class="row-divider"></div>
+      </thead>
+      <tbody>
+        <ng-container
+          *ngIf="
+            variablesService.currentWallet.balances
+              | paginate: paginatePipeArgs as assets
+          "
+        >
+          <ng-container *ngFor="let asset of assets; trackBy: trackByAssets">
+            <ng-container *ngIf="true">
+              <tr>
+                <td>
+                  <div
+                    class="text-ellipsis"
+                    fxLayout="row"
+                    fxLayoutAlign="start center"
+                    fxLayoutGap="2rem"
+                  >
+                    <div class="token-logo mr-1">
+                      <img
+                        [src]="defaultImgSrc"
+                        [alt]="asset.asset_info.ticker"
+                        defaultImgAlt="default"
+                        [defaultImgSrc]="defaultImgSrc"
+                        appDefaultImg
+                      />
+                    </div>
+                    <b>{{ asset.asset_info.full_name || '---' }}</b>
+                  </div>
+                </td>
+                <td>
+                  <div class="text-ellipsis">
+                    <b
+                      >{{ asset.total | intToMoney }}
+                      {{ asset.asset_info.ticker || '---' }}</b
+                    >
+                  </div>
+                </td>
+                <td>
+                  <div class="text-ellipsis">
+                    <b>{{ 999 | currency: 'USD' }}</b>
+                  </div>
+                </td>
+                <td>
+                  <div class="text-ellipsis">
+                    <b class="mr-0_5">{{ 999 | currency: 'USD' }}</b>
+                    <span [class.color-aqua]="true" [class.color-red]="false"
+                      >+2.2%</span
+                    >
+                  </div>
+                </td>
+                <td>
+                  <div
+                    class="text-ellipsis"
+                    fxLayout="row"
+                    fxLayoutAlign="end center"
+                  >
+                    <button
+                      #trigger="cdkOverlayOrigin"
+                      (click)="
+                        $event.stopPropagation();
+                        toggleDropDownMenu(trigger, asset)
+                      "
+                      [disabled]="false"
+                      cdkOverlayOrigin
+                      class="btn-icon circle small ml-auto"
+                      type="button"
+                    >
+                      <i class="icon dots rotate-90"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <div class="row-divider"></div>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+
+  <pagination-template
+    *ngIf="isShowPagination"
+    #p="paginationApi"
+    [id]="paginationId"
+    class="ngx-pagination custom-pagination"
+    (pageChange)="currentPage = $event"
+  >
+    <button
+      (click)="p.previous()"
+      [disabled]="p.isFirstPage()"
+      class="pagination-previous btn-icon circle small mr-0_5"
+    >
+      <i class="icon arrow-left-stroke"></i>
+    </button>
+
+    <div
+      *ngFor="let page of p.pages; trackBy: trackByPages"
+      [class.current]="p.getCurrent() === page.value"
+      class="mr-0_5"
+    >
+      <a
+        (click)="p.setCurrent(page.value)"
+        *ngIf="p.getCurrent() !== page.value"
+      >
+        <span>{{ page.label }}</span>
+      </a>
+      <div *ngIf="p.getCurrent() === page.value">
+        <span>{{ page.label }}</span>
+      </div>
+    </div>
+
+    <button
+      (click)="p.next()"
+      [disabled]="p.isLastPage()"
+      class="pagination-next btn-icon circle small"
+    >
+      <i class="icon arrow-right-stroke"></i>
+    </button>
+  </pagination-template>
+</div>
+
+<ng-template
+  (backdropClick)="$event.stopPropagation(); isOpenDropDownMenu = false"
+  [cdkConnectedOverlayBackdropClass]="'opacity-0'"
+  [cdkConnectedOverlayHasBackdrop]="true"
+  [cdkConnectedOverlayOrigin]="triggerOrigin"
+  [cdkConnectedOverlayOpen]="isOpenDropDownMenu"
+  [cdkConnectedOverlayPositions]="[
+    {
+      originX: 'end',
+      originY: 'top',
+      overlayX: 'end',
+      overlayY: 'top',
+      offsetY: 30
+    }
+  ]"
+  cdkConnectedOverlay
+>
+  <ul (click)="isOpenDropDownMenu = false" class="list">
+    <li class="item">
+      <button
+        [disabled]="false"
+        class="w-100 px-2 py-1"
+        type="button"
+        (click)="assetDetails()"
+      >
+        <i class="icon info-icon mr-1"></i>
+        <span>{{ 'Asset Details' | translate }}</span>
+      </button>
+    </li>
+    <li class="item">
+      <button
+        [disabled]="false"
+        class="w-100 px-2 py-1"
+        type="button"
+        (click)="removeAsset()"
+      >
+        <i class="icon delete mr-1"></i>
+        <span>{{ 'Remove assets' | translate }}</span>
+      </button>
+    </li>
+  </ul>
+</ng-template>

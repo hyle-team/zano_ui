@@ -4,18 +4,33 @@ import { ButtonsComponent, FormModule, ProgressBarsComponent } from './';
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { WalletsComponent } from './wallets/wallets.component';
-import { SharedModule } from '../../../../_shared/shared.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { SwitchModule } from '@parts/components/switch/switch.module';
+import { CheckboxModule } from '@parts/components/checkbox/checkbox.module';
 
 @NgModule({
-  declarations: [ButtonsComponent, ProgressBarsComponent, BreadcrumbsComponent, WalletsComponent],
+  declarations: [
+    ButtonsComponent,
+    ProgressBarsComponent,
+    BreadcrumbsComponent,
+    WalletsComponent,
+  ],
   imports: [
     CommonModule,
     TranslateModule,
     FormModule,
     FlexLayoutModule,
-    SharedModule
+    SwitchModule,
+    CheckboxModule,
+    DragDropModule,
   ],
-  exports: [ButtonsComponent, ProgressBarsComponent, BreadcrumbsComponent, WalletsComponent, FormModule]
+  exports: [
+    ButtonsComponent,
+    ProgressBarsComponent,
+    BreadcrumbsComponent,
+    WalletsComponent,
+    FormModule,
+  ],
 })
-export class ComponentsModule { }
+export class ComponentsModule {}

@@ -1,0 +1,82 @@
+<div
+  class="p-2 border-radius-0_8-rem bg-light-blue w-100 max-h-90-vh"
+  fxFlex="0 1 54rem"
+>
+  <div class="overflow-hidden" fxFlexFill fxLayout="column">
+    <ng-container *ngIf="asset; else templateEmpty">
+      <h3 class="title mb-2" fxFlex="0 0 auto">
+        {{ 'Asset Details' | translate }}
+      </h3>
+      <div
+        class="content mb-2 w-100 overflow-x-hidden overflow-y-auto"
+        fxFlex="1 1 auto"
+      >
+        <div class="table-info">
+          <div class="row">
+            <div class="label max-w-19-rem w-100">
+              {{ 'Asset name' | translate }}
+            </div>
+            <div class="text">{{ asset.asset_info.full_name }}</div>
+          </div>
+
+          <hr class="separator" />
+
+          <div class="row">
+            <div class="label max-w-19-rem w-100">
+              {{ 'Ticker' | translate }}
+            </div>
+            <div class="text">{{ asset.asset_info.ticker }}</div>
+          </div>
+
+          <hr class="separator" />
+
+          <div class="row">
+            <div class="label max-w-19-rem w-100">
+              {{ 'Asset ID' | translate }}
+            </div>
+            <div
+              class="text"
+              (contextmenu)="
+                variablesService.onContextMenuOnlyCopy(
+                  $event,
+                  asset.asset_info.asset_id
+                )
+              "
+            >
+              {{ asset.asset_info.asset_id }}
+            </div>
+          </div>
+
+          <hr class="separator" />
+
+          <div class="row">
+            <div class="label max-w-19-rem w-100">
+              {{ 'Current supply' | translate }}
+            </div>
+            <div class="text">{{ asset.asset_info.current_supply }}</div>
+          </div>
+
+          <hr class="separator" />
+
+          <div class="row">
+            <div class="label max-w-19-rem w-100">
+              {{ 'Max supply' | translate }}
+            </div>
+            <div class="text">{{ asset.asset_info.total_max_supply }}</div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #templateEmpty> No data </ng-template>
+    <div
+      class="controls w-100"
+      fxFlex="0 0 auto"
+      fxLayout="row nowrap"
+      fxLayoutGap="1rem"
+    >
+      <button (click)="close()" class="outline big w-100" type="button">
+        {{ 'CONFIRM.BUTTON_CANCEL' | translate }}
+      </button>
+    </div>
+  </div>
+</div>

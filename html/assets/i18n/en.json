@@ -237,6 +237,7 @@
       "MESSAGE": "To access it you’ll have to add it again"
     },
     "TABS": {
+      "ASSETS": "Assets",
       "SEND": "Send",
       "RECEIVE": "Receive",
       "HISTORY": "History",
@@ -248,7 +249,12 @@
       "EDIT_ALIAS": "Edit alias",
       "TRANSFER_ALIAS": "Transfer alias",
       "SETTINGS": "Settings",
+      "ADD_CUSTOM_TOKEN": "Add Custom Token",
       "CLOSE": "Close wallet"
+    },
+    "MODAL_ADD_CUSTOM_TOKEN": {
+      "TITLE": "Add Custom Token",
+      "FIELD_TITLE": "Asset ID"
     }
   },
   "WALLET_DETAILS": {
@@ -266,6 +272,7 @@
     "SEED_IS_SECURED": "Seed is secured",
     "REMEMBER_YOU_WILL_REQUIRE": "Secure seed will require password to restore.",
     "WALLET_OPTIONS": "Wallet options...",
+    "ADD_CUSTOM_TOKEN": "Add Custom Token",
     "FORM": {
       "CONFIRM_PASSWORD": "Confirm password",
       "GENERATE_SECURE_SEED": "Generate Secure Seed",
@@ -550,7 +557,8 @@
     "SUCCESS": "Success",
     "INFO": "Information",
     "OK": "OK",
-    "CANCEL": "Cancel"
+    "CANCEL": "Cancel",
+    "ADD_TOKEN": "Add token"
   },
   "CONFIRM": {
     "BUTTON_CONFIRM": "Send",

@@ -176,6 +176,7 @@
     "LOCKED_BALANCE": "Vérouillé<b>{{locked}}{{currency}}<b/>",
     "LOCKED_BALANCE_LINK": "Que signifie cela?",
     "TABS": {
+      "ASSETS": "Assets",
       "SEND": "Envoyer",
       "RECEIVE": "Recevoir",
       "HISTORY": "Historique",

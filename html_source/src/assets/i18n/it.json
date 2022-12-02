@@ -176,6 +176,7 @@
     "LOCKED_BALANCE": "Bloccato <b>{{locked}} {{currency}}<b/>",
     "LOCKED_BALANCE_LINK": "Che cosa significa?",
     "TABS": {
+      "ASSETS": "Assets",
       "SEND": "Invia",
       "RECEIVE": "Ricevi",
       "HISTORY": "Storico",

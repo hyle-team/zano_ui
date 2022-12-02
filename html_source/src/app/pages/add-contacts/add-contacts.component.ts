@@ -1,0 +1,193 @@
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
+import {
+  UntypedFormControl,
+  UntypedFormGroup,
+  ValidationErrors,
+  Validators,
+} from '@angular/forms';
+import { BackendService } from '@api/services/backend.service';
+import { VariablesService } from '@parts/services/variables.service';
+import { ModalService } from '@parts/services/modal.service';
+import { ActivatedRoute } from '@angular/router';
+import { Subject } from 'rxjs';
+
+@Component({
+  selector: 'app-add-contacts',
+  templateUrl: './add-contacts.component.html',
+  styleUrls: ['./add-contacts.component.scss'],
+})
+export class AddContactsComponent implements OnInit, OnDestroy {
+  id: number;
+
+  isModalDialogVisible;
+
+  addContactForm = new UntypedFormGroup({
+    address: new UntypedFormControl('', [
+      Validators.required,
+      (g: UntypedFormControl): ValidationErrors | null => {
+        if (g.value) {
+          this.backend.validateAddress(g.value, valid_status => {
+            this.ngZone.run(() => {
+              if (valid_status === false) {
+                g.setErrors(
+                  Object.assign({ address_not_valid: true }, g.errors)
+                );
+              } else {
+                if (g.hasError('address_not_valid')) {
+                  delete g.errors['address_not_valid'];
+                  if (Object.keys(g.errors).length === 0) {
+                    g.setErrors(null);
+                  }
+                }
+              }
+            });
+          });
+          return g.hasError('address_not_valid')
+            ? { address_not_valid: true }
+            : null;
+        }
+        return null;
+      },
+      (g: UntypedFormControl): ValidationErrors | null => {
+        const isDublicated = this.variablesService.contacts.findIndex(
+          contact => contact.address === g.value
+        );
+        if (isDublicated !== -1 && !(this.id === isDublicated)) {
+          return { dublicated: true };
+        }
+        return null;
+      },
+    ]),
+    notes: new UntypedFormControl('', [
+      (g: UntypedFormControl): ValidationErrors | null => {
+        if (g.value) {
+          if (g.value.length > this.variablesService.maxCommentLength) {
+            return { maxLength: true };
+          } else {
+            return null;
+          }
+        } else {
+          return null;
+        }
+      },
+    ]),
+    name: new UntypedFormControl('', [
+      Validators.required,
+      Validators.minLength(4),
+      Validators.maxLength(25),
+      (g: UntypedFormControl): ValidationErrors | null => {
+        if (g.value) {
+          const isDublicated = this.variablesService.contacts.findIndex(
+            contact => contact.name === g.value.trim()
+          );
+          if (isDublicated !== -1 && !(this.id === isDublicated)) {
+            return { dublicated: true };
+          }
+          return null;
+        }
+      },
+    ]),
+  });
+
+  private destroy$ = new Subject<void>();
+
+  constructor(
+    public variablesService: VariablesService,
+    private route: ActivatedRoute,
+    private backend: BackendService,
+    private modalService: ModalService,
+    private ngZone: NgZone
+  ) {}
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe({
+      next: params => {
+        if (params.id) {
+          this.id = parseInt(params.id, 10);
+          this.addContactForm.reset({
+            name: this.variablesService.contacts[params.id]['name'],
+            address: this.variablesService.contacts[params.id]['address'],
+            notes: this.variablesService.contacts[params.id]['notes'],
+          });
+        } else {
+          this.addContactForm.reset({
+            name: this.variablesService.newContact['name'],
+            address: this.variablesService.newContact['address'],
+            notes: this.variablesService.newContact['notes'],
+          });
+        }
+      },
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (!(this.id || this.id === 0)) {
+      this.variablesService.newContact = {
+        name: this.addContactForm.get('name').value,
+        address: this.addContactForm.get('address').value,
+        notes: this.addContactForm.get('notes').value,
+      };
+    }
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  add(): void {
+    if (!this.variablesService.appPass) {
+      this.modalService.prepareModal(
+        'error',
+        'CONTACTS.FORM_ERRORS.SET_MASTER_PASSWORD'
+      );
+    } else {
+      if (this.addContactForm.valid) {
+        this.backend.validateAddress(
+          this.addContactForm.get('address').value,
+          valid_status => {
+            if (valid_status === false) {
+              this.ngZone.run(() => {
+                this.addContactForm
+                  .get('address')
+                  .setErrors({ address_not_valid: true });
+              });
+            } else {
+              if (this.id || this.id === 0) {
+                this.variablesService.contacts.forEach((contact, index) => {
+                  if (index === this.id) {
+                    contact.name = this.addContactForm.get('name').value.trim();
+                    contact.address = this.addContactForm.get('address').value;
+                    contact.notes =
+                      this.addContactForm.get('notes').value || '';
+                  }
+                });
+                this.backend.storeSecureAppData();
+                this.backend.getContactAlias();
+                this.modalService.prepareModal(
+                  'success',
+                  'CONTACTS.SUCCESS_SAVE'
+                );
+              } else {
+                this.variablesService.contacts.push({
+                  name: this.addContactForm.get('name').value.trim(),
+                  address: this.addContactForm.get('address').value,
+                  notes: this.addContactForm.get('notes').value || '',
+                });
+                this.backend.storeSecureAppData();
+                this.backend.getContactAlias();
+                this.modalService.prepareModal(
+                  'success',
+                  'CONTACTS.SUCCESS_SENT'
+                );
+                this.variablesService.newContact = {
+                  name: null,
+                  address: null,
+                  notes: null,
+                };
+                this.addContactForm.reset();
+              }
+            }
+          }
+        );
+      }
+    }
+  }
+}
