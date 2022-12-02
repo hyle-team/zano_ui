@@ -24,7 +24,12 @@
     <button (click)="close()" class="outline big w-100" type="button">
       {{ 'MODALS.CANCEL' | translate }}
     </button>
-    <button #buttonSubmit (click)="submit()" class="primary big w-100" type="button">
+    <button
+      #buttonSubmit
+      (click)="submit()"
+      class="primary big w-100"
+      type="button"
+    >
       {{ 'MODALS.OK' | translate }}
     </button>
   </div>

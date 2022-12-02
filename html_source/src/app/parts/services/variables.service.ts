@@ -18,8 +18,6 @@ export class VariablesService {
 
   use_debug_mode$ = new BehaviorSubject<boolean>(false);
 
-  request_on_in = {};
-
   stop_paginate = {};
 
   sync_started = false;
@@ -102,8 +100,6 @@ export class VariablesService {
 
   currentWallet: Wallet;
 
-  selectWallet: number;
-
   aliases: any = [];
 
   aliasesChecked: any = {};
@@ -117,8 +113,6 @@ export class VariablesService {
   dataIsLoaded = false;
 
   contacts: Array<Contact> = [];
-
-  newContact: Contact = { name: null, address: null, notes: null };
 
   pattern = '^[a-zA-Z0-9_.\\]*|~!?@#$%^&+{}()<>:;"\'-=/,[\\\\]*$';
 

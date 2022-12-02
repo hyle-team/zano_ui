@@ -1,6 +1,6 @@
 export class Contact {
   name: string;
   address: string;
-  alias?;
+  alias?: any;
   notes: string;
 }

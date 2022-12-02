@@ -26,8 +26,13 @@
         <div class="row-divider"></div>
       </thead>
       <tbody>
-      <ng-container *ngIf="variablesService.currentWallet.balances as assets">
-          <ng-container *ngFor="let asset of assets | paginate: paginatePipeArgs; trackBy: trackByAssets">
+        <ng-container *ngIf="variablesService.currentWallet.balances as assets">
+          <ng-container
+            *ngFor="
+              let asset of assets | paginate: paginatePipeArgs;
+              trackBy: trackByAssets
+            "
+          >
             <tr>
               <td>
                 <div

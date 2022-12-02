@@ -15,8 +15,9 @@
       *ngFor="let wallet of variablesService.wallets"
       [cdkDragData]="wallet"
       [ngClass]="{
-        'active': wallet?.wallet_id === variablesService?.currentWallet?.wallet_id,
-        'auditable': wallet.is_auditable && !wallet.is_watch_only,
+        active:
+          wallet?.wallet_id === variablesService?.currentWallet?.wallet_id,
+        auditable: wallet.is_auditable && !wallet.is_watch_only,
         'watch-only': wallet.is_watch_only
       }"
       [wallet]="wallet"
@@ -27,7 +28,6 @@
   </div>
 
   <div class="sidebar-nav scrolled-content">
-    <!-- ui-kit -->
     <ng-container *ngIf="false">
       <button
         [routerLink]="['/ui-kit']"
@@ -40,7 +40,6 @@
       </button>
     </ng-container>
 
-    <!-- add wallet -->
     <button
       (click)="goMainPage()"
       class="outline small w-100 mb-1 px-2"
@@ -51,39 +50,6 @@
       <span>{{ 'SIDEBAR.ADD_NEW' | translate }}</span>
     </button>
 
-    <!-- contact -->
-    <!-- TODO: Uncomment if needed page contact. If you want deleted, please ask Ravaga -->
-
-    <!--        <ng-container *ngIf="variablesService.appPass === ''; else contactsShow">-->
-    <!--            <button class="outline small w-100 mb-1 px-2"-->
-    <!--                    fxLayout="row inline wrap"-->
-    <!--                    fxLayoutAlign="start center"-->
-    <!--                    routerLinkActive="active"-->
-    <!--                    tooltip="{{ 'SIDEBAR.CONTACTS_TOOLTIP' | translate }}"-->
-    <!--                    placement="top"-->
-    <!--                    tooltipClass="table-tooltip account-tooltip"-->
-    <!--                    [delay]="500"-->
-    <!--                    [timeDelay]="500"-->
-    <!--                    [disabled]="variablesService.daemon_state !== 2 || variablesService.appPass === ''"-->
-    <!--                    (click)="contactsRoute()">-->
-    <!--                <i class="icon contacts mr-1"></i>-->
-    <!--                <span>{{ 'SIDEBAR.CONTACTS' | translate }}</span>-->
-    <!--            </button>-->
-    <!--        </ng-container>-->
-
-    <!--        <ng-template #contactsShow>-->
-    <!--            <button class="outline small w-100 mb-1 px-2"-->
-    <!--                    fxLayout="row inline wrap"-->
-    <!--                    fxLayoutAlign="start center"-->
-    <!--                    routerLinkActive="active"-->
-    <!--                    (click)="contactsRoute()"-->
-    <!--                    [disabled]="variablesService.daemon_state !== 2">-->
-    <!--                <i class="icon contacts mr-1"></i>-->
-    <!--                <span>{{ 'SIDEBAR.CONTACTS' | translate }}</span>-->
-    <!--            </button>-->
-    <!--        </ng-template>-->
-
-    <!-- settings -->
     <button
       [routerLink]="['/settings']"
       class="outline small w-100 mb-1 px-2"
@@ -92,10 +58,9 @@
       routerLinkActive="active"
     >
       <i class="icon settings mr-1"></i>
-      <span> {{ 'SIDEBAR.SETTINGS' | translate }}</span>
+      <span>{{ 'SIDEBAR.SETTINGS' | translate }}</span>
     </button>
 
-    <!-- Log out -->
     <ng-container *ngIf="variablesService.appPass === ''; else masterPass">
       <button
         (click)="logOut()"
@@ -110,7 +75,7 @@
         tooltipClass="table-tooltip account-tooltip"
       >
         <i class="icon logout mr-1"></i>
-        <span> {{ 'SIDEBAR.LOG_OUT' | translate }}</span>
+        <span>{{ 'SIDEBAR.LOG_OUT' | translate }}</span>
       </button>
     </ng-container>
 

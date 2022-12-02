@@ -15,9 +15,6 @@ import { AssignAliasComponent } from './assign-alias/assign-alias.component';
 import { EditAliasComponent } from './edit-alias/edit-alias.component';
 import { PurchaseComponent } from './wallet/tabs/contracts/purchase/purchase.component';
 import { ModalContainerComponent } from '@parts/modals/modal-container/modal-container.component';
-import { ContactsComponent } from './contacts/contacts.component';
-import { AddContactsComponent } from './add-contacts/add-contacts.component';
-import { ContactSendComponent } from './contact-send/contact-send.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { DisablePriceFetchModule, DefaultImgModule } from '@parts/directives';
 import { TooltipModule } from '@parts/directives/tooltip/tooltip.module';
@@ -63,9 +60,6 @@ import { BackButtonModule } from '@parts/directives/back-button/back-button.modu
     TransferAliasComponent,
     PurchaseComponent,
     ModalContainerComponent,
-    ContactsComponent,
-    AddContactsComponent,
-    ContactSendComponent,
   ],
   imports: [
     CommonModule,
