@@ -1,25 +1,27 @@
-import { Component, NgZone } from '@angular/core';
+import { Component, NgZone, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VariablesService } from '@parts/services/variables.service';
 import { BackendService } from '@api/services/backend.service';
 import { ModalService } from '@parts/services/modal.service';
-import { LOCKED_BALANCE_HELP_PAGE } from '@parts/data/constants';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Wallet } from '@api/models/wallet.model';
 import { TranslateService } from '@ngx-translate/core';
 import { IntToMoneyPipe } from '@parts/pipes/int-to-money-pipe/int-to-money.pipe';
-import { Asset } from '@api/models/assets.model';
-import { BigNumber } from 'bignumber.js';
+import { Dialog, DialogConfig } from '@angular/cdk/dialog';
+import {
+  ConfirmModalComponent,
+  ConfirmModalData,
+} from '@parts/modals/confirm-modal/confirm-modal.component';
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
 })
-export class SidebarComponent {
-  isModalDialogVisible = false;
-
-  closeWalletId: number;
+export class SidebarComponent implements OnDestroy {
+  private destroy$ = new Subject<void>();
 
   constructor(
     public variablesService: VariablesService,
@@ -29,8 +31,14 @@ export class SidebarComponent {
     private modal: ModalService,
     private translate: TranslateService,
     private intToMoneyPipe: IntToMoneyPipe,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private dialog: Dialog
   ) {}
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
   goMainPage(): void {
     if (
@@ -54,19 +62,6 @@ export class SidebarComponent {
     });
   }
 
-  contactsRoute(): void {
-    if (this.variablesService.appPass) {
-      this.ngZone.run(() => {
-        this.router.navigate(['/contacts']);
-      });
-    } else {
-      this.modal.prepareModal(
-        'error',
-        'CONTACTS.FORM_ERRORS.SET_MASTER_PASSWORD'
-      );
-    }
-  }
-
   drop(event: CdkDragDrop<Wallet[]>): void {
     moveItemInArray(
       this.variablesService.wallets,
@@ -75,16 +70,20 @@ export class SidebarComponent {
     );
   }
 
-  showDialog(wallet_id): void {
-    this.isModalDialogVisible = true;
-    this.closeWalletId = wallet_id;
-  }
+  beforeClose(wallet_id): void {
+    const dialogConfig: DialogConfig<ConfirmModalData> = {
+      data: {
+        title: 'WALLET.CONFIRM.MESSAGE',
+        message: 'WALLET.CONFIRM.TITLE',
+      },
+    };
 
-  confirmed(confirmed: boolean): void {
-    if (confirmed) {
-      this.closeWallet(this.closeWalletId);
-    }
-    this.isModalDialogVisible = false;
+    this.dialog
+      .open<boolean>(ConfirmModalComponent, dialogConfig)
+      .closed.pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: confirmed => confirmed && this.closeWallet(wallet_id),
+      });
   }
 
   closeWallet(wallet_id): void {
@@ -119,52 +118,5 @@ export class SidebarComponent {
     this.ngZone.run(() => {
       this.router.navigate(['/login'], { queryParams: { type: 'auth' } });
     });
-  }
-
-  getBalanceTooltip(id: number): HTMLDivElement {
-    const wallet = this.variablesService.getWallet(id);
-    const tooltip = document.createElement('div');
-    const scrollWrapper = document.createElement('div');
-    if (!wallet || !wallet.balances) {
-      return null;
-    }
-
-    scrollWrapper.classList.add('balance-scroll-list');
-    wallet.balances.forEach(
-      ({ unlocked, total, asset_info: { ticker } }: Asset) => {
-        const available = document.createElement('span');
-        available.setAttribute('class', 'available');
-        available.innerHTML = this.translate.instant(
-          'WALLET.AVAILABLE_BALANCE',
-          {
-            available: this.intToMoneyPipe.transform(unlocked),
-            currency: ticker || '---',
-          }
-        );
-        scrollWrapper.appendChild(available);
-        const locked = document.createElement('span');
-        locked.setAttribute('class', 'locked');
-        locked.innerHTML = this.translate.instant('WALLET.LOCKED_BALANCE', {
-          locked: this.intToMoneyPipe.transform(
-            new BigNumber(total).minus(unlocked)
-          ),
-          currency: ticker || '---',
-        });
-        scrollWrapper.appendChild(locked);
-      }
-    );
-    tooltip.appendChild(scrollWrapper);
-    const link = document.createElement('span');
-    link.setAttribute('class', 'link');
-    link.innerHTML = this.translate.instant('WALLET.LOCKED_BALANCE_LINK');
-    link.addEventListener('click', () => {
-      this.openInBrowser(LOCKED_BALANCE_HELP_PAGE);
-    });
-    tooltip.appendChild(link);
-    return tooltip;
-  }
-
-  openInBrowser(link): void {
-    this.backend.openUrlInBrowser(link);
   }
 }

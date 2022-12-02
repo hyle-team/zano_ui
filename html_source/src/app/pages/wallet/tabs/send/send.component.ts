@@ -22,7 +22,6 @@ import { MoneyToIntPipe } from '@parts/pipes/money-to-int-pipe/money-to-int.pipe
 import { finalize, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { AssetInfo } from '@api/models/assets.model';
-import { Store } from '@store/store';
 
 interface WrapInfo {
   tx_cost: {
@@ -63,8 +62,6 @@ export class SendComponent implements OnInit, OnDestroy {
   lenghtOfAdress: number;
 
   additionalOptions = false;
-
-  parentRouting;
 
   actionData;
 
@@ -199,8 +196,7 @@ export class SendComponent implements OnInit, OnDestroy {
     private modalService: ModalService,
     private ngZone: NgZone,
     private http: HttpClient,
-    private moneyToInt: MoneyToIntPipe,
-    private store: Store
+    private moneyToInt: MoneyToIntPipe
   ) {}
 
   @HostListener('document:click', ['$event.target'])

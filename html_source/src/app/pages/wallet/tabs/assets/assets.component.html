@@ -26,79 +26,72 @@
         <div class="row-divider"></div>
       </thead>
       <tbody>
-        <ng-container
-          *ngIf="
-            variablesService.currentWallet.balances
-              | paginate: paginatePipeArgs as assets
-          "
-        >
-          <ng-container *ngFor="let asset of assets; trackBy: trackByAssets">
-            <ng-container *ngIf="true">
-              <tr>
-                <td>
-                  <div
-                    class="text-ellipsis"
-                    fxLayout="row"
-                    fxLayoutAlign="start center"
-                    fxLayoutGap="2rem"
+      <ng-container *ngIf="variablesService.currentWallet.balances as assets">
+          <ng-container *ngFor="let asset of assets | paginate: paginatePipeArgs; trackBy: trackByAssets">
+            <tr>
+              <td>
+                <div
+                  class="text-ellipsis"
+                  fxLayout="row"
+                  fxLayoutAlign="start center"
+                  fxLayoutGap="2rem"
+                >
+                  <div class="token-logo mr-1">
+                    <img
+                      [src]="defaultImgSrc"
+                      [alt]="asset.asset_info.ticker"
+                      defaultImgAlt="default"
+                      [defaultImgSrc]="defaultImgSrc"
+                      appDefaultImg
+                    />
+                  </div>
+                  <b>{{ asset.asset_info.full_name || '---' }}</b>
+                </div>
+              </td>
+              <td>
+                <div class="text-ellipsis">
+                  <b
+                    >{{ asset.total | intToMoney }}
+                    {{ asset.asset_info.ticker || '---' }}</b
                   >
-                    <div class="token-logo mr-1">
-                      <img
-                        [src]="defaultImgSrc"
-                        [alt]="asset.asset_info.ticker"
-                        defaultImgAlt="default"
-                        [defaultImgSrc]="defaultImgSrc"
-                        appDefaultImg
-                      />
-                    </div>
-                    <b>{{ asset.asset_info.full_name || '---' }}</b>
-                  </div>
-                </td>
-                <td>
-                  <div class="text-ellipsis">
-                    <b
-                      >{{ asset.total | intToMoney }}
-                      {{ asset.asset_info.ticker || '---' }}</b
-                    >
-                  </div>
-                </td>
-                <td>
-                  <div class="text-ellipsis">
-                    <b>{{ 999 | currency: 'USD' }}</b>
-                  </div>
-                </td>
-                <td>
-                  <div class="text-ellipsis">
-                    <b class="mr-0_5">{{ 999 | currency: 'USD' }}</b>
-                    <span [class.color-aqua]="true" [class.color-red]="false"
-                      >+2.2%</span
-                    >
-                  </div>
-                </td>
-                <td>
-                  <div
-                    class="text-ellipsis"
-                    fxLayout="row"
-                    fxLayoutAlign="end center"
+                </div>
+              </td>
+              <td>
+                <div class="text-ellipsis">
+                  <b>{{ 999 | currency: 'USD' }}</b>
+                </div>
+              </td>
+              <td>
+                <div class="text-ellipsis">
+                  <b class="mr-0_5">{{ 999 | currency: 'USD' }}</b>
+                  <span [class.color-aqua]="true" [class.color-red]="false"
+                    >+2.2%</span
                   >
-                    <button
-                      #trigger="cdkOverlayOrigin"
-                      (click)="
-                        $event.stopPropagation();
-                        toggleDropDownMenu(trigger, asset)
-                      "
-                      [disabled]="false"
-                      cdkOverlayOrigin
-                      class="btn-icon circle small ml-auto"
-                      type="button"
-                    >
-                      <i class="icon dots rotate-90"></i>
-                    </button>
-                  </div>
-                </td>
-              </tr>
-              <div class="row-divider"></div>
-            </ng-container>
+                </div>
+              </td>
+              <td>
+                <div
+                  class="text-ellipsis"
+                  fxLayout="row"
+                  fxLayoutAlign="end center"
+                >
+                  <button
+                    #trigger="cdkOverlayOrigin"
+                    (click)="
+                      $event.stopPropagation();
+                      toggleDropDownMenu(trigger, asset)
+                    "
+                    [disabled]="false"
+                    cdkOverlayOrigin
+                    class="btn-icon circle small ml-auto"
+                    type="button"
+                  >
+                    <i class="icon dots rotate-90"></i>
+                  </button>
+                </div>
+              </td>
+            </tr>
+            <div class="row-divider"></div>
           </ng-container>
         </ng-container>
       </tbody>

@@ -150,7 +150,7 @@
       </li>
       <li class="item">
         <button
-          (click)="stateVisibleAddCustomToken = true"
+          (click)="addCustomToken()"
           [delay]="500"
           [disabled]="false"
           [timeDelay]="500"
@@ -166,7 +166,7 @@
       </li>
       <li class="item">
         <button
-          (click)="exportHistoryDialogVisible = !exportHistoryDialogVisible"
+          (click)="exportHistory()"
           [delay]="500"
           [disabled]="variablesService.currentWallet.history.length <= 0"
           [timeDelay]="500"
@@ -204,7 +204,7 @@
       </ng-container>
       <li class="item">
         <button
-          (click)="showConfirmDialog(variablesService.currentWallet.wallet_id)"
+          (click)="beforeClose(variablesService.currentWallet.wallet_id)"
           [delay]="500"
           [timeDelay]="500"
           class="w-100 px-2 py-1"
@@ -248,22 +248,3 @@
     <router-outlet></router-outlet>
   </div>
 </div>
-
-<app-confirm-modal
-  (confirmed)="confirmed($event)"
-  *ngIf="delWalletDialogVisible"
-  [message]="'WALLET.CONFIRM.MESSAGE' | translate"
-  [title]="'WALLET.CONFIRM.TITLE' | translate"
-></app-confirm-modal>
-
-<app-export-history-modal
-  (closeExportModal)="closeExportModal($event)"
-  *ngIf="exportHistoryDialogVisible"
-  [currentWalletId]="variablesService.currentWallet.wallet_id"
-></app-export-history-modal>
-
-<app-add-custom-token
-  (eventClose)="stateVisibleAddCustomToken = false"
-  (eventSubmit)="stateVisibleAddCustomToken = false"
-  *ngIf="stateVisibleAddCustomToken"
-></app-add-custom-token>

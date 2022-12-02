@@ -138,7 +138,7 @@ export class VariablesService {
 
   getAliasChangedEvent = new BehaviorSubject(null);
 
-  getWalletChangedEvent = new BehaviorSubject(null);
+  getWalletChangedEvent = new BehaviorSubject<Wallet>(null);
 
   idle = new Idle().whenNotInteractive().do(() => {
     if (this.appPass === '') {

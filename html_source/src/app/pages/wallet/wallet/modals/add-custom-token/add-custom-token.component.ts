@@ -6,6 +6,7 @@ import {
 } from '@angular/forms';
 import { VariablesService } from '@parts/services/variables.service';
 import { ZanoValidators } from '@parts/utils/zano-validators';
+import { DialogRef } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-add-custom-token',
@@ -13,12 +14,6 @@ import { ZanoValidators } from '@parts/utils/zano-validators';
   styleUrls: ['./add-custom-token.component.scss'],
 })
 export class AddCustomTokenComponent {
-  @HostBinding('class.modal-overlay') modalOverlay = true;
-
-  @Output() eventClose: EventEmitter<void> = new EventEmitter<void>();
-
-  @Output() eventSubmit: EventEmitter<string> = new EventEmitter<string>();
-
   formGroup = new UntypedFormGroup({
     assetID: new UntypedFormControl(
       null,
@@ -26,7 +21,10 @@ export class AddCustomTokenComponent {
     ),
   });
 
-  constructor(public variablesService: VariablesService) {}
+  constructor(
+    public variablesService: VariablesService,
+    private dialogRef: DialogRef
+  ) {}
 
   beforeSubmit(): void {
     if (this.formGroup.invalid) {
@@ -39,7 +37,10 @@ export class AddCustomTokenComponent {
   }
 
   submit(): void {
-    const { assetID } = this.formGroup.value;
-    this.eventSubmit.emit(assetID);
+    return;
+  }
+
+  close(): void {
+    this.dialogRef.close();
   }
 }
