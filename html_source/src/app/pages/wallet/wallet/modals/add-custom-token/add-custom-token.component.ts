@@ -4,11 +4,7 @@ import { VariablesService } from '@parts/services/variables.service';
 import { ZanoValidators } from '@parts/utils/zano-validators';
 import { DialogRef } from '@angular/cdk/dialog';
 import { BackendService } from '@api/services/backend.service';
-import {
-  Asset,
-  ParamsAddCustomAssetId,
-  ResponseAddCustomAssetId,
-} from '@api/models/assets.model';
+import { Asset, ParamsAddCustomAssetId } from '@api/models/assets.model';
 
 @Component({
   selector: 'app-add-custom-token',

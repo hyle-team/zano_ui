@@ -34,7 +34,7 @@ export interface ParamsCustomAssetId {
   asset_id: string;
 }
 
-export interface ParamsAddCustomAssetId extends ParamsCustomAssetId {}
+export type ParamsAddCustomAssetId = ParamsCustomAssetId;
 
 export interface ResponseAddCustomAssetId {
   status: string;
@@ -49,7 +49,7 @@ export interface ResponseAddCustomAssetId {
   };
 }
 
-export interface ParamsRemoveCustomAssetId extends ParamsCustomAssetId {}
+export type ParamsRemoveCustomAssetId = ParamsCustomAssetId;
 
 export interface ResponseRemoveCustomAssetId {
   error_code: string;

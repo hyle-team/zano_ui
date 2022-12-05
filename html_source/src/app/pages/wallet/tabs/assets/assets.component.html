@@ -41,7 +41,8 @@
                   <div class="token-logo mr-1">
                     <img
                       [src]="
-                        (asset | getWhiteAssetInfo | async)?.logo || defaultImgSrc
+                        (asset | getWhiteAssetInfo | async)?.logo ||
+                        defaultImgSrc
                       "
                       [alt]="asset.asset_info.ticker"
                       defaultImgAlt="default"
@@ -70,7 +71,9 @@
               >
                 <td>
                   <div class="text-ellipsis">
-                    <b>{{ (asset.total | intToMoney) * price.usd | currency: 'USD' }}</b>
+                    <b>{{
+                      (asset.total | intToMoney) * price.usd | currency: 'USD'
+                    }}</b>
                   </div>
                 </td>
                 <td>
@@ -85,10 +88,8 @@
                 </td>
               </ng-container>
               <ng-template #templateNotLoadPrice>
-                <td>
-                </td>
-                <td>
-                </td>
+                <td></td>
+                <td></td>
               </ng-template>
               <td>
                 <div
