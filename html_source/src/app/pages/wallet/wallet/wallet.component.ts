@@ -14,6 +14,15 @@ import { Subject } from 'rxjs';
 import { StateKeys, Store, Sync } from '@store/store';
 import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
+import { Dialog, DialogConfig } from '@angular/cdk/dialog';
+import {
+  ConfirmModalComponent,
+  ConfirmModalData,
+} from '@parts/modals/confirm-modal/confirm-modal.component';
+import { ExportHistoryModalComponent } from './modals/export-history-modal/export-history-modal.component';
+import { AddCustomTokenComponent } from './modals/add-custom-token/add-custom-token.component';
+import { Asset } from '@api/models/assets.model';
+import { AssetDetailsComponent } from '@parts/modals/asset-details/asset-details.component';
 
 @Component({
   selector: 'app-wallet',
@@ -28,14 +37,6 @@ export class WalletComponent implements OnInit, OnDestroy {
   walletLoaded = false;
 
   openDropdown: boolean;
-
-  delWalletDialogVisible = false;
-
-  exportHistoryDialogVisible = false;
-
-  stateVisibleAddCustomToken = false;
-
-  closeWalletId: number;
 
   walletSyncVisible = false;
 
@@ -89,7 +90,8 @@ export class WalletComponent implements OnInit, OnDestroy {
     private ngZone: NgZone,
     private translate: TranslateService,
     private intToMoneyPipe: IntToMoneyPipe,
-    private store: Store
+    private store: Store,
+    private dialog: Dialog
   ) {
     if (
       !this.variablesService.currentWallet &&
@@ -185,22 +187,46 @@ export class WalletComponent implements OnInit, OnDestroy {
     this.backend.resyncWallet(id);
   }
 
-  showConfirmDialog(wallet_id): void {
-    this.delWalletDialogVisible = true;
-    this.closeWalletId = wallet_id;
+  beforeClose(wallet_id): void {
+    const dialogConfig: DialogConfig<ConfirmModalData> = {
+      data: {
+        title: 'WALLET.CONFIRM.MESSAGE',
+        message: 'WALLET.CONFIRM.TITLE',
+      },
+    };
+
+    this.dialog
+      .open<boolean>(ConfirmModalComponent, dialogConfig)
+      .closed.pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: confirmed => confirmed && this.closeWallet(wallet_id),
+      });
   }
 
-  closeExportModal(confirmed: boolean): void {
-    if (confirmed) {
-      this.exportHistoryDialogVisible = false;
-    }
+  addCustomToken(): void {
+    this.dialog
+      .open<Asset | undefined>(AddCustomTokenComponent)
+      .closed.pipe(
+        filter(response_data => Boolean(response_data)),
+        takeUntil(this.destroy$)
+      )
+      .subscribe({
+        next: asset => {
+          const dialogConfig: DialogConfig = {
+            data: {
+              asset,
+              title: 'You added new asset',
+            },
+          };
+          this.ngZone.run(() => {
+            this.dialog.open(AssetDetailsComponent, dialogConfig);
+          });
+        },
+      });
   }
 
-  confirmed(confirmed: boolean): void {
-    if (confirmed) {
-      this.closeWallet(this.closeWalletId);
-    }
-    this.delWalletDialogVisible = false;
+  exportHistory(): void {
+    this.dialog.open(ExportHistoryModalComponent);
   }
 
   closeWallet(wallet_id): void {

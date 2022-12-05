@@ -3,10 +3,10 @@
   fxFlex="0 1 54rem"
 >
   <div class="overflow-hidden" fxFlexFill fxLayout="column">
+    <h3 class="title mb-2" fxFlex="0 0 auto">
+      {{ title | translate }}
+    </h3>
     <ng-container *ngIf="asset; else templateEmpty">
-      <h3 class="title mb-2" fxFlex="0 0 auto">
-        {{ 'Asset Details' | translate }}
-      </h3>
       <div
         class="content mb-2 w-100 overflow-x-hidden overflow-y-auto"
         fxFlex="1 1 auto"

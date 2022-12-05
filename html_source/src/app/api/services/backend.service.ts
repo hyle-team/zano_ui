@@ -7,6 +7,12 @@ import { MoneyToIntPipe } from '@parts/pipes/money-to-int-pipe/money-to-int.pipe
 import JSONBigNumber from 'json-bignumber';
 import { BigNumber } from 'bignumber.js';
 import { Alias } from '../models/wallet.model';
+import {
+  ParamsAddCustomAssetId,
+  ParamsRemoveCustomAssetId,
+  ResponseAddCustomAssetId,
+  ResponseRemoveCustomAssetId,
+} from '@api/models/assets.model';
 
 export interface PramsObj {
   [key: string]: any;
@@ -178,11 +184,11 @@ export class BackendService {
     });
   }
 
-  webkitLaunchedScript(): any {
+  webkitLaunchedScript(): void {
     return this.runCommand('webkit_launched_script');
   }
 
-  quitRequest(): any {
+  quitRequest(): void {
     return this.runCommand('on_request_quit');
   }
 
@@ -382,11 +388,11 @@ export class BackendService {
     this.runCommand('validate_address', address, callback);
   }
 
-  setClipboard(str, callback?): any {
+  setClipboard(str, callback?): void {
     return this.runCommand('set_clipboard', str, callback);
   }
 
-  getClipboard(callback): any {
+  getClipboard(callback): void {
     return this.runCommand('get_clipboard', {}, callback);
   }
 
@@ -560,11 +566,11 @@ export class BackendService {
     this.runCommand('get_all_aliases', {}, callback);
   }
 
-  getAliasByName(value, callback): any {
+  getAliasByName(value, callback): void {
     return this.runCommand('get_alias_info_by_name', value, callback);
   }
 
-  getAliasByAddress(value, callback): any {
+  getAliasByAddress(value, callback): void {
     return this.runCommand('get_alias_info_by_address', value, callback);
   }
 
@@ -657,7 +663,7 @@ export class BackendService {
     });
   }
 
-  setLogLevel(level): any {
+  setLogLevel(level): void {
     return this.runCommand('set_log_level', { v: level });
   }
 
@@ -665,7 +671,7 @@ export class BackendService {
     command: string,
     params: PramsObj,
     callback?: (job_id?: number) => void | any
-  ): any {
+  ): void {
     return this.runCommand(
       'async_call',
       [command, params],
@@ -700,7 +706,7 @@ export class BackendService {
     );
   }
 
-  setEnableTor(value: boolean): any {
+  setEnableTor(value: boolean): void {
     return this.runCommand('set_enable_tor', <{ v: boolean }>{ v: value });
   }
 
@@ -719,6 +725,23 @@ export class BackendService {
         this.variablesService.use_debug_mode$.next(use_debug_mode);
       }
     );
+  }
+
+  addCustomAssetId(
+    params: ParamsAddCustomAssetId,
+    callback: (status: boolean, response_data: ResponseAddCustomAssetId) => void
+  ): void {
+    return this.runCommand('add_custom_asset_id', params, callback);
+  }
+
+  removeCustomAssetId(
+    params: ParamsRemoveCustomAssetId,
+    callback?: (
+      status: boolean,
+      response_data: ResponseRemoveCustomAssetId
+    ) => void
+  ): void {
+    return this.runCommand('remove_custom_asset_id', params, callback);
   }
 
   private informerRun(error: string, params, command: string): void {

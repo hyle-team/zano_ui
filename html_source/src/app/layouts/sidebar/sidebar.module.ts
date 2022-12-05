@@ -12,6 +12,7 @@ import { DeeplinkModule } from '../../pages/deeplink/deeplink.module';
 import { StakingSwitchModule } from '../../parts/components/staking-switch/staking-switch.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { IntToMoneyPipeModule } from '@parts/pipes';
+import { WalletCardModule } from '@parts/components/wallet-card/wallet-card.module';
 
 @NgModule({
   declarations: [SidebarComponent],
@@ -28,6 +29,7 @@ import { IntToMoneyPipeModule } from '@parts/pipes';
     StakingSwitchModule,
     FlexLayoutModule,
     IntToMoneyPipeModule,
+    WalletCardModule,
   ],
   exports: [SidebarComponent],
 })

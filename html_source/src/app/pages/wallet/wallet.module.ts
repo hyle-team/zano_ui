@@ -5,7 +5,11 @@ import { AssetsComponent } from './tabs/assets/assets.component';
 import { WalletComponent } from './wallet/wallet.component';
 import { FlexLayoutModule, FlexModule } from '@angular/flex-layout';
 import { TooltipModule } from '@parts/directives/tooltip/tooltip.module';
-import { ShortStringPipeModule } from '@parts/pipes';
+import {
+  GetWhiteAssetInfoModule,
+  GetPriceByUrlModule,
+  ShortStringPipeModule,
+} from '@parts/pipes';
 import { CopyButtonModule } from '@parts/components/copy-button/copy-button.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { IsAvailableAliasNamePipeModule } from '@parts/pipes';
@@ -26,7 +30,6 @@ import { StakingSwitchModule } from '@parts/components/staking-switch/staking-sw
 import { ReceiveComponent } from './tabs/receive/receive.component';
 import { ContractsComponent } from './tabs/contracts/contracts.component';
 import { ContractsTabComponent } from './tabs/contracts/contracts-tab/contracts-tab.component';
-import { AssetDetailsComponent } from './tabs/assets/modals/asset-details/asset-details.component';
 import { DialogModule } from '@angular/cdk/dialog';
 import { SendDetailsModalComponent } from './tabs/send/modals/send-details-modal/send-details-modal.component';
 import { SendModalComponent } from './tabs/send/modals/send-modal/send-modal.component';
@@ -40,6 +43,7 @@ import {
 } from '@parts/pipes';
 import { BackButtonModule } from '@parts/directives/back-button/back-button.module';
 import { CheckboxModule } from '@parts/components/checkbox/checkbox.module';
+import { AssetDetailsModule } from '@parts/modals/asset-details/asset-details.module';
 
 @NgModule({
   declarations: [
@@ -51,7 +55,6 @@ import { CheckboxModule } from '@parts/components/checkbox/checkbox.module';
     ReceiveComponent,
     ContractsComponent,
     ContractsTabComponent,
-    AssetDetailsComponent,
     ExportImportComponent,
     SendDetailsModalComponent,
     SendModalComponent,
@@ -87,6 +90,9 @@ import { CheckboxModule } from '@parts/components/checkbox/checkbox.module';
     BackButtonModule,
     InputValidateModule,
     CheckboxModule,
+    AssetDetailsModule,
+    GetWhiteAssetInfoModule,
+    GetPriceByUrlModule,
   ],
 })
 export class WalletModule {}

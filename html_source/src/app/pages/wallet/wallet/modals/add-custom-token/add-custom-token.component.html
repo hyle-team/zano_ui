@@ -9,22 +9,22 @@
     </h3>
 
     <div class="form__field">
-      <label for="assetID">{{
+      <label for="asset_id">{{
         'WALLET.MODAL_ADD_CUSTOM_TOKEN.FIELD_TITLE' | translate
       }}</label>
       <input
         (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
         class="form__field--input"
-        formControlName="assetID"
-        id="assetID"
-        name="assetID"
+        formControlName="asset_id"
+        id="asset_id"
+        name="asset_id"
         placeholder="Enter Asset ID"
         type="text"
       />
       <div
         *ngIf="
-          formGroup.get('assetID').touched &&
-          formGroup.get('assetID').hasError('invalidHash')
+          formGroup.get('asset_id').touched &&
+          formGroup.get('asset_id').hasError('invalidHash')
         "
         class="error"
       >
@@ -34,7 +34,7 @@
   </div>
 
   <div class="controls" fxLayout="row nowrap" fxLayoutGap="1rem">
-    <button (click)="eventClose.emit()" class="outline big w-100" type="button">
+    <button (click)="close()" class="outline big w-100" type="button">
       {{ 'MODALS.CANCEL' | translate }}
     </button>
     <button

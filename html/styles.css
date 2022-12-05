@@ -925,9 +925,9 @@ body {
   background: var(--black-300);
   padding: 2rem;
   z-index: 100;
-}.modal-overlay .modal {
+}.modal {
   position: relative;
-}.modal-overlay .modal button.close {
+}.modal button.close {
   position: absolute;
   top: 0.8rem;
   right: 0.8rem;

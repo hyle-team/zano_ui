@@ -1,34 +1,26 @@
-import {
-  Component,
-  EventEmitter,
-  HostBinding,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  Renderer2,
-} from '@angular/core';
+import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
+import { DialogRef } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-export-history-modal',
   templateUrl: './export-history-modal.component.html',
   styleUrls: ['./export-history-modal.component.scss'],
 })
-export class ExportHistoryModalComponent implements OnInit, OnDestroy {
-  @HostBinding('class.modal-overlay') modalOverlay = true;
-
+export class ExportHistoryModalComponent {
   posFilterIsOn = true;
+
   currentFormat: string;
-  exportPath: string;
+
   exportData = {
     wallet_id: 0,
     include_pos_transactions: false,
     path: 'C:\\some_file.txt',
     format: 'json',
   };
+
   exportFormats = [
     {
       format: 'json',
@@ -44,35 +36,22 @@ export class ExportHistoryModalComponent implements OnInit, OnDestroy {
     },
   ];
 
-  @Input() currentWalletId;
-
-  @Output() closeExportModal: EventEmitter<boolean> =
-    new EventEmitter<boolean>();
-
   constructor(
     private backend: BackendService,
     public variablesService: VariablesService,
     private translate: TranslateService,
-    private renderer: Renderer2
+    private dialogRef: DialogRef
   ) {
     this.currentFormat = this.exportFormats[0].format;
   }
 
-  ngOnInit(): void {
-    this.renderer.addClass(document.body, 'no-scroll');
-  }
-
-  ngOnDestroy(): void {
-    this.renderer.removeClass(document.body, 'no-scroll');
-  }
-
   closeModal(): void {
-    this.closeExportModal.emit(true);
+    this.dialogRef.close();
   }
 
   confirmExport(): void {
     this.exportData.format = `${this.currentFormat}`;
-    this.exportData.wallet_id = this.currentWalletId;
+    this.exportData.wallet_id = this.variablesService.currentWallet.wallet_id;
     this.exportData.include_pos_transactions = this.posFilterIsOn;
 
     this.backend.saveFileDialog(
@@ -87,7 +66,7 @@ export class ExportHistoryModalComponent implements OnInit, OnDestroy {
         }
         if (file_status) {
           this.backend.exportWalletHistory(JSON.stringify(this.exportData));
-          this.closeExportModal.emit(true);
+          this.closeModal();
         }
       }
     );

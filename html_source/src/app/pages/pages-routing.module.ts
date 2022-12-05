@@ -12,9 +12,6 @@ import { SeedPhraseComponent } from './seed-phrase/seed-phrase.component';
 import { AssignAliasComponent } from './assign-alias/assign-alias.component';
 import { EditAliasComponent } from './edit-alias/edit-alias.component';
 import { SettingsComponent } from './settings/settings.component';
-import { ContactsComponent } from './contacts/contacts.component';
-import { AddContactsComponent } from './add-contacts/add-contacts.component';
-import { ContactSendComponent } from './contact-send/contact-send.component';
 import { DeeplinkComponent } from './deeplink/deeplink.component';
 import { NgModule } from '@angular/core';
 import { ExportImportComponent } from './export-import/export-import.component';
@@ -128,46 +125,6 @@ const routes: Routes = [
       {
         path: '',
         component: SettingsComponent,
-      },
-    ],
-  },
-  {
-    path: paths.contacts,
-    component: WithSidebarLayoutComponent,
-    children: [
-      {
-        path: '',
-        component: ContactsComponent,
-      },
-    ],
-  },
-  {
-    path: paths.addContacts,
-    component: WithSidebarLayoutComponent,
-    children: [
-      {
-        path: '',
-        component: AddContactsComponent,
-      },
-    ],
-  },
-  {
-    path: `${paths.editContacts}/:id`,
-    component: WithSidebarLayoutComponent,
-    children: [
-      {
-        path: '',
-        component: AddContactsComponent,
-      },
-    ],
-  },
-  {
-    path: `${paths.contactSend}/:id`,
-    component: WithSidebarLayoutComponent,
-    children: [
-      {
-        path: '',
-        component: ContactSendComponent,
       },
     ],
   },

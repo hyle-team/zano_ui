@@ -1,48 +1,46 @@
 import {
   Component,
   ElementRef,
-  EventEmitter,
-  HostBinding,
-  Input,
-  OnDestroy,
+  Inject,
   OnInit,
-  Output,
-  Renderer2,
   ViewChild,
 } from '@angular/core';
+import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
+
+export interface ConfirmModalData {
+  title: string;
+  message?: string;
+}
 
 @Component({
   selector: 'app-confirm-modal',
   templateUrl: './confirm-modal.component.html',
   styleUrls: ['./confirm-modal.component.scss'],
 })
-export class ConfirmModalComponent implements OnInit, OnDestroy {
-  @HostBinding('class.modal-overlay') modalOverlay = true;
+export class ConfirmModalComponent implements OnInit {
+  title: string;
 
-  @Input() title: string;
+  message: string;
 
-  @Input() message: string;
+  @ViewChild('buttonSubmit', { static: true }) buttonSubmit: ElementRef;
 
-  @Output() confirmed: EventEmitter<boolean> = new EventEmitter<boolean>();
-
-  @ViewChild('btn', { static: true }) button: ElementRef;
-
-  constructor(private renderer: Renderer2) {}
+  constructor(
+    private dialogRef: DialogRef,
+    @Inject(DIALOG_DATA) { title, message }: ConfirmModalData
+  ) {
+    this.title = title;
+    this.message = message;
+  }
 
   ngOnInit(): void {
-    this.renderer.addClass(document.body, 'no-scroll');
-    this.button.nativeElement.focus();
+    this.buttonSubmit.nativeElement.focus();
   }
 
-  ngOnDestroy(): void {
-    this.renderer.removeClass(document.body, 'no-scroll');
-  }
-
-  onSubmit(): void {
-    this.confirmed.emit(true);
+  submit(): void {
+    this.dialogRef.close(true);
   }
 
   close(): void {
-    this.confirmed.emit(false);
+    this.dialogRef.close(false);
   }
 }
