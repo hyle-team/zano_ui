@@ -1,13 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { VariablesService } from '@parts/services/variables.service';
 import { Subject } from 'rxjs';
-import { Asset } from '@api/models/assets.model';
+import { Asset, ParamsRemoveCustomAssetId } from '@api/models/assets.model';
 import { Store } from '@store/store';
 import { PaginatePipeArgs } from 'ngx-pagination';
 import { takeUntil } from 'rxjs/operators';
 import { CdkOverlayOrigin } from '@angular/cdk/overlay';
-import { AssetDetailsComponent } from './modals/asset-details/asset-details.component';
+import { AssetDetailsComponent } from '../../../../parts/modals/asset-details/asset-details.component';
 import { Dialog, DialogConfig } from '@angular/cdk/dialog';
+import { BackendService } from '@api/services/backend.service';
+import {
+  ConfirmModalComponent,
+  ConfirmModalData,
+} from '@parts/modals/confirm-modal/confirm-modal.component';
 
 @Component({
   selector: 'app-assets',
@@ -50,6 +55,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
 
   constructor(
     public variablesService: VariablesService,
+    private backendService: BackendService,
     private store: Store,
     private dialog: Dialog
   ) {}
@@ -65,20 +71,8 @@ export class AssetsComponent implements OnInit, OnDestroy {
 
   toggleDropDownMenu(trigger: CdkOverlayOrigin, asset: Asset): void {
     this.isOpenDropDownMenu = !this.isOpenDropDownMenu;
-    if (this.isOpenDropDownMenu) {
-      this.triggerOrigin = trigger;
-      this.currentAsset = asset;
-    } else {
-      this.triggerOrigin = undefined;
-      this.currentAsset = undefined;
-    }
-  }
-
-  trackByAssets(
-    index: number,
-    { asset_info: { asset_id } }: Asset
-  ): number | string {
-    return asset_id || index;
+    this.triggerOrigin = trigger;
+    this.currentAsset = asset;
   }
 
   trackByPages(index: number): number | string {
@@ -94,9 +88,39 @@ export class AssetsComponent implements OnInit, OnDestroy {
     this.dialog.open(AssetDetailsComponent, dialogConfig);
   }
 
+  beforeRemoveAsset(): void {
+    if (!this.currentAsset) {
+      return;
+    }
+    const {
+      asset_info: { full_name },
+    } = this.currentAsset;
+    const dialogConfig: DialogConfig<ConfirmModalData> = {
+      data: {
+        title: `Do you want delete "${full_name || '---'}"`,
+      },
+    };
+
+    this.dialog
+      .open<boolean>(ConfirmModalComponent, dialogConfig)
+      .closed.pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: confirmed => confirmed && this.removeAsset(),
+      });
+  }
+
   removeAsset(): void {
-    // TODO: add functionality
-    return;
+    const { wallet_id } = this.variablesService.currentWallet;
+    const {
+      asset_info: { asset_id },
+    } = this.currentAsset;
+    const params: ParamsRemoveCustomAssetId = {
+      wallet_id,
+      asset_id,
+    };
+    this.backendService.removeCustomAssetId(params, () => {
+      this.currentAsset = undefined;
+    });
   }
 
   private listenChangeWallet(): void {

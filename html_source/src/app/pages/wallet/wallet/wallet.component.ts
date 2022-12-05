@@ -10,7 +10,7 @@ import { VariablesService } from '@parts/services/variables.service';
 import { BackendService } from '@api/services/backend.service';
 import { TranslateService } from '@ngx-translate/core';
 import { IntToMoneyPipe } from '@parts/pipes/int-to-money-pipe/int-to-money.pipe';
-import { Subject } from 'rxjs';
+import { Subject, switchMap } from 'rxjs';
 import { StateKeys, Store, Sync } from '@store/store';
 import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
@@ -21,6 +21,12 @@ import {
 } from '@parts/modals/confirm-modal/confirm-modal.component';
 import { ExportHistoryModalComponent } from './modals/export-history-modal/export-history-modal.component';
 import { AddCustomTokenComponent } from './modals/add-custom-token/add-custom-token.component';
+import {
+  Asset,
+  AssetInfo,
+  ResponseAddCustomAssetId,
+} from '@api/models/assets.model';
+import { AssetDetailsComponent } from '@parts/modals/asset-details/asset-details.component';
 
 @Component({
   selector: 'app-wallet',
@@ -202,7 +208,25 @@ export class WalletComponent implements OnInit, OnDestroy {
   }
 
   addCustomToken(): void {
-    this.dialog.open(AddCustomTokenComponent);
+    this.dialog
+      .open<Asset | undefined>(AddCustomTokenComponent)
+      .closed.pipe(
+        filter(response_data => Boolean(response_data)),
+        takeUntil(this.destroy$)
+      )
+      .subscribe({
+        next: asset => {
+          const dialogConfig: DialogConfig = {
+            data: {
+              asset,
+              title: 'You added new asset',
+            },
+          };
+          this.ngZone.run(() => {
+            this.dialog.open(AssetDetailsComponent, dialogConfig);
+          });
+        },
+      });
   }
 
   exportHistory(): void {

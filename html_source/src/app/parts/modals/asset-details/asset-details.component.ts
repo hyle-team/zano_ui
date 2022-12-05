@@ -11,16 +11,22 @@ import { Asset } from '@api/models/assets.model';
   styleUrls: ['./asset-details.component.scss'],
 })
 export class AssetDetailsComponent implements OnInit, OnDestroy {
-  private destroy$ = new Subject<void>();
+  title = 'Asset Details';
 
   asset!: Asset;
+
+  private destroy$ = new Subject<void>();
 
   constructor(
     public variablesService: VariablesService,
     private dialogRef: DialogRef,
-    @Inject(DIALOG_DATA) { asset }: { asset: Asset }
+    @Inject(DIALOG_DATA) { asset, title }: { asset: Asset; title?: string }
   ) {
     this.asset = asset;
+
+    if (title) {
+      this.title = title;
+    }
   }
 
   ngOnInit(): void {

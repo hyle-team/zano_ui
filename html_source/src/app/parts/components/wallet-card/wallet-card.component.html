@@ -48,16 +48,16 @@
   </div>
 
   <h4 *appDisablePriceFetch class="price">
-    ${{
+    {{
       wallet.getMoneyEquivalentForZano(variablesService.moneyEquivalent)
         | intToMoney
-        | number: '1.2-2' || '---'
+        | currency: 'USD' || '---'
     }}
     <span
       [class.red]="variablesService.moneyEquivalentPercent < 0"
       class="percent"
     >
-      {{ variablesService.moneyEquivalentPercent | number: '1.1-2' }}%
+      {{ variablesService.moneyEquivalentPercent | number: '1.2-2' }}%
     </span>
   </h4>
 

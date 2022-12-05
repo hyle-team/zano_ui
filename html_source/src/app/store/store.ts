@@ -2,6 +2,7 @@ import { distinctUntilChanged, map } from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Wallet } from '@api/models/wallet.model';
 import { Injectable } from '@angular/core';
+import { ResponseAssetsWhiteList } from '@api/models/assets.model';
 
 export interface Sync {
   sync: boolean;
@@ -11,16 +12,22 @@ export interface Sync {
 export enum StateKeys {
   wallets = 'wallets',
   sync = 'sync',
+  responseAssetsWhiteList = 'responseAssetsWhiteList',
 }
 
 export interface State {
   [StateKeys.wallets]: Wallet[] | null | undefined;
   [StateKeys.sync]: Sync[] | null | undefined;
+  [StateKeys.responseAssetsWhiteList]:
+    | ResponseAssetsWhiteList
+    | null
+    | undefined;
 }
 
 const initialState: State = {
   wallets: undefined,
   sync: undefined,
+  responseAssetsWhiteList: undefined,
 };
 
 @Injectable({

@@ -20,6 +20,7 @@ import { Subject, take } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { paths, pathsChildrenAuth } from './pages/paths';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
+import { AssetsFacade } from '@store/assets/assets.facade';
 
 @Component({
   selector: 'app-root',
@@ -61,7 +62,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private ngZone: NgZone,
     private intToMoneyPipe: IntToMoneyPipe,
     private modalService: ModalService,
-    private store: Store
+    private store: Store,
+    private assetsFacade: AssetsFacade
   ) {
     translate.addLangs(['en', 'fr', 'de', 'it', 'pt']);
     translate.setDefaultLang('en');
@@ -106,6 +108,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.assetsFacade.loadAssetsWhitelist();
     this.variablesService.allContextMenu = this.allContextMenu;
     this.variablesService.onlyCopyContextMenu = this.onlyCopyContextMenu;
     this.variablesService.pasteSelectContextMenu = this.pasteSelectContextMenu;

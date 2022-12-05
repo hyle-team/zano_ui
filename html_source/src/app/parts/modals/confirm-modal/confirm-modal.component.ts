@@ -9,7 +9,7 @@ import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 
 export interface ConfirmModalData {
   title: string;
-  message: string;
+  message?: string;
 }
 
 @Component({

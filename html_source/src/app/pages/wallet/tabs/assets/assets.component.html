@@ -28,10 +28,7 @@
       <tbody>
         <ng-container *ngIf="variablesService.currentWallet.balances as assets">
           <ng-container
-            *ngFor="
-              let asset of assets | paginate: paginatePipeArgs;
-              trackBy: trackByAssets
-            "
+            *ngFor="let asset of assets | paginate: paginatePipeArgs"
           >
             <tr>
               <td>
@@ -43,7 +40,9 @@
                 >
                   <div class="token-logo mr-1">
                     <img
-                      [src]="defaultImgSrc"
+                      [src]="
+                        (asset | getWhiteAssetInfo | async)?.logo || defaultImgSrc
+                      "
                       [alt]="asset.asset_info.ticker"
                       defaultImgAlt="default"
                       [defaultImgSrc]="defaultImgSrc"
@@ -61,19 +60,36 @@
                   >
                 </div>
               </td>
-              <td>
-                <div class="text-ellipsis">
-                  <b>{{ 999 | currency: 'USD' }}</b>
-                </div>
-              </td>
-              <td>
-                <div class="text-ellipsis">
-                  <b class="mr-0_5">{{ 999 | currency: 'USD' }}</b>
-                  <span [class.color-aqua]="true" [class.color-red]="false"
-                    >+2.2%</span
-                  >
-                </div>
-              </td>
+              <ng-container
+                *ngIf="
+                  (asset | getWhiteAssetInfo | async)?.price_url
+                    | getPriceByUrl
+                    | async as price;
+                  else templateNotLoadPrice
+                "
+              >
+                <td>
+                  <div class="text-ellipsis">
+                    <b>{{ (asset.total | intToMoney) * price.usd | currency: 'USD' }}</b>
+                  </div>
+                </td>
+                <td>
+                  <div class="text-ellipsis">
+                    <b class="mr-0_5">{{ price.usd | currency: 'USD' }}</b>
+                    <span
+                      [class.color-aqua]="price.usd_24h_change > 0"
+                      [class.color-red]="price.usd_24h_change < 0"
+                      >{{ price.usd_24h_change | number: '1.2-2' }}%</span
+                    >
+                  </div>
+                </td>
+              </ng-container>
+              <ng-template #templateNotLoadPrice>
+                <td>
+                </td>
+                <td>
+                </td>
+              </ng-template>
               <td>
                 <div
                   class="text-ellipsis"
@@ -178,7 +194,7 @@
         [disabled]="false"
         class="w-100 px-2 py-1"
         type="button"
-        (click)="removeAsset()"
+        (click)="beforeRemoveAsset()"
       >
         <i class="icon delete mr-1"></i>
         <span>{{ 'Remove assets' | translate }}</span>
