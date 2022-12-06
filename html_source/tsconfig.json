@@ -5,7 +5,7 @@
     "paths": {
       "@store/*": ["src/app/store/*"],
       "@parts/*": ["src/app/parts/*"],
-      "@api/*": ["src/app/api/*"],
+      "@api/*": ["src/app/api/*"]
     },
     "outDir": "./dist/out-tsc",
     "sourceMap": true,

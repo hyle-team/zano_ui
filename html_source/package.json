@@ -10,7 +10,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "format": "npm prettier --write ."
+    "format": "npx prettier --write ."
   },
   "private": true,
   "dependencies": {

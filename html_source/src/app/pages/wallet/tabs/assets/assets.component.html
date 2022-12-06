@@ -8,16 +8,24 @@
       <thead>
         <tr>
           <th>
-            <div class="bg title">{{ 'ASSETS.TABLE.LABELS.NAME' | translate }}</div>
+            <div class="bg title">
+              {{ 'ASSETS.TABLE.LABELS.NAME' | translate }}
+            </div>
           </th>
           <th>
-            <div class="bg title">{{ 'ASSETS.TABLE.LABELS.BALANCE' | translate }}</div>
+            <div class="bg title">
+              {{ 'ASSETS.TABLE.LABELS.BALANCE' | translate }}
+            </div>
           </th>
           <th>
-            <div class="bg title">{{ 'ASSETS.TABLE.LABELS.VALUE' | translate }}</div>
+            <div class="bg title">
+              {{ 'ASSETS.TABLE.LABELS.VALUE' | translate }}
+            </div>
           </th>
           <th>
-            <div class="bg title">{{ 'ASSETS.TABLE.LABELS.PRICE' | translate }}</div>
+            <div class="bg title">
+              {{ 'ASSETS.TABLE.LABELS.PRICE' | translate }}
+            </div>
           </th>
           <th>
             <div class="bg title">&nbsp;</div>
@@ -185,11 +193,7 @@
 >
   <ul (click)="isOpenDropDownMenu = false" class="list">
     <li class="item">
-      <button
-        class="w-100 px-2 py-1"
-        type="button"
-        (click)="assetDetails()"
-      >
+      <button class="w-100 px-2 py-1" type="button" (click)="assetDetails()">
         <i class="icon info-icon mr-1"></i>
         <span>{{ 'ASSETS.DROP_DOWN_MENU.ASSET_DETAILS' | translate }}</span>
       </button>
