@@ -381,6 +381,31 @@
       "WRAP_INFO_NULL": "failed to request wrap state"
     }
   },
+  "ASSETS": {
+    "TABLE": {
+      "LABELS": {
+        "NAME": "Name",
+        "BALANCE": "BALANCE",
+        "VALUE": "VALUE",
+        "PRICE": "PRICE"
+      }
+    },
+    "DROP_DOWN_MENU": {
+      "ASSET_DETAILS": "Asset Details",
+      "REMOVE_ASSET": "Remove asset"
+    },
+    "MODALS": {
+      "ASSET_DETAILS": {
+        "LABELS": {
+          "NAME": "Asset name",
+          "TICKER": "Ticker",
+          "ID": "Asset ID",
+          "CURRENT_SUPPLY": "Current supply",
+          "MAX_SUPPLE": "Max supply"
+        }
+      }
+    }
+  },
   "HISTORY": {
     "STATUS": "Status",
     "STATUS_TOOLTIP": "Confirmations {{current}}/{{total}}",

@@ -12,6 +12,6 @@ export class GetWhiteAssetInfoPipe implements PipeTransform {
   transform({
     asset_info: { asset_id },
   }: Asset): Observable<WhiteAssetInfo | undefined> {
-    return this.assetsFacade.getAssetsWhitelistById(asset_id);
+    return this.assetsFacade.getAssetByIdFromWhitelist(asset_id);
   }
 }

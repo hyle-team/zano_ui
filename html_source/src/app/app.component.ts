@@ -108,7 +108,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.assetsFacade.loadAssetsWhitelist();
     this.variablesService.allContextMenu = this.allContextMenu;
     this.variablesService.onlyCopyContextMenu = this.onlyCopyContextMenu;
     this.variablesService.pasteSelectContextMenu = this.pasteSelectContextMenu;
@@ -912,6 +911,8 @@ export class AppComponent implements OnInit, OnDestroy {
           }
         },
       });
+
+    this.assetsFacade.loadWhitelist();
   }
 
   ngOnDestroy(): void {

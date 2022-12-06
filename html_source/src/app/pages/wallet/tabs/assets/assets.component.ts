@@ -6,7 +6,7 @@ import { Store } from '@store/store';
 import { PaginatePipeArgs } from 'ngx-pagination';
 import { takeUntil } from 'rxjs/operators';
 import { CdkOverlayOrigin } from '@angular/cdk/overlay';
-import { AssetDetailsComponent } from '../../../../parts/modals/asset-details/asset-details.component';
+import { AssetDetailsComponent } from '@parts/modals/asset-details/asset-details.component';
 import { Dialog, DialogConfig } from '@angular/cdk/dialog';
 import { BackendService } from '@api/services/backend.service';
 import {
@@ -75,6 +75,13 @@ export class AssetsComponent implements OnInit, OnDestroy {
     this.currentAsset = asset;
   }
 
+  trackByAssets(
+    index: number,
+    { asset_info: { asset_id } }: Asset
+  ): number | string {
+    return asset_id || index;
+  }
+
   trackByPages(index: number): number | string {
     return index;
   }
@@ -97,7 +104,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
     } = this.currentAsset;
     const dialogConfig: DialogConfig<ConfirmModalData> = {
       data: {
-        title: `Do you want delete "${full_name || '---'}"`,
+        title: `Do you want delete "${full_name}"`,
       },
     };
 

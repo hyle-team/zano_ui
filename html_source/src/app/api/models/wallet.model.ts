@@ -3,6 +3,7 @@ import { Transaction } from './transaction.model';
 import { BigNumber } from 'bignumber.js';
 import { Asset, Assets } from './assets.model';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
+import { BehaviorSubject } from 'rxjs';
 
 export interface Alias {
   name: string;
@@ -19,7 +20,15 @@ export class Wallet {
   pass: string;
   path: string;
   address: string;
-  balances: Assets | null | undefined;
+
+  balances$ = new BehaviorSubject<Assets | null | undefined>(undefined);
+  get balances(): Assets | null | undefined {
+    return this.balances$.value;
+  }
+  set balances(value: Assets | null | undefined) {
+    this.balances$.next(value);
+  }
+
   mined_total: number;
   tracking_hey: string;
   is_auditable: boolean;

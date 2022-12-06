@@ -9,6 +9,7 @@ import {
   GetWhiteAssetInfoModule,
   GetPriceByUrlModule,
   ShortStringPipeModule,
+  HasInAssetsWhitelistModule,
 } from '@parts/pipes';
 import { CopyButtonModule } from '@parts/components/copy-button/copy-button.module';
 import { TranslateModule } from '@ngx-translate/core';
@@ -93,6 +94,7 @@ import { AssetDetailsModule } from '@parts/modals/asset-details/asset-details.mo
     AssetDetailsModule,
     GetWhiteAssetInfoModule,
     GetPriceByUrlModule,
+    HasInAssetsWhitelistModule,
   ],
 })
 export class WalletModule {}

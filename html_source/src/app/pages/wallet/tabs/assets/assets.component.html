@@ -8,16 +8,16 @@
       <thead>
         <tr>
           <th>
-            <div class="bg title">{{ 'Name' | translate }}</div>
+            <div class="bg title">{{ 'ASSETS.TABLE.LABELS.NAME' | translate }}</div>
           </th>
           <th>
-            <div class="bg title">{{ 'Balance' | translate }}</div>
+            <div class="bg title">{{ 'ASSETS.TABLE.LABELS.BALANCE' | translate }}</div>
           </th>
           <th>
-            <div class="bg title">{{ 'Value' | translate }}</div>
+            <div class="bg title">{{ 'ASSETS.TABLE.LABELS.VALUE' | translate }}</div>
           </th>
           <th>
-            <div class="bg title">{{ 'Price' | translate }}</div>
+            <div class="bg title">{{ 'ASSETS.TABLE.LABELS.PRICE' | translate }}</div>
           </th>
           <th>
             <div class="bg title">&nbsp;</div>
@@ -26,9 +26,14 @@
         <div class="row-divider"></div>
       </thead>
       <tbody>
-        <ng-container *ngIf="variablesService.currentWallet.balances as assets">
+        <ng-container
+          *ngIf="variablesService.currentWallet.balances$ | async as assets"
+        >
           <ng-container
-            *ngFor="let asset of assets | paginate: paginatePipeArgs"
+            *ngFor="
+              let asset of assets | paginate: paginatePipeArgs;
+              trackBy: trackByAssets
+            "
           >
             <tr>
               <td>
@@ -50,15 +55,15 @@
                       appDefaultImg
                     />
                   </div>
-                  <b>{{ asset.asset_info.full_name || '---' }}</b>
+                  <b class="text-ellipsis">{{ asset.asset_info.full_name }}</b>
                 </div>
               </td>
               <td>
                 <div class="text-ellipsis">
-                  <b
-                    >{{ asset.total | intToMoney }}
-                    {{ asset.asset_info.ticker || '---' }}</b
-                  >
+                  <b>
+                    {{ asset.total | intToMoney }}
+                    {{ asset.asset_info.ticker }}
+                  </b>
                 </div>
               </td>
               <ng-container
@@ -113,7 +118,7 @@
                 </div>
               </td>
             </tr>
-            <div class="row-divider"></div>
+            <tr class="row-divider"></tr>
           </ng-container>
         </ng-container>
       </tbody>
@@ -181,25 +186,26 @@
   <ul (click)="isOpenDropDownMenu = false" class="list">
     <li class="item">
       <button
-        [disabled]="false"
         class="w-100 px-2 py-1"
         type="button"
         (click)="assetDetails()"
       >
         <i class="icon info-icon mr-1"></i>
-        <span>{{ 'Asset Details' | translate }}</span>
+        <span>{{ 'ASSETS.DROP_DOWN_MENU.ASSET_DETAILS' | translate }}</span>
       </button>
     </li>
-    <li class="item">
-      <button
-        [disabled]="false"
-        class="w-100 px-2 py-1"
-        type="button"
-        (click)="beforeRemoveAsset()"
-      >
-        <i class="icon delete mr-1"></i>
-        <span>{{ 'Remove assets' | translate }}</span>
-      </button>
-    </li>
+
+    <ng-container *ngIf="!(currentAsset | hasInAssetsWhitelist | async)">
+      <li class="item">
+        <button
+          class="w-100 px-2 py-1"
+          type="button"
+          (click)="beforeRemoveAsset()"
+        >
+          <i class="icon delete mr-1"></i>
+          <span>{{ 'ASSETS.DROP_DOWN_MENU.REMOVE_ASSET' | translate }}</span>
+        </button>
+      </li>
+    </ng-container>
   </ul>
 </ng-template>
