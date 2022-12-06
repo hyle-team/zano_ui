@@ -1829,7 +1829,6 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   max-width: 19rem;
   min-width: 19rem;
   width: 100%;
-  min-height: 11.2rem;
   padding: 1.2rem;
   background-color: var(--blue-500);
   border: 0.15rem solid var(--blue-500);
@@ -1978,10 +1977,10 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   transform: translateY(-50%);
 }.assets-table .token-logo {
   background: var(--blue-300);
-  min-width: 5.4rem;
-  min-height: 5.4rem;
-  max-width: 5.4rem;
-  max-height: 5.4rem;
+  min-width: 5.5rem;
+  min-height: 5.5rem;
+  max-width: 5.5rem;
+  max-height: 5.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
