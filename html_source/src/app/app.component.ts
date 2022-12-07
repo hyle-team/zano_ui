@@ -313,10 +313,8 @@ export class AppComponent implements OnInit, OnDestroy {
             this.ngZone.run(() => {
               if (!wallet.loaded) {
                 wallet.balances = data.balances;
-                // wallet.unlocked_balance = data.unlocked_balance;
               } else {
                 wallet.balances = data.balances;
-                // wallet.unlocked_balance = data.unlocked_balance;
               }
 
               if (tr_info.tx_type === 6) {

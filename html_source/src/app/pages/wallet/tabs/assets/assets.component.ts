@@ -13,6 +13,7 @@ import {
   ConfirmModalComponent,
   ConfirmModalData,
 } from '@parts/modals/confirm-modal/confirm-modal.component';
+import { WalletsService } from '@parts/services/wallets.service';
 
 @Component({
   selector: 'app-assets',
@@ -56,6 +57,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
   constructor(
     public variablesService: VariablesService,
     private backendService: BackendService,
+    private walletsService: WalletsService,
     private store: Store,
     private dialog: Dialog
   ) {}
@@ -126,6 +128,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
       asset_id,
     };
     this.backendService.removeCustomAssetId(params, () => {
+      this.walletsService.updateWalletInfo(wallet_id);
       this.currentAsset = undefined;
     });
   }

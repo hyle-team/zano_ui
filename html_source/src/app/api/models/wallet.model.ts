@@ -21,12 +21,28 @@ export class Wallet {
   path: string;
   address: string;
 
-  balances$ = new BehaviorSubject<Assets | null | undefined>(undefined);
+  readonly balances$ = new BehaviorSubject<Assets | null | undefined>(
+    undefined
+  );
   get balances(): Assets | null | undefined {
     return this.balances$.value;
   }
   set balances(value: Assets | null | undefined) {
-    this.balances$.next(value);
+    const sortedAssets = [];
+    if (value) {
+      const indexZano = value.findIndex(
+        ({ asset_info: { ticker } }) => ticker === 'ZANO'
+      );
+      if (indexZano >= 0) {
+        const assetZano = value.splice(indexZano, 1).shift();
+        sortedAssets.push(assetZano);
+      }
+      const sortedAssetsByBalance = value.sort((a, b) =>
+        new BigNumber(b.total).minus(new BigNumber(a.total)).toNumber()
+      );
+      sortedAssets.push(...sortedAssetsByBalance);
+    }
+    this.balances$.next(sortedAssets);
   }
 
   mined_total: number;

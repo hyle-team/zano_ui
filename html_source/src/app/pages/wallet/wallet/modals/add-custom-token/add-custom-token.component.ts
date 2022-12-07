@@ -5,6 +5,7 @@ import { ZanoValidators } from '@parts/utils/zano-validators';
 import { DialogRef } from '@angular/cdk/dialog';
 import { BackendService } from '@api/services/backend.service';
 import { Asset, ParamsAddCustomAssetId } from '@api/models/assets.model';
+import { WalletsService } from '@parts/services/wallets.service';
 
 @Component({
   selector: 'app-add-custom-token',
@@ -22,6 +23,7 @@ export class AddCustomTokenComponent {
   constructor(
     public variablesService: VariablesService,
     public backendService: BackendService,
+    private walletsService: WalletsService,
     private dialogRef: DialogRef<Asset | undefined>
   ) {}
 
@@ -56,6 +58,7 @@ export class AddCustomTokenComponent {
             total: 0,
             unlocked: 0,
           };
+          this.walletsService.updateWalletInfo(wallet_id);
           this.dialogRef.close(asset);
         } else {
           console.warn('Opss! Asset not added');

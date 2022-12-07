@@ -34,7 +34,7 @@ export class ModalService {
     this.components[length - 1].instance['message'] = message.length
       ? this.translate.instant(message)
       : '';
-    this.components[length - 1].instance['close'].subscribe({
+    this.components[length - 1].instance['eventClose']?.subscribe({
       next: () => {
         this.removeModal(length - 1);
       },

@@ -746,6 +746,13 @@ export class BackendService {
     return this.runCommand('remove_custom_asset_id', params, callback);
   }
 
+  getWalletInfo(
+    wallet_id,
+    callback?: (status: boolean, response_data: any) => void
+  ): void {
+    return this.runCommand('get_wallet_info', { wallet_id }, callback);
+  }
+
   private informerRun(error: string, params, command: string): void {
     let error_translate = '';
     switch (error) {
@@ -1095,10 +1102,6 @@ export class BackendService {
       setBlockedIcon: function (enabled, callback) {
         var mode = (enabled) ? "blocked" : "normal";
         Service.runCommand('bool_toggle_icon', mode, callback);
-      },
-
-      getWalletInfo: function (wallet_id, callback) {
-        this.runCommand('get_wallet_info', {wallet_id: wallet_id}, callback);
       },
 
       printText: function (content) {
