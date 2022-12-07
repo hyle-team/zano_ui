@@ -364,6 +364,7 @@ export class BackendService {
     mixin,
     comment,
     hide,
+    asset_id: string | null,
     callback
   ): void {
     const params = {
@@ -372,6 +373,7 @@ export class BackendService {
         {
           address: to_address,
           amount: amount,
+          ...(asset_id && { asset_id }),
         },
       ],
       mixin_count: mixin ? parseInt(mixin, 10) : 0,

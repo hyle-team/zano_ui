@@ -21,7 +21,7 @@ import { HttpClient } from '@angular/common/http';
 import { MoneyToIntPipe } from '@parts/pipes/money-to-int-pipe/money-to-int.pipe';
 import { finalize, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { AssetInfo } from '@api/models/assets.model';
+import { Asset } from '@api/models/assets.model';
 
 interface WrapInfo {
   tx_cost: {
@@ -170,7 +170,10 @@ export class SendComponent implements OnInit, OnDestroy {
       },
     ]),
     comment: new UntypedFormControl(''),
-    assets: new FormControl<AssetInfo | null>(null, Validators.compose([])),
+    asset: new FormControl<Asset | null>(
+      null,
+      Validators.compose([Validators.required])
+    ),
     mixin: new UntypedFormControl(MIXIN, Validators.required),
     fee: new UntypedFormControl(this.variablesService.default_fee, [
       Validators.required,
@@ -315,6 +318,12 @@ export class SendComponent implements OnInit, OnDestroy {
 
   onSend(): void {
     if (this.sendForm.valid) {
+      const { asset } = this.sendForm.value;
+      let asset_id = null;
+      if (asset.asset_info.ticker !== 'ZANO') {
+        asset_id = asset.asset_info.asset_id;
+      }
+
       if (this.sendForm.get('address').value.indexOf('@') !== 0) {
         this.backend.validateAddress(
           this.sendForm.get('address').value,
@@ -334,6 +343,7 @@ export class SendComponent implements OnInit, OnDestroy {
                 this.sendForm.get('mixin').value,
                 this.sendForm.get('comment').value,
                 this.sendForm.get('hide').value,
+                asset_id,
                 job_id => {
                   this.ngZone.run(() => {
                     this.job_id = job_id;
@@ -381,6 +391,7 @@ export class SendComponent implements OnInit, OnDestroy {
                   this.sendForm.get('mixin').value,
                   this.sendForm.get('comment').value,
                   this.sendForm.get('hide').value,
+                  asset_id,
                   job_id => {
                     this.ngZone.run(() => {
                       this.job_id = job_id;

@@ -172,24 +172,34 @@
         [clearable]="false"
         [items]="variablesService.currentWallet.balances"
         [searchable]="false"
-        formControlName="assets"
+        formControlName="asset"
         class="custom-select with-circle"
       >
         <ng-template ng-option-tmp ng-label-tmp let-asset="item">
-          <ng-container *ngIf="true">
-            <img
-              height="15"
-              width="15"
-              [src]="(asset | getWhiteAssetInfo | async)?.logo || defaultImgSrc"
-              [alt]="asset.asset_info.ticker"
-              defaultImgAlt="default"
-              [defaultImgSrc]="defaultImgSrc"
-              appDefaultImg
-            />
-            {{ asset.asset_info.full_name || '---' }}
-          </ng-container>
+          <img
+            height="15"
+            width="15"
+            [src]="(asset | getWhiteAssetInfo | async)?.logo || defaultImgSrc"
+            [alt]="asset.asset_info.ticker"
+            defaultImgAlt="default"
+            [defaultImgSrc]="defaultImgSrc"
+            appDefaultImg
+          />
+          {{ asset.asset_info.full_name || '---' }}
         </ng-template>
       </ng-select>
+      <div
+        *ngIf="
+          sendForm.controls['asset'].invalid &&
+          (sendForm.controls['asset'].dirty ||
+            sendForm.controls['asset'].touched)
+        "
+        class="error"
+      >
+        <div *ngIf="sendForm.controls['asset'].hasError('required')">
+          {{ 'Required field' | translate }}
+        </div>
+      </div>
     </div>
 
     <div class="details mb-2">
