@@ -6,7 +6,7 @@ import { ModalService } from '@parts/services/modal.service';
 import { MoneyToIntPipe } from '@parts/pipes/money-to-int-pipe/money-to-int.pipe';
 import JSONBigNumber from 'json-bignumber';
 import { BigNumber } from 'bignumber.js';
-import { Alias } from '../models/wallet.model';
+import { Alias, ResponseGetWalletInfo } from '../models/wallet.model';
 import {
   ParamsAddCustomAssetId,
   ParamsRemoveCustomAssetId,
@@ -748,7 +748,7 @@ export class BackendService {
 
   getWalletInfo(
     wallet_id,
-    callback?: (status: boolean, response_data: any) => void
+    callback?: (status: boolean, response_data: ResponseGetWalletInfo) => void
   ): void {
     return this.runCommand('get_wallet_info', { wallet_id }, callback);
   }

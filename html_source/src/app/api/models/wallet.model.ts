@@ -3,7 +3,7 @@ import { Transaction } from './transaction.model';
 import { BigNumber } from 'bignumber.js';
 import { Asset, Assets } from './assets.model';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 export interface Alias {
   name: string;
@@ -21,12 +21,18 @@ export class Wallet {
   path: string;
   address: string;
 
-  readonly balances$ = new BehaviorSubject<Assets | null | undefined>(
+  private _balances$ = new BehaviorSubject<Assets | null | undefined>(
     undefined
   );
-  get balances(): Assets | null | undefined {
-    return this.balances$.value;
+
+  get balances$(): Observable<Assets | null | undefined> {
+    return this._balances$.asObservable();
   }
+
+  get balances(): Assets | null | undefined {
+    return this._balances$.value;
+  }
+
   set balances(value: Assets | null | undefined) {
     const sortedAssets = [];
     if (value) {
@@ -42,7 +48,7 @@ export class Wallet {
       );
       sortedAssets.push(...sortedAssetsByBalance);
     }
-    this.balances$.next(sortedAssets);
+    this._balances$.next(sortedAssets);
   }
 
   mined_total: number;
@@ -405,4 +411,14 @@ export interface PushOffer {
     t: string;
     url: string;
   };
+}
+
+export interface ResponseGetWalletInfo {
+  address: string;
+  balances: Assets;
+  is_auditable: boolean;
+  is_watch_only: boolean;
+  mined_total: number;
+  path: string;
+  view_sec_key;
 }

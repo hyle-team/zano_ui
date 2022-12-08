@@ -34,7 +34,9 @@ export class SwitchComponent implements ControlValueAccessor {
     if (!this.disabled) {
       this.value = !this.value;
       this.emitChange.emit(this.value);
-      this.onChange(this.value);
+      if (this.onChange) {
+        this.onChange(this.value);
+      }
     }
   }
 

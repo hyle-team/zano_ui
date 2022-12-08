@@ -319,6 +319,7 @@ export class SendComponent implements OnInit, OnDestroy {
   onSend(): void {
     if (this.sendForm.valid) {
       const { asset } = this.sendForm.value;
+      const { wallet_id } = this.variablesService.currentWallet;
       let asset_id = null;
       if (asset.asset_info.ticker !== 'ZANO') {
         asset_id = asset.asset_info.asset_id;
@@ -336,7 +337,7 @@ export class SendComponent implements OnInit, OnDestroy {
               });
             } else {
               this.backend.sendMoney(
-                this.variablesService.currentWallet.wallet_id,
+                wallet_id,
                 this.sendForm.get('address').value,
                 this.sendForm.get('amount').value,
                 this.sendForm.get('fee').value,
@@ -384,7 +385,7 @@ export class SendComponent implements OnInit, OnDestroy {
                 });
               } else {
                 this.backend.sendMoney(
-                  this.variablesService.currentWallet.wallet_id,
+                  wallet_id,
                   alias_data.address, // this.sendForm.get('address').value,
                   this.sendForm.get('amount').value,
                   this.sendForm.get('fee').value,

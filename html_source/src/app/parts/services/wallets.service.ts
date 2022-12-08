@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
-import { Wallet } from '@api/models/wallet.model';
+import { ResponseGetWalletInfo, Wallet } from '@api/models/wallet.model';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +9,8 @@ import { Wallet } from '@api/models/wallet.model';
 export class WalletsService {
   constructor(
     private backendService: BackendService,
-    private variablesService: VariablesService
+    private variablesService: VariablesService,
+    private ngZone: NgZone
   ) {}
 
   getWalletById(wallet_id: number): Wallet | undefined {
@@ -23,8 +24,16 @@ export class WalletsService {
     if (!wallet) {
       return;
     }
-    const callback = (status, response_data) => {
-      console.log('getWalletInfo', status, response_data);
+    const callback: (
+      status: boolean,
+      response_data: ResponseGetWalletInfo
+    ) => void = (status, response_data) => {
+      this.ngZone.run(() => {
+        if (status) {
+          const { balances } = response_data;
+          wallet.balances = balances;
+        }
+      });
     };
 
     this.backendService.getWalletInfo(wallet_id, callback);

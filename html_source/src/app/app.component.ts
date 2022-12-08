@@ -311,11 +311,7 @@ export class AppComponent implements OnInit, OnDestroy {
               wallet.history.splice(40, 1);
             }
             this.ngZone.run(() => {
-              if (!wallet.loaded) {
-                wallet.balances = data.balances;
-              } else {
-                wallet.balances = data.balances;
-              }
+              wallet.balances = data.balances;
 
               if (tr_info.tx_type === 6) {
                 this.variablesService.setRefreshStacking(wallet_id);
