@@ -1950,6 +1950,8 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   max-height: 35rem;
   background-color: var(--blue-500);
   scroll-behavior: smooth;
+}app-send-details-modal .details-list {
+  width: 100%;
 }app-send-details-modal .details-list .item .image {
   max-width: 1.5rem;
   max-height: 1.5rem;

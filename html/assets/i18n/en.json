@@ -385,9 +385,9 @@
     "TABLE": {
       "LABELS": {
         "NAME": "Name",
-        "BALANCE": "BALANCE",
-        "VALUE": "VALUE",
-        "PRICE": "PRICE"
+        "BALANCE": "Balance",
+        "VALUE": "Value",
+        "PRICE": "Price"
       }
     },
     "DROP_DOWN_MENU": {
