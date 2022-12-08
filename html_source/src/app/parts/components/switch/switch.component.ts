@@ -9,8 +9,24 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'app-switch',
-  templateUrl: './switch.component.html',
-  styleUrls: ['./switch.component.scss'],
+  template: `
+    <div
+      (click)="toggle(); $event.stopPropagation()"
+      [class.disabled]="disabled"
+      [class.off]="!value"
+      [class.on]="value"
+      class="switch"
+    >
+      <span class="circle"></span>
+    </div>
+  `,
+  styles: [
+    `
+      :host {
+        display: inline-flex;
+      }
+    `,
+  ],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
