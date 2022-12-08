@@ -420,5 +420,5 @@ export interface ResponseGetWalletInfo {
   is_watch_only: boolean;
   mined_total: number;
   path: string;
-  view_sec_key;
+  view_sec_key: string;
 }

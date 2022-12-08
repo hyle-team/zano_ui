@@ -92,6 +92,30 @@ export interface CurrentActionState {
   wallet_id: number;
 }
 
+export enum Commands {
+  webkit_launched_script = 'webkit_launched_script',
+  on_request_quit = 'on_request_quit',
+  get_app_data = 'get_app_data',
+  store_app_data = 'store_app_data',
+  get_secure_app_data = 'get_secure_app_data',
+  set_master_password = 'set_master_password',
+  check_master_password = 'check_master_password',
+  get_is_disabled_notifications = 'get_is_disabled_notifications',
+  set_is_disabled_notifications = 'set_is_disabled_notifications',
+  store_secure_app_data = 'store_secure_app_data',
+  drop_secure_app_data = 'drop_secure_app_data',
+  have_secure_app_data = 'have_secure_app_data',
+  show_savefile_dialog = 'show_savefile_dialog',
+  show_openfile_dialog = 'show_openfile_dialog',
+  store_to_file = 'store_to_file',
+  load_from_file = 'load_from_file',
+  push_offer = 'push_offer',
+  generate_wallet = 'generate_wallet',
+  export_wallet_history = 'export_wallet_history',
+  open_wallet = 'open_wallet',
+  close_wallet = 'close_wallet',
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -185,15 +209,15 @@ export class BackendService {
   }
 
   webkitLaunchedScript(): void {
-    return this.runCommand('webkit_launched_script');
+    return this.runCommand(Commands.webkit_launched_script);
   }
 
   quitRequest(): void {
-    return this.runCommand('on_request_quit');
+    return this.runCommand(Commands.on_request_quit);
   }
 
   getAppData(callback): void {
-    this.runCommand('get_app_data', {}, callback);
+    this.runCommand(Commands.get_app_data, {}, callback);
   }
 
   storeAppData(callback?): void {
@@ -206,28 +230,32 @@ export class BackendService {
         });
       });
     }
-    this.runCommand('store_app_data', this.variablesService.settings, callback);
+    this.runCommand(
+      Commands.store_app_data,
+      this.variablesService.settings,
+      callback
+    );
   }
 
   getSecureAppData(pass, callback): void {
-    this.runCommand('get_secure_app_data', pass, callback);
+    this.runCommand(Commands.get_secure_app_data, pass, callback);
   }
 
   setMasterPassword(pass, callback): void {
-    this.runCommand('set_master_password', pass, callback);
+    this.runCommand(Commands.set_master_password, pass, callback);
   }
 
   checkMasterPassword(pass, callback): void {
-    this.runCommand('check_master_password', pass, callback);
+    this.runCommand(Commands.check_master_password, pass, callback);
   }
 
   getIsDisabledNotifications(callback): void {
     const params = {};
-    this.runCommand('get_is_disabled_notifications', params, callback);
+    this.runCommand(Commands.get_is_disabled_notifications, params, callback);
   }
 
   setIsDisabledNotifications(state): void {
-    this.runCommand('set_is_disabled_notifications', state);
+    this.runCommand(Commands.set_is_disabled_notifications, state);
   }
 
   storeSecureAppData(callback?): void {
@@ -249,23 +277,33 @@ export class BackendService {
       });
     });
     const data = { wallets: wallets, contacts: contacts };
-    this.backendObject['store_secure_app_data'](
+    this.backendObject[Commands.store_secure_app_data](
       JSON.stringify(data),
       this.variablesService.appPass,
       dataStore => {
-        this.backendCallback(dataStore, {}, callback, 'store_secure_app_data');
+        this.backendCallback(
+          dataStore,
+          {},
+          callback,
+          Commands.store_secure_app_data
+        );
       }
     );
   }
 
   dropSecureAppData(callback?): void {
-    this.backendObject['drop_secure_app_data'](dataStore => {
-      this.backendCallback(dataStore, {}, callback, 'drop_secure_app_data');
+    this.backendObject[Commands.drop_secure_app_data](dataStore => {
+      this.backendCallback(
+        dataStore,
+        {},
+        callback,
+        Commands.drop_secure_app_data
+      );
     });
   }
 
   haveSecureAppData(callback): void {
-    this.runCommand('have_secure_app_data', {}, callback);
+    this.runCommand(Commands.have_secure_app_data, {}, callback);
   }
 
   saveFileDialog(caption, fileMask, default_path, callback): void {
@@ -275,7 +313,7 @@ export class BackendService {
       filemask: fileMask,
       default_dir: dir,
     };
-    this.runCommand('show_savefile_dialog', params, callback);
+    this.runCommand(Commands.show_savefile_dialog, params, callback);
   }
 
   openFileDialog(caption, fileMask, default_path, callback): void {
@@ -285,19 +323,19 @@ export class BackendService {
       filemask: fileMask,
       default_dir: dir,
     };
-    this.runCommand('show_openfile_dialog', params, callback);
+    this.runCommand(Commands.show_openfile_dialog, params, callback);
   }
 
   storeFile(path, buff): void {
-    this.backendObject['store_to_file'](path, buff);
+    this.backendObject[Commands.store_to_file](path, buff);
   }
 
   loadFile(path, callback): void {
-    this.runCommand('load_from_file', path, callback);
+    this.runCommand(Commands.load_from_file, path, callback);
   }
 
   push_offer(params, callback): void {
-    this.runCommand('push_offer', params, callback);
+    this.runCommand(Commands.push_offer, params, callback);
   }
 
   generateWallet(path, pass, callback): void {
@@ -305,11 +343,11 @@ export class BackendService {
       path: path,
       pass: pass,
     };
-    this.runCommand('generate_wallet', params, callback);
+    this.runCommand(Commands.generate_wallet, params, callback);
   }
 
   exportWalletHistory(json_string): void {
-    this.runCommand('export_wallet_history', json_string);
+    this.runCommand(Commands.export_wallet_history, json_string);
   }
 
   openWallet(path, pass, txs_to_return, testEmpty, callback): void {
@@ -319,11 +357,11 @@ export class BackendService {
       txs_to_return: txs_to_return,
     };
     params['testEmpty'] = !!testEmpty;
-    this.runCommand('open_wallet', params, callback);
+    this.runCommand(Commands.open_wallet, params, callback);
   }
 
   closeWallet(wallet_id, callback?): void {
-    this.runCommand('close_wallet', { wallet_id: +wallet_id }, callback);
+    this.runCommand(Commands.close_wallet, { wallet_id: +wallet_id }, callback);
   }
 
   getSmartWalletInfo({ wallet_id, seed_password }, callback): void {
