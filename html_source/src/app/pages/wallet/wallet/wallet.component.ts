@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VariablesService } from '@parts/services/variables.service';
-import { BackendService } from '@api/services/backend.service';
+import { BackendService, Commands } from '@api/services/backend.service';
 import { TranslateService } from '@ngx-translate/core';
 import { IntToMoneyPipe } from '@parts/pipes/int-to-money-pipe/int-to-money.pipe';
 import { Subject } from 'rxjs';
@@ -260,7 +260,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   }
 
   updateWalletStatus(): void {
-    this.backend.eventSubscribe('wallet_sync_progress', data => {
+    this.backend.eventSubscribe(Commands.wallet_sync_progress, data => {
       const wallet_id = data.wallet_id;
       if (wallet_id === this.variablesService.currentWallet.wallet_id) {
         this.ngZone.run(() => {
@@ -268,7 +268,7 @@ export class WalletComponent implements OnInit, OnDestroy {
         });
       }
     });
-    this.backend.eventSubscribe('update_wallet_status', data => {
+    this.backend.eventSubscribe(Commands.update_wallet_status, data => {
       const wallet_state = data.wallet_state;
       const wallet_id = data.wallet_id;
       this.ngZone.run(() => {

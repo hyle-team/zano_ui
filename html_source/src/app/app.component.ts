@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
-import { BackendService } from '@api/services/backend.service';
+import { BackendService, Commands } from '@api/services/backend.service';
 import { Router } from '@angular/router';
 import { VariablesService } from '@parts/services/variables.service';
 import { ContextMenuComponent } from '@perfectmemory/ngx-contextmenu';
@@ -122,7 +122,7 @@ export class AppComponent implements OnInit, OnDestroy {
           console.log(st2, dd2);
         });
 
-        this.backend.eventSubscribe('quit_requested', () => {
+        this.backend.eventSubscribe(Commands.quit_requested, () => {
           this.variablesService.event_quit_requested$.next();
           if (!this.onQuitRequest) {
             this.ngZone.run(() => {
@@ -160,7 +160,7 @@ export class AppComponent implements OnInit, OnDestroy {
           this.onQuitRequest = true;
         });
 
-        this.backend.eventSubscribe('update_wallet_status', data => {
+        this.backend.eventSubscribe(Commands.update_wallet_status, data => {
           console.log(
             '----------------- update_wallet_status -----------------'
           );
@@ -190,7 +190,7 @@ export class AppComponent implements OnInit, OnDestroy {
           }
         });
 
-        this.backend.eventSubscribe('wallet_sync_progress', data => {
+        this.backend.eventSubscribe(Commands.wallet_sync_progress, data => {
           console.log(
             '----------------- wallet_sync_progress -----------------'
           );
@@ -219,7 +219,7 @@ export class AppComponent implements OnInit, OnDestroy {
           }
         });
 
-        this.backend.eventSubscribe('update_daemon_state', data => {
+        this.backend.eventSubscribe(Commands.update_daemon_state, data => {
           console.log(
             '----------------- update_daemon_state -----------------'
           );
@@ -294,7 +294,7 @@ export class AppComponent implements OnInit, OnDestroy {
           }
         });
 
-        this.backend.eventSubscribe('money_transfer', data => {
+        this.backend.eventSubscribe(Commands.money_transfer, data => {
           console.log('----------------- money_transfer -----------------');
           console.log(data);
 
@@ -539,19 +539,21 @@ export class AppComponent implements OnInit, OnDestroy {
           }
         });
 
-        this.backend.backendObject['handle_deeplink_click'].connect(data => {
-          console.log(
-            '----------------- handle_deeplink_click -----------------'
-          );
-          console.log(data);
-          this.ngZone.run(() => {
-            if (data) {
-              this.variablesService.deeplink$.next(data);
-            }
-          });
-        });
+        this.backend.backendObject[Commands.handle_deeplink_click].connect(
+          data => {
+            console.log(
+              '----------------- handle_deeplink_click -----------------'
+            );
+            console.log(data);
+            this.ngZone.run(() => {
+              if (data) {
+                this.variablesService.deeplink$.next(data);
+              }
+            });
+          }
+        );
 
-        this.backend.eventSubscribe('money_transfer_cancel', data => {
+        this.backend.eventSubscribe(Commands.money_transfer_cancel, data => {
           console.log(
             '----------------- money_transfer_cancel -----------------'
           );
@@ -649,7 +651,7 @@ export class AppComponent implements OnInit, OnDestroy {
           }
         });
 
-        this.backend.eventSubscribe('on_core_event', data => {
+        this.backend.eventSubscribe(Commands.on_core_event, data => {
           console.log('----------------- on_core_event -----------------');
           console.log(data);
 
@@ -878,10 +880,8 @@ export class AppComponent implements OnInit, OnDestroy {
           }
         });
 
-        /** Start listening dispatchAsyncCallResult */
         this.backend.dispatchAsyncCallResult();
 
-        /** Start listening handleCurrentActionState */
         this.backend.handleCurrentActionState();
       },
       error: error => {

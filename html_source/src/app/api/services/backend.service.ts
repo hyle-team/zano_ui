@@ -93,6 +93,33 @@ export interface CurrentActionState {
 }
 
 export enum Commands {
+  money_transfer_cancel = 'money_transfer_cancel',
+  handle_deeplink_click = 'handle_deeplink_click',
+  money_transfer = 'money_transfer',
+  update_daemon_state = 'update_daemon_state',
+  wallet_sync_progress = 'wallet_sync_progress',
+  update_wallet_status = 'update_wallet_status',
+  quit_requested = 'quit_requested',
+  on_core_event = 'on_core_event',
+  get_wallet_info = 'get_wallet_info',
+  remove_custom_asset_id = 'remove_custom_asset_id',
+  add_custom_asset_id = 'add_custom_asset_id',
+  get_options = 'get_options',
+  handle_current_action_state = 'handle_current_action_state',
+  set_enable_tor = 'set_enable_tor',
+  dispatch_async_call_result = 'dispatch_async_call_result',
+  async_call = 'async_call',
+  set_log_level = 'set_log_level',
+  get_network_type = 'get_network_type',
+  get_version = 'get_version',
+  get_tx_pool_info = 'get_tx_pool_info',
+  get_recent_transfers = 'get_recent_transfers',
+  resync_wallet = 'resync_wallet',
+  get_alias_coast = 'get_alias_coast',
+  get_alias_info_by_address = 'get_alias_info_by_address',
+  get_alias_info_by_name = 'get_alias_info_by_name',
+  get_all_aliases = 'get_all_aliases',
+  request_alias_update = 'request_alias_update',
   webkit_launched_script = 'webkit_launched_script',
   on_request_quit = 'on_request_quit',
   get_app_data = 'get_app_data',
@@ -114,6 +141,29 @@ export enum Commands {
   export_wallet_history = 'export_wallet_history',
   open_wallet = 'open_wallet',
   close_wallet = 'close_wallet',
+  get_smart_wallet_info = 'get_smart_wallet_info',
+  get_seed_phrase_info = 'get_seed_phrase_info',
+  run_wallet = 'run_wallet',
+  is_valid_restore_wallet_text = 'is_valid_restore_wallet_text',
+  restore_wallet = 'restore_wallet',
+  transfer = 'transfer',
+  validate_address = 'validate_address',
+  set_clipboard = 'set_clipboard',
+  get_clipboard = 'get_clipboard',
+  create_proposal = 'create_proposal',
+  get_contracts = 'get_contracts',
+  accept_proposal = 'accept_proposal',
+  release_contract = 'release_contract',
+  request_cancel_contract = 'request_cancel_contract',
+  accept_cancel_contract = 'accept_cancel_contract',
+  get_mining_history = 'get_mining_history',
+  start_pos_mining = 'start_pos_mining',
+  stop_pos_mining = 'stop_pos_mining',
+  open_url_in_browser = 'open_url_in_browser',
+  start_backend = 'start_backend',
+  get_default_fee = 'get_default_fee',
+  set_localization_strings = 'set_localization_strings',
+  request_alias_registration = 'request_alias_registration',
 }
 
 @Injectable({
@@ -121,6 +171,7 @@ export enum Commands {
 })
 export class BackendService {
   dispatchAsyncCallResult$ = new Subject<AsyncCommandResults>();
+
   handleCurrentActionState$ = new Subject<CurrentActionState>();
 
   backendObject: any;
@@ -178,8 +229,8 @@ export class BackendService {
     }
   }
 
-  eventSubscribe(command, callback): void {
-    if (command === 'on_core_event') {
+  eventSubscribe(command: Commands, callback): void {
+    if (command === Commands.on_core_event) {
       this.backendObject[command].connect(callback);
     } else {
       this.backendObject[command].connect(str => {
@@ -196,13 +247,13 @@ export class BackendService {
           (<any>window).qt.webChannelTransport,
           channel => {
             this.backendObject = channel.objects.mediator_object;
-            observer.next('ok');
+            observer.next('backendObject loaded');
           }
         );
       } else {
+        observer.error('backend not loaded');
         if (!this.backendObject) {
-          observer.error('error');
-          observer.error('error');
+          observer.error('backendObject not loaded');
         }
       }
     });
@@ -366,22 +417,22 @@ export class BackendService {
 
   getSmartWalletInfo({ wallet_id, seed_password }, callback): void {
     this.runCommand(
-      'get_smart_wallet_info',
+      Commands.get_smart_wallet_info,
       { wallet_id: +wallet_id, seed_password },
       callback
     );
   }
 
   getSeedPhraseInfo(param, callback): void {
-    this.runCommand('get_seed_phrase_info', param, callback);
+    this.runCommand(Commands.get_seed_phrase_info, param, callback);
   }
 
   runWallet(wallet_id, callback?): void {
-    this.runCommand('run_wallet', { wallet_id: +wallet_id }, callback);
+    this.runCommand(Commands.run_wallet, { wallet_id: +wallet_id }, callback);
   }
 
   isValidRestoreWalletText(param, callback): void {
-    this.runCommand('is_valid_restore_wallet_text', param, callback);
+    this.runCommand(Commands.is_valid_restore_wallet_text, param, callback);
   }
 
   restoreWallet(path, pass, seed_phrase, seed_pass, callback): void {
@@ -391,7 +442,7 @@ export class BackendService {
       pass: pass,
       seed_pass,
     };
-    this.runCommand('restore_wallet', params, callback);
+    this.runCommand(Commands.restore_wallet, params, callback);
   }
 
   sendMoney(
@@ -421,19 +472,19 @@ export class BackendService {
       push_payer: !hide,
     };
 
-    this.asyncCall('transfer', params, callback);
+    this.asyncCall(Commands.transfer, params, callback);
   }
 
   validateAddress(address, callback): void {
-    this.runCommand('validate_address', address, callback);
+    this.runCommand(Commands.validate_address, address, callback);
   }
 
   setClipboard(str, callback?): void {
-    return this.runCommand('set_clipboard', str, callback);
+    return this.runCommand(Commands.set_clipboard, str, callback);
   }
 
   getClipboard(callback): void {
-    return this.runCommand('get_clipboard', {}, callback);
+    return this.runCommand(Commands.get_clipboard, {}, callback);
   }
 
   createProposal(
@@ -466,7 +517,7 @@ export class BackendService {
       b_fee: this.variablesService.default_fee_big,
     };
     BackendService.Debug(1, params);
-    this.runCommand('create_proposal', params, callback);
+    this.runCommand(Commands.create_proposal, params, callback);
   }
 
   getContracts(wallet_id, callback): void {
@@ -474,7 +525,7 @@ export class BackendService {
       wallet_id: parseInt(wallet_id, 10),
     };
     BackendService.Debug(1, params);
-    this.runCommand('get_contracts', params, callback);
+    this.runCommand(Commands.get_contracts, params, callback);
   }
 
   acceptProposal(wallet_id, contract_id, callback): void {
@@ -483,7 +534,7 @@ export class BackendService {
       contract_id: contract_id,
     };
     BackendService.Debug(1, params);
-    this.runCommand('accept_proposal', params, callback);
+    this.runCommand(Commands.accept_proposal, params, callback);
   }
 
   releaseProposal(wallet_id, contract_id, release_type, callback): void {
@@ -493,7 +544,7 @@ export class BackendService {
       release_type: release_type, // "normal" or "burn"
     };
     BackendService.Debug(1, params);
-    this.runCommand('release_contract', params, callback);
+    this.runCommand(Commands.release_contract, params, callback);
   }
 
   requestCancelContract(wallet_id, contract_id, time, callback): void {
@@ -504,7 +555,7 @@ export class BackendService {
       expiration_period: parseInt(time, 10) * 60 * 60,
     };
     BackendService.Debug(1, params);
-    this.runCommand('request_cancel_contract', params, callback);
+    this.runCommand(Commands.request_cancel_contract, params, callback);
   }
 
   acceptCancelContract(wallet_id, contract_id, callback): void {
@@ -513,12 +564,12 @@ export class BackendService {
       contract_id: contract_id,
     };
     BackendService.Debug(1, params);
-    this.runCommand('accept_cancel_contract', params, callback);
+    this.runCommand(Commands.accept_cancel_contract, params, callback);
   }
 
   getMiningHistory(wallet_id, callback): void {
     this.runCommand(
-      'get_mining_history',
+      Commands.get_mining_history,
       { wallet_id: parseInt(wallet_id, 10) },
       callback
     );
@@ -526,7 +577,7 @@ export class BackendService {
 
   startPosMining(wallet_id, callback?): void {
     this.runCommand(
-      'start_pos_mining',
+      Commands.start_pos_mining,
       { wallet_id: parseInt(wallet_id, 10) },
       callback
     );
@@ -534,14 +585,14 @@ export class BackendService {
 
   stopPosMining(wallet_id, callback?): void {
     this.runCommand(
-      'stop_pos_mining',
+      Commands.stop_pos_mining,
       { wallet_id: parseInt(wallet_id, 10) },
       callback
     );
   }
 
   openUrlInBrowser(url, callback?): void {
-    this.runCommand('open_url_in_browser', url, callback);
+    this.runCommand(Commands.open_url_in_browser, url, callback);
   }
 
   start_backend(node, host, port, callback): void {
@@ -550,11 +601,11 @@ export class BackendService {
       remote_node_host: host,
       remote_node_port: parseInt(port, 10),
     };
-    this.runCommand('start_backend', params, callback);
+    this.runCommand(Commands.start_backend, params, callback);
   }
 
   getDefaultFee(callback): void {
-    this.runCommand('get_default_fee', {}, callback);
+    this.runCommand(Commands.get_default_fee, {}, callback);
   }
 
   setBackendLocalization(stringsArray, title, callback?): void {
@@ -562,7 +613,7 @@ export class BackendService {
       strings: stringsArray,
       language_title: title,
     };
-    this.runCommand('set_localization_strings', params, callback);
+    this.runCommand(Commands.set_localization_strings, params, callback);
   }
 
   registerAlias(
@@ -585,7 +636,7 @@ export class BackendService {
       fee: this.moneyToIntPipe.transform(fee),
       reward: this.moneyToIntPipe.transform(reward),
     };
-    this.runCommand('request_alias_registration', params, callback);
+    this.runCommand(Commands.request_alias_registration, params, callback);
   }
 
   updateAlias(wallet_id, alias, fee, callback): void {
@@ -599,27 +650,27 @@ export class BackendService {
       },
       fee: this.moneyToIntPipe.transform(fee),
     };
-    this.runCommand('request_alias_update', params, callback);
+    this.runCommand(Commands.request_alias_update, params, callback);
   }
 
   getAllAliases(callback): void {
-    this.runCommand('get_all_aliases', {}, callback);
+    this.runCommand(Commands.get_all_aliases, {}, callback);
   }
 
   getAliasByName(value, callback): void {
-    return this.runCommand('get_alias_info_by_name', value, callback);
+    return this.runCommand(Commands.get_alias_info_by_name, value, callback);
   }
 
   getAliasByAddress(value, callback): void {
-    return this.runCommand('get_alias_info_by_address', value, callback);
+    return this.runCommand(Commands.get_alias_info_by_address, value, callback);
   }
 
   getAliasCoast(alias, callback): void {
-    this.runCommand('get_alias_coast', { v: alias }, callback);
+    this.runCommand(Commands.get_alias_coast, { v: alias }, callback);
   }
 
   resyncWallet(id): void {
-    this.runCommand('resync_wallet', { wallet_id: id });
+    this.runCommand(Commands.resync_wallet, { wallet_id: id });
   }
 
   getWalletAlias(address): Partial<Alias> {
@@ -688,23 +739,23 @@ export class BackendService {
       count: count,
       exclude_mining_txs: exclude_mining_txs,
     };
-    this.runCommand('get_recent_transfers', params, callback);
+    this.runCommand(Commands.get_recent_transfers, params, callback);
   }
 
   getPoolInfo(callback): void {
-    this.runCommand('get_tx_pool_info', {}, callback);
+    this.runCommand(Commands.get_tx_pool_info, {}, callback);
   }
 
   getVersion(callback): void {
-    this.runCommand('get_version', {}, (status, version) => {
-      this.runCommand('get_network_type', {}, (status_network, type) => {
+    this.runCommand(Commands.get_version, {}, (status, version) => {
+      this.runCommand(Commands.get_network_type, {}, (status_network, type) => {
         callback(version, type);
       });
     });
   }
 
   setLogLevel(level): void {
-    return this.runCommand('set_log_level', { v: level });
+    return this.runCommand(Commands.set_log_level, { v: level });
   }
 
   asyncCall(
@@ -713,7 +764,7 @@ export class BackendService {
     callback?: (job_id?: number) => void | any
   ): void {
     return this.runCommand(
-      'async_call',
+      Commands.async_call,
       [command, params],
       (status, { job_id }: { job_id: number }) => {
         callback(job_id);
@@ -722,7 +773,7 @@ export class BackendService {
   }
 
   dispatchAsyncCallResult(): void {
-    this.backendObject['dispatch_async_call_result'].connect(
+    this.backendObject[Commands.dispatch_async_call_result].connect(
       (job_id: string, json_resp: string) => {
         const asyncCommandResults: AsyncCommandResults = {
           job_id: +job_id,
@@ -736,7 +787,7 @@ export class BackendService {
   }
 
   handleCurrentActionState(): void {
-    this.backendObject['handle_current_action_state'].connect(
+    this.backendObject[Commands.handle_current_action_state].connect(
       (response: string) => {
         const currentActionState: CurrentActionState = JSON.parse(response);
         this.ngZone.run(() =>
@@ -747,12 +798,14 @@ export class BackendService {
   }
 
   setEnableTor(value: boolean): void {
-    return this.runCommand('set_enable_tor', <{ v: boolean }>{ v: value });
+    return this.runCommand(Commands.set_enable_tor, <{ v: boolean }>{
+      v: value,
+    });
   }
 
   getOptions(): any {
     return this.runCommand(
-      'get_options',
+      Commands.get_options,
       {},
       (
         status,
@@ -771,7 +824,7 @@ export class BackendService {
     params: ParamsAddCustomAssetId,
     callback: (status: boolean, response_data: ResponseAddCustomAssetId) => void
   ): void {
-    return this.runCommand('add_custom_asset_id', params, callback);
+    return this.runCommand(Commands.add_custom_asset_id, params, callback);
   }
 
   removeCustomAssetId(
@@ -781,14 +834,14 @@ export class BackendService {
       response_data: ResponseRemoveCustomAssetId
     ) => void
   ): void {
-    return this.runCommand('remove_custom_asset_id', params, callback);
+    return this.runCommand(Commands.remove_custom_asset_id, params, callback);
   }
 
   getWalletInfo(
     wallet_id,
     callback?: (status: boolean, response_data: ResponseGetWalletInfo) => void
   ): void {
-    return this.runCommand('get_wallet_info', { wallet_id }, callback);
+    return this.runCommand(Commands.get_wallet_info, { wallet_id }, callback);
   }
 
   private informerRun(error: string, params, command: string): void {
@@ -928,7 +981,7 @@ export class BackendService {
     }
   }
 
-  private commandDebug(command, params, result): void {
+  private commandDebug(command: Commands, params: Params, result: any): void {
     BackendService.Debug(
       2,
       '----------------- ' + command + ' -----------------'
@@ -948,9 +1001,9 @@ export class BackendService {
     }
   }
 
-  private backendCallback(resultStr, params, callback, command): any {
+  private backendCallback(resultStr, params, callback, command: Commands): any {
     let Result = resultStr;
-    if (command !== 'get_clipboard') {
+    if (command !== Commands.get_clipboard) {
       if (!resultStr || resultStr === '') {
         Result = {};
       } else {
@@ -1000,7 +1053,7 @@ export class BackendService {
         setTimeout(() => {
           // this is will avoid update data when user
           // on other wallet after CORE_BUSY (blink of data)
-          if (command !== 'get_recent_transfers') {
+          if (command !== Commands.get_recent_transfers) {
             this.runCommand(command, params, callback);
           } else {
             const current_wallet_id =
@@ -1016,10 +1069,6 @@ export class BackendService {
       }
     }
 
-    // if ( command === 'get_offers_ex' ){
-    //   Service.printLog( "get_offers_ex offers count "+((data.offers)?data.offers.length:0) );
-    // }
-
     if (!core_busy) {
       if (typeof callback === 'function') {
         callback(Status, data, res_error_code);
@@ -1029,12 +1078,12 @@ export class BackendService {
     }
   }
 
-  private runCommand(command, params?: Params, callback?): any {
+  private runCommand(command: Commands, params?: Params, callback?): any {
     if (!this.backendObject) {
       return;
     }
 
-    if (command === 'get_recent_transfers') {
+    if (command === Commands.get_recent_transfers) {
       this.variablesService.get_recent_transfers = true;
     }
 
@@ -1061,7 +1110,7 @@ export class BackendService {
       return;
     }
 
-    if (command === 'get_recent_transfers') {
+    if (command === Commands.get_recent_transfers) {
       this.variablesService.get_recent_transfers = false;
     }
     Action(params, resultStr => {
@@ -1070,84 +1119,3 @@ export class BackendService {
     });
   }
 }
-
-/*
-
-      toggleAutoStart: function (value) {
-        return this.runCommand('toggle_autostart', asVal(value));
-      },
-
-      getOptions: function (callback) {
-        return this.runCommand('get_options', {}, callback);
-      },
-
-      isFileExist: function (path, callback) {
-        return this.runCommand('is_file_exist', path, callback);
-      },
-
-      isAutoStartEnabled: function (callback) {
-        this.runCommand('is_autostart_enabled', {}, function (status, data) {
-          if (angular.isFunction(callback)) {
-            callback('error_code' in data && data.error_code !== 'FALSE')
-          }
-        });
-      },
-
-      resetWalletPass: function (wallet_id, pass, callback) {
-        this.runCommand('reset_wallet_password', {wallet_id: wallet_id, pass: pass}, callback);
-      },
-
-
-
-      getOsVersion: function (callback) {
-        this.runCommand('get_os_version', {}, function (status, version) {
-          callback(version)
-        })
-      },
-
-      getLogFile: function (callback) {
-        this.runCommand('get_log_file', {}, function (status, version) {
-          callback(version)
-        })
-      },
-
-      resync_wallet: function (wallet_id, callback) {
-        this.runCommand('resync_wallet', {wallet_id: wallet_id}, callback);
-      },
-
-      storeFile: function (path, buff, callback) {
-        this.backendObject['store_to_file'](path, (typeof buff === 'string' ? buff : JSON.stringify(buff)), function (data) {
-          backendCallback(data, {}, callback, 'store_to_file');
-        });
-      },
-
-      getMiningEstimate: function (amount_coins, time, callback) {
-        var params = {
-          "amount_coins": $filter('money_to_int')(amount_coins),
-          "time": parseInt(time)
-        };
-        this.runCommand('get_mining_estimate', params, callback);
-      },
-
-      backupWalletKeys: function (wallet_id, path, callback) {
-        var params = {
-          "wallet_id": wallet_id,
-          "path": path
-        };
-        this.runCommand('backup_wallet_keys', params, callback);
-      },
-
-      setBlockedIcon: function (enabled, callback) {
-        var mode = (enabled) ? "blocked" : "normal";
-        Service.runCommand('bool_toggle_icon', mode, callback);
-      },
-
-      printText: function (content) {
-        return this.runCommand('print_text', {html_text: content});
-      },
-
-      printLog: function (msg, log_level) {
-        return this.runCommand('print_log', {msg: msg, log_level: log_level});
-      },
-
-*/
