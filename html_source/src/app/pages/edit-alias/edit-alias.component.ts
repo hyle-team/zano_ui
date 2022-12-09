@@ -4,6 +4,7 @@ import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { ModalService } from '@parts/services/modal.service';
 import { Wallet } from '@api/models/wallet.model';
+import { BigNumber } from 'bignumber.js';
 
 @Component({
   selector: 'app-edit-alias',
@@ -140,10 +141,12 @@ export class EditAliasComponent implements OnInit {
       comment: alias.comment,
     };
     this.oldAliasComment = alias.comment;
-    // TODO: Fix that
-    // this.notEnoughMoney = this.wallet.unlocked_balance.isLessThan(
-    //   this.variablesService.default_fee_big
-    // );
+    const balance = new BigNumber(
+      this.wallet.getBalanceByTicker('ZANO')?.total || 0
+    );
+    this.notEnoughMoney = balance.isLessThan(
+      this.variablesService.default_fee_big
+    );
     this.notEnoughMoney = false;
   }
 
