@@ -23,6 +23,7 @@ import { ExportHistoryModalComponent } from './modals/export-history-modal/expor
 import { AddCustomTokenComponent } from './modals/add-custom-token/add-custom-token.component';
 import { Asset } from '@api/models/assets.model';
 import { AssetDetailsComponent } from '@parts/modals/asset-details/asset-details.component';
+import { WalletsService } from '@parts/services/wallets.service';
 
 @Component({
   selector: 'app-wallet',
@@ -348,7 +349,8 @@ export class WalletComponent implements OnInit, OnDestroy {
     private translate: TranslateService,
     private intToMoneyPipe: IntToMoneyPipe,
     private store: Store,
-    private dialog: Dialog
+    private dialog: Dialog,
+    private walletsService: WalletsService
   ) {
     if (
       !this.variablesService.currentWallet &&
@@ -487,28 +489,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   }
 
   closeWallet(wallet_id): void {
-    this.backend.closeWallet(wallet_id, () => {
-      for (let i = this.variablesService.wallets.length - 1; i >= 0; i--) {
-        if (
-          this.variablesService.wallets[i].wallet_id ===
-          this.variablesService.currentWallet.wallet_id
-        ) {
-          this.variablesService.wallets.splice(i, 1);
-        }
-      }
-      this.ngZone.run(() => {
-        if (this.variablesService.wallets.length > 0) {
-          this.variablesService.currentWallet =
-            this.variablesService.wallets[0];
-          this.router.navigate(['/wallet/']);
-        } else {
-          this.router.navigate(['/']);
-        }
-      });
-      if (this.variablesService.appPass) {
-        this.backend.storeSecureAppData();
-      }
-    });
+    this.walletsService.closeWallet(wallet_id);
   }
 
   ngOnDestroy(): void {

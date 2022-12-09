@@ -14,6 +14,7 @@ import {
 } from '@parts/modals/confirm-modal/confirm-modal.component';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { WalletsService } from '@parts/services/wallets.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -126,6 +127,7 @@ export class SidebarComponent implements OnDestroy {
 
   constructor(
     public variablesService: VariablesService,
+    private walletsService: WalletsService,
     private route: ActivatedRoute,
     private router: Router,
     private backend: BackendService,
@@ -188,28 +190,7 @@ export class SidebarComponent implements OnDestroy {
   }
 
   closeWallet(wallet_id): void {
-    this.backend.closeWallet(wallet_id, () => {
-      for (let i = this.variablesService.wallets.length - 1; i >= 0; i--) {
-        if (
-          this.variablesService.wallets[i].wallet_id ===
-          this.variablesService.currentWallet.wallet_id
-        ) {
-          this.variablesService.wallets.splice(i, 1);
-        }
-      }
-      this.ngZone.run(() => {
-        if (this.variablesService.wallets.length > 0) {
-          this.variablesService.currentWallet =
-            this.variablesService.wallets[0];
-          this.router.navigate(['/wallet/']);
-        } else {
-          this.router.navigate(['/']);
-        }
-      });
-      if (this.variablesService.appPass) {
-        this.backend.storeSecureAppData();
-      }
-    });
+    this.walletsService.closeWallet(wallet_id);
   }
 
   logOut(): void {
