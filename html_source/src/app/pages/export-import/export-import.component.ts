@@ -9,8 +9,70 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-export-import',
-  templateUrl: './export-import.component.html',
-  styleUrls: ['./export-import.component.scss'],
+  template: `
+    <div class="page-container">
+      <div class="toolbar mb-2">
+        <div class="left">
+          <button appBackButton class="btn-icon circle big mr-2" type="button">
+            <i class="icon dropdown-arrow-left"></i>
+          </button>
+          <h1>{{ 'CONTACTS.IMPORT_EXPORT' | translate }}</h1>
+        </div>
+        <div class="right"></div>
+      </div>
+
+      <div class="page-content">
+        <div class="scrolled-content">
+          <div class="controls flex">
+            <button
+              (click)="import()"
+              class="primary big max-w-19-rem w-100 mr-1"
+              type="button"
+            >
+              {{ 'CONTACTS.IMPORT' | translate }}
+            </button>
+            <button
+              (click)="export()"
+              class="primary big max-w-19-rem w-100"
+              type="button"
+            >
+              {{ 'CONTACTS.EXPORT' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `,
+  styles: [
+    // language=scss
+    `
+      :host {
+        width: 100%;
+      }
+
+      .head {
+        justify-content: flex-end;
+      }
+
+      .contacts-title {
+        font-size: 1.7rem;
+        margin-bottom: 1rem;
+      }
+
+      .btn-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0 -0.5rem;
+        padding: 1.5rem 0;
+
+        button {
+          flex: 1 0 auto;
+          margin: 0 0.5rem;
+        }
+      }
+    `,
+  ],
 })
 export class ExportImportComponent {
   constructor(

@@ -22,8 +22,136 @@ enum Direction {
 
 @Component({
   selector: 'app-scroll-x',
-  templateUrl: './scroll-x.component.html',
-  styleUrls: ['./scroll-x.component.scss'],
+  template: `
+    <div [class.visibility]="this.leftDisabled" class="left">
+      <button
+        (click)="$event.stopPropagation(); actionScroll(Direction.left)"
+        class="btn-left"
+      >
+        <i class="icon arrow-left-slider"></i>
+      </button>
+    </div>
+    <div
+      #scrollMenu
+      (mousedown)="$event.stopPropagation(); startDragging($event)"
+      (mouseleave)="$event.stopPropagation(); stopDragging()"
+      (mousemove)="$event.stopPropagation(); mouseMove($event)"
+      (mouseup)="$event.stopPropagation(); stopDragging()"
+      (scroll)="onScroll()"
+      [class.hide-scroll]="hideScroll"
+      [class.smooth]="scrollSmooth"
+      class="scroll hide-scroll"
+    >
+      <div #scrollContent class="scroll-content scroll-delay">
+        <ng-content></ng-content>
+      </div>
+    </div>
+    <div [class.visibility]="this.rightDisabled" class="right">
+      <button
+        (click)="$event.stopPropagation(); actionScroll(Direction.right)"
+        class="btn-right"
+      >
+        <i class="icon arrow-right-slider"></i>
+      </button>
+    </div>
+  `,
+  styles: [
+    // language=scss
+    `
+      :host {
+        position: relative;
+
+        &:hover,
+        &:focus {
+          .scroll {
+            visibility: visible;
+          }
+        }
+
+        ::ng-deep {
+          .scroll-content > * {
+            margin-right: 2rem;
+          }
+
+          .scroll-content > *:last-child {
+            margin-right: 0;
+          }
+        }
+      }
+
+      .hide-scroll::-webkit-scrollbar {
+        display: none;
+      }
+
+      .scroll {
+        overflow-x: auto;
+        width: 100%;
+        z-index: 5;
+        visibility: hidden;
+
+        .scroll-content {
+          display: flex;
+          flex-wrap: nowrap;
+          visibility: visible;
+        }
+
+        .scroll-delay,
+        .scroll-delay:hover {
+          transition: visibility 0.2s;
+        }
+      }
+
+      .smooth {
+        scroll-behavior: smooth;
+      }
+
+      .left,
+      .right {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        height: 100%;
+        top: 0;
+        bottom: 0;
+        z-index: 10;
+      }
+
+      .left {
+        left: 0;
+        background: linear-gradient(
+          to left,
+          rgba(12, 12, 58, 0) 0%,
+          var(--blue-900) 100%
+        );
+      }
+
+      .right {
+        right: 0;
+        background: linear-gradient(
+          to right,
+          rgba(12, 12, 58, 0) 0%,
+          var(--blue-900) 100%
+        );
+      }
+
+      .btn-left,
+      .btn-right {
+        width: 2.8rem;
+        height: 2.8rem;
+        background: var(--gray-700);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+
+      .visibility {
+        display: none !important;
+      }
+    `,
+  ],
 })
 export class ScrollXComponent implements AfterContentInit, AfterContentChecked {
   @ViewChild('scrollMenu', { static: true }) scrollMenu: ElementRef;

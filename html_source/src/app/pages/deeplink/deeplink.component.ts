@@ -5,8 +5,24 @@ import { VariablesService } from '@parts/services/variables.service';
 
 @Component({
   selector: 'app-deeplink',
-  templateUrl: './deeplink.component.html',
-  styleUrls: ['./deeplink.component.scss'],
+  template: `
+    <ng-container *ngIf="deeplink$ | async">
+      <app-deeplink-modal
+        *ngIf="
+          variablesService?.daemon_state === 2 ||
+          !variablesService?.sync_started
+        "
+      ></app-deeplink-modal>
+
+      <app-sync-modal
+        *ngIf="
+          variablesService?.daemon_state !== 2 || variablesService?.sync_started
+        "
+      >
+      </app-sync-modal>
+    </ng-container>
+  `,
+  styles: [],
 })
 export class DeeplinkComponent implements OnInit, OnDestroy {
   deeplink$ = new BehaviorSubject<string | null>(null);

@@ -3,6 +3,7 @@ import { Transaction } from './transaction.model';
 import { BigNumber } from 'bignumber.js';
 import { Asset, Assets } from './assets.model';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 export interface Alias {
   name: string;
@@ -19,7 +20,37 @@ export class Wallet {
   pass: string;
   path: string;
   address: string;
-  balances: Assets | null | undefined;
+
+  private _balances$ = new BehaviorSubject<Assets | null | undefined>(
+    undefined
+  );
+
+  get balances$(): Observable<Assets | null | undefined> {
+    return this._balances$.asObservable();
+  }
+
+  get balances(): Assets | null | undefined {
+    return this._balances$.value;
+  }
+
+  set balances(value: Assets | null | undefined) {
+    const sortedAssets = [];
+    if (value) {
+      const indexZano = value.findIndex(
+        ({ asset_info: { ticker } }) => ticker === 'ZANO'
+      );
+      if (indexZano >= 0) {
+        const assetZano = value.splice(indexZano, 1).shift();
+        sortedAssets.push(assetZano);
+      }
+      const sortedAssetsByBalance = value.sort((a, b) =>
+        new BigNumber(b.total).minus(new BigNumber(a.total)).toNumber()
+      );
+      sortedAssets.push(...sortedAssetsByBalance);
+    }
+    this._balances$.next(sortedAssets);
+  }
+
   mined_total: number;
   tracking_hey: string;
   is_auditable: boolean;
@@ -61,7 +92,7 @@ export class Wallet {
     pass,
     path,
     address,
-    balance,
+    balances,
     unlocked_balance,
     mined = 0,
     tracking = ''
@@ -71,7 +102,7 @@ export class Wallet {
     this.pass = pass;
     this.path = path;
     this.address = address;
-    this.balances = balance;
+    this.balances = balances;
     this.mined_total = mined;
     this.tracking_hey = tracking;
 
@@ -380,4 +411,14 @@ export interface PushOffer {
     t: string;
     url: string;
   };
+}
+
+export interface ResponseGetWalletInfo {
+  address: string;
+  balances: Assets;
+  is_auditable: boolean;
+  is_watch_only: boolean;
+  mined_total: number;
+  path: string;
+  view_sec_key: string;
 }

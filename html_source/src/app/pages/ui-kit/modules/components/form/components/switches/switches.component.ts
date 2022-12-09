@@ -2,7 +2,16 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-switches',
-  templateUrl: './switches.component.html',
-  styleUrls: ['./switches.component.scss'],
+  template: `
+    <h3 class="mb-1">Switch default</h3>
+    <app-switch class="mb-1"></app-switch>
+
+    <h3 class="mb-1">value = true</h3>
+    <app-switch [value]="true" class="mb-1"></app-switch>
+
+    <h3 class="mb-1">value = true, disabled = true</h3>
+    <app-switch [disabled]="true" [value]="true" class="mb-1"></app-switch>
+  `,
+  styles: [],
 })
 export class SwitchesComponent {}

@@ -4,10 +4,6 @@ import { AppComponent } from './app.component';
 import { PagesModule } from './pages/pages.module';
 import { CommonModule } from '@angular/common';
 import {
-  ContextMenuModule,
-  ContextMenuService,
-} from '@perfectmemory/ngx-contextmenu';
-import {
   TranslateLoader,
   TranslateModule,
   TranslateModuleConfig,
@@ -23,6 +19,7 @@ import { MoneyToIntPipeModule } from '@parts/pipes';
 import { OpenWalletModalComponent } from '@parts/modals/open-wallet-modal/open-wallet-modal.component';
 import { FlexModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
+import { RegisterContextTemplatesModule } from '@parts/components/register-context-templates';
 
 export function highchartsFactory(): any[] {
   highcharts.setOptions({
@@ -61,13 +58,13 @@ export const translateModuleConfig: TranslateModuleConfig = {
     TranslateModule.forRoot(translateModuleConfig),
     AppRoutingModule,
     PagesModule,
-    ContextMenuModule,
     ChartModule,
     MoneyToIntPipeModule,
     FlexModule,
     FormsModule,
+    RegisterContextTemplatesModule,
   ],
-  providers: [ContextMenuService, provideHighchartsFactory],
+  providers: [provideHighchartsFactory],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

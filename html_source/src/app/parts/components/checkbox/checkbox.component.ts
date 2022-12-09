@@ -9,8 +9,26 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 @Component({
   selector: 'app-checkbox',
-  templateUrl: './checkbox.component.html',
-  styleUrls: ['./checkbox.component.scss'],
+  template: `
+    <div class="checkbox">
+      <input
+        (change)="handlerChange($event)"
+        [checked]="value"
+        [disabled]="disabled"
+        [id]="id"
+        [readonly]="readonly"
+        type="checkbox"
+      />
+      <label [for]="id">{{ label }}</label>
+    </div>
+  `,
+  styles: [
+    `
+      :host {
+        display: inline-flex;
+      }
+    `,
+  ],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -40,7 +58,9 @@ export class CheckboxComponent implements ControlValueAccessor {
     const { checked } = target as HTMLInputElement;
     this.value = checked;
     this.emitChange.emit(checked);
-    this.onChange(checked);
+    if (this.onChange) {
+      this.onChange(checked);
+    }
   }
 
   registerOnChange(fn: any): void {

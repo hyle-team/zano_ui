@@ -1,6 +1,7 @@
 export * from './contract-status-messages-pipe';
 export * from './contract-time-left-pipe';
 export * from './get-white-asset-info';
+export * from './has-in-assets-whitelist';
 export * from './get-price-by-url';
 export * from './history-type-messages-pipe';
 export * from './int-to-money-pipe';

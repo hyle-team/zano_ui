@@ -4,8 +4,17 @@ import { VariablesService } from '../../services/variables.service';
 
 @Component({
   selector: 'app-staking-switch',
-  templateUrl: './staking-switch.component.html',
-  styleUrls: ['./staking-switch.component.scss'],
+  template: `
+    <div
+      (click)="toggleStaking(); $event.stopPropagation()"
+      [class.off]="!staking"
+      [class.on]="staking"
+      class="switch"
+    >
+      <span class="circle"></span>
+    </div>
+  `,
+  styles: [],
 })
 export class StakingSwitchComponent {
   @Input() wallet_id: number;

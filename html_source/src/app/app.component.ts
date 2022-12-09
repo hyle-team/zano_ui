@@ -1,17 +1,9 @@
-import {
-  Component,
-  NgZone,
-  OnDestroy,
-  OnInit,
-  Renderer2,
-  ViewChild,
-} from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
-import { BackendService } from '@api/services/backend.service';
+import { BackendService, Commands } from '@api/services/backend.service';
 import { Router } from '@angular/router';
 import { VariablesService } from '@parts/services/variables.service';
-import { ContextMenuComponent } from '@perfectmemory/ngx-contextmenu';
 import { IntToMoneyPipe } from '@parts/pipes';
 import { BigNumber } from 'bignumber.js';
 import { ModalService } from '@parts/services/modal.service';
@@ -24,7 +16,34 @@ import { AssetsFacade } from '@store/assets/assets.facade';
 
 @Component({
   selector: 'app-root',
-  templateUrl: './app.component.html',
+  template: `
+    <router-outlet
+      *ngIf="[0, 1, 2, 6].indexOf(variablesService.daemon_state) !== -1"
+    ></router-outlet>
+
+    <div
+      *ngIf="[3, 4, 5].indexOf(variablesService.daemon_state) !== -1"
+      class="preloader"
+    >
+      <p *ngIf="variablesService.daemon_state === 3" class="mb-2">
+        {{ 'SIDEBAR.SYNCHRONIZATION.LOADING' | translate }}
+      </p>
+      <p *ngIf="variablesService.daemon_state === 4" class="mb-2">
+        {{ 'SIDEBAR.SYNCHRONIZATION.ERROR' | translate }}
+      </p>
+      <p *ngIf="variablesService.daemon_state === 5" class="mb-2">
+        {{ 'SIDEBAR.SYNCHRONIZATION.COMPLETE' | translate }}
+      </p>
+      <div class="loading-bar"></div>
+    </div>
+
+    <app-register-context-templates></app-register-context-templates>
+
+    <app-open-wallet-modal
+      *ngIf="needOpenWallets.length"
+      [wallets]="needOpenWallets"
+    ></app-open-wallet-modal>
+  `,
 })
 export class AppComponent implements OnInit, OnDestroy {
   intervalUpdatePriceState;
@@ -41,15 +60,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   needOpenWallets = [];
 
-  @ViewChild('allContextMenu', { static: true })
-  public allContextMenu: ContextMenuComponent<any>;
-
-  @ViewChild('onlyCopyContextMenu', { static: true })
-  public onlyCopyContextMenu: ContextMenuComponent<any>;
-
-  @ViewChild('pasteSelectContextMenu', { static: true })
-  public pasteSelectContextMenu: ContextMenuComponent<any>;
-
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -57,7 +67,7 @@ export class AppComponent implements OnInit, OnDestroy {
     public translate: TranslateService,
     private http: HttpClient,
     private renderer: Renderer2,
-    private backend: BackendService,
+    private backendService: BackendService,
     private router: Router,
     private ngZone: NgZone,
     private intToMoneyPipe: IntToMoneyPipe,
@@ -67,8 +77,6 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {
     translate.addLangs(['en', 'fr', 'de', 'it', 'pt']);
     translate.setDefaultLang('en');
-    // const browserLang = translate.getBrowserLang();
-    // translate.use(browserLang.match(/en|fr/) ? browserLang : 'en');
     translate.use('en').subscribe({
       next: () => {
         this.translateUsed = true;
@@ -95,7 +103,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.translate.instant('BACKEND_LOCALIZATION.TRAY_MENU_SHOW'),
         this.translate.instant('BACKEND_LOCALIZATION.TRAY_MENU_MINIMIZE'),
       ];
-      this.backend.setBackendLocalization(
+      this.backendService.setBackendLocalization(
         stringsArray,
         this.variablesService.settings.language
       );
@@ -108,22 +116,22 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.assetsFacade.loadAssetsWhitelist();
-    this.variablesService.allContextMenu = this.allContextMenu;
-    this.variablesService.onlyCopyContextMenu = this.onlyCopyContextMenu;
-    this.variablesService.pasteSelectContextMenu = this.pasteSelectContextMenu;
-
-    this.backend.initService().subscribe({
+    this.backendService.initService().subscribe({
       next: initMessage => {
         console.log('Init message: ', initMessage);
-        this.backend.getOptions();
-        this.backend.webkitLaunchedScript();
+        this.backendService.getOptions();
+        this.backendService.webkitLaunchedScript();
 
-        this.backend.start_backend(false, '127.0.0.1', 11512, (st2, dd2) => {
-          console.log(st2, dd2);
-        });
+        this.backendService.start_backend(
+          false,
+          '127.0.0.1',
+          11512,
+          (st2, dd2) => {
+            console.log(st2, dd2);
+          }
+        );
 
-        this.backend.eventSubscribe('quit_requested', () => {
+        this.backendService.eventSubscribe(Commands.quit_requested, () => {
           this.variablesService.event_quit_requested$.next();
           if (!this.onQuitRequest) {
             this.ngZone.run(() => {
@@ -132,11 +140,11 @@ export class AppComponent implements OnInit, OnDestroy {
             this.needOpenWallets = [];
             this.variablesService.daemon_state = 5;
             const saveFunction = (): void => {
-              this.backend.storeAppData((): void => {
+              this.backendService.storeAppData((): void => {
                 const recursionCloseWallets = (): void => {
                   if (this.variablesService.wallets.length > 0) {
                     const lastIndex = this.variablesService.wallets.length - 1;
-                    this.backend.closeWallet(
+                    this.backendService.closeWallet(
                       this.variablesService.wallets[lastIndex].wallet_id,
                       () => {
                         this.variablesService.wallets.splice(lastIndex, 1);
@@ -144,14 +152,14 @@ export class AppComponent implements OnInit, OnDestroy {
                       }
                     );
                   } else {
-                    this.backend.quitRequest();
+                    this.backendService.quitRequest();
                   }
                 };
                 recursionCloseWallets();
               });
             };
             if (this.variablesService.appPass) {
-              this.backend.storeSecureAppData(() => {
+              this.backendService.storeSecureAppData(() => {
                 saveFunction();
               });
             } else {
@@ -161,141 +169,149 @@ export class AppComponent implements OnInit, OnDestroy {
           this.onQuitRequest = true;
         });
 
-        this.backend.eventSubscribe('update_wallet_status', data => {
-          console.log(
-            '----------------- update_wallet_status -----------------'
-          );
-          console.log(data);
+        this.backendService.eventSubscribe(
+          Commands.update_wallet_status,
+          data => {
+            console.log(
+              '----------------- update_wallet_status -----------------'
+            );
+            console.log(data);
 
-          const wallet_state = data.wallet_state;
-          const is_mining = data.is_mining;
-          const wallet = this.variablesService.getWallet(data.wallet_id);
-          // 1-synch, 2-ready, 3 - error
-          if (wallet) {
-            this.ngZone.run(() => {
-              wallet.loaded = false;
-              wallet.staking = is_mining;
-              if (wallet_state === 2) {
-                // ready
-                wallet.loaded = true;
-              }
-              if (wallet_state === 3) {
-                // error
-                // wallet.error = true;
-              }
-              wallet.balances = data.balances;
-              // wallet.unlocked_balance = data.unlocked_balance;
-              wallet.mined_total = data.minied_total;
-              wallet.alias_available = data.is_alias_operations_available;
-            });
-          }
-        });
-
-        this.backend.eventSubscribe('wallet_sync_progress', data => {
-          console.log(
-            '----------------- wallet_sync_progress -----------------'
-          );
-          console.log(data);
-          const wallet = this.variablesService.getWallet(data.wallet_id);
-          if (wallet) {
-            this.ngZone.run(() => {
-              wallet.progress =
-                data.progress < 0
-                  ? 0
-                  : data.progress > 100
-                  ? 100
-                  : data.progress;
-              if (!this.variablesService.sync_started) {
-                this.variablesService.sync_started = true;
-              }
-              this.addToStore(wallet, true); // subscribe on data
-              if (wallet.progress === 0) {
+            const wallet_state = data.wallet_state;
+            const is_mining = data.is_mining;
+            const wallet = this.variablesService.getWallet(data.wallet_id);
+            // 1-synch, 2-ready, 3 - error
+            if (wallet) {
+              this.ngZone.run(() => {
                 wallet.loaded = false;
-              } else if (wallet.progress === 100) {
-                wallet.loaded = true;
-                this.addToStore(wallet, false);
-                this.variablesService.sync_started = false;
+                wallet.staking = is_mining;
+                if (wallet_state === 2) {
+                  // ready
+                  wallet.loaded = true;
+                }
+                if (wallet_state === 3) {
+                  // error
+                  // wallet.error = true;
+                }
+                wallet.balances = data.balances;
+                wallet.mined_total = data.minied_total;
+                wallet.alias_available = data.is_alias_operations_available;
+              });
+            }
+          }
+        );
+
+        this.backendService.eventSubscribe(
+          Commands.wallet_sync_progress,
+          data => {
+            console.log(
+              '----------------- wallet_sync_progress -----------------'
+            );
+            console.log(data);
+            const wallet = this.variablesService.getWallet(data.wallet_id);
+            if (wallet) {
+              this.ngZone.run(() => {
+                wallet.progress =
+                  data.progress < 0
+                    ? 0
+                    : data.progress > 100
+                    ? 100
+                    : data.progress;
+                if (!this.variablesService.sync_started) {
+                  this.variablesService.sync_started = true;
+                }
+                this.addToStore(wallet, true); // subscribe on data
+                if (wallet.progress === 0) {
+                  wallet.loaded = false;
+                } else if (wallet.progress === 100) {
+                  wallet.loaded = true;
+                  this.addToStore(wallet, false);
+                  this.variablesService.sync_started = false;
+                }
+              });
+            }
+          }
+        );
+
+        this.backendService.eventSubscribe(
+          Commands.update_daemon_state,
+          data => {
+            console.log(
+              '----------------- update_daemon_state -----------------'
+            );
+            console.log('DAEMON:' + data.daemon_network_state);
+            console.log(data);
+            // this.variablesService.exp_med_ts = data['expiration_median_timestamp'] + 600 + 1;
+            this.variablesService.setExpMedTs(
+              data['expiration_median_timestamp'] + 600 + 1
+            );
+            this.variablesService.net_time_delta_median =
+              data.net_time_delta_median;
+            this.variablesService.last_build_available =
+              data.last_build_available;
+            this.variablesService.last_build_displaymode =
+              data.last_build_displaymode;
+            this.variablesService.setHeightApp(data.height);
+            this.variablesService.setHeightMax(data.max_net_seen_height);
+
+            this.variablesService.setDownloadedBytes(data.downloaded_bytes);
+            this.variablesService.setTotalBytes(data.download_total_data_size);
+
+            this.backendService.getContactAlias();
+            this.ngZone.run(() => {
+              this.variablesService.daemon_state = data['daemon_network_state'];
+              if (data['daemon_network_state'] === 1) {
+                const max =
+                  data['max_net_seen_height'] -
+                  data['synchronization_start_height'];
+                const current =
+                  data.height - data['synchronization_start_height'];
+                const return_val =
+                  Math.floor(((current * 100) / max) * 100) / 100;
+                if (max === 0 || return_val < 0) {
+                  this.variablesService.sync.progress_value = 0;
+                  this.variablesService.sync.progress_value_text = '0.00';
+                } else if (return_val >= 100) {
+                  this.variablesService.sync.progress_value = 100;
+                  this.variablesService.sync.progress_value_text = '99.99';
+                } else {
+                  this.variablesService.sync.progress_value = return_val;
+                  this.variablesService.sync.progress_value_text =
+                    return_val.toFixed(2);
+                }
+              }
+
+              if (data['daemon_network_state'] === 6) {
+                const max = data['download_total_data_size'];
+                const current = data['downloaded_bytes'];
+                const return_val = Math.floor((current / max) * 100);
+                if (max === 0 || return_val < 0) {
+                  this.variablesService.download.progress_value = 0;
+                  this.variablesService.download.progress_value_text = '0.00';
+                } else if (return_val >= 100) {
+                  this.variablesService.download.progress_value = 100;
+                  this.variablesService.download.progress_value_text = '99.99';
+                } else {
+                  this.variablesService.download.progress_value = return_val;
+                  this.variablesService.download.progress_value_text =
+                    return_val.toFixed(2);
+                }
               }
             });
-          }
-        });
-
-        this.backend.eventSubscribe('update_daemon_state', data => {
-          console.log(
-            '----------------- update_daemon_state -----------------'
-          );
-          console.log('DAEMON:' + data.daemon_network_state);
-          console.log(data);
-          // this.variablesService.exp_med_ts = data['expiration_median_timestamp'] + 600 + 1;
-          this.variablesService.setExpMedTs(
-            data['expiration_median_timestamp'] + 600 + 1
-          );
-          this.variablesService.net_time_delta_median =
-            data.net_time_delta_median;
-          this.variablesService.last_build_available =
-            data.last_build_available;
-          this.variablesService.last_build_displaymode =
-            data.last_build_displaymode;
-          this.variablesService.setHeightApp(data.height);
-          this.variablesService.setHeightMax(data.max_net_seen_height);
-
-          this.variablesService.setDownloadedBytes(data.downloaded_bytes);
-          this.variablesService.setTotalBytes(data.download_total_data_size);
-
-          this.backend.getContactAlias();
-          this.ngZone.run(() => {
-            this.variablesService.daemon_state = data['daemon_network_state'];
-            if (data['daemon_network_state'] === 1) {
-              const max =
-                data['max_net_seen_height'] -
-                data['synchronization_start_height'];
-              const current =
-                data.height - data['synchronization_start_height'];
-              const return_val =
-                Math.floor(((current * 100) / max) * 100) / 100;
-              if (max === 0 || return_val < 0) {
-                this.variablesService.sync.progress_value = 0;
-                this.variablesService.sync.progress_value_text = '0.00';
-              } else if (return_val >= 100) {
-                this.variablesService.sync.progress_value = 100;
-                this.variablesService.sync.progress_value_text = '99.99';
-              } else {
-                this.variablesService.sync.progress_value = return_val;
-                this.variablesService.sync.progress_value_text =
-                  return_val.toFixed(2);
-              }
+            if (!this.firstOnlineState && data['daemon_network_state'] === 2) {
+              this.getAliases();
+              this.backendService.getContactAlias();
+              this.backendService.getDefaultFee((status_fee, data_fee) => {
+                this.variablesService.default_fee_big = new BigNumber(data_fee);
+                this.variablesService.default_fee =
+                  this.intToMoneyPipe.transform(data_fee);
+              });
+              this.firstOnlineState = true;
             }
-
-            if (data['daemon_network_state'] === 6) {
-              const max = data['download_total_data_size'];
-              const current = data['downloaded_bytes'];
-              const return_val = Math.floor((current / max) * 100);
-              if (max === 0 || return_val < 0) {
-                this.variablesService.download.progress_value = 0;
-                this.variablesService.download.progress_value_text = '0.00';
-              } else if (return_val >= 100) {
-                this.variablesService.download.progress_value = 100;
-                this.variablesService.download.progress_value_text = '99.99';
-              } else {
-                this.variablesService.download.progress_value = return_val;
-                this.variablesService.download.progress_value_text =
-                  return_val.toFixed(2);
-              }
-            }
-          });
-          if (!this.firstOnlineState && data['daemon_network_state'] === 2) {
-            this.getAliases();
-            this.backend.getContactAlias();
-            this.backend.getDefaultFee((status_fee, data_fee) => {
-              this.variablesService.default_fee_big = new BigNumber(data_fee);
-              this.variablesService.default_fee =
-                this.intToMoneyPipe.transform(data_fee);
-            });
-            this.firstOnlineState = true;
           }
-        });
+        );
 
-        this.backend.eventSubscribe('money_transfer', data => {
+        this.backendService.eventSubscribe(Commands.money_transfer, data => {
           console.log('----------------- money_transfer -----------------');
           console.log(data);
 
@@ -312,13 +328,7 @@ export class AppComponent implements OnInit, OnDestroy {
               wallet.history.splice(40, 1);
             }
             this.ngZone.run(() => {
-              if (!wallet.loaded) {
-                wallet.balances = data.balances;
-                // wallet.unlocked_balance = data.unlocked_balance;
-              } else {
-                wallet.balances = data.balances;
-                // wallet.unlocked_balance = data.unlocked_balance;
-              }
+              wallet.balances = data.balances;
 
               if (tr_info.tx_type === 6) {
                 this.variablesService.setRefreshStacking(wallet_id);
@@ -546,7 +556,9 @@ export class AppComponent implements OnInit, OnDestroy {
           }
         });
 
-        this.backend.backendObject['handle_deeplink_click'].connect(data => {
+        this.backendService.backendObject[
+          Commands.handle_deeplink_click
+        ].connect(data => {
           console.log(
             '----------------- handle_deeplink_click -----------------'
           );
@@ -558,105 +570,108 @@ export class AppComponent implements OnInit, OnDestroy {
           });
         });
 
-        this.backend.eventSubscribe('money_transfer_cancel', data => {
-          console.log(
-            '----------------- money_transfer_cancel -----------------'
-          );
-          console.log(data);
+        this.backendService.eventSubscribe(
+          Commands.money_transfer_cancel,
+          data => {
+            console.log(
+              '----------------- money_transfer_cancel -----------------'
+            );
+            console.log(data);
 
-          if (!data.ti) {
-            return;
-          }
+            if (!data.ti) {
+              return;
+            }
 
-          const wallet_id = data.wallet_id;
-          const tr_info = data.ti;
-          const wallet = this.variablesService.getWallet(wallet_id);
+            const wallet_id = data.wallet_id;
+            const tr_info = data.ti;
+            const wallet = this.variablesService.getWallet(wallet_id);
 
-          if (wallet) {
-            if (hasOwnProperty(tr_info, 'contract')) {
-              for (let i = 0; i < wallet.contracts.length; i++) {
-                if (
-                  wallet.contracts[i].contract_id ===
-                    tr_info.contract[0].contract_id &&
-                  wallet.contracts[i].is_a === tr_info.contract[0].is_a
-                ) {
+            if (wallet) {
+              if (hasOwnProperty(tr_info, 'contract')) {
+                for (let i = 0; i < wallet.contracts.length; i++) {
                   if (
-                    wallet.contracts[i].state === 1 ||
-                    wallet.contracts[i].state === 110
+                    wallet.contracts[i].contract_id ===
+                      tr_info.contract[0].contract_id &&
+                    wallet.contracts[i].is_a === tr_info.contract[0].is_a
                   ) {
-                    wallet.contracts[i].is_new = true;
-                    wallet.contracts[i].state = 140;
-                    wallet.recountNewContracts();
+                    if (
+                      wallet.contracts[i].state === 1 ||
+                      wallet.contracts[i].state === 110
+                    ) {
+                      wallet.contracts[i].is_new = true;
+                      wallet.contracts[i].state = 140;
+                      wallet.recountNewContracts();
+                    }
+                    break;
                   }
-                  break;
                 }
               }
-            }
 
-            wallet.removeFromHistory(tr_info.tx_hash);
+              wallet.removeFromHistory(tr_info.tx_hash);
 
-            let error_tr = '';
-            switch (tr_info.tx_type) {
-              case 0:
-                error_tr =
-                  this.translate.instant('ERRORS.TX_TYPE_NORMAL') +
-                  '<br>' +
-                  tr_info.tx_hash +
-                  '<br>' +
-                  wallet.name +
-                  '<br>' +
-                  wallet.address +
-                  '<br>' +
-                  this.translate.instant('ERRORS.TX_TYPE_NORMAL_TO') +
-                  ' ' +
-                  this.intToMoneyPipe.transform(tr_info.amount) +
-                  ' ' +
-                  this.translate.instant('ERRORS.TX_TYPE_NORMAL_END');
-                break;
-              case 1:
-                // this.translate.instant('ERRORS.TX_TYPE_PUSH_OFFER');
-                break;
-              case 2:
-                // this.translate.instant('ERRORS.TX_TYPE_UPDATE_OFFER');
-                break;
-              case 3:
-                // this.translate.instant('ERRORS.TX_TYPE_CANCEL_OFFER');
-                break;
-              case 4:
-                error_tr =
-                  this.translate.instant('ERRORS.TX_TYPE_NEW_ALIAS') +
-                  '<br>' +
-                  tr_info.tx_hash +
-                  '<br>' +
-                  wallet.name +
-                  '<br>' +
-                  wallet.address +
-                  '<br>' +
-                  this.translate.instant('ERRORS.TX_TYPE_NEW_ALIAS_END');
-                break;
-              case 5:
-                error_tr =
-                  this.translate.instant('ERRORS.TX_TYPE_UPDATE_ALIAS') +
-                  '<br>' +
-                  tr_info.tx_hash +
-                  '<br>' +
-                  wallet.name +
-                  '<br>' +
-                  wallet.address +
-                  '<br>' +
-                  this.translate.instant('ERRORS.TX_TYPE_NEW_ALIAS_END');
-                break;
-              case 6:
-                error_tr = this.translate.instant('ERRORS.TX_TYPE_COIN_BASE');
-                break;
-            }
-            if (error_tr) {
-              this.modalService.prepareModal('error', error_tr);
+              let error_tr = '';
+              switch (tr_info.tx_type) {
+                case 0:
+                  error_tr =
+                    this.translate.instant('ERRORS.TX_TYPE_NORMAL') +
+                    '<br>' +
+                    tr_info.tx_hash +
+                    '<br>' +
+                    wallet.name +
+                    '<br>' +
+                    wallet.address +
+                    '<br>' +
+                    this.translate.instant('ERRORS.TX_TYPE_NORMAL_TO') +
+                    ' ' +
+                    this.intToMoneyPipe.transform(tr_info.amount) +
+                    ' ' +
+                    this.translate.instant('ERRORS.TX_TYPE_NORMAL_END');
+                  break;
+                case 1:
+                  // this.translate.instant('ERRORS.TX_TYPE_PUSH_OFFER');
+                  break;
+                case 2:
+                  // this.translate.instant('ERRORS.TX_TYPE_UPDATE_OFFER');
+                  break;
+                case 3:
+                  // this.translate.instant('ERRORS.TX_TYPE_CANCEL_OFFER');
+                  break;
+                case 4:
+                  error_tr =
+                    this.translate.instant('ERRORS.TX_TYPE_NEW_ALIAS') +
+                    '<br>' +
+                    tr_info.tx_hash +
+                    '<br>' +
+                    wallet.name +
+                    '<br>' +
+                    wallet.address +
+                    '<br>' +
+                    this.translate.instant('ERRORS.TX_TYPE_NEW_ALIAS_END');
+                  break;
+                case 5:
+                  error_tr =
+                    this.translate.instant('ERRORS.TX_TYPE_UPDATE_ALIAS') +
+                    '<br>' +
+                    tr_info.tx_hash +
+                    '<br>' +
+                    wallet.name +
+                    '<br>' +
+                    wallet.address +
+                    '<br>' +
+                    this.translate.instant('ERRORS.TX_TYPE_NEW_ALIAS_END');
+                  break;
+                case 6:
+                  error_tr = this.translate.instant('ERRORS.TX_TYPE_COIN_BASE');
+                  break;
+              }
+              if (error_tr) {
+                this.modalService.prepareModal('error', error_tr);
+              }
             }
           }
-        });
+        );
 
-        this.backend.eventSubscribe('on_core_event', data => {
+        this.backendService.eventSubscribe(Commands.on_core_event, data => {
           console.log('----------------- on_core_event -----------------');
           console.log(data);
 
@@ -811,7 +826,7 @@ export class AppComponent implements OnInit, OnDestroy {
           },
         });
 
-        this.backend.getAppData((status, data) => {
+        this.backendService.getAppData((status, data) => {
           if (data && Object.keys(data).length > 0) {
             for (const key in data) {
               if (
@@ -844,8 +859,12 @@ export class AppComponent implements OnInit, OnDestroy {
           this.translate.use(this.variablesService.settings.language);
           this.setBackendLocalization();
 
-          this.backend.setLogLevel(this.variablesService.settings.appLog);
-          this.backend.setEnableTor(this.variablesService.settings.appUseTor);
+          this.backendService.setLogLevel(
+            this.variablesService.settings.appLog
+          );
+          this.backendService.setEnableTor(
+            this.variablesService.settings.appUseTor
+          );
 
           if (
             !this.variablesService.settings.wallets ||
@@ -857,7 +876,7 @@ export class AppComponent implements OnInit, OnDestroy {
           }
 
           if (this.router.url !== '/login') {
-            this.backend.haveSecureAppData(statusPass => {
+            this.backendService.haveSecureAppData(statusPass => {
               if (statusPass) {
                 this.ngZone.run(() => {
                   this.router.navigate(['/login'], {
@@ -885,11 +904,9 @@ export class AppComponent implements OnInit, OnDestroy {
           }
         });
 
-        /** Start listening dispatchAsyncCallResult */
-        this.backend.dispatchAsyncCallResult();
+        this.backendService.dispatchAsyncCallResult();
 
-        /** Start listening handleCurrentActionState */
-        this.backend.handleCurrentActionState();
+        this.backendService.handleCurrentActionState();
       },
       error: error => {
         console.log(error);
@@ -912,6 +929,8 @@ export class AppComponent implements OnInit, OnDestroy {
           }
         },
       });
+
+    this.assetsFacade.loadWhitelist();
   }
 
   ngOnDestroy(): void {
@@ -957,7 +976,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   getAliases(): void {
-    this.backend.getAllAliases((status, data, error) => {
+    this.backendService.getAllAliases((status, data, error) => {
       console.warn(error);
 
       if (error === 'CORE_BUSY') {
@@ -968,7 +987,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.variablesService.aliases = [];
         this.variablesService.enableAliasSearch = false;
         this.variablesService.wallets.forEach(wallet => {
-          wallet.alias = this.backend.getWalletAlias(wallet.address);
+          wallet.alias = this.backendService.getWalletAlias(wallet.address);
         });
       } else {
         this.variablesService.enableAliasSearch = true;
@@ -983,7 +1002,7 @@ export class AppComponent implements OnInit, OnDestroy {
             this.variablesService.aliases.push(newAlias);
           });
           this.variablesService.wallets.forEach(wallet => {
-            wallet.alias = this.backend.getWalletAlias(wallet.address);
+            wallet.alias = this.backendService.getWalletAlias(wallet.address);
           });
           this.variablesService.aliases = this.variablesService.aliases.sort(
             (a, b) => {
@@ -1006,79 +1025,6 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       }
     });
-  }
-
-  contextMenuCopy(target): void {
-    if (
-      target &&
-      (target['nodeName'].toUpperCase() === 'TEXTAREA' ||
-        target['nodeName'].toUpperCase() === 'INPUT')
-    ) {
-      const start = target['contextSelectionStart']
-        ? 'contextSelectionStart'
-        : 'selectionStart';
-      const end = target['contextSelectionEnd']
-        ? 'contextSelectionEnd'
-        : 'selectionEnd';
-      const canUseSelection = target[start] || target[start] === '0';
-      const SelectedText = canUseSelection
-        ? target['value'].substring(target[start], target[end])
-        : target['value'];
-      this.backend.setClipboard(String(SelectedText));
-    }
-  }
-
-  contextMenuOnlyCopy(text): void {
-    if (text) {
-      this.backend.setClipboard(String(text));
-    }
-  }
-
-  contextMenuPaste(target): void {
-    if (
-      target &&
-      (target['nodeName'].toUpperCase() === 'TEXTAREA' ||
-        target['nodeName'].toUpperCase() === 'INPUT')
-    ) {
-      this.backend.getClipboard((status, clipboard) => {
-        clipboard = String(clipboard);
-        if (typeof clipboard !== 'string' || clipboard.length) {
-          const start = target['contextSelectionStart']
-            ? 'contextSelectionStart'
-            : 'selectionStart';
-          const end = target['contextSelectionEnd']
-            ? 'contextSelectionEnd'
-            : 'selectionEnd';
-          const _pre = target['value'].substring(0, target[start]);
-          const _aft = target['value'].substring(
-            target[end],
-            target['value'].length
-          );
-          let text = _pre + clipboard + _aft;
-          const cursorPosition = (_pre + clipboard).length;
-          if (target['maxLength'] && parseInt(target['maxLength'], 10) > 0) {
-            text = text.substr(0, parseInt(target['maxLength'], 10));
-          }
-          target['value'] = text;
-          target.setSelectionRange(cursorPosition, cursorPosition);
-          target.dispatchEvent(new Event('input'));
-          target['focus']();
-        }
-      });
-    }
-  }
-
-  contextMenuSelect(target): void {
-    if (
-      target &&
-      (target['nodeName'].toUpperCase() === 'TEXTAREA' ||
-        target['nodeName'].toUpperCase() === 'INPUT')
-    ) {
-      target['focus']();
-      setTimeout(() => {
-        target['select']();
-      });
-    }
   }
 
   addToStore(wallet, boolean): void {

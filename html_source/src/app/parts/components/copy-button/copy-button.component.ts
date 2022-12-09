@@ -4,8 +4,16 @@ import { VariablesService } from '../../services/variables.service';
 
 @Component({
   selector: 'app-copy-button',
-  templateUrl: './copy-button.component.html',
-  styleUrls: ['./copy-button.component.scss'],
+  template: `
+    <button (click)="copy()" [classList]="'btn-icon circle' + ' ' + size">
+      <i
+        [class.check]="copyAnimation"
+        [class.copy]="!copyAnimation"
+        class="icon small"
+      ></i>
+    </button>
+  `,
+  styles: [],
 })
 export class CopyButtonComponent {
   @Input() value: string;

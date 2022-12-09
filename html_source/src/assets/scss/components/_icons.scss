@@ -50,11 +50,13 @@ i {
   }
 
   &.balance-icon {
-    background: center / contain no-repeat url(~src/assets/icons/white/balance_icon.svg);
+    background: center / contain no-repeat
+      url(~src/assets/icons/white/balance_icon.svg);
   }
 
   &.info-icon {
-    background: center / contain no-repeat url(~src/assets/icons/white/info_icon.svg);
+    background: center / contain no-repeat
+      url(~src/assets/icons/white/info_icon.svg);
   }
 
   &.arrow-left-stroke {
