@@ -58,7 +58,9 @@ export class CheckboxComponent implements ControlValueAccessor {
     const { checked } = target as HTMLInputElement;
     this.value = checked;
     this.emitChange.emit(checked);
-    this.onChange(checked);
+    if (this.onChange) {
+      this.onChange(checked);
+    }
   }
 
   registerOnChange(fn: any): void {

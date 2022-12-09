@@ -92,7 +92,7 @@ export class Wallet {
     pass,
     path,
     address,
-    balance,
+    balances,
     unlocked_balance,
     mined = 0,
     tracking = ''
@@ -102,7 +102,7 @@ export class Wallet {
     this.pass = pass;
     this.path = path;
     this.address = address;
-    this.balances = balance;
+    this.balances = balances;
     this.mined_total = mined;
     this.tracking_hey = tracking;
 

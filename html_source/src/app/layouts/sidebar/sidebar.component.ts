@@ -17,8 +17,109 @@ import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss'],
+  template: `
+    <div class="sidebar-header mb-2">
+      <div class="logo">
+        <img alt="zano-logo" src="assets/icons/blue/zano-logo.svg" />
+      </div>
+    </div>
+
+    <div class="sidebar-content">
+      <div
+        (cdkDropListDropped)="drop($event)"
+        cdkDropList
+        cdkDropListLockAxis="y"
+        class="sidebar-content-list scrolled-content mb-1"
+      >
+        <app-wallet-card
+          *ngFor="let wallet of variablesService.wallets"
+          [cdkDragData]="wallet"
+          [ngClass]="{
+            active:
+              wallet?.wallet_id === variablesService?.currentWallet?.wallet_id,
+            auditable: wallet.is_auditable && !wallet.is_watch_only,
+            'watch-only': wallet.is_watch_only
+          }"
+          [wallet]="wallet"
+          (click)="selectWallet(wallet.wallet_id)"
+          (eventClose)="beforeClose($event)"
+          cdkDrag
+        ></app-wallet-card>
+      </div>
+
+      <div class="sidebar-nav scrolled-content">
+        <ng-container *ngIf="false">
+          <button
+            [routerLink]="['/ui-kit']"
+            class="outline small w-100 mb-1 px-2"
+            fxLayout="row inline wrap"
+            fxLayoutAlign="start center"
+            routerLinkActive="active"
+          >
+            <span>ui-kit</span>
+          </button>
+        </ng-container>
+
+        <button
+          (click)="goMainPage()"
+          class="outline small w-100 mb-1 px-2"
+          fxLayout="row inline wrap"
+          fxLayoutAlign="start center"
+        >
+          <i class="icon plus mr-1"></i>
+          <span>{{ 'SIDEBAR.ADD_NEW' | translate }}</span>
+        </button>
+
+        <button
+          [routerLink]="['/settings']"
+          class="outline small w-100 mb-1 px-2"
+          fxLayout="row inline wrap"
+          fxLayoutAlign="start center"
+          routerLinkActive="active"
+        >
+          <i class="icon settings mr-1"></i>
+          <span>{{ 'SIDEBAR.SETTINGS' | translate }}</span>
+        </button>
+
+        <ng-container *ngIf="variablesService.appPass === ''; else masterPass">
+          <button
+            (click)="logOut()"
+            [delay]="500"
+            [disabled]="variablesService.appPass === ''"
+            [timeDelay]="500"
+            class="outline small w-100 px-2"
+            fxLayout="row inline wrap"
+            fxLayoutAlign="start center"
+            placement="bottom"
+            tooltip="{{ 'SIDEBAR.LOG_OUT_TOOLTIP' | translate }}"
+            tooltipClass="table-tooltip account-tooltip"
+          >
+            <i class="icon logout mr-1"></i>
+            <span>{{ 'SIDEBAR.LOG_OUT' | translate }}</span>
+          </button>
+        </ng-container>
+
+        <ng-template #masterPass>
+          <button
+            (click)="logOut()"
+            class="outline small w-100 px-2"
+            fxLayout="row inline wrap"
+            fxLayoutAlign="start center"
+          >
+            <i class="icon logout mr-1"></i>
+            <span> {{ 'SIDEBAR.LOG_OUT' | translate }}</span>
+          </button>
+        </ng-template>
+      </div>
+    </div>
+
+    <div class="sidebar-footer">
+      <app-synchronization-status></app-synchronization-status>
+    </div>
+
+    <app-deeplink></app-deeplink>
+  `,
+  styles: [],
 })
 export class SidebarComponent implements OnDestroy {
   private destroy$ = new Subject<void>();

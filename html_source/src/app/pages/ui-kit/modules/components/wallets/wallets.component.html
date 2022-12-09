@@ -56,45 +56,47 @@
   cdkDrag
   class="wallet"
 >
-  <div class="header">
-    <div class="left">
-      <div class="name text-ellipsis">
-        <span *ngIf="showIndicator" class="indicator"> 12 </span>
+  <div class="content">
+    <div class="header">
+      <div class="left">
+        <div class="name text-ellipsis">
+          <span *ngIf="showIndicator" class="indicator"> 12 </span>
 
-        <span class="name">test</span>
+          <span class="name">test</span>
+        </div>
+      </div>
+      <div class="right">
+        <button type="button">
+          <i class="icon close"></i>
+        </button>
       </div>
     </div>
-    <div class="right">
-      <button type="button">
-        <i class="icon close"></i>
-      </button>
+
+    <div class="balance">
+      <span class="text-ellipsis mr-1">9999</span>
+      <span>ZANO</span>
     </div>
-  </div>
 
-  <div class="balance">
-    <span class="text-ellipsis mr-1">9999</span>
-    <span>ZANO</span>
-  </div>
+    <ng-container *ngIf="showPrice">
+      <h4 class="price">
+        $999
 
-  <ng-container *ngIf="showPrice">
-    <h4 class="price">
-      $999
+        <span [class.red]="percentRed" class="percent">20%</span>
+      </h4>
+    </ng-container>
 
-      <span [class.red]="percentRed" class="percent">20%</span>
-    </h4>
-  </ng-container>
+    <ng-container *ngIf="showStaking">
+      <div class="staking">
+        <span class="text">{{ 'SIDEBAR.ACCOUNT.STAKING' | translate }}</span>
+        <app-switch></app-switch>
+      </div>
+    </ng-container>
 
-  <ng-container *ngIf="showStaking">
-    <div class="staking">
-      <span class="text">{{ 'SIDEBAR.ACCOUNT.STAKING' | translate }}</span>
-      <app-switch></app-switch>
+    <div *ngIf="showProgressBar" class="account-synchronization">
+      <div class="progress-bar">
+        <div [style.width]="33 + '%'" class="fill"></div>
+      </div>
+      <div class="progress-percent">33%</div>
     </div>
-  </ng-container>
-
-  <div *ngIf="showProgressBar" class="account-synchronization">
-    <div class="progress-bar">
-      <div [style.width]="33 + '%'" class="fill"></div>
-    </div>
-    <div class="progress-percent">33%</div>
   </div>
 </div>
