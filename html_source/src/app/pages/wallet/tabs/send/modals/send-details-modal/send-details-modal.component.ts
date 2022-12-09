@@ -40,30 +40,199 @@ const failedStatuses: string[] = [
 
 @Component({
   selector: 'app-send-details-modal',
-  templateUrl: './send-details-modal.component.html',
-  styleUrls: ['./send-details-modal.component.scss'],
+  template: `<div
+    class="modal p-2 border-radius-0_8-rem bg-light-blue w-100 max-h-100"
+    fxFlex="0 1 54rem"
+  >
+    <div class="wrapper w-100" fxFlex fxLayout="column">
+      <h3 class="title mb-2" fxFlex="0 0 auto">
+        {{ 'SEND_DETAILS_MODAL.TITLE1' | translate }}
+      </h3>
+
+      <div
+        class="content mb-2 overflow-x-hidden overflow-y-auto"
+        fxFlex="1 1 auto"
+        fxLayout="column"
+      >
+        <div
+          class="status mb-2"
+          fxFlex="0 0 auto"
+          fxLayout="column"
+          fxLayoutAlign=" center"
+        >
+          <div *ngIf="isSentSuccess" class="image">
+            <img
+              alt="success"
+              src="assets/icons/aqua/transaction_success.svg"
+            />
+          </div>
+
+          <div *ngIf="isSentFailed" class="image">
+            <img
+              alt="failed"
+              class="image"
+              src="assets/icons/red/transaction_failed.svg"
+            />
+          </div>
+
+          <div *ngIf="!isSentSuccess && !isSentFailed" class="loader"></div>
+
+          <p class="color-primary mt-2">
+            {{
+              ((currentActionState$ | async)
+                ? 'TOR_LIB_STATE' + '.' + (currentActionState$ | async)?.status
+                : 'TOR_LIB_STATE.STATE_INITIALIZING'
+              ) | translate
+            }}
+            {{ !isSentSuccess && !isSentFailed ? '...' : '' }}
+          </p>
+        </div>
+
+        <div
+          class="details border-radius-0_8-rem overflow-hidden"
+          fxFlex="0 0 auto"
+          fxLayout="column"
+        >
+          <div
+            (click)="isDetailsNotEmpty && toggleDetails()"
+            class="header overflow-hidden py-1 px-2 w-100 cursor-pointer"
+            fxLayout="row"
+            fxLayoutAlign="space-between center"
+          >
+            <p class="title text-ellipsis mr-2">
+              {{ 'SEND_DETAILS_MODAL.TITLE2' | translate }}
+            </p>
+            <button
+              *ngIf="isDetailsNotEmpty"
+              fxLayout="row"
+              fxLayoutAlign="center center"
+            >
+              <img
+                *ngIf="!(stateDetails$ | async)"
+                alt="dropdown-arrow-down"
+                src="assets/icons/white/dropdown-arrow-down.svg"
+              />
+              <img
+                *ngIf="stateDetails$ | async"
+                alt="dropdown-arrow-up"
+                src="assets/icons/white/dropdown-arrow-up.svg"
+              />
+            </button>
+          </div>
+          <div
+            [class.px-2]="stateDetails$ | async"
+            [class.py-1]="stateDetails$ | async"
+            [fxHide]="!(stateDetails$ | async)"
+            class="details-wrapper"
+            fxFlex="1 1 auto"
+            fxLayout="row"
+          >
+            <ul #elDetailsList class="details-list scrolled-content">
+              <li
+                *ngFor="
+                  let action of currentActionStates$ | async;
+                  let last = last;
+                  trackBy: trackBy
+                "
+                class="item mb-1 color-primary"
+                fxLayout="row nowrap"
+                fxLayoutAlign=" center"
+              >
+                <span class="text text-ellipsis mr-1"
+                  >{{ 'TOR_LIB_STATE' + '.' + action?.status | translate
+                  }}{{
+                    last && !isSentSuccess && !isSentFailed ? '...' : ''
+                  }}</span
+                >
+                <ng-container *ngIf="!last">
+                  <img
+                    *ngIf="isSuccess(action)"
+                    alt="success"
+                    class="image"
+                    src="assets/icons/blue/check_with_blue_bg.svg"
+                  />
+
+                  <img
+                    *ngIf="isFailed(action)"
+                    alt="failed"
+                    class="image"
+                    src="assets/icons/red/transaction_failed.svg"
+                  />
+                </ng-container>
+
+                <ng-container *ngIf="last">
+                  <img
+                    *ngIf="last && isSentSuccess"
+                    alt="success"
+                    class="image"
+                    src="assets/icons/blue/check_with_blue_bg.svg"
+                  />
+
+                  <img
+                    *ngIf="last && isSentFailed"
+                    alt="failed"
+                    class="image"
+                    src="assets/icons/red/transaction_failed.svg"
+                  />
+                </ng-container>
+              </li>
+
+              <ng-container *ngIf="responseData$ | async">
+                <li
+                  class="item mb-1 color-primary"
+                  fxLayout="row nowrap"
+                  fxLayoutAlign=" center"
+                >
+                  <span class="word-break-break-all"
+                    >tx id:
+                    {{ (responseData$ | async).response_data.tx_hash }}</span
+                  >
+                </li>
+                <li
+                  class="item mb-1 color-primary"
+                  fxLayout="row nowrap"
+                  fxLayoutAlign=" center"
+                >
+                  <div class="word-break-break-all">
+                    tx size:
+                    {{ (responseData$ | async).response_data.tx_blob_size }}
+                    bytes
+                  </div>
+                </li>
+              </ng-container>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="controls" fxFlex="0 0 auto">
+        <button
+          (click)="eventClose.emit()"
+          [disabled]="!isSentSuccess && !isSentFailed"
+          class="primary big w-100"
+        >
+          {{ 'Ok' | translate }}
+        </button>
+      </div>
+    </div>
+  </div> `,
+  styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SendDetailsModalComponent implements OnInit, OnDestroy {
   @HostBinding('class.modal-overlay') modalOverlay = true;
 
-  /** Working id is traceable */
   @Input() job_id: number;
 
   @Output() eventClose = new EventEmitter<void>();
 
   @ViewChild('elDetailsList', { static: true }) elDetailsList: ElementRef;
 
-  /** BehaviorSubject with ResponseAsyncTransfer */
   responseData$ = new BehaviorSubject<ResponseAsyncTransfer>(null);
 
-  /** BehaviorSubject flag for stateDetails */
   stateDetails$ = new BehaviorSubject<boolean>(false);
 
-  /** BehaviorSubject with CurrentActionState */
   currentActionState$ = new BehaviorSubject<CurrentActionState>(null);
 
-  /** BehaviorSubject with CurrentActionState[] */
   currentActionStates$ = new BehaviorSubject<CurrentActionState[]>([]);
 
   private destroy$: Subject<void> = new Subject<void>();
@@ -82,7 +251,6 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
     return this.currentActionStates$.value;
   }
 
-  /** True, if currentActionState.status = success */
   get isSentSuccess(): boolean {
     return (
       this.currentActionState &&
@@ -91,7 +259,6 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
     );
   }
 
-  /** True, if currentActionState.status = failed */
   get isSentFailed(): boolean {
     return (
       this.currentActionState &&
@@ -100,7 +267,6 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
     );
   }
 
-  /** True, responseData$ or currentActionStates$ not empty */
   get isDetailsNotEmpty(): boolean {
     return !!(
       this.responseData$.value || this.currentActionStates$.value.length > 0
@@ -115,7 +281,6 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
     } = this.variablesService;
 
     if (appUseTor) {
-      /** Listening handleCurrentActionState */
       this.backendService.handleCurrentActionState$
         .pipe(takeUntil(this.destroy$))
         .subscribe({
@@ -139,7 +304,6 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
       ]);
     }
 
-    /** Listening dispatchAsyncCallResult */
     this.backendService.dispatchAsyncCallResult$
       .pipe(
         filter(
@@ -178,28 +342,23 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  /** Show/Hide details transaction */
   toggleDetails(): void {
     this.stateDetails$.next(!this.stateDetails$.value);
     setTimeout(() => this.scrollToBottomDetailsList(), 100);
   }
 
-  /** identification item by *ngFor */
   trackBy(index: number): number {
     return index;
   }
 
-  /** True, if status success */
   isSuccess(action: CurrentActionState): boolean {
     return successfulStatuses.includes(action && action.status);
   }
 
-  /** True, if status failed */
   isFailed(action: CurrentActionState): boolean {
     return failedStatuses.includes(action && action.status);
   }
 
-  /** Scroll elDetailsWrapper to bottom */
   private scrollToBottomDetailsList(): void {
     if (this.elDetailsList) {
       const { nativeElement } = this.elDetailsList;
