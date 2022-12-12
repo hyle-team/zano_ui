@@ -13,6 +13,7 @@ import { takeUntil } from 'rxjs/operators';
 import { paths, pathsChildrenAuth } from './pages/paths';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 import { AssetsFacade } from '@store/assets/assets.facade';
+import { Dialog } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-root',
@@ -73,6 +74,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private intToMoneyPipe: IntToMoneyPipe,
     private modalService: ModalService,
     private store: Store,
+    private dialog: Dialog,
     private assetsFacade: AssetsFacade
   ) {
     translate.addLangs(['en', 'fr', 'de', 'it', 'pt']);
@@ -131,14 +133,19 @@ export class AppComponent implements OnInit, OnDestroy {
           }
         );
 
-        this.backendService.eventSubscribe(Commands.quit_requested, () => {
-          this.variablesService.event_quit_requested$.next();
-          if (!this.onQuitRequest) {
-            this.ngZone.run(() => {
-              this.router.navigate(['/']);
-            });
+        this.backendService.eventSubscribe(
+          Commands.quit_requested,
+          async () => {
+            if (this.onQuitRequest) {
+              return;
+            }
+
+            await this.router.navigate(['/']);
+
+            this.dialog.closeAll();
             this.needOpenWallets = [];
             this.variablesService.daemon_state = 5;
+
             const saveFunction = (): void => {
               this.backendService.storeAppData((): void => {
                 const recursionCloseWallets = (): void => {
@@ -152,22 +159,23 @@ export class AppComponent implements OnInit, OnDestroy {
                       }
                     );
                   } else {
-                    this.backendService.quitRequest();
+                    this.ngZone.run(() => {
+                      this.backendService.quitRequest();
+                    });
                   }
                 };
                 recursionCloseWallets();
               });
             };
             if (this.variablesService.appPass) {
-              this.backendService.storeSecureAppData(() => {
-                saveFunction();
-              });
+              this.backendService.storeSecureAppData(saveFunction);
             } else {
               saveFunction();
             }
+
+            this.onQuitRequest = true;
           }
-          this.onQuitRequest = true;
-        });
+        );
 
         this.backendService.eventSubscribe(
           Commands.update_wallet_status,
