@@ -1519,6 +1519,7 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
+  overflow: hidden;
 }.tabs .tabs-header {
   display: flex;
   justify-content: space-between;

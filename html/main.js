@@ -518,10 +518,10 @@ class BackendService {
     });
   }
   webkitLaunchedScript() {
-    return this.runCommand(Commands.webkit_launched_script);
+    this.runCommand(Commands.webkit_launched_script);
   }
   quitRequest() {
-    return this.runCommand(Commands.on_request_quit);
+    this.runCommand(Commands.on_request_quit, {}, () => {});
   }
   getAppData(callback) {
     this.runCommand(Commands.get_app_data, {}, callback);
@@ -690,10 +690,10 @@ class BackendService {
     this.runCommand(Commands.validate_address, address, callback);
   }
   setClipboard(str, callback) {
-    return this.runCommand(Commands.set_clipboard, str, callback);
+    this.runCommand(Commands.set_clipboard, str, callback);
   }
   getClipboard(callback) {
-    return this.runCommand(Commands.get_clipboard, {}, callback);
+    this.runCommand(Commands.get_clipboard, {}, callback);
   }
   createProposal(wallet_id, title, comment, a_addr, b_addr, to_pay, a_pledge, b_pledge, time, payment_id, callback) {
     const params = {
@@ -825,10 +825,10 @@ class BackendService {
     this.runCommand(Commands.get_all_aliases, {}, callback);
   }
   getAliasByName(value, callback) {
-    return this.runCommand(Commands.get_alias_info_by_name, value, callback);
+    this.runCommand(Commands.get_alias_info_by_name, value, callback);
   }
   getAliasByAddress(value, callback) {
-    return this.runCommand(Commands.get_alias_info_by_address, value, callback);
+    this.runCommand(Commands.get_alias_info_by_address, value, callback);
   }
   getAliasCoast(alias, callback) {
     this.runCommand(Commands.get_alias_coast, {
@@ -901,12 +901,12 @@ class BackendService {
     });
   }
   setLogLevel(level) {
-    return this.runCommand(Commands.set_log_level, {
+    this.runCommand(Commands.set_log_level, {
       v: level
     });
   }
   asyncCall(command, params, callback) {
-    return this.runCommand(Commands.async_call, [command, params], (status, {
+    this.runCommand(Commands.async_call, [command, params], (status, {
       job_id
     }) => {
       callback(job_id);
@@ -928,12 +928,12 @@ class BackendService {
     });
   }
   setEnableTor(value) {
-    return this.runCommand(Commands.set_enable_tor, {
+    this.runCommand(Commands.set_enable_tor, {
       v: value
     });
   }
   getOptions() {
-    return this.runCommand(Commands.get_options, {}, (status, {
+    this.runCommand(Commands.get_options, {}, (status, {
       disable_price_fetch,
       use_debug_mode
     }) => {
@@ -942,13 +942,13 @@ class BackendService {
     });
   }
   addCustomAssetId(params, callback) {
-    return this.runCommand(Commands.add_custom_asset_id, params, callback);
+    this.runCommand(Commands.add_custom_asset_id, params, callback);
   }
   removeCustomAssetId(params, callback) {
-    return this.runCommand(Commands.remove_custom_asset_id, params, callback);
+    this.runCommand(Commands.remove_custom_asset_id, params, callback);
   }
   getWalletInfo(wallet_id, callback) {
-    return this.runCommand(Commands.get_wallet_info, {
+    this.runCommand(Commands.get_wallet_info, {
       wallet_id
     }, callback);
   }
@@ -1381,7 +1381,9 @@ class AppComponent {
           if (_this.onQuitRequest) {
             return;
           }
-          yield _this.router.navigate(['/']);
+          yield _this.ngZone.run( /*#__PURE__*/(0,D_Work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+            yield _this.router.navigate(['/']);
+          }));
           _this.dialog.closeAll();
           _this.needOpenWallets = [];
           _this.variablesService.daemon_state = 5;
