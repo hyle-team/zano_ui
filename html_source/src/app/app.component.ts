@@ -140,7 +140,9 @@ export class AppComponent implements OnInit, OnDestroy {
               return;
             }
 
-            await this.router.navigate(['/']);
+            await this.ngZone.run(async () => {
+              await this.router.navigate(['/']);
+            });
 
             this.dialog.closeAll();
             this.needOpenWallets = [];

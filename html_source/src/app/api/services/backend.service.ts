@@ -260,11 +260,11 @@ export class BackendService {
   }
 
   webkitLaunchedScript(): void {
-    return this.runCommand(Commands.webkit_launched_script);
+    this.runCommand(Commands.webkit_launched_script);
   }
 
   quitRequest(): void {
-    return this.runCommand(Commands.on_request_quit);
+    this.runCommand(Commands.on_request_quit, {}, () => {});
   }
 
   getAppData(callback): void {
@@ -480,11 +480,11 @@ export class BackendService {
   }
 
   setClipboard(str, callback?): void {
-    return this.runCommand(Commands.set_clipboard, str, callback);
+    this.runCommand(Commands.set_clipboard, str, callback);
   }
 
   getClipboard(callback): void {
-    return this.runCommand(Commands.get_clipboard, {}, callback);
+    this.runCommand(Commands.get_clipboard, {}, callback);
   }
 
   createProposal(
@@ -658,11 +658,11 @@ export class BackendService {
   }
 
   getAliasByName(value, callback): void {
-    return this.runCommand(Commands.get_alias_info_by_name, value, callback);
+    this.runCommand(Commands.get_alias_info_by_name, value, callback);
   }
 
   getAliasByAddress(value, callback): void {
-    return this.runCommand(Commands.get_alias_info_by_address, value, callback);
+    this.runCommand(Commands.get_alias_info_by_address, value, callback);
   }
 
   getAliasCoast(alias, callback): void {
@@ -755,7 +755,7 @@ export class BackendService {
   }
 
   setLogLevel(level): void {
-    return this.runCommand(Commands.set_log_level, { v: level });
+    this.runCommand(Commands.set_log_level, { v: level });
   }
 
   asyncCall(
@@ -763,7 +763,7 @@ export class BackendService {
     params: PramsObj,
     callback?: (job_id?: number) => void | any
   ): void {
-    return this.runCommand(
+    this.runCommand(
       Commands.async_call,
       [command, params],
       (status, { job_id }: { job_id: number }) => {
@@ -798,13 +798,13 @@ export class BackendService {
   }
 
   setEnableTor(value: boolean): void {
-    return this.runCommand(Commands.set_enable_tor, <{ v: boolean }>{
+    this.runCommand(Commands.set_enable_tor, <{ v: boolean }>{
       v: value,
     });
   }
 
   getOptions(): any {
-    return this.runCommand(
+    this.runCommand(
       Commands.get_options,
       {},
       (
@@ -824,7 +824,7 @@ export class BackendService {
     params: ParamsAddCustomAssetId,
     callback: (status: boolean, response_data: ResponseAddCustomAssetId) => void
   ): void {
-    return this.runCommand(Commands.add_custom_asset_id, params, callback);
+    this.runCommand(Commands.add_custom_asset_id, params, callback);
   }
 
   removeCustomAssetId(
@@ -834,14 +834,14 @@ export class BackendService {
       response_data: ResponseRemoveCustomAssetId
     ) => void
   ): void {
-    return this.runCommand(Commands.remove_custom_asset_id, params, callback);
+    this.runCommand(Commands.remove_custom_asset_id, params, callback);
   }
 
   getWalletInfo(
     wallet_id,
     callback?: (status: boolean, response_data: ResponseGetWalletInfo) => void
   ): void {
-    return this.runCommand(Commands.get_wallet_info, { wallet_id }, callback);
+    this.runCommand(Commands.get_wallet_info, { wallet_id }, callback);
   }
 
   private informerRun(error: string, params, command: string): void {
