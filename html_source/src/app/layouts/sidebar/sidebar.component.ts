@@ -49,7 +49,7 @@ import { WalletsService } from '@parts/services/wallets.service';
       </div>
 
       <div class="sidebar-nav scrolled-content">
-        <ng-container *ngIf="false">
+        <ng-container *ngIf="stateVisibleUiKit">
           <button
             [routerLink]="['/ui-kit']"
             class="outline small w-100 mb-1 px-2"
@@ -123,6 +123,8 @@ import { WalletsService } from '@parts/services/wallets.service';
   styles: [],
 })
 export class SidebarComponent implements OnDestroy {
+  stateVisibleUiKit = false;
+
   private destroy$ = new Subject<void>();
 
   constructor(

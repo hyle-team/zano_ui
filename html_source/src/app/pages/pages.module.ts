@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AuthModule } from './auth/auth.module';
-import { UiKitModule } from './ui-kit/ui-kit.module';
 import { WalletModule } from './wallet/wallet.module';
 import { PagesRoutingModule } from './pages-routing.module';
 import { LoginComponent } from './auth/login/login.component';
@@ -45,6 +44,7 @@ import {
 import { InputValidateModule } from '@parts/directives/input-validate';
 import { InputDisableSelectionModule } from '@parts/directives/input-disable-selection';
 import { BackButtonModule } from '@parts/directives/back-button/back-button.module';
+import { UiKitComponent } from './ui-kit/ui-kit.component';
 
 @NgModule({
   declarations: [
@@ -65,9 +65,7 @@ import { BackButtonModule } from '@parts/directives/back-button/back-button.modu
     CommonModule,
     PagesRoutingModule,
     AuthModule,
-    UiKitModule,
     WalletModule,
-
     FormsModule,
     ReactiveFormsModule,
     NgSelectModule,
@@ -97,6 +95,9 @@ import { BackButtonModule } from '@parts/directives/back-button/back-button.modu
     InputValidateModule,
     InputDisableSelectionModule,
     BackButtonModule,
+
+    // Standalone components
+    UiKitComponent,
   ],
 })
 export class PagesModule {}
