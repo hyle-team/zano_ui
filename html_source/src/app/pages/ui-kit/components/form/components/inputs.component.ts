@@ -96,5 +96,6 @@ import { Component } from '@angular/core';
     </div>
   `,
   styles: [],
+  standalone: true,
 })
 export class InputsComponent {}

@@ -27,5 +27,6 @@ import { Component } from '@angular/core';
     </button>
   `,
   styles: [],
+  standalone: true,
 })
 export class ButtonsComponent {}

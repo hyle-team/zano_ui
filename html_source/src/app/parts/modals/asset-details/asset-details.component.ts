@@ -88,7 +88,7 @@ import { Asset } from '@api/models/assets.model';
           fxLayoutGap="1rem"
         >
           <button (click)="close()" class="outline big w-100" type="button">
-            {{ 'CONFIRM.BUTTON_CANCEL' | translate }}
+            {{ 'MODALS.OK' | translate }}
           </button>
         </div>
       </div>

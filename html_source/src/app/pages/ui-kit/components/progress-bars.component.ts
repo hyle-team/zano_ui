@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
+import { FlexModule } from '@angular/flex-layout';
 
 @Component({
   selector: 'app-progress-bars',
@@ -98,5 +100,7 @@ import { Component } from '@angular/core';
     </div>
   `,
   styles: [],
+  standalone: true,
+  imports: [TranslateModule, FlexModule],
 })
 export class ProgressBarsComponent {}

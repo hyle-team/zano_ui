@@ -149,6 +149,17 @@ const routes: Routes = [
     ],
   },
   {
+    path: paths.uiKit,
+    component: WithSidebarLayoutComponent,
+    children: [
+      {
+        path: '',
+        loadComponent: () =>
+          import('./ui-kit/ui-kit.component').then(c => c.UiKitComponent),
+      },
+    ],
+  },
+  {
     path: '',
     redirectTo: paths.addWallet,
     pathMatch: 'full',

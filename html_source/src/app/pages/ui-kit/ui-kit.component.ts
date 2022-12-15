@@ -1,4 +1,12 @@
 import { Component } from '@angular/core';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import {
+  BreadcrumbsComponent,
+  ButtonsComponent,
+  FormComponent,
+  ProgressBarsComponent,
+  WalletsComponent,
+} from './components';
 
 @Component({
   selector: 'app-ui-kit',
@@ -31,5 +39,14 @@ import { Component } from '@angular/core';
     </div>
   `,
   styles: [],
+  standalone: true,
+  imports: [
+    FlexLayoutModule,
+    ButtonsComponent,
+    WalletsComponent,
+    BreadcrumbsComponent,
+    FormComponent,
+    ProgressBarsComponent,
+  ],
 })
 export class UiKitComponent {}

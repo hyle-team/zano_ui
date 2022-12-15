@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { scaleItems } from 'src/app/parts/data/scale-items';
-import { ScaleItems } from 'src/app/api/models/scale.model';
+import { scaleItems } from '@parts/data/scale-items';
+import { ScaleItems } from '@api/models/scale.model';
+import { TranslateModule } from '@ngx-translate/core';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-selects',
@@ -66,6 +68,8 @@ import { ScaleItems } from 'src/app/api/models/scale.model';
     </div>
   `,
   styles: [],
+  standalone: true,
+  imports: [TranslateModule, NgSelectModule],
 })
 export class SelectsComponent {
   scaleItems: ScaleItems = [...scaleItems];

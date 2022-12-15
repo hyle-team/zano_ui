@@ -1,4 +1,9 @@
 import { Component } from '@angular/core';
+import { CheckboxModule } from '@parts/components/checkbox/checkbox.module';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { SwitchModule } from '@parts/components/switch/switch.module';
+import { TranslateModule } from '@ngx-translate/core';
+import { FlexModule } from '@angular/flex-layout';
 
 @Component({
   selector: 'app-wallets',
@@ -109,6 +114,14 @@ import { Component } from '@angular/core';
     </div>
   `,
   styles: [],
+  standalone: true,
+  imports: [
+    CheckboxModule,
+    DragDropModule,
+    SwitchModule,
+    TranslateModule,
+    FlexModule,
+  ],
 })
 export class WalletsComponent {
   classWalletActive = true;

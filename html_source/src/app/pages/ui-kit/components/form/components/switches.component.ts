@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SwitchModule } from '@parts/components/switch/switch.module';
 
 @Component({
   selector: 'app-switches',
@@ -13,5 +14,7 @@ import { Component } from '@angular/core';
     <app-switch [disabled]="true" [value]="true" class="mb-1"></app-switch>
   `,
   styles: [],
+  standalone: true,
+  imports: [SwitchModule],
 })
 export class SwitchesComponent {}
