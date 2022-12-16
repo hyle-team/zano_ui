@@ -7,6 +7,7 @@ import {
   Input,
   ViewChild,
 } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 const activeClass = 'scroll-item-active';
 
@@ -152,6 +153,8 @@ enum Direction {
       }
     `,
   ],
+  standalone: true,
+  providers: [CommonModule],
 })
 export class ScrollXComponent implements AfterContentInit, AfterContentChecked {
   @ViewChild('scrollMenu', { static: true }) scrollMenu: ElementRef;

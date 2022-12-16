@@ -19,17 +19,12 @@ import { DisablePriceFetchModule, DefaultImgModule } from '@parts/directives';
 import { TooltipModule } from '@parts/directives/tooltip/tooltip.module';
 import { ConfirmModalModule } from '@parts/modals/confirm-modal/confirm-modal.module';
 import { DeeplinkModule } from './deeplink/deeplink.module';
-import { StakingSwitchModule } from '@parts/components/staking-switch/staking-switch.module';
 import { FullLayoutModule } from '../layouts/full-layout/full-layout.module';
 import { WithSidebarLayoutModule } from '../layouts/with-sidebar-layout/with-sidebar-layout.module';
-import { SynchronizationStatusModule } from '@parts/components/synchronization-status/synchronization-status.module';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { CopyButtonModule } from '@parts/components/copy-button/copy-button.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { SwitchModule } from '@parts/components/switch/switch.module';
-import { CheckboxModule } from '@parts/components/checkbox/checkbox.module';
 import { TransferAliasComponent } from './transfer-alias/transfer-alias.component';
 import {
   ContractStatusMessagesPipeModule,
@@ -45,6 +40,11 @@ import { InputValidateModule } from '@parts/directives/input-validate';
 import { InputDisableSelectionModule } from '@parts/directives/input-disable-selection';
 import { BackButtonModule } from '@parts/directives/back-button/back-button.module';
 import { UiKitComponent } from './ui-kit/ui-kit.component';
+import { CheckboxComponent } from '@parts/components/checkbox.component';
+import { CopyButtonComponent } from '@parts/components/copy-button.component';
+import { StakingSwitchComponent } from '@parts/components/staking-switch.component';
+import { SwitchComponent } from '@parts/components/switch.component';
+import { SynchronizationStatusComponent } from '@parts/components/synchronization-status.component';
 
 @NgModule({
   declarations: [
@@ -75,14 +75,9 @@ import { UiKitComponent } from './ui-kit/ui-kit.component';
     TooltipModule,
     ConfirmModalModule,
     DeeplinkModule,
-    StakingSwitchModule,
     FullLayoutModule,
     WithSidebarLayoutModule,
-    SynchronizationStatusModule,
-    SwitchModule,
-    CheckboxModule,
     OverlayModule,
-    CopyButtonModule,
     DefaultImgModule,
     ContractStatusMessagesPipeModule,
     ContractTimeLeftPipeModule,
@@ -98,6 +93,11 @@ import { UiKitComponent } from './ui-kit/ui-kit.component';
 
     // Standalone components
     UiKitComponent,
+    CheckboxComponent,
+    CopyButtonComponent,
+    StakingSwitchComponent,
+    SwitchComponent,
+    SynchronizationStatusComponent,
   ],
 })
 export class PagesModule {}

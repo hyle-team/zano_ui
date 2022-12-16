@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { BackendService } from '@api/services/backend.service';
-import { VariablesService } from '../../services/variables.service';
+import { VariablesService } from '../services/variables.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-copy-button',
@@ -14,6 +15,8 @@ import { VariablesService } from '../../services/variables.service';
     </button>
   `,
   styles: [],
+  standalone: true,
+  imports: [CommonModule],
 })
 export class CopyButtonComponent {
   @Input() value: string;

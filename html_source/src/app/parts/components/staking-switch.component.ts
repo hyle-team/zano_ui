@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { BackendService } from '@api/services/backend.service';
-import { VariablesService } from '../../services/variables.service';
+import { VariablesService } from '../services/variables.service';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-staking-switch',
@@ -15,6 +16,8 @@ import { VariablesService } from '../../services/variables.service';
     </div>
   `,
   styles: [],
+  standalone: true,
+  imports: [CommonModule],
 })
 export class StakingSwitchComponent {
   @Input() wallet_id: number;

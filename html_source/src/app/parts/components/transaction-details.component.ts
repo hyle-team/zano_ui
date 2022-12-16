@@ -1,13 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Transaction } from '@api/models/transaction.model';
-import { VariablesService } from '../../services/variables.service';
+import { VariablesService } from '../services/variables.service';
 import { BackendService } from '@api/services/backend.service';
 import { IntToMoneyPipe } from '@parts/pipes';
 import {
   BLOCK_EXPLORER_TN_TX_URL_PREFIX,
   BLOCK_EXPLORER_TX_URL_PREFIX,
-} from '../../data/constants';
-import { hasOwnProperty } from '../../functions/hasOwnProperty';
+} from '../data/constants';
+import { hasOwnProperty } from '../functions/hasOwnProperty';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { FlexModule } from '@angular/flex-layout';
+import { TooltipModule } from '@parts/directives';
 
 @Component({
   selector: 'app-transaction-details',
@@ -38,7 +42,7 @@ import { hasOwnProperty } from '../../functions/hasOwnProperty';
           class="cell px-2 py-1 text-ellipsis"
           >{{
             'HISTORY.DETAILS.SIZE_VALUE'
-              | translate: { value: transaction.tx_blob_size }
+              | translate : { value: transaction.tx_blob_size }
           }}</span
         >
       </div>
@@ -148,6 +152,8 @@ import { hasOwnProperty } from '../../functions/hasOwnProperty';
       }
     `,
   ],
+  standalone: true,
+  imports: [CommonModule, TranslateModule, FlexModule, TooltipModule],
 })
 export class TransactionDetailsComponent implements OnInit {
   @Input() transaction: Transaction;
