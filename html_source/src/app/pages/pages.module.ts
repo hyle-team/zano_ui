@@ -63,11 +63,11 @@ import { SynchronizationStatusComponent } from '@parts/components/synchronizatio
   ],
   imports: [
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
     PagesRoutingModule,
     AuthModule,
     WalletModule,
-    FormsModule,
-    ReactiveFormsModule,
     NgSelectModule,
     TranslateModule.forChild(),
     FlexLayoutModule,

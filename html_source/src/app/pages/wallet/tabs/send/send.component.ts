@@ -102,7 +102,7 @@ interface WrapInfo {
               </div>
             </div>
             <div *ngIf="currentAliasAddress" class="info text-ellipsis">
-              <span>{{ getShorterAddress() }}</span>
+              <span>{{ currentAliasAddress | zanoShortString }}</span>
             </div>
           </div>
 
@@ -589,15 +589,6 @@ export class SendComponent implements OnInit, OnDestroy {
       hide: this.sendForm.get('hide').value,
     };
     this.actionData = {};
-  }
-
-  getShorterAddress(): string {
-    const tempArr = this.currentAliasAddress.split('');
-    return (
-      this.currentAliasAddress.split('', 13).join('') +
-      '...' +
-      tempArr.splice(tempArr.length - 4, 4).join('')
-    );
   }
 
   addressMouseDown(e): void {

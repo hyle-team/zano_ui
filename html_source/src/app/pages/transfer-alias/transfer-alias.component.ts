@@ -66,7 +66,7 @@ import BigNumber from 'bignumber.js';
               </label>
               <input
                 (contextmenu)="variablesService.onContextMenu($event)"
-                (ngModelChange)="changeAddress()"
+                (input)="changeAddress()"
                 [(ngModel)]="transferAddress"
                 [class.invalid]="
                   transferAddress.length > 0 &&
@@ -75,7 +75,6 @@ import BigNumber from 'bignumber.js';
                     (transferAddressValid && !permissionSend) ||
                     notEnoughMoney)
                 "
-                [ngModelOptions]="{ standalone: true }"
                 class="form__field--input"
                 id="alias-transfer"
                 name="alias-transfer"
