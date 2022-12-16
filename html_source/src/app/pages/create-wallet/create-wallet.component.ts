@@ -1,16 +1,12 @@
-import { Component, NgZone } from '@angular/core';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
+import { Component, inject, NgZone } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { ModalService } from '@parts/services/modal.service';
 import { Router } from '@angular/router';
 import { Wallet } from '@api/models/wallet.model';
 import { TranslateService } from '@ngx-translate/core';
+import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
 
 @Component({
   selector: 'app-create-wallet',
@@ -114,7 +110,7 @@ import { TranslateService } from '@ngx-translate/core';
               [attr.readonly]="walletSaved ? '' : null"
               [class.invalid]="
                 createForm.errors &&
-                createForm.errors['confirm_mismatch'] &&
+                createForm.errors['mismatch'] &&
                 createForm.get('confirm').value.length > 0
               "
               class="form__field--input"
@@ -133,7 +129,7 @@ import { TranslateService } from '@ngx-translate/core';
             >
               <div
                 *ngIf="
-                  createForm.errors['confirm_mismatch'] &&
+                  createForm.errors['mismatch'] &&
                   createForm.get('confirm').value.length > 0
                 "
               >
@@ -184,29 +180,24 @@ import { TranslateService } from '@ngx-translate/core';
   ],
 })
 export class CreateWalletComponent {
-  createForm = new UntypedFormGroup(
+  fb = inject(FormBuilder);
+
+  createForm = this.fb.group(
     {
-      name: new UntypedFormControl('', [
+      name: this.fb.nonNullable.control('', [
         Validators.required,
-        (g: UntypedFormControl): ValidationErrors | null => {
-          for (let i = 0; i < this.variablesService.wallets.length; i++) {
-            if (g.value === this.variablesService.wallets[i].name) {
-              return { duplicate: true };
-            }
-          }
-          return null;
-        },
+        ZanoValidators.duplicate(
+          this.variablesService.walletNamesForComparisons
+        ),
       ]),
-      password: new UntypedFormControl(
+      password: this.fb.nonNullable.control(
         '',
-        Validators.pattern(this.variablesService.pattern)
+        Validators.pattern(regExpPassword)
       ),
-      confirm: new UntypedFormControl(''),
+      confirm: this.fb.nonNullable.control(''),
     },
-    function (g: UntypedFormGroup) {
-      return g.get('password').value === g.get('confirm').value
-        ? null
-        : { confirm_mismatch: true };
+    {
+      validators: [ZanoValidators.formMatch('password', 'confirm')],
     }
   );
 
@@ -229,10 +220,10 @@ export class CreateWalletComponent {
     private translate: TranslateService
   ) {}
 
-  createWallet(): void {
-    this.ngZone.run(() => {
+  async createWallet(): Promise<void> {
+    return await this.ngZone.run(async () => {
       this.progressWidth = '100%';
-      this.router.navigate(['/seed-phrase'], {
+      await this.router.navigate(['/seed-phrase'], {
         queryParams: { wallet_id: this.wallet.id },
       });
     });

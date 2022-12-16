@@ -127,7 +127,7 @@ import { takeUntil } from 'rxjs/operators';
               >
                 <div class="overflow-hidden" fxLayout="row">
                   <div class="text-ellipsis">
-                    {{ selectedDate.date | date: 'EEEE, MMMM d, y' }}
+                    {{ selectedDate.date | date : 'EEEE, MMMM d, y' }}
                     {{ selectedDate.amount }}
                   </div>
                   <div class="ml-0_5">
@@ -173,7 +173,7 @@ import { takeUntil } from 'rxjs/operators';
               >
                 <div class="overflow-hidden" fxLayout="row">
                   <div class="text-ellipsis">
-                    {{ selectedDate.date | date: 'EEEE, MMMM d, y' }}
+                    {{ selectedDate.date | date : 'EEEE, MMMM d, y' }}
                     {{ selectedDate.amount }}
                   </div>
                   <div class="ml-0_5">

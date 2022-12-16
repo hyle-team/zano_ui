@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { DeeplinkParams, Wallet } from '@api/models/wallet.model';
 import { Contact } from '@api/models/contact.model';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { Idle } from 'idlejs/dist';
 import { Router } from '@angular/router';
 import {
@@ -95,6 +95,10 @@ export class VariablesService {
   networkType = ''; // testnet of mainnet
 
   wallets: Array<Wallet> = [];
+
+  get walletNamesForComparisons(): string[] {
+    return this.wallets.map(({ name }) => name) ?? [];
+  }
 
   currentWallet: Wallet;
 

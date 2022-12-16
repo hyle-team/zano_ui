@@ -1,10 +1,5 @@
-import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
-  ValidationErrors,
-} from '@angular/forms';
+import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { Validators, ValidationErrors, FormBuilder } from '@angular/forms';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { ModalService } from '@parts/services/modal.service';
@@ -14,6 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
 
 @Component({
   selector: 'app-open-wallet',
@@ -136,21 +132,18 @@ import { takeUntil } from 'rxjs/operators';
   ],
 })
 export class OpenWalletComponent implements OnInit, OnDestroy {
+  fb = inject(FormBuilder);
+
   filePath: string;
 
-  openForm = new UntypedFormGroup({
-    name: new UntypedFormControl('', [
+  openForm = this.fb.group({
+    name: this.fb.nonNullable.control('', [
       Validators.required,
-      (g: UntypedFormControl): ValidationErrors | null => {
-        for (let i = 0; i < this.variablesService.wallets.length; i++) {
-          if (g.value === this.variablesService.wallets[i].name) {
-            return { duplicate: true };
-          }
-        }
-        return null;
-      },
+      ZanoValidators.duplicate(this.variablesService.walletNamesForComparisons),
     ]),
-    password: new UntypedFormControl(''),
+    password: this.fb.nonNullable.control('', [
+      Validators.pattern(regExpPassword),
+    ]),
   });
 
   private destroy$ = new Subject<void>();

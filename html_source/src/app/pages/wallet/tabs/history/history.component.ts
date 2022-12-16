@@ -70,7 +70,8 @@ import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
                         style="transform: rotateZ(-90deg)"
                         tooltip="{{
                           'HISTORY.STATUS_TOOLTIP'
-                            | translate: { current: getHeight(item), total: 10 }
+                            | translate
+                              : { current: getHeight(item), total: 10 }
                         }}"
                         tooltipClass="table-tooltip"
                       >
@@ -135,7 +136,7 @@ import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
                             tooltip="{{
                               'HISTORY.LOCK_TOOLTIP'
                                 | translate
-                                  : { date: time(item) | date: 'MM.dd.yy' }
+                                  : { date: time(item) | date : 'MM.dd.yy' }
                             }}"
                             tooltipClass="table-tooltip"
                           ></i>
@@ -155,7 +156,7 @@ import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
                                   : {
                                       date:
                                         item.unlock_time * 1000
-                                        | date: 'MM.dd.yy'
+                                        | date : 'MM.dd.yy'
                                     }
                             }}"
                             tooltipClass="table-tooltip"
@@ -231,8 +232,8 @@ import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
                           )
                         "
                       >
-                        {{ item.remote_addresses[0] | slice: 0:6 }}
-                        ...{{ item.remote_addresses[0] | slice: -6 }}
+                        {{ item.remote_addresses[0] | slice : 0 : 6 }}
+                        ...{{ item.remote_addresses[0] | slice : -6 }}
                       </span>
                     </div>
                     <ng-container
@@ -266,7 +267,7 @@ import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
                 </td>
                 <td>
                   <div class="text-ellipsis">
-                    {{ item.timestamp * 1000 | date: 'dd-MM-yyyy HH:mm' }}
+                    {{ item.timestamp * 1000 | date : 'dd-MM-yyyy HH:mm' }}
                   </div>
                 </td>
               </tr>

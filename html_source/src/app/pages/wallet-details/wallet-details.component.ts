@@ -1,14 +1,10 @@
-import { Component, NgZone, OnInit } from '@angular/core';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
+import { Component, inject, NgZone, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { Router } from '@angular/router';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
+import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
 
 @Component({
   selector: 'app-wallet-details',
@@ -66,11 +62,6 @@ import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
                   "
                   class="error"
                 >
-                  <div *ngIf="detailsForm.controls['name'].errors['same']">
-                    {{
-                      'WALLET_DETAILS.FORM_ERRORS.NAME_DUPLICATE' | translate
-                    }}
-                  </div>
                   <div *ngIf="detailsForm.controls['name'].errors['duplicate']">
                     {{
                       'WALLET_DETAILS.FORM_ERRORS.NAME_DUPLICATE' | translate
@@ -330,46 +321,29 @@ export class WalletDetailsComponent implements OnInit {
 
   ifSaved = false;
 
-  detailsForm = new UntypedFormGroup({
-    name: new UntypedFormControl('', [
+  fb = inject(FormBuilder);
+
+  detailsForm = this.fb.group({
+    name: this.fb.nonNullable.control('', [
       Validators.required,
-      (g: UntypedFormControl): ValidationErrors | null => {
-        for (let i = 0; i < this.variablesService.wallets.length; i++) {
-          if (g.value === this.variablesService.wallets[i].name) {
-            if (
-              this.variablesService.wallets[i].wallet_id ===
-              this.variablesService.currentWallet.wallet_id
-            ) {
-              return { same: true };
-            } else {
-              return { duplicate: true };
-            }
-          }
-        }
-        return null;
-      },
+      ZanoValidators.duplicate(this.variablesService.walletNamesForComparisons),
     ]),
-    path: new UntypedFormControl(''),
+    path: this.fb.nonNullable.control(''),
   });
 
-  seedPhraseForm = new UntypedFormGroup(
+  seedPhraseForm = this.fb.group(
     {
-      password: new UntypedFormControl(
+      password: this.fb.nonNullable.control(
         '',
-        Validators.pattern(this.variablesService.pattern)
+        Validators.pattern(regExpPassword)
       ),
-      confirmPassword: new UntypedFormControl(
+      confirmPassword: this.fb.nonNullable.control(
         '',
-        Validators.pattern(this.variablesService.pattern)
+        Validators.pattern(regExpPassword)
       ),
     },
     {
-      validators: (group: UntypedFormGroup): ValidationErrors | null => {
-        const pass = group.controls.password.value;
-        const confirmPass = group.controls.confirmPassword.value;
-
-        return pass === confirmPass ? null : { notSame: true };
-      },
+      validators: [ZanoValidators.formMatch('password', 'confirmPassword')],
     }
   );
 

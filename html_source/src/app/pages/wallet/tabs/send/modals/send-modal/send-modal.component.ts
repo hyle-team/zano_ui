@@ -2,17 +2,14 @@ import {
   Component,
   EventEmitter,
   HostBinding,
+  inject,
   Input,
   OnDestroy,
   OnInit,
   Output,
   Renderer2,
 } from '@angular/core';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { VariablesService } from '@parts/services/variables.service';
 
 @Component({
@@ -146,12 +143,14 @@ import { VariablesService } from '@parts/services/variables.service';
 export class SendModalComponent implements OnInit, OnDestroy {
   @HostBinding('class.modal-overlay') modalOverlay = true;
 
-  @Input() form: UntypedFormGroup;
+  @Input() form: FormGroup;
 
   @Output() confirmed: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  confirmForm = new UntypedFormGroup({
-    password: new UntypedFormControl(''),
+  fb = inject(FormBuilder);
+
+  confirmForm = this.fb.group({
+    password: this.fb.nonNullable.control(''),
   });
 
   constructor(

@@ -1,10 +1,5 @@
-import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
+import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
@@ -16,6 +11,7 @@ import BigNumber from 'bignumber.js';
 import { Subject } from 'rxjs';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 import { takeUntil } from 'rxjs/operators';
+import { regExpAliasName } from '@parts/utils/zano-validators';
 
 @Component({
   selector: 'app-assign-alias',
@@ -173,20 +169,15 @@ import { takeUntil } from 'rxjs/operators';
 export class AssignAliasComponent implements OnInit, OnDestroy {
   wallet: Wallet;
 
-  assignForm = new UntypedFormGroup({
-    name: new UntypedFormControl('', [
+  fb = inject(FormBuilder);
+
+  assignForm = this.fb.group({
+    name: this.fb.nonNullable.control('', [
       Validators.required,
-      // eslint-disable-next-line
-      Validators.pattern(/^@?[a-z\d\.\-]{6,25}$/),
+      Validators.pattern(regExpAliasName),
     ]),
-    comment: new UntypedFormControl('', [
-      (g: UntypedFormControl): ValidationErrors | null => {
-        if (g.value > this.variablesService.maxCommentLength) {
-          return { maxLength: true };
-        } else {
-          return null;
-        }
-      },
+    comment: this.fb.nonNullable.control('', [
+      Validators.maxLength(this.variablesService.maxCommentLength),
     ]),
   });
 
@@ -250,10 +241,11 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
                           this.variablesService.default_fee_big
                         );
                       }
-                      // this.notEnoughMoney = this.alias.price.isGreaterThan(
-                      //   this.wallet.unlocked_balance
-                      // );
-                      this.notEnoughMoney = false;
+                      const unlocked_balance = new BigNumber(
+                        this.wallet.getBalanceByTicker('ZANO')?.unlocked || 0
+                      );
+                      this.notEnoughMoney =
+                        this.alias.price.isGreaterThan(unlocked_balance);
                       this.alias.reward = this.intToMoney.transform(
                         this.alias.price,
                         false
@@ -300,15 +292,15 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
         this.alias.fee,
         this.alias.comment,
         this.alias.rewardOriginal,
-        status => {
+        async status => {
           if (status) {
             this.wallet.wakeAlias = true;
             this.modalService.prepareModal(
               'info',
               'ASSIGN_ALIAS.REQUEST_ADD_REG'
             );
-            this.ngZone.run(() => {
-              this.router.navigate(['/wallet/']);
+            await this.ngZone.run(async () => {
+              await this.router.navigate(['/wallet/']);
             });
           }
         }

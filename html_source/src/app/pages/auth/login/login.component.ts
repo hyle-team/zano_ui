@@ -1,10 +1,5 @@
-import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  Validators,
-  ValidationErrors,
-} from '@angular/forms';
+import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { Validators, ValidationErrors, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
@@ -13,6 +8,7 @@ import { Wallet } from '@api/models/wallet.model';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
 
 @Component({
   selector: 'app-login',
@@ -198,25 +194,23 @@ import { takeUntil } from 'rxjs/operators';
   ],
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  regForm = new UntypedFormGroup(
+  fb = inject(FormBuilder);
+
+  regForm = this.fb.group(
     {
-      password: new UntypedFormControl(
+      password: this.fb.nonNullable.control(
         '',
-        Validators.pattern(this.variablesService.pattern)
+        Validators.pattern(regExpPassword)
       ),
-      confirmation: new UntypedFormControl(''),
+      confirmation: this.fb.nonNullable.control(''),
     },
-    [
-      function (g: UntypedFormGroup): ValidationErrors | null {
-        return g.get('password').value === g.get('confirmation').value
-          ? null
-          : { mismatch: true };
-      },
-    ]
+    {
+      validators: [ZanoValidators.formMatch('password', 'confirmation')],
+    }
   );
 
-  authForm = new UntypedFormGroup({
-    password: new UntypedFormControl(''),
+  authForm = this.fb.group({
+    password: this.fb.nonNullable.control(''),
   });
 
   type = 'reg';

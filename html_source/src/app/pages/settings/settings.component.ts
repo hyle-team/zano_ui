@@ -1,14 +1,10 @@
-import { Component, NgZone, OnInit, Renderer2 } from '@angular/core';
+import { Component, inject, NgZone, OnInit, Renderer2 } from '@angular/core';
 import { VariablesService } from '@parts/services/variables.service';
 import { BackendService } from '@api/services/backend.service';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { scaleItems } from '@parts/data/scale-items';
+import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
 
 @Component({
   selector: 'app-settings',
@@ -220,7 +216,7 @@ import { scaleItems } from '@parts/data/scale-items';
                   (changeForm.controls['new_confirmation'].dirty ||
                     changeForm.controls['new_confirmation'].touched) &&
                   changeForm.errors &&
-                  changeForm.errors['confirm_mismatch'] &&
+                  changeForm.errors['mismatch'] &&
                   changeForm.get('new_confirmation').value.length > 0
                 "
                 class="form__field--input"
@@ -237,7 +233,7 @@ import { scaleItems } from '@parts/data/scale-items';
                   (changeForm.controls['new_confirmation'].dirty ||
                     changeForm.controls['new_confirmation'].touched) &&
                   changeForm.errors &&
-                  changeForm.errors['confirm_mismatch'] &&
+                  changeForm.errors['mismatch'] &&
                   changeForm.get('new_confirmation').value.length > 0
                 "
                 class="error"
@@ -284,7 +280,28 @@ export class SettingsComponent implements OnInit {
 
   appUseTor: boolean;
 
-  changeForm: any;
+  fb = inject(FormBuilder);
+
+  changeForm = this.fb.group(
+    {
+      password: this.fb.nonNullable.control(
+        '',
+        Validators.pattern(regExpPassword)
+      ),
+      new_password: this.fb.nonNullable.control(
+        '',
+        Validators.pattern(regExpPassword)
+      ),
+      new_confirmation: this.fb.nonNullable.control(''),
+      appPass: this.fb.nonNullable.control(this.variablesService.appPass ?? ''),
+    },
+    {
+      validators: [
+        ZanoValidators.formMatch('new_password', 'new_confirmation'),
+        ZanoValidators.formMatch('password', 'appPass', 'pass_mismatch'),
+      ],
+    }
+  );
 
   public currentNotificationsState;
 
@@ -370,31 +387,6 @@ export class SettingsComponent implements OnInit {
   ) {
     this.scale = this.variablesService.settings.scale;
     this.appUseTor = this.variablesService.settings.appUseTor;
-    this.changeForm = new UntypedFormGroup(
-      {
-        password: new UntypedFormControl(''),
-        new_password: new UntypedFormControl(
-          '',
-          Validators.pattern(this.variablesService.pattern)
-        ),
-        new_confirmation: new UntypedFormControl(''),
-      },
-      [
-        (g: UntypedFormGroup): ValidationErrors | null => {
-          return g.get('new_password').value === g.get('new_confirmation').value
-            ? null
-            : { confirm_mismatch: true };
-        },
-        (g: UntypedFormGroup): ValidationErrors | null => {
-          if (this.variablesService.appPass) {
-            return g.get('password').value === this.variablesService.appPass
-              ? null
-              : { pass_mismatch: true };
-          }
-          return null;
-        },
-      ]
-    );
   }
 
   ngOnInit(): void {
@@ -442,9 +434,6 @@ export class SettingsComponent implements OnInit {
             }
           }
         );
-      } else {
-        // this.backend.dropSecureAppData((status, data) => {
-        // });
       }
       this.changeForm.reset();
     }

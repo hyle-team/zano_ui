@@ -201,7 +201,7 @@ interface WrapInfo {
             <tr>
               <td>{{ 'SEND.WRAP.FEE' | translate }}</td>
               <td>
-                {{ wrapInfo?.tx_cost?.zano_needed_for_erc20 | intToMoney: 3 }}
+                {{ wrapInfo?.tx_cost?.zano_needed_for_erc20 | intToMoney : 3 }}
                 {{ 'SEND.WRAP.ZANO' | translate }}
                 ({{ '$' + wrapInfo.tx_cost?.usd_needed_for_erc20 }})
               </td>
@@ -313,7 +313,7 @@ interface WrapInfo {
                   <div *ngIf="sendForm.controls['fee'].errors['less_min']">
                     {{
                       'SEND.FORM_ERRORS.FEE_MINIMUM'
-                        | translate: { fee: variablesService.default_fee }
+                        | translate : { fee: variablesService.default_fee }
                     }}
                   </div>
                   <div *ngIf="sendForm.controls['fee'].hasError('required')">

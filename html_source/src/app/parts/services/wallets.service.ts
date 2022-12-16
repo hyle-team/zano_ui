@@ -61,7 +61,7 @@ export class WalletsService {
   }
 
   closeWallet(wallet_id): void {
-    const callback = async () => {
+    const callback = async (): Promise<void> => {
       this.wallets = this.wallets.filter(w => w.wallet_id !== wallet_id);
 
       await this.ngZone.run(async () => {
