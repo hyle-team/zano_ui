@@ -1,10 +1,5 @@
-import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
+import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
@@ -14,6 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { pairwise, startWith, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
+import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
 
 @Component({
   selector: 'app-restore-wallet',
@@ -154,7 +150,7 @@ import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
                 "
                 class="error"
               >
-                <div *ngIf="restoreForm.errors['confirm_mismatch']">
+                <div *ngIf="restoreForm.errors['mismatch']">
                   {{
                     'RESTORE_WALLET.FORM_ERRORS.CONFIRM_NOT_MATCH' | translate
                   }}
@@ -286,34 +282,32 @@ import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
   ],
 })
 export class RestoreWalletComponent implements OnInit, OnDestroy {
-  restoreForm = new UntypedFormGroup(
+  fb = inject(FormBuilder);
+
+  restoreForm = this.fb.group(
     {
-      name: new UntypedFormControl('', [
+      name: this.fb.nonNullable.control('', [
         Validators.required,
-        (g: UntypedFormControl): ValidationErrors | null => {
-          for (let i = 0; i < this.variablesService.wallets.length; i++) {
-            if (g.value === this.variablesService.wallets[i].name) {
-              return { duplicate: true };
-            }
-          }
-          return null;
-        },
+        ZanoValidators.duplicate(
+          this.variablesService.walletNamesForComparisons
+        ),
       ]),
-      key: new UntypedFormControl('', Validators.required),
-      password: new UntypedFormControl(
+      key: this.fb.nonNullable.control('', Validators.required),
+      password: this.fb.nonNullable.control(
         '',
-        Validators.pattern(this.variablesService.pattern)
+        Validators.pattern(regExpPassword)
       ),
-      confirm: new UntypedFormControl(''),
-      seedPassword: new UntypedFormControl(
+      confirm: this.fb.nonNullable.control(
         '',
-        Validators.pattern(this.variablesService.pattern)
+        Validators.pattern(regExpPassword)
+      ),
+      seedPassword: this.fb.nonNullable.control(
+        '',
+        Validators.pattern(regExpPassword)
       ),
     },
-    function (g: UntypedFormGroup) {
-      return g.get('password').value === g.get('confirm').value
-        ? null
-        : { confirm_mismatch: true };
+    {
+      validators: [ZanoValidators.formMatch('password', 'confirm')],
     }
   );
 

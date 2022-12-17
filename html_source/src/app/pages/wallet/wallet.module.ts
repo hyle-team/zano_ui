@@ -11,7 +11,6 @@ import {
   ShortStringPipeModule,
   HasInAssetsWhitelistModule,
 } from '@parts/pipes';
-import { CopyButtonModule } from '@parts/components/copy-button/copy-button.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { IsAvailableAliasNamePipeModule } from '@parts/pipes';
 import { ConfirmModalModule } from '@parts/modals/confirm-modal/confirm-modal.module';
@@ -23,11 +22,9 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { DefaultImgModule, InputValidateModule } from '@parts/directives';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { HistoryComponent } from './tabs/history/history.component';
-import { TransactionDetailsModule } from '@parts/components/transaction-details/transaction-details.module';
 import { StakingComponent } from './tabs/staking/staking.component';
 import { ChartModule } from 'angular-highcharts';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { StakingSwitchModule } from '@parts/components/staking-switch/staking-switch.module';
 import { ReceiveComponent } from './tabs/receive/receive.component';
 import { ContractsComponent } from './tabs/contracts/contracts.component';
 import { ContractsTabComponent } from './tabs/contracts/contracts-tab/contracts-tab.component';
@@ -36,15 +33,18 @@ import { SendDetailsModalComponent } from './tabs/send/modals/send-details-modal
 import { SendModalComponent } from './tabs/send/modals/send-modal/send-modal.component';
 import { SendComponent } from './tabs/send/send.component';
 import { ExportImportComponent } from '../export-import/export-import.component';
-import { SwitchModule } from '@parts/components/switch/switch.module';
 import {
   ContractStatusMessagesPipeModule,
   HistoryTypeMessagesPipeModule,
   IntToMoneyPipeModule,
 } from '@parts/pipes';
 import { BackButtonModule } from '@parts/directives/back-button/back-button.module';
-import { CheckboxModule } from '@parts/components/checkbox/checkbox.module';
 import { AssetDetailsModule } from '@parts/modals/asset-details/asset-details.module';
+import { CheckboxComponent } from '@parts/components/checkbox.component';
+import { CopyButtonComponent } from '@parts/components/copy-button.component';
+import { StakingSwitchComponent } from '@parts/components/staking-switch.component';
+import { SwitchComponent } from '@parts/components/switch.component';
+import { TransactionDetailsComponent } from '@parts/components/transaction-details.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +67,6 @@ import { AssetDetailsModule } from '@parts/modals/asset-details/asset-details.mo
     FlexModule,
     TooltipModule,
     ShortStringPipeModule,
-    CopyButtonModule,
     TranslateModule,
     IsAvailableAliasNamePipeModule,
     ConfirmModalModule,
@@ -77,24 +76,25 @@ import { AssetDetailsModule } from '@parts/modals/asset-details/asset-details.mo
     OverlayModule,
     DefaultImgModule,
     NgxPaginationModule,
-    SwitchModule,
-    TransactionDetailsModule,
+    SwitchComponent,
     ChartModule,
     NgSelectModule,
     FormsModule,
     FlexLayoutModule,
-    StakingSwitchModule,
+    StakingSwitchComponent,
     DialogModule,
     IntToMoneyPipeModule,
     ContractStatusMessagesPipeModule,
     HistoryTypeMessagesPipeModule,
     BackButtonModule,
     InputValidateModule,
-    CheckboxModule,
+    CheckboxComponent,
     AssetDetailsModule,
     GetWhiteAssetInfoModule,
     GetPriceByUrlModule,
     HasInAssetsWhitelistModule,
+    CopyButtonComponent,
+    TransactionDetailsComponent,
   ],
 })
 export class WalletModule {}

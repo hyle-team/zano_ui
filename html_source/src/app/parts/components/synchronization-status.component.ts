@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
-import { VariablesService } from '../../services/variables.service';
+import { VariablesService } from '../services/variables.service';
 import { DOWNLOADS_PAGE_URL } from '@parts/data/constants';
 import { BackendService } from '@api/services/backend.service';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
+import { TooltipModule } from '@parts/directives';
 
 @Component({
   selector: 'app-synchronization-status',
@@ -167,6 +170,8 @@ import { BackendService } from '@api/services/backend.service';
     </div>
   `,
   styles: [],
+  standalone: true,
+  imports: [CommonModule, TranslateModule, TooltipModule],
 })
 export class SynchronizationStatusComponent {
   constructor(

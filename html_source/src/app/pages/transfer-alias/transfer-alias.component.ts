@@ -5,6 +5,7 @@ import { VariablesService } from '@parts/services/variables.service';
 import { ModalService } from '@parts/services/modal.service';
 import { Wallet } from '@api/models/wallet.model';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
+import BigNumber from 'bignumber.js';
 
 @Component({
   selector: 'app-transfer-alias',
@@ -65,7 +66,7 @@ import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
               </label>
               <input
                 (contextmenu)="variablesService.onContextMenu($event)"
-                (ngModelChange)="changeAddress()"
+                (input)="changeAddress()"
                 [(ngModel)]="transferAddress"
                 [class.invalid]="
                   transferAddress.length > 0 &&
@@ -74,7 +75,6 @@ import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
                     (transferAddressValid && !permissionSend) ||
                     notEnoughMoney)
                 "
-                [ngModelOptions]="{ standalone: true }"
                 class="form__field--input"
                 id="alias-transfer"
                 name="alias-transfer"
@@ -180,10 +180,12 @@ export class TransferAliasComponent implements OnInit {
       comment: alias.comment,
       tracking_key: alias.tracking_key,
     };
-    // this.notEnoughMoney = this.wallet.unlocked_balance.isLessThan(
-    //   this.variablesService.default_fee_big
-    // );
-    this.notEnoughMoney = false;
+    const unlocked_balance = new BigNumber(
+      this.wallet.getBalanceByTicker('ZANO')?.unlocked || 0
+    );
+    this.notEnoughMoney = unlocked_balance.isLessThan(
+      this.variablesService.default_fee_big
+    );
   }
 
   changeAddress(): void {

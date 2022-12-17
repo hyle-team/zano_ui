@@ -35,7 +35,7 @@ import { RCV_ADDR_QR_SCALE } from '@parts/data/constants';
           [tooltip]="variablesService.currentWallet.address"
           class="text-ellipsis mr-1"
           >{{
-            variablesService.currentWallet.address | zanoShortString: 9:9
+            variablesService.currentWallet.address | zanoShortString : 9 : 9
           }}</span
         >
         <app-copy-button [value]="variablesService.currentWallet.address">

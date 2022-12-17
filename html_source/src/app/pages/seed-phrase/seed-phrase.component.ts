@@ -1,17 +1,13 @@
-import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { BackendService } from '@api/services/backend.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VariablesService } from '@parts/services/variables.service';
 import { ModalService } from '@parts/services/modal.service';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
 
 @Component({
   selector: 'app-seed-phrase',
@@ -311,46 +307,28 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
 
   progressWidth = '66%';
 
-  detailsForm = new UntypedFormGroup({
-    name: new UntypedFormControl('', [
-      Validators.required,
-      (g: UntypedFormControl): ValidationErrors | null => {
-        for (let i = 0; i < this.variablesService.wallets.length; i++) {
-          if (g.value === this.variablesService.wallets[i].name) {
-            if (
-              this.variablesService.wallets[i].wallet_id ===
-              this.variablesService.currentWallet.wallet_id
-            ) {
-              return { same: true };
-            } else {
-              return { duplicate: true };
-            }
-          }
-        }
-        return null;
-      },
+  fb = inject(FormBuilder);
+
+  detailsForm = this.fb.group({
+    name: this.fb.nonNullable.control('', [
+      ZanoValidators.duplicate(this.variablesService.walletNamesForComparisons),
     ]),
-    path: new UntypedFormControl(''),
+    path: this.fb.nonNullable.control(''),
   });
 
-  seedPhraseForm = new UntypedFormGroup(
+  seedPhraseForm = this.fb.group(
     {
-      password: new UntypedFormControl(
+      password: this.fb.nonNullable.control(
         '',
-        Validators.pattern(this.variablesService.pattern)
+        Validators.pattern(regExpPassword)
       ),
-      confirmPassword: new UntypedFormControl(
+      confirmPassword: this.fb.nonNullable.control(
         '',
-        Validators.pattern(this.variablesService.pattern)
+        Validators.pattern(regExpPassword)
       ),
     },
     {
-      validators: (group: UntypedFormGroup): ValidationErrors | null => {
-        const pass = group.controls.password.value;
-        const confirmPass = group.controls.confirmPassword.value;
-
-        return pass === confirmPass ? null : { notSame: true };
-      },
+      validators: [ZanoValidators.formMatch('password', 'confirmPassword')],
     }
   );
 

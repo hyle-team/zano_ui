@@ -5,8 +5,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FlexModule } from '@angular/flex-layout';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
-import { SwitchModule } from '@parts/components/switch/switch.module';
-import { CheckboxModule } from '@parts/components/checkbox/checkbox.module';
+import { CheckboxComponent } from '@parts/components/checkbox.component';
+import { SwitchComponent } from '@parts/components/switch.component';
 
 @NgModule({
   declarations: [ExportHistoryModalComponent],
@@ -15,8 +15,8 @@ import { CheckboxModule } from '@parts/components/checkbox/checkbox.module';
     CommonModule,
     TranslateModule,
     FlexModule,
-    SwitchModule,
-    CheckboxModule,
+    SwitchComponent,
+    CheckboxComponent,
     NgSelectModule,
     FormsModule,
   ],

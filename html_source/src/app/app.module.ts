@@ -19,7 +19,7 @@ import { MoneyToIntPipeModule } from '@parts/pipes';
 import { OpenWalletModalComponent } from '@parts/modals/open-wallet-modal/open-wallet-modal.component';
 import { FlexModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
-import { RegisterContextTemplatesModule } from '@parts/components/register-context-templates';
+import { RegisterContextTemplatesComponent } from '@parts/components/register-context-templates.component';
 
 export function highchartsFactory(): any[] {
   highcharts.setOptions({
@@ -62,7 +62,7 @@ export const translateModuleConfig: TranslateModuleConfig = {
     MoneyToIntPipeModule,
     FlexModule,
     FormsModule,
-    RegisterContextTemplatesModule,
+    RegisterContextTemplatesComponent,
   ],
   providers: [provideHighchartsFactory],
   bootstrap: [AppComponent],

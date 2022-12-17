@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { AuthRoutingModule } from './auth-routing.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { SynchronizationStatusModule } from '@parts/components/synchronization-status/synchronization-status.module';
 import { NoWalletComponent } from './no-wallet/no-wallet.component';
+import { SynchronizationStatusComponent } from '@parts/components/synchronization-status.component';
 
 @NgModule({
   declarations: [NoWalletComponent],
@@ -13,7 +13,7 @@ import { NoWalletComponent } from './no-wallet/no-wallet.component';
     AuthRoutingModule,
     TranslateModule,
     FlexLayoutModule,
-    SynchronizationStatusModule,
+    SynchronizationStatusComponent,
   ],
 })
 export class AuthModule {}

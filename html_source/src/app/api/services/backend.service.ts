@@ -264,7 +264,7 @@ export class BackendService {
   }
 
   quitRequest(): void {
-    this.runCommand(Commands.on_request_quit, {}, () => {});
+    this.runCommand(Commands.on_request_quit);
   }
 
   getAppData(callback): void {

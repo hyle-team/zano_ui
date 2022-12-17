@@ -65,7 +65,7 @@ import { VariablesService } from '@parts/services/variables.service';
                 </td>
                 <td>
                   <div>
-                    {{ item.timestamp * 1000 | date: 'dd-MM-yyyy HH:mm' }}
+                    {{ item.timestamp * 1000 | date : 'dd-MM-yyyy HH:mm' }}
                   </div>
                 </td>
                 <td>
@@ -81,11 +81,11 @@ import { VariablesService } from '@parts/services/variables.service';
                     class="status"
                     placement="top"
                     tooltip="{{
-                      item.state | contractStatusMessages: item.is_a
+                      item.state | contractStatusMessages : item.is_a
                     }}"
                     tooltipClass="table-tooltip"
                   >
-                    {{ item.state | contractStatusMessages: item.is_a }}
+                    {{ item.state | contractStatusMessages : item.is_a }}
                   </div>
                 </td>
                 <td>

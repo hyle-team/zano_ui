@@ -59,7 +59,7 @@ import { WalletsService } from '@parts/services/wallets.service';
             >
               <ng-container
                 *ngFor="
-                  let asset of assets | paginate: paginatePipeArgs;
+                  let asset of assets | paginate : paginatePipeArgs;
                   trackBy: trackByAssets
                 "
               >
@@ -108,17 +108,17 @@ import { WalletsService } from '@parts/services/wallets.service';
                       <div class="text-ellipsis">
                         <b>{{
                           (asset.total | intToMoney) * price.usd
-                            | currency: 'USD'
+                            | currency : 'USD'
                         }}</b>
                       </div>
                     </td>
                     <td>
                       <div class="text-ellipsis">
-                        <b class="mr-0_5">{{ price.usd | currency: 'USD' }}</b>
+                        <b class="mr-0_5">{{ price.usd | currency : 'USD' }}</b>
                         <span
                           [class.color-aqua]="price.usd_24h_change > 0"
                           [class.color-red]="price.usd_24h_change < 0"
-                          >{{ price.usd_24h_change | number: '1.2-2' }}%</span
+                          >{{ price.usd_24h_change | number : '1.2-2' }}%</span
                         >
                       </div>
                     </td>

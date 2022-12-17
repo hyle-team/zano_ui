@@ -1,7 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ContextMenuComponent } from '@perfectmemory/ngx-contextmenu';
+import {
+  ContextMenuComponent,
+  ContextMenuModule,
+  ContextMenuService,
+} from '@perfectmemory/ngx-contextmenu';
 import { VariablesService } from '@parts/services/variables.service';
 import { BackendService } from '@api/services/backend.service';
+import { CommonModule } from '@angular/common';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-register-context-templates',
@@ -36,6 +42,9 @@ import { BackendService } from '@api/services/backend.service';
         >{{ 'CONTEXT_MENU.SELECT' | translate }}</ng-template
       >
     </context-menu>`,
+  standalone: true,
+  imports: [CommonModule, ContextMenuModule, TranslateModule],
+  providers: [ContextMenuService],
 })
 export class RegisterContextTemplatesComponent implements OnInit {
   @ViewChild('allContextMenu', { static: true })

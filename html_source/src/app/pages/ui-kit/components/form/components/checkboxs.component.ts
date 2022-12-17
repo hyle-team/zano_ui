@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { CheckboxModule } from '@parts/components/checkbox/checkbox.module';
+import { CheckboxComponent } from '@parts/components/checkbox.component';
 
 @Component({
   selector: 'app-checkboxs',
@@ -16,7 +16,7 @@ import { CheckboxModule } from '@parts/components/checkbox/checkbox.module';
       label="Label"
     ></app-checkbox> `,
   styles: [],
-  imports: [CheckboxModule],
+  imports: [CheckboxComponent],
   standalone: true,
 })
 export class CheckboxsComponent {}

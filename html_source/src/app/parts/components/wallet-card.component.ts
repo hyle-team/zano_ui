@@ -10,9 +10,12 @@ import { VariablesService } from '@parts/services/variables.service';
 import { Asset } from '@api/models/assets.model';
 import { BigNumber } from 'bignumber.js';
 import { LOCKED_BALANCE_HELP_PAGE } from '@parts/data/constants';
-import { TranslateService } from '@ngx-translate/core';
-import { IntToMoneyPipe } from '@parts/pipes';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { IntToMoneyPipe, IntToMoneyPipeModule } from '@parts/pipes';
 import { BackendService } from '@api/services/backend.service';
+import { CommonModule } from '@angular/common';
+import { DisablePriceFetchModule, TooltipModule } from '@parts/directives';
+import { StakingSwitchComponent } from '@parts/components/staking-switch.component';
 
 @Component({
   selector: 'app-wallet-card',
@@ -64,13 +67,13 @@ import { BackendService } from '@api/services/backend.service';
         {{
           wallet.getMoneyEquivalentForZano(variablesService.moneyEquivalent)
             | intToMoney
-            | currency: 'USD' || '---'
+            | currency : 'USD' || '---'
         }}
         <span
           [class.red]="variablesService.moneyEquivalentPercent < 0"
           class="percent"
         >
-          {{ variablesService.moneyEquivalentPercent | number: '1.2-2' }}%
+          {{ variablesService.moneyEquivalentPercent | number : '1.2-2' }}%
         </span>
       </h4>
 
@@ -103,6 +106,15 @@ import { BackendService } from '@api/services/backend.service';
       </div>
     </div>
   `,
+  standalone: true,
+  imports: [
+    CommonModule,
+    TooltipModule,
+    TranslateModule,
+    IntToMoneyPipeModule,
+    StakingSwitchComponent,
+    DisablePriceFetchModule,
+  ],
 })
 export class WalletCardComponent {
   @HostBinding('class') classAttr = 'wallet';

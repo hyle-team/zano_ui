@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { CheckboxModule } from '@parts/components/checkbox/checkbox.module';
 import { DragDropModule } from '@angular/cdk/drag-drop';
-import { SwitchModule } from '@parts/components/switch/switch.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { FlexModule } from '@angular/flex-layout';
+import { CheckboxComponent } from '@parts/components/checkbox.component';
+import { SwitchComponent } from '@parts/components/switch.component';
 
 @Component({
   selector: 'app-wallets',
@@ -116,9 +116,9 @@ import { FlexModule } from '@angular/flex-layout';
   styles: [],
   standalone: true,
   imports: [
-    CheckboxModule,
+    CheckboxComponent,
     DragDropModule,
-    SwitchModule,
+    SwitchComponent,
     TranslateModule,
     FlexModule,
   ],

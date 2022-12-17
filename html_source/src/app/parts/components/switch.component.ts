@@ -6,20 +6,19 @@ import {
   Output,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-checkbox',
+  selector: 'app-switch',
   template: `
-    <div class="checkbox">
-      <input
-        (change)="handlerChange($event)"
-        [checked]="value"
-        [disabled]="disabled"
-        [id]="id"
-        [readonly]="readonly"
-        type="checkbox"
-      />
-      <label [for]="id">{{ label }}</label>
+    <div
+      (click)="toggle(); $event.stopPropagation()"
+      [class.disabled]="disabled"
+      [class.off]="!value"
+      [class.on]="value"
+      class="switch"
+    >
+      <span class="circle"></span>
     </div>
   `,
   styles: [
@@ -29,37 +28,34 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
       }
     `,
   ],
+  standalone: true,
+  imports: [CommonModule],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CheckboxComponent),
+      useExisting: forwardRef(() => SwitchComponent),
       multi: true,
     },
   ],
 })
-export class CheckboxComponent implements ControlValueAccessor {
+export class SwitchComponent implements ControlValueAccessor {
   @Input() value = false;
-
-  @Input() label = '';
-
-  @Input() id = 'id-' + Math.random();
 
   @Input() disabled = false;
 
-  @Input() readonly = false;
-
   @Output() emitChange = new EventEmitter<boolean>();
-
-  onChange!: (value: boolean) => void;
 
   onTouched!: () => void;
 
-  handlerChange({ target }: Event): void {
-    const { checked } = target as HTMLInputElement;
-    this.value = checked;
-    this.emitChange.emit(checked);
-    if (this.onChange) {
-      this.onChange(checked);
+  onChange!: (value: boolean) => void;
+
+  toggle(): void {
+    if (!this.disabled) {
+      this.value = !this.value;
+      this.emitChange.emit(this.value);
+      if (this.onChange) {
+        this.onChange(this.value);
+      }
     }
   }
 
