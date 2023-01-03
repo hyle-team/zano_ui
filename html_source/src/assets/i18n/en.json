@@ -160,7 +160,7 @@
   "EXPORT_HISTORY": {
     "TOOLTIP": "Export wallet transactions history to file",
     "TITLE": "Export Wallet History",
-    "FORMAT:": "Format",
+    "FORMAT": "Format",
     "FILTER": "Filter POS Transactions",
     "CANCEL": "Cancel",
     "EXPORT": "Export to file...",

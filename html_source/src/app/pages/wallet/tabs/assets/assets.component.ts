@@ -14,6 +14,10 @@ import {
   ConfirmModalData,
 } from '@parts/modals/confirm-modal/confirm-modal.component';
 import { WalletsService } from '@parts/services/wallets.service';
+import { BigNumber } from 'bignumber.js';
+import { LOCKED_BALANCE_HELP_PAGE } from '@parts/data/constants';
+import { IntToMoneyPipe } from '@parts/pipes';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-assets',
@@ -63,7 +67,13 @@ import { WalletsService } from '@parts/services/wallets.service';
                   trackBy: trackByAssets
                 "
               >
-                <tr>
+                <tr
+                  [delay]="500"
+                  [placement]="'bottom'"
+                  [timeDelay]="1000"
+                  [tooltipClass]="'balance-tooltip'"
+                  [tooltip]="getBalanceTooltip(asset)"
+                >
                   <td>
                     <div
                       class="text-ellipsis"
@@ -291,7 +301,9 @@ export class AssetsComponent implements OnInit, OnDestroy {
     private backendService: BackendService,
     private walletsService: WalletsService,
     private store: Store,
-    private dialog: Dialog
+    private dialog: Dialog,
+    private intToMoneyPipe: IntToMoneyPipe,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -363,6 +375,43 @@ export class AssetsComponent implements OnInit, OnDestroy {
       this.walletsService.updateWalletInfo(wallet_id);
       this.currentAsset = undefined;
     });
+  }
+
+  getBalanceTooltip(balance: Asset): HTMLDivElement {
+    const tooltip = document.createElement('div');
+    const scrollWrapper = document.createElement('div');
+    if (!balance) {
+      return null;
+    }
+
+    scrollWrapper.classList.add('balance-scroll-list');
+    [balance].forEach(({ unlocked, total, asset_info: { ticker } }: Asset) => {
+      const available = document.createElement('span');
+      available.setAttribute('class', 'available');
+      available.innerHTML = this.translate.instant('WALLET.AVAILABLE_BALANCE', {
+        available: this.intToMoneyPipe.transform(unlocked),
+        currency: ticker || '---',
+      });
+      scrollWrapper.appendChild(available);
+      const locked = document.createElement('span');
+      locked.setAttribute('class', 'locked');
+      locked.innerHTML = this.translate.instant('WALLET.LOCKED_BALANCE', {
+        locked: this.intToMoneyPipe.transform(
+          new BigNumber(total).minus(unlocked)
+        ),
+        currency: ticker || '---',
+      });
+      scrollWrapper.appendChild(locked);
+    });
+    tooltip.appendChild(scrollWrapper);
+    const link = document.createElement('span');
+    link.setAttribute('class', 'link');
+    link.innerHTML = this.translate.instant('WALLET.LOCKED_BALANCE_LINK');
+    link.addEventListener('click', () => {
+      this.backendService.openUrlInBrowser(LOCKED_BALANCE_HELP_PAGE);
+    });
+    tooltip.appendChild(link);
+    return tooltip;
   }
 
   private listenChangeWallet(): void {

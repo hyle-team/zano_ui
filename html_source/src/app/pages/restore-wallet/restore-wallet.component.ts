@@ -10,6 +10,7 @@ import { pairwise, startWith, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
+import { WalletsService } from '@parts/services/wallets.service';
 
 @Component({
   selector: 'app-restore-wallet',
@@ -326,6 +327,7 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   constructor(
+    public walletsService: WalletsService,
     public variablesService: VariablesService,
     private router: Router,
     private backend: BackendService,
@@ -524,9 +526,7 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
     if (!exists) {
       this.backend.runWallet(this.wallet.id, (run_status, run_data) => {
         if (run_status) {
-          this.variablesService.wallets.push(
-            this.variablesService.opening_wallet
-          );
+          this.walletsService.addWallet(this.variablesService.opening_wallet);
           if (this.variablesService.appPass) {
             this.backend.storeSecureAppData();
           }

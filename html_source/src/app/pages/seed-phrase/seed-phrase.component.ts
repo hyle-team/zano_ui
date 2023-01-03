@@ -8,6 +8,7 @@ import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
+import { WalletsService } from '@parts/services/wallets.service';
 
 @Component({
   selector: 'app-seed-phrase',
@@ -335,6 +336,7 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   constructor(
+    public walletsService: WalletsService,
     public variablesService: VariablesService,
     private route: ActivatedRoute,
     private router: Router,
@@ -364,9 +366,7 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
     if (!exists) {
       this.backend.runWallet(this.wallet_id, (run_status, run_data) => {
         if (run_status) {
-          this.variablesService.wallets.push(
-            this.variablesService.opening_wallet
-          );
+          this.walletsService.addWallet(this.variablesService.opening_wallet);
           if (this.variablesService.appPass) {
             this.backend.storeSecureAppData();
           }

@@ -31,6 +31,12 @@ export class WalletsService {
     private ngZone: NgZone
   ) {}
 
+  addWallet(wallet: Wallet): void {
+    const { wallet_id } = wallet;
+    this.variablesService.wallets.push(wallet);
+    this.updateWalletInfo(wallet_id);
+  }
+
   getWalletById(wallet_id: number): Wallet | undefined {
     const { wallets } = this.variablesService;
     return wallets.find(w => w.wallet_id === wallet_id);

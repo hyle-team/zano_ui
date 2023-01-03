@@ -2,12 +2,13 @@ import {
   Component,
   EventEmitter,
   HostBinding,
+  inject,
   Input,
   Output,
 } from '@angular/core';
 import { Wallet } from '@api/models/wallet.model';
 import { VariablesService } from '@parts/services/variables.service';
-import { Asset } from '@api/models/assets.model';
+import { Asset, Assets } from '@api/models/assets.model';
 import { BigNumber } from 'bignumber.js';
 import { LOCKED_BALANCE_HELP_PAGE } from '@parts/data/constants';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -136,43 +137,35 @@ export class WalletCardComponent {
     if (!this.wallet || !this.wallet.balances) {
       return null;
     }
+    const { balances } = this.wallet;
 
     scrollWrapper.classList.add('balance-scroll-list');
-    this.wallet.balances.forEach(
-      ({ unlocked, total, asset_info: { ticker } }: Asset) => {
-        const available = document.createElement('span');
-        available.setAttribute('class', 'available');
-        available.innerHTML = this.translate.instant(
-          'WALLET.AVAILABLE_BALANCE',
-          {
-            available: this.intToMoneyPipe.transform(unlocked),
-            currency: ticker || '---',
-          }
-        );
-        scrollWrapper.appendChild(available);
-        const locked = document.createElement('span');
-        locked.setAttribute('class', 'locked');
-        locked.innerHTML = this.translate.instant('WALLET.LOCKED_BALANCE', {
-          locked: this.intToMoneyPipe.transform(
-            new BigNumber(total).minus(unlocked)
-          ),
-          currency: ticker || '---',
-        });
-        scrollWrapper.appendChild(locked);
-      }
-    );
+    balances.forEach(({ unlocked, total, asset_info: { ticker } }: Asset) => {
+      const available = document.createElement('span');
+      available.setAttribute('class', 'available');
+      available.innerHTML = this.translate.instant('WALLET.AVAILABLE_BALANCE', {
+        available: this.intToMoneyPipe.transform(unlocked),
+        currency: ticker || '---',
+      });
+      scrollWrapper.appendChild(available);
+      const locked = document.createElement('span');
+      locked.setAttribute('class', 'locked');
+      locked.innerHTML = this.translate.instant('WALLET.LOCKED_BALANCE', {
+        locked: this.intToMoneyPipe.transform(
+          new BigNumber(total).minus(unlocked)
+        ),
+        currency: ticker || '---',
+      });
+      scrollWrapper.appendChild(locked);
+    });
     tooltip.appendChild(scrollWrapper);
     const link = document.createElement('span');
     link.setAttribute('class', 'link');
     link.innerHTML = this.translate.instant('WALLET.LOCKED_BALANCE_LINK');
     link.addEventListener('click', () => {
-      this.openInBrowser();
+      this.backend.openUrlInBrowser(LOCKED_BALANCE_HELP_PAGE);
     });
     tooltip.appendChild(link);
     return tooltip;
-  }
-
-  openInBrowser(): void {
-    this.backend.openUrlInBrowser(LOCKED_BALANCE_HELP_PAGE);
   }
 }

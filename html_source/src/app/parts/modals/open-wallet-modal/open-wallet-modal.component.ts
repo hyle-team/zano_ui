@@ -13,6 +13,7 @@ import { BackendService } from '@api/services/backend.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ModalService } from '../../services/modal.service';
 import { hasOwnProperty } from '../../functions/hasOwnProperty';
+import { WalletsService } from '@parts/services/wallets.service';
 
 @Component({
   selector: 'app-open-wallet-modal',
@@ -81,6 +82,7 @@ export class OpenWalletModalComponent implements OnInit, OnDestroy {
 
   constructor(
     public variablesService: VariablesService,
+    public walletsService: WalletsService,
     private backend: BackendService,
     private translate: TranslateService,
     private modalService: ModalService,
@@ -198,7 +200,7 @@ export class OpenWalletModalComponent implements OnInit, OnDestroy {
                   }
                 }
               );
-              this.variablesService.wallets.push(new_wallet);
+              this.walletsService.addWallet(new_wallet);
               this.backend.runWallet(open_data.wallet_id);
               this.skipWallet();
             }

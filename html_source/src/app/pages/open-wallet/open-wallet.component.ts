@@ -10,6 +10,7 @@ import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
+import { WalletsService } from '@parts/services/wallets.service';
 
 @Component({
   selector: 'app-open-wallet',
@@ -149,6 +150,7 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   constructor(
+    public walletsService: WalletsService,
     public variablesService: VariablesService,
     private route: ActivatedRoute,
     private router: Router,
@@ -299,7 +301,7 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
                     }
                   }
                 );
-                this.variablesService.wallets.push(new_wallet);
+                this.walletsService.addWallet(new_wallet);
                 this.backend.runWallet(
                   open_data.wallet_id,
                   (run_status, run_data) => {
