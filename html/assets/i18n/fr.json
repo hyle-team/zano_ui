@@ -9,6 +9,7 @@
     "INCORRECT_PASSWORD": "Mot de passe invalide",
     "FORM_ERRORS": {
       "PASS_REQUIRED": "Mot de passe requis",
+      "INVALID_PASS": "Mot de passe invalide, réessayez",
       "CONFIRM_REQUIRED": "Confirmation requise",
       "MISMATCH": "Non-concordant"
     }
@@ -39,15 +40,20 @@
       "SYNCING": "Synchronisation du portefeuille"
     },
     "CONTACTS": "Contacts",
+    "CONTACTS_TOOLTIP": "Option Contacts disponible uniquement avec le mot de passe principal activé",
     "SETTINGS": "Paramètres",
     "LOG_OUT": "Déconnexion",
+    "LOG_OUT_TOOLTIP": "Option de déconnexion disponible uniquement avec le mot de passe principal activé",
     "SYNCHRONIZATION": {
       "OFFLINE": "Hors ligne",
       "ONLINE": "En ligne",
       "ERROR": "Erreur de système",
       "COMPLETE": "Fermeture",
       "SYNCING": "Syncing block",
-      "LOADING": "Chargement des données de la blockchain"
+      "LOADING": "Chargement des données de la blockchain",
+      "DOWNLOADING": "Téléchargement",
+      "SLASH": "/",
+      "MB": "MB"
     },
     "UPDATE": {
       "STANDARD": "Mise à jour disponible",
@@ -69,6 +75,30 @@
     "BUTTON_RESTORE_BACKUP": "Restaurer depuis une sauvegarde",
     "HELP": "Comment créer un portefeuille ?",
     "CHOOSE_PATH": "Veuillez choisir un chemin"
+  },
+  "PLACEHOLDERS": {
+    "COMMENT_PLACEHOLDER": "Entrez votre commentaire ici",
+    "WALLET_NAME_PLACEHOLDER": "Entrez un nom de portefeuille ici",
+    "MASTER_PASS_PLACEHOLDER": "Entrez un mot de passe principal ici",
+    "PASS_PLACEHOLDER": "Entrez ici un mot de passe principal",
+    "NAME_PLACEHOLDER": "Entrez un nom ici",
+    "ADRESS_PLACEHOLDER": "Entrez l'adresse ici",
+    "NOTES_PLACEHOLDER": "Entrez une note ici",
+    "DESCRIPTION_PLACEHOLDER": "Entrez une description ici",
+    "SELLER_PLACEHOLDER": "Entrez un vendeur ici",
+    "PLACEHOLDER_OLD": "Entrez le mot de passe actuel ici",
+    "AMOUNT_PLACEHOLDER": "Entrez le montant ici",
+    "DEPOSIT_PLACEHOLDER": "Entrez votre dépôt ici",
+    "SELLER_DEPOSIT_PLACEHOLDER": "Entrez le dépôt du vendeur ici",
+    "PLACEHOLDER_NEW": "Entrez le nouveau mot de passe ici",
+    "WALET_PASSWORD_PLACEHOLDER": "Entrez ici un mot de passe de portefeuille",
+    "CONFIRM_WALET_PASSWORD_PLACEHOLDER": "Confirmez le mot de passe du portefeuille ici",
+    "PLACEHOLDER_CONFIRM": "Confirmez le nouveau mot de passe ici",
+    "PASSWORD_PLACEHOLDER": "Entrez un mot de passe ici",
+    "SEED_PHRASE_PLACEHOLDER": "Entrez une phrase de départ ici",
+    "SEED_PASSWORD_PLACEHOLDER": "Entrez un mot de passe initial ici",
+    "PURCHASE_PAYMENT_PLACEHOLDER": "Entrez un identifiant de paiement ici",
+    "FEE_PLACEHOLDER": "Entrez des frais ici"
   },
   "CREATE_WALLET": {
     "NAME": "Nom du portefeuille",
@@ -115,19 +145,33 @@
     "BUTTON_CREATE": "Créer un portefeuille",
     "NOT_CORRECT_FILE_OR_PASSWORD": "Le fichier est invalide ou mot de passe du portefeuille ne correspond pas",
     "CHOOSE_PATH": "Veuillez choisir un chemin",
+    "SEED_PASSWORD": "Mot de passe initial",
+    "OK": "D'ACCORD",
     "FORM_ERRORS": {
       "NAME_REQUIRED": "Le nom est requis",
       "NAME_DUPLICATE": "Nom déjà utilisé",
       "MAX_LENGTH": "Longueur maximale atteinte",
       "CONFIRM_NOT_MATCH": "La confirmation du mot de passe ne correspond pas",
       "KEY_REQUIRED": "Clé requise",
-      "KEY_NOT_VALID": "Clé invalide"
+      "KEY_NOT_VALID": "Clé invalide",
+      "INCORRECT_PASSWORD": "Mot de passe incorrect"
     }
+  },
+  "EXPORT_HISTORY": {
+    "TOOLTIP": "Exporter l'historique des transactions du portefeuille vers un fichier",
+    "TITLE": "Exporter l'historique du portefeuille",
+    "FORMAT": "Formater",
+    "FILTER": "Filtrer les transactions POS",
+    "CANCEL": "Annuler",
+    "EXPORT": "Exporter vers un fichier...",
+    "EXPORT_BUTTON": "Exporter l'historique...",
+    "SAVED_FILE": "Sélectionnez le chemin pour enregistrer l'historique des transactions"
   },
   "SEED_PHRASE": {
     "TITLE": "Assurez-vous de garder votre phrase de sécurité dans un endroit sûr. Si vous oubliez votre phrase de sécurité, vous ne pourrez pas récupérer votre portefeuille.",
     "BUTTON_CREATE_ACCOUNT": "Créer un portefeuille",
-    "BUTTON_COPY": "Copier"
+    "BUTTON_COPY": "Photocopieuse",
+    "BUTTON_COPIED": "Copié"
   },
   "PROGRESS": {
     "ADD_WALLET": "Ajouter un portefeuille",
@@ -140,6 +184,9 @@
     "DARK_THEME": "Thème sombre",
     "WHITE_THEME": "Thème blanc",
     "GRAY_THEME": "Thème gris",
+    "NOTIFICATIONS": "Avis",
+    "USE_TOR_TO_RELAY_TRANSACTIONS": "Utiliser TOR pour relayer les transactions",
+    "SETTINGS_SAVED": "Enregistré! Paramètres mis à jour",
     "APP_LOCK": {
       "TITLE": "Verrouiller l'application après :",
       "TIME1": "5 min",
@@ -148,10 +195,20 @@
       "TIME4": "Jamais"
     },
     "SCALE": {
+      "TITLE": "Échelle d'interface",
       "75": "75% échelle",
       "100": "100% échelle",
       "125": "125% échelle",
       "150": "150% échelle"
+    },
+    "LANGUAGE": {
+      "TITLE": "Language",
+      "EN": "English",
+      "FR": "French",
+      "DE": "Deutsch",
+      "ID": "Indonesian",
+      "IT": "Italian",
+      "PT": "Portuguese"
     },
     "MASTER_PASSWORD": {
       "TITLE": "Mettre à jour le mot de passe principal",
@@ -175,27 +232,57 @@
     "AVAILABLE_BALANCE": "Disponible <b>{{available}} {{currency}}<b/>",
     "LOCKED_BALANCE": "Vérouillé<b>{{locked}}{{currency}}<b/>",
     "LOCKED_BALANCE_LINK": "Que signifie cela?",
+    "CONFIRM": {
+      "TITLE": "Supprimer le portefeuille de la liste ?",
+      "MESSAGE": "Pour y accéder, vous devrez l'ajouter à nouveau"
+    },
     "TABS": {
-      "ASSETS": "Assets",
+      "ASSETS": "Les atouts",
       "SEND": "Envoyer",
       "RECEIVE": "Recevoir",
       "HISTORY": "Historique",
       "CONTRACTS": "Contrats",
       "MESSAGES": "Messages",
       "STAKING": "Mise"
+    },
+    "TOOLTIPS": {
+      "EDIT_ALIAS": "Modifier l'alias",
+      "TRANSFER_ALIAS": "Alias de transfert",
+      "SETTINGS": "Paramètres",
+      "ADD_CUSTOM_TOKEN": "Ajouter un jeton personnalisé",
+      "CLOSE": "Fermer le portefeuille"
+    },
+    "MODAL_ADD_CUSTOM_TOKEN": {
+      "TITLE": "Ajouter un jeton personnalisé",
+      "FIELD_TITLE": "Identifiant de l'élément"
     }
   },
   "WALLET_DETAILS": {
     "LABEL_NAME": "Nom du portefeuille",
-    "LABEL_FILE_LOCATION": "Emplacement du fichier de portefeuille",
-    "LABEL_SEED_PHRASE": "Phrase de sécurité",
-    "SEED_PHRASE_HINT": "Cliquez pour révéler la phrase de sécurité",
+    "LABEL_FILE_LOCATION": "Emplacement du fichier du portefeuille",
+    "LABEL_SEED_PHRASE": "Phrase de départ",
+    "SEED_PHRASE_HINT": "Cliquez pour révéler la phrase de départ",
+    "RESYNC_WALLET": "Resynchroniser les données du portefeuille",
+    "RESYNC_WALLET_BUTTON": "Resynchroniser le portefeuille",
     "BUTTON_SAVE": "Enregistrer",
     "BUTTON_REMOVE": "Fermer le portefeuille",
+    "CREATE_PASSWORD_SECURE": "Créez un mot de passe pour sécuriser votre graine",
+    "INFO": "informations",
+    "SEED_IS_UNSECURED": "La graine n'est pas sécurisée",
+    "SEED_IS_SECURED": "La graine est sécurisée",
+    "REMEMBER_YOU_WILL_REQUIRE": "La graine sécurisée nécessitera un mot de passe pour la restauration.",
+    "WALLET_OPTIONS": "Options de portefeuille...",
+    "ADD_CUSTOM_TOKEN": "Ajouter un jeton personnalisé",
+    "FORM": {
+      "CONFIRM_PASSWORD": "Confirmer le mot de passe",
+      "GENERATE_SECURE_SEED": "Générer une graine sécurisée",
+      "SECURED_SEED_WILL_REQUIRE": "La graine sécurisée nécessitera ce mot de passe pour la restauration."
+    },
     "FORM_ERRORS": {
       "NAME_REQUIRED": "Le nom est requis",
-      "NAME_DUPLICATE": "Nom déjà utilisé",
-      "MAX_LENGTH": "Longueur maximale atteinte"
+      "NAME_DUPLICATE": "Le nom est en double",
+      "MAX_LENGTH": "Longueur maximale du nom atteinte",
+      "PASSWORDS_DONT_MATCH": "Les mots de passe ne correspondent pas"
     }
   },
   "ASSIGN_ALIAS": {
@@ -271,6 +358,15 @@
     "HIDE": "Masquer votre adresse de portefeuille au destinataire",
     "BUTTON": "Envoyer",
     "SUCCESS_SENT": "Transaction envoyée",
+    "WRAP": {
+      "TITLE": "Envelopper",
+      "MAIN_TEXT": "Cette transaction créera wZano (\"Wrapped Zano\") qui sera envoyé à l'adresse spécifiée sur le réseau Ethereum.",
+      "ESTIMATE": "Estimation des transactions",
+      "WILL_RECEIVE": "Vous recevrez :",
+      "FEE": "Frais Ethereum Txn :",
+      "ZANO": "ZANO",
+      "wZANO": "wZANO"
+    },
     "FORM_ERRORS": {
       "ADDRESS_REQUIRED": "Adresse requise",
       "ADDRESS_NOT_VALID": "Addresse invalide",
@@ -279,7 +375,35 @@
       "AMOUNT_ZERO": "Le montant est zéro",
       "FEE_REQUIRED": "Les frais sont requis",
       "FEE_MINIMUM": "Frais minimum : {{fee}}",
-      "MAX_LENGTH": "Longueur maximale du commentaire atteinte"
+      "MAX_LENGTH": "Longueur maximale du commentaire atteinte",
+      "GREAT_THAN_UNWRAPPED_COINS": "Le montant est supérieur aux jetons ERC20 restant disponibles",
+      "LESS_THAN_ZANO_NEEDED": "Montant trop faible pour couvrir les frais ERC20",
+      "WRAP_INFO_NULL": "échec de la demande d'état de bouclage"
+    }
+  },
+  "ASSETS": {
+    "TABLE": {
+      "LABELS": {
+        "NAME": "Nom",
+        "BALANCE": "Solde",
+        "VALUE": "Valeur",
+        "PRICE": "Prix"
+      }
+    },
+    "DROP_DOWN_MENU": {
+      "ASSET_DETAILS": "Détails de l'actif",
+      "REMOVE_ASSET": "Supprimer l'actif"
+    },
+    "MODALS": {
+      "ASSET_DETAILS": {
+        "LABELS": {
+          "NAME": "Nom de l'actif",
+          "TICKER": "Ticker",
+          "ID": "Identifiant de l'actif",
+          "CURRENT_SUPPLY": "Approvisionnement actuel",
+          "MAX_SUPPLE": "Approvisionnement max"
+        }
+      }
     }
   },
   "HISTORY": {
@@ -457,7 +581,9 @@
     "ERROR": "Erreur",
     "SUCCESS": "Succès",
     "INFO": "Information",
-    "OK": "OK"
+    "OK": "OK",
+    "CANCEL": "Annuler",
+    "ADD_TOKEN": "Ajouter un jeton"
   },
   "CONFIRM": {
     "BUTTON_CONFIRM": "Envoyer",
@@ -496,6 +622,7 @@
     }
   },
   "CONTACTS": {
+    "ADD_CONTACT": "Ajouter le contact",
     "TITLE": "Liste de contacts",
     "IMPORT_EXPORT": "Importer ou exporter des contacts",
     "IMPORT": "Importer",
@@ -560,6 +687,7 @@
     "TRANSACTION_ERROR": "Erreur. Transaction non complétée.",
     "BAD_ARG": "Argument invalide",
     "WALLET_WRONG_ID": "ID de portefeuille invalide",
+    "WALLET_WATCH_ONLY_NOT_SUPPORTED": "Les portefeuilles réservés aux montres ne peuvent être ouverts que par simplewallet",
     "WRONG_PASSWORD": "Mot de passe invalide",
     "FILE_RESTORED": "Le fichier de portefeuille a été corrompu. Nous avons récupéré les clés et le portefeuille de la blockchain",
     "FILE_NOT_FOUND": "Fichier introuvable",
