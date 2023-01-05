@@ -9,6 +9,7 @@
     "INCORRECT_PASSWORD": "Ungültiges Passwort",
     "FORM_ERRORS": {
       "PASS_REQUIRED": "Passwort ist erforderlich",
+      "INVALID_PASS": "Ungültiges Passwort, versuchen Sie es erneut",
       "CONFIRM_REQUIRED": "Bestätigung ist erforderlich",
       "MISMATCH": "Fehlanpassung"
     }
@@ -39,15 +40,20 @@
       "SYNCING": "Wallet synchronisieren"
     },
     "CONTACTS": "Kontakte",
+    "CONTACTS_TOOLTIP": "Die Kontaktoption ist nur bei aktiviertem Master-Passwort verfügbar",
     "SETTINGS": "Einstellungen",
     "LOG_OUT": "Abmelden",
+    "LOG_OUT_TOOLTIP": "Die Abmeldeoption ist nur bei aktiviertem Master-Passwort verfügbar",
     "SYNCHRONIZATION": {
       "OFFLINE": "Offline",
       "ONLINE": "Online",
       "ERROR": "Systemfehler",
       "COMPLETE": "Abschluss",
       "SYNCING": "Syncing block",
-      "LOADING": "Lade Blockchain-Daten"
+      "LOADING": "Lade Blockchain-Daten",
+      "DOWNLOADING": "wird heruntergeladen",
+      "SLASH": "/",
+      "MB": "MB"
     },
     "UPDATE": {
       "STANDARD": "Update verfügbar",
@@ -69,6 +75,30 @@
     "BUTTON_RESTORE_BACKUP": "Aus Backup wiederherstellen",
     "HELP": "Wie Wallet erstellen?",
     "CHOOSE_PATH": "Bitte wählen Sie einen Pfad"
+  },
+  "PLACEHOLDERS": {
+    "COMMENT_PLACEHOLDER": "Geben Sie hier Ihren Kommentar ein",
+    "WALLET_NAME_PLACEHOLDER": "Geben Sie hier einen Wallet-Namen ein",
+    "MASTER_PASS_PLACEHOLDER": "Geben Sie hier ein Master-Passwort ein",
+    "PASS_PLACEHOLDER": "Geben Sie hier ein Master-Passwort ein",
+    "NAME_PLACEHOLDER": "Geben Sie hier einen Namen ein",
+    "ADRESS_PLACEHOLDER": "Adresse hier eingeben",
+    "NOTES_PLACEHOLDER": "Geben Sie hier eine Notiz ein",
+    "DESCRIPTION_PLACEHOLDER": "Geben Sie hier eine Beschreibung ein",
+    "SELLER_PLACEHOLDER": "Geben Sie hier einen Verkäufer ein",
+    "PLACEHOLDER_OLD": "Geben Sie hier das aktuelle Passwort ein",
+    "AMOUNT_PLACEHOLDER": "Betrag hier eingeben",
+    "DEPOSIT_PLACEHOLDER": "Geben Sie hier Ihre Einzahlung ein",
+    "SELLER_DEPOSIT_PLACEHOLDER": "Geben Sie hier die Anzahlung des Verkäufers ein",
+    "PLACEHOLDER_NEW": "Neues Passwort hier eingeben",
+    "WALET_PASSWORD_PLACEHOLDER": "Geben Sie hier ein Wallet-Passwort ein",
+    "CONFIRM_WALET_PASSWORD_PLACEHOLDER": "Wallet-Passwort hier bestätigen",
+    "PLACEHOLDER_CONFIRM": "Neues Passwort hier bestätigen",
+    "PASSWORD_PLACEHOLDER": "Geben Sie hier ein Passwort ein",
+    "SEED_PHRASE_PLACEHOLDER": "Geben Sie hier eine Anfangsphrase ein",
+    "SEED_PASSWORD_PLACEHOLDER": "Geben Sie hier ein Seed-Passwort ein",
+    "PURCHASE_PAYMENT_PLACEHOLDER": "Geben Sie hier eine Zahlungs-ID ein",
+    "FEE_PLACEHOLDER": "Geben Sie hier eine Gebühr ein"
   },
   "CREATE_WALLET": {
     "NAME": "Wallet-Name",
@@ -115,19 +145,33 @@
     "BUTTON_CREATE": "Wallet erstellen",
     "NOT_CORRECT_FILE_OR_PASSWORD": "Ungültige Wallet-Datei oder Passwort stimmt nicht überein",
     "CHOOSE_PATH": "Bitte wählen Sie einen Pfad",
+    "SEED_PASSWORD": "Seed-Passwort",
+    "OK": "OK",
     "FORM_ERRORS": {
       "NAME_REQUIRED": "Name ist erforderlich",
       "NAME_DUPLICATE": "Name existiert bereits",
       "MAX_LENGTH": "Maximale Namenslänge erreicht",
       "CONFIRM_NOT_MATCH": "Confirm password not match",
       "KEY_REQUIRED": "Schlüssel ist erforderlich",
-      "KEY_NOT_VALID": "Schlüssel ungültig"
+      "KEY_NOT_VALID": "Schlüssel ungültig",
+      "INCORRECT_PASSWORD": "Falsches Passwort"
     }
   },
+  "EXPORT_HISTORY": {
+  "TOOLTIP": "Wallet-Transaktionsverlauf in Datei exportieren",
+  "TITLE": "Wallet-Verlauf exportieren",
+  "FORMAT:": "Formatieren",
+  "FILTER": "POS-Transaktionen filtern",
+  "CANCEL": "Abbrechen",
+  "EXPORT": "In Datei exportieren...",
+  "EXPORT_BUTTON": "Verlauf exportieren...",
+  "SAVED_FILE": "Pfad zum Speichern des Transaktionsverlaufs auswählen"
+},
   "SEED_PHRASE": {
     "TITLE": "Stellen Sie sicher, dass Ihr Seed-Satz an einem sicheren Ort bleibt. Wenn Sie Ihren Seed-Satz vergessen, können Sie Ihre Wallet nicht wiederherstellen.",
     "BUTTON_CREATE_ACCOUNT": "Wallet erstellen",
-    "BUTTON_COPY": "Kopieren"
+    "BUTTON_COPY": "Kopieren",
+    "BUTTON_COPIED": "Kopiert"
   },
   "PROGRESS": {
     "ADD_WALLET": "Wallet hinzufügen",
@@ -140,6 +184,9 @@
     "DARK_THEME": "Nachtmodus",
     "WHITE_THEME": "Tagmodus",
     "GRAY_THEME": "Graumodus",
+    "NOTIFICATIONS": "Benachrichtigungen",
+    "USE_TOR_TO_RELAY_TRANSACTIONS": "Verwenden Sie TOR, um Transaktionen weiterzuleiten",
+    "SETTINGS_SAVED": "Gerettet! Einstellungen aktualisiert",
     "APP_LOCK": {
       "TITLE": "Programm sperren nach:",
       "TIME1": "5 Minuten",
@@ -148,10 +195,20 @@
       "TIME4": "Nie"
     },
     "SCALE": {
+      "TITLE": "Interface scale",
       "75": "75% Rahmen",
       "100": "100% Rahmen",
       "125": "125% Rahmen",
       "150": "150% Rahmen"
+    },
+    "LANGUAGE": {
+      "TITLE": "Language",
+      "EN": "English",
+      "FR": "French",
+      "DE": "Deutsch",
+      "ID": "Indonesian",
+      "IT": "Italian",
+      "PT": "Portuguese"
     },
     "MASTER_PASSWORD": {
       "TITLE": "Master-Passwort aktualisieren",
@@ -175,27 +232,57 @@
     "AVAILABLE_BALANCE": "Verfügbar <b>{{available}} {{currency}}<b/>",
     "LOCKED_BALANCE": "Gesperrt <b>{{locked}} {{currency}}<b/>",
     "LOCKED_BALANCE_LINK": "Was bedeutet das?",
+    "CONFIRM": {
+      "TITLE": "Brieftasche aus der Liste entfernen?",
+      "MESSAGE": "Um darauf zuzugreifen, müssen Sie es erneut hinzufügen"
+    },
     "TABS": {
-      "ASSETS": "Assets",
+      "ASSETS": "Vermögenswerte",
       "SEND": "Senden",
       "RECEIVE": "Empfangen",
       "HISTORY": "Verlauf",
       "CONTRACTS": "Verträge",
       "MESSAGES": "Nachrichten",
-      "STAKING": "Staking"
+      "STAKING": "Abstecken"
+    },
+    "TOOLTIPS": {
+      "EDIT_ALIAS": "Alias bearbeiten",
+      "TRANSFER_ALIAS": "Alias übertragen",
+      "SETTINGS": "Einstellungen",
+      "ADD_CUSTOM_TOKEN": "Benutzerdefiniertes Token hinzufügen",
+      "CLOSE": "Brieftasche schließen"
+    },
+    "MODAL_ADD_CUSTOM_TOKEN": {
+      "TITLE": "Benutzerdefiniertes Token hinzufügen",
+      "FIELD_TITLE": "Asset-ID"
     }
   },
   "WALLET_DETAILS": {
     "LABEL_NAME": "Wallet-Name",
-    "LABEL_FILE_LOCATION": "Wallet-Datei-Verzeichnis",
-    "LABEL_SEED_PHRASE": "Seed-Satz",
-    "SEED_PHRASE_HINT": "Klicken, um den Seed-Satz anzuzeigen",
+    "LABEL_FILE_LOCATION": "Wallet-Dateispeicherort",
+    "LABEL_SEED_PHRASE": "Startphrase",
+    "SEED_PHRASE_HINT": "Klicken Sie, um die Startphrase anzuzeigen",
+    "RESYNC_WALLET": "Wallet-Daten neu synchronisieren",
+    "RESYNC_WALLET_BUTTON": "Wallet neu synchronisieren",
     "BUTTON_SAVE": "Speichern",
     "BUTTON_REMOVE": "Wallet schließen",
+    "CREATE_PASSWORD_SECURE": "Erstelle ein Passwort, um deinen Seed zu sichern",
+    "INFO": "Info",
+    "SEED_IS_UNSECURED": "Seed ist ungesichert",
+    "SEED_IS_SECURED": "Seed ist gesichert",
+    "REMEMBER_YOU_WILL_REQUIRE": "Sicherer Seed erfordert ein Passwort zur Wiederherstellung.",
+    "WALLET_OPTIONS": "Wallet-Optionen...",
+    "ADD_CUSTOM_TOKEN": "Benutzerdefiniertes Token hinzufügen",
+    "FORM": {
+      "CONFIRM_PASSWORD": "Passwort bestätigen",
+      "GENERATE_SECURE_SEED": "Erzeuge sicheren Seed",
+      "SECURED_SEED_WILL_REQUIRE": "Secure Seed erfordert dieses Passwort zur Wiederherstellung."
+    },
     "FORM_ERRORS": {
       "NAME_REQUIRED": "Name ist erforderlich",
-      "NAME_DUPLICATE": "Name existiert bereits",
-      "MAX_LENGTH": "Maximale Namenslänge erreicht"
+      "NAME_DUPLICATE": "Name ist doppelt vorhanden",
+      "MAX_LENGTH": "Maximale Namenslänge erreicht",
+      "PASSWORDS_DONT_MATCH": "Passwörter stimmen nicht überein"
     }
   },
   "ASSIGN_ALIAS": {
@@ -271,6 +358,15 @@
     "HIDE": "Verstecke deine Wallet-Adresse vom Empfänger",
     "BUTTON": "Senden",
     "SUCCESS_SENT": "Transaktion gesendet",
+    "WRAP": {
+      "TITLE": "Wrap",
+      "MAIN_TEXT": "Diese Transaktion erstellt wZano (\"Wrapped Zano\"), das an die angegebene Adresse im Ethereum-Netzwerk gesendet wird.",
+      "ESTIMATE": "Transaktionsschätzungen",
+      "WILL_RECEIVE": "Sie erhalten:",
+      "FEE": "Ethereum Txn-Gebühr:",
+      "ZANO": "ZANO",
+      "wZANO": "wZANO"
+    },
     "FORM_ERRORS": {
       "ADDRESS_REQUIRED": "Adresse benötigt",
       "ADDRESS_NOT_VALID": "Adresse ungültig",
@@ -279,7 +375,35 @@
       "AMOUNT_ZERO": "Betrag ist Null",
       "FEE_REQUIRED": "Gebühr ist erforderlich",
       "FEE_MINIMUM": "Mindestgebühr: {{fee}}",
-      "MAX_LENGTH": "Maximale Kommentarlänge erreicht"
+      "MAX_LENGTH": "Maximale Kommentarlänge erreicht",
+      "GREAT_THAN_UNWRAPPED_COINS": "Der Betrag ist größer als die noch verfügbaren ERC20-Token",
+      "LESS_THAN_ZANO_NEEDED": "Zu geringer Betrag zur Deckung der ERC20-Gebühr",
+      "WRAP_INFO_NULL": "Wrap-Status konnte nicht angefordert werden"
+    }
+  },
+  "ASSETS": {
+    "TABLE": {
+      "LABELS": {
+        "NAME": "Name",
+        "BALANCE": "Guthaben",
+        "VALUE": "Wert",
+        "PRICE": "Preis"
+      }
+    },
+    "DROP_DOWN_MENU": {
+      "ASSET_DETAILS": "Anlagendetails",
+      "REMOVE_ASSET": "Element entfernen"
+    },
+    "MODALS": {
+      "ASSET_DETAILS": {
+        "LABELS": {
+          "NAME": "Asset-Name",
+          "TICKER": "Ticker",
+          "ID": "Asset-ID",
+          "CURRENT_SUPPLY": "Stromversorgung",
+          "MAX_SUPPLE": "Maximale Versorgung"
+        }
+      }
     }
   },
   "HISTORY": {
@@ -457,7 +581,9 @@
     "ERROR": "Fehler",
     "SUCCESS": "Erfolg",
     "INFO": "Informationen",
-    "OK": "OK"
+    "OK": "OK",
+    "CANCEL": "Abbrechen",
+    "ADD_TOKEN": "Token hinzufügen"
   },
   "CONFIRM": {
     "BUTTON_CONFIRM": "Senden",
@@ -496,6 +622,7 @@
     }
   },
   "CONTACTS": {
+    "ADD_CONTACT": "Kontakt hinzufügen",
     "TITLE": "Kontaktliste",
     "IMPORT_EXPORT": "Kontakte importieren oder exportieren",
     "IMPORT": "Importieren",
@@ -560,6 +687,7 @@
     "TRANSACTION_ERROR": "Fehler. Transaktion nicht abgeschlossen.",
     "BAD_ARG": "Ungültiges Argument",
     "WALLET_WRONG_ID": "Ungültige Wallet-ID",
+    "WALLET_WATCH_ONLY_NOT_SUPPORTED": "Watch-only-Wallets können nur von simplewallet geöffnet werden",
     "WRONG_PASSWORD": "Ungültiges Passwort",
     "FILE_RESTORED": "Die Wallet-Datei wurde beschädigt. Wir haben die Schlüssel und die Wallet von der Blockchain wiederhergestellt",
     "FILE_NOT_FOUND": "Datei nicht gefunden",
@@ -604,7 +732,7 @@
     "STATE_SUCCESS": "Successfully created stream"
   },
   "SEND_DETAILS_MODAL": {
-    "TITLE1": "Transaction",
-    "TITLE2": "Transaction details"
+    "TITLE1": "Transaktion",
+    "TITLE2": "Transaktionsdetails"
   }
 }

@@ -478,7 +478,9 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngAfterViewChecked(): void {
-    this.calculateWidth();
+    setTimeout(() => {
+      this.calculateWidth();
+    });
   }
 
   ngOnDestroy(): void {

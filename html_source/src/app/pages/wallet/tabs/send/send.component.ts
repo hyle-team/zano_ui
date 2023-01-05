@@ -553,6 +553,7 @@ export class SendComponent implements OnInit, OnDestroy {
     this.sendForm.reset({
       address: this.variablesService.currentWallet.send_data['address'],
       amount: this.variablesService.currentWallet.send_data['amount'],
+      asset: this.variablesService.currentWallet.getBalanceByTicker('ZANO'),
       comment: this.variablesService.currentWallet.send_data['comment'],
       mixin: this.mixin,
       fee:

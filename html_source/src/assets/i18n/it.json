@@ -9,6 +9,7 @@
     "INCORRECT_PASSWORD": "Password non valida",
     "FORM_ERRORS": {
       "PASS_REQUIRED": "La password è necessaria",
+      "INVALID_PASS": "Password non valida, riprova",
       "CONFIRM_REQUIRED": "La conferma è necessaria",
       "MISMATCH": "Non corrisponde"
     }
@@ -39,15 +40,20 @@
       "SYNCING": "Sincronizzazione portafoglio"
     },
     "CONTACTS": "Contatti",
+    "CONTACTS_TOOLTIP": "Opzione Contatti disponibile solo con Master Password abilitata",
     "SETTINGS": "Impostazioni",
     "LOG_OUT": "Esci",
+    "LOG_OUT_TOOLTIP": "Opzione di logout disponibile solo con Master Password abilitata",
     "SYNCHRONIZATION": {
       "OFFLINE": "Offline",
       "ONLINE": "Online",
       "ERROR": "Errore di sistema",
       "COMPLETE": "Completata",
       "SYNCING": "Syncing block",
-      "LOADING": "Caricamento dati blockchain"
+      "LOADING": "Caricamento dati blockchain",
+      "DOWNLOADING": "Download",
+      "SLASH": "/",
+      "MB": "MB"
     },
     "UPDATE": {
       "STANDARD": "Aggiornamento disponibile",
@@ -69,6 +75,30 @@
     "BUTTON_RESTORE_BACKUP": "Ripristina da backup",
     "HELP": "Come creare il portafoglio?",
     "CHOOSE_PATH": "Scegli un percorso"
+  },
+  "PLACEHOLDERS": {
+    "COMMENT_PLACEHOLDER": "Inserisci qui il tuo commento",
+    "WALLET_NAME_PLACEHOLDER": "Inserisci qui un nome portafoglio",
+    "MASTER_PASS_PLACEHOLDER": "Inserisci una password principale qui",
+    "PASS_PLACEHOLDER": "Inserisci una password principale qui",
+    "NAME_PLACEHOLDER": "Inserisci un nome qui",
+    "ADRESS_PLACEHOLDER": "Inserisci qui l'indirizzo",
+    "NOTES_PLACEHOLDER": "Inserisci una nota qui",
+    "DESCRIPTION_PLACEHOLDER": "Inserisci qui una descrizione",
+    "SELLER_PLACEHOLDER": "Inserisci qui un venditore",
+    "PLACEHOLDER_OLD": "Inserisci qui la password attuale",
+    "AMOUNT_PLACEHOLDER": "Inserisci l'importo qui",
+    "DEPOSIT_PLACEHOLDER": "Inserisci qui il tuo deposito",
+    "SELLER_DEPOSIT_PLACEHOLDER": "Inserisci qui il deposito del venditore",
+    "PLACEHOLDER_NEW": "Inserisci qui la nuova password",
+    "WALET_PASSWORD_PLACEHOLDER": "Inserisci qui una password per il portafoglio",
+    "CONFIRM_WALET_PASSWORD_PLACEHOLDER": "Conferma qui la password del portafoglio",
+    "PLACEHOLDER_CONFIRM": "Conferma qui la nuova password",
+    "PASSWORD_PLACEHOLDER": "Inserisci una password qui",
+    "SEED_PHRASE_PLACEHOLDER": "Inserisci qui una frase seme",
+    "SEED_PASSWORD_PLACEHOLDER": "Inserisci qui una password iniziale",
+    "PURCHASE_PAYMENT_PLACEHOLDER": "Inserisci qui un ID pagamento",
+    "FEE_PLACEHOLDER": "Inserisci una commissione qui"
   },
   "CREATE_WALLET": {
     "NAME": "Nome del portafoglio",
@@ -115,19 +145,33 @@
     "BUTTON_CREATE": "Crea portafoglio",
     "NOT_CORRECT_FILE_OR_PASSWORD": "File del portafoglio non valido o password non corrispondente",
     "CHOOSE_PATH": "Scegli un percorso",
+    "SEED_PASSWORD": "Password seme",
+    "OK": "OK",
     "FORM_ERRORS": {
       "NAME_REQUIRED": "Il nome è richiesto",
       "NAME_DUPLICATE": "Il nome è un duplicato",
       "MAX_LENGTH": "Lunghezza massima del nome raggiunta",
       "CONFIRM_NOT_MATCH": "La password di conferma non corrisponde",
       "KEY_REQUIRED": "Chiave richiesta",
-      "KEY_NOT_VALID": "Chiave non valida"
+      "KEY_NOT_VALID": "Chiave non valida",
+      "INCORRECT_PASSWORD": "password errata"
     }
+  },
+  "EXPORT_HISTORY": {
+    "TOOLTIP": "Esporta la cronologia delle transazioni del portafoglio su file",
+    "TITLE": "Esporta cronologia portafoglio",
+    "FORMAT": "Formato",
+    "FILTER": "Filtra transazioni POS",
+    "CANCEL": "Annulla",
+    "EXPORT": "Esporta su file...",
+    "EXPORT_BUTTON": "Esporta cronologia...",
+    "SAVED_FILE": "Seleziona il percorso per salvare la cronologia delle transazioni"
   },
   "SEED_PHRASE": {
     "TITLE": "Assicurati di mantenere la tua frase segreta in un posto sicuro. Se dimentichi la tua frase segreta non sarai in grado di recuperare il tuo portafoglio.",
     "BUTTON_CREATE_ACCOUNT": "Crea portafoglio",
-    "BUTTON_COPY": "Copia"
+    "BUTTON_COPY": "Copia",
+    "BUTTON_COPIED": "Copiato"
   },
   "PROGRESS": {
     "ADD_WALLET": "Aggiungi portafoglio",
@@ -140,6 +184,9 @@
     "DARK_THEME": "Tema scuro",
     "WHITE_THEME": "Tema bianco",
     "GRAY_THEME": "Tema grigio",
+    "NOTIFICATIONS": "Notifiche",
+    "USE_TOR_TO_RELAY_TRANSACTIONS": "Utilizza TOR per inoltrare le transazioni",
+    "SETTINGS_SAVED": "Salvato! Impostazioni aggiornate",
     "APP_LOCK": {
       "TITLE": "Blocca app dopo:",
       "TIME1": "5 minuti",
@@ -148,10 +195,20 @@
       "TIME4": "Mai"
     },
     "SCALE": {
+      "TITLE": "Scala dell'interfaccia",
       "75": "75% scala",
       "100": "100% scala",
       "125": "125% scala",
       "150": "150% scala"
+    },
+    "LANGUAGE": {
+      "TITLE": "Lingua",
+      "EN": "English",
+      "FR": "French",
+      "DE": "Deutsch",
+      "ID": "Indonesian",
+      "IT": "Italian",
+      "PT": "Portuguese"
     },
     "MASTER_PASSWORD": {
       "TITLE": "Aggiorna password principale",
@@ -175,14 +232,29 @@
     "AVAILABLE_BALANCE": "Disponibile <b>{{available}} {{currency}}<b/>",
     "LOCKED_BALANCE": "Bloccato <b>{{locked}} {{currency}}<b/>",
     "LOCKED_BALANCE_LINK": "Che cosa significa?",
+    "CONFIRM": {
+      "TITLE": "Rimuovere il portafoglio dalla lista?",
+      "MESSAGE": "Per accedervi dovrai aggiungerlo di nuovo"
+    },
     "TABS": {
-      "ASSETS": "Assets",
+      "ASSETS": "Risorse",
       "SEND": "Invia",
       "RECEIVE": "Ricevi",
       "HISTORY": "Storico",
       "CONTRACTS": "Contratti",
       "MESSAGES": "Messaggi",
-      "STAKING": "Staking"
+      "STAKING": "Picchettamento"
+    },
+    "TOOLTIPS": {
+      "EDIT_ALIAS": "Modifica alias",
+      "TRANSFER_ALIAS": "Alias di trasferimento",
+      "SETTINGS": "Impostazioni",
+      "ADD_CUSTOM_TOKEN": "Aggiungi token personalizzato",
+      "CLOSE": "Chiudi portafoglio"
+    },
+    "MODAL_ADD_CUSTOM_TOKEN": {
+      "TITLE": "Aggiungi token personalizzato",
+      "FIELD_TITLE": "ID risorsa"
     }
   },
   "WALLET_DETAILS": {
@@ -190,12 +262,27 @@
     "LABEL_FILE_LOCATION": "Posizione file portafoglio",
     "LABEL_SEED_PHRASE": "Frase segreta",
     "SEED_PHRASE_HINT": "Clicca per rivelare la frase segreta",
+    "RESYNC_WALLET": "Risincronizza i dati del portafoglio",
+    "RESYNC_WALLET_BUTTON": "Risincronizza il portafoglio",
     "BUTTON_SAVE": "Salva",
     "BUTTON_REMOVE": "Chiudi portafoglio",
+    "CREATE_PASSWORD_SECURE": "Crea una password per proteggere il tuo seme",
+    "INFO": "informazioni",
+    "SEED_IS_UNSECURED": "Il seme non è protetto",
+    "SEED_IS_SECURED": "Il seme è protetto",
+    "REMEMBER_YOU_WILL_REQUIRE": "Secure seed richiederà la password per il ripristino.",
+    "WALLET_OPTIONS": "Opzioni portafoglio...",
+    "ADD_CUSTOM_TOKEN": "Aggiungi token personalizzato",
+    "FORM": {
+      "CONFIRM_PASSWORD": "Conferma password",
+      "GENERATE_SECURE_SEED": "Genera seme sicuro",
+      "SECURED_SEED_WILL_REQUIRE": "Secure seed richiederà il ripristino di questa password."
+    },
     "FORM_ERRORS": {
       "NAME_REQUIRED": "Il nome è richiesto",
       "NAME_DUPLICATE": "Il nome è un duplicato",
-      "MAX_LENGTH": "Lunghezza massima del nome raggiunta"
+      "MAX_LENGTH": "Lunghezza massima del nome raggiunta",
+      "PASSWORDS_DONT_MATCH": "Le password non corrispondono"
     }
   },
   "ASSIGN_ALIAS": {
@@ -271,6 +358,15 @@
     "HIDE": "Nascondi l'indirizzo del tuo portafoglio dal destinatario",
     "BUTTON": "Invia",
     "SUCCESS_SENT": "Transazione inviata",
+    "WRAP": {
+      "TITLE": "Avvolgi",
+      "MAIN_TEXT": "Questa transazione creerà wZano (\"Wrapped Zano\") che verrà inviato all'indirizzo specificato sulla rete Ethereum.",
+      "ESTIMATE": "Stima transazione",
+      "WILL_RECEIVE": "Riceverai:",
+      "FEE": "Commissione Txn Ethereum:",
+      "ZANO": "ZANO",
+      "wZANO": "wZANO"
+    },
     "FORM_ERRORS": {
       "ADDRESS_REQUIRED": "Indirizzo richiesto",
       "ADDRESS_NOT_VALID": "Indirizzo non valido",
@@ -279,7 +375,35 @@
       "AMOUNT_ZERO": "Importo è zero",
       "FEE_REQUIRED": "La commissione è richiesta",
       "FEE_MINIMUM": "Costo minimo: {{fee}}",
-      "MAX_LENGTH": "Lunghezza massima del commento raggiunta"
+      "MAX_LENGTH": "Lunghezza massima del commento raggiunta",
+      "GREAT_THAN_UNWRAPPED_COINS": "L'importo è superiore ai token ERC20 rimasti disponibili",
+      "LESS_THAN_ZANO_NEEDED": "Importo troppo piccolo per coprire la quota ERC20",
+      "WRAP_INFO_NULL": "impossibile richiedere lo stato di wrap"
+    }
+  },
+  "ASSETS": {
+    "TABLE": {
+      "LABELS": {
+        "NAME": "Nome",
+        "BALANCE": "Saldo",
+        "VALUE": "Valore",
+        "PRICE": "Prezzo"
+      }
+    },
+    "DROP_DOWN_MENU": {
+      "ASSET_DETAILS": "Dettagli risorsa",
+      "REMOVE_ASSET": "Rimuovi risorsa"
+    },
+    "MODALS": {
+      "ASSET_DETAILS": {
+        "LABELS": {
+          "NAME": "Nome risorsa",
+          "TICKER": "Ticker",
+          "ID": "ID risorsa",
+          "CURRENT_SUPPLY": "Fornitura attuale",
+          "MAX_SUPPLE": "Fornitura massima"
+        }
+      }
     }
   },
   "HISTORY": {
@@ -457,7 +581,9 @@
     "ERROR": "Errore",
     "SUCCESS": "Successo",
     "INFO": "Informazioni",
-    "OK": "OK"
+    "OK": "OK",
+    "CANCEL": "Annulla",
+    "ADD_TOKEN": "Aggiungi token"
   },
   "CONFIRM": {
     "BUTTON_CONFIRM": "Invia",
@@ -496,6 +622,7 @@
     }
   },
   "CONTACTS": {
+    "ADD_CONTACT": "Aggiungi contatto",
     "TITLE": "Lista contatti",
     "IMPORT_EXPORT": "Importa o esporta contatti",
     "IMPORT": "Importa",
@@ -560,6 +687,7 @@
     "TRANSACTION_ERROR": "Errore. Transazione non completata.",
     "BAD_ARG": "Argomento non valido",
     "WALLET_WRONG_ID": "ID portafoglio non valido",
+    "WALLET_WATCH_ONLY_NOT_SUPPORTED": "I portafogli solo per orologi possono essere aperti solo da simplewallet",
     "WRONG_PASSWORD": "Password non valida",
     "FILE_RESTORED": "Il file del portafoglio è stato danneggiato. Abbiamo recuperato le chiavi e il portafoglio dalla blockchain",
     "FILE_NOT_FOUND": "File non trovato",

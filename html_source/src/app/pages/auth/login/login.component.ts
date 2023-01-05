@@ -9,6 +9,7 @@ import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
+import { WalletsService } from '@parts/services/wallets.service';
 
 @Component({
   selector: 'app-login',
@@ -219,6 +220,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(
     public variablesService: VariablesService,
+    public walletsService: WalletsService,
     private route: ActivatedRoute,
     private router: Router,
     private backend: BackendService,
@@ -450,7 +452,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                   }
                 }
               );
-              this.variablesService.wallets.push(new_wallet);
+              this.walletsService.addWallet(new_wallet);
               if (this.variablesService.wallets.length === 1) {
                 this.router.navigate(['/wallet/']);
               }
