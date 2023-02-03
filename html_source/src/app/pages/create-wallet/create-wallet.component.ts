@@ -122,19 +122,13 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
             <div
               *ngIf="
                 createForm.controls['confirm'].dirty &&
-                createForm.controls['confirm'].dirty &&
-                createForm.errors
+                createForm.errors &&
+                createForm.errors['mismatch'] &&
+                createForm.get('confirm').value.length > 0
               "
               class="error"
             >
-              <div
-                *ngIf="
-                  createForm.errors['mismatch'] &&
-                  createForm.get('confirm').value.length > 0
-                "
-              >
-                {{ 'CREATE_WALLET.FORM_ERRORS.CONFIRM_NOT_MATCH' | translate }}
-              </div>
+              {{ 'CREATE_WALLET.FORM_ERRORS.CONFIRM_NOT_MATCH' | translate }}
             </div>
           </div>
 
