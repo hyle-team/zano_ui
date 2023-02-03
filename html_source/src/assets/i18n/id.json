@@ -89,7 +89,7 @@
       "NAME_REQUIRED": "Nama di butuhkan",
       "NAME_DUPLICATE": "Nama sama/duplikat",
       "MAX_LENGTH": "Maksimum panjang nama tecapai",
-      "CONFIRM_NOT_MATCH": "Konfirmasi katasandi tidak sama"
+      "CONFIRM_NOT_MATCH": "Kata sandi tidak cocok"
     }
   },
   "OPEN_WALLET": {

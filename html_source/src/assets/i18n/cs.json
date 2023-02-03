@@ -89,7 +89,7 @@
       "NAME_REQUIRED": "Název je povinný",
       "NAME_DUPLICATE": "Název je duplicitní",
       "MAX_LENGTH": "Dosáhli jste maximální délky názvu",
-      "CONFIRM_NOT_MATCH": "Confirm password not match"
+      "CONFIRM_NOT_MATCH": "Passwords don`t match"
     }
   },
   "OPEN_WALLET": {

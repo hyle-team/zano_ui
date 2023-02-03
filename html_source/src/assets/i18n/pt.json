@@ -89,7 +89,7 @@
       "NAME_REQUIRED": "Nome é necessário",
       "NAME_DUPLICATE": "Nome é duplicado",
       "MAX_LENGTH": "Atingido comprimento máximo do nome",
-      "CONFIRM_NOT_MATCH": "Password de confirmação não corresponde"
+      "CONFIRM_NOT_MATCH": "As senhas não correspondem"
     }
   },
   "OPEN_WALLET": {
