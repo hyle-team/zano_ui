@@ -4,7 +4,11 @@ import {
   Component,
   inject,
 } from '@angular/core';
-import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import {
+  NonNullableFormBuilder,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { VariablesService } from '@parts/services/variables.service';
 import { ZanoValidators } from '@parts/utils/zano-validators';
 import { DialogRef } from '@angular/cdk/dialog';
@@ -14,9 +18,14 @@ import { WalletsService } from '@parts/services/wallets.service';
 import { ControlsOf } from '@parts/utils/controls-of';
 import { wrongAssetId } from '@parts/utils/zano-errors';
 import { BehaviorSubject } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { FlexModule } from '@angular/flex-layout';
+import { TranslateModule } from '@ngx-translate/core';
+import { LoaderComponent } from '@parts/components/loader.component';
 
 @Component({
   selector: 'app-add-custom-token',
+  standalone: true,
   template: `
     <form
       (ngSubmit)="beforeSubmit()"
@@ -89,6 +98,13 @@ import { BehaviorSubject } from 'rxjs';
         display: block;
       }
     `,
+  ],
+  imports: [
+    CommonModule,
+    FlexModule,
+    TranslateModule,
+    ReactiveFormsModule,
+    LoaderComponent,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
