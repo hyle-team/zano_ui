@@ -125,7 +125,7 @@
       "NAME_REQUIRED": "Il nome è richiesto",
       "NAME_DUPLICATE": "Il nome è un duplicato",
       "MAX_LENGTH": "Lunghezza massima del nome raggiunta",
-      "CONFIRM_NOT_MATCH": "La password di conferma non corrisponde",
+      "CONFIRM_NOT_MATCH": " Le password non corrispondono",
       "KEY_REQUIRED": "Chiave richiesta",
       "KEY_NOT_VALID": "Chiave non valida",
       "INCORRECT_PASSWORD": "password errata"

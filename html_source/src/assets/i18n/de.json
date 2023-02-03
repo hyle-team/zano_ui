@@ -125,7 +125,7 @@
       "NAME_REQUIRED": "Name ist erforderlich",
       "NAME_DUPLICATE": "Name existiert bereits",
       "MAX_LENGTH": "Maximale Namenslänge erreicht",
-      "CONFIRM_NOT_MATCH": "Confirm password not match",
+      "CONFIRM_NOT_MATCH": "Passwörter stimmen nicht überein",
       "KEY_REQUIRED": "Schlüssel ist erforderlich",
       "KEY_NOT_VALID": "Schlüssel ungültig",
       "INCORRECT_PASSWORD": "Falsches Passwort"
