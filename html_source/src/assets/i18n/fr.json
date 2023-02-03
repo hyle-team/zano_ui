@@ -733,6 +733,11 @@
           "MAX_SUPPLE": "Approvisionnement max"
         }
       }
+    },
+    "FORM": {
+      "ERRORS": {
+        "WRONG_ASSET_ID": "Wrong asset id"
+      }
     }
   }
 }

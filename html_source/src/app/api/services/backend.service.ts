@@ -8,6 +8,7 @@ import JSONBigNumber from 'json-bignumber';
 import { BigNumber } from 'bignumber.js';
 import { Alias, ResponseGetWalletInfo } from '../models/wallet.model';
 import {
+  AssetInfo,
   ParamsAddCustomAssetId,
   ParamsRemoveCustomAssetId,
   ResponseAddCustomAssetId,
@@ -822,7 +823,17 @@ export class BackendService {
 
   addCustomAssetId(
     params: ParamsAddCustomAssetId,
-    callback: (status: boolean, response_data: ResponseAddCustomAssetId) => void
+    callback: (
+      status: boolean,
+      response_data: ResponseAddCustomAssetId,
+      res_error_code?: {
+        error_code: 'FAILED' | string;
+        response_data: {
+          asset_descriptor: Partial<AssetInfo>;
+          status: 'FAILED' | string;
+        };
+      }
+    ) => void
   ): void {
     this.runCommand(Commands.add_custom_asset_id, params, callback);
   }
