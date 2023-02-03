@@ -14,6 +14,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ModalService } from '../../services/modal.service';
 import { hasOwnProperty } from '../../functions/hasOwnProperty';
 import { WalletsService } from '@parts/services/wallets.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-open-wallet-modal',
@@ -33,8 +34,10 @@ import { WalletsService } from '@parts/services/wallets.service';
               'OPEN_WALLET.MODAL.LABEL' | translate
             }}</label>
             <input
-              (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
               [(ngModel)]="wallet.pass"
+              [class.invalid]="isWrongPassword$ | async"
+              (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
+              (focusin)="isWrongPassword$.next(false)"
               class="form__field--input"
               id="password"
               name="password"
@@ -43,11 +46,14 @@ import { WalletsService } from '@parts/services/wallets.service';
             <div *ngIf="wallet.notFound" class="error">
               {{ 'OPEN_WALLET.MODAL.NOT_FOUND' | translate }}
             </div>
+            <div *ngIf="isWrongPassword$ | async" class="error">
+              {{ 'ERRORS.WRONG_PASSWORD' | translate }}
+            </div>
           </div>
 
           <div fxLayout="row nowrap" fxLayoutGap="1rem">
             <button
-              [disabled]="wallet.notFound"
+              [disabled]="wallet.notFound || isWrongPassword$ | async"
               class="primary big w-100"
               type="submit"
             >
@@ -71,6 +77,8 @@ export class OpenWalletModalComponent implements OnInit, OnDestroy {
   @HostBinding('class.modal-overlay') modalOverlay = true;
 
   @Input() wallets;
+
+  isWrongPassword$ = new BehaviorSubject<boolean>(false);
 
   wallet = {
     name: '',
@@ -112,6 +120,9 @@ export class OpenWalletModalComponent implements OnInit, OnDestroy {
       this.variablesService.count,
       false,
       (open_status, open_data, open_error) => {
+        if (open_error === 'WRONG_PASSWORD') {
+          this.isWrongPassword$.next(true);
+        }
         if (open_error && open_error === 'FILE_NOT_FOUND') {
           this.ngZone.run(() => {
             this.wallet.notFound = true;
@@ -203,6 +214,7 @@ export class OpenWalletModalComponent implements OnInit, OnDestroy {
               this.walletsService.addWallet(new_wallet);
               this.backend.runWallet(open_data.wallet_id);
               this.skipWallet();
+              this.isWrongPassword$.next(false);
             }
           }
         }
