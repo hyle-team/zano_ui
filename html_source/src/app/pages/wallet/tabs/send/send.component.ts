@@ -22,6 +22,7 @@ import { MoneyToIntPipe } from '@parts/pipes/money-to-int-pipe/money-to-int.pipe
 import { finalize, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { Asset } from '@api/models/assets.model';
+import { regExpAliasName } from '@parts/utils/zano-validators';
 
 interface WrapInfo {
   tx_cost: {
@@ -64,6 +65,9 @@ interface WrapInfo {
             <div
               *ngIf="isOpen && !!localAliases.length"
               class="dropdown py-0_5 border-radius-0_8-rem bg-light-blue-details"
+              [ngStyle]="{
+                'z-index': 1
+              }"
             >
               <div
                 (click)="setAlias(item.name)"
@@ -443,8 +447,7 @@ export class SendComponent implements OnInit, OnDestroy {
             this.localAliases = this.variablesService.aliases.filter(item => {
               return item.name.indexOf(g.value) > -1;
             });
-            // eslint-disable-next-line
-            if (!/^@?[a-z\d\-]{0,25}$/.test(g.value)) {
+            if (!regExpAliasName.test(g.value)) {
               g.setErrors(Object.assign({ alias_not_valid: true }, g.errors));
             } else {
               this.backend.getAliasByName(
