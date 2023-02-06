@@ -189,12 +189,13 @@ import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
                 </td>
                 <td>
                   <div class="text-ellipsis">
-                    <span
-                      *ngIf="item.sortFee && item.sortFee.toString() !== '0'"
-                    >
+                    <span *ngIf="item.sortFee; else noFeeTemplate">
                       {{ item.sortFee | intToMoney }}
                       {{ variablesService.defaultCurrency }}
                     </span>
+                    <ng-template #noFeeTemplate>
+                      <span>{{ 'HISTORY.NO_FEE' | translate }}</span>
+                    </ng-template>
                   </div>
                 </td>
                 <td class="remote-address">

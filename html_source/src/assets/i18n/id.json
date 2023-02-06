@@ -382,7 +382,8 @@
       "NULLIFY_CONTRACT": "Setoran yang dibakar/hangus",
       "PROPOSAL_CANCEL_CONTRACT": "Permintaan pembatalan",
       "CANCEL_CONTRACT": "Batalkan dan kembalikan setoran/deposit"
-    }
+    },
+    "NO_FEE": "No Fee"
   },
   "CONTRACTS": {
     "EMPTY": "Tidak ada kontrak yang aktif",
