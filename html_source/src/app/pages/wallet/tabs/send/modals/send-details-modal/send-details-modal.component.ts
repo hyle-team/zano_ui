@@ -177,16 +177,20 @@ const failedStatuses: string[] = [
                 </ng-container>
               </li>
 
-              <ng-container *ngIf="responseData$ | async">
+              <ng-container *ngIf="responseData$ | async as data">
                 <li
                   class="item mb-1 color-primary"
                   fxLayout="row nowrap"
                   fxLayoutAlign=" center"
                 >
-                  <span class="word-break-break-all"
-                    >tx id:
-                    {{ (responseData$ | async).response_data.tx_hash }}</span
+                  <span class="word-break-break-all">
+                    tx id: {{ data.response_data.tx_hash }}
+                  </span>
+                  <app-copy-button
+                    [value]="data.response_data.tx_hash"
+                    class="ml-1"
                   >
+                  </app-copy-button>
                 </li>
                 <li
                   class="item mb-1 color-primary"
@@ -195,7 +199,7 @@ const failedStatuses: string[] = [
                 >
                   <div class="word-break-break-all">
                     tx size:
-                    {{ (responseData$ | async).response_data.tx_blob_size }}
+                    {{ data.response_data.tx_blob_size }}
                     bytes
                   </div>
                 </li>
