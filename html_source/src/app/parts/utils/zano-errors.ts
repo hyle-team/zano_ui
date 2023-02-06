@@ -5,6 +5,9 @@ export interface ZanoValidationErrors extends ValidationErrors {
 }
 
 export const wrongAssetId: ZanoValidationErrors = {
-  wrongAssetId: true,
   errorText: 'ASSETS.FORM.ERRORS.WRONG_ASSET_ID',
+};
+
+export const insuficcientFunds: ZanoValidationErrors = {
+  errorText: 'ASSETS.FORM.ERRORS.INSUFICCIENT_FUNDS',
 };

@@ -1,14 +1,14 @@
 import {
   Component,
   HostListener,
+  inject,
   NgZone,
   OnDestroy,
   OnInit,
 } from '@angular/core';
 import {
   FormControl,
-  UntypedFormControl,
-  UntypedFormGroup,
+  NonNullableFormBuilder,
   ValidationErrors,
   Validators,
 } from '@angular/forms';
@@ -23,6 +23,8 @@ import { finalize, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { Asset } from '@api/models/assets.model';
 import { regExpAliasName } from '@parts/utils/zano-validators';
+import { IntToMoneyPipe } from '@parts/pipes';
+import { insuficcientFunds } from '@parts/utils/zano-errors';
 
 interface WrapInfo {
   tx_cost: {
@@ -160,6 +162,17 @@ interface WrapInfo {
               <div *ngIf="sendForm.controls['amount'].hasError('required')">
                 {{ 'SEND.FORM_ERRORS.AMOUNT_REQUIRED' | translate }}
               </div>
+              <div
+                *ngIf="sendForm.controls.amount.hasError('insuficcientFunds')"
+              >
+                {{
+                  sendForm.controls.amount.errors['insuficcientFunds'].errorText
+                    | translate
+                }}
+              </div>
+              <div *ngIf="sendForm.controls.amount.hasError('min')">
+                {{ 'SEND.FORM_ERRORS.MUST_BE_GREATER_THAN_ZERO' | translate }}
+              </div>
             </div>
           </div>
         </div>
@@ -228,6 +241,7 @@ interface WrapInfo {
             [clearable]="false"
             [items]="variablesService.currentWallet.balances"
             [searchable]="false"
+            (change)="sendForm.controls.amount.updateValueAndValidity()"
             formControlName="asset"
             class="custom-select with-circle"
           >
@@ -410,10 +424,14 @@ export class SendComponent implements OnInit, OnDestroy {
 
   actionData;
 
-  sendForm = new UntypedFormGroup({
-    address: new UntypedFormControl('', [
+  fb = inject(NonNullableFormBuilder);
+
+  intToMoneyPipe = inject(IntToMoneyPipe);
+
+  sendForm = this.fb.group({
+    address: this.fb.control('', [
       Validators.required,
-      (g: UntypedFormControl): ValidationErrors | null => {
+      (g: FormControl): ValidationErrors | null => {
         this.localAliases = [];
         if (g.value) {
           this.currentAliasAddress = '';
@@ -480,9 +498,10 @@ export class SendComponent implements OnInit, OnDestroy {
         return null;
       },
     ]),
-    amount: new UntypedFormControl(undefined, [
+    amount: this.fb.control(undefined, [
       Validators.required,
-      (g: UntypedFormControl): ValidationErrors | null => {
+      Validators.min(0.000000000001),
+      (g: FormControl): ValidationErrors | null => {
         if (!g.value) {
           return null;
         }
@@ -512,16 +531,24 @@ export class SendComponent implements OnInit, OnDestroy {
         }
         return null;
       },
+      (control: FormControl): ValidationErrors | null => {
+        const asset: Asset | undefined = this.sendForm?.controls.asset.value;
+        if (asset) {
+          const unlocked = +this.intToMoneyPipe.transform(asset.unlocked);
+          return +control.value > unlocked ? { insuficcientFunds } : null;
+        }
+        return null;
+      },
     ]),
-    comment: new UntypedFormControl(''),
-    asset: new FormControl<Asset | null>(
-      null,
+    comment: this.fb.control(''),
+    asset: this.fb.control<Asset>(
+      undefined,
       Validators.compose([Validators.required])
     ),
-    mixin: new UntypedFormControl(MIXIN, Validators.required),
-    fee: new UntypedFormControl(this.variablesService.default_fee, [
+    mixin: this.fb.control(MIXIN, Validators.required),
+    fee: this.fb.control(this.variablesService.default_fee, [
       Validators.required,
-      (g: UntypedFormControl): ValidationErrors | null => {
+      (g: FormControl): ValidationErrors | null => {
         if (
           new BigNumber(g.value).isLessThan(this.variablesService.default_fee)
         ) {
@@ -530,7 +557,7 @@ export class SendComponent implements OnInit, OnDestroy {
         return null;
       },
     ]),
-    hide: new UntypedFormControl(false),
+    hide: this.fb.control(false),
   });
 
   defaultImgSrc = 'assets/icons/currency-icons/custom_token.svg';

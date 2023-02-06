@@ -50,7 +50,7 @@ import { ZanoValidators } from '@parts/utils/zano-validators';
                 </div>
                 <div class="text">
                   {{ +form.get('amount').value }}
-                  {{ variablesService.defaultCurrency }}
+                  {{ form?.get('asset')?.value?.asset_info?.ticker }}
                 </div>
               </div>
 

@@ -62,7 +62,7 @@ export const convertorParams = (value: Params): string | string[] => {
 };
 
 export interface ResponseAsyncTransfer {
-  error_code: string;
+  error_code: string | 'NOT_ENOUGH_MONEY' | 'OK';
   response_data: {
     success: boolean;
     tx_blob_size: number;
