@@ -335,7 +335,8 @@
       "MAX_LENGTH": "Lunghezza massima del commento raggiunta",
       "GREAT_THAN_UNWRAPPED_COINS": "L'importo è superiore ai token ERC20 rimasti disponibili",
       "LESS_THAN_ZANO_NEEDED": "Importo troppo piccolo per coprire la quota ERC20",
-      "WRAP_INFO_NULL": "impossibile richiedere lo stato di wrap"
+      "WRAP_INFO_NULL": "impossibile richiedere lo stato di wrap",
+      "MUST_BE_GREATER_THAN_ZERO": "Must be greater than zero"
     },
     "WRAP": {
       "TITLE": "Avvolgi",
@@ -345,6 +346,9 @@
       "FEE": "Commissione Txn Ethereum:",
       "ZANO": "ZANO",
       "wZANO": "wZANO"
+    },
+    "ERROR_CODES": {
+      "NOT_ENOUGH_MONEY": "Not enough money"
     }
   },
   "HISTORY": {
@@ -739,7 +743,8 @@
     },
     "FORM": {
       "ERRORS": {
-        "WRONG_ASSET_ID": "Wrong asset id"
+        "WRONG_ASSET_ID": "Wrong asset id",
+        "INSUFICCIENT_FUNDS": "Insuficcient funds"
       }
     }
   }

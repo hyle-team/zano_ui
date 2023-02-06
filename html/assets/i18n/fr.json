@@ -335,7 +335,8 @@
       "MAX_LENGTH": "Longueur maximale du commentaire atteinte",
       "GREAT_THAN_UNWRAPPED_COINS": "Le montant est supérieur aux jetons ERC20 restant disponibles",
       "LESS_THAN_ZANO_NEEDED": "Montant trop faible pour couvrir les frais ERC20",
-      "WRAP_INFO_NULL": "échec de la demande d'état de bouclage"
+      "WRAP_INFO_NULL": "échec de la demande d'état de bouclage",
+      "MUST_BE_GREATER_THAN_ZERO": "Must be greater than zero"
     },
     "WRAP": {
       "TITLE": "Envelopper",
@@ -345,6 +346,9 @@
       "FEE": "Frais Ethereum Txn :",
       "ZANO": "ZANO",
       "wZANO": "wZANO"
+    },
+    "ERROR_CODES": {
+      "NOT_ENOUGH_MONEY": "Not enough money"
     }
   },
   "HISTORY": {
@@ -739,7 +743,8 @@
     },
     "FORM": {
       "ERRORS": {
-        "WRONG_ASSET_ID": "Wrong asset id"
+        "WRONG_ASSET_ID": "Wrong asset id",
+        "INSUFICCIENT_FUNDS": "Insuficcient funds"
       }
     }
   }

@@ -335,7 +335,8 @@
       "MAX_LENGTH": "Maximum comment length reached",
       "GREAT_THAN_UNWRAPPED_COINS": "Amount is bigger than ERC20 tokens left available",
       "LESS_THAN_ZANO_NEEDED": "Too small amount to cover ERC20 fee",
-      "WRAP_INFO_NULL": "failed to request wrap state"
+      "WRAP_INFO_NULL": "failed to request wrap state",
+      "MUST_BE_GREATER_THAN_ZERO": "Must be greater than zero"
     },
     "WRAP": {
       "TITLE": "Wrap",
@@ -345,6 +346,9 @@
       "FEE": "Ethereum Txn Fee:",
       "ZANO": "ZANO",
       "wZANO": "wZANO"
+    },
+    "ERROR_CODES": {
+      "NOT_ENOUGH_MONEY": "Not enough money"
     }
   },
   "HISTORY": {
@@ -739,7 +743,8 @@
     },
     "FORM": {
       "ERRORS": {
-        "WRONG_ASSET_ID": "Wrong asset id"
+        "WRONG_ASSET_ID": "Wrong asset id",
+        "INSUFICCIENT_FUNDS": "Insuficcient funds"
       }
     }
   }

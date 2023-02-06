@@ -335,7 +335,8 @@
       "MAX_LENGTH": "Maksimum panjang komentar tecapai",
       "GREAT_THAN_UNWRAPPED_COINS": "Jumlah lebih besar dari token ERC20 yang tersisa",
       "LESS_THAN_ZANO_NEEDED": "Jumlah terlalu kecil untuk menutupi biaya ERC20",
-      "WRAP_INFO_NULL": "gagal meminta status bungkus"
+      "WRAP_INFO_NULL": "gagal meminta status bungkus",
+      "MUST_BE_GREATER_THAN_ZERO": "Must be greater than zero"
     },
     "WRAP": {
       "TITLE": "Bungkus",
@@ -345,6 +346,9 @@
       "FEE": "Biaya Txn Ethereum:",
       "ZANO": "ZANO",
       "wZANO": "wZANO"
+    },
+    "ERROR_CODES": {
+      "NOT_ENOUGH_MONEY": "Not enough money"
     }
   },
   "HISTORY": {
@@ -739,7 +743,8 @@
     },
     "FORM": {
       "ERRORS": {
-        "WRONG_ASSET_ID": "Wrong asset id"
+        "WRONG_ASSET_ID": "Wrong asset id",
+        "INSUFICCIENT_FUNDS": "Insuficcient funds"
       }
     }
   }
