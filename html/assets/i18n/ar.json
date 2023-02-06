@@ -382,7 +382,8 @@
       "NULLIFY_CONTRACT": "Burn deposits",
       "PROPOSAL_CANCEL_CONTRACT": "Cancellation request",
       "CANCEL_CONTRACT": "Cancel and return deposits"
-    }
+    },
+    "NO_FEE": "No Fee"
   },
   "CONTRACTS": {
     "EMPTY": "No active contracts",

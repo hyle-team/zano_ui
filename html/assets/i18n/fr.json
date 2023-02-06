@@ -382,7 +382,8 @@
       "NULLIFY_CONTRACT": "Brûler les dépôts",
       "PROPOSAL_CANCEL_CONTRACT": "Demande d'annulation",
       "CANCEL_CONTRACT": "Annuler et retourner les dépôts"
-    }
+    },
+    "NO_FEE": "No Fee"
   },
   "CONTRACTS": {
     "EMPTY": "Aucun contrat actif",
