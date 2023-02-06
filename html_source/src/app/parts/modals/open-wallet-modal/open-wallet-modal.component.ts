@@ -121,7 +121,9 @@ export class OpenWalletModalComponent implements OnInit, OnDestroy {
       false,
       (open_status, open_data, open_error) => {
         if (open_error === 'WRONG_PASSWORD') {
-          this.isWrongPassword$.next(true);
+          this.ngZone.run(() => {
+            this.isWrongPassword$.next(true);
+          });
         }
         if (open_error && open_error === 'FILE_NOT_FOUND') {
           this.ngZone.run(() => {

@@ -58,15 +58,15 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
               [clearable]="false"
               [items]="appLockOptions"
               [searchable]="false"
-              bindLabel="name"
-              bindValue="id"
+              bindLabel="translationKey"
+              bindValue="time"
               class="with-circle"
             >
               <ng-template let-item="item" ng-label-tmp>
-                {{ item.name | translate }}
+                {{ item.translationKey | translate }}
               </ng-template>
               <ng-template let-index="index" let-item="item" ng-option-tmp>
-                {{ item.name | translate }}
+                {{ item.translationKey | translate }}
               </ng-template>
             </ng-select>
           </div>
@@ -181,7 +181,10 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
                 (contextmenu)="
                   variablesService.onContextMenuPasteSelect($event)
                 "
-                [class.invalid]="changeForm.controls['new_password'].errors"
+                [class.invalid]="
+                  changeForm.controls['new_password'].touched &&
+                  changeForm.controls['new_password'].invalid
+                "
                 class="form__field--input"
                 formControlName="new_password"
                 id="new-password"
@@ -190,8 +193,8 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
               />
               <div
                 *ngIf="
-                  changeForm.controls['new_password'].dirty &&
-                  changeForm.controls['new_password'].errors
+                  changeForm.controls['new_password'].touched &&
+                  changeForm.controls['new_password'].invalid
                 "
                 class="error"
               >
@@ -199,6 +202,13 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
                   *ngIf="changeForm.controls['new_password'].errors?.pattern"
                 >
                   {{ 'ERRORS.WRONG_PASSWORD' | translate }}
+                </div>
+                <div
+                  *ngIf="
+                    changeForm.controls['new_password'].hasError('required')
+                  "
+                >
+                  {{ 'ERRORS.REQUIRED' | translate }}
                 </div>
               </div>
             </div>
@@ -286,11 +296,14 @@ export class SettingsComponent implements OnInit {
     {
       password: this.fb.nonNullable.control(
         '',
-        Validators.pattern(regExpPassword)
+        Validators.compose([Validators.pattern(regExpPassword)])
       ),
       new_password: this.fb.nonNullable.control(
         '',
-        Validators.pattern(regExpPassword)
+        Validators.compose([
+          Validators.required,
+          Validators.pattern(regExpPassword),
+        ])
       ),
       new_confirmation: this.fb.nonNullable.control(''),
       appPass: this.fb.nonNullable.control(this.variablesService.appPass ?? ''),
@@ -334,20 +347,20 @@ export class SettingsComponent implements OnInit {
 
   appLockOptions = [
     {
-      id: 5,
-      name: 'SETTINGS.APP_LOCK.TIME1',
+      time: 5,
+      translationKey: 'SETTINGS.APP_LOCK.TIME1',
     },
     {
-      id: 15,
-      name: 'SETTINGS.APP_LOCK.TIME2',
+      time: 15,
+      translationKey: 'SETTINGS.APP_LOCK.TIME2',
     },
     {
-      id: 60,
-      name: 'SETTINGS.APP_LOCK.TIME3',
+      time: 60,
+      translationKey: 'SETTINGS.APP_LOCK.TIME3',
     },
     {
-      id: 0,
-      name: 'SETTINGS.APP_LOCK.TIME4',
+      time: 0,
+      translationKey: 'SETTINGS.APP_LOCK.TIME4',
     },
   ];
 
@@ -414,27 +427,27 @@ export class SettingsComponent implements OnInit {
 
   onSubmitChangePass(): void {
     if (this.changeForm.valid) {
-      this.onSave();
       this.variablesService.appPass = this.changeForm.get('new_password').value;
-      if (this.variablesService.appPass) {
-        this.backend.setMasterPassword(
-          { pass: this.variablesService.appPass },
-          (status, data) => {
-            if (status) {
-              this.backend.storeSecureAppData({
-                pass: this.variablesService.appPass,
-              });
-              this.variablesService.appLogin = true;
-              this.variablesService.dataIsLoaded = true;
-              if (this.variablesService.settings.appLockTime) {
-                this.variablesService.startCountdown();
-              }
-            } else {
-              console.log(data['error_code']);
+
+      this.backend.setMasterPassword(
+        { pass: this.variablesService.appPass },
+        (status, data) => {
+          if (status) {
+            this.backend.storeSecureAppData({
+              pass: this.variablesService.appPass,
+            });
+            this.variablesService.appLogin = true;
+            this.variablesService.dataIsLoaded = true;
+            if (this.variablesService.settings.appLockTime) {
+              this.variablesService.startCountdown();
             }
+            this.onSave();
+          } else {
+            console.log(data['error_code']);
           }
-        );
-      }
+        }
+      );
+
       this.changeForm.reset();
     }
   }
@@ -464,12 +477,7 @@ export class SettingsComponent implements OnInit {
   }
 
   onLockChange(): void {
-    if (
-      this.variablesService.appLogin &&
-      this.variablesService.settings.appLockTime
-    ) {
-      this.variablesService.restartCountdown();
-    }
+    this.variablesService.restartCountdown();
   }
 
   onLogChange(): void {

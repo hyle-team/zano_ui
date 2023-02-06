@@ -640,7 +640,8 @@
     "TX_TYPE_NEW_ALIAS_END": "Please try again.",
     "TX_TYPE_UPDATE_ALIAS": "Error. Failed to change comment to alias in safe",
     "TX_TYPE_COIN_BASE": "Error. The payment was not completed.",
-    "WALLET_WATCH_ONLY_NOT_SUPPORTED": "Watch-only wallets can only be opened by simplewallet"
+    "WALLET_WATCH_ONLY_NOT_SUPPORTED": "Watch-only wallets can only be opened by simplewallet",
+    "REQUIRED": "Required field"
   },
   "CONTEXT_MENU": {
     "COPY": "copy",

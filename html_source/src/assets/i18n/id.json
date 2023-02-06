@@ -640,7 +640,8 @@
     "TX_TYPE_NEW_ALIAS_END": "Silakan coba lagi",
     "TX_TYPE_UPDATE_ALIAS": "Error. Gagal mengubah komentar menjadi alias dengan aman",
     "TX_TYPE_COIN_BASE": "Error. Pembayaran tidak selesai.",
-    "WALLET_WATCH_ONLY_NOT_SUPPORTED": "Dompet khusus jam tangan hanya dapat dibuka dengan simplewallet"
+    "WALLET_WATCH_ONLY_NOT_SUPPORTED": "Dompet khusus jam tangan hanya dapat dibuka dengan simplewallet",
+    "REQUIRED": "Required field"
   },
   "CONTEXT_MENU": {
     "COPY": "Salin",

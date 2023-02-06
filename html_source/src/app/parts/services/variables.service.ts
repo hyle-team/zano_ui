@@ -136,15 +136,17 @@ export class VariablesService {
 
   getWalletChangedEvent = new BehaviorSubject<Wallet>(null);
 
-  idle = new Idle().whenNotInteractive().do(() => {
+  idle = new Idle().whenNotInteractive().do(async () => {
     if (this.appPass === '') {
-      this.restartCountdown();
+      this.stopCountdown();
     } else {
-      this.ngZone.run(() => {
-        this.idle.stop();
+      await this.ngZone.run(async () => {
+        this.stopCountdown();
         this.appPass = '';
         this.appLogin = false;
-        this.router.navigate(['/login'], { queryParams: { type: 'auth' } });
+        await this.router.navigate(['/login'], {
+          queryParams: { type: 'auth' },
+        });
       });
     }
   });
@@ -240,7 +242,11 @@ export class VariablesService {
   }
 
   restartCountdown(): void {
-    this.idle.within(this.settings.appLockTime).restart();
+    if (Boolean(this.settings.appLockTime)) {
+      this.idle.within(this.settings.appLockTime).restart();
+    } else {
+      this.stopCountdown();
+    }
   }
 
   bytesToMb(bytes): number {

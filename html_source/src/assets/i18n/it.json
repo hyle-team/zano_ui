@@ -640,7 +640,8 @@
     "TX_TYPE_NEW_ALIAS_END": "Per favore riprova.",
     "TX_TYPE_UPDATE_ALIAS": "Errore. Impossibile cambiare il commento all'alias in sicurezza",
     "TX_TYPE_COIN_BASE": "Errore. Il pagamento non è stato completato.",
-    "WALLET_WATCH_ONLY_NOT_SUPPORTED": "I portafogli solo per orologi possono essere aperti solo da simplewallet"
+    "WALLET_WATCH_ONLY_NOT_SUPPORTED": "I portafogli solo per orologi possono essere aperti solo da simplewallet",
+    "REQUIRED": "Required field"
   },
   "CONTEXT_MENU": {
     "COPY": "copia",

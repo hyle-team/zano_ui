@@ -640,7 +640,8 @@
     "TX_TYPE_NEW_ALIAS_END": "Bitte nochmals versuchen.",
     "TX_TYPE_UPDATE_ALIAS": "Fehler. Fehlgeschlagen Kommentar von gespeichertem Alias zu ändern",
     "TX_TYPE_COIN_BASE": "Fehler. Die Zahlung wurde nicht abgeschlossen.",
-    "WALLET_WATCH_ONLY_NOT_SUPPORTED": "Watch-only-Wallets können nur von simplewallet geöffnet werden"
+    "WALLET_WATCH_ONLY_NOT_SUPPORTED": "Watch-only-Wallets können nur von simplewallet geöffnet werden",
+    "REQUIRED": "Required field"
   },
   "CONTEXT_MENU": {
     "COPY": "kopieren",

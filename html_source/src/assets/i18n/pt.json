@@ -640,7 +640,8 @@
     "TX_TYPE_NEW_ALIAS_END": "Por favor tente novamente.",
     "TX_TYPE_UPDATE_ALIAS": "Erro. Falha ao mudar comentário a um alias seguro",
     "TX_TYPE_COIN_BASE": "Erro. Pagamento não foi completado.",
-    "WALLET_WATCH_ONLY_NOT_SUPPORTED": "Carteiras somente para assistir só podem ser abertas por simplewallet"
+    "WALLET_WATCH_ONLY_NOT_SUPPORTED": "Carteiras somente para assistir só podem ser abertas por simplewallet",
+    "REQUIRED": "Required field"
   },
   "CONTEXT_MENU": {
     "COPY": "copiar",
