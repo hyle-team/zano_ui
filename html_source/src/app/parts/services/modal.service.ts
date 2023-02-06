@@ -36,7 +36,9 @@ export class ModalService {
       : '';
     this.components[length - 1].instance['eventClose']?.subscribe({
       next: () => {
-        this.removeModal(length - 1);
+        this.ngZone.run(() => {
+          this.removeModal(length - 1);
+        });
       },
     });
 

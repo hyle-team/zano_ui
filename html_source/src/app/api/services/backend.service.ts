@@ -368,12 +368,12 @@ export class BackendService {
     this.runCommand(Commands.show_savefile_dialog, params, callback);
   }
 
-  openFileDialog(caption, fileMask, default_path, callback): void {
-    const dir = default_path ? default_path : '/';
+  openFileDialog(caption, filemask, default_path, callback): void {
+    const default_dir = default_path ? default_path : '/';
     const params = {
-      caption: caption,
-      filemask: fileMask,
-      default_dir: dir,
+      caption,
+      filemask,
+      default_dir,
     };
     this.runCommand(Commands.show_openfile_dialog, params, callback);
   }
