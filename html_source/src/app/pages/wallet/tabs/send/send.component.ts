@@ -46,7 +46,10 @@ interface WrapInfo {
       >
         <div class="form__field--row">
           <div class="form__field form__field-dropdown">
-            <label for="send-address">{{ 'SEND.ADDRESS' | translate }}</label>
+            <label for="send-address">
+              {{ 'SEND.ADDRESS' | translate }}
+              <span class="color-red">*</span>
+            </label>
             <input
               (contextmenu)="variablesService.onContextMenu($event)"
               (input)="addressToLowerCase()"
@@ -107,7 +110,10 @@ interface WrapInfo {
           </div>
 
           <div class="form__field">
-            <label for="send-amount">{{ 'SEND.AMOUNT' | translate }}</label>
+            <label for="send-amount">
+              {{ 'SEND.AMOUNT' | translate }}
+              <span class="color-red">*</span>
+            </label>
             <input
               (contextmenu)="variablesService.onContextMenu($event)"
               [placeholder]="'PLACEHOLDERS.AMOUNT_PLACEHOLDER' | translate"
@@ -212,6 +218,7 @@ interface WrapInfo {
         <div class="form__field">
           <label>
             {{ 'Asset' | translate }}
+            <span class="color-red">*</span>
           </label>
           <ng-select
             [clearable]="false"
@@ -267,7 +274,10 @@ interface WrapInfo {
           <div *ngIf="additionalOptions" class="content">
             <div class="form__field--row">
               <div class="form__field">
-                <label for="send-mixin">{{ 'SEND.MIXIN' | translate }}</label>
+                <label for="send-mixin">
+                  {{ 'SEND.MIXIN' | translate }}
+                  <span class="color-red">*</span>
+                </label>
                 <input
                   (contextmenu)="variablesService.onContextMenu($event)"
                   [placeholder]="'PLACEHOLDERS.AMOUNT_PLACEHOLDER' | translate"
@@ -292,7 +302,10 @@ interface WrapInfo {
               </div>
 
               <div class="form__field">
-                <label for="send-fee">{{ 'SEND.FEE' | translate }}</label>
+                <label for="send-fee">
+                  {{ 'SEND.FEE' | translate }}
+                  <span class="color-red">*</span>
+                </label>
                 <input
                   (contextmenu)="variablesService.onContextMenu($event)"
                   [placeholder]="'PLACEHOLDERS.FEE_PLACEHOLDER' | translate"
@@ -678,6 +691,7 @@ export class SendComponent implements OnInit, OnDestroy {
                       hide: null,
                     };
                     this.sendForm.reset({
+                      ...this.sendForm.getRawValue(),
                       address: null,
                       amount: null,
                       comment: null,
@@ -726,6 +740,7 @@ export class SendComponent implements OnInit, OnDestroy {
                         hide: null,
                       };
                       this.sendForm.reset({
+                        ...this.sendForm.getRawValue(),
                         address: null,
                         amount: null,
                         comment: null,
