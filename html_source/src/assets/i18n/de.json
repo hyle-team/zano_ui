@@ -383,7 +383,8 @@
       "PROPOSAL_CANCEL_CONTRACT": "Stornierungsanfrage",
       "CANCEL_CONTRACT": "Abbrechen und Einzahlungen zurückzahlen"
     },
-    "NO_FEE": "No Fee"
+    "NO_FEE": "No Fee",
+    "HIDDEN": "Hidden"
   },
   "CONTRACTS": {
     "EMPTY": "Keine aktiven Verträge",

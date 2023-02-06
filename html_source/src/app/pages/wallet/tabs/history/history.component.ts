@@ -221,7 +221,7 @@ import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
                         item.tx_type === 0 &&
                         item.remote_addresses &&
                         item.remote_addresses[0] &&
-                        !item.remote_aliases?.length
+                        !item.remote_aliases?.[0]?.trim()?.length
                       "
                       class="text-ellipsis"
                     >
@@ -238,7 +238,7 @@ import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
                       </span>
                     </div>
                     <ng-container
-                      *ngIf="item.remote_aliases && item.remote_aliases.length"
+                      *ngIf="item.remote_aliases && item.remote_aliases?.[0]?.trim()?.length"
                     >
                       <div fxLayout="row wrap">
                         <ng-container *ngFor="let alias of item.remote_aliases">
@@ -265,6 +265,16 @@ import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
                       </div>
                     </ng-container>
                   </ng-template>
+                  <ng-container
+                    *ngIf="
+                      !(
+                        item.remote_addresses?.length ||
+                        item.remote_aliases?.length
+                      )
+                    "
+                  >
+                    {{ 'HISTORY.HIDDEN' | translate }}
+                  </ng-container>
                 </td>
                 <td>
                   <div class="text-ellipsis">

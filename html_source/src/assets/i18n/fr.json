@@ -383,7 +383,8 @@
       "PROPOSAL_CANCEL_CONTRACT": "Demande d'annulation",
       "CANCEL_CONTRACT": "Annuler et retourner les dépôts"
     },
-    "NO_FEE": "No Fee"
+    "NO_FEE": "No Fee",
+    "HIDDEN": "Hidden"
   },
   "CONTRACTS": {
     "EMPTY": "Aucun contrat actif",

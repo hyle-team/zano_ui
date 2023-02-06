@@ -383,7 +383,8 @@
       "PROPOSAL_CANCEL_CONTRACT": "Cancelar pedido",
       "CANCEL_CONTRACT": "Cancelar e retornar depósitos"
     },
-    "NO_FEE": "No Fee"
+    "NO_FEE": "No Fee",
+    "HIDDEN": "Hidden"
   },
   "CONTRACTS": {
     "EMPTY": "Sem contratos ativos",
