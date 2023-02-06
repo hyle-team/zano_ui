@@ -323,12 +323,13 @@ export class WalletComponent implements OnInit, OnDestroy {
       link: '/receive',
       disabled: false,
     },
-    {
-      title: 'WALLET.TABS.CONTRACTS',
-      icon: 'document',
-      link: '/contracts',
-      disabled: true,
-    },
+    // TODO: https://github.com/hyle-team/zano/issues/374
+    // {
+    //   title: 'WALLET.TABS.CONTRACTS',
+    //   icon: 'document',
+    //   link: '/contracts',
+    //   disabled: true,
+    // },
     {
       title: 'WALLET.TABS.STAKING',
       icon: 'staking',
@@ -531,6 +532,7 @@ export class WalletComponent implements OnInit, OnDestroy {
   setTabsDisabled(disabled: boolean): void {
     this.tabs[2].disabled = disabled;
     this.tabs[4].disabled = disabled;
-    this.tabs[5].disabled = disabled;
+    // TODO: https://github.com/hyle-team/zano/issues/374
+    // this.tabs[5].disabled = disabled;
   }
 }
