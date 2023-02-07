@@ -647,7 +647,8 @@
     "TX_TYPE_UPDATE_ALIAS": "Erro. Falha ao mudar comentário a um alias seguro",
     "TX_TYPE_COIN_BASE": "Erro. Pagamento não foi completado.",
     "WALLET_WATCH_ONLY_NOT_SUPPORTED": "Carteiras somente para assistir só podem ser abertas por simplewallet",
-    "REQUIRED": "Required field"
+    "REQUIRED": "Required field",
+    "NOT_FILE_ZANO_WALLET": "File is not a zano wallet"
   },
   "CONTEXT_MENU": {
     "COPY": "copiar",
