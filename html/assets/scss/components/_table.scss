@@ -88,27 +88,6 @@ table {
       &:not(.details) {
         cursor: pointer;
       }
-
-      &.details {
-        -webkit-transition: 0.2s height linear, 0s font-size;
-        transition: 0.2s height linear, 0s font-size;
-        transition-delay: 0s, 0.2s;
-        overflow: hidden;
-        height: 0;
-
-        td {
-          padding: 0;
-          border-radius: 0.8rem;
-        }
-
-        &.open {
-          min-height: 18rem;
-        }
-
-        &.hide {
-          height: 0;
-        }
-      }
     }
   }
 }

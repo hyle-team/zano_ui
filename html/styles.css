@@ -1475,18 +1475,6 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   border-radius: 0 0.8rem 0.8rem 0;
 }table tbody tr:not(.details) {
   cursor: pointer;
-}table tbody tr.details {
-  transition: 0.2s height linear, 0s font-size;
-  transition-delay: 0s, 0.2s;
-  overflow: hidden;
-  height: 0;
-}table tbody tr.details td {
-  padding: 0;
-  border-radius: 0.8rem;
-}table tbody tr.details.open {
-  min-height: 18rem;
-}table tbody tr.details.hide {
-  height: 0;
 }.table-info {
   display: flex;
   flex-direction: column;
@@ -2154,6 +2142,8 @@ app-contracts .container .wrap-table table.contracts-table tbody tr .comment {
   background-color: var(--blue-700);
 }.bg-light-blue-details {
   background-color: var(--blue-500);
+}.background-none {
+  background: none;
 }.overflow-hidden {
   overflow: hidden;
 }.overflow-auto {
