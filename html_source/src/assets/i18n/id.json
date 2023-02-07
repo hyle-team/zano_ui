@@ -647,7 +647,8 @@
     "TX_TYPE_UPDATE_ALIAS": "Error. Gagal mengubah komentar menjadi alias dengan aman",
     "TX_TYPE_COIN_BASE": "Error. Pembayaran tidak selesai.",
     "WALLET_WATCH_ONLY_NOT_SUPPORTED": "Dompet khusus jam tangan hanya dapat dibuka dengan simplewallet",
-    "REQUIRED": "Required field"
+    "REQUIRED": "Required field",
+    "NOT_FILE_ZANO_WALLET": "File is not a zano wallet"
   },
   "CONTEXT_MENU": {
     "COPY": "Salin",

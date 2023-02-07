@@ -23,7 +23,7 @@ export class ModalService {
     private translate: TranslateService
   ) {}
 
-  prepareModal(type, message): void {
+  prepareModal(type: 'error' | 'info' | 'success' | string, message): void {
     const length = this.components.push(
       this.componentFactoryResolver
         .resolveComponentFactory(ModalContainerComponent)
