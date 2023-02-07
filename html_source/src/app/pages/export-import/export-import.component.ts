@@ -44,7 +44,6 @@ import { Router } from '@angular/router';
     </div>
   `,
   styles: [
-    // language=scss
     `
       :host {
         width: 100%;
@@ -65,11 +64,11 @@ import { Router } from '@angular/router';
         justify-content: space-between;
         margin: 0 -0.5rem;
         padding: 1.5rem 0;
+      }
 
-        button {
-          flex: 1 0 auto;
-          margin: 0 0.5rem;
-        }
+      .btn-wrapper button {
+        flex: 1 0 auto;
+        margin: 0 0.5rem;
       }
     `,
   ],

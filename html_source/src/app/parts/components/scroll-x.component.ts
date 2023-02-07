@@ -57,27 +57,22 @@ enum Direction {
     </div>
   `,
   styles: [
-    // language=scss
     `
       :host {
         position: relative;
+      }
 
-        &:hover,
-        &:focus {
-          .scroll {
-            visibility: visible;
-          }
-        }
+      :host::ng-deep .scroll-content > * {
+        margin-right: 2rem;
+      }
 
-        ::ng-deep {
-          .scroll-content > * {
-            margin-right: 2rem;
-          }
+      :host::ng-deep .scroll-content > *:last-child {
+        margin-right: 0;
+      }
 
-          .scroll-content > *:last-child {
-            margin-right: 0;
-          }
-        }
+      :host:hover .scroll,
+      :host:focus .scroll {
+        visibility: visible;
       }
 
       .hide-scroll::-webkit-scrollbar {
@@ -89,17 +84,17 @@ enum Direction {
         width: 100%;
         z-index: 5;
         visibility: hidden;
+      }
 
-        .scroll-content {
-          display: flex;
-          flex-wrap: nowrap;
-          visibility: visible;
-        }
+      .scroll .scroll-content {
+        display: flex;
+        flex-wrap: nowrap;
+        visibility: visible;
+      }
 
-        .scroll-delay,
-        .scroll-delay:hover {
-          transition: visibility 0.2s;
-        }
+      .scroll .scroll-delay,
+      .scroll .scroll-delay:hover {
+        transition: visibility 0.2s;
       }
 
       .smooth {

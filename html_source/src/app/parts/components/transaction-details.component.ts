@@ -16,149 +16,121 @@ import { TooltipModule } from '@parts/directives';
 @Component({
   selector: 'app-transaction-details',
   template: `
-    <div class="table py-1" fxLayout="column">
-      <div class="row" fxFlex="100" fxLayout="row" fxLayoutAlign="start center">
-        <span
-          [style.flex-basis]="sizes[0] + 'px'"
-          class="cell px-2 py-1 text-ellipsis"
-          >{{ 'HISTORY.DETAILS.ID' | translate }}</span
-        >
-        <span
-          (click)="openInBrowser(transaction.tx_hash)"
-          (contextmenu)="
-            variablesService.onContextMenuOnlyCopy($event, transaction.tx_hash)
-          "
-          [style.flex-basis]="sizes[1] + 'px'"
-          class="cell px-2 py-1 text-ellipsis color-primary cursor-pointer"
-          >{{ transaction.tx_hash }}</span
-        >
-        <span
-          [style.flex-basis]="sizes[2] + 'px'"
-          class="cell px-2 py-1 text-ellipsis"
-          >{{ 'HISTORY.DETAILS.SIZE' | translate }}</span
-        >
-        <span
-          [style.flex-basis]="sizes[3] + 'px'"
-          class="cell px-2 py-1 text-ellipsis"
-          >{{
-            'HISTORY.DETAILS.SIZE_VALUE'
-              | translate : { value: transaction.tx_blob_size }
-          }}</span
-        >
-      </div>
-      <div class="row" fxFlex="100" fxLayout="row" fxLayoutAlign="start center">
-        <span
-          [style.flex-basis]="sizes[0] + 'px'"
-          class="cell px-2 py-1 text-ellipsis"
-          >{{ 'HISTORY.DETAILS.HEIGHT' | translate }}</span
-        >
-        <span
-          [style.flex-basis]="sizes[1] + 'px'"
-          class="cell px-2 py-1 text-ellipsis"
-          >{{ transaction.height }}</span
-        >
-        <span
-          [style.flex-basis]="sizes[2] + 'px'"
-          class="cell px-2 py-1 text-ellipsis"
-          >{{ 'HISTORY.DETAILS.CONFIRMATION' | translate }}</span
-        >
-        <span
-          [style.flex-basis]="sizes[3] + 'px'"
-          class="cell px-2 py-1 text-ellipsis"
-          >{{
-            transaction.height === 0
-              ? 0
-              : variablesService.height_app - transaction.height
-          }}</span
-        >
-      </div>
-      <div class="row" fxFlex="100" fxLayout="row" fxLayoutAlign="start center">
-        <span
-          [style.flex-basis]="sizes[0] + 'px'"
-          class="cell px-2 py-1 text-ellipsis"
-          >{{ 'HISTORY.DETAILS.INPUTS' | translate }}</span
-        >
-        <span
-          [delay]="500"
-          [showWhenNoOverflow]="false"
-          [style.flex-basis]="sizes[1] + 'px'"
-          class="cell px-2 py-1 text-ellipsis"
-          placement="top"
-          tooltip="{{ inputs.join(', ') }}"
-          tooltipClass="table-tooltip table-tooltip-dimensions"
-          >{{ inputs.join(', ') }}</span
-        >
-        <span
-          [style.flex-basis]="sizes[2] + 'px'"
-          class="cell px-2 py-1 text-ellipsis"
-          >{{ 'HISTORY.DETAILS.OUTPUTS' | translate }}</span
-        >
-        <span
-          [delay]="500"
-          [showWhenNoOverflow]="false"
-          [style.flex-basis]="sizes[3] + 'px'"
-          class="cell px-2 py-1 text-ellipsis"
-          placement="top"
-          tooltip="{{ outputs.join(', ') }}"
-          tooltipClass="table-tooltip table-tooltip-dimensions"
-          >{{ outputs.join(', ') }}</span
-        >
-      </div>
-      <div class="row" fxFlex="100" fxLayout="row" fxLayoutAlign="start center">
-        <span
-          [style.flex-basis]="sizes[0] + 'px'"
-          class="cell px-2 py-1 text-ellipsis"
-          >{{ 'HISTORY.DETAILS.PAYMENT_ID' | translate }}</span
-        >
-        <span
-          [delay]="500"
-          [showWhenNoOverflow]="false"
-          [style.flex-basis]="sizes[1] + sizes[2] + sizes[3] + 'px'"
-          class="cell px-2 py-1 text-ellipsis"
-          placement="top"
-          tooltip="{{ transaction.payment_id }}"
-          tooltipClass="table-tooltip comment-tooltip"
-        >
-          {{ transaction.payment_id }}
-        </span>
-      </div>
-      <div class="row" fxFlex="100" fxLayout="row" fxLayoutAlign="start center">
-        <span
-          [style.flex-basis]="sizes[0] + 'px'"
-          class="cell px-2 py-1 text-ellipsis"
-          >{{ 'HISTORY.DETAILS.COMMENT' | translate }}</span
-        >
-        <span
-          (contextmenu)="
-            variablesService.onContextMenuOnlyCopy($event, transaction.comment)
-          "
-          [delay]="500"
-          [showWhenNoOverflow]="false"
-          [style.flex-basis]="sizes[1] + sizes[2] + sizes[3] + 'px'"
-          class="cell px-2 py-1 text-ellipsis"
-          placement="top"
-          tooltip="{{ transaction.comment }}"
-          tooltipClass="table-tooltip comment-tooltip"
-        >
-          {{ transaction.comment }}
-        </span>
-      </div>
-    </div>
+    <table>
+      <tbody>
+        <tr>
+          <td>{{ 'HISTORY.DETAILS.ID' | translate }}</td>
+          <td
+            colspan="2"
+            (click)="openInBrowser(transaction.tx_hash)"
+            (contextmenu)="
+              variablesService.onContextMenuOnlyCopy(
+                $event,
+                transaction.tx_hash
+              )
+            "
+            class="color-primary cursor-pointer"
+          >
+            {{ transaction.tx_hash }}
+          </td>
+          <td>{{ 'HISTORY.DETAILS.SIZE' | translate }}</td>
+          <td>
+            {{
+              'HISTORY.DETAILS.SIZE_VALUE'
+                | translate : { value: transaction.tx_blob_size }
+            }}
+          </td>
+        </tr>
+        <tr>
+          <td>{{ 'HISTORY.DETAILS.HEIGHT' | translate }}</td>
+          <td colspan="2">{{ transaction.height }}</td>
+          <td>{{ 'HISTORY.DETAILS.CONFIRMATION' | translate }}</td>
+          <td>
+            {{
+              transaction.height === 0
+                ? 0
+                : variablesService.height_app - transaction.height
+            }}
+          </td>
+        </tr>
+        <tr>
+          <td>{{ 'HISTORY.DETAILS.INPUTS' | translate }}</td>
+          <td
+            colspan="2"
+            [delay]="500"
+            [showWhenNoOverflow]="false"
+            placement="top"
+            tooltip="{{ inputs.join(', ') }}"
+            tooltipClass="table-tooltip table-tooltip-dimensions"
+          >
+            {{ inputs.join(', ') }}
+          </td>
+          <td
+            [delay]="500"
+            [showWhenNoOverflow]="false"
+            placement="top"
+            tooltip="{{ outputs.join(', ') }}"
+            tooltipClass="table-tooltip table-tooltip-dimensions"
+          >
+            {{ 'HISTORY.DETAILS.OUTPUTS' | translate }}
+          </td>
+          <td>{{ outputs.join(', ') }}</td>
+        </tr>
+        <tr>
+          <td>{{ 'HISTORY.DETAILS.PAYMENT_ID' | translate }}</td>
+          <td
+            colspan="4"
+            [delay]="500"
+            [showWhenNoOverflow]="false"
+            placement="top"
+            tooltip="{{ transaction.payment_id }}"
+            tooltipClass="table-tooltip comment-tooltip"
+          >
+            {{ transaction.payment_id }}
+          </td>
+        </tr>
+        <tr>
+          <td>{{ 'HISTORY.DETAILS.COMMENT' | translate }}</td>
+          <td
+            colspan="4"
+            (contextmenu)="
+              variablesService.onContextMenuOnlyCopy(
+                $event,
+                transaction.comment
+              )
+            "
+            [delay]="500"
+            [showWhenNoOverflow]="false"
+            placement="top"
+            tooltip="{{ transaction.comment }}"
+            tooltipClass="table-tooltip comment-tooltip"
+          >
+            {{ transaction.comment }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
   `,
   styles: [
     `
       :host {
-        width: 100%;
+        display: block;
+        padding: 2rem 0;
+      }
+      table tbody tr {
+        background: none;
+      }
+
+      table tbody tr td {
+        padding: 1rem 2rem;
       }
     `,
   ],
   standalone: true,
-  imports: [CommonModule, TranslateModule, FlexModule, TooltipModule],
+  imports: [CommonModule, TranslateModule, TooltipModule],
 })
 export class TransactionDetailsComponent implements OnInit {
   @Input() transaction: Transaction;
-
-  @Input() sizes: Array<number>;
 
   inputs: Array<string> = [];
 

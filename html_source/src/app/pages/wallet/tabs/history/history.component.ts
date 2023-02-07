@@ -1,12 +1,4 @@
-import {
-  AfterViewChecked,
-  Component,
-  ElementRef,
-  NgZone,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { VariablesService } from '@parts/services/variables.service';
 import { ActivatedRoute } from '@angular/router';
 import { Transaction } from '@api/models/transaction.model';
@@ -18,6 +10,10 @@ import { BackendService } from '@api/services/backend.service';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
+import {
+  collapseOnLeaveAnimation,
+  expandOnEnterAnimation,
+} from 'angular-animations';
 
 @Component({
   selector: 'app-history',
@@ -26,7 +22,7 @@ import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
       <div class="wrap-table scrolled-content mb-2" fxFlex="1 1 auto">
         <table class="history-table">
           <thead>
-            <tr #head (window:resize)="calculateWidth()">
+            <tr>
               <th>
                 <div class="bg title">{{ 'HISTORY.STATUS' | translate }}</div>
               </th>
@@ -283,17 +279,26 @@ import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
                 </td>
               </tr>
               <div class="row-divider"></div>
-              <tr [class.open]="item.tx_hash === openedDetails" class="details">
-                <td colspan="5">
+              <tr>
+                <td
+                  colspan="5"
+                  [ngStyle]="{ padding: '0', 'border-radius': '0.8rem' }"
+                >
                   <app-transaction-details
                     *ngIf="item.tx_hash === openedDetails"
-                    [sizes]="calculatedWidth"
+                    @expandOnEnter
+                    @collapseOnLeave
                     [transaction]="item"
                   ></app-transaction-details>
                 </td>
               </tr>
               <div
-                [class.hide]="item.tx_hash !== openedDetails"
+                *ngIf="item.tx_hash === openedDetails as state"
+                [@expandOnEnter]="{ value: state, params: { duration: 150 } }"
+                [@collapseOnLeave]="{
+                  value: state,
+                  params: { duration: 400 }
+                }"
                 class="row-divider"
               ></div>
             </ng-container>
@@ -378,13 +383,10 @@ import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
       }
     `,
   ],
+  animations: [expandOnEnterAnimation(), collapseOnLeaveAnimation()],
 })
-export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
-  @ViewChild('head', { static: true }) head: ElementRef;
-
+export class HistoryComponent implements OnInit, OnDestroy {
   openedDetails = '';
-
-  calculatedWidth = [];
 
   stop_paginate = false;
 
@@ -486,12 +488,6 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
           this.mining = currentWallet.exclude_mining_txs;
         },
       });
-  }
-
-  ngAfterViewChecked(): void {
-    setTimeout(() => {
-      this.calculateWidth();
-    });
   }
 
   ngOnDestroy(): void {
@@ -710,23 +706,6 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
     } else {
       this.openedDetails = tx_hash;
     }
-  }
-
-  calculateWidth(): void {
-    this.calculatedWidth = [];
-    this.calculatedWidth.push(
-      this.head.nativeElement.childNodes[0].clientWidth
-    );
-    this.calculatedWidth.push(
-      this.head.nativeElement.childNodes[1].clientWidth +
-        this.head.nativeElement.childNodes[2].clientWidth
-    );
-    this.calculatedWidth.push(
-      this.head.nativeElement.childNodes[3].clientWidth
-    );
-    this.calculatedWidth.push(
-      this.head.nativeElement.childNodes[4].clientWidth
-    );
   }
 
   time(item: Transaction): number {
