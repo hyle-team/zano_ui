@@ -304,6 +304,7 @@ interface WrapInfo {
                   formControlName="mixin"
                   id="send-mixin"
                   type="text"
+                  maxlength="3"
                 />
                 <div
                   *ngIf="
@@ -662,7 +663,7 @@ export class SendComponent implements OnInit, OnDestroy {
 
   fillDeepLinkData(): void {
     this.additionalOptions = true;
-    this.sendForm.reset({
+    this.sendForm.patchValue({
       address: this.actionData.address,
       amount: null,
       comment: this.actionData.comment || this.actionData.comments || '',
@@ -720,16 +721,16 @@ export class SendComponent implements OnInit, OnDestroy {
                       fee: null,
                       hide: null,
                     };
-                    this.sendForm.reset({
-                      ...this.sendForm.getRawValue(),
-                      address: null,
-                      amount: null,
-                      comment: null,
-                      mixin: this.mixin,
-                      fee: this.variablesService.default_fee,
-                      hide: false,
-                    });
-                    this.sendForm.markAsUntouched();
+                    // this.sendForm.reset({
+                    //   ...this.sendForm.getRawValue(),
+                    //   address: null,
+                    //   amount: null,
+                    //   comment: null,
+                    //   mixin: this.mixin,
+                    //   fee: this.variablesService.default_fee,
+                    //   hide: false,
+                    // });
+                    // this.sendForm.markAsUntouched();
                   });
                 }
               );
@@ -769,16 +770,16 @@ export class SendComponent implements OnInit, OnDestroy {
                         fee: null,
                         hide: null,
                       };
-                      this.sendForm.reset({
-                        ...this.sendForm.getRawValue(),
-                        address: null,
-                        amount: null,
-                        comment: null,
-                        mixin: this.mixin,
-                        fee: this.variablesService.default_fee,
-                        hide: false,
-                      });
-                      this.sendForm.markAsUntouched();
+                      // this.sendForm.reset({
+                      //   ...this.sendForm.getRawValue(),
+                      //   address: null,
+                      //   amount: null,
+                      //   comment: null,
+                      //   mixin: this.mixin,
+                      //   fee: this.variablesService.default_fee,
+                      //   hide: false,
+                      // });
+                      // this.sendForm.markAsUntouched();
                     });
                   }
                 );
