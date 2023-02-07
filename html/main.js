@@ -13730,7 +13730,7 @@ class SendComponent {
 
   fillDeepLinkData() {
     this.additionalOptions = true;
-    this.sendForm.reset({
+    this.sendForm.patchValue({
       address: this.actionData.address,
       amount: null,
       comment: this.actionData.comment || this.actionData.comments || '',
@@ -13781,16 +13781,16 @@ class SendComponent {
                   mixin: null,
                   fee: null,
                   hide: null
-                };
-                this.sendForm.reset({ ...this.sendForm.getRawValue(),
-                  address: null,
-                  amount: null,
-                  comment: null,
-                  mixin: this.mixin,
-                  fee: this.variablesService.default_fee,
-                  hide: false
-                });
-                this.sendForm.markAsUntouched();
+                }; // this.sendForm.reset({
+                //   ...this.sendForm.getRawValue(),
+                //   address: null,
+                //   amount: null,
+                //   comment: null,
+                //   mixin: this.mixin,
+                //   fee: this.variablesService.default_fee,
+                //   hide: false,
+                // });
+                // this.sendForm.markAsUntouched();
               });
             });
           }
@@ -13817,16 +13817,16 @@ class SendComponent {
                     mixin: null,
                     fee: null,
                     hide: null
-                  };
-                  this.sendForm.reset({ ...this.sendForm.getRawValue(),
-                    address: null,
-                    amount: null,
-                    comment: null,
-                    mixin: this.mixin,
-                    fee: this.variablesService.default_fee,
-                    hide: false
-                  });
-                  this.sendForm.markAsUntouched();
+                  }; // this.sendForm.reset({
+                  //   ...this.sendForm.getRawValue(),
+                  //   address: null,
+                  //   amount: null,
+                  //   comment: null,
+                  //   mixin: this.mixin,
+                  //   fee: this.variablesService.default_fee,
+                  //   hide: false,
+                  // });
+                  // this.sendForm.markAsUntouched();
                 });
               });
             }
@@ -13884,7 +13884,7 @@ SendComponent.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_17__["
   },
   decls: 4,
   vars: 3,
-  consts: [["fxFlex", "1 1 auto", 1, "container", "scrolled-content"], ["class", "form", "fxFlex", "0 1 50rem", "fxLayout", "column", "fxLayoutAlign", "start stretch", 3, "formGroup", "ngSubmit", 4, "ngIf"], [3, "form", "confirmed", 4, "ngIf"], [3, "job_id", "eventClose", 4, "ngIf"], ["fxFlex", "0 1 50rem", "fxLayout", "column", "fxLayoutAlign", "start stretch", 1, "form", 3, "formGroup", "ngSubmit"], [1, "form__field--row"], [1, "form__field", "form__field-dropdown"], ["for", "send-address"], [1, "color-red"], ["formControlName", "address", "id", "send-address", "type", "text", 1, "form__field--input", 3, "placeholder", "contextmenu", "input", "mousedown"], ["class", "dropdown py-0_5 border-radius-0_8-rem bg-light-blue-details", 3, "ngStyle", 4, "ngIf"], ["class", "error", 4, "ngIf"], ["class", "info text-ellipsis", 4, "ngIf"], [1, "form__field"], ["for", "send-amount"], ["appInputValidate", "money", "formControlName", "amount", "id", "send-amount", "type", "text", 1, "form__field--input", 3, "placeholder", "contextmenu"], ["for", "send-comment"], ["formControlName", "comment", "id", "send-comment", "type", "text", 1, "form__field--input", 3, "maxLength", "placeholder", "contextmenu"], ["class", "wrap mt-2 mb-2 p-2", 4, "ngIf"], ["formControlName", "asset", 1, "custom-select", "with-circle", 3, "clearable", "items", "searchable", "change"], ["ng-option-tmp", "", "ng-label-tmp", ""], [1, "details", "mb-2"], ["type", "button", 1, "header", 3, "click"], [1, "icon", "ml-1"], ["class", "content", 4, "ngIf"], ["type", "submit", 1, "primary", "big", "max-w-19-rem", "w-100", 3, "disabled"], [1, "dropdown", "py-0_5", "border-radius-0_8-rem", "bg-light-blue-details", 3, "ngStyle"], ["class", "item", 3, "click", 4, "ngFor", "ngForOf"], [1, "item", 3, "click"], [1, "alias"], [1, "text-ellipsis"], [1, "error"], [4, "ngIf"], [1, "info", "text-ellipsis"], [1, "wrap", "mt-2", "mb-2", "p-2"], [1, "title"], [1, "icon", "info-circle"], [1, "text-wrap"], ["height", "15", "width", "15", "defaultImgAlt", "default", "appDefaultImg", "", 3, "src", "alt", "defaultImgSrc"], [1, "content"], ["for", "send-mixin"], ["appInputValidate", "integer", "formControlName", "mixin", "id", "send-mixin", "type", "text", 1, "form__field--input", 3, "placeholder", "contextmenu"], ["for", "send-fee"], ["appInputValidate", "money", "formControlName", "fee", "id", "send-fee", "type", "text", 1, "form__field--input", 3, "placeholder", "contextmenu"], ["formControlName", "hide", 1, "mt-1", 3, "label", "value"], [3, "form", "confirmed"], [3, "job_id", "eventClose"]],
+  consts: [["fxFlex", "1 1 auto", 1, "container", "scrolled-content"], ["class", "form", "fxFlex", "0 1 50rem", "fxLayout", "column", "fxLayoutAlign", "start stretch", 3, "formGroup", "ngSubmit", 4, "ngIf"], [3, "form", "confirmed", 4, "ngIf"], [3, "job_id", "eventClose", 4, "ngIf"], ["fxFlex", "0 1 50rem", "fxLayout", "column", "fxLayoutAlign", "start stretch", 1, "form", 3, "formGroup", "ngSubmit"], [1, "form__field--row"], [1, "form__field", "form__field-dropdown"], ["for", "send-address"], [1, "color-red"], ["formControlName", "address", "id", "send-address", "type", "text", 1, "form__field--input", 3, "placeholder", "contextmenu", "input", "mousedown"], ["class", "dropdown py-0_5 border-radius-0_8-rem bg-light-blue-details", 3, "ngStyle", 4, "ngIf"], ["class", "error", 4, "ngIf"], ["class", "info text-ellipsis", 4, "ngIf"], [1, "form__field"], ["for", "send-amount"], ["appInputValidate", "money", "formControlName", "amount", "id", "send-amount", "type", "text", 1, "form__field--input", 3, "placeholder", "contextmenu"], ["for", "send-comment"], ["formControlName", "comment", "id", "send-comment", "type", "text", 1, "form__field--input", 3, "maxLength", "placeholder", "contextmenu"], ["class", "wrap mt-2 mb-2 p-2", 4, "ngIf"], ["formControlName", "asset", 1, "custom-select", "with-circle", 3, "clearable", "items", "searchable", "change"], ["ng-option-tmp", "", "ng-label-tmp", ""], [1, "details", "mb-2"], ["type", "button", 1, "header", 3, "click"], [1, "icon", "ml-1"], ["class", "content", 4, "ngIf"], ["type", "submit", 1, "primary", "big", "max-w-19-rem", "w-100", 3, "disabled"], [1, "dropdown", "py-0_5", "border-radius-0_8-rem", "bg-light-blue-details", 3, "ngStyle"], ["class", "item", 3, "click", 4, "ngFor", "ngForOf"], [1, "item", 3, "click"], [1, "alias"], [1, "text-ellipsis"], [1, "error"], [4, "ngIf"], [1, "info", "text-ellipsis"], [1, "wrap", "mt-2", "mb-2", "p-2"], [1, "title"], [1, "icon", "info-circle"], [1, "text-wrap"], ["height", "15", "width", "15", "defaultImgAlt", "default", "appDefaultImg", "", 3, "src", "alt", "defaultImgSrc"], [1, "content"], ["for", "send-mixin"], ["appInputValidate", "integer", "formControlName", "mixin", "id", "send-mixin", "type", "text", "maxlength", "3", 1, "form__field--input", 3, "placeholder", "contextmenu"], ["for", "send-fee"], ["appInputValidate", "money", "formControlName", "fee", "id", "send-fee", "type", "text", 1, "form__field--input", 3, "placeholder", "contextmenu"], ["formControlName", "hide", 1, "mt-1", 3, "label", "value"], [3, "form", "confirmed"], [3, "job_id", "eventClose"]],
   template: function SendComponent_Template(rf, ctx) {
     if (rf & 1) {
       _angular_core__WEBPACK_IMPORTED_MODULE_17__["ɵɵelementStart"](0, "div", 0);
@@ -13903,7 +13903,7 @@ SendComponent.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_17__["
       _angular_core__WEBPACK_IMPORTED_MODULE_17__["ɵɵproperty"]("ngIf", ctx.isModalDetailsDialogVisible);
     }
   },
-  dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_23__.NgForOf, _angular_common__WEBPACK_IMPORTED_MODULE_23__.NgIf, _angular_common__WEBPACK_IMPORTED_MODULE_23__.NgStyle, _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_24__.DefaultLayoutDirective, _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_24__.DefaultLayoutAlignDirective, _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_24__.DefaultFlexDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_18__["ɵNgNoValidate"], _angular_forms__WEBPACK_IMPORTED_MODULE_18__.DefaultValueAccessor, _angular_forms__WEBPACK_IMPORTED_MODULE_18__.NgControlStatus, _angular_forms__WEBPACK_IMPORTED_MODULE_18__.NgControlStatusGroup, _angular_forms__WEBPACK_IMPORTED_MODULE_18__.FormGroupDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_18__.FormControlName, _parts_directives_default_img_default_img_directive__WEBPACK_IMPORTED_MODULE_9__.DefaultImgDirective, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_25__.NgSelectComponent, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_25__.NgOptionTemplateDirective, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_25__.NgLabelTemplateDirective, _angular_flex_layout_extended__WEBPACK_IMPORTED_MODULE_26__.DefaultStyleDirective, _parts_directives_input_validate_input_validate_directive__WEBPACK_IMPORTED_MODULE_10__.InputValidateDirective, _parts_components_checkbox_component__WEBPACK_IMPORTED_MODULE_11__.CheckboxComponent, _modals_send_details_modal_send_details_modal_component__WEBPACK_IMPORTED_MODULE_12__.SendDetailsModalComponent, _modals_send_modal_send_modal_component__WEBPACK_IMPORTED_MODULE_13__.SendModalComponent, _angular_common__WEBPACK_IMPORTED_MODULE_23__.AsyncPipe, _parts_pipes_short_string_pipe_short_string_pipe__WEBPACK_IMPORTED_MODULE_14__.ShortStringPipe, _ngx_translate_core__WEBPACK_IMPORTED_MODULE_27__.TranslatePipe, _parts_pipes_int_to_money_pipe_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_15__.IntToMoneyPipe, _parts_pipes_get_white_asset_info_get_white_asset_info_pipe__WEBPACK_IMPORTED_MODULE_16__.GetWhiteAssetInfoPipe],
+  dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_23__.NgForOf, _angular_common__WEBPACK_IMPORTED_MODULE_23__.NgIf, _angular_common__WEBPACK_IMPORTED_MODULE_23__.NgStyle, _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_24__.DefaultLayoutDirective, _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_24__.DefaultLayoutAlignDirective, _angular_flex_layout_flex__WEBPACK_IMPORTED_MODULE_24__.DefaultFlexDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_18__["ɵNgNoValidate"], _angular_forms__WEBPACK_IMPORTED_MODULE_18__.DefaultValueAccessor, _angular_forms__WEBPACK_IMPORTED_MODULE_18__.NgControlStatus, _angular_forms__WEBPACK_IMPORTED_MODULE_18__.NgControlStatusGroup, _angular_forms__WEBPACK_IMPORTED_MODULE_18__.MaxLengthValidator, _angular_forms__WEBPACK_IMPORTED_MODULE_18__.FormGroupDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_18__.FormControlName, _parts_directives_default_img_default_img_directive__WEBPACK_IMPORTED_MODULE_9__.DefaultImgDirective, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_25__.NgSelectComponent, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_25__.NgOptionTemplateDirective, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_25__.NgLabelTemplateDirective, _angular_flex_layout_extended__WEBPACK_IMPORTED_MODULE_26__.DefaultStyleDirective, _parts_directives_input_validate_input_validate_directive__WEBPACK_IMPORTED_MODULE_10__.InputValidateDirective, _parts_components_checkbox_component__WEBPACK_IMPORTED_MODULE_11__.CheckboxComponent, _modals_send_details_modal_send_details_modal_component__WEBPACK_IMPORTED_MODULE_12__.SendDetailsModalComponent, _modals_send_modal_send_modal_component__WEBPACK_IMPORTED_MODULE_13__.SendModalComponent, _angular_common__WEBPACK_IMPORTED_MODULE_23__.AsyncPipe, _parts_pipes_short_string_pipe_short_string_pipe__WEBPACK_IMPORTED_MODULE_14__.ShortStringPipe, _ngx_translate_core__WEBPACK_IMPORTED_MODULE_27__.TranslatePipe, _parts_pipes_int_to_money_pipe_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_15__.IntToMoneyPipe, _parts_pipes_get_white_asset_info_get_white_asset_info_pipe__WEBPACK_IMPORTED_MODULE_16__.GetWhiteAssetInfoPipe],
   styles: ["[_nghost-%COMP%] {\n        width: 100%;\n        height: auto;\n        display: flex;\n      }\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNlbmQuY29tcG9uZW50LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7TUFDTTtRQUNFLFdBQVc7UUFDWCxZQUFZO1FBQ1osYUFBYTtNQUNmIiwiZmlsZSI6InNlbmQuY29tcG9uZW50LnRzIiwic291cmNlc0NvbnRlbnQiOlsiXG4gICAgICA6aG9zdCB7XG4gICAgICAgIHdpZHRoOiAxMDAlO1xuICAgICAgICBoZWlnaHQ6IGF1dG87XG4gICAgICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgICB9XG4gICAgIl19 */"]
 });
 
