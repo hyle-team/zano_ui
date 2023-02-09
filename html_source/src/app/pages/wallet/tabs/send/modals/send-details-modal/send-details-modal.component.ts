@@ -33,10 +33,7 @@ const successfulStatuses: string[] = [
   StatusCurrentActionState.STATE_SUCCESS,
 ];
 
-const failedStatuses: string[] = [
-  StatusCurrentActionState.STATE_SEND_FAILED,
-  StatusCurrentActionState.STATE_FAILED,
-];
+const failedStatuses: string[] = [StatusCurrentActionState.STATE_SEND_FAILED, StatusCurrentActionState.STATE_FAILED];
 
 @Component({
   selector: 'app-send-details-modal',
@@ -44,8 +41,15 @@ const failedStatuses: string[] = [
       class="modal p-2 border-radius-0_8-rem bg-light-blue w-100 max-h-100"
       fxFlex="0 1 54rem"
     >
-      <div class="wrapper w-100" fxFlex fxLayout="column">
-        <h3 class="title mb-2" fxFlex="0 0 auto">
+      <div
+        class="wrapper w-100"
+        fxFlex
+        fxLayout="column"
+      >
+        <h3
+          class="title mb-2"
+          fxFlex="0 0 auto"
+        >
           {{ 'SEND_DETAILS_MODAL.TITLE1' | translate }}
         </h3>
 
@@ -60,14 +64,20 @@ const failedStatuses: string[] = [
             fxLayout="column"
             fxLayoutAlign=" center"
           >
-            <div *ngIf="isSentSuccess" class="image">
+            <div
+              *ngIf="isSentSuccess"
+              class="image"
+            >
               <img
                 alt="success"
                 src="assets/icons/aqua/transaction_success.svg"
               />
             </div>
 
-            <div *ngIf="isSentFailed" class="image">
+            <div
+              *ngIf="isSentFailed"
+              class="image"
+            >
               <img
                 alt="failed"
                 class="image"
@@ -75,17 +85,17 @@ const failedStatuses: string[] = [
               />
             </div>
 
-            <div *ngIf="!isSentSuccess && !isSentFailed" class="loader"></div>
+            <div
+              *ngIf="!isSentSuccess && !isSentFailed"
+              class="loader"
+            ></div>
 
             <p
               class="color-primary mt-2"
               *ngIf="currentActionState$ | async as currentActionState"
             >
               {{
-                (currentActionState
-                  ? 'TOR_LIB_STATE' + '.' + currentActionState.status
-                  : 'TOR_LIB_STATE.STATE_INITIALIZING'
-                ) | translate
+                (currentActionState ? 'TOR_LIB_STATE' + '.' + currentActionState.status : 'TOR_LIB_STATE.STATE_INITIALIZING') | translate
               }}
               {{ !isSentSuccess && !isSentFailed ? '...' : '' }}
             </p>
@@ -141,22 +151,19 @@ const failedStatuses: string[] = [
               fxFlex="1 1 auto"
               fxLayout="row"
             >
-              <ul #elDetailsList class="details-list scrolled-content">
+              <ul
+                #elDetailsList
+                class="details-list scrolled-content"
+              >
                 <li
-                  *ngFor="
-                    let action of currentActionStates$ | async;
-                    let last = last;
-                    trackBy: trackBy
-                  "
+                  *ngFor="let action of currentActionStates$ | async; let last = last; trackBy: trackBy"
                   class="item mb-1 color-primary"
                   fxLayout="row nowrap"
                   fxLayoutAlign=" center"
                 >
                   <span class="text text-ellipsis mr-1"
                     >{{ 'TOR_LIB_STATE' + '.' + action?.status | translate
-                    }}{{
-                      last && !isSentSuccess && !isSentFailed ? '...' : ''
-                    }}</span
+                    }}{{ last && !isSentSuccess && !isSentFailed ? '...' : '' }}</span
                   >
                   <ng-container *ngIf="!last">
                     <img
@@ -197,9 +204,7 @@ const failedStatuses: string[] = [
                     fxLayout="row nowrap"
                     fxLayoutAlign=" center"
                   >
-                    <span class="word-break-break-all">
-                      tx id: {{ data.response_data.tx_hash || '---' }}
-                    </span>
+                    <span class="word-break-break-all"> tx id: {{ data.response_data.tx_hash || '---' }} </span>
                     <app-copy-button
                       *ngIf="data.response_data.tx_hash"
                       [value]="data.response_data.tx_hash"
@@ -218,7 +223,10 @@ const failedStatuses: string[] = [
                       bytes
                     </div>
                   </li>
-                  <li *ngIf="data.error_code !== 'OK'" class="item">
+                  <li
+                    *ngIf="data.error_code !== 'OK'"
+                    class="item"
+                  >
                     <ng-container
                       *ngTemplateOutlet="
                         errorCodesTemplate;
@@ -234,9 +242,12 @@ const failedStatuses: string[] = [
             </div>
           </div>
         </div>
-        <div class="controls" fxFlex="0 0 auto">
+        <div
+          class="controls"
+          fxFlex="0 0 auto"
+        >
           <button
-            (click)="eventClose.emit()"
+            (click)="eventClose.emit(success)"
             [disabled]="!isSentSuccess && !isSentFailed"
             class="primary big w-100"
           >
@@ -253,13 +264,11 @@ const failedStatuses: string[] = [
     >
       <ng-container [ngSwitch]="error_code">
         <ng-container *ngSwitchCase="'NOT_ENOUGH_MONEY'">
-          <p class="color-red">
-            {{ prefix }} {{ 'SEND.ERROR_CODES' + '.' + error_code | translate }}
-          </p>
+          <p class="color-red">{{ prefix }} {{ 'SEND.ERROR_CODES' + '.' + error_code | translate }}</p>
         </ng-container>
         <ng-container *ngSwitchCase="'OK'"></ng-container>
         <ng-container *ngSwitchDefault>
-          {{ prefix }} {{ error_code }}
+          <p class="color-red">{{ prefix }} {{ error_code }}</p>
         </ng-container>
       </ng-container>
     </ng-template> `,
@@ -271,7 +280,7 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
 
   @Input() job_id: number;
 
-  @Output() eventClose = new EventEmitter<void>();
+  @Output() eventClose = new EventEmitter<boolean>();
 
   @ViewChild('elDetailsList', { static: true }) elDetailsList: ElementRef;
 
@@ -283,13 +292,11 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
 
   currentActionStates$ = new BehaviorSubject<CurrentActionState[]>([]);
 
+  success = false;
+
   private destroy$: Subject<void> = new Subject<void>();
 
-  constructor(
-    private backendService: BackendService,
-    private variablesService: VariablesService,
-    private renderer: Renderer2
-  ) {}
+  constructor(private backendService: BackendService, private variablesService: VariablesService, private renderer: Renderer2) {}
 
   get currentActionState(): CurrentActionState {
     return this.currentActionState$.value;
@@ -300,25 +307,15 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
   }
 
   get isSentSuccess(): boolean {
-    return (
-      this.currentActionState &&
-      this.currentActionState.status ===
-        StatusCurrentActionState.STATE_SENT_SUCCESS
-    );
+    return this.currentActionState && this.currentActionState.status === StatusCurrentActionState.STATE_SENT_SUCCESS;
   }
 
   get isSentFailed(): boolean {
-    return (
-      this.currentActionState &&
-      this.currentActionState.status ===
-        StatusCurrentActionState.STATE_SEND_FAILED
-    );
+    return this.currentActionState && this.currentActionState.status === StatusCurrentActionState.STATE_SEND_FAILED;
   }
 
   get isDetailsNotEmpty(): boolean {
-    return !!(
-      this.responseData$.value || this.currentActionStates$.value.length > 0
-    );
+    return !!(this.responseData$.value || this.currentActionStates$.value.length > 0);
   }
 
   ngOnInit(): void {
@@ -329,35 +326,24 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
     } = this.variablesService;
 
     if (appUseTor) {
-      this.backendService.handleCurrentActionState$
-        .pipe(takeUntil(this.destroy$))
-        .subscribe({
-          next: (currentActionState: CurrentActionState) => {
-            this.currentActionState$.next(currentActionState);
-            this.currentActionStates$.next([
-              ...this.currentActionStates,
-              currentActionState,
-            ]);
-          },
-        });
+      this.backendService.handleCurrentActionState$.pipe(takeUntil(this.destroy$)).subscribe({
+        next: (currentActionState: CurrentActionState) => {
+          this.currentActionState$.next(currentActionState);
+          this.currentActionStates$.next([...this.currentActionStates, currentActionState]);
+        },
+      });
     } else {
       const actionState: CurrentActionState = {
         status: StatusCurrentActionState.STATE_INITIALIZING,
         wallet_id,
       };
       this.currentActionState$.next(actionState);
-      this.currentActionStates$.next([
-        ...this.currentActionStates,
-        actionState,
-      ]);
+      this.currentActionStates$.next([...this.currentActionStates, actionState]);
     }
 
     this.backendService.dispatchAsyncCallResult$
       .pipe(
-        filter(
-          ({ job_id, response }: AsyncCommandResults) =>
-            this.job_id === job_id && !!response
-        ),
+        filter(({ job_id, response }: AsyncCommandResults) => this.job_id === job_id && !!response),
         takeUntil(this.destroy$)
       )
       .subscribe({
@@ -365,18 +351,14 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
           const {
             response_data: { success },
           } = response;
+          this.success = success;
           if (!appUseTor || !success) {
             const actionState: CurrentActionState = {
-              status: success
-                ? StatusCurrentActionState.STATE_SENT_SUCCESS
-                : StatusCurrentActionState.STATE_SEND_FAILED,
+              status: success ? StatusCurrentActionState.STATE_SENT_SUCCESS : StatusCurrentActionState.STATE_SEND_FAILED,
               wallet_id,
             };
             this.currentActionState$.next(actionState);
-            this.currentActionStates$.next([
-              ...this.currentActionStates,
-              actionState,
-            ]);
+            this.currentActionStates$.next([...this.currentActionStates, actionState]);
           }
 
           this.responseData$.next(response);

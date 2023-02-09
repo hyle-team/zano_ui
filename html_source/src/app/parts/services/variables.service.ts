@@ -9,6 +9,7 @@ import {
   ContextMenuService,
 } from '@perfectmemory/ngx-contextmenu';
 import { BigNumber } from 'bignumber.js';
+import { Aliases } from '@api/models/alias.model';
 
 @Injectable({
   providedIn: 'root',
@@ -102,7 +103,7 @@ export class VariablesService {
 
   currentWallet: Wallet;
 
-  aliases: any = [];
+  aliases: Aliases = [];
 
   aliasesChecked: any = {};
 

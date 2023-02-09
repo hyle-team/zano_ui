@@ -336,7 +336,8 @@
       "GREAT_THAN_UNWRAPPED_COINS": "Der Betrag ist größer als die noch verfügbaren ERC20-Token",
       "LESS_THAN_ZANO_NEEDED": "Zu geringer Betrag zur Deckung der ERC20-Gebühr",
       "WRAP_INFO_NULL": "Wrap-Status konnte nicht angefordert werden",
-      "MUST_BE_GREATER_THAN_ZERO": "Must be greater than zero"
+      "MUST_BE_GREATER_THAN_ZERO": "Must be greater than zero",
+      "ALIAS_NOT_FOUND": "Alias not found"
     },
     "WRAP": {
       "TITLE": "Wrap",
@@ -349,7 +350,8 @@
     },
     "ERROR_CODES": {
       "NOT_ENOUGH_MONEY": "Not enough money"
-    }
+    },
+    "ASSET": "Asset"
   },
   "HISTORY": {
     "STATUS": "Status",

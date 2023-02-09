@@ -19,7 +19,11 @@ import { regExpAliasName } from '@parts/utils/zano-validators';
     <div class="page-container">
       <div class="toolbar mb-2">
         <div class="left">
-          <button appBackButton class="btn-icon circle big mr-2" type="button">
+          <button
+            appBackButton
+            class="btn-icon circle big mr-2"
+            type="button"
+          >
             <i class="icon dropdown-arrow-left"></i>
           </button>
           <h1>{{ 'BREADCRUMBS.ASSIGN_ALIAS' | translate }}</h1>
@@ -38,7 +42,10 @@ import { regExpAliasName } from '@parts/utils/zano-validators';
         </div>
 
         <div class="scrolled-content">
-          <form [formGroup]="assignForm" class="form">
+          <form
+            [formGroup]="assignForm"
+            class="form"
+          >
             <div class="form__field">
               <label
                 [delay]="50"
@@ -60,11 +67,7 @@ import { regExpAliasName } from '@parts/utils/zano-validators';
                 />
               </div>
               <div
-                *ngIf="
-                  assignForm.controls['name'].invalid &&
-                  (assignForm.controls['name'].dirty ||
-                    assignForm.controls['name'].touched)
-                "
+                *ngIf="assignForm.controls['name'].invalid && (assignForm.controls['name'].dirty || assignForm.controls['name'].touched)"
                 class="error"
               >
                 <div
@@ -76,24 +79,25 @@ import { regExpAliasName } from '@parts/utils/zano-validators';
                 >
                   {{ 'ASSIGN_ALIAS.FORM_ERRORS.NAME_WRONG' | translate }}
                 </div>
-                <div
-                  *ngIf="
-                    assignForm.get('name').value.length <= 6 ||
-                    assignForm.get('name').value.length > 25
-                  "
-                >
+                <div *ngIf="assignForm.get('name').value.length <= 6 || assignForm.get('name').value.length > 25">
                   {{ 'ASSIGN_ALIAS.FORM_ERRORS.NAME_LENGTH' | translate }}
                 </div>
                 <div *ngIf="assignForm.controls['name'].hasError('required')">
                   {{ 'ASSIGN_ALIAS.FORM_ERRORS.NAME_REQUIRED' | translate }}
                 </div>
               </div>
-              <div *ngIf="alias.exists" class="error">
+              <div
+                *ngIf="alias.exists"
+                class="error"
+              >
                 <div>
                   {{ 'ASSIGN_ALIAS.FORM_ERRORS.NAME_EXISTS' | translate }}
                 </div>
               </div>
-              <div *ngIf="notEnoughMoney" class="error">
+              <div
+                *ngIf="notEnoughMoney"
+                class="error"
+              >
                 <div>
                   {{ 'ASSIGN_ALIAS.FORM_ERRORS.NO_MONEY' | translate }}
                 </div>
@@ -116,16 +120,11 @@ import { regExpAliasName } from '@parts/utils/zano-validators';
                 class="scrolled-content"
                 formControlName="comment"
                 id="alias-comment"
-                placeholder="{{
-                  'ASSIGN_ALIAS.COMMENT.PLACEHOLDER' | translate
-                }}"
+                placeholder="{{ 'ASSIGN_ALIAS.COMMENT.PLACEHOLDER' | translate }}"
               >
               </textarea>
               <div
-                *ngIf="
-                  assignForm.get('comment').value.length >=
-                  variablesService.maxCommentLength
-                "
+                *ngIf="assignForm.get('comment').value.length >= variablesService.maxCommentLength"
                 class="error"
               >
                 {{ 'ASSIGN_ALIAS.FORM_ERRORS.MAX_LENGTH' | translate }}
@@ -172,13 +171,8 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
   fb = inject(FormBuilder);
 
   assignForm = this.fb.group({
-    name: this.fb.nonNullable.control('', [
-      Validators.required,
-      Validators.pattern(regExpAliasName),
-    ]),
-    comment: this.fb.nonNullable.control('', [
-      Validators.maxLength(this.variablesService.maxCommentLength),
-    ]),
+    name: this.fb.nonNullable.control('', [Validators.required, Validators.pattern(regExpAliasName)]),
+    comment: this.fb.nonNullable.control('', [Validators.maxLength(this.variablesService.maxCommentLength)]),
   });
 
   alias = {
@@ -218,46 +212,28 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
           this.alias.exists = false;
           const newName = value.toLowerCase().replace('@', '');
           if (
-            !(
-              this.assignForm.controls['name'].errors &&
-              hasOwnProperty(this.assignForm.controls['name'].errors, 'pattern')
-            ) &&
+            !(this.assignForm.controls['name'].errors && hasOwnProperty(this.assignForm.controls['name'].errors, 'pattern')) &&
             newName.length >= 6 &&
             newName.length <= 25
           ) {
-            this.backend.getAliasByName(newName, status => {
+            this.backend.getAliasInfoByName(newName, status => {
               this.ngZone.run(() => {
                 this.alias.exists = status;
               });
               if (!status) {
                 this.alias.price = new BigNumber(0);
-                this.backend.getAliasCoast(
-                  newName,
-                  (statusPrice, dataPrice) => {
-                    this.ngZone.run(() => {
-                      if (statusPrice) {
-                        this.alias.price = BigNumber.sum(
-                          dataPrice['coast'],
-                          this.variablesService.default_fee_big
-                        );
-                      }
-                      const unlocked_balance = new BigNumber(
-                        this.wallet.getBalanceByTicker('ZANO')?.unlocked || 0
-                      );
-                      this.notEnoughMoney =
-                        this.alias.price.isGreaterThan(unlocked_balance);
-                      this.alias.reward = this.intToMoney.transform(
-                        this.alias.price,
-                        false
-                      );
-                      this.alias.rewardOriginal = this.intToMoney.transform(
-                        dataPrice['coast'],
-                        false
-                      );
-                      this.canRegister = !this.notEnoughMoney;
-                    });
-                  }
-                );
+                this.backend.getAliasCoast(newName, (statusPrice, dataPrice) => {
+                  this.ngZone.run(() => {
+                    if (statusPrice) {
+                      this.alias.price = BigNumber.sum(dataPrice['coast'], this.variablesService.default_fee_big);
+                    }
+                    const unlocked_balance = new BigNumber(this.wallet.getBalanceByTicker('ZANO')?.unlocked || 0);
+                    this.notEnoughMoney = this.alias.price.isGreaterThan(unlocked_balance);
+                    this.alias.reward = this.intToMoney.transform(this.alias.price, false);
+                    this.alias.rewardOriginal = this.intToMoney.transform(dataPrice['coast'], false);
+                    this.canRegister = !this.notEnoughMoney;
+                  });
+                });
               } else {
                 this.notEnoughMoney = false;
                 this.alias.reward = '0';
@@ -295,10 +271,7 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
         async status => {
           if (status) {
             this.wallet.wakeAlias = true;
-            this.modalService.prepareModal(
-              'info',
-              'ASSIGN_ALIAS.REQUEST_ADD_REG'
-            );
+            this.modalService.prepareModal('info', 'ASSIGN_ALIAS.REQUEST_ADD_REG');
             await this.ngZone.run(async () => {
               await this.router.navigate(['/wallet/']);
             });

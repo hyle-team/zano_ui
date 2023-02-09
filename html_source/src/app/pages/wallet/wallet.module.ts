@@ -18,7 +18,11 @@ import { ExportHistoryModalModule } from './wallet/modals/export-history-modal/e
 import { WalletDetailsComponent } from '../wallet-details/wallet-details.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { DefaultImgModule, InputValidateModule } from '@parts/directives';
+import {
+  DefaultImgModule,
+  InputValidateModule,
+  LowerCaseDirective,
+} from '@parts/directives';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { HistoryComponent } from './tabs/history/history.component';
 import { StakingComponent } from './tabs/staking/staking.component';
@@ -93,6 +97,7 @@ import { TransactionDetailsComponent } from '@parts/components/transaction-detai
     HasInAssetsWhitelistModule,
     CopyButtonComponent,
     TransactionDetailsComponent,
+    LowerCaseDirective,
   ],
 })
 export class WalletModule {}

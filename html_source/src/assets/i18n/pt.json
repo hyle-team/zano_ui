@@ -336,7 +336,8 @@
       "GREAT_THAN_UNWRAPPED_COINS": "A quantidade é maior que os tokens ERC20 disponíveis",
       "LESS_THAN_ZANO_NEEDED": "Valor muito pequeno para cobrir a taxa ERC20",
       "WRAP_INFO_NULL": "falha ao solicitar estado de wrap",
-      "MUST_BE_GREATER_THAN_ZERO": "Must be greater than zero"
+      "MUST_BE_GREATER_THAN_ZERO": "Must be greater than zero",
+      "ALIAS_NOT_FOUND": "Alias not found"
     },
     "WRAP": {
       "TITLE": "Embrulhar",
@@ -349,7 +350,8 @@
     },
     "ERROR_CODES": {
       "NOT_ENOUGH_MONEY": "Not enough money"
-    }
+    },
+    "ASSET": "Asset"
   },
   "HISTORY": {
     "STATUS": "Estado",
