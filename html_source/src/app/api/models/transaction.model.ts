@@ -23,3 +23,5 @@ export class Transaction {
   sortAmount?: BigNumber;
   sortFee?: BigNumber;
 }
+
+export type Transactions = Transaction[];

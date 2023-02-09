@@ -10,14 +10,7 @@ export class Contract {
   private_detailes: any;
   is_new: boolean;
 
-  constructor(
-    contract_id,
-    is_a,
-    cancel_expiration_time,
-    expiration_time,
-    height,
-    timestamp
-  ) {
+  constructor(contract_id, is_a, cancel_expiration_time, expiration_time, height, timestamp) {
     this.contract_id = contract_id;
     this.is_a = is_a;
     this.cancel_expiration_time = cancel_expiration_time;
@@ -26,3 +19,5 @@ export class Contract {
     this.timestamp = timestamp;
   }
 }
+
+export type Contracts = Contract[];

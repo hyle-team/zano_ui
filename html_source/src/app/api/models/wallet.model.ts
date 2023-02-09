@@ -1,5 +1,5 @@
-import { Contract } from './contract.model';
-import { Transaction } from './transaction.model';
+import { Contract, Contracts } from './contract.model';
+import { Transaction, Transactions } from './transaction.model';
 import { BigNumber } from 'bignumber.js';
 import { Asset, Assets } from './assets.model';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
@@ -66,14 +66,14 @@ export class Wallet {
   new_messages?: number;
   new_contracts?: number;
 
-  history: Array<Transaction> = [];
+  history: Transactions = [];
   total_history_item?: number;
   pages = [];
   totalPages: number;
   currentPage: number;
-  excluded_history: Array<Transaction> = [];
+  excluded_history: Transactions = [];
 
-  contracts: Array<Contract> = [];
+  contracts: Contracts = [];
 
   progress?: number;
   loaded?: boolean;

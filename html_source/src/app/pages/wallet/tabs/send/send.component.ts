@@ -649,7 +649,7 @@ export class SendComponent implements OnInit, OnDestroy {
 
     sendMoneyParams.wallet_id = currentWallet.wallet_id;
 
-    this.sendMoneyParamsForm.patchValue(sendMoneyParams);
+    this.sendMoneyParamsForm.patchValue(sendMoneyParams, { emitEvent: false });
   }
 
   private fillDeepLinkData(value: DeeplinkParams): void {
