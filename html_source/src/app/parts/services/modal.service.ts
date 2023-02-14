@@ -23,7 +23,7 @@ export class ModalService {
     private translate: TranslateService
   ) {}
 
-  prepareModal(type, message): void {
+  prepareModal(type: 'error' | 'info' | 'success' | string, message): void {
     const length = this.components.push(
       this.componentFactoryResolver
         .resolveComponentFactory(ModalContainerComponent)
@@ -36,7 +36,9 @@ export class ModalService {
       : '';
     this.components[length - 1].instance['eventClose']?.subscribe({
       next: () => {
-        this.removeModal(length - 1);
+        this.ngZone.run(() => {
+          this.removeModal(length - 1);
+        });
       },
     });
 

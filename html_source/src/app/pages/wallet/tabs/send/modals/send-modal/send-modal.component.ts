@@ -1,4 +1,6 @@
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   HostBinding,
@@ -9,8 +11,14 @@ import {
   Output,
   Renderer2,
 } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  NonNullableFormBuilder,
+  Validators,
+} from '@angular/forms';
 import { VariablesService } from '@parts/services/variables.service';
+import { ZanoValidators } from '@parts/utils/zano-validators';
 
 @Component({
   selector: 'app-send-modal',
@@ -21,7 +29,7 @@ import { VariablesService } from '@parts/services/variables.service';
     >
       <div class="wrapper">
         <form
-          (ngSubmit)="submit()"
+          (ngSubmit)="beforeSubmit()"
           [formGroup]="confirmForm"
           class="overflow-hidden"
           fxFlexFill
@@ -42,7 +50,7 @@ import { VariablesService } from '@parts/services/variables.service';
                 </div>
                 <div class="text">
                   {{ +form.get('amount').value }}
-                  {{ variablesService.defaultCurrency }}
+                  {{ form?.get('asset')?.value?.asset_info?.ticker }}
                 </div>
               </div>
 
@@ -79,9 +87,10 @@ import { VariablesService } from '@parts/services/variables.service';
             </div>
 
             <div *ngIf="variablesService.appPass" class="form__field mb-0">
-              <label for="password">{{
-                'LOGIN.MASTER_PASS' | translate
-              }}</label>
+              <label for="password">
+                {{ 'LOGIN.MASTER_PASS' | translate }}
+                <span class="color-red">*</span>
+              </label>
               <input
                 (contextmenu)="
                   variablesService.onContextMenuPasteSelect($event)
@@ -91,30 +100,20 @@ import { VariablesService } from '@parts/services/variables.service';
                 "
                 autofocus
                 class="form__field--input"
+                [class.invalid]="confirmForm.touched && confirmForm.invalid"
                 formControlName="password"
                 id="password"
                 name="password"
                 type="password"
               />
               <div
-                *ngIf="
-                  confirmForm.controls['password'].invalid &&
-                  (confirmForm.controls['password'].dirty ||
-                    confirmForm.controls['password'].touched)
-                "
+                *ngIf="confirmForm.touched && confirmForm.invalid"
                 class="error"
               >
-                <div
-                  *ngIf="
-                    confirmForm.controls['password'].errors &&
-                    confirmForm.controls['password'].errors.passwordNotMatch
-                  "
-                >
+                <div *ngIf="confirmForm.hasError('passwordNotMatch')">
                   {{ 'LOGIN.FORM_ERRORS.MISMATCH' | translate }}
                 </div>
-                <div
-                  *ngIf="confirmForm.controls['password'].errors['required']"
-                >
+                <div *ngIf="confirmForm.controls.password.hasError('required')">
                   {{ 'LOGIN.FORM_ERRORS.PASS_REQUIRED' | translate }}
                 </div>
               </div>
@@ -139,6 +138,7 @@ import { VariablesService } from '@parts/services/variables.service';
     </div>
   `,
   styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SendModalComponent implements OnInit, OnDestroy {
   @HostBinding('class.modal-overlay') modalOverlay = true;
@@ -147,10 +147,13 @@ export class SendModalComponent implements OnInit, OnDestroy {
 
   @Output() confirmed: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  fb = inject(FormBuilder);
+  cdr = inject(ChangeDetectorRef);
+
+  fb = inject(NonNullableFormBuilder);
 
   confirmForm = this.fb.group({
-    password: this.fb.nonNullable.control(''),
+    password: this.fb.control(''),
+    appPass: this.fb.control(''),
   });
 
   constructor(
@@ -160,10 +163,15 @@ export class SendModalComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.renderer.addClass(document.body, 'no-scroll');
-    if (this.variablesService.appPass) {
-      this.confirmForm.controls['password'].setValidators([
-        Validators.required,
+    const { appPass } = this.variablesService;
+    if (appPass) {
+      this.confirmForm.controls.appPass.patchValue(appPass, {
+        emitEvent: false,
+      });
+      this.confirmForm.setValidators([
+        ZanoValidators.formMatch('password', 'appPass', 'passwordNotMatch'),
       ]);
+      this.confirmForm.controls.password.setValidators([Validators.required]);
       this.confirmForm.updateValueAndValidity();
     }
   }
@@ -172,26 +180,19 @@ export class SendModalComponent implements OnInit, OnDestroy {
     this.renderer.removeClass(document.body, 'no-scroll');
   }
 
-  submit(): void {
-    if (this.variablesService.appPass) {
-      if (this.confirmForm.controls['password'].value === '') {
-        this.confirmForm.controls['password'].setErrors({ requiredPass: true });
-        return;
-      }
-      this.confirmForm.controls['password'].setErrors({ requiredPass: false });
-      if (
-        this.variablesService.appPass ===
-        this.confirmForm.controls['password'].value
-      ) {
-        this.confirmed.emit(true);
-      } else {
-        this.confirmForm.controls['password'].setErrors({
-          passwordNotMatch: true,
-        });
-      }
-    } else {
-      this.confirmed.emit(true);
+  beforeSubmit(): void {
+    if (this.confirmForm.invalid) {
+      this.confirmForm.markAsTouched();
+      this.confirmForm.updateValueAndValidity();
+      this.cdr.detectChanges();
+      return;
     }
+
+    this.submit();
+  }
+
+  submit(): void {
+    this.confirmed.emit(true);
   }
 
   onClose(): void {

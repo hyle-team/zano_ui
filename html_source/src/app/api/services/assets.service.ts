@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ResponseAssetsWhiteList } from '@api/models/assets.model';
@@ -7,11 +7,9 @@ import { ResponseAssetsWhiteList } from '@api/models/assets.model';
   providedIn: 'root',
 })
 export class AssetsService {
-  constructor(private httpClient: HttpClient) {}
+  private httpClient = inject(HttpClient);
 
   assetsWhitelist(): Observable<ResponseAssetsWhiteList> {
-    return this.httpClient.get<ResponseAssetsWhiteList>(
-      'https://zano.org/assets_whitelist.json'
-    );
+    return this.httpClient.get<ResponseAssetsWhiteList>('https://zano.org/assets_whitelist.json');
   }
 }

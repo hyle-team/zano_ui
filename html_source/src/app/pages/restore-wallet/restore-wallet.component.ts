@@ -248,11 +248,12 @@ import { WalletsService } from '@parts/services/wallets.service';
               (click)="saveWallet()"
               *ngIf="!walletSaved"
               [disabled]="
-                (!this.seedPhraseInfo?.syntax_correct ||
+                restoreForm.invalid ||
+                ((!this.seedPhraseInfo?.syntax_correct ||
                   !this.seedPhraseInfo?.require_password ||
                   !this.seedPhraseInfo?.hash_sum_matched) &&
-                (!this.seedPhraseInfo?.syntax_correct ||
-                  this.seedPhraseInfo?.require_password)
+                  (!this.seedPhraseInfo?.syntax_correct ||
+                    this.seedPhraseInfo?.require_password))
               "
               class="outline big w-100 mb-2"
               type="button"

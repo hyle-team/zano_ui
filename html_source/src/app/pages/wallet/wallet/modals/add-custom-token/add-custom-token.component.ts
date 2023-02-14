@@ -1,14 +1,31 @@
-import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  inject,
+} from '@angular/core';
+import {
+  NonNullableFormBuilder,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { VariablesService } from '@parts/services/variables.service';
 import { ZanoValidators } from '@parts/utils/zano-validators';
 import { DialogRef } from '@angular/cdk/dialog';
 import { BackendService } from '@api/services/backend.service';
 import { Asset, ParamsAddCustomAssetId } from '@api/models/assets.model';
 import { WalletsService } from '@parts/services/wallets.service';
+import { ControlsOf } from '@parts/utils/controls-of';
+import { wrongAssetId } from '@parts/utils/zano-errors';
+import { BehaviorSubject } from 'rxjs';
+import { CommonModule } from '@angular/common';
+import { FlexModule } from '@angular/flex-layout';
+import { TranslateModule } from '@ngx-translate/core';
+import { LoaderComponent } from '@parts/components/loader.component';
 
 @Component({
   selector: 'app-add-custom-token',
+  standalone: true,
   template: `
     <form
       (ngSubmit)="beforeSubmit()"
@@ -32,16 +49,25 @@ import { WalletsService } from '@parts/services/wallets.service';
             name="asset_id"
             placeholder="Enter Asset ID"
             type="text"
+            maxlength="64"
           />
-          <div
-            *ngIf="
-              formGroup.get('asset_id').touched &&
-              formGroup.get('asset_id').hasError('invalidHash')
-            "
-            class="error"
-          >
-            Invalid hash
-          </div>
+          <ng-container *ngIf="formGroup.get('asset_id').touched">
+            <div
+              *ngIf="formGroup.get('asset_id').hasError('invalidHash')"
+              class="error"
+            >
+              Invalid hash
+            </div>
+            <div
+              *ngIf="formGroup.get('asset_id').hasError('wrongAssetId')"
+              class="error"
+            >
+              {{
+                formGroup.get('asset_id').errors['wrongAssetId'].errorText
+                  | translate
+              }}
+            </div>
+          </ng-container>
         </div>
       </div>
 
@@ -50,11 +76,16 @@ import { WalletsService } from '@parts/services/wallets.service';
           {{ 'MODALS.CANCEL' | translate }}
         </button>
         <button
-          [disabled]="formGroup.invalid"
+          [disabled]="formGroup.invalid || (loading$ | async)"
           class="primary big w-100"
           type="submit"
         >
-          {{ 'MODALS.ADD_TOKEN' | translate }}
+          <ng-container *ngIf="!(loading$ | async); else loadingTemplate">
+            {{ 'MODALS.ADD_TOKEN' | translate }}
+          </ng-container>
+          <ng-template #loadingTemplate>
+            <zano-loader></zano-loader>
+          </ng-template>
         </button>
       </div>
     </form>
@@ -68,12 +99,30 @@ import { WalletsService } from '@parts/services/wallets.service';
       }
     `,
   ],
+  imports: [
+    CommonModule,
+    FlexModule,
+    TranslateModule,
+    ReactiveFormsModule,
+    LoaderComponent,
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddCustomTokenComponent {
-  formGroup = new FormGroup({
-    asset_id: new FormControl<string>(
-      null,
-      Validators.compose([Validators.required, ZanoValidators.hash])
+  private fb = inject(NonNullableFormBuilder);
+
+  private cdr = inject(ChangeDetectorRef);
+
+  loading$ = new BehaviorSubject<boolean>(false);
+
+  formGroup = this.fb.group<ControlsOf<{ asset_id: string }>>({
+    asset_id: this.fb.control(
+      '',
+      Validators.compose([
+        Validators.required,
+        ZanoValidators.hash,
+        Validators.maxLength(64),
+      ])
     ),
   });
 
@@ -95,7 +144,8 @@ export class AddCustomTokenComponent {
   }
 
   submit(): void {
-    const { asset_id } = this.formGroup.value;
+    this.loading$.next(true);
+    const { asset_id } = this.formGroup.getRawValue();
     const { wallet_id } = this.variablesService.currentWallet;
     const params: ParamsAddCustomAssetId = {
       asset_id,
@@ -118,7 +168,11 @@ export class AddCustomTokenComponent {
           this.walletsService.updateWalletInfo(wallet_id);
           this.dialogRef.close(asset);
         } else {
-          console.warn('Opss! Asset not added');
+          this.formGroup.controls.asset_id.setErrors({
+            wrongAssetId,
+          });
+          this.loading$.next(false);
+          this.cdr.detectChanges();
         }
       }
     );

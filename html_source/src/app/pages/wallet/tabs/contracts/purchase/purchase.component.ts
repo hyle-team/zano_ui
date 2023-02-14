@@ -1,17 +1,6 @@
-import {
-  Component,
-  HostListener,
-  NgZone,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { Component, HostListener, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {
-  UntypedFormControl,
-  UntypedFormGroup,
-  ValidationErrors,
-  Validators,
-} from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { ModalService } from '@parts/services/modal.service';
@@ -32,30 +21,37 @@ import { NavigationService } from '@parts/services/back.service';
     >
       <div class="breadcrumbs mb-2">
         <div class="breadcrumb">
-          <a [routerLink]="'/wallet/contracts'">{{
-            'BREADCRUMBS.CONTRACTS' | translate
-          }}</a>
+          <a [routerLink]="'/wallet/contracts'">{{ 'BREADCRUMBS.CONTRACTS' | translate }}</a>
         </div>
-        <div *ngIf="newPurchase" class="breadcrumb">
+        <div
+          *ngIf="newPurchase"
+          class="breadcrumb"
+        >
           <span>{{ 'BREADCRUMBS.NEW_PURCHASE' | translate }}</span>
         </div>
-        <div *ngIf="!newPurchase" class="breadcrumb">
+        <div
+          *ngIf="!newPurchase"
+          class="breadcrumb"
+        >
           <span>{{ 'BREADCRUMBS.OLD_PURCHASE' | translate }}</span>
         </div>
       </div>
 
       <div class="scrolled-content">
-        <div class="form-wrap" fxFlex="1 1 auto" fxLayout="row">
-          <form [formGroup]="purchaseForm" class="form">
+        <div
+          class="form-wrap"
+          fxFlex="1 1 auto"
+          fxLayout="row"
+        >
+          <form
+            [formGroup]="purchaseForm"
+            class="form"
+          >
             <div class="form__field">
-              <label for="purchase-description">{{
-                'PURCHASE.DESCRIPTION' | translate
-              }}</label>
+              <label for="purchase-description">{{ 'PURCHASE.DESCRIPTION' | translate }}</label>
               <input
                 (contextmenu)="variablesService.onContextMenu($event)"
-                [placeholder]="
-                  'PLACEHOLDERS.DESCRIPTION_PLACEHOLDER' | translate
-                "
+                [placeholder]="'PLACEHOLDERS.DESCRIPTION_PLACEHOLDER' | translate"
                 [readonly]="!newPurchase"
                 class="form__field--input"
                 formControlName="description"
@@ -66,24 +62,14 @@ import { NavigationService } from '@parts/services/back.service';
               <div
                 *ngIf="
                   purchaseForm.controls['description'].invalid &&
-                  (purchaseForm.controls['description'].dirty ||
-                    purchaseForm.controls['description'].touched)
+                  (purchaseForm.controls['description'].dirty || purchaseForm.controls['description'].touched)
                 "
                 class="error"
               >
-                <div
-                  *ngIf="
-                    newPurchase &&
-                    purchaseForm.controls['description'].value.length >= 100
-                  "
-                >
+                <div *ngIf="newPurchase && purchaseForm.controls['description'].value.length >= 100">
                   {{ 'PURCHASE.FORM_ERRORS.COMMENT_MAXIMUM' | translate }}
                 </div>
-                <div
-                  *ngIf="
-                    purchaseForm.controls['description'].hasError('required')
-                  "
-                >
+                <div *ngIf="purchaseForm.controls['description'].hasError('required')">
                   {{ 'PURCHASE.FORM_ERRORS.DESC_REQUIRED' | translate }}
                 </div>
               </div>
@@ -91,16 +77,11 @@ import { NavigationService } from '@parts/services/back.service';
 
             <div class="form__field--row">
               <div class="form__field form__field-dropdown">
-                <label for="purchase-seller">{{
-                  'PURCHASE.SELLER' | translate
-                }}</label>
+                <label for="purchase-seller">{{ 'PURCHASE.SELLER' | translate }}</label>
                 <input
                   (contextmenu)="
                     !newPurchase
-                      ? variablesService.onContextMenuOnlyCopy(
-                          $event,
-                          purchaseForm.controls['seller'].value
-                        )
+                      ? variablesService.onContextMenuOnlyCopy($event, purchaseForm.controls['seller'].value)
                       : variablesService.onContextMenu($event)
                   "
                   (mousedown)="addressMouseDown($event)"
@@ -128,46 +109,27 @@ import { NavigationService } from '@parts/services/back.service';
                 <div
                   *ngIf="
                     purchaseForm.controls['seller'].invalid &&
-                    (purchaseForm.controls['seller'].dirty ||
-                      purchaseForm.controls['seller'].touched)
+                    (purchaseForm.controls['seller'].dirty || purchaseForm.controls['seller'].touched)
                   "
                   class="error"
                 >
-                  <div
-                    *ngIf="
-                      purchaseForm.controls['seller'].errors[
-                        'address_not_valid'
-                      ]
-                    "
-                  >
+                  <div *ngIf="purchaseForm.controls['seller'].errors['address_not_valid']">
                     {{ 'PURCHASE.FORM_ERRORS.SELLER_NOT_VALID' | translate }}
                   </div>
-                  <div
-                    *ngIf="
-                      purchaseForm.controls['seller'].errors['address_same']
-                    "
-                  >
+                  <div *ngIf="purchaseForm.controls['seller'].errors['address_same']">
                     {{ 'PURCHASE.FORM_ERRORS.SELLER_SAME' | translate }}
                   </div>
-                  <div
-                    *ngIf="
-                      purchaseForm.controls['seller'].errors['alias_not_valid']
-                    "
-                  >
+                  <div *ngIf="purchaseForm.controls['seller'].errors['alias_not_valid']">
                     {{ 'PURCHASE.FORM_ERRORS.ALIAS_NOT_VALID' | translate }}
                   </div>
-                  <div
-                    *ngIf="purchaseForm.controls['seller'].hasError('required')"
-                  >
+                  <div *ngIf="purchaseForm.controls['seller'].hasError('required')">
                     {{ 'PURCHASE.FORM_ERRORS.SELLER_REQUIRED' | translate }}
                   </div>
                 </div>
               </div>
 
               <div class="form__field">
-                <label for="purchase-amount">{{
-                  'PURCHASE.AMOUNT' | translate
-                }}</label>
+                <label for="purchase-amount">{{ 'PURCHASE.AMOUNT' | translate }}</label>
                 <input
                   (contextmenu)="variablesService.onContextMenu($event)"
                   [placeholder]="'PLACEHOLDERS.AMOUNT_PLACEHOLDER' | translate"
@@ -181,21 +143,14 @@ import { NavigationService } from '@parts/services/back.service';
                 <div
                   *ngIf="
                     purchaseForm.controls['amount'].invalid &&
-                    (purchaseForm.controls['amount'].dirty ||
-                      purchaseForm.controls['amount'].touched)
+                    (purchaseForm.controls['amount'].dirty || purchaseForm.controls['amount'].touched)
                   "
                   class="error"
                 >
-                  <div
-                    *ngIf="
-                      purchaseForm.controls['amount'].errors['amount_zero']
-                    "
-                  >
+                  <div *ngIf="purchaseForm.controls['amount'].errors['amount_zero']">
                     {{ 'PURCHASE.FORM_ERRORS.AMOUNT_ZERO' | translate }}
                   </div>
-                  <div
-                    *ngIf="purchaseForm.controls['amount'].hasError('required')"
-                  >
+                  <div *ngIf="purchaseForm.controls['amount'].hasError('required')">
                     {{ 'PURCHASE.FORM_ERRORS.AMOUNT_REQUIRED' | translate }}
                   </div>
                 </div>
@@ -205,10 +160,7 @@ import { NavigationService } from '@parts/services/back.service';
             <div class="form__field--row">
               <div class="form__field">
                 <label for="purchase-your-deposit">{{
-                  (currentContract && !currentContract.is_a
-                    ? 'PURCHASE.BUYER_DEPOSIT'
-                    : 'PURCHASE.YOUR_DEPOSIT'
-                  ) | translate
+                  (currentContract && !currentContract.is_a ? 'PURCHASE.BUYER_DEPOSIT' : 'PURCHASE.YOUR_DEPOSIT') | translate
                 }}</label>
                 <input
                   (contextmenu)="variablesService.onContextMenu($event)"
@@ -223,19 +175,12 @@ import { NavigationService } from '@parts/services/back.service';
                 <div
                   *ngIf="
                     purchaseForm.controls['yourDeposit'].invalid &&
-                    (purchaseForm.controls['yourDeposit'].dirty ||
-                      purchaseForm.controls['yourDeposit'].touched)
+                    (purchaseForm.controls['yourDeposit'].dirty || purchaseForm.controls['yourDeposit'].touched)
                   "
                   class="error"
                 >
-                  <div
-                    *ngIf="
-                      purchaseForm.controls['yourDeposit'].hasError('required')
-                    "
-                  >
-                    {{
-                      'PURCHASE.FORM_ERRORS.YOUR_DEPOSIT_REQUIRED' | translate
-                    }}
+                  <div *ngIf="purchaseForm.controls['yourDeposit'].hasError('required')">
+                    {{ 'PURCHASE.FORM_ERRORS.YOUR_DEPOSIT_REQUIRED' | translate }}
                   </div>
                 </div>
               </div>
@@ -243,12 +188,7 @@ import { NavigationService } from '@parts/services/back.service';
               <div class="form__field">
                 <div>
                   <label for="purchase-seller-deposit"
-                    >{{
-                      (currentContract && !currentContract.is_a
-                        ? 'PURCHASE.YOUR_DEPOSIT'
-                        : 'PURCHASE.SELLER_DEPOSIT'
-                      ) | translate
-                    }}
+                    >{{ (currentContract && !currentContract.is_a ? 'PURCHASE.YOUR_DEPOSIT' : 'PURCHASE.SELLER_DEPOSIT') | translate }}
                   </label>
                   <app-checkbox
                     (emitChange)="sameAmountChange()"
@@ -260,15 +200,9 @@ import { NavigationService } from '@parts/services/back.service';
                 </div>
                 <input
                   (contextmenu)="variablesService.onContextMenu($event)"
-                  [placeholder]="
-                    'PLACEHOLDERS.SELLER_DEPOSIT_PLACEHOLDER' | translate
-                  "
+                  [placeholder]="'PLACEHOLDERS.SELLER_DEPOSIT_PLACEHOLDER' | translate"
                   [readonly]="!newPurchase"
-                  [value]="
-                    sameAmountChecked
-                      ? purchaseForm.controls['amount'].value
-                      : ''
-                  "
+                  [value]="sameAmountChecked ? purchaseForm.controls['amount'].value : ''"
                   appInputValidate="money"
                   class="form__field--input"
                   formControlName="sellerDeposit"
@@ -278,30 +212,19 @@ import { NavigationService } from '@parts/services/back.service';
                 <div
                   *ngIf="
                     purchaseForm.controls['sellerDeposit'].invalid &&
-                    (purchaseForm.controls['sellerDeposit'].dirty ||
-                      purchaseForm.controls['sellerDeposit'].touched)
+                    (purchaseForm.controls['sellerDeposit'].dirty || purchaseForm.controls['sellerDeposit'].touched)
                   "
                   class="error"
                 >
-                  <div
-                    *ngIf="
-                      purchaseForm.controls['sellerDeposit'].hasError(
-                        'required'
-                      )
-                    "
-                  >
-                    {{
-                      'PURCHASE.FORM_ERRORS.SELLER_DEPOSIT_REQUIRED' | translate
-                    }}
+                  <div *ngIf="purchaseForm.controls['sellerDeposit'].hasError('required')">
+                    {{ 'PURCHASE.FORM_ERRORS.SELLER_DEPOSIT_REQUIRED' | translate }}
                   </div>
                 </div>
               </div>
             </div>
 
             <div class="form__field">
-              <label for="purchase-comment">{{
-                'PURCHASE.COMMENT' | translate
-              }}</label>
+              <label for="purchase-comment">{{ 'PURCHASE.COMMENT' | translate }}</label>
               <input
                 (contextmenu)="variablesService.onContextMenu($event)"
                 [readonly]="!newPurchase"
@@ -309,16 +232,11 @@ import { NavigationService } from '@parts/services/back.service';
                 formControlName="comment"
                 id="purchase-comment"
                 maxlength="100"
-                placeholder="{{
-                  'PLACEHOLDERS.COMMENT_PLACEHOLDER' | translate
-                }}"
+                placeholder="{{ 'PLACEHOLDERS.COMMENT_PLACEHOLDER' | translate }}"
                 type="text"
               />
               <div
-                *ngIf="
-                  newPurchase &&
-                  purchaseForm.controls['comment'].value.length >= 100
-                "
+                *ngIf="newPurchase && purchaseForm.controls['comment'].value.length >= 100"
                 class="error"
               >
                 <div>
@@ -331,16 +249,10 @@ import { NavigationService } from '@parts/services/back.service';
               *ngIf="variablesService.appPass"
               class="form__field max-w-50-rem"
             >
-              <label for="password">{{
-                'LOGIN.MASTER_PASS' | translate
-              }}</label>
+              <label for="password">{{ 'LOGIN.MASTER_PASS' | translate }}</label>
               <input
-                (contextmenu)="
-                  variablesService.onContextMenuPasteSelect($event)
-                "
-                [placeholder]="
-                  'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate
-                "
+                (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
+                [placeholder]="'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate"
                 [readonly]="!newPurchase"
                 autofocus
                 class="form__field--input"
@@ -351,23 +263,17 @@ import { NavigationService } from '@parts/services/back.service';
               <div
                 *ngIf="
                   purchaseForm.controls['password'].invalid &&
-                  (purchaseForm.controls['password'].dirty ||
-                    purchaseForm.controls['password'].touched)
+                  (purchaseForm.controls['password'].dirty || purchaseForm.controls['password'].touched)
                 "
                 class="error"
               >
-                <div
-                  *ngIf="purchaseForm.controls['password'].hasError('required')"
-                >
+                <div *ngIf="purchaseForm.controls['password'].hasError('required')">
                   {{ 'LOGIN.FORM_ERRORS.PASS_REQUIRED' | translate }}
                 </div>
               </div>
 
               <div
-                *ngIf="
-                  purchaseForm.controls.password.errors &&
-                  purchaseForm.controls.password.errors.password_not_match
-                "
+                *ngIf="purchaseForm.controls.password.errors && purchaseForm.controls.password.errors.password_not_match"
                 class="error"
               >
                 <div>
@@ -391,12 +297,13 @@ import { NavigationService } from '@parts/services/back.service';
                 ></i>
               </button>
 
-              <div *ngIf="additionalOptions" class="content">
+              <div
+                *ngIf="additionalOptions"
+                class="content"
+              >
                 <div class="form__field--row">
                   <div class="form__field">
-                    <label for="purchase-fee">{{
-                      'PURCHASE.FEE' | translate
-                    }}</label>
+                    <label for="purchase-fee">{{ 'PURCHASE.FEE' | translate }}</label>
                     <input
                       class="form__field--input"
                       formControlName="fee"
@@ -405,10 +312,11 @@ import { NavigationService } from '@parts/services/back.service';
                       type="text"
                     />
                   </div>
-                  <div *ngIf="newPurchase" class="form__field">
-                    <label for="purchase-time">{{
-                      'PURCHASE.WAITING_TIME' | translate
-                    }}</label>
+                  <div
+                    *ngIf="newPurchase"
+                    class="form__field"
+                  >
+                    <label for="purchase-time">{{ 'PURCHASE.WAITING_TIME' | translate }}</label>
                     <ng-select
                       [clearable]="false"
                       [searchable]="false"
@@ -416,16 +324,9 @@ import { NavigationService } from '@parts/services/back.service';
                       formControlName="time"
                       id="purchase-time"
                     >
-                      <ng-option [value]="1"
-                        >1 {{ 'PURCHASE.HOUR' | translate }}</ng-option
-                      >
+                      <ng-option [value]="1">1 {{ 'PURCHASE.HOUR' | translate }}</ng-option>
                       <ng-option
-                        *ngFor="
-                          let title of [
-                            2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,
-                            17, 18, 19, 20, 21, 22, 23, 24
-                          ]
-                        "
+                        *ngFor="let title of [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]"
                         [value]="title"
                       >
                         {{ title }} {{ 'PURCHASE.HOURS' | translate }}
@@ -433,18 +334,14 @@ import { NavigationService } from '@parts/services/back.service';
                     </ng-select>
                   </div>
                   <div class="form__field">
-                    <label for="purchase-payment">{{
-                      'PURCHASE.PAYMENT' | translate
-                    }}</label>
+                    <label for="purchase-payment">{{ 'PURCHASE.PAYMENT' | translate }}</label>
                     <input
                       (contextmenu)="variablesService.onContextMenu($event)"
                       [readonly]="!newPurchase"
                       class="form__field--input"
                       formControlName="payment"
                       id="purchase-payment"
-                      placeholder="{{
-                        'PLACEHOLDERS.PURCHASE_PAYMENT_PLACEHOLDER' | translate
-                      }}"
+                      placeholder="{{ 'PLACEHOLDERS.PURCHASE_PAYMENT_PLACEHOLDER' | translate }}"
                       type="text"
                     />
                   </div>
@@ -475,9 +372,7 @@ import { NavigationService } from '@parts/services/back.service';
                   currentContract.private_detailes.b_pledge
                     .plus(variablesService.default_fee_big)
                     .plus(variablesService.default_fee_big)
-                    .isGreaterThan(
-                      variablesService.currentWallet.unlocked_balance
-                    )
+                    .isGreaterThan(variablesService.currentWallet.unlocked_balance)
                 "
               >
                 <span>{{ 'PURCHASE.NEED_MONEY' | translate }}</span>
@@ -490,18 +385,14 @@ import { NavigationService } from '@parts/services/back.service';
               fxLayout="row"
               fxLayoutAlign="start center"
             >
-              <ng-container
-                *ngIf="!currentContract.is_a && currentContract.state === 1"
-              >
+              <ng-container *ngIf="!currentContract.is_a && currentContract.state === 1">
                 <button
                   (click)="acceptState()"
                   [disabled]="
                     currentContract.private_detailes.b_pledge
                       .plus(variablesService.default_fee_big)
                       .plus(variablesService.default_fee_big)
-                      .isGreaterThan(
-                        variablesService.currentWallet.unlocked_balance
-                      )
+                      .isGreaterThan(variablesService.currentWallet.unlocked_balance)
                   "
                   class="primary big"
                   type="button"
@@ -532,8 +423,7 @@ import { NavigationService } from '@parts/services/back.service';
                   (click)="dealsDetailsFinish()"
                   [disabled]="
                     currentContract.cancel_expiration_time === 0 &&
-                    (currentContract.height === 0 ||
-                      variablesService.height_app - currentContract.height < 10)
+                    (currentContract.height === 0 || variablesService.height_app - currentContract.height < 10)
                   "
                   class="primary big"
                   type="button"
@@ -544,8 +434,7 @@ import { NavigationService } from '@parts/services/back.service';
                   (click)="showNullify = true"
                   [disabled]="
                     currentContract.cancel_expiration_time === 0 &&
-                    (currentContract.height === 0 ||
-                      variablesService.height_app - currentContract.height < 10)
+                    (currentContract.height === 0 || variablesService.height_app - currentContract.height < 10)
                   "
                   class="outline big"
                   type="button"
@@ -556,8 +445,7 @@ import { NavigationService } from '@parts/services/back.service';
                   (click)="showTimeSelect = true"
                   [disabled]="
                     currentContract.cancel_expiration_time === 0 &&
-                    (currentContract.height === 0 ||
-                      variablesService.height_app - currentContract.height < 10)
+                    (currentContract.height === 0 || variablesService.height_app - currentContract.height < 10)
                   "
                   class="outline big"
                   type="button"
@@ -566,9 +454,7 @@ import { NavigationService } from '@parts/services/back.service';
                 </button>
               </ng-container>
 
-              <ng-container
-                *ngIf="!currentContract.is_a && currentContract.state === 5"
-              >
+              <ng-container *ngIf="!currentContract.is_a && currentContract.state === 5">
                 <button
                   (click)="dealsDetailsDontCanceling()"
                   class="outline big"
@@ -632,9 +518,11 @@ import { NavigationService } from '@parts/services/back.service';
               <div class="time-cancel-block-question mb-1">
                 {{ 'PURCHASE.WAITING_TIME_QUESTION' | translate }}
               </div>
-              <label class="mb-1" for="purchase-timeCancel">{{
-                'PURCHASE.WAITING_TIME' | translate
-              }}</label>
+              <label
+                class="mb-1"
+                for="purchase-timeCancel"
+                >{{ 'PURCHASE.WAITING_TIME' | translate }}</label
+              >
               <div class="form__field">
                 <ng-select
                   [clearable]="false"
@@ -642,16 +530,9 @@ import { NavigationService } from '@parts/services/back.service';
                   formControlName="timeCancel"
                   id="purchase-timeCancel"
                 >
-                  <ng-option [value]="1"
-                    >1 {{ 'PURCHASE.HOUR' | translate }}</ng-option
-                  >
+                  <ng-option [value]="1">1 {{ 'PURCHASE.HOUR' | translate }}</ng-option>
                   <ng-option
-                    *ngFor="
-                      let title of [
-                        2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,
-                        18, 19, 20, 21, 22, 23, 24
-                      ]
-                    "
+                    *ngFor="let title of [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24]"
                     [value]="title"
                   >
                     {{ title }} {{ 'PURCHASE.HOURS' | translate }}
@@ -821,9 +702,7 @@ export class PurchaseComponent implements OnInit, OnDestroy {
             this.backend.validateAddress(g.value, valid_status => {
               this.ngZone.run(() => {
                 if (valid_status === false) {
-                  g.setErrors(
-                    Object.assign({ address_not_valid: true }, g.errors)
-                  );
+                  g.setErrors(Object.assign({ address_not_valid: true }, g.errors));
                 } else {
                   if (g.hasError('address_not_valid')) {
                     delete g.errors['address_not_valid'];
@@ -834,9 +713,7 @@ export class PurchaseComponent implements OnInit, OnDestroy {
                 }
               });
             });
-            return g.hasError('address_not_valid')
-              ? { address_not_valid: true }
-              : null;
+            return g.hasError('address_not_valid') ? { address_not_valid: true } : null;
           } else {
             this.isOpen = true;
             this.localAliases = this.variablesService.aliases.filter(item => {
@@ -846,37 +723,25 @@ export class PurchaseComponent implements OnInit, OnDestroy {
             if (!/^@?[a-z\d\-]{6,25}$/.test(g.value)) {
               g.setErrors(Object.assign({ alias_not_valid: true }, g.errors));
             } else {
-              this.backend.getAliasByName(
-                g.value.replace('@', ''),
-                (alias_status, alias_data) => {
-                  this.ngZone.run(() => {
-                    if (alias_status) {
-                      if (
-                        alias_data.address ===
-                        this.variablesService.currentWallet.address
-                      ) {
-                        g.setErrors(
-                          Object.assign({ address_same: true }, g.errors)
-                        );
-                      }
-                      if (g.hasError('alias_not_valid')) {
-                        delete g.errors['alias_not_valid'];
-                        if (Object.keys(g.errors).length === 0) {
-                          g.setErrors(null);
-                        }
-                      }
-                    } else {
-                      g.setErrors(
-                        Object.assign({ alias_not_valid: true }, g.errors)
-                      );
+              this.backend.getAliasInfoByName(g.value.replace('@', ''), (alias_status, alias_data) => {
+                this.ngZone.run(() => {
+                  if (alias_status) {
+                    if (alias_data.address === this.variablesService.currentWallet.address) {
+                      g.setErrors(Object.assign({ address_same: true }, g.errors));
                     }
-                  });
-                }
-              );
+                    if (g.hasError('alias_not_valid')) {
+                      delete g.errors['alias_not_valid'];
+                      if (Object.keys(g.errors).length === 0) {
+                        g.setErrors(null);
+                      }
+                    }
+                  } else {
+                    g.setErrors(Object.assign({ alias_not_valid: true }, g.errors));
+                  }
+                });
+              });
             }
-            return g.hasError('alias_not_valid')
-              ? { alias_not_valid: true }
-              : null;
+            return g.hasError('alias_not_valid') ? { alias_not_valid: true } : null;
           }
         }
         return null;
@@ -925,25 +790,16 @@ export class PurchaseComponent implements OnInit, OnDestroy {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe({
       next: params => {
         if (hasOwnProperty(params, 'id')) {
-          this.currentContract =
-            this.variablesService.currentWallet.getContract(params['id']);
+          this.currentContract = this.variablesService.currentWallet.getContract(params['id']);
           this.purchaseForm.controls['seller'].setValidators([]);
           this.purchaseForm.updateValueAndValidity();
           this.purchaseForm.setValue({
             description: this.currentContract.private_detailes.t,
             seller: this.currentContract.private_detailes.b_addr,
-            amount: this.intToMoneyPipe.transform(
-              this.currentContract.private_detailes.to_pay
-            ),
-            yourDeposit: this.intToMoneyPipe.transform(
-              this.currentContract.private_detailes.a_pledge
-            ),
-            sellerDeposit: this.intToMoneyPipe.transform(
-              this.currentContract.private_detailes.b_pledge
-            ),
-            sameAmount: this.currentContract.private_detailes.to_pay.isEqualTo(
-              this.currentContract.private_detailes.b_pledge
-            ),
+            amount: this.intToMoneyPipe.transform(this.currentContract.private_detailes.to_pay),
+            yourDeposit: this.intToMoneyPipe.transform(this.currentContract.private_detailes.a_pledge),
+            sellerDeposit: this.intToMoneyPipe.transform(this.currentContract.private_detailes.b_pledge),
+            sameAmount: this.currentContract.private_detailes.to_pay.isEqualTo(this.currentContract.private_detailes.b_pledge),
             comment: this.currentContract.private_detailes.c,
             fee: this.variablesService.default_fee,
             time: 12,
@@ -961,29 +817,20 @@ export class PurchaseComponent implements OnInit, OnDestroy {
             if (
               this.currentContract.state === 130 &&
               this.currentContract.cancel_expiration_time !== 0 &&
-              this.currentContract.cancel_expiration_time <
-                this.variablesService.exp_med_ts
+              this.currentContract.cancel_expiration_time < this.variablesService.exp_med_ts
             ) {
               this.currentContract.state = 2;
             }
-            this.variablesService.settings.viewedContracts = this
-              .variablesService.settings.viewedContracts
+            this.variablesService.settings.viewedContracts = this.variablesService.settings.viewedContracts
               ? this.variablesService.settings.viewedContracts
               : [];
             let findViewedCont = false;
-            for (
-              let j = 0;
-              j < this.variablesService.settings.viewedContracts.length;
-              j++
-            ) {
+            for (let j = 0; j < this.variablesService.settings.viewedContracts.length; j++) {
               if (
-                this.variablesService.settings.viewedContracts[j]
-                  .contract_id === this.currentContract.contract_id &&
-                this.variablesService.settings.viewedContracts[j].is_a ===
-                  this.currentContract.is_a
+                this.variablesService.settings.viewedContracts[j].contract_id === this.currentContract.contract_id &&
+                this.variablesService.settings.viewedContracts[j].is_a === this.currentContract.is_a
               ) {
-                this.variablesService.settings.viewedContracts[j].state =
-                  this.currentContract.state;
+                this.variablesService.settings.viewedContracts[j].state = this.currentContract.state;
                 findViewedCont = true;
                 break;
               }
@@ -1007,31 +854,29 @@ export class PurchaseComponent implements OnInit, OnDestroy {
       },
     });
 
-    this.variablesService.getHeightAppEvent
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (newHeight: number) => {
-          if (
-            this.currentContract &&
-            this.currentContract.state === 201 &&
-            this.currentContract.height !== 0 &&
-            newHeight - this.currentContract.height >= 10
-          ) {
-            this.currentContract.state = 2;
-            this.currentContract.is_new = true;
-            this.variablesService.currentWallet.recountNewContracts();
-          } else if (
-            this.currentContract &&
-            this.currentContract.state === 601 &&
-            this.currentContract.height !== 0 &&
-            newHeight - this.currentContract.height >= 10
-          ) {
-            this.currentContract.state = 6;
-            this.currentContract.is_new = true;
-            this.variablesService.currentWallet.recountNewContracts();
-          }
-        },
-      });
+    this.variablesService.getHeightAppEvent.pipe(takeUntil(this.destroy$)).subscribe({
+      next: (newHeight: number) => {
+        if (
+          this.currentContract &&
+          this.currentContract.state === 201 &&
+          this.currentContract.height !== 0 &&
+          newHeight - this.currentContract.height >= 10
+        ) {
+          this.currentContract.state = 2;
+          this.currentContract.is_new = true;
+          this.variablesService.currentWallet.recountNewContracts();
+        } else if (
+          this.currentContract &&
+          this.currentContract.state === 601 &&
+          this.currentContract.height !== 0 &&
+          newHeight - this.currentContract.height >= 10
+        ) {
+          this.currentContract.state = 6;
+          this.currentContract.is_new = true;
+          this.variablesService.currentWallet.recountNewContracts();
+        }
+      },
+    });
 
     if (this.variablesService.appPass) {
       this.purchaseForm.controls.password.setValidators([
@@ -1041,9 +886,7 @@ export class PurchaseComponent implements OnInit, OnDestroy {
             this.backend.checkMasterPassword({ pass: g.value }, status => {
               this.ngZone.run(() => {
                 if (status === false) {
-                  g.setErrors(
-                    Object.assign({ password_not_match: true }, g.errors)
-                  );
+                  g.setErrors(Object.assign({ password_not_match: true }, g.errors));
                 } else {
                   if (g.hasError('password_not_match')) {
                     delete g.errors['password_not_match'];
@@ -1054,25 +897,21 @@ export class PurchaseComponent implements OnInit, OnDestroy {
                 }
               });
             });
-            return g.hasError('password_not_match')
-              ? { password_not_match: true }
-              : null;
+            return g.hasError('password_not_match') ? { password_not_match: true } : null;
           }
           return null;
         },
       ]);
     }
-    this.variablesService.sendActionData$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: res => {
-          if (res.action === 'escrow') {
-            this.actionData = res;
-            this.fillDeepLinkData();
-            this.variablesService.sendActionData$.next({});
-          }
-        },
-      });
+    this.variablesService.sendActionData$.pipe(takeUntil(this.destroy$)).subscribe({
+      next: res => {
+        if (res.action === 'escrow') {
+          this.actionData = res;
+          this.fillDeepLinkData();
+          this.variablesService.sendActionData$.next({});
+        }
+      },
+    });
   }
 
   ngOnDestroy(): void {
@@ -1099,11 +938,7 @@ export class PurchaseComponent implements OnInit, OnDestroy {
   }
 
   addressMouseDown(e): void {
-    if (
-      e['button'] === 0 &&
-      this.purchaseForm.get('seller').value &&
-      this.purchaseForm.get('seller').value.indexOf('@') === 0
-    ) {
+    if (e['button'] === 0 && this.purchaseForm.get('seller').value && this.purchaseForm.get('seller').value.indexOf('@') === 0) {
       this.isOpen = true;
     }
   }
@@ -1114,22 +949,12 @@ export class PurchaseComponent implements OnInit, OnDestroy {
 
   fillDeepLinkData(): void {
     this.additionalOptions = true;
-    this.purchaseForm
-      .get('description')
-      .setValue(this.actionData.description || '');
-    this.purchaseForm
-      .get('seller')
-      .setValue(this.actionData.seller_address || '');
+    this.purchaseForm.get('description').setValue(this.actionData.description || '');
+    this.purchaseForm.get('seller').setValue(this.actionData.seller_address || '');
     this.purchaseForm.get('amount').setValue(this.actionData.amount || '');
-    this.purchaseForm
-      .get('yourDeposit')
-      .setValue(this.actionData.my_deposit || '');
-    this.purchaseForm
-      .get('sellerDeposit')
-      .setValue(this.actionData.seller_deposit || '');
-    this.purchaseForm
-      .get('comment')
-      .setValue(this.actionData.comment || this.actionData.comments || '');
+    this.purchaseForm.get('yourDeposit').setValue(this.actionData.my_deposit || '');
+    this.purchaseForm.get('sellerDeposit').setValue(this.actionData.seller_deposit || '');
+    this.purchaseForm.get('comment').setValue(this.actionData.comment || this.actionData.comments || '');
   }
 
   toggleOptions(): void {
@@ -1152,9 +977,7 @@ export class PurchaseComponent implements OnInit, OnDestroy {
         if ([5, 601].indexOf(this.currentContract.state) !== -1) {
           progress = '75%';
         }
-        if (
-          [110, 130, 140, 3, 4, 6].indexOf(this.currentContract.state) !== -1
-        ) {
+        if ([110, 130, 140, 3, 4, 6].indexOf(this.currentContract.state) !== -1) {
           progress = '100%';
         }
       }
@@ -1168,9 +991,7 @@ export class PurchaseComponent implements OnInit, OnDestroy {
       this.purchaseForm.get('sellerDeposit').updateValueAndValidity();
       this.sameAmountChecked = !this.sameAmountChecked;
     } else {
-      this.purchaseForm
-        .get('sellerDeposit')
-        .setValidators([Validators.required]);
+      this.purchaseForm.get('sellerDeposit').setValidators([Validators.required]);
       this.purchaseForm.get('sellerDeposit').updateValueAndValidity();
       this.sameAmountChecked = !this.sameAmountChecked;
     }
@@ -1182,17 +1003,7 @@ export class PurchaseComponent implements OnInit, OnDestroy {
 
   createPurchase(): void {
     if (this.purchaseForm.valid) {
-      const {
-        amount,
-        comment,
-        description,
-        payment,
-        sameAmount,
-        seller,
-        sellerDeposit,
-        time,
-        yourDeposit,
-      } = this.purchaseForm.value;
+      const { amount, comment, description, payment, sameAmount, seller, sellerDeposit, time, yourDeposit } = this.purchaseForm.value;
 
       const { wallet_id, address } = this.variablesService.currentWallet;
 
@@ -1219,74 +1030,54 @@ export class PurchaseComponent implements OnInit, OnDestroy {
           callback
         );
       } else {
-        this.backend.getAliasByName(
-          seller.replace('@', ''),
-          (alias_status, alias_data) => {
-            this.ngZone.run(() => {
-              if (!alias_status) {
-                this.ngZone.run(() => {
-                  this.purchaseForm
-                    .get('seller')
-                    .setErrors({ alias_not_valid: true });
-                });
-              } else {
-                this.backend.createProposal(
-                  wallet_id,
-                  description,
-                  comment,
-                  address,
-                  alias_data.address,
-                  amount,
-                  yourDeposit,
-                  b_pledge,
-                  time,
-                  payment,
-                  callback
-                );
-              }
-            });
-          }
-        );
+        this.backend.getAliasInfoByName(seller.replace('@', ''), (alias_status, alias_data) => {
+          this.ngZone.run(() => {
+            if (!alias_status) {
+              this.ngZone.run(() => {
+                this.purchaseForm.get('seller').setErrors({ alias_not_valid: true });
+              });
+            } else {
+              this.backend.createProposal(
+                wallet_id,
+                description,
+                comment,
+                address,
+                alias_data.address,
+                amount,
+                yourDeposit,
+                b_pledge,
+                time,
+                payment,
+                callback
+              );
+            }
+          });
+        });
       }
     }
   }
 
   acceptState(): void {
-    this.backend.acceptProposal(
-      this.variablesService.currentWallet.wallet_id,
-      this.currentContract.contract_id,
-      accept_status => {
-        if (accept_status) {
-          this.modalService.prepareModal(
-            'info',
-            'PURCHASE.ACCEPT_STATE_WAIT_BIG'
-          );
-          this.back();
-        }
+    this.backend.acceptProposal(this.variablesService.currentWallet.wallet_id, this.currentContract.contract_id, accept_status => {
+      if (accept_status) {
+        this.modalService.prepareModal('info', 'PURCHASE.ACCEPT_STATE_WAIT_BIG');
+        this.back();
       }
-    );
+    });
   }
 
   ignoredContract(): void {
-    this.variablesService.settings.notViewedContracts = this.variablesService
-      .settings.notViewedContracts
+    this.variablesService.settings.notViewedContracts = this.variablesService.settings.notViewedContracts
       ? this.variablesService.settings.notViewedContracts
       : [];
     let findViewedCont = false;
-    for (
-      let j = 0;
-      j < this.variablesService.settings.notViewedContracts.length;
-      j++
-    ) {
+    for (let j = 0; j < this.variablesService.settings.notViewedContracts.length; j++) {
       if (
-        this.variablesService.settings.notViewedContracts[j].contract_id ===
-          this.currentContract.contract_id &&
-        this.variablesService.settings.notViewedContracts[j].is_a ===
-          this.currentContract.is_a
+        this.variablesService.settings.notViewedContracts[j].contract_id === this.currentContract.contract_id &&
+        this.variablesService.settings.notViewedContracts[j].is_a === this.currentContract.is_a
       ) {
         this.variablesService.settings.notViewedContracts[j].state = 110;
-        this.variablesService.settings.notViewedContracts[j].time =
-          this.currentContract.expiration_time;
+        this.variablesService.settings.notViewedContracts[j].time = this.currentContract.expiration_time;
         findViewedCont = true;
         break;
       }
@@ -1329,10 +1120,7 @@ export class PurchaseComponent implements OnInit, OnDestroy {
       'REL_N',
       release_status => {
         if (release_status) {
-          this.modalService.prepareModal(
-            'success',
-            'PURCHASE.SUCCESS_FINISH_PROPOSAL'
-          );
+          this.modalService.prepareModal('success', 'PURCHASE.SUCCESS_FINISH_PROPOSAL');
           this.back();
         }
       }
@@ -1346,10 +1134,7 @@ export class PurchaseComponent implements OnInit, OnDestroy {
       this.purchaseForm.get('timeCancel').value,
       cancel_status => {
         if (cancel_status) {
-          this.modalService.prepareModal(
-            'info',
-            'PURCHASE.SEND_CANCEL_PROPOSAL'
-          );
+          this.modalService.prepareModal('info', 'PURCHASE.SEND_CANCEL_PROPOSAL');
           this.back();
         }
       }
@@ -1357,25 +1142,17 @@ export class PurchaseComponent implements OnInit, OnDestroy {
   }
 
   dealsDetailsDontCanceling(): void {
-    this.variablesService.settings.notViewedContracts = this.variablesService
-      .settings.notViewedContracts
+    this.variablesService.settings.notViewedContracts = this.variablesService.settings.notViewedContracts
       ? this.variablesService.settings.notViewedContracts
       : [];
     let findViewedCont = false;
-    for (
-      let j = 0;
-      j < this.variablesService.settings.notViewedContracts.length;
-      j++
-    ) {
+    for (let j = 0; j < this.variablesService.settings.notViewedContracts.length; j++) {
       if (
-        this.variablesService.settings.notViewedContracts[j].contract_id ===
-          this.currentContract.contract_id &&
-        this.variablesService.settings.notViewedContracts[j].is_a ===
-          this.currentContract.is_a
+        this.variablesService.settings.notViewedContracts[j].contract_id === this.currentContract.contract_id &&
+        this.variablesService.settings.notViewedContracts[j].is_a === this.currentContract.is_a
       ) {
         this.variablesService.settings.notViewedContracts[j].state = 130;
-        this.variablesService.settings.notViewedContracts[j].time =
-          this.currentContract.cancel_expiration_time;
+        this.variablesService.settings.notViewedContracts[j].time = this.currentContract.cancel_expiration_time;
         findViewedCont = true;
         break;
       }
@@ -1397,18 +1174,11 @@ export class PurchaseComponent implements OnInit, OnDestroy {
   }
 
   dealsDetailsSellerCancel(): void {
-    this.backend.acceptCancelContract(
-      this.variablesService.currentWallet.wallet_id,
-      this.currentContract.contract_id,
-      accept_status => {
-        if (accept_status) {
-          this.modalService.prepareModal(
-            'info',
-            'PURCHASE.DEALS_CANCELED_WAIT'
-          );
-          this.back();
-        }
+    this.backend.acceptCancelContract(this.variablesService.currentWallet.wallet_id, this.currentContract.contract_id, accept_status => {
+      if (accept_status) {
+        this.modalService.prepareModal('info', 'PURCHASE.DEALS_CANCELED_WAIT');
+        this.back();
       }
-    );
+    });
   }
 }

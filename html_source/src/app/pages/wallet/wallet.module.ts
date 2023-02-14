@@ -14,12 +14,15 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import { IsAvailableAliasNamePipeModule } from '@parts/pipes';
 import { ConfirmModalModule } from '@parts/modals/confirm-modal/confirm-modal.module';
-import { AddCustomTokenModule } from './wallet/modals/add-custom-token/add-custom-token.module';
 import { ExportHistoryModalModule } from './wallet/modals/export-history-modal/export-history-modal.module';
 import { WalletDetailsComponent } from '../wallet-details/wallet-details.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { DefaultImgModule, InputValidateModule } from '@parts/directives';
+import {
+  DefaultImgModule,
+  InputValidateModule,
+  LowerCaseDirective,
+} from '@parts/directives';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { HistoryComponent } from './tabs/history/history.component';
 import { StakingComponent } from './tabs/staking/staking.component';
@@ -70,7 +73,6 @@ import { TransactionDetailsComponent } from '@parts/components/transaction-detai
     TranslateModule,
     IsAvailableAliasNamePipeModule,
     ConfirmModalModule,
-    AddCustomTokenModule,
     ExportHistoryModalModule,
     ReactiveFormsModule,
     OverlayModule,
@@ -95,6 +97,7 @@ import { TransactionDetailsComponent } from '@parts/components/transaction-detai
     HasInAssetsWhitelistModule,
     CopyButtonComponent,
     TransactionDetailsComponent,
+    LowerCaseDirective,
   ],
 })
 export class WalletModule {}

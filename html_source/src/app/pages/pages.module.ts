@@ -45,6 +45,7 @@ import { CopyButtonComponent } from '@parts/components/copy-button.component';
 import { StakingSwitchComponent } from '@parts/components/staking-switch.component';
 import { SwitchComponent } from '@parts/components/switch.component';
 import { SynchronizationStatusComponent } from '@parts/components/synchronization-status.component';
+import { LoaderComponent } from '@parts/components/loader.component';
 
 @NgModule({
   declarations: [
@@ -98,6 +99,7 @@ import { SynchronizationStatusComponent } from '@parts/components/synchronizatio
     StakingSwitchComponent,
     SwitchComponent,
     SynchronizationStatusComponent,
+    LoaderComponent,
   ],
 })
 export class PagesModule {}
