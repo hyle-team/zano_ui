@@ -278,7 +278,8 @@
       "AMOUNT_ZERO": "Amount is zero",
       "FEE_REQUIRED": "Fee is required",
       "FEE_MINIMUM": "Minimum fee: {{fee}}",
-      "MAX_LENGTH": "Maximum comment length reached"
+      "MAX_LENGTH": "Maximum comment length reached",
+      "ALIAS_NOT_FOUND": "Alias not found"
     }
   },
   "HISTORY": {

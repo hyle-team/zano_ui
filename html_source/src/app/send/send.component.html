@@ -40,6 +40,9 @@
                     <div *ngIf="sendForm.controls['address'].errors['alias_not_valid']">
                         {{ 'SEND.FORM_ERRORS.ALIAS_NOT_VALID' | translate }}
                     </div>
+					<div *ngIf="sendForm.controls['address'].errors['alias_not_found']">
+						{{ 'SEND.FORM_ERRORS.ALIAS_NOT_FOUND' | translate }}
+					</div>
                     <div *ngIf="sendForm.controls['address'].hasError('required')">
                         {{ 'SEND.FORM_ERRORS.ADDRESS_REQUIRED' | translate }}
                     </div>
