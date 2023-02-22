@@ -443,25 +443,25 @@ export class SendComponent implements OnInit, OnDestroy {
               return control.hasError('address_not_valid') ? { address_not_valid: true } : null;
             } else {
               if (!regExpAliasName.test(control.value)) {
-                control.setErrors(Object.assign({ alias_not_valid: true }, control.errors));
+                return { alias_not_valid: true };
               } else {
                 this.backendService.getAliasInfoByName(control.value.replace('@', ''), (alias_status, alias_data) => {
                   this.ngZone.run(() => {
                     this.aliasAddress = alias_data.address;
                     if (alias_status) {
-                      if (control.hasError('alias_not_valid')) {
-                        delete control.errors['alias_not_valid'];
+                      if (control.hasError('alias_not_found')) {
+                        delete control.errors['alias_not_found'];
                         if (Object.keys(control.errors).length === 0) {
                           control.setErrors(null);
                         }
                       }
                     } else {
-                      control.setErrors(Object.assign({ alias_not_valid: true }, control.errors));
+                      control.setErrors(Object.assign({ alias_not_found: true }, control.errors));
                     }
                   });
                 });
               }
-              return control.hasError('alias_not_valid') ? { alias_not_valid: true } : null;
+              return control.hasError('alias_not_found') ? { alias_not_found: true } : null;
             }
           }
           return null;
@@ -578,9 +578,10 @@ export class SendComponent implements OnInit, OnDestroy {
       };
 
       if (address.indexOf('@') === 0) {
-        const aliasAddress = this.aliases$.value.find(({ name }) => name === address).address;
+        const aliasName = address;
+        const alias = this.aliases$.value.find(({ name }) => name === aliasName);
 
-        if (!aliasAddress) {
+        if (!alias) {
           this.sendMoneyParamsForm.controls.address.setErrors({
             alias_not_found: true,
           });
@@ -589,7 +590,7 @@ export class SendComponent implements OnInit, OnDestroy {
 
         sendMoneyParams = {
           ...sendMoneyParams,
-          address: aliasAddress,
+          address: alias.address,
         };
       }
 
@@ -684,7 +685,7 @@ export class SendComponent implements OnInit, OnDestroy {
       });
   }
 
-  private pasteListenAddressField(event: any): void {
+  pasteListenAddressField(event: any): void {
     event.preventDefault();
     const { clipboardData } = event;
     let value = clipboardData.getData('Text') ?? '';
@@ -696,7 +697,7 @@ export class SendComponent implements OnInit, OnDestroy {
     this.sendMoneyParamsForm.controls.address.patchValue(value);
   }
 
-  private inputListenAddressField(event: any): void {
+  inputListenAddressField(event: any): void {
     const {
       target: { value },
     } = event;
