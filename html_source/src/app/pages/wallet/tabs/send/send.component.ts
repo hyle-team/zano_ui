@@ -657,7 +657,7 @@ export class SendComponent implements OnInit, OnDestroy {
     this.additionalOptions = true;
     this.sendMoneyParamsForm.patchValue({
       address: value.address,
-      amount: null,
+      amount: value.amount || null,
       comment: value.comment || value.comments || '',
       mixin: +value.mixins || MIXIN,
       asset_id: zanoAssetInfo.asset_id,
