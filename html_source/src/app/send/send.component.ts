@@ -214,7 +214,7 @@ export class SendComponent implements OnInit, OnDestroy {
     this.additionalOptions = true;
     this.sendForm.reset({
       address: this.actionData.address,
-      amount: null,
+      amount: this.actionData.amount || null,
       comment: this.actionData.comment || this.actionData.comments || '',
       mixin: this.actionData.mixins || this.mixin,
       fee: this.actionData.fee || this.variablesService.default_fee,
