@@ -185,17 +185,17 @@
     }
   },
   "WALLET_DETAILS": {
-    "LABEL_NAME": "Wallet name",
-    "LABEL_FILE_LOCATION": "Wallet file location",
-    "LABEL_SEED_PHRASE": "Seed phrase",
-    "SEED_PHRASE_HINT": "Click to reveal the seed phrase",
-    "BUTTON_SAVE": "Save",
-    "BUTTON_REMOVE": "Close wallet",
-    "FORM_ERRORS": {
-      "NAME_REQUIRED": "Name is required",
-      "NAME_DUPLICATE": "Name is duplicate",
-      "MAX_LENGTH": "Maximum name length reached"
-    }
+	  "LABEL_NAME": "Wallet name",
+	  "LABEL_FILE_LOCATION": "Wallet file location",
+	  "LABEL_SEED_PHRASE": "Seed phrase",
+	  "SEED_PHRASE_HINT": "Click to reveal the seed phrase",
+	  "BUTTON_SAVE": "Save",
+	  "BUTTON_REMOVE": "Remove wallet",
+	  "FORM_ERRORS": {
+		  "NAME_REQUIRED": "Name is required",
+		  "NAME_DUPLICATE": "Name is duplicate",
+		  "MAX_LENGTH": "Maximum name length reached"
+	  }
   },
   "ASSIGN_ALIAS": {
     "NAME": {

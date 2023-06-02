@@ -214,7 +214,7 @@
 			"EDIT_ALIAS": "Edit alias",
 			"TRANSFER_ALIAS": "Transfer alias",
 			"SETTINGS": "Settings",
-			"CLOSE": "Close wallet"
+			"CLOSE": "Remove wallet"
 		}
 	},
 	"WALLET_DETAILS": {
@@ -223,7 +223,7 @@
 		"LABEL_SEED_PHRASE": "Seed phrase",
 		"SEED_PHRASE_HINT": "Click to reveal the seed phrase",
 		"BUTTON_SAVE": "Save",
-		"BUTTON_REMOVE": "Close Wallet",
+		"BUTTON_REMOVE": "Remove wallet",
 		"FORM_ERRORS": {
 			"NAME_REQUIRED": "Name is required",
 			"NAME_DUPLICATE": "Name is duplicate",
