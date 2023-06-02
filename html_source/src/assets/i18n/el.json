@@ -212,35 +212,35 @@
       "MESSAGE": "To access it you’ll have to add it again"
     },
     "TOOLTIPS": {
-      "EDIT_ALIAS": "Edit alias",
-      "TRANSFER_ALIAS": "Transfer alias",
-      "SETTINGS": "Settings",
-      "ADD_CUSTOM_TOKEN": "Add Custom Token",
-      "CLOSE": "Close wallet"
-    },
+		"EDIT_ALIAS": "Edit alias",
+		"TRANSFER_ALIAS": "Transfer alias",
+		"SETTINGS": "Settings",
+		"ADD_CUSTOM_TOKEN": "Add Custom Token",
+		"REMOVE": "Remove wallet"
+	},
     "MODAL_ADD_CUSTOM_TOKEN": {
       "TITLE": "Add Custom Token",
       "FIELD_TITLE": "Asset ID"
     }
   },
   "WALLET_DETAILS": {
-    "LABEL_NAME": "Wallet name",
-    "LABEL_FILE_LOCATION": "Wallet file location",
-    "LABEL_SEED_PHRASE": "Seed phrase",
-    "SEED_PHRASE_HINT": "Click to reveal the seed phrase",
-    "BUTTON_SAVE": "Save",
-    "BUTTON_REMOVE": "Close wallet",
-    "FORM_ERRORS": {
-      "NAME_REQUIRED": "Name is required",
-      "NAME_DUPLICATE": "Name is duplicate",
-      "MAX_LENGTH": "Maximum name length reached",
-      "PASSWORDS_DONT_MATCH": "Passwords don't match"
-    },
-    "WALLET_OPTIONS": "Wallet options...",
-    "RESYNC_WALLET": "Resync wallet data",
-    "RESYNC_WALLET_BUTTON": "Resync Wallet",
-    "CREATE_PASSWORD_SECURE": "Create a password to secure your seed",
-    "INFO": "info",
+	  "LABEL_NAME": "Wallet name",
+	  "LABEL_FILE_LOCATION": "Wallet file location",
+	  "LABEL_SEED_PHRASE": "Seed phrase",
+	  "SEED_PHRASE_HINT": "Click to reveal the seed phrase",
+	  "BUTTON_SAVE": "Save",
+	  "BUTTON_REMOVE": "Remove wallet",
+	  "FORM_ERRORS": {
+		  "NAME_REQUIRED": "Name is required",
+		  "NAME_DUPLICATE": "Name is duplicate",
+		  "MAX_LENGTH": "Maximum name length reached",
+		  "PASSWORDS_DONT_MATCH": "Passwords don't match"
+	  },
+	  "WALLET_OPTIONS": "Wallet options...",
+	  "RESYNC_WALLET": "Resync wallet data",
+	  "RESYNC_WALLET_BUTTON": "Resync Wallet",
+	  "CREATE_PASSWORD_SECURE": "Create a password to secure your seed",
+	  "INFO": "info",
     "SEED_IS_UNSECURED": "Seed is unsecured",
     "SEED_IS_SECURED": "Seed is secured",
     "REMEMBER_YOU_WILL_REQUIRE": "Secure seed will require password to restore.",

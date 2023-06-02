@@ -216,7 +216,7 @@
       "TRANSFER_ALIAS": "Transfer alias",
       "SETTINGS": "Settings",
       "ADD_CUSTOM_TOKEN": "Add Custom Token",
-      "CLOSE": "Close wallet"
+      "REMOVE": "Remove wallet"
     },
     "MODAL_ADD_CUSTOM_TOKEN": {
       "TITLE": "Add Custom Token",
@@ -229,7 +229,7 @@
     "LABEL_SEED_PHRASE": "Seed phrase",
     "SEED_PHRASE_HINT": "Click to reveal the seed phrase",
     "BUTTON_SAVE": "Save",
-    "BUTTON_REMOVE": "Close wallet",
+    "BUTTON_REMOVE": "Remove wallet",
     "FORM_ERRORS": {
       "NAME_REQUIRED": "Name is required",
       "NAME_DUPLICATE": "Name is duplicate",

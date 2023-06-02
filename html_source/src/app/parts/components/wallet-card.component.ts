@@ -47,7 +47,7 @@ import { StakingSwitchComponent } from '@parts/components/staking-switch.compone
             [delay]="500"
             [timeDelay]="500"
             placement="top"
-            tooltip="{{ 'WALLET.TOOLTIPS.CLOSE' | translate }}"
+            tooltip="{{ 'WALLET.TOOLTIPS.REMOVE' | translate }}"
             tooltipClass="table-tooltip account-tooltip"
             type="button"
           >

@@ -245,7 +245,7 @@ import { WalletsService } from '@parts/services/wallets.service';
               [timeDelay]="500"
               class="w-100 px-2 py-1"
               placement="left"
-              tooltip="{{ 'WALLET.TOOLTIPS.CLOSE' | translate }}"
+              tooltip="{{ 'WALLET.TOOLTIPS.REMOVE' | translate }}"
               tooltipClass="table-tooltip account-tooltip"
               type="button"
             >
