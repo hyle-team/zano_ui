@@ -1,4 +1,16 @@
-import { Directive, ElementRef, EventEmitter, HostBinding, HostListener, Input, OnDestroy, Output, Renderer2 } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  EventEmitter,
+  HostBinding,
+  HostListener,
+  Input,
+  OnDestroy,
+  Output,
+  Renderer2,
+  SecurityContext
+} from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Directive({
   selector: '[tooltip]'
@@ -25,7 +37,7 @@ export class TooltipDirective implements OnDestroy {
 
   removeTooltipTimeDelay;
 
-  constructor(private el: ElementRef, private renderer: Renderer2) {
+  constructor(private el: ElementRef, private renderer: Renderer2, private sanitizer: DomSanitizer) {
   }
 
   @HostListener('mouseenter') onMouseEnter() {
@@ -81,7 +93,13 @@ export class TooltipDirective implements OnDestroy {
     this.tooltip = this.renderer.createElement('div');
     let innerBlock = this.renderer.createElement('div');
     if (typeof this.tooltipInner === 'string') {
-      innerBlock.innerHTML = this.tooltipInner;
+      let sanitizedTooltipInner = this.sanitizer.sanitize(SecurityContext.HTML, this.tooltipInner);
+      sanitizedTooltipInner = this.sanitizer.sanitize(SecurityContext.NONE, sanitizedTooltipInner);
+      sanitizedTooltipInner = this.sanitizer.sanitize(SecurityContext.URL, sanitizedTooltipInner);
+      sanitizedTooltipInner = this.sanitizer.sanitize(SecurityContext.SCRIPT, sanitizedTooltipInner);
+      sanitizedTooltipInner = this.sanitizer.sanitize(SecurityContext.RESOURCE_URL, sanitizedTooltipInner);
+      sanitizedTooltipInner = this.sanitizer.sanitize(SecurityContext.STYLE, sanitizedTooltipInner);
+      innerBlock.innerHTML = sanitizedTooltipInner;
     } else {
       innerBlock = this.tooltipInner;
     }
