@@ -8,11 +8,12 @@
     "BUTTON_RESET": "Redefinir",
     "INCORRECT_PASSWORD": "Password inválida",
     "FORM_ERRORS": {
-      "PASS_REQUIRED": "Password é obrigatória",
-      "CONFIRM_REQUIRED": "Confirmação é obrigatória",
-      "MISMATCH": "Não correspondem",
-      "INVALID_PASS": "Senha inválida, tente novamente"
-    }
+		"PASS_REQUIRED": "Password é obrigatória",
+		"CONFIRM_REQUIRED": "Confirmação é obrigatória",
+		"MISMATCH": "Não correspondem",
+		"INVALID_PASS": "Senha inválida, tente novamente",
+		"WRONG_PASSWORD": "Wrong password"
+	}
   },
   "COMMON": {
     "BACK": "Voltar"

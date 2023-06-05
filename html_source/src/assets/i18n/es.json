@@ -8,11 +8,12 @@
     "BUTTON_RESET": "Reset",
     "INCORRECT_PASSWORD": "Invalid password",
     "FORM_ERRORS": {
-      "PASS_REQUIRED": "Password is required",
-      "CONFIRM_REQUIRED": "Confirmation is required",
-      "MISMATCH": "Mismatch",
-      "INVALID_PASS": "Invalid Password, try again"
-    }
+		"PASS_REQUIRED": "Password is required",
+		"CONFIRM_REQUIRED": "Confirmation is required",
+		"MISMATCH": "Mismatch",
+		"INVALID_PASS": "Invalid Password, try again",
+		"WRONG_PASSWORD": "Wrong password"
+	}
   },
   "COMMON": {
     "BACK": "Go back"

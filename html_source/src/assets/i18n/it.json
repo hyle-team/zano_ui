@@ -8,11 +8,12 @@
     "BUTTON_RESET": "Azzera",
     "INCORRECT_PASSWORD": "Password non valida",
     "FORM_ERRORS": {
-      "PASS_REQUIRED": "La password è necessaria",
-      "CONFIRM_REQUIRED": "La conferma è necessaria",
-      "MISMATCH": "Non corrisponde",
-      "INVALID_PASS": "Password non valida, riprova"
-    }
+		"PASS_REQUIRED": "La password è necessaria",
+		"CONFIRM_REQUIRED": "La conferma è necessaria",
+		"MISMATCH": "Non corrisponde",
+		"INVALID_PASS": "Password non valida, riprova",
+		"WRONG_PASSWORD": "Wrong password"
+	}
   },
   "COMMON": {
     "BACK": "Torna indietro"

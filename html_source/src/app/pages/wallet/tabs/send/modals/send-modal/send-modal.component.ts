@@ -106,7 +106,7 @@ import { ZanoValidators } from '@parts/utils/zano-validators';
                 class="error"
               >
                 <div *ngIf="confirmForm.hasError('passwordNotMatch')">
-                  {{ 'LOGIN.FORM_ERRORS.MISMATCH' | translate }}
+                  {{ 'LOGIN.FORM_ERRORS.WRONG_PASSWORD' | translate }}
                 </div>
                 <div *ngIf="confirmForm.controls.password.hasError('required')">
                   {{ 'LOGIN.FORM_ERRORS.PASS_REQUIRED' | translate }}
