@@ -10,7 +10,8 @@
 		"FORM_ERRORS": {
 			"PASS_REQUIRED": "La password è necessaria",
 			"CONFIRM_REQUIRED": "La conferma è necessaria",
-			"MISMATCH": "Non corrisponde"
+			"MISMATCH": "Non corrisponde",
+			"WRONG_PASSWORD": "Wrond password"
 		}
 	},
 	"COMMON": {

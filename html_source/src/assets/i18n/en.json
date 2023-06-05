@@ -11,7 +11,8 @@
 			"PASS_REQUIRED": "Password is required",
 			"CONFIRM_REQUIRED": "Confirmation is required",
 			"MISMATCH": "Mismatch",
-			"INVALID_PASS": "Invalid Password, try again"
+			"INVALID_PASS": "Invalid Password, try again",
+			"WRONG_PASSWORD": "Wrond password"
 		}
 	},
 	"COMMON": {
@@ -326,10 +327,10 @@
 			"FEE_REQUIRED": "Fee is required",
 			"FEE_MINIMUM": "Minimum fee: {{fee}}",
 			"MAX_LENGTH": "Maximum comment length reached",
+			"ALIAS_NOT_FOUND": "Alias not found",
 			"GREAT_THAN_UNWRAPPED_COINS": "Amount is bigger than ERC20 tokens left available",
 			"LESS_THAN_ZANO_NEEDED": "Too small amount to cover ERC20 fee",
-			"WRAP_INFO_NULL": "failed to request wrap state",
-			"ALIAS_NOT_FOUND": "Alias not found"
+			"WRAP_INFO_NULL": "failed to request wrap state"
 		},
 		"WRAP": {
 			"TITLE": "Wrap",

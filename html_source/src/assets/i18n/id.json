@@ -10,7 +10,8 @@
 		"FORM_ERRORS": {
 			"PASS_REQUIRED": "Kata sandi dibutuhkan\n",
 			"CONFIRM_REQUIRED": "Diperlukan konfirmasi",
-			"MISMATCH": "Tidak cocok"
+			"MISMATCH": "Tidak cocok",
+			"WRONG_PASSWORD": "Wrond password"
 		}
 	},
 	"COMMON": {

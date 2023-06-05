@@ -10,7 +10,8 @@
 		"FORM_ERRORS": {
 			"PASS_REQUIRED": "Passwort ist erforderlich",
 			"CONFIRM_REQUIRED": "Bestätigung ist erforderlich",
-			"MISMATCH": "Fehlanpassung"
+			"MISMATCH": "Fehlanpassung",
+			"WRONG_PASSWORD": "Wrond password"
 		}
 	},
 	"COMMON": {

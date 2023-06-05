@@ -10,7 +10,8 @@
 		"FORM_ERRORS": {
 			"PASS_REQUIRED": "Je vyžadováno heslo",
 			"CONFIRM_REQUIRED": "Je požadováno potvrzení",
-			"MISMATCH": "Neodpovídající"
+			"MISMATCH": "Neodpovídající",
+			"WRONG_PASSWORD": "Wrond password"
 		}
 	},
 	"COMMON": {
