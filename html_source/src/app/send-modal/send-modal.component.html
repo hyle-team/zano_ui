@@ -53,15 +53,15 @@
                            autofocus
                            (contextmenu)="variablesService.onContextMenuPasteSelect($event)"/>
                     <div class="error"
-                         *ngIf="confirmForm.controls['password'].invalid && (confirmForm.controls['password'].dirty || confirmForm.controls['password'].touched)">
-                        <div
-							*ngIf="confirmForm.controls['password'].errors && confirmForm.controls['password'].errors.passwordNotMatch">
+						 *ngIf="confirmForm.controls['password'].invalid && (confirmForm.controls['password'].dirty || confirmForm.controls['password'].touched) || submitted">
+						<div
+							*ngIf="confirmForm.controls['password'].hasError('passwordNotMatch')">
 							{{ 'LOGIN.FORM_ERRORS.WRONG_PASSWORD' | translate }}
 						</div>
-                        <div *ngIf="confirmForm.controls['password'].errors['required']">
-                            {{ 'LOGIN.FORM_ERRORS.PASS_REQUIRED' | translate }}
-                        </div>
-                    </div>
+						<div *ngIf="confirmForm.controls['password'].hasError('requiredPass')">
+							{{ 'LOGIN.FORM_ERRORS.PASS_REQUIRED' | translate }}
+						</div>
+					</div>
                 </div>
             </div>
 
