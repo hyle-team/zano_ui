@@ -3,7 +3,7 @@ import { Transaction, Transactions } from './transaction.model';
 import { BigNumber } from 'bignumber.js';
 import { Asset, Assets } from './assets.model';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Alias } from '@api/models/alias.model';
 import { SendMoneyParams } from '@api/models/send-money.model';
 import { MIXIN } from '@parts/data/constants';
