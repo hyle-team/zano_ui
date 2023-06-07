@@ -8,14 +8,32 @@ import { ContextMenuComponent, ContextMenuService } from 'ngx-contextmenu';
 import { BigNumber } from 'bignumber.js';
 
 @Injectable({
-              providedIn: 'root'
-            })
+  providedIn: 'root'
+})
 export class VariablesService {
   public disable_price_fetch$ = new BehaviorSubject<boolean>(false);
   public use_debug_mode$ = new BehaviorSubject<boolean>(false);
   public request_on_in = {};
   public stop_paginate = {};
   public sync_started = false;
+  public sync_wallets: { [wallet_id: number]: boolean } = {};
+
+  get isCurrentWalletSync(): boolean {
+    if (this.currentWallet) {
+      const { wallet_id } = this.currentWallet;
+      return this.sync_wallets[wallet_id] || false;
+    }
+    return false;
+  }
+
+  get isCurrentWalletLoaded(): boolean {
+    if (this.currentWallet) {
+      const { loaded } = this.currentWallet;
+      return loaded;
+    }
+    return false;
+  }
+
   public digits = 12;
   public appPass = '';
   public appLogin = false;

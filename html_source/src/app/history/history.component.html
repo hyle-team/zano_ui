@@ -183,7 +183,7 @@
 				 fxLayout="row"
 				 fxLayoutAlign=" center">
 				<button class="btn-icon circle small mr-1"
-						[disabled]="variablesService.currentWallet.currentPage === 1 || variablesService.sync_started || wallet"
+						[disabled]="variablesService.currentWallet.currentPage === 1 || variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded"
 						(click)="setPage(variablesService.currentWallet.currentPage - 1)">
 					<i class="icon arrow-left-stroke"></i>
 				</button>
@@ -191,21 +191,22 @@
 				<ng-container *ngIf="!mining">
 					<button *ngFor="let page of variablesService.currentWallet.pages"
 							[class.color-primary]="variablesService.currentWallet.currentPage === page"
+							[disabled]="variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded"
 							class="mr-0_5"
 							(click)="setPage(page)">{{page}}</button>
 				</ng-container>
 
 				<ng-container *ngIf="mining">
 					<button class="mr-0_5"
-							[ngClass]="{ 'color-primary': variablesService.currentWallet.currentPage, 'disabled': variablesService.sync_started || wallet}"
-							[disabled]="stop_paginate || variablesService.sync_started || wallet"
+							[disabled]="stop_paginate || variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded"
+							[ngClass]="{ 'color-primary': variablesService.currentWallet.currentPage, 'disabled': variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded}"
 							(click)="setPage(variablesService.currentWallet.currentPage)">
 						{{variablesService.currentWallet.currentPage}}
 					</button>
 				</ng-container>
 
 				<button class="btn-icon circle small ml-0_5"
-						[disabled]="stop_paginate || variablesService.sync_started || wallet"
+						[disabled]="stop_paginate || variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded"
 						(click)="setPage(variablesService.currentWallet.currentPage + 1)">
 					<i class="icon arrow-right-stroke"></i>
 				</button>
@@ -215,7 +216,7 @@
 				 fxLayoutAlign=" center">
 				<span class="switch-text mr-2">Hide mining transactions</span>
 				<app-switch [value]="mining"
-							[disabled]="variablesService.sync_started || !!wallet"
+							[disabled]="variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded"
 							(emitChange)="toggleMiningTransactions()"></app-switch>
 			</div>
 		</div>
