@@ -267,7 +267,7 @@ import { collapseOnLeaveAnimation, expandOnEnterAnimation } from 'angular-animat
           >
             <button
               (click)="setPage(variablesService.currentWallet.currentPage - 1)"
-              [disabled]="variablesService.currentWallet.currentPage === 1 || variablesService.sync_started || wallet"
+              [disabled]="variablesService.currentWallet.currentPage === 1 || variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded"
               class="btn-icon circle small mr-1"
             >
               <i class="icon arrow-left-stroke"></i>
@@ -277,6 +277,7 @@ import { collapseOnLeaveAnimation, expandOnEnterAnimation } from 'angular-animat
               <button
                 (click)="setPage(page)"
                 *ngFor="let page of variablesService.currentWallet.pages"
+                [disabled]="variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded"
                 [class.color-primary]="variablesService.currentWallet.currentPage === page"
                 class="mr-0_5"
               >
@@ -287,10 +288,10 @@ import { collapseOnLeaveAnimation, expandOnEnterAnimation } from 'angular-animat
             <ng-container *ngIf="mining">
               <button
                 (click)="setPage(variablesService.currentWallet.currentPage)"
-                [disabled]="stop_paginate || variablesService.sync_started || wallet"
+                [disabled]="stop_paginate || variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded"
                 [ngClass]="{
                   'color-primary': variablesService.currentWallet.currentPage,
-                  disabled: variablesService.sync_started || wallet
+                  'disabled': variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded
                 }"
                 class="mr-0_5"
               >
@@ -300,7 +301,7 @@ import { collapseOnLeaveAnimation, expandOnEnterAnimation } from 'angular-animat
 
             <button
               (click)="setPage(variablesService.currentWallet.currentPage + 1)"
-              [disabled]="stop_paginate || variablesService.sync_started || wallet"
+              [disabled]="stop_paginate || variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded"
               class="btn-icon circle small ml-0_5"
             >
               <i class="icon arrow-right-stroke"></i>
@@ -314,7 +315,7 @@ import { collapseOnLeaveAnimation, expandOnEnterAnimation } from 'angular-animat
             <span class="switch-text mr-2">Hide mining transactions</span>
             <app-switch
               (emitChange)="toggleMiningTransactions()"
-              [disabled]="variablesService.sync_started || !!wallet"
+              [disabled]="variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded"
               [value]="mining"
             ></app-switch>
           </div>
@@ -354,7 +355,8 @@ export class HistoryComponent implements OnInit, OnDestroy {
     private backend: BackendService,
     private ngZone: NgZone,
     private paginationStore: PaginationStore
-  ) {}
+  ) {
+  }
 
   ngOnInit(): void {
     this.route.parent.params.pipe(takeUntil(this.destroy$)).subscribe({
@@ -362,6 +364,28 @@ export class HistoryComponent implements OnInit, OnDestroy {
         this.openedDetails = '';
       },
     });
+
+    this.init();
+
+    this.variablesService.getWalletChangedEvent.pipe(takeUntil(this.destroy$)).subscribe({
+      next: () => {
+        this.getRecentTransfers();
+      }
+    });
+
+    this.variablesService.getWalletChangedEvent
+      .pipe(
+        filter(w => !!w),
+        takeUntil(this.destroy$)
+      )
+      .subscribe({
+        next: (currentWallet: Wallet) => {
+          this.mining = currentWallet.exclude_mining_txs;
+        },
+      });
+  }
+
+  init(): void {
     let restore = false;
     if (hasOwnProperty(this.variablesService.after_sync_request, String(this.variablesService.currentWallet.wallet_id))) {
       restore = this.variablesService.after_sync_request[this.variablesService.currentWallet.wallet_id];
@@ -393,21 +417,6 @@ export class HistoryComponent implements OnInit, OnDestroy {
     this.wallet = this.variablesService.getNotLoadedWallet();
     if (this.wallet) {
       this.tick();
-    }
-
-    this.variablesService.getWalletChangedEvent
-      .pipe(
-        filter(w => !!w),
-        takeUntil(this.destroy$)
-      )
-      .subscribe({
-        next: (currentWallet: Wallet) => {
-          this.mining = currentWallet.exclude_mining_txs;
-        },
-      });
-
-    if (!this.variablesService.sync_started && !this.wallet) {
-      this.getRecentTransfers();
     }
   }
 

@@ -1,10 +1,4 @@
-import {
-  Component,
-  HostListener,
-  NgZone,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { Component, HostListener, NgZone, OnDestroy, OnInit, } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VariablesService } from '@parts/services/variables.service';
 import { BackendService, Commands } from '@api/services/backend.service';
@@ -15,10 +9,7 @@ import { StateKeys, Store, Sync } from '@store/store';
 import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 import { Dialog, DialogConfig } from '@angular/cdk/dialog';
-import {
-  ConfirmModalComponent,
-  ConfirmModalData,
-} from '@parts/modals/confirm-modal/confirm-modal.component';
+import { ConfirmModalComponent, ConfirmModalData, } from '@parts/modals/confirm-modal/confirm-modal.component';
 import { ExportHistoryModalComponent } from './modals/export-history-modal/export-history-modal.component';
 import { AddCustomTokenComponent } from './modals/add-custom-token/add-custom-token.component';
 import { Asset } from '@api/models/assets.model';
@@ -403,9 +394,11 @@ export class WalletComponent implements OnInit, OnDestroy {
               );
               if (!in_progress) {
                 this.variablesService.sync_started = false;
+                this.variablesService.sync_wallets[data.wallet_id] = false;
               }
             } else {
               this.variablesService.sync_started = false;
+              this.variablesService.sync_wallets[data.wallet_id] = false;
             }
           }
         },

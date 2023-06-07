@@ -4,10 +4,7 @@ import { Contact } from '@api/models/contact.model';
 import { BehaviorSubject } from 'rxjs';
 import { Idle } from 'idlejs/dist';
 import { Router } from '@angular/router';
-import {
-  ContextMenuComponent,
-  ContextMenuService,
-} from '@perfectmemory/ngx-contextmenu';
+import { ContextMenuComponent, ContextMenuService, } from '@perfectmemory/ngx-contextmenu';
 import { BigNumber } from 'bignumber.js';
 import { Aliases } from '@api/models/alias.model';
 
@@ -63,6 +60,24 @@ export class VariablesService {
     progress_value: 0,
     progress_value_text: '0',
   };
+
+  public sync_wallets: { [wallet_id: number]: boolean } = {};
+
+  get isCurrentWalletSync(): boolean {
+    if (this.currentWallet) {
+      const { wallet_id } = this.currentWallet;
+      return this.sync_wallets[wallet_id] || false;
+    }
+    return false;
+  }
+
+  get isCurrentWalletLoaded(): boolean {
+    if (this.currentWallet) {
+      const { loaded } = this.currentWallet;
+      return loaded;
+    }
+    return false;
+  }
 
   download = {
     progress_value: 0,

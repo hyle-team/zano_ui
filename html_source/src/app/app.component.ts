@@ -229,6 +229,7 @@ export class AppComponent implements OnInit, OnDestroy {
                     : data.progress;
                 if (!this.variablesService.sync_started) {
                   this.variablesService.sync_started = true;
+                  this.variablesService.sync_wallets[wallet.wallet_id] = true;
                 }
                 this.addToStore(wallet, true); // subscribe on data
                 if (wallet.progress === 0) {
@@ -237,6 +238,7 @@ export class AppComponent implements OnInit, OnDestroy {
                   wallet.loaded = true;
                   this.addToStore(wallet, false);
                   this.variablesService.sync_started = false;
+                  this.variablesService.sync_wallets[wallet.wallet_id] = false;
                 }
               });
             }
