@@ -44,7 +44,7 @@
 							{{ 'OPEN_WALLET.FORM_ERRORS.NAME_REQUIRED' | translate }}
 						</div>
 					</div>
-					<div *ngIf="openForm.get('name').value.length >= variablesService.maxWalletNameLength"
+					<div *ngIf="openForm.get('name').value.length > variablesService.maxWalletNameLength"
 						 class="error">
 						{{ 'OPEN_WALLET.FORM_ERRORS.MAX_LENGTH' | translate }}
 					</div>
@@ -58,11 +58,9 @@
 						   id="wallet-password"
 						   placeholder="{{ 'PLACEHOLDERS.PASS_PLACEHOLDER' | translate }}"
 						   type="password">
-					<div *ngIf="openForm.controls['password'].invalid && (openForm.controls['password'].dirty || openForm.controls['password'].touched) || submitted"
+					<div *ngIf="submitted && openForm.controls['password'].hasError('wrong_password')"
 						 class="error">
-						<ng-container *ngIf="openForm.controls['password'].hasError('wrong_password')">
-							{{ openForm.controls['password']?.errors['wrong_password']?.text }}
-						</ng-container>
+						{{ openForm.controls['password']?.errors['wrong_password']?.text }}
 					</div>
 				</div>
 
