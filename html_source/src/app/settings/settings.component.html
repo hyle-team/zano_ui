@@ -139,33 +139,36 @@
                     <div class="form__field">
                         <label for="new-password">{{ 'SETTINGS.MASTER_PASSWORD.NEW' | translate }}</label>
                         <input class="form__field--input"
-                               type="password"
-                               id="new-password"
-                               [class.invalid]="changeForm.controls['new_password'].errors"
-                               formControlName="new_password"
-                               placeholder="{{ 'PLACEHOLDERS.PLACEHOLDER_NEW' | translate }}"
-                               (contextmenu)="variablesService.onContextMenuPasteSelect($event)"/>
-                        <div class="error"
-                             *ngIf="changeForm.controls['new_password'].dirty && changeForm.controls['new_password'].errors">
-                            <div *ngIf="changeForm.controls['new_password'].errors.pattern">
-                                {{ 'ERRORS.WRONG_PASSWORD' | translate }}
-                            </div>
-                        </div>
+							   (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
+							   [class.invalid]="changeForm.controls['new_password'].errors && changeForm.controls['new_password'].touched"
+							   formControlName="new_password"
+							   id="new-password"
+							   placeholder="{{ 'PLACEHOLDERS.PLACEHOLDER_NEW' | translate }}"
+							   type="password"/>
+						<div *ngIf="changeForm.controls['new_password'].dirty && changeForm.controls['new_password'].errors"
+							 class="error">
+							<div *ngIf="changeForm.controls['new_password'].errors.pattern">
+								{{ 'ERRORS.WRONG_PASSWORD' | translate }}
+							</div>
+							<div *ngIf="changeForm.get('new_password').hasError('required')">
+								{{ 'ERRORS.PASS_REQUIRED' | translate }}
+							</div>
+						</div>
                     </div>
 
                     <div class="form__field">
                         <label for="confirm-password">{{ 'SETTINGS.MASTER_PASSWORD.CONFIRM' | translate }}</label>
                         <input class="form__field--input"
-                               type="password"
-                               id="confirm-password"
-                               [class.invalid]="changeForm.invalid && (changeForm.controls['new_confirmation'].dirty || changeForm.controls['new_confirmation'].touched) && changeForm.errors && changeForm.errors['confirm_mismatch'] && changeForm.get('new_confirmation').value.length > 0"
-                               formControlName="new_confirmation"
-                               placeholder="{{ 'PLACEHOLDERS.PLACEHOLDER_CONFIRM' | translate }}"
-                               (contextmenu)="variablesService.onContextMenuPasteSelect($event)"/>
-                        <div class="error"
-                             *ngIf="changeForm.invalid && (changeForm.controls['new_confirmation'].dirty || changeForm.controls['new_confirmation'].touched) && changeForm.errors && changeForm.errors['confirm_mismatch'] && changeForm.get('new_confirmation').value.length > 0">
-                            {{ 'SETTINGS.FORM_ERRORS.CONFIRM_NOT_MATCH' | translate }}
-                        </div>
+							   (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
+							   [class.invalid]="changeForm.invalid && (changeForm.controls['new_confirmation'].dirty || changeForm.controls['new_confirmation'].touched) && changeForm.errors && changeForm.errors['confirm_mismatch'] && changeForm.get('new_confirmation').value?.length > 0"
+							   formControlName="new_confirmation"
+							   id="confirm-password"
+							   placeholder="{{ 'PLACEHOLDERS.PLACEHOLDER_CONFIRM' | translate }}"
+							   type="password"/>
+						<div *ngIf="changeForm.invalid && (changeForm.controls['new_confirmation'].dirty || changeForm.controls['new_confirmation'].touched) && changeForm.errors && changeForm.errors['confirm_mismatch'] && changeForm.get('new_confirmation').value?.length > 0"
+							 class="error">
+							{{ 'SETTINGS.FORM_ERRORS.CONFIRM_NOT_MATCH' | translate }}
+						</div>
                     </div>
 
                     <div class="submit-button-container">

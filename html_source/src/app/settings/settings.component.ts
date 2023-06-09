@@ -98,7 +98,7 @@ export class SettingsComponent implements OnInit {
     this.appUseTor = this.variablesService.settings.appUseTor;
     this.changeForm = new FormGroup({
       password: new FormControl(''),
-      new_password: new FormControl('', Validators.pattern(this.variablesService.pattern)),
+      new_password: new FormControl('', [Validators.required, Validators.pattern(this.variablesService.pattern)]),
       new_confirmation: new FormControl('')
     }, [(g: FormGroup) => {
       return g.get('new_password').value === g.get('new_confirmation').value ? null : { 'confirm_mismatch': true };
@@ -137,7 +137,7 @@ export class SettingsComponent implements OnInit {
     if (this.changeForm.valid) {
       this.onSave();
       this.variablesService.appPass = this.changeForm.get('new_password').value;
-      if (this.variablesService.appPass) {
+      // if (this.variablesService.appPass) {
         this.backend.setMasterPassword({ pass: this.variablesService.appPass }, (status, data) => {
           if (status) {
             this.backend.storeSecureAppData({ pass: this.variablesService.appPass });
@@ -150,10 +150,10 @@ export class SettingsComponent implements OnInit {
             console.log(data['error_code']);
           }
         });
-      } else {
-        // this.backend.dropSecureAppData((status, data) => {
-        // });
-      }
+      // } else {
+      // this.backend.dropSecureAppData((status, data) => {
+      // });
+      // }
       this.changeForm.reset();
     }
   }
