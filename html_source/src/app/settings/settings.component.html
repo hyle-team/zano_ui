@@ -145,13 +145,14 @@
 							   id="new-password"
 							   placeholder="{{ 'PLACEHOLDERS.PLACEHOLDER_NEW' | translate }}"
 							   type="password"/>
-						<div *ngIf="changeForm.controls['new_password'].dirty && changeForm.controls['new_password'].errors"
-							 class="error">
+						<div
+							*ngIf="changeForm.controls['new_password'].touched && changeForm.controls['new_password'].errors"
+							class="error">
 							<div *ngIf="changeForm.controls['new_password'].errors.pattern">
 								{{ 'ERRORS.WRONG_PASSWORD' | translate }}
 							</div>
 							<div *ngIf="changeForm.get('new_password').hasError('required')">
-								{{ 'ERRORS.PASS_REQUIRED' | translate }}
+								{{ 'LOGIN.FORM_ERRORS.PASS_REQUIRED' | translate }}
 							</div>
 						</div>
                     </div>
