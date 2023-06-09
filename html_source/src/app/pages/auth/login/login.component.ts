@@ -1,5 +1,5 @@
 import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { Validators, ValidationErrors, FormBuilder } from '@angular/forms';
+import { FormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
@@ -282,7 +282,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.backend.dropSecureAppData(() => {
       this.onSkipCreatePass();
     });
-    this.variablesService.wallets = [];
+    this.closeAllWallets();
     this.variablesService.contacts = [];
   }
 
@@ -480,6 +480,21 @@ export class LoginComponent implements OnInit, OnDestroy {
           }
         }
       );
+    });
+  }
+
+  closeAllWallets(): void {
+    this.variablesService.wallets.forEach(({ wallet_id }) => this.closeWallet(wallet_id));
+    if (this.variablesService.appPass) {
+      this.backend.storeSecureAppData();
+    }
+  }
+
+  closeWallet(wallet_id) {
+    this.backend.closeWallet(wallet_id, () => {
+      for (let i = this.variablesService.wallets.length - 1; i >= 0; i--) {
+        this.variablesService.wallets.splice(i, 1);
+      }
     });
   }
 
