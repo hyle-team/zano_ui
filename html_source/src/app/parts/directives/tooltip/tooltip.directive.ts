@@ -8,7 +8,9 @@ import {
   OnDestroy,
   Output,
   Renderer2,
+  SecurityContext,
 } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Directive({
   // eslint-disable-next-line
@@ -45,7 +47,8 @@ export class TooltipDirective implements OnDestroy {
 
   private leave: (event: MouseEvent) => void;
 
-  constructor(private el: ElementRef, private renderer: Renderer2) {}
+  constructor(private el: ElementRef, private renderer: Renderer2, private sanitizer: DomSanitizer) {
+  }
 
   @HostListener('mouseenter') onMouseEnter(): void {
     if (!this.tooltipInner) {
@@ -107,7 +110,7 @@ export class TooltipDirective implements OnDestroy {
     this.tooltip = this.renderer.createElement('div');
     let innerBlock = this.renderer.createElement('div');
     if (typeof this.tooltipInner === 'string') {
-      innerBlock.innerHTML = this.tooltipInner;
+      innerBlock.innerText = this.sanitizer.sanitize(SecurityContext.HTML, this.tooltipInner);
     } else {
       if (this.tooltipInner) {
         innerBlock = this.tooltipInner;

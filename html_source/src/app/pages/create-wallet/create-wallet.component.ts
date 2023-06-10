@@ -1,5 +1,5 @@
 import { Component, inject, NgZone } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { ModalService } from '@parts/services/modal.service';
@@ -10,159 +10,142 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
 
 @Component({
   selector: 'app-create-wallet',
-  template: `<div class="page-container">
-    <div class="toolbar mb-2">
-      <div class="left">
-        <button appBackButton class="btn-icon circle big mr-2" type="button">
-          <i class="icon dropdown-arrow-left"></i>
-        </button>
-        <h1>{{ 'BREADCRUMBS.ADD_WALLET' | translate }}</h1>
-      </div>
-      <div class="right"></div>
-    </div>
-
-    <div class="page-content">
-      <div class="breadcrumbs mb-2">
-        <div class="breadcrumb">
-          <a [routerLink]="['/add-wallet']">{{
-            'BREADCRUMBS.ADD_WALLET' | translate
-          }}</a>
+  template: `
+    <div class="page-container">
+      <div class="toolbar mb-2">
+        <div class="left">
+          <button
+            appBackButton
+            class="btn-icon circle big mr-2"
+            type="button"
+          >
+            <i class="icon dropdown-arrow-left"></i>
+          </button>
+          <h1>{{ 'BREADCRUMBS.ADD_WALLET' | translate }}</h1>
         </div>
-        <div class="breadcrumb">
-          <span>{{ 'BREADCRUMBS.CREATE_WALLET' | translate }}</span>
-        </div>
+        <div class="right"></div>
       </div>
 
-      <div class="scrolled-content">
-        <form [formGroup]="createForm" class="form">
-          <div class="form__field">
-            <label for="wallet-name">{{
-              'CREATE_WALLET.NAME' | translate
-            }}</label>
-            <input
-              (contextmenu)="variablesService.onContextMenu($event)"
-              [attr.readonly]="walletSaved ? '' : null"
-              [maxlength]="variablesService.maxWalletNameLength + ''"
-              [placeholder]="'PLACEHOLDERS.WALLET_NAME_PLACEHOLDER' | translate"
-              class="form__field--input"
-              formControlName="name"
-              id="wallet-name"
-              type="text"
-            />
-            <div
-              *ngIf="
-                createForm.controls['name'].invalid &&
-                (createForm.controls['name'].dirty ||
-                  createForm.controls['name'].touched)
-              "
-              class="error"
-            >
-              <div *ngIf="createForm.controls['name'].errors['duplicate']">
-                {{ 'CREATE_WALLET.FORM_ERRORS.NAME_DUPLICATE' | translate }}
-              </div>
-              <div *ngIf="createForm.controls['name'].errors['required']">
-                {{ 'CREATE_WALLET.FORM_ERRORS.NAME_REQUIRED' | translate }}
-              </div>
-            </div>
-            <div
-              *ngIf="
-                createForm.get('name').value.length >=
-                variablesService.maxWalletNameLength
-              "
-              class="error"
-            >
-              {{ 'CREATE_WALLET.FORM_ERRORS.MAX_LENGTH' | translate }}
-            </div>
+      <div class="page-content">
+        <div class="breadcrumbs mb-2">
+          <div class="breadcrumb">
+            <a [routerLink]="['/add-wallet']">{{ 'BREADCRUMBS.ADD_WALLET' | translate }}</a>
           </div>
+          <div class="breadcrumb">
+            <span>{{ 'BREADCRUMBS.CREATE_WALLET' | translate }}</span>
+          </div>
+        </div>
 
-          <div class="form__field">
-            <label for="wallet-password">{{
-              'CREATE_WALLET.PASS' | translate
-            }}</label>
-            <input
-              (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
-              [attr.readonly]="walletSaved ? '' : null"
-              class="form__field--input"
-              formControlName="password"
-              id="wallet-password"
-              placeholder="{{ 'PLACEHOLDERS.PLACEHOLDER_NEW' | translate }}"
-              type="password"
-            />
-            <div
-              *ngIf="
-                createForm.controls['password'].dirty &&
-                createForm.controls['password'].errors
-              "
-              class="error"
-            >
-              <div *ngIf="createForm.controls['password'].errors.pattern">
-                {{ 'ERRORS.WRONG_PASSWORD' | translate }}
+        <div class="scrolled-content">
+          <form
+            [formGroup]="createForm"
+            class="form"
+          >
+            <div class="form__field">
+              <label for="wallet-name">{{ 'CREATE_WALLET.NAME' | translate }}</label>
+              <input
+                (contextmenu)="variablesService.onContextMenu($event)"
+                [placeholder]="'PLACEHOLDERS.WALLET_NAME_PLACEHOLDER' | translate"
+                [readonly]="createForm.controls.path.valid"
+                class="form__field--input"
+                formControlName="name"
+                id="wallet-name"
+                maxlength="{{ variablesService.maxWalletNameLength }}"
+                type="text"
+              />
+              <div
+                *ngIf="createForm.controls.name.invalid && (createForm.controls.name.dirty || createForm.controls.name.touched)"
+                class="error"
+              >
+                <div *ngIf="createForm.controls.name.hasError('duplicate')">
+                  {{ 'CREATE_WALLET.FORM_ERRORS.NAME_DUPLICATE' | translate }}
+                </div>
+                <div *ngIf="createForm.controls.name.hasError('required')">
+                  {{ 'CREATE_WALLET.FORM_ERRORS.NAME_REQUIRED' | translate }}
+                </div>
+              </div>
+              <div
+                *ngIf="createForm.controls.name.value.length > variablesService.maxWalletNameLength"
+                class="error"
+              >
+                {{ 'CREATE_WALLET.FORM_ERRORS.MAX_LENGTH' | translate }}
               </div>
             </div>
-          </div>
 
-          <div class="form__field">
-            <label for="confirm-wallet-password">{{
-              'CREATE_WALLET.CONFIRM' | translate
-            }}</label>
-            <input
-              (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
-              [attr.readonly]="walletSaved ? '' : null"
-              [class.invalid]="
-                createForm.errors &&
-                createForm.errors['mismatch'] &&
-                createForm.get('confirm').value.length > 0
-              "
-              class="form__field--input"
-              formControlName="confirm"
-              id="confirm-wallet-password"
-              placeholder="{{ 'PLACEHOLDERS.PLACEHOLDER_CONFIRM' | translate }}"
-              type="password"
-            />
-            <div
-              *ngIf="
-                createForm.controls['confirm'].dirty &&
-                createForm.errors &&
-                createForm.errors['mismatch'] &&
-                createForm.get('confirm').value.length > 0
-              "
-              class="error"
-            >
-              {{ 'CREATE_WALLET.FORM_ERRORS.CONFIRM_NOT_MATCH' | translate }}
+            <div class="form__field">
+              <label for="wallet-password">{{ 'CREATE_WALLET.PASS' | translate }}</label>
+              <input
+                (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
+                [readonly]="createForm.controls.path.valid"
+                class="form__field--input"
+                formControlName="password"
+                id="wallet-password"
+                placeholder="{{ 'PLACEHOLDERS.PLACEHOLDER_NEW' | translate }}"
+                type="password"
+              />
+              <div
+                *ngIf="createForm.controls.path.dirty && createForm.controls.password.invalid"
+                class="error"
+              >
+                <div *ngIf="createForm.controls.password.hasError('pattern')">
+                  {{ 'ERRORS.WRONG_PASSWORD' | translate }}
+                </div>
+              </div>
             </div>
-          </div>
 
-          <button
-            *ngIf="walletSaved"
-            class="outline big w-100 mb-2"
-            disabled
-            type="button"
-          >
-            <i class="icon check-circle mr-1"></i>{{ walletSavedName }}
-          </button>
+            <div class="form__field">
+              <label for="confirm-wallet-password">{{ 'CREATE_WALLET.CONFIRM' | translate }}</label>
+              <input
+                (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
+                [class.invalid]="createForm.hasError('mismatch') && createForm.controls.confirm.value.length > 0"
+                [readonly]="createForm.controls.path.valid"
+                class="form__field--input"
+                formControlName="confirm"
+                id="confirm-wallet-password"
+                placeholder="{{ 'PLACEHOLDERS.PLACEHOLDER_CONFIRM' | translate }}"
+                type="password"
+              />
+              <div
+                *ngIf="createForm.controls.confirm.dirty && createForm.hasError('mismatch') && createForm.controls.confirm.value.length > 0"
+                class="error"
+              >
+                {{ 'CREATE_WALLET.FORM_ERRORS.CONFIRM_NOT_MATCH' | translate }}
+              </div>
+            </div>
 
-          <button
-            (click)="saveWallet()"
-            *ngIf="!walletSaved"
-            [disabled]="!createForm.valid"
-            class="outline big w-100 mb-2"
-            type="button"
-          >
-            {{ 'CREATE_WALLET.BUTTON_SELECT' | translate }}
-          </button>
+            <button
+              *ngIf="createForm.controls.path.valid"
+              class="outline big w-100 mb-2"
+              disabled
+              type="button"
+            >
+              <i class="icon check-circle mr-1"></i>
+              {{ savedWalletName }}
+            </button>
 
-          <button
-            (click)="createWallet()"
-            [disabled]="!walletSaved"
-            class="primary big w-100"
-            type="button"
-          >
-            {{ 'CREATE_WALLET.BUTTON_CREATE' | translate }}
-          </button>
-        </form>
+            <button
+              *ngIf="createForm.controls.path.invalid"
+              (click)="selectWalletLocation()"
+              [disabled]="createForm.controls.name.invalid || createForm.controls.password.invalid || createForm.hasError('mismatch')"
+              class="outline big w-100 mb-2"
+              type="button"
+            >
+              {{ 'CREATE_WALLET.BUTTON_SELECT' | translate }}
+            </button>
+
+            <button
+              (click)="createWallet()"
+              [disabled]="createForm.invalid"
+              class="primary big w-100"
+              type="button"
+            >
+              {{ 'CREATE_WALLET.BUTTON_CREATE' | translate }}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
-  </div> `,
+  `,
   styles: [
     `
       :host {
@@ -174,122 +157,67 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
   ],
 })
 export class CreateWalletComponent {
-  fb = inject(FormBuilder);
+  variablesService = inject(VariablesService);
 
+  fb = inject(NonNullableFormBuilder);
   createForm = this.fb.group(
     {
-      name: this.fb.nonNullable.control('', [
-        Validators.required,
-        ZanoValidators.duplicate(
-          this.variablesService.walletNamesForComparisons
-        ),
-      ]),
-      password: this.fb.nonNullable.control(
-        '',
-        Validators.pattern(regExpPassword)
-      ),
-      confirm: this.fb.nonNullable.control(''),
+      name: this.fb.control('', [Validators.required, ZanoValidators.duplicate(this.variablesService.walletNamesForComparisons)]),
+      password: this.fb.control('', Validators.pattern(regExpPassword)),
+      confirm: this.fb.control(''),
+      path: this.fb.control('', Validators.required),
     },
     {
       validators: [ZanoValidators.formMatch('password', 'confirm')],
     }
   );
+  private router = inject(Router);
+  private backend = inject(BackendService);
+  private modalService = inject(ModalService);
+  private ngZone = inject(NgZone);
+  private translate = inject(TranslateService);
 
-  wallet = {
-    id: '',
-  };
+  get savedWalletName(): string {
+    const path = this.createForm.get('path').value;
+    return path.substr(path.lastIndexOf('/') + 1, path.length - 1);
+  }
 
-  walletSaved = false;
-
-  walletSavedName = '';
-
-  progressWidth = '9rem';
-
-  constructor(
-    public variablesService: VariablesService,
-    private router: Router,
-    private backend: BackendService,
-    private modalService: ModalService,
-    private ngZone: NgZone,
-    private translate: TranslateService
-  ) {}
-
-  async createWallet(): Promise<void> {
-    return await this.ngZone.run(async () => {
-      this.progressWidth = '100%';
-      await this.router.navigate(['/seed-phrase'], {
-        queryParams: { wallet_id: this.wallet.id },
-      });
+  createWallet(): void {
+    const { path: selectedPath, password, name } = this.createForm.value;
+    this.backend.generateWallet(selectedPath, password, async (generate_status, generate_data, errorCode) => {
+      if (generate_status) {
+        const { wallet_id } = generate_data;
+        const { path, address, balance, unlocked_balance, mined_total, tracking_hey } = generate_data['wi'];
+        const wallet = new Wallet(wallet_id, name, password, path, address, balance, unlocked_balance, mined_total, tracking_hey);
+        wallet.alias = this.backend.getWalletAlias(address);
+        wallet.total_history_item = 0;
+        wallet.pages = new Array(1).fill(1);
+        wallet.totalPages = 1;
+        wallet.currentPage = 1;
+        this.variablesService.opening_wallet = wallet;
+        await this.ngZone.run(async () => {
+          await this.router.navigate(['/seed-phrase'], { queryParams: { wallet_id } });
+        });
+      } else {
+        const errorTranslationKey =
+          errorCode === 'ALREADY_EXISTS' ? 'CREATE_WALLET.ERROR_CANNOT_SAVE_TOP' : 'CREATE_WALLET.ERROR_CANNOT_SAVE_SYSTEM';
+        this.modalService.prepareModal('error', errorTranslationKey);
+      }
     });
   }
 
-  saveWallet(): void {
-    if (
-      this.createForm.valid &&
-      this.createForm.get('name').value.length <=
-        this.variablesService.maxWalletNameLength
-    ) {
-      this.backend.saveFileDialog(
-        this.translate.instant('CREATE_WALLET.TITLE_SAVE'),
-        '*',
-        this.variablesService.settings.default_path,
-        (file_status, file_data) => {
-          if (file_status) {
-            this.variablesService.settings.default_path = file_data.path.substr(
-              0,
-              file_data.path.lastIndexOf('/')
-            );
-            this.walletSavedName = file_data.path.substr(
-              file_data.path.lastIndexOf('/') + 1,
-              file_data.path.length - 1
-            );
-            this.backend.generateWallet(
-              file_data.path,
-              this.createForm.get('password').value,
-              (generate_status, generate_data, errorCode) => {
-                if (generate_status) {
-                  this.wallet.id = generate_data.wallet_id;
-                  this.variablesService.opening_wallet = new Wallet(
-                    generate_data.wallet_id,
-                    this.createForm.get('name').value,
-                    this.createForm.get('password').value,
-                    generate_data['wi'].path,
-                    generate_data['wi'].address,
-                    generate_data['wi'].balance,
-                    generate_data['wi'].unlocked_balance,
-                    generate_data['wi'].mined_total,
-                    generate_data['wi'].tracking_hey
-                  );
-                  this.variablesService.opening_wallet.alias =
-                    this.backend.getWalletAlias(generate_data['wi'].address);
-                  this.variablesService.opening_wallet.total_history_item = 0;
-                  this.variablesService.opening_wallet.pages = new Array(
-                    1
-                  ).fill(1);
-                  this.variablesService.opening_wallet.totalPages = 1;
-                  this.variablesService.opening_wallet.currentPage = 1;
-                  this.ngZone.run(() => {
-                    this.walletSaved = true;
-                    this.progressWidth = '33%';
-                  });
-                } else {
-                  if (errorCode && errorCode === 'ALREADY_EXISTS') {
-                    this.modalService.prepareModal(
-                      'error',
-                      'CREATE_WALLET.ERROR_CANNOT_SAVE_TOP'
-                    );
-                  } else {
-                    this.modalService.prepareModal(
-                      'error',
-                      'CREATE_WALLET.ERROR_CANNOT_SAVE_SYSTEM'
-                    );
-                  }
-                }
-              }
-            );
-          }
-        }
-      );
-    }
+  selectWalletLocation(): void {
+    const caption = this.translate.instant('CREATE_WALLET.TITLE_SAVE');
+    const fileMask = '*';
+    const { default_path } = this.variablesService.settings;
+    this.backend.saveFileDialog(caption, fileMask, default_path, (file_status, file_data) => {
+      if (file_status) {
+        this.ngZone.run(() => {
+          const { path } = file_data;
+          this.createForm.get('path').patchValue(path);
+          this.variablesService.settings.default_path = path.substr(0, path.lastIndexOf('/'));
+        });
+      }
+    });
   }
 }

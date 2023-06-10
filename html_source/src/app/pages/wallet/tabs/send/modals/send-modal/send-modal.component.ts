@@ -11,12 +11,7 @@ import {
   Output,
   Renderer2,
 } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  NonNullableFormBuilder,
-  Validators,
-} from '@angular/forms';
+import { FormGroup, NonNullableFormBuilder, Validators, } from '@angular/forms';
 import { VariablesService } from '@parts/services/variables.service';
 import { ZanoValidators } from '@parts/utils/zano-validators';
 
@@ -49,12 +44,12 @@ import { ZanoValidators } from '@parts/utils/zano-validators';
                   {{ 'CONFIRM.MESSAGE.SEND' | translate }}
                 </div>
                 <div class="text">
-                  {{ +form.get('amount').value }}
+                  {{ form.get('amount').value }}
                   {{ form?.get('asset')?.value?.asset_info?.ticker }}
                 </div>
               </div>
 
-              <hr class="separator" />
+              <hr class="separator"/>
 
               <div class="row">
                 <div class="label max-w-19-rem w-100">
@@ -111,7 +106,7 @@ import { ZanoValidators } from '@parts/utils/zano-validators';
                 class="error"
               >
                 <div *ngIf="confirmForm.hasError('passwordNotMatch')">
-                  {{ 'LOGIN.FORM_ERRORS.MISMATCH' | translate }}
+                  {{ 'LOGIN.FORM_ERRORS.WRONG_PASSWORD' | translate }}
                 </div>
                 <div *ngIf="confirmForm.controls.password.hasError('required')">
                   {{ 'LOGIN.FORM_ERRORS.PASS_REQUIRED' | translate }}

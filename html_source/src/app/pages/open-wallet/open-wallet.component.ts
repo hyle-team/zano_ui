@@ -1,5 +1,5 @@
 import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { Validators, NonNullableFormBuilder } from '@angular/forms';
+import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { ModalService } from '@parts/services/modal.service';
@@ -7,7 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Wallet } from '@api/models/wallet.model';
 import { TranslateService } from '@ngx-translate/core';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
 import { WalletsService } from '@parts/services/wallets.service';
@@ -95,7 +95,7 @@ import { notFileZanoWallet, wrongPassword } from '@parts/utils/zano-errors';
                 *ngIf="
                   openWalletForm.controls.password.invalid &&
                   (openWalletForm.controls.password.dirty ||
-                    openWalletForm.controls.password.touched)
+                    openWalletForm.controls.password.touched) || submitted
                 "
                 class="error"
               >
@@ -105,7 +105,7 @@ import { notFileZanoWallet, wrongPassword } from '@parts/utils/zano-errors';
                   "
                 >
                   {{
-                    openWalletForm.controls.password.errors['wrongPassword']
+                  openWalletForm.controls.password.errors['wrongPassword']
                       .errorText
                   }}
                 </div>
@@ -139,6 +139,7 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
     password: this.fb.control('', [Validators.pattern(regExpPassword)]),
     filePath: this.fb.control('', Validators.required),
   });
+  submitted = false;
 
   private destroy$ = new Subject<void>();
 
@@ -186,6 +187,7 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
   }
 
   openWallet(): void {
+    this.submitted = true;
     if (this.openWalletForm.valid) {
       const { filePath, password, name } = this.openWalletForm.getRawValue();
       const { count: txs_to_return } = this.variablesService;
