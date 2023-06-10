@@ -1,5 +1,5 @@
-import { Component, NgZone, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, NgZone } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { BackendService } from '../_helpers/services/backend.service';
 import { VariablesService } from '../_helpers/services/variables.service';
 import { ModalService } from '../_helpers/services/modal.service';
@@ -13,10 +13,9 @@ import { Location } from '@angular/common';
   templateUrl: './create-wallet.component.html',
   styleUrls: ['./create-wallet.component.scss']
 })
-export class CreateWalletComponent implements OnInit {
-
-  createForm = new FormGroup({
-    name: new FormControl('', [Validators.required, (g: FormControl) => {
+export class CreateWalletComponent {
+  createForm = this.fb.group({
+    name: this.fb.control('', [Validators.required, (g: FormControl) => {
       for (let i = 0; i < this.variablesService.wallets.length; i++) {
         if (g.value === this.variablesService.wallets[i].name) {
           return { 'duplicate': true };
@@ -24,89 +23,77 @@ export class CreateWalletComponent implements OnInit {
       }
       return null;
     }]),
-    password: new FormControl('', Validators.pattern(this.variablesService.pattern)),
-    confirm: new FormControl('')
-  }, function (g: FormGroup) {
+    password: this.fb.control('', Validators.pattern(this.variablesService.pattern)),
+    confirm: this.fb.control(''),
+    path: this.fb.control('', Validators.required)
+  }, (g: FormGroup) => {
     return g.get('password').value === g.get('confirm').value ? null : { 'confirm_mismatch': true };
   });
 
-  wallet = {
-    id: ''
-  };
-
-  walletSaved = false;
-  walletSavedName = '';
-  progressWidth = '9rem';
-
   constructor(
+    private fb: FormBuilder,
     private router: Router,
     private backend: BackendService,
     public variablesService: VariablesService,
     private modalService: ModalService,
     private ngZone: NgZone,
     private translate: TranslateService,
-    private location: Location,
+    public location: Location,
   ) {
-
   }
 
-
-  ngOnInit() {
-
+  get savedWalletName(): string {
+    const path = this.createForm.get('path').value;
+    return path.substr(path.lastIndexOf('/') + 1, path.length - 1);
   }
 
-  createWallet() {
-    this.ngZone.run(() => {
-      this.progressWidth = '100%';
-      this.router.navigate(['/seed-phrase'], { queryParams: { wallet_id: this.wallet.id } });
-    });
+  createWallet(): void {
+    const { path: selectedPath, password, name } = this.createForm.value;
+    this.backend.generateWallet(selectedPath, password,
+      async (generate_status, generate_data, errorCode) => {
+        if (generate_status) {
+          const { wallet_id } = generate_data;
+          const { path, address, balance, unlocked_balance, mined_total, tracking_hey } = generate_data['wi'];
+          const wallet = new Wallet(
+            wallet_id,
+            name,
+            password,
+            path,
+            address,
+            balance,
+            unlocked_balance,
+            mined_total,
+            tracking_hey
+          );
+          wallet.alias = this.backend.getWalletAlias(address);
+          wallet.total_history_item = 0;
+          wallet.pages = new Array(1).fill(1);
+          wallet.totalPages = 1;
+          wallet.currentPage = 1;
+          this.variablesService.opening_wallet = wallet;
+          await this.ngZone.run(async () => {
+            await this.router.navigate(['/seed-phrase'], { queryParams: { wallet_id } });
+          });
+        } else {
+          const errorTranslationKey = errorCode === 'ALREADY_EXISTS' ? 'CREATE_WALLET.ERROR_CANNOT_SAVE_TOP' : 'CREATE_WALLET.ERROR_CANNOT_SAVE_SYSTEM';
+          this.modalService.prepareModal('error', errorTranslationKey);
+        }
+      });
   }
 
-  saveWallet() {
-    if (this.createForm.valid && this.createForm.get('name').value.length <= this.variablesService.maxWalletNameLength) {
-      this.backend.saveFileDialog(this.translate.instant('CREATE_WALLET.TITLE_SAVE'), '*', this.variablesService.settings.default_path,
-        (file_status, file_data) => {
-          if (file_status) {
-            this.variablesService.settings.default_path = file_data.path.substr(0, file_data.path.lastIndexOf('/'));
-            this.walletSavedName = file_data.path.substr(file_data.path.lastIndexOf('/') + 1, file_data.path.length - 1);
-            this.backend.generateWallet(file_data.path, this.createForm.get('password').value,
-              (generate_status, generate_data, errorCode) => {
-                if (generate_status) {
-                  this.wallet.id = generate_data.wallet_id;
-                  this.variablesService.opening_wallet = new Wallet(
-                    generate_data.wallet_id,
-                    this.createForm.get('name').value,
-                    this.createForm.get('password').value,
-                    generate_data['wi'].path,
-                    generate_data['wi'].address,
-                    generate_data['wi'].balance,
-                    generate_data['wi'].unlocked_balance,
-                    generate_data['wi'].mined_total,
-                    generate_data['wi'].tracking_hey
-                  );
-                  this.variablesService.opening_wallet.alias = this.backend.getWalletAlias(generate_data['wi'].address);
-                  this.variablesService.opening_wallet.total_history_item = 0;
-                  this.variablesService.opening_wallet.pages = new Array(1).fill(1);
-                  this.variablesService.opening_wallet.totalPages = 1;
-                  this.variablesService.opening_wallet.currentPage = 1;
-                  this.ngZone.run(() => {
-                    this.walletSaved = true;
-                    this.progressWidth = '33%';
-                  });
-                } else {
-                  if (errorCode && errorCode === 'ALREADY_EXISTS') {
-                    this.modalService.prepareModal('error', 'CREATE_WALLET.ERROR_CANNOT_SAVE_TOP');
-                  } else {
-                    this.modalService.prepareModal('error', 'CREATE_WALLET.ERROR_CANNOT_SAVE_SYSTEM');
-                  }
-                }
-              });
-          }
-        });
-    }
-  }
-
-  back() {
-    this.location.back();
+  selectWalletLocation(): void {
+    const caption = this.translate.instant('CREATE_WALLET.TITLE_SAVE');
+    const fileMask = '*';
+    const { default_path } = this.variablesService.settings;
+    this.backend.saveFileDialog(caption, fileMask, default_path,
+      (file_status, file_data) => {
+        if (file_status) {
+          this.ngZone.run(() => {
+            const { path } = file_data;
+            this.createForm.get('path').patchValue(path);
+            this.variablesService.settings.default_path = path.substr(0, path.lastIndexOf('/'));
+          });
+        }
+      });
   }
 }

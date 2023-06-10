@@ -45,6 +45,25 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.parentRouting = this.route.parent.params.subscribe(() => {
       this.openedDetails = '';
     });
+
+    this.init();
+    this.variablesService.getWalletChangedEvent.pipe(takeUntil(this.destroy$)).subscribe({
+      next: () => {
+        this.getRecentTransfers();
+      }
+    });
+
+    this.variablesService
+      .getWalletChangedEvent
+      .pipe(
+        filter(w => !!w),
+        takeUntil(this.destroy$)
+      ).subscribe((currentWallet: Wallet) => {
+      this.mining = currentWallet.exclude_mining_txs;
+    });
+  }
+
+  init(): void {
     let restore = false;
     if (this.variablesService.after_sync_request.hasOwnProperty(this.variablesService.currentWallet.wallet_id)) {
       restore = this.variablesService.after_sync_request[this.variablesService.currentWallet.wallet_id];
@@ -81,15 +100,6 @@ export class HistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
     if (this.wallet) {
       this.tick();
     }
-
-    this.variablesService
-      .getWalletChangedEvent
-      .pipe(
-        filter(w => !!w),
-        takeUntil(this.destroy$)
-      ).subscribe((currentWallet: Wallet) => {
-      this.mining = currentWallet.exclude_mining_txs;
-    });
   }
 
   ngAfterViewChecked() {

@@ -13,16 +13,21 @@
                  *ngIf="!wallet.notFound">
                 <label for="password">{{ 'OPEN_WALLET.MODAL.LABEL' | translate }}</label>
                 <input class="form__field--input"
-                       type="password"
-                       id="password"
-                       name="password"
-                       [(ngModel)]="wallet.pass"
-                       (contextmenu)="variablesService.onContextMenuPasteSelect($event)"/>
-                <div class="error"
-                     *ngIf="wallet.notFound">
-                    {{ 'OPEN_WALLET.MODAL.NOT_FOUND' | translate }}
-                </div>
-            </div>
+					   (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
+					   (input)="wallet.wrongPassword = false"
+					   [(ngModel)]="wallet.pass"
+					   id="password"
+					   name="password"
+					   type="password"/>
+				<div *ngIf="wallet.notFound"
+					 class="error">
+					{{ 'OPEN_WALLET.MODAL.NOT_FOUND' | translate }}
+				</div>
+				<div *ngIf="wallet.wrongPassword"
+					 class="error">
+					{{ 'ERRORS.WRONG_PASSWORD' | translate }}
+				</div>
+			</div>
 
             <div fxLayout="row nowrap" fxLayoutGap="1rem">
                 <button type="submit"

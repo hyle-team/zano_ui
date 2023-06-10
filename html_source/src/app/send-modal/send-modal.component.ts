@@ -18,6 +18,8 @@ export class SendModalComponent implements OnInit, OnDestroy {
     password: new FormControl('')
   });
 
+  submitted = false;
+
   constructor(
     public variablesService: VariablesService,
     private renderer: Renderer2
@@ -37,6 +39,7 @@ export class SendModalComponent implements OnInit, OnDestroy {
   }
 
   submit() {
+    this.submitted = true;
     if (this.variablesService.appPass) {
       if (this.confirmForm.controls['password'].value === '') {
         this.confirmForm.controls['password'].setErrors({ requiredPass: true });

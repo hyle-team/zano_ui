@@ -10,7 +10,8 @@
 		"FORM_ERRORS": {
 			"PASS_REQUIRED": "Passwort ist erforderlich",
 			"CONFIRM_REQUIRED": "Bestätigung ist erforderlich",
-			"MISMATCH": "Fehlanpassung"
+			"MISMATCH": "Fehlanpassung",
+			"WRONG_PASSWORD": "Wrond password"
 		}
 	},
 	"COMMON": {
@@ -83,7 +84,7 @@
 			"NAME_REQUIRED": "Name ist erforderlich",
 			"NAME_DUPLICATE": "Name existiert bereits",
 			"MAX_LENGTH": "Maximale Namenslänge erreicht",
-			"CONFIRM_NOT_MATCH": "Confirm password not match"
+			"CONFIRM_NOT_MATCH": "Passwords do not match"
 		}
 	},
 	"OPEN_WALLET": {
@@ -119,7 +120,7 @@
 			"NAME_REQUIRED": "Name ist erforderlich",
 			"NAME_DUPLICATE": "Name existiert bereits",
 			"MAX_LENGTH": "Maximale Namenslänge erreicht",
-			"CONFIRM_NOT_MATCH": "Confirm password not match",
+			"CONFIRM_NOT_MATCH": "Passwords do not match",
 			"KEY_REQUIRED": "Schlüssel ist erforderlich",
 			"KEY_NOT_VALID": "Schlüssel ungültig"
 		}
@@ -163,7 +164,7 @@
 		"FORM_ERRORS": {
 			"PASS_REQUIRED": "Passwort ist erforderlich",
 			"PASS_NOT_MATCH": "Old password not match",
-			"CONFIRM_NOT_MATCH": "Confirm password not match"
+			"CONFIRM_NOT_MATCH": "Passwords do not match"
 		},
 		"LAST_BUILD": "Aktueller Build: {{value}}",
 		"APP_LOG_TITLE": "Log-Level:"

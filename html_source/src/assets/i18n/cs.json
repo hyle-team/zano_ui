@@ -10,7 +10,8 @@
 		"FORM_ERRORS": {
 			"PASS_REQUIRED": "Je vyžadováno heslo",
 			"CONFIRM_REQUIRED": "Je požadováno potvrzení",
-			"MISMATCH": "Neodpovídající"
+			"MISMATCH": "Neodpovídající",
+			"WRONG_PASSWORD": "Wrond password"
 		}
 	},
 	"COMMON": {
@@ -83,7 +84,7 @@
 			"NAME_REQUIRED": "Název je povinný",
 			"NAME_DUPLICATE": "Název je duplicitní",
 			"MAX_LENGTH": "Dosáhli jste maximální délky názvu",
-			"CONFIRM_NOT_MATCH": "Confirm password not match"
+			"CONFIRM_NOT_MATCH": "Passwords do not match"
 		}
 	},
 	"OPEN_WALLET": {
@@ -119,7 +120,7 @@
 			"NAME_REQUIRED": "Name is required",
 			"NAME_DUPLICATE": "Name is duplicate",
 			"MAX_LENGTH": "Maximum name length reached",
-			"CONFIRM_NOT_MATCH": "Confirm password not match",
+			"CONFIRM_NOT_MATCH": "Passwords do not match",
 			"KEY_REQUIRED": "Key is required",
 			"KEY_NOT_VALID": "Key not valid"
 		}
@@ -163,7 +164,7 @@
 		"FORM_ERRORS": {
 			"PASS_REQUIRED": "Password is required",
 			"PASS_NOT_MATCH": "Old password not match",
-			"CONFIRM_NOT_MATCH": "Confirm password not match"
+			"CONFIRM_NOT_MATCH": "Passwords do not match"
 		},
 		"LAST_BUILD": "Current build: {{value}}",
 		"APP_LOG_TITLE": "Log level:"
@@ -190,7 +191,7 @@
 		"LABEL_SEED_PHRASE": "Seed phrase",
 		"SEED_PHRASE_HINT": "Click to reveal the seed phrase",
 		"BUTTON_SAVE": "Save",
-		"BUTTON_REMOVE": "Close wallet",
+		"BUTTON_REMOVE": "Remove wallet",
 		"FORM_ERRORS": {
 			"NAME_REQUIRED": "Name is required",
 			"NAME_DUPLICATE": "Name is duplicate",

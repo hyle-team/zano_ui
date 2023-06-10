@@ -12,10 +12,11 @@
            [class.success]="type === 'success'"
            [class.info]="type === 'info'"></i>
         <div class="message-container">
-            <h3 class="title">{{title}}</h3>
-            <p class="message"
-               [innerHTML]="message"></p>
-        </div>
+			<h3 class="title">{{title}}</h3>
+			<p class="message">
+				{{ message }}
+			</p>
+		</div>
     </div>
 
     <div class="controls"

@@ -83,7 +83,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.backend.dropSecureAppData(() => {
       this.onSkipCreatePass();
     });
-    this.variablesService.wallets = [];
+    this.closeAllWallets();
     this.variablesService.contacts = [];
   }
 
@@ -248,6 +248,21 @@ export class LoginComponent implements OnInit, OnDestroy {
           }
         }
       });
+    });
+  }
+
+  closeAllWallets(): void {
+    this.variablesService.wallets.forEach(({ wallet_id }) => this.closeWallet(wallet_id));
+    if (this.variablesService.appPass) {
+      this.backend.storeSecureAppData();
+    }
+  }
+
+  closeWallet(wallet_id) {
+    this.backend.closeWallet(wallet_id, () => {
+      for (let i = this.variablesService.wallets.length - 1; i >= 0; i--) {
+        this.variablesService.wallets.splice(i, 1);
+      }
     });
   }
 
