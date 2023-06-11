@@ -1,0 +1,755 @@
+{
+  "LOGIN": {
+    "SETUP_MASTER_PASS": "Setel Pangguna Sandi",
+    "SETUP_CONFIRM_PASS": "Konfirmasi sandhi",
+    "MASTER_PASS": "Pangguna Sandi",
+    "BUTTON_NEXT": "Salajengipun",
+    "BUTTON_SKIP": "Lumpati",
+    "BUTTON_RESET": "Reset",
+    "INCORRECT_PASSWORD": "Sandi salah",
+    "FORM_ERRORS": {
+      "PASS_REQUIRED": "Sandi dibutuhake\n",
+      "CONFIRM_REQUIRED": "Konfirmasi dibutuhake",
+      "MISMATCH": "Ora cocok",
+      "INVALID_PASS": "Sandi salah, coba maneh",
+      "WRONG_PASSWORD": "Sandi salah"
+    }
+  },
+  "COMMON": {
+    "BACK": "wangsul"
+  },
+  "BREADCRUMBS": {
+    "ADD_WALLET": "Tambah dompet",
+    "CREATE_WALLET": "Nggawe dompet anyar",
+    "SAVE_PHRASE": "Simpen ukara / tembung sampeyan",
+    "OPEN_WALLET": "Mbukak dompet sing wis ana",
+    "RESTORE_WALLET": "Mulihake saka serep",
+    "WALLET_DETAILS": "Rincian Dompet",
+    "ASSIGN_ALIAS": "Setel alias",
+    "EDIT_ALIAS": "Sunting alias",
+    "TRANSFER_ALIAS": "Pindhah alias",
+    "CONTRACTS": "Kontrak",
+    "NEW_PURCHASE": "Tuku Anyar",
+    "OLD_PURCHASE": "tuku"
+  },
+  "SIDEBAR": {
+    "TITLE": "Dompet",
+    "ADD_NEW": "Tambah",
+    "ACCOUNT": {
+      "STAKING": "Staking",
+      "MESSAGES": "Pesen / tawaran anyar",
+      "SYNCING": "Sinkronisasi dompet"
+    },
+    "CONTACTS": "Kontak",
+    "SETTINGS": "Tatanan",
+    "LOG_OUT": "Metu",
+    "SYNCHRONIZATION": {
+      "OFFLINE": "Offline",
+      "ONLINE": "Nyambung",
+      "ERROR": "Sistem kesalahan",
+      "COMPLETE": "Rampung",
+      "SYNCING": "Sinkronisasi Blockchain",
+      "LOADING": "Muat data blockchain",
+      "DOWNLOADING": "Ngundhuh",
+      "SLASH": "/",
+      "MB": "MB"
+    },
+    "UPDATE": {
+      "STANDARD": "Nganyari kasedhiya",
+      "STANDARD_TOOLTIP": "<span class=\"standard-update\">Entuk nganyari anyar.</span><br><span>Disaranake nganyari!</span>",
+      "IMPORTANT": "Nganyari kasedhiya",
+      "IMPORTANT_HINT": "Nganyari penting!",
+      "IMPORTANT_TOOLTIP": "<span class=\"important-update\">Entuk update paling anyar.</span><br><span>Update penting!</span>",
+      "CRITICAL": "Nganyari kasedhiya",
+      "CRITICAL_HINT": "Nganyari penting!",
+      "CRITICAL_TOOLTIP": "<span class=\"critical-update\">Kasedhiya nganyari penting.</span><i class=\"icon\"></i><span>Disaranake supaya cepet nganyari!</span>",
+      "TIME": "Wektu sistem beda-beda gumantung karo jaringan",
+      "TIME_TOOLTIP": "<span class=\"wrong-time\">Wektu sistem salah!</span><br><span>Mangga priksa lan ndandani wektu sistem.</span>"
+    },
+    "CONTACTS_TOOLTIP": "Opsi kontak mung kasedhiya yen Master Sandi diaktifake",
+    "LOG_OUT_TOOLTIP": "Opsi logout mung kasedhiya yen Master Sandi diaktifake"
+  },
+  "MAIN": {
+    "TITLE": "Nggawe utawa mbukak dompet kanggo miwiti nggunakake Zano",
+    "BUTTON_NEW_WALLET": "Nggawe dompet anyar",
+    "BUTTON_OPEN_WALLET": "Mbukak dompet sing wis digawe",
+    "BUTTON_RESTORE_BACKUP": "Mulihake saka serep",
+    "HELP": "Carane nggawe dompet?",
+    "CHOOSE_PATH": "Pilih dalan kanggo nyimpen"
+  },
+  "CREATE_WALLET": {
+    "NAME": "Jeneng Dompet",
+    "PASS": "Nggawe sandhi dompet",
+    "CONFIRM": "Konfirmasi sandhi dompet",
+    "BUTTON_SELECT": "Pilih lokasi dompet",
+    "BUTTON_CREATE": "Nggawe Dompet\n",
+    "TITLE_SAVE": "Simpen file dompet",
+    "ERROR_CANNOT_SAVE_TOP": "Dompet sing wis ana ora bisa ditulis maneh utawa diganti",
+    "ERROR_CANNOT_SAVE_SYSTEM": "File dompet ora bisa disimpen ing partisi OS",
+    "FORM_ERRORS": {
+      "NAME_REQUIRED": "Jeneng dibutuhake",
+      "NAME_DUPLICATE": "Jeneng sing padha / duplikat",
+      "MAX_LENGTH": "Panjang jeneng maksimal tekan",
+      "CONFIRM_NOT_MATCH": "Tembung sandhi ora cocog"
+    }
+  },
+  "OPEN_WALLET": {
+    "NAME": "Jeneng dompet",
+    "PASS": "Tembung sandhi dompet",
+    "BUTTON": "Bukak dompet",
+    "WITH_ADDRESS_ALREADY_OPEN": "Dompet karo alamat iki wis mbukak",
+    "FILE_NOT_FOUND1": "File dompet ora ditemokake",
+    "FILE_NOT_FOUND2": "<br/><br/> Bisa uga wis diganti utawa dipindhah <br/>Kanggo Mbukak, gunakake tombol “Open Dompet”.\n",
+    "FORM_ERRORS": {
+      "NAME_REQUIRED": "Jeneng dibutuhake",
+      "NAME_DUPLICATE": "Jeneng sing padha / duplikat",
+      "MAX_LENGTH": "Panjang jeneng maksimal tekan"
+    },
+    "MODAL": {
+      "TITLE": "Tulis sandi dompet",
+      "LABEL": "Sandi kanggo dompet iki",
+      "OPEN": "Bukak dompet",
+      "SKIP": "Lumpati",
+      "NOT_FOUND": "Ora ketemu"
+    }
+  },
+  "RESTORE_WALLET": {
+    "LABEL_NAME": "Jeneng dompet",
+    "LABEL_PHRASE_KEY": "Frasa wiji / kunci pribadi",
+    "PASS": "Tembung sandhi dompet",
+    "CONFIRM": "Konfirmasi sandhi dompet",
+    "BUTTON_SELECT": "Pilih lokasi dompet",
+    "BUTTON_CREATE": "Nggawe Dompet\n",
+    "NOT_CORRECT_FILE_OR_PASSWORD": "File dompet ora bener utawa tembung sandhi ora padha",
+    "CHOOSE_PATH": "Pilih dalan kanggo nyimpen",
+    "FORM_ERRORS": {
+      "NAME_REQUIRED": "Jeneng dibutuhake",
+      "NAME_DUPLICATE": "Jeneng sing padha / duplikat",
+      "MAX_LENGTH": "Panjang jeneng maksimal tekan",
+      "CONFIRM_NOT_MATCH": "Tembung sandhi ora cocog",
+      "KEY_REQUIRED": "Kunci dibutuhake",
+      "KEY_NOT_VALID": "Kunci ora sah",
+      "INCORRECT_PASSWORD": "tembung kunci sing salah"
+    },
+    "SEED_PASSWORD": "Sandi winih",
+    "OK": "nggih"
+  },
+  "SEED_PHRASE": {
+    "TITLE": "Dadi manawa kanggo nyimpen frasa wiji ing panggonan sing aman. Yen sampeyan lali tembung wiji, sampeyan ora bisa nggunakake kanggo mbalekake dompet.",
+    "BUTTON_CREATE_ACCOUNT": "Nggawe Dompet\n",
+    "BUTTON_COPY": "Nyalin",
+    "BUTTON_COPIED": "disalin"
+  },
+  "PROGRESS": {
+    "ADD_WALLET": "Tambah dompet",
+    "SELECT_LOCATION": "Pilih lokasi dompet",
+    "CREATE_WALLET": "Nggawe dompet anyar",
+    "RESTORE_WALLET": "Mulihake saka serep"
+  },
+  "SETTINGS": {
+    "TITLE": "Tatanan",
+    "DARK_THEME": "Tema peteng",
+    "WHITE_THEME": "Tema Polos/Putih",
+    "GRAY_THEME": "Tema Gray",
+    "APP_LOCK": {
+      "TITLE": "Ngunci aplikasi sawise:",
+      "TIME1": "5 menit",
+      "TIME2": "15 menit",
+      "TIME3": "1 jam",
+      "TIME4": "ora tau"
+    },
+    "SCALE": {
+      "75": "Skala 75%.",
+      "100": "100% skala",
+      "125": "Skala 125%.",
+      "150": "Skala 150%.",
+      "TITLE": "Skala antarmuka"
+    },
+    "MASTER_PASSWORD": {
+      "TITLE": "Setel Pangguna Sandi",
+      "OLD": "Sandi lawas",
+      "NEW": "Sandi anyar",
+      "CONFIRM": "Konfirmasi sandhi anyar",
+      "BUTTON": "Simpen"
+    },
+    "FORM_ERRORS": {
+      "PASS_REQUIRED": "Sandi dibutuhake\n",
+      "PASS_NOT_MATCH": "Sandi lawas ora padha",
+      "CONFIRM_NOT_MATCH": "Konfirmasi sandhi ora padha"
+    },
+    "LAST_BUILD": "Versi saiki: {{value}}",
+    "APP_LOG_TITLE": "Log rate:",
+    "NOTIFICATIONS": "Pengumuman",
+    "USE_TOR_TO_RELAY_TRANSACTIONS": "Gunakake TOR kanggo ngirim transaksi",
+    "SETTINGS_SAVED": "Disimpen! Setelan sing dianyari",
+    "LANGUAGE": {
+      "TITLE": "Basa",
+      "EN": "Inggris",
+      "FR": "Prancis",
+      "DE": "Deutsch",
+      "ID": "basa Indonesia",
+      "IT": "basa italia",
+      "PT": "basa portugis"
+    }
+  },
+  "WALLET": {
+    "REGISTER_ALIAS": "Ndaftar alias",
+    "DETAILS": "Rincian",
+    "LOCK": "kunci",
+    "AVAILABLE_BALANCE": "Kasedhiya <b>{{kasedhiya}} {{currency}}<b/>",
+    "LOCKED_BALANCE": "Dikunci <b>{{dikunci}} {{currency}}<b/>",
+    "LOCKED_BALANCE_LINK": "Iki artine apa?\n",
+    "TABS": {
+      "ASSETS": "Aset",
+      "SEND": "Ngirim",
+      "RECEIVE": "Nampa",
+      "HISTORY": "Sajarah",
+      "CONTRACTS": "Kontrak",
+      "MESSAGES": "Pesen",
+      "STAKING": "Stake"
+    },
+    "CONFIRM": {
+      "TITLE": "Mbusak dompet saka dhaptar?",
+      "MESSAGE": "Kanggo ngakses, sampeyan kudu nambah maneh"
+    },
+    "TOOLTIPS": {
+      "EDIT_ALIAS": "Ganti alias",
+      "TRANSFER_ALIAS": "transfer alias",
+      "SETTINGS": "Tatanan",
+      "ADD_CUSTOM_TOKEN": "Tambah Custom Token",
+      "CLOSE": "Nutup dhompet"
+    },
+    "MODAL_ADD_CUSTOM_TOKEN": {
+      "TITLE": "Tambah Custom Token",
+      "FIELD_TITLE": "ID aset"
+    }
+  },
+  "WALLET_DETAILS": {
+    "LABEL_NAME": "Jeneng dompet",
+    "LABEL_FILE_LOCATION": "Lokasi file dompet",
+    "LABEL_SEED_PHRASE": "Frasa Wiji",
+    "SEED_PHRASE_HINT": "Klik kanggo mbukak frasa kunci",
+    "BUTTON_SAVE": "Simpen",
+    "BUTTON_REMOVE": "Nutup dhompet",
+    "FORM_ERRORS": {
+      "NAME_REQUIRED": "Jeneng dibutuhake",
+      "NAME_DUPLICATE": "Jenenge duplikat",
+      "MAX_LENGTH": "Panjang jeneng maksimal tekan",
+      "PASSWORDS_DONT_MATCH": "Tembung sandhi ora cocog"
+    },
+    "WALLET_OPTIONS": "Pilihan dompet...",
+    "RESYNC_WALLET": "Nyinkronake maneh data dompet",
+    "RESYNC_WALLET_BUTTON": "Resync Dompet",
+    "CREATE_PASSWORD_SECURE": "Gawe sandhi kanggo ngamanake wiji sampeyan",
+    "INFO": "informasi",
+    "SEED_IS_UNSECURED": "Wiji ora aman",
+    "SEED_IS_SECURED": "Wiji diamanake",
+    "REMEMBER_YOU_WILL_REQUIRE": "Wiji sing aman mbutuhake sandhi kanggo pulih.",
+    "ADD_CUSTOM_TOKEN": "Tambah Custom Token",
+    "FORM": {
+      "CONFIRM_PASSWORD": "Konfirmasi sandhi",
+      "GENERATE_SECURE_SEED": "Nggawe Wiji sing Aman",
+      "SECURED_SEED_WILL_REQUIRE": "Wiji sing aman mbutuhake tembung sandhi iki supaya bisa dibalekake."
+    }
+  },
+  "ASSIGN_ALIAS": {
+    "NAME": {
+      "LABEL": "alias",
+      "PLACEHOLDER": "@ Ketik alias",
+      "TOOLTIP": "Alias ​​minangka formulir utawa akun singkat sampeyan. Alias ​​mung bisa ngemot huruf Latin, angka, lan karakter ”.”Lan ”-”. Iku kudu diwiwiti karo ”@”."
+    },
+    "COMMENT": {
+      "LABEL": "Komentar",
+      "PLACEHOLDER": "",
+      "TOOLTIP": "Komentar bakal katon kanggo sapa wae sing pengin nggawe pembayaran kanggo alias sampeyan. Sampeyan bisa menehi katrangan babagan bisnis, kontak utawa ketik teks apa wae. Komentar bisa diowahi mengko."
+    },
+    "COST": "Alias ​​​​Fee {{value}} {{currency}}",
+    "BUTTON_ASSIGN": "Set",
+    "FORM_ERRORS": {
+      "NAME_REQUIRED": "Jeneng dibutuhake",
+      "NAME_WRONG": "Alias ​​duwe jeneng sing salah",
+      "NAME_LENGTH": "Alias ​​kudu dawane 6-25 karakter",
+      "NAME_EXISTS": "Jeneng alias wis ana",
+      "NO_MONEY": "Sampeyan ora duwe dana cukup kanggo nemtokake alias iki",
+      "MAX_LENGTH": "Tekan dawa komentar maksimal"
+    },
+    "ONE_ALIAS": "Sampeyan mung bisa nggawe siji alias saben dompet",
+    "REQUEST_ADD_REG": "Alias ​​bakal ditransfer ing 10 menit"
+  },
+  "EDIT_ALIAS": {
+    "NAME": {
+      "LABEL": "alias",
+      "PLACEHOLDER": "@ Ketik alias"
+    },
+    "COMMENT": {
+      "LABEL": "Komentar",
+      "PLACEHOLDER": "Ketik komentar sampeyan ing kene"
+    },
+    "FORM_ERRORS": {
+      "NO_MONEY": "Sampeyan ora duwe dana cukup kanggo ngganti alias iki",
+      "MAX_LENGTH": "Tekan dawa komentar maksimal"
+    },
+    "COST": "Alias ​​​​Fee {{value}} {{currency}}",
+    "BUTTON_EDIT": "Sunting / ngowahi"
+  },
+  "TRANSFER_ALIAS": {
+    "NAME": {
+      "LABEL": "alias",
+      "PLACEHOLDER": "@ Ketik alias"
+    },
+    "COMMENT": {
+      "LABEL": "Komentar",
+      "PLACEHOLDER": ""
+    },
+    "ADDRESS": {
+      "LABEL": "Pindhah menyang",
+      "PLACEHOLDER": "Ketik alamat kene"
+    },
+    "FORM_ERRORS": {
+      "WRONG_ADDRESS": "Ora ana dompet ing akun iki",
+      "ALIAS_EXISTS": "Akun iki wis duwe alias",
+      "NO_MONEY": "Sampeyan ora duwe dana cukup kanggo mindhah alias iki"
+    },
+    "COST": "Alias ​​​​Fee {{value}} {{currency}}",
+    "BUTTON_TRANSFER": "Obah",
+    "BUTTON_CANCEL": "dibatalake",
+    "REQUEST_SEND_REG": "Alias ​​bakal ditransfer ing 10 menit"
+  },
+  "SEND": {
+    "ADDRESS": "alamat",
+    "AMOUNT": "Jumlah",
+    "COMMENT": "Komentar",
+    "DETAILS": "rincian tambahan",
+    "MIXIN": "Mixin",
+    "FEE": "biaya",
+    "HIDE": "Singidaken alamat dompet saka panampa",
+    "BUTTON": "Ngirim",
+    "SUCCESS_SENT": "Transaksi dikirim",
+    "FORM_ERRORS": {
+      "ADDRESS_REQUIRED": "Alamat dibutuhake",
+      "ADDRESS_NOT_VALID": "Alamat ora sah",
+      "ALIAS_NOT_VALID": "alias ora sah",
+      "AMOUNT_REQUIRED": "Jumlah sing dibutuhake",
+      "AMOUNT_ZERO": "Total 0",
+      "FEE_REQUIRED": "Fees dibutuhake",
+      "FEE_MINIMUM": "Ragad minimal: {{ragad}}",
+      "MAX_LENGTH": "Tekan dawa komentar maksimal",
+      "GREAT_THAN_UNWRAPPED_COINS": "Jumlah token ERC20 sing luwih gedhe",
+      "LESS_THAN_ZANO_NEEDED": "Jumlah kasebut sithik banget kanggo nutupi biaya ERC20",
+      "WRAP_INFO_NULL": "gagal njaluk status bungkus",
+      "MUST_BE_GREATER_THAN_ZERO": "Mesthi luwih saka nol",
+      "ALIAS_NOT_FOUND": "Alias ​​ora ditemokake"
+    },
+    "WRAP": {
+      "TITLE": "Bungkus",
+      "MAIN_TEXT": "Transaksi iki bakal nggawe wZano (“Wrapped Zano”) sing bakal dikirim menyang alamat sing ditemtokake ing jaringan Ethereum.",
+      "ESTIMATE": "Prakiraan Transaksi",
+      "WILL_RECEIVE": "Sampeyan bakal nampa:",
+      "FEE": "Biaya Ethereum Txn:",
+      "ZANO": "ZANO",
+      "wZANO": "wZANO"
+    },
+    "ERROR_CODES": {
+      "NOT_ENOUGH_MONEY": "Ora cukup dhuwit"
+    },
+    "ASSET": "Aset"
+  },
+  "HISTORY": {
+    "STATUS": "Status",
+    "STATUS_TOOLTIP": "{{saiki}}/{{total}} konfirmasi",
+    "LOCK_TOOLTIP": "Dikunci nganti {{tanggal}}",
+    "SEND": "Dikirim",
+    "RECEIVED": "Ditampa",
+    "DATE": "Tanggal",
+    "AMOUNT": "Jumlah",
+    "FEE": "biaya",
+    "ADDRESS": "alamat",
+    "DETAILS": {
+      "PAYMENT_ID": "ID pembayaran",
+      "ID": "ID transaksi",
+      "SIZE": "Ukuran transaksi",
+      "SIZE_VALUE": "{{Nilai}} bita",
+      "HEIGHT": "Dhuwur",
+      "CONFIRMATION": "Konfirmasi",
+      "INPUTS": "Input",
+      "OUTPUTS": "Output / Output",
+      "COMMENT": "Komentar"
+    },
+    "TYPE_MESSAGES": {
+      "HIDDEN": "didhelikake",
+      "UNDEFINED": "Ora ditemtokake",
+      "COMPLETE_BUYER": "Kontrak rampung",
+      "COMPLETE_SELLER": "Kontrak rampung",
+      "CREATE_ALIAS": "Fees kanggo nyetel alias",
+      "UPDATE_ALIAS": "Fees kanggo ngganti alias",
+      "POW_REWARD": "Hadiah POW",
+      "POS_REWARD": "Hadiah POS",
+      "CREATE_CONTRACT": "Proposal Kontrak",
+      "PLEDGE_CONTRACT": "Kontrak simpenan",
+      "NULLIFY_CONTRACT": "Simpenan sing diobong / gosong",
+      "PROPOSAL_CANCEL_CONTRACT": "Panjaluk pembatalan",
+      "CANCEL_CONTRACT": "Mbatalake lan bali simpenan / simpenan"
+    },
+    "NO_FEE": "Ora Fees",
+    "HIDDEN": "didhelikake"
+  },
+  "CONTRACTS": {
+    "EMPTY": "Ora ana kontrak aktif",
+    "CONTRACTS": "Kontrak",
+    "PURCHASE": "tuku",
+    "SELL": "ngedol",
+    "DATE": "Tanggal",
+    "AMOUNT": "Jumlah",
+    "STATUS": "Status",
+    "COMMENTS": "Komentar",
+    "PURCHASE_BUTTON": "Tuku Anyar",
+    "LISTING_BUTTON": "Nggawe dhaptar",
+    "TIME_LEFT": {
+      "REMAINING_LESS_ONE": "Kurang saka jam kanggo nanggapi",
+      "REMAINING_ONE": "kurang {{wektu}} jam",
+      "REMAINING_MANY": "kurang {{wektu}} jam",
+      "REMAINING_MANY_ALT": "kurang {{wektu}} jam",
+      "REMAINING_ONE_RESPONSE": "kurang {{wektu}} jam",
+      "REMAINING_MANY_RESPONSE": "kurang {{wektu}} jam",
+      "REMAINING_MANY_ALT_RESPONSE": "kurang {{wektu}} jam",
+      "REMAINING_ONE_WAITING": "Ngenteni wiwit {{wektu}} jam",
+      "REMAINING_MANY_WAITING": "Ngenteni wiwit {{wektu}} jam",
+      "REMAINING_MANY_ALT_WAITING": "Ngenteni wiwit {{wektu}} jam"
+    },
+    "STATUS_MESSAGES": {
+      "SELLER": {
+        "NEW_CONTRACT": "Proposal kontrak anyar",
+        "IGNORED": "Sampeyan nglirwakake kontrak proposal",
+        "ACCEPTED": "Kontrak diwiwiti",
+        "WAIT": "Nunggu konfirmasi kontrak\n",
+        "WAITING_BUYER": "ngenteni dikirim",
+        "COMPLETED": "Kontrak rampung",
+        "NOT_RECEIVED": "Pangiriman gagal",
+        "NULLIFIED": "Kabeh celengan / simpenan sing ilang",
+        "PROPOSAL_CANCEL": "Proposal anyar kanggo mbatalake kontrak lan bali simpenan",
+        "BEING_CANCELLED": "Pembatalan lagi ditindakake",
+        "CANCELLED": "Kontrak dibatalake",
+        "IGNORED_CANCEL": "Sampeyan nglirwakake kontrak proposal",
+        "EXPIRED": "Kontrak proposal wis kadaluwarsa"
+      },
+      "BUYER": {
+        "WAITING": "Ngenteni tanggapan",
+        "IGNORED": "Sing bakul ora nggatekake kontrak proposal",
+        "ACCEPTED": "Sing bakul nampa kontrak proposal sampeyan",
+        "WAIT": "Nunggu konfirmasi simpenan",
+        "WAITING_SELLER": "ngenteni dikirim",
+        "COMPLETED": "Kontrak rampung",
+        "NOT_RECEIVED": "Pangiriman gagal",
+        "NULLIFIED": "Kabeh celengan / simpenan sing ilang",
+        "WAITING_CANCEL": "Nunggu pembatalan kontrak",
+        "BEING_CANCELLED": "Pembatalan lagi ditindakake",
+        "CANCELLED": "Kontrak dibatalake",
+        "IGNORED_CANCEL": "Sing bakul ora nggatekake proposal sampeyan kanggo mbatalake kontrak kasebut",
+        "EXPIRED": "Kontrak proposal wis kadaluwarsa"
+      }
+    }
+  },
+  "PURCHASE": {
+    "DESCRIPTION": "Katrangan",
+    "SELLER": "Bakul",
+    "AMOUNT": "Jumlah",
+    "YOUR_DEPOSIT": "simpenan Panjenengan",
+    "SELLER_DEPOSIT": "Simpenan bakul / Deposts",
+    "BUYER_DEPOSIT": "simpenan panuku",
+    "SAME_AMOUNT": "Jumlah sing padha",
+    "COMMENT": "Komentar",
+    "DETAILS": "rincian tambahan\n",
+    "SEND_BUTTON": "Ngirim",
+    "FORM_ERRORS": {
+      "DESC_REQUIRED": "Katrangan dibutuhake",
+      "DESC_MAXIMUM": "Tekan dawa lapangan maksimal",
+      "SELLER_REQUIRED": "Alamat dibutuhake",
+      "SELLER_NOT_VALID": "alamat ora bener",
+      "ALIAS_NOT_VALID": "alias ora sah",
+      "AMOUNT_REQUIRED": "Jumlah sing dibutuhake",
+      "AMOUNT_ZERO": "Nomer ora bisa 0",
+      "YOUR_DEPOSIT_REQUIRED": "Simpenan / simpenan dibutuhake",
+      "SELLER_DEPOSIT_REQUIRED": "Simpenan bakul dibutuhake",
+      "SELLER_SAME": "Gunakake akun sing kapisah",
+      "COMMENT_MAXIMUM": "Tekan dawa lapangan maksimal"
+    },
+    "PROGRESS_NEW": "Tuku Anyar",
+    "PROGRESS_WAIT": "Ngenteni balesan",
+    "PROGRESS_RECEIVE": "Wangsulan ditampa",
+    "PROGRESS_COMPLETE": "Rampung",
+    "FEE": "biaya",
+    "PAYMENT": "ID pembayaran",
+    "STATUS_MESSAGES": {
+      "NEW_PURCHASE": "Tuku Anyar",
+      "WAITING_SELLER": "Ngenteni tanggapan",
+      "WAITING_BUYER": "Proposal kontrak wis ditampa",
+      "WAITING_CONFIRMATION": "Nunggu konfirmasi simpenan",
+      "WAITING_DELIVERY": "ngenteni dikirim",
+      "COMPLETED": "Kontrak rampung",
+      "IGNORED_BUYER": "Kontrak proposal ora digatekake",
+      "IGNORED_SELLER": "Sing bakul ora nggatekake kontrak proposal",
+      "PROPOSAL_CANCEL_SELLER": "Panjaluk pembatalan dikirim",
+      "PROPOSAL_CANCEL_BUYER": "Panjaluk pembatalan ditampa",
+      "BEING_CANCELLED": "Pembatalan lagi ditindakake",
+      "IGNORED_CANCEL_SELLER": "Sing bakul ora nggatekake proposal sampeyan kanggo mbatalake kontrak kasebut",
+      "IGNORED_CANCEL_BUYER": "Usul kanggo mbatalake kontrak ora digatekake",
+      "CANCELLED": "Kontrak dibatalake",
+      "EXPIRED": "Kontrak proposal wis kadaluwarsa",
+      "NOT_RECEIVED": "Pangiriman gagal",
+      "NULLIFIED": "Kabeh celengan / simpenan sing ilang"
+    },
+    "ACCEPT_STATE_WAIT_BIG": "Kontrak diwiwiti",
+    "IGNORED_ACCEPT": "Kontrak proposal ora digatekake",
+    "BURN_PROPOSAL": "Kabeh celengan / simpenan sing ilang",
+    "SUCCESS_FINISH_PROPOSAL": "Kontrak rampung",
+    "SEND_CANCEL_PROPOSAL": "Panjaluk pembatalan dikirim",
+    "IGNORED_CANCEL": "Usul kanggo mbatalake kontrak ora digatekake",
+    "DEALS_CANCELED_WAIT": "Pembatalan lagi ditindakake",
+    "WAITING_TIME": "Wektu Respon",
+    "NEED_MONEY": "Dana ora cukup",
+    "BUTTON_MAKE_PLEDGE": "Nampa lan nggawe simpenan",
+    "BUTTON_IGNORE": "Nglirwakake lan ndhelikake tawaran kasebut",
+    "BUTTON_NULLIFY": "Mateni lan ngobong celengan",
+    "BUTTON_RECEIVED": "Rampung lan ngeculake simpenan / simpenan",
+    "BUTTON_CANCEL_BUYER": "Mbatalake lan bali simpenan / simpenan",
+    "BUTTON_NOT_CANCEL": "Nglirwakake panyuwunan",
+    "BUTTON_CANCEL_SELLER": "Konfirmasi lan bali simpenan",
+    "HOUR": "jam",
+    "HOURS": "jam",
+    "CANCEL": "dibatalake",
+    "NULLIFY_QUESTION": "Apa sampeyan manawa kanggo ngobong / ngobong loro celengan / simpenan?",
+    "BUTTON_NULLIFY_SHORT": "Gosong",
+    "WAITING_TIME_QUESTION": "Apa sampeyan yakin bakal mbatalake kontrak?"
+  },
+  "MESSAGES": {
+    "ADDRESS": "alamat",
+    "MESSAGE": "Pesen",
+    "SEND_PLACEHOLDER": "Ketik pesen...",
+    "SEND_BUTTON": "Ngirim"
+  },
+  "MODALS": {
+    "ERROR": "Kesalahan",
+    "SUCCESS": "kasil",
+    "INFO": "Informasi",
+    "OK": "oke",
+    "CANCEL": "dibatalake",
+    "ADD_TOKEN": "Tambah token"
+  },
+  "CONFIRM": {
+    "BUTTON_CONFIRM": "Ngirim",
+    "BUTTON_CANCEL": "dibatalake",
+    "TITLE": "Konfirmasi transaksi",
+    "MESSAGE": {
+      "SEND": "Ngirim",
+      "FROM": "saka\n",
+      "TO": "Kanggo",
+      "COMMENT": "Komentar"
+    }
+  },
+  "STAKING": {
+    "TITLE": "Staking",
+    "TITLE_PENDING": "telat",
+    "TITLE_TOTAL": "Total",
+    "TITLE_PERIOD": "jangka wektu:",
+    "PERIOD": {
+      "WEEK1": "1 minggu",
+      "WEEK2": "2 minggu",
+      "MONTH1": "1 wulan",
+      "MONTH3": "3 wulan",
+      "MONTH6": "6 wulan",
+      "YEAR": "1 taun",
+      "ALL": "Kabeh"
+    },
+    "TITLE_GROUP": "Kelompok:",
+    "GROUP": {
+      "DAY": "dina",
+      "WEEK": "Minggu",
+      "MONTH": "wulan"
+    },
+    "SWITCH": {
+      "ON": "Urip",
+      "OFF": "mati"
+    }
+  },
+  "CONTACTS": {
+    "TITLE": "Daftare kontak",
+    "IMPORT_EXPORT": "Impor utawa ekspor kontak",
+    "IMPORT": "diimpor",
+    "EXPORT": "Ekspor",
+    "ADD": "Tambah / edit kontak",
+    "SEND": "Ngirim",
+    "SEND_FROM": "Kirim saka",
+    "SEND_TO": "Kanggo",
+    "OPEN_ADD_WALLET": "Mbukak / nambah dompet",
+    "COPY": "- Nyalin",
+    "TABLE": {
+      "NAME": "jeneng",
+      "ALIAS": "alias",
+      "ADDRESS": "alamat",
+      "NOTES": "Cathetan",
+      "EMPTY": "Daftar kontrak isih kosong"
+    },
+    "FORM": {
+      "NAME": "jeneng",
+      "ADDRESS": "alamat",
+      "NOTES": "Cathetan"
+    },
+    "FORM_ERRORS": {
+      "NAME_REQUIRED": "Jeneng dibutuhake",
+      "NAME_DUBLICATED": "Jeneng sing padha / duplikat",
+      "ADDRESS_REQUIRED": "Alamate dibutuhake",
+      "ADDRESS_NOT_VALID": "Alamat ora sah",
+      "SET_MASTER_PASSWORD": "Setelen kata Sandine Pangguna",
+      "ADDRESS_DUBLICATED": "Alamat sing padha / duplikat",
+      "MAX_LENGTH": "Tekan dawa rekaman maksimal",
+      "NAME_LENGTH": "Jeneng kudu 4-25 karakter"
+    },
+    "BUTTON": {
+      "SEND": "Ngirimake",
+      "EDIT": "Sunting / ngowahi",
+      "DELETE": "mbusak",
+      "ADD": "Tambahen kontake",
+      "ADD_EDIT": "Tambahen / Simpenen",
+      "GO_TO_WALLET": "Pindhah menyang dompet",
+      "IMPORT_EXPORT": "Impor / Ekspor"
+    },
+    "SUCCESS_SENT": "Kontak ditambahake",
+    "SUCCESS_SAVE": "Kontak wis diganti",
+    "SUCCESS_IMPORT": "Kontak wis diimpor",
+    "SUCCESS_EXPORT": "Kontak wis diekspor",
+    "ERROR_IMPORT": "Ana kesalahan nalika maca file!",
+    "ERROR_TYPE_FILE": "Mangga ngimpor file .csv sing valid",
+    "ERROR_EXPORT": "Jinis berkas ora sah. Simpen file ing .csv",
+    "ERROR_EMPTY_LIST": "Daftar kontak isih kosong",
+    "ERROR_IMPORT_EMPTY": "File isih kosong",
+    "ADD_CONTACT": "Tambah kontak"
+  },
+  "ERRORS": {
+    "NO_MONEY": "Ora cukup dhuwit",
+    "NOT_ENOUGH_MONEY": "Ora ana dana sing cukup ing akun kasebut",
+    "CORE_BUSY": "Kesalahan internal: inti sibuk",
+    "DAEMON_BUSY": "Kesalahan internal: daemon sibuk",
+    "NO_MONEY_REMOVE_OFFER": "Ora ana ragad kanggo mbusak tawaran, nanging kanggo nglindhungi jaringan saka banjir / macem-macem transaksi, sampeyan kudu paling sethithik {{fee}} {{currency}} ing dompet sampeyan",
+    "NOT_ENOUGH_OUTPUTS_TO_MIX": "Campuran gedhe banget kanggo kahanan blockchain saiki. Ora ana cukup output sing ora digunakake kanggo gabungke",
+    "TRANSACTION_IS_TO_BIG": "Transaksi ngluwihi wates jaringan, ngirim jumlah sing dibutuhake kanthi pirang-pirang transaksi",
+    "TRANSFER_ATTEMPT": "Ora ana sambungan menyang jaringan Zano",
+    "ACCESS_DENIED": "Ora iso mlebu",
+    "TRANSACTION_ERROR": "Kesalahan. Transaksi ora rampung.",
+    "BAD_ARG": "Argumentasi ora sah",
+    "WALLET_WRONG_ID": "ID dompet ora valid",
+    "WRONG_PASSWORD": "Tembung sandhi ora sah",
+    "FILE_RESTORED": "File dompet rusak. Kita wis mbalekake kunci lan dompet saka blockchain",
+    "FILE_NOT_FOUND": "File ora ditemokake",
+    "FILE_EXIST": "Berkas kanthi jeneng kasebut wis ana. Coba gunakake jeneng liya kanggo nyimpen",
+    "FILE_NOT_SAVED": "Sampeyan ora bisa nyimpen file dompet ing folder iki. Mangga pilih folder liyane.",
+    "TX_TYPE_NORMAL": "Kesalahan. Pembayaran saka dompet",
+    "TX_TYPE_NORMAL_TO": "Kanggo",
+    "TX_TYPE_NORMAL_END": "durung rampung",
+    "TX_TYPE_NEW_ALIAS": "Kesalahan. Gagal ndhaftar alias",
+    "TX_TYPE_NEW_ALIAS_END": "Mangga nyoba maneh",
+    "TX_TYPE_UPDATE_ALIAS": "Kesalahan. Gagal ngowahi komentar dadi alias",
+    "TX_TYPE_COIN_BASE": "Kesalahan. Pembayaran ora rampung.",
+    "WALLET_WATCH_ONLY_NOT_SUPPORTED": "Dompet khusus kanggo jam tangan mung bisa dibukak nganggo dompet prasaja",
+    "REQUIRED": "Kothak sing dibutuhake",
+    "NOT_FILE_ZANO_WALLET": "File dudu dompet zano"
+  },
+  "CONTEXT_MENU": {
+    "COPY": "Nyalin",
+    "PASTE": "tempel / tempel",
+    "SELECT": "milih kabeh"
+  },
+  "BACKEND_LOCALIZATION": {
+    "QUIT": "Metu",
+    "IS_RECEIVED": "",
+    "IS_CONFIRMED": "",
+    "INCOME_TRANSFER_UNCONFIRMED": "Pembayaran mlebu (ora dikonfirmasi)",
+    "INCOME_TRANSFER_CONFIRMED": "Pembayaran ditampa",
+    "MINED": "ditambang",
+    "LOCKED": "Diblokir",
+    "IS_MINIMIZE": "Aplikasi Zano diminimalisir menyang baki sistem.",
+    "RESTORE": "Sampeyan bisa mulihake kanthi ngeklik menyang menu konteks.",
+    "TRAY_MENU_SHOW": "Ngowahi ukuran",
+    "TRAY_MENU_MINIMIZE": "nyilikake"
+  },
+  "TOR_LIB_STATE": {
+    "STATE_SENDING": "Ngirimake transaksine",
+    "STATE_SENT_SUCCESS": "Kasil dikirimake!",
+    "STATE_SEND_FAILED": "Ngirim gagal",
+    "STATE_INITIALIZING": "Initializing",
+    "STATE_DOWNLOADING_CONSENSUS": "Ngundhuh konsensus",
+    "STATE_MAKING_TUNNEL_A": "Nggawe trowongan menyang A",
+    "STATE_MAKING_TUNNEL_B": "Nggawe trowongan menyang B",
+    "STATE_CREATING_STREAM": "Nggawe stream",
+    "STATE_FAILED": "Gagal nggawe stream",
+    "STATE_SUCCESS": "Kasil digawe stream"
+  },
+  "SEND_DETAILS_MODAL": {
+    "TITLE1": "Transaksine",
+    "TITLE2": "Rincian transaksine"
+  },
+  "PLACEHOLDERS": {
+    "COMMENT_PLACEHOLDER": "Ketik komentar sampeyan ing kene",
+    "WALLET_NAME_PLACEHOLDER": "Ketik Jeneng Dompet ing kene",
+    "MASTER_PASS_PLACEHOLDER": "Ketik sandhi master kene",
+    "PASS_PLACEHOLDER": "Ketik sandhi master kene",
+    "NAME_PLACEHOLDER": "Ketik jeneng ing kene",
+    "ADRESS_PLACEHOLDER": "Ketik alamat kene",
+    "NOTES_PLACEHOLDER": "Ketik cathetan ing kene",
+    "DESCRIPTION_PLACEHOLDER": "Ketik katrangan ing kene",
+    "SELLER_PLACEHOLDER": "Ketik bakul kene",
+    "PLACEHOLDER_OLD": "Ketik sandhi saiki ing kene",
+    "AMOUNT_PLACEHOLDER": "Ketik jumlah kene",
+    "DEPOSIT_PLACEHOLDER": "Ketik simpenan kene",
+    "SELLER_DEPOSIT_PLACEHOLDER": "Ketik simpenan bakul ing kene",
+    "PLACEHOLDER_NEW": "Ketik sandhi anyar ing kene",
+    "WALET_PASSWORD_PLACEHOLDER": "Ketik sandhi dompet ing kene",
+    "CONFIRM_WALET_PASSWORD_PLACEHOLDER": "Konfirmasi sandhi dompet ing kene",
+    "PLACEHOLDER_CONFIRM": "Konfirmasi sandhi anyar ing kene",
+    "PASSWORD_PLACEHOLDER": "Ketik sandhi ing kene",
+    "SEED_PHRASE_PLACEHOLDER": "Ketik tembung wiwitan ing kene",
+    "SEED_PASSWORD_PLACEHOLDER": "Ketik sandhi dhisikan ing kene",
+    "PURCHASE_PAYMENT_PLACEHOLDER": "Ketik ID pembayaran kene",
+    "FEE_PLACEHOLDER": "Ketik biaya pajeke"
+  },
+  "EXPORT_HISTORY": {
+    "TOOLTIP": "Ekspor riwayat transaksi dompet menyang file",
+    "TITLE": "Ekspor Riwayat Dompet",
+    "FILTER": "Filter Transaksi POS",
+    "CANCEL": "dibatalake",
+    "EXPORT": "Ekspor menyang file...",
+    "EXPORT_BUTTON": "Ekspor sajarah ...",
+    "SAVED_FILE": "Pilih path kanggo nyimpen riwayat transaksi",
+    "FORMAT": "Format"
+  },
+  "ASSETS": {
+    "TABLE": {
+      "LABELS": {
+        "NAME": "jeneng",
+        "BALANCE": "Duwitmu",
+        "VALUE": "Jumlahe",
+        "PRICE": "Regane"
+      }
+    },
+    "DROP_DOWN_MENU": {
+      "ASSET_DETAILS": "Rinciane Aset",
+      "REMOVE_ASSET": "Mbusak aset"
+    },
+    "MODALS": {
+      "ASSET_DETAILS": {
+        "LABELS": {
+          "NAME": "Jeneng aset",
+          "TICKER": "tiket",
+          "ID": "ID aset",
+          "CURRENT_SUPPLY": "Pasokan saiki",
+          "MAX_SUPPLE": "Pasokan maksimal"
+        }
+      }
+    },
+    "FORM": {
+      "ERRORS": {
+        "WRONG_ASSET_ID": "Id aset sing salah",
+        "INSUFICCIENT_FUNDS": "Dana ora cukup"
+      }
+    }
+  }
+}
