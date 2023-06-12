@@ -8,11 +8,12 @@
     "BUTTON_RESET": "Zurücksetzen",
     "INCORRECT_PASSWORD": "Ungültiges Passwort",
     "FORM_ERRORS": {
-      "PASS_REQUIRED": "Passwort ist erforderlich",
-      "CONFIRM_REQUIRED": "Bestätigung ist erforderlich",
-      "MISMATCH": "Fehlanpassung",
-      "INVALID_PASS": "Ungültiges Passwort, versuchen Sie es erneut"
-    }
+		"PASS_REQUIRED": "Passwort ist erforderlich",
+		"CONFIRM_REQUIRED": "Bestätigung ist erforderlich",
+		"MISMATCH": "Fehlanpassung",
+		"INVALID_PASS": "Ungültiges Passwort, versuchen Sie es erneut",
+		"WRONG_PASSWORD": "Wrong password"
+	}
   },
   "COMMON": {
     "BACK": "Zurück"
@@ -174,7 +175,7 @@
     "FORM_ERRORS": {
       "PASS_REQUIRED": "Passwort ist erforderlich",
       "PASS_NOT_MATCH": "Old password not match",
-      "CONFIRM_NOT_MATCH": "Confirm password not match"
+      "CONFIRM_NOT_MATCH": "Passwords do not match"
     },
     "LAST_BUILD": "Aktueller Build: {{value}}",
     "APP_LOG_TITLE": "Log-Level:",

@@ -4323,6 +4323,25 @@ module.exports = {
 
 /***/ }),
 
+/***/ 9312:
+/*!**************************************************************************!*\
+  !*** ./node_modules/core-js/internals/function-uncurry-this-accessor.js ***!
+  \**************************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var uncurryThis = __webpack_require__(/*! ../internals/function-uncurry-this */ 2006);
+var aCallable = __webpack_require__(/*! ../internals/a-callable */ 9366);
+
+module.exports = function (object, key, method) {
+  try {
+    // eslint-disable-next-line es/no-object-getownpropertydescriptor -- safe
+    return uncurryThis(aCallable(Object.getOwnPropertyDescriptor(object, key)[method]));
+  } catch (error) { /* empty */ }
+};
+
+
+/***/ }),
+
 /***/ 7075:
 /*!************************************************************************!*\
   !*** ./node_modules/core-js/internals/function-uncurry-this-clause.js ***!
@@ -4429,6 +4448,45 @@ module.exports = function (argument, usingIterator) {
 
 /***/ }),
 
+/***/ 6557:
+/*!**********************************************************************!*\
+  !*** ./node_modules/core-js/internals/get-json-replacer-function.js ***!
+  \**********************************************************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var uncurryThis = __webpack_require__(/*! ../internals/function-uncurry-this */ 2006);
+var isArray = __webpack_require__(/*! ../internals/is-array */ 8143);
+var isCallable = __webpack_require__(/*! ../internals/is-callable */ 4513);
+var classof = __webpack_require__(/*! ../internals/classof-raw */ 1401);
+var toString = __webpack_require__(/*! ../internals/to-string */ 9005);
+
+var push = uncurryThis([].push);
+
+module.exports = function (replacer) {
+  if (isCallable(replacer)) return replacer;
+  if (!isArray(replacer)) return;
+  var rawLength = replacer.length;
+  var keys = [];
+  for (var i = 0; i < rawLength; i++) {
+    var element = replacer[i];
+    if (typeof element == 'string') push(keys, element);
+    else if (typeof element == 'number' || classof(element) == 'Number' || classof(element) == 'String') push(keys, toString(element));
+  }
+  var keysLength = keys.length;
+  var root = true;
+  return function (key, value) {
+    if (root) {
+      root = false;
+      return value;
+    }
+    if (isArray(this)) return value;
+    for (var j = 0; j < keysLength; j++) if (keys[j] === key) return value;
+  };
+};
+
+
+/***/ }),
+
 /***/ 1260:
 /*!******************************************************!*\
   !*** ./node_modules/core-js/internals/get-method.js ***!
@@ -4452,7 +4510,7 @@ module.exports = function (V, P) {
 /*!**************************************************!*\
   !*** ./node_modules/core-js/internals/global.js ***!
   \**************************************************/
-/***/ ((module) => {
+/***/ (function(module) {
 
 var check = function (it) {
   return it && it.Math == Math && it;
@@ -4467,7 +4525,7 @@ module.exports =
   check(typeof self == 'object' && self) ||
   check(typeof global == 'object' && global) ||
   // eslint-disable-next-line no-new-func -- fallback
-  (function () { return this; })() || Function('return this')();
+  (function () { return this; })() || this || Function('return this')();
 
 
 /***/ }),
@@ -5732,7 +5790,7 @@ module.exports = IS_PURE || !fails(function () {
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 /* eslint-disable no-proto -- safe */
-var uncurryThis = __webpack_require__(/*! ../internals/function-uncurry-this */ 2006);
+var uncurryThisAccessor = __webpack_require__(/*! ../internals/function-uncurry-this-accessor */ 9312);
 var anObject = __webpack_require__(/*! ../internals/an-object */ 6583);
 var aPossiblePrototype = __webpack_require__(/*! ../internals/a-possible-prototype */ 8254);
 
@@ -5745,8 +5803,7 @@ module.exports = Object.setPrototypeOf || ('__proto__' in {} ? function () {
   var test = {};
   var setter;
   try {
-    // eslint-disable-next-line es/no-object-getownpropertydescriptor -- safe
-    setter = uncurryThis(Object.getOwnPropertyDescriptor(Object.prototype, '__proto__').set);
+    setter = uncurryThisAccessor(Object.prototype, '__proto__', 'set');
     setter(test, []);
     CORRECT_SETTER = test instanceof Array;
   } catch (error) { /* empty */ }
@@ -5769,7 +5826,9 @@ module.exports = Object.setPrototypeOf || ('__proto__' in {} ? function () {
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 var DESCRIPTORS = __webpack_require__(/*! ../internals/descriptors */ 5601);
+var fails = __webpack_require__(/*! ../internals/fails */ 7944);
 var uncurryThis = __webpack_require__(/*! ../internals/function-uncurry-this */ 2006);
+var objectGetPrototypeOf = __webpack_require__(/*! ../internals/object-get-prototype-of */ 5456);
 var objectKeys = __webpack_require__(/*! ../internals/object-keys */ 5159);
 var toIndexedObject = __webpack_require__(/*! ../internals/to-indexed-object */ 8436);
 var $propertyIsEnumerable = (__webpack_require__(/*! ../internals/object-property-is-enumerable */ 6491).f);
@@ -5777,18 +5836,28 @@ var $propertyIsEnumerable = (__webpack_require__(/*! ../internals/object-propert
 var propertyIsEnumerable = uncurryThis($propertyIsEnumerable);
 var push = uncurryThis([].push);
 
+// in some IE versions, `propertyIsEnumerable` returns incorrect result on integer keys
+// of `null` prototype objects
+var IE_BUG = DESCRIPTORS && fails(function () {
+  // eslint-disable-next-line es/no-object-create -- safe
+  var O = Object.create(null);
+  O[2] = 2;
+  return !propertyIsEnumerable(O, 2);
+});
+
 // `Object.{ entries, values }` methods implementation
 var createMethod = function (TO_ENTRIES) {
   return function (it) {
     var O = toIndexedObject(it);
     var keys = objectKeys(O);
+    var IE_WORKAROUND = IE_BUG && objectGetPrototypeOf(O) === null;
     var length = keys.length;
     var i = 0;
     var result = [];
     var key;
     while (length > i) {
       key = keys[i++];
-      if (!DESCRIPTORS || propertyIsEnumerable(O, key)) {
+      if (!DESCRIPTORS || (IE_WORKAROUND ? key in O : propertyIsEnumerable(O, key))) {
         push(result, TO_ENTRIES ? [key, O[key]] : O[key]);
       }
     }
@@ -5996,10 +6065,10 @@ var store = __webpack_require__(/*! ../internals/shared-store */ 5691);
 (module.exports = function (key, value) {
   return store[key] || (store[key] = value !== undefined ? value : {});
 })('versions', []).push({
-  version: '3.27.2',
+  version: '3.31.0',
   mode: IS_PURE ? 'pure' : 'global',
   copyright: '© 2014-2023 Denis Pushkarev (zloirock.ru)',
-  license: 'https://github.com/zloirock/core-js/blob/v3.27.2/LICENSE',
+  license: 'https://github.com/zloirock/core-js/blob/v3.31.0/LICENSE',
   source: 'https://github.com/zloirock/core-js'
 });
 
@@ -6015,13 +6084,18 @@ var store = __webpack_require__(/*! ../internals/shared-store */ 5691);
 /* eslint-disable es/no-symbol -- required for testing */
 var V8_VERSION = __webpack_require__(/*! ../internals/engine-v8-version */ 9905);
 var fails = __webpack_require__(/*! ../internals/fails */ 7944);
+var global = __webpack_require__(/*! ../internals/global */ 4720);
+
+var $String = global.String;
 
 // eslint-disable-next-line es/no-object-getownpropertysymbols -- required for testing
 module.exports = !!Object.getOwnPropertySymbols && !fails(function () {
   var symbol = Symbol();
   // Chrome 38 Symbol has incorrect toString conversion
   // `get-own-property-symbols` polyfill symbols converted to object are not Symbol instances
-  return !String(symbol) || !(Object(symbol) instanceof Symbol) ||
+  // nb: Do not call `String` directly to avoid this being optimized out to `symbol+''` which will,
+  // of course, fail.
+  return !$String(symbol) || !(Object(symbol) instanceof Symbol) ||
     // Chrome 38-40 symbols are not inherited from DOM collections prototypes to instances
     !Symbol.sham && V8_VERSION && V8_VERSION < 41;
 });
@@ -6425,13 +6499,13 @@ var apply = __webpack_require__(/*! ../internals/function-apply */ 5019);
 var call = __webpack_require__(/*! ../internals/function-call */ 9836);
 var uncurryThis = __webpack_require__(/*! ../internals/function-uncurry-this */ 2006);
 var fails = __webpack_require__(/*! ../internals/fails */ 7944);
-var isArray = __webpack_require__(/*! ../internals/is-array */ 8143);
 var isCallable = __webpack_require__(/*! ../internals/is-callable */ 4513);
-var isObject = __webpack_require__(/*! ../internals/is-object */ 8886);
 var isSymbol = __webpack_require__(/*! ../internals/is-symbol */ 2983);
 var arraySlice = __webpack_require__(/*! ../internals/array-slice */ 8439);
+var getReplacerFunction = __webpack_require__(/*! ../internals/get-json-replacer-function */ 6557);
 var NATIVE_SYMBOL = __webpack_require__(/*! ../internals/symbol-constructor-detection */ 1656);
 
+var $String = String;
 var $stringify = getBuiltIn('JSON', 'stringify');
 var exec = uncurryThis(/./.exec);
 var charAt = uncurryThis(''.charAt);
@@ -6461,13 +6535,13 @@ var ILL_FORMED_UNICODE = fails(function () {
 
 var stringifyWithSymbolsFix = function (it, replacer) {
   var args = arraySlice(arguments);
-  var $replacer = replacer;
-  if (!isObject(replacer) && it === undefined || isSymbol(it)) return; // IE8 returns string on undefined
-  if (!isArray(replacer)) replacer = function (key, value) {
-    if (isCallable($replacer)) value = call($replacer, this, key, value);
+  var $replacer = getReplacerFunction(replacer);
+  if (!isCallable($replacer) && (it === undefined || isSymbol(it))) return; // IE8 returns string on undefined
+  args[1] = function (key, value) {
+    // some old implementations (like WebKit) could pass numbers as keys
+    if (isCallable($replacer)) value = call($replacer, this, $String(key), value);
     if (!isSymbol(value)) return value;
   };
-  args[1] = replacer;
   return apply($stringify, null, args);
 };
 
@@ -7278,6 +7352,7 @@ var definePropertyModule = __webpack_require__(/*! ../internals/object-define-pr
 var definePropertiesModule = __webpack_require__(/*! ../internals/object-define-properties */ 9106);
 var propertyIsEnumerableModule = __webpack_require__(/*! ../internals/object-property-is-enumerable */ 6491);
 var defineBuiltIn = __webpack_require__(/*! ../internals/define-built-in */ 9047);
+var defineBuiltInAccessor = __webpack_require__(/*! ../internals/define-built-in-accessor */ 8664);
 var shared = __webpack_require__(/*! ../internals/shared */ 5443);
 var sharedKey = __webpack_require__(/*! ../internals/shared-key */ 9660);
 var hiddenKeys = __webpack_require__(/*! ../internals/hidden-keys */ 7086);
@@ -7449,7 +7524,7 @@ if (!NATIVE_SYMBOL) {
 
   if (DESCRIPTORS) {
     // https://github.com/tc39/proposal-Symbol-description
-    nativeDefineProperty(SymbolPrototype, 'description', {
+    defineBuiltInAccessor(SymbolPrototype, 'description', {
       configurable: true,
       get: function description() {
         return getInternalState(this).description;
