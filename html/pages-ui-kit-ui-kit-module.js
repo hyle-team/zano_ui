@@ -584,7 +584,7 @@ var FormModule = /** @class */ (function () {
 /*!**********************************************************!*\
   !*** ./src/app/pages/ui-kit/modules/components/index.ts ***!
   \**********************************************************/
-/*! exports provided: FormModule, FormComponent, BreadcrumbsComponent, ButtonsComponent, ProgressBarsComponent, WalletsComponent */
+/*! exports provided: FormModule, FormComponent, WalletsComponent, BreadcrumbsComponent, ButtonsComponent, ProgressBarsComponent */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
