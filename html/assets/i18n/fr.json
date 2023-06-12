@@ -8,11 +8,12 @@
     "BUTTON_RESET": "Réinitialiser",
     "INCORRECT_PASSWORD": "Mot de passe invalide",
     "FORM_ERRORS": {
-      "PASS_REQUIRED": "Mot de passe requis",
-      "CONFIRM_REQUIRED": "Confirmation requise",
-      "MISMATCH": "Non-concordant",
-      "INVALID_PASS": "Mot de passe invalide, réessayez"
-    }
+		"PASS_REQUIRED": "Mot de passe requis",
+		"CONFIRM_REQUIRED": "Confirmation requise",
+		"MISMATCH": "Non-concordant",
+		"INVALID_PASS": "Mot de passe invalide, réessayez",
+		"WRONG_PASSWORD": "Wrong password"
+	}
   },
   "COMMON": {
     "BACK": "Retour"

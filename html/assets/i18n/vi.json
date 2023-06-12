@@ -11,7 +11,8 @@
       "PASS_REQUIRED": "Password is required",
       "CONFIRM_REQUIRED": "Confirmation is required",
       "MISMATCH": "Mismatch",
-      "INVALID_PASS": "Invalid Password, try again"
+      "INVALID_PASS": "Invalid Password, try again",
+      "WRONG_PASSWORD": "Wrong password"
     }
   },
   "COMMON": {
@@ -174,7 +175,7 @@
     "FORM_ERRORS": {
       "PASS_REQUIRED": "Password is required",
       "PASS_NOT_MATCH": "Old password not match",
-      "CONFIRM_NOT_MATCH": "Confirm password not match"
+      "CONFIRM_NOT_MATCH": "Passwords do not match"
     },
     "LAST_BUILD": "Current build: {{value}}",
     "APP_LOG_TITLE": "Log level:",
@@ -216,7 +217,7 @@
       "TRANSFER_ALIAS": "Transfer alias",
       "SETTINGS": "Settings",
       "ADD_CUSTOM_TOKEN": "Add Custom Token",
-      "CLOSE": "Close wallet"
+      "REMOVE": "Remove wallet"
     },
     "MODAL_ADD_CUSTOM_TOKEN": {
       "TITLE": "Add Custom Token",
@@ -229,7 +230,7 @@
     "LABEL_SEED_PHRASE": "Seed phrase",
     "SEED_PHRASE_HINT": "Click to reveal the seed phrase",
     "BUTTON_SAVE": "Save",
-    "BUTTON_REMOVE": "Close wallet",
+    "BUTTON_REMOVE": "Remove wallet",
     "FORM_ERRORS": {
       "NAME_REQUIRED": "Name is required",
       "NAME_DUPLICATE": "Name is duplicate",
