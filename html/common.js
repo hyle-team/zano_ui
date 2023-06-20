@@ -10,28 +10,24 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NoWalletRoutingModule", function() { return NoWalletRoutingModule; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _no_wallet_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./no-wallet.component */ "./src/app/pages/auth/no-wallet/no-wallet.component.ts");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _no_wallet_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./no-wallet.component */ "./src/app/pages/auth/no-wallet/no-wallet.component.ts");
+
 
 
 
 var routes = [
-    { path: '', component: _no_wallet_component__WEBPACK_IMPORTED_MODULE_2__["NoWalletComponent"] },
+    { path: '', component: _no_wallet_component__WEBPACK_IMPORTED_MODULE_3__["NoWalletComponent"] },
 ];
 var NoWalletRoutingModule = /** @class */ (function () {
     function NoWalletRoutingModule() {
     }
-    NoWalletRoutingModule = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
-            imports: [_angular_router__WEBPACK_IMPORTED_MODULE_1__["RouterModule"].forChild(routes)],
-            exports: [_angular_router__WEBPACK_IMPORTED_MODULE_1__["RouterModule"]]
+    NoWalletRoutingModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
+            imports: [_angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"].forChild(routes)],
+            exports: [_angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"]]
         })
     ], NoWalletRoutingModule);
     return NoWalletRoutingModule;
@@ -73,22 +69,15 @@ module.exports = ":host {\n  width: 100%;\n  height: 100%;\n  overflow: hidden;\
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NoWalletComponent", function() { return NoWalletComponent; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _shared_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../_shared/constants */ "./src/app/_shared/constants.ts");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
-/* harmony import */ var _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../_helpers/services/backend.service */ "./src/app/_helpers/services/backend.service.ts");
-/* harmony import */ var _helpers_services_variables_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../_helpers/services/variables.service */ "./src/app/_helpers/services/variables.service.ts");
-/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
-/* harmony import */ var _paths__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../paths */ "./src/app/paths.ts");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (undefined && undefined.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _shared_constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../_shared/constants */ "./src/app/_shared/constants.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../_helpers/services/backend.service */ "./src/app/_helpers/services/backend.service.ts");
+/* harmony import */ var _helpers_services_variables_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../_helpers/services/variables.service */ "./src/app/_helpers/services/variables.service.ts");
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
+/* harmony import */ var _paths__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../paths */ "./src/app/paths.ts");
+
 
 
 
@@ -104,7 +93,7 @@ var NoWalletComponent = /** @class */ (function () {
         this._translate = _translate;
         this.variablesService = variablesService;
         /** app paths */
-        this.paths = _paths__WEBPACK_IMPORTED_MODULE_6__["paths"];
+        this.paths = _paths__WEBPACK_IMPORTED_MODULE_7__["paths"];
     }
     NoWalletComponent.prototype.ngOnInit = function () {
     };
@@ -114,7 +103,7 @@ var NoWalletComponent = /** @class */ (function () {
             if (file_status) {
                 _this.variablesService.settings.default_path = file_data.path.substr(0, file_data.path.lastIndexOf('/'));
                 _this._ngZone.run(function () {
-                    _this._router.navigate(['/' + _paths__WEBPACK_IMPORTED_MODULE_6__["paths"].open], { queryParams: { path: file_data.path } }).then();
+                    _this._router.navigate(['/' + _paths__WEBPACK_IMPORTED_MODULE_7__["paths"].open], { queryParams: { path: file_data.path } }).then();
                 });
             }
             else {
@@ -123,19 +112,19 @@ var NoWalletComponent = /** @class */ (function () {
         });
     };
     NoWalletComponent.prototype.openInBrowser = function () {
-        this._backend.openUrlInBrowser(_shared_constants__WEBPACK_IMPORTED_MODULE_1__["CREATE_NEW_WALLET_HELP_PAGE"]);
+        this._backend.openUrlInBrowser(_shared_constants__WEBPACK_IMPORTED_MODULE_2__["CREATE_NEW_WALLET_HELP_PAGE"]);
     };
-    NoWalletComponent = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+    NoWalletComponent = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Component"])({
             selector: 'app-no-wallet',
             template: __webpack_require__(/*! ./no-wallet.component.html */ "./src/app/pages/auth/no-wallet/no-wallet.component.html"),
             styles: [__webpack_require__(/*! ./no-wallet.component.scss */ "./src/app/pages/auth/no-wallet/no-wallet.component.scss")]
         }),
-        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
-            _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_3__["BackendService"],
-            _angular_core__WEBPACK_IMPORTED_MODULE_0__["NgZone"],
-            _ngx_translate_core__WEBPACK_IMPORTED_MODULE_5__["TranslateService"],
-            _helpers_services_variables_service__WEBPACK_IMPORTED_MODULE_4__["VariablesService"]])
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"],
+            _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_4__["BackendService"],
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["NgZone"],
+            _ngx_translate_core__WEBPACK_IMPORTED_MODULE_6__["TranslateService"],
+            _helpers_services_variables_service__WEBPACK_IMPORTED_MODULE_5__["VariablesService"]])
     ], NoWalletComponent);
     return NoWalletComponent;
 }());
@@ -154,19 +143,15 @@ var NoWalletComponent = /** @class */ (function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NoWalletModule", function() { return NoWalletModule; });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
-/* harmony import */ var _no_wallet_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./no-wallet.component */ "./src/app/pages/auth/no-wallet/no-wallet.component.ts");
-/* harmony import */ var _no_wallet_routing_module__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./no-wallet-routing.module */ "./src/app/pages/auth/no-wallet/no-wallet-routing.module.ts");
-/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
-/* harmony import */ var _synchronization_status_synchronization_status_module__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../synchronization-status/synchronization-status.module */ "./src/app/synchronization-status/synchronization-status.module.ts");
-/* harmony import */ var _angular_flex_layout__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/flex-layout */ "./node_modules/@angular/flex-layout/esm5/flex-layout.es5.js");
-var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var _no_wallet_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./no-wallet.component */ "./src/app/pages/auth/no-wallet/no-wallet.component.ts");
+/* harmony import */ var _no_wallet_routing_module__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./no-wallet-routing.module */ "./src/app/pages/auth/no-wallet/no-wallet-routing.module.ts");
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
+/* harmony import */ var _synchronization_status_synchronization_status_module__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../synchronization-status/synchronization-status.module */ "./src/app/synchronization-status/synchronization-status.module.ts");
+/* harmony import */ var _angular_flex_layout__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/flex-layout */ "./node_modules/@angular/flex-layout/esm5/flex-layout.es5.js");
+
 
 
 
@@ -177,15 +162,15 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var NoWalletModule = /** @class */ (function () {
     function NoWalletModule() {
     }
-    NoWalletModule = __decorate([
-        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
-            declarations: [_no_wallet_component__WEBPACK_IMPORTED_MODULE_2__["NoWalletComponent"]],
+    NoWalletModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
+            declarations: [_no_wallet_component__WEBPACK_IMPORTED_MODULE_3__["NoWalletComponent"]],
             imports: [
-                _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"],
-                _no_wallet_routing_module__WEBPACK_IMPORTED_MODULE_3__["NoWalletRoutingModule"],
-                _ngx_translate_core__WEBPACK_IMPORTED_MODULE_4__["TranslateModule"],
-                _angular_flex_layout__WEBPACK_IMPORTED_MODULE_6__["FlexLayoutModule"],
-                _synchronization_status_synchronization_status_module__WEBPACK_IMPORTED_MODULE_5__["SynchronizationStatusModule"]
+                _angular_common__WEBPACK_IMPORTED_MODULE_2__["CommonModule"],
+                _no_wallet_routing_module__WEBPACK_IMPORTED_MODULE_4__["NoWalletRoutingModule"],
+                _ngx_translate_core__WEBPACK_IMPORTED_MODULE_5__["TranslateModule"],
+                _angular_flex_layout__WEBPACK_IMPORTED_MODULE_7__["FlexLayoutModule"],
+                _synchronization_status_synchronization_status_module__WEBPACK_IMPORTED_MODULE_6__["SynchronizationStatusModule"]
             ]
         })
     ], NoWalletModule);
