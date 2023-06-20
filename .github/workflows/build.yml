@@ -23,7 +23,7 @@ jobs:
 
     - name: Install Dependencies
       working-directory: html_source
-      run: npm ci
+      run: npm i
 
     - name: Build Angular App
       working-directory: html_source
