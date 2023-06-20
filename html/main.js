@@ -4278,15 +4278,12 @@ class CreateWalletComponent {
           wallet.totalPages = 1;
           wallet.currentPage = 1;
           _this.variablesService.opening_wallet = wallet;
-
-          _this.backend.closeWallet(wallet_id, /*#__PURE__*/(0,D_Work_Ristars_Nazar_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-            yield _this.ngZone.run( /*#__PURE__*/(0,D_Work_Ristars_Nazar_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-              yield _this.router.navigate(['/seed-phrase'], {
-                queryParams: {
-                  wallet_id
-                }
-              });
-            }));
+          yield _this.ngZone.run( /*#__PURE__*/(0,D_Work_Ristars_Nazar_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+            yield _this.router.navigate(['/seed-phrase'], {
+              queryParams: {
+                wallet_id
+              }
+            });
           }));
         } else {
           const errorTranslationKey = errorCode === 'ALREADY_EXISTS' ? 'CREATE_WALLET.ERROR_CANNOT_SAVE_TOP' : 'CREATE_WALLET.ERROR_CANNOT_SAVE_SYSTEM';
@@ -5647,11 +5644,17 @@ class OpenWalletComponent {
                         new_wallet.is_auditable = openData['wi'].is_auditable;
                         new_wallet.is_watch_only = openData['wi'].is_watch_only;
                         if (openData.recent_history && openData.recent_history.history) {
-                            new_wallet.total_history_item = openData.recent_history.total_history_items;
-                            new_wallet.totalPages = Math.ceil(openData.recent_history.total_history_items / this.variablesService.count);
+                            new_wallet.total_history_item =
+                                openData.recent_history.total_history_items;
+                            new_wallet.totalPages = Math.ceil(openData.recent_history.total_history_items /
+                                this.variablesService.count);
                             new_wallet.totalPages > this.variablesService.maxPages
-                                ? (new_wallet.pages = new Array(5).fill(1).map((value, index) => value + index))
-                                : (new_wallet.pages = new Array(new_wallet.totalPages).fill(1).map((value, index) => value + index));
+                                ? (new_wallet.pages = new Array(5)
+                                    .fill(1)
+                                    .map((value, index) => value + index))
+                                : (new_wallet.pages = new Array(new_wallet.totalPages)
+                                    .fill(1)
+                                    .map((value, index) => value + index));
                             new_wallet.prepareHistory(openData.recent_history.history);
                         }
                         else {
@@ -5660,7 +5663,8 @@ class OpenWalletComponent {
                             new_wallet.totalPages = 1;
                         }
                         this.backend.getContracts(openData.wallet_id, (contracts_status, contracts_data) => {
-                            if (contracts_status && (0,_parts_functions_hasOwnProperty__WEBPACK_IMPORTED_MODULE_1__.hasOwnProperty)(contracts_data, 'contracts')) {
+                            if (contracts_status &&
+                                (0,_parts_functions_hasOwnProperty__WEBPACK_IMPORTED_MODULE_1__.hasOwnProperty)(contracts_data, 'contracts')) {
                                 this.ngZone.run(() => {
                                     new_wallet.prepareContractsAfterOpen(contracts_data.contracts, this.variablesService.exp_med_ts, this.variablesService.height_app, this.variablesService.settings.viewedContracts, this.variablesService.settings.notViewedContracts);
                                 });
@@ -7370,7 +7374,10 @@ class SettingsComponent {
         this.fb = (0,_angular_core__WEBPACK_IMPORTED_MODULE_7__.inject)(_angular_forms__WEBPACK_IMPORTED_MODULE_8__.FormBuilder);
         this.changeForm = this.fb.group({
             password: this.fb.nonNullable.control('', _angular_forms__WEBPACK_IMPORTED_MODULE_8__.Validators.compose([_angular_forms__WEBPACK_IMPORTED_MODULE_8__.Validators.pattern(_parts_utils_zano_validators__WEBPACK_IMPORTED_MODULE_1__.regExpPassword)])),
-            new_password: this.fb.nonNullable.control('', _angular_forms__WEBPACK_IMPORTED_MODULE_8__.Validators.compose([_angular_forms__WEBPACK_IMPORTED_MODULE_8__.Validators.required, _angular_forms__WEBPACK_IMPORTED_MODULE_8__.Validators.pattern(_parts_utils_zano_validators__WEBPACK_IMPORTED_MODULE_1__.regExpPassword)])),
+            new_password: this.fb.nonNullable.control('', _angular_forms__WEBPACK_IMPORTED_MODULE_8__.Validators.compose([
+                _angular_forms__WEBPACK_IMPORTED_MODULE_8__.Validators.required,
+                _angular_forms__WEBPACK_IMPORTED_MODULE_8__.Validators.pattern(_parts_utils_zano_validators__WEBPACK_IMPORTED_MODULE_1__.regExpPassword),
+            ])),
             new_confirmation: this.fb.nonNullable.control(''),
             appPass: this.fb.nonNullable.control((_a = this.variablesService.appPass) !== null && _a !== void 0 ? _a : ''),
         }, {
@@ -7482,9 +7489,7 @@ class SettingsComponent {
                     if (this.variablesService.settings.appLockTime) {
                         this.variablesService.startCountdown();
                     }
-                    this.ngZone.run(() => {
-                        this.onSave();
-                    });
+                    this.onSave();
                 }
                 else {
                     console.log(data['error_code']);
@@ -12382,12 +12387,11 @@ class SendDetailsModalComponent {
       next: ({
         response
       }) => {
-        var _a;
-
         const {
-          response_data
+          response_data: {
+            success
+          }
         } = response;
-        const success = (_a = response_data === null || response_data === void 0 ? void 0 : response_data.success) !== null && _a !== void 0 ? _a : false;
         this.success = success;
 
         if (!appUseTor || !success) {
@@ -13859,9 +13863,11 @@ class SendComponent {
   onSend() {
     if (this.sendMoneyParamsForm.valid) {
       const {
-        address
+        address,
+        asset_id
       } = this.sendMoneyParamsForm.getRawValue();
-      let sendMoneyParams = { ...this.sendMoneyParamsForm.getRawValue()
+      let sendMoneyParams = { ...this.sendMoneyParamsForm.getRawValue(),
+        asset_id: asset_id !== _parts_data_assets__WEBPACK_IMPORTED_MODULE_8__.zanoAssetInfo.asset_id ? asset_id : null
       };
 
       if (address.indexOf('@') === 0) {
@@ -13951,7 +13957,7 @@ class SendComponent {
     this.additionalOptions = true;
     this.sendMoneyParamsForm.patchValue({
       address: value.address,
-      amount: value.amount || null,
+      amount: null,
       comment: value.comment || value.comments || '',
       mixin: +value.mixins || _parts_data_constants__WEBPACK_IMPORTED_MODULE_2__.MIXIN,
       asset_id: _parts_data_assets__WEBPACK_IMPORTED_MODULE_8__.zanoAssetInfo.asset_id,
