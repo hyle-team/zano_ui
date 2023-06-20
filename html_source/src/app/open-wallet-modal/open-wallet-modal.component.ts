@@ -20,6 +20,7 @@ export class OpenWalletModalComponent implements OnInit, OnDestroy {
     path: '',
     pass: '',
     notFound: false,
+    wrongPassword: false,
     emptyPass: false
   };
 
@@ -55,6 +56,11 @@ export class OpenWalletModalComponent implements OnInit, OnDestroy {
       this.variablesService.count,
       false,
       (open_status, open_data, open_error) => {
+        if (open_error === 'WRONG_PASSWORD') {
+          this.ngZone.run(() => {
+            this.wallet.wrongPassword = true;
+          });
+        }
         if (open_error && open_error === 'FILE_NOT_FOUND') {
           this.ngZone.run(() => {
             this.wallet.notFound = true;

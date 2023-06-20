@@ -29,6 +29,7 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
     }]),
     password: new FormControl('')
   });
+  submitted = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -63,6 +64,7 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
 
 
   openWallet() {
+    this.submitted = true;
     if (this.openForm.valid && this.openForm.get('name').value.length <= this.variablesService.maxWalletNameLength) {
       this.backend.openWallet(
         this.filePath,

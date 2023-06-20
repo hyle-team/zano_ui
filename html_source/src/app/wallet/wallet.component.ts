@@ -125,9 +125,11 @@ export class WalletComponent implements OnInit, OnDestroy {
             );
             if (!in_progress) {
               this.variablesService.sync_started = false;
+              this.variablesService.sync_wallets[data.wallet_id] = false;
             }
           } else {
             this.variablesService.sync_started = false;
+            this.variablesService.sync_wallets[data.wallet_id] = false;
           }
         }
       });

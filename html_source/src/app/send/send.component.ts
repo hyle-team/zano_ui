@@ -68,27 +68,27 @@ export class SendComponent implements OnInit, OnDestroy {
           this.localAliases = this.variablesService.aliases.filter((item) => {
             return item.name.indexOf(g.value) > -1;
           });
-          if (!(/^@?[a-z\d\-]{0,25}$/.test(g.value))) {
-            g.setErrors(Object.assign({ 'alias_not_valid': true }, g.errors));
+          if (!(/^@?[a-z\d\-.]{0,25}$/.test(g.value))) {
+            return { 'alias_not_valid': true };
           } else {
             this.backend.getAliasByName(g.value.replace('@', ''), (alias_status, alias_data) => {
               this.ngZone.run(() => {
                 this.currentAliasAddress = alias_data.address;
                 this.lenghtOfAdress = g.value.length;
                 if (alias_status) {
-                  if (g.hasError('alias_not_valid')) {
-                    delete g.errors['alias_not_valid'];
+                  if (g.hasError('alias_not_found')) {
+                    delete g.errors['alias_not_found'];
                     if (Object.keys(g.errors).length === 0) {
                       g.setErrors(null);
                     }
                   }
                 } else {
-                  g.setErrors(Object.assign({ 'alias_not_valid': true }, g.errors));
+                  g.setErrors(Object.assign({ 'alias_not_found': true }, g.errors));
                 }
               });
             });
           }
-          return (g.hasError('alias_not_valid')) ? { 'alias_not_valid': true } : null;
+          return (g.hasError('alias_not_found')) ? { 'alias_not_found': true } : null;
         }
       }
       return null;
@@ -214,7 +214,7 @@ export class SendComponent implements OnInit, OnDestroy {
     this.additionalOptions = true;
     this.sendForm.reset({
       address: this.actionData.address,
-      amount: null,
+      amount: this.actionData.amount || null,
       comment: this.actionData.comment || this.actionData.comments || '',
       mixin: this.actionData.mixins || this.mixin,
       fee: this.actionData.fee || this.variablesService.default_fee,
@@ -276,7 +276,7 @@ export class SendComponent implements OnInit, OnDestroy {
           this.ngZone.run(() => {
             if (alias_status === false) {
               this.ngZone.run(() => {
-                this.sendForm.get('address').setErrors({ 'alias_not_valid': true });
+                this.sendForm.get('address').setErrors({ 'alias_not_found': true });
               });
             } else {
               this.backend.sendMoney(
