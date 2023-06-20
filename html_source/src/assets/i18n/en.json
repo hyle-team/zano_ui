@@ -9,9 +9,10 @@
     "INCORRECT_PASSWORD": "Invalid password",
     "FORM_ERRORS": {
       "PASS_REQUIRED": "Password is required",
-      "INVALID_PASS": "Invalid Password, try again",
       "CONFIRM_REQUIRED": "Confirmation is required",
-      "MISMATCH": "Mismatch"
+      "MISMATCH": "Mismatch",
+      "INVALID_PASS": "Invalid Password, try again",
+      "WRONG_PASSWORD": "Wrong password"
     }
   },
   "COMMON": {
@@ -40,10 +41,8 @@
       "SYNCING": "Syncing wallet"
     },
     "CONTACTS": "Contacts",
-    "CONTACTS_TOOLTIP": "Contacts option available only with Master Password enabled",
     "SETTINGS": "Settings",
     "LOG_OUT": "Log Out",
-    "LOG_OUT_TOOLTIP": "Logout option available only with Master Password enabled",
     "SYNCHRONIZATION": {
       "OFFLINE": "Offline",
       "ONLINE": "Online",
@@ -66,7 +65,9 @@
       "CRITICAL_TOOLTIP": "<span class=\"critical-update\">Critical update available.</span><i class=\"icon\"></i><span>Update strongly recommended!</span>",
       "TIME": "System time differs from network",
       "TIME_TOOLTIP": "<span class=\"wrong-time\">Wrong system time!</span><br><span>Check and repair your system time.</span>"
-    }
+    },
+    "CONTACTS_TOOLTIP": "Contacts option available only with Master Password enabled",
+    "LOG_OUT_TOOLTIP": "Logout option available only with Master Password enabled"
   },
   "MAIN": {
     "TITLE": "Create or open the wallet to start using Zano",
@@ -75,30 +76,6 @@
     "BUTTON_RESTORE_BACKUP": "Restore from Backup",
     "HELP": "How to Create Wallet?",
     "CHOOSE_PATH": "Please choose a path"
-  },
-  "PLACEHOLDERS": {
-    "COMMENT_PLACEHOLDER": "Enter your comment here",
-    "WALLET_NAME_PLACEHOLDER": "Enter a Wallet Name here",
-    "MASTER_PASS_PLACEHOLDER": "Enter a master password here",
-    "PASS_PLACEHOLDER": "Enter a master password here",
-    "NAME_PLACEHOLDER": "Enter a name here",
-    "ADRESS_PLACEHOLDER": "Enter adress here",
-    "NOTES_PLACEHOLDER": "Enter a notes here",
-    "DESCRIPTION_PLACEHOLDER": "Enter a description here",
-    "SELLER_PLACEHOLDER": "Enter a seller here",
-    "PLACEHOLDER_OLD": "Enter current password here",
-    "AMOUNT_PLACEHOLDER": "Enter amount here",
-    "DEPOSIT_PLACEHOLDER": "Enter your deposit here",
-    "SELLER_DEPOSIT_PLACEHOLDER": "Enter seller deposit here",
-    "PLACEHOLDER_NEW": "Enter new password here",
-    "WALET_PASSWORD_PLACEHOLDER": "Enter a wallet password here",
-    "CONFIRM_WALET_PASSWORD_PLACEHOLDER": "Confirm wallet password here",
-    "PLACEHOLDER_CONFIRM": "Confirm new password here",
-    "PASSWORD_PLACEHOLDER": "Enter a password here",
-    "SEED_PHRASE_PLACEHOLDER": "Enter a seed phrase here",
-    "SEED_PASSWORD_PLACEHOLDER": "Enter a seed password here",
-    "PURCHASE_PAYMENT_PLACEHOLDER": "Enter a payment ID here",
-    "FEE_PLACEHOLDER": "Enter a fee here"
   },
   "CREATE_WALLET": {
     "NAME": "Wallet Name",
@@ -113,7 +90,7 @@
       "NAME_REQUIRED": "Name is required",
       "NAME_DUPLICATE": "Name is duplicate",
       "MAX_LENGTH": "Maximum name length reached",
-      "CONFIRM_NOT_MATCH": "Confirm password not match"
+      "CONFIRM_NOT_MATCH": "Passwords don`t match"
     }
   },
   "OPEN_WALLET": {
@@ -145,27 +122,17 @@
     "BUTTON_CREATE": "Create wallet",
     "NOT_CORRECT_FILE_OR_PASSWORD": "Invalid wallet file or password does not match",
     "CHOOSE_PATH": "Please choose a path",
-    "SEED_PASSWORD": "Seed password",
-    "OK": "OK",
     "FORM_ERRORS": {
       "NAME_REQUIRED": "Name is required",
       "NAME_DUPLICATE": "Name is duplicate",
       "MAX_LENGTH": "Maximum name length reached",
-      "CONFIRM_NOT_MATCH": "Confirm password not match",
+      "CONFIRM_NOT_MATCH": "Passwords don`t match",
       "KEY_REQUIRED": "Key is required",
       "KEY_NOT_VALID": "Key not valid",
       "INCORRECT_PASSWORD": "Incorrect password"
-    }
-  },
-  "EXPORT_HISTORY": {
-    "TOOLTIP": "Export wallet transactions history to file",
-    "TITLE": "Export Wallet History",
-    "FORMAT:": "Format",
-    "FILTER": "Filter POS Transactions",
-    "CANCEL": "Cancel",
-    "EXPORT": "Export to file...",
-    "EXPORT_BUTTON": "Export history...",
-    "SAVED_FILE": "Select path to save transactions history "
+    },
+    "SEED_PASSWORD": "Seed password",
+    "OK": "OK"
   },
   "SEED_PHRASE": {
     "TITLE": "Make sure to keep your seed phrase in a safe place. If you forget your seed phrase you will not be able to recover your wallet.",
@@ -184,9 +151,6 @@
     "DARK_THEME": "Dark theme",
     "WHITE_THEME": "White theme",
     "GRAY_THEME": "Grey theme",
-    "NOTIFICATIONS": "Notifications",
-    "USE_TOR_TO_RELAY_TRANSACTIONS": "Use TOR to relay transactions",
-    "SETTINGS_SAVED": "Saved! Settings Updated",
     "APP_LOCK": {
       "TITLE": "Lock app after:",
       "TIME1": "5 min",
@@ -195,20 +159,11 @@
       "TIME4": "Never"
     },
     "SCALE": {
-      "TITLE": "Interface scale",
       "75": "75% scale",
       "100": "100% scale",
       "125": "125% scale",
-      "150": "150% scale"
-    },
-    "LANGUAGE": {
-      "TITLE": "Language",
-      "EN": "English",
-      "FR": "French",
-      "DE": "Deutsch",
-      "ID": "Indonesian",
-      "IT": "Italian",
-      "PT": "Portuguese"
+      "150": "150% scale",
+      "TITLE": "Interface scale"
     },
     "MASTER_PASSWORD": {
       "TITLE": "Update master password",
@@ -220,10 +175,22 @@
     "FORM_ERRORS": {
       "PASS_REQUIRED": "Password is required",
       "PASS_NOT_MATCH": "Incorrect password",
-      "CONFIRM_NOT_MATCH": "Confirm password not match"
+      "CONFIRM_NOT_MATCH": "Passwords do not match"
     },
     "LAST_BUILD": "Current build: {{value}}",
-    "APP_LOG_TITLE": "Log level:"
+    "APP_LOG_TITLE": "Log level:",
+    "NOTIFICATIONS": "Notifications",
+    "USE_TOR_TO_RELAY_TRANSACTIONS": "Use TOR to relay transactions",
+    "SETTINGS_SAVED": "Saved! Settings Updated",
+    "LANGUAGE": {
+      "TITLE": "Language",
+      "EN": "English",
+      "FR": "French",
+      "DE": "Deutsch",
+      "ID": "Indonesian",
+      "IT": "Italian",
+      "PT": "Portuguese"
+    }
   },
   "WALLET": {
     "REGISTER_ALIAS": "Register an alias",
@@ -232,11 +199,8 @@
     "AVAILABLE_BALANCE": "Available <b>{{available}} {{currency}}<b/>",
     "LOCKED_BALANCE": "Locked <b>{{locked}} {{currency}}<b/>",
     "LOCKED_BALANCE_LINK": "What does that mean?",
-    "CONFIRM": {
-      "TITLE": "Remove wallet from the list?",
-      "MESSAGE": "To access it you’ll have to add it again"
-    },
     "TABS": {
+      "ASSETS": "Assets",
       "SEND": "Send",
       "RECEIVE": "Receive",
       "HISTORY": "History",
@@ -244,11 +208,20 @@
       "MESSAGES": "Messages",
       "STAKING": "Staking"
     },
+    "CONFIRM": {
+      "TITLE": "Remove wallet from the list?",
+      "MESSAGE": "To access it you’ll have to add it again"
+    },
     "TOOLTIPS": {
       "EDIT_ALIAS": "Edit alias",
       "TRANSFER_ALIAS": "Transfer alias",
       "SETTINGS": "Settings",
-      "CLOSE": "Close wallet"
+      "ADD_CUSTOM_TOKEN": "Add Custom Token",
+      "REMOVE": "Remove wallet"
+    },
+    "MODAL_ADD_CUSTOM_TOKEN": {
+      "TITLE": "Add Custom Token",
+      "FIELD_TITLE": "Asset ID"
     }
   },
   "WALLET_DETAILS": {
@@ -256,26 +229,27 @@
     "LABEL_FILE_LOCATION": "Wallet file location",
     "LABEL_SEED_PHRASE": "Seed phrase",
     "SEED_PHRASE_HINT": "Click to reveal the seed phrase",
-    "RESYNC_WALLET": "Resync wallet data",
-    "RESYNC_WALLET_BUTTON": "Resync Wallet",
     "BUTTON_SAVE": "Save",
-    "BUTTON_REMOVE": "Close Wallet",
-    "CREATE_PASSWORD_SECURE": "Create a password to secure your seed",
-    "INFO": "info",
-    "SEED_IS_UNSECURED": "Seed is unsecured",
-    "SEED_IS_SECURED": "Seed is secured",
-    "REMEMBER_YOU_WILL_REQUIRE": "Secure seed will require password to restore.",
-    "WALLET_OPTIONS": "Wallet options...",
-    "FORM": {
-      "CONFIRM_PASSWORD": "Confirm password",
-      "GENERATE_SECURE_SEED": "Generate Secure Seed",
-      "SECURED_SEED_WILL_REQUIRE": "Secure seed will require this password to restore."
-    },
+    "BUTTON_REMOVE": "Remove wallet",
     "FORM_ERRORS": {
       "NAME_REQUIRED": "Name is required",
       "NAME_DUPLICATE": "Name is duplicate",
       "MAX_LENGTH": "Maximum name length reached",
       "PASSWORDS_DONT_MATCH": "Passwords don't match"
+    },
+    "WALLET_OPTIONS": "Wallet options...",
+    "RESYNC_WALLET": "Resync wallet data",
+    "RESYNC_WALLET_BUTTON": "Resync Wallet",
+    "CREATE_PASSWORD_SECURE": "Create a password to secure your seed",
+    "INFO": "info",
+    "SEED_IS_UNSECURED": "Seed is unsecured",
+    "SEED_IS_SECURED": "Seed is secured",
+    "REMEMBER_YOU_WILL_REQUIRE": "Secure seed will require password to restore.",
+    "ADD_CUSTOM_TOKEN": "Add Custom Token",
+    "FORM": {
+      "CONFIRM_PASSWORD": "Confirm password",
+      "GENERATE_SECURE_SEED": "Generate Secure Seed",
+      "SECURED_SEED_WILL_REQUIRE": "Secure seed will require this password to restore."
     }
   },
   "ASSIGN_ALIAS": {
@@ -351,15 +325,6 @@
     "HIDE": "Hide your wallet address from recipient",
     "BUTTON": "Send",
     "SUCCESS_SENT": "Transaction sent",
-    "WRAP": {
-      "TITLE": "Wrap",
-      "MAIN_TEXT": "This transaction will create wZano (\"Wrapped Zano\") which will be sent to the specified address on the Ethereum network.",
-      "ESTIMATE": "Transaction Estimates",
-      "WILL_RECEIVE": "You'll receive:",
-      "FEE": "Ethereum Txn Fee:",
-      "ZANO": "ZANO",
-      "wZANO": "wZANO"
-    },
     "FORM_ERRORS": {
       "ADDRESS_REQUIRED": "Address is required",
       "ADDRESS_NOT_VALID": "Address not valid",
@@ -371,8 +336,23 @@
       "MAX_LENGTH": "Maximum comment length reached",
       "GREAT_THAN_UNWRAPPED_COINS": "Amount is bigger than ERC20 tokens left available",
       "LESS_THAN_ZANO_NEEDED": "Too small amount to cover ERC20 fee",
-      "WRAP_INFO_NULL": "failed to request wrap state"
-    }
+      "WRAP_INFO_NULL": "failed to request wrap state",
+      "MUST_BE_GREATER_THAN_ZERO": "Must be greater than zero",
+      "ALIAS_NOT_FOUND": "Alias not found"
+    },
+    "WRAP": {
+      "TITLE": "Wrap",
+      "MAIN_TEXT": "This transaction will create wZano (\"Wrapped Zano\") which will be sent to the specified address on the Ethereum network.",
+      "ESTIMATE": "Transaction Estimates",
+      "WILL_RECEIVE": "You'll receive:",
+      "FEE": "Ethereum Txn Fee:",
+      "ZANO": "ZANO",
+      "wZANO": "wZANO"
+    },
+    "ERROR_CODES": {
+      "NOT_ENOUGH_MONEY": "Not enough money"
+    },
+    "ASSET": "Asset"
   },
   "HISTORY": {
     "STATUS": "Status",
@@ -409,7 +389,9 @@
       "NULLIFY_CONTRACT": "Burn deposits",
       "PROPOSAL_CANCEL_CONTRACT": "Cancellation request",
       "CANCEL_CONTRACT": "Cancel and return deposits"
-    }
+    },
+    "NO_FEE": "No Fee",
+    "HIDDEN": "Hidden"
   },
   "CONTRACTS": {
     "EMPTY": "No active contracts",
@@ -550,7 +532,8 @@
     "SUCCESS": "Success",
     "INFO": "Information",
     "OK": "OK",
-    "CANCEL": "Cancel"
+    "CANCEL": "Cancel",
+    "ADD_TOKEN": "Add token"
   },
   "CONFIRM": {
     "BUTTON_CONFIRM": "Send",
@@ -589,7 +572,6 @@
     }
   },
   "CONTACTS": {
-    "ADD_CONTACT": "Add contact",
     "TITLE": "Contact list",
     "IMPORT_EXPORT": "Import or export contacts",
     "IMPORT": "Import",
@@ -639,7 +621,8 @@
     "ERROR_TYPE_FILE": "Please import valid .csv file",
     "ERROR_EXPORT": "Invalid file type. Save file as .csv",
     "ERROR_EMPTY_LIST": "Contact list is empty",
-    "ERROR_IMPORT_EMPTY": "File is empty"
+    "ERROR_IMPORT_EMPTY": "File is empty",
+    "ADD_CONTACT": "Add contact"
   },
   "ERRORS": {
     "NO_MONEY": "Not enough money",
@@ -654,7 +637,6 @@
     "TRANSACTION_ERROR": "Error. Transaction not completed.",
     "BAD_ARG": "Invalid argument",
     "WALLET_WRONG_ID": "Invalid wallet ID",
-    "WALLET_WATCH_ONLY_NOT_SUPPORTED": "Watch-only wallets can only be opened by simplewallet",
     "WRONG_PASSWORD": "Invalid password",
     "FILE_RESTORED": "The wallet file was corrupted. We have recovered the keys and the wallet from the blockchain",
     "FILE_NOT_FOUND": "File not found",
@@ -666,7 +648,10 @@
     "TX_TYPE_NEW_ALIAS": "Error. Failed to register alias to safe",
     "TX_TYPE_NEW_ALIAS_END": "Please try again.",
     "TX_TYPE_UPDATE_ALIAS": "Error. Failed to change comment to alias in safe",
-    "TX_TYPE_COIN_BASE": "Error. The payment was not completed."
+    "TX_TYPE_COIN_BASE": "Error. The payment was not completed.",
+    "WALLET_WATCH_ONLY_NOT_SUPPORTED": "Watch-only wallets can only be opened by simplewallet",
+    "REQUIRED": "Required field",
+    "NOT_FILE_ZANO_WALLET": "File is not a zano wallet"
   },
   "CONTEXT_MENU": {
     "COPY": "copy",
@@ -701,5 +686,70 @@
   "SEND_DETAILS_MODAL": {
     "TITLE1": "Transaction",
     "TITLE2": "Transaction details"
+  },
+  "PLACEHOLDERS": {
+    "COMMENT_PLACEHOLDER": "Enter your comment here",
+    "WALLET_NAME_PLACEHOLDER": "Enter a Wallet Name here",
+    "MASTER_PASS_PLACEHOLDER": "Enter a master password here",
+    "PASS_PLACEHOLDER": "Enter a master password here",
+    "NAME_PLACEHOLDER": "Enter a name here",
+    "ADRESS_PLACEHOLDER": "Enter adress here",
+    "NOTES_PLACEHOLDER": "Enter a notes here",
+    "DESCRIPTION_PLACEHOLDER": "Enter a description here",
+    "SELLER_PLACEHOLDER": "Enter a seller here",
+    "PLACEHOLDER_OLD": "Enter current password here",
+    "AMOUNT_PLACEHOLDER": "Enter amount here",
+    "DEPOSIT_PLACEHOLDER": "Enter your deposit here",
+    "SELLER_DEPOSIT_PLACEHOLDER": "Enter seller deposit here",
+    "PLACEHOLDER_NEW": "Enter new password here",
+    "WALET_PASSWORD_PLACEHOLDER": "Enter a wallet password here",
+    "CONFIRM_WALET_PASSWORD_PLACEHOLDER": "Confirm wallet password here",
+    "PLACEHOLDER_CONFIRM": "Confirm new password here",
+    "PASSWORD_PLACEHOLDER": "Enter a password here",
+    "SEED_PHRASE_PLACEHOLDER": "Enter a seed phrase here",
+    "SEED_PASSWORD_PLACEHOLDER": "Enter a seed password here",
+    "PURCHASE_PAYMENT_PLACEHOLDER": "Enter a payment ID here",
+    "FEE_PLACEHOLDER": "Enter a fee here"
+  },
+  "EXPORT_HISTORY": {
+    "TOOLTIP": "Export wallet transactions history to file",
+    "TITLE": "Export Wallet History",
+    "FILTER": "Filter POS Transactions",
+    "CANCEL": "Cancel",
+    "EXPORT": "Export to file...",
+    "EXPORT_BUTTON": "Export history...",
+    "SAVED_FILE": "Select path to save transactions history ",
+    "FORMAT": "Format"
+  },
+  "ASSETS": {
+    "TABLE": {
+      "LABELS": {
+        "NAME": "Name",
+        "BALANCE": "Balance",
+        "VALUE": "Value",
+        "PRICE": "Price"
+      }
+    },
+    "DROP_DOWN_MENU": {
+      "ASSET_DETAILS": "Asset Details",
+      "REMOVE_ASSET": "Remove asset"
+    },
+    "MODALS": {
+      "ASSET_DETAILS": {
+        "LABELS": {
+          "NAME": "Asset name",
+          "TICKER": "Ticker",
+          "ID": "Asset ID",
+          "CURRENT_SUPPLY": "Current supply",
+          "MAX_SUPPLE": "Max supply"
+        }
+      }
+    },
+    "FORM": {
+      "ERRORS": {
+        "WRONG_ASSET_ID": "Wrong asset id",
+        "INSUFICCIENT_FUNDS": "Insuficcient funds"
+      }
+    }
   }
 }

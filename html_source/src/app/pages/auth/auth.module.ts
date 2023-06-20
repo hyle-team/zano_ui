@@ -1,14 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NoWalletModule } from './no-wallet/no-wallet.module';
 import { AuthRoutingModule } from './auth-routing.module';
+import { TranslateModule } from '@ngx-translate/core';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { NoWalletComponent } from './no-wallet/no-wallet.component';
+import { SynchronizationStatusComponent } from '@parts/components/synchronization-status.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [NoWalletComponent],
   imports: [
     CommonModule,
     AuthRoutingModule,
-    NoWalletModule
-  ]
+    TranslateModule,
+    FlexLayoutModule,
+    SynchronizationStatusComponent,
+  ],
 })
-export class AuthModule { }
+export class AuthModule {}

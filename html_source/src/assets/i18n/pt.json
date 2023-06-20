@@ -8,10 +8,12 @@
     "BUTTON_RESET": "Redefinir",
     "INCORRECT_PASSWORD": "Password inválida",
     "FORM_ERRORS": {
-      "PASS_REQUIRED": "Password é obrigatória",
-      "CONFIRM_REQUIRED": "Confirmação é obrigatória",
-      "MISMATCH": "Não correspondem"
-    }
+		"PASS_REQUIRED": "Password é obrigatória",
+		"CONFIRM_REQUIRED": "Confirmação é obrigatória",
+		"MISMATCH": "Não correspondem",
+		"INVALID_PASS": "Senha inválida, tente novamente",
+		"WRONG_PASSWORD": "Wrong password"
+	}
   },
   "COMMON": {
     "BACK": "Voltar"
@@ -47,7 +49,10 @@
       "ERROR": "Erro de sistema",
       "COMPLETE": "Conclusão",
       "SYNCING": "Syncing block",
-      "LOADING": "A carregar informação da blockchain"
+      "LOADING": "A carregar informação da blockchain",
+      "DOWNLOADING": "Baixando",
+      "SLASH": "/",
+      "MB": "MB"
     },
     "UPDATE": {
       "STANDARD": "Atualização disponível",
@@ -60,7 +65,9 @@
       "CRITICAL_TOOLTIP": "Atualização crítica disponível. É fortemente recomendado atualizar!",
       "TIME": "Tempo de sistema difere da rede",
       "TIME_TOOLTIP": "Tempo de sistema errado! Verifique e repare o seu tempo de sistema."
-    }
+    },
+    "CONTACTS_TOOLTIP": "Opção de contatos disponível apenas com a Senha Mestra habilitada",
+    "LOG_OUT_TOOLTIP": "Opção de logout disponível apenas com a Senha Mestra habilitada"
   },
   "MAIN": {
     "TITLE": "Crie ou abra a carteira para começar a usar Zano",
@@ -83,7 +90,7 @@
       "NAME_REQUIRED": "Nome é necessário",
       "NAME_DUPLICATE": "Nome é duplicado",
       "MAX_LENGTH": "Atingido comprimento máximo do nome",
-      "CONFIRM_NOT_MATCH": "Password de confirmação não corresponde"
+      "CONFIRM_NOT_MATCH": "As senhas não correspondem"
     }
   },
   "OPEN_WALLET": {
@@ -119,15 +126,19 @@
       "NAME_REQUIRED": "Nome é necessário",
       "NAME_DUPLICATE": "Nome é duplicado",
       "MAX_LENGTH": "Atingido comprimento máximo do nome",
-      "CONFIRM_NOT_MATCH": "Password de confirmação não corresponde",
+      "CONFIRM_NOT_MATCH": "As senhas não correspondem",
       "KEY_REQUIRED": "Chave é necessária",
-      "KEY_NOT_VALID": "Chave inválida"
-    }
+      "KEY_NOT_VALID": "Chave inválida",
+      "INCORRECT_PASSWORD": "Senha incorreta"
+    },
+    "SEED_PASSWORD": "Senha de semente",
+    "OK": "OK"
   },
   "SEED_PHRASE": {
     "TITLE": "Certifique-se de manter sua frase-semente num lugar seguro. Se see esquecer da sua frase-semente, não poderá recuperar a sua carteira.",
     "BUTTON_CREATE_ACCOUNT": "Criar carteira",
-    "BUTTON_COPY": "Copiar"
+    "BUTTON_COPY": "Copiar",
+    "BUTTON_COPIED": "Copiada"
   },
   "PROGRESS": {
     "ADD_WALLET": "Adicionar carteira",
@@ -151,7 +162,8 @@
       "75": "75% escala",
       "100": "100% escala",
       "125": "125% escala",
-      "150": "150% escala"
+      "150": "150% escala",
+      "TITLE": "escala de interface"
     },
     "MASTER_PASSWORD": {
       "TITLE": "Atualizar password mestra",
@@ -166,7 +178,19 @@
       "CONFIRM_NOT_MATCH": "Password de confirmação não corresponde"
     },
     "LAST_BUILD": "Versão atual: {{value}}",
-    "APP_LOG_TITLE": "Nível de registro:"
+    "APP_LOG_TITLE": "Nível de registro:",
+    "NOTIFICATIONS": "Notificações",
+    "USE_TOR_TO_RELAY_TRANSACTIONS": "Use TOR para retransmitir transações",
+    "SETTINGS_SAVED": "Salvo! Configurações atualizadas",
+    "LANGUAGE": {
+      "TITLE": "Língua",
+      "EN": "English",
+      "FR": "French",
+      "DE": "Deutsch",
+      "ID": "Indonesian",
+      "IT": "Italian",
+      "PT": "Portuguese"
+    }
   },
   "WALLET": {
     "REGISTER_ALIAS": "Registar um alias",
@@ -176,25 +200,56 @@
     "LOCKED_BALANCE": "Bloqueado <b>{{locked}} {{currency}}<b/>",
     "LOCKED_BALANCE_LINK": "O que isso quer dizer?",
     "TABS": {
+      "ASSETS": "Bens",
       "SEND": "Enviar",
       "RECEIVE": "Receber",
       "HISTORY": "Histórico",
       "CONTRACTS": "Contratos",
       "MESSAGES": "Mensagens",
-      "STAKING": "Staking"
+      "STAKING": "Estacando"
+    },
+    "CONFIRM": {
+      "TITLE": "Remover carteira da lista?",
+      "MESSAGE": "Para acessá-lo, você terá que adicioná-lo novamente"
+    },
+    "TOOLTIPS": {
+      "EDIT_ALIAS": "Editar alias",
+      "TRANSFER_ALIAS": "Alias de transferência",
+      "SETTINGS": "Configurações",
+      "ADD_CUSTOM_TOKEN": "Adicionar token personalizado",
+      "CLOSE": "Fechar carteira"
+    },
+    "MODAL_ADD_CUSTOM_TOKEN": {
+      "TITLE": "Adicionar token personalizado",
+      "FIELD_TITLE": "ID do recurso"
     }
   },
   "WALLET_DETAILS": {
-    "LABEL_NAME": "Nome da carteira",
-    "LABEL_FILE_LOCATION": "Localização do ficheiro de carteira",
+    "LABEL_NAME": "Nome da Carteira",
+    "LABEL_FILE_LOCATION": "Localização do arquivo da carteira",
     "LABEL_SEED_PHRASE": "Frase semente",
-    "SEED_PHRASE_HINT": "Clique para revelar a frase semente",
-    "BUTTON_SAVE": "Guardar",
-    "BUTTON_REMOVE": "Fechar carteira",
+    "SEED_PHRASE_HINT": "Clique para revelar a frase inicial",
+    "BUTTON_SAVE": "Salvar",
+    "BUTTON_REMOVE": "Fechar Carteira",
     "FORM_ERRORS": {
-      "NAME_REQUIRED": "Nome é necessário",
-      "NAME_DUPLICATE": "Nome é duplicado",
-      "MAX_LENGTH": "Atingido comprimento máximo do nome"
+      "NAME_REQUIRED": "Nome é obrigatório",
+      "NAME_DUPLICATE": "Nome está duplicado",
+      "MAX_LENGTH": "Comprimento máximo do nome atingido",
+      "PASSWORDS_DONT_MATCH": "As senhas não correspondem"
+    },
+    "WALLET_OPTIONS": "Opções de carteira...",
+    "RESYNC_WALLET": "Resincronizar dados da carteira",
+    "RESYNC_WALLET_BUTTON": "Resincronizar Carteira",
+    "CREATE_PASSWORD_SECURE": "Crie uma senha para proteger sua semente",
+    "INFO": "informações",
+    "SEED_IS_UNSECURED": "A semente não é segura",
+    "SEED_IS_SECURED": "A semente está protegida",
+    "REMEMBER_YOU_WILL_REQUIRE": "Semente segura exigirá senha para restaurar.",
+    "ADD_CUSTOM_TOKEN": "Adicionar token personalizado",
+    "FORM": {
+      "CONFIRM_PASSWORD": "Confirmar senha",
+      "GENERATE_SECURE_SEED": "Gerar semente segura",
+      "SECURED_SEED_WILL_REQUIRE": "A semente segura exigirá esta senha para restaurar."
     }
   },
   "ASSIGN_ALIAS": {
@@ -278,8 +333,26 @@
       "AMOUNT_ZERO": "Montante é zero",
       "FEE_REQUIRED": "Taxa é necessária",
       "FEE_MINIMUM": "Taxa mínima: {{fee}}",
-      "MAX_LENGTH": "Atingido comprimento máximo do comentário"
-    }
+      "MAX_LENGTH": "Atingido comprimento máximo do comentário",
+      "GREAT_THAN_UNWRAPPED_COINS": "A quantidade é maior que os tokens ERC20 disponíveis",
+      "LESS_THAN_ZANO_NEEDED": "Valor muito pequeno para cobrir a taxa ERC20",
+      "WRAP_INFO_NULL": "falha ao solicitar estado de wrap",
+      "MUST_BE_GREATER_THAN_ZERO": "Must be greater than zero",
+      "ALIAS_NOT_FOUND": "Alias not found"
+    },
+    "WRAP": {
+      "TITLE": "Embrulhar",
+      "MAIN_TEXT": "Esta transação criará wZano (\"Wrapped Zano\") que será enviado para o endereço especificado na rede Ethereum.",
+      "ESTIMATE": "Estimativas de transação",
+      "WILL_RECEIVE": "Você receberá:",
+      "FEE": "Taxa Ethereum Txn:",
+      "ZANO": "ZANO",
+      "wZANO": "wZANO"
+    },
+    "ERROR_CODES": {
+      "NOT_ENOUGH_MONEY": "Not enough money"
+    },
+    "ASSET": "Asset"
   },
   "HISTORY": {
     "STATUS": "Estado",
@@ -316,7 +389,9 @@
       "NULLIFY_CONTRACT": "Queimar depósitos",
       "PROPOSAL_CANCEL_CONTRACT": "Cancelar pedido",
       "CANCEL_CONTRACT": "Cancelar e retornar depósitos"
-    }
+    },
+    "NO_FEE": "No Fee",
+    "HIDDEN": "Hidden"
   },
   "CONTRACTS": {
     "EMPTY": "Sem contratos ativos",
@@ -456,7 +531,9 @@
     "ERROR": "Erro",
     "SUCCESS": "Sucesso",
     "INFO": "Informação",
-    "OK": "OK"
+    "OK": "OK",
+    "CANCEL": "Cancelar",
+    "ADD_TOKEN": "Adicionar token"
   },
   "CONFIRM": {
     "BUTTON_CONFIRM": "Enviar",
@@ -544,7 +621,8 @@
     "ERROR_TYPE_FILE": "Por favor importe um ficheiro .csv válido",
     "ERROR_EXPORT": "Tipo de ficheiro inválido. Guarde ficheiro como .csv",
     "ERROR_EMPTY_LIST": "Lista de contactos está vazia",
-    "ERROR_IMPORT_EMPTY": "Ficheiro está vazio"
+    "ERROR_IMPORT_EMPTY": "Ficheiro está vazio",
+    "ADD_CONTACT": "Adicionar contato"
   },
   "ERRORS": {
     "NO_MONEY": "Sem dinheiro suficiente",
@@ -570,7 +648,10 @@
     "TX_TYPE_NEW_ALIAS": "Erro. Falha ao registar alias para seguro",
     "TX_TYPE_NEW_ALIAS_END": "Por favor tente novamente.",
     "TX_TYPE_UPDATE_ALIAS": "Erro. Falha ao mudar comentário a um alias seguro",
-    "TX_TYPE_COIN_BASE": "Erro. Pagamento não foi completado."
+    "TX_TYPE_COIN_BASE": "Erro. Pagamento não foi completado.",
+    "WALLET_WATCH_ONLY_NOT_SUPPORTED": "Carteiras somente para assistir só podem ser abertas por simplewallet",
+    "REQUIRED": "Required field",
+    "NOT_FILE_ZANO_WALLET": "File is not a zano wallet"
   },
   "CONTEXT_MENU": {
     "COPY": "copiar",
@@ -603,7 +684,72 @@
     "STATE_SUCCESS": "Successfully created stream"
   },
   "SEND_DETAILS_MODAL": {
-    "TITLE1": "Transaction",
-    "TITLE2": "Transaction details"
+    "TITLE1": "Transação",
+    "TITLE2": "Detalhes da transação"
+  },
+  "PLACEHOLDERS": {
+    "COMMENT_PLACEHOLDER": "Digite seu comentário aqui",
+    "WALLET_NAME_PLACEHOLDER": "Digite um nome de carteira aqui",
+    "MASTER_PASS_PLACEHOLDER": "Digite uma senha mestra aqui",
+    "PASS_PLACEHOLDER": "Digite uma senha mestra aqui",
+    "NAME_PLACEHOLDER": "Digite um nome aqui",
+    "ADRESS_PLACEHOLDER": "Digite o endereço aqui",
+    "NOTES_PLACEHOLDER": "Digite uma nota aqui",
+    "DESCRIPTION_PLACEHOLDER": "Digite uma descrição aqui",
+    "SELLER_PLACEHOLDER": "Insira um vendedor aqui",
+    "PLACEHOLDER_OLD": "Digite a senha atual aqui",
+    "AMOUNT_PLACEHOLDER": "Insira o valor aqui",
+    "DEPOSIT_PLACEHOLDER": "Insira seu depósito aqui",
+    "SELLER_DEPOSIT_PLACEHOLDER": "Insira aqui o depósito do vendedor",
+    "PLACEHOLDER_NEW": "Digite a nova senha aqui",
+    "WALET_PASSWORD_PLACEHOLDER": "Digite uma senha de carteira aqui",
+    "CONFIRM_WALET_PASSWORD_PLACEHOLDER": "Confirme a senha da carteira aqui",
+    "PLACEHOLDER_CONFIRM": "Confirme a nova senha aqui",
+    "PASSWORD_PLACEHOLDER": "Digite uma senha aqui",
+    "SEED_PHRASE_PLACEHOLDER": "Digite uma frase inicial aqui",
+    "SEED_PASSWORD_PLACEHOLDER": "Digite uma senha inicial aqui",
+    "PURCHASE_PAYMENT_PLACEHOLDER": "Insira um ID de pagamento aqui",
+    "FEE_PLACEHOLDER": "Insira uma taxa aqui"
+  },
+  "EXPORT_HISTORY": {
+    "TOOLTIP": "Exportar histórico de transações da carteira para arquivo",
+    "TITLE": "Exportar histórico da carteira",
+    "FILTER": "Filtrar transações PDV",
+    "CANCEL": "Cancelar",
+    "EXPORT": "Exportar para arquivo...",
+    "EXPORT_BUTTON": "Exportar histórico...",
+    "SAVED_FILE": "Selecione o caminho para salvar o histórico de transações",
+    "FORMAT": "Formato"
+  },
+  "ASSETS": {
+    "TABLE": {
+      "LABELS": {
+        "NAME": "Nome",
+        "BALANCE": "Equilíbrio",
+        "VALUE": "Valor",
+        "PRICE": "Preço"
+      }
+    },
+    "DROP_DOWN_MENU": {
+      "ASSET_DETAILS": "Detalhes do recurso",
+      "REMOVE_ASSET": "Remover recurso"
+    },
+    "MODALS": {
+      "ASSET_DETAILS": {
+        "LABELS": {
+          "NAME": "Nome do recurso",
+          "TICKER": "TICKER",
+          "ID": "ID do recurso",
+          "CURRENT_SUPPLY": "Fornecimento atual",
+          "MAX_SUPPLE": "Fornecimento máximo"
+        }
+      }
+    },
+    "FORM": {
+      "ERRORS": {
+        "WRONG_ASSET_ID": "Wrong asset id",
+        "INSUFICCIENT_FUNDS": "Insuficcient funds"
+      }
+    }
   }
 }

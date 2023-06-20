@@ -7,10 +7,9 @@
   max-width: 19rem;
   min-width: 19rem;
   width: 100%;
-  min-height: 11.2rem;
   padding: 1.2rem;
   background-color: var(--blue-500);
-  border: 0.15rem solid var(--blue-500);
+  border: 0.2rem solid var(--blue-500);
   cursor: pointer;
 
   .content {
@@ -55,10 +54,12 @@
 
   .price {
     font-size: 1.4rem;
+    font-weight: 600;
     line-height: 1.2;
 
     .percent {
       font-size: 1.4rem;
+      font-weight: 400;
       line-height: 1.2;
       color: var(--aqua-500);
       margin-left: 0.7rem;
@@ -114,7 +115,8 @@
     }
   }
 
-  &.auditable, &.watch-only {
+  &.auditable,
+  &.watch-only {
     border-width: 0;
     padding: 1.35rem;
     background: var(--gradietLightAmethystToPurpurle);
@@ -147,7 +149,8 @@
       z-index: 1;
     }
 
-    &.active, &:hover {
+    &.active,
+    &:hover {
       background: var(--gradietAmethystToPurpurle);
     }
 
