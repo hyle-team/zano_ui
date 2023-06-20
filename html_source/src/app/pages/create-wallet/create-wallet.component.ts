@@ -195,8 +195,10 @@ export class CreateWalletComponent {
         wallet.totalPages = 1;
         wallet.currentPage = 1;
         this.variablesService.opening_wallet = wallet;
-        await this.ngZone.run(async () => {
-          await this.router.navigate(['/seed-phrase'], { queryParams: { wallet_id } });
+        this.backend.closeWallet(wallet_id, async () => {
+          await this.ngZone.run(async () => {
+            await this.router.navigate(['/seed-phrase'], { queryParams: { wallet_id } });
+          });
         });
       } else {
         const errorTranslationKey =
