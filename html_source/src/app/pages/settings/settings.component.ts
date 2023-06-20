@@ -11,7 +11,11 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
   template: `<div class="page-container">
     <div class="toolbar mb-2">
       <div class="left">
-        <button appBackButton class="btn-icon circle big mr-2" type="button">
+        <button
+          appBackButton
+          class="btn-icon circle big mr-2"
+          type="button"
+        >
           <i class="icon dropdown-arrow-left"></i>
         </button>
         <h1>{{ 'SETTINGS.TITLE' | translate }}</h1>
@@ -41,10 +45,17 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
               bindValue="name"
               class="with-circle"
             >
-              <ng-template let-item="item" ng-label-tmp>
+              <ng-template
+                let-item="item"
+                ng-label-tmp
+              >
                 {{ item.language | translate }}
               </ng-template>
-              <ng-template let-index="index" let-item="item" ng-option-tmp>
+              <ng-template
+                let-index="index"
+                let-item="item"
+                ng-option-tmp
+              >
                 {{ item.language | translate }}
               </ng-template>
             </ng-select>
@@ -62,10 +73,17 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
               bindValue="time"
               class="with-circle"
             >
-              <ng-template let-item="item" ng-label-tmp>
+              <ng-template
+                let-item="item"
+                ng-label-tmp
+              >
                 {{ item.translationKey | translate }}
               </ng-template>
-              <ng-template let-index="index" let-item="item" ng-option-tmp>
+              <ng-template
+                let-index="index"
+                let-item="item"
+                ng-option-tmp
+              >
                 {{ item.translationKey | translate }}
               </ng-template>
             </ng-select>
@@ -83,10 +101,17 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
               bindValue="value"
               class="with-circle"
             >
-              <ng-template let-item="item" ng-label-tmp>
+              <ng-template
+                let-item="item"
+                ng-label-tmp
+              >
                 {{ item.name | translate }}
               </ng-template>
-              <ng-template let-index="index" let-item="item" ng-option-tmp>
+              <ng-template
+                let-index="index"
+                let-item="item"
+                ng-option-tmp
+              >
                 {{ item.name | translate }}
               </ng-template>
             </ng-select>
@@ -116,9 +141,7 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
           </div>
 
           <div class="form__field">
-            <label>{{
-              'SETTINGS.USE_TOR_TO_RELAY_TRANSACTIONS' | translate
-            }}</label>
+            <label>{{ 'SETTINGS.USE_TOR_TO_RELAY_TRANSACTIONS' | translate }}</label>
             <app-switch
               (emitChange)="toggleUseTor()"
               [value]="appUseTor"
@@ -134,19 +157,17 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
               {{ 'SETTINGS.MASTER_PASSWORD.TITLE' | translate }}
             </h4>
 
-            <div *ngIf="variablesService.appPass" class="form__field">
-              <label for="old-password">{{
-                'SETTINGS.MASTER_PASSWORD.OLD' | translate
-              }}</label>
+            <div
+              *ngIf="variablesService.appPass"
+              class="form__field"
+            >
+              <label for="old-password">{{ 'SETTINGS.MASTER_PASSWORD.OLD' | translate }}</label>
               <input
-                (contextmenu)="
-                  variablesService.onContextMenuPasteSelect($event)
-                "
+                (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
                 [class.invalid]="
                   changeForm.invalid &&
                   changeForm.controls['password'].valid &&
-                  (changeForm.controls['password'].dirty ||
-                    changeForm.controls['password'].touched) &&
+                  (changeForm.controls['password'].dirty || changeForm.controls['password'].touched) &&
                   changeForm.errors &&
                   changeForm.errors['pass_mismatch'] &&
                   changeForm.get('password').value.length > 0
@@ -161,8 +182,7 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
                 *ngIf="
                   changeForm.invalid &&
                   changeForm.controls['password'].valid &&
-                  (changeForm.controls['password'].dirty ||
-                    changeForm.controls['password'].touched) &&
+                  (changeForm.controls['password'].dirty || changeForm.controls['password'].touched) &&
                   changeForm.errors &&
                   changeForm.errors['pass_mismatch'] &&
                   changeForm.get('password').value.length > 0
@@ -174,17 +194,10 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
             </div>
 
             <div class="form__field">
-              <label for="new-password">{{
-                'SETTINGS.MASTER_PASSWORD.NEW' | translate
-              }}</label>
+              <label for="new-password">{{ 'SETTINGS.MASTER_PASSWORD.NEW' | translate }}</label>
               <input
-                (contextmenu)="
-                  variablesService.onContextMenuPasteSelect($event)
-                "
-                [class.invalid]="
-                  changeForm.controls['new_password'].touched &&
-                  changeForm.controls['new_password'].invalid
-                "
+                (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
+                [class.invalid]="changeForm.controls['new_password'].touched && changeForm.controls['new_password'].invalid"
                 class="form__field--input"
                 formControlName="new_password"
                 id="new-password"
@@ -192,39 +205,25 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
                 type="password"
               />
               <div
-                *ngIf="
-                  changeForm.controls['new_password'].touched &&
-                  changeForm.controls['new_password'].invalid
-                "
+                *ngIf="changeForm.controls['new_password'].touched && changeForm.controls['new_password'].invalid"
                 class="error"
               >
-                <div
-                  *ngIf="changeForm.controls['new_password'].errors?.pattern"
-                >
+                <div *ngIf="changeForm.controls['new_password'].errors?.pattern">
                   {{ 'ERRORS.WRONG_PASSWORD' | translate }}
                 </div>
-                <div
-                  *ngIf="
-                    changeForm.controls['new_password'].hasError('required')
-                  "
-                >
+                <div *ngIf="changeForm.controls['new_password'].hasError('required')">
                   {{ 'ERRORS.REQUIRED' | translate }}
                 </div>
               </div>
             </div>
 
             <div class="form__field">
-              <label for="confirm-password">{{
-                'SETTINGS.MASTER_PASSWORD.CONFIRM' | translate
-              }}</label>
+              <label for="confirm-password">{{ 'SETTINGS.MASTER_PASSWORD.CONFIRM' | translate }}</label>
               <input
-                (contextmenu)="
-                  variablesService.onContextMenuPasteSelect($event)
-                "
+                (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
                 [class.invalid]="
                   changeForm.invalid &&
-                  (changeForm.controls['new_confirmation'].dirty ||
-                    changeForm.controls['new_confirmation'].touched) &&
+                  (changeForm.controls['new_confirmation'].dirty || changeForm.controls['new_confirmation'].touched) &&
                   changeForm.errors &&
                   changeForm.errors['mismatch'] &&
                   changeForm.get('new_confirmation').value.length > 0
@@ -232,16 +231,13 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
                 class="form__field--input"
                 formControlName="new_confirmation"
                 id="confirm-password"
-                placeholder="{{
-                  'PLACEHOLDERS.PLACEHOLDER_CONFIRM' | translate
-                }}"
+                placeholder="{{ 'PLACEHOLDERS.PLACEHOLDER_CONFIRM' | translate }}"
                 type="password"
               />
               <div
                 *ngIf="
                   changeForm.invalid &&
-                  (changeForm.controls['new_confirmation'].dirty ||
-                    changeForm.controls['new_confirmation'].touched) &&
+                  (changeForm.controls['new_confirmation'].dirty || changeForm.controls['new_confirmation'].touched) &&
                   changeForm.errors &&
                   changeForm.errors['mismatch'] &&
                   changeForm.get('new_confirmation').value.length > 0
@@ -294,17 +290,8 @@ export class SettingsComponent implements OnInit {
 
   changeForm = this.fb.group(
     {
-      password: this.fb.nonNullable.control(
-        '',
-        Validators.compose([Validators.pattern(regExpPassword)])
-      ),
-      new_password: this.fb.nonNullable.control(
-        '',
-        Validators.compose([
-          Validators.required,
-          Validators.pattern(regExpPassword),
-        ])
-      ),
+      password: this.fb.nonNullable.control('', Validators.compose([Validators.pattern(regExpPassword)])),
+      new_password: this.fb.nonNullable.control('', Validators.compose([Validators.required, Validators.pattern(regExpPassword)])),
       new_confirmation: this.fb.nonNullable.control(''),
       appPass: this.fb.nonNullable.control(this.variablesService.appPass ?? ''),
     },
@@ -429,24 +416,23 @@ export class SettingsComponent implements OnInit {
     if (this.changeForm.valid) {
       this.variablesService.appPass = this.changeForm.get('new_password').value;
 
-      this.backend.setMasterPassword(
-        { pass: this.variablesService.appPass },
-        (status, data) => {
-          if (status) {
-            this.backend.storeSecureAppData({
-              pass: this.variablesService.appPass,
-            });
-            this.variablesService.appLogin = true;
-            this.variablesService.dataIsLoaded = true;
-            if (this.variablesService.settings.appLockTime) {
-              this.variablesService.startCountdown();
-            }
-            this.onSave();
-          } else {
-            console.log(data['error_code']);
+      this.backend.setMasterPassword({ pass: this.variablesService.appPass }, (status, data) => {
+        if (status) {
+          this.backend.storeSecureAppData({
+            pass: this.variablesService.appPass,
+          });
+          this.variablesService.appLogin = true;
+          this.variablesService.dataIsLoaded = true;
+          if (this.variablesService.settings.appLockTime) {
+            this.variablesService.startCountdown();
           }
+          this.ngZone.run(() => {
+            this.onSave();
+          });
+        } else {
+          console.log(data['error_code']);
         }
-      );
+      });
 
       this.changeForm.reset();
     }

@@ -571,10 +571,9 @@ export class SendComponent implements OnInit, OnDestroy {
 
   onSend(): void {
     if (this.sendMoneyParamsForm.valid) {
-      const { address, asset_id } = this.sendMoneyParamsForm.getRawValue();
+      const { address } = this.sendMoneyParamsForm.getRawValue();
       let sendMoneyParams: SendMoneyParams = {
         ...this.sendMoneyParamsForm.getRawValue(),
-        asset_id: asset_id !== zanoAssetInfo.asset_id ? asset_id : null,
       };
 
       if (address.indexOf('@') === 0) {

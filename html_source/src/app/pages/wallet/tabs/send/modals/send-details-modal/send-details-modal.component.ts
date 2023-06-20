@@ -348,9 +348,8 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: ({ response }: AsyncCommandResults) => {
-          const {
-            response_data: { success },
-          } = response;
+          const { response_data } = response;
+          const success = response_data?.success ?? false;
           this.success = success;
           if (!appUseTor || !success) {
             const actionState: CurrentActionState = {

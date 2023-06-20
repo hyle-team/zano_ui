@@ -1,7 +1,7 @@
 export interface SendMoneyParams {
   wallet_id: number;
   address: string;
-  amount: number;
+  amount: string;
   fee: string;
   mixin: number;
   comment: string;
