@@ -34,5 +34,5 @@ jobs:
         git config user.name '${{ secrets.USER_NAME }}'
         git config user.email '${{ secrets.USER_EMAIL }}'
         git add .
-        git commit -m 'Auto-build Angular app'
+        git commit -m 'Auto-build folder html'
         git push origin ${{ github.ref }}
