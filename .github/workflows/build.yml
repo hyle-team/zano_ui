@@ -27,7 +27,7 @@ jobs:
 
     - name: Build Angular App
       working-directory: html_source
-      run: npm run build
+      run: npm run build --html
 
     - name: Commit and Push Changes
       run: |
