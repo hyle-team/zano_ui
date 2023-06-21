@@ -6,7 +6,7 @@ name: Build folder html - MAINNET
 on:
   push:
     branches:
-      - '*'
+      - 'pre_zarcanum_main'
 
 jobs:
   build-and-deploy:

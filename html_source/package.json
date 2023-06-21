@@ -6,7 +6,7 @@
 				"start": "ng serve",
 				"build": "ng build",
 				"build --watch": "ng build --output-path \"/Work/Zano/html/\" --watch",
-				"build --html": "ng build --output-path \"../html/\"",
+				"build --html": "node update-build-time.js && ng build --output-path \"../html/\"",
 				"test": "ng test",
 				"lint": "ng lint",
 				"e2e": "ng e2e"
