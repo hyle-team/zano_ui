@@ -6,7 +6,7 @@ name: Build folder html - TESTNET
 on:
   push:
     branches:
-      - '*'
+      - 'main'
 
 jobs:
   build-and-deploy:
