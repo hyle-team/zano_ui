@@ -11696,11 +11696,12 @@ var environment = {
 /*!*********************!*\
   !*** ./src/main.ts ***!
   \*********************/
-/*! no exports provided */
+/*! exports provided: buildTime */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "buildTime", function() { return buildTime; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser-dynamic */ "./node_modules/@angular/platform-browser-dynamic/fesm5/platform-browser-dynamic.js");
 /* harmony import */ var _app_app_module__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./app/app.module */ "./src/app/app.module.ts");
@@ -11712,6 +11713,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+var buildTime = '2023-06-21T07:58:17.379Z';
 if (_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].production) {
     Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["enableProdMode"])();
 }
