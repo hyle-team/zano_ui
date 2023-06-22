@@ -640,7 +640,7 @@
     "WRONG_PASSWORD": "Kata sandi salah",
     "FILE_RESTORED": "File dompet rusak. Kami telah memulihkan kunci dan dompet dari blockchain ",
     "FILE_NOT_FOUND": "Berkas tidak ditemukan",
-    "FILE_EXIST": "File dengan nama itu sudah ada. ketiklah dengan menggunakan nama lain untuk menyimpannya", ",
+    "FILE_EXIST": "File dengan nama itu sudah ada. ketiklah dengan menggunakan nama lain untuk menyimpannya",
     "FILE_NOT_SAVED": "Anda tidak dapat menyimpan file dompet di folder ini. ",
     "TX_TYPE_NORMAL": "Kesalahan. Pembayaran dari dompet",
     "TX_TYPE_NORMAL_TO": "ke",
