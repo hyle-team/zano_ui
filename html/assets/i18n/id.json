@@ -135,7 +135,7 @@
     "OK": "OKE"
   },
   "SEED_PHRASE": {
-    "TITLE": "Pastikan untuk menyimpan frase benih Anda di tempat yang aman. ",
+    "TITLE": "Pastikan untuk menyimpan frase benih Anda di tempat yang aman. Jika kamu lupa frase benihnya, kamu tidak bisa menggunakanya untuk memulihkan/mengembalikan dompetmu.",
     "BUTTON_CREATE_ACCOUNT": "Buat dompet",
     "BUTTON_COPY": "Menyalin",
     "BUTTON_COPIED": "Disalin"
@@ -148,8 +148,8 @@
   },
   "SETTINGS": {
     "TITLE": "Pengaturan",
-    "DARK_THEME": "Tema gelap",
-    "WHITE_THEME": "Tema putih",
+    "DARK_THEME": "Tema Gelap",
+    "WHITE_THEME": "Tema Terang",
     "GRAY_THEME": "Tema abu-abu",
     "APP_LOCK": {
       "TITLE": "Kunci aplikasi setelah:",
@@ -163,7 +163,7 @@
       "100": "skala 100%.",
       "125": "skala 125%.",
       "150": "skala 150%.",
-      "TITLE": "Skala antarmuka"
+      "TITLE": "Antarmuka Skala"
     },
     "MASTER_PASSWORD": {
       "TITLE": "Perbarui kata sandi utama",
@@ -177,7 +177,7 @@
       "PASS_NOT_MATCH": "kata kunci Salah",
       "CONFIRM_NOT_MATCH": "Sandi tidak cocok"
     },
-    "LAST_BUILD": "Bangun saat ini: {{value}}",
+    "LAST_BUILD": "Versi saat ini: {{value}}",
     "APP_LOG_TITLE": "Tingkat log:",
     "NOTIFICATIONS": "Notifikasi",
     "USE_TOR_TO_RELAY_TRANSACTIONS": "Gunakan TOR untuk menyampaikan transaksi",
@@ -203,7 +203,7 @@
       "ASSETS": "Aktiva",
       "SEND": "Mengirim",
       "RECEIVE": "Menerima",
-      "HISTORY": "Sejarah",
+      "HISTORY": "Riwayat",
       "CONTRACTS": "Kontrak",
       "MESSAGES": "Pesan",
       "STAKING": "Mempertaruhkan"
@@ -227,7 +227,7 @@
   "WALLET_DETAILS": {
     "LABEL_NAME": "Nama Dompet",
     "LABEL_FILE_LOCATION": "Lokasi file dompet",
-    "LABEL_SEED_PHRASE": "Ungkapan benih",
+    "LABEL_SEED_PHRASE": "Frase benih",
     "SEED_PHRASE_HINT": "Klik untuk mengungkapkan frase benih",
     "BUTTON_SAVE": "Menyimpan",
     "BUTTON_REMOVE": "Hapus dompet",
@@ -261,7 +261,7 @@
     "COMMENT": {
       "LABEL": "Komentar",
       "PLACEHOLDER": "Masukkan komentar Anda di sini",
-      "TOOLTIP": "Komentar akan terlihat oleh siapa saja yang ingin melakukan pembayaran ke alias Anda. "
+      "TOOLTIP": "Komentar akan terlihat oleh siapa saja yang ingin melakukan pembayaran ke alias Anda. Anda dapat memberikan detail tentang bisnis Anda, kontak, atau memasukkan teks apa pun. Komentar dapat disunting nanti. "
     },
     "COST": "Biaya alias {{value}} {{currency}}",
     "BUTTON_ASSIGN": "Menetapkan",
@@ -350,7 +350,7 @@
       "wZANO": "wZANO"
     },
     "ERROR_CODES": {
-      "NOT_ENOUGH_MONEY": "Tidak cukup uang"
+      "NOT_ENOUGH_MONEY": "Uang Tidak cukup"
     },
     "ASSET": "Aset"
   },
@@ -638,9 +638,9 @@
     "BAD_ARG": "Argumen yang tidak sah",
     "WALLET_WRONG_ID": "ID dompet tidak valid",
     "WRONG_PASSWORD": "Kata sandi salah",
-    "FILE_RESTORED": "File dompet rusak. ",
+    "FILE_RESTORED": "File dompet rusak. Kami telah memulihkan kunci dan dompet dari blockchain ",
     "FILE_NOT_FOUND": "Berkas tidak ditemukan",
-    "FILE_EXIST": "File dengan nama itu sudah ada. ",
+    "FILE_EXIST": "File dengan nama itu sudah ada. ketiklah dengan menggunakan nama lain untuk menyimpannya", ",
     "FILE_NOT_SAVED": "Anda tidak dapat menyimpan file dompet di folder ini. ",
     "TX_TYPE_NORMAL": "Kesalahan. Pembayaran dari dompet",
     "TX_TYPE_NORMAL_TO": "ke",
@@ -649,7 +649,7 @@
     "TX_TYPE_NEW_ALIAS_END": "Silakan coba lagi.",
     "TX_TYPE_UPDATE_ALIAS": "Kesalahan. Gagal mengubah komentar menjadi alias di penyimpanan",
     "TX_TYPE_COIN_BASE": "Kesalahan. Pembayaran belum selesai.",
-    "WALLET_WATCH_ONLY_NOT_SUPPORTED": "Dompet khusus arloji hanya dapat dibuka dengan dompet sederhana",
+    "WALLET_WATCH_ONLY_NOT_SUPPORTED": "Dompet khusus arloji hanya dapat dibuka dengan dompet simplewallet",
     "REQUIRED": "kolom yang harus diisi",
     "NOT_FILE_ZANO_WALLET": "File bukan dompet zano"
   },
@@ -725,7 +725,7 @@
     "TABLE": {
       "LABELS": {
         "NAME": "Nama",
-        "BALANCE": "Keseimbangan",
+        "BALANCE": "Saldo",
         "VALUE": "Nilai",
         "PRICE": "Harga"
       }
@@ -738,10 +738,10 @@
       "ASSET_DETAILS": {
         "LABELS": {
           "NAME": "Nama aset",
-          "TICKER": "Jantung",
+          "TICKER": "Ticker",
           "ID": "ID aset",
           "CURRENT_SUPPLY": "Pasokan saat ini",
-          "MAX_SUPPLE": "Pasokan maks"
+          "MAX_SUPPLE": "Pasokan Maksimum"
         }
       }
     },
