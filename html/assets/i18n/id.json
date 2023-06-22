@@ -2,9 +2,9 @@
   "LOGIN": {
     "SETUP_MASTER_PASS": "Siapkan kata sandi utama",
     "SETUP_CONFIRM_PASS": "Konfirmasi kata sandi",
-    "MASTER_PASS": "Password master",
+    "MASTER_PASS": "Kata Sandi utama",
     "BUTTON_NEXT": "Berikutnya",
-    "BUTTON_SKIP": "Melewati",
+    "BUTTON_SKIP": "Lewati",
     "BUTTON_RESET": "Mengatur ulang",
     "INCORRECT_PASSWORD": "Kata sandi salah",
     "FORM_ERRORS": {
@@ -36,7 +36,7 @@
     "TITLE": "Dompet",
     "ADD_NEW": "Tambahkan Dompet",
     "ACCOUNT": {
-      "STAKING": "Mempertaruhkan",
+      "STAKING": "STAKING",
       "MESSAGES": "Penawaran/Pesan Baru",
       "SYNCING": "Menyinkronkan dompet"
     },
@@ -45,7 +45,7 @@
     "LOG_OUT": "Keluar",
     "SYNCHRONIZATION": {
       "OFFLINE": "Luring",
-      "ONLINE": "On line",
+      "ONLINE": "Daring",
       "ERROR": "Sistem bermasalah",
       "COMPLETE": "Penyelesaian",
       "SYNCING": "Menyinkronkan blockchain",
@@ -61,13 +61,13 @@
       "IMPORTANT_HINT": "Pembaruan penting!",
       "IMPORTANT_TOOLTIP": "<span class=\"important-update\">Dapatkan pembaruan baru.</span><br><span>Pembaruan penting!</span>",
       "CRITICAL": "Pembaruan tersedia",
-      "CRITICAL_HINT": "Pembaruan penting!",
+      "CRITICAL_HINT": "Pembaruan kritis!",
       "CRITICAL_TOOLTIP": "<span class=\"critical-update\">Pembaruan penting tersedia.</span><i class=\"icon\"></i><span>Perbarui sangat disarankan!</span>",
       "TIME": "Waktu sistem berbeda dari jaringan",
       "TIME_TOOLTIP": "<span class=\"wrong-time\">Waktu sistem yang salah!</span><br><span>Periksa dan perbaiki waktu sistem Anda.</span>"
     },
     "CONTACTS_TOOLTIP": "Opsi kontak hanya tersedia jika Kata Sandi Utama diaktifkan",
-    "LOG_OUT_TOOLTIP": "Opsi logout hanya tersedia dengan Kata Sandi Utama diaktifkan"
+    "LOG_OUT_TOOLTIP": "Opsi keluar hanya tersedia dengan Kata Sandi Utama yang diaktifkan"
   },
   "MAIN": {
     "TITLE": "Buat atau buka dompet untuk mulai menggunakan Zano",
@@ -75,7 +75,7 @@
     "BUTTON_OPEN_WALLET": "Buka Dompet yang Ada",
     "BUTTON_RESTORE_BACKUP": "Pulihkan dari Cadangan",
     "HELP": "Bagaimana Cara Membuat Dompet?",
-    "CHOOSE_PATH": "Silakan pilih jalur"
+    "CHOOSE_PATH": "Silakan pilih sebuah path"
   },
   "CREATE_WALLET": {
     "NAME": "Nama Dompet",
@@ -121,7 +121,7 @@
     "BUTTON_SELECT": "Pilih lokasi dompet",
     "BUTTON_CREATE": "Buat dompet",
     "NOT_CORRECT_FILE_OR_PASSWORD": "File dompet tidak valid atau kata sandi tidak cocok",
-    "CHOOSE_PATH": "Silakan pilih jalur",
+    "CHOOSE_PATH": "Silakan pilih sebuah path",
     "FORM_ERRORS": {
       "NAME_REQUIRED": "Nama wajib diisi",
       "NAME_DUPLICATE": "Nama adalah duplikat",
@@ -129,7 +129,7 @@
       "CONFIRM_NOT_MATCH": "Kata sandi tidak cocok",
       "KEY_REQUIRED": "Kunci diperlukan",
       "KEY_NOT_VALID": "Kunci tidak valid",
-      "INCORRECT_PASSWORD": "kata kunci Salah"
+      "INCORRECT_PASSWORD": "kata sandi Salah"
     },
     "SEED_PASSWORD": "Kata sandi benih",
     "OK": "OKE"
@@ -181,13 +181,13 @@
     "APP_LOG_TITLE": "Tingkat log:",
     "NOTIFICATIONS": "Notifikasi",
     "USE_TOR_TO_RELAY_TRANSACTIONS": "Gunakan TOR untuk menyampaikan transaksi",
-    "SETTINGS_SAVED": "Diselamatkan! ",
+    "SETTINGS_SAVED": "Tersimpan! Pengaturan Diperbarui",
     "LANGUAGE": {
       "TITLE": "Bahasa",
       "EN": "Bahasa inggris",
       "FR": "Perancis",
       "DE": "Jerman",
-      "ID": "bahasa Indonesia",
+      "ID": "Bahasa Indonesia",
       "IT": "Italia",
       "PT": "Portugis"
     }
@@ -341,7 +341,7 @@
       "ALIAS_NOT_FOUND": "Alias ​​tidak ditemukan"
     },
     "WRAP": {
-      "TITLE": "Membungkus",
+      "TITLE": "Dibungkus",
       "MAIN_TEXT": "Transaksi ini akan membuat wZano (\"Wrapped Zano\") yang akan dikirim ke alamat yang ditentukan di jaringan Ethereum.",
       "ESTIMATE": "Estimasi Transaksi",
       "WILL_RECEIVE": "Anda akan menerima:",
@@ -500,7 +500,7 @@
     },
     "ACCEPT_STATE_WAIT_BIG": "Kontrak dimulai",
     "IGNORED_ACCEPT": "Proposal kontrak diabaikan",
-    "BURN_PROPOSAL": "Deposito terbakar",
+    "BURN_PROPOSAL": "Deposito dibakar",
     "SUCCESS_FINISH_PROPOSAL": "Kontrak selesai",
     "SEND_CANCEL_PROPOSAL": "Permintaan pembatalan dikirim",
     "IGNORED_CANCEL": "Proposal pembatalan kontrak diabaikan",
@@ -518,7 +518,7 @@
     "HOURS": "jam",
     "CANCEL": "Membatalkan",
     "NULLIFY_QUESTION": "Apakah Anda yakin ingin membakar kedua simpanan tersebut?",
-    "BUTTON_NULLIFY_SHORT": "Membakar",
+    "BUTTON_NULLIFY_SHORT": "Bakar",
     "WAITING_TIME_QUESTION": "Apakah Anda yakin ingin membatalkan kontrak?"
   },
   "MESSAGES": {
@@ -547,7 +547,7 @@
     }
   },
   "STAKING": {
-    "TITLE": "Mempertaruhkan",
+    "TITLE": "Staking",
     "TITLE_PENDING": "Tertunda",
     "TITLE_TOTAL": "Total",
     "TITLE_PERIOD": "Jangka waktu:",
@@ -567,7 +567,7 @@
       "MONTH": "Bulan"
     },
     "SWITCH": {
-      "ON": "PADA",
+      "ON": "HIDUP",
       "OFF": "MATI"
     }
   },
@@ -634,7 +634,7 @@
     "TRANSACTION_IS_TO_BIG": "Transaksi melebihi batas jaringan, kirim jumlah yang diperlukan dengan beberapa transaksi",
     "TRANSFER_ATTEMPT": "Tidak ada koneksi ke jaringan Zano",
     "ACCESS_DENIED": "Akses ditolak",
-    "TRANSACTION_ERROR": "Kesalahan. ",
+    "TRANSACTION_ERROR": "Kesalahan. Transaksi tidak selesai.",
     "BAD_ARG": "Argumen yang tidak sah",
     "WALLET_WRONG_ID": "ID dompet tidak valid",
     "WRONG_PASSWORD": "Kata sandi salah",
@@ -642,13 +642,13 @@
     "FILE_NOT_FOUND": "Berkas tidak ditemukan",
     "FILE_EXIST": "File dengan nama itu sudah ada. ",
     "FILE_NOT_SAVED": "Anda tidak dapat menyimpan file dompet di folder ini. ",
-    "TX_TYPE_NORMAL": "Kesalahan. ",
+    "TX_TYPE_NORMAL": "Kesalahan. Pembayaran dari dompet",
     "TX_TYPE_NORMAL_TO": "ke",
     "TX_TYPE_NORMAL_END": "tidak selesai.",
-    "TX_TYPE_NEW_ALIAS": "Kesalahan. ",
+    "TX_TYPE_NEW_ALIAS": "Kesalahan. Gagal mendaftar alias untuk menyimpan",
     "TX_TYPE_NEW_ALIAS_END": "Silakan coba lagi.",
-    "TX_TYPE_UPDATE_ALIAS": "Kesalahan. ",
-    "TX_TYPE_COIN_BASE": "Kesalahan. ",
+    "TX_TYPE_UPDATE_ALIAS": "Kesalahan. Gagal mengubah komentar menjadi alias di penyimpanan",
+    "TX_TYPE_COIN_BASE": "Kesalahan. Pembayaran belum selesai.",
     "WALLET_WATCH_ONLY_NOT_SUPPORTED": "Dompet khusus arloji hanya dapat dibuka dengan dompet sederhana",
     "REQUIRED": "kolom yang harus diisi",
     "NOT_FILE_ZANO_WALLET": "File bukan dompet zano"
