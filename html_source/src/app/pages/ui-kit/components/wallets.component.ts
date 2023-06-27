@@ -8,7 +8,11 @@ import { SwitchComponent } from '@parts/components/switch.component';
 @Component({
   selector: 'app-wallets',
   template: `
-    <form class="mb-2" fxLayout="column" fxLayoutAlign="start stretch">
+    <form
+      class="mb-2"
+      fxLayout="column"
+      fxLayoutAlign="start stretch"
+    >
       <app-checkbox
         (emitChange)="classWalletActive = !classWalletActive"
         [value]="classWalletActive"
@@ -70,7 +74,12 @@ import { SwitchComponent } from '@parts/components/switch.component';
         <div class="header">
           <div class="left">
             <div class="name text-ellipsis">
-              <span *ngIf="showIndicator" class="indicator"> 12 </span>
+              <span
+                *ngIf="showIndicator"
+                class="indicator"
+              >
+                12
+              </span>
 
               <span class="name">test</span>
             </div>
@@ -91,22 +100,30 @@ import { SwitchComponent } from '@parts/components/switch.component';
           <h4 class="price">
             $999
 
-            <span [class.red]="percentRed" class="percent">20%</span>
+            <span
+              [class.red]="percentRed"
+              class="percent"
+              >20%</span
+            >
           </h4>
         </ng-container>
 
         <ng-container *ngIf="showStaking">
           <div class="staking">
-            <span class="text">{{
-              'SIDEBAR.ACCOUNT.STAKING' | translate
-            }}</span>
+            <span class="text">{{ 'SIDEBAR.ACCOUNT.STAKING' | translate }}</span>
             <app-switch></app-switch>
           </div>
         </ng-container>
 
-        <div *ngIf="showProgressBar" class="account-synchronization">
+        <div
+          *ngIf="showProgressBar"
+          class="account-synchronization"
+        >
           <div class="progress-bar">
-            <div [style.width]="33 + '%'" class="fill"></div>
+            <div
+              [style.width]="33 + '%'"
+              class="fill"
+            ></div>
           </div>
           <div class="progress-percent">33%</div>
         </div>
@@ -115,13 +132,7 @@ import { SwitchComponent } from '@parts/components/switch.component';
   `,
   styles: [],
   standalone: true,
-  imports: [
-    CheckboxComponent,
-    DragDropModule,
-    SwitchComponent,
-    TranslateModule,
-    FlexModule,
-  ],
+  imports: [CheckboxComponent, DragDropModule, SwitchComponent, TranslateModule, FlexModule],
 })
 export class WalletsComponent {
   classWalletActive = true;

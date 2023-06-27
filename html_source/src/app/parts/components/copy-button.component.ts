@@ -6,7 +6,10 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-copy-button',
   template: `
-    <button (click)="copy()" [classList]="'btn-icon circle' + ' ' + size">
+    <button
+      (click)="copy()"
+      [classList]="'btn-icon circle' + ' ' + size"
+    >
       <i
         [class.check]="copyAnimation"
         [class.copy]="!copyAnimation"
@@ -27,10 +30,7 @@ export class CopyButtonComponent {
 
   copyAnimationTimeout;
 
-  constructor(
-    private backend: BackendService,
-    public variablesService: VariablesService
-  ) {}
+  constructor(private backend: BackendService, public variablesService: VariablesService) {}
 
   copy(): void {
     this.backend.setClipboard(this.value || '');

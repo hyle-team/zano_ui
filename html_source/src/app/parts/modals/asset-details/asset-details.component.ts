@@ -10,8 +10,15 @@ import { Asset } from '@api/models/assets.model';
       class="p-2 border-radius-0_8-rem bg-light-blue w-100 max-h-90-vh"
       fxFlex="0 1 54rem"
     >
-      <div class="overflow-hidden" fxFlexFill fxLayout="column">
-        <h3 class="title mb-2" fxFlex="0 0 auto">
+      <div
+        class="overflow-hidden"
+        fxFlexFill
+        fxLayout="column"
+      >
+        <h3
+          class="title mb-2"
+          fxFlex="0 0 auto"
+        >
           {{ title | translate }}
         </h3>
         <ng-container *ngIf="asset; else templateEmpty">
@@ -44,12 +51,7 @@ import { Asset } from '@api/models/assets.model';
                 </div>
                 <div
                   class="text"
-                  (contextmenu)="
-                    variablesService.onContextMenuOnlyCopy(
-                      $event,
-                      asset.asset_info.asset_id
-                    )
-                  "
+                  (contextmenu)="variablesService.onContextMenuOnlyCopy($event, asset.asset_info.asset_id)"
                 >
                   {{ asset.asset_info.asset_id }}
                 </div>
@@ -59,10 +61,7 @@ import { Asset } from '@api/models/assets.model';
 
               <div class="row">
                 <div class="label max-w-19-rem w-100">
-                  {{
-                    'ASSETS.MODALS.ASSET_DETAILS.LABELS.CURRENT_SUPPLY'
-                      | translate
-                  }}
+                  {{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.CURRENT_SUPPLY' | translate }}
                 </div>
                 <div class="text">{{ asset.asset_info.current_supply }}</div>
               </div>
@@ -71,9 +70,7 @@ import { Asset } from '@api/models/assets.model';
 
               <div class="row">
                 <div class="label max-w-19-rem w-100">
-                  {{
-                    'ASSETS.MODALS.ASSET_DETAILS.LABELS.MAX_SUPPLE' | translate
-                  }}
+                  {{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.MAX_SUPPLE' | translate }}
                 </div>
                 <div class="text">{{ asset.asset_info.total_max_supply }}</div>
               </div>
@@ -87,7 +84,11 @@ import { Asset } from '@api/models/assets.model';
           fxLayout="row nowrap"
           fxLayoutGap="1rem"
         >
-          <button (click)="close()" class="outline big w-100" type="button">
+          <button
+            (click)="close()"
+            class="outline big w-100"
+            type="button"
+          >
             {{ 'MODALS.OK' | translate }}
           </button>
         </div>

@@ -8,12 +8,12 @@
     "BUTTON_RESET": "Zurücksetzen",
     "INCORRECT_PASSWORD": "Ungültiges Passwort",
     "FORM_ERRORS": {
-		"PASS_REQUIRED": "Passwort ist erforderlich",
-		"CONFIRM_REQUIRED": "Bestätigung ist erforderlich",
-		"MISMATCH": "Fehlanpassung",
-		"INVALID_PASS": "Ungültiges Passwort, versuchen Sie es erneut",
-		"WRONG_PASSWORD": "Wrong password"
-	}
+      "PASS_REQUIRED": "Passwort ist erforderlich",
+      "CONFIRM_REQUIRED": "Bestätigung ist erforderlich",
+      "MISMATCH": "Fehlanpassung",
+      "INVALID_PASS": "Ungültiges Passwort, versuchen Sie es erneut",
+      "WRONG_PASSWORD": "Wrong password"
+    }
   },
   "COMMON": {
     "BACK": "Zurück"

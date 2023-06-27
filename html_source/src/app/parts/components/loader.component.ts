@@ -1,13 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { NgSwitch, NgSwitchCase, NgSwitchDefault } from '@angular/common';
 
-type LoaderType =
-  | 'circle'
-  | 'circle-2'
-  | 'circle-3'
-  | 'dots'
-  | 'dots-2'
-  | 'pulse';
+type LoaderType = 'circle' | 'circle-2' | 'circle-3' | 'dots' | 'dots-2' | 'pulse';
 
 @Component({
   selector: 'zano-loader',
@@ -15,25 +9,60 @@ type LoaderType =
   template: `
     <ng-container [ngSwitch]="[type]">
       <!-- Loader 1-->
-      <div *ngSwitchCase="'circle'" class="loader-1"><span></span></div>
+      <div
+        *ngSwitchCase="'circle'"
+        class="loader-1"
+      >
+        <span></span>
+      </div>
 
       <!-- Loader 2 -->
-      <div *ngSwitchCase="'circle-2'" class="loader-2"><span></span></div>
+      <div
+        *ngSwitchCase="'circle-2'"
+        class="loader-2"
+      >
+        <span></span>
+      </div>
 
       <!-- Loader 3 -->
-      <div *ngSwitchCase="'circle-3'" class="loader-3"><span></span></div>
+      <div
+        *ngSwitchCase="'circle-3'"
+        class="loader-3"
+      >
+        <span></span>
+      </div>
 
       <!-- Loader 4 -->
-      <div *ngSwitchCase="'dots'" class="loader-4"><span></span></div>
+      <div
+        *ngSwitchCase="'dots'"
+        class="loader-4"
+      >
+        <span></span>
+      </div>
 
       <!-- Loader 5 -->
-      <div *ngSwitchCase="'dots-2'" class="loader-5"><span></span></div>
+      <div
+        *ngSwitchCase="'dots-2'"
+        class="loader-5"
+      >
+        <span></span>
+      </div>
 
       <!-- Loader 6 -->
-      <div *ngSwitchCase="'pulse'" class="loader-6"><span></span></div>
+      <div
+        *ngSwitchCase="'pulse'"
+        class="loader-6"
+      >
+        <span></span>
+      </div>
 
       <!-- Default-->
-      <div *ngSwitchDefault class="loader-1"><span></span></div>
+      <div
+        *ngSwitchDefault
+        class="loader-1"
+      >
+        <span></span>
+      </div>
     </ng-container>
   `,
   styles: [
@@ -110,8 +139,7 @@ type LoaderType =
         clip: rect(0, 32px, 32px, 16px);
         border: 3px solid #fff;
         border-radius: 50%;
-        -webkit-animation: loader-1-3 1.2s cubic-bezier(0.77, 0, 0.175, 1)
-          infinite;
+        -webkit-animation: loader-1-3 1.2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
         animation: loader-1-3 1.2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
       }
 
@@ -177,8 +205,7 @@ type LoaderType =
         height: 32px;
         width: 32px;
         clip: rect(16px, 32px, 32px, 0);
-        -webkit-animation: loader-2-2 1.5s cubic-bezier(0.77, 0, 0.175, 1)
-          infinite;
+        -webkit-animation: loader-2-2 1.5s cubic-bezier(0.77, 0, 0.175, 1) infinite;
         animation: loader-2-2 1.5s cubic-bezier(0.77, 0, 0.175, 1) infinite;
       }
 
@@ -214,8 +241,7 @@ type LoaderType =
         border: 3px solid transparent;
         border-top: 3px solid #fff;
         border-radius: 50%;
-        -webkit-animation: loader-2-3 1.5s cubic-bezier(0.77, 0, 0.175, 1)
-          infinite;
+        -webkit-animation: loader-2-3 1.5s cubic-bezier(0.77, 0, 0.175, 1) infinite;
         animation: loader-2-3 1.5s cubic-bezier(0.77, 0, 0.175, 1) infinite;
       }
 
@@ -285,8 +311,7 @@ type LoaderType =
         border: 3px solid #fff;
         border-bottom: 3px solid transparent;
         border-radius: 50%;
-        -webkit-animation: loader-3-1 1.5s cubic-bezier(0.77, 0, 0.175, 1)
-          infinite;
+        -webkit-animation: loader-3-1 1.5s cubic-bezier(0.77, 0, 0.175, 1) infinite;
         animation: loader-3-1 1.5s cubic-bezier(0.77, 0, 0.175, 1) infinite;
       }
 
@@ -332,8 +357,7 @@ type LoaderType =
         height: 6px;
         background: #fff;
         border-radius: 50%;
-        -webkit-animation: loader-3-2 1.5s cubic-bezier(0.77, 0, 0.175, 1)
-          infinite;
+        -webkit-animation: loader-3-2 1.5s cubic-bezier(0.77, 0, 0.175, 1) infinite;
         animation: loader-3-2 1.5s cubic-bezier(0.77, 0, 0.175, 1) infinite;
       }
 
@@ -391,8 +415,7 @@ type LoaderType =
         margin: auto;
         background: #fff;
         border-radius: 50%;
-        -webkit-animation: loader-4-1 2s cubic-bezier(0.77, 0, 0.175, 1)
-          infinite;
+        -webkit-animation: loader-4-1 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
         animation: loader-4-1 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
       }
 
@@ -436,8 +459,7 @@ type LoaderType =
         margin: auto;
         height: 32px;
         width: 32px;
-        -webkit-animation: loader-4-2 2s cubic-bezier(0.77, 0, 0.175, 1)
-          infinite;
+        -webkit-animation: loader-4-2 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
         animation: loader-4-2 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
       }
 
@@ -479,8 +501,7 @@ type LoaderType =
         width: 12px;
         background: #fff;
         border-radius: 50%;
-        -webkit-animation: loader-4-3 2s cubic-bezier(0.77, 0, 0.175, 1)
-          infinite;
+        -webkit-animation: loader-4-3 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
         animation: loader-4-3 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
       }
 
@@ -509,8 +530,7 @@ type LoaderType =
       }
 
       .loader-4 span::after {
-        -webkit-animation: loader-4-4 2s cubic-bezier(0.77, 0, 0.175, 1)
-          infinite;
+        -webkit-animation: loader-4-4 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
         animation: loader-4-4 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
       }
 
@@ -542,8 +562,7 @@ type LoaderType =
       .loader-5 {
         height: 32px;
         width: 32px;
-        -webkit-animation: loader-5-1 2s cubic-bezier(0.77, 0, 0.175, 1)
-          infinite;
+        -webkit-animation: loader-5-1 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
         animation: loader-5-1 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
       }
 
@@ -578,8 +597,7 @@ type LoaderType =
         height: 8px;
         background: #fff;
         border-radius: 50%;
-        -webkit-animation: loader-5-2 2s cubic-bezier(0.77, 0, 0.175, 1)
-          infinite;
+        -webkit-animation: loader-5-2 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
         animation: loader-5-2 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
       }
 
@@ -620,8 +638,7 @@ type LoaderType =
         height: 8px;
         background: #fff;
         border-radius: 50%;
-        -webkit-animation: loader-5-3 2s cubic-bezier(0.77, 0, 0.175, 1)
-          infinite;
+        -webkit-animation: loader-5-3 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
         animation: loader-5-3 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
       }
 
@@ -674,8 +691,7 @@ type LoaderType =
         height: 8px;
         background: #fff;
         border-radius: 50%;
-        -webkit-animation: loader-5-4 2s cubic-bezier(0.77, 0, 0.175, 1)
-          infinite;
+        -webkit-animation: loader-5-4 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
         animation: loader-5-4 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
       }
 
@@ -716,8 +732,7 @@ type LoaderType =
         height: 8px;
         background: #fff;
         border-radius: 50%;
-        -webkit-animation: loader-5-5 2s cubic-bezier(0.77, 0, 0.175, 1)
-          infinite;
+        -webkit-animation: loader-5-5 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
         animation: loader-5-5 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
       }
 
@@ -778,8 +793,7 @@ type LoaderType =
         border: 2px solid #fff;
         border-radius: 50%;
         opacity: 0;
-        -webkit-animation: loader-6-1 1.5s cubic-bezier(0.075, 0.82, 0.165, 1)
-          infinite;
+        -webkit-animation: loader-6-1 1.5s cubic-bezier(0.075, 0.82, 0.165, 1) infinite;
         animation: loader-6-1 1.5s cubic-bezier(0.075, 0.82, 0.165, 1) infinite;
       }
 
@@ -806,10 +820,8 @@ type LoaderType =
       }
 
       .loader-6 span::after {
-        -webkit-animation: loader-6-2 1.5s cubic-bezier(0.075, 0.82, 0.165, 1)
-          0.25s infinite;
-        animation: loader-6-2 1.5s cubic-bezier(0.075, 0.82, 0.165, 1) 0.25s
-          infinite;
+        -webkit-animation: loader-6-2 1.5s cubic-bezier(0.075, 0.82, 0.165, 1) 0.25s infinite;
+        animation: loader-6-2 1.5s cubic-bezier(0.075, 0.82, 0.165, 1) 0.25s infinite;
       }
 
       @-webkit-keyframes loader-6-2 {

@@ -1,14 +1,5 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  inject,
-} from '@angular/core';
-import {
-  NonNullableFormBuilder,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
+import { NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { VariablesService } from '@parts/services/variables.service';
 import { ZanoValidators } from '@parts/utils/zano-validators';
 import { DialogRef } from '@angular/cdk/dialog';
@@ -32,15 +23,16 @@ import { LoaderComponent } from '@parts/components/loader.component';
       [formGroup]="formGroup"
       class="modal p-2 border-radius-0_8-rem bg-light-blue max-w-54-rem w-100 max-h-100"
     >
-      <div class="content" fxLayout="column">
+      <div
+        class="content"
+        fxLayout="column"
+      >
         <h3 class="mb-2">
           {{ 'WALLET.MODAL_ADD_CUSTOM_TOKEN.TITLE' | translate }}
         </h3>
 
         <div class="form__field">
-          <label for="asset_id">{{
-            'WALLET.MODAL_ADD_CUSTOM_TOKEN.FIELD_TITLE' | translate
-          }}</label>
+          <label for="asset_id">{{ 'WALLET.MODAL_ADD_CUSTOM_TOKEN.FIELD_TITLE' | translate }}</label>
           <input
             (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
             class="form__field--input"
@@ -62,17 +54,22 @@ import { LoaderComponent } from '@parts/components/loader.component';
               *ngIf="formGroup.get('asset_id').hasError('wrongAssetId')"
               class="error"
             >
-              {{
-                formGroup.get('asset_id').errors['wrongAssetId'].errorText
-                  | translate
-              }}
+              {{ formGroup.get('asset_id').errors['wrongAssetId'].errorText | translate }}
             </div>
           </ng-container>
         </div>
       </div>
 
-      <div class="controls" fxLayout="row nowrap" fxLayoutGap="1rem">
-        <button (click)="close()" class="outline big w-100" type="button">
+      <div
+        class="controls"
+        fxLayout="row nowrap"
+        fxLayoutGap="1rem"
+      >
+        <button
+          (click)="close()"
+          class="outline big w-100"
+          type="button"
+        >
           {{ 'MODALS.CANCEL' | translate }}
         </button>
         <button
@@ -99,13 +96,7 @@ import { LoaderComponent } from '@parts/components/loader.component';
       }
     `,
   ],
-  imports: [
-    CommonModule,
-    FlexModule,
-    TranslateModule,
-    ReactiveFormsModule,
-    LoaderComponent,
-  ],
+  imports: [CommonModule, FlexModule, TranslateModule, ReactiveFormsModule, LoaderComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddCustomTokenComponent {
@@ -116,14 +107,7 @@ export class AddCustomTokenComponent {
   loading$ = new BehaviorSubject<boolean>(false);
 
   formGroup = this.fb.group<ControlsOf<{ asset_id: string }>>({
-    asset_id: this.fb.control(
-      '',
-      Validators.compose([
-        Validators.required,
-        ZanoValidators.hash,
-        Validators.maxLength(64),
-      ])
-    ),
+    asset_id: this.fb.control('', Validators.compose([Validators.required, ZanoValidators.hash, Validators.maxLength(64)])),
   });
 
   constructor(
@@ -151,31 +135,28 @@ export class AddCustomTokenComponent {
       asset_id,
       wallet_id,
     };
-    this.backendService.addCustomAssetId(
-      params,
-      (status, { asset_descriptor }) => {
-        if (status) {
-          const asset: Asset = {
-            asset_info: {
-              ...asset_descriptor,
-              asset_id,
-            },
-            awaiting_in: 0,
-            awaiting_out: 0,
-            total: 0,
-            unlocked: 0,
-          };
-          this.walletsService.updateWalletInfo(wallet_id);
-          this.dialogRef.close(asset);
-        } else {
-          this.formGroup.controls.asset_id.setErrors({
-            wrongAssetId,
-          });
-          this.loading$.next(false);
-          this.cdr.detectChanges();
-        }
+    this.backendService.addCustomAssetId(params, (status, { asset_descriptor }) => {
+      if (status) {
+        const asset: Asset = {
+          asset_info: {
+            ...asset_descriptor,
+            asset_id,
+          },
+          awaiting_in: 0,
+          awaiting_out: 0,
+          total: 0,
+          unlocked: 0,
+        };
+        this.walletsService.updateWalletInfo(wallet_id);
+        this.dialogRef.close(asset);
+      } else {
+        this.formGroup.controls.asset_id.setErrors({
+          wrongAssetId,
+        });
+        this.loading$.next(false);
+        this.cdr.detectChanges();
       }
-    );
+    });
   }
 
   close(): void {

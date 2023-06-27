@@ -154,8 +154,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        loadComponent: () =>
-          import('./ui-kit/ui-kit.component').then(c => c.UiKitComponent),
+        loadComponent: () => import('./ui-kit/ui-kit.component').then(c => c.UiKitComponent),
       },
     ],
   },

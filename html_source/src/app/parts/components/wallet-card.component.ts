@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  HostBinding,
-  inject,
-  Input,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, HostBinding, inject, Input, Output } from '@angular/core';
 import { Wallet } from '@api/models/wallet.model';
 import { VariablesService } from '@parts/services/variables.service';
 import { Asset, Assets } from '@api/models/assets.model';
@@ -25,7 +18,10 @@ import { StakingSwitchComponent } from '@parts/components/staking-switch.compone
       <div class="header">
         <div class="left">
           <div class="name text-ellipsis">
-            <span *ngIf="wallet.new_contracts" class="indicator">
+            <span
+              *ngIf="wallet.new_contracts"
+              class="indicator"
+            >
               {{ wallet.new_contracts }}
             </span>
 
@@ -65,11 +61,7 @@ import { StakingSwitchComponent } from '@parts/components/staking-switch.compone
         [tooltip]="getBalancesTooltip()"
         class="price"
       >
-        {{
-          wallet.getMoneyEquivalentForZano(variablesService.moneyEquivalent)
-            | intToMoney
-            | currency : 'USD' || '---'
-        }}
+        {{ wallet.getMoneyEquivalentForZano(variablesService.moneyEquivalent) | intToMoney | currency : 'USD' || '---' }}
         <span
           [class.red]="variablesService.moneyEquivalentPercent < 0"
           class="percent"
@@ -78,12 +70,7 @@ import { StakingSwitchComponent } from '@parts/components/staking-switch.compone
         </span>
       </h4>
 
-      <ng-container
-        *ngIf="
-          (!wallet.is_auditable && !wallet.is_watch_only) ||
-          (wallet.is_auditable && !wallet.is_watch_only)
-        "
-      >
+      <ng-container *ngIf="(!wallet.is_auditable && !wallet.is_watch_only) || (wallet.is_auditable && !wallet.is_watch_only)">
         <div
           *ngIf="!(!wallet.loaded && variablesService.daemon_state === 2)"
           class="staking"
@@ -101,21 +88,17 @@ import { StakingSwitchComponent } from '@parts/components/staking-switch.compone
         class="account-synchronization"
       >
         <div class="progress-bar">
-          <div [style.width]="wallet.progress + '%'" class="fill"></div>
+          <div
+            [style.width]="wallet.progress + '%'"
+            class="fill"
+          ></div>
         </div>
         <div class="progress-percent">{{ wallet.progress }}%</div>
       </div>
     </div>
   `,
   standalone: true,
-  imports: [
-    CommonModule,
-    TooltipModule,
-    TranslateModule,
-    IntToMoneyPipeModule,
-    StakingSwitchComponent,
-    DisablePriceFetchModule,
-  ],
+  imports: [CommonModule, TooltipModule, TranslateModule, IntToMoneyPipeModule, StakingSwitchComponent, DisablePriceFetchModule],
 })
 export class WalletCardComponent {
   @HostBinding('class') classAttr = 'wallet';
@@ -151,9 +134,7 @@ export class WalletCardComponent {
       const locked = document.createElement('span');
       locked.setAttribute('class', 'locked');
       locked.innerHTML = this.translate.instant('WALLET.LOCKED_BALANCE', {
-        locked: this.intToMoneyPipe.transform(
-          new BigNumber(total).minus(unlocked)
-        ),
+        locked: this.intToMoneyPipe.transform(new BigNumber(total).minus(unlocked)),
         currency: ticker || '---',
       });
       scrollWrapper.appendChild(locked);

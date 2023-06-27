@@ -46,27 +46,17 @@ export class HistoryTypeMessagesPipe implements PipeTransform {
             ? this.translate.instant('HISTORY.TYPE_MESSAGES.POS_REWARD')
             : this.translate.instant('HISTORY.TYPE_MESSAGES.POW_REWARD');
         case 7:
-          return this.translate.instant(
-            'HISTORY.TYPE_MESSAGES.CREATE_CONTRACT'
-          );
+          return this.translate.instant('HISTORY.TYPE_MESSAGES.CREATE_CONTRACT');
         case 8:
-          return this.translate.instant(
-            'HISTORY.TYPE_MESSAGES.PLEDGE_CONTRACT'
-          );
+          return this.translate.instant('HISTORY.TYPE_MESSAGES.PLEDGE_CONTRACT');
         // case 9:
         //   return '';
         case 10:
-          return this.translate.instant(
-            'HISTORY.TYPE_MESSAGES.NULLIFY_CONTRACT'
-          );
+          return this.translate.instant('HISTORY.TYPE_MESSAGES.NULLIFY_CONTRACT');
         case 11:
-          return this.translate.instant(
-            'HISTORY.TYPE_MESSAGES.PROPOSAL_CANCEL_CONTRACT'
-          );
+          return this.translate.instant('HISTORY.TYPE_MESSAGES.PROPOSAL_CANCEL_CONTRACT');
         case 12:
-          return this.translate.instant(
-            'HISTORY.TYPE_MESSAGES.CANCEL_CONTRACT'
-          );
+          return this.translate.instant('HISTORY.TYPE_MESSAGES.CANCEL_CONTRACT');
       }
     }
 

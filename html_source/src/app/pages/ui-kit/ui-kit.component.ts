@@ -1,17 +1,15 @@
 import { Component } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import {
-  BreadcrumbsComponent,
-  ButtonsComponent,
-  FormComponent,
-  ProgressBarsComponent,
-  WalletsComponent,
-} from './components';
+import { BreadcrumbsComponent, ButtonsComponent, FormComponent, ProgressBarsComponent, WalletsComponent } from './components';
 
 @Component({
   selector: 'app-ui-kit',
   template: `
-    <div fxFlex="0 1 50rem" fxLayout="column" fxLayoutAlign="start stretch">
+    <div
+      fxFlex="0 1 50rem"
+      fxLayout="column"
+      fxLayoutAlign="start stretch"
+    >
       <div class="mb-2">
         <h2 class="mb-1">Buttons</h2>
         <app-buttons></app-buttons>
@@ -40,13 +38,6 @@ import {
   `,
   styles: [],
   standalone: true,
-  imports: [
-    FlexLayoutModule,
-    ButtonsComponent,
-    WalletsComponent,
-    BreadcrumbsComponent,
-    FormComponent,
-    ProgressBarsComponent,
-  ],
+  imports: [FlexLayoutModule, ButtonsComponent, WalletsComponent, BreadcrumbsComponent, FormComponent, ProgressBarsComponent],
 })
 export class UiKitComponent {}

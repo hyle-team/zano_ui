@@ -8,12 +8,6 @@ import { SynchronizationStatusComponent } from '@parts/components/synchronizatio
 
 @NgModule({
   declarations: [NoWalletComponent],
-  imports: [
-    CommonModule,
-    AuthRoutingModule,
-    TranslateModule,
-    FlexLayoutModule,
-    SynchronizationStatusComponent,
-  ],
+  imports: [CommonModule, AuthRoutingModule, TranslateModule, FlexLayoutModule, SynchronizationStatusComponent],
 })
 export class AuthModule {}

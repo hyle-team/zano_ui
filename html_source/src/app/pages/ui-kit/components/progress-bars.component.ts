@@ -15,8 +15,7 @@ import { FlexModule } from '@angular/flex-layout';
           <span>{{ 'SIDEBAR.SYNCHRONIZATION.OFFLINE' | translate }}</span>
         </div>
         <div class="syncing text-ellipsis mb-0_5">
-          {{ 'SIDEBAR.SYNCHRONIZATION.SYNCING' | translate }} {{ 100
-          }}{{ 'SIDEBAR.SYNCHRONIZATION.SLASH' | translate }}{{ 20000 }}
+          {{ 'SIDEBAR.SYNCHRONIZATION.SYNCING' | translate }} {{ 100 }}{{ 'SIDEBAR.SYNCHRONIZATION.SLASH' | translate }}{{ 20000 }}
         </div>
         <div class="online mb-0_5">
           <span>{{ 'SIDEBAR.SYNCHRONIZATION.ONLINE' | translate }}</span>
@@ -40,7 +39,10 @@ import { FlexModule } from '@angular/flex-layout';
         <div class="progress-bar-container mb-1">
           <div class="syncing">
             <div class="progress-bar">
-              <div [style.width]="50 + '%'" class="fill"></div>
+              <div
+                [style.width]="50 + '%'"
+                class="fill"
+              ></div>
             </div>
           </div>
         </div>
@@ -52,7 +54,10 @@ import { FlexModule } from '@angular/flex-layout';
         <div class="progress-bar-container mb-1">
           <div class="syncing downloading">
             <div class="progress-bar">
-              <div [style.width]="44 + '%'" class="fill"></div>
+              <div
+                [style.width]="44 + '%'"
+                class="fill"
+              ></div>
             </div>
           </div>
         </div>
@@ -60,33 +65,23 @@ import { FlexModule } from '@angular/flex-layout';
 
       <div class="update-container">
         <div class="update-text standard mb-0_5">
-          <span [style.cursor]="'pointer'">{{
-            'SIDEBAR.UPDATE.STANDARD' | translate
-          }}</span>
+          <span [style.cursor]="'pointer'">{{ 'SIDEBAR.UPDATE.STANDARD' | translate }}</span>
         </div>
         <i class="icon update standard"></i>
       </div>
 
       <div class="update-container">
         <div class="update-text important">
-          <span [style.cursor]="'pointer'">{{
-            'SIDEBAR.UPDATE.IMPORTANT' | translate
-          }}</span>
-          <span style="font-size: 1rem">{{
-            'SIDEBAR.UPDATE.IMPORTANT_HINT' | translate
-          }}</span>
+          <span [style.cursor]="'pointer'">{{ 'SIDEBAR.UPDATE.IMPORTANT' | translate }}</span>
+          <span style="font-size: 1rem">{{ 'SIDEBAR.UPDATE.IMPORTANT_HINT' | translate }}</span>
         </div>
         <i class="icon update important"></i>
       </div>
 
       <div class="update-container">
         <div class="update-text critical">
-          <span [style.cursor]="'pointer'">{{
-            'SIDEBAR.UPDATE.CRITICAL' | translate
-          }}</span>
-          <span style="font-size: 1rem">{{
-            'SIDEBAR.UPDATE.IMPORTANT_HINT' | translate
-          }}</span>
+          <span [style.cursor]="'pointer'">{{ 'SIDEBAR.UPDATE.CRITICAL' | translate }}</span>
+          <span style="font-size: 1rem">{{ 'SIDEBAR.UPDATE.IMPORTANT_HINT' | translate }}</span>
         </div>
         <i class="icon update critical"></i>
       </div>

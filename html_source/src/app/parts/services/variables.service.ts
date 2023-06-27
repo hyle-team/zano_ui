@@ -4,7 +4,7 @@ import { Contact } from '@api/models/contact.model';
 import { BehaviorSubject } from 'rxjs';
 import { Idle } from 'idlejs/dist';
 import { Router } from '@angular/router';
-import { ContextMenuComponent, ContextMenuService, } from '@perfectmemory/ngx-contextmenu';
+import { ContextMenuComponent, ContextMenuService } from '@perfectmemory/ngx-contextmenu';
 import { BigNumber } from 'bignumber.js';
 import { Aliases } from '@api/models/alias.model';
 
@@ -173,11 +173,7 @@ export class VariablesService {
 
   pasteSelectContextMenu: ContextMenuComponent<any>;
 
-  constructor(
-    private router: Router,
-    private ngZone: NgZone,
-    private contextMenuService: ContextMenuService<any>
-  ) {}
+  constructor(private router: Router, private ngZone: NgZone, private contextMenuService: ContextMenuService<any>) {}
 
   setExpMedTs(timestamp: number): void {
     if (timestamp !== this.exp_med_ts) {
@@ -274,8 +270,7 @@ export class VariablesService {
     $event.target['contextSelectionEnd'] = $event.target['selectionEnd'];
     if (
       $event.target &&
-      ($event.target['nodeName'].toUpperCase() === 'TEXTAREA' ||
-        $event.target['nodeName'].toUpperCase() === 'INPUT') &&
+      ($event.target['nodeName'].toUpperCase() === 'TEXTAREA' || $event.target['nodeName'].toUpperCase() === 'INPUT') &&
       !$event.target['readOnly']
     ) {
       this.contextMenuService.show(this.allContextMenu, {
@@ -307,8 +302,7 @@ export class VariablesService {
 
     if (
       $event.target &&
-      ($event.target['nodeName'].toUpperCase() === 'TEXTAREA' ||
-        $event.target['nodeName'].toUpperCase() === 'INPUT') &&
+      ($event.target['nodeName'].toUpperCase() === 'TEXTAREA' || $event.target['nodeName'].toUpperCase() === 'INPUT') &&
       !$event.target['readOnly']
     ) {
       this.contextMenuService.show(this.pasteSelectContextMenu, {

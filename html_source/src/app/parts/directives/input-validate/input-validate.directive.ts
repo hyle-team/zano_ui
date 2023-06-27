@@ -7,10 +7,7 @@ import { VariablesService } from '../../services/variables.service';
 export class InputValidateDirective {
   private type: string;
 
-  constructor(
-    private el: ElementRef,
-    private variablesService: VariablesService
-  ) {}
+  constructor(private el: ElementRef, private variablesService: VariablesService) {}
 
   @Input('appInputValidate')
   public set defineInputType(type: string) {
@@ -54,10 +51,7 @@ export class InputValidateDirective {
     if (currentValue !== originalValue) {
       (<HTMLInputElement>event.target).value = currentValue;
       const cursorPosition = (<HTMLInputElement>event.target).selectionEnd;
-      (<HTMLInputElement>event.target).setSelectionRange(
-        cursorPosition,
-        cursorPosition
-      );
+      (<HTMLInputElement>event.target).setSelectionRange(cursorPosition, cursorPosition);
       (<HTMLInputElement>event.target).dispatchEvent(new Event('input'));
     }
   }
@@ -73,10 +67,7 @@ export class InputValidateDirective {
     if (currentValue !== originalValue) {
       const cursorPosition = (<HTMLInputElement>event.target).selectionEnd;
       (<HTMLInputElement>event.target).value = currentValue;
-      (<HTMLInputElement>event.target).setSelectionRange(
-        cursorPosition,
-        cursorPosition
-      );
+      (<HTMLInputElement>event.target).setSelectionRange(cursorPosition, cursorPosition);
     }
   }
 }

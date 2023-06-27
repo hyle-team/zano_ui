@@ -10,6 +10,7 @@ import {
   GetPriceByUrlModule,
   ShortStringPipeModule,
   HasInAssetsWhitelistModule,
+  GetWhiteAssetPipe,
 } from '@parts/pipes';
 import { TranslateModule } from '@ngx-translate/core';
 import { IsAvailableAliasNamePipeModule } from '@parts/pipes';
@@ -18,29 +19,19 @@ import { ExportHistoryModalModule } from './wallet/modals/export-history-modal/e
 import { WalletDetailsComponent } from '../wallet-details/wallet-details.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OverlayModule } from '@angular/cdk/overlay';
-import {
-  DefaultImgModule,
-  InputValidateModule,
-  LowerCaseDirective,
-} from '@parts/directives';
+import { DefaultImgModule, InputValidateModule, LowerCaseDirective } from '@parts/directives';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { HistoryComponent } from './tabs/history/history.component';
 import { StakingComponent } from './tabs/staking/staking.component';
 import { ChartModule } from 'angular-highcharts';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ReceiveComponent } from './tabs/receive/receive.component';
-import { ContractsComponent } from './tabs/contracts/contracts.component';
-import { ContractsTabComponent } from './tabs/contracts/contracts-tab/contracts-tab.component';
 import { DialogModule } from '@angular/cdk/dialog';
 import { SendDetailsModalComponent } from './tabs/send/modals/send-details-modal/send-details-modal.component';
 import { SendModalComponent } from './tabs/send/modals/send-modal/send-modal.component';
 import { SendComponent } from './tabs/send/send.component';
 import { ExportImportComponent } from '../export-import/export-import.component';
-import {
-  ContractStatusMessagesPipeModule,
-  HistoryTypeMessagesPipeModule,
-  IntToMoneyPipeModule,
-} from '@parts/pipes';
+import { ContractStatusMessagesPipeModule, HistoryTypeMessagesPipeModule, IntToMoneyPipeModule } from '@parts/pipes';
 import { BackButtonModule } from '@parts/directives/back-button/back-button.module';
 import { AssetDetailsModule } from '@parts/modals/asset-details/asset-details.module';
 import { CheckboxComponent } from '@parts/components/checkbox.component';
@@ -57,8 +48,6 @@ import { TransactionDetailsComponent } from '@parts/components/transaction-detai
     HistoryComponent,
     StakingComponent,
     ReceiveComponent,
-    ContractsComponent,
-    ContractsTabComponent,
     ExportImportComponent,
     SendDetailsModalComponent,
     SendModalComponent,
@@ -98,6 +87,7 @@ import { TransactionDetailsComponent } from '@parts/components/transaction-detai
     CopyButtonComponent,
     TransactionDetailsComponent,
     LowerCaseDirective,
+    GetWhiteAssetPipe,
   ],
 })
 export class WalletModule {}

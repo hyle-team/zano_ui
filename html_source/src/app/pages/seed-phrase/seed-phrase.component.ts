@@ -16,7 +16,11 @@ import { WalletsService } from '@parts/services/wallets.service';
     <div class="page-container">
       <div class="toolbar mb-2">
         <div class="left">
-          <button appBackButton class="btn-icon circle big mr-2" type="button">
+          <button
+            appBackButton
+            class="btn-icon circle big mr-2"
+            type="button"
+          >
             <i class="icon dropdown-arrow-left"></i>
           </button>
           <h1>{{ 'BREADCRUMBS.ADD_WALLET' | translate }}</h1>
@@ -27,9 +31,7 @@ import { WalletsService } from '@parts/services/wallets.service';
       <div class="page-content">
         <div class="breadcrumbs mb-2">
           <div class="breadcrumb">
-            <a [routerLink]="['/add-wallet']">{{
-              'BREADCRUMBS.ADD_WALLET' | translate
-            }}</a>
+            <a [routerLink]="['/add-wallet']">{{ 'BREADCRUMBS.ADD_WALLET' | translate }}</a>
           </div>
           <div class="breadcrumb">
             <span>{{ 'BREADCRUMBS.SAVE_PHRASE' | translate }}</span>
@@ -37,16 +39,21 @@ import { WalletsService } from '@parts/services/wallets.service';
         </div>
 
         <div class="scrolled-content">
-          <div class="wrap-seed-phrase" fxFlex="100" fxLayout="column">
-            <form [formGroup]="detailsForm" class="form">
+          <div
+            class="wrap-seed-phrase"
+            fxFlex="100"
+            fxLayout="column"
+          >
+            <form
+              [formGroup]="detailsForm"
+              class="form"
+            >
               <div class="form__field">
                 <label>{{ 'WALLET_DETAILS.LABEL_NAME' | translate }}</label>
                 <input
                   (contextmenu)="variablesService.onContextMenu($event)"
                   [maxLength]="variablesService.maxWalletNameLength"
-                  [placeholder]="
-                    'PLACEHOLDERS.WALLET_NAME_PLACEHOLDER' | translate
-                  "
+                  [placeholder]="'PLACEHOLDERS.WALLET_NAME_PLACEHOLDER' | translate"
                   class="form__field--input"
                   formControlName="name"
                   id="wallet-name"
@@ -55,23 +62,14 @@ import { WalletsService } from '@parts/services/wallets.service';
                 />
                 <div
                   *ngIf="
-                    detailsForm.controls['name'].invalid &&
-                    (detailsForm.controls['name'].dirty ||
-                      detailsForm.controls['name'].touched)
+                    detailsForm.controls['name'].invalid && (detailsForm.controls['name'].dirty || detailsForm.controls['name'].touched)
                   "
                   class="error"
                 >
                   <div *ngIf="detailsForm.controls['name'].errors['duplicate']">
-                    {{
-                      'WALLET_DETAILS.FORM_ERRORS.NAME_DUPLICATE' | translate
-                    }}
+                    {{ 'WALLET_DETAILS.FORM_ERRORS.NAME_DUPLICATE' | translate }}
                   </div>
-                  <div
-                    *ngIf="
-                      detailsForm.get('name').value.length >=
-                      variablesService.maxWalletNameLength
-                    "
-                  >
+                  <div *ngIf="detailsForm.get('name').value.length >= variablesService.maxWalletNameLength">
                     {{ 'WALLET_DETAILS.FORM_ERRORS.MAX_LENGTH' | translate }}
                   </div>
                   <div *ngIf="detailsForm.controls['name'].errors['required']">
@@ -81,9 +79,7 @@ import { WalletsService } from '@parts/services/wallets.service';
               </div>
 
               <div class="form__field">
-                <label for="wallet-location">{{
-                  'WALLET_DETAILS.LABEL_FILE_LOCATION' | translate
-                }}</label>
+                <label for="wallet-location">{{ 'WALLET_DETAILS.LABEL_FILE_LOCATION' | translate }}</label>
                 <input
                   class="form__field--input"
                   formControlName="path"
@@ -101,55 +97,35 @@ import { WalletsService } from '@parts/services/wallets.service';
                 class="form bg-light-blue-details p-2"
               >
                 <div class="form__field">
-                  <label for="create-password">{{
-                    'WALLET_DETAILS.CREATE_PASSWORD_SECURE' | translate
-                  }}</label>
+                  <label for="create-password">{{ 'WALLET_DETAILS.CREATE_PASSWORD_SECURE' | translate }}</label>
                   <input
                     class="form__field--input"
                     formControlName="password"
                     id="create-password"
-                    placeholder="{{
-                      'PLACEHOLDERS.PASSWORD_PLACEHOLDER' | translate
-                    }}"
+                    placeholder="{{ 'PLACEHOLDERS.PASSWORD_PLACEHOLDER' | translate }}"
                     type="password"
                   />
                 </div>
 
                 <div class="form__field">
-                  <label for="confirm-password">{{
-                    'WALLET_DETAILS.FORM.CONFIRM_PASSWORD' | translate
-                  }}</label>
+                  <label for="confirm-password">{{ 'WALLET_DETAILS.FORM.CONFIRM_PASSWORD' | translate }}</label>
                   <input
-                    [class.invalid]="
-                      seedPhraseForm.invalid &&
-                      seedPhraseForm.get('confirmPassword').value.length > 0
-                    "
+                    [class.invalid]="seedPhraseForm.invalid && seedPhraseForm.get('confirmPassword').value.length > 0"
                     class="form__field--input"
                     formControlName="confirmPassword"
                     id="confirm-password"
-                    placeholder="{{
-                      'PLACEHOLDERS.PLACEHOLDER_CONFIRM' | translate
-                    }}"
+                    placeholder="{{ 'PLACEHOLDERS.PLACEHOLDER_CONFIRM' | translate }}"
                     type="password"
                   />
                   <div
                     *ngIf="
                       seedPhraseForm.invalid &&
-                      (seedPhraseForm.controls['confirmPassword'].dirty ||
-                        seedPhraseForm.controls['confirmPassword'].touched)
+                      (seedPhraseForm.controls['confirmPassword'].dirty || seedPhraseForm.controls['confirmPassword'].touched)
                     "
                     class="error"
                   >
-                    <div
-                      *ngIf="
-                        seedPhraseForm.invalid &&
-                        seedPhraseForm.get('confirmPassword').value.length > 0
-                      "
-                    >
-                      {{
-                        'WALLET_DETAILS.FORM_ERRORS.PASSWORDS_DONT_MATCH'
-                          | translate
-                      }}
+                    <div *ngIf="seedPhraseForm.invalid && seedPhraseForm.get('confirmPassword').value.length > 0">
+                      {{ 'WALLET_DETAILS.FORM_ERRORS.PASSWORDS_DONT_MATCH' | translate }}
                     </div>
                   </div>
                 </div>
@@ -165,32 +141,24 @@ import { WalletsService } from '@parts/services/wallets.service';
 
                 <p class="text-align-center color-primary">
                   <i class="icon info-circle mr-1"></i>
-                  {{
-                    'WALLET_DETAILS.FORM.SECURED_SEED_WILL_REQUIRE' | translate
-                  }}
+                  {{ 'WALLET_DETAILS.FORM.SECURED_SEED_WILL_REQUIRE' | translate }}
                 </p>
               </form>
             </ng-container>
 
             <ng-template #seedPhraseContent>
-              <div
-                class="seed-phrase bg-light-blue-details p-2 border-radius-0_8-rem"
-              >
+              <div class="seed-phrase bg-light-blue-details p-2 border-radius-0_8-rem">
                 <div
                   class="header mb-2"
                   fxLayout="row"
                   fxLayoutAlign="space-between center"
                 >
                   <div class="left">
-                    <span>{{
-                      'WALLET_DETAILS.LABEL_SEED_PHRASE' | translate
-                    }}</span>
+                    <span>{{ 'WALLET_DETAILS.LABEL_SEED_PHRASE' | translate }}</span>
                   </div>
                   <div class="right">
                     <span
-                      *ngIf="
-                        seedPhraseForm.controls.password.value.length === 0
-                      "
+                      *ngIf="seedPhraseForm.controls.password.value.length === 0"
                       class="status color-red"
                       fxLayout="row"
                       fxLayoutAlign="start center"
@@ -210,18 +178,11 @@ import { WalletsService } from '@parts/services/wallets.service';
                   </div>
                 </div>
                 <div
-                  (contextmenu)="
-                    variablesService.onContextMenuOnlyCopy($event, seedPhrase)
-                  "
+                  (contextmenu)="variablesService.onContextMenuOnlyCopy($event, seedPhrase)"
                   class="content mb-1"
                   fxLayout="row wrap"
                 >
-                  <ng-container
-                    *ngFor="
-                      let word of seedPhrase.split(' ');
-                      let index = index
-                    "
-                  >
+                  <ng-container *ngFor="let word of seedPhrase.split(' '); let index = index">
                     <div
                       class="item p-1 mr-1 mb-1 border-radius-0_8-rem"
                       fxLayout="row nowrap"
@@ -275,9 +236,7 @@ import { WalletsService } from '@parts/services/wallets.service';
                     class="text-align-center"
                   >
                     <i class="icon info-circle mr-1"></i>
-                    <span class="color-primary">{{
-                      'WALLET_DETAILS.REMEMBER_YOU_WILL_REQUIRE' | translate
-                    }}</span>
+                    <span class="color-primary">{{ 'WALLET_DETAILS.REMEMBER_YOU_WILL_REQUIRE' | translate }}</span>
                   </p>
                 </div>
               </div>
@@ -311,22 +270,14 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
   fb = inject(FormBuilder);
 
   detailsForm = this.fb.group({
-    name: this.fb.nonNullable.control('', [
-      ZanoValidators.duplicate(this.variablesService.walletNamesForComparisons),
-    ]),
+    name: this.fb.nonNullable.control('', [ZanoValidators.duplicate(this.variablesService.walletNamesForComparisons)]),
     path: this.fb.nonNullable.control(''),
   });
 
   seedPhraseForm = this.fb.group(
     {
-      password: this.fb.nonNullable.control(
-        '',
-        Validators.pattern(regExpPassword)
-      ),
-      confirmPassword: this.fb.nonNullable.control(
-        '',
-        Validators.pattern(regExpPassword)
-      ),
+      password: this.fb.nonNullable.control('', Validators.pattern(regExpPassword)),
+      confirmPassword: this.fb.nonNullable.control('', Validators.pattern(regExpPassword)),
     },
     {
       validators: [ZanoValidators.formMatch('password', 'confirmPassword')],
@@ -380,10 +331,7 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
       });
     } else {
       this.variablesService.opening_wallet = null;
-      this.modalService.prepareModal(
-        'error',
-        'OPEN_WALLET.WITH_ADDRESS_ALREADY_OPEN'
-      );
+      this.modalService.prepareModal('error', 'OPEN_WALLET.WITH_ADDRESS_ALREADY_OPEN');
       this.backend.closeWallet(this.wallet_id, () => {
         this.ngZone.run(() => {
           this.router.navigate(['/']);
@@ -413,26 +361,19 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
       this.showSeedPhrase();
       const wallet_id = this.wallet_id;
       const seed_password = this.seedPhraseForm.controls.password.value;
-      this.backend.getSmartWalletInfo(
-        { wallet_id, seed_password },
-        (status, data) => {
-          if (hasOwnProperty(data, 'seed_phrase')) {
-            this.ngZone.run(() => {
-              this.seedPhrase = data['seed_phrase'].trim();
-            });
-          }
+      this.backend.getSmartWalletInfo({ wallet_id, seed_password }, (status, data) => {
+        if (hasOwnProperty(data, 'seed_phrase')) {
+          this.ngZone.run(() => {
+            this.seedPhrase = data['seed_phrase'].trim();
+          });
         }
-      );
+      });
     }
   }
 
   private setWalletInfoNamePath(): void {
-    this.detailsForm
-      .get('name')
-      .setValue(this.variablesService.opening_wallet.name);
-    this.detailsForm
-      .get('path')
-      .setValue(this.variablesService.opening_wallet.path);
+    this.detailsForm.get('name').setValue(this.variablesService.opening_wallet.name);
+    this.detailsForm.get('path').setValue(this.variablesService.opening_wallet.path);
   }
 
   private getWalletId(): void {

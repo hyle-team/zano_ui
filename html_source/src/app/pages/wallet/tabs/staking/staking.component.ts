@@ -12,9 +12,21 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-staking',
   template: `
-    <div class="chart-wrap" fxFlexFill fxLayout="column">
-      <div class="scrolled-content h-100" fxFlex="1 1 auto" fxLayout="column">
-        <div class="chart-header mb-1" fxFlex="0 0 auto" fxLayout="column">
+    <div
+      class="chart-wrap"
+      fxFlexFill
+      fxLayout="column"
+    >
+      <div
+        class="scrolled-content h-100"
+        fxFlex="1 1 auto"
+        fxLayout="column"
+      >
+        <div
+          class="chart-header mb-1"
+          fxFlex="0 0 auto"
+          fxLayout="column"
+        >
           <div
             class="row"
             fxFlex="0 0 auto"
@@ -29,13 +41,15 @@ import { takeUntil } from 'rxjs/operators';
               fxLayoutAlign="start center"
               fxLayoutGap="1rem"
             >
-              <div class="items" fxLayout="row wrap" fxLayoutGap="1rem">
+              <div
+                class="items"
+                fxLayout="row wrap"
+                fxLayoutGap="1rem"
+              >
                 <div
                   *ngIf="
-                    (!variablesService.currentWallet.is_auditable &&
-                      !variablesService.currentWallet.is_watch_only) ||
-                    (variablesService.currentWallet.is_auditable &&
-                      !variablesService.currentWallet.is_watch_only)
+                    (!variablesService.currentWallet.is_auditable && !variablesService.currentWallet.is_watch_only) ||
+                    (variablesService.currentWallet.is_auditable && !variablesService.currentWallet.is_watch_only)
                   "
                   class="item overflow-hidden p-1 border-radius-0_8-rem mb-1"
                   fxLayout="row nowrap"
@@ -125,7 +139,10 @@ import { takeUntil } from 'rxjs/operators';
                 fxShow.lg
                 fxShow.xl
               >
-                <div class="overflow-hidden" fxLayout="row">
+                <div
+                  class="overflow-hidden"
+                  fxLayout="row"
+                >
                   <div class="text-ellipsis">
                     {{ selectedDate.date | date : 'EEEE, MMMM d, y' }}
                     {{ selectedDate.amount }}
@@ -146,10 +163,17 @@ import { takeUntil } from 'rxjs/operators';
                 bindValue="key"
                 class="selected-group max-w-19-rem w-100"
               >
-                <ng-template let-item="item" ng-label-tmp>
+                <ng-template
+                  let-item="item"
+                  ng-label-tmp
+                >
                   Sort by {{ (item.title | translate | lowercase) + 's' }}
                 </ng-template>
-                <ng-template let-index="index" let-item="item" ng-option-tmp>
+                <ng-template
+                  let-index="index"
+                  let-item="item"
+                  ng-option-tmp
+                >
                   {{ item.title | translate }}
                 </ng-template>
               </ng-select>
@@ -166,12 +190,18 @@ import { takeUntil } from 'rxjs/operators';
             fxShow
           >
             <div class="left"></div>
-            <div class="right" fxLayoutAlign="end center">
+            <div
+              class="right"
+              fxLayoutAlign="end center"
+            >
               <div
                 *ngIf="selectedDate && selectedDate.date"
                 class="selected overflow-hidden"
               >
-                <div class="overflow-hidden" fxLayout="row">
+                <div
+                  class="overflow-hidden"
+                  fxLayout="row"
+                >
                   <div class="text-ellipsis">
                     {{ selectedDate.date | date : 'EEEE, MMMM d, y' }}
                     {{ selectedDate.amount }}
@@ -314,12 +344,7 @@ export class StakingComponent implements OnInit, OnDestroy {
     if (key === 'day') {
       return date.setHours(0, 0, 0, 0);
     } else if (key === 'week') {
-      return new Date(date.setDate(date.getDate() - date.getDay())).setHours(
-        0,
-        0,
-        0,
-        0
-      );
+      return new Date(date.setDate(date.getDate() - date.getDay())).setHours(0, 0, 0, 0);
     } else {
       return new Date(date.setDate(1)).setHours(0, 0, 0, 0);
     }
@@ -331,37 +356,31 @@ export class StakingComponent implements OnInit, OnDestroy {
         this.getMiningHistory();
       },
     });
-    this.variablesService.getHeightAppEvent
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (newHeight: number) => {
-          if (!this.pending.total.isZero()) {
-            const pendingCount = this.pending.list.length;
-            for (let i = pendingCount - 1; i >= 0; i--) {
-              if (newHeight - this.pending.list[i].h >= 10) {
-                this.pending.list.splice(i, 1);
-              }
-            }
-            if (pendingCount !== this.pending.list.length) {
-              this.pending.total = new BigNumber(0);
-              for (let i = 0; i < this.pending.list.length; i++) {
-                this.pending.total = this.pending.total.plus(
-                  this.pending.list[i].a
-                );
-              }
+    this.variablesService.getHeightAppEvent.pipe(takeUntil(this.destroy$)).subscribe({
+      next: (newHeight: number) => {
+        if (!this.pending.total.isZero()) {
+          const pendingCount = this.pending.list.length;
+          for (let i = pendingCount - 1; i >= 0; i--) {
+            if (newHeight - this.pending.list[i].h >= 10) {
+              this.pending.list.splice(i, 1);
             }
           }
-        },
-      });
-    this.variablesService.getRefreshStackingEvent
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (wallet_id: number) => {
-          if (this.variablesService.currentWallet.wallet_id === wallet_id) {
-            this.getMiningHistory();
+          if (pendingCount !== this.pending.list.length) {
+            this.pending.total = new BigNumber(0);
+            for (let i = 0; i < this.pending.list.length; i++) {
+              this.pending.total = this.pending.total.plus(this.pending.list[i].a);
+            }
           }
-        },
-      });
+        }
+      },
+    });
+    this.variablesService.getRefreshStackingEvent.pipe(takeUntil(this.destroy$)).subscribe({
+      next: (wallet_id: number) => {
+        if (this.variablesService.currentWallet.wallet_id === wallet_id) {
+          this.getMiningHistory();
+        }
+      },
+    });
   }
 
   ngOnDestroy(): void {
@@ -486,41 +505,33 @@ export class StakingComponent implements OnInit, OnDestroy {
 
   getMiningHistory(): void {
     if (this.variablesService.currentWallet.loaded) {
-      this.backend.getMiningHistory(
-        this.variablesService.currentWallet.wallet_id,
-        (status, data) => {
-          this.total = new BigNumber(0);
-          this.pending.list = [];
-          this.pending.total = new BigNumber(0);
-          this.originalData = [];
-          if (data.mined_entries) {
-            data.mined_entries.forEach((item, key) => {
-              if (item.t.toString().length === 10) {
-                data.mined_entries[key].t = new Date(
-                  item.t * 1000
-                ).setUTCMilliseconds(0);
-              }
-            });
-            data.mined_entries.forEach(item => {
-              this.total = this.total.plus(item.a);
-              if (this.variablesService.height_app - item.h < 10) {
-                this.pending.list.push(item);
-                this.pending.total = this.pending.total.plus(item.a);
-              }
-              this.originalData.push([
-                parseInt(item.t, 10),
-                parseFloat(this.intToMoneyPipe.transform(item.a)),
-              ]);
-            });
-            this.originalData = this.originalData.sort(function (a, b) {
-              return a[0] - b[0];
-            });
-          }
-          this.ngZone.run(() => {
-            this.drawChart([]);
+      this.backend.getMiningHistory(this.variablesService.currentWallet.wallet_id, (status, data) => {
+        this.total = new BigNumber(0);
+        this.pending.list = [];
+        this.pending.total = new BigNumber(0);
+        this.originalData = [];
+        if (data.mined_entries) {
+          data.mined_entries.forEach((item, key) => {
+            if (item.t.toString().length === 10) {
+              data.mined_entries[key].t = new Date(item.t * 1000).setUTCMilliseconds(0);
+            }
+          });
+          data.mined_entries.forEach(item => {
+            this.total = this.total.plus(item.a);
+            if (this.variablesService.height_app - item.h < 10) {
+              this.pending.list.push(item);
+              this.pending.total = this.pending.total.plus(item.a);
+            }
+            this.originalData.push([parseInt(item.t, 10), parseFloat(this.intToMoneyPipe.transform(item.a))]);
+          });
+          this.originalData = this.originalData.sort(function (a, b) {
+            return a[0] - b[0];
           });
         }
-      );
+        this.ngZone.run(() => {
+          this.drawChart([]);
+        });
+      });
     }
   }
 
@@ -542,10 +553,7 @@ export class StakingComponent implements OnInit, OnDestroy {
 
     if (period.key === '1 week') {
       this.originalData.forEach(item => {
-        const time = StakingComponent.makeGroupTime(
-          group.key,
-          new Date(item[0])
-        );
+        const time = StakingComponent.makeGroupTime(group.key, new Date(item[0]));
         const find = newData.find(itemNew => itemNew[0] === time);
         if (find) {
           find[1] = new BigNumber(find[1]).plus(item[1]).toNumber();
@@ -554,21 +562,10 @@ export class StakingComponent implements OnInit, OnDestroy {
         }
       });
       this.chart.ref?.series[0].setData(newData, true);
-      min = Date.UTC(
-        d.getFullYear(),
-        d.getMonth(),
-        d.getDate() - 7,
-        0,
-        0,
-        0,
-        0
-      );
+      min = Date.UTC(d.getFullYear(), d.getMonth(), d.getDate() - 7, 0, 0, 0, 0);
     } else if (period.key === '2 week') {
       this.originalData.forEach(item => {
-        const time = StakingComponent.makeGroupTime(
-          group.key,
-          new Date(item[0])
-        );
+        const time = StakingComponent.makeGroupTime(group.key, new Date(item[0]));
         const find = newData.find(itemNew => itemNew[0] === time);
         if (find) {
           find[1] = new BigNumber(find[1]).plus(item[1]).toNumber();
@@ -577,21 +574,10 @@ export class StakingComponent implements OnInit, OnDestroy {
         }
       });
       this.chart.ref?.series[0].setData(newData, true);
-      min = Date.UTC(
-        d.getFullYear(),
-        d.getMonth(),
-        d.getDate() - 14,
-        0,
-        0,
-        0,
-        0
-      );
+      min = Date.UTC(d.getFullYear(), d.getMonth(), d.getDate() - 14, 0, 0, 0, 0);
     } else if (period.key === '1 month') {
       this.originalData.forEach(item => {
-        const time = StakingComponent.makeGroupTime(
-          group.key,
-          new Date(item[0])
-        );
+        const time = StakingComponent.makeGroupTime(group.key, new Date(item[0]));
         const find = newData.find(itemNew => itemNew[0] === time);
         if (find) {
           find[1] = new BigNumber(find[1]).plus(item[1]).toNumber();
@@ -600,21 +586,10 @@ export class StakingComponent implements OnInit, OnDestroy {
         }
       });
       this.chart.ref?.series[0].setData(newData, true);
-      min = Date.UTC(
-        d.getFullYear(),
-        d.getMonth() - 1,
-        d.getDate(),
-        0,
-        0,
-        0,
-        0
-      );
+      min = Date.UTC(d.getFullYear(), d.getMonth() - 1, d.getDate(), 0, 0, 0, 0);
     } else if (period.key === '3 month') {
       this.originalData.forEach(item => {
-        const time = StakingComponent.makeGroupTime(
-          group.key,
-          new Date(item[0])
-        );
+        const time = StakingComponent.makeGroupTime(group.key, new Date(item[0]));
         const find = newData.find(itemNew => itemNew[0] === time);
         if (find) {
           find[1] = new BigNumber(find[1]).plus(item[1]).toNumber();
@@ -623,21 +598,10 @@ export class StakingComponent implements OnInit, OnDestroy {
         }
       });
       this.chart.ref?.series[0].setData(newData, true);
-      min = Date.UTC(
-        d.getFullYear(),
-        d.getMonth() - 3,
-        d.getDate(),
-        0,
-        0,
-        0,
-        0
-      );
+      min = Date.UTC(d.getFullYear(), d.getMonth() - 3, d.getDate(), 0, 0, 0, 0);
     } else if (period.key === '6 month') {
       this.originalData.forEach(item => {
-        const time = StakingComponent.makeGroupTime(
-          group.key,
-          new Date(item[0])
-        );
+        const time = StakingComponent.makeGroupTime(group.key, new Date(item[0]));
         const find = newData.find(itemNew => itemNew[0] === time);
         if (find) {
           find[1] = new BigNumber(find[1]).plus(item[1]).toNumber();
@@ -646,21 +610,10 @@ export class StakingComponent implements OnInit, OnDestroy {
         }
       });
       this.chart.ref?.series[0].setData(newData, true);
-      min = Date.UTC(
-        d.getFullYear(),
-        d.getMonth() - 6,
-        d.getDate(),
-        0,
-        0,
-        0,
-        0
-      );
+      min = Date.UTC(d.getFullYear(), d.getMonth() - 6, d.getDate(), 0, 0, 0, 0);
     } else if (period.key === '1 year') {
       this.originalData.forEach(item => {
-        const time = StakingComponent.makeGroupTime(
-          group.key,
-          new Date(item[0])
-        );
+        const time = StakingComponent.makeGroupTime(group.key, new Date(item[0]));
         const find = newData.find(itemNew => itemNew[0] === time);
         if (find) {
           find[1] = new BigNumber(find[1]).plus(item[1]).toNumber();
@@ -669,21 +622,10 @@ export class StakingComponent implements OnInit, OnDestroy {
         }
       });
       this.chart.ref?.series[0].setData(newData, true);
-      min = Date.UTC(
-        d.getFullYear() - 1,
-        d.getMonth(),
-        d.getDate(),
-        0,
-        0,
-        0,
-        0
-      );
+      min = Date.UTC(d.getFullYear() - 1, d.getMonth(), d.getDate(), 0, 0, 0, 0);
     } else {
       this.originalData.forEach(item => {
-        const time = StakingComponent.makeGroupTime(
-          group.key,
-          new Date(item[0])
-        );
+        const time = StakingComponent.makeGroupTime(group.key, new Date(item[0]));
         const find = newData.find(itemNew => itemNew[0] === time);
         if (find) {
           find[1] = new BigNumber(find[1]).plus(item[1]).toNumber();
