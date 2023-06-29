@@ -12,7 +12,11 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
     <div class="page-container">
       <div class="toolbar mb-2">
         <div class="left">
-          <button appBackButton class="btn-icon circle big mr-2" type="button">
+          <button
+            appBackButton
+            class="btn-icon circle big mr-2"
+            type="button"
+          >
             <i class="icon dropdown-arrow-left"></i>
           </button>
           <h1>{{ 'BREADCRUMBS.WALLET_DETAILS' | translate }}</h1>
@@ -23,9 +27,7 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
       <div class="page-content">
         <div class="breadcrumbs mb-2">
           <div class="breadcrumb">
-            <a [routerLink]="['/wallet/history']">{{
-              variablesService.currentWallet.name
-            }}</a>
+            <a [routerLink]="['/wallet/history']">{{ variablesService.currentWallet.name }}</a>
           </div>
           <div class="breadcrumb">
             <span>{{ 'BREADCRUMBS.WALLET_DETAILS' | translate }}</span>
@@ -33,46 +35,35 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
         </div>
 
         <div class="scrolled-content">
-          <div fxFlexFill fxLayout="column" fxLayoutAlign="start stretch">
+          <div
+            fxFlexFill
+            fxLayout="column"
+            fxLayoutAlign="start stretch"
+          >
             <form
               (ngSubmit)="beforeSubmitDetails()"
               [formGroup]="detailsForm"
               class="form"
             >
               <div class="form__field">
-                <label for="wallet-name">{{
-                  'WALLET_DETAILS.LABEL_NAME' | translate
-                }}</label>
+                <label for="wallet-name">{{ 'WALLET_DETAILS.LABEL_NAME' | translate }}</label>
                 <input
                   (contextmenu)="variablesService.onContextMenu($event)"
                   [maxLength]="variablesService.maxWalletNameLength"
-                  [placeholder]="
-                    'PLACEHOLDERS.WALLET_NAME_PLACEHOLDER' | translate
-                  "
+                  [placeholder]="'PLACEHOLDERS.WALLET_NAME_PLACEHOLDER' | translate"
                   class="form__field--input"
                   formControlName="name"
                   id="wallet-name"
                   type="text"
                 />
                 <div
-                  *ngIf="
-                    detailsForm.controls.name.invalid &&
-                    (detailsForm.controls.name.dirty ||
-                      detailsForm.controls.name.touched)
-                  "
+                  *ngIf="detailsForm.controls.name.invalid && (detailsForm.controls.name.dirty || detailsForm.controls.name.touched)"
                   class="error"
                 >
                   <div *ngIf="detailsForm.controls.name.errors['duplicate']">
-                    {{
-                      'WALLET_DETAILS.FORM_ERRORS.NAME_DUPLICATE' | translate
-                    }}
+                    {{ 'WALLET_DETAILS.FORM_ERRORS.NAME_DUPLICATE' | translate }}
                   </div>
-                  <div
-                    *ngIf="
-                      detailsForm.controls.name.value.length >=
-                      variablesService.maxWalletNameLength
-                    "
-                  >
+                  <div *ngIf="detailsForm.controls.name.value.length >= variablesService.maxWalletNameLength">
                     {{ 'WALLET_DETAILS.FORM_ERRORS.MAX_LENGTH' | translate }}
                   </div>
                   <div *ngIf="detailsForm.controls.name.hasError('required')">
@@ -92,19 +83,17 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
                 >
                   {{ 'SETTINGS.MASTER_PASSWORD.BUTTON' | translate }}
                 </button>
-                <p *ngIf="ifSaved" class="color-aqua">Saved!</p>
+                <p
+                  *ngIf="ifSaved"
+                  class="color-aqua"
+                >
+                  Saved!
+                </p>
               </div>
               <div class="form__field">
-                <label for="wallet-location">{{
-                  'WALLET_DETAILS.LABEL_FILE_LOCATION' | translate
-                }}</label>
+                <label for="wallet-location">{{ 'WALLET_DETAILS.LABEL_FILE_LOCATION' | translate }}</label>
                 <input
-                  (contextmenu)="
-                    variablesService.onContextMenuOnlyCopy(
-                      $event,
-                      detailsForm.controls.path.value
-                    )
-                  "
+                  (contextmenu)="variablesService.onContextMenuOnlyCopy($event, detailsForm.controls.path.value)"
                   class="form__field--input cursor-default"
                   formControlName="path"
                   id="wallet-location"
@@ -114,12 +103,7 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
               </div>
             </form>
 
-            <ng-container
-              *ngIf="
-                !variablesService.currentWallet?.is_auditable &&
-                !variablesService.currentWallet?.is_watch_only
-              "
-            >
+            <ng-container *ngIf="!variablesService.currentWallet?.is_auditable && !variablesService.currentWallet?.is_watch_only">
               <ng-container *ngIf="!showSeed; else seedPhraseContent">
                 <form
                   (ngSubmit)="beforeSubmitPasswordSeedPhrase()"
@@ -130,59 +114,36 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
                   fxLayoutAlign="start center"
                 >
                   <div class="form__field">
-                    <label for="create-password">{{
-                      'WALLET_DETAILS.CREATE_PASSWORD_SECURE' | translate
-                    }}</label>
+                    <label for="create-password">{{ 'WALLET_DETAILS.CREATE_PASSWORD_SECURE' | translate }}</label>
                     <input
                       class="form__field--input"
                       formControlName="password"
                       id="create-password"
-                      placeholder="{{
-                        'PLACEHOLDERS.PASSWORD_PLACEHOLDER' | translate
-                      }}"
+                      placeholder="{{ 'PLACEHOLDERS.PASSWORD_PLACEHOLDER' | translate }}"
                       type="password"
                     />
                   </div>
 
                   <div class="form__field">
-                    <label for="confirm-password">{{
-                      'WALLET_DETAILS.FORM.CONFIRM_PASSWORD' | translate
-                    }}</label>
+                    <label for="confirm-password">{{ 'WALLET_DETAILS.FORM.CONFIRM_PASSWORD' | translate }}</label>
                     <input
-                      [class.invalid]="
-                        passwordSeedPhraseForm.invalid &&
-                        passwordSeedPhraseForm.get('confirmPassword').value
-                          .length > 0
-                      "
+                      [class.invalid]="passwordSeedPhraseForm.invalid && passwordSeedPhraseForm.get('confirmPassword').value.length > 0"
                       class="form__field--input"
                       formControlName="confirmPassword"
                       id="confirm-password"
-                      placeholder="{{
-                        'PLACEHOLDERS.PLACEHOLDER_CONFIRM' | translate
-                      }}"
+                      placeholder="{{ 'PLACEHOLDERS.PLACEHOLDER_CONFIRM' | translate }}"
                       type="password"
                     />
                     <div
                       *ngIf="
                         passwordSeedPhraseForm.invalid &&
-                        (passwordSeedPhraseForm.controls['confirmPassword']
-                          .dirty ||
-                          passwordSeedPhraseForm.controls['confirmPassword']
-                            .touched)
+                        (passwordSeedPhraseForm.controls['confirmPassword'].dirty ||
+                          passwordSeedPhraseForm.controls['confirmPassword'].touched)
                       "
                       class="error"
                     >
-                      <div
-                        *ngIf="
-                          passwordSeedPhraseForm.invalid &&
-                          passwordSeedPhraseForm.get('confirmPassword').value
-                            .length > 0
-                        "
-                      >
-                        {{
-                          'WALLET_DETAILS.FORM_ERRORS.PASSWORDS_DONT_MATCH'
-                            | translate
-                        }}
+                      <div *ngIf="passwordSeedPhraseForm.invalid && passwordSeedPhraseForm.get('confirmPassword').value.length > 0">
+                        {{ 'WALLET_DETAILS.FORM_ERRORS.PASSWORDS_DONT_MATCH' | translate }}
                       </div>
                     </div>
                   </div>
@@ -202,10 +163,7 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
                     fxLayoutAlign="center center"
                   >
                     <i class="icon info-circle mr-1"></i>
-                    {{
-                      'WALLET_DETAILS.FORM.SECURED_SEED_WILL_REQUIRE'
-                        | translate
-                    }}
+                    {{ 'WALLET_DETAILS.FORM.SECURED_SEED_WILL_REQUIRE' | translate }}
                   </p>
                 </form>
               </ng-container>
@@ -223,16 +181,11 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
                     fxLayoutAlign="space-between center"
                   >
                     <div class="left">
-                      <span>{{
-                        'WALLET_DETAILS.LABEL_SEED_PHRASE' | translate
-                      }}</span>
+                      <span>{{ 'WALLET_DETAILS.LABEL_SEED_PHRASE' | translate }}</span>
                     </div>
                     <div class="right">
                       <span
-                        *ngIf="
-                          passwordSeedPhraseForm.controls.password.value
-                            .length === 0
-                        "
+                        *ngIf="passwordSeedPhraseForm.controls.password.value.length === 0"
                         class="status color-red"
                         fxLayout="row"
                         fxLayoutAlign="start center"
@@ -241,10 +194,7 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
                         <i class="icon unsecured ml-1"></i>
                       </span>
                       <span
-                        *ngIf="
-                          passwordSeedPhraseForm.controls.password.value
-                            .length > 0
-                        "
+                        *ngIf="passwordSeedPhraseForm.controls.password.value.length > 0"
                         class="status color-aqua"
                         fxLayout="row"
                         fxLayoutAlign="start center"
@@ -255,18 +205,11 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
                     </div>
                   </div>
                   <div
-                    (contextmenu)="
-                      variablesService.onContextMenuOnlyCopy($event, seedPhrase)
-                    "
+                    (contextmenu)="variablesService.onContextMenuOnlyCopy($event, seedPhrase)"
                     class="content mb-1"
                     fxLayout="row wrap"
                   >
-                    <ng-container
-                      *ngFor="
-                        let word of seedPhrase.split(' ');
-                        let index = index
-                      "
-                    >
+                    <ng-container *ngFor="let word of seedPhrase.split(' '); let index = index">
                       <div
                         class="item p-1 mr-1 mb-1 border-radius-0_8-rem"
                         fxLayout="row nowrap"
@@ -279,11 +222,18 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
                         >
                           {{ index + 1 }}
                         </div>
-                        <span class="word" fxLayout="row">{{ word }}</span>
+                        <span
+                          class="word"
+                          fxLayout="row"
+                          >{{ word }}</span
+                        >
                       </div>
                     </ng-container>
                   </div>
-                  <div class="footer max-w-50-rem w-100" fxLayout="column">
+                  <div
+                    class="footer max-w-50-rem w-100"
+                    fxLayout="column"
+                  >
                     <button
                       (click)="copySeedPhrase()"
                       class="outline big w-100 mb-2"
@@ -299,16 +249,11 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
                       </ng-container>
                     </button>
                     <p
-                      *ngIf="
-                        passwordSeedPhraseForm.controls.password.value.length >
-                        0
-                      "
+                      *ngIf="passwordSeedPhraseForm.controls.password.value.length > 0"
                       class="text-align-center"
                     >
                       <i class="icon info-circle mr-1"></i>
-                      <span class="color-primary">{{
-                        'WALLET_DETAILS.REMEMBER_YOU_WILL_REQUIRE' | translate
-                      }}</span>
+                      <span class="color-primary">{{ 'WALLET_DETAILS.REMEMBER_YOU_WILL_REQUIRE' | translate }}</span>
                     </p>
                   </div>
                 </div>
@@ -333,10 +278,7 @@ export class WalletDetailsComponent {
   fb = inject(NonNullableFormBuilder);
 
   detailsForm = this.fb.group({
-    name: this.fb.control('', [
-      Validators.required,
-      ZanoValidators.duplicate(this.variablesService.walletNamesForComparisons),
-    ]),
+    name: this.fb.control('', [Validators.required, ZanoValidators.duplicate(this.variablesService.walletNamesForComparisons)]),
     path: this.fb.control(''),
   });
 
@@ -350,12 +292,7 @@ export class WalletDetailsComponent {
     }
   );
 
-  constructor(
-    public variablesService: VariablesService,
-    private router: Router,
-    private backend: BackendService,
-    private ngZone: NgZone
-  ) {
+  constructor(public variablesService: VariablesService, private router: Router, private backend: BackendService, private ngZone: NgZone) {
     const { currentWallet } = this.variablesService;
     const { name, path } = currentWallet;
     this.detailsForm.patchValue(
@@ -381,19 +318,15 @@ export class WalletDetailsComponent {
 
   submitPasswordSeedPhrase(): void {
     const { wallet_id } = this.variablesService.currentWallet;
-    const { password: seed_password } =
-      this.passwordSeedPhraseForm.getRawValue();
-    this.backend.getSmartWalletInfo(
-      { wallet_id, seed_password },
-      (status, data) => {
-        if (hasOwnProperty(data, 'seed_phrase')) {
-          this.ngZone.run(() => {
-            this.showSeed = true;
-            this.seedPhrase = data['seed_phrase'].trim();
-          });
-        }
+    const { password: seed_password } = this.passwordSeedPhraseForm.getRawValue();
+    this.backend.getSmartWalletInfo({ wallet_id, seed_password }, (status, data) => {
+      if (hasOwnProperty(data, 'seed_phrase')) {
+        this.ngZone.run(() => {
+          this.showSeed = true;
+          this.seedPhrase = data['seed_phrase'].trim();
+        });
       }
-    );
+    });
   }
 
   beforeSubmitDetails(): void {
@@ -430,12 +363,8 @@ export class WalletDetailsComponent {
   }
 
   private refreshDetailsFormValidators(): void {
-    const walletNamesForComparisons =
-      this.variablesService.walletNamesForComparisons;
-    const validatorsForName = [
-      Validators.required,
-      ZanoValidators.duplicate(walletNamesForComparisons),
-    ];
+    const walletNamesForComparisons = this.variablesService.walletNamesForComparisons;
+    const validatorsForName = [Validators.required, ZanoValidators.duplicate(walletNamesForComparisons)];
     this.detailsForm.controls.name.clearValidators();
     this.detailsForm.controls.name.setValidators(validatorsForName);
     this.detailsForm.controls.name.updateValueAndValidity();

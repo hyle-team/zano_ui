@@ -13,7 +13,11 @@ import { Router } from '@angular/router';
     <div class="page-container">
       <div class="toolbar mb-2">
         <div class="left">
-          <button appBackButton class="btn-icon circle big mr-2" type="button">
+          <button
+            appBackButton
+            class="btn-icon circle big mr-2"
+            type="button"
+          >
             <i class="icon dropdown-arrow-left"></i>
           </button>
           <h1>{{ 'CONTACTS.IMPORT_EXPORT' | translate }}</h1>
@@ -85,82 +89,56 @@ export class ExportImportComponent {
   ) {}
 
   import(): void {
-    this.backend.openFileDialog(
-      '',
-      '*',
-      this.variablesService.settings.default_path,
-      (file_status, file_data) => {
-        if (file_status) {
-          this.variablesService.settings.default_path = file_data.path.substr(
-            0,
-            file_data.path.lastIndexOf('/')
-          );
-          if (this.isValid(file_data.path)) {
-            this.backend.loadFile(file_data.path, (status, data) => {
-              if (!status) {
-                this.modalService.prepareModal(
-                  'error',
-                  'CONTACTS.ERROR_IMPORT_EMPTY'
-                );
-              } else {
-                const options = {
-                  header: true,
-                };
-                const elements = this.papa.parse(data, options);
-                const isArray = Array.isArray(elements.data);
-                if (
-                  isArray &&
-                  elements.data.length !== 0 &&
-                  elements.errors.length === 0
-                ) {
-                  if (this.variablesService.contacts.length === 0) {
-                    elements.data.forEach(element => {
+    this.backend.openFileDialog('', '*', this.variablesService.settings.default_path, (file_status, file_data) => {
+      if (file_status) {
+        this.variablesService.settings.default_path = file_data.path.substr(0, file_data.path.lastIndexOf('/'));
+        if (this.isValid(file_data.path)) {
+          this.backend.loadFile(file_data.path, (status, data) => {
+            if (!status) {
+              this.modalService.prepareModal('error', 'CONTACTS.ERROR_IMPORT_EMPTY');
+            } else {
+              const options = {
+                header: true,
+              };
+              const elements = this.papa.parse(data, options);
+              const isArray = Array.isArray(elements.data);
+              if (isArray && elements.data.length !== 0 && elements.errors.length === 0) {
+                if (this.variablesService.contacts.length === 0) {
+                  elements.data.forEach(element => {
+                    this.variablesService.contacts.push(element);
+                  });
+                } else {
+                  elements.data.forEach(element => {
+                    const indexName = this.variablesService.contacts.findIndex(contact => contact.name === element.name);
+                    const indexAddress = this.variablesService.contacts.findIndex(contact => contact.address === element.address);
+                    if (indexAddress === -1 && indexName === -1) {
                       this.variablesService.contacts.push(element);
-                    });
-                  } else {
-                    elements.data.forEach(element => {
-                      const indexName =
-                        this.variablesService.contacts.findIndex(
-                          contact => contact.name === element.name
-                        );
-                      const indexAddress =
-                        this.variablesService.contacts.findIndex(
-                          contact => contact.address === element.address
-                        );
-                      if (indexAddress === -1 && indexName === -1) {
-                        this.variablesService.contacts.push(element);
-                      }
-                      if (indexName !== -1 && indexAddress === -1) {
-                        this.variablesService.contacts.push({
-                          name: `${(element.name as string) || '---'} ${
-                            this.translate.instant('CONTACTS.COPY') as string
-                          }`,
-                          address: element.address,
-                          notes: element.notes,
-                        });
-                      }
-                    });
-                  }
-                  this.backend.getContactAlias();
-                  this.ngZone.run(() => {
-                    this.router.navigate(['/contacts']);
+                    }
+                    if (indexName !== -1 && indexAddress === -1) {
+                      this.variablesService.contacts.push({
+                        name: `${(element.name as string) || '---'} ${this.translate.instant('CONTACTS.COPY') as string}`,
+                        address: element.address,
+                        notes: element.notes,
+                      });
+                    }
                   });
                 }
-                if (elements.errors.length > 0) {
-                  this.modalService.prepareModal(
-                    'error',
-                    'CONTACTS.ERROR_IMPORT'
-                  );
-                  console.log(elements.errors);
-                }
+                this.backend.getContactAlias();
+                this.ngZone.run(() => {
+                  this.router.navigate(['/contacts']);
+                });
               }
-            });
-          } else {
-            this.modalService.prepareModal('error', 'CONTACTS.ERROR_TYPE_FILE');
-          }
+              if (elements.errors.length > 0) {
+                this.modalService.prepareModal('error', 'CONTACTS.ERROR_IMPORT');
+                console.log(elements.errors);
+              }
+            }
+          });
+        } else {
+          this.modalService.prepareModal('error', 'CONTACTS.ERROR_TYPE_FILE');
         }
       }
-    );
+    });
   }
 
   export(): void {
@@ -170,32 +148,18 @@ export class ExportImportComponent {
       contacts.push(contact);
     });
 
-    this.backend.saveFileDialog(
-      '',
-      '*',
-      this.variablesService.settings.default_path,
-      (file_status, file_data) => {
-        if (
-          this.variablesService.contacts.length === 0 &&
-          !(file_data.error_code === 'CANCELED')
-        ) {
-          this.modalService.prepareModal('error', 'CONTACTS.ERROR_EMPTY_LIST');
-        }
-        const path = this.isValid(file_data.path)
-          ? file_data.path
-          : `${(file_data.path as string) || 'base-name'}.csv`;
-        if (
-          file_status &&
-          this.isValid(path) &&
-          this.variablesService.contacts.length > 0
-        ) {
-          this.backend.storeFile(path, this.papa.unparse(contacts));
-        }
-        if (!(file_data.error_code === 'CANCELED') && !this.isValid(path)) {
-          this.modalService.prepareModal('error', 'CONTACTS.ERROR_EXPORT');
-        }
+    this.backend.saveFileDialog('', '*', this.variablesService.settings.default_path, (file_status, file_data) => {
+      if (this.variablesService.contacts.length === 0 && !(file_data.error_code === 'CANCELED')) {
+        this.modalService.prepareModal('error', 'CONTACTS.ERROR_EMPTY_LIST');
       }
-    );
+      const path = this.isValid(file_data.path) ? file_data.path : `${(file_data.path as string) || 'base-name'}.csv`;
+      if (file_status && this.isValid(path) && this.variablesService.contacts.length > 0) {
+        this.backend.storeFile(path, this.papa.unparse(contacts));
+      }
+      if (!(file_data.error_code === 'CANCELED') && !this.isValid(path)) {
+        this.modalService.prepareModal('error', 'CONTACTS.ERROR_EXPORT');
+      }
+    });
   }
 
   isValid(file): boolean {

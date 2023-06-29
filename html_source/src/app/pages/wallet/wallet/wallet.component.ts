@@ -1,4 +1,4 @@
-import { Component, HostListener, NgZone, OnDestroy, OnInit, } from '@angular/core';
+import { Component, HostListener, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VariablesService } from '@parts/services/variables.service';
 import { BackendService, Commands } from '@api/services/backend.service';
@@ -9,7 +9,7 @@ import { StateKeys, Store, Sync } from '@store/store';
 import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 import { Dialog, DialogConfig } from '@angular/cdk/dialog';
-import { ConfirmModalComponent, ConfirmModalData, } from '@parts/modals/confirm-modal/confirm-modal.component';
+import { ConfirmModalComponent, ConfirmModalData } from '@parts/modals/confirm-modal/confirm-modal.component';
 import { ExportHistoryModalComponent } from './modals/export-history-modal/export-history-modal.component';
 import { AddCustomTokenComponent } from './modals/add-custom-token/add-custom-token.component';
 import { Asset } from '@api/models/assets.model';
@@ -32,7 +32,11 @@ import { WalletsService } from '@parts/services/wallets.service';
           fxLayout="column"
           fxLayoutAlign="start start"
         >
-          <div class="title" fxLayout="row nowrap" fxLayoutAlign="start center">
+          <div
+            class="title"
+            fxLayout="row nowrap"
+            fxLayoutAlign="start center"
+          >
             <h1 class="text-ellipsis mr-1">
               {{ variablesService.currentWallet.address | zanoShortString }}
             </h1>
@@ -57,9 +61,7 @@ import { WalletsService } from '@parts/services/wallets.service';
             >
               <ng-container
                 *ngIf="
-                  !variablesService.currentWallet.alias.hasOwnProperty(
-                    'name'
-                  ) &&
+                  !variablesService.currentWallet.alias.hasOwnProperty('name') &&
                   variablesService.currentWallet.loaded &&
                   variablesService.daemon_state === 2 &&
                   variablesService.currentWallet.alias_available
@@ -81,17 +83,13 @@ import { WalletsService } from '@parts/services/wallets.service';
                 "
               >
                 <div
-                  [class.available]="
-                    variablesService.currentWallet.alias | isAvailableAliasName
-                  "
+                  [class.available]="variablesService.currentWallet.alias | isAvailableAliasName"
                   class="alias mr-1"
                 >
                   {{ variablesService.currentWallet.alias.name }}
                 </div>
 
-                <ng-container
-                  *ngIf="variablesService.currentWallet.alias_available"
-                >
+                <ng-container *ngIf="variablesService.currentWallet.alias_available">
                   <button
                     [delay]="500"
                     [routerLink]="['/edit-alias']"
@@ -127,9 +125,7 @@ import { WalletsService } from '@parts/services/wallets.service';
             (click)="$event.stopPropagation(); toggleMenuDropdown()"
             #trigger="cdkOverlayOrigin"
             cdkOverlayOrigin
-            [disabled]="
-              settingsButtonDisabled && !variablesService.currentWallet.loaded
-            "
+            [disabled]="settingsButtonDisabled && !variablesService.currentWallet.loaded"
             class="btn-icon circle big"
             data-target="wallet-dropdown-button"
           >
@@ -156,7 +152,10 @@ import { WalletsService } from '@parts/services/wallets.service';
       ]"
       cdkConnectedOverlay
     >
-      <div (click)="toggleMenuDropdown()" class="content-bottom-right py-0_5">
+      <div
+        (click)="toggleMenuDropdown()"
+        class="content-bottom-right py-0_5"
+      >
         <ul class="list">
           <li class="item">
             <button
@@ -210,9 +209,7 @@ import { WalletsService } from '@parts/services/wallets.service';
           <ng-container *ngIf="walletSyncVisible">
             <li class="item">
               <button
-                (click)="
-                  resyncCurrentWallet(variablesService.currentWallet.wallet_id)
-                "
+                (click)="resyncCurrentWallet(variablesService.currentWallet.wallet_id)"
                 [delay]="500"
                 [disabled]="!variablesService.currentWallet.loaded"
                 [timeDelay]="500"
@@ -222,10 +219,7 @@ import { WalletsService } from '@parts/services/wallets.service';
                 tooltipClass="table-tooltip account-tooltip"
                 type="button"
               >
-                <i class="icon update mr-1"></i
-                ><span>{{
-                  'WALLET_DETAILS.RESYNC_WALLET_BUTTON' | translate
-                }}</span>
+                <i class="icon update mr-1"></i><span>{{ 'WALLET_DETAILS.RESYNC_WALLET_BUTTON' | translate }}</span>
               </button>
             </li>
           </ng-container>
@@ -240,8 +234,7 @@ import { WalletsService } from '@parts/services/wallets.service';
               tooltipClass="table-tooltip account-tooltip"
               type="button"
             >
-              <i class="icon close-square mr-1"></i
-              ><span>{{ 'WALLET_DETAILS.BUTTON_REMOVE' | translate }}</span>
+              <i class="icon close-square mr-1"></i><span>{{ 'WALLET_DETAILS.BUTTON_REMOVE' | translate }}</span>
             </button>
           </li>
         </ul>
@@ -263,11 +256,16 @@ import { WalletsService } from '@parts/services/wallets.service';
             class="tab-header"
             routerLinkActive="active"
           >
-            <i [ngClass]="tab.icon" class="icon mr-1"></i>
+            <i
+              [ngClass]="tab.icon"
+              class="icon mr-1"
+            ></i>
             <span>{{ tab.title | translate }}</span>
-            <span *ngIf="tab.indicator" class="indicator">{{
-              variablesService.currentWallet.new_contracts
-            }}</span>
+            <span
+              *ngIf="tab.indicator"
+              class="indicator"
+              >{{ variablesService.currentWallet.new_contracts }}</span
+            >
           </button>
         </ng-container>
       </div>
@@ -344,10 +342,7 @@ export class WalletComponent implements OnInit, OnDestroy {
     private dialog: Dialog,
     private walletsService: WalletsService
   ) {
-    if (
-      !this.variablesService.currentWallet &&
-      this.variablesService.wallets.length > 0
-    ) {
+    if (!this.variablesService.currentWallet && this.variablesService.wallets.length > 0) {
       this.variablesService.setCurrentWallet(0);
     }
     this.walletLoaded = this.variablesService.currentWallet.loaded;
@@ -380,18 +375,13 @@ export class WalletComponent implements OnInit, OnDestroy {
       .pipe(filter(Boolean), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe({
         next: (value: any) => {
-          const data = value.filter(
-            (item: Sync) =>
-              item.wallet_id === this.variablesService.currentWallet.wallet_id
-          )[0];
+          const data = value.filter((item: Sync) => item.wallet_id === this.variablesService.currentWallet.wallet_id)[0];
           if (data && !data.sync) {
             let in_progress;
             const values = this.store.state.sync;
             if (values && values.length > 0) {
               in_progress = values.filter(item => item.sync);
-              this.variablesService.sync_started = !!(
-                in_progress && in_progress.length
-              );
+              this.variablesService.sync_started = !!(in_progress && in_progress.length);
               if (!in_progress) {
                 this.variablesService.sync_started = false;
                 this.variablesService.sync_wallets[data.wallet_id] = false;
@@ -406,25 +396,19 @@ export class WalletComponent implements OnInit, OnDestroy {
     if (hasOwnProperty(this.variablesService.currentWallet.alias, 'name')) {
       this.variablesService.currentWallet.wakeAlias = false;
     }
-    this.variablesService.getAliasChangedEvent
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: () => {
-          if (
-            hasOwnProperty(this.variablesService.currentWallet.alias, 'name')
-          ) {
-            this.variablesService.currentWallet.wakeAlias = false;
-          }
-        },
-      });
+    this.variablesService.getAliasChangedEvent.pipe(takeUntil(this.destroy$)).subscribe({
+      next: () => {
+        if (hasOwnProperty(this.variablesService.currentWallet.alias, 'name')) {
+          this.variablesService.currentWallet.wakeAlias = false;
+        }
+      },
+    });
     this.updateWalletStatus();
-    this.variablesService.getWalletChangedEvent
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: () => {
-          this.setTabsDisabled(!this.variablesService.currentWallet.balances);
-        },
-      });
+    this.variablesService.getWalletChangedEvent.pipe(takeUntil(this.destroy$)).subscribe({
+      next: () => {
+        this.setTabsDisabled(!this.variablesService.currentWallet.balances);
+      },
+    });
   }
 
   toggleMenuDropdown(): void {
@@ -504,14 +488,8 @@ export class WalletComponent implements OnInit, OnDestroy {
       const wallet_state = data.wallet_state;
       const wallet_id = data.wallet_id;
       this.ngZone.run(() => {
-        if (
-          wallet_state === 2 &&
-          wallet_id === this.variablesService.currentWallet.wallet_id
-        ) {
-          this.walletLoaded =
-            this.variablesService.getWallet(
-              this.variablesService.currentWallet.wallet_id
-            )?.loaded || false;
+        if (wallet_state === 2 && wallet_id === this.variablesService.currentWallet.wallet_id) {
+          this.walletLoaded = this.variablesService.getWallet(this.variablesService.currentWallet.wallet_id)?.loaded || false;
           if (this.walletLoaded) {
             this.setTabsDisabled(!this.variablesService.currentWallet.balances);
           }

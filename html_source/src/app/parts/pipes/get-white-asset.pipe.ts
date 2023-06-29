@@ -4,12 +4,12 @@ import { AssetsFacade } from '@store/assets/assets.facade';
 import { Observable } from 'rxjs';
 
 @Pipe({
-  name: 'getWhiteAssetInfo',
+  name: 'getWhiteAsset',
+  standalone: true,
 })
-export class GetWhiteAssetInfoPipe implements PipeTransform {
+export class GetWhiteAssetPipe implements PipeTransform {
   constructor(private assetsFacade: AssetsFacade) {}
-
-  transform({ asset_info: { asset_id } }: Asset): Observable<WhiteAssetInfo | undefined> {
+  transform(asset_id: Asset['asset_info']['asset_id']): Observable<WhiteAssetInfo | undefined> {
     return this.assetsFacade.getAssetByIdFromWhitelist(asset_id);
   }
 }

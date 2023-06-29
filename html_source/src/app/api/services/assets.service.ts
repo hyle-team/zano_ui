@@ -10,6 +10,6 @@ export class AssetsService {
   private httpClient = inject(HttpClient);
 
   assetsWhitelist(): Observable<ResponseAssetsWhiteList> {
-    return this.httpClient.get<ResponseAssetsWhiteList>('https://zano.org/assets_whitelist.json');
+    return this.httpClient.get<ResponseAssetsWhiteList>('https://api.zano.org/assets_whitelist_testnet.json');
   }
 }

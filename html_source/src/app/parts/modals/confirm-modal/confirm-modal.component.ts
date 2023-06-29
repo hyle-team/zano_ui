@@ -1,10 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  Inject,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 
 export interface ConfirmModalData {
@@ -19,7 +13,11 @@ export interface ConfirmModalData {
       class="modal p-2 border-radius-0_8-rem bg-light-blue w-100 max-h-100"
       fxLayout="column"
     >
-      <button (click)="close()" class="close" type="button">
+      <button
+        (click)="close()"
+        class="close"
+        type="button"
+      >
         <i class="icon close"></i>
       </button>
 
@@ -31,14 +29,25 @@ export interface ConfirmModalData {
       >
         <i class="icon modal-info"></i>
 
-        <div fxLayout="column" fxLayoutAlign="start stretch">
+        <div
+          fxLayout="column"
+          fxLayoutAlign="start stretch"
+        >
           <h3 class="title">{{ title | translate }}</h3>
           <p class="message">{{ message | translate }}</p>
         </div>
       </div>
 
-      <div class="controls" fxLayout="row nowrap" fxLayoutGap="1rem">
-        <button (click)="close()" class="outline big w-100" type="button">
+      <div
+        class="controls"
+        fxLayout="row nowrap"
+        fxLayoutGap="1rem"
+      >
+        <button
+          (click)="close()"
+          class="outline big w-100"
+          type="button"
+        >
           {{ 'MODALS.CANCEL' | translate }}
         </button>
         <button
@@ -69,10 +78,7 @@ export class ConfirmModalComponent implements OnInit {
 
   @ViewChild('buttonSubmit', { static: true }) buttonSubmit: ElementRef;
 
-  constructor(
-    private dialogRef: DialogRef,
-    @Inject(DIALOG_DATA) { title, message }: ConfirmModalData
-  ) {
+  constructor(private dialogRef: DialogRef, @Inject(DIALOG_DATA) { title, message }: ConfirmModalData) {
     this.title = title;
     this.message = message;
   }

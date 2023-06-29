@@ -46,15 +46,10 @@ export class WalletsService {
     const wallet = this.getWalletById(wallet_id);
 
     if (!wallet) {
-      console.warn(
-        `You want update walletInfo by wallet_id: (${wallet_id}). But this wallet not uploaded.`
-      );
+      console.warn(`You want update walletInfo by wallet_id: (${wallet_id}). But this wallet not uploaded.`);
       return;
     }
-    const callback: (
-      status: boolean,
-      response_data: ResponseGetWalletInfo
-    ) => void = (status, response_data) => {
+    const callback: (status: boolean, response_data: ResponseGetWalletInfo) => void = (status, response_data) => {
       this.ngZone.run(() => {
         if (status) {
           const { balances } = response_data;

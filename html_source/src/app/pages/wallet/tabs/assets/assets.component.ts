@@ -9,10 +9,7 @@ import { CdkOverlayOrigin } from '@angular/cdk/overlay';
 import { AssetDetailsComponent } from '@parts/modals/asset-details/asset-details.component';
 import { Dialog, DialogConfig } from '@angular/cdk/dialog';
 import { BackendService } from '@api/services/backend.service';
-import {
-  ConfirmModalComponent,
-  ConfirmModalData,
-} from '@parts/modals/confirm-modal/confirm-modal.component';
+import { ConfirmModalComponent, ConfirmModalData } from '@parts/modals/confirm-modal/confirm-modal.component';
 import { WalletsService } from '@parts/services/wallets.service';
 import { BigNumber } from 'bignumber.js';
 import { LOCKED_BALANCE_HELP_PAGE } from '@parts/data/constants';
@@ -22,7 +19,10 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-assets',
   template: `
-    <div fxFlexFill fxLayout="column">
+    <div
+      fxFlexFill
+      fxLayout="column"
+    >
       <div
         class="scrolled-content"
         [class.mb-2]="isShowPagination"
@@ -58,15 +58,8 @@ import { TranslateService } from '@ngx-translate/core';
             <div class="row-divider"></div>
           </thead>
           <tbody>
-            <ng-container
-              *ngIf="variablesService.currentWallet.balances$ | async as assets"
-            >
-              <ng-container
-                *ngFor="
-                  let asset of assets | paginate : paginatePipeArgs;
-                  trackBy: trackByAssets
-                "
-              >
+            <ng-container *ngIf="variablesService.currentWallet.balances$ | async as assets">
+              <ng-container *ngFor="let asset of assets | paginate : paginatePipeArgs; trackBy: trackByAssets">
                 <tr
                   [delay]="500"
                   [placement]="'bottom'"
@@ -83,19 +76,14 @@ import { TranslateService } from '@ngx-translate/core';
                     >
                       <div class="token-logo mr-1">
                         <img
-                          [src]="
-                            (asset | getWhiteAssetInfo | async)?.logo ||
-                            defaultImgSrc
-                          "
+                          [src]="(asset | getWhiteAssetInfo | async)?.logo || defaultImgSrc"
                           [alt]="asset.asset_info.ticker"
                           defaultImgAlt="default"
                           [defaultImgSrc]="defaultImgSrc"
                           appDefaultImg
                         />
                       </div>
-                      <b class="text-ellipsis">{{
-                        asset.asset_info.full_name
-                      }}</b>
+                      <b class="text-ellipsis">{{ asset.asset_info.full_name }}</b>
                     </div>
                   </td>
                   <td>
@@ -107,19 +95,11 @@ import { TranslateService } from '@ngx-translate/core';
                     </div>
                   </td>
                   <ng-container
-                    *ngIf="
-                      (asset | getWhiteAssetInfo | async)?.price_url
-                        | getPriceByUrl
-                        | async as price;
-                      else templateNotLoadPrice
-                    "
+                    *ngIf="(asset | getWhiteAssetInfo | async)?.price_url | getPriceByUrl | async as price; else templateNotLoadPrice"
                   >
                     <td>
                       <div class="text-ellipsis">
-                        <b>{{
-                          (asset.total | intToMoney) * price.usd
-                            | currency : 'USD'
-                        }}</b>
+                        <b>{{ (asset.total | intToMoney) * price.usd | currency : 'USD' }}</b>
                       </div>
                     </td>
                     <td>
@@ -145,10 +125,7 @@ import { TranslateService } from '@ngx-translate/core';
                     >
                       <button
                         #trigger="cdkOverlayOrigin"
-                        (click)="
-                          $event.stopPropagation();
-                          toggleDropDownMenu(trigger, asset)
-                        "
+                        (click)="$event.stopPropagation(); toggleDropDownMenu(trigger, asset)"
                         [disabled]="false"
                         cdkOverlayOrigin
                         class="btn-icon circle small ml-auto"
@@ -224,7 +201,10 @@ import { TranslateService } from '@ngx-translate/core';
       ]"
       cdkConnectedOverlay
     >
-      <ul (click)="isOpenDropDownMenu = false" class="list">
+      <ul
+        (click)="isOpenDropDownMenu = false"
+        class="list"
+      >
         <li class="item">
           <button
             class="w-100 px-2 py-1"
@@ -244,9 +224,7 @@ import { TranslateService } from '@ngx-translate/core';
               (click)="beforeRemoveAsset()"
             >
               <i class="icon delete mr-1"></i>
-              <span>{{
-                'ASSETS.DROP_DOWN_MENU.REMOVE_ASSET' | translate
-              }}</span>
+              <span>{{ 'ASSETS.DROP_DOWN_MENU.REMOVE_ASSET' | translate }}</span>
             </button>
           </li>
         </ng-container>
@@ -321,10 +299,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
     this.currentAsset = asset;
   }
 
-  trackByAssets(
-    index: number,
-    { asset_info: { asset_id } }: Asset
-  ): number | string {
+  trackByAssets(index: number, { asset_info: { asset_id } }: Asset): number | string {
     return asset_id || index;
   }
 
@@ -396,9 +371,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
       const locked = document.createElement('span');
       locked.setAttribute('class', 'locked');
       locked.innerHTML = this.translate.instant('WALLET.LOCKED_BALANCE', {
-        locked: this.intToMoneyPipe.transform(
-          new BigNumber(total).minus(unlocked)
-        ),
+        locked: this.intToMoneyPipe.transform(new BigNumber(total).minus(unlocked)),
         currency: ticker || '---',
       });
       scrollWrapper.appendChild(locked);
@@ -415,12 +388,10 @@ export class AssetsComponent implements OnInit, OnDestroy {
   }
 
   private listenChangeWallet(): void {
-    this.variablesService.getWalletChangedEvent
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: () => {
-          this.currentPage = 0;
-        },
-      });
+    this.variablesService.getWalletChangedEvent.pipe(takeUntil(this.destroy$)).subscribe({
+      next: () => {
+        this.currentPage = 0;
+      },
+    });
   }
 }

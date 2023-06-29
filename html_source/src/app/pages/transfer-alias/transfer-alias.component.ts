@@ -13,7 +13,11 @@ import BigNumber from 'bignumber.js';
     <div class="page-container">
       <div class="toolbar mb-2">
         <div class="left">
-          <button appBackButton class="btn-icon circle big mr-2" type="button">
+          <button
+            appBackButton
+            class="btn-icon circle big mr-2"
+            type="button"
+          >
             <i class="icon dropdown-arrow-left"></i>
           </button>
           <h1>{{ 'BREADCRUMBS.TRANSFER_ALIAS' | translate }}</h1>
@@ -70,38 +74,25 @@ import BigNumber from 'bignumber.js';
                 [(ngModel)]="transferAddress"
                 [class.invalid]="
                   transferAddress.length > 0 &&
-                  (transferAddressAlias ||
-                    !transferAddressValid ||
-                    (transferAddressValid && !permissionSend) ||
-                    notEnoughMoney)
+                  (transferAddressAlias || !transferAddressValid || (transferAddressValid && !permissionSend) || notEnoughMoney)
                 "
                 class="form__field--input"
                 id="alias-transfer"
                 name="alias-transfer"
-                placeholder="{{
-                  'TRANSFER_ALIAS.ADDRESS.PLACEHOLDER' | translate
-                }}"
+                placeholder="{{ 'TRANSFER_ALIAS.ADDRESS.PLACEHOLDER' | translate }}"
                 type="text"
               />
               <div
                 *ngIf="
                   transferAddress.length > 0 &&
-                  (transferAddressAlias ||
-                    !transferAddressValid ||
-                    (transferAddressValid && !permissionSend) ||
-                    notEnoughMoney)
+                  (transferAddressAlias || !transferAddressValid || (transferAddressValid && !permissionSend) || notEnoughMoney)
                 "
                 class="error"
               >
                 <div *ngIf="!transferAddressValid">
                   {{ 'TRANSFER_ALIAS.FORM_ERRORS.WRONG_ADDRESS' | translate }}
                 </div>
-                <div
-                  *ngIf="
-                    transferAddressAlias ||
-                    (transferAddressValid && !permissionSend)
-                  "
-                >
+                <div *ngIf="transferAddressAlias || (transferAddressValid && !permissionSend)">
                   {{ 'TRANSFER_ALIAS.FORM_ERRORS.ALIAS_EXISTS' | translate }}
                 </div>
                 <div *ngIf="notEnoughMoney">
@@ -123,9 +114,7 @@ import BigNumber from 'bignumber.js';
 
             <button
               (click)="transferAlias()"
-              [disabled]="
-                transferAddressAlias || !transferAddressValid || notEnoughMoney
-              "
+              [disabled]="transferAddressAlias || !transferAddressValid || notEnoughMoney"
               class="primary big w-100"
               type="button"
             >
@@ -180,12 +169,8 @@ export class TransferAliasComponent implements OnInit {
       comment: alias.comment,
       tracking_key: alias.tracking_key,
     };
-    const unlocked_balance = new BigNumber(
-      this.wallet.getBalanceByTicker('ZANO')?.unlocked || 0
-    );
-    this.notEnoughMoney = unlocked_balance.isLessThan(
-      this.variablesService.default_fee_big
-    );
+    const unlocked_balance = new BigNumber(this.wallet.getBalanceByTicker('ZANO')?.unlocked || 0);
+    this.notEnoughMoney = unlocked_balance.isLessThan(this.variablesService.default_fee_big);
   }
 
   changeAddress(): void {
@@ -193,15 +178,8 @@ export class TransferAliasComponent implements OnInit {
       this.transferAddressValid = status;
       if (status) {
         this.backend.getPoolInfo((statusPool, dataPool) => {
-          if (
-            hasOwnProperty(dataPool, 'aliases_que') &&
-            dataPool.aliases_que.length
-          ) {
-            this.setStatus(
-              !dataPool.aliases_que.some(
-                el => el.address === this.transferAddress
-              )
-            );
+          if (hasOwnProperty(dataPool, 'aliases_que') && dataPool.aliases_que.length) {
+            this.setStatus(!dataPool.aliases_que.some(el => el.address === this.transferAddress));
           } else {
             this.setStatus(status);
           }
@@ -233,12 +211,7 @@ export class TransferAliasComponent implements OnInit {
   }
 
   transferAlias(): void {
-    if (
-      this.requestProcessing ||
-      !this.permissionSend ||
-      !this.transferAddressValid ||
-      this.notEnoughMoney
-    ) {
+    if (this.requestProcessing || !this.permissionSend || !this.transferAddressValid || this.notEnoughMoney) {
       return;
     }
     this.requestProcessing = true;
@@ -248,22 +221,14 @@ export class TransferAliasComponent implements OnInit {
       comment: this.alias.comment,
       tracking_key: this.alias.tracking_key,
     };
-    this.backend.updateAlias(
-      this.wallet.wallet_id,
-      newAlias,
-      this.variablesService.default_fee,
-      (status, data) => {
-        if (status && hasOwnProperty(data, 'success') && data.success) {
-          this.modalService.prepareModal(
-            'info',
-            'TRANSFER_ALIAS.REQUEST_SEND_REG'
-          );
-          this.ngZone.run(() => {
-            this.router.navigate(['/wallet/']);
-          });
-        }
-        this.requestProcessing = false;
+    this.backend.updateAlias(this.wallet.wallet_id, newAlias, this.variablesService.default_fee, (status, data) => {
+      if (status && hasOwnProperty(data, 'success') && data.success) {
+        this.modalService.prepareModal('info', 'TRANSFER_ALIAS.REQUEST_SEND_REG');
+        this.ngZone.run(() => {
+          this.router.navigate(['/wallet/']);
+        });
       }
-    );
+      this.requestProcessing = false;
+    });
   }
 }

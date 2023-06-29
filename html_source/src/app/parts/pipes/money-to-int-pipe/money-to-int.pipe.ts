@@ -17,19 +17,14 @@ export class MoneyToIntPipe implements PipeTransform {
       let fraction_size = 0;
       if (-1 !== point_index) {
         fraction_size = am_str.length - point_index - 1;
-        while (
-          CURRENCY_DISPLAY_DECIMAL_POINT < fraction_size &&
-          '0' === am_str[am_str.length - 1]
-        ) {
+        while (CURRENCY_DISPLAY_DECIMAL_POINT < fraction_size && '0' === am_str[am_str.length - 1]) {
           am_str = am_str.slice(0, am_str.length - 1);
           --fraction_size;
         }
         if (CURRENCY_DISPLAY_DECIMAL_POINT < fraction_size) {
           return undefined;
         }
-        am_str =
-          am_str.slice(0, point_index) +
-          am_str.slice(point_index + 1, am_str.length);
+        am_str = am_str.slice(0, point_index) + am_str.slice(point_index + 1, am_str.length);
       } else {
         fraction_size = 0;
       }
@@ -37,11 +32,7 @@ export class MoneyToIntPipe implements PipeTransform {
         return undefined;
       }
       if (fraction_size < CURRENCY_DISPLAY_DECIMAL_POINT) {
-        for (
-          let i = 0;
-          i !== CURRENCY_DISPLAY_DECIMAL_POINT - fraction_size;
-          i++
-        ) {
+        for (let i = 0; i !== CURRENCY_DISPLAY_DECIMAL_POINT - fraction_size; i++) {
           am_str = am_str + '0';
         }
       }

@@ -18,11 +18,17 @@ import { DialogRef } from '@angular/cdk/dialog';
         fxLayout="column"
         fxLayoutAlign="start stretch"
       >
-        <h4 class="text-ellipsis mb-2" fxFlex="0 0 auto">
+        <h4
+          class="text-ellipsis mb-2"
+          fxFlex="0 0 auto"
+        >
           {{ 'EXPORT_HISTORY.TITLE' | translate }}
         </h4>
 
-        <div class="content mb-2" fxFlex="1 1 auto">
+        <div
+          class="content mb-2"
+          fxFlex="1 1 auto"
+        >
           <div class="form__field">
             <label>Format:</label>
             <ng-select
@@ -34,19 +40,28 @@ import { DialogRef } from '@angular/cdk/dialog';
               bindValue="format"
               name="format"
             >
-              <ng-template let-item="item" ng-label-tmp>
+              <ng-template
+                let-item="item"
+                ng-label-tmp
+              >
                 {{ item.formatName }}
               </ng-template>
-              <ng-template let-index="index" let-item="item" ng-option-tmp>
+              <ng-template
+                let-index="index"
+                let-item="item"
+                ng-option-tmp
+              >
                 {{ item.formatName }}
               </ng-template>
             </ng-select>
           </div>
 
-          <div class="mb-2" fxLayout="row" fxLayoutAlign="start center">
-            <span class="color-primary mr-1">{{
-              'EXPORT_HISTORY.FILTER' | translate
-            }}</span>
+          <div
+            class="mb-2"
+            fxLayout="row"
+            fxLayoutAlign="start center"
+          >
+            <span class="color-primary mr-1">{{ 'EXPORT_HISTORY.FILTER' | translate }}</span>
             <app-switch
               (emitChange)="posFilterIsOn = !posFilterIsOn"
               [value]="posFilterIsOn"

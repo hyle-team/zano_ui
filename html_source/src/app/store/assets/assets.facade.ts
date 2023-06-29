@@ -2,10 +2,7 @@ import { Injectable } from '@angular/core';
 import { StateKeys, Store } from '@store/store';
 import { AssetsService } from '@api/services/assets.service';
 import { BehaviorSubject, Observable, take } from 'rxjs';
-import {
-  ResponseAssetsWhiteList,
-  WhiteAssetInfo,
-} from '@api/models/assets.model';
+import { ResponseAssetsWhiteList, WhiteAssetInfo } from '@api/models/assets.model';
 import { map } from 'rxjs/operators';
 import { zanoAssetInfo } from '@parts/data/assets';
 
@@ -34,20 +31,14 @@ export class AssetsFacade {
   }
 
   getWhitelist(): Observable<WhiteAssetInfo[]> {
-    return this.store
-      .select<ResponseAssetsWhiteList>(StateKeys.responseAssetsWhiteList)
-      .pipe(
-        map(({ assets }) => {
-          return [zanoAssetInfo, ...assets];
-        })
-      );
+    return this.store.select<ResponseAssetsWhiteList>(StateKeys.responseAssetsWhiteList).pipe(
+      map(({ assets }) => {
+        return [zanoAssetInfo, ...assets];
+      })
+    );
   }
 
-  getAssetByIdFromWhitelist(
-    asset_id: string
-  ): Observable<WhiteAssetInfo | undefined> {
-    return this.getWhitelist().pipe(
-      map(arr => arr.find(i => i.asset_id === asset_id))
-    );
+  getAssetByIdFromWhitelist(asset_id: string): Observable<WhiteAssetInfo | undefined> {
+    return this.getWhitelist().pipe(map(arr => arr.find(i => i.asset_id === asset_id)));
   }
 }

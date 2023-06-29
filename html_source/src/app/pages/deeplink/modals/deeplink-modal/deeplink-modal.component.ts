@@ -1,11 +1,4 @@
-import {
-  Component,
-  HostBinding,
-  NgZone,
-  OnDestroy,
-  OnInit,
-  Renderer2,
-} from '@angular/core';
+import { Component, HostBinding, NgZone, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { VariablesService } from '@parts/services/variables.service';
 import { DeeplinkParams, PushOffer, Wallet } from '@api/models/wallet.model';
 import { BigNumber } from 'bignumber.js';
@@ -24,8 +17,15 @@ import { takeUntil } from 'rxjs/operators';
       fxLayout="column"
     >
       <ng-container *ngIf="walletsToPay.length > 1 && !secondStep">
-        <div class="content mb-2" fxFlex="0 0 auto" fxLayout="column">
-          <div class="form__field" fxFlex="0 0 auto">
+        <div
+          class="content mb-2"
+          fxFlex="0 0 auto"
+          fxLayout="column"
+        >
+          <div
+            class="form__field"
+            fxFlex="0 0 auto"
+          >
             <label>Select wallet for action:</label>
             <ng-select
               [(ngModel)]="walletToPayId"
@@ -35,10 +35,17 @@ import { takeUntil } from 'rxjs/operators';
               bindLabel="name"
               bindValue="wallet_id"
             >
-              <ng-template let-item="item" ng-label-tmp>
+              <ng-template
+                let-item="item"
+                ng-label-tmp
+              >
                 {{ item.name }}
               </ng-template>
-              <ng-template let-index="index" let-item="item" ng-option-tmp>
+              <ng-template
+                let-index="index"
+                let-item="item"
+                ng-option-tmp
+              >
                 {{ item.name }}
               </ng-template>
             </ng-select>
@@ -59,26 +66,32 @@ import { takeUntil } from 'rxjs/operators';
           >
             {{ 'EXPORT_HISTORY.CANCEL' | translate }}
           </button>
-          <button (click)="nextStep()" class="primary big w-100" type="submit">
+          <button
+            (click)="nextStep()"
+            class="primary big w-100"
+            type="submit"
+          >
             Next...
           </button>
         </div>
       </ng-container>
 
-      <ng-container
-        *ngIf="
-          secondStep &&
-          marketplaceModalShow &&
-          actionData.action === 'marketplace_offer_create'
-        "
-      >
-        <h4 class="mb-2" fxFlex="0 0 auto">Creating a marketplace offer</h4>
+      <ng-container *ngIf="secondStep && marketplaceModalShow && actionData.action === 'marketplace_offer_create'">
+        <h4
+          class="mb-2"
+          fxFlex="0 0 auto"
+        >
+          Creating a marketplace offer
+        </h4>
         <div
           class="content scrolled-content mb-2"
           fxFlex="1 1 auto"
           fxLayout="column"
         >
-          <div class="table-info" fxFlex="0 0 auto">
+          <div
+            class="table-info"
+            fxFlex="0 0 auto"
+          >
             <div class="row">
               <div class="label max-w-19-rem w-100">
                 {{ 'Offer title' | translate }}
@@ -161,10 +174,7 @@ import { takeUntil } from 'rxjs/operators';
                 {{ 'Transaction fee' | translate }}
               </div>
               <div class="text">
-                {{
-                  actionData.price *
-                    (actionData.fee || this.variablesService.default_fee)
-                }}
+                {{ actionData.price * (actionData.fee || this.variablesService.default_fee) }}
                 {{ this.variablesService.defaultCurrency }}
               </div>
             </div>
@@ -196,25 +206,28 @@ import { takeUntil } from 'rxjs/operators';
       </ng-container>
 
       <ng-container *ngIf="marketplaceConfirmHash">
-        <h4 class="mb-2" fxFlex="0 0 auto">Operation successful</h4>
+        <h4
+          class="mb-2"
+          fxFlex="0 0 auto"
+        >
+          Operation successful
+        </h4>
 
         <div
           class="content scrolled-content mb-2"
           fxFlex="1 1 auto"
           fxLayout="column"
         >
-          <div class="table-info" fxFlex="0 0 auto">
+          <div
+            class="table-info"
+            fxFlex="0 0 auto"
+          >
             <div class="row">
               <div class="label max-w-19-rem w-100">
                 {{ 'Operation hash' | translate }}
               </div>
               <div
-                (contextmenu)="
-                  variablesService.onContextMenuOnlyCopy(
-                    $event,
-                    marketplaceConfirmHash
-                  )
-                "
+                (contextmenu)="variablesService.onContextMenuOnlyCopy($event, marketplaceConfirmHash)"
                 class="text"
                 fxLayout="row"
                 fxLayoutAlign="start center"
@@ -248,7 +261,10 @@ import { takeUntil } from 'rxjs/operators';
       </ng-container>
 
       <ng-container *ngIf="!walletsToPay.length">
-        <h4 class="mb-2" fxFlex="0 0 auto">
+        <h4
+          class="mb-2"
+          fxFlex="0 0 auto"
+        >
           Your wallets have not loaded yet. Try this action a little later.
         </h4>
 
@@ -301,9 +317,7 @@ export class DeeplinkModalComponent implements OnInit, OnDestroy {
     private ngZone: NgZone,
     private renderer: Renderer2
   ) {
-    this.walletsToPay = this.variablesService.wallets.filter(
-      wallet => !wallet.is_watch_only || !wallet.is_auditable
-    );
+    this.walletsToPay = this.variablesService.wallets.filter(wallet => !wallet.is_watch_only || !wallet.is_auditable);
   }
 
   ngOnInit(): void {
@@ -353,10 +367,7 @@ export class DeeplinkModalComponent implements OnInit, OnDestroy {
     const newString = deeplink.substr(5); // delete zano:;
     newString.split('&').forEach(str => {
       const [key, value] = str.split('=');
-      newObj[key] = value
-        .replace(quotesRex, '')
-        .replace(spaceSymbolRex, ' ')
-        .trim();
+      newObj[key] = value.replace(quotesRex, '').replace(spaceSymbolRex, ' ').trim();
     });
     return newObj;
   }
@@ -379,11 +390,7 @@ export class DeeplinkModalComponent implements OnInit, OnDestroy {
         com: this.actionData.comment || this.actionData.comments || '',
         do: this.actionData.description || '',
         et: 10,
-        fee: new BigNumber(
-          '' +
-            (+this.actionData.fee || +this.variablesService.default_fee) *
-              1000000000000
-        ),
+        fee: new BigNumber('' + (+this.actionData.fee || +this.variablesService.default_fee) * 1000000000000),
         lci: '',
         lco: 'World Wide',
         ot: 1,

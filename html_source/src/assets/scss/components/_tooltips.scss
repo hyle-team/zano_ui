@@ -371,8 +371,7 @@
   color: var(--white-500);
   .tooltip-inner {
     .icon {
-      background: center / contain no-repeat
-        url(~src/assets/icons/red/update-alert.svg);
+      background: center / contain no-repeat url(~src/assets/icons/red/update-alert.svg);
     }
   }
 }

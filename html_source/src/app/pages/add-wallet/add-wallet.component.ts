@@ -13,7 +13,11 @@ import { ModalService } from '@parts/services/modal.service';
     <div class="page-container">
       <div class="toolbar mb-2">
         <div class="left">
-          <button appBackButton class="btn-icon circle big mr-2" type="button">
+          <button
+            appBackButton
+            class="btn-icon circle big mr-2"
+            type="button"
+          >
             <i class="icon dropdown-arrow-left"></i>
           </button>
           <h1>{{ 'BREADCRUMBS.ADD_WALLET' | translate }}</h1>
@@ -91,35 +95,30 @@ export class AddWalletComponent {
   openWallet(): void {
     const caption = this.translateService.instant('MAIN.CHOOSE_PATH');
     const default_path = this.variablesService.settings.default_path;
-    this.backendService.openFileDialog(
-      caption,
-      '*',
-      default_path,
-      async (file_status, file_data) => {
-        if (!file_status) {
-          if (file_data['error_code'] !== 'CANCELED') {
-            this.modalService.prepareModal('error', file_data['error_code']);
-          }
-          return;
+    this.backendService.openFileDialog(caption, '*', default_path, async (file_status, file_data) => {
+      if (!file_status) {
+        if (file_data['error_code'] !== 'CANCELED') {
+          this.modalService.prepareModal('error', file_data['error_code']);
         }
-        const positionLastSlash = file_data.path.lastIndexOf('/');
-        const new_default_path = file_data.path.slice(0, positionLastSlash);
-        const error = filePathWalletValidator(file_data.path);
-
-        if (error) {
-          const text = this.translateService.instant(error.errorText);
-          this.modalService.prepareModal('error', text);
-          return;
-        }
-
-        this.variablesService.settings.default_path = new_default_path;
-        await this.ngZone.run(async () => {
-          await this.router.navigate(['/open'], {
-            queryParams: { path: file_data.path },
-          });
-        });
+        return;
       }
-    );
+      const positionLastSlash = file_data.path.lastIndexOf('/');
+      const new_default_path = file_data.path.slice(0, positionLastSlash);
+      const error = filePathWalletValidator(file_data.path);
+
+      if (error) {
+        const text = this.translateService.instant(error.errorText);
+        this.modalService.prepareModal('error', text);
+        return;
+      }
+
+      this.variablesService.settings.default_path = new_default_path;
+      await this.ngZone.run(async () => {
+        await this.router.navigate(['/open'], {
+          queryParams: { path: file_data.path },
+        });
+      });
+    });
   }
 
   openInBrowser(): void {

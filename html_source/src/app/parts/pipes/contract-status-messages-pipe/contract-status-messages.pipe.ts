@@ -11,65 +11,39 @@ export class ContractStatusMessagesPipe implements PipeTransform {
     const state = { part1: '', part2: '' };
     switch (stateNum) {
       case 1:
-        state.part1 = this.translate.instant(
-          'CONTRACTS.STATUS_MESSAGES.SELLER.NEW_CONTRACT'
-        );
+        state.part1 = this.translate.instant('CONTRACTS.STATUS_MESSAGES.SELLER.NEW_CONTRACT');
         break;
       case 110:
-        state.part1 = this.translate.instant(
-          'CONTRACTS.STATUS_MESSAGES.SELLER.IGNORED'
-        );
+        state.part1 = this.translate.instant('CONTRACTS.STATUS_MESSAGES.SELLER.IGNORED');
         break;
       case 201:
-        state.part1 = this.translate.instant(
-          'CONTRACTS.STATUS_MESSAGES.SELLER.ACCEPTED'
-        );
-        state.part2 = this.translate.instant(
-          'CONTRACTS.STATUS_MESSAGES.SELLER.WAIT'
-        );
+        state.part1 = this.translate.instant('CONTRACTS.STATUS_MESSAGES.SELLER.ACCEPTED');
+        state.part2 = this.translate.instant('CONTRACTS.STATUS_MESSAGES.SELLER.WAIT');
         break;
       case 2:
-        state.part1 = this.translate.instant(
-          'CONTRACTS.STATUS_MESSAGES.SELLER.WAITING_BUYER'
-        );
+        state.part1 = this.translate.instant('CONTRACTS.STATUS_MESSAGES.SELLER.WAITING_BUYER');
         break;
       case 3:
-        state.part1 = this.translate.instant(
-          'CONTRACTS.STATUS_MESSAGES.SELLER.COMPLETED'
-        );
+        state.part1 = this.translate.instant('CONTRACTS.STATUS_MESSAGES.SELLER.COMPLETED');
         break;
       case 4:
-        state.part1 = this.translate.instant(
-          'CONTRACTS.STATUS_MESSAGES.SELLER.NOT_RECEIVED'
-        );
-        state.part2 = this.translate.instant(
-          'CONTRACTS.STATUS_MESSAGES.SELLER.NULLIFIED'
-        );
+        state.part1 = this.translate.instant('CONTRACTS.STATUS_MESSAGES.SELLER.NOT_RECEIVED');
+        state.part2 = this.translate.instant('CONTRACTS.STATUS_MESSAGES.SELLER.NULLIFIED');
         break;
       case 5:
-        state.part1 = this.translate.instant(
-          'CONTRACTS.STATUS_MESSAGES.SELLER.PROPOSAL_CANCEL'
-        );
+        state.part1 = this.translate.instant('CONTRACTS.STATUS_MESSAGES.SELLER.PROPOSAL_CANCEL');
         break;
       case 601:
-        state.part1 = this.translate.instant(
-          'CONTRACTS.STATUS_MESSAGES.SELLER.BEING_CANCELLED'
-        );
+        state.part1 = this.translate.instant('CONTRACTS.STATUS_MESSAGES.SELLER.BEING_CANCELLED');
         break;
       case 6:
-        state.part1 = this.translate.instant(
-          'CONTRACTS.STATUS_MESSAGES.SELLER.CANCELLED'
-        );
+        state.part1 = this.translate.instant('CONTRACTS.STATUS_MESSAGES.SELLER.CANCELLED');
         break;
       case 130:
-        state.part1 = this.translate.instant(
-          'CONTRACTS.STATUS_MESSAGES.SELLER.IGNORED_CANCEL'
-        );
+        state.part1 = this.translate.instant('CONTRACTS.STATUS_MESSAGES.SELLER.IGNORED_CANCEL');
         break;
       case 140:
-        state.part1 = this.translate.instant(
-          'CONTRACTS.STATUS_MESSAGES.SELLER.EXPIRED'
-        );
+        state.part1 = this.translate.instant('CONTRACTS.STATUS_MESSAGES.SELLER.EXPIRED');
         break;
     }
     return state.part1 + (state.part2.length ? '. ' + state.part2 : '');
@@ -79,70 +53,42 @@ export class ContractStatusMessagesPipe implements PipeTransform {
     const state = { part1: '', part2: '' };
     switch (stateNum) {
       case 1:
-        state.part1 = this.translate.instant(
-          'CONTRACTS.STATUS_MESSAGES.BUYER.WAITING'
-        );
+        state.part1 = this.translate.instant('CONTRACTS.STATUS_MESSAGES.BUYER.WAITING');
         break;
       case 110:
-        state.part1 = this.translate.instant(
-          'CONTRACTS.STATUS_MESSAGES.BUYER.IGNORED'
-        );
+        state.part1 = this.translate.instant('CONTRACTS.STATUS_MESSAGES.BUYER.IGNORED');
         break;
       case 201:
-        state.part1 = this.translate.instant(
-          'CONTRACTS.STATUS_MESSAGES.BUYER.ACCEPTED'
-        );
-        state.part2 = this.translate.instant(
-          'CONTRACTS.STATUS_MESSAGES.BUYER.WAIT'
-        );
+        state.part1 = this.translate.instant('CONTRACTS.STATUS_MESSAGES.BUYER.ACCEPTED');
+        state.part2 = this.translate.instant('CONTRACTS.STATUS_MESSAGES.BUYER.WAIT');
         break;
       case 2:
-        state.part1 = this.translate.instant(
-          'CONTRACTS.STATUS_MESSAGES.BUYER.ACCEPTED'
-        );
+        state.part1 = this.translate.instant('CONTRACTS.STATUS_MESSAGES.BUYER.ACCEPTED');
         break;
       case 120:
-        state.part1 = this.translate.instant(
-          'CONTRACTS.STATUS_MESSAGES.BUYER.WAITING_SELLER'
-        );
+        state.part1 = this.translate.instant('CONTRACTS.STATUS_MESSAGES.BUYER.WAITING_SELLER');
         break;
       case 3:
-        state.part1 = this.translate.instant(
-          'CONTRACTS.STATUS_MESSAGES.BUYER.COMPLETED'
-        );
+        state.part1 = this.translate.instant('CONTRACTS.STATUS_MESSAGES.BUYER.COMPLETED');
         break;
       case 4:
-        state.part1 = this.translate.instant(
-          'CONTRACTS.STATUS_MESSAGES.BUYER.NOT_RECEIVED'
-        );
-        state.part2 = this.translate.instant(
-          'CONTRACTS.STATUS_MESSAGES.BUYER.NULLIFIED'
-        );
+        state.part1 = this.translate.instant('CONTRACTS.STATUS_MESSAGES.BUYER.NOT_RECEIVED');
+        state.part2 = this.translate.instant('CONTRACTS.STATUS_MESSAGES.BUYER.NULLIFIED');
         break;
       case 5:
-        state.part1 = this.translate.instant(
-          'CONTRACTS.STATUS_MESSAGES.BUYER.WAITING_CANCEL'
-        );
+        state.part1 = this.translate.instant('CONTRACTS.STATUS_MESSAGES.BUYER.WAITING_CANCEL');
         break;
       case 601:
-        state.part1 = this.translate.instant(
-          'CONTRACTS.STATUS_MESSAGES.BUYER.BEING_CANCELLED'
-        );
+        state.part1 = this.translate.instant('CONTRACTS.STATUS_MESSAGES.BUYER.BEING_CANCELLED');
         break;
       case 6:
-        state.part1 = this.translate.instant(
-          'CONTRACTS.STATUS_MESSAGES.BUYER.CANCELLED'
-        );
+        state.part1 = this.translate.instant('CONTRACTS.STATUS_MESSAGES.BUYER.CANCELLED');
         break;
       case 130:
-        state.part1 = this.translate.instant(
-          'CONTRACTS.STATUS_MESSAGES.BUYER.IGNORED_CANCEL'
-        );
+        state.part1 = this.translate.instant('CONTRACTS.STATUS_MESSAGES.BUYER.IGNORED_CANCEL');
         break;
       case 140:
-        state.part1 = this.translate.instant(
-          'CONTRACTS.STATUS_MESSAGES.BUYER.EXPIRED'
-        );
+        state.part1 = this.translate.instant('CONTRACTS.STATUS_MESSAGES.BUYER.EXPIRED');
         break;
     }
     return state.part1 + (state.part2.length ? '. ' + state.part2 : '');

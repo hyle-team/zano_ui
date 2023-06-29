@@ -11,7 +11,7 @@ import {
   Output,
   Renderer2,
 } from '@angular/core';
-import { FormGroup, NonNullableFormBuilder, Validators, } from '@angular/forms';
+import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { VariablesService } from '@parts/services/variables.service';
 import { ZanoValidators } from '@parts/utils/zano-validators';
 
@@ -30,7 +30,10 @@ import { ZanoValidators } from '@parts/utils/zano-validators';
           fxFlexFill
           fxLayout="column"
         >
-          <h3 class="title mb-2" fxFlex="0 0 auto">
+          <h3
+            class="title mb-2"
+            fxFlex="0 0 auto"
+          >
             {{ 'CONFIRM.TITLE' | translate }}
           </h3>
 
@@ -49,7 +52,7 @@ import { ZanoValidators } from '@parts/utils/zano-validators';
                 </div>
               </div>
 
-              <hr class="separator"/>
+              <hr class="separator" />
 
               <div class="row">
                 <div class="label max-w-19-rem w-100">
@@ -81,18 +84,17 @@ import { ZanoValidators } from '@parts/utils/zano-validators';
               </ng-container>
             </div>
 
-            <div *ngIf="variablesService.appPass" class="form__field mb-0">
+            <div
+              *ngIf="variablesService.appPass"
+              class="form__field mb-0"
+            >
               <label for="password">
                 {{ 'LOGIN.MASTER_PASS' | translate }}
                 <span class="color-red">*</span>
               </label>
               <input
-                (contextmenu)="
-                  variablesService.onContextMenuPasteSelect($event)
-                "
-                [placeholder]="
-                  'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate
-                "
+                (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
+                [placeholder]="'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate"
                 autofocus
                 class="form__field--input"
                 [class.invalid]="confirmForm.touched && confirmForm.invalid"
@@ -121,10 +123,17 @@ import { ZanoValidators } from '@parts/utils/zano-validators';
             fxLayout="row nowrap"
             fxLayoutGap="1rem"
           >
-            <button (click)="onClose()" class="outline big w-100" type="button">
+            <button
+              (click)="onClose()"
+              class="outline big w-100"
+              type="button"
+            >
               {{ 'CONFIRM.BUTTON_CANCEL' | translate }}
             </button>
-            <button class="primary big w-100" type="submit">
+            <button
+              class="primary big w-100"
+              type="submit"
+            >
               {{ 'CONFIRM.BUTTON_CONFIRM' | translate }}
             </button>
           </div>
@@ -151,10 +160,7 @@ export class SendModalComponent implements OnInit, OnDestroy {
     appPass: this.fb.control(''),
   });
 
-  constructor(
-    public variablesService: VariablesService,
-    private renderer: Renderer2
-  ) {}
+  constructor(public variablesService: VariablesService, private renderer: Renderer2) {}
 
   ngOnInit(): void {
     this.renderer.addClass(document.body, 'no-scroll');
@@ -163,9 +169,7 @@ export class SendModalComponent implements OnInit, OnDestroy {
       this.confirmForm.controls.appPass.patchValue(appPass, {
         emitEvent: false,
       });
-      this.confirmForm.setValidators([
-        ZanoValidators.formMatch('password', 'appPass', 'passwordNotMatch'),
-      ]);
+      this.confirmForm.setValidators([ZanoValidators.formMatch('password', 'appPass', 'passwordNotMatch')]);
       this.confirmForm.controls.password.setValidators([Validators.required]);
       this.confirmForm.updateValueAndValidity();
     }

@@ -15,11 +15,16 @@ import { paths } from '../../paths';
       fxLayout="row"
       fxLayoutAlign="center center"
     >
-      <div
-        class="card max-w-42-rem max-h-100 w-100 p-2 border-radius-0_8-rem bg-light-blue scrolled-content"
-      >
-        <div class="logo mb-3" fxLayout="row" fxLayoutAlign="center center">
-          <img alt="zano-logo" src="assets/icons/blue/zano-logo.svg" />
+      <div class="card max-w-42-rem max-h-100 w-100 p-2 border-radius-0_8-rem bg-light-blue scrolled-content">
+        <div
+          class="logo mb-3"
+          fxLayout="row"
+          fxLayoutAlign="center center"
+        >
+          <img
+            alt="zano-logo"
+            src="assets/icons/blue/zano-logo.svg"
+          />
         </div>
 
         <h4 class="mb-2 text-align-center">{{ 'MAIN.TITLE' | translate }}</h4>
@@ -59,9 +64,7 @@ import { paths } from '../../paths';
         </p>
       </div>
 
-      <app-synchronization-status
-        class="max-w-19-rem"
-      ></app-synchronization-status>
+      <app-synchronization-status class="max-w-19-rem"></app-synchronization-status>
     </div>
   `,
   styles: [
@@ -92,10 +95,7 @@ export class NoWalletComponent {
       this.variablesService.settings.default_path,
       (file_status, file_data) => {
         if (file_status) {
-          this.variablesService.settings.default_path = file_data.path.substr(
-            0,
-            file_data.path.lastIndexOf('/')
-          );
+          this.variablesService.settings.default_path = file_data.path.substr(0, file_data.path.lastIndexOf('/'));
           this.ngZone.run(() => {
             this.router
               .navigate(['/' + paths.open], {

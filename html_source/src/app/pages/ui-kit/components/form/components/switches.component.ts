@@ -8,10 +8,17 @@ import { SwitchComponent } from '@parts/components/switch.component';
     <app-switch class="mb-1"></app-switch>
 
     <h3 class="mb-1">value = true</h3>
-    <app-switch [value]="true" class="mb-1"></app-switch>
+    <app-switch
+      [value]="true"
+      class="mb-1"
+    ></app-switch>
 
     <h3 class="mb-1">value = true, disabled = true</h3>
-    <app-switch [disabled]="true" [value]="true" class="mb-1"></app-switch>
+    <app-switch
+      [disabled]="true"
+      [value]="true"
+      class="mb-1"
+    ></app-switch>
   `,
   styles: [],
   standalone: true,

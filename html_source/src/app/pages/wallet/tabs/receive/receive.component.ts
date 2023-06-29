@@ -18,7 +18,10 @@ import { RCV_ADDR_QR_SCALE } from '@parts/data/constants';
         fxLayout="column"
         fxLayoutAlign="center center"
       >
-        <img alt="qr-code" [src]="qrImageSrc" />
+        <img
+          alt="qr-code"
+          [src]="qrImageSrc"
+        />
       </div>
 
       <div
@@ -34,12 +37,9 @@ import { RCV_ADDR_QR_SCALE } from '@parts/data/constants';
           [tooltipClass]="'table-tooltip'"
           [tooltip]="variablesService.currentWallet.address"
           class="text-ellipsis mr-1"
-          >{{
-            variablesService.currentWallet.address | zanoShortString : 9 : 9
-          }}</span
+          >{{ variablesService.currentWallet.address | zanoShortString : 9 : 9 }}</span
         >
-        <app-copy-button [value]="variablesService.currentWallet.address">
-        </app-copy-button>
+        <app-copy-button [value]="variablesService.currentWallet.address"> </app-copy-button>
       </div>
     </div>
   `,

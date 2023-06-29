@@ -11,14 +11,6 @@ import { SwitchComponent } from '@parts/components/switch.component';
 @NgModule({
   declarations: [ExportHistoryModalComponent],
   exports: [ExportHistoryModalComponent],
-  imports: [
-    CommonModule,
-    TranslateModule,
-    FlexModule,
-    SwitchComponent,
-    CheckboxComponent,
-    NgSelectModule,
-    FormsModule,
-  ],
+  imports: [CommonModule, TranslateModule, FlexModule, SwitchComponent, CheckboxComponent, NgSelectModule, FormsModule],
 })
 export class ExportHistoryModalModule {}

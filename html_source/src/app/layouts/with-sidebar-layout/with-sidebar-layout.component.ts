@@ -5,7 +5,10 @@ import { Component } from '@angular/core';
   template: `
     <app-sidebar></app-sidebar>
 
-    <div class="overflow-auto p-2" fxFlex="100">
+    <div
+      class="overflow-auto p-2"
+      fxFlex="100"
+    >
       <router-outlet></router-outlet>
     </div>
   `,
