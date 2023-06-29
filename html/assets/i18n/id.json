@@ -641,7 +641,7 @@
     "FILE_RESTORED": "File dompet rusak. Kami telah memulihkan kunci dan dompet dari blockchain ",
     "FILE_NOT_FOUND": "Berkas tidak ditemukan",
     "FILE_EXIST": "File dengan nama itu sudah ada. ketiklah dengan menggunakan nama lain untuk menyimpannya",
-    "FILE_NOT_SAVED": "Anda tidak dapat menyimpan file dompet di folder ini. ",
+    "FILE_NOT_SAVED": "Anda tidak dapat menyimpan file dompet di folder ini. Mohon pilih folder yang lainnya. ",
     "TX_TYPE_NORMAL": "Kesalahan. Pembayaran dari dompet",
     "TX_TYPE_NORMAL_TO": "ke",
     "TX_TYPE_NORMAL_END": "tidak selesai.",
@@ -664,7 +664,7 @@
     "IS_CONFIRMED": "",
     "INCOME_TRANSFER_UNCONFIRMED": "Pembayaran masuk (belum dikonfirmasi)",
     "INCOME_TRANSFER_CONFIRMED": "Pembayaran diterima",
-    "MINED": "Beranjau",
+    "MINED": "Telah ditambang",
     "LOCKED": "Diblokir",
     "IS_MINIMIZE": "Aplikasi Zano diminimalkan ke baki sistem",
     "RESTORE": "Anda dapat memulihkannya dengan mengeklik atau menggunakan menu konteks",
@@ -679,9 +679,9 @@
     "STATE_DOWNLOADING_CONSENSUS": "Mengunduh konsensus",
     "STATE_MAKING_TUNNEL_A": "Membangun terowongan ke A",
     "STATE_MAKING_TUNNEL_B": "Membangun terowongan ke B",
-    "STATE_CREATING_STREAM": "Membuat aliran",
-    "STATE_FAILED": "Aliran gagal dibuat",
-    "STATE_SUCCESS": "Aliran berhasil dibuat"
+    "STATE_CREATING_STREAM": "Membuat Stream",
+    "STATE_FAILED": "Stream gagal dibuat",
+    "STATE_SUCCESS": "Stream berhasil dibuat"
   },
   "SEND_DETAILS_MODAL": {
     "TITLE1": "Transaksi",
