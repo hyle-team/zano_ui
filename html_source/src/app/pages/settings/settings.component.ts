@@ -141,10 +141,11 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
           </div>
 
           <div class="form__field">
-            <label>{{ 'SETTINGS.USE_TOR_TO_RELAY_TRANSACTIONS' | translate }}</label>
+            <label>{{ 'SETTINGS.USE_TOR_TO_RELAY_TRANSACTIONS' | translate }} (Temporarily disabled)</label>
             <app-switch
               (emitChange)="toggleUseTor()"
-              [value]="appUseTor"
+              [disabled]="true"
+              [value]="false && appUseTor"
             ></app-switch>
           </div>
 

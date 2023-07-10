@@ -9,9 +9,7 @@ import { Observable } from 'rxjs';
 export class GetWhiteAssetInfoPipe implements PipeTransform {
   constructor(private assetsFacade: AssetsFacade) {}
 
-  transform({
-    asset_info: { asset_id },
-  }: Asset): Observable<WhiteAssetInfo | undefined> {
+  transform({ asset_info: { asset_id } }: Asset): Observable<WhiteAssetInfo | undefined> {
     return this.assetsFacade.getAssetByIdFromWhitelist(asset_id);
   }
 }

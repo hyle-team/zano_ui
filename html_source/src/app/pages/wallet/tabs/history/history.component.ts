@@ -51,122 +51,135 @@ import { collapseOnLeaveAnimation, expandOnEnterAnimation } from 'angular-animat
                 (click)="openDetails(transaction.tx_hash)"
                 [class.locked-transaction]="!transaction.is_mining && transaction.unlock_time > 0"
               >
+                <!-- Status -->
                 <td>
-                  <div
-                    [ngClass]="transaction.is_income ? 'received' : 'send'"
-                    class="status text-ellipsis"
-                    fxLayout="row"
-                    fxLayoutAlign=" center"
-                  >
-                    <ng-container *ngIf="getHeight(transaction) < 10">
-                      <svg
-                        [delay]="500"
-                        class="confirmation mr-1"
-                        placement="bottom-left"
-                        style="transform: rotateZ(-90deg)"
-                        tooltip="{{ 'HISTORY.STATUS_TOOLTIP' | translate : { current: getHeight(transaction), total: 10 } }}"
-                        tooltipClass="table-tooltip"
-                      >
-                        <circle
-                          cx="50%"
-                          cy="50%"
-                          fill="transparent"
-                          r="0.7rem"
-                          stroke="rgba(31, 143, 235, 0.33)"
-                          stroke-dasharray="100"
-                          stroke-dashoffset="0"
-                          stroke-width="0.3rem"
-                        ></circle>
-                        <circle
-                          [style.stroke-dashoffset]="strokeSize(transaction)"
-                          [style.stroke]="transaction.is_income ? '#16d1d6' : '#1f8feb'"
-                          class="progress-circle"
-                          cx="50%"
-                          cy="50%"
-                          fill="transparent"
-                          r="0.7rem"
-                          stroke-dasharray="4.5rem"
-                          stroke-dashoffset="4.5rem"
-                          stroke-linecap="round"
-                          stroke-width="0.3rem"
-                        ></circle>
-                      </svg>
-                    </ng-container>
-                    <ng-container *ngIf="getHeight(transaction) === 10">
-                      <img
-                        *ngIf="!transaction.is_income"
-                        alt=""
-                        class="status-transaction mr-1"
-                        src="assets/icons/blue/send.svg"
-                      />
-                      <img
-                        *ngIf="transaction.is_income"
-                        alt=""
-                        class="status-transaction mr-1"
-                        src="assets/icons/aqua/receive.svg"
-                      />
-                    </ng-container>
-                    <span class="status-transaction-text">{{
-                      (transaction.is_income ? 'HISTORY.RECEIVED' : 'HISTORY.SEND') | translate
-                    }}</span>
-                    <ng-container *ngIf="transaction.unlock_time !== 0 && transaction.tx_type !== 6">
-                      <ng-container *ngIf="isLocked(transaction); else unlock">
-                        <ng-container *ngIf="transaction.unlock_time < 500000000">
-                          <i
-                            [class.position]="
-                              variablesService.height_app - transaction.height < 10 ||
-                              (transaction.height === 0 && transaction.timestamp > 0)
-                            "
-                            [delay]="500"
-                            class="icon lock-transaction mr-1"
-                            placement="bottom-left"
-                            tooltip="{{ 'HISTORY.LOCK_TOOLTIP' | translate : { date: time(transaction) | date : 'MM.dd.yy' } }}"
-                            tooltipClass="table-tooltip"
-                          ></i>
-                        </ng-container>
-                        <ng-container *ngIf="transaction.unlock_time > 500000000">
-                          <i
-                            [class.position]="
-                              variablesService.height_app - transaction.height < 10 ||
-                              (transaction.height === 0 && transaction.timestamp > 0)
-                            "
-                            [delay]="500"
-                            class="icon lock-transaction mr-1"
-                            placement="bottom-left"
-                            tooltip="{{
-                              'HISTORY.LOCK_TOOLTIP'
-                                | translate
-                                  : {
-                                      date: transaction.unlock_time * 1000 | date : 'MM.dd.yy'
-                                    }
-                            }}"
-                            tooltipClass="table-tooltip"
-                          ></i>
-                        </ng-container>
+                  <ng-container *ngFor="let subtransfer of transaction.subtransfers">
+                    <div
+                      [ngClass]="subtransfer.is_income ? 'received' : 'send'"
+                      class="status text-ellipsis"
+                      fxLayout="row"
+                      fxLayoutAlign=" center"
+                    >
+                      <ng-container *ngIf="getHeight(transaction) < 10">
+                        <svg
+                          [delay]="500"
+                          class="confirmation mr-1"
+                          placement="bottom-left"
+                          style="transform: rotateZ(-90deg)"
+                          tooltip="{{ 'HISTORY.STATUS_TOOLTIP' | translate : { current: getHeight(transaction), total: 10 } }}"
+                          tooltipClass="table-tooltip"
+                        >
+                          <circle
+                            cx="50%"
+                            cy="50%"
+                            fill="transparent"
+                            r="0.7rem"
+                            stroke="rgba(31, 143, 235, 0.33)"
+                            stroke-dasharray="100"
+                            stroke-dashoffset="0"
+                            stroke-width="0.3rem"
+                          ></circle>
+                          <circle
+                            [style.stroke-dashoffset]="strokeSize(transaction)"
+                            [style.stroke]="subtransfer.is_income ? '#16d1d6' : '#1f8feb'"
+                            class="progress-circle"
+                            cx="50%"
+                            cy="50%"
+                            fill="transparent"
+                            r="0.7rem"
+                            stroke-dasharray="4.5rem"
+                            stroke-dashoffset="4.5rem"
+                            stroke-linecap="round"
+                            stroke-width="0.3rem"
+                          ></circle>
+                        </svg>
                       </ng-container>
-                      <ng-template #unlock>
-                        <i
-                          [class.position]="
-                            variablesService.height_app - transaction.height < 10 || (transaction.height === 0 && transaction.timestamp > 0)
-                          "
-                          class="icon unlock-transaction mr-1"
-                        ></i>
-                      </ng-template>
-                    </ng-container>
-                  </div>
+
+                      <ng-container *ngIf="getHeight(transaction) === 10">
+                        <img
+                          *ngIf="!subtransfer.is_income"
+                          alt=""
+                          class="status-transaction mr-1"
+                          src="assets/icons/blue/send.svg"
+                        />
+                        <img
+                          *ngIf="subtransfer.is_income"
+                          alt=""
+                          class="status-transaction mr-1"
+                          src="assets/icons/aqua/receive.svg"
+                        />
+                      </ng-container>
+
+                      <span class="status-transaction-text">{{
+                        (subtransfer.is_income ? 'HISTORY.RECEIVED' : 'HISTORY.SEND') | translate
+                      }}</span>
+
+                      <ng-container *ngIf="transaction.unlock_time !== 0 && transaction.tx_type !== 6">
+                        <ng-container *ngIf="isLocked(transaction); else unlock">
+                          <ng-container *ngIf="transaction.unlock_time < 500000000">
+                            <i
+                              [class.position]="
+                                variablesService.height_app - transaction.height < 10 ||
+                                (transaction.height === 0 && transaction.timestamp > 0)
+                              "
+                              [delay]="500"
+                              class="icon lock-transaction mr-1"
+                              placement="bottom-left"
+                              tooltip="{{ 'HISTORY.LOCK_TOOLTIP' | translate : { date: time(transaction) | date : 'MM.dd.yy' } }}"
+                              tooltipClass="table-tooltip"
+                            ></i>
+                          </ng-container>
+                          <ng-container *ngIf="transaction.unlock_time > 500000000">
+                            <i
+                              [class.position]="
+                                variablesService.height_app - transaction.height < 10 ||
+                                (transaction.height === 0 && transaction.timestamp > 0)
+                              "
+                              [delay]="500"
+                              class="icon lock-transaction mr-1"
+                              placement="bottom-left"
+                              tooltip="{{
+                                'HISTORY.LOCK_TOOLTIP'
+                                  | translate
+                                    : {
+                                        date: transaction.unlock_time * 1000 | date : 'MM.dd.yy'
+                                      }
+                              }}"
+                              tooltipClass="table-tooltip"
+                            ></i>
+                          </ng-container>
+                        </ng-container>
+                        <ng-template #unlock>
+                          <i
+                            [class.position]="
+                              variablesService.height_app - transaction.height < 10 ||
+                              (transaction.height === 0 && transaction.timestamp > 0)
+                            "
+                            class="icon unlock-transaction mr-1"
+                          ></i>
+                        </ng-template>
+                      </ng-container>
+                    </div>
+                  </ng-container>
                 </td>
+                <!-- Amount -->
+                <td>
+                  <ng-container *ngFor="let subtransfer of transaction.subtransfers">
+                    <div class="text-ellipsis">
+                      <span>
+                        {{ subtransfer.amount | intToMoney }}
+                      </span>
+                      <ng-container *ngIf="subtransfer.asset_id | getWhiteAsset | async as asset">
+                        {{ asset.ticker }}
+                      </ng-container>
+                    </div>
+                  </ng-container>
+                </td>
+                <!-- Fee -->
                 <td>
                   <div class="text-ellipsis">
-                    <span *ngIf="transaction.sortAmount && transaction.sortAmount.toString() !== '0'">
-                      {{ transaction.sortAmount | intToMoney }}
-                      {{ variablesService.defaultCurrency }}
-                    </span>
-                  </div>
-                </td>
-                <td>
-                  <div class="text-ellipsis">
-                    <span *ngIf="transaction.sortFee; else noFeeTemplate">
-                      {{ transaction.sortFee | intToMoney }}
+                    <span *ngIf="transaction.fee; else noFeeTemplate">
+                      {{ transaction.fee | intToMoney }}
                       {{ variablesService.defaultCurrency }}
                     </span>
                     <ng-template #noFeeTemplate>
@@ -174,6 +187,7 @@ import { collapseOnLeaveAnimation, expandOnEnterAnimation } from 'angular-animat
                     </ng-template>
                   </div>
                 </td>
+                <!-- Address -->
                 <td class="remote-address">
                   <ng-container
                     *ngIf="!(transaction.tx_type === 0); else walletOrAliases"
@@ -221,13 +235,16 @@ import { collapseOnLeaveAnimation, expandOnEnterAnimation } from 'angular-animat
                     {{ 'HISTORY.HIDDEN' | translate }}
                   </ng-container>
                 </td>
+                <!-- Date -->
                 <td>
                   <div class="text-ellipsis">
                     {{ transaction.timestamp * 1000 | date : 'dd-MM-yyyy HH:mm' }}
                   </div>
                 </td>
               </tr>
+
               <div class="row-divider"></div>
+
               <tr>
                 <td
                   colspan="5"
@@ -254,6 +271,7 @@ import { collapseOnLeaveAnimation, expandOnEnterAnimation } from 'angular-animat
           </tbody>
         </table>
       </div>
+
       <div class="pagination-wrapper">
         <div
           class="pagination"
@@ -267,7 +285,11 @@ import { collapseOnLeaveAnimation, expandOnEnterAnimation } from 'angular-animat
           >
             <button
               (click)="setPage(variablesService.currentWallet.currentPage - 1)"
-              [disabled]="variablesService.currentWallet.currentPage === 1 || variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded"
+              [disabled]="
+                variablesService.currentWallet.currentPage === 1 ||
+                variablesService.isCurrentWalletSync ||
+                !variablesService.isCurrentWalletLoaded
+              "
               class="btn-icon circle small mr-1"
             >
               <i class="icon arrow-left-stroke"></i>
@@ -291,7 +313,7 @@ import { collapseOnLeaveAnimation, expandOnEnterAnimation } from 'angular-animat
                 [disabled]="stop_paginate || variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded"
                 [ngClass]="{
                   'color-primary': variablesService.currentWallet.currentPage,
-                  'disabled': variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded
+                  disabled: variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded
                 }"
                 class="mr-0_5"
               >
@@ -355,8 +377,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
     private backend: BackendService,
     private ngZone: NgZone,
     private paginationStore: PaginationStore
-  ) {
-  }
+  ) {}
 
   ngOnInit(): void {
     this.route.parent.params.pipe(takeUntil(this.destroy$)).subscribe({
@@ -370,7 +391,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
     this.variablesService.getWalletChangedEvent.pipe(takeUntil(this.destroy$)).subscribe({
       next: () => {
         this.getRecentTransfers();
-      }
+      },
     });
 
     this.variablesService.getWalletChangedEvent

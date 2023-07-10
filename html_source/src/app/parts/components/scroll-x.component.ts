@@ -1,12 +1,4 @@
-import {
-  AfterContentChecked,
-  AfterContentInit,
-  Component,
-  ElementRef,
-  HostListener,
-  Input,
-  ViewChild,
-} from '@angular/core';
+import { AfterContentChecked, AfterContentInit, Component, ElementRef, HostListener, Input, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 const activeClass = 'scroll-item-active';
@@ -24,7 +16,10 @@ enum Direction {
 @Component({
   selector: 'app-scroll-x',
   template: `
-    <div [class.visibility]="this.leftDisabled" class="left">
+    <div
+      [class.visibility]="this.leftDisabled"
+      class="left"
+    >
       <button
         (click)="$event.stopPropagation(); actionScroll(Direction.left)"
         class="btn-left"
@@ -43,11 +38,17 @@ enum Direction {
       [class.smooth]="scrollSmooth"
       class="scroll hide-scroll"
     >
-      <div #scrollContent class="scroll-content scroll-delay">
+      <div
+        #scrollContent
+        class="scroll-content scroll-delay"
+      >
         <ng-content></ng-content>
       </div>
     </div>
-    <div [class.visibility]="this.rightDisabled" class="right">
+    <div
+      [class.visibility]="this.rightDisabled"
+      class="right"
+    >
       <button
         (click)="$event.stopPropagation(); actionScroll(Direction.right)"
         class="btn-right"
@@ -115,20 +116,12 @@ enum Direction {
 
       .left {
         left: 0;
-        background: linear-gradient(
-          to left,
-          rgba(12, 12, 58, 0) 0%,
-          var(--blue-900) 100%
-        );
+        background: linear-gradient(to left, rgba(12, 12, 58, 0) 0%, var(--blue-900) 100%);
       }
 
       .right {
         right: 0;
-        background: linear-gradient(
-          to right,
-          rgba(12, 12, 58, 0) 0%,
-          var(--blue-900) 100%
-        );
+        background: linear-gradient(to right, rgba(12, 12, 58, 0) 0%, var(--blue-900) 100%);
       }
 
       .btn-left,
@@ -230,16 +223,12 @@ export class ScrollXComponent implements AfterContentInit, AfterContentChecked {
   }
 
   checkScroll(): void {
-    this.scrollMenu.nativeElement.scrollLeft === 0
-      ? (this.leftDisabled = true)
-      : (this.leftDisabled = false);
+    this.scrollMenu.nativeElement.scrollLeft === 0 ? (this.leftDisabled = true) : (this.leftDisabled = false);
 
     const newScrollLeft = this.scrollMenu.nativeElement.scrollLeft;
     const width = this.scrollMenu.nativeElement.clientWidth;
     const scrollWidth = this.scrollMenu.nativeElement.scrollWidth;
-    scrollWidth - (newScrollLeft + width) < 20
-      ? (this.rightDisabled = true)
-      : (this.rightDisabled = false);
+    scrollWidth - (newScrollLeft + width) < 20 ? (this.rightDisabled = true) : (this.rightDisabled = false);
   }
 
   startDragging(e): void {
@@ -270,18 +259,12 @@ export class ScrollXComponent implements AfterContentInit, AfterContentChecked {
 
   private updateActiveClass(): void {
     const scrollLeft = this.scrollMenu.nativeElement.scrollLeft;
-    const nextActiveIndex = this.children.findIndex(
-      ({ offsetLeft, offsetWidth }) => {
-        return (
-          offsetLeft >= scrollLeft && scrollLeft <= offsetLeft + offsetWidth
-        );
-      }
-    );
+    const nextActiveIndex = this.children.findIndex(({ offsetLeft, offsetWidth }) => {
+      return offsetLeft >= scrollLeft && scrollLeft <= offsetLeft + offsetWidth;
+    });
 
     if (nextActiveIndex >= 0) {
-      const activeItem = this.children.find(el =>
-        el.classList.contains(activeClass)
-      );
+      const activeItem = this.children.find(el => el.classList.contains(activeClass));
       if (activeItem) {
         activeItem.classList.remove(activeClass);
       }
@@ -295,11 +278,8 @@ export class ScrollXComponent implements AfterContentInit, AfterContentChecked {
   private getElToScroll(direction: Direction): HTMLElement {
     const minPosition = 0;
     const maxPosition = this.children.length - 1 || minPosition;
-    const currentPosition = this.children.findIndex(el =>
-      el.classList.contains(activeClass)
-    );
-    const calcNewPosition =
-      currentPosition + (direction === Direction.right ? 1 : -1);
+    const currentPosition = this.children.findIndex(el => el.classList.contains(activeClass));
+    const calcNewPosition = currentPosition + (direction === Direction.right ? 1 : -1);
     const nextPosition =
       calcNewPosition >= minPosition && calcNewPosition <= maxPosition
         ? calcNewPosition

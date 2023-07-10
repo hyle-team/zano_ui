@@ -254,19 +254,6 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
                 new_wallet.pages = new Array(1).fill(1);
                 new_wallet.totalPages = 1;
               }
-              this.backend.getContracts(openData.wallet_id, (contracts_status, contracts_data) => {
-                if (contracts_status && hasOwnProperty(contracts_data, 'contracts')) {
-                  this.ngZone.run(() => {
-                    new_wallet.prepareContractsAfterOpen(
-                      contracts_data.contracts,
-                      this.variablesService.exp_med_ts,
-                      this.variablesService.height_app,
-                      this.variablesService.settings.viewedContracts,
-                      this.variablesService.settings.notViewedContracts
-                    );
-                  });
-                }
-              });
               this.walletsService.addWallet(new_wallet);
               this.backend.runWallet(openData.wallet_id, (run_status, run_data) => {
                 if (run_status) {

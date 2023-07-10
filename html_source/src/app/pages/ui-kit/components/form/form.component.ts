@@ -1,10 +1,5 @@
 import { Component } from '@angular/core';
-import {
-  CheckboxsComponent,
-  InputsComponent,
-  SelectsComponent,
-  SwitchesComponent,
-} from './components';
+import { CheckboxsComponent, InputsComponent, SelectsComponent, SwitchesComponent } from './components';
 
 @Component({
   selector: 'app-form',
@@ -31,11 +26,6 @@ import {
   `,
   styles: [],
   standalone: true,
-  imports: [
-    SwitchesComponent,
-    CheckboxsComponent,
-    SelectsComponent,
-    InputsComponent,
-  ],
+  imports: [SwitchesComponent, CheckboxsComponent, SelectsComponent, InputsComponent],
 })
 export class FormComponent {}

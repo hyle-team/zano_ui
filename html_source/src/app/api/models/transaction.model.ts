@@ -1,27 +1,38 @@
 import { BigNumber } from 'bignumber.js';
 
 export class Transaction {
-  amount: BigNumber;
   comment: string;
-  contract: any[];
+  employed_entries: {
+    receive: {
+      amount: BigNumber;
+      asset_id: string;
+      index: number;
+    }[];
+    spent: {
+      amount: BigNumber;
+      asset_id: string;
+      index: number;
+    }[];
+  };
   fee: BigNumber;
   height: number;
-  is_income: boolean;
   is_mining: boolean;
   is_mixing: boolean;
   is_service: boolean;
   payment_id: string;
+  remote_addresses: string[];
   show_sender: boolean;
-  td: object;
+  subtransfers: {
+    amount: BigNumber;
+    asset_id: string;
+    is_income: boolean;
+  }[];
   timestamp: number;
   tx_blob_size: number;
-  remote_addresses?: string[];
   remote_aliases?: string[];
   tx_hash: string;
   tx_type: number;
   unlock_time: number;
-  sortAmount?: BigNumber;
-  sortFee?: BigNumber;
 }
 
 export type Transactions = Transaction[];

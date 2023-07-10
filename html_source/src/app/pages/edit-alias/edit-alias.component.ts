@@ -12,7 +12,11 @@ import { BigNumber } from 'bignumber.js';
     <div class="page-container">
       <div class="toolbar mb-2">
         <div class="left">
-          <button appBackButton class="btn-icon circle big mr-2" type="button">
+          <button
+            appBackButton
+            class="btn-icon circle big mr-2"
+            type="button"
+          >
             <i class="icon dropdown-arrow-left"></i>
           </button>
           <h1>{{ 'BREADCRUMBS.EDIT_ALIAS' | translate }}</h1>
@@ -66,9 +70,7 @@ import { BigNumber } from 'bignumber.js';
                 {{ 'EDIT_ALIAS.FORM_ERRORS.NO_MONEY' | translate }}
               </div>
               <div
-                *ngIf="
-                  alias.comment.length >= variablesService.maxCommentLength
-                "
+                *ngIf="alias.comment.length >= variablesService.maxCommentLength"
                 class="error"
               >
                 {{ 'EDIT_ALIAS.FORM_ERRORS.MAX_LENGTH' | translate }}
@@ -88,11 +90,7 @@ import { BigNumber } from 'bignumber.js';
 
             <button
               (click)="updateAlias()"
-              [disabled]="
-                notEnoughMoney ||
-                oldAliasComment === alias.comment ||
-                alias.comment.length > variablesService.maxCommentLength
-              "
+              [disabled]="notEnoughMoney || oldAliasComment === alias.comment || alias.comment.length > variablesService.maxCommentLength"
               class="primary big w-100"
               type="button"
             >
@@ -141,12 +139,8 @@ export class EditAliasComponent implements OnInit {
       comment: alias.comment,
     };
     this.oldAliasComment = alias.comment;
-    const balance = new BigNumber(
-      this.wallet.getBalanceByTicker('ZANO')?.unlocked || 0
-    );
-    this.notEnoughMoney = balance.isLessThan(
-      this.variablesService.default_fee_big
-    );
+    const balance = new BigNumber(this.wallet.getBalanceByTicker('ZANO')?.unlocked || 0);
+    this.notEnoughMoney = balance.isLessThan(this.variablesService.default_fee_big);
   }
 
   updateAlias(): void {
@@ -159,20 +153,15 @@ export class EditAliasComponent implements OnInit {
       return;
     }
     this.requestProcessing = true;
-    this.backend.updateAlias(
-      this.wallet.wallet_id,
-      this.alias,
-      this.variablesService.default_fee,
-      status => {
-        if (status) {
-          this.modalService.prepareModal('success', '');
-          this.wallet.alias['comment'] = this.alias.comment;
-          this.ngZone.run(() => {
-            this.router.navigate(['/wallet/']);
-          });
-        }
-        this.requestProcessing = false;
+    this.backend.updateAlias(this.wallet.wallet_id, this.alias, this.variablesService.default_fee, status => {
+      if (status) {
+        this.modalService.prepareModal('success', '');
+        this.wallet.alias['comment'] = this.alias.comment;
+        this.ngZone.run(() => {
+          this.router.navigate(['/wallet/']);
+        });
       }
-    );
+      this.requestProcessing = false;
+    });
   }
 }

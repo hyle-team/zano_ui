@@ -8,10 +8,7 @@ import { Wallet } from '@api/models/wallet.model';
 import { TranslateService } from '@ngx-translate/core';
 import { IntToMoneyPipe } from '@parts/pipes/int-to-money-pipe/int-to-money.pipe';
 import { Dialog, DialogConfig } from '@angular/cdk/dialog';
-import {
-  ConfirmModalComponent,
-  ConfirmModalData,
-} from '@parts/modals/confirm-modal/confirm-modal.component';
+import { ConfirmModalComponent, ConfirmModalData } from '@parts/modals/confirm-modal/confirm-modal.component';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { WalletsService } from '@parts/services/wallets.service';
@@ -21,7 +18,10 @@ import { WalletsService } from '@parts/services/wallets.service';
   template: `
     <div class="sidebar-header mb-2">
       <div class="logo">
-        <img alt="zano-logo" src="assets/icons/blue/zano-logo.svg" />
+        <img
+          alt="zano-logo"
+          src="assets/icons/blue/zano-logo.svg"
+        />
       </div>
     </div>
 
@@ -36,8 +36,7 @@ import { WalletsService } from '@parts/services/wallets.service';
           *ngFor="let wallet of variablesService.wallets"
           [cdkDragData]="wallet"
           [ngClass]="{
-            active:
-              wallet?.wallet_id === variablesService?.currentWallet?.wallet_id,
+            active: wallet?.wallet_id === variablesService?.currentWallet?.wallet_id,
             auditable: wallet.is_auditable && !wallet.is_watch_only,
             'watch-only': wallet.is_watch_only
           }"
@@ -146,10 +145,7 @@ export class SidebarComponent implements OnDestroy {
   }
 
   goMainPage(): void {
-    if (
-      this.route.snapshot.queryParams &&
-      this.route.snapshot.queryParams.prevUrl === 'login'
-    ) {
+    if (this.route.snapshot.queryParams && this.route.snapshot.queryParams.prevUrl === 'login') {
       this.ngZone.run(() => {
         this.router.navigate(['/'], { queryParams: { prevUrl: 'login' } });
       });
@@ -168,11 +164,7 @@ export class SidebarComponent implements OnDestroy {
   }
 
   drop(event: CdkDragDrop<Wallet[]>): void {
-    moveItemInArray(
-      this.variablesService.wallets,
-      event.previousIndex,
-      event.currentIndex
-    );
+    moveItemInArray(this.variablesService.wallets, event.previousIndex, event.currentIndex);
   }
 
   beforeClose(wallet_id): void {

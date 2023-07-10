@@ -11,8 +11,6 @@ export class HasInAssetsWhitelistPipe implements PipeTransform {
   constructor(private assetsFacade: AssetsFacade) {}
 
   transform({ asset_info: { asset_id } }: Asset): Observable<boolean> {
-    return this.assetsFacade
-      .getAssetByIdFromWhitelist(asset_id)
-      .pipe(map(i => Boolean(i)));
+    return this.assetsFacade.getAssetByIdFromWhitelist(asset_id).pipe(map(i => Boolean(i)));
   }
 }

@@ -16,10 +16,17 @@ import { NgSelectModule } from '@ng-select/ng-select';
         bindLabel="name"
         bindValue="value"
       >
-        <ng-template let-item="item" ng-label-tmp>
+        <ng-template
+          let-item="item"
+          ng-label-tmp
+        >
           {{ item.name | translate }}
         </ng-template>
-        <ng-template let-index="index" let-item="item" ng-option-tmp>
+        <ng-template
+          let-index="index"
+          let-item="item"
+          ng-option-tmp
+        >
           {{ item.name | translate }}
         </ng-template>
       </ng-select>
@@ -35,19 +42,23 @@ import { NgSelectModule } from '@ng-select/ng-select';
         bindValue="value"
         class="with-circle"
       >
-        <ng-template let-item="item" ng-label-tmp>
+        <ng-template
+          let-item="item"
+          ng-label-tmp
+        >
           {{ item.name | translate }}
         </ng-template>
-        <ng-template let-index="index" let-item="item" ng-option-tmp>
+        <ng-template
+          let-index="index"
+          let-item="item"
+          ng-option-tmp
+        >
           {{ item.name | translate }}
         </ng-template>
       </ng-select>
     </div>
 
-    <h3 class="mb-1">
-      if you use formControlName class ng-invalid set red border if select
-      ng-touched
-    </h3>
+    <h3 class="mb-1">if you use formControlName class ng-invalid set red border if select ng-touched</h3>
     <div class="form__field">
       <label>With error</label>
       <ng-select
@@ -58,10 +69,17 @@ import { NgSelectModule } from '@ng-select/ng-select';
         bindValue="value"
         class="with-circle invalid"
       >
-        <ng-template let-item="item" ng-label-tmp>
+        <ng-template
+          let-item="item"
+          ng-label-tmp
+        >
           {{ item.name | translate }}
         </ng-template>
-        <ng-template let-index="index" let-item="item" ng-option-tmp>
+        <ng-template
+          let-index="index"
+          let-item="item"
+          ng-option-tmp
+        >
           {{ item.name | translate }}
         </ng-template>
       </ng-select>

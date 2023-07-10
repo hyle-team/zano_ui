@@ -3,11 +3,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PagesModule } from './pages/pages.module';
 import { CommonModule } from '@angular/common';
-import {
-  TranslateLoader,
-  TranslateModule,
-  TranslateModuleConfig,
-} from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule, TranslateModuleConfig } from '@ngx-translate/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { BrowserModule } from '@angular/platform-browser';
