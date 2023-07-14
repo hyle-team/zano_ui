@@ -24,6 +24,7 @@
 
 		<div class="scrolled-content">
 			<form [formGroup]="openForm"
+				  (ngSubmit)="openWallet()"
 				  class="form">
 
 				<div class="form__field">
@@ -65,10 +66,9 @@
 				</div>
 
 
-				<button (click)="openWallet()"
-						[disabled]="!openForm.valid"
+				<button [disabled]="!openForm.valid"
 						class="primary big max-w-19-rem w-100"
-						type="button">{{'OPEN_WALLET.BUTTON' | translate }}</button>
+						type="submit">{{'OPEN_WALLET.BUTTON' | translate }}</button>
 			</form>
 		</div>
 	</div>
