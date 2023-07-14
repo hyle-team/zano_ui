@@ -791,9 +791,9 @@ export class BackendService {
   }
 
   getVersion(callback) {
-    this.runCommand('get_version', {}, (status, version) => {
-      this.runCommand('get_network_type', {}, (status_network, type) => {
-        callback(version, type);
+    this.runCommand('get_version', {}, (status, version, errorVersion) => {
+      this.runCommand('get_network_type', {}, (status_network, type, errorType) => {
+        callback(version, type, (errorVersion ?? errorType));
       });
     });
   }
