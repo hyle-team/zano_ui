@@ -104,7 +104,7 @@
 					<td>
 						<div class="text-ellipsis">
                               <span *ngIf="item.sortAmount && item.sortAmount.toString() !== '0'">
-                                  {{item.sortAmount.minus(item.sortFee) | intToMoney}}
+                                  {{item.sortAmount.minus(item.sortFee || 0) | intToMoney}}
 								  {{variablesService.defaultCurrency}}
                               </span>
 						</div>
