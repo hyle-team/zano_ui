@@ -45,6 +45,7 @@ import { StakingSwitchComponent } from '@parts/components/staking-switch.compone
 import { SwitchComponent } from '@parts/components/switch.component';
 import { SynchronizationStatusComponent } from '@parts/components/synchronization-status.component';
 import { LoaderComponent } from '@parts/components/loader.component';
+import { AutoFocusDirective } from "@parts/directives/autofocus.directive";
 
 @NgModule({
   declarations: [
@@ -98,6 +99,7 @@ import { LoaderComponent } from '@parts/components/loader.component';
     SwitchComponent,
     SynchronizationStatusComponent,
     LoaderComponent,
+    AutoFocusDirective,
   ],
 })
 export class PagesModule {}
