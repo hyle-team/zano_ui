@@ -94,7 +94,7 @@ export class VariablesService {
     appLockTime: 15,
     appLog: 0,
     scale: '10px',
-    appUseTor: true,
+    appUseTor: false,
     language: 'en',
     default_path: '/',
     viewedContracts: [],

@@ -18,9 +18,9 @@ import {
   ResponseAsyncTransfer,
   StatusCurrentActionState,
 } from '@api/services/backend.service';
-import { BehaviorSubject, Subject } from 'rxjs';
-import { VariablesService } from '@parts/services/variables.service';
-import { filter, takeUntil } from 'rxjs/operators';
+import {BehaviorSubject, Subject} from 'rxjs';
+import {VariablesService} from '@parts/services/variables.service';
+import {filter, takeUntil, tap} from 'rxjs/operators';
 
 const successfulStatuses: string[] = [
   StatusCurrentActionState.STATE_SENDING,
@@ -37,7 +37,8 @@ const failedStatuses: string[] = [StatusCurrentActionState.STATE_SEND_FAILED, St
 
 @Component({
   selector: 'app-send-details-modal',
-  template: `<div
+  template: `
+    <div
       class="modal p-2 border-radius-0_8-rem bg-light-blue w-100 max-h-100"
       fxFlex="0 1 54rem"
     >
@@ -95,7 +96,7 @@ const failedStatuses: string[] = [StatusCurrentActionState.STATE_SEND_FAILED, St
               *ngIf="currentActionState$ | async as currentActionState"
             >
               {{
-                (currentActionState ? 'TOR_LIB_STATE' + '.' + currentActionState.status : 'TOR_LIB_STATE.STATE_INITIALIZING') | translate
+              (currentActionState ? 'TOR_LIB_STATE' + '.' + currentActionState.status : 'TOR_LIB_STATE.STATE_INITIALIZING') | translate
               }}
               {{ !isSentSuccess && !isSentFailed ? '...' : '' }}
             </p>
@@ -162,7 +163,7 @@ const failedStatuses: string[] = [StatusCurrentActionState.STATE_SEND_FAILED, St
                   fxLayoutAlign=" center"
                 >
                   <span class="text text-ellipsis mr-1"
-                    >{{ 'TOR_LIB_STATE' + '.' + action?.status | translate
+                  >{{ 'TOR_LIB_STATE' + '.' + action?.status | translate
                     }}{{ last && !isSentSuccess && !isSentFailed ? '...' : '' }}</span
                   >
                   <ng-container *ngIf="!last">
@@ -282,7 +283,7 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
 
   @Output() eventClose = new EventEmitter<boolean>();
 
-  @ViewChild('elDetailsList', { static: true }) elDetailsList: ElementRef;
+  @ViewChild('elDetailsList', {static: true}) elDetailsList: ElementRef;
 
   responseData$ = new BehaviorSubject<ResponseAsyncTransfer>(null);
 
@@ -296,7 +297,8 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>();
 
-  constructor(private backendService: BackendService, private variablesService: VariablesService, private renderer: Renderer2) {}
+  constructor(private backendService: BackendService, private variablesService: VariablesService, private renderer: Renderer2) {
+  }
 
   get currentActionState(): CurrentActionState {
     return this.currentActionState$.value;
@@ -321,8 +323,8 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.renderer.addClass(document.body, 'no-scroll');
     const {
-      currentWallet: { wallet_id },
-      settings: { appUseTor },
+      currentWallet: {wallet_id},
+      settings: {appUseTor},
     } = this.variablesService;
 
     if (appUseTor) {
@@ -343,22 +345,21 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
 
     this.backendService.dispatchAsyncCallResult$
       .pipe(
-        filter(({ job_id, response }: AsyncCommandResults) => this.job_id === job_id && !!response),
+        filter(({job_id, response}: AsyncCommandResults) => this.job_id === job_id && !!response),
         takeUntil(this.destroy$)
       )
       .subscribe({
-        next: ({ response }: AsyncCommandResults) => {
-          const { response_data } = response;
+        next: ({response}: AsyncCommandResults) => {
+          const {response_data} = response;
           const success = response_data?.success ?? false;
           this.success = success;
-          if (!appUseTor || !success) {
-            const actionState: CurrentActionState = {
-              status: success ? StatusCurrentActionState.STATE_SENT_SUCCESS : StatusCurrentActionState.STATE_SEND_FAILED,
-              wallet_id,
-            };
-            this.currentActionState$.next(actionState);
-            this.currentActionStates$.next([...this.currentActionStates, actionState]);
-          }
+
+          const actionState: CurrentActionState = {
+            status: success ? StatusCurrentActionState.STATE_SENT_SUCCESS : StatusCurrentActionState.STATE_SEND_FAILED,
+            wallet_id,
+          };
+          this.currentActionState$.next(actionState);
+          this.currentActionStates$.next([...this.currentActionStates, actionState]);
 
           this.responseData$.next(response);
         },
@@ -390,7 +391,7 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
 
   private scrollToBottomDetailsList(): void {
     if (this.elDetailsList) {
-      const { nativeElement } = this.elDetailsList;
+      const {nativeElement} = this.elDetailsList;
       nativeElement.scrollTop = nativeElement.scrollHeight;
     }
   }
