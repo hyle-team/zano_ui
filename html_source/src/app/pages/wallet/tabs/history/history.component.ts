@@ -166,8 +166,11 @@ import { collapseOnLeaveAnimation, expandOnEnterAnimation } from 'angular-animat
                 <td>
                   <ng-container *ngFor="let subtransfer of transaction.subtransfers">
                     <div class="text-ellipsis">
-                      <span>
+                      <span *ngIf="!subtransfer.is_income">
                         {{ subtransfer.amount.minus(transaction.fee || 0) | intToMoney }}
+                      </span>
+                      <span *ngIf="subtransfer.is_income">
+                        {{ subtransfer.amount | intToMoney }}
                       </span>
                       <ng-container *ngIf="subtransfer.asset_id | getWhiteAsset | async as asset">
                         {{ asset.ticker }}
