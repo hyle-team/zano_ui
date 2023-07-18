@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { Wallet } from '../_helpers/models/wallet.model';
 import { TranslateService } from '@ngx-translate/core';
 import { Location } from '@angular/common';
+import {WalletsService} from "../_helpers/services/wallets.service";
 
 @Component({
   selector: 'app-create-wallet',
@@ -41,6 +42,7 @@ export class CreateWalletComponent {
     private router: Router,
     private backend: BackendService,
     public variablesService: VariablesService,
+    public walletsService: WalletsService,
     private modalService: ModalService,
     private ngZone: NgZone,
     private translate: TranslateService,
@@ -65,11 +67,19 @@ export class CreateWalletComponent {
         wallet.pages = new Array(1).fill(1);
         wallet.totalPages = 1;
         wallet.currentPage = 1;
-        this.variablesService.opening_wallet = wallet;
-        this.backend.closeWallet(wallet_id, async () => {
-          await this.ngZone.run(async () => {
-            await this.router.navigate(['/seed-phrase'], { queryParams: { wallet_id } });
-          });
+        await this.backend.runWallet(wallet_id, async (run_status, run_data) => {
+          if (run_status) {
+            await this.ngZone.run(async () => {
+              this.walletsService.addWallet(wallet);
+              if (this.variablesService.appPass) {
+                this.backend.storeSecureAppData();
+              }
+              this.variablesService.setCurrentWallet(wallet_id);
+              await this.router.navigate(['/seed-phrase'], { queryParams: { wallet_id } });
+            });
+          } else {
+            console.log(run_data['error_code']);
+          }
         });
       } else {
         const errorTranslationKey =
