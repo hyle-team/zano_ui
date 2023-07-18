@@ -9,6 +9,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
 import { WalletsService } from '@parts/services/wallets.service';
+import { Wallet } from '@api/models/wallet.model';
 
 @Component({
   selector: 'app-seed-phrase',
@@ -210,15 +211,8 @@ import { WalletsService } from '@parts/services/wallets.service';
                     fxLayout="row nowrap"
                   >
                     <button
-                      (click)="runWallet()"
-                      class="primary big w-100 mr-1"
-                      type="button"
-                    >
-                      {{ 'SEED_PHRASE.BUTTON_CREATE_ACCOUNT' | translate }}
-                    </button>
-                    <button
                       (click)="copySeedPhrase()"
-                      class="outline big w-100 ml-1"
+                      class="outline big w-100"
                       type="button"
                     >
                       <ng-container *ngIf="!seedPhraseCopied">
@@ -263,6 +257,8 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
 
   wallet_id: number;
 
+  wallet!: Wallet;
+
   seedPhraseCopied = false;
 
   progressWidth = '66%';
@@ -298,46 +294,12 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.showSeed = false;
-    this.getWalletId();
-    this.setWalletInfoNamePath();
+    this.getWallet();
   }
 
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-  runWallet(): void {
-    let exists = false;
-    this.variablesService.wallets.forEach(wallet => {
-      if (wallet.address === this.variablesService.opening_wallet.address) {
-        exists = true;
-      }
-    });
-    if (!exists) {
-      this.backend.runWallet(this.wallet_id, (run_status, run_data) => {
-        if (run_status) {
-          this.walletsService.addWallet(this.variablesService.opening_wallet);
-          if (this.variablesService.appPass) {
-            this.backend.storeSecureAppData();
-          }
-          this.ngZone.run(() => {
-            this.variablesService.setCurrentWallet(this.wallet_id);
-            this.router.navigate(['/wallet/']);
-          });
-        } else {
-          console.log(run_data['error_code']);
-        }
-      });
-    } else {
-      this.variablesService.opening_wallet = null;
-      this.modalService.prepareModal('error', 'OPEN_WALLET.WITH_ADDRESS_ALREADY_OPEN');
-      this.backend.closeWallet(this.wallet_id, () => {
-        this.ngZone.run(() => {
-          this.router.navigate(['/']);
-        });
-      });
-    }
   }
 
   copySeedPhrase(): void {
@@ -372,15 +334,19 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
   }
 
   private setWalletInfoNamePath(): void {
-    this.detailsForm.get('name').setValue(this.variablesService.opening_wallet.name);
-    this.detailsForm.get('path').setValue(this.variablesService.opening_wallet.path);
+    this.detailsForm.get('name').setValue(this.wallet.name);
+    this.detailsForm.get('path').setValue(this.wallet.path);
   }
 
-  private getWalletId(): void {
+  private getWallet(): void {
     this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe({
       next: params => {
         if (params.wallet_id) {
-          this.wallet_id = params.wallet_id;
+          this.wallet_id = +params.wallet_id;
+          this.wallet = this.walletsService.getWalletById(this.wallet_id);
+          if (this.wallet) {
+            this.setWalletInfoNamePath();
+          }
         }
       },
     });

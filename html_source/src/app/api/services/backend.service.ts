@@ -653,7 +653,7 @@ export class BackendService {
   getVersion(callback): void {
     this.runCommand(Commands.get_version, {}, (status, version, errorVersion) => {
       this.runCommand(Commands.get_network_type, {}, (status_network, type, errorType) => {
-        callback(version, type, (errorVersion ?? errorType));
+        callback(version, type, errorVersion ?? errorType);
       });
     });
   }
