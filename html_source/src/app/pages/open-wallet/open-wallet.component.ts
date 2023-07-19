@@ -44,6 +44,7 @@ import { notFileZanoWallet, wrongPassword } from '@parts/utils/zano-errors';
         <div class="scrolled-content">
           <form
             [formGroup]="openWalletForm"
+            (ngSubmit)="openWallet()"
             class="form"
           >
             <div class="form__field">
@@ -101,10 +102,9 @@ import { notFileZanoWallet, wrongPassword } from '@parts/utils/zano-errors';
             </div>
 
             <button
-              (click)="openWallet()"
               [disabled]="openWalletForm.invalid"
               class="primary big max-w-19-rem w-100"
-              type="button"
+              type="submit"
             >
               {{ 'OPEN_WALLET.BUTTON' | translate }}
             </button>

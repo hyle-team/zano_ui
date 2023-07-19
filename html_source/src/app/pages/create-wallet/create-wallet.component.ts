@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { Wallet } from '@api/models/wallet.model';
 import { TranslateService } from '@ngx-translate/core';
 import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
+import { WalletsService } from '@parts/services/wallets.service';
 
 @Component({
   selector: 'app-create-wallet',
@@ -159,6 +160,8 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
 export class CreateWalletComponent {
   variablesService = inject(VariablesService);
 
+  walletsService = inject(WalletsService);
+
   fb = inject(NonNullableFormBuilder);
   createForm = this.fb.group(
     {
@@ -183,7 +186,7 @@ export class CreateWalletComponent {
   }
 
   createWallet(): void {
-    const { path: selectedPath, password, name } = this.createForm.value;
+    const { path: selectedPath, password, name } = this.createForm.getRawValue();
     this.backend.generateWallet(selectedPath, password, async (generate_status, generate_data, errorCode) => {
       if (generate_status) {
         const { wallet_id } = generate_data;
@@ -194,11 +197,19 @@ export class CreateWalletComponent {
         wallet.pages = new Array(1).fill(1);
         wallet.totalPages = 1;
         wallet.currentPage = 1;
-        this.variablesService.opening_wallet = wallet;
-        this.backend.closeWallet(wallet_id, async () => {
-          await this.ngZone.run(async () => {
-            await this.router.navigate(['/seed-phrase'], { queryParams: { wallet_id } });
-          });
+        await this.backend.runWallet(wallet_id, async (run_status, run_data) => {
+          if (run_status) {
+            await this.ngZone.run(async () => {
+              this.walletsService.addWallet(wallet);
+              if (this.variablesService.appPass) {
+                this.backend.storeSecureAppData();
+              }
+              this.variablesService.setCurrentWallet(wallet_id);
+              await this.router.navigate(['/seed-phrase'], { queryParams: { wallet_id } });
+            });
+          } else {
+            console.log(run_data['error_code']);
+          }
         });
       } else {
         const errorTranslationKey =

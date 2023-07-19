@@ -391,15 +391,19 @@ export class SettingsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.backend.getVersion((version, type) => {
+    this.backend.getVersion((version, type, error) => {
       this.ngZone.run(() => {
-        this.currentBuild = version;
-        this.variablesService.testnet = false;
-        if (type === 'testnet') {
-          this.currentBuild += ' TESTNET';
-          this.variablesService.testnet = true;
+        if (!error) {
+          this.currentBuild = version;
+          this.variablesService.testnet = false;
+          if (type === 'testnet') {
+            this.currentBuild += ' TESTNET';
+            this.variablesService.testnet = true;
+          }
+          this.variablesService.networkType = type;
+        } else {
+          this.currentBuild = 'There was an error getting the build version';
         }
-        this.variablesService.networkType = type;
       });
     });
     this.backend.getIsDisabledNotifications(res => {

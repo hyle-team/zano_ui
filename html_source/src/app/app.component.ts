@@ -640,6 +640,8 @@ export class AppComponent implements OnInit, OnDestroy {
                 this.variablesService.settings[key] = data[key];
               }
             }
+            // TODO: Delete this line after return appUseTor
+            this.variablesService.settings.appUseTor = false;
             if (
               hasOwnProperty(this.variablesService.settings, 'scale') &&
               ['8px', '10px', '12px', '14px'].indexOf(this.variablesService.settings.scale) !== -1

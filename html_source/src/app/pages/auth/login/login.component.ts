@@ -46,6 +46,7 @@ import { WalletsService } from '@parts/services/wallets.service';
                 class="form__field--input"
                 formControlName="password"
                 id="master-pass"
+                appAutofocus
                 placeholder="{{ 'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate }}"
                 type="password"
               />
@@ -116,6 +117,7 @@ import { WalletsService } from '@parts/services/wallets.service';
                 (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
                 [placeholder]="'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate"
                 autofocus
+                appAutofocus
                 class="form__field--input"
                 formControlName="password"
                 id="master-pass-login"
