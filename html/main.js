@@ -2757,9 +2757,9 @@ var BackendService = /** @class */ (function () {
     };
     BackendService.prototype.getVersion = function (callback) {
         var _this = this;
-        this.runCommand('get_version', {}, function (status, version) {
-            _this.runCommand('get_network_type', {}, function (status_network, type) {
-                callback(version, type);
+        this.runCommand('get_version', {}, function (status, version, errorVersion) {
+            _this.runCommand('get_network_type', {}, function (status_network, type, errorType) {
+                callback(version, type, (errorVersion || errorType));
             });
         });
     };
@@ -3426,6 +3426,113 @@ var VariablesService = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/_helpers/services/wallets.service.ts":
+/*!******************************************************!*\
+  !*** ./src/app/_helpers/services/wallets.service.ts ***!
+  \******************************************************/
+/*! exports provided: WalletsService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "WalletsService", function() { return WalletsService; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _backend_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./backend.service */ "./src/app/_helpers/services/backend.service.ts");
+/* harmony import */ var _variables_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./variables.service */ "./src/app/_helpers/services/variables.service.ts");
+
+
+
+
+
+var WalletsService = /** @class */ (function () {
+    function WalletsService(backendService, variablesService, router, ngZone) {
+        this.backendService = backendService;
+        this.variablesService = variablesService;
+        this.router = router;
+        this.ngZone = ngZone;
+    }
+    Object.defineProperty(WalletsService.prototype, "wallets", {
+        get: function () {
+            return this.variablesService.wallets;
+        },
+        set: function (value) {
+            this.variablesService.wallets = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(WalletsService.prototype, "currentWallet", {
+        get: function () {
+            return this.variablesService.currentWallet;
+        },
+        set: function (value) {
+            this.variablesService.currentWallet = value;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    WalletsService.prototype.addWallet = function (wallet) {
+        var wallet_id = wallet.wallet_id;
+        this.variablesService.wallets.push(wallet);
+    };
+    WalletsService.prototype.getWalletById = function (wallet_id) {
+        var wallets = this.variablesService.wallets;
+        return wallets.find(function (w) { return w.wallet_id === wallet_id; });
+    };
+    WalletsService.prototype.closeWallet = function (wallet_id) {
+        var _this = this;
+        var callback = function () { return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](_this, void 0, void 0, function () {
+            var _this = this;
+            return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        this.wallets = this.wallets.filter(function (w) { return w.wallet_id !== wallet_id; });
+                        return [4 /*yield*/, this.ngZone.run(function () { return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](_this, void 0, void 0, function () {
+                                var url;
+                                return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
+                                    switch (_a.label) {
+                                        case 0:
+                                            url = '/';
+                                            if (this.wallets.length > 0) {
+                                                this.currentWallet = this.wallets[0];
+                                                url = '/wallet/';
+                                            }
+                                            if (this.variablesService.appPass) {
+                                                this.backendService.storeSecureAppData();
+                                            }
+                                            return [4 /*yield*/, this.router.navigate([url])];
+                                        case 1:
+                                            _a.sent();
+                                            return [2 /*return*/];
+                                    }
+                                });
+                            }); })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        }); };
+        this.backendService.closeWallet(wallet_id, callback);
+    };
+    WalletsService = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+            providedIn: 'root',
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_backend_service__WEBPACK_IMPORTED_MODULE_3__["BackendService"],
+            _variables_service__WEBPACK_IMPORTED_MODULE_4__["VariablesService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"],
+            _angular_core__WEBPACK_IMPORTED_MODULE_1__["NgZone"]])
+    ], WalletsService);
+    return WalletsService;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/_shared/components/checkbox/checkbox.component.html":
 /*!*********************************************************************!*\
   !*** ./src/app/_shared/components/checkbox/checkbox.component.html ***!
@@ -3775,6 +3882,41 @@ var BLOCK_EXPLORER_TN_TX_URL_PREFIX = 'testnet-explorer.zano.org/transaction/';
 
 /***/ }),
 
+/***/ "./src/app/_shared/directives/autofocus.directive.ts":
+/*!***********************************************************!*\
+  !*** ./src/app/_shared/directives/autofocus.directive.ts ***!
+  \***********************************************************/
+/*! exports provided: AutoFocusDirective */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AutoFocusDirective", function() { return AutoFocusDirective; });
+/* harmony import */ var tslib__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! tslib */ "./node_modules/tslib/tslib.es6.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+
+
+var AutoFocusDirective = /** @class */ (function () {
+    function AutoFocusDirective(elementRef) {
+        this.elementRef = elementRef;
+    }
+    AutoFocusDirective.prototype.ngAfterViewInit = function () {
+        var _this = this;
+        setTimeout(function () { return _this.elementRef.nativeElement.focus(); });
+    };
+    AutoFocusDirective = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Directive"])({
+            selector: '[appAutofocus]',
+        }),
+        tslib__WEBPACK_IMPORTED_MODULE_0__["__metadata"]("design:paramtypes", [_angular_core__WEBPACK_IMPORTED_MODULE_1__["ElementRef"]])
+    ], AutoFocusDirective);
+    return AutoFocusDirective;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/_shared/directives/disable-price-fetch/disable-price-fetch.directive.ts":
 /*!*****************************************************************************************!*\
   !*** ./src/app/_shared/directives/disable-price-fetch/disable-price-fetch.directive.ts ***!
@@ -3875,6 +4017,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
 /* harmony import */ var _components__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components */ "./src/app/_shared/components/index.ts");
+/* harmony import */ var _directives_autofocus_directive__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./directives/autofocus.directive */ "./src/app/_shared/directives/autofocus.directive.ts");
+
 
 
 
@@ -3884,15 +4028,9 @@ var SharedModule = /** @class */ (function () {
     }
     SharedModule = tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["NgModule"])({
-            imports: [
-                _angular_common__WEBPACK_IMPORTED_MODULE_2__["CommonModule"],
-                _components__WEBPACK_IMPORTED_MODULE_3__["SwitchModule"],
-                _components__WEBPACK_IMPORTED_MODULE_3__["CheckboxModule"]
-            ],
-            exports: [
-                _components__WEBPACK_IMPORTED_MODULE_3__["SwitchModule"],
-                _components__WEBPACK_IMPORTED_MODULE_3__["CheckboxModule"]
-            ]
+            declarations: [_directives_autofocus_directive__WEBPACK_IMPORTED_MODULE_4__["AutoFocusDirective"]],
+            imports: [_angular_common__WEBPACK_IMPORTED_MODULE_2__["CommonModule"], _components__WEBPACK_IMPORTED_MODULE_3__["SwitchModule"], _components__WEBPACK_IMPORTED_MODULE_3__["CheckboxModule"]],
+            exports: [_components__WEBPACK_IMPORTED_MODULE_3__["SwitchModule"], _components__WEBPACK_IMPORTED_MODULE_3__["CheckboxModule"], _directives_autofocus_directive__WEBPACK_IMPORTED_MODULE_4__["AutoFocusDirective"]],
         })
     ], SharedModule);
     return SharedModule;
@@ -6164,6 +6302,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _helpers_models_wallet_model__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../_helpers/models/wallet.model */ "./src/app/_helpers/models/wallet.model.ts");
 /* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @ngx-translate/core */ "./node_modules/@ngx-translate/core/fesm5/ngx-translate-core.js");
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
+/* harmony import */ var _helpers_services_wallets_service__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../_helpers/services/wallets.service */ "./src/app/_helpers/services/wallets.service.ts");
+
 
 
 
@@ -6175,12 +6315,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var CreateWalletComponent = /** @class */ (function () {
-    function CreateWalletComponent(fb, router, backend, variablesService, modalService, ngZone, translate, location) {
+    function CreateWalletComponent(fb, router, backend, variablesService, walletsService, modalService, ngZone, translate, location) {
         var _this = this;
         this.fb = fb;
         this.router = router;
         this.backend = backend;
         this.variablesService = variablesService;
+        this.walletsService = walletsService;
         this.modalService = modalService;
         this.ngZone = ngZone;
         this.translate = translate;
@@ -6216,45 +6357,61 @@ var CreateWalletComponent = /** @class */ (function () {
         var _this = this;
         var _a = this.createForm.value, selectedPath = _a.path, password = _a.password, name = _a.name;
         this.backend.generateWallet(selectedPath, password, function (generate_status, generate_data, errorCode) { return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](_this, void 0, void 0, function () {
-            var wallet_id_1, _a, path, address, balance, unlocked_balance, mined_total, tracking_hey, wallet, errorTranslationKey;
+            var wallet_id_1, _a, path, address, balance, unlocked_balance, mined_total, tracking_hey, wallet_1, errorTranslationKey;
             var _this = this;
             return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_b) {
-                if (generate_status) {
-                    wallet_id_1 = generate_data.wallet_id;
-                    _a = generate_data['wi'], path = _a.path, address = _a.address, balance = _a.balance, unlocked_balance = _a.unlocked_balance, mined_total = _a.mined_total, tracking_hey = _a.tracking_hey;
-                    wallet = new _helpers_models_wallet_model__WEBPACK_IMPORTED_MODULE_7__["Wallet"](wallet_id_1, name, password, path, address, balance, unlocked_balance, mined_total, tracking_hey);
-                    wallet.alias = this.backend.getWalletAlias(address);
-                    wallet.total_history_item = 0;
-                    wallet.pages = new Array(1).fill(1);
-                    wallet.totalPages = 1;
-                    wallet.currentPage = 1;
-                    this.variablesService.opening_wallet = wallet;
-                    this.backend.closeWallet(wallet_id_1, function () { return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](_this, void 0, void 0, function () {
-                        var _this = this;
-                        return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
-                            switch (_a.label) {
-                                case 0: return [4 /*yield*/, this.ngZone.run(function () { return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](_this, void 0, void 0, function () {
-                                        return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
-                                            switch (_a.label) {
-                                                case 0: return [4 /*yield*/, this.router.navigate(['/seed-phrase'], { queryParams: { wallet_id: wallet_id_1 } })];
-                                                case 1:
-                                                    _a.sent();
-                                                    return [2 /*return*/];
-                                            }
-                                        });
-                                    }); })];
-                                case 1:
-                                    _a.sent();
-                                    return [2 /*return*/];
-                            }
-                        });
-                    }); });
+                switch (_b.label) {
+                    case 0:
+                        if (!generate_status) return [3 /*break*/, 2];
+                        wallet_id_1 = generate_data.wallet_id;
+                        _a = generate_data['wi'], path = _a.path, address = _a.address, balance = _a.balance, unlocked_balance = _a.unlocked_balance, mined_total = _a.mined_total, tracking_hey = _a.tracking_hey;
+                        wallet_1 = new _helpers_models_wallet_model__WEBPACK_IMPORTED_MODULE_7__["Wallet"](wallet_id_1, name, password, path, address, balance, unlocked_balance, mined_total, tracking_hey);
+                        wallet_1.alias = this.backend.getWalletAlias(address);
+                        wallet_1.total_history_item = 0;
+                        wallet_1.pages = new Array(1).fill(1);
+                        wallet_1.totalPages = 1;
+                        wallet_1.currentPage = 1;
+                        return [4 /*yield*/, this.backend.runWallet(wallet_id_1, function (run_status, run_data) { return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](_this, void 0, void 0, function () {
+                                var _this = this;
+                                return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
+                                    switch (_a.label) {
+                                        case 0:
+                                            if (!run_status) return [3 /*break*/, 2];
+                                            return [4 /*yield*/, this.ngZone.run(function () { return tslib__WEBPACK_IMPORTED_MODULE_0__["__awaiter"](_this, void 0, void 0, function () {
+                                                    return tslib__WEBPACK_IMPORTED_MODULE_0__["__generator"](this, function (_a) {
+                                                        switch (_a.label) {
+                                                            case 0:
+                                                                this.walletsService.addWallet(wallet_1);
+                                                                if (this.variablesService.appPass) {
+                                                                    this.backend.storeSecureAppData();
+                                                                }
+                                                                this.variablesService.setCurrentWallet(wallet_id_1);
+                                                                return [4 /*yield*/, this.router.navigate(['/seed-phrase'], { queryParams: { wallet_id: wallet_id_1 } })];
+                                                            case 1:
+                                                                _a.sent();
+                                                                return [2 /*return*/];
+                                                        }
+                                                    });
+                                                }); })];
+                                        case 1:
+                                            _a.sent();
+                                            return [3 /*break*/, 3];
+                                        case 2:
+                                            console.log(run_data['error_code']);
+                                            _a.label = 3;
+                                        case 3: return [2 /*return*/];
+                                    }
+                                });
+                            }); })];
+                    case 1:
+                        _b.sent();
+                        return [3 /*break*/, 3];
+                    case 2:
+                        errorTranslationKey = errorCode === 'ALREADY_EXISTS' ? 'CREATE_WALLET.ERROR_CANNOT_SAVE_TOP' : 'CREATE_WALLET.ERROR_CANNOT_SAVE_SYSTEM';
+                        this.modalService.prepareModal('error', errorTranslationKey);
+                        _b.label = 3;
+                    case 3: return [2 /*return*/];
                 }
-                else {
-                    errorTranslationKey = errorCode === 'ALREADY_EXISTS' ? 'CREATE_WALLET.ERROR_CANNOT_SAVE_TOP' : 'CREATE_WALLET.ERROR_CANNOT_SAVE_SYSTEM';
-                    this.modalService.prepareModal('error', errorTranslationKey);
-                }
-                return [2 /*return*/];
             });
         }); });
     };
@@ -6283,6 +6440,7 @@ var CreateWalletComponent = /** @class */ (function () {
             _angular_router__WEBPACK_IMPORTED_MODULE_6__["Router"],
             _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_3__["BackendService"],
             _helpers_services_variables_service__WEBPACK_IMPORTED_MODULE_4__["VariablesService"],
+            _helpers_services_wallets_service__WEBPACK_IMPORTED_MODULE_10__["WalletsService"],
             _helpers_services_modal_service__WEBPACK_IMPORTED_MODULE_5__["ModalService"],
             _angular_core__WEBPACK_IMPORTED_MODULE_1__["NgZone"],
             _ngx_translate_core__WEBPACK_IMPORTED_MODULE_8__["TranslateService"],
@@ -6948,7 +7106,7 @@ var ExportImportComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"history-wrap\"\r\n\t fxLayout=\"column\"\r\n\t fxFlexFill>\r\n\t<div class=\"wrap-table scrolled-content mb-2\"\r\n\t\t fxFlex=\"1 1 auto\">\r\n\t\t<table class=\"history-table\">\r\n\t\t\t<thead>\r\n\t\t\t<tr #head\r\n\t\t\t\t(window:resize)=\"calculateWidth()\">\r\n\t\t\t\t<th>\r\n\t\t\t\t\t<div class=\"bg title\">{{ 'HISTORY.STATUS' | translate }}</div>\r\n\t\t\t\t</th>\r\n\t\t\t\t<th>\r\n\t\t\t\t\t<div class=\"bg title\">{{ 'HISTORY.AMOUNT' | translate }}</div>\r\n\t\t\t\t</th>\r\n\t\t\t\t<th>\r\n\t\t\t\t\t<div class=\"bg title\">{{ 'HISTORY.FEE' | translate }}</div>\r\n\t\t\t\t</th>\r\n\t\t\t\t<th>\r\n\t\t\t\t\t<div class=\"bg title\">{{ 'HISTORY.ADDRESS' | translate }}</div>\r\n\t\t\t\t</th>\r\n\t\t\t\t<th>\r\n\t\t\t\t\t<div class=\"bg title\">{{ 'HISTORY.DATE' | translate }}</div>\r\n\t\t\t\t</th>\r\n\t\t\t</tr>\r\n\t\t\t<div class=\"row-divider\"></div>\r\n\t\t\t</thead>\r\n\t\t\t<tbody>\r\n\t\t\t<ng-container *ngFor=\"let item of variablesService.currentWallet.history\">\r\n\t\t\t\t<tr (click)=\"openDetails(item.tx_hash)\"\r\n\t\t\t\t\t[class.locked-transaction]=\"!item.is_mining && item.unlock_time > 0\">\r\n\t\t\t\t\t<td>\r\n\t\t\t\t\t\t<div class=\"status text-ellipsis\"\r\n\t\t\t\t\t\t\t fxLayout=\"row\"\r\n\t\t\t\t\t\t\t fxLayoutAlign=\" center\"\r\n\t\t\t\t\t\t\t [ngClass]=\"item.is_income ? 'received' : 'send'\">\r\n\t\t\t\t\t\t\t<ng-container *ngIf=\"getHeight(item) < 10\">\r\n\t\t\t\t\t\t\t\t<svg class=\"confirmation mr-1\"\r\n\t\t\t\t\t\t\t\t\t style=\"transform: rotateZ(-90deg)\"\r\n\t\t\t\t\t\t\t\t\t tooltip=\"{{ 'HISTORY.STATUS_TOOLTIP' | translate : {'current': getHeight(item), 'total': 10} }}\"\r\n\t\t\t\t\t\t\t\t\t placement=\"bottom-left\"\r\n\t\t\t\t\t\t\t\t\t tooltipClass=\"table-tooltip\"\r\n\t\t\t\t\t\t\t\t\t [delay]=\"500\">\r\n\t\t\t\t\t\t\t\t\t<circle stroke-dasharray=\"100\"\r\n\t\t\t\t\t\t\t\t\t\t\tfill=\"transparent\"\r\n\t\t\t\t\t\t\t\t\t\t\tstroke-dashoffset=\"0\"\r\n\t\t\t\t\t\t\t\t\t\t\tcx=\"50%\"\r\n\t\t\t\t\t\t\t\t\t\t\tcy=\"50%\"\r\n\t\t\t\t\t\t\t\t\t\t\tstroke=\"rgba(31, 143, 235, 0.33)\"\r\n\t\t\t\t\t\t\t\t\t\t\tr=\"0.7rem\"\r\n\t\t\t\t\t\t\t\t\t\t\tstroke-width=\"0.3rem\">\r\n\t\t\t\t\t\t\t\t\t</circle>\r\n\t\t\t\t\t\t\t\t\t<circle class=\"progress-circle\"\r\n\t\t\t\t\t\t\t\t\t\t\tcx=\"50%\"\r\n\t\t\t\t\t\t\t\t\t\t\tcy=\"50%\"\r\n\t\t\t\t\t\t\t\t\t\t\t[style.stroke]=\"item.is_income ? '#16d1d6' : '#1f8feb'\"\r\n\t\t\t\t\t\t\t\t\t\t\tr=\"0.7rem\"\r\n\t\t\t\t\t\t\t\t\t\t\tfill=\"transparent\"\r\n\t\t\t\t\t\t\t\t\t\t\tstroke-width=\"0.3rem\"\r\n\t\t\t\t\t\t\t\t\t\t\tstroke-dasharray=\"4.5rem\"\r\n\t\t\t\t\t\t\t\t\t\t\tstroke-dashoffset=\"4.5rem\"\r\n\t\t\t\t\t\t\t\t\t\t\tstroke-linecap=\"round\"\r\n\t\t\t\t\t\t\t\t\t\t\t[style.stroke-dashoffset]=\"strokeSize(item)\"></circle>\r\n\t\t\t\t\t\t\t\t</svg>\r\n\t\t\t\t\t\t\t</ng-container>\r\n\t\t\t\t\t\t\t<ng-container *ngIf=\"getHeight(item) === 10\">\r\n\t\t\t\t\t\t\t\t<img *ngIf=\"!item.is_income\"\r\n\t\t\t\t\t\t\t\t\t class=\"status-transaction mr-1\"\r\n\t\t\t\t\t\t\t\t\t src=\"assets/icons/blue/send.svg\"\r\n\t\t\t\t\t\t\t\t\t alt=\"\">\r\n\t\t\t\t\t\t\t\t<img *ngIf=\"item.is_income\"\r\n\t\t\t\t\t\t\t\t\t class=\"status-transaction mr-1\"\r\n\t\t\t\t\t\t\t\t\t src=\"assets/icons/aqua/receive.svg\"\r\n\t\t\t\t\t\t\t\t\t alt=\"\">\r\n\t\t\t\t\t\t\t</ng-container>\r\n\t\t\t\t\t\t\t<span\r\n\t\t\t\t\t\t\t\tclass=\"status-transaction-text\">{{ (item.is_income ? 'HISTORY.RECEIVED' : 'HISTORY.SEND') | translate }}</span>\r\n\t\t\t\t\t\t\t<ng-container *ngIf=\"item.unlock_time !== 0 && item.tx_type !== 6\">\r\n\t\t\t\t\t\t\t\t<ng-container *ngIf=\"isLocked(item); else unlock\">\r\n\t\t\t\t\t\t\t\t\t<ng-container *ngIf=\"item.unlock_time < 500000000\">\r\n\t\t\t\t\t\t\t\t\t\t<i class=\"icon lock-transaction mr-1\"\r\n\t\t\t\t\t\t\t\t\t\t   tooltip=\"{{ 'HISTORY.LOCK_TOOLTIP' | translate : {'date': time(item) | date : 'MM.dd.yy'} }}\"\r\n\t\t\t\t\t\t\t\t\t\t   placement=\"bottom-left\"\r\n\t\t\t\t\t\t\t\t\t\t   tooltipClass=\"table-tooltip\"\r\n\t\t\t\t\t\t\t\t\t\t   [delay]=\"500\"\r\n\t\t\t\t\t\t\t\t\t\t   [class.position]=\"variablesService.height_app - item.height < 10 || item.height === 0 && item.timestamp > 0\"></i>\r\n\t\t\t\t\t\t\t\t\t</ng-container>\r\n\t\t\t\t\t\t\t\t\t<ng-container *ngIf=\"item.unlock_time > 500000000\">\r\n\t\t\t\t\t\t\t\t\t\t<i class=\"icon lock-transaction mr-1\"\r\n\t\t\t\t\t\t\t\t\t\t   tooltip=\"{{ 'HISTORY.LOCK_TOOLTIP' | translate : {'date': item.unlock_time * 1000 | date : 'MM.dd.yy'} }}\"\r\n\t\t\t\t\t\t\t\t\t\t   placement=\"bottom-left\"\r\n\t\t\t\t\t\t\t\t\t\t   tooltipClass=\"table-tooltip\"\r\n\t\t\t\t\t\t\t\t\t\t   [delay]=\"500\"\r\n\t\t\t\t\t\t\t\t\t\t   [class.position]=\"variablesService.height_app - item.height < 10 || item.height === 0 && item.timestamp > 0\"></i>\r\n\t\t\t\t\t\t\t\t\t</ng-container>\r\n\t\t\t\t\t\t\t\t</ng-container>\r\n\t\t\t\t\t\t\t\t<ng-template #unlock>\r\n\t\t\t\t\t\t\t\t\t<i class=\"icon unlock-transaction mr-1\"\r\n\t\t\t\t\t\t\t\t\t   [class.position]=\"variablesService.height_app - item.height < 10 || item.height === 0 && item.timestamp > 0\"></i>\r\n\t\t\t\t\t\t\t\t</ng-template>\r\n\t\t\t\t\t\t\t</ng-container>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td>\r\n\t\t\t\t\t\t<div class=\"text-ellipsis\">\r\n                              <span *ngIf=\"item.sortAmount && item.sortAmount.toString() !== '0'\">\r\n                                  {{item.sortAmount | intToMoney}}\r\n\t\t\t\t\t\t\t\t  {{variablesService.defaultCurrency}}\r\n                              </span>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td>\r\n\t\t\t\t\t\t<div class=\"text-ellipsis\">\r\n                            <span *ngIf=\"item.sortFee && item.sortFee.toString() !== '0'\">\r\n                                {{item.sortFee | intToMoney}}\r\n\t\t\t\t\t\t\t\t{{variablesService.defaultCurrency}}\r\n                            </span>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td class=\"remote-address\">\r\n\t\t\t\t\t\t<ng-container class=\"text-ellipsis\" *ngIf=\"!(item.tx_type === 0); else walletOrAliases\">\r\n\t\t\t\t\t\t\t<span\r\n\t\t\t\t\t\t\t\t*ngIf=\"!(item.tx_type === 0 && item.remote_addresses && item.remote_addresses[0])\">\r\n\t\t\t\t\t\t\t\t{{item | historyTypeMessages}}\r\n\t\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t</ng-container>\r\n\t\t\t\t\t\t<ng-template #walletOrAliases>\r\n\t\t\t\t\t\t\t<div class=\"text-ellipsis\"\r\n\t\t\t\t\t\t\t\t *ngIf=\"item.tx_type === 0 && item.remote_addresses && item.remote_addresses[0] && !(item.remote_aliases && item.remote_aliases[0] && item.remote_aliases[0].trim().length)\">\r\n\t\t\t\t\t\t\t\t<span\r\n\t\t\t\t\t\t\t\t\t(contextmenu)=\"variablesService.onContextMenuOnlyCopy($event, item.remote_addresses[0])\">\r\n                                \t{{ item.remote_addresses[0] | slice:0:6 }}\r\n\t\t\t\t\t\t\t\t\t...{{ item.remote_addresses[0] | slice:-6 }}\r\n                            \t</span>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t<ng-container *ngIf=\"item.remote_aliases && item.remote_aliases[0] && item.remote_aliases[0].trim().length\">\r\n\t\t\t\t\t\t\t\t<div fxLayout=\"row wrap\">\r\n\t\t\t\t\t\t\t\t\t<ng-container *ngFor=\"let alias of item.remote_aliases\">\r\n\t\t\t\t\t\t\t\t\t\t<ng-container *ngIf=\"alias && alias.length\">\r\n\t\t\t\t\t\t\t\t\t\t\t<div fxLayout=\"row inline\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t class=\"alias\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t [class.available]=\"alias.length >= 1 && alias.length <= 5\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t [class.mr-0_5]=\"item.remote_aliases.length >= 2\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t [class.mb-0_5]=\"item.remote_aliases.length >= 2\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t (contextmenu)=\"variablesService.onContextMenuOnlyCopy($event, '@' + alias)\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t{{ '@' + alias }}\r\n\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t</ng-container>\r\n\t\t\t\t\t\t\t\t\t</ng-container>\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t</ng-container>\r\n\t\t\t\t\t\t</ng-template>\r\n\t\t\t\t\t\t<ng-container *ngIf=\"!(item.remote_addresses?.length || item.remote_aliases?.length)\">\r\n\t\t\t\t\t\t\t{{ 'Hidden' | translate }}\r\n\t\t\t\t\t\t</ng-container>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td>\r\n\t\t\t\t\t\t<div class=\"text-ellipsis\">\r\n\t\t\t\t\t\t\t{{item.timestamp * 1000 | date : 'dd-MM-yyyy HH:mm'}}\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t</tr>\r\n\t\t\t\t<div class=\"row-divider\"></div>\r\n\t\t\t\t<tr class=\"details\"\r\n\t\t\t\t\t[class.open]=\"item.tx_hash === openedDetails\">\r\n\t\t\t\t\t<td colspan=\"5\">\r\n\t\t\t\t\t\t<app-transaction-details *ngIf=\"item.tx_hash === openedDetails\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t [transaction]=\"item\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t [sizes]=\"calculatedWidth\"></app-transaction-details>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t</tr>\r\n\t\t\t\t<div class=\"row-divider\"\r\n\t\t\t\t\t [class.hide]=\"item.tx_hash !== openedDetails\"></div>\r\n\t\t\t</ng-container>\r\n\t\t\t</tbody>\r\n\t\t</table>\r\n\t</div>\r\n\t<div class=\"pagination-wrapper\">\r\n\t\t<div class=\"pagination\"\r\n\t\t\t fxLayout=\"row\"\r\n\t\t\t fxLayoutAlign=\"space-between center\">\r\n\t\t\t<div class=\"left\"\r\n\t\t\t\t fxLayout=\"row\"\r\n\t\t\t\t fxLayoutAlign=\" center\">\r\n\t\t\t\t<button class=\"btn-icon circle small mr-1\"\r\n\t\t\t\t\t\t[disabled]=\"variablesService.currentWallet.currentPage === 1 || variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded\"\r\n\t\t\t\t\t\t(click)=\"setPage(variablesService.currentWallet.currentPage - 1)\">\r\n\t\t\t\t\t<i class=\"icon arrow-left-stroke\"></i>\r\n\t\t\t\t</button>\r\n\r\n\t\t\t\t<ng-container *ngIf=\"!mining\">\r\n\t\t\t\t\t<button *ngFor=\"let page of variablesService.currentWallet.pages\"\r\n\t\t\t\t\t\t\t[class.color-primary]=\"variablesService.currentWallet.currentPage === page\"\r\n\t\t\t\t\t\t\t[disabled]=\"variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded\"\r\n\t\t\t\t\t\t\tclass=\"mr-0_5\"\r\n\t\t\t\t\t\t\t(click)=\"setPage(page)\">{{page}}</button>\r\n\t\t\t\t</ng-container>\r\n\r\n\t\t\t\t<ng-container *ngIf=\"mining\">\r\n\t\t\t\t\t<button class=\"mr-0_5\"\r\n\t\t\t\t\t\t\t[disabled]=\"stop_paginate || variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded\"\r\n\t\t\t\t\t\t\t[ngClass]=\"{ 'color-primary': variablesService.currentWallet.currentPage, 'disabled': variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded}\"\r\n\t\t\t\t\t\t\t(click)=\"setPage(variablesService.currentWallet.currentPage)\">\r\n\t\t\t\t\t\t{{variablesService.currentWallet.currentPage}}\r\n\t\t\t\t\t</button>\r\n\t\t\t\t</ng-container>\r\n\r\n\t\t\t\t<button class=\"btn-icon circle small ml-0_5\"\r\n\t\t\t\t\t\t[disabled]=\"stop_paginate || variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded\"\r\n\t\t\t\t\t\t(click)=\"setPage(variablesService.currentWallet.currentPage + 1)\">\r\n\t\t\t\t\t<i class=\"icon arrow-right-stroke\"></i>\r\n\t\t\t\t</button>\r\n\t\t\t</div>\r\n\t\t\t<div class=\"right\"\r\n\t\t\t\t fxLayout=\"row\"\r\n\t\t\t\t fxLayoutAlign=\" center\">\r\n\t\t\t\t<span class=\"switch-text mr-2\">Hide mining transactions</span>\r\n\t\t\t\t<app-switch [value]=\"mining\"\r\n\t\t\t\t\t\t\t[disabled]=\"variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded\"\r\n\t\t\t\t\t\t\t(emitChange)=\"toggleMiningTransactions()\"></app-switch>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n"
+module.exports = "<div class=\"history-wrap\"\r\n\t fxLayout=\"column\"\r\n\t fxFlexFill>\r\n\t<div class=\"wrap-table scrolled-content mb-2\"\r\n\t\t fxFlex=\"1 1 auto\">\r\n\t\t<table class=\"history-table\">\r\n\t\t\t<thead>\r\n\t\t\t<tr #head\r\n\t\t\t\t(window:resize)=\"calculateWidth()\">\r\n\t\t\t\t<th>\r\n\t\t\t\t\t<div class=\"bg title\">{{ 'HISTORY.STATUS' | translate }}</div>\r\n\t\t\t\t</th>\r\n\t\t\t\t<th>\r\n\t\t\t\t\t<div class=\"bg title\">{{ 'HISTORY.AMOUNT' | translate }}</div>\r\n\t\t\t\t</th>\r\n\t\t\t\t<th>\r\n\t\t\t\t\t<div class=\"bg title\">{{ 'HISTORY.FEE' | translate }}</div>\r\n\t\t\t\t</th>\r\n\t\t\t\t<th>\r\n\t\t\t\t\t<div class=\"bg title\">{{ 'HISTORY.ADDRESS' | translate }}</div>\r\n\t\t\t\t</th>\r\n\t\t\t\t<th>\r\n\t\t\t\t\t<div class=\"bg title\">{{ 'HISTORY.DATE' | translate }}</div>\r\n\t\t\t\t</th>\r\n\t\t\t</tr>\r\n\t\t\t<div class=\"row-divider\"></div>\r\n\t\t\t</thead>\r\n\t\t\t<tbody>\r\n\t\t\t<ng-container *ngFor=\"let item of variablesService.currentWallet.history\">\r\n\t\t\t\t<tr (click)=\"openDetails(item.tx_hash)\"\r\n\t\t\t\t\t[class.locked-transaction]=\"!item.is_mining && item.unlock_time > 0\">\r\n\t\t\t\t\t<td>\r\n\t\t\t\t\t\t<div class=\"status text-ellipsis\"\r\n\t\t\t\t\t\t\t fxLayout=\"row\"\r\n\t\t\t\t\t\t\t fxLayoutAlign=\" center\"\r\n\t\t\t\t\t\t\t [ngClass]=\"item.is_income ? 'received' : 'send'\">\r\n\t\t\t\t\t\t\t<ng-container *ngIf=\"getHeight(item) < 10\">\r\n\t\t\t\t\t\t\t\t<svg class=\"confirmation mr-1\"\r\n\t\t\t\t\t\t\t\t\t style=\"transform: rotateZ(-90deg)\"\r\n\t\t\t\t\t\t\t\t\t tooltip=\"{{ 'HISTORY.STATUS_TOOLTIP' | translate : {'current': getHeight(item), 'total': 10} }}\"\r\n\t\t\t\t\t\t\t\t\t placement=\"bottom-left\"\r\n\t\t\t\t\t\t\t\t\t tooltipClass=\"table-tooltip\"\r\n\t\t\t\t\t\t\t\t\t [delay]=\"500\">\r\n\t\t\t\t\t\t\t\t\t<circle stroke-dasharray=\"100\"\r\n\t\t\t\t\t\t\t\t\t\t\tfill=\"transparent\"\r\n\t\t\t\t\t\t\t\t\t\t\tstroke-dashoffset=\"0\"\r\n\t\t\t\t\t\t\t\t\t\t\tcx=\"50%\"\r\n\t\t\t\t\t\t\t\t\t\t\tcy=\"50%\"\r\n\t\t\t\t\t\t\t\t\t\t\tstroke=\"rgba(31, 143, 235, 0.33)\"\r\n\t\t\t\t\t\t\t\t\t\t\tr=\"0.7rem\"\r\n\t\t\t\t\t\t\t\t\t\t\tstroke-width=\"0.3rem\">\r\n\t\t\t\t\t\t\t\t\t</circle>\r\n\t\t\t\t\t\t\t\t\t<circle class=\"progress-circle\"\r\n\t\t\t\t\t\t\t\t\t\t\tcx=\"50%\"\r\n\t\t\t\t\t\t\t\t\t\t\tcy=\"50%\"\r\n\t\t\t\t\t\t\t\t\t\t\t[style.stroke]=\"item.is_income ? '#16d1d6' : '#1f8feb'\"\r\n\t\t\t\t\t\t\t\t\t\t\tr=\"0.7rem\"\r\n\t\t\t\t\t\t\t\t\t\t\tfill=\"transparent\"\r\n\t\t\t\t\t\t\t\t\t\t\tstroke-width=\"0.3rem\"\r\n\t\t\t\t\t\t\t\t\t\t\tstroke-dasharray=\"4.5rem\"\r\n\t\t\t\t\t\t\t\t\t\t\tstroke-dashoffset=\"4.5rem\"\r\n\t\t\t\t\t\t\t\t\t\t\tstroke-linecap=\"round\"\r\n\t\t\t\t\t\t\t\t\t\t\t[style.stroke-dashoffset]=\"strokeSize(item)\"></circle>\r\n\t\t\t\t\t\t\t\t</svg>\r\n\t\t\t\t\t\t\t</ng-container>\r\n\t\t\t\t\t\t\t<ng-container *ngIf=\"getHeight(item) === 10\">\r\n\t\t\t\t\t\t\t\t<img *ngIf=\"!item.is_income\"\r\n\t\t\t\t\t\t\t\t\t class=\"status-transaction mr-1\"\r\n\t\t\t\t\t\t\t\t\t src=\"assets/icons/blue/send.svg\"\r\n\t\t\t\t\t\t\t\t\t alt=\"\">\r\n\t\t\t\t\t\t\t\t<img *ngIf=\"item.is_income\"\r\n\t\t\t\t\t\t\t\t\t class=\"status-transaction mr-1\"\r\n\t\t\t\t\t\t\t\t\t src=\"assets/icons/aqua/receive.svg\"\r\n\t\t\t\t\t\t\t\t\t alt=\"\">\r\n\t\t\t\t\t\t\t</ng-container>\r\n\t\t\t\t\t\t\t<span\r\n\t\t\t\t\t\t\t\tclass=\"status-transaction-text\">{{ (item.is_income ? 'HISTORY.RECEIVED' : 'HISTORY.SEND') | translate }}</span>\r\n\t\t\t\t\t\t\t<ng-container *ngIf=\"item.unlock_time !== 0 && item.tx_type !== 6\">\r\n\t\t\t\t\t\t\t\t<ng-container *ngIf=\"isLocked(item); else unlock\">\r\n\t\t\t\t\t\t\t\t\t<ng-container *ngIf=\"item.unlock_time < 500000000\">\r\n\t\t\t\t\t\t\t\t\t\t<i class=\"icon lock-transaction mr-1\"\r\n\t\t\t\t\t\t\t\t\t\t   tooltip=\"{{ 'HISTORY.LOCK_TOOLTIP' | translate : {'date': time(item) | date : 'MM.dd.yy'} }}\"\r\n\t\t\t\t\t\t\t\t\t\t   placement=\"bottom-left\"\r\n\t\t\t\t\t\t\t\t\t\t   tooltipClass=\"table-tooltip\"\r\n\t\t\t\t\t\t\t\t\t\t   [delay]=\"500\"\r\n\t\t\t\t\t\t\t\t\t\t   [class.position]=\"variablesService.height_app - item.height < 10 || item.height === 0 && item.timestamp > 0\"></i>\r\n\t\t\t\t\t\t\t\t\t</ng-container>\r\n\t\t\t\t\t\t\t\t\t<ng-container *ngIf=\"item.unlock_time > 500000000\">\r\n\t\t\t\t\t\t\t\t\t\t<i class=\"icon lock-transaction mr-1\"\r\n\t\t\t\t\t\t\t\t\t\t   tooltip=\"{{ 'HISTORY.LOCK_TOOLTIP' | translate : {'date': item.unlock_time * 1000 | date : 'MM.dd.yy'} }}\"\r\n\t\t\t\t\t\t\t\t\t\t   placement=\"bottom-left\"\r\n\t\t\t\t\t\t\t\t\t\t   tooltipClass=\"table-tooltip\"\r\n\t\t\t\t\t\t\t\t\t\t   [delay]=\"500\"\r\n\t\t\t\t\t\t\t\t\t\t   [class.position]=\"variablesService.height_app - item.height < 10 || item.height === 0 && item.timestamp > 0\"></i>\r\n\t\t\t\t\t\t\t\t\t</ng-container>\r\n\t\t\t\t\t\t\t\t</ng-container>\r\n\t\t\t\t\t\t\t\t<ng-template #unlock>\r\n\t\t\t\t\t\t\t\t\t<i class=\"icon unlock-transaction mr-1\"\r\n\t\t\t\t\t\t\t\t\t   [class.position]=\"variablesService.height_app - item.height < 10 || item.height === 0 && item.timestamp > 0\"></i>\r\n\t\t\t\t\t\t\t\t</ng-template>\r\n\t\t\t\t\t\t\t</ng-container>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td>\r\n\t\t\t\t\t\t<div class=\"text-ellipsis\" *ngIf=\"item.sortAmount && item.sortAmount.toString() !== '0'\">\r\n\t\t\t\t\t\t\t{{ item.sortAmount | intToMoney }}\r\n\t\t\t\t\t\t\t{{variablesService.defaultCurrency}}\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td>\r\n\t\t\t\t\t\t<div class=\"text-ellipsis\">\r\n                            <span *ngIf=\"item.sortFee && item.sortFee.toString() !== '0'\">\r\n                                {{item.sortFee | intToMoney}}\r\n\t\t\t\t\t\t\t\t{{variablesService.defaultCurrency}}\r\n                            </span>\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td class=\"remote-address\">\r\n\t\t\t\t\t\t<ng-container class=\"text-ellipsis\" *ngIf=\"!(item.tx_type === 0); else walletOrAliases\">\r\n\t\t\t\t\t\t\t<span\r\n\t\t\t\t\t\t\t\t*ngIf=\"!(item.tx_type === 0 && item.remote_addresses && item.remote_addresses[0])\">\r\n\t\t\t\t\t\t\t\t{{item | historyTypeMessages}}\r\n\t\t\t\t\t\t\t</span>\r\n\t\t\t\t\t\t</ng-container>\r\n\t\t\t\t\t\t<ng-template #walletOrAliases>\r\n\t\t\t\t\t\t\t<div class=\"text-ellipsis\"\r\n\t\t\t\t\t\t\t\t *ngIf=\"item.tx_type === 0 && item.remote_addresses && item.remote_addresses[0] && !(item.remote_aliases && item.remote_aliases[0] && item.remote_aliases[0].trim().length)\">\r\n\t\t\t\t\t\t\t\t<span\r\n\t\t\t\t\t\t\t\t\t(contextmenu)=\"variablesService.onContextMenuOnlyCopy($event, item.remote_addresses[0])\">\r\n                                \t{{ item.remote_addresses[0] | slice:0:6 }}\r\n\t\t\t\t\t\t\t\t\t...{{ item.remote_addresses[0] | slice:-6 }}\r\n                            \t</span>\r\n\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t<ng-container\r\n\t\t\t\t\t\t\t\t*ngIf=\"item.remote_aliases && item.remote_aliases[0] && item.remote_aliases[0].trim().length\">\r\n\t\t\t\t\t\t\t\t<div fxLayout=\"row wrap\">\r\n\t\t\t\t\t\t\t\t\t<ng-container *ngFor=\"let alias of item.remote_aliases\">\r\n\t\t\t\t\t\t\t\t\t\t<ng-container *ngIf=\"alias && alias.length\">\r\n\t\t\t\t\t\t\t\t\t\t\t<div fxLayout=\"row inline\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t class=\"alias\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t [class.available]=\"alias.length >= 1 && alias.length <= 5\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t [class.mr-0_5]=\"item.remote_aliases.length >= 2\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t [class.mb-0_5]=\"item.remote_aliases.length >= 2\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t (contextmenu)=\"variablesService.onContextMenuOnlyCopy($event, '@' + alias)\">\r\n\t\t\t\t\t\t\t\t\t\t\t\t{{ '@' + alias }}\r\n\t\t\t\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t\t\t\t</ng-container>\r\n\t\t\t\t\t\t\t\t\t</ng-container>\r\n\t\t\t\t\t\t\t\t</div>\r\n\t\t\t\t\t\t\t</ng-container>\r\n\t\t\t\t\t\t</ng-template>\r\n\t\t\t\t\t\t<ng-container *ngIf=\"!(item.remote_addresses?.length || item.remote_aliases?.length)\">\r\n\t\t\t\t\t\t\t{{ 'Hidden' | translate }}\r\n\t\t\t\t\t\t</ng-container>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t\t<td>\r\n\t\t\t\t\t\t<div class=\"text-ellipsis\">\r\n\t\t\t\t\t\t\t{{item.timestamp * 1000 | date : 'dd-MM-yyyy HH:mm'}}\r\n\t\t\t\t\t\t</div>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t</tr>\r\n\t\t\t\t<div class=\"row-divider\"></div>\r\n\t\t\t\t<tr class=\"details\"\r\n\t\t\t\t\t[class.open]=\"item.tx_hash === openedDetails\">\r\n\t\t\t\t\t<td colspan=\"5\">\r\n\t\t\t\t\t\t<app-transaction-details *ngIf=\"item.tx_hash === openedDetails\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t [transaction]=\"item\"\r\n\t\t\t\t\t\t\t\t\t\t\t\t [sizes]=\"calculatedWidth\"></app-transaction-details>\r\n\t\t\t\t\t</td>\r\n\t\t\t\t</tr>\r\n\t\t\t\t<div class=\"row-divider\"\r\n\t\t\t\t\t [class.hide]=\"item.tx_hash !== openedDetails\"></div>\r\n\t\t\t</ng-container>\r\n\t\t\t</tbody>\r\n\t\t</table>\r\n\t</div>\r\n\t<div class=\"pagination-wrapper\">\r\n\t\t<div class=\"pagination\"\r\n\t\t\t fxLayout=\"row\"\r\n\t\t\t fxLayoutAlign=\"space-between center\">\r\n\t\t\t<div class=\"left\"\r\n\t\t\t\t fxLayout=\"row\"\r\n\t\t\t\t fxLayoutAlign=\" center\">\r\n\t\t\t\t<button class=\"btn-icon circle small mr-1\"\r\n\t\t\t\t\t\t[disabled]=\"variablesService.currentWallet.currentPage === 1 || variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded\"\r\n\t\t\t\t\t\t(click)=\"setPage(variablesService.currentWallet.currentPage - 1)\">\r\n\t\t\t\t\t<i class=\"icon arrow-left-stroke\"></i>\r\n\t\t\t\t</button>\r\n\r\n\t\t\t\t<ng-container *ngIf=\"!mining\">\r\n\t\t\t\t\t<button *ngFor=\"let page of variablesService.currentWallet.pages\"\r\n\t\t\t\t\t\t\t[class.color-primary]=\"variablesService.currentWallet.currentPage === page\"\r\n\t\t\t\t\t\t\t[disabled]=\"variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded\"\r\n\t\t\t\t\t\t\tclass=\"mr-0_5\"\r\n\t\t\t\t\t\t\t(click)=\"setPage(page)\">{{page}}</button>\r\n\t\t\t\t</ng-container>\r\n\r\n\t\t\t\t<ng-container *ngIf=\"mining\">\r\n\t\t\t\t\t<button class=\"mr-0_5\"\r\n\t\t\t\t\t\t\t[disabled]=\"stop_paginate || variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded\"\r\n\t\t\t\t\t\t\t[ngClass]=\"{ 'color-primary': variablesService.currentWallet.currentPage, 'disabled': variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded}\"\r\n\t\t\t\t\t\t\t(click)=\"setPage(variablesService.currentWallet.currentPage)\">\r\n\t\t\t\t\t\t{{variablesService.currentWallet.currentPage}}\r\n\t\t\t\t\t</button>\r\n\t\t\t\t</ng-container>\r\n\r\n\t\t\t\t<button class=\"btn-icon circle small ml-0_5\"\r\n\t\t\t\t\t\t[disabled]=\"stop_paginate || variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded\"\r\n\t\t\t\t\t\t(click)=\"setPage(variablesService.currentWallet.currentPage + 1)\">\r\n\t\t\t\t\t<i class=\"icon arrow-right-stroke\"></i>\r\n\t\t\t\t</button>\r\n\t\t\t</div>\r\n\t\t\t<div class=\"right\"\r\n\t\t\t\t fxLayout=\"row\"\r\n\t\t\t\t fxLayoutAlign=\" center\">\r\n\t\t\t\t<span class=\"switch-text mr-2\">Hide mining transactions</span>\r\n\t\t\t\t<app-switch [value]=\"mining\"\r\n\t\t\t\t\t\t\t[disabled]=\"variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded\"\r\n\t\t\t\t\t\t\t(emitChange)=\"toggleMiningTransactions()\"></app-switch>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n</div>\r\n"
 
 /***/ }),
 
@@ -7460,7 +7618,7 @@ var WithSidebarLayoutModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"auth\"\n     fxLayout=\"row\"\n     fxLayoutAlign=\"center center\"\n     fxFlexFill>\n    <div\n          class=\"card max-w-42-rem max-h-100 w-100 p-2 border-radius-0_8-rem bg-light-blue overflow-x-hidden\">\n\n        <div class=\"logo border-radius-0_8-rem overflow-hidden mb-3\"\n             fxLayout=\"row\"\n             fxLayoutAlign=\"center center\">\n            <img src=\"assets/icons/blue/zano-logo.svg\"\n                 alt=\"zano-logo\">\n        </div>\n\n        <form *ngIf=\"type === 'reg'\"\n              class=\"form bg-light-blue-details\"\n              [formGroup]=\"regForm\"\n              (ngSubmit)=\"onSubmitCreatePass()\">\n            <div\n                  class=\"form__field--wrapper pt-2 pl-2 pr-2 pb-1 mb-2 bg-light-blue-details border-radius-0_8-rem overflow-hidden\">\n                <div class=\"form__field mb-2\">\n                    <label for=\"master-pass\">{{ 'LOGIN.SETUP_MASTER_PASS' | translate }}</label>\n                    <input class=\"form__field--input\"\n                           type=\"password\"\n                           id=\"master-pass\"\n                           formControlName=\"password\"\n                           placeholder=\"{{ 'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate }}\"\n                           (contextmenu)=\"variablesService.onContextMenuPasteSelect($event)\">\n                    <div class=\"error\"\n                         *ngIf=\"regForm.controls['password'].dirty && regForm.controls['password'].errors\">\n                        <div *ngIf=\"regForm.controls['password'].errors.pattern\">\n                            {{ 'ERRORS.WRONG_PASSWORD' | translate }}\n                        </div>\n                    </div>\n                </div>\n\n                <div class=\"form__field\">\n                    <label for=\"confirm-pass\">{{ 'LOGIN.SETUP_CONFIRM_PASS' | translate }}</label>\n                    <input class=\"form__field--input\"\n                           type=\"password\"\n                           id=\"confirm-pass\"\n                           placeholder=\"{{ 'PLACEHOLDERS.PLACEHOLDER_CONFIRM' | translate }}\"\n                           formControlName=\"confirmation\"\n                           (contextmenu)=\"variablesService.onContextMenuPasteSelect($event)\">\n                    <div class=\"error\"\n                         *ngIf=\"regForm.controls['password'].dirty && regForm.controls['confirmation'].dirty && regForm.errors\">\n                        <div *ngIf=\"regForm.errors['mismatch']\">\n                            {{ 'LOGIN.FORM_ERRORS.MISMATCH' | translate }}\n                        </div>\n                    </div>\n                </div>\n            </div>\n\n            <button type=\"submit\"\n                    class=\"primary big w-100 mb-1\"\n                    [disabled]=\"!regForm.controls['password'].value.length || !regForm.controls['confirmation'].value.length || (regForm.errors && regForm.errors['mismatch']) || regForm.controls['password'].errors\">{{\n                'LOGIN.BUTTON_NEXT' | translate }}</button>\n\n            <button type=\"button\"\n                    class=\"primary big w-100\"\n                    (click)=\"onSkipCreatePass()\"\n                    [disabled]=\"regForm.controls['password'].value.length || regForm.controls['confirmation'].value.length\">{{\n                'LOGIN.BUTTON_SKIP' | translate }}</button>\n\n        </form>\n\n        <form *ngIf=\"type !== 'reg'\"\n              class=\"form\"\n              [formGroup]=\"authForm\"\n              (ngSubmit)=\"onSubmitAuthPass()\">\n            <div\n                  class=\"form__field--wrapper pt-2 pl-2 pr-2 pb-1 mb-2 bg-light-blue-details border-radius-0_8-rem overflow-hidden\">\n                <div class=\"form__field\">\n                    <label for=\"master-pass-login\">{{ 'LOGIN.MASTER_PASS' | translate }}</label>\n                    <input class=\"form__field--input\"\n                           type=\"password\"\n                           id=\"master-pass-login\"\n                           [placeholder]=\"'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate\"\n                           formControlName=\"password\"\n                           autofocus\n                           (contextmenu)=\"variablesService.onContextMenuPasteSelect($event)\">\n                    <div class=\"error\"\n                         *ngIf=\"authForm.controls['password'].invalid && (authForm.controls['password'].dirty || authForm.controls['password'].touched)\">\n                        <div *ngIf=\"authForm.controls['password'].hasError('wrong_password')\">\n                            {{ 'LOGIN.FORM_ERRORS.INVALID_PASS' | translate }}\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <button type=\"submit\"\n                    class=\"primary big w-100 mb-1\">\n                {{'LOGIN.BUTTON_NEXT' | translate }}</button>\n\n            <button type=\"button\"\n                    class=\"outline big w-100\"\n                    (click)=\"dropSecureAppData()\">\n                {{ 'LOGIN.BUTTON_RESET' | translate }}</button>\n        </form>\n    </div>\n\n    <app-synchronization-status class=\"max-w-19-rem\"></app-synchronization-status>\n</div>\n"
+module.exports = "<div class=\"auth\"\n     fxLayout=\"row\"\n     fxLayoutAlign=\"center center\"\n     fxFlexFill>\n    <div\n          class=\"card max-w-42-rem max-h-100 w-100 p-2 border-radius-0_8-rem bg-light-blue overflow-x-hidden\">\n\n        <div class=\"logo border-radius-0_8-rem overflow-hidden mb-3\"\n             fxLayout=\"row\"\n             fxLayoutAlign=\"center center\">\n            <img src=\"assets/icons/blue/zano-logo.svg\"\n                 alt=\"zano-logo\">\n        </div>\n\n        <form *ngIf=\"type === 'reg'\"\n              class=\"form bg-light-blue-details\"\n              [formGroup]=\"regForm\"\n              (ngSubmit)=\"onSubmitCreatePass()\">\n            <div\n                  class=\"form__field--wrapper pt-2 pl-2 pr-2 pb-1 mb-2 bg-light-blue-details border-radius-0_8-rem overflow-hidden\">\n                <div class=\"form__field mb-2\">\n                    <label for=\"master-pass\">{{ 'LOGIN.SETUP_MASTER_PASS' | translate }}</label>\n                    <input class=\"form__field--input\"\n                           type=\"password\"\n                           id=\"master-pass\"\n                           formControlName=\"password\"\n\t\t\t\t\t\t   appAutofocus\n                           placeholder=\"{{ 'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate }}\"\n                           (contextmenu)=\"variablesService.onContextMenuPasteSelect($event)\">\n                    <div class=\"error\"\n                         *ngIf=\"regForm.controls['password'].dirty && regForm.controls['password'].errors\">\n                        <div *ngIf=\"regForm.controls['password'].errors.pattern\">\n                            {{ 'ERRORS.WRONG_PASSWORD' | translate }}\n                        </div>\n                    </div>\n                </div>\n\n                <div class=\"form__field\">\n                    <label for=\"confirm-pass\">{{ 'LOGIN.SETUP_CONFIRM_PASS' | translate }}</label>\n                    <input class=\"form__field--input\"\n                           type=\"password\"\n                           id=\"confirm-pass\"\n                           placeholder=\"{{ 'PLACEHOLDERS.PLACEHOLDER_CONFIRM' | translate }}\"\n                           formControlName=\"confirmation\"\n                           (contextmenu)=\"variablesService.onContextMenuPasteSelect($event)\">\n                    <div class=\"error\"\n                         *ngIf=\"regForm.controls['password'].dirty && regForm.controls['confirmation'].dirty && regForm.errors\">\n                        <div *ngIf=\"regForm.errors['mismatch']\">\n                            {{ 'LOGIN.FORM_ERRORS.MISMATCH' | translate }}\n                        </div>\n                    </div>\n                </div>\n            </div>\n\n            <button type=\"submit\"\n                    class=\"primary big w-100 mb-1\"\n                    [disabled]=\"!regForm.controls['password'].value.length || !regForm.controls['confirmation'].value.length || (regForm.errors && regForm.errors['mismatch']) || regForm.controls['password'].errors\">{{\n                'LOGIN.BUTTON_NEXT' | translate }}</button>\n\n            <button type=\"button\"\n                    class=\"primary big w-100\"\n                    (click)=\"onSkipCreatePass()\"\n                    [disabled]=\"regForm.controls['password'].value.length || regForm.controls['confirmation'].value.length\">{{\n                'LOGIN.BUTTON_SKIP' | translate }}</button>\n\n        </form>\n\n        <form *ngIf=\"type !== 'reg'\"\n              class=\"form\"\n              [formGroup]=\"authForm\"\n              (ngSubmit)=\"onSubmitAuthPass()\">\n            <div\n                  class=\"form__field--wrapper pt-2 pl-2 pr-2 pb-1 mb-2 bg-light-blue-details border-radius-0_8-rem overflow-hidden\">\n                <div class=\"form__field\">\n                    <label for=\"master-pass-login\">{{ 'LOGIN.MASTER_PASS' | translate }}</label>\n                    <input class=\"form__field--input\"\n                           type=\"password\"\n                           id=\"master-pass-login\"\n                           [placeholder]=\"'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate\"\n                           formControlName=\"password\"\n\t\t\t\t\t\t   appAutofocus\n                           autofocus\n                           (contextmenu)=\"variablesService.onContextMenuPasteSelect($event)\">\n                    <div class=\"error\"\n                         *ngIf=\"authForm.controls['password'].invalid && (authForm.controls['password'].dirty || authForm.controls['password'].touched)\">\n                        <div *ngIf=\"authForm.controls['password'].hasError('wrong_password')\">\n                            {{ 'LOGIN.FORM_ERRORS.INVALID_PASS' | translate }}\n                        </div>\n                    </div>\n                </div>\n            </div>\n            <button type=\"submit\"\n                    class=\"primary big w-100 mb-1\">\n                {{'LOGIN.BUTTON_NEXT' | translate }}</button>\n\n            <button type=\"button\"\n                    class=\"outline big w-100\"\n                    (click)=\"dropSecureAppData()\">\n                {{ 'LOGIN.BUTTON_RESET' | translate }}</button>\n        </form>\n    </div>\n\n    <app-synchronization-status class=\"max-w-19-rem\"></app-synchronization-status>\n</div>\n"
 
 /***/ }),
 
@@ -7946,7 +8104,7 @@ var OpenWalletModalComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"page-container\">\n\n\t<div class=\"toolbar mb-2\">\n\t\t<div class=\"left\">\n\t\t\t<button (click)=\"back()\"\n\t\t\t\t\tclass=\"btn-icon circle big mr-2\"\n\t\t\t\t\ttype=\"button\">\n\t\t\t\t<i class=\"icon dropdown-arrow-left\"></i>\n\t\t\t</button>\n\t\t\t<h1>{{ 'BREADCRUMBS.OPEN_WALLET' | translate }}</h1>\n\t\t</div>\n\t\t<div class=\"right\"></div>\n\t</div>\n\n\t<div class=\"page-content\">\n\t\t<div class=\"breadcrumbs mb-2\">\n\t\t\t<div class=\"breadcrumb\">\n\t\t\t\t<a [routerLink]=\"['/add-wallet']\">{{'BREADCRUMBS.ADD_WALLET' | translate }}</a>\n\t\t\t</div>\n\t\t\t<div class=\"breadcrumb\">\n\t\t\t\t<span>{{'BREADCRUMBS.OPEN_WALLET' | translate}}</span>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div class=\"scrolled-content\">\n\t\t\t<form [formGroup]=\"openForm\"\n\t\t\t\t  class=\"form\">\n\n\t\t\t\t<div class=\"form__field\">\n\t\t\t\t\t<label for=\"wallet-name\">{{ 'OPEN_WALLET.NAME' | translate }}</label>\n\t\t\t\t\t<input (contextmenu)=\"variablesService.onContextMenu($event)\"\n\t\t\t\t\t\t   [maxLength]=\"variablesService.maxWalletNameLength\"\n\t\t\t\t\t\t   [placeholder]=\"'PLACEHOLDERS.WALLET_NAME_PLACEHOLDER' | translate\"\n\t\t\t\t\t\t   class=\"form__field--input\"\n\t\t\t\t\t\t   formControlName=\"name\"\n\t\t\t\t\t\t   id=\"wallet-name\"\n\t\t\t\t\t\t   type=\"text\">\n\t\t\t\t\t<div *ngIf=\"openForm.controls['name'].invalid && (openForm.controls['name'].dirty || openForm.controls['name'].touched)\"\n\t\t\t\t\t\t class=\"error\">\n\t\t\t\t\t\t<div *ngIf=\"openForm.controls['name'].errors['duplicate']\">\n\t\t\t\t\t\t\t{{ 'OPEN_WALLET.FORM_ERRORS.NAME_DUPLICATE' | translate }}\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div *ngIf=\"openForm.controls['name'].errors['required']\">\n\t\t\t\t\t\t\t{{ 'OPEN_WALLET.FORM_ERRORS.NAME_REQUIRED' | translate }}\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div *ngIf=\"openForm.get('name').value.length > variablesService.maxWalletNameLength\"\n\t\t\t\t\t\t class=\"error\">\n\t\t\t\t\t\t{{ 'OPEN_WALLET.FORM_ERRORS.MAX_LENGTH' | translate }}\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\n\t\t\t\t<div class=\"form__field\">\n\t\t\t\t\t<label for=\"wallet-password\">{{ 'OPEN_WALLET.PASS' | translate }}</label>\n\t\t\t\t\t<input (contextmenu)=\"variablesService.onContextMenuPasteSelect($event)\"\n\t\t\t\t\t\t   class=\"form__field--input\"\n\t\t\t\t\t\t   formControlName=\"password\"\n\t\t\t\t\t\t   id=\"wallet-password\"\n\t\t\t\t\t\t   placeholder=\"{{ 'PLACEHOLDERS.PASS_PLACEHOLDER' | translate }}\"\n\t\t\t\t\t\t   type=\"password\">\n\t\t\t\t\t<div *ngIf=\"submitted && openForm.controls['password'].hasError('wrong_password')\"\n\t\t\t\t\t\t class=\"error\">\n\t\t\t\t\t\t{{ openForm.controls['password']?.errors['wrong_password']?.text }}\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\n\n\t\t\t\t<button (click)=\"openWallet()\"\n\t\t\t\t\t\t[disabled]=\"!openForm.valid\"\n\t\t\t\t\t\tclass=\"primary big max-w-19-rem w-100\"\n\t\t\t\t\t\ttype=\"button\">{{'OPEN_WALLET.BUTTON' | translate }}</button>\n\t\t\t</form>\n\t\t</div>\n\t</div>\n</div>\n"
+module.exports = "<div class=\"page-container\">\n\n\t<div class=\"toolbar mb-2\">\n\t\t<div class=\"left\">\n\t\t\t<button (click)=\"back()\"\n\t\t\t\t\tclass=\"btn-icon circle big mr-2\"\n\t\t\t\t\ttype=\"button\">\n\t\t\t\t<i class=\"icon dropdown-arrow-left\"></i>\n\t\t\t</button>\n\t\t\t<h1>{{ 'BREADCRUMBS.OPEN_WALLET' | translate }}</h1>\n\t\t</div>\n\t\t<div class=\"right\"></div>\n\t</div>\n\n\t<div class=\"page-content\">\n\t\t<div class=\"breadcrumbs mb-2\">\n\t\t\t<div class=\"breadcrumb\">\n\t\t\t\t<a [routerLink]=\"['/add-wallet']\">{{'BREADCRUMBS.ADD_WALLET' | translate }}</a>\n\t\t\t</div>\n\t\t\t<div class=\"breadcrumb\">\n\t\t\t\t<span>{{'BREADCRUMBS.OPEN_WALLET' | translate}}</span>\n\t\t\t</div>\n\t\t</div>\n\n\t\t<div class=\"scrolled-content\">\n\t\t\t<form [formGroup]=\"openForm\"\n\t\t\t\t  (ngSubmit)=\"openWallet()\"\n\t\t\t\t  class=\"form\">\n\n\t\t\t\t<div class=\"form__field\">\n\t\t\t\t\t<label for=\"wallet-name\">{{ 'OPEN_WALLET.NAME' | translate }}</label>\n\t\t\t\t\t<input (contextmenu)=\"variablesService.onContextMenu($event)\"\n\t\t\t\t\t\t   [maxLength]=\"variablesService.maxWalletNameLength\"\n\t\t\t\t\t\t   [placeholder]=\"'PLACEHOLDERS.WALLET_NAME_PLACEHOLDER' | translate\"\n\t\t\t\t\t\t   class=\"form__field--input\"\n\t\t\t\t\t\t   formControlName=\"name\"\n\t\t\t\t\t\t   id=\"wallet-name\"\n\t\t\t\t\t\t   type=\"text\">\n\t\t\t\t\t<div *ngIf=\"openForm.controls['name'].invalid && (openForm.controls['name'].dirty || openForm.controls['name'].touched)\"\n\t\t\t\t\t\t class=\"error\">\n\t\t\t\t\t\t<div *ngIf=\"openForm.controls['name'].errors['duplicate']\">\n\t\t\t\t\t\t\t{{ 'OPEN_WALLET.FORM_ERRORS.NAME_DUPLICATE' | translate }}\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div *ngIf=\"openForm.controls['name'].errors['required']\">\n\t\t\t\t\t\t\t{{ 'OPEN_WALLET.FORM_ERRORS.NAME_REQUIRED' | translate }}\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div *ngIf=\"openForm.get('name').value.length > variablesService.maxWalletNameLength\"\n\t\t\t\t\t\t class=\"error\">\n\t\t\t\t\t\t{{ 'OPEN_WALLET.FORM_ERRORS.MAX_LENGTH' | translate }}\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\n\t\t\t\t<div class=\"form__field\">\n\t\t\t\t\t<label for=\"wallet-password\">{{ 'OPEN_WALLET.PASS' | translate }}</label>\n\t\t\t\t\t<input (contextmenu)=\"variablesService.onContextMenuPasteSelect($event)\"\n\t\t\t\t\t\t   class=\"form__field--input\"\n\t\t\t\t\t\t   formControlName=\"password\"\n\t\t\t\t\t\t   id=\"wallet-password\"\n\t\t\t\t\t\t   placeholder=\"{{ 'PLACEHOLDERS.PASS_PLACEHOLDER' | translate }}\"\n\t\t\t\t\t\t   type=\"password\">\n\t\t\t\t\t<div *ngIf=\"submitted && openForm.controls['password'].hasError('wrong_password')\"\n\t\t\t\t\t\t class=\"error\">\n\t\t\t\t\t\t{{ openForm.controls['password']?.errors['wrong_password']?.text }}\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\n\n\t\t\t\t<button [disabled]=\"!openForm.valid\"\n\t\t\t\t\t\tclass=\"primary big max-w-19-rem w-100\"\n\t\t\t\t\t\ttype=\"submit\">{{'OPEN_WALLET.BUTTON' | translate }}</button>\n\t\t\t</form>\n\t\t</div>\n\t</div>\n</div>\n"
 
 /***/ }),
 
@@ -9053,7 +9211,7 @@ var RestoreWalletComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"page-container\">\n\n    <div class=\"toolbar mb-2\">\n        <div class=\"left\">\n            <button type=\"button\"\n                    class=\"btn-icon circle big mr-2\"\n                    (click)=\"back()\">\n                <i class=\"icon dropdown-arrow-left\"></i>\n            </button>\n            <h1>{{ 'BREADCRUMBS.ADD_WALLET' | translate }}</h1>\n        </div>\n        <div class=\"right\"></div>\n    </div>\n\n    <div class=\"page-content\">\n        <div class=\"breadcrumbs mb-2\">\n            <div class=\"breadcrumb\">\n                <a [routerLink]=\"['/add-wallet']\">{{'BREADCRUMBS.ADD_WALLET' | translate }}</a>\n            </div>\n            <div class=\"breadcrumb\">\n                <span>{{'BREADCRUMBS.SAVE_PHRASE' | translate}}</span>\n            </div>\n        </div>\n\n        <div class=\"scrolled-content\">\n            <div class=\"wrap-seed-phrase\"\n                 fxFlex=\"100\"\n                 fxLayout=\"column\">\n                <form class=\"form\"\n                      [formGroup]=\"detailsForm\">\n                    <div class=\"form__field\">\n                        <label>{{ 'WALLET_DETAILS.LABEL_NAME' | translate }}</label>\n                        <input class=\"form__field--input\"\n                               type=\"text\"\n                               id=\"wallet-name\"\n                               formControlName=\"name\"\n                               [placeholder]=\"'PLACEHOLDERS.WALLET_NAME_PLACEHOLDER' | translate\"\n                               [maxLength]=\"variablesService.maxWalletNameLength\"\n                               (contextmenu)=\"variablesService.onContextMenu($event)\"\n                               readonly>\n                        <div class=\"error\"\n                             *ngIf=\"detailsForm.controls['name'].invalid && (detailsForm.controls['name'].dirty || detailsForm.controls['name'].touched)\">\n                            <div *ngIf=\"detailsForm.controls['name'].errors['duplicate']\">\n                                {{ 'WALLET_DETAILS.FORM_ERRORS.NAME_DUPLICATE' | translate }}\n                            </div>\n                            <div *ngIf=\"detailsForm.get('name').value.length >= variablesService.maxWalletNameLength\">\n                                {{ 'WALLET_DETAILS.FORM_ERRORS.MAX_LENGTH' | translate }}\n                            </div>\n                            <div *ngIf=\"detailsForm.controls['name'].errors['required']\">\n                                {{ 'WALLET_DETAILS.FORM_ERRORS.NAME_REQUIRED' | translate }}\n                            </div>\n                        </div>\n\n                    </div>\n\n                    <div class=\"form__field\">\n                        <label for=\"wallet-location\">{{ 'WALLET_DETAILS.LABEL_FILE_LOCATION' | translate }}</label>\n                        <input class=\"form__field--input\"\n                               type=\"text\"\n                               id=\"wallet-location\"\n                               formControlName=\"path\"\n                               readonly>\n                    </div>\n                </form>\n\n                <ng-container *ngIf=\"!showSeed else seedPhraseContent\">\n                    <form class=\"form bg-light-blue-details p-2\"\n                          [formGroup]=\"seedPhraseForm\"\n                          (ngSubmit)=\"onSubmitSeed()\">\n\n                        <div class=\"form__field\">\n                            <label for=\"create-password\">{{ 'WALLET_DETAILS.CREATE_PASSWORD_SECURE' | translate }}</label>\n                            <input class=\"form__field--input\"\n                                   type=\"password\"\n                                   placeholder=\"{{ 'PLACEHOLDERS.PASSWORD_PLACEHOLDER' | translate }}\"\n                                   id=\"create-password\"\n                                   formControlName=\"password\">\n                        </div>\n\n                        <div class=\"form__field\">\n                            <label for=\"confirm-password\">{{ 'WALLET_DETAILS.FORM.CONFIRM_PASSWORD' | translate }}</label>\n                            <input class=\"form__field--input\"\n                                   type=\"password\"\n                                   placeholder=\"{{'PLACEHOLDERS.PLACEHOLDER_CONFIRM' | translate}}\"\n                                   id=\"confirm-password\"\n                                   [class.invalid]=\"seedPhraseForm.invalid && seedPhraseForm.get('confirmPassword').value.length > 0\"\n                                   formControlName=\"confirmPassword\">\n                            <div class=\"error\"\n                                 *ngIf=\"seedPhraseForm.invalid && (seedPhraseForm.controls['confirmPassword'].dirty || seedPhraseForm.controls['confirmPassword'].touched)\">\n                                <div *ngIf=\"seedPhraseForm.invalid && seedPhraseForm.get('confirmPassword').value.length > 0\">\n                                    {{ 'WALLET_DETAILS.FORM_ERRORS.PASSWORDS_DONT_MATCH' | translate }}\n                                </div>\n                            </div>\n                        </div>\n\n                        <button type=\"submit\"\n                                class=\"primary w-100 big mb-2\"\n                                [disabled]=\"!seedPhraseForm.valid\">\n                            <i class=\"icon check-shield mr-1\"></i>\n                            {{ 'WALLET_DETAILS.FORM.GENERATE_SECURE_SEED' | translate }}\n                        </button>\n\n                        <p class=\"text-align-center color-primary\">\n                            <i class=\"icon info-circle mr-1\"></i>\n                            {{ 'WALLET_DETAILS.FORM.SECURED_SEED_WILL_REQUIRE' | translate }}\n                        </p>\n                    </form>\n                </ng-container>\n\n                <ng-template #seedPhraseContent>\n                    <div class=\"seed-phrase bg-light-blue-details p-2 border-radius-0_8-rem\">\n                        <div class=\"header mb-2\"\n                             fxLayout=\"row\"\n                             fxLayoutAlign=\"space-between center\">\n                            <div class=\"left\">\n                                <span>{{ 'WALLET_DETAILS.LABEL_SEED_PHRASE' | translate }}</span>\n                            </div>\n                            <div class=\"right\">\n                                <span class=\"status color-red\"\n                                      fxLayout=\"row\"\n                                      fxLayoutAlign=\"start center\"\n                                      *ngIf=\"seedPhraseForm.controls.password.value.length == 0\">\n                                    {{ 'WALLET_DETAILS.SEED_IS_UNSECURED' | translate }}\n                                    <i class=\"icon unsecured ml-1\"></i>\n                                </span>\n                                <span class=\"status color-aqua\"\n                                      fxLayout=\"row\"\n                                      fxLayoutAlign=\"start center\"\n                                      *ngIf=\"seedPhraseForm.controls.password.value.length > 0\">\n                                    {{ 'WALLET_DETAILS.SEED_IS_SECURED' | translate }}\n                                    <i class=\"icon secured ml-1\"></i>\n                                </span>\n                            </div>\n                        </div>\n                        <div class=\"content mb-1\"\n                             fxLayout=\"row wrap\"\n                             (contextmenu)=\"variablesService.onContextMenuOnlyCopy($event, seedPhrase)\">\n                            <ng-container *ngFor=\"let word of seedPhrase.split(' '); let index = index\">\n                                <div class=\"item p-1 mr-1 mb-1 border-radius-0_8-rem\"\n                                     fxLayout=\"row nowrap\"\n                                     fxLayoutAlign=\"start center\">\n                                    <div class=\"number p-1 mr-1\"\n                                         fxLayout=\"row\"\n                                         fxLayoutAlign=\"center center\">{{ index + 1 }}</div>\n                                    <span class=\"word\">{{ word }}</span>\n                                </div>\n                            </ng-container>\n                        </div>\n                        <div class=\"footer max-w-50-rem w-100\"\n                             fxLayout=\"column\"\n                             fxLayoutAlign=\"start center\">\n                            <div class=\"wrap-buttons w-100 mb-2\"\n                                 fxLayout=\"row nowrap\"\n                                 *ngIf=\"showSeed\">\n                                <button type=\"button\"\n                                        class=\"primary big w-100 mr-1\"\n                                        (click)=\"runWallet()\">{{\n                                    'SEED_PHRASE.BUTTON_CREATE_ACCOUNT' | translate }}</button>\n                                <button type=\"button\"\n                                        class=\"outline big w-100 ml-1\"\n                                        (click)=\"copySeedPhrase()\">\n                                    <ng-container *ngIf=\"!seedPhraseCopied\">\n                                        <i class=\"icon copy mr-1\"></i>\n                                        {{ 'SEED_PHRASE.BUTTON_COPY' | translate }}\n                                    </ng-container>\n                                    <ng-container *ngIf=\"seedPhraseCopied\">\n                                        <i class=\"icon check mr-1\"></i>\n                                        {{ 'SEED_PHRASE.BUTTON_COPIED' | translate }}\n                                    </ng-container>\n                                </button>\n                            </div>\n                            <p class=\"text-align-center\"\n                               *ngIf=\"seedPhraseForm.controls.password.value.length > 0\">\n                                <i class=\"icon info-circle mr-1\"></i>\n                                <span class=\"color-primary\">{{ 'WALLET_DETAILS.REMEMBER_YOU_WILL_REQUIRE' | translate}}</span>\n                            </p>\n                        </div>\n                    </div>\n                </ng-template>\n            </div>\n        </div>\n    </div>\n</div>\n\n"
+module.exports = "<div class=\"page-container\">\n\n    <div class=\"toolbar mb-2\">\n        <div class=\"left\">\n            <button type=\"button\"\n                    class=\"btn-icon circle big mr-2\"\n                    (click)=\"back()\">\n                <i class=\"icon dropdown-arrow-left\"></i>\n            </button>\n            <h1>{{ 'BREADCRUMBS.ADD_WALLET' | translate }}</h1>\n        </div>\n        <div class=\"right\"></div>\n    </div>\n\n    <div class=\"page-content\">\n        <div class=\"breadcrumbs mb-2\">\n            <div class=\"breadcrumb\">\n                <a [routerLink]=\"['/add-wallet']\">{{'BREADCRUMBS.ADD_WALLET' | translate }}</a>\n            </div>\n            <div class=\"breadcrumb\">\n                <span>{{'BREADCRUMBS.SAVE_PHRASE' | translate}}</span>\n            </div>\n        </div>\n\n        <div class=\"scrolled-content\">\n            <div class=\"wrap-seed-phrase\"\n                 fxFlex=\"100\"\n                 fxLayout=\"column\">\n                <form class=\"form\"\n                      [formGroup]=\"detailsForm\">\n                    <div class=\"form__field\">\n                        <label>{{ 'WALLET_DETAILS.LABEL_NAME' | translate }}</label>\n                        <input class=\"form__field--input\"\n                               type=\"text\"\n                               id=\"wallet-name\"\n                               formControlName=\"name\"\n                               [placeholder]=\"'PLACEHOLDERS.WALLET_NAME_PLACEHOLDER' | translate\"\n                               [maxLength]=\"variablesService.maxWalletNameLength\"\n                               (contextmenu)=\"variablesService.onContextMenu($event)\"\n                               readonly>\n                        <div class=\"error\"\n                             *ngIf=\"detailsForm.controls['name'].invalid && (detailsForm.controls['name'].dirty || detailsForm.controls['name'].touched)\">\n                            <div *ngIf=\"detailsForm.controls['name'].errors['duplicate']\">\n                                {{ 'WALLET_DETAILS.FORM_ERRORS.NAME_DUPLICATE' | translate }}\n                            </div>\n                            <div *ngIf=\"detailsForm.get('name').value.length >= variablesService.maxWalletNameLength\">\n                                {{ 'WALLET_DETAILS.FORM_ERRORS.MAX_LENGTH' | translate }}\n                            </div>\n                            <div *ngIf=\"detailsForm.controls['name'].errors['required']\">\n                                {{ 'WALLET_DETAILS.FORM_ERRORS.NAME_REQUIRED' | translate }}\n                            </div>\n                        </div>\n\n                    </div>\n\n                    <div class=\"form__field\">\n                        <label for=\"wallet-location\">{{ 'WALLET_DETAILS.LABEL_FILE_LOCATION' | translate }}</label>\n                        <input class=\"form__field--input\"\n                               type=\"text\"\n                               id=\"wallet-location\"\n                               formControlName=\"path\"\n                               readonly>\n                    </div>\n                </form>\n\n                <ng-container *ngIf=\"!showSeed else seedPhraseContent\">\n                    <form class=\"form bg-light-blue-details p-2\"\n                          [formGroup]=\"seedPhraseForm\"\n                          (ngSubmit)=\"onSubmitSeed()\">\n\n                        <div class=\"form__field\">\n                            <label for=\"create-password\">{{ 'WALLET_DETAILS.CREATE_PASSWORD_SECURE' | translate }}</label>\n                            <input class=\"form__field--input\"\n                                   type=\"password\"\n                                   placeholder=\"{{ 'PLACEHOLDERS.PASSWORD_PLACEHOLDER' | translate }}\"\n                                   id=\"create-password\"\n                                   formControlName=\"password\">\n                        </div>\n\n                        <div class=\"form__field\">\n                            <label for=\"confirm-password\">{{ 'WALLET_DETAILS.FORM.CONFIRM_PASSWORD' | translate }}</label>\n                            <input class=\"form__field--input\"\n                                   type=\"password\"\n                                   placeholder=\"{{'PLACEHOLDERS.PLACEHOLDER_CONFIRM' | translate}}\"\n                                   id=\"confirm-password\"\n                                   [class.invalid]=\"seedPhraseForm.invalid && seedPhraseForm.get('confirmPassword').value.length > 0\"\n                                   formControlName=\"confirmPassword\">\n                            <div class=\"error\"\n                                 *ngIf=\"seedPhraseForm.invalid && (seedPhraseForm.controls['confirmPassword'].dirty || seedPhraseForm.controls['confirmPassword'].touched)\">\n                                <div *ngIf=\"seedPhraseForm.invalid && seedPhraseForm.get('confirmPassword').value.length > 0\">\n                                    {{ 'WALLET_DETAILS.FORM_ERRORS.PASSWORDS_DONT_MATCH' | translate }}\n                                </div>\n                            </div>\n                        </div>\n\n                        <button type=\"submit\"\n                                class=\"primary w-100 big mb-2\"\n                                [disabled]=\"!seedPhraseForm.valid\">\n                            <i class=\"icon check-shield mr-1\"></i>\n                            {{ 'WALLET_DETAILS.FORM.GENERATE_SECURE_SEED' | translate }}\n                        </button>\n\n                        <p class=\"text-align-center color-primary\">\n                            <i class=\"icon info-circle mr-1\"></i>\n                            {{ 'WALLET_DETAILS.FORM.SECURED_SEED_WILL_REQUIRE' | translate }}\n                        </p>\n                    </form>\n                </ng-container>\n\n                <ng-template #seedPhraseContent>\n                    <div class=\"seed-phrase bg-light-blue-details p-2 border-radius-0_8-rem\">\n                        <div class=\"header mb-2\"\n                             fxLayout=\"row\"\n                             fxLayoutAlign=\"space-between center\">\n                            <div class=\"left\">\n                                <span>{{ 'WALLET_DETAILS.LABEL_SEED_PHRASE' | translate }}</span>\n                            </div>\n                            <div class=\"right\">\n                                <span class=\"status color-red\"\n                                      fxLayout=\"row\"\n                                      fxLayoutAlign=\"start center\"\n                                      *ngIf=\"seedPhraseForm.controls.password.value.length == 0\">\n                                    {{ 'WALLET_DETAILS.SEED_IS_UNSECURED' | translate }}\n                                    <i class=\"icon unsecured ml-1\"></i>\n                                </span>\n                                <span class=\"status color-aqua\"\n                                      fxLayout=\"row\"\n                                      fxLayoutAlign=\"start center\"\n                                      *ngIf=\"seedPhraseForm.controls.password.value.length > 0\">\n                                    {{ 'WALLET_DETAILS.SEED_IS_SECURED' | translate }}\n                                    <i class=\"icon secured ml-1\"></i>\n                                </span>\n                            </div>\n                        </div>\n                        <div class=\"content mb-1\"\n                             fxLayout=\"row wrap\"\n                             (contextmenu)=\"variablesService.onContextMenuOnlyCopy($event, seedPhrase)\">\n                            <ng-container *ngFor=\"let word of seedPhrase.split(' '); let index = index\">\n                                <div class=\"item p-1 mr-1 mb-1 border-radius-0_8-rem\"\n                                     fxLayout=\"row nowrap\"\n                                     fxLayoutAlign=\"start center\">\n                                    <div class=\"number p-1 mr-1\"\n                                         fxLayout=\"row\"\n                                         fxLayoutAlign=\"center center\">{{ index + 1 }}</div>\n                                    <span class=\"word\">{{ word }}</span>\n                                </div>\n                            </ng-container>\n                        </div>\n                        <div class=\"footer max-w-50-rem w-100\"\n                             fxLayout=\"column\"\n                             fxLayoutAlign=\"start center\">\n                            <div class=\"wrap-buttons w-100 mb-2\"\n                                 fxLayout=\"row nowrap\"\n                                 *ngIf=\"showSeed\">\n                                <button type=\"button\"\n                                        class=\"outline big w-100\"\n                                        (click)=\"copySeedPhrase()\">\n                                    <ng-container *ngIf=\"!seedPhraseCopied\">\n                                        <i class=\"icon copy mr-1\"></i>\n                                        {{ 'SEED_PHRASE.BUTTON_COPY' | translate }}\n                                    </ng-container>\n                                    <ng-container *ngIf=\"seedPhraseCopied\">\n                                        <i class=\"icon check mr-1\"></i>\n                                        {{ 'SEED_PHRASE.BUTTON_COPIED' | translate }}\n                                    </ng-container>\n                                </button>\n                            </div>\n                            <p class=\"text-align-center\"\n                               *ngIf=\"seedPhraseForm.controls.password.value.length > 0\">\n                                <i class=\"icon info-circle mr-1\"></i>\n                                <span class=\"color-primary\">{{ 'WALLET_DETAILS.REMEMBER_YOU_WILL_REQUIRE' | translate}}</span>\n                            </p>\n                        </div>\n                    </div>\n                </ng-template>\n            </div>\n        </div>\n    </div>\n</div>\n\n"
 
 /***/ }),
 
@@ -9086,6 +9244,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _helpers_services_variables_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../_helpers/services/variables.service */ "./src/app/_helpers/services/variables.service.ts");
 /* harmony import */ var _helpers_services_modal_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../_helpers/services/modal.service */ "./src/app/_helpers/services/modal.service.ts");
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/forms */ "./node_modules/@angular/forms/fesm5/forms.js");
+/* harmony import */ var _helpers_services_wallets_service__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../_helpers/services/wallets.service */ "./src/app/_helpers/services/wallets.service.ts");
+
 
 
 
@@ -9095,13 +9255,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var SeedPhraseComponent = /** @class */ (function () {
-    function SeedPhraseComponent(route, router, location, backend, variablesService, modalService, ngZone) {
+    function SeedPhraseComponent(route, router, location, backend, variablesService, walletsService, modalService, ngZone) {
         var _this = this;
         this.route = route;
         this.router = router;
         this.location = location;
         this.backend = backend;
         this.variablesService = variablesService;
+        this.walletsService = walletsService;
         this.modalService = modalService;
         this.ngZone = ngZone;
         this.seedPhrase = '';
@@ -9140,59 +9301,27 @@ var SeedPhraseComponent = /** @class */ (function () {
     };
     SeedPhraseComponent.prototype.ngOnInit = function () {
         this.showSeed = false;
-        this.getWalletId();
-        this.setWalletInfoNamePath();
+        this.getWallet();
     };
     SeedPhraseComponent.prototype.setWalletInfoNamePath = function () {
         this.detailsForm
             .get('name')
-            .setValue(this.variablesService.opening_wallet.name);
+            .setValue(this.wallet.name);
         this.detailsForm
             .get('path')
-            .setValue(this.variablesService.opening_wallet.path);
+            .setValue(this.wallet.path);
     };
-    SeedPhraseComponent.prototype.getWalletId = function () {
+    SeedPhraseComponent.prototype.getWallet = function () {
         var _this = this;
         this.queryRouting = this.route.queryParams.subscribe(function (params) {
             if (params.wallet_id) {
-                _this.wallet_id = params.wallet_id;
+                _this.wallet_id = +params.wallet_id;
+                _this.wallet = _this.walletsService.getWalletById(_this.wallet_id);
+                if (_this.wallet) {
+                    _this.setWalletInfoNamePath();
+                }
             }
         });
-    };
-    SeedPhraseComponent.prototype.runWallet = function () {
-        var _this = this;
-        var exists = false;
-        this.variablesService.wallets.forEach(function (wallet) {
-            if (wallet.address === _this.variablesService.opening_wallet.address) {
-                exists = true;
-            }
-        });
-        if (!exists) {
-            this.backend.runWallet(this.wallet_id, function (run_status, run_data) {
-                if (run_status) {
-                    _this.variablesService.wallets.push(_this.variablesService.opening_wallet);
-                    if (_this.variablesService.appPass) {
-                        _this.backend.storeSecureAppData();
-                    }
-                    _this.ngZone.run(function () {
-                        _this.variablesService.setCurrentWallet(_this.wallet_id);
-                        _this.router.navigate(['/wallet/']);
-                    });
-                }
-                else {
-                    console.log(run_data['error_code']);
-                }
-            });
-        }
-        else {
-            this.variablesService.opening_wallet = null;
-            this.modalService.prepareModal('error', 'OPEN_WALLET.WITH_ADDRESS_ALREADY_OPEN');
-            this.backend.closeWallet(this.wallet_id, function () {
-                _this.ngZone.run(function () {
-                    _this.router.navigate(['/']);
-                });
-            });
-        }
     };
     SeedPhraseComponent.prototype.copySeedPhrase = function () {
         var _this = this;
@@ -9241,6 +9370,7 @@ var SeedPhraseComponent = /** @class */ (function () {
             _angular_common__WEBPACK_IMPORTED_MODULE_2__["Location"],
             _helpers_services_backend_service__WEBPACK_IMPORTED_MODULE_3__["BackendService"],
             _helpers_services_variables_service__WEBPACK_IMPORTED_MODULE_5__["VariablesService"],
+            _helpers_services_wallets_service__WEBPACK_IMPORTED_MODULE_8__["WalletsService"],
             _helpers_services_modal_service__WEBPACK_IMPORTED_MODULE_6__["ModalService"],
             _angular_core__WEBPACK_IMPORTED_MODULE_1__["NgZone"]])
     ], SeedPhraseComponent);
@@ -10090,15 +10220,20 @@ var SettingsComponent = /** @class */ (function () {
     }
     SettingsComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.backend.getVersion(function (version, type) {
+        this.backend.getVersion(function (version, type, error) {
             _this.ngZone.run(function () {
-                _this.currentBuild = version;
-                _this.variablesService.testnet = false;
-                if (type === 'testnet') {
-                    _this.currentBuild += ' TESTNET';
-                    _this.variablesService.testnet = true;
+                if (!error) {
+                    _this.currentBuild = version;
+                    _this.variablesService.testnet = false;
+                    if (type === 'testnet') {
+                        _this.currentBuild += ' TESTNET';
+                        _this.variablesService.testnet = true;
+                    }
+                    _this.variablesService.networkType = type;
                 }
-                _this.variablesService.networkType = type;
+                else {
+                    _this.currentBuild = 'There was an error getting the build version';
+                }
             });
         });
         this.backend.getIsDisabledNotifications(function (res) {
