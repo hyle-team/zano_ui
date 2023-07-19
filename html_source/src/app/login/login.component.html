@@ -24,6 +24,7 @@
                            type="password"
                            id="master-pass"
                            formControlName="password"
+						   appAutofocus
                            placeholder="{{ 'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate }}"
                            (contextmenu)="variablesService.onContextMenuPasteSelect($event)">
                     <div class="error"
@@ -77,6 +78,7 @@
                            id="master-pass-login"
                            [placeholder]="'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate"
                            formControlName="password"
+						   appAutofocus
                            autofocus
                            (contextmenu)="variablesService.onContextMenuPasteSelect($event)">
                     <div class="error"

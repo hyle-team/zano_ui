@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { VariablesService } from '../_helpers/services/variables.service';
 import { ModalService } from '../_helpers/services/modal.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {Wallet} from "../_helpers/models/wallet.model";
+import {WalletsService} from "../_helpers/services/wallets.service";
 
 @Component({
   selector: 'app-seed-phrase',
@@ -17,6 +19,7 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
   seedPhrase = '';
   showSeed = false;
   wallet_id: number;
+  wallet!: Wallet;
   seedPhraseCopied = false;
   progressWidth = '66%';
 
@@ -70,6 +73,7 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
     private location: Location,
     private backend: BackendService,
     public variablesService: VariablesService,
+    public walletsService: WalletsService,
     private modalService: ModalService,
     private ngZone: NgZone
   ) {
@@ -77,59 +81,28 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.showSeed = false;
-    this.getWalletId();
-    this.setWalletInfoNamePath();
+    this.getWallet();
   }
 
   private setWalletInfoNamePath() {
     this.detailsForm
       .get('name')
-      .setValue(this.variablesService.opening_wallet.name);
+      .setValue(this.wallet.name);
     this.detailsForm
       .get('path')
-      .setValue(this.variablesService.opening_wallet.path);
+      .setValue(this.wallet.path);
   }
 
-  private getWalletId() {
+  private getWallet() {
     this.queryRouting = this.route.queryParams.subscribe(params => {
       if (params.wallet_id) {
-        this.wallet_id = params.wallet_id;
-      }
-    });
-  }
-
-
-  runWallet() {
-    let exists = false;
-    this.variablesService.wallets.forEach((wallet) => {
-      if (wallet.address === this.variablesService.opening_wallet.address) {
-        exists = true;
-      }
-    });
-    if (!exists) {
-      this.backend.runWallet(this.wallet_id, (run_status, run_data) => {
-        if (run_status) {
-          this.variablesService.wallets.push(this.variablesService.opening_wallet);
-          if (this.variablesService.appPass) {
-            this.backend.storeSecureAppData();
-          }
-          this.ngZone.run(() => {
-            this.variablesService.setCurrentWallet(this.wallet_id);
-            this.router.navigate(['/wallet/']);
-          });
-        } else {
-          console.log(run_data['error_code']);
+        this.wallet_id = +params.wallet_id;
+        this.wallet = this.walletsService.getWalletById(this.wallet_id);
+        if (this.wallet) {
+          this.setWalletInfoNamePath();
         }
-      });
-    } else {
-      this.variablesService.opening_wallet = null;
-      this.modalService.prepareModal('error', 'OPEN_WALLET.WITH_ADDRESS_ALREADY_OPEN');
-      this.backend.closeWallet(this.wallet_id, () => {
-        this.ngZone.run(() => {
-          this.router.navigate(['/']);
-        });
-      });
-    }
+      }
+    });
   }
 
   copySeedPhrase() {

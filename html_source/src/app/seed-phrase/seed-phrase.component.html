@@ -153,11 +153,7 @@
                                  fxLayout="row nowrap"
                                  *ngIf="showSeed">
                                 <button type="button"
-                                        class="primary big w-100 mr-1"
-                                        (click)="runWallet()">{{
-                                    'SEED_PHRASE.BUTTON_CREATE_ACCOUNT' | translate }}</button>
-                                <button type="button"
-                                        class="outline big w-100 ml-1"
+                                        class="outline big w-100"
                                         (click)="copySeedPhrase()">
                                     <ng-container *ngIf="!seedPhraseCopied">
                                         <i class="icon copy mr-1"></i>

@@ -102,11 +102,9 @@
 						</div>
 					</td>
 					<td>
-						<div class="text-ellipsis">
-                              <span *ngIf="item.sortAmount && item.sortAmount.toString() !== '0'">
-                                  {{item.sortAmount | intToMoney}}
-								  {{variablesService.defaultCurrency}}
-                              </span>
+						<div class="text-ellipsis" *ngIf="item.sortAmount && item.sortAmount.toString() !== '0'">
+							{{ item.sortAmount | intToMoney }}
+							{{variablesService.defaultCurrency}}
 						</div>
 					</td>
 					<td>
@@ -133,7 +131,8 @@
 									...{{ item.remote_addresses[0] | slice:-6 }}
                             	</span>
 							</div>
-							<ng-container *ngIf="item.remote_aliases && item.remote_aliases[0] && item.remote_aliases[0].trim().length">
+							<ng-container
+								*ngIf="item.remote_aliases && item.remote_aliases[0] && item.remote_aliases[0].trim().length">
 								<div fxLayout="row wrap">
 									<ng-container *ngFor="let alias of item.remote_aliases">
 										<ng-container *ngIf="alias && alias.length">
