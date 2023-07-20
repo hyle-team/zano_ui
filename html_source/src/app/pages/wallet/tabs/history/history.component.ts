@@ -11,6 +11,7 @@ import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 import { collapseOnLeaveAnimation, expandOnEnterAnimation } from 'angular-animations';
+import { zanoAssetInfo } from '@parts/data/assets';
 
 @Component({
   selector: 'app-history',
@@ -54,7 +55,8 @@ import { collapseOnLeaveAnimation, expandOnEnterAnimation } from 'angular-animat
                 <!-- Status -->
                 <td>
                   <ng-container *ngFor="let subtransfer of transaction.subtransfers">
-                    <div
+                    <ng-container *ngIf="subtransfer.asset_id !== zanoAssetInfo.asset_id ? subtransfer.amount.toNumber() !== 0 : subtransfer.amount.minus(transaction.fee ?? 0).toNumber() !== 0">
+                      <div
                       [ngClass]="subtransfer.is_income ? 'received' : 'send'"
                       class="status text-ellipsis"
                       fxLayout="row"
@@ -160,22 +162,42 @@ import { collapseOnLeaveAnimation, expandOnEnterAnimation } from 'angular-animat
                         </ng-template>
                       </ng-container>
                     </div>
+                    </ng-container>
                   </ng-container>
                 </td>
                 <!-- Amount -->
                 <td>
                   <ng-container *ngFor="let subtransfer of transaction.subtransfers">
-                    <div class="text-ellipsis">
-                      <span *ngIf="!subtransfer.is_income">
-                        {{ subtransfer.amount.minus(transaction.fee || 0) | intToMoney }}
-                      </span>
-                      <span *ngIf="subtransfer.is_income">
-                        {{ subtransfer.amount | intToMoney }}
-                      </span>
-                      <ng-container *ngIf="subtransfer.asset_id | getWhiteAsset | async as asset">
-                        {{ asset.ticker }}
+                    <ng-container *ngIf="subtransfer.asset_id === zanoAssetInfo.asset_id">
+                      <ng-container *ngIf="subtransfer.amount.minus(transaction.fee ?? 0).toNumber() !== 0">
+                        <div class="text-ellipsis">
+                        <span *ngIf="!subtransfer.is_income">
+                          {{ subtransfer.amount.minus(transaction.fee ?? 0) | intToMoney }}
+                        </span>
+                          <span *ngIf="subtransfer.is_income">
+                          {{ subtransfer.amount | intToMoney }}
+                        </span>
+                          <ng-container *ngIf="subtransfer.asset_id | getWhiteAsset | async as asset">
+                            {{ asset.ticker }}
+                          </ng-container>
+                        </div>
                       </ng-container>
-                    </div>
+                    </ng-container>
+                    <ng-container *ngIf="subtransfer.asset_id !== zanoAssetInfo.asset_id">
+                      <ng-container *ngIf="subtransfer.amount.toNumber() !== 0">
+                        <div class="text-ellipsis">
+                        <span *ngIf="!subtransfer.is_income">
+                          {{ subtransfer.amount | intToMoney }}
+                        </span>
+                          <span *ngIf="subtransfer.is_income">
+                          {{ subtransfer.amount | intToMoney }}
+                        </span>
+                          <ng-container *ngIf="subtransfer.asset_id | getWhiteAsset | async as asset">
+                            {{ asset.ticker }}
+                          </ng-container>
+                        </div>
+                      </ng-container>
+                    </ng-container>
                   </ng-container>
                 </td>
                 <!-- Fee -->
@@ -359,6 +381,8 @@ import { collapseOnLeaveAnimation, expandOnEnterAnimation } from 'angular-animat
   animations: [expandOnEnterAnimation(), collapseOnLeaveAnimation()],
 })
 export class HistoryComponent implements OnInit, OnDestroy {
+  zanoAssetInfo = zanoAssetInfo;
+
   openedDetails = '';
 
   stop_paginate = false;
