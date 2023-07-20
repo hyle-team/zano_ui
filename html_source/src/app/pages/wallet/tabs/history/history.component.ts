@@ -55,7 +55,7 @@ import { zanoAssetInfo } from '@parts/data/assets';
                 <!-- Status -->
                 <td>
                   <ng-container *ngFor="let subtransfer of transaction.subtransfers">
-                    <ng-container *ngIf="subtransfer.asset_id !== zanoAssetInfo.asset_id ? subtransfer.amount.toNumber() !== 0 : subtransfer.amount.minus(transaction.fee ?? 0).toNumber() !== 0">
+                    <ng-container *ngIf="subtransfer.asset_id !== zanoAssetInfo.asset_id ? subtransfer.amount.toNumber() !== 0 : !subtransfer.is_income ? subtransfer.amount.minus(transaction.fee ?? 0).toNumber() !== 0 : subtransfer.amount.toNumber() !== 0">
                       <div
                       [ngClass]="subtransfer.is_income ? 'received' : 'send'"
                       class="status text-ellipsis"
@@ -169,7 +169,7 @@ import { zanoAssetInfo } from '@parts/data/assets';
                 <td>
                   <ng-container *ngFor="let subtransfer of transaction.subtransfers">
                     <ng-container *ngIf="subtransfer.asset_id === zanoAssetInfo.asset_id">
-                      <ng-container *ngIf="subtransfer.amount.minus(transaction.fee ?? 0).toNumber() !== 0">
+                      <ng-container *ngIf="!subtransfer.is_income ? subtransfer.amount.minus(transaction.fee ?? 0).toNumber() !== 0 : subtransfer.amount.toNumber() !== 0">
                         <div class="text-ellipsis">
                         <span *ngIf="!subtransfer.is_income">
                           {{ subtransfer.amount.minus(transaction.fee ?? 0) | intToMoney }}
