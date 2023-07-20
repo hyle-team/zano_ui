@@ -6065,10 +6065,10 @@ var store = __webpack_require__(/*! ../internals/shared-store */ 5691);
 (module.exports = function (key, value) {
   return store[key] || (store[key] = value !== undefined ? value : {});
 })('versions', []).push({
-  version: '3.31.0',
+  version: '3.31.1',
   mode: IS_PURE ? 'pure' : 'global',
   copyright: '© 2014-2023 Denis Pushkarev (zloirock.ru)',
-  license: 'https://github.com/zloirock/core-js/blob/v3.31.0/LICENSE',
+  license: 'https://github.com/zloirock/core-js/blob/v3.31.1/LICENSE',
   source: 'https://github.com/zloirock/core-js'
 });
 
@@ -6952,7 +6952,7 @@ var $ = __webpack_require__(/*! ../internals/export */ 664);
 var hasOwn = __webpack_require__(/*! ../internals/has-own-property */ 8578);
 
 // `Object.hasOwn` method
-// https://github.com/tc39/proposal-accessible-object-hasownproperty
+// https://tc39.es/ecma262/#sec-object.hasown
 $({ target: 'Object', stat: true }, {
   hasOwn: hasOwn
 });
