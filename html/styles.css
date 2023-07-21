@@ -914,6 +914,15 @@ body {
   z-index: 100;
 }.modal {
   position: relative;
+  overflow: hidden;
+}.modal .message-container {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}.modal .message-container .title, .modal .message-container .message {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
 }.modal button.close {
   position: absolute;
   top: 0.8rem;
