@@ -617,8 +617,9 @@ export class SendComponent implements OnInit, OnDestroy {
     this.job_id = null;
 
     if (success) {
+      const { currentWallet: { wallet_id } } = this.variablesService;
       this.variablesService.currentWallet.sendMoneyParams = null;
-      this.sendMoneyParamsForm.reset(defaultSendMoneyParams, { emitEvent: false });
+      this.sendMoneyParamsForm.reset({ ...defaultSendMoneyParams, wallet_id }, { emitEvent: false });
     }
   }
 
