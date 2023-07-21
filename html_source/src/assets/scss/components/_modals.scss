@@ -14,6 +14,19 @@
 
 .modal {
   position: relative;
+  overflow: hidden;
+
+  .message-container {
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    .title, .message {
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      word-wrap: break-word;
+    }
+  }
 
   button.close {
     position: absolute;
