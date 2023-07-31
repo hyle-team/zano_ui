@@ -155,7 +155,7 @@ import { zanoAssetInfo } from '@parts/data/assets';
                 {{ sendMoneyParamsForm.controls.amount.errors['insuficcientFunds'].errorText | translate }}
               </div>
               <div *ngIf="sendMoneyParamsForm.controls.amount.hasError('min')">
-                {{ 'SEND.FORM_ERRORS.MUST_BE_GREATER_THAN_ZERO' | translate }}
+                {{ 'SEND.FORM_ERRORS.AMOUNT_ZERO' | translate }}
               </div>
             </div>
           </div>
