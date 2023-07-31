@@ -477,7 +477,7 @@ export class SendComponent implements OnInit, OnDestroy {
             return null;
           }
 
-          if (control.value === 0) {
+          if (control.value == 0) {
             return { zero: true };
           }
           const bigAmount = this.moneyToInt.transform(control.value) as BigNumber;
