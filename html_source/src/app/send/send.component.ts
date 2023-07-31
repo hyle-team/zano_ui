@@ -98,7 +98,7 @@ export class SendComponent implements OnInit, OnDestroy {
         return null;
       }
 
-      if (g.value === 0) {
+      if (g.value == 0) {
         return { 'zero': true };
       }
       const bigAmount = this.moneyToInt.transform(g.value) as BigNumber;
