@@ -9839,7 +9839,7 @@ var SendComponent = /** @class */ (function () {
                     if (!g.value) {
                         return null;
                     }
-                    if (g.value === 0) {
+                    if (g.value == 0) {
                         return { 'zero': true };
                     }
                     var bigAmount = _this.moneyToInt.transform(g.value);
