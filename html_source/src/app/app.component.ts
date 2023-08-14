@@ -603,6 +603,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
       /** Start listening handleCurrentActionState */
       this.backend.handleCurrentActionState();
+
+      this.getVersion();
     }, error => {
       console.log(error);
     });
@@ -775,4 +777,16 @@ export class AppComponent implements OnInit, OnDestroy {
     this.expMedTsEvent.unsubscribe();
   }
 
+  getVersion(): void {
+    this.backend.getVersion((version, type, error) => {
+      this.ngZone.run(() => {
+        if (!error) {
+          console.log('----------------- version -----------------', version);
+          console.log('----------------- type -----------------', type);
+          this.variablesService.testnet = type === 'testnet';
+          this.variablesService.networkType = type;
+        }
+      });
+    });
+  }
 }
