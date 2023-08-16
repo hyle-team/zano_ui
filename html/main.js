@@ -1977,6 +1977,7 @@ class AppComponent {
         });
         this.backendService.dispatchAsyncCallResult();
         this.backendService.handleCurrentActionState();
+        this.getVersion();
       },
       error: error => {
         console.log(error);
@@ -2121,6 +2122,19 @@ class AppComponent {
         wallet_id: wallet.wallet_id
       }]);
     }
+  }
+
+  getVersion() {
+    this.backendService.getVersion((version, type, error) => {
+      this.ngZone.run(() => {
+        if (!error) {
+          console.log('----------------- version -----------------', version);
+          console.log('----------------- type -----------------', type);
+          this.variablesService.testnet = type === 'testnet';
+          this.variablesService.networkType = type;
+        }
+      });
+    });
   }
 
 }
