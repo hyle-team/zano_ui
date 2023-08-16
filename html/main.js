@@ -5323,6 +5323,7 @@ var AppComponent = /** @class */ (function () {
             _this.backend.dispatchAsyncCallResult();
             /** Start listening handleCurrentActionState */
             _this.backend.handleCurrentActionState();
+            _this.getVersion();
         }, function (error) {
             console.log(error);
         });
@@ -5484,6 +5485,19 @@ var AppComponent = /** @class */ (function () {
             clearInterval(this.intervalUpdatePriceState);
         }
         this.expMedTsEvent.unsubscribe();
+    };
+    AppComponent.prototype.getVersion = function () {
+        var _this = this;
+        this.backend.getVersion(function (version, type, error) {
+            _this.ngZone.run(function () {
+                if (!error) {
+                    console.log('----------------- version -----------------', version);
+                    console.log('----------------- type -----------------', type);
+                    _this.variablesService.testnet = type === 'testnet';
+                    _this.variablesService.networkType = type;
+                }
+            });
+        });
     };
     tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"]([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["ViewChild"])('allContextMenu'),
