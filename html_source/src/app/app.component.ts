@@ -692,6 +692,8 @@ export class AppComponent implements OnInit, OnDestroy {
         this.backendService.dispatchAsyncCallResult();
 
         this.backendService.handleCurrentActionState();
+
+        this.getVersion();
       },
       error: error => {
         console.log(error);
@@ -825,5 +827,18 @@ export class AppComponent implements OnInit, OnDestroy {
     } else {
       this.store.set(StateKeys.sync, [{ sync: boolean, wallet_id: wallet.wallet_id }]);
     }
+  }
+
+  getVersion(): void {
+    this.backendService.getVersion((version, type, error) => {
+      this.ngZone.run(() => {
+        if (!error) {
+          console.log('----------------- version -----------------', version);
+          console.log('----------------- type -----------------', type);
+          this.variablesService.testnet = type === 'testnet';
+          this.variablesService.networkType = type;
+        }
+      });
+    });
   }
 }
