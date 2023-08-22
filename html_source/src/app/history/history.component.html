@@ -108,7 +108,7 @@
 						</div>
 					</td>
 					<td>
-						<div class="text-ellipsis">
+						<div class="text-ellipsis" *ngIf="!item.is_income">
                             <span *ngIf="item.sortFee && item.sortFee.toString() !== '0'">
                                 {{item.sortFee | intToMoney}}
 								{{variablesService.defaultCurrency}}
