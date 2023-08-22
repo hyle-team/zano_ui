@@ -55,113 +55,121 @@ import { zanoAssetInfo } from '@parts/data/assets';
                 <!-- Status -->
                 <td>
                   <ng-container *ngFor="let subtransfer of transaction.subtransfers">
-                    <ng-container *ngIf="subtransfer.asset_id !== zanoAssetInfo.asset_id ? subtransfer.amount.toNumber() !== 0 : !subtransfer.is_income ? subtransfer.amount.minus(transaction.fee ?? 0).toNumber() !== 0 : subtransfer.amount.toNumber() !== 0">
-                      <div
-                      [ngClass]="subtransfer.is_income ? 'received' : 'send'"
-                      class="status text-ellipsis"
-                      fxLayout="row"
-                      fxLayoutAlign=" center"
+                    <ng-container
+                      *ngIf="
+                        subtransfer.asset_id !== zanoAssetInfo.asset_id
+                          ? subtransfer.amount.toNumber() !== 0
+                          : !subtransfer.is_income
+                          ? subtransfer.amount.minus(transaction.fee ?? 0).toNumber() !== 0
+                          : subtransfer.amount.toNumber() !== 0
+                      "
                     >
-                      <ng-container *ngIf="getHeight(transaction) < 10">
-                        <svg
-                          [delay]="500"
-                          class="confirmation mr-1"
-                          placement="bottom-left"
-                          style="transform: rotateZ(-90deg)"
-                          tooltip="{{ 'HISTORY.STATUS_TOOLTIP' | translate : { current: getHeight(transaction), total: 10 } }}"
-                          tooltipClass="table-tooltip"
-                        >
-                          <circle
-                            cx="50%"
-                            cy="50%"
-                            fill="transparent"
-                            r="0.7rem"
-                            stroke="rgba(31, 143, 235, 0.33)"
-                            stroke-dasharray="100"
-                            stroke-dashoffset="0"
-                            stroke-width="0.3rem"
-                          ></circle>
-                          <circle
-                            [style.stroke-dashoffset]="strokeSize(transaction)"
-                            [style.stroke]="subtransfer.is_income ? '#16d1d6' : '#1f8feb'"
-                            class="progress-circle"
-                            cx="50%"
-                            cy="50%"
-                            fill="transparent"
-                            r="0.7rem"
-                            stroke-dasharray="4.5rem"
-                            stroke-dashoffset="4.5rem"
-                            stroke-linecap="round"
-                            stroke-width="0.3rem"
-                          ></circle>
-                        </svg>
-                      </ng-container>
-
-                      <ng-container *ngIf="getHeight(transaction) === 10">
-                        <img
-                          *ngIf="!subtransfer.is_income"
-                          alt=""
-                          class="status-transaction mr-1"
-                          src="assets/icons/blue/send.svg"
-                        />
-                        <img
-                          *ngIf="subtransfer.is_income"
-                          alt=""
-                          class="status-transaction mr-1"
-                          src="assets/icons/aqua/receive.svg"
-                        />
-                      </ng-container>
-
-                      <span class="status-transaction-text">{{
-                        (subtransfer.is_income ? 'HISTORY.RECEIVED' : 'HISTORY.SEND') | translate
-                      }}</span>
-
-                      <ng-container *ngIf="transaction.unlock_time !== 0 && transaction.tx_type !== 6">
-                        <ng-container *ngIf="isLocked(transaction); else unlock">
-                          <ng-container *ngIf="transaction.unlock_time < 500000000">
-                            <i
-                              [class.position]="
-                                variablesService.height_app - transaction.height < 10 ||
-                                (transaction.height === 0 && transaction.timestamp > 0)
-                              "
-                              [delay]="500"
-                              class="icon lock-transaction mr-1"
-                              placement="bottom-left"
-                              tooltip="{{ 'HISTORY.LOCK_TOOLTIP' | translate : { date: time(transaction) | date : 'MM.dd.yy' } }}"
-                              tooltipClass="table-tooltip"
-                            ></i>
-                          </ng-container>
-                          <ng-container *ngIf="transaction.unlock_time > 500000000">
-                            <i
-                              [class.position]="
-                                variablesService.height_app - transaction.height < 10 ||
-                                (transaction.height === 0 && transaction.timestamp > 0)
-                              "
-                              [delay]="500"
-                              class="icon lock-transaction mr-1"
-                              placement="bottom-left"
-                              tooltip="{{
-                                'HISTORY.LOCK_TOOLTIP'
-                                  | translate
-                                    : {
-                                        date: transaction.unlock_time * 1000 | date : 'MM.dd.yy'
-                                      }
-                              }}"
-                              tooltipClass="table-tooltip"
-                            ></i>
-                          </ng-container>
+                      <div
+                        [ngClass]="subtransfer.is_income ? 'received' : 'send'"
+                        class="status text-ellipsis"
+                        fxLayout="row"
+                        fxLayoutAlign=" center"
+                      >
+                        <ng-container *ngIf="getHeight(transaction) < 10">
+                          <svg
+                            [delay]="500"
+                            class="confirmation mr-1"
+                            placement="bottom-left"
+                            style="transform: rotateZ(-90deg)"
+                            tooltip="{{ 'HISTORY.STATUS_TOOLTIP' | translate : { current: getHeight(transaction), total: 10 } }}"
+                            tooltipClass="table-tooltip"
+                          >
+                            <circle
+                              cx="50%"
+                              cy="50%"
+                              fill="transparent"
+                              r="0.7rem"
+                              stroke="rgba(31, 143, 235, 0.33)"
+                              stroke-dasharray="100"
+                              stroke-dashoffset="0"
+                              stroke-width="0.3rem"
+                            ></circle>
+                            <circle
+                              [style.stroke-dashoffset]="strokeSize(transaction)"
+                              [style.stroke]="subtransfer.is_income ? '#16d1d6' : '#1f8feb'"
+                              class="progress-circle"
+                              cx="50%"
+                              cy="50%"
+                              fill="transparent"
+                              r="0.7rem"
+                              stroke-dasharray="4.5rem"
+                              stroke-dashoffset="4.5rem"
+                              stroke-linecap="round"
+                              stroke-width="0.3rem"
+                            ></circle>
+                          </svg>
                         </ng-container>
-                        <ng-template #unlock>
-                          <i
-                            [class.position]="
-                              variablesService.height_app - transaction.height < 10 ||
-                              (transaction.height === 0 && transaction.timestamp > 0)
-                            "
-                            class="icon unlock-transaction mr-1"
-                          ></i>
-                        </ng-template>
-                      </ng-container>
-                    </div>
+
+                        <ng-container *ngIf="getHeight(transaction) === 10">
+                          <img
+                            *ngIf="!subtransfer.is_income"
+                            alt=""
+                            class="status-transaction mr-1"
+                            src="assets/icons/blue/send.svg"
+                          />
+                          <img
+                            *ngIf="subtransfer.is_income"
+                            alt=""
+                            class="status-transaction mr-1"
+                            src="assets/icons/aqua/receive.svg"
+                          />
+                        </ng-container>
+
+                        <span class="status-transaction-text">{{
+                          (subtransfer.is_income ? 'HISTORY.RECEIVED' : 'HISTORY.SEND') | translate
+                        }}</span>
+
+                        <ng-container *ngIf="transaction.unlock_time !== 0 && transaction.tx_type !== 6">
+                          <ng-container *ngIf="isLocked(transaction); else unlock">
+                            <ng-container *ngIf="transaction.unlock_time < 500000000">
+                              <i
+                                [class.position]="
+                                  variablesService.height_app - transaction.height < 10 ||
+                                  (transaction.height === 0 && transaction.timestamp > 0)
+                                "
+                                [delay]="500"
+                                class="icon lock-transaction mr-1"
+                                placement="bottom-left"
+                                tooltip="{{ 'HISTORY.LOCK_TOOLTIP' | translate : { date: time(transaction) | date : 'MM.dd.yy' } }}"
+                                tooltipClass="table-tooltip"
+                              ></i>
+                            </ng-container>
+                            <ng-container *ngIf="transaction.unlock_time > 500000000">
+                              <i
+                                [class.position]="
+                                  variablesService.height_app - transaction.height < 10 ||
+                                  (transaction.height === 0 && transaction.timestamp > 0)
+                                "
+                                [delay]="500"
+                                class="icon lock-transaction mr-1"
+                                placement="bottom-left"
+                                tooltip="{{
+                                  'HISTORY.LOCK_TOOLTIP'
+                                    | translate
+                                      : {
+                                          date: transaction.unlock_time * 1000 | date : 'MM.dd.yy'
+                                        }
+                                }}"
+                                tooltipClass="table-tooltip"
+                              ></i>
+                            </ng-container>
+                          </ng-container>
+                          <ng-template #unlock>
+                            <i
+                              [class.position]="
+                                variablesService.height_app - transaction.height < 10 ||
+                                (transaction.height === 0 && transaction.timestamp > 0)
+                              "
+                              class="icon unlock-transaction mr-1"
+                            ></i>
+                          </ng-template>
+                        </ng-container>
+                      </div>
                     </ng-container>
                   </ng-container>
                 </td>
@@ -169,14 +177,20 @@ import { zanoAssetInfo } from '@parts/data/assets';
                 <td>
                   <ng-container *ngFor="let subtransfer of transaction.subtransfers">
                     <ng-container *ngIf="subtransfer.asset_id === zanoAssetInfo.asset_id">
-                      <ng-container *ngIf="!subtransfer.is_income ? subtransfer.amount.minus(transaction.fee ?? 0).toNumber() !== 0 : subtransfer.amount.toNumber() !== 0">
+                      <ng-container
+                        *ngIf="
+                          !subtransfer.is_income
+                            ? subtransfer.amount.minus(transaction.fee ?? 0).toNumber() !== 0
+                            : subtransfer.amount.toNumber() !== 0
+                        "
+                      >
                         <div class="text-ellipsis">
-                        <span *ngIf="!subtransfer.is_income">
-                          {{ subtransfer.amount.minus(transaction.fee ?? 0) | intToMoney }}
-                        </span>
+                          <span *ngIf="!subtransfer.is_income">
+                            {{ subtransfer.amount.minus(transaction.fee ?? 0) | intToMoney }}
+                          </span>
                           <span *ngIf="subtransfer.is_income">
-                          {{ subtransfer.amount | intToMoney }}
-                        </span>
+                            {{ subtransfer.amount | intToMoney }}
+                          </span>
                           <ng-container *ngIf="subtransfer.asset_id | getWhiteAsset | async as asset">
                             {{ asset.ticker }}
                           </ng-container>
@@ -186,12 +200,12 @@ import { zanoAssetInfo } from '@parts/data/assets';
                     <ng-container *ngIf="subtransfer.asset_id !== zanoAssetInfo.asset_id">
                       <ng-container *ngIf="subtransfer.amount.toNumber() !== 0">
                         <div class="text-ellipsis">
-                        <span *ngIf="!subtransfer.is_income">
-                          {{ subtransfer.amount | intToMoney }}
-                        </span>
+                          <span *ngIf="!subtransfer.is_income">
+                            {{ subtransfer.amount | intToMoney }}
+                          </span>
                           <span *ngIf="subtransfer.is_income">
-                          {{ subtransfer.amount | intToMoney }}
-                        </span>
+                            {{ subtransfer.amount | intToMoney }}
+                          </span>
                           <ng-container *ngIf="subtransfer.asset_id | getWhiteAsset | async as asset">
                             {{ asset.ticker }}
                           </ng-container>
@@ -202,7 +216,10 @@ import { zanoAssetInfo } from '@parts/data/assets';
                 </td>
                 <!-- Fee -->
                 <td>
-                  <div class="text-ellipsis">
+                  <div
+                    class="text-ellipsis"
+                    *ngIf="isVisibleFee(transaction)"
+                  >
                     <span *ngIf="transaction.fee; else noFeeTemplate">
                       {{ transaction.fee | intToMoney }}
                       {{ variablesService.defaultCurrency }}
@@ -471,6 +488,11 @@ export class HistoryComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  isVisibleFee(transaction: Transaction): boolean {
+    const { subtransfers } = transaction;
+    return !subtransfers.find(({ asset_id }) => asset_id === zanoAssetInfo.asset_id)?.is_income;
   }
 
   strokeSize(item): number {
