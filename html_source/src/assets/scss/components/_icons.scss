@@ -40,6 +40,10 @@ i {
     background: center / contain no-repeat url(~src/assets/icons/white/arrow-down-square.svg);
   }
 
+  &.swap {
+    background: center / contain no-repeat url(~src/assets/icons/white/swap_icon.svg);
+  }
+
   &.add {
     background: center / contain no-repeat url(~src/assets/icons/white/add.svg);
   }

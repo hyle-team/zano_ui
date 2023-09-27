@@ -8,9 +8,9 @@ import { Wallet } from '@api/models/wallet.model';
 import { TranslateService } from '@ngx-translate/core';
 import { pairwise, startWith, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
 import { WalletsService } from '@parts/services/wallets.service';
+import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
 
 @Component({
   selector: 'app-restore-wallet',
@@ -31,14 +31,10 @@ import { WalletsService } from '@parts/services/wallets.service';
       </div>
 
       <div class="page-content">
-        <div class="breadcrumbs mb-2">
-          <div class="breadcrumb">
-            <a [routerLink]="['/add-wallet']">{{ 'BREADCRUMBS.ADD_WALLET' | translate }}</a>
-          </div>
-          <div class="breadcrumb">
-            <span>{{ 'BREADCRUMBS.RESTORE_WALLET' | translate }}</span>
-          </div>
-        </div>
+        <app-breadcrumbs
+          class="mb-2"
+          [items]="breadcrumbItems"
+        ></app-breadcrumbs>
 
         <div class="scrolled-content">
           <form
@@ -232,6 +228,16 @@ import { WalletsService } from '@parts/services/wallets.service';
 })
 export class RestoreWalletComponent implements OnInit, OnDestroy {
   fb = inject(FormBuilder);
+
+  breadcrumbItems: BreadcrumbItems = [
+    {
+      routerLink: '/add-wallet',
+      title: 'BREADCRUMBS.ADD_WALLET',
+    },
+    {
+      title: 'BREADCRUMBS.RESTORE_WALLET',
+    },
+  ];
 
   restoreForm = this.fb.group(
     {

@@ -12,6 +12,7 @@ import { Subject } from 'rxjs';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 import { takeUntil } from 'rxjs/operators';
 import { regExpAliasName } from '@parts/utils/zano-validators';
+import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
 
 @Component({
   selector: 'app-assign-alias',
@@ -32,14 +33,10 @@ import { regExpAliasName } from '@parts/utils/zano-validators';
       </div>
 
       <div class="page-content">
-        <div class="breadcrumbs mb-2">
-          <div class="breadcrumb">
-            <a [routerLink]="['/wallet/history']">{{ wallet.name }}</a>
-          </div>
-          <div class="breadcrumb">
-            <span>{{ 'BREADCRUMBS.ASSIGN_ALIAS' | translate }}</span>
-          </div>
-        </div>
+        <app-breadcrumbs
+          class="mb-2"
+          [items]="breadcrumbItems"
+        ></app-breadcrumbs>
 
         <div class="scrolled-content">
           <form
@@ -167,6 +164,16 @@ import { regExpAliasName } from '@parts/utils/zano-validators';
 })
 export class AssignAliasComponent implements OnInit, OnDestroy {
   wallet: Wallet;
+
+  breadcrumbItems: BreadcrumbItems = [
+    {
+      routerLink: '/wallet/history',
+      title: this.variablesService.currentWallet.name,
+    },
+    {
+      title: 'BREADCRUMBS.ASSIGN_ALIAS',
+    },
+  ];
 
   fb = inject(FormBuilder);
 

@@ -1,7 +1,9 @@
-import { Component, Inject } from '@angular/core';
-import { DialogRef, DIALOG_DATA } from '@angular/cdk/dialog';
+import { Component, inject, Inject } from '@angular/core';
+import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { VariablesService } from '@parts/services/variables.service';
 import { Asset } from '@api/models/assets.model';
+import { zanoAssetInfo } from '@parts/data/assets';
+import { BackendService } from '@api/services/backend.service';
 
 @Component({
   selector: 'app-asset-details',
@@ -72,7 +74,9 @@ import { Asset } from '@api/models/assets.model';
                 <div class="label max-w-19-rem w-100">
                   {{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.MAX_SUPPLE' | translate }}
                 </div>
-                <div class="text">{{ asset.asset_info.total_max_supply }}</div>
+                <div class="text">
+                  {{ asset.asset_info.asset_id === zanoAssetInfo.asset_id ? 'Uncapped' : asset.asset_info.total_max_supply }}
+                </div>
               </div>
             </div>
           </div>
@@ -109,6 +113,10 @@ export class AssetDetailsComponent {
   title = 'Asset Details';
 
   asset!: Asset;
+
+  zanoAssetInfo = zanoAssetInfo;
+
+  backendService = inject(BackendService);
 
   constructor(
     public variablesService: VariablesService,

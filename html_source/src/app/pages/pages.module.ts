@@ -14,7 +14,7 @@ import { AssignAliasComponent } from './assign-alias/assign-alias.component';
 import { EditAliasComponent } from './edit-alias/edit-alias.component';
 import { ModalContainerComponent } from '@parts/modals/modal-container/modal-container.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { DisablePriceFetchModule, DefaultImgModule } from '@parts/directives';
+import { DefaultImgModule, DisablePriceFetchModule } from '@parts/directives';
 import { TooltipModule } from '@parts/directives/tooltip/tooltip.module';
 import { ConfirmModalModule } from '@parts/modals/confirm-modal/confirm-modal.module';
 import { DeeplinkModule } from './deeplink/deeplink.module';
@@ -46,6 +46,7 @@ import { SwitchComponent } from '@parts/components/switch.component';
 import { SynchronizationStatusComponent } from '@parts/components/synchronization-status.component';
 import { LoaderComponent } from '@parts/components/loader.component';
 import { AutoFocusDirective } from '@parts/directives/autofocus.directive';
+import { BreadcrumbsComponent } from '@parts/components/breadcrumbs/breadcrumbs.component';
 
 @NgModule({
   declarations: [
@@ -100,6 +101,7 @@ import { AutoFocusDirective } from '@parts/directives/autofocus.directive';
     SynchronizationStatusComponent,
     LoaderComponent,
     AutoFocusDirective,
+    BreadcrumbsComponent,
   ],
 })
 export class PagesModule {}

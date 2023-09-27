@@ -751,5 +751,84 @@
         "INSUFICCIENT_FUNDS": "Insuficcient funds"
       }
     }
+  },
+  "CONFIRM_SWAP": {
+    "BREADCRUMBS": {
+      "ITEM1": "Swap",
+      "ITEM2": "Confirm swap"
+    },
+    "FORM": {
+      "LABELS": {
+        "LABEL1": "Swap proposal hex",
+        "LABEL2": "Proposal details"
+      },
+      "PLACEHOLDERS": {
+        "PLACEHOLDER1": "Enter Swap proposal hex"
+      },
+      "TABLE": {
+        "LABELS": {
+          "LABEL1": "Sending",
+          "LABEL2": "Receiving",
+          "LABEL3": "Expiration time"
+        }
+      },
+      "BUTTONS": {
+        "BUTTON1": "Accept Proposal",
+        "BUTTON2": "Back"
+      }
+    }
+  },
+  "CREATE_SWAP": {
+    "BREADCRUMBS": {
+      "ITEM1": "Swap",
+      "ITEM2": "Create swap"
+    },
+    "FORM": {
+      "LABELS": {
+        "LABEL1": "Sending",
+        "LABEL2": "Receiving"
+      },
+      "PLACEHOLDERS": {
+        "PLACEHOLDER1": "Enter amount here"
+      },
+      "BUTTONS": {
+        "BUTTON1": "Create proposal",
+        "BUTTON2": "Cancel"
+      }
+    }
+  },
+  "SWAP": {
+    "BUTTONS": {
+      "BUTTON1": "Create Swap",
+      "BUTTON2": "Confirm Swap"
+    }
+  },
+  "SWAP_PROPOSAL_HEX": {
+    "FORM": {
+      "LABELS": {
+        "LABEL1": "Swap proposal hex"
+      },
+      "PLACEHOLDERS": {
+        "PLACEHOLDER1": "Enter Swap proposal hex"
+      },
+      "BUTTONS": {
+        "BUTTON1": "Copy",
+        "BUTTON2": "Close"
+      }
+    },
+    "MODALS": {
+      "CONFIRM_MODAL": {
+        "TITLE": "Are you sure you want to leave this page?",
+        "MESSAGE": "Please make sure you saved the swap proposal text, you won’t be able to see it again",
+        "BUTTONS": {
+          "SUBMIT": "Close",
+          "CLOSE": "Back to proposal"
+        }
+      }
+    },
+    "BREADCRUMBS": {
+      "ITEM1": "Swap",
+      "ITEM2": "Swap proposal hex"
+    }
   }
 }

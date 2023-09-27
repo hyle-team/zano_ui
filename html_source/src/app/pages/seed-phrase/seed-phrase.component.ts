@@ -10,6 +10,7 @@ import { takeUntil } from 'rxjs/operators';
 import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
 import { WalletsService } from '@parts/services/wallets.service';
 import { Wallet } from '@api/models/wallet.model';
+import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
 
 @Component({
   selector: 'app-seed-phrase',
@@ -30,14 +31,10 @@ import { Wallet } from '@api/models/wallet.model';
       </div>
 
       <div class="page-content">
-        <div class="breadcrumbs mb-2">
-          <div class="breadcrumb">
-            <a [routerLink]="['/add-wallet']">{{ 'BREADCRUMBS.ADD_WALLET' | translate }}</a>
-          </div>
-          <div class="breadcrumb">
-            <span>{{ 'BREADCRUMBS.SAVE_PHRASE' | translate }}</span>
-          </div>
-        </div>
+        <app-breadcrumbs
+          class="mb-2"
+          [items]="breadcrumbItems"
+        ></app-breadcrumbs>
 
         <div class="scrolled-content">
           <div
@@ -252,6 +249,16 @@ import { Wallet } from '@api/models/wallet.model';
 })
 export class SeedPhraseComponent implements OnInit, OnDestroy {
   seedPhrase = '';
+
+  breadcrumbItems: BreadcrumbItems = [
+    {
+      routerLink: '/add-wallet',
+      title: 'BREADCRUMBS.ADD_WALLET',
+    },
+    {
+      title: 'BREADCRUMBS.SAVE_PHRASE',
+    },
+  ];
 
   showSeed = false;
 

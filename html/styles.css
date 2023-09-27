@@ -800,6 +800,8 @@ body {
   background: center/contain no-repeat url('purchase-arrow-up.svg');
 }.icon.arrow-down-square {
   background: center/contain no-repeat url('arrow-down-square.svg');
+}.icon.swap {
+  background: center/contain no-repeat url('swap_icon.svg');
 }.icon.add {
   background: center/contain no-repeat url('add.svg');
 }.icon.balance-icon {

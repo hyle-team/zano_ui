@@ -4,6 +4,10 @@ import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 export interface ConfirmModalData {
   title: string;
   message?: string;
+  buttons?: Partial<{
+    close: string;
+    submit: string;
+  }>;
 }
 
 @Component({
@@ -48,7 +52,7 @@ export interface ConfirmModalData {
           class="outline big w-100"
           type="button"
         >
-          {{ 'MODALS.CANCEL' | translate }}
+          {{ data?.buttons?.close || 'MODALS.CANCEL' | translate }}
         </button>
         <button
           #buttonSubmit
@@ -56,7 +60,7 @@ export interface ConfirmModalData {
           class="primary big w-100"
           type="button"
         >
-          {{ 'MODALS.OK' | translate }}
+          {{ data?.buttons?.submit || 'MODALS.OK' | translate }}
         </button>
       </div>
     </div>
@@ -76,9 +80,13 @@ export class ConfirmModalComponent implements OnInit {
 
   message: string;
 
+  data: ConfirmModalData;
+
   @ViewChild('buttonSubmit', { static: true }) buttonSubmit: ElementRef;
 
-  constructor(private dialogRef: DialogRef, @Inject(DIALOG_DATA) { title, message }: ConfirmModalData) {
+  constructor(private dialogRef: DialogRef, @Inject(DIALOG_DATA) data: ConfirmModalData) {
+    const { title, message } = data;
+    this.data = data;
     this.title = title;
     this.message = message;
   }

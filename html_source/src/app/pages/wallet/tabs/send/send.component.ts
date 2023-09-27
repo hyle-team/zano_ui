@@ -551,6 +551,18 @@ export class SendComponent implements OnInit, OnDestroy {
     this.listenSendActionData();
     this.patchSendMoneyParamsByCurrentWallet();
     this.saveSendMoneyParams();
+    this.setAssetFromHistoryState();
+  }
+
+  setAssetFromHistoryState(): void {
+    const state = history.state || {};
+    const asset: Asset = state['asset'];
+    if (asset) {
+      const {
+        asset_info: { asset_id },
+      } = asset;
+      this.sendMoneyParamsForm.controls.asset_id.patchValue(asset_id, { emitEvent: false });
+    }
   }
 
   ngOnDestroy(): void {
@@ -617,7 +629,9 @@ export class SendComponent implements OnInit, OnDestroy {
     this.job_id = null;
 
     if (success) {
-      const { currentWallet: { wallet_id } } = this.variablesService;
+      const {
+        currentWallet: { wallet_id },
+      } = this.variablesService;
       this.variablesService.currentWallet.sendMoneyParams = null;
       this.sendMoneyParamsForm.reset({ ...defaultSendMoneyParams, wallet_id }, { emitEvent: false });
     }

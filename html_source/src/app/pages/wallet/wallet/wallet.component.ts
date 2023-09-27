@@ -312,6 +312,12 @@ export class WalletComponent implements OnInit, OnDestroy {
       link: '/receive',
       disabled: false,
     },
+    {
+      title: 'Swap',
+      icon: 'swap',
+      link: '/swap',
+      disabled: false,
+    },
     // TODO: https://github.com/hyle-team/zano/issues/374
     // {
     //   title: 'WALLET.TABS.CONTRACTS',

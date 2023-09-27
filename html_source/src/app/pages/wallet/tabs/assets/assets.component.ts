@@ -216,6 +216,28 @@ import { TranslateService } from '@ngx-translate/core';
           </button>
         </li>
 
+        <li class="item">
+          <a
+            routerLink="/wallet/send"
+            [state]="{ asset: currentAsset }"
+            class="w-100 px-2 py-1"
+          >
+            <i class="icon arrow-up-square mr-1"></i>
+            <span>{{ 'Send' | translate }}</span>
+          </a>
+        </li>
+
+        <li class="item">
+          <a
+            routerLink="/wallet/create-swap"
+            [state]="{ asset: currentAsset }"
+            class="w-100 px-2 py-1"
+          >
+            <i class="icon swap mr-1"></i>
+            <span>{{ 'Swap' | translate }}</span>
+          </a>
+        </li>
+
         <ng-container *ngIf="!(currentAsset | hasInAssetsWhitelist | async)">
           <li class="item">
             <button

@@ -8,6 +8,7 @@ import { Wallet } from '@api/models/wallet.model';
 import { TranslateService } from '@ngx-translate/core';
 import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
 import { WalletsService } from '@parts/services/wallets.service';
+import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
 
 @Component({
   selector: 'app-create-wallet',
@@ -28,14 +29,10 @@ import { WalletsService } from '@parts/services/wallets.service';
       </div>
 
       <div class="page-content">
-        <div class="breadcrumbs mb-2">
-          <div class="breadcrumb">
-            <a [routerLink]="['/add-wallet']">{{ 'BREADCRUMBS.ADD_WALLET' | translate }}</a>
-          </div>
-          <div class="breadcrumb">
-            <span>{{ 'BREADCRUMBS.CREATE_WALLET' | translate }}</span>
-          </div>
-        </div>
+        <app-breadcrumbs
+          class="mb-2"
+          [items]="breadcrumbItems"
+        ></app-breadcrumbs>
 
         <div class="scrolled-content">
           <form
@@ -159,6 +156,16 @@ import { WalletsService } from '@parts/services/wallets.service';
 })
 export class CreateWalletComponent {
   variablesService = inject(VariablesService);
+
+  breadcrumbItems: BreadcrumbItems = [
+    {
+      routerLink: '/add-wallet',
+      title: 'BREADCRUMBS.ADD_WALLET',
+    },
+    {
+      title: 'BREADCRUMBS.CREATE_WALLET',
+    },
+  ];
 
   walletsService = inject(WalletsService);
 

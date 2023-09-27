@@ -5,6 +5,7 @@ import { VariablesService } from '@parts/services/variables.service';
 import { Router } from '@angular/router';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
+import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
 
 @Component({
   selector: 'app-wallet-details',
@@ -25,14 +26,10 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
       </div>
 
       <div class="page-content">
-        <div class="breadcrumbs mb-2">
-          <div class="breadcrumb">
-            <a [routerLink]="['/wallet/history']">{{ variablesService.currentWallet.name }}</a>
-          </div>
-          <div class="breadcrumb">
-            <span>{{ 'BREADCRUMBS.WALLET_DETAILS' | translate }}</span>
-          </div>
-        </div>
+        <app-breadcrumbs
+          class="mb-2"
+          [items]="breadcrumbItems"
+        ></app-breadcrumbs>
 
         <div class="scrolled-content">
           <div
@@ -267,6 +264,16 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
   styles: [],
 })
 export class WalletDetailsComponent {
+  breadcrumbItems: BreadcrumbItems = [
+    {
+      routerLink: '/wallet/history',
+      title: this.variablesService.currentWallet.name,
+    },
+    {
+      title: 'BREADCRUMBS.WALLET_DETAILS',
+    },
+  ];
+
   seedPhrase = '';
 
   showSeed = false;
