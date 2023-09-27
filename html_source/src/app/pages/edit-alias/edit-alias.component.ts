@@ -13,23 +13,14 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
     <div class="page-container">
       <div class="toolbar mb-2">
         <div class="left">
-          <button
-            appBackButton
-            class="btn-icon circle big mr-2"
-            type="button"
-          >
-            <i class="icon dropdown-arrow-left"></i>
-          </button>
-          <h1>{{ 'BREADCRUMBS.EDIT_ALIAS' | translate }}</h1>
+          <app-back-button></app-back-button>
+          <h1 class="ml-2">{{ 'BREADCRUMBS.EDIT_ALIAS' | translate }}</h1>
         </div>
         <div class="right"></div>
       </div>
 
       <div class="page-content">
-        <app-breadcrumbs
-          class="mb-2"
-          [items]="breadcrumbItems"
-        ></app-breadcrumbs>
+        <app-breadcrumbs class="mb-2" [items]="breadcrumbItems"></app-breadcrumbs>
 
         <div class="scrolled-content">
           <form class="form">
@@ -60,16 +51,10 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                 placeholder="{{ 'EDIT_ALIAS.COMMENT.PLACEHOLDER' | translate }}"
               >
               </textarea>
-              <div
-                *ngIf="alias.comment.length > 0 && notEnoughMoney"
-                class="error"
-              >
+              <div *ngIf="alias.comment.length > 0 && notEnoughMoney" class="error">
                 {{ 'EDIT_ALIAS.FORM_ERRORS.NO_MONEY' | translate }}
               </div>
-              <div
-                *ngIf="alias.comment.length >= variablesService.maxCommentLength"
-                class="error"
-              >
+              <div *ngIf="alias.comment.length >= variablesService.maxCommentLength" class="error">
                 {{ 'EDIT_ALIAS.FORM_ERRORS.MAX_LENGTH' | translate }}
               </div>
             </div>

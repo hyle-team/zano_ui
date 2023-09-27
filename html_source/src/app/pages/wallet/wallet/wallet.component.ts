@@ -1,9 +1,6 @@
 import { Component, HostListener, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 import { VariablesService } from '@parts/services/variables.service';
 import { BackendService, Commands } from '@api/services/backend.service';
-import { TranslateService } from '@ngx-translate/core';
-import { IntToMoneyPipe } from '@parts/pipes/int-to-money-pipe/int-to-money.pipe';
 import { Subject } from 'rxjs';
 import { StateKeys, Store, Sync } from '@store/store';
 import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
@@ -19,24 +16,10 @@ import { WalletsService } from '@parts/services/wallets.service';
 @Component({
   selector: 'app-wallet',
   template: `
-    <div
-      class="header mb-2"
-      fxFlex="0 0 auto"
-      fxLayout="row nowrap"
-      fxLayoutAlign="space-between start"
-      fxLayoutGap="1rem"
-    >
+    <div class="header mb-2" fxFlex="0 0 auto" fxLayout="row nowrap" fxLayoutAlign="space-between start" fxLayoutGap="1rem">
       <div class="left overflow-hidden">
-        <div
-          class="wallet-wrapper"
-          fxLayout="column"
-          fxLayoutAlign="start start"
-        >
-          <div
-            class="title"
-            fxLayout="row nowrap"
-            fxLayoutAlign="start center"
-          >
+        <div class="wallet-wrapper" fxLayout="column" fxLayoutAlign="start start">
+          <div class="title" fxLayout="row nowrap" fxLayoutAlign="start center">
             <h1 class="text-ellipsis mr-1">
               {{ variablesService.currentWallet.address | zanoShortString }}
             </h1>
@@ -67,10 +50,7 @@ import { WalletsService } from '@parts/services/wallets.service';
                   variablesService.currentWallet.alias_available
                 "
               >
-                <button
-                  [routerLink]="['/assign-alias']"
-                  class="px-1 py-0_5 bg-light-gray"
-                >
+                <button [routerLink]="['/assign-alias']" class="px-1 py-0_5 bg-light-gray">
                   {{ 'WALLET.REGISTER_ALIAS' | translate }}
                 </button>
               </ng-container>
@@ -82,10 +62,7 @@ import { WalletsService } from '@parts/services/wallets.service';
                   variablesService.daemon_state === 2
                 "
               >
-                <div
-                  [class.available]="variablesService.currentWallet.alias | isAvailableAliasName"
-                  class="alias mr-1"
-                >
+                <div [class.available]="variablesService.currentWallet.alias | isAvailableAliasName" class="alias mr-1">
                   {{ variablesService.currentWallet.alias.name }}
                 </div>
 
@@ -152,10 +129,7 @@ import { WalletsService } from '@parts/services/wallets.service';
       ]"
       cdkConnectedOverlay
     >
-      <div
-        (click)="toggleMenuDropdown()"
-        class="content-bottom-right py-0_5"
-      >
+      <div (click)="toggleMenuDropdown()" class="content-bottom-right py-0_5">
         <ul class="list">
           <li class="item">
             <button
@@ -256,16 +230,9 @@ import { WalletsService } from '@parts/services/wallets.service';
             class="tab-header"
             routerLinkActive="active"
           >
-            <i
-              [ngClass]="tab.icon"
-              class="icon mr-1"
-            ></i>
+            <i [ngClass]="tab.icon" class="icon mr-1"></i>
             <span>{{ tab.title | translate }}</span>
-            <span
-              *ngIf="tab.indicator"
-              class="indicator"
-              >{{ variablesService.currentWallet.new_contracts }}</span
-            >
+            <span *ngIf="tab.indicator" class="indicator">{{ variablesService.currentWallet.new_contracts }}</span>
           </button>
         </ng-container>
       </div>
@@ -274,7 +241,6 @@ import { WalletsService } from '@parts/services/wallets.service';
       </div>
     </div>
   `,
-  styles: [],
 })
 export class WalletComponent implements OnInit, OnDestroy {
   settingsButtonInterval;
@@ -337,13 +303,9 @@ export class WalletComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   constructor(
-    private route: ActivatedRoute,
-    private router: Router,
     private backend: BackendService,
     public variablesService: VariablesService,
     private ngZone: NgZone,
-    private translate: TranslateService,
-    private intToMoneyPipe: IntToMoneyPipe,
     private store: Store,
     private dialog: Dialog,
     private walletsService: WalletsService

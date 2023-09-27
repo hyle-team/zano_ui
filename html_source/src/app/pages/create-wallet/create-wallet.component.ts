@@ -16,29 +16,17 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
     <div class="page-container">
       <div class="toolbar mb-2">
         <div class="left">
-          <button
-            appBackButton
-            class="btn-icon circle big mr-2"
-            type="button"
-          >
-            <i class="icon dropdown-arrow-left"></i>
-          </button>
-          <h1>{{ 'BREADCRUMBS.ADD_WALLET' | translate }}</h1>
+          <app-back-button></app-back-button>
+          <h1 class="ml-2">{{ 'BREADCRUMBS.ADD_WALLET' | translate }}</h1>
         </div>
         <div class="right"></div>
       </div>
 
       <div class="page-content">
-        <app-breadcrumbs
-          class="mb-2"
-          [items]="breadcrumbItems"
-        ></app-breadcrumbs>
+        <app-breadcrumbs class="mb-2" [items]="breadcrumbItems"></app-breadcrumbs>
 
         <div class="scrolled-content">
-          <form
-            [formGroup]="createForm"
-            class="form"
-          >
+          <form [formGroup]="createForm" class="form">
             <div class="form__field">
               <label for="wallet-name">{{ 'CREATE_WALLET.NAME' | translate }}</label>
               <input
@@ -62,10 +50,7 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                   {{ 'CREATE_WALLET.FORM_ERRORS.NAME_REQUIRED' | translate }}
                 </div>
               </div>
-              <div
-                *ngIf="createForm.controls.name.value.length > variablesService.maxWalletNameLength"
-                class="error"
-              >
+              <div *ngIf="createForm.controls.name.value.length > variablesService.maxWalletNameLength" class="error">
                 {{ 'CREATE_WALLET.FORM_ERRORS.MAX_LENGTH' | translate }}
               </div>
             </div>
@@ -81,10 +66,7 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                 placeholder="{{ 'PLACEHOLDERS.PLACEHOLDER_NEW' | translate }}"
                 type="password"
               />
-              <div
-                *ngIf="createForm.controls.path.dirty && createForm.controls.password.invalid"
-                class="error"
-              >
+              <div *ngIf="createForm.controls.path.dirty && createForm.controls.password.invalid" class="error">
                 <div *ngIf="createForm.controls.password.hasError('pattern')">
                   {{ 'ERRORS.WRONG_PASSWORD' | translate }}
                 </div>
@@ -111,12 +93,7 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
               </div>
             </div>
 
-            <button
-              *ngIf="createForm.controls.path.valid"
-              class="outline big w-100 mb-2"
-              disabled
-              type="button"
-            >
+            <button *ngIf="createForm.controls.path.valid" class="outline big w-100 mb-2" disabled type="button">
               <i class="icon check-circle mr-1"></i>
               {{ savedWalletName }}
             </button>
@@ -131,12 +108,7 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
               {{ 'CREATE_WALLET.BUTTON_SELECT' | translate }}
             </button>
 
-            <button
-              (click)="createWallet()"
-              [disabled]="createForm.invalid"
-              class="primary big w-100"
-              type="button"
-            >
+            <button (click)="createWallet()" [disabled]="createForm.invalid" class="primary big w-100" type="button">
               {{ 'CREATE_WALLET.BUTTON_CREATE' | translate }}
             </button>
           </form>
@@ -170,6 +142,7 @@ export class CreateWalletComponent {
   walletsService = inject(WalletsService);
 
   fb = inject(NonNullableFormBuilder);
+
   createForm = this.fb.group(
     {
       name: this.fb.control('', [Validators.required, ZanoValidators.duplicate(this.variablesService.walletNamesForComparisons)]),
@@ -181,10 +154,15 @@ export class CreateWalletComponent {
       validators: [ZanoValidators.formMatch('password', 'confirm')],
     }
   );
+
   private router = inject(Router);
+
   private backend = inject(BackendService);
+
   private modalService = inject(ModalService);
+
   private ngZone = inject(NgZone);
+
   private translate = inject(TranslateService);
 
   get savedWalletName(): string {

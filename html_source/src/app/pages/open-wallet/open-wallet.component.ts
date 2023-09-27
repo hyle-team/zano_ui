@@ -19,30 +19,17 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
     <div class="page-container">
       <div class="toolbar mb-2">
         <div class="left">
-          <button
-            appBackButton
-            class="btn-icon circle big mr-2"
-            type="button"
-          >
-            <i class="icon dropdown-arrow-left"></i>
-          </button>
-          <h1>{{ 'BREADCRUMBS.OPEN_WALLET' | translate }}</h1>
+          <app-back-button></app-back-button>
+          <h1 class="ml-2">{{ 'BREADCRUMBS.OPEN_WALLET' | translate }}</h1>
         </div>
         <div class="right"></div>
       </div>
 
       <div class="page-content">
-        <app-breadcrumbs
-          class="mb-2"
-          [items]="breadcrumbItems"
-        ></app-breadcrumbs>
+        <app-breadcrumbs class="mb-2" [items]="breadcrumbItems"></app-breadcrumbs>
 
         <div class="scrolled-content">
-          <form
-            [formGroup]="openWalletForm"
-            (ngSubmit)="openWallet()"
-            class="form"
-          >
+          <form [formGroup]="openWalletForm" (ngSubmit)="openWallet()" class="form">
             <div class="form__field">
               <label for="wallet-name">
                 {{ 'OPEN_WALLET.NAME' | translate }}
@@ -97,11 +84,7 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
               </div>
             </div>
 
-            <button
-              [disabled]="openWalletForm.invalid"
-              class="primary big max-w-19-rem w-100"
-              type="submit"
-            >
+            <button [disabled]="openWalletForm.invalid" class="primary big max-w-19-rem w-100" type="submit">
               {{ 'OPEN_WALLET.BUTTON' | translate }}
             </button>
           </form>
@@ -109,7 +92,6 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
       </div>
     </div>
   `,
-  styles: [],
 })
 export class OpenWalletComponent implements OnInit, OnDestroy {
   fb = inject(NonNullableFormBuilder);

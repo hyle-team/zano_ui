@@ -1,18 +1,8 @@
 <div class="container scrolled-content">
-  <app-breadcrumbs
-    [items]="breadcrumbItems"
-    class="mb-2"
-  ></app-breadcrumbs>
+  <app-breadcrumbs [items]="breadcrumbItems" class="mb-2"></app-breadcrumbs>
 
-  <form
-    (ngSubmit)="beforeSubmit()"
-    [formGroup]="form"
-    class="form"
-  >
-    <div
-      class="form__row"
-      formGroupName="sending"
-    >
+  <form (ngSubmit)="beforeSubmit()" [formGroup]="form" class="form">
+    <div class="form__row" formGroupName="sending">
       <div class="form__field">
         <label for="sending-amount">
           {{ 'CREATE_SWAP.FORM.LABELS.LABEL1' | translate }}
@@ -28,9 +18,9 @@
         />
         <div
           *ngIf="
-                form.controls.sending.controls.amount.invalid &&
-                (form.controls.sending.controls.amount.dirty || form.controls.sending.controls.amount.touched)
-              "
+            form.controls.sending.controls.amount.invalid &&
+            (form.controls.sending.controls.amount.dirty || form.controls.sending.controls.amount.touched)
+          "
           class="error"
         >
           <div *ngIf="form.controls.sending.controls.amount.errors['zero']">
@@ -68,11 +58,7 @@
           class="custom-select with-circle"
           formControlName="asset_id"
         >
-          <ng-template
-            let-asset="item"
-            ng-label-tmp
-            ng-option-tmp
-          >
+          <ng-template let-asset="item" ng-label-tmp ng-option-tmp>
             <img
               [alt]="asset?.asset_info.ticker"
               [defaultImgSrc]="'assets/icons/currency-icons/custom_token.svg'"
@@ -89,11 +75,7 @@
     </div>
 
     <div class="wrapper-reverse">
-      <button
-        (click)="reverse()"
-        class="revers"
-        type="button"
-      >
+      <button (click)="reverse()" class="revers" type="button">
         <i class="icon small swap"></i>
       </button>
     </div>
@@ -113,9 +95,9 @@
         />
         <div
           *ngIf="
-                form.controls.receiving.controls.amount.invalid &&
-                (form.controls.receiving.controls.amount.dirty || form.controls.receiving.controls.amount.touched)
-              "
+            form.controls.receiving.controls.amount.invalid &&
+            (form.controls.receiving.controls.amount.dirty || form.controls.receiving.controls.amount.touched)
+          "
           class="error"
         >
           <div *ngIf="form.controls.receiving.controls.amount.hasError('required')">
@@ -137,11 +119,7 @@
           class="custom-select with-circle"
           formControlName="asset_id"
         >
-          <ng-template
-            let-asset="item"
-            ng-label-tmp
-            ng-option-tmp
-          >
+          <ng-template let-asset="item" ng-label-tmp ng-option-tmp>
             <img
               [alt]="asset?.asset_info.ticker"
               [defaultImgSrc]="'assets/icons/currency-icons/custom_token.svg'"
@@ -157,10 +135,7 @@
       </div>
     </div>
 
-    <div
-      *ngIf="isWrapShown && wrapInfo && !(loading$ | async)"
-      class="wrap mt-2 mb-2 p-2"
-    >
+    <div *ngIf="isWrapShown && wrapInfo && !(loading$ | async)" class="wrap mt-2 mb-2 p-2">
       <div class="title">
         {{ 'SEND.WRAP.TITLE' | translate }}
         <i class="icon info-circle"></i>
@@ -210,22 +185,16 @@
       <div
         *ngIf="isVisibleDropdownAliasesObservable$ | async"
         [ngStyle]="{
-                'z-index': 1
-              }"
+          'z-index': 1
+        }"
         class="dropdown py-0_5 border-radius-0_8-rem bg-light-blue-details"
       >
         <ng-container *ngIf="aliases$ | async as aliases">
           <ng-container *ngIf="aliases.length; else notFoundAliases">
-            <div
-              (click)="form.controls.receiverAddress.patchValue(alias.name)"
-              *ngFor="let alias of aliases"
-              class="item"
-            >
-              <div
-                [class.available]="alias.name.length >= 2 && alias.name.length <= 6"
-                [class.pl-1]="alias.name.length > 6"
-                class="alias"
-              >
+            <div (click)="form.controls.receiverAddress.patchValue(alias.name)" *ngFor="let alias of aliases"
+                 class="item">
+              <div [class.available]="alias.name.length >= 2 && alias.name.length <= 6"
+                   [class.pl-1]="alias.name.length > 6" class="alias">
                 <div class="text-ellipsis">{{ alias.name }}</div>
               </div>
             </div>
@@ -237,10 +206,7 @@
       </div>
 
       <div
-        *ngIf="
-                form.controls.receiverAddress.invalid &&
-                (form.controls.receiverAddress.dirty || form.controls.receiverAddress.touched)
-              "
+        *ngIf="form.controls.receiverAddress.invalid && (form.controls.receiverAddress.dirty || form.controls.receiverAddress.touched)"
         class="error"
       >
         <div *ngIf="form.controls.receiverAddress.errors['address_not_valid']">
@@ -257,26 +223,17 @@
         </div>
       </div>
 
-      <div
-        *ngIf="aliasAddress"
-        class="info text-ellipsis"
-      >
+      <div *ngIf="aliasAddress" class="info text-ellipsis">
         <span>{{ aliasAddress | zanoShortString }}</span>
       </div>
     </div>
 
     <div class="actions">
-      <button
-        class="btn primary big w-100"
-        type="submit"
-      >
+      <button class="btn primary big w-100" type="submit">
         {{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON1' | translate }}
       </button>
-      <a
-        class="btn outline big w-100"
-        routerLink="/wallet/swap"
-      >{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON2' | translate }}</a
-      >
+      <a class="btn outline big w-100"
+         routerLink="/wallet/swap">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON2' | translate }}</a>
     </div>
   </form>
 </div>

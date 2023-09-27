@@ -14,7 +14,6 @@ export enum paths {
   settings = 'settings',
   import = 'import',
   deeplink = 'deeplink',
-  uiKit = 'ui-kit',
 }
 
 export enum pathsChildrenAuth {

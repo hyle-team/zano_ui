@@ -1,8 +1,7 @@
 import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { BackendService } from '@api/services/backend.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { VariablesService } from '@parts/services/variables.service';
-import { ModalService } from '@parts/services/modal.service';
 import { FormBuilder, Validators } from '@angular/forms';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 import { Subject } from 'rxjs';
@@ -18,34 +17,18 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
     <div class="page-container">
       <div class="toolbar mb-2">
         <div class="left">
-          <button
-            appBackButton
-            class="btn-icon circle big mr-2"
-            type="button"
-          >
-            <i class="icon dropdown-arrow-left"></i>
-          </button>
-          <h1>{{ 'BREADCRUMBS.ADD_WALLET' | translate }}</h1>
+          <app-back-button></app-back-button>
+          <h1 class="ml-2">{{ 'BREADCRUMBS.ADD_WALLET' | translate }}</h1>
         </div>
         <div class="right"></div>
       </div>
 
       <div class="page-content">
-        <app-breadcrumbs
-          class="mb-2"
-          [items]="breadcrumbItems"
-        ></app-breadcrumbs>
+        <app-breadcrumbs class="mb-2" [items]="breadcrumbItems"></app-breadcrumbs>
 
         <div class="scrolled-content">
-          <div
-            class="wrap-seed-phrase"
-            fxFlex="100"
-            fxLayout="column"
-          >
-            <form
-              [formGroup]="detailsForm"
-              class="form"
-            >
+          <div class="wrap-seed-phrase" fxFlex="100" fxLayout="column">
+            <form [formGroup]="detailsForm" class="form">
               <div class="form__field">
                 <label>{{ 'WALLET_DETAILS.LABEL_NAME' | translate }}</label>
                 <input
@@ -78,22 +61,12 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
 
               <div class="form__field">
                 <label for="wallet-location">{{ 'WALLET_DETAILS.LABEL_FILE_LOCATION' | translate }}</label>
-                <input
-                  class="form__field--input"
-                  formControlName="path"
-                  id="wallet-location"
-                  readonly
-                  type="text"
-                />
+                <input class="form__field--input" formControlName="path" id="wallet-location" readonly type="text" />
               </div>
             </form>
 
             <ng-container *ngIf="!showSeed; else seedPhraseContent">
-              <form
-                (ngSubmit)="onSubmitSeed()"
-                [formGroup]="seedPhraseForm"
-                class="form bg-light-blue-details p-2"
-              >
+              <form (ngSubmit)="onSubmitSeed()" [formGroup]="seedPhraseForm" class="form bg-light-blue-details p-2">
                 <div class="form__field">
                   <label for="create-password">{{ 'WALLET_DETAILS.CREATE_PASSWORD_SECURE' | translate }}</label>
                   <input
@@ -128,11 +101,7 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                   </div>
                 </div>
 
-                <button
-                  [disabled]="!seedPhraseForm.valid"
-                  class="primary w-100 big mb-2"
-                  type="submit"
-                >
+                <button [disabled]="!seedPhraseForm.valid" class="primary w-100 big mb-2" type="submit">
                   <i class="icon check-shield mr-1"></i>
                   {{ 'WALLET_DETAILS.FORM.GENERATE_SECURE_SEED' | translate }}
                 </button>
@@ -146,11 +115,7 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
 
             <ng-template #seedPhraseContent>
               <div class="seed-phrase bg-light-blue-details p-2 border-radius-0_8-rem">
-                <div
-                  class="header mb-2"
-                  fxLayout="row"
-                  fxLayoutAlign="space-between center"
-                >
+                <div class="header mb-2" fxLayout="row" fxLayoutAlign="space-between center">
                   <div class="left">
                     <span>{{ 'WALLET_DETAILS.LABEL_SEED_PHRASE' | translate }}</span>
                   </div>
@@ -175,43 +140,19 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                     </span>
                   </div>
                 </div>
-                <div
-                  (contextmenu)="variablesService.onContextMenuOnlyCopy($event, seedPhrase)"
-                  class="content mb-1"
-                  fxLayout="row wrap"
-                >
+                <div (contextmenu)="variablesService.onContextMenuOnlyCopy($event, seedPhrase)" class="content mb-1" fxLayout="row wrap">
                   <ng-container *ngFor="let word of seedPhrase.split(' '); let index = index">
-                    <div
-                      class="item p-1 mr-1 mb-1 border-radius-0_8-rem"
-                      fxLayout="row nowrap"
-                      fxLayoutAlign="start center"
-                    >
-                      <div
-                        class="number p-1 mr-1"
-                        fxLayout="row"
-                        fxLayoutAlign="center center"
-                      >
+                    <div class="item p-1 mr-1 mb-1 border-radius-0_8-rem" fxLayout="row nowrap" fxLayoutAlign="start center">
+                      <div class="number p-1 mr-1" fxLayout="row" fxLayoutAlign="center center">
                         {{ index + 1 }}
                       </div>
                       <span class="word">{{ word }}</span>
                     </div>
                   </ng-container>
                 </div>
-                <div
-                  class="footer max-w-50-rem w-100"
-                  fxLayout="column"
-                  fxLayoutAlign="start center"
-                >
-                  <div
-                    *ngIf="showSeed"
-                    class="wrap-buttons w-100 mb-2"
-                    fxLayout="row nowrap"
-                  >
-                    <button
-                      (click)="copySeedPhrase()"
-                      class="outline big w-100"
-                      type="button"
-                    >
+                <div class="footer max-w-50-rem w-100" fxLayout="column" fxLayoutAlign="start center">
+                  <div *ngIf="showSeed" class="wrap-buttons w-100 mb-2" fxLayout="row nowrap">
+                    <button (click)="copySeedPhrase()" class="outline big w-100" type="button">
                       <ng-container *ngIf="!seedPhraseCopied">
                         <i class="icon copy mr-1"></i>
                         {{ 'SEED_PHRASE.BUTTON_COPY' | translate }}
@@ -222,10 +163,7 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                       </ng-container>
                     </button>
                   </div>
-                  <p
-                    *ngIf="seedPhraseForm.controls.password.value.length > 0"
-                    class="text-align-center"
-                  >
+                  <p *ngIf="seedPhraseForm.controls.password.value.length > 0" class="text-align-center">
                     <i class="icon info-circle mr-1"></i>
                     <span class="color-primary">{{ 'WALLET_DETAILS.REMEMBER_YOU_WILL_REQUIRE' | translate }}</span>
                   </p>
@@ -293,9 +231,7 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
     public walletsService: WalletsService,
     public variablesService: VariablesService,
     private route: ActivatedRoute,
-    private router: Router,
     private backend: BackendService,
-    private modalService: ModalService,
     private ngZone: NgZone
   ) {}
 

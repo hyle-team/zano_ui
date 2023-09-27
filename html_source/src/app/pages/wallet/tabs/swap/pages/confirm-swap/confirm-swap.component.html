@@ -1,13 +1,7 @@
 <div class="container scrolled-content">
-  <app-breadcrumbs
-    [items]="breadcrumbItems"
-    class="mb-2"
-  ></app-breadcrumbs>
+  <app-breadcrumbs [items]="breadcrumbItems" class="mb-2"></app-breadcrumbs>
 
-  <form
-    [formGroup]="form"
-    class="form"
-  >
+  <form [formGroup]="form" class="form">
     <div class="form__field textarea mb-2">
       <label for="swap-proposal-hex">
         {{ 'CONFIRM_SWAP.FORM.LABELS.LABEL1' | translate }}
@@ -28,9 +22,7 @@
           <div class="label max-w-19-rem w-100">
             {{ 'CONFIRM_SWAP.FORM.TABLE.LABELS.LABEL1' | translate }}
           </div>
-          <div class="text">
-            100 ZANO
-          </div>
+          <div class="text">100 ZANO</div>
         </div>
 
         <hr class="separator"/>
@@ -39,9 +31,7 @@
           <div class="label max-w-19-rem w-100">
             {{ 'CONFIRM_SWAP.FORM.TABLE.LABELS.LABEL2' | translate }}
           </div>
-          <div class="text">
-            50 CT
-          </div>
+          <div class="text">50 CT</div>
         </div>
 
         <hr class="separator"/>
@@ -56,17 +46,11 @@
     </div>
 
     <div class="actions">
-      <button
-        class="btn primary big w-100"
-        type="button"
-      >
+      <button class="btn primary big w-100" type="button">
         {{ 'CONFIRM_SWAP.FORM.BUTTONS.BUTTON1' | translate }}
       </button>
 
-      <a
-        class="btn outline big w-100"
-        routerLink="/wallet/swap"
-      >
+      <a class="btn outline big w-100" routerLink="/wallet/swap">
         {{ 'CONFIRM_SWAP.FORM.BUTTONS.BUTTON2' | translate }}
       </a>
     </div>

@@ -34,7 +34,6 @@ import { SendDetailsModalComponent } from './tabs/send/modals/send-details-modal
 import { SendModalComponent } from './tabs/send/modals/send-modal/send-modal.component';
 import { SendComponent } from './tabs/send/send.component';
 import { ExportImportComponent } from '../export-import/export-import.component';
-import { BackButtonModule } from '@parts/directives/back-button/back-button.module';
 import { AssetDetailsModule } from '@parts/modals/asset-details/asset-details.module';
 import { CheckboxComponent } from '@parts/components/checkbox.component';
 import { CopyButtonComponent } from '@parts/components/copy-button.component';
@@ -42,6 +41,7 @@ import { StakingSwitchComponent } from '@parts/components/staking-switch.compone
 import { SwitchComponent } from '@parts/components/switch.component';
 import { TransactionDetailsComponent } from '@parts/components/transaction-details.component';
 import { BreadcrumbsComponent } from '@parts/components/breadcrumbs/breadcrumbs.component';
+import { BackButtonComponent } from '@parts/components/back-button/back-button.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +80,6 @@ import { BreadcrumbsComponent } from '@parts/components/breadcrumbs/breadcrumbs.
     IntToMoneyPipeModule,
     ContractStatusMessagesPipeModule,
     HistoryTypeMessagesPipeModule,
-    BackButtonModule,
     InputValidateModule,
     CheckboxComponent,
     AssetDetailsModule,
@@ -92,6 +91,7 @@ import { BreadcrumbsComponent } from '@parts/components/breadcrumbs/breadcrumbs.
     LowerCaseDirective,
     GetWhiteAssetPipe,
     BreadcrumbsComponent,
+    BackButtonComponent,
   ],
 })
 export class WalletModule {}

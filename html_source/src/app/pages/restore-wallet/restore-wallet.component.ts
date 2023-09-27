@@ -18,29 +18,17 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
     <div class="page-container">
       <div class="toolbar mb-2">
         <div class="left">
-          <button
-            appBackButton
-            class="btn-icon circle big mr-2"
-            type="button"
-          >
-            <i class="icon dropdown-arrow-left"></i>
-          </button>
-          <h1>{{ 'BREADCRUMBS.ADD_WALLET' | translate }}</h1>
+          <app-back-button></app-back-button>
+          <h1 class="ml-2">{{ 'BREADCRUMBS.ADD_WALLET' | translate }}</h1>
         </div>
         <div class="right"></div>
       </div>
 
       <div class="page-content">
-        <app-breadcrumbs
-          class="mb-2"
-          [items]="breadcrumbItems"
-        ></app-breadcrumbs>
+        <app-breadcrumbs class="mb-2" [items]="breadcrumbItems"></app-breadcrumbs>
 
         <div class="scrolled-content">
-          <form
-            [formGroup]="restoreForm"
-            class="form"
-          >
+          <form [formGroup]="restoreForm" class="form">
             <div class="form__field">
               <label for="wallet-name">{{ 'RESTORE_WALLET.LABEL_NAME' | translate }}</label>
               <input
@@ -83,10 +71,7 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                 placeholder="{{ 'PLACEHOLDERS.WALET_PASSWORD_PLACEHOLDER' | translate }}"
                 type="password"
               />
-              <div
-                *ngIf="restoreForm.controls['password'].dirty && restoreForm.controls['password'].errors"
-                class="error"
-              >
+              <div *ngIf="restoreForm.controls['password'].dirty && restoreForm.controls['password'].errors" class="error">
                 <div *ngIf="restoreForm.controls['password'].errors.pattern">
                   {{ 'ERRORS.WRONG_PASSWORD' | translate }}
                 </div>
@@ -150,10 +135,7 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                 {{ 'Seed phrase not valid' | translate }}
               </div>
             </div>
-            <div
-              *ngIf="this.seedPhraseInfo?.syntax_correct && this.seedPhraseInfo?.require_password"
-              class="form__field"
-            >
+            <div *ngIf="this.seedPhraseInfo?.syntax_correct && this.seedPhraseInfo?.require_password" class="form__field">
               <label for="seed-password">{{ 'RESTORE_WALLET.SEED_PASSWORD' | translate }}</label>
               <input
                 class="form__field--input"
@@ -171,20 +153,12 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
               >
                 <span>{{ 'RESTORE_WALLET.FORM_ERRORS.INCORRECT_PASSWORD' | translate }}</span>
               </div>
-              <div
-                *ngIf="this.seedPhraseInfo?.hash_sum_matched"
-                class="success"
-              >
+              <div *ngIf="this.seedPhraseInfo?.hash_sum_matched" class="success">
                 <span>{{ 'RESTORE_WALLET.OK' | translate }}</span>
               </div>
             </div>
 
-            <button
-              *ngIf="walletSaved"
-              class="outline big w-100 mb-2"
-              disabled
-              type="button"
-            >
+            <button *ngIf="walletSaved" class="outline big w-100 mb-2" disabled type="button">
               <i class="icon"></i>
               {{ walletSavedName }}
             </button>
@@ -203,12 +177,7 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
             >
               {{ 'RESTORE_WALLET.BUTTON_SELECT' | translate }}
             </button>
-            <button
-              (click)="createWallet()"
-              [disabled]="!walletSaved"
-              class="primary big w-100 mb-2"
-              type="button"
-            >
+            <button (click)="createWallet()" [disabled]="!walletSaved" class="primary big w-100 mb-2" type="button">
               {{ 'RESTORE_WALLET.BUTTON_CREATE' | translate }}
             </button>
           </form>

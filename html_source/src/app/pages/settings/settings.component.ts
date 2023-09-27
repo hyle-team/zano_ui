@@ -11,28 +11,15 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
   template: `<div class="page-container">
     <div class="toolbar mb-2">
       <div class="left">
-        <button
-          appBackButton
-          class="btn-icon circle big mr-2"
-          type="button"
-        >
-          <i class="icon dropdown-arrow-left"></i>
-        </button>
-        <h1>{{ 'SETTINGS.TITLE' | translate }}</h1>
+        <app-back-button></app-back-button>
+        <h1 class="ml-2">{{ 'SETTINGS.TITLE' | translate }}</h1>
       </div>
       <div class="right"></div>
     </div>
 
     <div class="page-content">
       <div class="scrolled-content">
-        <div
-          class="settings"
-          fxFlex="0 1 50rem"
-          fxFlexFill
-          fxLayout="column"
-          fxLayoutAlign="start stretch"
-          fxLayoutGap="2rem"
-        >
+        <div class="settings" fxFlex="0 1 50rem" fxFlexFill fxLayout="column" fxLayoutAlign="start stretch" fxLayoutGap="2rem">
           <div class="form__field">
             <label>{{ 'SETTINGS.LANGUAGE.TITLE' | translate }}</label>
             <ng-select
@@ -45,17 +32,10 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
               bindValue="name"
               class="with-circle"
             >
-              <ng-template
-                let-item="item"
-                ng-label-tmp
-              >
+              <ng-template let-item="item" ng-label-tmp>
                 {{ item.language | translate }}
               </ng-template>
-              <ng-template
-                let-index="index"
-                let-item="item"
-                ng-option-tmp
-              >
+              <ng-template let-index="index" let-item="item" ng-option-tmp>
                 {{ item.language | translate }}
               </ng-template>
             </ng-select>
@@ -73,17 +53,10 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
               bindValue="time"
               class="with-circle"
             >
-              <ng-template
-                let-item="item"
-                ng-label-tmp
-              >
+              <ng-template let-item="item" ng-label-tmp>
                 {{ item.translationKey | translate }}
               </ng-template>
-              <ng-template
-                let-index="index"
-                let-item="item"
-                ng-option-tmp
-              >
+              <ng-template let-index="index" let-item="item" ng-option-tmp>
                 {{ item.translationKey | translate }}
               </ng-template>
             </ng-select>
@@ -101,17 +74,10 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
               bindValue="value"
               class="with-circle"
             >
-              <ng-template
-                let-item="item"
-                ng-label-tmp
-              >
+              <ng-template let-item="item" ng-label-tmp>
                 {{ item.name | translate }}
               </ng-template>
-              <ng-template
-                let-index="index"
-                let-item="item"
-                ng-option-tmp
-              >
+              <ng-template let-index="index" let-item="item" ng-option-tmp>
                 {{ item.name | translate }}
               </ng-template>
             </ng-select>
@@ -134,34 +100,20 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
 
           <div class="form__field">
             <label>{{ 'SETTINGS.NOTIFICATIONS' | translate }}</label>
-            <app-switch
-              (emitChange)="toggleNotifications()"
-              [value]="currentNotificationsState"
-            ></app-switch>
+            <app-switch (emitChange)="toggleNotifications()" [value]="currentNotificationsState"></app-switch>
           </div>
 
           <div class="form__field">
             <label>{{ 'SETTINGS.USE_TOR_TO_RELAY_TRANSACTIONS' | translate }} (Temporarily disabled)</label>
-            <app-switch
-              (emitChange)="toggleUseTor()"
-              [disabled]="true"
-              [value]="false && appUseTor"
-            ></app-switch>
+            <app-switch (emitChange)="toggleUseTor()" [disabled]="true" [value]="false && appUseTor"></app-switch>
           </div>
 
-          <form
-            (ngSubmit)="onSubmitChangePass()"
-            [formGroup]="changeForm"
-            class="form"
-          >
+          <form (ngSubmit)="onSubmitChangePass()" [formGroup]="changeForm" class="form">
             <h4 class="master-password-title mb-2">
               {{ 'SETTINGS.MASTER_PASSWORD.TITLE' | translate }}
             </h4>
 
-            <div
-              *ngIf="variablesService.appPass"
-              class="form__field"
-            >
+            <div *ngIf="variablesService.appPass" class="form__field">
               <label for="old-password">{{ 'SETTINGS.MASTER_PASSWORD.OLD' | translate }}</label>
               <input
                 (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
@@ -205,10 +157,7 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
                 placeholder="{{ 'PLACEHOLDERS.PLACEHOLDER_NEW' | translate }}"
                 type="password"
               />
-              <div
-                *ngIf="changeForm.controls['new_password'].touched && changeForm.controls['new_password'].invalid"
-                class="error"
-              >
+              <div *ngIf="changeForm.controls['new_password'].touched && changeForm.controls['new_password'].invalid" class="error">
                 <div *ngIf="changeForm.controls['new_password'].errors?.pattern">
                   {{ 'ERRORS.WRONG_PASSWORD' | translate }}
                 </div>
@@ -250,19 +199,10 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
             </div>
 
             <div class="submit-button-container">
-              <button
-                [disabled]="!changeForm.valid"
-                class="primary big max-w-19-rem w-100"
-                type="submit"
-              >
+              <button [disabled]="!changeForm.valid" class="primary big max-w-19-rem w-100" type="submit">
                 {{ 'SETTINGS.MASTER_PASSWORD.BUTTON' | translate }}
               </button>
-              <span
-                *ngIf="ifSaved"
-                [class.active]="ifSaved"
-                class="ml-1 color-aqua"
-                >{{ 'SETTINGS.SETTINGS_SAVED' | translate }}</span
-              >
+              <span *ngIf="ifSaved" [class.active]="ifSaved" class="ml-1 color-aqua">{{ 'SETTINGS.SETTINGS_SAVED' | translate }}</span>
             </div>
           </form>
           <p>Build version: {{ currentBuild }}</p>

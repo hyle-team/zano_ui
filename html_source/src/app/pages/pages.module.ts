@@ -37,8 +37,6 @@ import {
 } from '@parts/pipes';
 import { InputValidateModule } from '@parts/directives/input-validate';
 import { InputDisableSelectionModule } from '@parts/directives/input-disable-selection';
-import { BackButtonModule } from '@parts/directives/back-button/back-button.module';
-import { UiKitComponent } from './ui-kit/ui-kit.component';
 import { CheckboxComponent } from '@parts/components/checkbox.component';
 import { CopyButtonComponent } from '@parts/components/copy-button.component';
 import { StakingSwitchComponent } from '@parts/components/staking-switch.component';
@@ -47,6 +45,7 @@ import { SynchronizationStatusComponent } from '@parts/components/synchronizatio
 import { LoaderComponent } from '@parts/components/loader.component';
 import { AutoFocusDirective } from '@parts/directives/autofocus.directive';
 import { BreadcrumbsComponent } from '@parts/components/breadcrumbs/breadcrumbs.component';
+import { BackButtonComponent } from '@parts/components/back-button/back-button.component';
 
 @NgModule({
   declarations: [
@@ -90,10 +89,6 @@ import { BreadcrumbsComponent } from '@parts/components/breadcrumbs/breadcrumbs.
     ShortStringPipeModule,
     InputValidateModule,
     InputDisableSelectionModule,
-    BackButtonModule,
-
-    // Standalone components
-    UiKitComponent,
     CheckboxComponent,
     CopyButtonComponent,
     StakingSwitchComponent,
@@ -102,6 +97,7 @@ import { BreadcrumbsComponent } from '@parts/components/breadcrumbs/breadcrumbs.
     LoaderComponent,
     AutoFocusDirective,
     BreadcrumbsComponent,
+    BackButtonComponent,
   ],
 })
 export class PagesModule {}
