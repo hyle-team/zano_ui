@@ -8,12 +8,12 @@
       </label>
       <textarea
         [placeholder]="'CONFIRM_SWAP.FORM.PLACEHOLDERS.PLACEHOLDER1' | translate"
-        formControlName="swapProposalHex"
+        formControlName="hex_raw_proposal"
         id="swap-proposal-hex"
       ></textarea>
     </div>
 
-    <div class="form__field mb-2">
+    <div *ngIf="proposalDetails" class="form__field mb-2">
       <label for="swap-proposal-hex">
         {{ 'CONFIRM_SWAP.FORM.LABELS.LABEL2' | translate }}
       </label>
@@ -33,20 +33,11 @@
           </div>
           <div class="text">50 CT</div>
         </div>
-
-        <hr class="separator"/>
-
-        <div class="row">
-          <div class="label max-w-19-rem w-100">
-            {{ 'CONFIRM_SWAP.FORM.TABLE.LABELS.LABEL3' | translate }}
-          </div>
-          <div class="text">60 minutes</div>
-        </div>
       </div>
     </div>
 
     <div class="actions">
-      <button class="btn primary big w-100" type="button">
+      <button [disabled]="!proposalDetails" class="btn primary big w-100" type="button">
         {{ 'CONFIRM_SWAP.FORM.BUTTONS.BUTTON1' | translate }}
       </button>
 

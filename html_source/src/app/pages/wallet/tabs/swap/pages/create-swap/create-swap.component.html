@@ -229,8 +229,9 @@
     </div>
 
     <div class="actions">
-      <button class="btn primary big w-100" type="submit">
-        {{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON1' | translate }}
+      <button [disabled]="form.invalid || (loading$ | async)" class="btn primary big w-100" type="submit">
+        <ng-container *ngIf="!(loading$ | async)">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON1' | translate }}</ng-container>
+        <zano-loader *ngIf="loading$ | async" [type]="'circle'"></zano-loader>
       </button>
       <a class="btn outline big w-100"
          routerLink="/wallet/swap">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON2' | translate }}</a>

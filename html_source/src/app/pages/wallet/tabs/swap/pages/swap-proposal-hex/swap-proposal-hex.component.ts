@@ -37,7 +37,7 @@ export class SwapProposalHexComponent implements OnInit, IDeactivateComponent {
   fb = inject(FormBuilder);
 
   form = this.fb.group({
-    swapProposalHex: this.fb.control('', [Validators.required]),
+    hex_raw_proposal: this.fb.control('', [Validators.required]),
   });
 
   private backendService = inject(BackendService);
@@ -49,8 +49,8 @@ export class SwapProposalHexComponent implements OnInit, IDeactivateComponent {
   }
 
   copy(): void {
-    const { swapProposalHex } = this.form.getRawValue();
-    this.backendService.setClipboard(swapProposalHex);
+    const { hex_raw_proposal } = this.form.getRawValue();
+    this.backendService.setClipboard(hex_raw_proposal);
     this.copyAnimation = true;
     this.copyAnimationTimeout = setTimeout(() => {
       this.copyAnimation = false;
@@ -76,9 +76,9 @@ export class SwapProposalHexComponent implements OnInit, IDeactivateComponent {
 
   private setSwapProposalHexFromHistoryState(): void {
     const historyState = history.state || {};
-    const swapProposalHex = historyState['swapProposalHex'];
-    if (swapProposalHex) {
-      this.form.controls.swapProposalHex.patchValue(swapProposalHex, { emitEvent: false });
+    const hex_raw_proposal = historyState['hex_raw_proposal'];
+    if (hex_raw_proposal) {
+      this.form.controls.hex_raw_proposal.patchValue(hex_raw_proposal, { emitEvent: false });
     }
   }
 }

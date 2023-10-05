@@ -16,6 +16,7 @@ import {
 } from '@api/models/assets.model';
 import { Alias } from '@api/models/alias.model';
 import { SendMoneyParams } from '@api/models/send-money.model';
+import { ParamsCallRpc } from '@api/models/call_rpc.model';
 
 export interface PramsObj {
   [key: string]: any;
@@ -162,6 +163,7 @@ export enum Commands {
   get_default_fee = 'get_default_fee',
   set_localization_strings = 'set_localization_strings',
   request_alias_registration = 'request_alias_registration',
+  call_rpc = 'call_rpc',
 }
 
 @Injectable({
@@ -728,6 +730,11 @@ export class BackendService {
 
   getWalletInfo(wallet_id, callback?: (status: boolean, response_data: ResponseGetWalletInfo) => void): void {
     this.runCommand(Commands.get_wallet_info, { wallet_id }, callback);
+  }
+
+  // Use for call rpc-api https://docs.zano.org/docs/build/rpc-api
+  call_rpc(params: ParamsCallRpc, callback?: (status: boolean, response_data: any) => void): void {
+    this.runCommand(Commands.call_rpc, params, callback);
   }
 
   private informerRun(error: string, params, command: string): void {

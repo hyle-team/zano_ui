@@ -20,6 +20,8 @@ import { WrapInfoService } from '@api/services/wrap-info.service';
 import { WrapInfo } from '@api/models/wrap-info';
 import { BigNumber } from 'bignumber.js';
 import { insuficcientFunds } from '@parts/utils/zano-errors';
+import { ParamsCallRpc } from '@api/models/call_rpc.model';
+import { LoaderComponent } from '@parts/components/loader.component';
 
 @Component({
   selector: 'app-create-swap',
@@ -38,6 +40,7 @@ import { insuficcientFunds } from '@parts/utils/zano-errors';
     ShortStringPipeModule,
     FormsModule,
     IntToMoneyPipeModule,
+    LoaderComponent,
   ],
   templateUrl: './create-swap.component.html',
   styleUrls: ['./create-swap.component.scss'],
@@ -54,22 +57,39 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
   ];
 
   variablesService = inject(VariablesService);
+
   fb = inject(FormBuilder);
+
   aliasAddress: string;
-  loading$ = new BehaviorSubject<boolean>(true);
+
+  loading$ = new BehaviorSubject<boolean>(false);
+
   isWrapShown = false;
+
   aliases$ = new BehaviorSubject<Aliases>([]);
+
   isVisibleDropdownAliases$ = new BehaviorSubject<boolean>(false);
+
   isVisibleDropdownAliasesObservable$ = this.isVisibleDropdownAliases$.pipe(delay(150));
+
   lowerCaseDisabled$ = new BehaviorSubject(true);
+
   intToMoneyPipe = inject(IntToMoneyPipe);
+
   wrapInfoService = inject(WrapInfoService);
+
   wrapInfo: WrapInfo;
+
   private backendService = inject(BackendService);
+
   private ngZone = inject(NgZone);
+
   private router = inject(Router);
+
   private destroy$ = new Subject<void>();
+
   private moneyToInt = inject(MoneyToIntPipe);
+
   form = this.fb.group({
     sending: this.fb.group({
       amount: this.fb.control('', {
@@ -253,13 +273,78 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
   }
 
   submit(): void {
-    this.router
-      .navigateByUrl('/wallet/swap-proposal-hex', {
-        state: {
-          swapProposalHex: '',
+    this.loading$.next(true);
+    const { sending, receiving, receiverAddress } = this.form.getRawValue();
+    const { wallet_id } = this.variablesService.currentWallet;
+    const { default_fee_big } = this.variablesService;
+    const params1: ParamsCallRpc = {
+      jsonrpc: '2.0',
+      id: wallet_id,
+      method: 'mw_select_wallet',
+      params: { wallet_id },
+    };
+    const params2: ParamsCallRpc = {
+      jsonrpc: '2.0',
+      id: wallet_id,
+      method: 'ionic_swap_generate_proposal',
+      params: {
+        proposal: {
+          to_bob: [
+            {
+              asset_id: sending.asset_id,
+              amount: new BigNumber(sending.amount).toJSON(),
+            },
+          ],
+          to_alice: [
+            {
+              asset_id: receiving.asset_id,
+              amount: new BigNumber(receiving.amount).toJSON(),
+            },
+          ],
+          mixins: 10,
+          fee_paid_by_a: default_fee_big,
+          expiration_time: 0,
         },
-      })
-      .then();
+      },
+    };
+
+    if (receiverAddress.indexOf('@') === 0) {
+      const aliasName = receiverAddress;
+      const alias = this.aliases$.value.find(({ name }) => name === aliasName);
+
+      if (!alias) {
+        this.form.controls.receiverAddress.setErrors({
+          alias_not_found: true,
+        });
+        return;
+      }
+
+      params2.params['destination_address'] = alias.address;
+    } else {
+      params2.params['destination_address'] = receiverAddress;
+    }
+
+    this.backendService.call_rpc(params1, (status1, response_data1) => {
+      if (response_data1.result.status === 'OK') {
+        this.backendService.call_rpc(params2, (status2, response_data2) => {
+          if (response_data2.result) {
+            this.ngZone.run(() => {
+              this.router
+                .navigateByUrl('/wallet/swap-proposal-hex', {
+                  state: {
+                    hex_raw_proposal: response_data2.result['hex_raw_proposal'],
+                  },
+                })
+                .then();
+            });
+          } else {
+            this.ngZone.run(() => this.loading$.next(false));
+          }
+        });
+      } else {
+        this.ngZone.run(() => this.loading$.next(false));
+      }
+    });
   }
 
   private setSendingAssetIdFromHistoryState(): void {
