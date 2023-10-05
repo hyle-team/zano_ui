@@ -50,7 +50,9 @@ import { ParamsCallRpc } from '@api/models/call_rpc.model';
                 <div class="label max-w-19-rem w-100">
                   {{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.CURRENT_SUPPLY' | translate }}
                 </div>
-                <div class="text">{{ current_supply }}</div>
+                <div class="text">
+                  {{ asset.asset_info.asset_id === zanoAssetInfo.asset_id ? current_supply : asset.asset_info.current_supply }}
+                </div>
               </div>
 
               <hr class="separator" />
