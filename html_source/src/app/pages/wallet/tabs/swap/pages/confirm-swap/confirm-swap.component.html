@@ -37,7 +37,7 @@
     </div>
 
     <div class="actions">
-      <button [disabled]="!proposalDetails" class="btn primary big w-100" type="button">
+      <button (click)="showDialog()" [disabled]="!proposalDetails" class="btn primary big w-100" type="button">
         {{ 'CONFIRM_SWAP.FORM.BUTTONS.BUTTON1' | translate }}
       </button>
 
@@ -45,5 +45,22 @@
         {{ 'CONFIRM_SWAP.FORM.BUTTONS.BUTTON2' | translate }}
       </a>
     </div>
+
+    <div *ngIf="errorNotDecodeHexRawProposal" class="error mt-2">
+      Error code: {{ errorNotDecodeHexRawProposal.code }} <br>
+      Error message: {{ errorNotDecodeHexRawProposal.message || 'hex_raw_proposal not decoded' }}
+    </div>
   </form>
 </div>
+
+
+<ng-container *ngIf="sendMoneyParams">
+  <app-send-modal (confirmed)="confirmed($event)" *ngIf="isModalDialogVisible"
+                  [sendMoneyParams]="sendMoneyParams"></app-send-modal>
+
+  <app-send-details-modal
+    (eventClose)="handeCloseDetailsModal($event)"
+    *ngIf="isModalDetailsDialogVisible"
+    [job_id]="job_id"
+  ></app-send-details-modal>
+</ng-container>

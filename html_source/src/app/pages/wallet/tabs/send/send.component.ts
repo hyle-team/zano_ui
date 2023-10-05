@@ -333,7 +333,7 @@ import { zanoAssetInfo } from '@parts/data/assets';
       </form>
     </div>
 
-    <app-send-modal *ngIf="isModalDialogVisible" [form]="sendMoneyParamsForm" (confirmed)="confirmed($event)"></app-send-modal>
+    <app-send-modal *ngIf="isModalDialogVisible" [sendMoneyParams]="sendMoneyParams" (confirmed)="confirmed($event)"></app-send-modal>
 
     <app-send-details-modal
       *ngIf="isModalDetailsDialogVisible"
@@ -502,6 +502,10 @@ export class SendComponent implements OnInit, OnDestroy {
     }),
     hide: this.fb.control(false),
   });
+
+  get sendMoneyParams(): SendMoneyParams {
+    return this.sendMoneyParamsForm.getRawValue() as SendMoneyParams;
+  }
 
   private destroy$ = new Subject<void>();
 

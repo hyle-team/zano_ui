@@ -80,6 +80,8 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
 
   wrapInfo: WrapInfo;
 
+  errorNotCreateHexRawProposal: { code: number; message: string } = null;
+
   private backendService = inject(BackendService);
 
   private ngZone = inject(NgZone);
@@ -338,7 +340,10 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
                 .then();
             });
           } else {
-            this.ngZone.run(() => this.loading$.next(false));
+            this.ngZone.run(() => {
+              this.errorNotCreateHexRawProposal = response_data2.error;
+              this.loading$.next(false);
+            });
           }
         });
       } else {

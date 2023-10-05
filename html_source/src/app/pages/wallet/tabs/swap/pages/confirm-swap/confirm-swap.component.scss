@@ -4,6 +4,10 @@
   flex-direction: row;
 }
 
+.error {
+  color: var(--red-500);
+}
+
 .container {
   display: flex;
   flex-direction: column;

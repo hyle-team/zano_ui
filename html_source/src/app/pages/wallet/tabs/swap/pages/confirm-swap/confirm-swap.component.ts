@@ -11,15 +11,28 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { VariablesService } from '@parts/services/variables.service';
 import { ParamsCallRpc } from '@api/models/call_rpc.model';
 import { BackendService } from '@api/services/backend.service';
+import { SendMoneyParams } from '@api/models/send-money.model';
+import { WalletModalsModule } from '../../../../modals/wallet-modals.module';
+import { BigNumber } from 'bignumber.js';
 
 @Component({
   selector: 'app-confirm-swap',
   standalone: true,
-  imports: [CommonModule, BreadcrumbsComponent, RouterLinkWithHref, InputValidateModule, TranslateModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    BreadcrumbsComponent,
+    RouterLinkWithHref,
+    InputValidateModule,
+    TranslateModule,
+    ReactiveFormsModule,
+    WalletModalsModule,
+  ],
   templateUrl: './confirm-swap.component.html',
   styleUrls: ['./confirm-swap.component.scss'],
 })
 export class ConfirmSwapComponent implements OnInit, OnDestroy {
+  sendMoneyParams: SendMoneyParams | null = null;
+
   breadcrumbItems: BreadcrumbItems = [
     {
       routerLink: '/wallet/swap',
@@ -30,25 +43,37 @@ export class ConfirmSwapComponent implements OnInit, OnDestroy {
     },
   ];
 
+  errorNotDecodeHexRawProposal: { code: number; message: string } = null;
+
+  job_id: number;
+
+  isModalDialogVisible = false;
+
+  isModalDetailsDialogVisible = false;
+
   variablesService = inject(VariablesService);
+
   fb = inject(NonNullableFormBuilder);
+
   form = this.fb.group({
     hex_raw_proposal: this.fb.control<string>('', [Validators.required]),
   });
+
   proposalDetails:
     | {
         expiration_time: number;
         fee_paid_by_a: number;
         mixins: number;
+        destination_address: string;
         to_alice: [
           {
-            amount: number;
+            amount: number | string;
             asset_id: string;
           }
         ];
         to_bob: [
           {
-            amount: number;
+            amount: number | string;
             asset_id: string;
           }
         ];
@@ -69,6 +94,40 @@ export class ConfirmSwapComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  showDialog(): void {
+    this.isModalDialogVisible = true;
+  }
+
+  confirmed(confirmed: boolean): void {
+    this.isModalDialogVisible = false;
+    if (confirmed) {
+      this.onSend();
+    }
+  }
+
+  onSend(): void {
+    this.backendService.sendMoney(this.sendMoneyParams, (job_id: number) => {
+      this.ngZone.run(() => {
+        this.job_id = job_id;
+        this.isModalDetailsDialogVisible = true;
+        this.variablesService.currentWallet.sendMoneyParams = null;
+      });
+    });
+  }
+
+  handeCloseDetailsModal(success: boolean): void {
+    this.isModalDetailsDialogVisible = false;
+    this.job_id = null;
+
+    if (success) {
+      const {
+        currentWallet: { wallet_id },
+      } = this.variablesService;
+      this.variablesService.currentWallet.sendMoneyParams = null;
+      this.sendMoneyParams = null;
+    }
   }
 
   private getProposalDetails(hex_raw_proposal: string): void {
@@ -93,6 +152,18 @@ export class ConfirmSwapComponent implements OnInit, OnDestroy {
             const proposal = response_data2?.result?.['proposal'];
             if (proposal) {
               this.proposalDetails = proposal;
+              this.sendMoneyParams = {
+                wallet_id: this.variablesService.currentWallet.wallet_id,
+                address: proposal.destination_address,
+                amount: new BigNumber(proposal.to_alice[0].amount).toString(),
+                fee: this.variablesService.default_fee,
+                mixin: 10,
+                comment: '',
+                hide: false,
+                asset_id: proposal.to_alice[0].asset_id,
+              };
+            } else {
+              this.errorNotDecodeHexRawProposal = response_data2.error;
             }
           });
         });

@@ -30,8 +30,6 @@ import { ChartModule } from 'angular-highcharts';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ReceiveComponent } from './tabs/receive/receive.component';
 import { DialogModule } from '@angular/cdk/dialog';
-import { SendDetailsModalComponent } from './tabs/send/modals/send-details-modal/send-details-modal.component';
-import { SendModalComponent } from './tabs/send/modals/send-modal/send-modal.component';
 import { SendComponent } from './tabs/send/send.component';
 import { ExportImportComponent } from '../export-import/export-import.component';
 import { AssetDetailsModule } from '@parts/modals/asset-details/asset-details.module';
@@ -42,6 +40,7 @@ import { SwitchComponent } from '@parts/components/switch.component';
 import { TransactionDetailsComponent } from '@parts/components/transaction-details.component';
 import { BreadcrumbsComponent } from '@parts/components/breadcrumbs/breadcrumbs.component';
 import { BackButtonComponent } from '@parts/components/back-button/back-button.component';
+import { WalletModalsModule } from './modals/wallet-modals.module';
 
 @NgModule({
   declarations: [
@@ -52,8 +51,6 @@ import { BackButtonComponent } from '@parts/components/back-button/back-button.c
     StakingComponent,
     ReceiveComponent,
     ExportImportComponent,
-    SendDetailsModalComponent,
-    SendModalComponent,
     SendComponent,
   ],
   imports: [
@@ -92,6 +89,7 @@ import { BackButtonComponent } from '@parts/components/back-button/back-button.c
     GetWhiteAssetPipe,
     BreadcrumbsComponent,
     BackButtonComponent,
+    WalletModalsModule,
   ],
 })
 export class WalletModule {}

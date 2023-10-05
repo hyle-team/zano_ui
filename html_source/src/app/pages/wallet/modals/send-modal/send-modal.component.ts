@@ -11,7 +11,8 @@ import {
   Output,
   Renderer2,
 } from '@angular/core';
-import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import { SendMoneyParams } from '@api/models/send-money.model';
 import { VariablesService } from '@parts/services/variables.service';
 import { ZanoValidators } from '@parts/utils/zano-validators';
 
@@ -32,8 +33,8 @@ import { ZanoValidators } from '@parts/utils/zano-validators';
                   {{ 'CONFIRM.MESSAGE.SEND' | translate }}
                 </div>
                 <div class="text">
-                  {{ form.get('amount').value }}
-                  {{ form?.get('asset')?.value?.asset_info?.ticker }}
+                  {{ sendMoneyParams.amount }}
+                  {{ (sendMoneyParams.asset_id | getWhiteAsset | async).ticker }}
                 </div>
               </div>
 
@@ -54,17 +55,17 @@ import { ZanoValidators } from '@parts/utils/zano-validators';
                 <div class="label max-w-19-rem w-100">
                   {{ 'CONFIRM.MESSAGE.TO' | translate }}
                 </div>
-                <div class="text">{{ form.get('address').value }}</div>
+                <div class="text">{{ sendMoneyParams.address }}</div>
               </div>
 
-              <ng-container *ngIf="!!form.get('comment').value">
+              <ng-container *ngIf="!!sendMoneyParams.comment">
                 <hr class="separator" />
 
                 <div class="row">
                   <div class="label max-w-19-rem w-100">
                     {{ 'CONFIRM.MESSAGE.COMMENT' | translate }}
                   </div>
-                  <div class="text">{{ form.get('comment').value }}</div>
+                  <div class="text">{{ sendMoneyParams.comment }}</div>
                 </div>
               </ng-container>
             </div>
@@ -113,7 +114,7 @@ import { ZanoValidators } from '@parts/utils/zano-validators';
 export class SendModalComponent implements OnInit, OnDestroy {
   @HostBinding('class.modal-overlay') modalOverlay = true;
 
-  @Input() form: FormGroup;
+  @Input() sendMoneyParams: SendMoneyParams;
 
   @Output() confirmed: EventEmitter<boolean> = new EventEmitter<boolean>();
 

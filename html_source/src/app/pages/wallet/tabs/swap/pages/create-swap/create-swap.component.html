@@ -236,5 +236,10 @@
       <a class="btn outline big w-100"
          routerLink="/wallet/swap">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON2' | translate }}</a>
     </div>
+
+    <div *ngIf="errorNotCreateHexRawProposal" class="error mt-2">
+      Error code: {{ errorNotCreateHexRawProposal.code }} <br>
+      Error message: {{ errorNotCreateHexRawProposal.message || 'hex_raw_proposal not created' }}
+    </div>
   </form>
 </div>
