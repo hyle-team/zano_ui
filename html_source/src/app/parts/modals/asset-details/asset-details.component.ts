@@ -51,7 +51,7 @@ import { ParamsCallRpc } from '@api/models/call_rpc.model';
                   {{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.CURRENT_SUPPLY' | translate }}
                 </div>
                 <div class="text">
-                  {{ asset.asset_info.asset_id === zanoAssetInfo.asset_id ? current_supply : asset.asset_info.current_supply }}
+                  {{ asset.asset_info.asset_id === zanoAssetInfo.asset_id ? zano_current_supply : asset.asset_info.current_supply }}
                 </div>
               </div>
 
@@ -98,7 +98,7 @@ export class AssetDetailsComponent implements OnInit {
 
   ngZone = inject(NgZone);
 
-  current_supply = null;
+  zano_current_supply = null;
 
   constructor(
     public variablesService: VariablesService,
@@ -113,10 +113,12 @@ export class AssetDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getCurrentSupply();
+    if (this.asset.asset_info.asset_id === zanoAssetInfo.asset_id) {
+      this.getZanoCurrentSupply();
+    }
   }
 
-  private getCurrentSupply(): void {
+  private getZanoCurrentSupply(): void {
     const { wallet_id } = this.variablesService.currentWallet;
     const params1: ParamsCallRpc = {
       jsonrpc: '2.0',
@@ -137,7 +139,7 @@ export class AssetDetailsComponent implements OnInit {
       if (response_data1.result.status === 'OK') {
         this.backendService.call_rpc(params2, (status2, response_data2) => {
           this.ngZone.run(() => {
-            this.current_supply = response_data2?.['result']?.['total_coins'] ?? null;
+            this.zano_current_supply = response_data2?.['result']?.['total_coins'] ?? null;
           });
         });
       }
