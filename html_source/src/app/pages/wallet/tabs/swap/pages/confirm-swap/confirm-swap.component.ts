@@ -43,7 +43,7 @@ export class ConfirmSwapComponent implements OnInit, OnDestroy {
     },
   ];
 
-  errorRpc: { code: number; message: string } = null;
+  errorRpc: { code: number; message: string } | undefined;
 
   variablesService = inject(VariablesService);
 
@@ -154,7 +154,9 @@ export class ConfirmSwapComponent implements OnInit, OnDestroy {
             const proposal = response_data2?.result?.['proposal'];
             if (proposal) {
               this.proposalDetails = proposal;
+              this.errorRpc = undefined;
             } else {
+              this.proposalDetails = undefined;
               this.errorRpc = response_data2.error;
             }
           });
