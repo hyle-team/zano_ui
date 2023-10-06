@@ -5,8 +5,15 @@ import { TranslateModule } from '@ngx-translate/core';
 import { BreadcrumbsComponent } from '@parts/components/breadcrumbs/breadcrumbs.component';
 import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
 import { DefaultImgModule, InputValidateModule, LowerCaseDirective } from '@parts/directives';
-import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
-import { GetWhiteAssetInfoModule, IntToMoneyPipe, IntToMoneyPipeModule, MoneyToIntPipe, ShortStringPipeModule } from '@parts/pipes';
+import { AbstractControl, FormBuilder, FormControl, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import {
+  GetWhiteAssetInfoModule,
+  IntToMoneyPipe,
+  IntToMoneyPipeModule,
+  MoneyToIntPipe,
+  MoneyToIntPipeModule,
+  ShortStringPipeModule,
+} from '@parts/pipes';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { VariablesService } from '@parts/services/variables.service';
 import { Asset } from '@api/models/assets.model';
@@ -40,6 +47,7 @@ import { LoaderComponent } from '@parts/components/loader.component';
     ShortStringPipeModule,
     FormsModule,
     IntToMoneyPipeModule,
+    MoneyToIntPipeModule,
     LoaderComponent,
   ],
   templateUrl: './create-swap.component.html',
@@ -76,11 +84,13 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
 
   intToMoneyPipe = inject(IntToMoneyPipe);
 
+  moneyToIntPipe = inject(MoneyToIntPipe);
+
   wrapInfoService = inject(WrapInfoService);
 
   wrapInfo: WrapInfo;
 
-  errorNotCreateHexRawProposal: { code: number; message: string } = null;
+  errorRpc: { code: number; message: string } = null;
 
   private backendService = inject(BackendService);
 
@@ -92,105 +102,120 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
 
   private moneyToInt = inject(MoneyToIntPipe);
 
-  form = this.fb.group({
-    sending: this.fb.group({
-      amount: this.fb.control('', {
-        validators: [
-          Validators.required,
-          Validators.min(0.000000000001),
-          (control: FormControl): ValidationErrors | null => {
-            if (!control.value) {
-              return null;
-            }
-
-            if (control.value === 0) {
-              return { zero: true };
-            }
-            const bigAmount = this.moneyToInt.transform(control.value) as BigNumber;
-            if (this.isWrapShown) {
-              if (!this.wrapInfo) {
-                return { wrap_info_null: true };
+  form = this.fb.group(
+    {
+      sending: this.fb.group({
+        amount: this.fb.control('', {
+          validators: [
+            Validators.required,
+            Validators.min(0.000000000001),
+            (control: FormControl): ValidationErrors | null => {
+              if (!control.value) {
+                return null;
               }
-              if (bigAmount.isGreaterThan(new BigNumber(this.wrapInfo.unwraped_coins_left))) {
-                return { great_than_unwraped_coins: true };
-              }
-              if (bigAmount.isLessThan(new BigNumber(this.wrapInfo.tx_cost.zano_needed_for_erc20))) {
-                return { less_than_zano_needed: true };
-              }
-            }
-            return null;
-          },
 
-          (control: FormControl): ValidationErrors | null => {
-            const asset_id = this.form?.controls.sending.controls.asset_id.value;
-            if (!asset_id) {
-              return null;
-            }
-
-            const asset: Asset | undefined = this.variablesService.currentWallet.balances?.find(v => v.asset_info.asset_id === asset_id);
-            if (asset) {
-              const unlocked = +this.intToMoneyPipe.transform(asset.unlocked);
-              return +control.value > unlocked ? { insuficcientFunds } : null;
-            }
-            return null;
-          },
-        ],
-      }),
-      asset_id: this.fb.control(zanoAssetInfo.asset_id, [Validators.required]),
-    }),
-    receiving: this.fb.group({
-      amount: this.fb.control('', [Validators.required, Validators.min(0.000000000001)]),
-      asset_id: this.fb.control(zanoAssetInfo.asset_id, [Validators.required]),
-    }),
-    receiverAddress: this.fb.control('', [
-      Validators.required,
-      (control: FormControl): ValidationErrors | null => {
-        this.aliasAddress = '';
-        if (control.value) {
-          if (control.value.indexOf('@') !== 0) {
-            this.backendService.validateAddress(control.value, (valid_status, data) => {
-              this.ngZone.run(() => {
-                this.isWrapShown = data.error_code === 'WRAP';
-                if (valid_status === false && !this.isWrapShown) {
-                  control.setErrors(Object.assign({ address_not_valid: true }, control.errors));
-                } else {
-                  if (control.hasError('address_not_valid')) {
-                    delete control.errors['address_not_valid'];
-                    if (Object.keys(control.errors).length === 0) {
-                      control.setErrors(null);
-                    }
-                  }
+              if (control.value === 0) {
+                return { zero: true };
+              }
+              const bigAmount = this.moneyToInt.transform(control.value) as BigNumber;
+              if (this.isWrapShown) {
+                if (!this.wrapInfo) {
+                  return { wrap_info_null: true };
                 }
-              });
-            });
-            return control.hasError('address_not_valid') ? { address_not_valid: true } : null;
-          } else {
-            if (!regExpAliasName.test(control.value)) {
-              return { alias_not_valid: true };
-            } else {
-              this.backendService.getAliasInfoByName(control.value.replace('@', ''), (alias_status, alias_data) => {
+                if (bigAmount.isGreaterThan(new BigNumber(this.wrapInfo.unwraped_coins_left))) {
+                  return { great_than_unwraped_coins: true };
+                }
+                if (bigAmount.isLessThan(new BigNumber(this.wrapInfo.tx_cost.zano_needed_for_erc20))) {
+                  return { less_than_zano_needed: true };
+                }
+              }
+              return null;
+            },
+
+            (control: FormControl): ValidationErrors | null => {
+              const asset_id = this.form?.controls.sending.controls.asset_id.value;
+              if (!asset_id) {
+                return null;
+              }
+
+              const asset: Asset | undefined = this.variablesService.currentWallet.balances?.find(v => v.asset_info.asset_id === asset_id);
+              if (asset) {
+                const unlocked = +this.intToMoneyPipe.transform(asset.unlocked);
+                return +control.value > unlocked ? { insuficcientFunds } : null;
+              }
+              return null;
+            },
+          ],
+        }),
+        asset_id: this.fb.control(zanoAssetInfo.asset_id, [Validators.required]),
+      }),
+      receiving: this.fb.group({
+        amount: this.fb.control('', [Validators.required, Validators.min(0.000000000001)]),
+        asset_id: this.fb.control(zanoAssetInfo.asset_id, [Validators.required]),
+      }),
+      receiverAddress: this.fb.control('', [
+        Validators.required,
+        (control: FormControl): ValidationErrors | null => {
+          this.aliasAddress = '';
+          if (control.value) {
+            if (control.value.indexOf('@') !== 0) {
+              this.backendService.validateAddress(control.value, (valid_status, data) => {
                 this.ngZone.run(() => {
-                  this.aliasAddress = alias_data.address;
-                  if (alias_status) {
-                    if (control.hasError('alias_not_found')) {
-                      delete control.errors['alias_not_found'];
+                  this.isWrapShown = data.error_code === 'WRAP';
+                  if (valid_status === false && !this.isWrapShown) {
+                    control.setErrors(Object.assign({ address_not_valid: true }, control.errors));
+                  } else {
+                    if (control.hasError('address_not_valid')) {
+                      delete control.errors['address_not_valid'];
                       if (Object.keys(control.errors).length === 0) {
                         control.setErrors(null);
                       }
                     }
-                  } else {
-                    control.setErrors(Object.assign({ alias_not_found: true }, control.errors));
                   }
                 });
               });
+              return control.hasError('address_not_valid') ? { address_not_valid: true } : null;
+            } else {
+              if (!regExpAliasName.test(control.value)) {
+                return { alias_not_valid: true };
+              } else {
+                this.backendService.getAliasInfoByName(control.value.replace('@', ''), (alias_status, alias_data) => {
+                  this.ngZone.run(() => {
+                    this.aliasAddress = alias_data.address;
+                    if (alias_status) {
+                      if (control.hasError('alias_not_found')) {
+                        delete control.errors['alias_not_found'];
+                        if (Object.keys(control.errors).length === 0) {
+                          control.setErrors(null);
+                        }
+                      }
+                    } else {
+                      control.setErrors(Object.assign({ alias_not_found: true }, control.errors));
+                    }
+                  });
+                });
+              }
+              return control.hasError('alias_not_found') ? { alias_not_found: true } : null;
             }
-            return control.hasError('alias_not_found') ? { alias_not_found: true } : null;
           }
-        }
-        return null;
-      },
-    ]),
-  });
+          return null;
+        },
+      ]),
+    },
+    {
+      validators: [
+        (control: AbstractControl): ValidationErrors | null => {
+          const condition = control.get('sending').get('asset_id').value === control.get('receiving').get('asset_id').value;
+          if (condition) {
+            control.get('receiving').get('asset_id').setErrors({ sameAssetsId: true });
+          } else {
+            control.get('receiving').get('asset_id').setErrors(null);
+          }
+          return null;
+        },
+      ],
+    }
+  );
 
   constructor() {}
 
@@ -294,13 +319,13 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
           to_bob: [
             {
               asset_id: sending.asset_id,
-              amount: new BigNumber(sending.amount).toJSON(),
+              amount: this.moneyToIntPipe.transform(sending.amount),
             },
           ],
           to_alice: [
             {
               asset_id: receiving.asset_id,
-              amount: new BigNumber(receiving.amount).toJSON(),
+              amount: this.moneyToIntPipe.transform(receiving.amount),
             },
           ],
           mixins: 10,
@@ -341,7 +366,7 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
             });
           } else {
             this.ngZone.run(() => {
-              this.errorNotCreateHexRawProposal = response_data2.error;
+              this.errorRpc = response_data2.error;
               this.loading$.next(false);
             });
           }

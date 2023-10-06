@@ -132,6 +132,16 @@
             {{ asset?.asset_info.full_name || '---' }}
           </ng-template>
         </ng-select>
+        <div *ngIf="
+            form.controls.receiving.controls.asset_id.invalid &&
+            (form.controls.receiving.controls.asset_id.dirty || form.controls.receiving.controls.asset_id.touched || form.touched)
+          "
+             class="error"
+        >
+          <div *ngIf="form.controls.receiving.controls.asset_id.hasError('sameAssetsId')">
+            {{ 'CREATE_SWAP.FORM.ERRORS.ERROR1' | translate }}
+          </div>
+        </div>
       </div>
     </div>
 
@@ -166,7 +176,7 @@
 
     <div class="form__field form__field-dropdown">
       <label for="receiving-address">
-        {{ 'Receiver address' | translate }}
+        {{ 'CREATE_SWAP.FORM.LABELS.LABEL3' | translate }}
       </label>
       <input
         (contextmenu)="variablesService.onContextMenu($event)"
@@ -236,10 +246,9 @@
       <a class="btn outline big w-100"
          routerLink="/wallet/swap">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON2' | translate }}</a>
     </div>
-
-    <div *ngIf="errorNotCreateHexRawProposal" class="error mt-2">
-      Error code: {{ errorNotCreateHexRawProposal.code }} <br>
-      Error message: {{ errorNotCreateHexRawProposal.message || 'hex_raw_proposal not created' }}
+    <div *ngIf="errorRpc" class="error mt-2">
+      Error code: {{ errorRpc.code }} <br>
+      Error message: {{ errorRpc.message || 'hex_raw_proposal not created' }}
     </div>
   </form>
 </div>

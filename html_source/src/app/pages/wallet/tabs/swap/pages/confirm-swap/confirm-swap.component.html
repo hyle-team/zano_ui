@@ -22,7 +22,8 @@
           <div class="label max-w-19-rem w-100">
             {{ 'CONFIRM_SWAP.FORM.TABLE.LABELS.LABEL1' | translate }}
           </div>
-          <div class="text">100 ZANO</div>
+          <div *ngFor="let item of proposalDetails.to_alice"
+               class="text">{{ item.amount | intToMoney }} {{ (item.asset_id | getWhiteAsset | async)?.ticker }}</div>
         </div>
 
         <hr class="separator"/>
@@ -31,13 +32,15 @@
           <div class="label max-w-19-rem w-100">
             {{ 'CONFIRM_SWAP.FORM.TABLE.LABELS.LABEL2' | translate }}
           </div>
-          <div class="text">50 CT</div>
+          <div *ngFor="let item of proposalDetails.to_bob"
+               class="text">{{ item.amount | intToMoney }} {{ (item.asset_id | getWhiteAsset | async)?.ticker }}</div>
         </div>
       </div>
     </div>
 
     <div class="actions">
-      <button (click)="showDialog()" [disabled]="!proposalDetails" class="btn primary big w-100" type="button">
+      <button (click)="swapConfirmMasterPasswordDialog()" [disabled]="!proposalDetails" class="btn primary big w-100"
+              type="button">
         {{ 'CONFIRM_SWAP.FORM.BUTTONS.BUTTON1' | translate }}
       </button>
 
@@ -46,21 +49,9 @@
       </a>
     </div>
 
-    <div *ngIf="errorNotDecodeHexRawProposal" class="error mt-2">
-      Error code: {{ errorNotDecodeHexRawProposal.code }} <br>
-      Error message: {{ errorNotDecodeHexRawProposal.message || 'hex_raw_proposal not decoded' }}
+    <div *ngIf="errorRpc" class="error mt-2">
+      Error code: {{ errorRpc.code }} <br>
+      Error message: {{ errorRpc.message || 'hex_raw_proposal not decoded' }}
     </div>
   </form>
 </div>
-
-
-<ng-container *ngIf="sendMoneyParams">
-  <app-send-modal (confirmed)="confirmed($event)" *ngIf="isModalDialogVisible"
-                  [sendMoneyParams]="sendMoneyParams"></app-send-modal>
-
-  <app-send-details-modal
-    (eventClose)="handeCloseDetailsModal($event)"
-    *ngIf="isModalDetailsDialogVisible"
-    [job_id]="job_id"
-  ></app-send-details-modal>
-</ng-container>

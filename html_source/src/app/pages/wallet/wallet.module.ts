@@ -40,7 +40,7 @@ import { SwitchComponent } from '@parts/components/switch.component';
 import { TransactionDetailsComponent } from '@parts/components/transaction-details.component';
 import { BreadcrumbsComponent } from '@parts/components/breadcrumbs/breadcrumbs.component';
 import { BackButtonComponent } from '@parts/components/back-button/back-button.component';
-import { WalletModalsModule } from './modals/wallet-modals.module';
+import { WalletModalsModule } from './tabs/send/modals/wallet-modals.module';
 
 @NgModule({
   declarations: [

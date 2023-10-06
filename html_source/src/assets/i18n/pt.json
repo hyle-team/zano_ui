@@ -786,7 +786,8 @@
     "FORM": {
       "LABELS": {
         "LABEL1": "Sending",
-        "LABEL2": "Receiving"
+        "LABEL2": "Receiving",
+        "LABEL3": "Receiver address"
       },
       "PLACEHOLDERS": {
         "PLACEHOLDER1": "Enter amount here"
@@ -794,6 +795,9 @@
       "BUTTONS": {
         "BUTTON1": "Create proposal",
         "BUTTON2": "Cancel"
+      },
+      "ERRORS": {
+        "ERROR1": "Same ones selected asset"
       }
     }
   },

@@ -49,14 +49,16 @@ import { ZanoValidators } from '@parts/utils/zano-validators';
                 </div>
               </div>
 
-              <hr class="separator" />
+              <ng-container *ngIf="!!sendMoneyParams.address">
+                <hr class="separator" />
 
-              <div class="row">
-                <div class="label max-w-19-rem w-100">
-                  {{ 'CONFIRM.MESSAGE.TO' | translate }}
+                <div class="row">
+                  <div class="label max-w-19-rem w-100">
+                    {{ 'CONFIRM.MESSAGE.TO' | translate }}
+                  </div>
+                  <div class="text">{{ sendMoneyParams.address }}</div>
                 </div>
-                <div class="text">{{ sendMoneyParams.address }}</div>
-              </div>
+              </ng-container>
 
               <ng-container *ngIf="!!sendMoneyParams.comment">
                 <hr class="separator" />
