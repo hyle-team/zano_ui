@@ -556,11 +556,13 @@ body {
 }.list .item:hover,
 .list .item .active {
   background-color: var(--gray-900);
-}.list .item button {
+}.list .item button, .list .item a {
+  display: inline-flex;
   white-space: nowrap;
   justify-content: flex-start;
   border-radius: 0;
-}.list .item button span {
+  color: white;
+}.list .item button span, .list .item a span {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -568,6 +570,12 @@ body {
   max-width: 50rem;
   width: 100%;
   border-radius: 0.8rem;
+}.form__row {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: space-between;
+  grid-gap: 20px;
 }.form__field {
   display: flex;
   flex: 0 0 auto;
