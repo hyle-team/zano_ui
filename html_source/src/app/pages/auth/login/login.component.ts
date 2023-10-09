@@ -3,7 +3,6 @@ import { FormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
-import { ModalService } from '@parts/services/modal.service';
 import { Wallet } from '@api/models/wallet.model';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 import { Subject } from 'rxjs';
@@ -14,30 +13,13 @@ import { WalletsService } from '@parts/services/wallets.service';
 @Component({
   selector: 'app-login',
   template: `
-    <div
-      class="auth"
-      fxFlexFill
-      fxLayout="row"
-      fxLayoutAlign="center center"
-    >
+    <div class="auth" fxFlexFill fxLayout="row" fxLayoutAlign="center center">
       <div class="card max-w-42-rem max-h-100 w-100 p-2 border-radius-0_8-rem bg-light-blue overflow-x-hidden">
-        <div
-          class="logo border-radius-0_8-rem overflow-hidden mb-3"
-          fxLayout="row"
-          fxLayoutAlign="center center"
-        >
-          <img
-            alt="zano-logo"
-            src="assets/icons/blue/zano-logo.svg"
-          />
+        <div class="logo border-radius-0_8-rem overflow-hidden mb-3" fxLayout="row" fxLayoutAlign="center center">
+          <img alt="zano-logo" src="assets/icons/blue/zano-logo.svg" />
         </div>
 
-        <form
-          (ngSubmit)="onSubmitCreatePass()"
-          *ngIf="type === 'reg'"
-          [formGroup]="regForm"
-          class="form bg-light-blue-details"
-        >
+        <form (ngSubmit)="onSubmitCreatePass()" *ngIf="type === 'reg'" [formGroup]="regForm" class="form bg-light-blue-details">
           <div class="form__field--wrapper pt-2 pl-2 pr-2 pb-1 mb-2 bg-light-blue-details border-radius-0_8-rem overflow-hidden">
             <div class="form__field mb-2">
               <label for="master-pass">{{ 'LOGIN.SETUP_MASTER_PASS' | translate }}</label>
@@ -50,10 +32,7 @@ import { WalletsService } from '@parts/services/wallets.service';
                 placeholder="{{ 'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate }}"
                 type="password"
               />
-              <div
-                *ngIf="regForm.controls['password'].dirty && regForm.controls['password'].errors"
-                class="error"
-              >
+              <div *ngIf="regForm.controls['password'].dirty && regForm.controls['password'].errors" class="error">
                 <div *ngIf="regForm.controls['password'].errors.pattern">
                   {{ 'ERRORS.WRONG_PASSWORD' | translate }}
                 </div>
@@ -70,10 +49,7 @@ import { WalletsService } from '@parts/services/wallets.service';
                 placeholder="{{ 'PLACEHOLDERS.PLACEHOLDER_CONFIRM' | translate }}"
                 type="password"
               />
-              <div
-                *ngIf="regForm.controls['password'].dirty && regForm.controls['confirmation'].dirty && regForm.errors"
-                class="error"
-              >
+              <div *ngIf="regForm.controls['password'].dirty && regForm.controls['confirmation'].dirty && regForm.errors" class="error">
                 <div *ngIf="regForm.errors['mismatch']">
                   {{ 'LOGIN.FORM_ERRORS.MISMATCH' | translate }}
                 </div>
@@ -104,12 +80,7 @@ import { WalletsService } from '@parts/services/wallets.service';
           </button>
         </form>
 
-        <form
-          (ngSubmit)="onSubmitAuthPass()"
-          *ngIf="type !== 'reg'"
-          [formGroup]="authForm"
-          class="form"
-        >
+        <form (ngSubmit)="onSubmitAuthPass()" *ngIf="type !== 'reg'" [formGroup]="authForm" class="form">
           <div class="form__field--wrapper pt-2 pl-2 pr-2 pb-1 mb-2 bg-light-blue-details border-radius-0_8-rem overflow-hidden">
             <div class="form__field">
               <label for="master-pass-login">{{ 'LOGIN.MASTER_PASS' | translate }}</label>
@@ -135,18 +106,11 @@ import { WalletsService } from '@parts/services/wallets.service';
               </div>
             </div>
           </div>
-          <button
-            class="primary big w-100 mb-1"
-            type="submit"
-          >
+          <button class="primary big w-100 mb-1" type="submit">
             {{ 'LOGIN.BUTTON_NEXT' | translate }}
           </button>
 
-          <button
-            (click)="dropSecureAppData()"
-            class="outline big w-100"
-            type="button"
-          >
+          <button (click)="dropSecureAppData()" class="outline big w-100" type="button">
             {{ 'LOGIN.BUTTON_RESET' | translate }}
           </button>
         </form>
@@ -192,7 +156,6 @@ export class LoginComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private backend: BackendService,
-    private modalService: ModalService,
     private ngZone: NgZone
   ) {}
 

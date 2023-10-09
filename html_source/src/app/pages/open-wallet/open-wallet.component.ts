@@ -6,12 +6,12 @@ import { ModalService } from '@parts/services/modal.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Wallet } from '@api/models/wallet.model';
 import { TranslateService } from '@ngx-translate/core';
-import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
 import { WalletsService } from '@parts/services/wallets.service';
 import { notFileZanoWallet, wrongPassword } from '@parts/utils/zano-errors';
+import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
 
 @Component({
   selector: 'app-open-wallet',
@@ -19,34 +19,17 @@ import { notFileZanoWallet, wrongPassword } from '@parts/utils/zano-errors';
     <div class="page-container">
       <div class="toolbar mb-2">
         <div class="left">
-          <button
-            appBackButton
-            class="btn-icon circle big mr-2"
-            type="button"
-          >
-            <i class="icon dropdown-arrow-left"></i>
-          </button>
-          <h1>{{ 'BREADCRUMBS.OPEN_WALLET' | translate }}</h1>
+          <app-back-button></app-back-button>
+          <h1 class="ml-2">{{ 'BREADCRUMBS.OPEN_WALLET' | translate }}</h1>
         </div>
         <div class="right"></div>
       </div>
 
       <div class="page-content">
-        <div class="breadcrumbs mb-2">
-          <div class="breadcrumb">
-            <a [routerLink]="['/add-wallet']">{{ 'BREADCRUMBS.ADD_WALLET' | translate }}</a>
-          </div>
-          <div class="breadcrumb">
-            <span>{{ 'BREADCRUMBS.OPEN_WALLET' | translate }}</span>
-          </div>
-        </div>
+        <app-breadcrumbs class="mb-2" [items]="breadcrumbItems"></app-breadcrumbs>
 
         <div class="scrolled-content">
-          <form
-            [formGroup]="openWalletForm"
-            (ngSubmit)="openWallet()"
-            class="form"
-          >
+          <form [formGroup]="openWalletForm" (ngSubmit)="openWallet()" class="form">
             <div class="form__field">
               <label for="wallet-name">
                 {{ 'OPEN_WALLET.NAME' | translate }}
@@ -101,11 +84,7 @@ import { notFileZanoWallet, wrongPassword } from '@parts/utils/zano-errors';
               </div>
             </div>
 
-            <button
-              [disabled]="openWalletForm.invalid"
-              class="primary big max-w-19-rem w-100"
-              type="submit"
-            >
+            <button [disabled]="openWalletForm.invalid" class="primary big max-w-19-rem w-100" type="submit">
               {{ 'OPEN_WALLET.BUTTON' | translate }}
             </button>
           </form>
@@ -113,10 +92,19 @@ import { notFileZanoWallet, wrongPassword } from '@parts/utils/zano-errors';
       </div>
     </div>
   `,
-  styles: [],
 })
 export class OpenWalletComponent implements OnInit, OnDestroy {
   fb = inject(NonNullableFormBuilder);
+
+  breadcrumbItems: BreadcrumbItems = [
+    {
+      routerLink: '/add-wallet',
+      title: 'BREADCRUMBS.ADD_WALLET',
+    },
+    {
+      title: 'BREADCRUMBS.OPEN_WALLET',
+    },
+  ];
 
   openWalletForm = this.fb.group({
     name: this.fb.control('', [

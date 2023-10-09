@@ -11,44 +11,30 @@ import {
   Output,
   Renderer2,
 } from '@angular/core';
-import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import { SendMoneyParams } from '@api/models/send-money.model';
 import { VariablesService } from '@parts/services/variables.service';
 import { ZanoValidators } from '@parts/utils/zano-validators';
 
 @Component({
   selector: 'app-send-modal',
   template: `
-    <div
-      class="modal p-2 border-radius-0_8-rem bg-light-blue max-w-54-rem w-100 max-h-100"
-      fxLayout="row"
-    >
+    <div class="modal p-2 border-radius-0_8-rem bg-light-blue max-w-54-rem w-100 max-h-100" fxLayout="row">
       <div class="wrapper">
-        <form
-          (ngSubmit)="beforeSubmit()"
-          [formGroup]="confirmForm"
-          class="overflow-hidden"
-          fxFlexFill
-          fxLayout="column"
-        >
-          <h3
-            class="title mb-2"
-            fxFlex="0 0 auto"
-          >
+        <form (ngSubmit)="beforeSubmit()" [formGroup]="confirmForm" class="overflow-hidden" fxFlexFill fxLayout="column">
+          <h3 class="title mb-2" fxFlex="0 0 auto">
             {{ 'CONFIRM.TITLE' | translate }}
           </h3>
 
-          <div
-            class="content mb-2 w-100 overflow-x-hidden overflow-y-auto"
-            fxFlex="1 1 auto"
-          >
+          <div class="content mb-2 w-100 overflow-x-hidden overflow-y-auto" fxFlex="1 1 auto">
             <div class="table-info mb-2">
               <div class="row">
                 <div class="label max-w-19-rem w-100">
                   {{ 'CONFIRM.MESSAGE.SEND' | translate }}
                 </div>
                 <div class="text">
-                  {{ form.get('amount').value }}
-                  {{ form?.get('asset')?.value?.asset_info?.ticker }}
+                  {{ sendMoneyParams.amount }}
+                  {{ (sendMoneyParams.asset_id | getWhiteAsset | async).ticker }}
                 </div>
               </div>
 
@@ -63,31 +49,30 @@ import { ZanoValidators } from '@parts/utils/zano-validators';
                 </div>
               </div>
 
-              <hr class="separator" />
+              <ng-container *ngIf="!!sendMoneyParams.address">
+                <hr class="separator" />
 
-              <div class="row">
-                <div class="label max-w-19-rem w-100">
-                  {{ 'CONFIRM.MESSAGE.TO' | translate }}
+                <div class="row">
+                  <div class="label max-w-19-rem w-100">
+                    {{ 'CONFIRM.MESSAGE.TO' | translate }}
+                  </div>
+                  <div class="text">{{ sendMoneyParams.address }}</div>
                 </div>
-                <div class="text">{{ form.get('address').value }}</div>
-              </div>
+              </ng-container>
 
-              <ng-container *ngIf="!!form.get('comment').value">
+              <ng-container *ngIf="!!sendMoneyParams.comment">
                 <hr class="separator" />
 
                 <div class="row">
                   <div class="label max-w-19-rem w-100">
                     {{ 'CONFIRM.MESSAGE.COMMENT' | translate }}
                   </div>
-                  <div class="text">{{ form.get('comment').value }}</div>
+                  <div class="text">{{ sendMoneyParams.comment }}</div>
                 </div>
               </ng-container>
             </div>
 
-            <div
-              *ngIf="variablesService.appPass"
-              class="form__field mb-0"
-            >
+            <div *ngIf="variablesService.appPass" class="form__field mb-0">
               <label for="password">
                 {{ 'LOGIN.MASTER_PASS' | translate }}
                 <span class="color-red">*</span>
@@ -103,10 +88,7 @@ import { ZanoValidators } from '@parts/utils/zano-validators';
                 name="password"
                 type="password"
               />
-              <div
-                *ngIf="confirmForm.touched && confirmForm.invalid"
-                class="error"
-              >
+              <div *ngIf="confirmForm.touched && confirmForm.invalid" class="error">
                 <div *ngIf="confirmForm.hasError('passwordNotMatch')">
                   {{ 'LOGIN.FORM_ERRORS.WRONG_PASSWORD' | translate }}
                 </div>
@@ -117,23 +99,11 @@ import { ZanoValidators } from '@parts/utils/zano-validators';
             </div>
           </div>
 
-          <div
-            class="controls w-100"
-            fxFlex="0 0 auto"
-            fxLayout="row nowrap"
-            fxLayoutGap="1rem"
-          >
-            <button
-              (click)="onClose()"
-              class="outline big w-100"
-              type="button"
-            >
+          <div class="controls w-100" fxFlex="0 0 auto" fxLayout="row nowrap" fxLayoutGap="1rem">
+            <button (click)="onClose()" class="outline big w-100" type="button">
               {{ 'CONFIRM.BUTTON_CANCEL' | translate }}
             </button>
-            <button
-              class="primary big w-100"
-              type="submit"
-            >
+            <button class="primary big w-100" type="submit">
               {{ 'CONFIRM.BUTTON_CONFIRM' | translate }}
             </button>
           </div>
@@ -141,13 +111,12 @@ import { ZanoValidators } from '@parts/utils/zano-validators';
       </div>
     </div>
   `,
-  styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SendModalComponent implements OnInit, OnDestroy {
   @HostBinding('class.modal-overlay') modalOverlay = true;
 
-  @Input() form: FormGroup;
+  @Input() sendMoneyParams: SendMoneyParams;
 
   @Output() confirmed: EventEmitter<boolean> = new EventEmitter<boolean>();
 

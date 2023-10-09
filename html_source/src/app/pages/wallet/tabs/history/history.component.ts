@@ -16,15 +16,8 @@ import { zanoAssetInfo } from '@parts/data/assets';
 @Component({
   selector: 'app-history',
   template: `
-    <div
-      class="history-wrap"
-      fxFlexFill
-      fxLayout="column"
-    >
-      <div
-        class="wrap-table scrolled-content mb-2"
-        fxFlex="1 1 auto"
-      >
+    <div class="history-wrap" fxFlexFill fxLayout="column">
+      <div class="wrap-table scrolled-content mb-2" fxFlex="1 1 auto">
         <table class="history-table">
           <thead>
             <tr>
@@ -106,18 +99,8 @@ import { zanoAssetInfo } from '@parts/data/assets';
                         </ng-container>
 
                         <ng-container *ngIf="getHeight(transaction) === 10">
-                          <img
-                            *ngIf="!subtransfer.is_income"
-                            alt=""
-                            class="status-transaction mr-1"
-                            src="assets/icons/blue/send.svg"
-                          />
-                          <img
-                            *ngIf="subtransfer.is_income"
-                            alt=""
-                            class="status-transaction mr-1"
-                            src="assets/icons/aqua/receive.svg"
-                          />
+                          <img *ngIf="!subtransfer.is_income" alt="" class="status-transaction mr-1" src="assets/icons/blue/send.svg" />
+                          <img *ngIf="subtransfer.is_income" alt="" class="status-transaction mr-1" src="assets/icons/aqua/receive.svg" />
                         </ng-container>
 
                         <span class="status-transaction-text">{{
@@ -216,10 +199,7 @@ import { zanoAssetInfo } from '@parts/data/assets';
                 </td>
                 <!-- Fee -->
                 <td>
-                  <div
-                    class="text-ellipsis"
-                    *ngIf="isVisibleFee(transaction)"
-                  >
+                  <div class="text-ellipsis" *ngIf="isVisibleFee(transaction)">
                     <span *ngIf="transaction.fee; else noFeeTemplate">
                       {{ transaction.fee | intToMoney }}
                       {{ variablesService.defaultCurrency }}
@@ -231,10 +211,7 @@ import { zanoAssetInfo } from '@parts/data/assets';
                 </td>
                 <!-- Address -->
                 <td class="remote-address">
-                  <ng-container
-                    *ngIf="!(transaction.tx_type === 0); else walletOrAliases"
-                    class="text-ellipsis"
-                  >
+                  <ng-container *ngIf="!(transaction.tx_type === 0); else walletOrAliases" class="text-ellipsis">
                     <span *ngIf="!(transaction.tx_type === 0 && transaction.remote_addresses && transaction.remote_addresses[0])">
                       {{ transaction | historyTypeMessages }}
                     </span>
@@ -288,10 +265,7 @@ import { zanoAssetInfo } from '@parts/data/assets';
               <div class="row-divider"></div>
 
               <tr>
-                <td
-                  colspan="5"
-                  [ngStyle]="{ padding: '0', 'border-radius': '0.8rem' }"
-                >
+                <td colspan="5" [ngStyle]="{ padding: '0', 'border-radius': '0.8rem' }">
                   <app-transaction-details
                     *ngIf="transaction.tx_hash === openedDetails"
                     @expandOnEnter
@@ -315,16 +289,8 @@ import { zanoAssetInfo } from '@parts/data/assets';
       </div>
 
       <div class="pagination-wrapper">
-        <div
-          class="pagination"
-          fxLayout="row"
-          fxLayoutAlign="space-between center"
-        >
-          <div
-            class="left"
-            fxLayout="row"
-            fxLayoutAlign=" center"
-          >
+        <div class="pagination" fxLayout="row" fxLayoutAlign="space-between center">
+          <div class="left" fxLayout="row" fxLayoutAlign=" center">
             <button
               (click)="setPage(variablesService.currentWallet.currentPage - 1)"
               [disabled]="
@@ -371,11 +337,7 @@ import { zanoAssetInfo } from '@parts/data/assets';
               <i class="icon arrow-right-stroke"></i>
             </button>
           </div>
-          <div
-            class="right"
-            fxLayout="row"
-            fxLayoutAlign=" center"
-          >
+          <div class="right" fxLayout="row" fxLayoutAlign=" center">
             <span class="switch-text mr-2">Hide mining transactions</span>
             <app-switch
               (emitChange)="toggleMiningTransactions()"
@@ -387,14 +349,6 @@ import { zanoAssetInfo } from '@parts/data/assets';
       </div>
     </div>
   `,
-  styles: [
-    `
-      :host {
-        width: 100%;
-        height: auto;
-      }
-    `,
-  ],
   animations: [expandOnEnterAnimation(), collapseOnLeaveAnimation()],
 })
 export class HistoryComponent implements OnInit, OnDestroy {

@@ -1,12 +1,8 @@
 import { Component, NgZone, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VariablesService } from '@parts/services/variables.service';
-import { BackendService } from '@api/services/backend.service';
-import { ModalService } from '@parts/services/modal.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Wallet } from '@api/models/wallet.model';
-import { TranslateService } from '@ngx-translate/core';
-import { IntToMoneyPipe } from '@parts/pipes/int-to-money-pipe/int-to-money.pipe';
 import { Dialog, DialogConfig } from '@angular/cdk/dialog';
 import { ConfirmModalComponent, ConfirmModalData } from '@parts/modals/confirm-modal/confirm-modal.component';
 import { Subject } from 'rxjs';
@@ -48,18 +44,6 @@ import { WalletsService } from '@parts/services/wallets.service';
       </div>
 
       <div class="sidebar-nav scrolled-content">
-        <ng-container *ngIf="stateVisibleUiKit">
-          <button
-            [routerLink]="['/ui-kit']"
-            class="outline small w-100 mb-1 px-2"
-            fxLayout="row inline wrap"
-            fxLayoutAlign="start center"
-            routerLinkActive="active"
-          >
-            <span>ui-kit</span>
-          </button>
-        </ng-container>
-
         <button
           (click)="goMainPage()"
           class="outline small w-100 mb-1 px-2"
@@ -122,8 +106,6 @@ import { WalletsService } from '@parts/services/wallets.service';
   styles: [],
 })
 export class SidebarComponent implements OnDestroy {
-  stateVisibleUiKit = false;
-
   private destroy$ = new Subject<void>();
 
   constructor(
@@ -131,10 +113,6 @@ export class SidebarComponent implements OnDestroy {
     private walletsService: WalletsService,
     private route: ActivatedRoute,
     private router: Router,
-    private backend: BackendService,
-    private modal: ModalService,
-    private translate: TranslateService,
-    private intToMoneyPipe: IntToMoneyPipe,
     private ngZone: NgZone,
     private dialog: Dialog
   ) {}

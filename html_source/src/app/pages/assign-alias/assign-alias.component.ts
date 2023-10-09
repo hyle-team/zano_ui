@@ -5,13 +5,13 @@ import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { ModalService } from '@parts/services/modal.service';
 import { Wallet } from '@api/models/wallet.model';
-import { MoneyToIntPipe } from '@parts/pipes/money-to-int-pipe/money-to-int.pipe';
 import { IntToMoneyPipe } from '@parts/pipes/int-to-money-pipe/int-to-money.pipe';
 import BigNumber from 'bignumber.js';
 import { Subject } from 'rxjs';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 import { takeUntil } from 'rxjs/operators';
 import { regExpAliasName } from '@parts/utils/zano-validators';
+import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
 
 @Component({
   selector: 'app-assign-alias',
@@ -19,33 +19,17 @@ import { regExpAliasName } from '@parts/utils/zano-validators';
     <div class="page-container">
       <div class="toolbar mb-2">
         <div class="left">
-          <button
-            appBackButton
-            class="btn-icon circle big mr-2"
-            type="button"
-          >
-            <i class="icon dropdown-arrow-left"></i>
-          </button>
-          <h1>{{ 'BREADCRUMBS.ASSIGN_ALIAS' | translate }}</h1>
+          <app-back-button></app-back-button>
+          <h1 class="ml-2">{{ 'BREADCRUMBS.ASSIGN_ALIAS' | translate }}</h1>
         </div>
         <div class="right"></div>
       </div>
 
       <div class="page-content">
-        <div class="breadcrumbs mb-2">
-          <div class="breadcrumb">
-            <a [routerLink]="['/wallet/history']">{{ wallet.name }}</a>
-          </div>
-          <div class="breadcrumb">
-            <span>{{ 'BREADCRUMBS.ASSIGN_ALIAS' | translate }}</span>
-          </div>
-        </div>
+        <app-breadcrumbs class="mb-2" [items]="breadcrumbItems"></app-breadcrumbs>
 
         <div class="scrolled-content">
-          <form
-            [formGroup]="assignForm"
-            class="form"
-          >
+          <form [formGroup]="assignForm" class="form">
             <div class="form__field">
               <label
                 [delay]="50"
@@ -86,18 +70,12 @@ import { regExpAliasName } from '@parts/utils/zano-validators';
                   {{ 'ASSIGN_ALIAS.FORM_ERRORS.NAME_REQUIRED' | translate }}
                 </div>
               </div>
-              <div
-                *ngIf="alias.exists"
-                class="error"
-              >
+              <div *ngIf="alias.exists" class="error">
                 <div>
                   {{ 'ASSIGN_ALIAS.FORM_ERRORS.NAME_EXISTS' | translate }}
                 </div>
               </div>
-              <div
-                *ngIf="notEnoughMoney"
-                class="error"
-              >
+              <div *ngIf="notEnoughMoney" class="error">
                 <div>
                   {{ 'ASSIGN_ALIAS.FORM_ERRORS.NO_MONEY' | translate }}
                 </div>
@@ -123,10 +101,7 @@ import { regExpAliasName } from '@parts/utils/zano-validators';
                 placeholder="{{ 'ASSIGN_ALIAS.COMMENT.PLACEHOLDER' | translate }}"
               >
               </textarea>
-              <div
-                *ngIf="assignForm.get('comment').value.length >= variablesService.maxCommentLength"
-                class="error"
-              >
+              <div *ngIf="assignForm.get('comment').value.length >= variablesService.maxCommentLength" class="error">
                 {{ 'ASSIGN_ALIAS.FORM_ERRORS.MAX_LENGTH' | translate }}
               </div>
             </div>
@@ -168,6 +143,16 @@ import { regExpAliasName } from '@parts/utils/zano-validators';
 export class AssignAliasComponent implements OnInit, OnDestroy {
   wallet: Wallet;
 
+  breadcrumbItems: BreadcrumbItems = [
+    {
+      routerLink: '/wallet/history',
+      title: this.variablesService.currentWallet.name,
+    },
+    {
+      title: 'BREADCRUMBS.ASSIGN_ALIAS',
+    },
+  ];
+
   fb = inject(FormBuilder);
 
   assignForm = this.fb.group({
@@ -197,7 +182,6 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
     private router: Router,
     private backend: BackendService,
     private modalService: ModalService,
-    private moneyToInt: MoneyToIntPipe,
     private intToMoney: IntToMoneyPipe
   ) {}
 

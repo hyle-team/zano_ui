@@ -6,6 +6,7 @@ import { ModalService } from '@parts/services/modal.service';
 import { Wallet } from '@api/models/wallet.model';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 import BigNumber from 'bignumber.js';
+import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
 
 @Component({
   selector: 'app-transfer-alias',
@@ -13,27 +14,14 @@ import BigNumber from 'bignumber.js';
     <div class="page-container">
       <div class="toolbar mb-2">
         <div class="left">
-          <button
-            appBackButton
-            class="btn-icon circle big mr-2"
-            type="button"
-          >
-            <i class="icon dropdown-arrow-left"></i>
-          </button>
-          <h1>{{ 'BREADCRUMBS.TRANSFER_ALIAS' | translate }}</h1>
+          <app-back-button></app-back-button>
+          <h1 class="ml-2">{{ 'BREADCRUMBS.TRANSFER_ALIAS' | translate }}</h1>
         </div>
         <div class="right"></div>
       </div>
 
       <div class="page-content">
-        <div class="breadcrumbs mb-2">
-          <div class="breadcrumb">
-            <a [routerLink]="['/wallet/history']">{{ wallet.name }}</a>
-          </div>
-          <div class="breadcrumb">
-            <span>{{ 'BREADCRUMBS.TRANSFER_ALIAS' | translate }}</span>
-          </div>
-        </div>
+        <app-breadcrumbs class="mb-2" [items]="breadcrumbItems"></app-breadcrumbs>
 
         <div class="scrolled-content">
           <form class="form">
@@ -139,6 +127,16 @@ export class TransferAliasComponent implements OnInit {
   wallet: Wallet;
 
   alias: any;
+
+  breadcrumbItems: BreadcrumbItems = [
+    {
+      routerLink: '/wallet/history',
+      title: this.variablesService.currentWallet.name,
+    },
+    {
+      title: 'BREADCRUMBS.TRANSFER_ALIAS',
+    },
+  ];
 
   transferAddress = '';
 

@@ -6,22 +6,9 @@ import { RCV_ADDR_QR_SCALE } from '@parts/data/constants';
 @Component({
   selector: 'app-receive',
   template: `
-    <div
-      class="container overflow-auto"
-      fxFlexFill
-      fxLayout="column"
-      fxLayoutAlign="center center"
-    >
-      <div
-        class="wrap-qr overflow-hidden border-radius-0_8-rem mb-2"
-        fxFlex="0 0 auto"
-        fxLayout="column"
-        fxLayoutAlign="center center"
-      >
-        <img
-          alt="qr-code"
-          [src]="qrImageSrc"
-        />
+    <div class="container overflow-auto" fxFlexFill fxLayout="column" fxLayoutAlign="center center">
+      <div class="wrap-qr overflow-hidden border-radius-0_8-rem mb-2" fxFlex="0 0 auto" fxLayout="column" fxLayoutAlign="center center">
+        <img alt="qr-code" [src]="qrImageSrc" />
       </div>
 
       <div
@@ -47,7 +34,6 @@ import { RCV_ADDR_QR_SCALE } from '@parts/data/constants';
     `
       :host {
         width: 100%;
-        height: auto;
       }
     `,
   ],

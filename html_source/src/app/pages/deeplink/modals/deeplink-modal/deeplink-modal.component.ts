@@ -11,21 +11,10 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-deeplink-modal',
   template: `
-    <div
-      class="modal p-2 border-radius-0_8-rem bg-light-blue max-h-100"
-      fxFlex="0 1 54rem"
-      fxLayout="column"
-    >
+    <div class="modal p-2 border-radius-0_8-rem bg-light-blue max-h-100" fxFlex="0 1 54rem" fxLayout="column">
       <ng-container *ngIf="walletsToPay.length > 1 && !secondStep">
-        <div
-          class="content mb-2"
-          fxFlex="0 0 auto"
-          fxLayout="column"
-        >
-          <div
-            class="form__field"
-            fxFlex="0 0 auto"
-          >
+        <div class="content mb-2" fxFlex="0 0 auto" fxLayout="column">
+          <div class="form__field" fxFlex="0 0 auto">
             <label>Select wallet for action:</label>
             <ng-select
               [(ngModel)]="walletToPayId"
@@ -35,63 +24,28 @@ import { takeUntil } from 'rxjs/operators';
               bindLabel="name"
               bindValue="wallet_id"
             >
-              <ng-template
-                let-item="item"
-                ng-label-tmp
-              >
+              <ng-template let-item="item" ng-label-tmp>
                 {{ item.name }}
               </ng-template>
-              <ng-template
-                let-index="index"
-                let-item="item"
-                ng-option-tmp
-              >
+              <ng-template let-index="index" let-item="item" ng-option-tmp>
                 {{ item.name }}
               </ng-template>
             </ng-select>
           </div>
         </div>
 
-        <div
-          class="controls"
-          fxFlex="0 0 auto"
-          fxLayout="row nowrap"
-          fxLayoutAlign="space-between center"
-          fxLayoutGap="1rem"
-        >
-          <button
-            (click)="canselAction()"
-            class="outline big w-100"
-            type="button"
-          >
+        <div class="controls" fxFlex="0 0 auto" fxLayout="row nowrap" fxLayoutAlign="space-between center" fxLayoutGap="1rem">
+          <button (click)="canselAction()" class="outline big w-100" type="button">
             {{ 'EXPORT_HISTORY.CANCEL' | translate }}
           </button>
-          <button
-            (click)="nextStep()"
-            class="primary big w-100"
-            type="submit"
-          >
-            Next...
-          </button>
+          <button (click)="nextStep()" class="primary big w-100" type="submit">Next...</button>
         </div>
       </ng-container>
 
       <ng-container *ngIf="secondStep && marketplaceModalShow && actionData.action === 'marketplace_offer_create'">
-        <h4
-          class="mb-2"
-          fxFlex="0 0 auto"
-        >
-          Creating a marketplace offer
-        </h4>
-        <div
-          class="content scrolled-content mb-2"
-          fxFlex="1 1 auto"
-          fxLayout="column"
-        >
-          <div
-            class="table-info"
-            fxFlex="0 0 auto"
-          >
+        <h4 class="mb-2" fxFlex="0 0 auto">Creating a marketplace offer</h4>
+        <div class="content scrolled-content mb-2" fxFlex="1 1 auto" fxLayout="column">
+          <div class="table-info" fxFlex="0 0 auto">
             <div class="row">
               <div class="label max-w-19-rem w-100">
                 {{ 'Offer title' | translate }}
@@ -181,47 +135,19 @@ import { takeUntil } from 'rxjs/operators';
           </div>
         </div>
 
-        <div
-          class="controls"
-          fxFlex="0 0 auto"
-          fxLayout="row nowrap"
-          fxLayoutAlign="space-between center"
-          fxLayoutGap="1rem"
-        >
-          <button
-            (click)="canselAction()"
-            class="outline big w-100"
-            type="button"
-          >
+        <div class="controls" fxFlex="0 0 auto" fxLayout="row nowrap" fxLayoutAlign="space-between center" fxLayoutGap="1rem">
+          <button (click)="canselAction()" class="outline big w-100" type="button">
             {{ 'EXPORT_HISTORY.CANCEL' | translate }}
           </button>
-          <button
-            (click)="marketplaceSend()"
-            class="primary big w-100"
-            type="submit"
-          >
-            Sign & Send...
-          </button>
+          <button (click)="marketplaceSend()" class="primary big w-100" type="submit">Sign & Send...</button>
         </div>
       </ng-container>
 
       <ng-container *ngIf="marketplaceConfirmHash">
-        <h4
-          class="mb-2"
-          fxFlex="0 0 auto"
-        >
-          Operation successful
-        </h4>
+        <h4 class="mb-2" fxFlex="0 0 auto">Operation successful</h4>
 
-        <div
-          class="content scrolled-content mb-2"
-          fxFlex="1 1 auto"
-          fxLayout="column"
-        >
-          <div
-            class="table-info"
-            fxFlex="0 0 auto"
-          >
+        <div class="content scrolled-content mb-2" fxFlex="1 1 auto" fxLayout="column">
+          <div class="table-info" fxFlex="0 0 auto">
             <div class="row">
               <div class="label max-w-19-rem w-100">
                 {{ 'Operation hash' | translate }}
@@ -233,54 +159,22 @@ import { takeUntil } from 'rxjs/operators';
                 fxLayoutAlign="start center"
               >
                 {{ marketplaceConfirmHash }}
-                <i
-                  (click)="copyHash()"
-                  [class.check]="copyAnimation"
-                  [class.copy]="!copyAnimation"
-                  class="icon ml-1"
-                ></i>
+                <i (click)="copyHash()" [class.check]="copyAnimation" [class.copy]="!copyAnimation" class="icon ml-1"></i>
               </div>
             </div>
           </div>
         </div>
 
-        <div
-          class="controls"
-          fxFlex="0 0 auto"
-          fxLayout="row"
-          fxLayoutAlign="space-between center"
-        >
-          <button
-            (click)="canselAction()"
-            class="primary big w-100"
-            type="button"
-          >
-            Close
-          </button>
+        <div class="controls" fxFlex="0 0 auto" fxLayout="row" fxLayoutAlign="space-between center">
+          <button (click)="canselAction()" class="primary big w-100" type="button">Close</button>
         </div>
       </ng-container>
 
       <ng-container *ngIf="!walletsToPay.length">
-        <h4
-          class="mb-2"
-          fxFlex="0 0 auto"
-        >
-          Your wallets have not loaded yet. Try this action a little later.
-        </h4>
+        <h4 class="mb-2" fxFlex="0 0 auto">Your wallets have not loaded yet. Try this action a little later.</h4>
 
-        <div
-          class="controls"
-          fxFlex="0 0 auto"
-          fxLayout="row"
-          fxLayoutAlign="space-between center"
-        >
-          <button
-            (click)="canselAction()"
-            class="primary big w-100"
-            type="button"
-          >
-            Ok
-          </button>
+        <div class="controls" fxFlex="0 0 auto" fxLayout="row" fxLayoutAlign="space-between center">
+          <button (click)="canselAction()" class="primary big w-100" type="button">Ok</button>
         </div>
       </ng-container>
     </div>

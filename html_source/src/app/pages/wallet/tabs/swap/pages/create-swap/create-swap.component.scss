@@ -1,0 +1,78 @@
+:host {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.error {
+  color: var(--red-500);
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 1rem;
+  width: 100%;
+}
+
+.wrapper-reverse {
+  width: 100%;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+
+  .revers {
+    background: rgba(255, 255, 255, 0.1);
+    width: 36px;
+    height: 36px;
+    border-radius: 999px;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    .icon {
+      transform: rotate(90deg);
+    }
+  }
+}
+
+.wrap {
+  border: var(--border);
+
+  .title {
+    font-size: 100%;
+    margin-bottom: 1.5rem;
+    color: var(--azure-500);
+
+    .icon {
+      width: 2rem;
+      height: 2rem;
+      float: right;
+    }
+  }
+
+  .text-wrap {
+    margin: 1.5rem;
+    font-size: 1.5rem;
+  }
+
+  table tr {
+    background-color: transparent;
+
+    td:first-child {
+      width: 22.5rem;
+      padding-left: 0;
+    }
+  }
+}

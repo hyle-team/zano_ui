@@ -2,10 +2,8 @@ import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, NonNullableFormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
-import { ModalService } from '@parts/services/modal.service';
 import { BigNumber } from 'bignumber.js';
 import { MIXIN } from '@parts/data/constants';
-import { HttpClient } from '@angular/common/http';
 import { MoneyToIntPipe } from '@parts/pipes/money-to-int-pipe/money-to-int.pipe';
 import { debounceTime, delay, filter, retry, take, takeUntil, tap } from 'rxjs/operators';
 import { BehaviorSubject, of, Subject } from 'rxjs';
@@ -24,10 +22,7 @@ import { zanoAssetInfo } from '@parts/data/assets';
 @Component({
   selector: 'app-send',
   template: `
-    <div
-      class="container scrolled-content"
-      fxFlex="1 1 auto"
-    >
+    <div class="container scrolled-content" fxFlex="1 1 auto">
       <form
         *ngIf="!(loading$ | async)"
         (ngSubmit)="showDialog()"
@@ -66,11 +61,7 @@ import { zanoAssetInfo } from '@parts/data/assets';
             >
               <ng-container *ngIf="aliases$ | async as aliases">
                 <ng-container *ngIf="aliases.length; else notFoundAliases">
-                  <div
-                    *ngFor="let alias of aliases"
-                    (click)="sendMoneyParamsForm.controls.address.patchValue(alias.name)"
-                    class="item"
-                  >
+                  <div *ngFor="let alias of aliases" (click)="sendMoneyParamsForm.controls.address.patchValue(alias.name)" class="item">
                     <div
                       [class.available]="alias.name.length >= 2 && alias.name.length <= 6"
                       [class.pl-1]="alias.name.length > 6"
@@ -107,10 +98,7 @@ import { zanoAssetInfo } from '@parts/data/assets';
               </div>
             </div>
 
-            <div
-              *ngIf="aliasAddress"
-              class="info text-ellipsis"
-            >
+            <div *ngIf="aliasAddress" class="info text-ellipsis">
               <span>{{ aliasAddress | zanoShortString }}</span>
             </div>
           </div>
@@ -185,10 +173,7 @@ import { zanoAssetInfo } from '@parts/data/assets';
           </div>
         </div>
 
-        <div
-          *ngIf="isWrapShown && wrapInfo && !(loading$ | async)"
-          class="wrap mt-2 mb-2 p-2"
-        >
+        <div *ngIf="isWrapShown && wrapInfo && !(loading$ | async)" class="wrap mt-2 mb-2 p-2">
           <div class="title">
             {{ 'SEND.WRAP.TITLE' | translate }}
             <i class="icon info-circle"></i>
@@ -231,11 +216,7 @@ import { zanoAssetInfo } from '@parts/data/assets';
             class="custom-select with-circle"
             [bindValue]="'asset_info.asset_id'"
           >
-            <ng-template
-              ng-option-tmp
-              ng-label-tmp
-              let-asset="item"
-            >
+            <ng-template ng-option-tmp ng-label-tmp let-asset="item">
               <img
                 height="15"
                 width="15"
@@ -269,17 +250,10 @@ import { zanoAssetInfo } from '@parts/data/assets';
             type="button"
           >
             <span>{{ 'SEND.DETAILS' | translate }}</span>
-            <i
-              [class.dropdown-arrow-down]="!additionalOptions"
-              [class.dropdown-arrow-up]="additionalOptions"
-              class="icon ml-1"
-            ></i>
+            <i [class.dropdown-arrow-down]="!additionalOptions" [class.dropdown-arrow-up]="additionalOptions" class="icon ml-1"></i>
           </button>
 
-          <div
-            *ngIf="additionalOptions"
-            class="content"
-          >
+          <div *ngIf="additionalOptions" class="content">
             <div class="form__field--row">
               <div class="form__field">
                 <label for="send-mixin">
@@ -359,11 +333,7 @@ import { zanoAssetInfo } from '@parts/data/assets';
       </form>
     </div>
 
-    <app-send-modal
-      *ngIf="isModalDialogVisible"
-      [form]="sendMoneyParamsForm"
-      (confirmed)="confirmed($event)"
-    ></app-send-modal>
+    <app-send-modal *ngIf="isModalDialogVisible" [sendMoneyParams]="sendMoneyParams" (confirmed)="confirmed($event)"></app-send-modal>
 
     <app-send-details-modal
       *ngIf="isModalDetailsDialogVisible"
@@ -533,15 +503,13 @@ export class SendComponent implements OnInit, OnDestroy {
     hide: this.fb.control(false),
   });
 
+  get sendMoneyParams(): SendMoneyParams {
+    return this.sendMoneyParamsForm.getRawValue() as SendMoneyParams;
+  }
+
   private destroy$ = new Subject<void>();
 
-  constructor(
-    private backendService: BackendService,
-    private modalService: ModalService,
-    private ngZone: NgZone,
-    private httpClient: HttpClient,
-    private moneyToInt: MoneyToIntPipe
-  ) {}
+  constructor(private backendService: BackendService, private ngZone: NgZone, private moneyToInt: MoneyToIntPipe) {}
 
   ngOnInit(): void {
     const { aliases } = this.variablesService;
@@ -551,6 +519,18 @@ export class SendComponent implements OnInit, OnDestroy {
     this.listenSendActionData();
     this.patchSendMoneyParamsByCurrentWallet();
     this.saveSendMoneyParams();
+    this.setAssetFromHistoryState();
+  }
+
+  setAssetFromHistoryState(): void {
+    const state = history.state || {};
+    const asset: Asset = state['asset'];
+    if (asset) {
+      const {
+        asset_info: { asset_id },
+      } = asset;
+      this.sendMoneyParamsForm.controls.asset_id.patchValue(asset_id, { emitEvent: false });
+    }
   }
 
   ngOnDestroy(): void {
@@ -617,7 +597,9 @@ export class SendComponent implements OnInit, OnDestroy {
     this.job_id = null;
 
     if (success) {
-      const { currentWallet: { wallet_id } } = this.variablesService;
+      const {
+        currentWallet: { wallet_id },
+      } = this.variablesService;
       this.variablesService.currentWallet.sendMoneyParams = null;
       this.sendMoneyParamsForm.reset({ ...defaultSendMoneyParams, wallet_id }, { emitEvent: false });
     }

@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { VariablesService } from '@parts/services/variables.service';
 import { Subject } from 'rxjs';
 import { Asset, ParamsRemoveCustomAssetId } from '@api/models/assets.model';
-import { Store } from '@store/store';
 import { PaginatePipeArgs } from 'ngx-pagination';
 import { takeUntil } from 'rxjs/operators';
 import { CdkOverlayOrigin } from '@angular/cdk/overlay';
@@ -19,15 +18,8 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-assets',
   template: `
-    <div
-      fxFlexFill
-      fxLayout="column"
-    >
-      <div
-        class="scrolled-content"
-        [class.mb-2]="isShowPagination"
-        fxFlex="1 1 auto"
-      >
+    <div fxFlexFill fxLayout="column">
+      <div class="scrolled-content" [class.mb-2]="isShowPagination" fxFlex="1 1 auto">
         <table class="assets-table">
           <thead>
             <tr>
@@ -68,12 +60,7 @@ import { TranslateService } from '@ngx-translate/core';
                   [tooltip]="getBalanceTooltip(asset)"
                 >
                   <td>
-                    <div
-                      class="text-ellipsis"
-                      fxLayout="row"
-                      fxLayoutAlign="start center"
-                      fxLayoutGap="2rem"
-                    >
+                    <div class="text-ellipsis" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2rem">
                       <div class="token-logo mr-1">
                         <img
                           [src]="(asset | getWhiteAssetInfo | async)?.logo || defaultImgSrc"
@@ -105,9 +92,7 @@ import { TranslateService } from '@ngx-translate/core';
                     <td>
                       <div class="text-ellipsis">
                         <b class="mr-0_5">{{ price.usd | currency : 'USD' }}</b>
-                        <span
-                          [class.color-aqua]="price.usd_24h_change > 0"
-                          [class.color-red]="price.usd_24h_change < 0"
+                        <span [class.color-aqua]="price.usd_24h_change > 0" [class.color-red]="price.usd_24h_change < 0"
                           >{{ price.usd_24h_change | number : '1.2-2' }}%</span
                         >
                       </div>
@@ -118,11 +103,7 @@ import { TranslateService } from '@ngx-translate/core';
                     <td></td>
                   </ng-template>
                   <td>
-                    <div
-                      class="text-ellipsis"
-                      fxLayout="row"
-                      fxLayoutAlign="end center"
-                    >
+                    <div class="text-ellipsis" fxLayout="row" fxLayoutAlign="end center">
                       <button
                         #trigger="cdkOverlayOrigin"
                         (click)="$event.stopPropagation(); toggleDropDownMenu(trigger, asset)"
@@ -150,23 +131,12 @@ import { TranslateService } from '@ngx-translate/core';
         class="ngx-pagination custom-pagination"
         (pageChange)="currentPage = $event"
       >
-        <button
-          (click)="p.previous()"
-          [disabled]="p.isFirstPage()"
-          class="pagination-previous btn-icon circle small mr-0_5"
-        >
+        <button (click)="p.previous()" [disabled]="p.isFirstPage()" class="pagination-previous btn-icon circle small mr-0_5">
           <i class="icon arrow-left-stroke"></i>
         </button>
 
-        <div
-          *ngFor="let page of p.pages; trackBy: trackByPages"
-          [class.current]="p.getCurrent() === page.value"
-          class="mr-0_5"
-        >
-          <a
-            (click)="p.setCurrent(page.value)"
-            *ngIf="p.getCurrent() !== page.value"
-          >
+        <div *ngFor="let page of p.pages; trackBy: trackByPages" [class.current]="p.getCurrent() === page.value" class="mr-0_5">
+          <a (click)="p.setCurrent(page.value)" *ngIf="p.getCurrent() !== page.value">
             <span>{{ page.label }}</span>
           </a>
           <div *ngIf="p.getCurrent() === page.value">
@@ -174,11 +144,7 @@ import { TranslateService } from '@ngx-translate/core';
           </div>
         </div>
 
-        <button
-          (click)="p.next()"
-          [disabled]="p.isLastPage()"
-          class="pagination-next btn-icon circle small"
-        >
+        <button (click)="p.next()" [disabled]="p.isLastPage()" class="pagination-next btn-icon circle small">
           <i class="icon arrow-right-stroke"></i>
         </button>
       </pagination-template>
@@ -201,28 +167,31 @@ import { TranslateService } from '@ngx-translate/core';
       ]"
       cdkConnectedOverlay
     >
-      <ul
-        (click)="isOpenDropDownMenu = false"
-        class="list"
-      >
+      <ul (click)="isOpenDropDownMenu = false" class="list">
         <li class="item">
-          <button
-            class="w-100 px-2 py-1"
-            type="button"
-            (click)="assetDetails()"
-          >
+          <button class="w-100 px-2 py-1" type="button" (click)="assetDetails()">
             <i class="icon info-icon mr-1"></i>
             <span>{{ 'ASSETS.DROP_DOWN_MENU.ASSET_DETAILS' | translate }}</span>
           </button>
         </li>
 
+        <li class="item">
+          <a routerLink="/wallet/send" [state]="{ asset: currentAsset }" class="w-100 px-2 py-1">
+            <i class="icon arrow-up-square mr-1"></i>
+            <span>{{ 'Send' | translate }}</span>
+          </a>
+        </li>
+
+        <li class="item">
+          <a routerLink="/wallet/create-swap" [state]="{ asset: currentAsset }" class="w-100 px-2 py-1">
+            <i class="icon swap mr-1"></i>
+            <span>{{ 'Swap' | translate }}</span>
+          </a>
+        </li>
+
         <ng-container *ngIf="!(currentAsset | hasInAssetsWhitelist | async)">
           <li class="item">
-            <button
-              class="w-100 px-2 py-1"
-              type="button"
-              (click)="beforeRemoveAsset()"
-            >
+            <button class="w-100 px-2 py-1" type="button" (click)="beforeRemoveAsset()">
               <i class="icon delete mr-1"></i>
               <span>{{ 'ASSETS.DROP_DOWN_MENU.REMOVE_ASSET' | translate }}</span>
             </button>
@@ -231,14 +200,6 @@ import { TranslateService } from '@ngx-translate/core';
       </ul>
     </ng-template>
   `,
-  styles: [
-    `
-      :host {
-        width: 100%;
-        height: auto;
-      }
-    `,
-  ],
 })
 export class AssetsComponent implements OnInit, OnDestroy {
   currentPage = 1;
@@ -278,7 +239,6 @@ export class AssetsComponent implements OnInit, OnDestroy {
     public variablesService: VariablesService,
     private backendService: BackendService,
     private walletsService: WalletsService,
-    private store: Store,
     private dialog: Dialog,
     private intToMoneyPipe: IntToMoneyPipe,
     private translate: TranslateService
