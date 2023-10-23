@@ -27,8 +27,8 @@
 						 src="assets/icons/red/transaction_failed.svg">
 				</div>
 
-				<div *ngIf="!isSentSuccess && !isSentFailed"
-					 class="loader"></div>
+				<!--				<div *ngIf="!isSentSuccess && !isSentFailed"-->
+				<!--					 class="loader"></div>-->
 
 				<p class="color-primary mt-2">
 					{{ ((currentActionState$ | async) ? 'TOR_LIB_STATE' + '.' + (currentActionState$ | async)?.status : 'TOR_LIB_STATE.STATE_INITIALIZING') | translate }}
