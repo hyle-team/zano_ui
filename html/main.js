@@ -17103,10 +17103,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 const MIXIN = 10; // default mixin value
 const RCV_ADDR_QR_SCALE = 1.5; // scale factor for QR code
-const AUDITABLE_WALLET_HELP_PAGE = 'docs.zano.org/docs/auditable-wallets';
-const CREATE_NEW_WALLET_HELP_PAGE = 'docs.zano.org/docs/getting-started-1#section-create-new-wallet';
-const LOCKED_BALANCE_HELP_PAGE = 'docs.zano.org/docs/locked-balance';
-const DOWNLOADS_PAGE_URL = 'zano.org/downloads.html';
+const AUDITABLE_WALLET_HELP_PAGE = 'docs.zano.org/docs/use/auditable-wallets-faq';
+const CREATE_NEW_WALLET_HELP_PAGE = 'docs.zano.org/docs/use/wallets/gui-wallet';
+const LOCKED_BALANCE_HELP_PAGE = 'docs.zano.org/docs/use/locked-balance';
+const DOWNLOADS_PAGE_URL = 'zano.org/downloads';
 const BLOCK_EXPLORER_TX_URL_PREFIX = 'explorer.zano.org/transaction/';
 const BLOCK_EXPLORER_TN_TX_URL_PREFIX = 'testnet-explorer.zano.org/transaction/';
 
