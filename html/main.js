@@ -20759,7 +20759,7 @@ class PaginationService {
                     this.variables.currentWallet.total_history_item = data.total_history_items;
                     this.variables.currentWallet.prepareHistory(data.history);
                     if (this.variables.currentWallet.currentPage === 1 && data.unconfirmed) {
-                        this.variables.currentWallet.prepareHistory(data.unconfirmed);
+                        this.variables.currentWallet.prepareHistory(data.unconfirmed.sort((a, b) => a.timestamp - b.timestamp));
                     }
                 }
             });
