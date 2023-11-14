@@ -3088,7 +3088,7 @@ var PaginationService = /** @class */ (function () {
                     _this.variables.currentWallet.total_history_item = data.total_history_items;
                     _this.variables.currentWallet.prepareHistory(data.history);
                     if (_this.variables.currentWallet.currentPage === 1 && data.unconfirmed) {
-                        _this.variables.currentWallet.prepareHistory(data.unconfirmed);
+                        _this.variables.currentWallet.prepareHistory(data.unconfirmed.sort(function (a, b) { return a.timestamp - b.timestamp; }));
                     }
                 }
             });
@@ -3872,10 +3872,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BLOCK_EXPLORER_TN_TX_URL_PREFIX", function() { return BLOCK_EXPLORER_TN_TX_URL_PREFIX; });
 var MIXIN = 10; // default mixin value
 var RCV_ADDR_QR_SCALE = 1.5; // scale factor for QR code
-var AUDITABLE_WALLET_HELP_PAGE = 'docs.zano.org/docs/auditable-wallets';
-var CREATE_NEW_WALLET_HELP_PAGE = 'docs.zano.org/docs/getting-started-1#section-create-new-wallet';
-var LOCKED_BALANCE_HELP_PAGE = 'docs.zano.org/docs/locked-balance';
-var DOWNLOADS_PAGE_URL = 'zano.org/downloads.html';
+var AUDITABLE_WALLET_HELP_PAGE = 'docs.zano.org/docs/use/auditable-wallets-faq';
+var CREATE_NEW_WALLET_HELP_PAGE = 'docs.zano.org/docs/use/wallets/gui-wallet';
+var LOCKED_BALANCE_HELP_PAGE = 'docs.zano.org/docs/use/locked-balance';
+var DOWNLOADS_PAGE_URL = 'zano.org/downloads';
 var BLOCK_EXPLORER_TX_URL_PREFIX = 'explorer.zano.org/transaction/';
 var BLOCK_EXPLORER_TN_TX_URL_PREFIX = 'testnet-explorer.zano.org/transaction/';
 
