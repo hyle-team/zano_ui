@@ -8,8 +8,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { GetAssetPipe } from '@parts/pipes';
 
 @NgModule({
-  declarations: [SendModalComponent, SendDetailsModalComponent],
-  imports: [CommonModule, TranslateModule, FlexLayoutModule, ReactiveFormsModule, GetAssetPipe],
-  exports: [SendModalComponent, SendDetailsModalComponent],
+    declarations: [SendModalComponent, SendDetailsModalComponent],
+    imports: [CommonModule, TranslateModule, FlexLayoutModule, ReactiveFormsModule, GetAssetPipe],
+    exports: [SendModalComponent, SendDetailsModalComponent],
 })
 export class WalletModalsModule {}

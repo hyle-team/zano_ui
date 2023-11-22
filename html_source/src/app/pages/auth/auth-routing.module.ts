@@ -5,20 +5,20 @@ import { NoWalletComponent } from './no-wallet/no-wallet.component';
 import { FullLayoutComponent } from '../../layouts/full-layout/full-layout.component';
 
 const routes: Routes = [
-  {
-    path: paths.auth,
-    component: FullLayoutComponent,
-    children: [
-      {
-        path: pathsChildrenAuth.noWallet,
-        component: NoWalletComponent,
-      },
-    ],
-  },
+    {
+        path: paths.auth,
+        component: FullLayoutComponent,
+        children: [
+            {
+                path: pathsChildrenAuth.noWallet,
+                component: NoWalletComponent,
+            },
+        ],
+    },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
 })
 export class AuthRoutingModule {}

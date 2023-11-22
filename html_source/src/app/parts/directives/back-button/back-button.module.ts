@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { BackButtonDirective } from './back-button.directive';
 
 @NgModule({
-  declarations: [BackButtonDirective],
-  exports: [BackButtonDirective],
-  imports: [CommonModule],
+    declarations: [BackButtonDirective],
+    exports: [BackButtonDirective],
+    imports: [CommonModule],
 })
 export class BackButtonModule {}

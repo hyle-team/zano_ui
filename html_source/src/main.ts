@@ -8,9 +8,9 @@ import 'lodash';
 export const buildTime = '2023-11-22T09:13:55.758Z';
 
 if (environment.production) {
-  enableProdMode();
+    enableProdMode();
 }
 
 platformBrowserDynamic()
-  .bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+    .bootstrapModule(AppModule)
+    .catch(err => console.error(err));

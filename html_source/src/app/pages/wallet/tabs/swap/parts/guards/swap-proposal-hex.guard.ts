@@ -4,15 +4,15 @@ import { Observable } from 'rxjs';
 import { IDeactivateComponent } from '@parts/interfaces/deactivete-component.interface';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class SwapProposalHexGuard implements CanDeactivate<IDeactivateComponent> {
-  canDeactivate(
-    component: IDeactivateComponent,
-    currentRoute: ActivatedRouteSnapshot,
-    currentState: RouterStateSnapshot,
-    nextState?: RouterStateSnapshot
-  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return component.canExit ? component.canExit() : true;
-  }
+    canDeactivate(
+        component: IDeactivateComponent,
+        currentRoute: ActivatedRouteSnapshot,
+        currentState: RouterStateSnapshot,
+        nextState?: RouterStateSnapshot
+    ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+        return component.canExit ? component.canExit() : true;
+    }
 }

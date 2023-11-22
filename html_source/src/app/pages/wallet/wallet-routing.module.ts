@@ -15,64 +15,64 @@ import { SwapProposalHexComponent } from './tabs/swap/pages/swap-proposal-hex/sw
 import { SwapProposalHexGuard } from './tabs/swap/parts/guards/swap-proposal-hex.guard';
 
 const routes: Routes = [
-  {
-    path: paths.wallet,
-    component: WithSidebarLayoutComponent,
-    children: [
-      {
-        path: '',
-        component: WalletComponent,
+    {
+        path: paths.wallet,
+        component: WithSidebarLayoutComponent,
         children: [
-          {
-            path: pathsChildrenWallet.assets,
-            component: AssetsComponent,
-          },
-          {
-            path: pathsChildrenWallet.send,
-            component: SendComponent,
-          },
-          {
-            path: pathsChildrenWallet.receive,
-            component: ReceiveComponent,
-          },
-          {
-            path: pathsChildrenWallet.history,
-            component: HistoryComponent,
-          },
-          {
-            path: pathsChildrenWallet.staking,
-            component: StakingComponent,
-          },
-          {
-            path: 'swap',
-            component: SwapComponent,
-          },
-          {
-            path: 'create-swap',
-            component: CreateSwapComponent,
-          },
-          {
-            path: 'swap-proposal-hex',
-            component: SwapProposalHexComponent,
-            canDeactivate: [SwapProposalHexGuard],
-          },
-          {
-            path: 'confirm-swap',
-            component: ConfirmSwapComponent,
-          },
-          {
-            path: '',
-            redirectTo: pathsChildrenWallet.assets,
-            pathMatch: 'full',
-          },
+            {
+                path: '',
+                component: WalletComponent,
+                children: [
+                    {
+                        path: pathsChildrenWallet.assets,
+                        component: AssetsComponent,
+                    },
+                    {
+                        path: pathsChildrenWallet.send,
+                        component: SendComponent,
+                    },
+                    {
+                        path: pathsChildrenWallet.receive,
+                        component: ReceiveComponent,
+                    },
+                    {
+                        path: pathsChildrenWallet.history,
+                        component: HistoryComponent,
+                    },
+                    {
+                        path: pathsChildrenWallet.staking,
+                        component: StakingComponent,
+                    },
+                    {
+                        path: 'swap',
+                        component: SwapComponent,
+                    },
+                    {
+                        path: 'create-swap',
+                        component: CreateSwapComponent,
+                    },
+                    {
+                        path: 'swap-proposal-hex',
+                        component: SwapProposalHexComponent,
+                        canDeactivate: [SwapProposalHexGuard],
+                    },
+                    {
+                        path: 'confirm-swap',
+                        component: ConfirmSwapComponent,
+                    },
+                    {
+                        path: '',
+                        redirectTo: pathsChildrenWallet.assets,
+                        pathMatch: 'full',
+                    },
+                ],
+            },
         ],
-      },
-    ],
-  },
+    },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
 })
 export class WalletRoutingModule {}

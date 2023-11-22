@@ -18,151 +18,153 @@ import { ProposalDetails } from '@api/models/swap.model';
 import { GetAssetPipe } from '@parts/pipes/get-asset.pipe';
 
 @Component({
-  selector: 'app-confirm-swap',
-  standalone: true,
-  imports: [
-    CommonModule,
-    BreadcrumbsComponent,
-    RouterLinkWithHref,
-    InputValidateModule,
-    TranslateModule,
-    ReactiveFormsModule,
-    IntToMoneyPipeModule,
-    GetAssetPipe,
-  ],
-  templateUrl: './confirm-swap.component.html',
-  styleUrls: ['./confirm-swap.component.scss'],
+    selector: 'app-confirm-swap',
+    standalone: true,
+    imports: [
+        CommonModule,
+        BreadcrumbsComponent,
+        RouterLinkWithHref,
+        InputValidateModule,
+        TranslateModule,
+        ReactiveFormsModule,
+        IntToMoneyPipeModule,
+        GetAssetPipe,
+    ],
+    templateUrl: './confirm-swap.component.html',
+    styleUrls: ['./confirm-swap.component.scss'],
 })
 export class ConfirmSwapComponent implements OnInit, OnDestroy {
-  breadcrumbItems: BreadcrumbItems = [
-    {
-      routerLink: '/wallet/swap',
-      title: 'CONFIRM_SWAP.BREADCRUMBS.ITEM1',
-    },
-    {
-      title: 'CONFIRM_SWAP.BREADCRUMBS.ITEM2',
-    },
-  ];
+    breadcrumbItems: BreadcrumbItems = [
+        {
+            routerLink: '/wallet/swap',
+            title: 'CONFIRM_SWAP.BREADCRUMBS.ITEM1',
+        },
+        {
+            title: 'CONFIRM_SWAP.BREADCRUMBS.ITEM2',
+        },
+    ];
 
-  errorRpc: { code: number; message: string } | undefined;
+    errorRpc: { code: number; message: string } | undefined;
 
-  variablesService = inject(VariablesService);
+    variablesService = inject(VariablesService);
 
-  fb = inject(NonNullableFormBuilder);
+    fb = inject(NonNullableFormBuilder);
 
-  form = this.fb.group({
-    hex_raw_proposal: this.fb.control<string>('', [Validators.required]),
-  });
-
-  proposalDetails: ProposalDetails | undefined;
-
-  hex_raw_proposal: string | undefined;
-
-  private backendService = inject(BackendService);
-
-  private router = inject(Router);
-
-  private ngZone = inject(NgZone);
-
-  private dialog = inject(Dialog);
-
-  private destroy$ = new Subject<void>();
-
-  ngOnInit(): void {
-    this.form.controls.hex_raw_proposal.valueChanges.pipe(distinctUntilChanged(), debounceTime(500), takeUntil(this.destroy$)).subscribe({
-      next: (hex_raw_proposal: string) => {
-        this.hex_raw_proposal = hex_raw_proposal;
-        this.getProposalDetails(hex_raw_proposal);
-      },
+    form = this.fb.group({
+        hex_raw_proposal: this.fb.control<string>('', [Validators.required]),
     });
-  }
 
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
+    proposalDetails: ProposalDetails | undefined;
 
-  swapConfirmMasterPasswordDialog(): void {
-    const proposalDetails = this.proposalDetails;
-    const config: DialogConfig = {
-      data: {
-        proposalDetails,
-      },
-      disableClose: true,
-      width: '54rem',
-      maxHeight: '90vh',
-    };
-    this.dialog
-      .open(SwapConfirmMasterPasswordComponent, config)
-      .closed.pipe(filter(Boolean), take(1))
-      .subscribe({
-        next: () => this.acceptProposal(),
-      });
-  }
+    hex_raw_proposal: string | undefined;
 
-  acceptProposal(): void {
-    if (!this.hex_raw_proposal) {
-      return;
+    private backendService = inject(BackendService);
+
+    private router = inject(Router);
+
+    private ngZone = inject(NgZone);
+
+    private dialog = inject(Dialog);
+
+    private destroy$ = new Subject<void>();
+
+    ngOnInit(): void {
+        this.form.controls.hex_raw_proposal.valueChanges
+            .pipe(distinctUntilChanged(), debounceTime(500), takeUntil(this.destroy$))
+            .subscribe({
+                next: (hex_raw_proposal: string) => {
+                    this.hex_raw_proposal = hex_raw_proposal;
+                    this.getProposalDetails(hex_raw_proposal);
+                },
+            });
     }
-    const { wallet_id } = this.variablesService.currentWallet;
-    const hex_raw_proposal = this.hex_raw_proposal;
-    const params1: ParamsCallRpc = {
-      jsonrpc: '2.0',
-      id: wallet_id,
-      method: 'mw_select_wallet',
-      params: { wallet_id },
-    };
-    const params2: ParamsCallRpc = {
-      jsonrpc: '2.0',
-      id: wallet_id,
-      method: 'ionic_swap_accept_proposal',
-      params: { hex_raw_proposal },
-    };
-    this.backendService.call_rpc(params1, (status1, response_data1) => {
-      if (response_data1.result.status === 'OK') {
-        this.backendService.call_rpc(params2, (status2, response_data2) => {
-          this.ngZone.run(() => {
-            if (response_data2.result?.['result_tx_id']) {
-              this.router.navigate(['/wallet/history']).then();
-            } else {
-              this.errorRpc = response_data2.error;
-            }
-          });
-        });
-      }
-    });
-  }
 
-  private getProposalDetails(hex_raw_proposal: string): void {
-    const { wallet_id } = this.variablesService.currentWallet;
-    const params1: ParamsCallRpc = {
-      jsonrpc: '2.0',
-      id: wallet_id,
-      method: 'mw_select_wallet',
-      params: { wallet_id },
-    };
-    const params2: ParamsCallRpc = {
-      jsonrpc: '2.0',
-      id: wallet_id,
-      method: 'ionic_swap_get_proposal_info',
-      params: { hex_raw_proposal },
-    };
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
+    }
 
-    this.backendService.call_rpc(params1, (status1, response_data1) => {
-      if (response_data1.result.status === 'OK') {
-        this.backendService.call_rpc(params2, (status2, response_data2) => {
-          this.ngZone.run(() => {
-            const proposal = response_data2?.result?.['proposal'];
-            if (proposal) {
-              this.proposalDetails = proposal;
-              this.errorRpc = undefined;
-            } else {
-              this.proposalDetails = undefined;
-              this.errorRpc = response_data2.error;
+    swapConfirmMasterPasswordDialog(): void {
+        const proposalDetails = this.proposalDetails;
+        const config: DialogConfig = {
+            data: {
+                proposalDetails,
+            },
+            disableClose: true,
+            width: '54rem',
+            maxHeight: '90vh',
+        };
+        this.dialog
+            .open(SwapConfirmMasterPasswordComponent, config)
+            .closed.pipe(filter(Boolean), take(1))
+            .subscribe({
+                next: () => this.acceptProposal(),
+            });
+    }
+
+    acceptProposal(): void {
+        if (!this.hex_raw_proposal) {
+            return;
+        }
+        const { wallet_id } = this.variablesService.currentWallet;
+        const hex_raw_proposal = this.hex_raw_proposal;
+        const params1: ParamsCallRpc = {
+            jsonrpc: '2.0',
+            id: wallet_id,
+            method: 'mw_select_wallet',
+            params: { wallet_id },
+        };
+        const params2: ParamsCallRpc = {
+            jsonrpc: '2.0',
+            id: wallet_id,
+            method: 'ionic_swap_accept_proposal',
+            params: { hex_raw_proposal },
+        };
+        this.backendService.call_rpc(params1, (status1, response_data1) => {
+            if (response_data1.result.status === 'OK') {
+                this.backendService.call_rpc(params2, (status2, response_data2) => {
+                    this.ngZone.run(() => {
+                        if (response_data2.result?.['result_tx_id']) {
+                            this.router.navigate(['/wallet/history']).then();
+                        } else {
+                            this.errorRpc = response_data2.error;
+                        }
+                    });
+                });
             }
-          });
         });
-      }
-    });
-  }
+    }
+
+    private getProposalDetails(hex_raw_proposal: string): void {
+        const { wallet_id } = this.variablesService.currentWallet;
+        const params1: ParamsCallRpc = {
+            jsonrpc: '2.0',
+            id: wallet_id,
+            method: 'mw_select_wallet',
+            params: { wallet_id },
+        };
+        const params2: ParamsCallRpc = {
+            jsonrpc: '2.0',
+            id: wallet_id,
+            method: 'ionic_swap_get_proposal_info',
+            params: { hex_raw_proposal },
+        };
+
+        this.backendService.call_rpc(params1, (status1, response_data1) => {
+            if (response_data1.result.status === 'OK') {
+                this.backendService.call_rpc(params2, (status2, response_data2) => {
+                    this.ngZone.run(() => {
+                        const proposal = response_data2?.result?.['proposal'];
+                        if (proposal) {
+                            this.proposalDetails = proposal;
+                            this.errorRpc = undefined;
+                        } else {
+                            this.proposalDetails = undefined;
+                            this.errorRpc = response_data2.error;
+                        }
+                    });
+                });
+            }
+        });
+    }
 }
