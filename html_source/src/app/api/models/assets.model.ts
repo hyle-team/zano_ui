@@ -17,16 +17,6 @@ export interface AssetInfo {
   total_max_supply: number;
 }
 
-export interface WhiteAssetInfo extends AssetInfo {
-  logo: string;
-  price_url: string;
-}
-
-export interface ResponseAssetsWhiteList {
-  assets: WhiteAssetInfo[];
-  signature: string;
-}
-
 export type Assets = Asset[];
 
 export interface ParamsCustomAssetId {

@@ -11,10 +11,11 @@ import { debounceTime, distinctUntilChanged, filter, take, takeUntil } from 'rxj
 import { VariablesService } from '@parts/services/variables.service';
 import { ParamsCallRpc } from '@api/models/call_rpc.model';
 import { BackendService } from '@api/services/backend.service';
-import { GetWhiteAssetPipe, IntToMoneyPipeModule } from '@parts/pipes';
+import { IntToMoneyPipeModule } from '@parts/pipes';
 import { Dialog, DialogConfig } from '@angular/cdk/dialog';
 import { SwapConfirmMasterPasswordComponent } from '../../modals/swap-confirm-master-password/swap-confirm-master-password.component';
 import { ProposalDetails } from '@api/models/swap.model';
+import { GetAssetPipe } from '@parts/pipes/get-asset.pipe';
 
 @Component({
   selector: 'app-confirm-swap',
@@ -26,8 +27,8 @@ import { ProposalDetails } from '@api/models/swap.model';
     InputValidateModule,
     TranslateModule,
     ReactiveFormsModule,
-    GetWhiteAssetPipe,
     IntToMoneyPipeModule,
+    GetAssetPipe,
   ],
   templateUrl: './confirm-swap.component.html',
   styleUrls: ['./confirm-swap.component.scss'],

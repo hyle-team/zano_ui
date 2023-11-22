@@ -23,7 +23,9 @@
             {{ 'CONFIRM_SWAP.FORM.TABLE.LABELS.LABEL1' | translate }}
           </div>
           <div *ngFor="let item of proposalDetails.to_alice"
-               class="text">{{ item.amount | intToMoney }} {{ (item.asset_id | getWhiteAsset | async)?.ticker }}</div>
+               class="text">{{ item.amount | intToMoney }}
+            {{ (item.asset_id | getAsset)?.asset_info.ticker || '???' }}
+          </div>
         </div>
 
         <hr class="separator"/>
@@ -33,7 +35,9 @@
             {{ 'CONFIRM_SWAP.FORM.TABLE.LABELS.LABEL2' | translate }}
           </div>
           <div *ngFor="let item of proposalDetails.to_bob"
-               class="text">{{ item.amount | intToMoney }} {{ (item.asset_id | getWhiteAsset | async)?.ticker }}</div>
+               class="text">{{ item.amount | intToMoney }}
+            {{ (item.asset_id | getAsset)?.asset_info.ticker || '???' }}
+          </div>
         </div>
       </div>
     </div>

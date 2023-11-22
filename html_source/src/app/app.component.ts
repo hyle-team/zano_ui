@@ -12,7 +12,6 @@ import { Subject, take } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { paths, pathsChildrenAuth } from './pages/paths';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
-import { AssetsFacade } from '@store/assets/assets.facade';
 import { Dialog } from '@angular/cdk/dialog';
 
 @Component({
@@ -81,8 +80,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private intToMoneyPipe: IntToMoneyPipe,
     private modalService: ModalService,
     private store: Store,
-    private dialog: Dialog,
-    private assetsFacade: AssetsFacade
+    private dialog: Dialog
   ) {
     translate.addLangs(['en', 'fr', 'de', 'it', 'pt']);
     translate.setDefaultLang('en');
@@ -714,8 +712,6 @@ export class AppComponent implements OnInit, OnDestroy {
         }
       },
     });
-
-    this.assetsFacade.loadWhitelist();
   }
 
   ngOnDestroy(): void {
@@ -750,9 +746,6 @@ export class AppComponent implements OnInit, OnDestroy {
         },
         error: error => {
           console.warn('api.coingecko.com error: ', error);
-          setTimeout(() => {
-            this.updateMoneyEquivalent();
-          }, 30000);
         },
       });
   }

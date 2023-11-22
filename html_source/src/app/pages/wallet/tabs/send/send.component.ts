@@ -17,7 +17,7 @@ import { WrapInfo } from '@api/models/wrap-info';
 import { WrapInfoService } from '@api/services/wrap-info.service';
 import { SendMoneyParams } from '@api/models/send-money.model';
 import { ControlsOf } from '@parts/utils/controls-of';
-import { zanoAssetInfo } from '@parts/data/assets';
+import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
 
 @Component({
   selector: 'app-send',
@@ -220,13 +220,13 @@ import { zanoAssetInfo } from '@parts/data/assets';
               <img
                 height="15"
                 width="15"
-                [src]="(asset && (asset | getWhiteAssetInfo | async)?.logo) || 'assets/icons/currency-icons/custom_token.svg'"
-                [alt]="asset?.asset_info.ticker"
+                [src]="asset.asset_info.asset_id === zanoAssetInfo.asset_id ? zanoAssetInfo.logo : defaultImgSrc"
+                [alt]="asset.asset_info.ticker"
                 defaultImgAlt="default"
-                [defaultImgSrc]="'assets/icons/currency-icons/custom_token.svg'"
+                [defaultImgSrc]="defaultImgSrc"
                 appDefaultImg
               />
-              {{ asset?.asset_info.full_name || '---' }}
+              {{ asset.asset_info.full_name || '---' }}
             </ng-template>
           </ng-select>
           <div
@@ -350,6 +350,10 @@ import { zanoAssetInfo } from '@parts/data/assets';
   ],
 })
 export class SendComponent implements OnInit, OnDestroy {
+  zanoAssetInfo = zanoAssetInfo;
+
+  defaultImgSrc = defaultImgSrc;
+
   job_id: number;
 
   isVisibleDropdownAliases$ = new BehaviorSubject<boolean>(false);

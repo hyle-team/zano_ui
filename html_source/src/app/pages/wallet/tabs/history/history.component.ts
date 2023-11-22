@@ -174,9 +174,7 @@ import { zanoAssetInfo } from '@parts/data/assets';
                           <span *ngIf="subtransfer.is_income">
                             {{ subtransfer.amount | intToMoney }}
                           </span>
-                          <ng-container *ngIf="subtransfer.asset_id | getWhiteAsset | async as asset">
-                            {{ asset.ticker }}
-                          </ng-container>
+                          {{ (subtransfer.asset_id | getAsset)?.asset_info.ticker || '???' }}
                         </div>
                       </ng-container>
                     </ng-container>
@@ -189,9 +187,7 @@ import { zanoAssetInfo } from '@parts/data/assets';
                           <span *ngIf="subtransfer.is_income">
                             {{ subtransfer.amount | intToMoney }}
                           </span>
-                          <ng-container *ngIf="subtransfer.asset_id | getWhiteAsset | async as asset">
-                            {{ asset.ticker }}
-                          </ng-container>
+                          {{ (subtransfer.asset_id | getAsset)?.asset_info.ticker || '???' }}
                         </div>
                       </ng-container>
                     </ng-container>
@@ -227,8 +223,7 @@ import { zanoAssetInfo } from '@parts/data/assets';
                       class="text-ellipsis"
                     >
                       <span (contextmenu)="variablesService.onContextMenuOnlyCopy($event, transaction.remote_addresses[0])">
-                        {{ transaction.remote_addresses[0] | slice : 0 : 6 }}
-                        ...{{ transaction.remote_addresses[0] | slice : -6 }}
+                        {{ transaction.remote_addresses[0] | zanoShortString }}
                       </span>
                     </div>
                     <ng-container *ngIf="transaction.remote_aliases && transaction.remote_aliases?.[0]?.trim()?.length">

@@ -34,7 +34,7 @@ import { ZanoValidators } from '@parts/utils/zano-validators';
                 </div>
                 <div class="text">
                   {{ sendMoneyParams.amount }}
-                  {{ (sendMoneyParams.asset_id | getWhiteAsset | async).ticker }}
+                  {{ (sendMoneyParams.asset_id | getAsset)?.asset_info.ticker || '???' }}
                 </div>
               </div>
 

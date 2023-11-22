@@ -60,15 +60,15 @@
         >
           <ng-template let-asset="item" ng-label-tmp ng-option-tmp>
             <img
-              [alt]="asset?.asset_info.ticker"
-              [defaultImgSrc]="'assets/icons/currency-icons/custom_token.svg'"
-              [src]="(asset && (asset | getWhiteAssetInfo | async)?.logo) || 'assets/icons/currency-icons/custom_token.svg'"
+              [alt]="asset.asset_info.ticker"
+              [defaultImgSrc]="defaultImgSrc"
+              [src]="asset.asset_info.asset_id === zanoAssetInfo.asset_id ? zanoAssetInfo.logo : defaultImgSrc"
               appDefaultImg
               defaultImgAlt="default"
               height="15"
               width="15"
             />
-            {{ asset?.asset_info.full_name || '---' }}
+            {{ asset.asset_info.full_name || '---' }}
           </ng-template>
         </ng-select>
       </div>
@@ -121,15 +121,15 @@
         >
           <ng-template let-asset="item" ng-label-tmp ng-option-tmp>
             <img
-              [alt]="asset?.asset_info.ticker"
-              [defaultImgSrc]="'assets/icons/currency-icons/custom_token.svg'"
-              [src]="(asset && (asset | getWhiteAssetInfo | async)?.logo) || 'assets/icons/currency-icons/custom_token.svg'"
+              [alt]="asset.asset_info.ticker"
+              [defaultImgSrc]="defaultImgSrc"
+              [src]="asset.asset_info.asset_id === zanoAssetInfo.asset_id ? zanoAssetInfo.logo : defaultImgSrc"
               appDefaultImg
               defaultImgAlt="default"
               height="15"
               width="15"
             />
-            {{ asset?.asset_info.full_name || '---' }}
+            {{ asset.asset_info.full_name || '---' }}
           </ng-template>
         </ng-select>
         <div *ngIf="

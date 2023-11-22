@@ -1,6 +1,4 @@
-import { WhiteAssetInfo } from '@api/models/assets.model';
-
-export const zanoAssetInfo: WhiteAssetInfo = {
+export const zanoAssetInfo = {
   asset_id: 'd6329b5b1f7c0805b5c345f4957554002a2f557845f64d7645dae0e051a6498a',
   current_supply: 0,
   decimal_point: 12,
@@ -12,3 +10,5 @@ export const zanoAssetInfo: WhiteAssetInfo = {
   ticker: 'ZANO',
   total_max_supply: 0,
 };
+
+export const defaultImgSrc = 'assets/icons/currency-icons/custom_token.svg';

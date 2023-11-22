@@ -7,7 +7,6 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
 import { DefaultImgModule, InputValidateModule, LowerCaseDirective } from '@parts/directives';
 import { AbstractControl, FormBuilder, FormControl, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import {
-  GetWhiteAssetInfoModule,
   IntToMoneyPipe,
   IntToMoneyPipeModule,
   MoneyToIntPipe,
@@ -17,7 +16,7 @@ import {
 import { NgSelectModule } from '@ng-select/ng-select';
 import { VariablesService } from '@parts/services/variables.service';
 import { Asset } from '@api/models/assets.model';
-import { zanoAssetInfo } from '@parts/data/assets';
+import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
 import { regExpAliasName } from '@parts/utils/zano-validators';
 import { BackendService } from '@api/services/backend.service';
 import { BehaviorSubject, of, Subject } from 'rxjs';
@@ -41,7 +40,6 @@ import { LoaderComponent } from '@parts/components/loader.component';
     InputValidateModule,
     ReactiveFormsModule,
     DefaultImgModule,
-    GetWhiteAssetInfoModule,
     NgSelectModule,
     LowerCaseDirective,
     ShortStringPipeModule,
@@ -54,6 +52,10 @@ import { LoaderComponent } from '@parts/components/loader.component';
   styleUrls: ['./create-swap.component.scss'],
 })
 export class CreateSwapComponent implements OnInit, OnDestroy {
+  zanoAssetInfo = zanoAssetInfo;
+
+  defaultImgSrc = defaultImgSrc;
+
   breadcrumbItems: BreadcrumbItems = [
     {
       routerLink: '/wallet/swap',

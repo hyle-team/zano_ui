@@ -39,14 +39,15 @@ export class Wallet {
   }
 
   set balances(value: Assets | null | undefined) {
-    const sortedAssets = [];
+    const sortedAssets: Assets = [];
     if (value) {
-      const indexZano = value.findIndex(({ asset_info: { ticker } }) => ticker === 'ZANO');
+      const assets = [...value];
+      const indexZano = assets.findIndex(({ asset_info: { ticker } }) => ticker === 'ZANO');
       if (indexZano >= 0) {
-        const assetZano = value.splice(indexZano, 1).shift();
+        const assetZano = assets.splice(indexZano, 1)[0];
         sortedAssets.push(assetZano);
       }
-      const sortedAssetsByBalance = value.sort((a, b) => new BigNumber(b.total).minus(new BigNumber(a.total)).toNumber());
+      const sortedAssetsByBalance = assets.sort((a, b) => new BigNumber(b.total).minus(new BigNumber(a.total)).toNumber());
       sortedAssets.push(...sortedAssetsByBalance);
     }
     this._balances$.next(sortedAssets);

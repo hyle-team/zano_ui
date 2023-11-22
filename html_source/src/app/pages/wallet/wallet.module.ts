@@ -7,10 +7,6 @@ import { FlexLayoutModule, FlexModule } from '@angular/flex-layout';
 import { TooltipModule } from '@parts/directives/tooltip/tooltip.module';
 import {
   ContractStatusMessagesPipeModule,
-  GetPriceByUrlModule,
-  GetWhiteAssetInfoModule,
-  GetWhiteAssetPipe,
-  HasInAssetsWhitelistModule,
   HistoryTypeMessagesPipeModule,
   IntToMoneyPipeModule,
   IsAvailableAliasNamePipeModule,
@@ -41,6 +37,7 @@ import { TransactionDetailsComponent } from '@parts/components/transaction-detai
 import { BreadcrumbsComponent } from '@parts/components/breadcrumbs/breadcrumbs.component';
 import { BackButtonComponent } from '@parts/components/back-button/back-button.component';
 import { WalletModalsModule } from './tabs/send/modals/wallet-modals.module';
+import { GetAssetPipe } from '@parts/pipes/get-asset.pipe';
 
 @NgModule({
   declarations: [
@@ -80,16 +77,13 @@ import { WalletModalsModule } from './tabs/send/modals/wallet-modals.module';
     InputValidateModule,
     CheckboxComponent,
     AssetDetailsModule,
-    GetWhiteAssetInfoModule,
-    GetPriceByUrlModule,
-    HasInAssetsWhitelistModule,
     CopyButtonComponent,
     TransactionDetailsComponent,
     LowerCaseDirective,
-    GetWhiteAssetPipe,
     BreadcrumbsComponent,
     BackButtonComponent,
     WalletModalsModule,
+    GetAssetPipe,
   ],
 })
 export class WalletModule {}

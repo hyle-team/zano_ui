@@ -14,6 +14,7 @@ import { BigNumber } from 'bignumber.js';
 import { LOCKED_BALANCE_HELP_PAGE } from '@parts/data/constants';
 import { IntToMoneyPipe } from '@parts/pipes';
 import { TranslateService } from '@ngx-translate/core';
+import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
 
 @Component({
   selector: 'app-assets',
@@ -63,7 +64,7 @@ import { TranslateService } from '@ngx-translate/core';
                     <div class="text-ellipsis" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2rem">
                       <div class="token-logo mr-1">
                         <img
-                          [src]="(asset | getWhiteAssetInfo | async)?.logo || defaultImgSrc"
+                          [src]="asset.asset_info.asset_id === zanoAssetInfo.asset_id ? zanoAssetInfo.logo : defaultImgSrc"
                           [alt]="asset.asset_info.ticker"
                           defaultImgAlt="default"
                           [defaultImgSrc]="defaultImgSrc"
@@ -82,22 +83,23 @@ import { TranslateService } from '@ngx-translate/core';
                     </div>
                   </td>
                   <ng-container
-                    *ngIf="(asset | getWhiteAssetInfo | async)?.price_url | getPriceByUrl | async as price; else templateNotLoadPrice"
+                    *ngIf="asset.asset_info.asset_id === zanoAssetInfo.asset_id; else templateNotLoadPrice"
                   >
                     <td>
                       <div class="text-ellipsis">
-                        <b>{{ (asset.total | intToMoney) * price.usd | currency : 'USD' }}</b>
+                        <b>{{ (asset.total | intToMoney) * variablesService.moneyEquivalent | currency : 'USD' }}</b>
                       </div>
                     </td>
                     <td>
                       <div class="text-ellipsis">
-                        <b class="mr-0_5">{{ price.usd | currency : 'USD' }}</b>
-                        <span [class.color-aqua]="price.usd_24h_change > 0" [class.color-red]="price.usd_24h_change < 0"
-                          >{{ price.usd_24h_change | number : '1.2-2' }}%</span
-                        >
+                        <b class="mr-0_5">{{ variablesService.moneyEquivalent | currency : 'USD' }}</b>
+                        <span [class.color-aqua]="variablesService.moneyEquivalentPercent > 0" [class.color-red]="variablesService.moneyEquivalentPercent < 0">
+                          {{ variablesService.moneyEquivalentPercent | number : '1.2-2' }}%
+                        </span>
                       </div>
                     </td>
                   </ng-container>
+
                   <ng-template #templateNotLoadPrice>
                     <td></td>
                     <td></td>
@@ -189,7 +191,7 @@ import { TranslateService } from '@ngx-translate/core';
           </a>
         </li>
 
-        <ng-container *ngIf="!(currentAsset | hasInAssetsWhitelist | async)">
+        <ng-container *ngIf="currentAsset.asset_info.ticker !== 'ZANO'">
           <li class="item">
             <button class="w-100 px-2 py-1" type="button" (click)="beforeRemoveAsset()">
               <i class="icon delete mr-1"></i>
@@ -225,13 +227,15 @@ export class AssetsComponent implements OnInit, OnDestroy {
     return false;
   }
 
+  zanoAssetInfo = zanoAssetInfo;
+
+  defaultImgSrc = defaultImgSrc;
+
   triggerOrigin!: CdkOverlayOrigin;
 
   currentAsset!: Asset;
 
   isOpenDropDownMenu = false;
-
-  defaultImgSrc = 'assets/icons/currency-icons/custom_token.svg';
 
   private destroy$ = new Subject<void>();
 
