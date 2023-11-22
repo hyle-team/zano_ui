@@ -16,7 +16,6 @@ import { DeeplinkParams, defaultSendMoneyParams } from '@api/models/wallet.model
 import { WrapInfo } from '@api/models/wrap-info';
 import { WrapInfoService } from '@api/services/wrap-info.service';
 import { SendMoneyParams } from '@api/models/send-money.model';
-import { ControlsOf } from '@parts/utils/controls-of';
 import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
 
 @Component({
@@ -396,7 +395,7 @@ export class SendComponent implements OnInit, OnDestroy {
 
     lowerCaseDisabled$ = new BehaviorSubject(true);
 
-    sendMoneyParamsForm = this.fb.group<ControlsOf<SendMoneyParams>>({
+    sendMoneyParamsForm = this.fb.group({
         wallet_id: this.fb.control(undefined, {
             validators: [Validators.required],
         }),

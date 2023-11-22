@@ -9,8 +9,7 @@ import {
     ContractStatusMessagesPipeModule,
     HistoryTypeMessagesPipeModule,
     IntToMoneyPipeModule,
-    IsAvailableAliasNamePipeModule,
-    ShortStringPipeModule,
+    IsAvailableAliasNamePipeModule, ShortStringPipe,
 } from '@parts/pipes';
 import { TranslateModule } from '@ngx-translate/core';
 import { ConfirmModalModule } from '@parts/modals/confirm-modal/confirm-modal.module';
@@ -55,7 +54,7 @@ import { GetAssetPipe } from '@parts/pipes/get-asset.pipe';
         WalletRoutingModule,
         FlexModule,
         TooltipModule,
-        ShortStringPipeModule,
+        ShortStringPipe,
         TranslateModule,
         IsAvailableAliasNamePipeModule,
         ConfirmModalModule,

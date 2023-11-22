@@ -6,7 +6,13 @@ import { BreadcrumbsComponent } from '@parts/components/breadcrumbs/breadcrumbs.
 import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
 import { DefaultImgModule, InputValidateModule, LowerCaseDirective } from '@parts/directives';
 import { AbstractControl, FormBuilder, FormControl, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
-import { IntToMoneyPipe, IntToMoneyPipeModule, MoneyToIntPipe, MoneyToIntPipeModule, ShortStringPipeModule } from '@parts/pipes';
+import {
+    IntToMoneyPipe,
+    IntToMoneyPipeModule,
+    MoneyToIntPipe,
+    MoneyToIntPipeModule,
+    ShortStringPipe
+} from '@parts/pipes';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { VariablesService } from '@parts/services/variables.service';
 import { Asset } from '@api/models/assets.model';
@@ -36,7 +42,7 @@ import { LoaderComponent } from '@parts/components/loader.component';
         DefaultImgModule,
         NgSelectModule,
         LowerCaseDirective,
-        ShortStringPipeModule,
+        ShortStringPipe,
         FormsModule,
         IntToMoneyPipeModule,
         MoneyToIntPipeModule,

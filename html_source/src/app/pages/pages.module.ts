@@ -32,8 +32,7 @@ import {
     IntToMoneyPipeModule,
     IsAvailableAliasNamePipeModule,
     MoneyToIntPipeModule,
-    SafeHtmlPipeModule,
-    ShortStringPipeModule,
+    SafeHtmlPipeModule, ShortStringPipe,
 } from '@parts/pipes';
 import { InputValidateModule } from '@parts/directives/input-validate';
 import { InputDisableSelectionModule } from '@parts/directives/input-disable-selection';
@@ -86,7 +85,7 @@ import { BackButtonComponent } from '@parts/components/back-button/back-button.c
         IsAvailableAliasNamePipeModule,
         MoneyToIntPipeModule,
         SafeHtmlPipeModule,
-        ShortStringPipeModule,
+        ShortStringPipe,
         InputValidateModule,
         InputDisableSelectionModule,
         CheckboxComponent,

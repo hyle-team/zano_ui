@@ -61,7 +61,7 @@ export class WalletsService {
         this.backendService.getWalletInfo(wallet_id, callback);
     }
 
-    closeWallet(wallet_id): void {
+    closeWallet(wallet_id: number): void {
         const callback = async (): Promise<void> => {
             this.wallets = this.wallets.filter(w => w.wallet_id !== wallet_id);
 

@@ -2,6 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
     name: 'zanoShortString',
+    standalone: true
 })
 export class ShortStringPipe implements PipeTransform {
     transform(value: string | null | undefined, left = 6, right = 6): string | null | undefined {
