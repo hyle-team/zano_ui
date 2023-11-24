@@ -22,7 +22,7 @@
                     <div class="label max-w-19-rem w-100">
                         {{ 'CONFIRM_SWAP.FORM.TABLE.LABELS.LABEL1' | translate }}
                     </div>
-                    <div *ngFor="let item of proposalDetails.to_alice" class="text">
+                    <div *ngFor="let item of proposalDetails.to_initiator" class="text">
                         {{ item.amount | intToMoney }}
                         {{ (item.asset_id | getAsset)?.asset_info.ticker || '???' }}
                     </div>
@@ -34,7 +34,7 @@
                     <div class="label max-w-19-rem w-100">
                         {{ 'CONFIRM_SWAP.FORM.TABLE.LABELS.LABEL2' | translate }}
                     </div>
-                    <div *ngFor="let item of proposalDetails.to_bob" class="text">
+                    <div *ngFor="let item of proposalDetails.to_finalizer" class="text">
                         {{ item.amount | intToMoney }}
                         {{ (item.asset_id | getAsset)?.asset_info.ticker || '???' }}
                     </div>

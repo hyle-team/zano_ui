@@ -320,13 +320,13 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
             method: 'ionic_swap_generate_proposal',
             params: {
                 proposal: {
-                    to_bob: [
+                    to_finalizer: [
                         {
                             asset_id: sending.asset_id,
                             amount: this.moneyToIntPipe.transform(sending.amount),
                         },
                     ],
-                    to_alice: [
+                    to_initiator: [
                         {
                             asset_id: receiving.asset_id,
                             amount: this.moneyToIntPipe.transform(receiving.amount),

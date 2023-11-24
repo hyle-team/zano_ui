@@ -8,7 +8,7 @@ import { IntToMoneyPipe } from '@parts/pipes';
 import { BigNumber } from 'bignumber.js';
 import { ModalService } from '@parts/services/modal.service';
 import { StateKeys, Store } from '@store/store';
-import { Subject, take } from 'rxjs';
+import { shareReplay, Subject, switchMap, take } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { paths, pathsChildrenAuth } from './pages/paths';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
@@ -718,11 +718,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
         this.variablesService.disable_price_fetch$.pipe(takeUntil(this.destroy$)).subscribe({
             next: disable_price_fetch => {
+                const updateTime = 10 * 60 * 1000;
                 if (!disable_price_fetch) {
                     this.updateMoneyEquivalent();
                     this.intervalUpdatePriceState = setInterval(() => {
                         this.updateMoneyEquivalent();
-                    }, 30000);
+                    }, updateTime);
                 } else {
                     if (this.intervalUpdatePriceState) {
                         clearInterval(this.intervalUpdatePriceState);
@@ -744,28 +745,20 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     updateMoneyEquivalent(): void {
-        this.http
-            .get('https://api.coingecko.com/api/v3/ping')
-            .pipe(take(1))
-            .subscribe({
-                next: () => {
-                    this.http
-                        .get('https://api.coingecko.com/api/v3/simple/price?ids=zano&vs_currencies=usd&include_24hr_change=true')
-                        .pipe(take(1))
-                        .subscribe({
-                            next: data => {
-                                this.variablesService.moneyEquivalent = data['zano']['usd'];
-                                this.variablesService.moneyEquivalentPercent = data['zano']['usd_24h_change'];
-                            },
-                            error: error => {
-                                console.warn('api.coingecko.com price error: ', error);
-                            },
-                        });
-                },
-                error: error => {
-                    console.warn('api.coingecko.com error: ', error);
-                },
-            });
+        const ping$ = this.http.get('https://api.coingecko.com/api/v3/ping').pipe(shareReplay(1));
+
+        ping$.pipe(
+            switchMap(() => this.http.get('https://api.coingecko.com/api/v3/simple/price?ids=zano&vs_currencies=usd&include_24hr_change=true')),
+            take(1)
+        ).subscribe({
+            next: data => {
+                this.variablesService.moneyEquivalent = data['zano']['usd'];
+                this.variablesService.moneyEquivalentPercent = data['zano']['usd_24h_change'];
+            },
+            error: error => {
+                console.warn('api.coingecko.com price error: ', error);
+            },
+        });
     }
 
     getAliases(): void {
