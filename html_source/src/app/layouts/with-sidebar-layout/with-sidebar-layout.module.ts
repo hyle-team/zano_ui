@@ -6,8 +6,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterOutlet } from '@angular/router';
 
 @NgModule({
-  declarations: [WithSidebarLayoutComponent],
-  imports: [CommonModule, RouterOutlet, FlexLayoutModule, SidebarModule],
-  exports: [WithSidebarLayoutComponent],
+    declarations: [WithSidebarLayoutComponent],
+    imports: [CommonModule, RouterOutlet, FlexLayoutModule, SidebarModule],
+    exports: [WithSidebarLayoutComponent],
 })
 export class WithSidebarLayoutModule {}

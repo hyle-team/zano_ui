@@ -1,28 +1,28 @@
 <div class="container scrolled-content">
-  <app-breadcrumbs [items]="breadcrumbItems" class="mb-2"></app-breadcrumbs>
+    <app-breadcrumbs [items]="breadcrumbItems" class="mb-2"></app-breadcrumbs>
 
-  <form [formGroup]="form" class="form">
-    <div class="form__field textarea">
-      <label for="swap-proposal-hex">
-        {{ 'SWAP_PROPOSAL_HEX.FORM.LABELS.LABEL1' | translate }}
-      </label>
-      <textarea
-        [placeholder]="'SWAP_PROPOSAL_HEX.FORM.PLACEHOLDERS.PLACEHOLDER1' | translate"
-        formControlName="hex_raw_proposal"
-        id="swap-proposal-hex"
-        readonly
-      ></textarea>
-    </div>
+    <form [formGroup]="form" class="form">
+        <div class="form__field textarea">
+            <label for="swap-proposal-hex">
+                {{ 'SWAP_PROPOSAL_HEX.FORM.LABELS.LABEL1' | translate }}
+            </label>
+            <textarea
+                [placeholder]="'SWAP_PROPOSAL_HEX.FORM.PLACEHOLDERS.PLACEHOLDER1' | translate"
+                formControlName="hex_raw_proposal"
+                id="swap-proposal-hex"
+                readonly
+            ></textarea>
+        </div>
 
-    <div class="actions">
-      <button (click)="copy()" [disabled]="form.invalid" class="btn primary big w-100" type="button">
-        <i [class.check]="copyAnimation" [class.copy]="!copyAnimation" class="icon mr-1"></i>
-        {{ 'SWAP_PROPOSAL_HEX.FORM.BUTTONS.BUTTON1' | translate }}
-      </button>
+        <div class="actions">
+            <button (click)="copy()" [disabled]="form.invalid" class="btn primary big w-100" type="button">
+                <i [class.check]="copyAnimation" [class.copy]="!copyAnimation" class="icon mr-1"></i>
+                {{ 'SWAP_PROPOSAL_HEX.FORM.BUTTONS.BUTTON1' | translate }}
+            </button>
 
-      <a class="btn outline big w-100" routerLink="/wallet/swap">
-        {{ 'SWAP_PROPOSAL_HEX.FORM.BUTTONS.BUTTON2' | translate }}
-      </a>
-    </div>
-  </form>
+            <a class="btn outline big w-100" routerLink="/wallet/swap">
+                {{ 'SWAP_PROPOSAL_HEX.FORM.BUTTONS.BUTTON2' | translate }}
+            </a>
+        </div>
+    </form>
 </div>

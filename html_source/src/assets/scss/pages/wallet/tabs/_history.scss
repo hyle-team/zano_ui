@@ -1,23 +1,23 @@
 app-history {
-  .wrap-table {
-    table.history-table {
-      tbody {
-        tr {
-          .status {
-            position: relative;
+    .wrap-table {
+        table.history-table {
+            tbody {
+                tr {
+                    .status {
+                        position: relative;
 
-            .confirmation {
-              width: 1.7rem;
-              height: 1.7rem;
-            }
+                        .confirmation {
+                            width: 1.7rem;
+                            height: 1.7rem;
+                        }
 
-            img.status-transaction {
-              width: 1.5rem;
-              height: 1.5rem;
+                        img.status-transaction {
+                            width: 1.5rem;
+                            height: 1.5rem;
+                        }
+                    }
+                }
             }
-          }
         }
-      }
     }
-  }
 }

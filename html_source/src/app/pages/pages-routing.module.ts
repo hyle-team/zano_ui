@@ -18,145 +18,145 @@ import { ExportImportComponent } from './export-import/export-import.component';
 import { TransferAliasComponent } from './transfer-alias/transfer-alias.component';
 
 const routes: Routes = [
-  {
-    path: paths.addWallet,
-    component: WithSidebarLayoutComponent,
-    children: [
-      {
+    {
+        path: paths.addWallet,
+        component: WithSidebarLayoutComponent,
+        children: [
+            {
+                path: '',
+                component: AddWalletComponent,
+            },
+        ],
+    },
+    {
+        path: paths.details,
+        component: WithSidebarLayoutComponent,
+        children: [
+            {
+                path: '',
+                component: WalletDetailsComponent,
+            },
+        ],
+    },
+    {
+        path: paths.login,
+        component: FullLayoutComponent,
+        children: [
+            {
+                path: '',
+                component: LoginComponent,
+            },
+        ],
+    },
+    {
+        path: paths.create,
+        component: WithSidebarLayoutComponent,
+        children: [
+            {
+                path: '',
+                component: CreateWalletComponent,
+            },
+        ],
+    },
+    {
+        path: paths.open,
+        component: WithSidebarLayoutComponent,
+        children: [
+            {
+                path: '',
+                component: OpenWalletComponent,
+            },
+        ],
+    },
+    {
+        path: paths.restore,
+        component: WithSidebarLayoutComponent,
+        children: [
+            {
+                path: '',
+                component: RestoreWalletComponent,
+            },
+        ],
+    },
+    {
+        path: paths.seedPhrase,
+        component: WithSidebarLayoutComponent,
+        children: [
+            {
+                path: '',
+                component: SeedPhraseComponent,
+            },
+        ],
+    },
+    {
+        path: paths.assignAlias,
+        component: WithSidebarLayoutComponent,
+        children: [
+            {
+                path: '',
+                component: AssignAliasComponent,
+            },
+        ],
+    },
+    {
+        path: paths.editAlias,
+        component: WithSidebarLayoutComponent,
+        children: [
+            {
+                path: '',
+                component: EditAliasComponent,
+            },
+        ],
+    },
+    {
+        path: paths.transferAlias,
+        component: WithSidebarLayoutComponent,
+        children: [
+            {
+                path: '',
+                component: TransferAliasComponent,
+            },
+        ],
+    },
+    {
+        path: paths.settings,
+        component: WithSidebarLayoutComponent,
+        children: [
+            {
+                path: '',
+                component: SettingsComponent,
+            },
+        ],
+    },
+    {
+        path: paths.import,
+        component: WithSidebarLayoutComponent,
+        children: [
+            {
+                path: '',
+                component: ExportImportComponent,
+            },
+        ],
+    },
+    {
+        path: paths.deeplink,
+        component: WithSidebarLayoutComponent,
+        children: [
+            {
+                path: '',
+                component: DeeplinkComponent,
+            },
+        ],
+    },
+    {
         path: '',
-        component: AddWalletComponent,
-      },
-    ],
-  },
-  {
-    path: paths.details,
-    component: WithSidebarLayoutComponent,
-    children: [
-      {
-        path: '',
-        component: WalletDetailsComponent,
-      },
-    ],
-  },
-  {
-    path: paths.login,
-    component: FullLayoutComponent,
-    children: [
-      {
-        path: '',
-        component: LoginComponent,
-      },
-    ],
-  },
-  {
-    path: paths.create,
-    component: WithSidebarLayoutComponent,
-    children: [
-      {
-        path: '',
-        component: CreateWalletComponent,
-      },
-    ],
-  },
-  {
-    path: paths.open,
-    component: WithSidebarLayoutComponent,
-    children: [
-      {
-        path: '',
-        component: OpenWalletComponent,
-      },
-    ],
-  },
-  {
-    path: paths.restore,
-    component: WithSidebarLayoutComponent,
-    children: [
-      {
-        path: '',
-        component: RestoreWalletComponent,
-      },
-    ],
-  },
-  {
-    path: paths.seedPhrase,
-    component: WithSidebarLayoutComponent,
-    children: [
-      {
-        path: '',
-        component: SeedPhraseComponent,
-      },
-    ],
-  },
-  {
-    path: paths.assignAlias,
-    component: WithSidebarLayoutComponent,
-    children: [
-      {
-        path: '',
-        component: AssignAliasComponent,
-      },
-    ],
-  },
-  {
-    path: paths.editAlias,
-    component: WithSidebarLayoutComponent,
-    children: [
-      {
-        path: '',
-        component: EditAliasComponent,
-      },
-    ],
-  },
-  {
-    path: paths.transferAlias,
-    component: WithSidebarLayoutComponent,
-    children: [
-      {
-        path: '',
-        component: TransferAliasComponent,
-      },
-    ],
-  },
-  {
-    path: paths.settings,
-    component: WithSidebarLayoutComponent,
-    children: [
-      {
-        path: '',
-        component: SettingsComponent,
-      },
-    ],
-  },
-  {
-    path: paths.import,
-    component: WithSidebarLayoutComponent,
-    children: [
-      {
-        path: '',
-        component: ExportImportComponent,
-      },
-    ],
-  },
-  {
-    path: paths.deeplink,
-    component: WithSidebarLayoutComponent,
-    children: [
-      {
-        path: '',
-        component: DeeplinkComponent,
-      },
-    ],
-  },
-  {
-    path: '',
-    redirectTo: paths.addWallet,
-    pathMatch: 'full',
-  },
+        redirectTo: paths.addWallet,
+        pathMatch: 'full',
+    },
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+    imports: [RouterModule.forChild(routes)],
+    exports: [RouterModule],
 })
 export class PagesRoutingModule {}

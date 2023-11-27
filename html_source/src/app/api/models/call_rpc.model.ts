@@ -1,6 +1,6 @@
 export interface ParamsCallRpc {
-  jsonrpc: string;
-  id: number;
-  method: string;
-  params: object;
+    jsonrpc: string;
+    id: number;
+    method: string;
+    params: object;
 }

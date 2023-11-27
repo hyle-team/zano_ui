@@ -1,7 +1,7 @@
 module.exports = {
-  packages: {
-    'angular-highcharts': {
-      ignorableDeepImportMatchers: [/highcharts\//],
+    packages: {
+        'angular-highcharts': {
+            ignorableDeepImportMatchers: [/highcharts\//],
+        },
     },
-  },
 };

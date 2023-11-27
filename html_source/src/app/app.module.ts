@@ -18,49 +18,49 @@ import { FormsModule } from '@angular/forms';
 import { RegisterContextTemplatesComponent } from '@parts/components/register-context-templates.component';
 
 export function highchartsFactory(): any[] {
-  highcharts.setOptions({
-    time: {
-      useUTC: false,
-    },
-  });
+    highcharts.setOptions({
+        time: {
+            useUTC: false,
+        },
+    });
 
-  return [exporting];
+    return [exporting];
 }
 
 export const provideHighchartsFactory = {
-  provide: HIGHCHARTS_MODULES,
-  useFactory: highchartsFactory,
+    provide: HIGHCHARTS_MODULES,
+    useFactory: highchartsFactory,
 };
 
 export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
-  return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
+    return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
 }
 
 export const translateModuleConfig: TranslateModuleConfig = {
-  loader: {
-    provide: TranslateLoader,
-    useFactory: HttpLoaderFactory,
-    deps: [HttpClient],
-  },
+    loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+    },
 };
 
 @NgModule({
-  declarations: [AppComponent, OpenWalletModalComponent],
-  imports: [
-    CommonModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    TranslateModule.forRoot(translateModuleConfig),
-    AppRoutingModule,
-    PagesModule,
-    ChartModule,
-    MoneyToIntPipeModule,
-    FlexModule,
-    FormsModule,
-    RegisterContextTemplatesComponent,
-  ],
-  providers: [provideHighchartsFactory],
-  bootstrap: [AppComponent],
+    declarations: [AppComponent, OpenWalletModalComponent],
+    imports: [
+        CommonModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        HttpClientModule,
+        TranslateModule.forRoot(translateModuleConfig),
+        AppRoutingModule,
+        PagesModule,
+        ChartModule,
+        MoneyToIntPipeModule,
+        FlexModule,
+        FormsModule,
+        RegisterContextTemplatesComponent,
+    ],
+    providers: [provideHighchartsFactory],
+    bootstrap: [AppComponent],
 })
 export class AppModule {}

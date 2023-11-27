@@ -5,8 +5,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterOutlet } from '@angular/router';
 
 @NgModule({
-  declarations: [FullLayoutComponent],
-  imports: [CommonModule, RouterOutlet, FlexLayoutModule],
-  exports: [FullLayoutComponent],
+    declarations: [FullLayoutComponent],
+    imports: [CommonModule, RouterOutlet, FlexLayoutModule],
+    exports: [FullLayoutComponent],
 })
 export class FullLayoutModule {}

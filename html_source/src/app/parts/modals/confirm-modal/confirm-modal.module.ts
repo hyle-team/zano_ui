@@ -5,8 +5,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
-  declarations: [ConfirmModalComponent],
-  imports: [CommonModule, TranslateModule, FlexLayoutModule],
-  exports: [ConfirmModalComponent],
+    declarations: [ConfirmModalComponent],
+    imports: [CommonModule, TranslateModule, FlexLayoutModule],
+    exports: [ConfirmModalComponent],
 })
 export class ConfirmModalModule {}
