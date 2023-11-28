@@ -196,8 +196,8 @@
         "REGISTER_ALIAS": "Alias registrieren",
         "DETAILS": "Details",
         "LOCK": "Verschlüsseln",
-        "AVAILABLE_BALANCE": "Verfügbar <b>{{available}} {{currency}}<b/>",
-        "LOCKED_BALANCE": "Gesperrt <b>{{locked}} {{currency}}<b/>",
+        "AVAILABLE_BALANCE": "Verfügbar",
+        "LOCKED_BALANCE": "Gesperrt",
         "LOCKED_BALANCE_LINK": "Was bedeutet das?",
         "TABS": {
             "ASSETS": "Vermögenswerte",

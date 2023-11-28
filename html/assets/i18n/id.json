@@ -196,8 +196,8 @@
     "REGISTER_ALIAS": "Daftarkan alias",
     "DETAILS": "Detail",
     "LOCK": "Kunci",
-    "AVAILABLE_BALANCE": "Tersedia <b>{{available}} {{currency}}<b/>",
-    "LOCKED_BALANCE": "Terkunci <b>{{locked}} {{currency}}<b/>",
+    "AVAILABLE_BALANCE": "Tersedia",
+    "LOCKED_BALANCE": "Terkunci",
     "LOCKED_BALANCE_LINK": "Apa yang dimaksudkan?\n",
     "TABS": {
       "ASSETS": "Aktiva",

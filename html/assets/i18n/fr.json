@@ -196,7 +196,7 @@
     "REGISTER_ALIAS": "Enregistrer un alias",
     "DETAILS": "Détails",
     "LOCK": "Verrouillage",
-    "AVAILABLE_BALANCE": "Disponible <b>{{available}} {{currency}}<b/>",
+    "AVAILABLE_BALANCE": "Disponible",
     "LOCKED_BALANCE": "Vérouillé<b>{{locked}}{{currency}}<b/>",
     "LOCKED_BALANCE_LINK": "Que signifie cela?",
     "TABS": {
