@@ -10,7 +10,7 @@ import { BigNumber } from 'bignumber.js';
 import { ModalService } from './_helpers/services/modal.service';
 import { Store } from 'store';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import {shareReplay, switchMap, take, takeUntil} from 'rxjs/operators';
 import { paths, pathsChildrenAuth } from './paths';
 
 @Component({
@@ -610,11 +610,12 @@ export class AppComponent implements OnInit, OnDestroy {
     });
 
     this.variablesService.disable_price_fetch$.pipe(takeUntil(this._destroy$)).subscribe((disable_price_fetch) => {
+      const updateTime = 10 * 60 * 1000;
       if (!disable_price_fetch) {
         this.getMoneyEquivalent();
         this.intervalUpdatePriceState = setInterval(() => {
           this.getMoneyEquivalent();
-        }, 30000);
+        }, updateTime);
       } else {
         if (this.intervalUpdatePriceState) {
           clearInterval(this.intervalUpdatePriceState);
@@ -624,25 +625,20 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   getMoneyEquivalent() {
-    this.http.get('https://api.coingecko.com/api/v3/ping').subscribe(
-      () => {
-        this.http.get('https://api.coingecko.com/api/v3/simple/price?ids=zano&vs_currencies=usd&include_24hr_change=true').subscribe(
-          data => {
-            this.variablesService.moneyEquivalent = data['zano']['usd'];
-            this.variablesService.moneyEquivalentPercent = data['zano']['usd_24h_change'];
-          },
-          error => {
-            console.warn('api.coingecko.com price error: ', error);
-          }
-        );
+    const ping$ = this.http.get('https://api.coingecko.com/api/v3/ping').pipe(shareReplay(1));
+
+    ping$.pipe(
+      switchMap(() => this.http.get('https://api.coingecko.com/api/v3/simple/price?ids=zano&vs_currencies=usd&include_24hr_change=true')),
+      take(1)
+    ).subscribe({
+      next: data => {
+        this.variablesService.moneyEquivalent = data['zano']['usd'];
+        this.variablesService.moneyEquivalentPercent = data['zano']['usd_24h_change'];
       },
-      error => {
-        console.warn('api.coingecko.com error: ', error);
-        setTimeout(() => {
-          this.getMoneyEquivalent();
-        }, 30000);
-      }
-    );
+      error: error => {
+        console.warn('api.coingecko.com price error: ', error);
+      },
+    });
   }
 
   getAliases() {
