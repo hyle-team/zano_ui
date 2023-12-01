@@ -5328,11 +5328,12 @@ var AppComponent = /** @class */ (function () {
             console.log(error);
         });
         this.variablesService.disable_price_fetch$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_13__["takeUntil"])(this._destroy$)).subscribe(function (disable_price_fetch) {
+            var updateTime = 10 * 60 * 1000;
             if (!disable_price_fetch) {
                 _this.getMoneyEquivalent();
                 _this.intervalUpdatePriceState = setInterval(function () {
                     _this.getMoneyEquivalent();
-                }, 30000);
+                }, updateTime);
             }
             else {
                 if (_this.intervalUpdatePriceState) {
@@ -5343,18 +5344,15 @@ var AppComponent = /** @class */ (function () {
     };
     AppComponent.prototype.getMoneyEquivalent = function () {
         var _this = this;
-        this.http.get('https://api.coingecko.com/api/v3/ping').subscribe(function () {
-            _this.http.get('https://api.coingecko.com/api/v3/simple/price?ids=zano&vs_currencies=usd&include_24hr_change=true').subscribe(function (data) {
+        var ping$ = this.http.get('https://api.coingecko.com/api/v3/ping').pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_13__["shareReplay"])(1));
+        ping$.pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_13__["switchMap"])(function () { return _this.http.get('https://api.coingecko.com/api/v3/simple/price?ids=zano&vs_currencies=usd&include_24hr_change=true'); }), Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_13__["take"])(1)).subscribe({
+            next: function (data) {
                 _this.variablesService.moneyEquivalent = data['zano']['usd'];
                 _this.variablesService.moneyEquivalentPercent = data['zano']['usd_24h_change'];
-            }, function (error) {
+            },
+            error: function (error) {
                 console.warn('api.coingecko.com price error: ', error);
-            });
-        }, function (error) {
-            console.warn('api.coingecko.com error: ', error);
-            setTimeout(function () {
-                _this.getMoneyEquivalent();
-            }, 30000);
+            },
         });
     };
     AppComponent.prototype.getAliases = function () {
