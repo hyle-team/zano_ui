@@ -153,6 +153,12 @@
                             <div *ngIf="sendForm.controls['mixin'].hasError('required')">
                                 {{ 'SEND.FORM_ERRORS.AMOUNT_REQUIRED' | translate }}
                             </div>
+							<div *ngIf="sendForm.controls['mixin'].hasError('min')">
+								{{ 'Min' }} {{ sendForm.controls['mixin'].getError('min')['min'] }}
+							</div>
+							<div *ngIf="sendForm.controls['mixin'].hasError('max')">
+								{{ 'Max' }} {{ sendForm.controls['mixin'].getError('max')['max'] }}
+							</div>
                         </div>
                     </div>
 
