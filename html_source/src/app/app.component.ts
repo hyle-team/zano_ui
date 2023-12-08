@@ -9,8 +9,8 @@ import { IntToMoneyPipe } from './_helpers/pipes/int-to-money.pipe';
 import { BigNumber } from 'bignumber.js';
 import { ModalService } from './_helpers/services/modal.service';
 import { Store } from 'store';
-import {shareReplay, Subject, switchMap, take} from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import {shareReplay, switchMap, take, takeUntil} from 'rxjs/operators';
 import { paths, pathsChildrenAuth } from './paths';
 
 @Component({
