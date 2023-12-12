@@ -3426,6 +3426,7 @@ __webpack_require__(/*! ../../modules/es.object.get-own-property-descriptor */ 1
 __webpack_require__(/*! ../../modules/es.object.get-own-property-descriptors */ 4655);
 __webpack_require__(/*! ../../modules/es.object.get-own-property-names */ 3552);
 __webpack_require__(/*! ../../modules/es.object.get-prototype-of */ 4679);
+__webpack_require__(/*! ../../modules/es.object.group-by */ 4852);
 __webpack_require__(/*! ../../modules/es.object.has-own */ 5749);
 __webpack_require__(/*! ../../modules/es.object.is */ 6102);
 __webpack_require__(/*! ../../modules/es.object.is-extensible */ 9500);
@@ -3606,8 +3607,8 @@ var createMethod = function (TYPE) {
   return function ($this, callbackfn, that, specificCreate) {
     var O = toObject($this);
     var self = IndexedObject(O);
-    var boundFunction = bind(callbackfn, that);
     var length = lengthOfArrayLike(self);
+    var boundFunction = bind(callbackfn, that);
     var index = 0;
     var create = specificCreate || arraySpeciesCreate;
     var target = IS_MAP ? create($this, length) : IS_FILTER || IS_FILTER_REJECT ? create($this, 0) : undefined;
@@ -6151,10 +6152,10 @@ var store = __webpack_require__(/*! ../internals/shared-store */ 5111);
 (module.exports = function (key, value) {
   return store[key] || (store[key] = value !== undefined ? value : {});
 })('versions', []).push({
-  version: '3.33.3',
+  version: '3.34.0',
   mode: IS_PURE ? 'pure' : 'global',
   copyright: '© 2014-2023 Denis Pushkarev (zloirock.ru)',
-  license: 'https://github.com/zloirock/core-js/blob/v3.33.3/LICENSE',
+  license: 'https://github.com/zloirock/core-js/blob/v3.34.0/LICENSE',
   source: 'https://github.com/zloirock/core-js'
 });
 
@@ -7057,6 +7058,46 @@ $({ target: 'Object', stat: true, forced: FAILS_ON_PRIMITIVES, sham: !CORRECT_PR
   }
 });
 
+
+
+/***/ }),
+
+/***/ 4852:
+/*!************************************************************!*\
+  !*** ./node_modules/core-js/modules/es.object.group-by.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+
+
+var $ = __webpack_require__(/*! ../internals/export */ 3514);
+var getBuiltIn = __webpack_require__(/*! ../internals/get-built-in */ 4642);
+var uncurryThis = __webpack_require__(/*! ../internals/function-uncurry-this */ 4450);
+var aCallable = __webpack_require__(/*! ../internals/a-callable */ 6022);
+var requireObjectCoercible = __webpack_require__(/*! ../internals/require-object-coercible */ 5028);
+var toPropertyKey = __webpack_require__(/*! ../internals/to-property-key */ 263);
+var iterate = __webpack_require__(/*! ../internals/iterate */ 308);
+
+var create = getBuiltIn('Object', 'create');
+var push = uncurryThis([].push);
+
+// `Object.groupBy` method
+// https://github.com/tc39/proposal-array-grouping
+$({ target: 'Object', stat: true }, {
+  groupBy: function groupBy(items, callbackfn) {
+    requireObjectCoercible(items);
+    aCallable(callbackfn);
+    var obj = create(null);
+    var k = 0;
+    iterate(items, function (value) {
+      var key = toPropertyKey(callbackfn(value, k++));
+      // in some IE versions, `hasOwnProperty` returns incorrect result on integer keys
+      // but since it's a `null` prototype object, we can safely use `in`
+      if (key in obj) push(obj[key], value);
+      else obj[key] = [value];
+    });
+    return obj;
+  }
+});
 
 
 /***/ }),
