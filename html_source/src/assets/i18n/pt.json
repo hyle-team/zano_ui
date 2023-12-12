@@ -196,8 +196,8 @@
         "REGISTER_ALIAS": "Registar um alias",
         "DETAILS": "Detalhes",
         "LOCK": "Bloquear",
-        "AVAILABLE_BALANCE": "Disponível <b>{{available}} {{currency}}<b/>",
-        "LOCKED_BALANCE": "Bloqueado <b>{{locked}} {{currency}}<b/>",
+        "AVAILABLE_BALANCE": "Disponível",
+        "LOCKED_BALANCE": "Bloqueado",
         "LOCKED_BALANCE_LINK": "O que isso quer dizer?",
         "TABS": {
             "ASSETS": "Bens",

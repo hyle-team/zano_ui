@@ -108,17 +108,18 @@ export class WalletCardComponent {
         balances.forEach(({ unlocked, total, asset_info: { ticker } }: Asset) => {
             const available = document.createElement('span');
             available.setAttribute('class', 'available');
-            available.innerHTML = this.translate.instant('WALLET.AVAILABLE_BALANCE', {
-                available: this.intToMoneyPipe.transform(unlocked),
-                currency: ticker || '---',
-            });
+            available.innerText = `${this.translate.instant('WALLET.AVAILABLE_BALANCE')} `;
+            const availableB = document.createElement('b');
+            availableB.innerText = `${ this.intToMoneyPipe.transform(unlocked) } ${ ticker || '---' }`;
+            available.appendChild(availableB);
             scrollWrapper.appendChild(available);
+
             const locked = document.createElement('span');
             locked.setAttribute('class', 'locked');
-            locked.innerHTML = this.translate.instant('WALLET.LOCKED_BALANCE', {
-                locked: this.intToMoneyPipe.transform(new BigNumber(total).minus(unlocked)),
-                currency: ticker || '---',
-            });
+            locked.innerText = `${this.translate.instant('WALLET.LOCKED_BALANCE')} `;
+            const lockedB = document.createElement('b');
+            lockedB.innerText = `${ this.intToMoneyPipe.transform(new BigNumber(total).minus(unlocked)) } ${ ticker || '---' }`;
+            locked.appendChild(lockedB);
             scrollWrapper.appendChild(locked);
         });
         tooltip.appendChild(scrollWrapper);

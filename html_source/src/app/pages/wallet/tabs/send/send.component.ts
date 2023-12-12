@@ -287,6 +287,12 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                                     <div *ngIf="sendMoneyParamsForm.controls.mixin.hasError('required')">
                                         {{ 'SEND.FORM_ERRORS.AMOUNT_REQUIRED' | translate }}
                                     </div>
+                                    <div *ngIf="sendMoneyParamsForm.controls.mixin.hasError('min')">
+                                        {{ 'Min' }} {{ sendMoneyParamsForm.controls.mixin.getError('min')['min'] }}
+                                    </div>
+                                    <div *ngIf="sendMoneyParamsForm.controls.mixin.hasError('max')">
+                                        {{ 'Max' }} {{ sendMoneyParamsForm.controls.mixin.getError('max')['max'] }}
+                                    </div>
                                 </div>
                             </div>
 
@@ -500,7 +506,7 @@ export class SendComponent implements OnInit, OnDestroy {
             validators: [Validators.required],
         }),
         mixin: this.fb.control(MIXIN, {
-            validators: [Validators.required],
+            validators: [Validators.required, Validators.min(0), Validators.max(1000)],
         }),
         fee: this.fb.control(this.variablesService.default_fee, {
             validators: [
