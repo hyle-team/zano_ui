@@ -116,7 +116,7 @@ export class SendComponent implements OnInit, OnDestroy {
       return null;
     }]),
     comment: new FormControl(''),
-    mixin: new FormControl(MIXIN, Validators.required),
+    mixin: new FormControl(MIXIN, [Validators.required, Validators.min(0), Validators.max(1000)]),
     fee: new FormControl(this.variablesService.default_fee, [Validators.required, (g: FormControl) => {
       if ((new BigNumber(g.value)).isLessThan(this.variablesService.default_fee)) {
         return { 'less_min': true };
