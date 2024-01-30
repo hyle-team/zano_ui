@@ -5,8 +5,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FlexModule } from '@angular/flex-layout';
 
 @NgModule({
-  declarations: [AssetDetailsComponent],
-  exports: [AssetDetailsComponent],
-  imports: [CommonModule, TranslateModule, FlexModule],
+    declarations: [AssetDetailsComponent],
+    exports: [AssetDetailsComponent],
+    imports: [CommonModule, TranslateModule, FlexModule],
 })
 export class AssetDetailsModule {}

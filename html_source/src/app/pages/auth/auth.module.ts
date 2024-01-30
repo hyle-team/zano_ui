@@ -7,7 +7,7 @@ import { NoWalletComponent } from './no-wallet/no-wallet.component';
 import { SynchronizationStatusComponent } from '@parts/components/synchronization-status.component';
 
 @NgModule({
-  declarations: [NoWalletComponent],
-  imports: [CommonModule, AuthRoutingModule, TranslateModule, FlexLayoutModule, SynchronizationStatusComponent],
+    declarations: [NoWalletComponent],
+    imports: [CommonModule, AuthRoutingModule, TranslateModule, FlexLayoutModule, SynchronizationStatusComponent],
 })
 export class AuthModule {}

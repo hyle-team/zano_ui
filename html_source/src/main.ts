@@ -5,12 +5,12 @@ import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 import 'lodash';
 
-export const buildTime = '2023-07-21T06:38:49.075Z';
+export const buildTime = '2023-11-22T09:13:55.758Z';
 
 if (environment.production) {
-  enableProdMode();
+    enableProdMode();
 }
 
 platformBrowserDynamic()
-  .bootstrapModule(AppModule)
-  .catch(err => console.error(err));
+    .bootstrapModule(AppModule)
+    .catch(err => console.error(err));

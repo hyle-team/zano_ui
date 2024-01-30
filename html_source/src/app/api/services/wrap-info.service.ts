@@ -4,12 +4,12 @@ import { Observable } from 'rxjs';
 import { WrapInfo } from '@api/models/wrap-info';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class WrapInfoService {
-  private httpClient = inject(HttpClient);
+    private httpClient = inject(HttpClient);
 
-  getWrapInfo(): Observable<WrapInfo> {
-    return this.httpClient.get<WrapInfo>('https://wrapped.zano.org/api2/get_wrap_info');
-  }
+    getWrapInfo(): Observable<WrapInfo> {
+        return this.httpClient.get<WrapInfo>('https://wrapped.zano.org/api2/get_wrap_info');
+    }
 }

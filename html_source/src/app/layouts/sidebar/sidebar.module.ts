@@ -14,22 +14,22 @@ import { SynchronizationStatusComponent } from '@parts/components/synchronizatio
 import { WalletCardComponent } from '@parts/components/wallet-card.component';
 
 @NgModule({
-  declarations: [SidebarComponent],
-  imports: [
-    CommonModule,
-    RouterModule,
-    DragDropModule,
-    TooltipModule,
-    TranslateModule,
-    DisablePriceFetchModule,
-    ConfirmModalModule,
-    SynchronizationStatusComponent,
-    DeeplinkModule,
-    StakingSwitchComponent,
-    FlexLayoutModule,
-    IntToMoneyPipeModule,
-    WalletCardComponent,
-  ],
-  exports: [SidebarComponent],
+    declarations: [SidebarComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        DragDropModule,
+        TooltipModule,
+        TranslateModule,
+        DisablePriceFetchModule,
+        ConfirmModalModule,
+        SynchronizationStatusComponent,
+        DeeplinkModule,
+        StakingSwitchComponent,
+        FlexLayoutModule,
+        IntToMoneyPipeModule,
+        WalletCardComponent,
+    ],
+    exports: [SidebarComponent],
 })
 export class SidebarModule {}

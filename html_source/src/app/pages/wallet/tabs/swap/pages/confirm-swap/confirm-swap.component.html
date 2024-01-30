@@ -1,0 +1,60 @@
+<div class="container scrolled-content">
+    <app-breadcrumbs [items]="breadcrumbItems" class="mb-2"></app-breadcrumbs>
+
+    <form [formGroup]="form" class="form">
+        <div class="form__field textarea mb-2">
+            <label for="swap-proposal-hex">
+                {{ 'CONFIRM_SWAP.FORM.LABELS.LABEL1' | translate }}
+            </label>
+            <textarea
+                [placeholder]="'CONFIRM_SWAP.FORM.PLACEHOLDERS.PLACEHOLDER1' | translate"
+                formControlName="hex_raw_proposal"
+                id="swap-proposal-hex"
+            ></textarea>
+        </div>
+
+        <div *ngIf="proposalDetails" class="form__field mb-2">
+            <label for="swap-proposal-hex">
+                {{ 'CONFIRM_SWAP.FORM.LABELS.LABEL2' | translate }}
+            </label>
+            <div class="table-info">
+                <div class="row">
+                    <div class="label max-w-19-rem w-100">
+                        {{ 'CONFIRM_SWAP.FORM.TABLE.LABELS.LABEL1' | translate }}
+                    </div>
+                    <div *ngFor="let item of proposalDetails.to_initiator" class="text">
+                        {{ item.amount | intToMoney }}
+                        {{ (item.asset_id | getAsset)?.asset_info.ticker || '???' }}
+                    </div>
+                </div>
+
+                <hr class="separator" />
+
+                <div class="row">
+                    <div class="label max-w-19-rem w-100">
+                        {{ 'CONFIRM_SWAP.FORM.TABLE.LABELS.LABEL2' | translate }}
+                    </div>
+                    <div *ngFor="let item of proposalDetails.to_finalizer" class="text">
+                        {{ item.amount | intToMoney }}
+                        {{ (item.asset_id | getAsset)?.asset_info.ticker || '???' }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="actions">
+            <button (click)="swapConfirmMasterPasswordDialog()" [disabled]="!proposalDetails" class="btn primary big w-100" type="button">
+                {{ 'CONFIRM_SWAP.FORM.BUTTONS.BUTTON1' | translate }}
+            </button>
+
+            <a class="btn outline big w-100" routerLink="/wallet/swap">
+                {{ 'CONFIRM_SWAP.FORM.BUTTONS.BUTTON2' | translate }}
+            </a>
+        </div>
+
+        <div *ngIf="errorRpc" class="error mt-2">
+            Error code: {{ errorRpc.code }} <br />
+            Error message: {{ errorRpc.message || 'hex_raw_proposal not decoded' }}
+        </div>
+    </form>
+</div>

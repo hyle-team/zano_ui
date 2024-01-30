@@ -404,45 +404,6 @@ body {
   background-image: url('crown.svg');
   background-repeat: no-repeat;
   background-size: contain;
-}.breadcrumbs {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  width: 100%;
-  flex: 0 0 auto;
-}.breadcrumbs.scrolled {
-  flex-wrap: nowrap;
-  overflow-x: auto;
-}.breadcrumbs .breadcrumb {
-  flex: 0 0 auto;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}.breadcrumbs .breadcrumb > span,
-.breadcrumbs .breadcrumb a {
-  white-space: nowrap;
-  color: var(--white-500);
-  outline-style: none;
-  transition: opacity 0.2s ease-in-out;
-  opacity: 0.75;
-}.breadcrumbs .breadcrumb a {
-  cursor: pointer;
-}.breadcrumbs .breadcrumb:last-child > span,
-.breadcrumbs .breadcrumb:last-child a, .breadcrumbs .breadcrumb:hover > span,
-.breadcrumbs .breadcrumb:hover a {
-  opacity: 1;
-}.breadcrumbs .breadcrumb:not(:last-child) {
-  position: relative;
-  padding-right: 3.5rem;
-}.breadcrumbs .breadcrumb:not(:last-child):after {
-  content: "";
-  display: block;
-  position: absolute;
-  top: 50%;
-  right: 0.8rem;
-  transform: translateY(-50%);
-  width: 1.8rem;
-  height: 1.8rem;
-  background: center/contain no-repeat url('dropdown-arrow-right.svg');
 }button,
 .btn {
   display: inline-flex;
@@ -556,11 +517,15 @@ body {
 }.list .item:hover,
 .list .item .active {
   background-color: var(--gray-900);
-}.list .item button {
+}.list .item button,
+.list .item a {
+  display: inline-flex;
   white-space: nowrap;
   justify-content: flex-start;
   border-radius: 0;
-}.list .item button span {
+  color: white;
+}.list .item button span,
+.list .item a span {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -568,6 +533,12 @@ body {
   max-width: 50rem;
   width: 100%;
   border-radius: 0.8rem;
+}.form__row {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: space-between;
+  grid-gap: 20px;
 }.form__field {
   display: flex;
   flex: 0 0 auto;
@@ -800,6 +771,8 @@ body {
   background: center/contain no-repeat url('purchase-arrow-up.svg');
 }.icon.arrow-down-square {
   background: center/contain no-repeat url('arrow-down-square.svg');
+}.icon.swap {
+  background: center/contain no-repeat url('swap_icon.svg');
 }.icon.add {
   background: center/contain no-repeat url('add.svg');
 }.icon.balance-icon {
@@ -918,7 +891,8 @@ body {
 }.modal .message-container {
   overflow: hidden;
   text-overflow: ellipsis;
-}.modal .message-container .title, .modal .message-container .message {
+}.modal .message-container .title,
+.modal .message-container .message {
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
