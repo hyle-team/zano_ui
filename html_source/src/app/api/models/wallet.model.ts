@@ -53,6 +53,23 @@ export class Wallet {
         this._balances$.next(sortedAssets);
     }
 
+    get isEmpty(): boolean {
+        if (!this.balances) {
+            return true;
+        }
+
+        for (const asset of this.balances) {
+            const value = asset.total || 0;
+            const isEmpty = !Boolean(new BigNumber(value).toNumber());
+
+            if (!isEmpty) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     mined_total: number;
     tracking_hey: string;
     is_auditable: boolean;

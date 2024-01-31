@@ -411,13 +411,13 @@ export class HistoryComponent implements OnInit, OnDestroy {
 
         this.init();
 
-        this.variablesService.getWalletChangedEvent.pipe(takeUntil(this.destroy$)).subscribe({
+        this.variablesService.currentWalletChangedEvent.pipe(takeUntil(this.destroy$)).subscribe({
             next: () => {
                 this.getRecentTransfers();
             },
         });
 
-        this.variablesService.getWalletChangedEvent
+        this.variablesService.currentWalletChangedEvent
             .pipe(
                 filter(w => !!w),
                 takeUntil(this.destroy$)

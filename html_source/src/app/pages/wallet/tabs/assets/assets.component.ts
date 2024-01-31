@@ -360,7 +360,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
     }
 
     private listenChangeWallet(): void {
-        this.variablesService.getWalletChangedEvent.pipe(takeUntil(this.destroy$)).subscribe({
+        this.variablesService.currentWalletChangedEvent.pipe(takeUntil(this.destroy$)).subscribe({
             next: () => {
                 this.currentPage = 0;
             },

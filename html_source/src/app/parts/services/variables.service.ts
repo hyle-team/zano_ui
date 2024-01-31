@@ -150,7 +150,7 @@ export class VariablesService {
 
     getAliasChangedEvent = new BehaviorSubject(null);
 
-    getWalletChangedEvent = new BehaviorSubject<Wallet>(null);
+    currentWalletChangedEvent = new BehaviorSubject<Wallet>(null);
 
     idle = new Idle().whenNotInteractive().do(async () => {
         if (this.appPass === '') {
@@ -222,7 +222,7 @@ export class VariablesService {
         this.wallets.forEach(wallet => {
             if (wallet.wallet_id === id) {
                 this.currentWallet = wallet;
-                this.getWalletChangedEvent.next(wallet);
+                this.currentWalletChangedEvent.next(wallet);
             }
         });
     }
