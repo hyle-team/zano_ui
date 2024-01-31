@@ -3,7 +3,7 @@ import { VariablesService } from '@parts/services/variables.service';
 import { BackendService, Commands } from '@api/services/backend.service';
 import { Subject } from 'rxjs';
 import { StateKeys, Store, Sync } from '@store/store';
-import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, takeUntil } from 'rxjs/operators';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 import { Dialog, DialogConfig } from '@angular/cdk/dialog';
 import { ConfirmModalComponent, ConfirmModalData } from '@parts/modals/confirm-modal/confirm-modal.component';
@@ -12,11 +12,77 @@ import { AddCustomTokenComponent } from './modals/add-custom-token/add-custom-to
 import { Asset } from '@api/models/assets.model';
 import { AssetDetailsComponent } from '@parts/modals/asset-details/asset-details.component';
 import { WalletsService } from '@parts/services/wallets.service';
+import { Wallet } from '@api/models/wallet.model';
+
+interface Tab {
+    id: string;
+    title: string;
+    icon: string;
+    link: string;
+    disabled: boolean;
+    indicator?: boolean;
+}
+
+type TabNameKeys = 'assets' | 'history' | 'send' | 'receive' | 'swap' | 'staking';
+
+const objTabs: { [key in TabNameKeys]: Tab } = {
+    assets: {
+        id: 'assets',
+        title: 'WALLET.TABS.ASSETS',
+        icon: 'balance-icon',
+        link: '/assets',
+        disabled: false
+    },
+    history: {
+        id: 'history',
+        title: 'WALLET.TABS.HISTORY',
+        icon: 'time-circle',
+        link: '/history',
+        disabled: false,
+    },
+    send: {
+        id: 'send',
+        title: 'WALLET.TABS.SEND',
+        icon: 'arrow-up-square',
+        link: '/send',
+        disabled: false,
+    },
+    receive: {
+        id: 'receive',
+        title: 'WALLET.TABS.RECEIVE',
+        icon: 'arrow-down-square',
+        link: '/receive',
+        disabled: false,
+    },
+    swap: {
+        id: 'swap',
+        title: 'Swap',
+        icon: 'swap',
+        link: '/swap',
+        disabled: false,
+    },
+    // TODO: https://github.com/hyle-team/zano/issues/374
+    // contract: {
+    //     title: 'WALLET.TABS.CONTRACTS',
+    //     icon: 'document',
+    //     link: '/contracts',
+    //     disabled: false,
+    // },
+    staking: {
+        id: 'staking',
+        title: 'WALLET.TABS.STAKING',
+        icon: 'staking',
+        link: '/staking',
+        indicator: false,
+        disabled: false,
+    },
+};
 
 @Component({
     selector: 'app-wallet',
     template: `
-        <div class="header mb-2" fxFlex="0 0 auto" fxLayout="row nowrap" fxLayoutAlign="space-between start" fxLayoutGap="1rem">
+        <div class="header mb-2" fxFlex="0 0 auto" fxLayout="row nowrap" fxLayoutAlign="space-between start"
+             fxLayoutGap="1rem">
             <div class="left overflow-hidden">
                 <div class="wallet-wrapper" fxLayout="column" fxLayoutAlign="start start">
                     <div class="title" fxLayout="row nowrap" fxLayoutAlign="start center">
@@ -62,7 +128,8 @@ import { WalletsService } from '@parts/services/wallets.service';
                                     variablesService.daemon_state === 2
                                 "
                             >
-                                <div [class.available]="variablesService.currentWallet.alias | isAvailableAliasName" class="alias mr-1">
+                                <div [class.available]="variablesService.currentWallet.alias | isAvailableAliasName"
+                                     class="alias mr-1">
                                     {{ variablesService.currentWallet.alias.name }}
                                 </div>
 
@@ -199,7 +266,7 @@ import { WalletsService } from '@parts/services/wallets.service';
                     </ng-container>
                     <li class="item">
                         <button
-                            (click)="beforeClose(variablesService.currentWallet.wallet_id)"
+                            (click)="close(variablesService.currentWallet.wallet_id)"
                             [delay]="500"
                             [timeDelay]="500"
                             class="w-100 px-2 py-1"
@@ -218,21 +285,12 @@ import { WalletsService } from '@parts/services/wallets.service';
         <div class="tabs">
             <div class="tabs-header">
                 <ng-container *ngFor="let tab of tabs; let index = index">
-                    <button
-                        [disabled]="tab.disabled"
-                        [ngClass]="{
-                            hide:
-                                (tab.link === '/send' || tab.link === '/contracts') &&
-                                variablesService.currentWallet.is_watch_only &&
-                                variablesService.currentWallet.is_auditable
-                        }"
-                        [routerLink]="['/wallet' + tab.link]"
-                        class="tab-header"
-                        routerLinkActive="active"
-                    >
+                    <button [disabled]="tab.disabled" [routerLink]="['/wallet' + tab.link]" class="tab-header"
+                            routerLinkActive="active">
                         <i [ngClass]="tab.icon" class="icon mr-1"></i>
                         <span>{{ tab.title | translate }}</span>
-                        <span *ngIf="tab.indicator" class="indicator">{{ variablesService.currentWallet.new_contracts }}</span>
+                        <span *ngIf="tab.indicator"
+                              class="indicator">{{ variablesService.currentWallet.new_contracts }}</span>
                     </button>
                 </ng-container>
             </div>
@@ -253,52 +311,7 @@ export class WalletComponent implements OnInit, OnDestroy {
 
     walletSyncVisible = false;
 
-    tabs = [
-        {
-            title: 'WALLET.TABS.ASSETS',
-            icon: 'balance-icon',
-            link: '/assets',
-            disabled: false,
-        },
-        {
-            title: 'WALLET.TABS.HISTORY',
-            icon: 'time-circle',
-            link: '/history',
-            disabled: false,
-        },
-        {
-            title: 'WALLET.TABS.SEND',
-            icon: 'arrow-up-square',
-            link: '/send',
-            disabled: true,
-        },
-        {
-            title: 'WALLET.TABS.RECEIVE',
-            icon: 'arrow-down-square',
-            link: '/receive',
-            disabled: false,
-        },
-        {
-            title: 'Swap',
-            icon: 'swap',
-            link: '/swap',
-            disabled: false,
-        },
-        // TODO: https://github.com/hyle-team/zano/issues/374
-        // {
-        //   title: 'WALLET.TABS.CONTRACTS',
-        //   icon: 'document',
-        //   link: '/contracts',
-        //   disabled: true,
-        // },
-        {
-            title: 'WALLET.TABS.STAKING',
-            icon: 'staking',
-            link: '/staking',
-            indicator: false,
-            disabled: true,
-        },
-    ];
+    tabs: Tab[] = [];
 
     private destroy$ = new Subject<void>();
 
@@ -314,6 +327,41 @@ export class WalletComponent implements OnInit, OnDestroy {
             this.variablesService.setCurrentWallet(0);
         }
         this.walletLoaded = this.variablesService.currentWallet.loaded;
+
+        this.variablesService.currentWalletChangedEvent
+            .pipe(
+                takeUntil(this.destroy$)
+            )
+            .subscribe({
+                next: (wallet: Wallet) => {
+                    this.createTabs(wallet);
+
+                    const disabled = wallet.isEmpty;
+                    this.setDisabledTabs(['send', 'swap', 'staking'], disabled);
+                },
+            });
+    }
+
+    createTabs({ is_auditable, is_watch_only }: Wallet): void {
+        const conditionForHiding: boolean = !is_auditable || !is_watch_only;
+        const tabs: Array<Tab> = [];
+
+        tabs.push(objTabs.assets);
+        tabs.push(objTabs.history);
+
+        if (conditionForHiding) {
+            tabs.push(objTabs.send);
+        }
+
+        tabs.push(objTabs.receive);
+
+        if (conditionForHiding) {
+            tabs.push(objTabs.swap);
+        }
+
+        tabs.push(objTabs.staking);
+
+        this.tabs = tabs;
     }
 
     @HostListener('document:keydown.shift', ['$event.key'])
@@ -372,11 +420,6 @@ export class WalletComponent implements OnInit, OnDestroy {
             },
         });
         this.updateWalletStatus();
-        this.variablesService.getWalletChangedEvent.pipe(takeUntil(this.destroy$)).subscribe({
-            next: () => {
-                this.setTabsDisabled(!this.variablesService.currentWallet.balances);
-            },
-        });
     }
 
     toggleMenuDropdown(): void {
@@ -388,11 +431,11 @@ export class WalletComponent implements OnInit, OnDestroy {
         }
     }
 
-    resyncCurrentWallet(id): void {
-        this.backend.resyncWallet(id);
+    resyncCurrentWallet(wallet_id: number): void {
+        this.backend.resyncWallet(wallet_id);
     }
 
-    beforeClose(wallet_id): void {
+    close(wallet_id: number): void {
         const dialogConfig: DialogConfig<ConfirmModalData> = {
             data: {
                 title: 'WALLET.CONFIRM.MESSAGE',
@@ -402,9 +445,15 @@ export class WalletComponent implements OnInit, OnDestroy {
 
         this.dialog
             .open<boolean>(ConfirmModalComponent, dialogConfig)
-            .closed.pipe(takeUntil(this.destroy$))
+            .closed
+            .pipe(
+                filter(Boolean),
+                takeUntil(this.destroy$)
+            )
             .subscribe({
-                next: confirmed => confirmed && this.closeWallet(wallet_id),
+                next: () => {
+                    this.walletsService.closeWallet(wallet_id);
+                },
             });
     }
 
@@ -434,10 +483,6 @@ export class WalletComponent implements OnInit, OnDestroy {
         this.dialog.open(ExportHistoryModalComponent);
     }
 
-    closeWallet(wallet_id): void {
-        this.walletsService.closeWallet(wallet_id);
-    }
-
     ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
@@ -459,7 +504,8 @@ export class WalletComponent implements OnInit, OnDestroy {
                 if (wallet_state === 2 && wallet_id === this.variablesService.currentWallet.wallet_id) {
                     this.walletLoaded = this.variablesService.getWallet(this.variablesService.currentWallet.wallet_id)?.loaded || false;
                     if (this.walletLoaded) {
-                        this.setTabsDisabled(!this.variablesService.currentWallet.balances);
+                        const disabled = this.variablesService.currentWallet.isEmpty;
+                        this.setDisabledTabs(['send', 'swap', 'staking'], disabled);
                     }
                 } else {
                     this.walletLoaded = false;
@@ -468,10 +514,9 @@ export class WalletComponent implements OnInit, OnDestroy {
         });
     }
 
-    setTabsDisabled(disabled: boolean): void {
-        this.tabs[2].disabled = disabled;
-        this.tabs[4].disabled = disabled;
-        // TODO: https://github.com/hyle-team/zano/issues/374
-        // this.tabs[5].disabled = disabled;
+    setDisabledTabs(ids: string[], disabled: boolean): void {
+        this.tabs
+            .filter(({ id }) => ids.includes(id))
+            .forEach(tab => (tab.disabled = disabled));
     }
 }
