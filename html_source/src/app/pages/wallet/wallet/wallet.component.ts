@@ -20,6 +20,7 @@ interface Tab {
     icon: string;
     link: string;
     disabled: boolean;
+    hidden: boolean;
     indicator?: boolean;
 }
 
@@ -31,7 +32,8 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
         title: 'WALLET.TABS.ASSETS',
         icon: 'balance-icon',
         link: '/assets',
-        disabled: false
+        disabled: false,
+        hidden: false
     },
     history: {
         id: 'history',
@@ -39,6 +41,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
         icon: 'time-circle',
         link: '/history',
         disabled: false,
+        hidden: false
     },
     send: {
         id: 'send',
@@ -46,6 +49,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
         icon: 'arrow-up-square',
         link: '/send',
         disabled: false,
+        hidden: false
     },
     receive: {
         id: 'receive',
@@ -53,6 +57,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
         icon: 'arrow-down-square',
         link: '/receive',
         disabled: false,
+        hidden: false
     },
     swap: {
         id: 'swap',
@@ -60,6 +65,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
         icon: 'swap',
         link: '/swap',
         disabled: false,
+        hidden: true
     },
     // TODO: https://github.com/hyle-team/zano/issues/374
     // contract: {
@@ -67,6 +73,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
     //     icon: 'document',
     //     link: '/contracts',
     //     disabled: false,
+    //     hidden: false
     // },
     staking: {
         id: 'staking',
@@ -75,6 +82,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
         link: '/staking',
         indicator: false,
         disabled: false,
+        hidden: false
     },
 };
 
@@ -215,22 +223,24 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
                             <span>{{ 'WALLET_DETAILS.WALLET_OPTIONS' | translate }}</span>
                         </button>
                     </li>
-                    <li class="item">
-                        <button
-                            (click)="addCustomToken()"
-                            [delay]="500"
-                            [disabled]="false"
-                            [timeDelay]="500"
-                            class="w-100 px-2 py-1"
-                            placement="left"
-                            tooltip="{{ 'WALLET.TOOLTIPS.ADD_CUSTOM_TOKEN' | translate }}"
-                            tooltipClass="table-tooltip account-tooltip"
-                            type="button"
-                        >
-                            <i class="icon add mr-1"></i>
-                            <span>{{ 'WALLET_DETAILS.ADD_CUSTOM_TOKEN' | translate }}</span>
-                        </button>
-                    </li>
+                    <ng-container *ngIf="false">
+                        <li class="item">
+                            <button
+                                (click)="addCustomToken()"
+                                [delay]="500"
+                                [disabled]="false"
+                                [timeDelay]="500"
+                                class="w-100 px-2 py-1"
+                                placement="left"
+                                tooltip="{{ 'WALLET.TOOLTIPS.ADD_CUSTOM_TOKEN' | translate }}"
+                                tooltipClass="table-tooltip account-tooltip"
+                                type="button"
+                            >
+                                <i class="icon add mr-1"></i>
+                                <span>{{ 'WALLET_DETAILS.ADD_CUSTOM_TOKEN' | translate }}</span>
+                            </button>
+                        </li>
+                    </ng-container>
                     <li class="item">
                         <button
                             (click)="exportHistory()"
@@ -285,13 +295,15 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
         <div class="tabs">
             <div class="tabs-header">
                 <ng-container *ngFor="let tab of tabs; let index = index">
-                    <button [disabled]="tab.disabled" [routerLink]="['/wallet' + tab.link]" class="tab-header"
-                            routerLinkActive="active">
-                        <i [ngClass]="tab.icon" class="icon mr-1"></i>
-                        <span>{{ tab.title | translate }}</span>
-                        <span *ngIf="tab.indicator"
-                              class="indicator">{{ variablesService.currentWallet.new_contracts }}</span>
-                    </button>
+                    <ng-container *ngIf="!tab.hidden">
+                        <button [disabled]="tab.disabled" [routerLink]="['/wallet' + tab.link]" class="tab-header"
+                                routerLinkActive="active">
+                            <i [ngClass]="tab.icon" class="icon mr-1"></i>
+                            <span>{{ tab.title | translate }}</span>
+                            <span *ngIf="tab.indicator"
+                                  class="indicator">{{ variablesService.currentWallet.new_contracts }}</span>
+                        </button>
+                    </ng-container>
                 </ng-container>
             </div>
             <div class="tabs-content">
