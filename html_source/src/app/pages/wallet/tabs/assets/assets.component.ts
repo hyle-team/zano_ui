@@ -191,12 +191,14 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                     </a>
                 </li>
 
-                <li class="item">
-                    <a routerLink="/wallet/create-swap" [state]="{ asset: currentAsset }" class="w-100 px-2 py-1">
-                        <i class="icon swap mr-1"></i>
-                        <span>{{ 'Swap' | translate }}</span>
-                    </a>
-                </li>
+                <ng-container *ngIf="false">
+                    <li class="item">
+                        <a routerLink="/wallet/create-swap" [state]="{ asset: currentAsset }" class="w-100 px-2 py-1">
+                            <i class="icon swap mr-1"></i>
+                            <span>{{ 'Swap' | translate }}</span>
+                        </a>
+                    </li>
+                </ng-container>
 
                 <ng-container *ngIf="currentAsset.asset_info.ticker !== 'ZANO'">
                     <li class="item">
