@@ -223,7 +223,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
                             <span>{{ 'WALLET_DETAILS.WALLET_OPTIONS' | translate }}</span>
                         </button>
                     </li>
-                    <ng-container *ngIf="false">
+                    <ng-container *ngIf="variablesService.is_hardfok_active$ | async">
                         <li class="item">
                             <button
                                 (click)="addCustomToken()"
@@ -348,10 +348,19 @@ export class WalletComponent implements OnInit, OnDestroy {
                 next: (wallet: Wallet) => {
                     this.createTabs(wallet);
 
-                    const disabled = wallet.isEmpty;
+                    const disabled = wallet.isEmpty || this.variablesService.daemon_state !== 2 || !this.walletLoaded;
                     this.setDisabledTabs(['send', 'swap', 'staking'], disabled);
                 },
             });
+
+        this.variablesService.is_hardfok_active$.pipe(
+            takeUntil(this.destroy$)
+        ).subscribe({
+            next: (value) => {
+                const hidden = !value;
+                this.setHiddenTabs(['swap'], hidden);
+            }
+        });
     }
 
     createTabs({ is_auditable, is_watch_only }: Wallet): void {
@@ -524,6 +533,12 @@ export class WalletComponent implements OnInit, OnDestroy {
                 }
             });
         });
+    }
+
+    setHiddenTabs(ids: string[], hidden: boolean): void {
+        this.tabs
+            .filter(({ id }) => ids.includes(id))
+            .forEach(tab => (tab.hidden = hidden));
     }
 
     setDisabledTabs(ids: string[], disabled: boolean): void {

@@ -184,14 +184,14 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                     </button>
                 </li>
 
-                <li class="item">
+                <li class="item" *ngIf="variablesService.currentWallet.loaded && variablesService.daemon_state === 2">
                     <a routerLink="/wallet/send" [state]="{ asset: currentAsset }" class="w-100 px-2 py-1">
                         <i class="icon arrow-up-square mr-1"></i>
                         <span>{{ 'Send' | translate }}</span>
                     </a>
                 </li>
 
-                <ng-container *ngIf="false">
+                <ng-container *ngIf="variablesService.currentWallet.loaded && variablesService.daemon_state === 2 && (variablesService.is_hardfok_active$ | async)">
                     <li class="item">
                         <a routerLink="/wallet/create-swap" [state]="{ asset: currentAsset }" class="w-100 px-2 py-1">
                             <i class="icon swap mr-1"></i>

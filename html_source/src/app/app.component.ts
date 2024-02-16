@@ -13,6 +13,7 @@ import { takeUntil } from 'rxjs/operators';
 import { paths, pathsChildrenAuth } from './pages/paths';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 import { Dialog } from '@angular/cdk/dialog';
+import { ParamsCallRpc } from '@api/models/call_rpc.model';
 
 @Component({
     selector: 'app-root',
@@ -710,6 +711,8 @@ export class AppComponent implements OnInit, OnDestroy {
                 this.backendService.handleCurrentActionState();
 
                 this.getVersion();
+
+                this.getInfo();
             },
             error: error => {
                 console.log(error);
@@ -844,5 +847,21 @@ export class AppComponent implements OnInit, OnDestroy {
                 }
             });
         });
+    }
+
+    getInfo(): void {
+        const updateTime = 60 * 1000;
+        const getInfo = () => {
+            const params = {
+                jsonrpc: '2.0',
+                method: 'getinfo',
+            };
+
+            this.backendService.call_rpc(params, (status, response_data) => {
+                this.variablesService.info$.next(response_data.result);
+            });
+        };
+        getInfo();
+        setInterval(getInfo, updateTime);
     }
 }
