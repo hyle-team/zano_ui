@@ -184,7 +184,7 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                     </button>
                 </li>
 
-                <li class="item" *ngIf="variablesService.currentWallet.loaded && variablesService.daemon_state === 2">
+                <li class="item" *ngIf="variablesService.currentWallet.loaded && variablesService.daemon_state === 2 && !variablesService.currentWallet.is_auditable && !variablesService.currentWallet.is_watch_only">
                     <a routerLink="/wallet/send" [state]="{ asset: currentAsset }" class="w-100 px-2 py-1">
                         <i class="icon arrow-up-square mr-1"></i>
                         <span>{{ 'Send' | translate }}</span>
