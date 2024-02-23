@@ -3552,6 +3552,7 @@ var createMethod = function (IS_INCLUDES) {
   return function ($this, el, fromIndex) {
     var O = toIndexedObject($this);
     var length = lengthOfArrayLike(O);
+    if (length === 0) return !IS_INCLUDES && -1;
     var index = toAbsoluteIndex(fromIndex, length);
     var value;
     // Array#includes uses SameValueZero equality algorithm
@@ -3880,14 +3881,13 @@ module.exports = function (bitmap, value) {
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
-var toPropertyKey = __webpack_require__(/*! ../internals/to-property-key */ 263);
+var DESCRIPTORS = __webpack_require__(/*! ../internals/descriptors */ 740);
 var definePropertyModule = __webpack_require__(/*! ../internals/object-define-property */ 5909);
 var createPropertyDescriptor = __webpack_require__(/*! ../internals/create-property-descriptor */ 2016);
 
 module.exports = function (object, key, value) {
-  var propertyKey = toPropertyKey(key);
-  if (propertyKey in object) definePropertyModule.f(object, propertyKey, createPropertyDescriptor(0, value));
-  else object[propertyKey] = value;
+  if (DESCRIPTORS) definePropertyModule.f(object, key, createPropertyDescriptor(0, value));
+  else object[key] = value;
 };
 
 
@@ -6089,13 +6089,20 @@ module.exports = function (key) {
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
-var global = __webpack_require__(/*! ../internals/global */ 6308);
+var IS_PURE = __webpack_require__(/*! ../internals/is-pure */ 777);
+var globalThis = __webpack_require__(/*! ../internals/global */ 6308);
 var defineGlobalProperty = __webpack_require__(/*! ../internals/define-global-property */ 189);
 
 var SHARED = '__core-js_shared__';
-var store = global[SHARED] || defineGlobalProperty(SHARED, {});
+var store = module.exports = globalThis[SHARED] || defineGlobalProperty(SHARED, {});
 
-module.exports = store;
+(store.versions || (store.versions = [])).push({
+  version: '3.36.0',
+  mode: IS_PURE ? 'pure' : 'global',
+  copyright: '© 2014-2024 Denis Pushkarev (zloirock.ru)',
+  license: 'https://github.com/zloirock/core-js/blob/v3.36.0/LICENSE',
+  source: 'https://github.com/zloirock/core-js'
+});
 
 
 /***/ }),
@@ -6107,18 +6114,11 @@ module.exports = store;
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
-var IS_PURE = __webpack_require__(/*! ../internals/is-pure */ 777);
 var store = __webpack_require__(/*! ../internals/shared-store */ 5111);
 
-(module.exports = function (key, value) {
-  return store[key] || (store[key] = value !== undefined ? value : {});
-})('versions', []).push({
-  version: '3.35.1',
-  mode: IS_PURE ? 'pure' : 'global',
-  copyright: '© 2014-2024 Denis Pushkarev (zloirock.ru)',
-  license: 'https://github.com/zloirock/core-js/blob/v3.35.1/LICENSE',
-  source: 'https://github.com/zloirock/core-js'
-});
+module.exports = function (key, value) {
+  return store[key] || (store[key] = value || {});
+};
 
 
 /***/ }),
