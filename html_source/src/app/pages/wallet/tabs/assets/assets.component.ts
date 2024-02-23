@@ -184,20 +184,22 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                     </button>
                 </li>
 
-                <li class="item">
-                    <a routerLink="/wallet/send" [state]="{ asset: currentAsset }" class="w-100 px-2 py-1">
-                        <i class="icon arrow-up-square mr-1"></i>
-                        <span>{{ 'Send' | translate }}</span>
-                    </a>
-                </li>
-
-                <ng-container *ngIf="false">
+                <ng-container *ngIf="variablesService.currentWallet.loaded && variablesService.daemon_state === 2 && !variablesService.currentWallet.is_auditable && !variablesService.currentWallet.is_watch_only && !variablesService.currentWallet.isEmpty">
                     <li class="item">
-                        <a routerLink="/wallet/create-swap" [state]="{ asset: currentAsset }" class="w-100 px-2 py-1">
-                            <i class="icon swap mr-1"></i>
-                            <span>{{ 'Swap' | translate }}</span>
+                        <a routerLink="/wallet/send" [state]="{ asset: currentAsset }" class="w-100 px-2 py-1">
+                            <i class="icon arrow-up-square mr-1"></i>
+                            <span>{{ 'Send' | translate }}</span>
                         </a>
                     </li>
+
+                    <ng-container *ngIf="(variablesService.is_hardfok_active$ | async)">
+                        <li class="item">
+                            <a routerLink="/wallet/create-swap" [state]="{ asset: currentAsset }" class="w-100 px-2 py-1">
+                                <i class="icon swap mr-1"></i>
+                                <span>{{ 'Swap' | translate }}</span>
+                            </a>
+                        </li>
+                    </ng-container>
                 </ng-container>
 
                 <ng-container *ngIf="currentAsset.asset_info.ticker !== 'ZANO'">

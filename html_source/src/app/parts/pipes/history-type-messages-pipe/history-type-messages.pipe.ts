@@ -42,7 +42,7 @@ export class HistoryTypeMessagesPipe implements PipeTransform {
                 case 5:
                     return this.translate.instant('HISTORY.TYPE_MESSAGES.UPDATE_ALIAS');
                 case 6:
-                    return item.td['spn'] && item.td['spn'].length
+                    return item.td?.['spn']?.length
                         ? this.translate.instant('HISTORY.TYPE_MESSAGES.POS_REWARD')
                         : this.translate.instant('HISTORY.TYPE_MESSAGES.POW_REWARD');
                 case 7:

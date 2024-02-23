@@ -262,7 +262,7 @@ import { zanoAssetInfo } from '@parts/data/assets';
                                         </ng-container>
 
                                         <ng-container
-                                            *ngSwitchCase="!(transaction.remote_addresses?.length || transaction.remote_aliases?.length) && transaction.tx_type !== 5"
+                                            *ngSwitchCase="!(transaction.remote_addresses?.length || transaction.remote_aliases?.length) && ![4,5,6,7,8,10,11,12].includes(transaction.tx_type)"
                                         >
                                             {{ 'HISTORY.HIDDEN' | translate }}
                                         </ng-container>

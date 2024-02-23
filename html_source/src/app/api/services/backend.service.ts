@@ -733,7 +733,7 @@ export class BackendService {
     }
 
     // Use for call rpc-api https://docs.zano.org/docs/build/rpc-api
-    call_rpc(params: ParamsCallRpc, callback?: (status: boolean, response_data: any) => void): void {
+    call_rpc(params: Partial<ParamsCallRpc>, callback?: (status: boolean, response_data: any) => void): void {
         this.runCommand(Commands.call_rpc, params, callback);
     }
 

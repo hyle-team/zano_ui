@@ -106,7 +106,7 @@ export class AssetDetailsComponent implements OnInit {
 
     ngZone = inject(NgZone);
 
-    zano_current_supply = null;
+    zano_current_supply = 'Unknown';
 
     constructor(
         public variablesService: VariablesService,
@@ -144,10 +144,10 @@ export class AssetDetailsComponent implements OnInit {
         };
 
         this.backendService.call_rpc(params1, (status1, response_data1) => {
-            if (response_data1.result.status === 'OK') {
+            if (response_data1?.result?.status === 'OK') {
                 this.backendService.call_rpc(params2, (status2, response_data2) => {
                     this.ngZone.run(() => {
-                        this.zano_current_supply = response_data2?.['result']?.['total_coins'] ?? null;
+                        this.zano_current_supply = response_data2?.['result']?.['total_coins'] ?? 'Unknown';
                     });
                 });
             }
