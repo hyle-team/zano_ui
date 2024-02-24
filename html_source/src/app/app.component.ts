@@ -712,9 +712,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
                 this.getVersion();
 
-                setTimeout(() => {
-                    this.getInfo();
-                }, 10 * 1000);
+                this.getInfo();
             },
             error: error => {
                 console.log(error);

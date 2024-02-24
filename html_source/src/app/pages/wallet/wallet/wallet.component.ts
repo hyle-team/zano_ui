@@ -358,6 +358,15 @@ export class WalletComponent implements OnInit, OnDestroy {
                     });
                 },
             });
+
+        this.variablesService.is_hardfok_active$.pipe(
+            takeUntil(this.destroy$)
+        ).subscribe({
+            next: (value) => {
+                const hidden = !value;
+                this.setHiddenTabs(['swap'], hidden);
+            }
+        });
     }
 
     createTabs({ is_auditable, is_watch_only }: Wallet): void {
