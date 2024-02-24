@@ -1,7 +1,7 @@
 import { Component, HostListener, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { VariablesService } from '@parts/services/variables.service';
 import { BackendService, Commands } from '@api/services/backend.service';
-import { Subject } from 'rxjs';
+import { Subject, take } from 'rxjs';
 import { StateKeys, Store, Sync } from '@store/store';
 import { distinctUntilChanged, filter, map, takeUntil } from 'rxjs/operators';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
@@ -294,7 +294,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
 
         <div class="tabs">
             <div class="tabs-header">
-                <ng-container *ngFor="let tab of tabs; let index = index">
+                <ng-container *ngFor="let tab of tabs">
                     <ng-container *ngIf="!tab.hidden">
                         <button [disabled]="tab.disabled" [routerLink]="['/wallet' + tab.link]" class="tab-header"
                                 routerLinkActive="active">
@@ -348,19 +348,16 @@ export class WalletComponent implements OnInit, OnDestroy {
                 next: (wallet: Wallet) => {
                     this.createTabs(wallet);
 
-                    const disabled = wallet.isEmpty || this.variablesService.daemon_state !== 2 || !this.walletLoaded;
-                    this.setDisabledTabs(['send', 'swap', 'staking'], disabled);
+                    this.variablesService.is_hardfok_active$.pipe(
+                        take(1)
+                    ).subscribe({
+                        next: (value) => {
+                            const hidden = !value;
+                            this.setHiddenTabs(['swap'], hidden);
+                        }
+                    });
                 },
             });
-
-        this.variablesService.is_hardfok_active$.pipe(
-            takeUntil(this.destroy$)
-        ).subscribe({
-            next: (value) => {
-                const hidden = !value;
-                this.setHiddenTabs(['swap'], hidden);
-            }
-        });
     }
 
     createTabs({ is_auditable, is_watch_only }: Wallet): void {
@@ -525,8 +522,9 @@ export class WalletComponent implements OnInit, OnDestroy {
                 if (wallet_state === 2 && wallet_id === this.variablesService.currentWallet.wallet_id) {
                     this.walletLoaded = this.variablesService.getWallet(this.variablesService.currentWallet.wallet_id)?.loaded || false;
                     if (this.walletLoaded) {
-                        const disabled = this.variablesService.currentWallet.isEmpty;
-                        this.setDisabledTabs(['send', 'swap', 'staking'], disabled);
+                        this.setDisabledTabs(['send', 'swap', 'staking'], false);
+                    } else {
+                        this.setDisabledTabs(['send', 'swap', 'staking'], true);
                     }
                 } else {
                     this.walletLoaded = false;
@@ -537,13 +535,19 @@ export class WalletComponent implements OnInit, OnDestroy {
 
     setHiddenTabs(ids: string[], hidden: boolean): void {
         this.tabs
-            .filter(({ id }) => ids.includes(id))
-            .forEach(tab => (tab.hidden = hidden));
+            .forEach(tab => {
+                if (ids.includes(tab.id)) {
+                    tab.hidden = hidden;
+                }
+            });
     }
 
     setDisabledTabs(ids: string[], disabled: boolean): void {
         this.tabs
-            .filter(({ id }) => ids.includes(id))
-            .forEach(tab => (tab.disabled = disabled));
+            .forEach(tab => {
+                if (ids.includes(tab.id)) {
+                    tab.disabled = disabled;
+                }
+            });
     }
 }
