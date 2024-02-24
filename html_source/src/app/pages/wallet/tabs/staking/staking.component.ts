@@ -451,6 +451,8 @@ export class StakingComponent implements OnInit, OnDestroy {
     }
 
     changePeriod(period?): void {
+        if (!this.chart) { return; }
+
         if (period) {
             this.periods.forEach(p => {
                 p.active = false;
