@@ -36,7 +36,7 @@
                         {{ 'SEND.FORM_ERRORS.WRAP_INFO_NULL' | translate }}
                     </div>
                     <div *ngIf="form.controls.sending.controls.amount.hasError('required')">
-                        {{ 'SEND.FORM_ERRORS.AMOUNT_REQUIRED' | translate }}
+                        {{ 'ERRORS.REQUIRED' | translate }}
                     </div>
                     <div *ngIf="form.controls.sending.controls.amount.hasError('insuficcientFunds')">
                         {{ form.controls.sending.controls.amount.errors['insuficcientFunds'].errorText | translate }}
@@ -101,7 +101,7 @@
                     class="error"
                 >
                     <div *ngIf="form.controls.receiving.controls.amount.hasError('required')">
-                        {{ 'SEND.FORM_ERRORS.AMOUNT_REQUIRED' | translate }}
+                        {{ 'ERRORS.REQUIRED' | translate }}
                     </div>
                     <div *ngIf="form.controls.receiving.controls.amount.hasError('min')">
                         {{ 'SEND.FORM_ERRORS.AMOUNT_ZERO' | translate }}
@@ -236,7 +236,7 @@
                     {{ 'SEND.FORM_ERRORS.ALIAS_NOT_VALID' | translate }}
                 </div>
                 <div *ngIf="form.controls.receiverAddress.hasError('required')">
-                    {{ 'SEND.FORM_ERRORS.ADDRESS_REQUIRED' | translate }}
+                    {{ 'ERRORS.REQUIRED' | translate }}
                 </div>
             </div>
 

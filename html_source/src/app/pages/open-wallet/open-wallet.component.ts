@@ -82,7 +82,7 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                                 class="error"
                             >
                                 <div *ngIf="openWalletForm.controls.password.hasError('wrongPassword')">
-                                    {{ openWalletForm.controls.password.errors['wrongPassword'].errorText }}
+                                    {{ openWalletForm.controls.password.errors['wrongPassword'].errorText | translate }}
                                 </div>
                             </div>
                         </div>

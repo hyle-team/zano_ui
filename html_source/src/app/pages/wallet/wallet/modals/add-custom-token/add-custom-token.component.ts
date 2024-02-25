@@ -40,7 +40,7 @@ import { LoaderComponent } from '@parts/components/loader.component';
                         maxlength="64"
                     />
                     <ng-container *ngIf="formGroup.get('asset_id').touched">
-                        <div *ngIf="formGroup.get('asset_id').hasError('invalidHash')" class="error">Invalid hash</div>
+                        <div *ngIf="formGroup.get('asset_id').hasError('invalidHash')" class="error">{{ 'WALLET.MODAL_ADD_CUSTOM_TOKEN.FORM_ERRORS.ERROR1' | translate }}</div>
                         <div *ngIf="formGroup.get('asset_id').hasError('wrongAssetId')" class="error">
                             {{ formGroup.get('asset_id').errors['wrongAssetId'].errorText | translate }}
                         </div>
