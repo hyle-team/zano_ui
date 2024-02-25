@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { DeeplinkParams, Wallet } from '@api/models/wallet.model';
 import { Contact } from '@api/models/contact.model';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { Idle } from 'idlejs/dist';
 import { Router } from '@angular/router';
 import { ContextMenuComponent, ContextMenuService } from '@perfectmemory/ngx-contextmenu';
@@ -20,7 +20,7 @@ export class VariablesService {
     info$ = new BehaviorSubject<any>({});
 
     is_hardfok_active$: Observable<boolean> = this.info$.pipe(map((info) => {
-        return info?.['is_hardfok_active']?.[3] ?? false;
+        return Boolean(info?.['is_hardfok_active']?.[4]);
     }), distinctUntilChanged());
 
     stop_paginate = {};

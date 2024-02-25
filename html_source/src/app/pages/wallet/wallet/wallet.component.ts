@@ -347,6 +347,8 @@ export class WalletComponent implements OnInit, OnDestroy {
             .subscribe({
                 next: (wallet: Wallet) => {
                     this.createTabs(wallet);
+                    const disabled =  !wallet.loaded;
+                    this.setDisabledTabs(['send', 'staking'], disabled);
 
                     this.variablesService.is_hardfok_active$.pipe(
                         take(1)
@@ -528,15 +530,16 @@ export class WalletComponent implements OnInit, OnDestroy {
             const wallet_state = data.wallet_state;
             const wallet_id = data.wallet_id;
             this.ngZone.run(() => {
-                if (wallet_state === 2 && wallet_id === this.variablesService.currentWallet.wallet_id) {
-                    this.walletLoaded = this.variablesService.getWallet(this.variablesService.currentWallet.wallet_id)?.loaded || false;
-                    if (this.walletLoaded) {
-                        this.setDisabledTabs(['send', 'swap', 'staking'], false);
-                    } else {
-                        this.setDisabledTabs(['send', 'swap', 'staking'], true);
-                    }
+                if (wallet_id !== this.variablesService.currentWallet.wallet_id) {
+                    return;
+                }
+
+                if (wallet_state === 2) {
+                    this.walletLoaded = true;
+                    this.setDisabledTabs(['send', 'staking'], false);
                 } else {
                     this.walletLoaded = false;
+                    this.setDisabledTabs(['send', 'staking'], true);
                 }
             });
         });
