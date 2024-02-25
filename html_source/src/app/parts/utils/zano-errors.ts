@@ -9,11 +9,11 @@ export const wrongAssetId: ZanoValidationErrors = {
 };
 
 export const wrongPassword: ZanoValidationErrors = {
-    errorText: 'Wrong password',
+    errorText: 'Incorrect password',
 };
 
 export const insuficcientFunds: ZanoValidationErrors = {
-    errorText: 'ASSETS.FORM.ERRORS.INSUFICCIENT_FUNDS',
+    errorText: 'ERRORS.INSUFFICIENT_FUNDS',
 };
 
 export const notFileZanoWallet: ZanoValidationErrors = {

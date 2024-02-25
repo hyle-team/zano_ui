@@ -141,7 +141,7 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                                 "
                                 class="error"
                             >
-                                {{ 'Seed phrase not valid' | translate }}
+                                {{ 'RESTORE_WALLET.FORM_ERRORS.SEED_PHRASE_IS_NO_VALID' | translate }}
                             </div>
                         </div>
                         <div *ngIf="this.seedPhraseInfo?.syntax_correct && this.seedPhraseInfo?.require_password" class="form__field">

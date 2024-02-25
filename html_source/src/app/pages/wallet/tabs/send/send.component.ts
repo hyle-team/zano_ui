@@ -97,7 +97,7 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                                 {{ 'SEND.FORM_ERRORS.ALIAS_NOT_VALID' | translate }}
                             </div>
                             <div *ngIf="sendMoneyParamsForm.controls.address.hasError('required')">
-                                {{ 'SEND.FORM_ERRORS.ADDRESS_REQUIRED' | translate }}
+                                {{ 'ERRORS.REQUIRED' | translate }}
                             </div>
                         </div>
 
@@ -140,7 +140,7 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                                 {{ 'SEND.FORM_ERRORS.WRAP_INFO_NULL' | translate }}
                             </div>
                             <div *ngIf="sendMoneyParamsForm.controls.amount.hasError('required')">
-                                {{ 'SEND.FORM_ERRORS.AMOUNT_REQUIRED' | translate }}
+                                {{ 'ERRORS.REQUIRED' | translate }}
                             </div>
                             <div *ngIf="sendMoneyParamsForm.controls.amount.hasError('insuficcientFunds')">
                                 {{ sendMoneyParamsForm.controls.amount.errors['insuficcientFunds'].errorText | translate }}
@@ -285,7 +285,7 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                                     class="error"
                                 >
                                     <div *ngIf="sendMoneyParamsForm.controls.mixin.hasError('required')">
-                                        {{ 'SEND.FORM_ERRORS.AMOUNT_REQUIRED' | translate }}
+                                        {{ 'ERRORS.REQUIRED' | translate }}
                                     </div>
                                     <div *ngIf="sendMoneyParamsForm.controls.mixin.hasError('min')">
                                         {{ 'Min' }} {{ sendMoneyParamsForm.controls.mixin.getError('min')['min'] }}

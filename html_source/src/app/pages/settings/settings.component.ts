@@ -142,7 +142,7 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
                                 "
                                 class="error"
                             >
-                                {{ 'SETTINGS.FORM_ERRORS.PASS_NOT_MATCH' | translate }}
+                                {{ 'SETTINGS.FORM_ERRORS.CURRENT_PASS_NOT_MATCH' | translate }}
                             </div>
                         </div>
 
@@ -162,7 +162,7 @@ import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
                                 class="error"
                             >
                                 <div *ngIf="changeForm.controls['new_password'].errors?.pattern">
-                                    {{ 'ERRORS.WRONG_PASSWORD' | translate }}
+                                    {{ 'ERRORS.WRONG_PASSWORD_MUST_BE' | translate }} a-zA-Z0-9_.*|~!?@#$%^&+&#123;}()<>:;"'-=,/[]*$
                                 </div>
                                 <div *ngIf="changeForm.controls['new_password'].hasError('required')">
                                     {{ 'ERRORS.REQUIRED' | translate }}
