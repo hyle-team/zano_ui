@@ -2925,26 +2925,11 @@ function AssignAliasComponent_div_20_div_2_Template(rf, ctx) {
   }
 }
 
-function AssignAliasComponent_div_20_div_3_Template(rf, ctx) {
-  if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementStart"](0, "div");
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵtext"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵpipe"](2, "translate");
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementEnd"]();
-  }
-
-  if (rf & 2) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵpipeBind1"](2, 1, "ASSIGN_ALIAS.FORM_ERRORS.NAME_REQUIRED"), " ");
-  }
-}
-
 function AssignAliasComponent_div_20_Template(rf, ctx) {
   if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementStart"](0, "div", 19);
     _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵtemplate"](1, AssignAliasComponent_div_20_div_1_Template, 3, 3, "div", 20);
     _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵtemplate"](2, AssignAliasComponent_div_20_div_2_Template, 3, 3, "div", 20);
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵtemplate"](3, AssignAliasComponent_div_20_div_3_Template, 3, 3, "div", 20);
     _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementEnd"]();
   }
 
@@ -2954,8 +2939,6 @@ function AssignAliasComponent_div_20_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵproperty"]("ngIf", ctx_r0.assignForm.controls["name"].errors["pattern"] && ctx_r0.assignForm.get("name").value.length > 6 && ctx_r0.assignForm.get("name").value.length <= 25);
     _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵadvance"](1);
     _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵproperty"]("ngIf", ctx_r0.assignForm.get("name").value.length <= 6 || ctx_r0.assignForm.get("name").value.length > 25);
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵproperty"]("ngIf", ctx_r0.assignForm.controls["name"].hasError("required"));
   }
 }
 
@@ -3158,7 +3141,7 @@ AssignAliasComponent.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE
       });
       _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵpipe"](19, "translate");
       _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementEnd"]()();
-      _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵtemplate"](20, AssignAliasComponent_div_20_Template, 4, 3, "div", 13);
+      _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵtemplate"](20, AssignAliasComponent_div_20_Template, 3, 2, "div", 13);
       _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵtemplate"](21, AssignAliasComponent_div_21_Template, 4, 3, "div", 13);
       _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵtemplate"](22, AssignAliasComponent_div_22_Template, 4, 3, "div", 13);
       _angular_core__WEBPACK_IMPORTED_MODULE_12__["ɵɵelementEnd"]();
@@ -5345,15 +5328,16 @@ function OpenWalletComponent_div_20_Template(rf, ctx) { if (rf & 1) {
 function OpenWalletComponent_div_27_div_1_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_10__["ɵɵelementStart"](0, "div");
     _angular_core__WEBPACK_IMPORTED_MODULE_10__["ɵɵtext"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_10__["ɵɵpipe"](2, "translate");
     _angular_core__WEBPACK_IMPORTED_MODULE_10__["ɵɵelementEnd"]();
 } if (rf & 2) {
     const ctx_r5 = _angular_core__WEBPACK_IMPORTED_MODULE_10__["ɵɵnextContext"](2);
     _angular_core__WEBPACK_IMPORTED_MODULE_10__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_10__["ɵɵtextInterpolate1"](" ", ctx_r5.openWalletForm.controls.password.errors["wrongPassword"].errorText, " ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_10__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_10__["ɵɵpipeBind1"](2, 1, ctx_r5.openWalletForm.controls.password.errors["wrongPassword"].errorText), " ");
 } }
 function OpenWalletComponent_div_27_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_10__["ɵɵelementStart"](0, "div", 17);
-    _angular_core__WEBPACK_IMPORTED_MODULE_10__["ɵɵtemplate"](1, OpenWalletComponent_div_27_div_1_Template, 2, 1, "div", 18);
+    _angular_core__WEBPACK_IMPORTED_MODULE_10__["ɵɵtemplate"](1, OpenWalletComponent_div_27_div_1_Template, 3, 3, "div", 18);
     _angular_core__WEBPACK_IMPORTED_MODULE_10__["ɵɵelementEnd"]();
 } if (rf & 2) {
     const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_10__["ɵɵnextContext"]();
@@ -6153,7 +6137,7 @@ function RestoreWalletComponent_div_40_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵelementEnd"]();
 } if (rf & 2) {
     _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵpipeBind1"](2, 1, "Seed phrase not valid"), " ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵpipeBind1"](2, 1, "RESTORE_WALLET.FORM_ERRORS.SEED_PHRASE_IS_NO_VALID"), " ");
 } }
 function RestoreWalletComponent_div_41_div_6_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_9__["ɵɵelementStart"](0, "div", 23)(1, "span");
@@ -6998,7 +6982,7 @@ function SettingsComponent_div_51_div_6_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
 } if (rf & 2) {
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipeBind1"](2, 1, "SETTINGS.FORM_ERRORS.PASS_NOT_MATCH"), " ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipeBind1"](2, 1, "SETTINGS.FORM_ERRORS.CURRENT_PASS_NOT_MATCH"), " ");
 } }
 function SettingsComponent_div_51_Template(rf, ctx) { if (rf & 1) {
     const _r21 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵgetCurrentView"]();
@@ -7029,7 +7013,7 @@ function SettingsComponent_div_58_div_1_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
 } if (rf & 2) {
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipeBind1"](2, 1, "ERRORS.WRONG_PASSWORD"), " ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipeBind1"](2, 1, "ERRORS.WRONG_PASSWORD_MUST_BE"), " a-zA-Z0-9_.*|~!?@#$%^&+{}()<>:;\"'-=,/[]*$ ");
 } }
 function SettingsComponent_div_58_div_2_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](0, "div");
@@ -10676,7 +10660,7 @@ function SendComponent_form_1_div_13_div_4_Template(rf, ctx) {
 
   if (rf & 2) {
     _angular_core__WEBPACK_IMPORTED_MODULE_19__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_19__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_19__["ɵɵpipeBind1"](2, 1, "SEND.FORM_ERRORS.ADDRESS_REQUIRED"), " ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_19__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_19__["ɵɵpipeBind1"](2, 1, "ERRORS.REQUIRED"), " ");
   }
 }
 
@@ -10784,7 +10768,7 @@ function SendComponent_form_1_div_23_div_5_Template(rf, ctx) {
 
   if (rf & 2) {
     _angular_core__WEBPACK_IMPORTED_MODULE_19__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_19__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_19__["ɵɵpipeBind1"](2, 1, "SEND.FORM_ERRORS.AMOUNT_REQUIRED"), " ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_19__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_19__["ɵɵpipeBind1"](2, 1, "ERRORS.REQUIRED"), " ");
   }
 }
 
@@ -11008,7 +10992,7 @@ function SendComponent_form_1_div_49_div_10_div_1_Template(rf, ctx) {
 
   if (rf & 2) {
     _angular_core__WEBPACK_IMPORTED_MODULE_19__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_19__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_19__["ɵɵpipeBind1"](2, 1, "SEND.FORM_ERRORS.AMOUNT_REQUIRED"), " ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_19__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_19__["ɵɵpipeBind1"](2, 1, "ERRORS.REQUIRED"), " ");
   }
 }
 
@@ -12993,7 +12977,7 @@ function CreateSwapComponent_div_10_div_5_Template(rf, ctx) {
 
   if (rf & 2) {
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpipeBind1"](2, 1, "SEND.FORM_ERRORS.AMOUNT_REQUIRED"), " ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpipeBind1"](2, 1, "ERRORS.REQUIRED"), " ");
   }
 }
 
@@ -13083,7 +13067,7 @@ function CreateSwapComponent_div_27_div_1_Template(rf, ctx) {
 
   if (rf & 2) {
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpipeBind1"](2, 1, "SEND.FORM_ERRORS.AMOUNT_REQUIRED"), " ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpipeBind1"](2, 1, "ERRORS.REQUIRED"), " ");
   }
 }
 
@@ -13378,7 +13362,7 @@ function CreateSwapComponent_div_46_div_4_Template(rf, ctx) {
 
   if (rf & 2) {
     _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpipeBind1"](2, 1, "SEND.FORM_ERRORS.ADDRESS_REQUIRED"), " ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_14__["ɵɵpipeBind1"](2, 1, "ERRORS.REQUIRED"), " ");
   }
 }
 
@@ -14507,8 +14491,14 @@ __webpack_require__.r(__webpack_exports__);
 function AddCustomTokenComponent_ng_container_10_div_1_Template(rf, ctx) {
   if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵelementStart"](0, "div", 13);
-    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵtext"](1, "Invalid hash");
+    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵtext"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵpipe"](2, "translate");
     _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵelementEnd"]();
+  }
+
+  if (rf & 2) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵpipeBind1"](2, 1, "WALLET.MODAL_ADD_CUSTOM_TOKEN.FORM_ERRORS.ERROR1"));
   }
 }
 
@@ -14530,7 +14520,7 @@ function AddCustomTokenComponent_ng_container_10_div_2_Template(rf, ctx) {
 function AddCustomTokenComponent_ng_container_10_Template(rf, ctx) {
   if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵelementContainerStart"](0);
-    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵtemplate"](1, AddCustomTokenComponent_ng_container_10_div_1_Template, 2, 0, "div", 12);
+    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵtemplate"](1, AddCustomTokenComponent_ng_container_10_div_1_Template, 3, 3, "div", 12);
     _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵtemplate"](2, AddCustomTokenComponent_ng_container_10_div_2_Template, 3, 3, "div", 12);
     _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵelementContainerEnd"]();
   }
@@ -15320,6 +15310,8 @@ class WalletComponent {
     this.variablesService.currentWalletChangedEvent.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_15__.takeUntil)(this.destroy$)).subscribe({
       next: wallet => {
         this.createTabs(wallet);
+        const disabled = !wallet.loaded;
+        this.setDisabledTabs(['send', 'staking'], disabled);
         this.variablesService.is_hardfok_active$.pipe((0,rxjs__WEBPACK_IMPORTED_MODULE_16__.take)(1)).subscribe({
           next: value => {
             const hidden = !value;
@@ -15483,18 +15475,16 @@ class WalletComponent {
       const wallet_state = data.wallet_state;
       const wallet_id = data.wallet_id;
       this.ngZone.run(() => {
-        var _a;
+        if (wallet_id !== this.variablesService.currentWallet.wallet_id) {
+          return;
+        }
 
-        if (wallet_state === 2 && wallet_id === this.variablesService.currentWallet.wallet_id) {
-          this.walletLoaded = ((_a = this.variablesService.getWallet(this.variablesService.currentWallet.wallet_id)) === null || _a === void 0 ? void 0 : _a.loaded) || false;
-
-          if (this.walletLoaded) {
-            this.setDisabledTabs(['send', 'swap', 'staking'], false);
-          } else {
-            this.setDisabledTabs(['send', 'swap', 'staking'], true);
-          }
+        if (wallet_state === 2) {
+          this.walletLoaded = true;
+          this.setDisabledTabs(['send', 'staking'], false);
         } else {
           this.walletLoaded = false;
+          this.setDisabledTabs(['send', 'staking'], true);
         }
       });
     });
@@ -18849,7 +18839,7 @@ class HistoryTypeMessagesPipe {
                 case 5:
                     return this.translate.instant('HISTORY.TYPE_MESSAGES.UPDATE_ALIAS');
                 case 6:
-                    return ((_b = (_a = item.td) === null || _a === void 0 ? void 0 : _a['spn']) === null || _b === void 0 ? void 0 : _b.length)
+                    return ((_b = (_a = item.employed_entries) === null || _a === void 0 ? void 0 : _a.spent) === null || _b === void 0 ? void 0 : _b.length)
                         ? this.translate.instant('HISTORY.TYPE_MESSAGES.POS_REWARD')
                         : this.translate.instant('HISTORY.TYPE_MESSAGES.POW_REWARD');
                 case 7:
@@ -19455,9 +19445,9 @@ class VariablesService {
     this.use_debug_mode$ = new rxjs__WEBPACK_IMPORTED_MODULE_3__.BehaviorSubject(false);
     this.info$ = new rxjs__WEBPACK_IMPORTED_MODULE_3__.BehaviorSubject({});
     this.is_hardfok_active$ = this.info$.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_4__.map)(info => {
-      var _a, _b;
+      var _a;
 
-      return (_b = (_a = info === null || info === void 0 ? void 0 : info['is_hardfok_active']) === null || _a === void 0 ? void 0 : _a[3]) !== null && _b !== void 0 ? _b : false;
+      return Boolean((_a = info === null || info === void 0 ? void 0 : info['is_hardfok_active']) === null || _a === void 0 ? void 0 : _a[4]);
     }), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_5__.distinctUntilChanged)());
     this.stop_paginate = {};
     this.sync_started = false;
@@ -19961,10 +19951,10 @@ const wrongAssetId = {
     errorText: 'ASSETS.FORM.ERRORS.WRONG_ASSET_ID',
 };
 const wrongPassword = {
-    errorText: 'Wrong password',
+    errorText: 'Incorrect password',
 };
 const insuficcientFunds = {
-    errorText: 'ASSETS.FORM.ERRORS.INSUFICCIENT_FUNDS',
+    errorText: 'ERRORS.INSUFFICIENT_FUNDS',
 };
 const notFileZanoWallet = {
     errorText: 'ERRORS.NOT_FILE_ZANO_WALLET',
