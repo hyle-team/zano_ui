@@ -13,6 +13,14 @@ import { Asset } from '@api/models/assets.model';
 import { AssetDetailsComponent } from '@parts/modals/asset-details/asset-details.component';
 import { WalletsService } from '@parts/services/wallets.service';
 import { Wallet } from '@api/models/wallet.model';
+import {
+    NavigationCancel,
+    NavigationEnd,
+    NavigationError,
+    NavigationStart,
+    Router,
+    RouterEvent
+} from '@angular/router';
 
 interface Tab {
     id: string;
@@ -307,7 +315,13 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
                 </ng-container>
             </div>
             <div class="tabs-content">
-                <router-outlet></router-outlet>
+                <router-outlet *ngIf="!loader"></router-outlet>
+                <div class="preloader" *ngIf="loader">
+                    <p class="mb-2">
+                        {{ 'Loading...' | translate }}
+                    </p>
+                    <div class="loading-bar"></div>
+                </div>
             </div>
         </div>
     `,
@@ -327,13 +341,16 @@ export class WalletComponent implements OnInit, OnDestroy {
 
     private destroy$ = new Subject<void>();
 
+    loader = true;
+
     constructor(
         private backend: BackendService,
         public variablesService: VariablesService,
         private ngZone: NgZone,
         private store: Store,
         private dialog: Dialog,
-        private walletsService: WalletsService
+        private walletsService: WalletsService,
+        private router: Router
     ) {
         if (!this.variablesService.currentWallet && this.variablesService.wallets.length > 0) {
             this.variablesService.setCurrentWallet(0);
@@ -369,6 +386,34 @@ export class WalletComponent implements OnInit, OnDestroy {
                 this.setHiddenTabs(['swap'], hidden);
             }
         });
+
+        this.router.events.pipe(takeUntil(this.destroy$)).subscribe((e: RouterEvent) => {
+            this.navigationInterceptor(e);
+        });
+    }
+
+    navigationInterceptor(event: RouterEvent): void {
+        if (event instanceof NavigationStart) {
+
+            this.loader = true;
+
+        }
+        if (event instanceof NavigationEnd) {
+            setTimeout(() => {
+                this.loader = false;
+            }, 500);
+        }
+        if (event instanceof NavigationCancel) {
+            setTimeout(() => {
+                this.loader = true;
+            }, 500);
+        }
+        if (event instanceof NavigationError) {
+            setTimeout(() => {
+                this.loader = true;
+            }, 500);
+        }
+
     }
 
     createTabs({ is_auditable, is_watch_only }: Wallet): void {

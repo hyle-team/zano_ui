@@ -8,6 +8,7 @@ import { ConfirmModalComponent, ConfirmModalData } from '@parts/modals/confirm-m
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { WalletsService } from '@parts/services/wallets.service';
+import { ZanoLoadersService } from '@parts/services/zano-loaders.service';
 
 @Component({
     selector: 'app-sidebar',
@@ -101,7 +102,8 @@ export class SidebarComponent implements OnDestroy {
         private route: ActivatedRoute,
         private router: Router,
         private ngZone: NgZone,
-        private dialog: Dialog
+        private dialog: Dialog,
+        public zanoLoadersService: ZanoLoadersService
     ) {}
 
     ngOnDestroy(): void {
@@ -153,11 +155,17 @@ export class SidebarComponent implements OnDestroy {
     }
 
     logOut(): void {
-        this.variablesService.stopCountdown();
-        this.variablesService.appLogin = false;
-        this.variablesService.appPass = '';
-        this.ngZone.run(() => {
-            this.router.navigate(['/login'], { queryParams: { type: 'auth' } });
-        });
+        this.zanoLoadersService.open('fullScreen', 'SIDEBAR.SYNCHRONIZATION.LOGGING_OUT');
+
+        setTimeout(() => {
+            this.variablesService.stopCountdown();
+            this.variablesService.appLogin = false;
+            this.variablesService.appPass = '';
+            this.ngZone.run(() => {
+                this.router.navigate(['/login'], { queryParams: { type: 'auth' } }).then(() => {
+                    this.zanoLoadersService.close('fullScreen');
+                });
+            });
+        }, 500);
     }
 }
