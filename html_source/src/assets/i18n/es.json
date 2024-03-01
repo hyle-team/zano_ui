@@ -664,6 +664,7 @@
             "DOWNLOADING": "Downloading",
             "ERROR": "System error",
             "LOADING": "Loading blockchain data",
+            "LOGGING_OUT": "Logging out",
             "MB": "MB",
             "OFFLINE": "Offline",
             "ONLINE": "Online",

@@ -14,11 +14,12 @@ import { paths, pathsChildrenAuth } from './pages/paths';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 import { Dialog } from '@angular/cdk/dialog';
 import { ParamsCallRpc } from '@api/models/call_rpc.model';
+import { ZanoLoadersService } from '@parts/services/zano-loaders.service';
 
 @Component({
     selector: 'app-root',
     template: `
-        <router-outlet *ngIf="[0, 1, 2, 6].indexOf(variablesService.daemon_state) !== -1"></router-outlet>
+        <router-outlet *ngIf="[0, 1, 2, 6].indexOf(variablesService.daemon_state) !== -1 && !(zanoLoadersService.getState('fullScreen') | async)"></router-outlet>
 
         <div *ngIf="[3, 4, 5].indexOf(variablesService.daemon_state) !== -1" class="preloader">
             <p *ngIf="variablesService.daemon_state === 3" class="mb-2">
@@ -29,6 +30,13 @@ import { ParamsCallRpc } from '@api/models/call_rpc.model';
             </p>
             <p *ngIf="variablesService.daemon_state === 5" class="mb-2">
                 {{ 'SIDEBAR.SYNCHRONIZATION.COMPLETE' | translate }}
+            </p>
+            <div class="loading-bar"></div>
+        </div>
+
+        <div class="preloader" *ngIf="zanoLoadersService.getState('fullScreen') | async">
+            <p class="mb-2">
+                {{ zanoLoadersService.getMessage('fullScreen') | async | translate }}
             </p>
             <div class="loading-bar"></div>
         </div>
@@ -66,7 +74,8 @@ export class AppComponent implements OnInit, OnDestroy {
         private intToMoneyPipe: IntToMoneyPipe,
         private modalService: ModalService,
         private store: Store,
-        private dialog: Dialog
+        private dialog: Dialog,
+        public zanoLoadersService: ZanoLoadersService
     ) {
         translate.addLangs(['en', 'fr', 'de', 'it', 'pt']);
         translate.setDefaultLang('en');
@@ -117,9 +126,9 @@ export class AppComponent implements OnInit, OnDestroy {
                         return;
                     }
 
-                    await this.ngZone.run(async () => {
-                        await this.router.navigate(['/']);
-                    });
+                    // await this.ngZone.run(async () => {
+                    //     await this.router.navigate(['/']);
+                    // });
 
                     this.dialog.closeAll();
                     this.needOpenWallets = [];
