@@ -132,8 +132,8 @@ export class Wallet {
     prepareHistory(items: Transaction[]): void {
         for (let i = 0; i < items.length; i++) {
             if (
-                (items[i].tx_type === 7 && items[i].subtransfers.find(({ is_income }) => is_income)) ||
-                (items[i].tx_type === 11 && items[i].subtransfers.find(({ is_income }) => is_income))
+                (items[i].tx_type === 7 && items[i].subtransfers?.find(({ is_income }) => is_income)) ||
+                (items[i].tx_type === 11 && items[i].subtransfers?.find(({ is_income }) => is_income))
             ) {
                 let exists = false;
                 for (let j = 0; j < this.excluded_history.length; j++) {

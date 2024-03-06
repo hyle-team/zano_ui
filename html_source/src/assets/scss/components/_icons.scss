@@ -218,4 +218,9 @@ i {
     &.success {
         background: center / contain no-repeat url(~src/assets/icons/aqua/modal-success.svg);
     }
+
+    // gray
+    &.fire {
+        background: center / contain no-repeat url(~src/assets/icons/gray/fire_ico.svg);
+    }
 }
