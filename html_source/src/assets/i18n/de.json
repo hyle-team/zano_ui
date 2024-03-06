@@ -366,6 +366,7 @@
             "POS_REWARD": "POS-Belohnung",
             "POW_REWARD": "POW-Belohnung",
             "PROPOSAL_CANCEL_CONTRACT": "Stornierungsanfrage",
+            "SERVICE_TRANSACTIONS": "Service transactions",
             "UNDEFINED": "Unbedefiniert",
             "UPDATE_ALIAS": "Gebühr für die Bearbeitung eines Alias"
         }

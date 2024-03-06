@@ -366,6 +366,7 @@
             "POS_REWARD": "Hadiah POS",
             "POW_REWARD": "Hadiah POW",
             "PROPOSAL_CANCEL_CONTRACT": "Permintaan pembatalan",
+            "SERVICE_TRANSACTIONS": "Service transactions",
             "UNDEFINED": "Tidak terdefinisi",
             "UPDATE_ALIAS": "Biaya untuk mengubah alias"
         }

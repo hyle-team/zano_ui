@@ -47,8 +47,7 @@ export class HistoryTypeMessagesPipe implements PipeTransform {
                         : this.translate.instant('HISTORY.TYPE_MESSAGES.POW_REWARD');
                 case 7:
                     if (!item.subtransfers || !item.subtransfers.length) {
-                        console.log('123321', item);
-                        return this.translate.instant('Service transactions');
+                        return this.translate.instant('HISTORY.TYPE_MESSAGES.SERVICE_TRANSACTIONS');
                     } else {
                         return this.translate.instant('HISTORY.TYPE_MESSAGES.CREATE_CONTRACT');
                     }
