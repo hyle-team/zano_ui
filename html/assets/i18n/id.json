@@ -664,6 +664,7 @@
             "DOWNLOADING": "Mengunduh",
             "ERROR": "Sistem error",
             "LOADING": "Memuat data blockchain",
+            "LOGGING_OUT": "Logging out",
             "MB": "MB",
             "OFFLINE": "Offline",
             "ONLINE": "Online",
