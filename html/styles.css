@@ -859,6 +859,8 @@ body {
   background: center/contain no-repeat url('secured.svg');
 }.icon.success {
   background: center/contain no-repeat url('modal-success.svg');
+}.icon.fire {
+  background: center/contain no-repeat url('fire_ico.svg');
 }.loader {
   border: 2rem solid var(--azure-500);
   border-top: 2rem solid transparent;
