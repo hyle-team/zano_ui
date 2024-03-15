@@ -367,7 +367,7 @@ export class WalletComponent implements OnInit, OnDestroy {
                 next: (wallet: Wallet) => {
                     this.createTabs(wallet);
                     const disabled =  !wallet.loaded;
-                    this.setDisabledTabs(['send', 'staking'], disabled);
+                    this.setDisabledTabs(['send', 'swap', 'staking'], disabled);
 
                     this.variablesService.is_hardfok_active$.pipe(
                         take(1)
@@ -581,10 +581,10 @@ export class WalletComponent implements OnInit, OnDestroy {
 
                 if (wallet_state === 2) {
                     this.walletLoaded = true;
-                    this.setDisabledTabs(['send', 'staking'], false);
+                    this.setDisabledTabs(['send', 'swap', 'staking'], false);
                 } else {
                     this.walletLoaded = false;
-                    this.setDisabledTabs(['send', 'staking'], true);
+                    this.setDisabledTabs(['send', 'swap', 'staking'], true);
                 }
             });
         });
