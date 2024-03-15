@@ -494,7 +494,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
 
     isVisibleFee(transaction: Transaction): boolean {
         const { subtransfers } = transaction;
-        return !subtransfers?.find(({ asset_id }) => asset_id === zanoAssetInfo.asset_id)?.is_income;
+        return subtransfers ? !subtransfers?.every(({ is_income }) => is_income) : false;
     }
 
     strokeSize(item): number {
