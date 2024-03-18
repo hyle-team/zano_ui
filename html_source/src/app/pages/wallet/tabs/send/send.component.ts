@@ -230,7 +230,7 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                                 appDefaultImg
                             />
                             {{ asset.asset_info.full_name || '---' }}
-                            ({{ asset.unlocked | intToMoney }} {{ asset.asset_info.ticker }})
+                            ({{ asset.total | intToMoney }} {{ asset.asset_info.ticker }})
                         </ng-template>
                     </ng-select>
                     <div
