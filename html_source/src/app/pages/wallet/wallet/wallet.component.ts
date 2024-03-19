@@ -315,7 +315,9 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
                 </ng-container>
             </div>
             <div class="tabs-content">
-                <router-outlet *ngIf="!loader"></router-outlet>
+                <div style="flex: 1;" [ngStyle]="{ display: loader ? 'none' : 'flex' }">
+                  <router-outlet></router-outlet>
+                </div>
                 <div class="preloader" *ngIf="loader">
                     <p class="mb-2">
                         {{ 'Loading...' | translate }}
@@ -365,7 +367,7 @@ export class WalletComponent implements OnInit, OnDestroy {
                 next: (wallet: Wallet) => {
                     this.createTabs(wallet);
                     const disabled =  !wallet.loaded;
-                    this.setDisabledTabs(['send', 'staking'], disabled);
+                    this.setDisabledTabs(['send', 'swap', 'staking'], disabled);
 
                     this.variablesService.is_hardfok_active$.pipe(
                         take(1)
@@ -394,9 +396,7 @@ export class WalletComponent implements OnInit, OnDestroy {
 
     navigationInterceptor(event: RouterEvent): void {
         if (event instanceof NavigationStart) {
-
             this.loader = true;
-
         }
         if (event instanceof NavigationEnd) {
             setTimeout(() => {
@@ -405,12 +405,12 @@ export class WalletComponent implements OnInit, OnDestroy {
         }
         if (event instanceof NavigationCancel) {
             setTimeout(() => {
-                this.loader = true;
+                this.loader = false;
             }, 500);
         }
         if (event instanceof NavigationError) {
             setTimeout(() => {
-                this.loader = true;
+                this.loader = false;
             }, 500);
         }
 
@@ -581,10 +581,10 @@ export class WalletComponent implements OnInit, OnDestroy {
 
                 if (wallet_state === 2) {
                     this.walletLoaded = true;
-                    this.setDisabledTabs(['send', 'staking'], false);
+                    this.setDisabledTabs(['send', 'swap', 'staking'], false);
                 } else {
                     this.walletLoaded = false;
-                    this.setDisabledTabs(['send', 'staking'], true);
+                    this.setDisabledTabs(['send', 'swap', 'staking'], true);
                 }
             });
         });

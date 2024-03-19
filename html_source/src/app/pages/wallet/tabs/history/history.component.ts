@@ -199,7 +199,7 @@ import { zanoAssetInfo } from '@parts/data/assets';
                                                 <ng-container *ngIf="subtransfer.amount.toNumber() !== 0">
                                                     <div class="text-ellipsis">
                                                         <span *ngIf="!subtransfer.is_income">
-                                                            {{ subtransfer.amount | intToMoney }}
+                                                            {{ subtransfer.amount.negated() | intToMoney }}
                                                         </span>
                                                         <span *ngIf="subtransfer.is_income">
                                                             {{ subtransfer.amount | intToMoney }}
@@ -494,7 +494,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
 
     isVisibleFee(transaction: Transaction): boolean {
         const { subtransfers } = transaction;
-        return !subtransfers?.find(({ asset_id }) => asset_id === zanoAssetInfo.asset_id)?.is_income;
+        return subtransfers ? !subtransfers?.every(({ is_income }) => is_income) : false;
     }
 
     strokeSize(item): number {
