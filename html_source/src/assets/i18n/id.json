@@ -612,6 +612,15 @@
         },
         "APP_LOG_TITLE": "Tingkat log:",
         "DARK_THEME": "Tema Gelap",
+        "FORM": {
+            "ZANO_COMPANION": {
+                "LABELS": {
+                    "LABEL1": "Zano Companion",
+                    "LABEL2": "Secret",
+                    "LABEL3": "Port"
+                }
+            }
+        },
         "FORM_ERRORS": {
             "CONFIRM_NOT_MATCH": "Konfirmasi katasandi tidak sama",
             "CURRENT_PASS_NOT_MATCH": "Katasandi lama tidak sama",

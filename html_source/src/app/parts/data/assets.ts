@@ -6,7 +6,7 @@ export const zanoAssetInfo = {
     logo: 'assets/icons/currency-icons/zano.svg',
     meta_info: '',
     owner: '0000000000000000000000000000000000000000000000000000000000000000',
-    price_url: 'https://api.coingecko.com/api/v3/simple/price?ids=zano&vs_currencies=usd&include_24hr_change=true',
+    price_url: 'https://explorer.zano.org/api/price?asset=zano',
     ticker: 'ZANO',
     total_max_supply: 0,
 };
