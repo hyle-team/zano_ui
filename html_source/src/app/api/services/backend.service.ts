@@ -697,9 +697,10 @@ export class BackendService {
         this.runCommand(
             Commands.get_options,
             {},
-            (status, { disable_price_fetch, use_debug_mode }: { disable_price_fetch: boolean; use_debug_mode: boolean }) => {
+            (status, { disable_price_fetch, use_debug_mode, rpc_port }: { disable_price_fetch: boolean; use_debug_mode: boolean; rpc_port: number; }) => {
                 this.variablesService.disable_price_fetch$.next(disable_price_fetch);
                 this.variablesService.use_debug_mode$.next(use_debug_mode);
+                this.variablesService.rpc_port = rpc_port;
             }
         );
     }

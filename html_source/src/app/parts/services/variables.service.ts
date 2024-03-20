@@ -15,6 +15,8 @@ import { distinctUntilChanged, map, startWith } from 'rxjs/operators';
 export class VariablesService {
     disable_price_fetch$ = new BehaviorSubject<boolean>(false);
 
+    rpc_port!: number;
+
     use_debug_mode$ = new BehaviorSubject<boolean>(false);
 
     info$ = new BehaviorSubject<any>({});
@@ -30,6 +32,10 @@ export class VariablesService {
     digits = 12;
 
     appPass = '';
+
+    get hasAppPass(): boolean {
+        return Boolean(this.appPass);
+    }
 
     appLogin = false;
 

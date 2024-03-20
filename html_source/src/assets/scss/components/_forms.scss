@@ -12,6 +12,7 @@
     }
 
     &__field {
+        position: relative;
         display: flex;
         flex: 0 0 auto;
         flex-direction: column;
@@ -84,7 +85,7 @@
             }
 
             &:read-only {
-                cursor: not-allowed;
+                cursor: default;
             }
 
             &:not(:disabled):not(:read-only) {
