@@ -1,11 +1,12 @@
 import { Component, inject, NgZone, OnInit, Renderer2 } from '@angular/core';
 import { VariablesService } from '@parts/services/variables.service';
 import { BackendService } from '@api/services/backend.service';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { scaleItems } from '@parts/data/scale-items';
 import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
-import { generateSecret } from '@parts/utils/generate-secret';
+import { generateRandomString } from '@parts/utils/generate-random-string';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
     selector: 'app-settings',
@@ -21,8 +22,7 @@ import { generateSecret } from '@parts/utils/generate-secret';
 
             <div class="page-content">
                 <div class="scrolled-content">
-                    <div class="settings" fxFlex="0 1 50rem" fxFlexFill fxLayout="column" fxLayoutAlign="start stretch"
-                         fxLayoutGap="2rem">
+                    <div class="settings" fxFlex="0 1 50rem" fxFlexFill fxLayout="column" fxLayoutAlign="start stretch">
                         <div class="form__field">
                             <label>{{ 'SETTINGS.LANGUAGE.TITLE' | translate }}</label>
                             <ng-select
@@ -103,176 +103,185 @@ import { generateSecret } from '@parts/utils/generate-secret';
 
                         <div class="form__field">
                             <label>{{ 'SETTINGS.NOTIFICATIONS' | translate }}</label>
-                            <app-switch (emitChange)="toggleNotifications()"
-                                        [value]="currentNotificationsState"></app-switch>
+                            <app-switch (emitChange)="toggleNotifications()" [value]="currentNotificationsState"></app-switch>
                         </div>
 
                         <div class="form__field">
-                            <label>{{ 'SETTINGS.USE_TOR_TO_RELAY_TRANSACTIONS' | translate }} (Temporarily
-                                                                                              disabled)</label>
-                            <app-switch (emitChange)="toggleUseTor()" [disabled]="true"
-                                        [value]="false && appUseTor"></app-switch>
+                            <label>{{ 'SETTINGS.USE_TOR_TO_RELAY_TRANSACTIONS' | translate }} (Temporarily disabled)</label>
+                            <app-switch (emitChange)="toggleUseTor()" [disabled]="true" [value]="false && appUseTor"></app-switch>
                         </div>
 
-                        <form *ngIf="variablesService.hasAppPass" class="form" [formGroup]="zanoCompanionForm">
+
+                        <form [formGroup]="zanoCompanionForm">
                             <div class="form__field">
-                                <label>{{ 'Zano Companion' | translate }}</label>
-                                <app-switch></app-switch>
+                                <label>{{ 'SETTINGS.FORM.ZANO_COMPANION.LABELS.LABEL1' | translate }}</label>
+                                <app-switch formControlName="zanoCompation"></app-switch>
                             </div>
+                            <ng-container *ngIf="zanoCompanionForm.controls.zanoCompation.getRawValue()">
+                                <div class="form__card">
+                                    <div class="form__field form__field--secret">
+                                        <label for="field-secret">{{ 'SETTINGS.FORM.ZANO_COMPANION.LABELS.LABEL2' | translate }}</label>
+                                        <input
+                                            (contextmenu)="
+                                                variablesService.onContextMenuOnlyCopy(
+                                                    $event,
+                                                    zanoCompanionForm.controls['secret'].value
+                                                )
+                                            "
+                                            [class.invalid]="zanoCompanionForm.controls['secret'].invalid"
+                                            [readonly]="true"
+                                            formControlName="secret"
+                                            class="form__field--input"
+                                            id="field-secret"
+                                            type="text"
+                                        />
+                                        <button class="btn--regenerate" (click)="regenerateSecret()">
+                                            <i class="icon regenerate"></i>
+                                        </button>
+                                    </div>
 
-                            <div class="form__zano-companion--container">
-                                <div class="form__field form__field--secret">
-                                    <label for="field-secret">{{ 'Secret' | translate }}</label>
-                                    <input
-                                        (contextmenu)="variablesService.onContextMenuOnlyCopy($event, zanoCompanionForm.controls['secret'].value)"
-                                        [class.invalid]="zanoCompanionForm.controls['secret'].invalid"
-                                        [readonly]="true"
-                                        formControlName="secret"
-                                        class="form__field--input"
-                                        id="field-secret"
-                                        type="text"
-                                    />
-                                    <button class="btn--regenerate" (click)="regenerateSecret()"><i class="icon regenerate"></i></button>
+                                    <div class="form__field">
+                                        <label for="field-port">{{ 'SETTINGS.FORM.ZANO_COMPANION.LABELS.LABEL3' | translate }}</label>
+                                        <input
+                                            (contextmenu)="
+                                                variablesService.onContextMenuOnlyCopy(
+                                                    $event,
+                                                    this.variablesService.rpc_port?.toString()
+                                                )
+                                            "
+                                            [readonly]="true"
+                                            [value]="this.variablesService.rpc_port"
+                                            class="form__field--input"
+                                            id="field-port"
+                                            type="text"
+                                        />
+                                    </div>
                                 </div>
-
-                                <div class="form__field">
-                                    <label for="field-port">{{ 'Port' | translate }}</label>
-                                    <input
-                                        (contextmenu)="variablesService.onContextMenuOnlyCopy($event, zanoCompanionForm.controls['port'].value)"
-                                        [class.invalid]="zanoCompanionForm.controls['port'].invalid"
-                                        [readonly]="true"
-                                        formControlName="port"
-                                        class="form__field--input"
-                                        id="field-port"
-                                        type="text"
-                                    />
-                                </div>
-                            </div>
+                            </ng-container>
                         </form>
 
-                        <form (ngSubmit)="onSubmitChangePass()" [formGroup]="changeForm" class="form">
+
+                        <form (ngSubmit)="onSubmitChangePass()" [formGroup]="changeForm">
                             <h4 class="master-password-title mb-2">
                                 {{ 'SETTINGS.MASTER_PASSWORD.TITLE' | translate }}
                             </h4>
 
-                            <div *ngIf="variablesService.appPass" class="form__field">
-                                <label for="old-password">{{ 'SETTINGS.MASTER_PASSWORD.OLD' | translate }}</label>
-                                <input
-                                    (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
-                                    [class.invalid]="
-                                    changeForm.invalid &&
-                                    changeForm.controls['password'].valid &&
-                                    (changeForm.controls['password'].dirty || changeForm.controls['password'].touched) &&
-                                    changeForm.errors &&
-                                    changeForm.errors['pass_mismatch'] &&
-                                    changeForm.get('password').value.length > 0
-                                "
-                                    class="form__field--input"
-                                    formControlName="password"
-                                    id="old-password"
-                                    placeholder="{{ 'PLACEHOLDERS.PLACEHOLDER_OLD' | translate }}"
-                                    type="password"
-                                />
-                                <div
-                                    *ngIf="
-                                    changeForm.invalid &&
-                                    changeForm.controls['password'].valid &&
-                                    (changeForm.controls['password'].dirty || changeForm.controls['password'].touched) &&
-                                    changeForm.errors &&
-                                    changeForm.errors['pass_mismatch'] &&
-                                    changeForm.get('password').value.length > 0
-                                "
-                                    class="error"
-                                >
-                                    {{ 'SETTINGS.FORM_ERRORS.CURRENT_PASS_NOT_MATCH' | translate }}
-                                </div>
-                            </div>
-
-                            <div class="form__field">
-                                <label for="new-password">{{ 'SETTINGS.MASTER_PASSWORD.NEW' | translate }}</label>
-                                <input
-                                    (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
-                                    [class.invalid]="changeForm.controls['new_password'].touched && changeForm.controls['new_password'].invalid"
-                                    class="form__field--input"
-                                    formControlName="new_password"
-                                    id="new-password"
-                                    placeholder="{{ 'PLACEHOLDERS.PLACEHOLDER_NEW' | translate }}"
-                                    type="password"
-                                />
-                                <div
-                                    *ngIf="changeForm.controls['new_password'].touched && changeForm.controls['new_password'].invalid"
-                                    class="error"
-                                >
-                                    <div *ngIf="changeForm.controls['new_password'].errors?.pattern">
-                                        {{ 'ERRORS.WRONG_PASSWORD_MUST_BE' | translate }} a-zA-Z0-9_.*|~!?@#$%^&+&#123;}()<>:;"'-=,/[]*$
-                                    </div>
-                                    <div *ngIf="changeForm.controls['new_password'].hasError('required')">
-                                        {{ 'ERRORS.REQUIRED' | translate }}
+                            <div class="form__card">
+                                <div *ngIf="variablesService.appPass" class="form__field">
+                                    <label for="old-password">{{ 'SETTINGS.MASTER_PASSWORD.OLD' | translate }}</label>
+                                    <input
+                                        (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
+                                        [class.invalid]="
+                                            changeForm.invalid &&
+                                            changeForm.controls['password'].valid &&
+                                            (changeForm.controls['password'].dirty || changeForm.controls['password'].touched) &&
+                                            changeForm.errors &&
+                                            changeForm.errors['pass_mismatch'] &&
+                                            changeForm.get('password').value.length > 0
+                                        "
+                                        class="form__field--input"
+                                        formControlName="password"
+                                        id="old-password"
+                                        placeholder="{{ 'PLACEHOLDERS.PLACEHOLDER_OLD' | translate }}"
+                                        type="password"
+                                    />
+                                    <div
+                                        *ngIf="
+                                            changeForm.invalid &&
+                                            changeForm.controls['password'].valid &&
+                                            (changeForm.controls['password'].dirty || changeForm.controls['password'].touched) &&
+                                            changeForm.errors &&
+                                            changeForm.errors['pass_mismatch'] &&
+                                            changeForm.get('password').value.length > 0
+                                        "
+                                        class="error"
+                                    >
+                                        {{ 'SETTINGS.FORM_ERRORS.CURRENT_PASS_NOT_MATCH' | translate }}
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="form__field">
-                                <label
-                                    for="confirm-password">{{ 'SETTINGS.MASTER_PASSWORD.CONFIRM' | translate }}</label>
-                                <input
-                                    (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
-                                    [class.invalid]="
-                                    changeForm.invalid &&
-                                    (changeForm.controls['new_confirmation'].dirty || changeForm.controls['new_confirmation'].touched) &&
-                                    changeForm.errors &&
-                                    changeForm.errors['mismatch'] &&
-                                    changeForm.get('new_confirmation').value.length > 0
-                                "
-                                    class="form__field--input"
-                                    formControlName="new_confirmation"
-                                    id="confirm-password"
-                                    placeholder="{{ 'PLACEHOLDERS.PLACEHOLDER_CONFIRM' | translate }}"
-                                    type="password"
-                                />
-                                <div
-                                    *ngIf="
-                                    changeForm.invalid &&
-                                    (changeForm.controls['new_confirmation'].dirty || changeForm.controls['new_confirmation'].touched) &&
-                                    changeForm.errors &&
-                                    changeForm.errors['mismatch'] &&
-                                    changeForm.get('new_confirmation').value.length > 0
-                                "
-                                    class="error"
-                                >
-                                    {{ 'SETTINGS.FORM_ERRORS.CONFIRM_NOT_MATCH' | translate }}
+                                <div class="form__field">
+                                    <label for="new-password">{{ 'SETTINGS.MASTER_PASSWORD.NEW' | translate }}</label>
+                                    <input
+                                        (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
+                                        [class.invalid]="
+                                            changeForm.controls['new_password'].touched && changeForm.controls['new_password'].invalid
+                                        "
+                                        class="form__field--input"
+                                        formControlName="new_password"
+                                        id="new-password"
+                                        placeholder="{{ 'PLACEHOLDERS.PLACEHOLDER_NEW' | translate }}"
+                                        type="password"
+                                    />
+                                    <div
+                                        *ngIf="changeForm.controls['new_password'].touched && changeForm.controls['new_password'].invalid"
+                                        class="error"
+                                    >
+                                        <div *ngIf="changeForm.controls['new_password'].errors?.pattern">
+                                            {{ 'ERRORS.WRONG_PASSWORD_MUST_BE' | translate }} a-zA-Z0-9_.*|~!?@#$%^&+&#123;}()<>:;"'-=,/[]*$
+                                        </div>
+                                        <div *ngIf="changeForm.controls['new_password'].hasError('required')">
+                                            {{ 'ERRORS.REQUIRED' | translate }}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form__field">
+                                    <label for="confirm-password">{{ 'SETTINGS.MASTER_PASSWORD.CONFIRM' | translate }}</label>
+                                    <input
+                                        (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
+                                        [class.invalid]="
+                                            changeForm.invalid &&
+                                            (changeForm.controls['new_confirmation'].dirty ||
+                                                changeForm.controls['new_confirmation'].touched) &&
+                                            changeForm.errors &&
+                                            changeForm.errors['mismatch'] &&
+                                            changeForm.get('new_confirmation').value.length > 0
+                                        "
+                                        class="form__field--input"
+                                        formControlName="new_confirmation"
+                                        id="confirm-password"
+                                        placeholder="{{ 'PLACEHOLDERS.PLACEHOLDER_CONFIRM' | translate }}"
+                                        type="password"
+                                    />
+                                    <div
+                                        *ngIf="
+                                            changeForm.invalid &&
+                                            (changeForm.controls['new_confirmation'].dirty ||
+                                                changeForm.controls['new_confirmation'].touched) &&
+                                            changeForm.errors &&
+                                            changeForm.errors['mismatch'] &&
+                                            changeForm.get('new_confirmation').value.length > 0
+                                        "
+                                        class="error"
+                                    >
+                                        {{ 'SETTINGS.FORM_ERRORS.CONFIRM_NOT_MATCH' | translate }}
+                                    </div>
                                 </div>
                             </div>
 
                             <div class="submit-button-container">
-                                <button [disabled]="!changeForm.valid" class="primary big max-w-19-rem w-100"
-                                        type="submit">
+                                <button [disabled]="!changeForm.valid" class="primary big max-w-19-rem w-100" type="submit">
                                     {{ 'SETTINGS.MASTER_PASSWORD.BUTTON' | translate }}
                                 </button>
                                 <span *ngIf="ifSaved" [class.active]="ifSaved" class="ml-1 color-aqua">{{
                                     'SETTINGS.SETTINGS_SAVED' | translate
-                                    }}</span>
+                                }}</span>
                             </div>
                         </form>
-                        <p>Build version: {{ currentBuild }}</p>
+
+                        <p class="mt-2">Build version: {{ currentBuild }}</p>
                     </div>
                 </div>
             </div>
-        </div> `,
+        </div>
+    `,
     styles: [
         `
             :host {
                 width: 100%;
                 height: 100%;
                 overflow: hidden;
-            }
-
-            .form__zano-companion--container {
-                display: flex;
-                flex-direction: column;
-                padding: 2rem 2rem 0;
-                border-radius: 8px;
-                background-color: var(--blue-500);
             }
 
             .form__field--secret .form__field--input {
@@ -285,7 +294,8 @@ import { generateSecret } from '@parts/utils/generate-secret';
                 position: absolute;
                 right: 0.6rem;
                 top: 3.6rem;
-                background: #FFFFFF1A;
+                background: #ffffff1a;
+                cursor: pointer;
             }
         `,
     ],
@@ -314,13 +324,17 @@ export class SettingsComponent implements OnInit {
         }
     );
 
-    zanoCompanionForm = this.fb.group({
-        secret: this.fb.nonNullable.control({ value: '', disabled: false }, {
-            validators: Validators.compose([])
-        }),
-        port: this.fb.control({ value: `${this.variablesService.rpc_port}`, disabled: false }, {
-            validators: Validators.compose([])
-        }),
+    zanoCompanionForm: FormGroup<{
+        zanoCompation: FormControl<boolean>,
+        secret: FormControl<string>
+    }> = this.fb.group({
+        zanoCompation: this.fb.nonNullable.control({ value: false, disabled: !this.variablesService.hasAppPass }),
+        secret: this.fb.nonNullable.control(
+            { value: '', disabled: false },
+            {
+                validators: Validators.compose([]),
+            }
+        ),
     });
 
     public currentNotificationsState;
@@ -407,6 +421,7 @@ export class SettingsComponent implements OnInit {
     ) {
         this.scale = this.variablesService.settings.scale;
         this.appUseTor = this.variablesService.settings.appUseTor;
+        this.zanoCompanionForm.setValue(this.variablesService.settings.zanoCompanionForm, { emitEvent: false });
     }
 
     ngOnInit(): void {
@@ -428,10 +443,36 @@ export class SettingsComponent implements OnInit {
         this.backend.getIsDisabledNotifications(res => {
             this.currentNotificationsState = res;
         });
+
+        this.zanoCompanionForm.valueChanges.pipe(debounceTime(200)).subscribe({
+            next: () => {
+                const value = this.zanoCompanionForm.getRawValue();
+                const { zanoCompation, secret } = value;
+
+                if (zanoCompation && !secret) {
+                    this.generateSecret();
+                    return;
+                }
+
+                if (!zanoCompation && secret) {
+                    this.zanoCompanionForm.controls.secret.patchValue('');
+                    return;
+                }
+
+                if (zanoCompation && secret || !zanoCompation && !secret) {
+                    this.backend.setupJwtWalletRpc(value);
+                    return;
+                }
+            }
+        });
+    }
+
+    private generateSecret(): void {
+        this.zanoCompanionForm.get('secret').setValue(generateRandomString(40));
     }
 
     regenerateSecret(): void {
-        this.zanoCompanionForm.get('secret').setValue(generateSecret(40));
+        this.generateSecret();
     }
 
     setScale(): void {
@@ -455,6 +496,7 @@ export class SettingsComponent implements OnInit {
                         this.variablesService.startCountdown();
                     }
                     this.ngZone.run(() => {
+                        this.zanoCompanionForm.controls.zanoCompation.enable({ emitEvent: false });
                         this.onSave();
                     });
                 } else {

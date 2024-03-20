@@ -91,6 +91,10 @@ export class VariablesService {
         default_path: '/',
         viewedContracts: [],
         notViewedContracts: [],
+        zanoCompanionForm: {
+            zanoCompation: false,
+            secret: ''
+        },
         wallets: [],
     };
     count = 40;

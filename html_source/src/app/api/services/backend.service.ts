@@ -164,6 +164,7 @@ export enum Commands {
     set_localization_strings = 'set_localization_strings',
     request_alias_registration = 'request_alias_registration',
     call_rpc = 'call_rpc',
+    setup_jwt_wallet_rpc = 'setup_jwt_wallet_rpc',
 }
 
 @Injectable({
@@ -427,6 +428,15 @@ export class BackendService {
         };
 
         this.asyncCall(Commands.transfer, params, callback);
+    }
+
+    setupJwtWalletRpc(value: { zanoCompation: boolean; secret: string }): void {
+        const { secret } = value;
+
+        this.runCommand(Commands.setup_jwt_wallet_rpc, secret, () => {
+            this.variablesService.settings.zanoCompanionForm = value;
+            this.storeAppData();
+        });
     }
 
     validateAddress(address, callback): void {
@@ -697,7 +707,14 @@ export class BackendService {
         this.runCommand(
             Commands.get_options,
             {},
-            (status, { disable_price_fetch, use_debug_mode, rpc_port }: { disable_price_fetch: boolean; use_debug_mode: boolean; rpc_port: number; }) => {
+            (
+                status,
+                {
+                    disable_price_fetch,
+                    use_debug_mode,
+                    rpc_port,
+                }: { disable_price_fetch: boolean; use_debug_mode: boolean; rpc_port: number }
+            ) => {
                 this.variablesService.disable_price_fetch$.next(disable_price_fetch);
                 this.variablesService.use_debug_mode$.next(use_debug_mode);
                 this.variablesService.rpc_port = rpc_port;
