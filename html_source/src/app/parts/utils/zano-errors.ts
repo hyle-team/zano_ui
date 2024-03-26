@@ -16,6 +16,10 @@ export const insuficcientFunds: ZanoValidationErrors = {
     errorText: 'ERRORS.INSUFFICIENT_FUNDS',
 };
 
+export const assetHasNotBeenAddedToWallet: ZanoValidationErrors = {
+    errorText: 'ERRORS.ASSET_HAS_NOT_BEEN_ADDED_TO_WALLET',
+};
+
 export const notFileZanoWallet: ZanoValidationErrors = {
     errorText: 'ERRORS.NOT_FILE_ZANO_WALLET',
 };

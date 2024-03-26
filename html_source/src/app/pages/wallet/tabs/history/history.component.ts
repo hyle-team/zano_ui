@@ -20,127 +20,128 @@ import { zanoAssetInfo } from '@parts/data/assets';
             <div class="wrap-table scrolled-content mb-2" fxFlex="1 1 auto">
                 <table class="history-table">
                     <thead>
-                        <tr>
-                            <th>
-                                <div class="bg title">{{ 'HISTORY.STATUS' | translate }}</div>
-                            </th>
-                            <th>
-                                <div class="bg title">{{ 'HISTORY.AMOUNT' | translate }}</div>
-                            </th>
-                            <th>
-                                <div class="bg title">{{ 'HISTORY.FEE' | translate }}</div>
-                            </th>
-                            <th>
-                                <div class="bg title">{{ 'HISTORY.ADDRESS' | translate }}</div>
-                            </th>
-                            <th>
-                                <div class="bg title">{{ 'HISTORY.DATE' | translate }}</div>
-                            </th>
-                        </tr>
-                        <div class="row-divider"></div>
+                    <tr>
+                        <th>
+                            <div class="bg title">{{ 'HISTORY.STATUS' | translate }}</div>
+                        </th>
+                        <th>
+                            <div class="bg title">{{ 'HISTORY.AMOUNT' | translate }}</div>
+                        </th>
+                        <th>
+                            <div class="bg title">{{ 'HISTORY.FEE' | translate }}</div>
+                        </th>
+                        <th>
+                            <div class="bg title">{{ 'HISTORY.ADDRESS' | translate }}</div>
+                        </th>
+                        <th>
+                            <div class="bg title">{{ 'HISTORY.DATE' | translate }}</div>
+                        </th>
+                    </tr>
+                    <div class="row-divider"></div>
                     </thead>
                     <tbody>
-                        <ng-container *ngFor="let transaction of variablesService.currentWallet.history">
-                            <tr
-                                (click)="openDetails(transaction.tx_hash)"
-                                [class.locked-transaction]="!transaction.is_mining && transaction.unlock_time > 0"
-                            >
-                                <!-- Status -->
-                                <td>
-                                    <ng-container *ngIf="transaction.subtransfers; else noSubtransfersStatusTemplate">
-                                        <ng-container *ngFor="let subtransfer of transaction.subtransfers">
-                                            <ng-container *ngIf="isVisibleSubtransferStatus(subtransfer, transaction)">
-                                                <div
-                                                    [ngClass]="subtransfer.is_income ? 'received' : 'send'"
-                                                    class="status text-ellipsis"
-                                                    fxLayout="row"
-                                                    fxLayoutAlign=" center"
-                                                >
-                                                    <ng-container *ngIf="getHeight(transaction) < 10">
-                                                        <svg
-                                                            [delay]="500"
-                                                            class="confirmation mr-1"
-                                                            placement="bottom-left"
-                                                            style="transform: rotateZ(-90deg)"
-                                                            tooltip="{{
+                    <ng-container *ngFor="let transaction of variablesService.currentWallet.history">
+                        <tr
+                            (click)="openDetails(transaction.tx_hash)"
+                            [class.locked-transaction]="!transaction.is_mining && transaction.unlock_time > 0"
+                        >
+                            <!-- Status -->
+                            <td>
+                                <ng-container *ngIf="transaction.subtransfers; else noSubtransfersStatusTemplate">
+                                    <ng-container *ngFor="let subtransfer of transaction.subtransfers">
+                                        <ng-container *ngIf="isVisibleSubtransferStatus(subtransfer, transaction)">
+                                            <div
+                                                [ngClass]="subtransfer.is_income ? 'received' : 'send'"
+                                                class="status text-ellipsis"
+                                                fxLayout="row"
+                                                fxLayoutAlign=" center"
+                                            >
+                                                <ng-container *ngIf="getHeight(transaction) < 10">
+                                                    <svg
+                                                        [delay]="500"
+                                                        class="confirmation mr-1"
+                                                        placement="bottom-left"
+                                                        style="transform: rotateZ(-90deg)"
+                                                        tooltip="{{
                                                                 'HISTORY.STATUS_TOOLTIP'
                                                                     | translate : { current: getHeight(transaction), total: 10 }
                                                             }}"
-                                                            tooltipClass="table-tooltip"
-                                                        >
-                                                            <circle
-                                                                cx="50%"
-                                                                cy="50%"
-                                                                fill="transparent"
-                                                                r="0.7rem"
-                                                                stroke="rgba(31, 143, 235, 0.33)"
-                                                                stroke-dasharray="100"
-                                                                stroke-dashoffset="0"
-                                                                stroke-width="0.3rem"
-                                                            ></circle>
-                                                            <circle
-                                                                [style.stroke-dashoffset]="strokeSize(transaction)"
-                                                                [style.stroke]="subtransfer.is_income ? '#16d1d6' : '#1f8feb'"
-                                                                class="progress-circle"
-                                                                cx="50%"
-                                                                cy="50%"
-                                                                fill="transparent"
-                                                                r="0.7rem"
-                                                                stroke-dasharray="4.5rem"
-                                                                stroke-dashoffset="4.5rem"
-                                                                stroke-linecap="round"
-                                                                stroke-width="0.3rem"
-                                                            ></circle>
-                                                        </svg>
-                                                    </ng-container>
+                                                        tooltipClass="table-tooltip"
+                                                    >
+                                                        <circle
+                                                            cx="50%"
+                                                            cy="50%"
+                                                            fill="transparent"
+                                                            r="0.7rem"
+                                                            stroke="rgba(31, 143, 235, 0.33)"
+                                                            stroke-dasharray="100"
+                                                            stroke-dashoffset="0"
+                                                            stroke-width="0.3rem"
+                                                        ></circle>
+                                                        <circle
+                                                            [style.stroke-dashoffset]="strokeSize(transaction)"
+                                                            [style.stroke]="subtransfer.is_income ? '#16d1d6' : '#1f8feb'"
+                                                            class="progress-circle"
+                                                            cx="50%"
+                                                            cy="50%"
+                                                            fill="transparent"
+                                                            r="0.7rem"
+                                                            stroke-dasharray="4.5rem"
+                                                            stroke-dashoffset="4.5rem"
+                                                            stroke-linecap="round"
+                                                            stroke-width="0.3rem"
+                                                        ></circle>
+                                                    </svg>
+                                                </ng-container>
 
-                                                    <ng-container *ngIf="getHeight(transaction) === 10">
-                                                        <img
-                                                            *ngIf="!subtransfer.is_income"
-                                                            alt=""
-                                                            class="status-transaction mr-1"
-                                                            src="assets/icons/blue/send.svg"
-                                                        />
-                                                        <img
-                                                            *ngIf="subtransfer.is_income"
-                                                            alt=""
-                                                            class="status-transaction mr-1"
-                                                            src="assets/icons/aqua/receive.svg"
-                                                        />
-                                                    </ng-container>
+                                                <ng-container *ngIf="getHeight(transaction) === 10">
+                                                    <img
+                                                        *ngIf="!subtransfer.is_income"
+                                                        alt=""
+                                                        class="status-transaction mr-1"
+                                                        src="assets/icons/blue/send.svg"
+                                                    />
+                                                    <img
+                                                        *ngIf="subtransfer.is_income"
+                                                        alt=""
+                                                        class="status-transaction mr-1"
+                                                        src="assets/icons/aqua/receive.svg"
+                                                    />
+                                                </ng-container>
 
-                                                    <span class="status-transaction-text">{{
+                                                <span class="status-transaction-text">{{
                                                         (subtransfer.is_income ? 'HISTORY.RECEIVED' : 'HISTORY.SEND') | translate
                                                     }}</span>
 
-                                                    <ng-container *ngIf="transaction.unlock_time !== 0 && transaction.tx_type !== 6">
-                                                        <ng-container *ngIf="isLocked(transaction); else unlock">
-                                                            <ng-container *ngIf="transaction.unlock_time < 500000000">
-                                                                <i
-                                                                    [class.position]="
+                                                <ng-container
+                                                    *ngIf="transaction.unlock_time !== 0 && transaction.tx_type !== 6">
+                                                    <ng-container *ngIf="isLocked(transaction); else unlock">
+                                                        <ng-container *ngIf="transaction.unlock_time < 500000000">
+                                                            <i
+                                                                [class.position]="
                                                                         variablesService.height_app - transaction.height < 10 ||
                                                                         (transaction.height === 0 && transaction.timestamp > 0)
                                                                     "
-                                                                    [delay]="500"
-                                                                    class="icon lock-transaction mr-1"
-                                                                    placement="bottom-left"
-                                                                    tooltip="{{
+                                                                [delay]="500"
+                                                                class="icon lock-transaction mr-1"
+                                                                placement="bottom-left"
+                                                                tooltip="{{
                                                                         'HISTORY.LOCK_TOOLTIP'
                                                                             | translate : { date: time(transaction) | date : 'MM.dd.yy' }
                                                                     }}"
-                                                                    tooltipClass="table-tooltip"
-                                                                ></i>
-                                                            </ng-container>
-                                                            <ng-container *ngIf="transaction.unlock_time > 500000000">
-                                                                <i
-                                                                    [class.position]="
+                                                                tooltipClass="table-tooltip"
+                                                            ></i>
+                                                        </ng-container>
+                                                        <ng-container *ngIf="transaction.unlock_time > 500000000">
+                                                            <i
+                                                                [class.position]="
                                                                         variablesService.height_app - transaction.height < 10 ||
                                                                         (transaction.height === 0 && transaction.timestamp > 0)
                                                                     "
-                                                                    [delay]="500"
-                                                                    class="icon lock-transaction mr-1"
-                                                                    placement="bottom-left"
-                                                                    tooltip="{{
+                                                                [delay]="500"
+                                                                class="icon lock-transaction mr-1"
+                                                                placement="bottom-left"
+                                                                tooltip="{{
                                                                         'HISTORY.LOCK_TOOLTIP'
                                                                             | translate
                                                                                 : {
@@ -148,114 +149,117 @@ import { zanoAssetInfo } from '@parts/data/assets';
                                                                                           transaction.unlock_time * 1000 | date : 'MM.dd.yy'
                                                                                   }
                                                                     }}"
-                                                                    tooltipClass="table-tooltip"
-                                                                ></i>
-                                                            </ng-container>
+                                                                tooltipClass="table-tooltip"
+                                                            ></i>
                                                         </ng-container>
-                                                        <ng-template #unlock>
-                                                            <i
-                                                                [class.position]="
+                                                    </ng-container>
+                                                    <ng-template #unlock>
+                                                        <i
+                                                            [class.position]="
                                                                     variablesService.height_app - transaction.height < 10 ||
                                                                     (transaction.height === 0 && transaction.timestamp > 0)
                                                                 "
-                                                                class="icon unlock-transaction mr-1"
-                                                            ></i>
-                                                        </ng-template>
-                                                    </ng-container>
-                                                </div>
-                                            </ng-container>
+                                                            class="icon unlock-transaction mr-1"
+                                                        ></i>
+                                                    </ng-template>
+                                                </ng-container>
+                                            </div>
                                         </ng-container>
                                     </ng-container>
+                                </ng-container>
 
-                                    <ng-template #noSubtransfersStatusTemplate>
-                                        <div [ngClass]="'received'" class="status text-ellipsis" fxLayout="row" fxLayoutAlign=" center">
-                                            <img alt="" class="status-transaction mr-1" src="assets/icons/aqua/receive.svg" />
+                                <ng-template #noSubtransfersStatusTemplate>
+                                    <div [ngClass]="'received'" class="status text-ellipsis" fxLayout="row"
+                                         fxLayoutAlign=" center">
+                                        <img alt="" class="status-transaction mr-1"
+                                             src="assets/icons/aqua/receive.svg" />
 
-                                            <span class="status-transaction-text">{{ 'HISTORY.RECEIVED' | translate }}</span>
-                                        </div>
-                                    </ng-template>
-                                </td>
-                                <!-- Amount -->
-                                <td>
-                                    <ng-container *ngIf="transaction.subtransfers; else noSubtransfersAmountTemplate">
-                                        <ng-container *ngFor="let subtransfer of transaction.subtransfers">
-                                            <ng-container *ngIf="subtransfer.asset_id === zanoAssetInfo.asset_id">
-                                                <ng-container
-                                                    *ngIf="
+                                        <span
+                                            class="status-transaction-text">{{ 'HISTORY.RECEIVED' | translate }}</span>
+                                    </div>
+                                </ng-template>
+                            </td>
+                            <!-- Amount -->
+                            <td>
+                                <ng-container *ngIf="transaction.subtransfers; else noSubtransfersAmountTemplate">
+                                    <ng-container *ngFor="let subtransfer of transaction.subtransfers">
+                                        <ng-container *ngIf="subtransfer.asset_id === zanoAssetInfo.asset_id">
+                                            <ng-container
+                                                *ngIf="
                                                         !subtransfer.is_income
                                                             ? subtransfer.amount.minus(transaction.fee ?? 0).toNumber() !== 0
                                                             : subtransfer.amount.toNumber() !== 0
                                                     "
-                                                >
-                                                    <div class="text-ellipsis">
+                                            >
+                                                <div class="text-ellipsis">
                                                         <span *ngIf="!subtransfer.is_income">
                                                             {{ subtransfer.amount.minus(transaction.fee ?? 0).negated() | intToMoney }}
                                                         </span>
-                                                        <span *ngIf="subtransfer.is_income">
+                                                    <span *ngIf="subtransfer.is_income">
                                                             {{ subtransfer.amount | intToMoney }}
                                                         </span>
-                                                        {{ (subtransfer.asset_id | getAsset)?.asset_info.ticker || '???' }}
-                                                    </div>
-                                                </ng-container>
+                                                    {{ (subtransfer.asset_id | getAssetInfo)?.ticker || '???' }}
+                                                </div>
                                             </ng-container>
-                                            <ng-container *ngIf="subtransfer.asset_id !== zanoAssetInfo.asset_id">
-                                                <ng-container *ngIf="subtransfer.amount.toNumber() !== 0">
-                                                    <div class="text-ellipsis">
+                                        </ng-container>
+                                        <ng-container *ngIf="subtransfer.asset_id !== zanoAssetInfo.asset_id">
+                                            <ng-container *ngIf="subtransfer.amount.toNumber() !== 0">
+                                                <div class="text-ellipsis">
                                                         <span *ngIf="!subtransfer.is_income">
                                                             {{ subtransfer.amount.negated() | intToMoney }}
                                                         </span>
-                                                        <span *ngIf="subtransfer.is_income">
+                                                    <span *ngIf="subtransfer.is_income">
                                                             {{ subtransfer.amount | intToMoney }}
                                                         </span>
-                                                        {{ (subtransfer.asset_id | getAsset)?.asset_info.ticker || '???' }}
-                                                    </div>
-                                                </ng-container>
+                                                    {{ (subtransfer.asset_id | getAssetInfo)?.ticker || '???' }}
+                                                </div>
                                             </ng-container>
                                         </ng-container>
                                     </ng-container>
+                                </ng-container>
 
-                                    <ng-template #noSubtransfersAmountTemplate>
+                                <ng-template #noSubtransfersAmountTemplate>
                                         <span>
                                             {{ 0 | intToMoney }}
                                             {{ variablesService.defaultCurrency }}
                                         </span>
-                                    </ng-template>
-                                </td>
-                                <!-- Fee -->
-                                <td>
-                                    <div class="cell-fee text-ellipsis" *ngIf="isVisibleFee(transaction)">
-                                        <ng-container *ngIf="transaction?.subtransfers?.length">
-                                            <i class="icon fire mr-1"></i>
-                                            <span *ngIf="transaction.fee; else noFeeTemplate">
+                                </ng-template>
+                            </td>
+                            <!-- Fee -->
+                            <td>
+                                <div class="cell-fee text-ellipsis" *ngIf="isVisibleFee(transaction)">
+                                    <ng-container *ngIf="transaction?.subtransfers?.length">
+                                        <i class="icon fire mr-1"></i>
+                                        <span *ngIf="transaction.fee; else noFeeTemplate">
                                                 {{ transaction.fee | intToMoney }}
-                                                {{ variablesService.defaultCurrency }}
+                                            {{ variablesService.defaultCurrency }}
                                             </span>
-                                            <ng-template #noFeeTemplate>
-                                                <span>{{ 'HISTORY.NO_FEE' | translate }}</span>
-                                            </ng-template>
-                                        </ng-container>
-                                    </div>
-                                </td>
-                                <!-- Address -->
-                                <td class="remote-address">
-                                    <ng-container [ngSwitch]="true">
-                                        <ng-container *ngSwitchCase="!(transaction.tx_type === 0)">
-                                            <div class="text-ellipsis">
+                                        <ng-template #noFeeTemplate>
+                                            <span>{{ 'HISTORY.NO_FEE' | translate }}</span>
+                                        </ng-template>
+                                    </ng-container>
+                                </div>
+                            </td>
+                            <!-- Address -->
+                            <td class="remote-address">
+                                <ng-container [ngSwitch]="true">
+                                    <ng-container *ngSwitchCase="!(transaction.tx_type === 0)">
+                                        <div class="text-ellipsis">
                                                 <span>
                                                     {{ transaction | historyTypeMessages }}
                                                 </span>
-                                            </div>
-                                        </ng-container>
+                                        </div>
+                                    </ng-container>
 
-                                        <ng-container *ngSwitchCase="transaction.tx_type === 0">
-                                            <div
-                                                *ngIf="
+                                    <ng-container *ngSwitchCase="transaction.tx_type === 0">
+                                        <div
+                                            *ngIf="
                                                     transaction.remote_addresses &&
                                                     transaction.remote_addresses[0] &&
                                                     !transaction.remote_aliases?.[0]?.trim()?.length
                                                   "
-                                                class="text-ellipsis"
-                                            >
+                                            class="text-ellipsis"
+                                        >
                                                 <span
                                                     (contextmenu)="
                                                         variablesService.onContextMenuOnlyCopy($event, transaction.remote_addresses[0])
@@ -263,69 +267,69 @@ import { zanoAssetInfo } from '@parts/data/assets';
                                                 >
                                                     {{ transaction.remote_addresses[0] | zanoShortString }}
                                                 </span>
-                                            </div>
-                                            <ng-container
-                                                *ngIf="transaction.remote_aliases && transaction.remote_aliases?.[0]?.trim()?.length"
-                                            >
-                                                <div fxLayout="row wrap">
-                                                    <ng-container *ngFor="let alias of transaction.remote_aliases">
-                                                        <ng-container *ngIf="alias && alias.length">
-                                                            <div
-                                                                (contextmenu)="variablesService.onContextMenuOnlyCopy($event, '@' + alias)"
-                                                                [class.available]="alias.length >= 1 && alias.length <= 5"
-                                                                [class.mb-0_5]="transaction.remote_aliases.length >= 2"
-                                                                [class.mr-0_5]="transaction.remote_aliases.length >= 2"
-                                                                class="alias"
-                                                                fxLayout="row inline"
-                                                            >
-                                                                {{ '@' + alias }}
-                                                            </div>
-                                                        </ng-container>
-                                                    </ng-container>
-                                                </div>
-                                            </ng-container>
-                                        </ng-container>
-
+                                        </div>
                                         <ng-container
-                                            *ngSwitchCase="
+                                            *ngIf="transaction.remote_aliases && transaction.remote_aliases?.[0]?.trim()?.length"
+                                        >
+                                            <div fxLayout="row wrap">
+                                                <ng-container *ngFor="let alias of transaction.remote_aliases">
+                                                    <ng-container *ngIf="alias && alias.length">
+                                                        <div
+                                                            (contextmenu)="variablesService.onContextMenuOnlyCopy($event, '@' + alias)"
+                                                            [class.available]="alias.length >= 1 && alias.length <= 5"
+                                                            [class.mb-0_5]="transaction.remote_aliases.length >= 2"
+                                                            [class.mr-0_5]="transaction.remote_aliases.length >= 2"
+                                                            class="alias"
+                                                            fxLayout="row inline"
+                                                        >
+                                                            {{ '@' + alias }}
+                                                        </div>
+                                                    </ng-container>
+                                                </ng-container>
+                                            </div>
+                                        </ng-container>
+                                    </ng-container>
+
+                                    <ng-container
+                                        *ngSwitchCase="
                                                 !(transaction.remote_addresses?.length || transaction.remote_aliases?.length) &&
                                                 transaction.tx_type === 0
                                             "
-                                        >
-                                            {{ 'HISTORY.HIDDEN' | translate }}
-                                        </ng-container>
+                                    >
+                                        {{ 'HISTORY.HIDDEN' | translate }}
                                     </ng-container>
-                                </td>
-                                <!-- Date -->
-                                <td>
-                                    <div class="text-ellipsis">
-                                        {{ transaction.timestamp * 1000 | date : 'dd-MM-yyyy HH:mm' }}
-                                    </div>
-                                </td>
-                            </tr>
+                                </ng-container>
+                            </td>
+                            <!-- Date -->
+                            <td>
+                                <div class="text-ellipsis">
+                                    {{ transaction.timestamp * 1000 | date : 'dd-MM-yyyy HH:mm' }}
+                                </div>
+                            </td>
+                        </tr>
 
-                            <tr class="row-divider"></tr>
+                        <tr class="row-divider"></tr>
 
-                            <tr>
-                                <td colspan="5" [ngStyle]="{ padding: '0', 'border-radius': '0.8rem' }">
-                                    <app-transaction-details
-                                        *ngIf="transaction.tx_hash === openedDetails"
-                                        @expandOnEnter
-                                        @collapseOnLeave
-                                        [transaction]="transaction"
-                                    ></app-transaction-details>
-                                </td>
-                            </tr>
-                            <div
-                                *ngIf="transaction.tx_hash === openedDetails as state"
-                                [@expandOnEnter]="{ value: state, params: { duration: 150 } }"
-                                [@collapseOnLeave]="{
+                        <tr>
+                            <td colspan="5" [ngStyle]="{ padding: '0', 'border-radius': '0.8rem' }">
+                                <app-transaction-details
+                                    *ngIf="transaction.tx_hash === openedDetails"
+                                    @expandOnEnter
+                                    @collapseOnLeave
+                                    [transaction]="transaction"
+                                ></app-transaction-details>
+                            </td>
+                        </tr>
+                        <div
+                            *ngIf="transaction.tx_hash === openedDetails as state"
+                            [@expandOnEnter]="{ value: state, params: { duration: 150 } }"
+                            [@collapseOnLeave]="{
                                     value: state,
                                     params: { duration: 400 }
                                 }"
-                                class="row-divider"
-                            ></div>
-                        </ng-container>
+                            class="row-divider"
+                        ></div>
+                    </ng-container>
                     </tbody>
                 </table>
             </div>

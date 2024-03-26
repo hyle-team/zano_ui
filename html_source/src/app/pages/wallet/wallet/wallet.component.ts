@@ -9,7 +9,7 @@ import { Dialog, DialogConfig } from '@angular/cdk/dialog';
 import { ConfirmModalComponent, ConfirmModalData } from '@parts/modals/confirm-modal/confirm-modal.component';
 import { ExportHistoryModalComponent } from './modals/export-history-modal/export-history-modal.component';
 import { AddCustomTokenComponent } from './modals/add-custom-token/add-custom-token.component';
-import { Asset } from '@api/models/assets.model';
+import { AssetBalance } from '@api/models/assets.model';
 import { AssetDetailsComponent } from '@parts/modals/asset-details/asset-details.component';
 import { WalletsService } from '@parts/services/wallets.service';
 import { Wallet } from '@api/models/wallet.model';
@@ -533,7 +533,7 @@ export class WalletComponent implements OnInit, OnDestroy {
 
     addCustomToken(): void {
         this.dialog
-            .open<Asset | undefined>(AddCustomTokenComponent)
+            .open<AssetBalance | undefined>(AddCustomTokenComponent)
             .closed.pipe(
                 filter(response_data => Boolean(response_data)),
                 takeUntil(this.destroy$)

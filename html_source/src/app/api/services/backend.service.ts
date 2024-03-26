@@ -164,6 +164,7 @@ export enum Commands {
     set_localization_strings = 'set_localization_strings',
     request_alias_registration = 'request_alias_registration',
     call_rpc = 'call_rpc',
+    call_wallet_rpc = 'call_wallet_rpc',
     setup_jwt_wallet_rpc = 'setup_jwt_wallet_rpc',
 }
 
@@ -753,6 +754,10 @@ export class BackendService {
     // Use for call rpc-api https://docs.zano.org/docs/build/rpc-api
     call_rpc(params: Partial<ParamsCallRpc>, callback?: (status: boolean, response_data: any) => void): void {
         this.runCommand(Commands.call_rpc, params, callback);
+    }
+
+    call_wallet_rpc(params: [wallet_id: number, params: Partial<ParamsCallRpc>], callback?: (status: boolean, response_data: any) => void): void {
+        this.runCommand(Commands.call_wallet_rpc, params, callback);
     }
 
     private informerRun(error: string, params, command: string): void {

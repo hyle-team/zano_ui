@@ -292,6 +292,7 @@
     },
     "ERRORS": {
         "ACCESS_DENIED": "Akses ditolak",
+        "ASSET_HAS_NOT_BEEN_ADDED_TO_WALLET": "Asset has not been added to your wallet",
         "BAD_ARG": "Argumen tidak valid",
         "CORE_BUSY": "Kesalahan intenal: inti sedang sibuk",
         "DAEMON_BUSY": "Kesalahan intenal: daemon sedang sibuk",

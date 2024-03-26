@@ -292,6 +292,7 @@
     },
     "ERRORS": {
         "ACCESS_DENIED": "Access denied",
+        "ASSET_HAS_NOT_BEEN_ADDED_TO_WALLET": "Asset has not been added to your wallet",
         "BAD_ARG": "Invalid argument",
         "CORE_BUSY": "Internal error: core is busy",
         "DAEMON_BUSY": "Internal error: daemon is busy",

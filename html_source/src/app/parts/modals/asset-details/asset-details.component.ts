@@ -1,7 +1,7 @@
 import { Component, inject, Inject, NgZone, OnInit } from '@angular/core';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { VariablesService } from '@parts/services/variables.service';
-import { Asset } from '@api/models/assets.model';
+import { AssetBalance } from '@api/models/assets.model';
 import { zanoAssetInfo } from '@parts/data/assets';
 import { BackendService } from '@api/services/backend.service';
 import { ParamsCallRpc } from '@api/models/call_rpc.model';
@@ -98,7 +98,7 @@ import { ParamsCallRpc } from '@api/models/call_rpc.model';
 export class AssetDetailsComponent implements OnInit {
     title = 'Asset Details';
 
-    asset!: Asset;
+    asset!: AssetBalance;
 
     zanoAssetInfo = zanoAssetInfo;
 
@@ -111,7 +111,7 @@ export class AssetDetailsComponent implements OnInit {
     constructor(
         public variablesService: VariablesService,
         private dialogRef: DialogRef,
-        @Inject(DIALOG_DATA) { asset, title }: { asset: Asset; title?: string }
+        @Inject(DIALOG_DATA) { asset, title }: { asset: AssetBalance; title?: string }
     ) {
         this.asset = asset;
 
@@ -127,30 +127,19 @@ export class AssetDetailsComponent implements OnInit {
     }
 
     private getZanoCurrentSupply(): void {
-        const { wallet_id } = this.variablesService.currentWallet;
-        const params1: ParamsCallRpc = {
+        const params: ParamsCallRpc = {
             jsonrpc: '2.0',
-            id: wallet_id,
-            method: 'mw_select_wallet',
-            params: { wallet_id },
-        };
-        const params2: ParamsCallRpc = {
-            jsonrpc: '2.0',
-            id: wallet_id,
+            id: 0,
             method: 'getinfo',
             params: {
                 flags: 1024,
             },
         };
 
-        this.backendService.call_rpc(params1, (status1, response_data1) => {
-            if (response_data1?.result?.status === 'OK') {
-                this.backendService.call_rpc(params2, (status2, response_data2) => {
-                    this.ngZone.run(() => {
-                        this.zano_current_supply = response_data2?.['result']?.['total_coins'] ?? 'Unknown';
-                    });
-                });
-            }
+        this.backendService.call_rpc(params, (status, response_data) => {
+            this.ngZone.run(() => {
+                this.zano_current_supply = response_data?.['result']?.['total_coins'] ?? 'Unknown';
+            });
         });
     }
 
