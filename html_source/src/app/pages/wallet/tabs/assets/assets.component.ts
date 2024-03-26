@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { VariablesService } from '@parts/services/variables.service';
 import { Subject } from 'rxjs';
-import { Asset, ParamsRemoveCustomAssetId } from '@api/models/assets.model';
+import { AssetBalance, ParamsRemoveCustomAssetId } from '@api/models/assets.model';
 import { PaginatePipeArgs } from 'ngx-pagination';
 import { takeUntil } from 'rxjs/operators';
 import { CdkOverlayOrigin } from '@angular/cdk/overlay';
@@ -244,7 +244,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
 
     triggerOrigin!: CdkOverlayOrigin;
 
-    currentAsset!: Asset;
+    currentAsset!: AssetBalance;
 
     isOpenDropDownMenu = false;
 
@@ -268,13 +268,13 @@ export class AssetsComponent implements OnInit, OnDestroy {
         this.destroy$.complete();
     }
 
-    toggleDropDownMenu(trigger: CdkOverlayOrigin, asset: Asset): void {
+    toggleDropDownMenu(trigger: CdkOverlayOrigin, asset: AssetBalance): void {
         this.isOpenDropDownMenu = !this.isOpenDropDownMenu;
         this.triggerOrigin = trigger;
         this.currentAsset = asset;
     }
 
-    trackByAssets(index: number, { asset_info: { asset_id } }: Asset): number | string {
+    trackByAssets(index: number, { asset_info: { asset_id } }: AssetBalance): number | string {
         return asset_id || index;
     }
 
@@ -313,7 +313,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
     }
 
     removeAsset(): void {
-        const { wallet_id } = this.variablesService.currentWallet;
+        const { wallet_id, sendMoneyParams } = this.variablesService.currentWallet;
         const {
             asset_info: { asset_id },
         } = this.currentAsset;
@@ -324,10 +324,14 @@ export class AssetsComponent implements OnInit, OnDestroy {
         this.backendService.removeCustomAssetId(params, () => {
             this.walletsService.updateWalletInfo(wallet_id);
             this.currentAsset = undefined;
+
+            if (sendMoneyParams) {
+                this.walletsService.currentWallet.sendMoneyParams.asset_id = zanoAssetInfo.asset_id;
+            }
         });
     }
 
-    getBalanceTooltip(balance: Asset): HTMLDivElement {
+    getBalanceTooltip(balance: AssetBalance): HTMLDivElement {
         const tooltip = document.createElement('div');
         const scrollWrapper = document.createElement('div');
         if (!balance) {
@@ -335,7 +339,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
         }
 
         scrollWrapper.classList.add('balance-scroll-list');
-        [balance].forEach(({ unlocked, total, asset_info: { ticker } }: Asset) => {
+        [balance].forEach(({ unlocked, total, asset_info: { ticker } }: AssetBalance) => {
             const available = document.createElement('span');
             available.setAttribute('class', 'available');
             available.innerText = `${this.translate.instant('WALLET.AVAILABLE_BALANCE')} `;

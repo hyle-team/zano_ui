@@ -1,4 +1,4 @@
-export interface Asset {
+export interface AssetBalance {
     asset_info: AssetInfo;
     awaiting_in: number;
     awaiting_out: number;
@@ -17,7 +17,7 @@ export interface AssetInfo {
     total_max_supply: number;
 }
 
-export type Assets = Asset[];
+export type AssetBalances = AssetBalance[];
 
 export interface ParamsCustomAssetId {
     wallet_id: number;
@@ -43,4 +43,16 @@ export type ParamsRemoveCustomAssetId = ParamsCustomAssetId;
 
 export interface ResponseRemoveCustomAssetId {
     error_code: string;
+}
+
+export interface AssetsInfoWhitelist {
+    local_whitelist: AssetInfo[] | undefined;
+    global_whitelist: AssetInfo[] | undefined;
+    own_assets: AssetInfo[] | undefined;
+}
+
+export interface AssetsWhitelistGetResponseData {
+    id: number;
+    jsonrpc: string;
+    result: AssetsInfoWhitelist;
 }

@@ -24,7 +24,7 @@
                     </div>
                     <div *ngFor="let item of proposalDetails.to_initiator" class="text">
                         {{ item.amount | intToMoney }}
-                        {{ (item.asset_id | getAsset)?.asset_info.ticker || '???' }}
+                        {{ (item.asset_id | getAssetInfo)?.ticker || '???' }}
                     </div>
                 </div>
 
@@ -36,7 +36,7 @@
                     </div>
                     <div *ngFor="let item of proposalDetails.to_finalizer" class="text">
                         {{ item.amount | intToMoney }}
-                        {{ (item.asset_id | getAsset)?.asset_info.ticker || '???' }}
+                        {{ (item.asset_id | getAssetInfo)?.ticker || '???' }}
                     </div>
                 </div>
             </div>

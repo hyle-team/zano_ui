@@ -98,8 +98,12 @@ $circle-background: white !default;
         cursor: not-allowed !important;
 
         > .ng-select-container {
-            background-color: $ng-select-disabled-text;
             cursor: not-allowed !important;
+
+            &:hover {
+                box-shadow: none;
+                border: 0.2rem solid $ng-select-bg;
+            }
         }
     }
 

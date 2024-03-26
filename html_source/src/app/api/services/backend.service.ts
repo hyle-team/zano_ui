@@ -164,6 +164,8 @@ export enum Commands {
     set_localization_strings = 'set_localization_strings',
     request_alias_registration = 'request_alias_registration',
     call_rpc = 'call_rpc',
+    call_wallet_rpc = 'call_wallet_rpc',
+    setup_jwt_wallet_rpc = 'setup_jwt_wallet_rpc',
 }
 
 @Injectable({
@@ -427,6 +429,15 @@ export class BackendService {
         };
 
         this.asyncCall(Commands.transfer, params, callback);
+    }
+
+    setupJwtWalletRpc(value: { zanoCompation: boolean; secret: string }): void {
+        const { secret } = value;
+
+        this.runCommand(Commands.setup_jwt_wallet_rpc, secret, () => {
+            this.variablesService.settings.zanoCompanionForm = value;
+            this.storeAppData();
+        });
     }
 
     validateAddress(address, callback): void {
@@ -697,9 +708,17 @@ export class BackendService {
         this.runCommand(
             Commands.get_options,
             {},
-            (status, { disable_price_fetch, use_debug_mode }: { disable_price_fetch: boolean; use_debug_mode: boolean }) => {
+            (
+                status,
+                {
+                    disable_price_fetch,
+                    use_debug_mode,
+                    rpc_port,
+                }: { disable_price_fetch: boolean; use_debug_mode: boolean; rpc_port: number }
+            ) => {
                 this.variablesService.disable_price_fetch$.next(disable_price_fetch);
                 this.variablesService.use_debug_mode$.next(use_debug_mode);
+                this.variablesService.rpc_port = rpc_port;
             }
         );
     }
@@ -735,6 +754,10 @@ export class BackendService {
     // Use for call rpc-api https://docs.zano.org/docs/build/rpc-api
     call_rpc(params: Partial<ParamsCallRpc>, callback?: (status: boolean, response_data: any) => void): void {
         this.runCommand(Commands.call_rpc, params, callback);
+    }
+
+    call_wallet_rpc(params: [wallet_id: number, params: Partial<ParamsCallRpc>], callback?: (status: boolean, response_data: any) => void): void {
+        this.runCommand(Commands.call_wallet_rpc, params, callback);
     }
 
     private informerRun(error: string, params, command: string): void {

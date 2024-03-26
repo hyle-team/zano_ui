@@ -7,7 +7,7 @@ import { MIXIN } from '@parts/data/constants';
 import { MoneyToIntPipe } from '@parts/pipes/money-to-int-pipe/money-to-int.pipe';
 import { debounceTime, delay, filter, retry, take, takeUntil, tap } from 'rxjs/operators';
 import { BehaviorSubject, of, Subject } from 'rxjs';
-import { Asset } from '@api/models/assets.model';
+import { AssetBalance } from '@api/models/assets.model';
 import { regExpAliasName } from '@parts/utils/zano-validators';
 import { IntToMoneyPipe } from '@parts/pipes';
 import { insuficcientFunds } from '@parts/utils/zano-errors';
@@ -372,7 +372,7 @@ export class SendComponent implements OnInit, OnDestroy {
 
     isVisibleDropdownAliases$ = new BehaviorSubject<boolean>(false);
 
-    isVisibleDropdownAliasesObservable$ = this.isVisibleDropdownAliases$.pipe(delay(150));
+    isVisibleDropdownAliasesObservable$ = this.isVisibleDropdownAliases$.pipe(delay(250));
 
     isModalDialogVisible = false;
 
@@ -489,7 +489,7 @@ export class SendComponent implements OnInit, OnDestroy {
                         return null;
                     }
 
-                    const asset: Asset | undefined = this.variablesService.currentWallet.balances?.find(
+                    const asset: AssetBalance | undefined = this.variablesService.currentWallet.balances?.find(
                         v => v.asset_info.asset_id === asset_id
                     );
                     if (asset) {
@@ -544,7 +544,7 @@ export class SendComponent implements OnInit, OnDestroy {
 
     setAssetFromHistoryState(): void {
         const state = history.state || {};
-        const asset: Asset = state['asset'];
+        const asset: AssetBalance = state['asset'];
         if (asset) {
             const {
                 asset_info: { asset_id },

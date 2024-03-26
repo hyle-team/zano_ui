@@ -48,6 +48,10 @@ i {
         background: center / contain no-repeat url(~src/assets/icons/white/add.svg);
     }
 
+    &.regenerate {
+        background: center / contain no-repeat url(~src/assets/icons/white/regenerate.svg);
+    }
+
     &.balance-icon {
         background: center / contain no-repeat url(~src/assets/icons/white/balance_icon.svg);
     }

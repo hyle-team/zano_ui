@@ -28,12 +28,24 @@ import { TooltipModule } from '@parts/directives';
                     </td>
                 </tr>
                 <tr>
-                    <td>{{ 'HISTORY.DETAILS.HEIGHT' | translate }}</td>
-                    <td colspan="2">{{ transaction.height }}</td>
+                    <td>{{ 'Asset ID' | translate }}</td>
+                    <td
+                        colspan="2"
+                        class="color-primary cursor-pointer"
+                    >
+                        <ng-container *ngFor="let asset_id of getAllUniqAssetId(transaction)">
+                            <p class="text-ellipsis" (contextmenu)="variablesService.onContextMenuOnlyCopy($event, asset_id)">{{ asset_id }}</p>
+                        </ng-container>
+                    </td>
                     <td>{{ 'HISTORY.DETAILS.CONFIRMATION' | translate }}</td>
                     <td>
                         {{ transaction.height === 0 ? 0 : variablesService.height_app - transaction.height }}
                     </td>
+                </tr>
+                <tr>
+                    <td>{{ 'HISTORY.DETAILS.HEIGHT' | translate }}</td>
+                    <td colspan="2">{{ transaction.height }}</td>
+                    <td colspan="2"></td>
                 </tr>
                 <tr>
                     <td>{{ 'HISTORY.DETAILS.PAYMENT_ID' | translate }}</td>
@@ -86,6 +98,13 @@ import { TooltipModule } from '@parts/directives';
 export class TransactionDetailsComponent {
     @Input() transaction: Transaction;
     constructor(public variablesService: VariablesService, private backendService: BackendService) {}
+
+
+    getAllUniqAssetId(transaction: Transaction): Set<string> {
+        const { employed_entries } = transaction;
+        const { receive = [], spent = [] } = employed_entries;
+        return new Set([...receive, ...spent].map(({ asset_id }) => asset_id));
+    }
 
     openInBrowser(tr): void {
         this.backendService.openUrlInBrowser(

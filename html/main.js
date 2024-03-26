@@ -19204,7 +19204,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ 8309:
 /*!***********************************************!*\
-  !*** ./src/app/parts/pipes/get-asset.pipe.ts ***!
+  !*** ./src/app/parts/pipes/get-asset-info.pipe.ts ***!
   \***********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 

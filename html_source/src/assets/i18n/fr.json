@@ -292,6 +292,7 @@
     },
     "ERRORS": {
         "ACCESS_DENIED": "Accès refusé",
+        "ASSET_HAS_NOT_BEEN_ADDED_TO_WALLET": "Asset has not been added to your wallet",
         "BAD_ARG": "Argument invalide",
         "CORE_BUSY": "Erreur interne : le noyau est occupé",
         "DAEMON_BUSY": "Erreur interne : le daemon est occupé",
@@ -612,6 +613,15 @@
         },
         "APP_LOG_TITLE": "Niveau de log :",
         "DARK_THEME": "Thème sombre",
+        "FORM": {
+            "ZANO_COMPANION": {
+                "LABELS": {
+                    "LABEL1": "Zano Companion",
+                    "LABEL2": "Secret",
+                    "LABEL3": "Port"
+                }
+            }
+        },
         "FORM_ERRORS": {
             "CONFIRM_NOT_MATCH": "La confirmation du mot de passe ne correspond pas",
             "CURRENT_PASS_NOT_MATCH": "Ancien mot de passe non correspondant",

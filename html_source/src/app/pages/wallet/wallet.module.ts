@@ -36,7 +36,7 @@ import { TransactionDetailsComponent } from '@parts/components/transaction-detai
 import { BreadcrumbsComponent } from '@parts/components/breadcrumbs/breadcrumbs.component';
 import { BackButtonComponent } from '@parts/components/back-button/back-button.component';
 import { WalletModalsModule } from './tabs/send/modals/wallet-modals.module';
-import { GetAssetPipe } from '@parts/pipes/get-asset.pipe';
+import { GetAssetInfoPipe } from '@parts/pipes/get-asset-info.pipe';
 
 @NgModule({
     declarations: [
@@ -82,7 +82,7 @@ import { GetAssetPipe } from '@parts/pipes/get-asset.pipe';
         BreadcrumbsComponent,
         BackButtonComponent,
         WalletModalsModule,
-        GetAssetPipe,
+        GetAssetInfoPipe,
     ],
 })
 export class WalletModule {}

@@ -5,5 +5,5 @@ export * from './int-to-money-pipe';
 export * from './is-available-alias-name-pipe';
 export * from './money-to-int-pipe';
 export * from './safe-html-pipe';
-export * from './get-asset.pipe';
+export * from './get-asset-info.pipe';
 export * from './short-string.pipe';

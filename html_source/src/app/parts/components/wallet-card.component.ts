@@ -1,7 +1,7 @@
 import { Component, EventEmitter, HostBinding, inject, Input, Output } from '@angular/core';
 import { Wallet } from '@api/models/wallet.model';
 import { VariablesService } from '@parts/services/variables.service';
-import { Asset, Assets } from '@api/models/assets.model';
+import { AssetBalance } from '@api/models/assets.model';
 import { BigNumber } from 'bignumber.js';
 import { LOCKED_BALANCE_HELP_PAGE } from '@parts/data/constants';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -105,7 +105,7 @@ export class WalletCardComponent {
         const { balances } = this.wallet;
 
         scrollWrapper.classList.add('balance-scroll-list');
-        balances.forEach(({ unlocked, total, asset_info: { ticker } }: Asset) => {
+        balances.forEach(({ unlocked, total, asset_info: { ticker } }) => {
             const available = document.createElement('span');
             available.setAttribute('class', 'available');
             available.innerText = `${this.translate.instant('WALLET.AVAILABLE_BALANCE')} `;
