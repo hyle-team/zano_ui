@@ -533,6 +533,13 @@ body {
   max-width: 50rem;
   width: 100%;
   border-radius: 0.8rem;
+}.form__card {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 2rem 0;
+  margin-bottom: 2rem;
+  border-radius: 8px;
+  background-color: var(--blue-500);
 }.form__row {
   display: grid;
   width: 100%;
@@ -540,6 +547,7 @@ body {
   justify-content: space-between;
   grid-gap: 20px;
 }.form__field {
+  position: relative;
   display: flex;
   flex: 0 0 auto;
   flex-direction: column;
@@ -587,7 +595,7 @@ body {
   border: var(--border-disabled);
   cursor: not-allowed;
 }.form__field--input:read-only, .form__field--select:read-only {
-  cursor: not-allowed;
+  cursor: default;
 }.form__field--input:not(:disabled):not(:read-only):hover, .form__field--select:not(:disabled):not(:read-only):hover {
   cursor: pointer;
 }.form__field--input::placeholder, .form__field--select::placeholder {
@@ -775,6 +783,8 @@ body {
   background: center/contain no-repeat url('swap_icon.svg');
 }.icon.add {
   background: center/contain no-repeat url('add.svg');
+}.icon.regenerate {
+  background: center/contain no-repeat url('regenerate.svg');
 }.icon.balance-icon {
   background: center/contain no-repeat url('balance_icon.svg');
 }.icon.info-icon {
@@ -935,8 +945,10 @@ body {
 }.ng-select.ng-select-disabled {
   cursor: not-allowed !important;
 }.ng-select.ng-select-disabled > .ng-select-container {
-  background-color: var(--white-500);
   cursor: not-allowed !important;
+}.ng-select.ng-select-disabled > .ng-select-container:hover {
+  box-shadow: none;
+  border: 0.2rem solid var(--blue-500);
 }.ng-select .ng-has-value .ng-placeholder {
   display: none;
 }.ng-select .ng-select-container {
