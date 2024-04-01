@@ -4,7 +4,7 @@ import { VariablesService } from '@parts/services/variables.service';
 import { ZanoValidators } from '@parts/utils/zano-validators';
 import { DialogRef } from '@angular/cdk/dialog';
 import { BackendService } from '@api/services/backend.service';
-import { Asset, ParamsAddCustomAssetId } from '@api/models/assets.model';
+import { AssetBalance, ParamsAddCustomAssetId } from '@api/models/assets.model';
 import { WalletsService } from '@parts/services/wallets.service';
 import { wrongAssetId } from '@parts/utils/zano-errors';
 import { BehaviorSubject } from 'rxjs';
@@ -90,7 +90,7 @@ export class AddCustomTokenComponent {
         public variablesService: VariablesService,
         public backendService: BackendService,
         private walletsService: WalletsService,
-        private dialogRef: DialogRef<Asset | undefined>
+        private dialogRef: DialogRef<AssetBalance | undefined>
     ) {}
 
     beforeSubmit(): void {
@@ -113,7 +113,7 @@ export class AddCustomTokenComponent {
         };
         this.backendService.addCustomAssetId(params, (status, { asset_descriptor }) => {
             if (status) {
-                const asset: Asset = {
+                const asset: AssetBalance = {
                     asset_info: {
                         ...asset_descriptor,
                         asset_id,

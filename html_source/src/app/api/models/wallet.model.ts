@@ -1,7 +1,7 @@
 import { Contracts } from './contract.model';
 import { Transaction, Transactions } from './transaction.model';
 import { BigNumber } from 'bignumber.js';
-import { Asset, Assets } from './assets.model';
+import { AssetBalance, AssetInfo, AssetBalances, AssetsInfoWhitelist } from './assets.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Alias } from '@api/models/alias.model';
 import { SendMoneyParams } from '@api/models/send-money.model';
@@ -28,18 +28,44 @@ export class Wallet {
     path: string;
     address: string;
 
-    private _balances$ = new BehaviorSubject<Assets | null | undefined>(undefined);
+    private _balances$ = new BehaviorSubject<AssetBalances | null | undefined>(undefined);
 
-    get balances$(): Observable<Assets | null | undefined> {
+    private _assetsInfoWhitelist: AssetsInfoWhitelist = { global_whitelist: [], local_whitelist: [], own_assets: [] };
+
+    set assetsInfoWhitelist(value: AssetsInfoWhitelist) {
+        this._assetsInfoWhitelist = value;
+    }
+
+    get allAssetsInfoWhitelist(): AssetInfo[] {
+        const { global_whitelist = [], local_whitelist= [], own_assets= [] } = this._assetsInfoWhitelist;
+        return [
+            ...global_whitelist,
+            ...local_whitelist,
+            ...own_assets
+        ];
+    }
+
+    get isEmptyAssetsInfoWhitelist(): boolean {
+        return !this.allAssetsInfoWhitelist.length;
+    }
+
+    get allAssetsInfo(): AssetInfo[] {
+        return [
+            zanoAssetInfo,
+            ...this.allAssetsInfoWhitelist
+        ];
+    }
+
+    get balances$(): Observable<AssetBalances | null | undefined> {
         return this._balances$.asObservable();
     }
 
-    get balances(): Assets | null | undefined {
+    get balances(): AssetBalances | null | undefined {
         return this._balances$.value;
     }
 
-    set balances(value: Assets | null | undefined) {
-        const sortedAssets: Assets = [];
+    set balances(value: AssetBalances | null | undefined) {
+        const sortedAssets: AssetBalances = [];
         if (value) {
             const assets = [...value];
             const indexZano = assets.findIndex(({ asset_info: { ticker } }) => ticker === 'ZANO');
@@ -53,7 +79,7 @@ export class Wallet {
         this._balances$.next(sortedAssets);
     }
 
-    get isEmpty(): boolean {
+    get isEmptyBalances(): boolean {
         if (!this.balances) {
             return true;
         }
@@ -120,7 +146,7 @@ export class Wallet {
         this.loaded = false;
     }
 
-    getBalanceByTicker(searchTicker: string): Asset | undefined {
+    getBalanceByTicker(searchTicker: string): AssetBalance | undefined {
         return this.balances?.find(({ asset_info: { ticker } }) => ticker === searchTicker);
     }
 
@@ -224,7 +250,7 @@ export interface PushOffer {
 
 export interface ResponseGetWalletInfo {
     address: string;
-    balances: Assets;
+    balances: AssetBalances;
     is_auditable: boolean;
     is_watch_only: boolean;
     mined_total: number;

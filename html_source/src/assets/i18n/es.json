@@ -292,6 +292,7 @@
     },
     "ERRORS": {
         "ACCESS_DENIED": "Access denied",
+        "ASSET_HAS_NOT_BEEN_ADDED_TO_WALLET": "Asset has not been added to your wallet",
         "BAD_ARG": "Invalid argument",
         "CORE_BUSY": "Internal error: core is busy",
         "DAEMON_BUSY": "Internal error: daemon is busy",
@@ -612,6 +613,15 @@
         },
         "APP_LOG_TITLE": "Log level:",
         "DARK_THEME": "Dark theme",
+        "FORM": {
+            "ZANO_COMPANION": {
+                "LABELS": {
+                    "LABEL1": "Zano Companion",
+                    "LABEL2": "Secret",
+                    "LABEL3": "Port"
+                }
+            }
+        },
         "FORM_ERRORS": {
             "CONFIRM_NOT_MATCH": "The passwords do not match",
             "CURRENT_PASS_NOT_MATCH": "Old password not match",

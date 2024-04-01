@@ -218,11 +218,16 @@ export class LoginComponent implements OnInit, OnDestroy {
         });
     }
 
+    resetJwtWalletRpc(): void {
+        this.backend.setupJwtWalletRpc({ secret: '', zanoCompation: false });
+    }
+
     dropSecureAppData(): void {
         this.resetLoading$.next(true);
 
         // This delay is necessary for the loader to display, as the application freezes for a few seconds
         setTimeout(() => {
+            this.resetJwtWalletRpc();
             this.backend.dropSecureAppData(() => {
                 this.resetLoading$.next(false);
                 this.onSkipCreatePass();

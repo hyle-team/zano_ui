@@ -759,20 +759,18 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     updateMoneyEquivalent(): void {
-        const ping$ = this.http.get('https://api.coingecko.com/api/v3/ping').pipe(shareReplay(1));
-
-        ping$.pipe(
-            switchMap(() => this.http.get('https://api.coingecko.com/api/v3/simple/price?ids=zano&vs_currencies=usd&include_24hr_change=true')),
-            take(1)
-        ).subscribe({
-            next: data => {
-                this.variablesService.moneyEquivalent = data['zano']['usd'];
-                this.variablesService.moneyEquivalentPercent = data['zano']['usd_24h_change'];
-            },
-            error: error => {
-                console.warn('api.coingecko.com price error: ', error);
-            },
-        });
+        this.http
+            .get('https://explorer.zano.org/api/price?asset=zano')
+            .pipe(take(1))
+            .subscribe({
+                next: ({ data }: { data: { zano: { usd: number, usd_24h_change: number }, success: boolean} }): void => {
+                    this.variablesService.moneyEquivalent = data['zano']['usd'];
+                    this.variablesService.moneyEquivalentPercent = data['zano']['usd_24h_change'];
+                },
+                error: error => {
+                    console.warn('api.coingecko.com price error: ', error);
+                },
+            });
     }
 
     getAliases(): void {

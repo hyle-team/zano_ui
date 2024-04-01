@@ -15,19 +15,20 @@ import {
 } from '@parts/pipes';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { VariablesService } from '@parts/services/variables.service';
-import { Asset } from '@api/models/assets.model';
+import { AssetBalance, AssetInfo } from '@api/models/assets.model';
 import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
 import { regExpAliasName } from '@parts/utils/zano-validators';
 import { BackendService } from '@api/services/backend.service';
-import { BehaviorSubject, of, Subject } from 'rxjs';
-import { delay, filter, retry, take, takeUntil, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { delay, filter, map, retry, startWith, take, takeUntil, tap } from 'rxjs/operators';
 import { Aliases } from '@api/models/alias.model';
 import { WrapInfoService } from '@api/services/wrap-info.service';
 import { WrapInfo } from '@api/models/wrap-info';
 import { BigNumber } from 'bignumber.js';
-import { insuficcientFunds } from '@parts/utils/zano-errors';
+import { assetHasNotBeenAddedToWallet, insuficcientFunds } from '@parts/utils/zano-errors';
 import { ParamsCallRpc } from '@api/models/call_rpc.model';
 import { LoaderComponent } from '@parts/components/loader.component';
+import { Wallet } from '@api/models/wallet.model';
 
 @Component({
     selector: 'app-create-swap',
@@ -104,10 +105,14 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
 
     private moneyToInt = inject(MoneyToIntPipe);
 
+    currentWallet: Wallet = this.variablesService.currentWallet;
+
+    allAssetsInfo = this.currentWallet.allAssetsInfo;
+
     form = this.fb.group(
         {
             sending: this.fb.group({
-                amount: this.fb.control('', {
+                amount: this.fb.control(null, {
                     validators: [
                         Validators.required,
                         Validators.min(0.000000000001),
@@ -133,29 +138,32 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
                             }
                             return null;
                         },
-
                         (control: FormControl): ValidationErrors | null => {
                             const asset_id = this.form?.controls.sending.controls.asset_id.value;
                             if (!asset_id) {
                                 return null;
                             }
 
-                            const asset: Asset | undefined = this.variablesService.currentWallet.balances?.find(
+                            const asset: AssetBalance | undefined = this.variablesService.currentWallet.balances?.find(
                                 v => v.asset_info.asset_id === asset_id
                             );
                             if (asset) {
                                 const unlocked = +this.intToMoneyPipe.transform(asset.unlocked);
                                 return +control.value > unlocked ? { insuficcientFunds } : null;
+                            } else {
+                                return { assetHasNotBeenAddedToWallet };
                             }
-                            return null;
                         },
                     ],
                 }),
                 asset_id: this.fb.control(zanoAssetInfo.asset_id, [Validators.required]),
             }),
             receiving: this.fb.group({
-                amount: this.fb.control('', [Validators.required, Validators.min(0.000000000001)]),
-                asset_id: this.fb.control(zanoAssetInfo.asset_id, [Validators.required]),
+                amount: this.fb.control({ value: null, disabled: this.currentWallet.isEmptyAssetsInfoWhitelist }, [Validators.required, Validators.min(0.000000000001)]),
+                asset_id: this.fb.control({
+                    value: this.currentWallet.isEmptyAssetsInfoWhitelist ? null : (this.allAssetsInfo[1].asset_id ?? zanoAssetInfo.asset_id),
+                    disabled: this.currentWallet.isEmptyAssetsInfoWhitelist
+                }, [Validators.required]),
             }),
             receiverAddress: this.fb.control('', [
                 Validators.required,
@@ -221,12 +229,23 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
         }
     );
 
-    constructor() {}
+    sendingAssetsInfo$: Observable<AssetInfo[]>;
+
+    receivingAssetsInfo$: Observable<AssetInfo[]>;
 
     ngOnInit(): void {
         this.getWrapInfo();
         this.getAliases();
         this.setSendingAssetIdFromHistoryState();
+
+        this.sendingAssetsInfo$ = this.form.controls.receiving.controls.asset_id.valueChanges.pipe(
+            startWith(this.form.controls.receiving.controls.asset_id.value),
+            map((asset_id) => this.allAssetsInfo.filter((v) => v.asset_id !== asset_id))
+        );
+        this.receivingAssetsInfo$ = this.form.controls.sending.controls.asset_id.valueChanges.pipe(
+            startWith(this.form.controls.sending.controls.asset_id.value),
+            map((asset_id) => this.allAssetsInfo.filter((v) => v.asset_id !== asset_id))
+        );
     }
 
     ngOnDestroy(): void {
@@ -310,13 +329,13 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
         const { default_fee_big } = this.variablesService;
         const params1: ParamsCallRpc = {
             jsonrpc: '2.0',
-            id: wallet_id,
+            id: 0,
             method: 'mw_select_wallet',
             params: { wallet_id },
         };
         const params2: ParamsCallRpc = {
             jsonrpc: '2.0',
-            id: wallet_id,
+            id: 0,
             method: 'ionic_swap_generate_proposal',
             params: {
                 proposal: {
@@ -355,35 +374,29 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
             params2.params['destination_address'] = receiverAddress;
         }
 
-        this.backendService.call_rpc(params1, (status1, response_data1) => {
-            if (response_data1.result.status === 'OK') {
-                this.backendService.call_rpc(params2, (status2, response_data2) => {
-                    if (response_data2.result) {
+        this.backendService.call_wallet_rpc([wallet_id, params2], (status, response_data) => {
+            if (response_data?.result) {
                         this.ngZone.run(() => {
                             this.router
                                 .navigateByUrl('/wallet/swap-proposal-hex', {
                                     state: {
-                                        hex_raw_proposal: response_data2.result['hex_raw_proposal'],
+                                        hex_raw_proposal: response_data.result['hex_raw_proposal'],
                                     },
                                 })
                                 .then();
                         });
-                    } else {
-                        this.ngZone.run(() => {
-                            this.errorRpc = response_data2.error;
-                            this.loading$.next(false);
-                        });
-                    }
-                });
             } else {
-                this.ngZone.run(() => this.loading$.next(false));
+                this.ngZone.run(() => {
+                    this.errorRpc = response_data.error;
+                    this.loading$.next(false);
+                });
             }
         });
     }
 
     private setSendingAssetIdFromHistoryState(): void {
         const state = history.state || {};
-        const asset: Asset = state['asset'];
+        const asset: AssetBalance = state['asset'];
         if (asset) {
             const {
                 asset_info: { asset_id },

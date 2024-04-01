@@ -2,6 +2,7 @@
     <app-breadcrumbs [items]="breadcrumbItems" class="mb-2"></app-breadcrumbs>
 
     <form (ngSubmit)="beforeSubmit()" [formGroup]="form" class="form">
+        <!-- sending -->
         <div class="form__row" formGroupName="sending">
             <div class="form__field">
                 <label for="sending-amount">
@@ -41,6 +42,9 @@
                     <div *ngIf="form.controls.sending.controls.amount.hasError('insuficcientFunds')">
                         {{ form.controls.sending.controls.amount.errors['insuficcientFunds'].errorText | translate }}
                     </div>
+                    <div *ngIf="form.controls.sending.controls.amount.hasError('assetHasNotBeenAddedToWallet')">
+                        {{ form.controls.sending.controls.amount.errors['assetHasNotBeenAddedToWallet'].errorText | translate }}
+                    </div>
                     <div *ngIf="form.controls.sending.controls.amount.hasError('min')">
                         {{ 'SEND.FORM_ERRORS.AMOUNT_ZERO' | translate }}
                     </div>
@@ -51,35 +55,38 @@
                 <label> &nbsp; </label>
                 <ng-select
                     (change)="form.controls.sending.controls.amount.updateValueAndValidity()"
-                    [bindValue]="'asset_info.asset_id'"
+                    [bindValue]="'asset_id'"
                     [clearable]="false"
-                    [items]="variablesService.currentWallet.balances$ | async"
+                    [items]="sendingAssetsInfo$ | async"
                     [searchable]="false"
                     class="custom-select with-circle"
                     formControlName="asset_id"
                 >
-                    <ng-template let-asset="item" ng-label-tmp ng-option-tmp>
+                    <ng-template let-assetInfo="item" ng-label-tmp ng-option-tmp>
                         <img
-                            [alt]="asset.asset_info.ticker"
+                            [alt]="assetInfo.ticker"
                             [defaultImgSrc]="defaultImgSrc"
-                            [src]="asset.asset_info.asset_id === zanoAssetInfo.asset_id ? zanoAssetInfo.logo : defaultImgSrc"
+                            [src]="assetInfo.asset_id === zanoAssetInfo.asset_id ? zanoAssetInfo.logo : defaultImgSrc"
                             appDefaultImg
                             defaultImgAlt="default"
                             height="15"
                             width="15"
                         />
-                        {{ asset.asset_info.full_name || '---' }}
+                        {{ assetInfo.full_name || '---' }}
                     </ng-template>
                 </ng-select>
             </div>
         </div>
+        <!-- /sending -->
 
         <div class="wrapper-reverse">
-            <button (click)="reverse()" class="revers" type="button">
+            <button (click)="reverse()" [disabled]="currentWallet.isEmptyAssetsInfoWhitelist" class="revers"
+                    type="button">
                 <i class="icon small swap"></i>
             </button>
         </div>
 
+        <!-- receiving -->
         <div class="form__row" formGroupName="receiving">
             <div class="form__field">
                 <label for="receiving-amount">
@@ -112,24 +119,24 @@
             <div class="form__field">
                 <label> &nbsp; </label>
                 <ng-select
-                    [bindValue]="'asset_info.asset_id'"
+                    [bindValue]="'asset_id'"
                     [clearable]="false"
-                    [items]="variablesService.currentWallet.balances$ | async"
+                    [items]="receivingAssetsInfo$ | async"
                     [searchable]="false"
                     class="custom-select with-circle"
                     formControlName="asset_id"
                 >
-                    <ng-template let-asset="item" ng-label-tmp ng-option-tmp>
+                    <ng-template let-assetInfo="item" ng-label-tmp ng-option-tmp>
                         <img
-                            [alt]="asset.asset_info.ticker"
+                            [alt]="assetInfo.ticker"
                             [defaultImgSrc]="defaultImgSrc"
-                            [src]="asset.asset_info.asset_id === zanoAssetInfo.asset_id ? zanoAssetInfo.logo : defaultImgSrc"
+                            [src]="assetInfo.asset_id === zanoAssetInfo.asset_id ? zanoAssetInfo.logo : defaultImgSrc"
                             appDefaultImg
                             defaultImgAlt="default"
                             height="15"
                             width="15"
                         />
-                        {{ asset.asset_info.full_name || '---' }}
+                        {{ assetInfo.full_name || '---' }}
                     </ng-template>
                 </ng-select>
                 <div
@@ -147,6 +154,7 @@
                 </div>
             </div>
         </div>
+        <!-- /receiving -->
 
         <div *ngIf="isWrapShown && wrapInfo && !(loading$ | async)" class="wrap mt-2 mb-2 p-2">
             <div class="title">
@@ -204,7 +212,8 @@
             >
                 <ng-container *ngIf="aliases$ | async as aliases">
                     <ng-container *ngIf="aliases.length; else notFoundAliases">
-                        <div (click)="form.controls.receiverAddress.patchValue(alias.name)" *ngFor="let alias of aliases" class="item">
+                        <div (click)="form.controls.receiverAddress.patchValue(alias.name)"
+                             *ngFor="let alias of aliases" class="item">
                             <div
                                 [class.available]="alias.name.length >= 2 && alias.name.length <= 6"
                                 [class.pl-1]="alias.name.length > 6"
@@ -247,11 +256,14 @@
 
         <div class="actions">
             <button [disabled]="form.invalid || (loading$ | async)" class="btn primary big w-100" type="submit">
-                <ng-container *ngIf="!(loading$ | async)">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON1' | translate }}</ng-container>
+                <ng-container *ngIf="!(loading$ | async)">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON1' | translate }}
+                </ng-container>
                 <zano-loader *ngIf="loading$ | async" [type]="'circle'"></zano-loader>
             </button>
-            <a class="btn outline big w-100" routerLink="/wallet/swap">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON2' | translate }}</a>
+            <a class="btn outline big w-100"
+               routerLink="/wallet/swap">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON2' | translate }}</a>
         </div>
+
         <div *ngIf="errorRpc" class="error mt-2">
             Error code: {{ errorRpc.code }} <br />
             Error message: {{ errorRpc.message || 'hex_raw_proposal not created' }}
