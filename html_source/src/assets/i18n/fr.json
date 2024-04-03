@@ -803,7 +803,7 @@
         "MODAL_ADD_CUSTOM_TOKEN": {
             "FIELD_TITLE": "Identifiant de l'élément",
             "FORM_ERRORS": {
-                "ERROR1": "Invalid asset ID"
+                "ERROR1": "Invalid Asset ID"
             },
             "TITLE": "Ajouter un jeton personnalisé"
         },

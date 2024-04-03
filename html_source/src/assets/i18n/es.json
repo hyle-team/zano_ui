@@ -803,7 +803,7 @@
         "MODAL_ADD_CUSTOM_TOKEN": {
             "FIELD_TITLE": "Asset ID",
             "FORM_ERRORS": {
-                "ERROR1": "Invalid asset ID"
+                "ERROR1": "Invalid Asset ID"
             },
             "TITLE": "Add Custom Token"
         },
