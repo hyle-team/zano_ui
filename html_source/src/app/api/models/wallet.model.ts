@@ -102,6 +102,7 @@ export class Wallet {
     is_watch_only: boolean;
     exclude_mining_txs: boolean;
     alias_available: boolean;
+    has_bare_unspent_outputs = false;
 
     alias?: Partial<Alias>;
     wakeAlias?: boolean;

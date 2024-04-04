@@ -37,6 +37,8 @@ import { BreadcrumbsComponent } from '@parts/components/breadcrumbs/breadcrumbs.
 import { BackButtonComponent } from '@parts/components/back-button/back-button.component';
 import { WalletModalsModule } from './tabs/send/modals/wallet-modals.module';
 import { GetAssetInfoPipe } from '@parts/pipes/get-asset-info.pipe';
+import { MigrateWalletToZarcanumComponent } from './wallet/modals/migrate-wallet-to-zarcanum/migrate-wallet-to-zarcanum.component';
+import { SuccessSweepBareOutsComponent } from './wallet/modals/success-sweep-bare-outs/success-sweep-bare-outs.component';
 
 @NgModule({
     declarations: [
@@ -48,6 +50,8 @@ import { GetAssetInfoPipe } from '@parts/pipes/get-asset-info.pipe';
         ReceiveComponent,
         ExportImportComponent,
         SendComponent,
+        MigrateWalletToZarcanumComponent,
+        SuccessSweepBareOutsComponent,
     ],
     imports: [
         CommonModule,

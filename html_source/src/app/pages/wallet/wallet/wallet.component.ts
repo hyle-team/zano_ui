@@ -21,6 +21,14 @@ import {
     Router,
     RouterEvent
 } from '@angular/router';
+import { ZARCANUM_MIGRATION } from '@parts/data/constants';
+import {
+    MigrateWalletToZarcanumComponent
+} from './modals/migrate-wallet-to-zarcanum/migrate-wallet-to-zarcanum.component';
+import { ScrollStrategy, ScrollStrategyOptions } from '@angular/cdk/overlay';
+import { ParamsCallRpc } from '@api/models/call_rpc.model';
+import { ModalService } from '@parts/services/modal.service';
+import { GetBareOutsStats } from '@api/models/rpc.models';
 
 interface Tab {
     id: string;
@@ -99,7 +107,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
     template: `
         <div class="header mb-2" fxFlex="0 0 auto" fxLayout="row nowrap" fxLayoutAlign="space-between start"
              fxLayoutGap="1rem">
-            <div class="left overflow-hidden">
+            <div class="left overflow-hidden" fxFlex="1 1 auto" fxLayoutAlign="start center" fxLayout="row nowrap" fxLayoutGap="3rem">
                 <div class="wallet-wrapper" fxLayout="column" fxLayoutAlign="start start">
                     <div class="title" fxLayout="row nowrap" fxLayoutAlign="start center">
                         <h1 class="text-ellipsis mr-1">
@@ -132,7 +140,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
                                     variablesService.currentWallet.alias_available
                                 "
                             >
-                                <button [routerLink]="['/assign-alias']" class="px-1 py-0_5 bg-light-gray">
+                                <button [routerLink]="['/assign-alias']" class="px-1 py-0_8 bg-light-gray">
                                     {{ 'WALLET.REGISTER_ALIAS' | translate }}
                                 </button>
                             </ng-container>
@@ -178,6 +186,20 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
                         </div>
                     </div>
                 </div>
+                <ng-container *ngIf="variablesService.currentWallet.has_bare_unspent_outputs">
+                    <hr fxFlex="0 0 1px" style="height: 3.6rem; border: none; border-right: 1px solid #ffffff10">
+                    <div class="migrate-alert" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2rem">
+                        <button class="btn-migrate" type="button" (click)="openMigrateWalletToZarcanum()">Migrate</button>
+
+                        <div class="migration-details">
+                            <p class="text-wrap">Your wallet contains pre-zarcanum outputs</p>
+                            <p class="text-align-center cursor-pointer" fxLayout="row" fxLayoutAlign="start center" (click)="openZarcanumMigration()">
+                                <i class="icon info-circle mr-0_5"></i>
+                                <span class="color-primary">{{ 'More Details' | translate }}</span>
+                            </p>
+                        </div>
+                    </div>
+                </ng-container>
             </div>
             <div class="right">
                 <div class="dropdown">
@@ -345,15 +367,21 @@ export class WalletComponent implements OnInit, OnDestroy {
 
     loader = true;
 
+    scrollStrategyNoop: ScrollStrategy;
+
     constructor(
         private backend: BackendService,
         public variablesService: VariablesService,
         private ngZone: NgZone,
         private store: Store,
         private dialog: Dialog,
+        private modalService: ModalService,
         private walletsService: WalletsService,
-        private router: Router
+        private router: Router,
+        private readonly  scrollStrategyOptions: ScrollStrategyOptions
     ) {
+        this.scrollStrategyNoop = this.scrollStrategyOptions.noop();
+
         if (!this.variablesService.currentWallet && this.variablesService.wallets.length > 0) {
             this.variablesService.setCurrentWallet(0);
         }
@@ -555,6 +583,38 @@ export class WalletComponent implements OnInit, OnDestroy {
 
     exportHistory(): void {
         this.dialog.open(ExportHistoryModalComponent);
+    }
+
+    openZarcanumMigration(): void {
+        this._openInBrowser(ZARCANUM_MIGRATION);
+    }
+
+    openMigrateWalletToZarcanum(): void {
+        const { currentWallet: { wallet_id }} = this.variablesService;
+        const params: ParamsCallRpc = {
+            id: 0, jsonrpc: '2.0', method: 'get_bare_outs_stats', params: {}
+
+        };
+        this.backend.call_wallet_rpc([wallet_id, params], (status, response_data) => {
+            if (response_data?.result) {
+                const data = response_data.result;
+
+                const dialogConfig: DialogConfig<GetBareOutsStats> = {
+                    maxWidth: '90vw',
+                    width: '540px',
+                    scrollStrategy: this.scrollStrategyNoop,
+                    data
+                };
+                this.dialog.open(MigrateWalletToZarcanumComponent, dialogConfig);
+            } else {
+                const message = response_data.error;
+                this.modalService.prepareModal('error', message);
+            }
+        });
+    }
+
+    private _openInBrowser(url: string) {
+        this.backend.openUrlInBrowser(url);
     }
 
     ngOnDestroy(): void {
