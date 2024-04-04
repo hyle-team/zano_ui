@@ -189,13 +189,13 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
                 <ng-container *ngIf="variablesService.currentWallet.has_bare_unspent_outputs">
                     <hr fxFlex="0 0 1px" style="height: 3.6rem; border: none; border-right: 1px solid #ffffff10">
                     <div class="migrate-alert" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2rem">
-                        <button class="btn-migrate" type="button" (click)="openMigrateWalletToZarcanum()">Migrate</button>
+                        <button class="btn-migrate" type="button" (click)="openMigrateWalletToZarcanum()">{{ 'WALLET.MIGRATE.BUTTON2' | translate }}</button>
 
                         <div class="migration-details">
-                            <p class="text-wrap">Your wallet contains pre-zarcanum outputs</p>
+                            <p class="text-wrap">{{ 'WALLET.MIGRATE.TEXT1' | translate }}</p>
                             <p class="text-align-center cursor-pointer" fxLayout="row" fxLayoutAlign="start center" (click)="openZarcanumMigration()">
                                 <i class="icon info-circle mr-0_5"></i>
-                                <span class="color-primary">{{ 'More Details' | translate }}</span>
+                                <span class="color-primary">{{ 'WALLET.MIGRATE.BUTTON1' | translate }}</span>
                             </p>
                         </div>
                     </div>

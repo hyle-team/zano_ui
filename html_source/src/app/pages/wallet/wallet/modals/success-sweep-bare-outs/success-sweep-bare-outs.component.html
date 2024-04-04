@@ -12,7 +12,7 @@
 
                 <p class="color-primary mt-2">
                     {{
-                        'Successfully sent' | translate
+                        'TOR_LIB_STATE.STATE_SENT_SUCCESS' | translate
                     }}
                 </p>
             </div>
@@ -52,12 +52,12 @@
                             fxLayout="row nowrap"
                             fxLayoutAlign=" center"
                         >
-                            <p>{{ dialogData.txs_sent }}
-                                transactions were successfully sent, {{ dialogData.bare_outs_swept }}  bare outputs migrated,
-                                {{ dialogData.amount_swept | intToMoney }} coins transferred, and {{
-                                    dialogData.fee_spent | intToMoney }}
-                                was spent for
-                                fees.</p>
+                            <p>{{ 'SUCCESS_SWEEP_BARE_OUTS.DETAILS' | translate: {
+                                txs_sent: dialogData.txs_sent,
+                                bare_outs_swept: dialogData.bare_outs_swept,
+                                amount_swept: dialogData.amount_swept | intToMoney,
+                                fee_spent: dialogData.fee_spent | intToMoney } }}
+                            </p>
                         </li>
                     </ul>
                 </div>

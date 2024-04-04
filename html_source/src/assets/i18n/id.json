@@ -402,6 +402,13 @@
         "SEND_BUTTON": "Kirim",
         "SEND_PLACEHOLDER": "Ketik sebuah pesan..."
     },
+    "MIGRATE_WALLET_TO_ZARCANUM": {
+        "BUTTON1": "Migrate",
+        "LINK1": "What does it mean?",
+        "TEXT1": "There are {{ total_bare_outs }} outputs with total amount of {{ total_amount }} ZANO.",
+        "TEXT2": "They can be converted in {{ txs_count }} transactions with total fee = {{ expected_total_fee }}.",
+        "TITLE": "Migrate wallet to Zarcanum"
+    },
     "MODALS": {
         "ADD_TOKEN": "Tambahkan token",
         "CANCEL": "Batal",
@@ -721,6 +728,9 @@
         "TITLE_PERIOD": "Periode waktu:",
         "TITLE_TOTAL": "Total"
     },
+    "SUCCESS_SWEEP_BARE_OUTS": {
+        "DETAILS": "{{ txs_sent }} transactions were successfully sent, {{ bare_outs_swept }}  bare outputs migrated, {{ amount_swept }} coins transferred, and {{ fee_spent }} was spent for fees."
+    },
     "SWAP": {
         "BUTTONS": {
             "BUTTON1": "Create Swap",
@@ -800,6 +810,11 @@
         "LOCK": "Kunci",
         "LOCKED_BALANCE": "Terkunci",
         "LOCKED_BALANCE_LINK": "Apa yang dimaksudkan?\n",
+        "MIGRATE": {
+            "BUTTON1": "More Details",
+            "BUTTON2": "Migrate",
+            "TEXT1": "Your wallet contains pre-zarcanum outputs"
+        },
         "MODAL_ADD_CUSTOM_TOKEN": {
             "FIELD_TITLE": "ID Aset",
             "FORM_ERRORS": {
