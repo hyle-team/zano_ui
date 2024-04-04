@@ -596,20 +596,22 @@ export class WalletComponent implements OnInit, OnDestroy {
 
         };
         this.backend.call_wallet_rpc([wallet_id, params], (status, response_data) => {
-            if (response_data?.result) {
-                const data = response_data.result;
+            this.ngZone.run(() => {
+                if (response_data?.result) {
+                    const data = response_data.result;
 
-                const dialogConfig: DialogConfig<GetBareOutsStats> = {
-                    maxWidth: '90vw',
-                    width: '540px',
-                    scrollStrategy: this.scrollStrategyNoop,
-                    data
-                };
-                this.dialog.open(MigrateWalletToZarcanumComponent, dialogConfig);
-            } else {
-                const message = response_data.error;
-                this.modalService.prepareModal('error', message);
-            }
+                    const dialogConfig: DialogConfig<GetBareOutsStats> = {
+                        maxWidth: '90vw',
+                        width: '540px',
+                        scrollStrategy: this.scrollStrategyNoop,
+                        data
+                    };
+                    this.dialog.open(MigrateWalletToZarcanumComponent, dialogConfig);
+                } else {
+                    const message = response_data.error;
+                    this.modalService.prepareModal('error', message);
+                }
+            });
         });
     }
 

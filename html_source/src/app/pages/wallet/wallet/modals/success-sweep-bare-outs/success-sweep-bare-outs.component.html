@@ -5,7 +5,7 @@
         </h3>
 
         <div class="content mb-2 overflow-x-hidden overflow-y-auto" fxFlex="1 1 auto" fxLayout="column">
-            <div class="status mb-2" fxFlex="0 0 auto" fxLayout="column" fxLayoutAlign=" center">
+            <div class="status mb-2" fxFlex="0 0 auto" fxLayout="column" fxLayoutAlign="center center">
                 <div class="image">
                     <img alt="success" src="assets/icons/aqua/transaction_success.svg" />
                 </div>
@@ -23,6 +23,7 @@
                     class="header overflow-hidden py-1 px-2 w-100 cursor-pointer"
                     fxLayout="row"
                     fxLayoutAlign="space-between center"
+                    [ngStyle]="{'border-radius': (stateDetails$ | async) ? '0.8rem 0.8rem 0 0' : '0.8rem'}"
                 >
                     <p class="title text-ellipsis mr-2">
                         {{ 'SEND_DETAILS_MODAL.TITLE2' | translate }}
@@ -40,13 +41,14 @@
                     [class.px-2]="stateDetails$ | async"
                     [class.py-1]="stateDetails$ | async"
                     [fxHide]="!(stateDetails$ | async)"
+                    [ngStyle]="{'border-radius': (stateDetails$ | async) ? '0 0 0.8rem 0.8rem ' : '0'}"
                     class="details-wrapper"
                     fxFlex="1 1 auto"
                     fxLayout="row"
                 >
                     <ul class="details-list scrolled-content">
                         <li
-                            class="item mb-1 color-primary"
+                            class="item mb-1"
                             fxLayout="row nowrap"
                             fxLayoutAlign=" center"
                         >
