@@ -183,7 +183,7 @@ export class AppComponent implements OnInit, OnDestroy {
                             wallet.balances = data.balances;
                             wallet.mined_total = data.minied_total;
                             wallet.alias_available = data.is_alias_operations_available;
-                            wallet.has_bare_unspent_outputs = data.has_bare_unspent_outputs ?? false;
+                            wallet.has_bare_unspent_outputs = data.has_bare_unspent_outputs;
                         });
                     }
                 });

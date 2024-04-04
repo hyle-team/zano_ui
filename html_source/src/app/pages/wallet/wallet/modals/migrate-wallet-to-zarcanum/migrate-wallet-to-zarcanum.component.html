@@ -11,7 +11,8 @@
                 total_amount: dialogData.total_amount | intToMoney
             } }}
             </p>
-            <p class="text-align-center cursor-pointer mb-2" fxLayout="row" fxLayoutAlign="start center">
+            <p class="text-align-center cursor-pointer mb-2" fxLayout="row" fxLayoutAlign="start center"
+               (click)="openZarcanumMigration()">
                 <i class="icon question-circle mr-0_5"></i>
                 <span class="color-primary">{{ 'MIGRATE_WALLET_TO_ZARCANUM.LINK1' | translate }}</span>
             </p>

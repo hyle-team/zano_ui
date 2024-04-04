@@ -586,7 +586,7 @@ export class WalletComponent implements OnInit, OnDestroy {
     }
 
     openZarcanumMigration(): void {
-        this._openInBrowser(ZARCANUM_MIGRATION);
+        this.backend.openUrlInBrowser(ZARCANUM_MIGRATION);
     }
 
     openMigrateWalletToZarcanum(): void {
@@ -613,10 +613,6 @@ export class WalletComponent implements OnInit, OnDestroy {
                 }
             });
         });
-    }
-
-    private _openInBrowser(url: string) {
-        this.backend.openUrlInBrowser(url);
     }
 
     ngOnDestroy(): void {
