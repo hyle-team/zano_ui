@@ -13,7 +13,6 @@ import { takeUntil } from 'rxjs/operators';
 import { paths, pathsChildrenAuth } from './pages/paths';
 import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
 import { Dialog } from '@angular/cdk/dialog';
-import { ParamsCallRpc } from '@api/models/call_rpc.model';
 import { ZanoLoadersService } from '@parts/services/zano-loaders.service';
 
 @Component({
@@ -184,6 +183,7 @@ export class AppComponent implements OnInit, OnDestroy {
                             wallet.balances = data.balances;
                             wallet.mined_total = data.minied_total;
                             wallet.alias_available = data.is_alias_operations_available;
+                            wallet.has_bare_unspent_outputs = data.has_bare_unspent_outputs;
                         });
                     }
                 });
