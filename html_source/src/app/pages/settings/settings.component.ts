@@ -422,6 +422,8 @@ export class SettingsComponent implements OnInit {
         this.scale = this.variablesService.settings.scale;
         this.appUseTor = this.variablesService.settings.appUseTor;
         this.zanoCompanionForm.setValue(this.variablesService.settings.zanoCompanionForm, { emitEvent: false });
+
+        this.backend.getOptions();
     }
 
     ngOnInit(): void {

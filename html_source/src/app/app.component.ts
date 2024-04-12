@@ -113,7 +113,6 @@ export class AppComponent implements OnInit, OnDestroy {
         this.backendService.initService().subscribe({
             next: initMessage => {
                 console.log('Init message: ', initMessage);
-                this.backendService.getOptions();
                 this.backendService.webkitLaunchedScript();
 
                 this.backendService.start_backend(false, '127.0.0.1', 11512, (st2, dd2) => {
@@ -722,6 +721,7 @@ export class AppComponent implements OnInit, OnDestroy {
                 this.getVersion();
 
                 setTimeout(() => {
+                    this.backendService.getOptions();
                     this.getInfo();
                 }, 10 * 1000);
             },
