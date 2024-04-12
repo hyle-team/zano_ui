@@ -1475,7 +1475,6 @@ class AppComponent {
     this.backendService.initService().subscribe({
       next: initMessage => {
         console.log('Init message: ', initMessage);
-        this.backendService.getOptions();
         this.backendService.webkitLaunchedScript();
         this.backendService.start_backend(false, '127.0.0.1', 11512, (st2, dd2) => {
           console.log(st2, dd2);
@@ -2017,6 +2016,7 @@ class AppComponent {
         this.backendService.handleCurrentActionState();
         this.getVersion();
         setTimeout(() => {
+          this.backendService.getOptions();
           this.getInfo();
         }, 10 * 1000);
       },
@@ -7598,6 +7598,7 @@ class SettingsComponent {
         this.scale = this.variablesService.settings.scale;
         this.appUseTor = this.variablesService.settings.appUseTor;
         this.zanoCompanionForm.setValue(this.variablesService.settings.zanoCompanionForm, { emitEvent: false });
+        this.backend.getOptions();
     }
     ngOnInit() {
         this.backend.getVersion((version, type, error) => {
@@ -18063,8 +18064,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "DisablePriceFetchDirective": () => (/* binding */ DisablePriceFetchDirective)
 /* harmony export */ });
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ 228);
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs/operators */ 8951);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs/operators */ 8977);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ 8951);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _services_variables_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../services/variables.service */ 2994);
 
 
@@ -18077,9 +18079,12 @@ class DisablePriceFetchDirective {
         this._templateRef = _templateRef;
         this._viewContainer = _viewContainer;
         this.destroy$ = new rxjs__WEBPACK_IMPORTED_MODULE_1__.Subject();
-        this._variablesService.disable_price_fetch$.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_2__.takeUntil)(this.destroy$)).subscribe({
+        this._variablesService.disable_price_fetch$.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_2__.distinctUntilChanged)(), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_3__.takeUntil)(this.destroy$)).subscribe({
             next: (disable_price_fetch) => {
-                return !disable_price_fetch ? this._viewContainer.createEmbeddedView(this._templateRef) : this._viewContainer.clear();
+                this._viewContainer.clear();
+                if (!disable_price_fetch) {
+                    this._viewContainer.createEmbeddedView(this._templateRef);
+                }
             },
         });
     }
@@ -18088,8 +18093,8 @@ class DisablePriceFetchDirective {
         this.destroy$.complete();
     }
 }
-DisablePriceFetchDirective.ɵfac = function DisablePriceFetchDirective_Factory(t) { return new (t || DisablePriceFetchDirective)(_angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdirectiveInject"](_services_variables_service__WEBPACK_IMPORTED_MODULE_0__.VariablesService), _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_3__.TemplateRef), _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_3__.ViewContainerRef)); };
-DisablePriceFetchDirective.ɵdir = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_3__["ɵɵdefineDirective"]({ type: DisablePriceFetchDirective, selectors: [["", "appDisablePriceFetch", ""]] });
+DisablePriceFetchDirective.ɵfac = function DisablePriceFetchDirective_Factory(t) { return new (t || DisablePriceFetchDirective)(_angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_services_variables_service__WEBPACK_IMPORTED_MODULE_0__.VariablesService), _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_4__.TemplateRef), _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_4__.ViewContainerRef)); };
+DisablePriceFetchDirective.ɵdir = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵdefineDirective"]({ type: DisablePriceFetchDirective, selectors: [["", "appDisablePriceFetch", ""]] });
 
 
 /***/ }),
