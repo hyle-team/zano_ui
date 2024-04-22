@@ -301,6 +301,7 @@
         "FILE_NOT_SAVED": "You cannot save a wallet file in this folder. Please choose another folder.",
         "FILE_RESTORED": "The wallet file was corrupted. We have recovered the keys and the wallet from the blockchain",
         "INSUFFICIENT_FUNDS": "Insufficient funds for this transaction",
+        "INVALID_PROPOSAL": "Invalid proposal",
         "NOT_ENOUGH_MONEY": "Insufficient funds in account",
         "NOT_ENOUGH_OUTPUTS_TO_MIX": "Mix-in number is too big for current blockchain state. There are not enough unspent outputs to mix with",
         "NOT_FILE_ZANO_WALLET": "This file is not recognized as a Zano wallet..",

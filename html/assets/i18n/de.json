@@ -301,6 +301,7 @@
         "FILE_NOT_SAVED": "Sie können keine Wallet-Datei in diesem Ordner speichern. Bitte wählen Sie einen anderen Ordner.",
         "FILE_RESTORED": "Die Wallet-Datei wurde beschädigt. Wir haben die Schlüssel und die Wallet von der Blockchain wiederhergestellt",
         "INSUFFICIENT_FUNDS": "Insufficient funds for this transaction",
+        "INVALID_PROPOSAL": "Invalid proposal",
         "NOT_ENOUGH_MONEY": "Unzureichendes Guthaben im Konto",
         "NOT_ENOUGH_OUTPUTS_TO_MIX": "Mix-in-Nummer ist zu groß für den aktuellen Blockchain-Status. Nicht genügend unverbrauchte outputs zum Mischen",
         "NOT_FILE_ZANO_WALLET": "This file is not recognized as a Zano wallet..",

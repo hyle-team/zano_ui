@@ -6099,10 +6099,10 @@ var SHARED = '__core-js_shared__';
 var store = module.exports = globalThis[SHARED] || defineGlobalProperty(SHARED, {});
 
 (store.versions || (store.versions = [])).push({
-  version: '3.36.1',
+  version: '3.37.0',
   mode: IS_PURE ? 'pure' : 'global',
   copyright: '© 2014-2024 Denis Pushkarev (zloirock.ru)',
-  license: 'https://github.com/zloirock/core-js/blob/v3.36.1/LICENSE',
+  license: 'https://github.com/zloirock/core-js/blob/v3.37.0/LICENSE',
   source: 'https://github.com/zloirock/core-js'
 });
 
@@ -7040,13 +7040,22 @@ var aCallable = __webpack_require__(/*! ../internals/a-callable */ 6022);
 var requireObjectCoercible = __webpack_require__(/*! ../internals/require-object-coercible */ 5028);
 var toPropertyKey = __webpack_require__(/*! ../internals/to-property-key */ 263);
 var iterate = __webpack_require__(/*! ../internals/iterate */ 308);
+var fails = __webpack_require__(/*! ../internals/fails */ 2325);
 
+// eslint-disable-next-line es/no-object-map-groupby -- testing
+var nativeGroupBy = Object.groupBy;
 var create = getBuiltIn('Object', 'create');
 var push = uncurryThis([].push);
 
+var DOES_NOT_WORK_WITH_PRIMITIVES = !nativeGroupBy || fails(function () {
+  return nativeGroupBy('ab', function (it) {
+    return it;
+  }).a.length !== 1;
+});
+
 // `Object.groupBy` method
 // https://github.com/tc39/proposal-array-grouping
-$({ target: 'Object', stat: true }, {
+$({ target: 'Object', stat: true, forced: DOES_NOT_WORK_WITH_PRIMITIVES }, {
   groupBy: function groupBy(items, callbackfn) {
     requireObjectCoercible(items);
     aCallable(callbackfn);
