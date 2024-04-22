@@ -265,8 +265,7 @@
         </div>
 
         <div *ngIf="errorRpc" class="error mt-2">
-            Error code: {{ errorRpc.code }} <br />
-            Error message: {{ errorRpc.message || 'hex_raw_proposal not created' }}
+            {{ 'ERRORS.INVALID_PROPOSAL' | translate }}
         </div>
     </form>
 </div>

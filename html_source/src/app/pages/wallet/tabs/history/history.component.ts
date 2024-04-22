@@ -193,7 +193,8 @@ import { zanoAssetInfo } from '@parts/data/assets';
                                             >
                                                 <div class="text-ellipsis">
                                                         <span *ngIf="!subtransfer.is_income">
-                                                            {{ subtransfer.amount.minus(transaction.fee ?? 0).negated() | intToMoney }}
+                                                            <ng-container *ngIf="isInitiator(transaction)">{{ subtransfer.amount.minus(transaction.fee ?? 0).negated() | intToMoney }}</ng-container>
+                                                            <ng-container *ngIf="isFinalizator(transaction)">{{ subtransfer.amount.negated() | intToMoney }}</ng-container>
                                                         </span>
                                                     <span *ngIf="subtransfer.is_income">
                                                             {{ subtransfer.amount | intToMoney }}
@@ -465,6 +466,17 @@ export class HistoryComponent implements OnInit, OnDestroy {
 
     }
 
+    isInitiator(transaction: Transaction): boolean {
+        const { employed_entries: { spent= [] } } = transaction;
+        return Boolean(spent?.find(({ asset_id, index }) => {
+            return index === 0 && asset_id === zanoAssetInfo.asset_id;
+        }));
+    }
+
+    isFinalizator(transaction: Transaction): boolean {
+        return !this.isInitiator(transaction);
+    }
+
     init(): void {
         let restore = false;
         if (hasOwnProperty(this.variablesService.after_sync_request, String(this.variablesService.currentWallet.wallet_id))) {
@@ -507,7 +519,9 @@ export class HistoryComponent implements OnInit, OnDestroy {
 
     isVisibleFee(transaction: Transaction): boolean {
         const { subtransfers } = transaction;
-        return subtransfers ? !subtransfers?.every(({ is_income }) => is_income) : false;
+        const condition1 = subtransfers ? !subtransfers?.every(({ is_income }) => is_income) : false;
+        const condition2 = this.isInitiator(transaction);
+        return condition1 && condition2;
     }
 
     strokeSize(item): number {

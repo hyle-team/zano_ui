@@ -301,6 +301,7 @@
         "FILE_NOT_SAVED": "Não pode gravar um ficheiro de carteira nesta pasta. Por favor escolha outra pasta.",
         "FILE_RESTORED": "O ficheiro de carteira estava corrompido. Recuperámos as chaves e a carteira a partir da blockchain",
         "INSUFFICIENT_FUNDS": "Insufficient funds for this transaction",
+        "INVALID_PROPOSAL": "Invalid proposal",
         "NOT_ENOUGH_MONEY": "Fundos insuficientes na conta",
         "NOT_ENOUGH_OUTPUTS_TO_MIX": "O número de mixagem é muito grande para o estado atual da blockchain. Não há saídas não gastas suficientes para misturar",
         "NOT_FILE_ZANO_WALLET": "This file is not recognized as a Zano wallet..",
