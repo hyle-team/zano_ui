@@ -9863,8 +9863,8 @@ class HistoryComponent {
     }
     isInitiator(transaction) {
         const { employed_entries: { spent = [] } } = transaction;
-        return Boolean(spent === null || spent === void 0 ? void 0 : spent.find(({ asset_id, index }) => {
-            return index === 0 && asset_id === _parts_data_assets__WEBPACK_IMPORTED_MODULE_2__.zanoAssetInfo.asset_id;
+        return Boolean(spent === null || spent === void 0 ? void 0 : spent.find(({ index }) => {
+            return index === 0;
         }));
     }
     isFinalizator(transaction) {
