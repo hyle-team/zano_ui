@@ -468,8 +468,8 @@ export class HistoryComponent implements OnInit, OnDestroy {
 
     isInitiator(transaction: Transaction): boolean {
         const { employed_entries: { spent= [] } } = transaction;
-        return Boolean(spent?.find(({ asset_id, index }) => {
-            return index === 0 && asset_id === zanoAssetInfo.asset_id;
+        return Boolean(spent?.find(({ index }) => {
+            return index === 0;
         }));
     }
 
