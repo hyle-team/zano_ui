@@ -319,6 +319,10 @@ export class LoginComponent implements OnInit, OnDestroy {
                         });
                     }
                 }
+
+                if (this.variablesService.settings.zanoCompanionForm.zanoCompation) {
+                    this.backend.setupJwtWalletRpc(this.variablesService.settings.zanoCompanionForm);
+                }
             }
 
             if (data.error_code === 'WRONG_PASSWORD') {
