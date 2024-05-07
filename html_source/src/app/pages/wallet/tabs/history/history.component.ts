@@ -187,7 +187,7 @@ import { zanoAssetInfo } from '@parts/data/assets';
                                             <ng-container
                                                 *ngIf="
                                                         !subtransfer.is_income
-                                                            ? subtransfer.amount.minus(transaction.fee ?? 0).toNumber() !== 0
+                                                            ? true
                                                             : subtransfer.amount.toNumber() !== 0
                                                     "
                                             >
@@ -460,8 +460,14 @@ export class HistoryComponent implements OnInit, OnDestroy {
             });
     }
 
-    isVisibleSubtransferStatus(subtransfer: Subtransfer, { fee }: Transaction): boolean {
+    isVisibleSubtransferStatus(subtransfer: Subtransfer, transaction: Transaction): boolean {
         const { amount, asset_id, is_income } = subtransfer;
+        const { fee, subtransfers } = transaction;
+
+        if (subtransfers.length === 1 && asset_id === zanoAssetInfo.asset_id  && is_income === false && amount.eq(fee)) {
+            return true;
+        }
+
         return !(asset_id === zanoAssetInfo.asset_id && is_income === false && amount.eq(fee));
 
     }
