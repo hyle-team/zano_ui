@@ -337,14 +337,15 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
                 </ng-container>
             </div>
             <div class="tabs-content">
-                <div style="flex: 1;" [ngStyle]="{ display: loader ? 'none' : 'flex' }">
-                  <router-outlet></router-outlet>
-                </div>
-                <div class="preloader" *ngIf="loader">
-                    <p class="mb-2">
-                        {{ 'Loading...' | translate }}
-                    </p>
-                    <div class="loading-bar"></div>
+                <router-outlet></router-outlet>
+
+                <div *ngIf="loader" class="wrapper-tab-preloader">
+                    <div class="preloader">
+                        <p class="mb-2">
+                            {{ 'Loading...' | translate }}
+                        </p>
+                        <div class="loading-bar"></div>
+                    </div>
                 </div>
             </div>
         </div>

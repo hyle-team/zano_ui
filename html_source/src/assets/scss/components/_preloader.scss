@@ -1,3 +1,7 @@
+.wrapper-tab-preloader {
+    display: flex; z-index: 999; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--blue-700);
+}
+
 .preloader {
     align-self: center;
     color: white;
