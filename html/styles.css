@@ -1221,6 +1221,15 @@ body {
   display: flex;
   align-items: center;
   min-height: 2.8rem;
+}.wrapper-tab-preloader {
+  display: flex;
+  z-index: 999;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: var(--blue-700);
 }.preloader {
   align-self: center;
   color: white;
@@ -1553,6 +1562,7 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   border-radius: 0 0 0.8rem 0.8rem;
   background-color: var(--blue-700);
   padding: 2rem;
+  position: relative;
 }.table-tooltip {
   z-index: 999;
   padding: 1rem;
