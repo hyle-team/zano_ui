@@ -187,18 +187,20 @@ import { zanoAssetInfo } from '@parts/data/assets';
                                             <ng-container
                                                 *ngIf="
                                                         !subtransfer.is_income
-                                                            ? true
+                                                            ? !subtransfer.amount.eq(transaction.fee ?? 0) || isSelfTransaction(transaction)
                                                             : subtransfer.amount.toNumber() !== 0
                                                     "
                                             >
                                                 <div class="text-ellipsis">
-                                                        <span *ngIf="!subtransfer.is_income">
-                                                            <ng-container *ngIf="isInitiator(transaction)">{{ subtransfer.amount.minus(transaction.fee ?? 0).negated() | intToMoney }}</ng-container>
-                                                            <ng-container *ngIf="isFinalizator(transaction)">{{ subtransfer.amount.negated() | intToMoney }}</ng-container>
-                                                        </span>
+                                                    <span *ngIf="!subtransfer.is_income">
+                                                        <ng-container
+                                                            *ngIf="isInitiator(transaction)">{{ subtransfer.amount.minus(transaction.fee ?? 0).negated() | intToMoney }}</ng-container>
+                                                        <ng-container
+                                                            *ngIf="isFinalizator(transaction)">{{ subtransfer.amount.negated() | intToMoney }}</ng-container>
+                                                    </span>
                                                     <span *ngIf="subtransfer.is_income">
-                                                            {{ subtransfer.amount | intToMoney }}
-                                                        </span>
+                                                        {{ subtransfer.amount | intToMoney }}
+                                                    </span>
                                                     {{ (subtransfer.asset_id | getAssetInfo)?.ticker || '???' }}
                                                 </div>
                                             </ng-container>
@@ -481,6 +483,16 @@ export class HistoryComponent implements OnInit, OnDestroy {
 
     isFinalizator(transaction: Transaction): boolean {
         return !this.isInitiator(transaction);
+    }
+
+    isSelfTransaction(transaction: Transaction): boolean {
+        const { remote_addresses, employed_entries: { receive, spent }, subtransfers, fee } = transaction;
+
+        const condition1 = remote_addresses?.includes(this.variablesService.currentWallet?.address);
+        const condition2 = [...receive, ...spent].map(({ asset_id }) => asset_id === zanoAssetInfo.asset_id).every(Boolean);
+        const condition3 = subtransfers.length === 1 && subtransfers[0].asset_id === zanoAssetInfo.asset_id && subtransfers[0].amount.eq(fee);
+
+        return condition1 && condition2 && condition3;
     }
 
     init(): void {
