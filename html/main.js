@@ -9893,8 +9893,8 @@ class HistoryComponent {
         var _a;
         const { remote_addresses, employed_entries: { receive, spent }, subtransfers, fee } = transaction;
         const condition1 = remote_addresses === null || remote_addresses === void 0 ? void 0 : remote_addresses.includes((_a = this.variablesService.currentWallet) === null || _a === void 0 ? void 0 : _a.address);
-        const condition2 = [...receive, ...spent].map(({ asset_id }) => asset_id === _parts_data_assets__WEBPACK_IMPORTED_MODULE_2__.zanoAssetInfo.asset_id).every(Boolean);
-        const condition3 = subtransfers.length === 1 && subtransfers[0].asset_id === _parts_data_assets__WEBPACK_IMPORTED_MODULE_2__.zanoAssetInfo.asset_id && subtransfers[0].amount.eq(fee);
+        const condition2 = [...(receive !== null && receive !== void 0 ? receive : []), ...(spent !== null && spent !== void 0 ? spent : [])].map(({ asset_id }) => asset_id === _parts_data_assets__WEBPACK_IMPORTED_MODULE_2__.zanoAssetInfo.asset_id).every(Boolean);
+        const condition3 = (subtransfers === null || subtransfers === void 0 ? void 0 : subtransfers.length) === 1 && subtransfers[0].asset_id === _parts_data_assets__WEBPACK_IMPORTED_MODULE_2__.zanoAssetInfo.asset_id && subtransfers[0].amount.eq(fee);
         return condition1 && condition2 && condition3;
     }
     init() {
