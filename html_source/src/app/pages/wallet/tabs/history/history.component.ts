@@ -502,8 +502,8 @@ export class HistoryComponent implements OnInit, OnDestroy {
         const { remote_addresses, employed_entries: { receive, spent }, subtransfers, fee } = transaction;
 
         const condition1 = remote_addresses?.includes(this.variablesService.currentWallet?.address);
-        const condition2 = [...receive, ...spent].map(({ asset_id }) => asset_id === zanoAssetInfo.asset_id).every(Boolean);
-        const condition3 = subtransfers.length === 1 && subtransfers[0].asset_id === zanoAssetInfo.asset_id && subtransfers[0].amount.eq(fee);
+        const condition2 = [...(receive ?? []), ...(spent ?? [])].map(({ asset_id }) => asset_id === zanoAssetInfo.asset_id).every(Boolean);
+        const condition3 = subtransfers?.length === 1 && subtransfers[0].asset_id === zanoAssetInfo.asset_id && subtransfers[0].amount.eq(fee);
 
         return condition1 && condition2 && condition3;
     }
