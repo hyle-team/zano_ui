@@ -186,7 +186,8 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
                         </div>
                     </div>
                 </div>
-                <ng-container *ngIf="variablesService.currentWallet.has_bare_unspent_outputs">
+                <ng-container *ngIf="!variablesService.currentWallet.is_auditable && !variablesService.currentWallet.is_watch_only">
+                  <ng-container *ngIf="variablesService.currentWallet.has_bare_unspent_outputs">
                     <hr fxFlex="0 0 1px" style="height: 3.6rem; border: none; border-right: 1px solid #ffffff10">
                     <div class="migrate-alert" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2rem">
                         <button class="btn-migrate" type="button" (click)="openMigrateWalletToZarcanum()">{{ 'WALLET.MIGRATE.BUTTON2' | translate }}</button>
@@ -199,6 +200,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
                             </p>
                         </div>
                     </div>
+                </ng-container>
                 </ng-container>
             </div>
             <div class="right">

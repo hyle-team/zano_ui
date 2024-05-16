@@ -233,7 +233,7 @@ import { zanoAssetInfo } from '@parts/data/assets';
                                     </ng-container>
 
                                     <ng-container *ngIf="isInitiator(transaction) && !hasZano(transaction.subtransfers)">
-                                        {{ 0 | intToMoney }} {{ variablesService.defaultCurrency }}
+                                        {{ transaction.fee | intToMoney }} {{ variablesService.defaultCurrency }}
                                     </ng-container>
                                 </ng-container>
 
