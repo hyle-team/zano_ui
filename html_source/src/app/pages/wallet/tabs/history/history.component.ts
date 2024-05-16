@@ -1,7 +1,7 @@
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { VariablesService } from '@parts/services/variables.service';
 import { ActivatedRoute } from '@angular/router';
-import { Subtransfer, Transaction } from '@api/models/transaction.model';
+import { Subtransfer, Subtransfers, Transaction } from '@api/models/transaction.model';
 import BigNumber from 'bignumber.js';
 import { PaginationService } from '@store/pagination/pagination.service';
 import { PaginationStore } from '@store/pagination/pagination.store';
@@ -169,6 +169,17 @@ import { zanoAssetInfo } from '@parts/data/assets';
                                     </ng-container>
                                 </ng-container>
 
+                                <ng-container *ngIf="isInitiator(transaction) && !hasZano(transaction.subtransfers)">
+                                    <div [ngClass]="'received'" class="status text-ellipsis" fxLayout="row"
+                                         fxLayoutAlign=" center">
+                                        <img alt="" class="status-transaction mr-1"
+                                             src="assets/icons/aqua/receive.svg" />
+
+                                        <span
+                                            class="status-transaction-text">{{ 'HISTORY.RECEIVED' | translate }}</span>
+                                    </div>
+                                </ng-container>
+
                                 <ng-template #noSubtransfersStatusTemplate>
                                     <div [ngClass]="'received'" class="status text-ellipsis" fxLayout="row"
                                          fxLayoutAlign=" center">
@@ -200,7 +211,7 @@ import { zanoAssetInfo } from '@parts/data/assets';
                                                             *ngIf="isFinalizator(transaction)">{{ subtransfer.amount.negated() | intToMoney }}</ng-container>
                                                     </span>
                                                     <span *ngIf="subtransfer.is_income">
-                                                        {{ subtransfer.amount | intToMoney }}
+                                                        {{ (isInitiator(transaction) ? subtransfer.amount.plus(transaction.fee) : subtransfer.amount) | intToMoney }}
                                                     </span>
                                                     {{ (subtransfer.asset_id | getAssetInfo)?.ticker || '???' }}
                                                 </div>
@@ -219,6 +230,10 @@ import { zanoAssetInfo } from '@parts/data/assets';
                                                 </div>
                                             </ng-container>
                                         </ng-container>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="isInitiator(transaction) && !hasZano(transaction.subtransfers)">
+                                        {{ transaction.fee | intToMoney }} {{ variablesService.defaultCurrency }}
                                     </ng-container>
                                 </ng-container>
 
@@ -587,6 +602,10 @@ export class HistoryComponent implements OnInit, OnDestroy {
                       .fill(1)
                       .map((value, index) => value + index));
         });
+    }
+
+    hasZano(subtransfers: Subtransfers): boolean {
+        return Boolean(subtransfers.find(({ asset_id }) => asset_id === zanoAssetInfo.asset_id));
     }
 
     setPage(pageNumber: number): void {
