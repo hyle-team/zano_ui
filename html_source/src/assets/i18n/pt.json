@@ -17,6 +17,7 @@
                     "ID": "ID do recurso",
                     "MAX_SUPPLE": "Fornecimento máximo",
                     "NAME": "Nome do recurso",
+                    "OWNER": "Owner",
                     "TICKER": "TICKER"
                 }
             }
@@ -94,6 +95,21 @@
             "TO": "Para"
         },
         "TITLE": "Confirmar transação"
+    },
+    "CONFIRM_CREATE_CUSTOM_ASSET": {
+        "BUTTONS": {
+            "BUTTON1": "Cancel",
+            "BUTTON2": "Confirm"
+        },
+        "TABLE": {
+            "LABEL1": "Ticker",
+            "LABEL2": "Full Name",
+            "LABEL3": "Total Max Supply",
+            "LABEL4": "Current Supply",
+            "LABEL5": "Decimal Point",
+            "LABEL6": "Meta Info"
+        },
+        "TITLE": "Confirm"
     },
     "CONFIRM_SWAP": {
         "BREADCRUMBS": {
@@ -235,6 +251,29 @@
             "REMAINING_ONE_WAITING": "À espera à {{time}} hora"
         }
     },
+    "CREATE_NEW_ASSETS": {
+        "BREADCRUMBS": {
+            "BREADCRUMB1": "Custom Assets",
+            "BREADCRUMB2": "Create new asset"
+        },
+        "FORM": {
+            "BUTTONS": {
+                "BUTTON1": "Create"
+            },
+            "LABELS": {
+                "LABEL1": "Ticker",
+                "LABEL2": "Full name",
+                "LABEL3": "Total Max Supply",
+                "LABEL4": "Current Supply",
+                "LABEL5": "Decimal Point",
+                "LABEL6": "Meta info"
+            },
+            "PLACEHOLDERS": {
+                "PLACEHOLDER1": "Confidential token",
+                "PLACEHOLDER2": "Comment"
+            }
+        }
+    },
     "CREATE_SWAP": {
         "BREADCRUMBS": {
             "ITEM1": "Swap",
@@ -274,6 +313,32 @@
         "PASS": "Definir password da carteira",
         "TITLE_SAVE": "Gravar o ficheiro de carteira."
     },
+    "CUSTOM_ASSETS": {
+        "BUTTONS": {
+            "BUTTON1": "Create new assets"
+        },
+        "DROP_MENU": {
+            "LABELS": {
+                "LABEL1": "Asset Details",
+                "LABEL2": "Emit",
+                "LABEL3": "Update",
+                "LABEL4": "Burn"
+            }
+        },
+        "TABLE": {
+            "LABELS": {
+                "LABEL1": "Asset ID",
+                "LABEL2": "Ticker",
+                "LABEL3": "Name",
+                "LABEL4": "Total max supply",
+                "LABEL5": "Current Supply",
+                "LABEL6": "Decimal point"
+            }
+        },
+        "TEXT": {
+            "EMPTY": "No custom assets"
+        }
+    },
     "EDIT_ALIAS": {
         "BUTTON_EDIT": "Editar",
         "COMMENT": {
@@ -294,6 +359,7 @@
         "ACCESS_DENIED": "Acesso negado",
         "ASSET_HAS_NOT_BEEN_ADDED_TO_WALLET": "Asset has not been added to your wallet",
         "BAD_ARG": "Argumento inválido",
+        "CANNOT_BE_GREATER_THAN_TOTAL_MAX_SUPPLY": "Cannot be greater than Total max supply",
         "CORE_BUSY": "Erro interno: core está ocupado",
         "DAEMON_BUSY": "Erro interno: daemon está ocupado",
         "FILE_EXIST": "Já existe um ficheiro com esse nome. Insira outro nome para gravar o ficheiro sob",
@@ -302,12 +368,17 @@
         "FILE_RESTORED": "O ficheiro de carteira estava corrompido. Recuperámos as chaves e a carteira a partir da blockchain",
         "INSUFFICIENT_FUNDS": "Insufficient funds for this transaction",
         "INVALID_PROPOSAL": "Invalid proposal",
+        "MAX": "Max {{ max }}",
+        "MAX_LENGTH": "Maximin length {{ requiredLength }}",
+        "MIN": "Min {{ min }}",
+        "MIN_LENGTH": "Min length {{ requiredLength }}",
         "NOT_ENOUGH_MONEY": "Fundos insuficientes na conta",
         "NOT_ENOUGH_OUTPUTS_TO_MIX": "O número de mixagem é muito grande para o estado atual da blockchain. Não há saídas não gastas suficientes para misturar",
         "NOT_FILE_ZANO_WALLET": "This file is not recognized as a Zano wallet..",
         "NO_MONEY": "Sem dinheiro suficiente",
         "NO_MONEY_REMOVE_OFFER": "Não há taxa para excluir uma oferta, mas para proteger a rede contra transações de inundação, é preciso ter pelo menos {{fee}} {{currency}} na sua carteira",
         "REQUIRED": "Required field",
+        "TO_BIG_TOTAL_SUPPLY": "To big total supply, reduce it or make decimal point smaller",
         "TRANSACTION_ERROR": "Erro. Transação não completada.",
         "TRANSACTION_IS_TO_BIG": "Transação excede o limite de rede, envie quantidade necessária com várias transações",
         "TRANSFER_ATTEMPT": "Sem conexão à rede Zano",

@@ -18,7 +18,7 @@ import { zanoAssetInfo } from '@parts/data/assets';
     template: `
         <div class="history-wrap" fxFlexFill fxLayout="column">
             <div class="wrap-table scrolled-content mb-2" fxFlex="1 1 auto">
-                <table class="history-table">
+                <table class="zano-table history-table">
                     <thead>
                     <tr>
                         <th>

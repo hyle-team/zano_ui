@@ -40,7 +40,7 @@ interface Tab {
     indicator?: boolean;
 }
 
-type TabNameKeys = 'assets' | 'history' | 'send' | 'receive' | 'swap' | 'staking';
+type TabNameKeys = 'assets' | 'history' | 'send' | 'receive' | 'swap' | 'staking' | 'custom-assets';
 
 const objTabs: { [key in TabNameKeys]: Tab } = {
     assets: {
@@ -100,6 +100,15 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
         disabled: false,
         hidden: false
     },
+    'custom-assets': {
+        id: 'custom-assets',
+        title: 'Custom assets',
+        icon: 'custom-asset',
+        link: '/custom-assets',
+        indicator: false,
+        disabled: false,
+        hidden: false
+    }
 };
 
 @Component({
@@ -466,6 +475,10 @@ export class WalletComponent implements OnInit, OnDestroy {
 
         tabs.push(objTabs.staking);
 
+        if (conditionForHiding) {
+            tabs.push(objTabs['custom-assets']);
+        }
+
         this.tabs = tabs;
     }
 
@@ -573,7 +586,7 @@ export class WalletComponent implements OnInit, OnDestroy {
                 next: asset => {
                     const dialogConfig: DialogConfig = {
                         data: {
-                            asset,
+                            assetInfo: asset.asset_info,
                             title: 'You added new asset',
                         },
                     };

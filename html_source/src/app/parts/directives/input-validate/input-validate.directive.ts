@@ -40,8 +40,8 @@ export class InputValidateDirective {
             currentValue = '0' + currentValue;
         }
         const _zero_fill = currentValue.split('.');
-        if (_zero_fill[0].length > 7) {
-            _zero_fill[0] = _zero_fill[0].substr(0, 7);
+        if (_zero_fill[0].length > 10) {
+            _zero_fill[0] = _zero_fill[0].substr(0, 10);
         }
 
         if (1 in _zero_fill && _zero_fill[1].length) {

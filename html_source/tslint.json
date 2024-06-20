@@ -33,7 +33,7 @@
         "no-empty": false,
         "no-empty-interface": false,
         "no-eval": true,
-        "no-inferrable-types": [true, "ignore-params"],
+        "no-inferrable-types": [false, "ignore-params"],
         "no-misused-new": true,
         "no-non-null-assertion": true,
         "no-redundant-jsdoc": true,

@@ -777,6 +777,10 @@ body {
   background: center/contain no-repeat url('purchase-arrow-down.svg');
 }.icon.purchase-arrow-up {
   background: center/contain no-repeat url('purchase-arrow-up.svg');
+}.icon.custom-asset {
+  background: center/contain no-repeat url('custom-asset_icon.svg');
+}.icon.emit {
+  background: center/contain no-repeat url('emit_icon.svg');
 }.icon.arrow-down-square {
   background: center/contain no-repeat url('arrow-down-square.svg');
 }.icon.swap {
@@ -849,6 +853,8 @@ body {
   background: center/contain no-repeat url('wallet-options.svg');
 }.icon.update {
   background: center/contain no-repeat url('update.svg');
+}.icon.update-with-dash {
+  background: center/contain no-repeat url('update-with-dash_icon.svg');
 }.icon.lock-transaction {
   background: center/contain no-repeat url('lock-transaction.svg');
 }.icon.unlock-transaction {
@@ -2367,6 +2373,8 @@ app-contracts .container .wrap-table table.contracts-table tbody tr .comment {
   max-height: 100%;
 }.min-width-4_4-rem {
   min-width: 4.4rem;
+}.min-w-19-rem {
+  min-width: 19rem;
 }.min-height-4_4-rem {
   min-height: 4.4rem;
 }.max-w-19-rem {

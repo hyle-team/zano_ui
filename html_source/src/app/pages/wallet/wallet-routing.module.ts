@@ -13,6 +13,8 @@ import { SwapComponent } from './tabs/swap/pages/swap/swap.component';
 import { CreateSwapComponent } from './tabs/swap/pages/create-swap/create-swap.component';
 import { SwapProposalHexComponent } from './tabs/swap/pages/swap-proposal-hex/swap-proposal-hex.component';
 import { SwapProposalHexGuard } from './tabs/swap/parts/guards/swap-proposal-hex.guard';
+import { CustomAssetsComponent } from './tabs/custom-assets/pages/custom-assets/custom-assets.component';
+import { CreateNewAssetComponent } from './tabs/custom-assets/pages/create-new-asset/create-new-asset.component';
 
 const routes: Routes = [
     {
@@ -59,6 +61,14 @@ const routes: Routes = [
                     {
                         path: 'confirm-swap',
                         component: ConfirmSwapComponent,
+                    },
+                    {
+                        path: 'custom-assets',
+                        component: CustomAssetsComponent,
+                    },
+                    {
+                        path: 'create-new-asset',
+                        component: CreateNewAssetComponent,
                     },
                     {
                         path: '',

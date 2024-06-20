@@ -274,6 +274,18 @@
         "PASS": "Wallet-Passwort festlegen",
         "TITLE_SAVE": "Wallet-Datei speichern."
     },
+    "CUSTOM_ASSETS": {
+        "TABLE": {
+            "LABELS": {
+                "LABEL1": "Asset ID",
+                "LABEL2": "Ticker",
+                "LABEL3": "Name",
+                "LABEL4": "Total max supply",
+                "LABEL5": "Current Supply",
+                "LABEL6": "Decimal point"
+            }
+        }
+    },
     "EDIT_ALIAS": {
         "BUTTON_EDIT": "Bearbeiten",
         "COMMENT": {

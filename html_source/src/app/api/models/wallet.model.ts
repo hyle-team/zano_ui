@@ -36,6 +36,10 @@ export class Wallet {
         this._assetsInfoWhitelist = value;
     }
 
+    get assetsInfoWhitelist() {
+        return this._assetsInfoWhitelist;
+    }
+
     get allAssetsInfoWhitelist(): AssetInfo[] {
         const { global_whitelist = [], local_whitelist= [], own_assets= [] } = this._assetsInfoWhitelist;
         return [

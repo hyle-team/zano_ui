@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { VariablesService } from '@parts/services/variables.service';
 import { Subject } from 'rxjs';
-import { AssetBalance, ParamsRemoveCustomAssetId } from '@api/models/assets.model';
+import { AssetBalance, AssetInfo, ParamsRemoveCustomAssetId } from '@api/models/assets.model';
 import { PaginatePipeArgs } from 'ngx-pagination';
 import { takeUntil } from 'rxjs/operators';
 import { CdkOverlayOrigin } from '@angular/cdk/overlay';
@@ -21,7 +21,7 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
     template: `
         <div fxFlexFill fxLayout="column">
             <div class="scrolled-content" [class.mb-2]="isShowPagination" fxFlex="1 1 auto">
-                <table class="assets-table">
+                <table class="zano-table assets-table">
                     <thead>
                         <tr>
                             <th>
@@ -186,7 +186,7 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
 
                 <ng-container *ngIf="variablesService.currentWallet.loaded && variablesService.daemon_state === 2 && !variablesService.currentWallet.is_auditable && !variablesService.currentWallet.is_watch_only">
                     <li class="item">
-                        <a routerLink="/wallet/send" [state]="{ asset: currentAsset }" class="w-100 px-2 py-1">
+                        <a routerLink="/wallet/send" [state]="{ assetInfo: currentAssetInfo }" class="w-100 px-2 py-1">
                             <i class="icon arrow-up-square mr-1"></i>
                             <span>{{ 'Send' | translate }}</span>
                         </a>
@@ -194,7 +194,7 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
 
                     <ng-container *ngIf="variablesService.is_hardfok_active$ | async">
                         <li class="item">
-                            <a routerLink="/wallet/create-swap" [state]="{ asset: currentAsset }" class="w-100 px-2 py-1">
+                            <a routerLink="/wallet/create-swap" [state]="{ assetInfo: currentAssetInfo }" class="w-100 px-2 py-1">
                                 <i class="icon swap mr-1"></i>
                                 <span>{{ 'Swap' | translate }}</span>
                             </a>
@@ -202,7 +202,7 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                     </ng-container>
                 </ng-container>
 
-                <ng-container *ngIf="currentAsset.asset_info.ticker !== 'ZANO'">
+                <ng-container *ngIf="currentAssetInfo.ticker !== 'ZANO'">
                     <li class="item">
                         <button class="w-100 px-2 py-1" type="button" (click)="beforeRemoveAsset()">
                             <i class="icon delete mr-1"></i>
@@ -244,7 +244,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
 
     triggerOrigin!: CdkOverlayOrigin;
 
-    currentAsset!: AssetBalance;
+    currentAssetInfo!: AssetInfo;
 
     isOpenDropDownMenu = false;
 
@@ -271,7 +271,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
     toggleDropDownMenu(trigger: CdkOverlayOrigin, asset: AssetBalance): void {
         this.isOpenDropDownMenu = !this.isOpenDropDownMenu;
         this.triggerOrigin = trigger;
-        this.currentAsset = asset;
+        this.currentAssetInfo = asset.asset_info;
     }
 
     trackByAssets(index: number, { asset_info: { asset_id } }: AssetBalance): number | string {
@@ -285,19 +285,19 @@ export class AssetsComponent implements OnInit, OnDestroy {
     assetDetails(): void {
         const dialogConfig: DialogConfig = {
             data: {
-                asset: this.currentAsset,
+                assetInfo: this.currentAssetInfo,
             },
         };
         this.dialog.open(AssetDetailsComponent, dialogConfig);
     }
 
     beforeRemoveAsset(): void {
-        if (!this.currentAsset) {
+        if (!this.currentAssetInfo) {
             return;
         }
         const {
-            asset_info: { full_name },
-        } = this.currentAsset;
+           full_name
+        } = this.currentAssetInfo;
         const dialogConfig: DialogConfig<ConfirmModalData> = {
             data: {
                 title: `Do you want delete "${full_name}"`,
@@ -315,15 +315,15 @@ export class AssetsComponent implements OnInit, OnDestroy {
     removeAsset(): void {
         const { wallet_id, sendMoneyParams } = this.variablesService.currentWallet;
         const {
-            asset_info: { asset_id },
-        } = this.currentAsset;
+            asset_id
+        } = this.currentAssetInfo;
         const params: ParamsRemoveCustomAssetId = {
             wallet_id,
             asset_id,
         };
         this.backendService.removeCustomAssetId(params, () => {
             this.walletsService.updateWalletInfo(wallet_id);
-            this.currentAsset = undefined;
+            this.currentAssetInfo = undefined;
 
             if (sendMoneyParams) {
                 this.walletsService.currentWallet.sendMoneyParams.asset_id = zanoAssetInfo.asset_id;

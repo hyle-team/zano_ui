@@ -39,6 +39,9 @@ import { WalletModalsModule } from './tabs/send/modals/wallet-modals.module';
 import { GetAssetInfoPipe } from '@parts/pipes/get-asset-info.pipe';
 import { MigrateWalletToZarcanumComponent } from './wallet/modals/migrate-wallet-to-zarcanum/migrate-wallet-to-zarcanum.component';
 import { SuccessSweepBareOutsComponent } from './wallet/modals/success-sweep-bare-outs/success-sweep-bare-outs.component';
+import { CustomAssetsComponent } from './tabs/custom-assets/pages/custom-assets/custom-assets.component';
+import { CreateNewAssetComponent } from './tabs/custom-assets/pages/create-new-asset/create-new-asset.component';
+import { ConfirmCreateCustomAssetComponent } from './tabs/custom-assets/modals/confirm-create-custom-asset/confirm-create-custom-asset.component';
 
 @NgModule({
     declarations: [
@@ -52,6 +55,9 @@ import { SuccessSweepBareOutsComponent } from './wallet/modals/success-sweep-bar
         SendComponent,
         MigrateWalletToZarcanumComponent,
         SuccessSweepBareOutsComponent,
+        CustomAssetsComponent,
+        CreateNewAssetComponent,
+        ConfirmCreateCustomAssetComponent,
     ],
     imports: [
         CommonModule,

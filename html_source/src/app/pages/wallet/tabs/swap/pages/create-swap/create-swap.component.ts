@@ -396,11 +396,11 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
 
     private setSendingAssetIdFromHistoryState(): void {
         const state = history.state || {};
-        const asset: AssetBalance = state['asset'];
-        if (asset) {
+        const assetInfo: AssetInfo = state['assetInfo'];
+        if (assetInfo) {
             const {
-                asset_info: { asset_id },
-            } = asset;
+                asset_id,
+            } = assetInfo;
             this.form.patchValue({
                 sending: {
                     asset_id,

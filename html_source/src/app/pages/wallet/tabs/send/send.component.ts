@@ -7,7 +7,7 @@ import { MIXIN } from '@parts/data/constants';
 import { MoneyToIntPipe } from '@parts/pipes/money-to-int-pipe/money-to-int.pipe';
 import { debounceTime, delay, filter, retry, take, takeUntil, tap } from 'rxjs/operators';
 import { BehaviorSubject, of, Subject } from 'rxjs';
-import { AssetBalance } from '@api/models/assets.model';
+import { AssetBalance, AssetInfo } from '@api/models/assets.model';
 import { regExpAliasName } from '@parts/utils/zano-validators';
 import { IntToMoneyPipe } from '@parts/pipes';
 import { insuficcientFunds } from '@parts/utils/zano-errors';
@@ -185,7 +185,7 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                         {{ 'SEND.WRAP.MAIN_TEXT' | translate }}
                     </div>
                     <div class="title">{{ 'SEND.WRAP.ESTIMATE' | translate }}</div>
-                    <table class="text-wrap">
+                    <table class="zano-table text-wrap">
                         <tr>
                             <td>{{ 'SEND.WRAP.WILL_RECEIVE' | translate }}</td>
                             <td *ngIf="!sendMoneyParamsForm.controls.amount.errors">
@@ -544,11 +544,11 @@ export class SendComponent implements OnInit, OnDestroy {
 
     setAssetFromHistoryState(): void {
         const state = history.state || {};
-        const asset: AssetBalance = state['asset'];
-        if (asset) {
+        const assetInfo: AssetInfo = state['assetInfo'];
+        if (assetInfo) {
             const {
-                asset_info: { asset_id },
-            } = asset;
+                asset_id,
+            } = assetInfo;
             this.sendMoneyParamsForm.controls.asset_id.patchValue(asset_id, { emitEvent: false });
         }
     }

@@ -1,7 +1,7 @@
 import { Component, inject, Inject, NgZone, OnInit } from '@angular/core';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { VariablesService } from '@parts/services/variables.service';
-import { AssetBalance } from '@api/models/assets.model';
+import { AssetInfo } from '@api/models/assets.model';
 import { zanoAssetInfo } from '@parts/data/assets';
 import { BackendService } from '@api/services/backend.service';
 import { ParamsCallRpc } from '@api/models/call_rpc.model';
@@ -14,69 +14,50 @@ import { ParamsCallRpc } from '@api/models/call_rpc.model';
                 <h3 class="title mb-2" fxFlex="0 0 auto">
                     {{ title | translate }}
                 </h3>
-                <ng-container *ngIf="asset; else templateEmpty">
+                <ng-container *ngIf="assetInfo; else templateEmpty">
                     <div class="content mb-2 w-100 overflow-x-hidden overflow-y-auto" fxFlex="1 1 auto">
-                        <div class="table-info">
-                            <div class="row">
-                                <div class="label max-w-19-rem w-100">
-                                    {{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.NAME' | translate }}
-                                </div>
-                                <div class="text">{{ asset.asset_info.full_name }}</div>
-                            </div>
-
-                            <hr class="separator" />
-
-                            <div class="row">
-                                <div class="label max-w-19-rem w-100">
-                                    {{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.TICKER' | translate }}
-                                </div>
-                                <div class="text">{{ asset.asset_info.ticker }}</div>
-                            </div>
-
-                            <hr class="separator" />
-
-                            <div class="row">
-                                <div class="label max-w-19-rem w-100">
-                                    {{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.ID' | translate }}
-                                </div>
-                                <div class="text" (contextmenu)="variablesService.onContextMenuOnlyCopy($event, asset.asset_info.asset_id)">
-                                    {{ asset.asset_info.asset_id }}
-                                </div>
-                            </div>
-
-                            <hr class="separator" />
-
-                            <div class="row">
-                                <div class="label max-w-19-rem w-100">
-                                    {{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.CURRENT_SUPPLY' | translate }}
-                                </div>
-                                <div class="text">
-                                    {{
-                                        asset.asset_info.asset_id === zanoAssetInfo.asset_id
-                                            ? zano_current_supply
-                                            : asset.asset_info.current_supply
+                        <table class="rounded-corners">
+                            <tbody>
+                            <tr>
+                                <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.NAME' | translate }}</td>
+                                <td>{{ assetInfo.full_name }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.TICKER' | translate }}</td>
+                                <td>{{ assetInfo.ticker }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.OWNER' | translate }}</td>
+                                <td (contextmenu)="variablesService.onContextMenuOnlyCopy($event, assetInfo.owner)">{{ assetInfo.owner }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.ID' | translate }}</td>
+                                <td (contextmenu)="variablesService.onContextMenuOnlyCopy($event, assetInfo.asset_id)">{{ assetInfo.asset_id }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.CURRENT_SUPPLY' | translate }}</td>
+                                <td>{{
+                                        assetInfo.asset_id === zanoAssetInfo.asset_id
+                                            ? (zano_current_supply | intToMoney: zanoAssetInfo.decimal_point)
+                                            : (assetInfo.current_supply | intToMoney: assetInfo.decimal_point)
                                     }}
-                                </div>
-                            </div>
-
-                            <hr class="separator" />
-
-                            <div class="row">
-                                <div class="label max-w-19-rem w-100">
-                                    {{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.MAX_SUPPLE' | translate }}
-                                </div>
-                                <div class="text">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.MAX_SUPPLE' | translate }}</td>
+                                <td>
                                     {{
-                                        asset.asset_info.asset_id === zanoAssetInfo.asset_id
+                                        assetInfo.asset_id === zanoAssetInfo.asset_id
                                             ? 'Uncapped'
-                                            : asset.asset_info.total_max_supply
+                                            : assetInfo.total_max_supply | intToMoney: assetInfo.decimal_point
                                     }}
-                                </div>
-                            </div>
-                        </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </ng-container>
-                <ng-template #templateEmpty> No data</ng-template>
+                <ng-template #templateEmpty>No data</ng-template>
                 <div class="controls w-100" fxFlex="0 0 auto" fxLayout="row nowrap" fxLayoutGap="1rem">
                     <button (click)="close()" class="outline big w-100" type="button">
                         {{ 'MODALS.OK' | translate }}
@@ -85,20 +66,12 @@ import { ParamsCallRpc } from '@api/models/call_rpc.model';
             </div>
         </div>
     `,
-    styles: [
-        `
-            :host {
-                max-width: 54rem;
-                width: 100vw;
-                display: block;
-            }
-        `,
-    ],
+    styleUrls: ['./asset-details.component.scss'],
 })
 export class AssetDetailsComponent implements OnInit {
     title = 'Asset Details';
 
-    asset!: AssetBalance;
+    assetInfo!: AssetInfo;
 
     zanoAssetInfo = zanoAssetInfo;
 
@@ -111,9 +84,9 @@ export class AssetDetailsComponent implements OnInit {
     constructor(
         public variablesService: VariablesService,
         private dialogRef: DialogRef,
-        @Inject(DIALOG_DATA) { asset, title }: { asset: AssetBalance; title?: string }
+        @Inject(DIALOG_DATA) { assetInfo, title }: { assetInfo: AssetInfo; title?: string }
     ) {
-        this.asset = asset;
+        this.assetInfo = assetInfo;
 
         if (title) {
             this.title = title;
@@ -121,7 +94,7 @@ export class AssetDetailsComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        if (this.asset.asset_info.asset_id === zanoAssetInfo.asset_id) {
+        if (this.assetInfo.asset_id === zanoAssetInfo.asset_id) {
             this.getZanoCurrentSupply();
         }
     }

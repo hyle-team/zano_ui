@@ -1,0 +1,25 @@
+:host {
+    max-width: 54rem;
+    width: 100vw;
+    display: block;
+}
+
+table {
+    td {
+        padding: 2rem;
+    }
+
+    tr {
+        td:nth-child(1) {
+            width: 17rem;
+            background: var(--blue-500);
+            color: var(--azure-500);
+        }
+
+        td:nth-child(2) {
+            word-break: break-all;
+        }
+    }
+}
+
+
