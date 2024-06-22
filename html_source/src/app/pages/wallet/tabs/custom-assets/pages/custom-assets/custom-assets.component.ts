@@ -10,6 +10,9 @@ import { Dialog, DialogConfig } from '@angular/cdk/dialog';
 import { IntToMoneyPipe } from '@parts/pipes';
 import { TranslateService } from '@ngx-translate/core';
 import { AssetDetailsComponent } from '@parts/modals/asset-details/asset-details.component';
+import { UpdateCustomAssetComponent } from '../../modals/update-custom-asset/update-custom-asset.component';
+import { BurnCustomAssetComponent } from '../../modals/burn-custom-asset/burn-custom-asset.component';
+import { EmitCustomAssetComponent } from '../../modals/emit-custom-asset/emit-custom-asset.component';
 
 @Component({
     selector: 'app-custom-assets',
@@ -79,12 +82,47 @@ export class CustomAssetsComponent {
         return index;
     }
 
-    assetDetails(): void {
+    details(): void {
         const dialogConfig: DialogConfig = {
+            width: '54rem',
+            maxWidth: '95vw',
             data: {
                 assetInfo: this.currentAssetInfo,
             },
         };
         this.dialog.open(AssetDetailsComponent, dialogConfig);
+    }
+
+    update(): void {
+        const dialogConfig: DialogConfig = {
+            width: '54rem',
+            maxWidth: '95vw',
+            data: {
+                assetInfo: this.currentAssetInfo,
+            },
+        };
+        this.dialog.open(UpdateCustomAssetComponent, dialogConfig);
+    }
+
+    emit(): void {
+        const dialogConfig: DialogConfig = {
+            width: '54rem',
+            maxWidth: '95vw',
+            data: {
+                assetInfo: this.currentAssetInfo,
+            },
+        };
+        this.dialog.open(EmitCustomAssetComponent, dialogConfig);
+    }
+
+    burn(): void {
+        const dialogConfig: DialogConfig = {
+            width: '54rem',
+            maxWidth: '95vw',
+            data: {
+                assetInfo: this.currentAssetInfo,
+            },
+        };
+        this.dialog.open(BurnCustomAssetComponent, dialogConfig);
     }
 }

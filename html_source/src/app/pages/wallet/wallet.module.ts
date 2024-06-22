@@ -42,6 +42,9 @@ import { SuccessSweepBareOutsComponent } from './wallet/modals/success-sweep-bar
 import { CustomAssetsComponent } from './tabs/custom-assets/pages/custom-assets/custom-assets.component';
 import { CreateNewAssetComponent } from './tabs/custom-assets/pages/create-new-asset/create-new-asset.component';
 import { ConfirmCreateCustomAssetComponent } from './tabs/custom-assets/modals/confirm-create-custom-asset/confirm-create-custom-asset.component';
+import { UpdateCustomAssetComponent } from './tabs/custom-assets/modals/update-custom-asset/update-custom-asset.component';
+import { EmitCustomAssetComponent } from './tabs/custom-assets/modals/emit-custom-asset/emit-custom-asset.component';
+import { BurnCustomAssetComponent } from './tabs/custom-assets/modals/burn-custom-asset/burn-custom-asset.component';
 
 @NgModule({
     declarations: [
@@ -58,6 +61,9 @@ import { ConfirmCreateCustomAssetComponent } from './tabs/custom-assets/modals/c
         CustomAssetsComponent,
         CreateNewAssetComponent,
         ConfirmCreateCustomAssetComponent,
+        UpdateCustomAssetComponent,
+        EmitCustomAssetComponent,
+        BurnCustomAssetComponent,
     ],
     imports: [
         CommonModule,

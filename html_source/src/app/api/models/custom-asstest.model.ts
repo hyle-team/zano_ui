@@ -30,3 +30,21 @@ export interface ResponseDeployAsset {
         result_tx: string;
     };
 }
+
+export interface UpdateAssetParams {
+    asset_descriptor: Partial<AssetDescriptor>;
+    asset_id: string;
+}
+
+export interface EmitParams {
+    destinations: Destinations;
+    asset_id: string;
+}
+
+export interface ResponseUpdateAsset {
+    id: number;
+    jsonrpc: string;
+    result: {
+        result_tx: string;
+    };
+}
