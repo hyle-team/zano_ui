@@ -213,7 +213,7 @@ import { zanoAssetInfo } from '@parts/data/assets';
                                                     <span *ngIf="subtransfer.is_income">
                                                         {{ (isInitiator(transaction) ? subtransfer.amount.plus(transaction.fee) : subtransfer.amount) | intToMoney }}
                                                     </span>
-                                                    {{ (subtransfer.asset_id | getAssetInfo)?.ticker || '???' }}
+                                                    {{ (subtransfer.asset_id | getAssetInfo)?.ticker || '***' }}
                                                 </div>
                                             </ng-container>
                                         </ng-container>
@@ -226,7 +226,7 @@ import { zanoAssetInfo } from '@parts/data/assets';
                                                     <span *ngIf="subtransfer.is_income">
                                                             {{ subtransfer.amount | intToMoney }}
                                                         </span>
-                                                    {{ (subtransfer.asset_id | getAssetInfo)?.ticker || '???' }}
+                                                    {{ (subtransfer.asset_id | getAssetInfo)?.ticker || '***' }}
                                                 </div>
                                             </ng-container>
                                         </ng-container>
