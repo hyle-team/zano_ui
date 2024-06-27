@@ -26,6 +26,8 @@ export class CreateNewAssetComponent {
             title: 'CREATE_NEW_ASSETS.BREADCRUMBS.BREADCRUMB2',
         },
     ];
+    job_id: number;
+    isModalDetailsDialogVisible = false;
     public readonly variablesService: VariablesService = inject(VariablesService);
     private readonly _walletsService: WalletsService = inject(WalletsService);
     private readonly _backendService: BackendService = inject(BackendService);
@@ -36,7 +38,7 @@ export class CreateNewAssetComponent {
             full_name: this._fb.control(undefined, [Validators.required, Validators.minLength(2), Validators.maxLength(150)]),
             total_max_supply: this._fb.control(undefined, [Validators.required]),
             current_supply: this._fb.control(undefined, [Validators.required]),
-            decimal_point: this._fb.control(undefined, [Validators.required]),
+            decimal_point: this._fb.control(undefined, [Validators.required, Validators.min(1)]),
             meta_info: this._fb.control('', [Validators.maxLength(255)]),
             hidden_supply: this._fb.control(false),
         },
@@ -121,24 +123,21 @@ export class CreateNewAssetComponent {
             .closed.pipe(filter(Boolean), take(1))
             .subscribe({
                 next: () => {
-                    this._backendService.call_wallet_rpc(
-                        [
-                            wallet_id,
-                            {
-                                jsonrpc: '2.0',
-                                id: 0,
-                                method: 'deploy_asset',
-                                params,
-                            },
-                        ],
-                        async (status: boolean, response_data: ResponseDeployAsset) => {
-                            if (response_data?.result?.new_asset_id) {
-                                this._walletsService.loadAssetsWhitelist(wallet_id);
-                                await this._router.navigate(['/custom-assets']);
-                            }
-                        }
-                    );
+                    this._backendService.asyncCall2a('call_wallet_rpc', wallet_id, {
+                        jsonrpc: '2.0',
+                        id: 0,
+                        method: 'deploy_asset',
+                        params,
+                    }, async (job_id: number) => {
+                        this.job_id = job_id;
+                        this.isModalDetailsDialogVisible = true;
+                    });
                 },
             });
+    }
+
+    handeCloseDetailsModal(success: boolean): void {
+        this.isModalDetailsDialogVisible = false;
+        this.job_id = null;
     }
 }

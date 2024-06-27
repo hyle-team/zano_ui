@@ -165,6 +165,10 @@
                     {{ 'ERRORS.REQUIRED' | translate }}
                 </div>
 
+                <div *ngIf="form.controls.decimal_point.errors['min'] as error">
+                    {{ 'ERRORS.MIN' | translate: { min: error.min } }}
+                </div>
+
                 <div *ngIf="form.controls.decimal_point.errors['max'] as error">
                     {{ 'ERRORS.MAX' | translate: { max: error.max } }}
                 </div>
@@ -203,3 +207,10 @@
         </button>
     </form>
 </div>
+
+
+<app-send-details-modal
+    *ngIf="isModalDetailsDialogVisible"
+    [job_id]="job_id"
+    (eventClose)="handeCloseDetailsModal($event)"
+></app-send-details-modal>

@@ -108,6 +108,7 @@ export enum Commands {
     set_enable_tor = 'set_enable_tor',
     dispatch_async_call_result = 'dispatch_async_call_result',
     async_call = 'async_call',
+    async_call_2a = 'async_call_2a',
     set_log_level = 'set_log_level',
     get_network_type = 'get_network_type',
     get_version = 'get_version',
@@ -677,6 +678,12 @@ export class BackendService {
 
     asyncCall(command: string, params: PramsObj, callback?: (job_id?: number) => void | any): void {
         this.runCommand(Commands.async_call, [command, params], (status, { job_id }: { job_id: number }) => {
+            callback(job_id);
+        });
+    }
+
+    asyncCall2a(command: string, wallet_id: number, params: PramsObj, callback?: (job_id?: number) => void | any): void {
+        this.runCommand(Commands.async_call_2a, [command, wallet_id, params], (status, { job_id }: { job_id: number }) => {
             callback(job_id);
         });
     }
