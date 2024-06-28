@@ -23,7 +23,6 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
     template: `
         <div class="container scrolled-content" fxFlex="1 1 auto">
             <form
-                *ngIf="!(loading$ | async)"
                 (ngSubmit)="showDialog()"
                 [formGroup]="sendMoneyParamsForm"
                 class="form"
@@ -684,6 +683,9 @@ export class SendComponent implements OnInit, OnDestroy {
                 error: () => {
                     this.loading$.next(false);
                 },
+                complete: () => {
+                    this.loading$.next(false);
+                }
             });
     }
 
