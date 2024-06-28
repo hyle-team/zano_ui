@@ -81,7 +81,7 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                                     <td>
                                         <div class="text-ellipsis">
                                             <b>
-                                                {{ asset.total | intToMoney }}
+                                                {{ asset.total | intToMoney: asset.asset_info.decimal_point }}
                                                 {{ asset.asset_info.ticker }}
                                             </b>
                                         </div>
@@ -90,7 +90,7 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                                         <td>
                                             <div class="text-ellipsis">
                                                 <b>{{
-                                                    (asset.total | intToMoney) * variablesService.moneyEquivalent | currency : 'USD'
+                                                    (asset.total | intToMoney: asset.asset_info.decimal_point) * variablesService.moneyEquivalent | currency : 'USD'
                                                 }}</b>
                                             </div>
                                         </td>
