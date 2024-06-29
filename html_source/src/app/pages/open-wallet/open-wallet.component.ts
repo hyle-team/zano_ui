@@ -75,8 +75,8 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                             />
                             <div
                                 *ngIf="
-                                    (openWalletForm.controls.password.invalid &&
-                                        (openWalletForm.controls.password.dirty || openWalletForm.controls.password.touched))
+                                    openWalletForm.controls.password.invalid &&
+                                    (openWalletForm.controls.password.dirty || openWalletForm.controls.password.touched)
                                 "
                                 class="error"
                             >
@@ -253,7 +253,9 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
                                     );
                                     new_wallet.totalPages > this.variablesService.maxPages
                                         ? (new_wallet.pages = new Array(5).fill(1).map((value, index) => value + index))
-                                        : (new_wallet.pages = new Array(new_wallet.totalPages).fill(1).map((value, index) => value + index));
+                                        : (new_wallet.pages = new Array(new_wallet.totalPages)
+                                              .fill(1)
+                                              .map((value, index) => value + index));
                                     new_wallet.prepareHistory(openData.recent_history.history);
                                 } else {
                                     new_wallet.total_history_item = 0;
@@ -286,6 +288,5 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
         } else {
             this.loading$.next(false);
         }
-
     }
 }

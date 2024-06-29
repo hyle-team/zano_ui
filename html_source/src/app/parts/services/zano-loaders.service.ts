@@ -10,33 +10,32 @@ interface TDataLoader {
 }
 
 type TDataLoaders = {
-    [key in TLoaderId]: TDataLoader
+    [key in TLoaderId]: TDataLoader;
 };
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class ZanoLoadersService {
     private _loaders$ = new BehaviorSubject<TDataLoaders>({
-        fullScreen: { state: false, message: 'Loading' }
+        fullScreen: { state: false, message: 'Loading' },
     });
 
     getState(id: TLoaderId): Observable<boolean> {
-        return this._loaders$.pipe(map((loader) => loader[id].state ));
+        return this._loaders$.pipe(map(loader => loader[id].state));
     }
 
     getMessage(id: TLoaderId): Observable<string> {
-        return this._loaders$.pipe(map((loader) => loader[id].message ));
+        return this._loaders$.pipe(map(loader => loader[id].message));
     }
-
 
     open(id: TLoaderId, message: string = 'Loading'): void {
         this._loaders$.next({
             ...this._loaders$.value,
             [id]: {
                 state: true,
-                message
-            }
+                message,
+            },
         });
     }
 
@@ -45,8 +44,8 @@ export class ZanoLoadersService {
             ...this._loaders$.value,
             [id]: {
                 ...this._loaders$.value[id],
-                state: false
-            }
+                state: false,
+            },
         });
     }
 }

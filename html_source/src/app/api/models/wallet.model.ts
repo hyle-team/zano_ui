@@ -41,12 +41,8 @@ export class Wallet {
     }
 
     get allAssetsInfoWhitelist(): AssetInfo[] {
-        const { global_whitelist = [], local_whitelist= [], own_assets= [] } = this._assetsInfoWhitelist;
-        return [
-            ...global_whitelist,
-            ...local_whitelist,
-            ...own_assets
-        ];
+        const { global_whitelist = [], local_whitelist = [], own_assets = [] } = this._assetsInfoWhitelist;
+        return [...global_whitelist, ...local_whitelist, ...own_assets];
     }
 
     get isEmptyAssetsInfoWhitelist(): boolean {
@@ -54,10 +50,7 @@ export class Wallet {
     }
 
     get allAssetsInfo(): AssetInfo[] {
-        return [
-            zanoAssetInfo,
-            ...this.allAssetsInfoWhitelist
-        ];
+        return [zanoAssetInfo, ...this.allAssetsInfoWhitelist];
     }
 
     get balances$(): Observable<AssetBalances | null | undefined> {

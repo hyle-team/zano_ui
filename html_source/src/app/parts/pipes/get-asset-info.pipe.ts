@@ -6,7 +6,7 @@ import { WalletsService } from '@parts/services/wallets.service';
     standalone: true,
 })
 export class GetAssetInfoPipe implements PipeTransform {
-    private walletsService = inject(WalletsService);
+    private walletsService: WalletsService = inject(WalletsService);
 
     transform(value: AssetInfo['asset_id']): AssetInfo | undefined {
         return this.walletsService.currentWallet?.allAssetsInfo.find(({ asset_id }) => asset_id === value);

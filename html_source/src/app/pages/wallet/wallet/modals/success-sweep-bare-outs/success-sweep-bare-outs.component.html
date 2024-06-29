@@ -11,9 +11,7 @@
                 </div>
 
                 <p class="color-primary mt-2">
-                    {{
-                        'TOR_LIB_STATE.STATE_SENT_SUCCESS' | translate
-                    }}
+                    {{ 'TOR_LIB_STATE.STATE_SENT_SUCCESS' | translate }}
                 </p>
             </div>
 
@@ -23,17 +21,13 @@
                     class="header overflow-hidden py-1 px-2 w-100 cursor-pointer"
                     fxLayout="row"
                     fxLayoutAlign="space-between center"
-                    [ngStyle]="{'border-radius': (stateDetails$ | async) ? '0.8rem 0.8rem 0 0' : '0.8rem'}"
+                    [ngStyle]="{ 'border-radius': (stateDetails$ | async) ? '0.8rem 0.8rem 0 0' : '0.8rem' }"
                 >
                     <p class="title text-ellipsis mr-2">
                         {{ 'SEND_DETAILS_MODAL.TITLE2' | translate }}
                     </p>
                     <button fxLayout="row" fxLayoutAlign="center center">
-                        <img
-                            *ngIf="!(stateDetails$ | async)"
-                            alt="dropdown-arrow-down"
-                            src="assets/icons/white/dropdown-arrow-down.svg"
-                        />
+                        <img *ngIf="!(stateDetails$ | async)" alt="dropdown-arrow-down" src="assets/icons/white/dropdown-arrow-down.svg" />
                         <img *ngIf="stateDetails$ | async" alt="dropdown-arrow-up" src="assets/icons/white/dropdown-arrow-up.svg" />
                     </button>
                 </div>
@@ -41,22 +35,24 @@
                     [class.px-2]="stateDetails$ | async"
                     [class.py-1]="stateDetails$ | async"
                     [fxHide]="!(stateDetails$ | async)"
-                    [ngStyle]="{'border-radius': (stateDetails$ | async) ? '0 0 0.8rem 0.8rem ' : '0'}"
+                    [ngStyle]="{ 'border-radius': (stateDetails$ | async) ? '0 0 0.8rem 0.8rem ' : '0' }"
                     class="details-wrapper"
                     fxFlex="1 1 auto"
                     fxLayout="row"
                 >
                     <ul class="details-list scrolled-content">
-                        <li
-                            class="item mb-1"
-                            fxLayout="row nowrap"
-                            fxLayoutAlign=" center"
-                        >
-                            <p>{{ 'SUCCESS_SWEEP_BARE_OUTS.DETAILS' | translate: {
-                                txs_sent: dialogData.txs_sent,
-                                bare_outs_swept: dialogData.bare_outs_swept,
-                                amount_swept: dialogData.amount_swept | intToMoney,
-                                fee_spent: dialogData.fee_spent | intToMoney } }}
+                        <li class="item mb-1" fxLayout="row nowrap" fxLayoutAlign=" center">
+                            <p>
+                                {{
+                                    'SUCCESS_SWEEP_BARE_OUTS.DETAILS'
+                                        | translate
+                                            : {
+                                                  txs_sent: dialogData.txs_sent,
+                                                  bare_outs_swept: dialogData.bare_outs_swept,
+                                                  amount_swept: dialogData.amount_swept | intToMoney,
+                                                  fee_spent: dialogData.fee_spent | intToMoney
+                                              }
+                                }}
                             </p>
                         </li>
                     </ul>

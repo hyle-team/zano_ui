@@ -893,7 +893,7 @@ body {
   }
 }.migrate-alert .btn-migrate {
   background-color: rgba(31, 143, 235, 0.2);
-  color: #1F8FEB;
+  color: #1f8feb;
   font-size: 1.8rem;
   line-height: 1.2;
   padding: 0.8rem 2rem;
@@ -1938,30 +1938,37 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   background-color: var(--gray-800);
 }.wallet .progress-bar .fill {
   background-color: var(--white-500);
-}app-send-details-modal .status .image, app-success-sweep-bare-outs .status .image {
+}app-send-details-modal .status .image,
+app-success-sweep-bare-outs .status .image {
   max-width: 13rem;
   max-height: 13rem;
   width: 100%;
   height: 100%;
-}app-send-details-modal .status .image img, app-success-sweep-bare-outs .status .image img {
+}app-send-details-modal .status .image img,
+app-success-sweep-bare-outs .status .image img {
   width: 100%;
   height: 100%;
-}app-send-details-modal .details .header, app-success-sweep-bare-outs .details .header {
+}app-send-details-modal .details .header,
+app-success-sweep-bare-outs .details .header {
   min-height: 4rem;
   max-height: 4rem;
   background-color: var(--blue-500);
-}app-send-details-modal .details-wrapper, app-success-sweep-bare-outs .details-wrapper {
+}app-send-details-modal .details-wrapper,
+app-success-sweep-bare-outs .details-wrapper {
   max-height: 35rem;
   background-color: var(--blue-500);
   scroll-behavior: smooth;
-}app-send-details-modal .details-list, app-success-sweep-bare-outs .details-list {
+}app-send-details-modal .details-list,
+app-success-sweep-bare-outs .details-list {
   width: 100%;
-}app-send-details-modal .details-list .item .image, app-success-sweep-bare-outs .details-list .item .image {
+}app-send-details-modal .details-list .item .image,
+app-success-sweep-bare-outs .details-list .item .image {
   max-width: 1.5rem;
   max-height: 1.5rem;
   width: 100%;
   height: 100%;
-}app-send-details-modal .details-list .item .image img, app-success-sweep-bare-outs .details-list .item .image img {
+}app-send-details-modal .details-list .item .image img,
+app-success-sweep-bare-outs .details-list .item .image img {
   width: 100%;
   height: 100%;
 }app-assign-alias .assign-alias-tooltip {

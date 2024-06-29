@@ -1,526 +1,62 @@
 import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { VariablesService } from '@parts/services/variables.service';
-import { ActivatedRoute } from '@angular/router';
-import { Subtransfer, Subtransfers, Transaction } from '@api/models/transaction.model';
-import BigNumber from 'bignumber.js';
 import { PaginationService } from '@store/pagination/pagination.service';
 import { PaginationStore } from '@store/pagination/pagination.store';
 import { Wallet } from '@api/models/wallet.model';
 import { BackendService } from '@api/services/backend.service';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
+import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { collapseOnLeaveAnimation, expandOnEnterAnimation } from 'angular-animations';
-import { zanoAssetInfo } from '@parts/data/assets';
+import { ZanoAssetInfo, zanoAssetInfo } from '@parts/data/assets';
 
 @Component({
     selector: 'app-history',
-    template: `
-        <div class="history-wrap" fxFlexFill fxLayout="column">
-            <div class="wrap-table scrolled-content mb-2" fxFlex="1 1 auto">
-                <table class="zano-table history-table">
-                    <thead>
-                    <tr>
-                        <th>
-                            <div class="bg title">{{ 'HISTORY.STATUS' | translate }}</div>
-                        </th>
-                        <th>
-                            <div class="bg title">{{ 'HISTORY.AMOUNT' | translate }}</div>
-                        </th>
-                        <th>
-                            <div class="bg title">{{ 'HISTORY.FEE' | translate }}</div>
-                        </th>
-                        <th>
-                            <div class="bg title">{{ 'HISTORY.ADDRESS' | translate }}</div>
-                        </th>
-                        <th>
-                            <div class="bg title">{{ 'HISTORY.DATE' | translate }}</div>
-                        </th>
-                    </tr>
-                    <div class="row-divider"></div>
-                    </thead>
-                    <tbody>
-                    <ng-container *ngFor="let transaction of variablesService.currentWallet.history; let i = index">
-                        <tr
-                            (click)="openDetails(transaction.tx_hash)"
-                            [class.locked-transaction]="!transaction.is_mining && transaction.unlock_time > 0"
-                        >
-                            <!--<td>{{ 21 - i }}</td>-->
-                            <!-- Status -->
-                            <td>
-                                <ng-container *ngIf="transaction.subtransfers; else noSubtransfersStatusTemplate">
-                                    <ng-container *ngFor="let subtransfer of transaction.subtransfers">
-                                        <ng-container *ngIf="isVisibleSubtransferStatus(subtransfer, transaction)">
-                                            <div
-                                                [ngClass]="subtransfer.is_income ? 'received' : 'send'"
-                                                class="status text-ellipsis"
-                                                fxLayout="row"
-                                                fxLayoutAlign=" center"
-                                            >
-                                                <ng-container *ngIf="getHeight(transaction) < 10">
-                                                    <svg
-                                                        [delay]="500"
-                                                        class="confirmation mr-1"
-                                                        placement="bottom-left"
-                                                        style="transform: rotateZ(-90deg)"
-                                                        tooltip="{{
-                                                                'HISTORY.STATUS_TOOLTIP'
-                                                                    | translate : { current: getHeight(transaction), total: 10 }
-                                                            }}"
-                                                        tooltipClass="table-tooltip"
-                                                    >
-                                                        <circle
-                                                            cx="50%"
-                                                            cy="50%"
-                                                            fill="transparent"
-                                                            r="0.7rem"
-                                                            stroke="rgba(31, 143, 235, 0.33)"
-                                                            stroke-dasharray="100"
-                                                            stroke-dashoffset="0"
-                                                            stroke-width="0.3rem"
-                                                        ></circle>
-                                                        <circle
-                                                            [style.stroke-dashoffset]="strokeSize(transaction)"
-                                                            [style.stroke]="subtransfer.is_income ? '#16d1d6' : '#1f8feb'"
-                                                            class="progress-circle"
-                                                            cx="50%"
-                                                            cy="50%"
-                                                            fill="transparent"
-                                                            r="0.7rem"
-                                                            stroke-dasharray="4.5rem"
-                                                            stroke-dashoffset="4.5rem"
-                                                            stroke-linecap="round"
-                                                            stroke-width="0.3rem"
-                                                        ></circle>
-                                                    </svg>
-                                                </ng-container>
-
-                                                <ng-container *ngIf="getHeight(transaction) === 10">
-                                                    <img
-                                                        *ngIf="!subtransfer.is_income"
-                                                        alt=""
-                                                        class="status-transaction mr-1"
-                                                        src="assets/icons/blue/send.svg"
-                                                    />
-                                                    <img
-                                                        *ngIf="subtransfer.is_income"
-                                                        alt=""
-                                                        class="status-transaction mr-1"
-                                                        src="assets/icons/aqua/receive.svg"
-                                                    />
-                                                </ng-container>
-
-                                                <span class="status-transaction-text">{{
-                                                        (subtransfer.is_income ? 'HISTORY.RECEIVED' : 'HISTORY.SEND') | translate
-                                                    }}</span>
-
-                                                <ng-container
-                                                    *ngIf="transaction.unlock_time !== 0 && transaction.tx_type !== 6">
-                                                    <ng-container *ngIf="isLocked(transaction); else unlock">
-                                                        <ng-container *ngIf="transaction.unlock_time < 500000000">
-                                                            <i
-                                                                [class.position]="
-                                                                        variablesService.height_app - transaction.height < 10 ||
-                                                                        (transaction.height === 0 && transaction.timestamp > 0)
-                                                                    "
-                                                                [delay]="500"
-                                                                class="icon lock-transaction mr-1"
-                                                                placement="bottom-left"
-                                                                tooltip="{{
-                                                                        'HISTORY.LOCK_TOOLTIP'
-                                                                            | translate : { date: time(transaction) | date : 'MM.dd.yy' }
-                                                                    }}"
-                                                                tooltipClass="table-tooltip"
-                                                            ></i>
-                                                        </ng-container>
-                                                        <ng-container *ngIf="transaction.unlock_time > 500000000">
-                                                            <i
-                                                                [class.position]="
-                                                                        variablesService.height_app - transaction.height < 10 ||
-                                                                        (transaction.height === 0 && transaction.timestamp > 0)
-                                                                    "
-                                                                [delay]="500"
-                                                                class="icon lock-transaction mr-1"
-                                                                placement="bottom-left"
-                                                                tooltip="{{
-                                                                        'HISTORY.LOCK_TOOLTIP'
-                                                                            | translate
-                                                                                : {
-                                                                                      date:
-                                                                                          transaction.unlock_time * 1000 | date : 'MM.dd.yy'
-                                                                                  }
-                                                                    }}"
-                                                                tooltipClass="table-tooltip"
-                                                            ></i>
-                                                        </ng-container>
-                                                    </ng-container>
-                                                    <ng-template #unlock>
-                                                        <i
-                                                            [class.position]="
-                                                                    variablesService.height_app - transaction.height < 10 ||
-                                                                    (transaction.height === 0 && transaction.timestamp > 0)
-                                                                "
-                                                            class="icon unlock-transaction mr-1"
-                                                        ></i>
-                                                    </ng-template>
-                                                </ng-container>
-                                            </div>
-                                        </ng-container>
-                                    </ng-container>
-                                </ng-container>
-
-                                <ng-container *ngIf="isInitiator(transaction) && !hasZano(transaction.subtransfers)">
-                                    <div [ngClass]="'received'" class="status text-ellipsis" fxLayout="row"
-                                         fxLayoutAlign=" center">
-                                        <img alt="" class="status-transaction mr-1"
-                                             src="assets/icons/aqua/receive.svg" />
-
-                                        <span
-                                            class="status-transaction-text">{{ 'HISTORY.RECEIVED' | translate }}</span>
-                                    </div>
-                                </ng-container>
-
-                                <ng-template #noSubtransfersStatusTemplate>
-                                    <div [ngClass]="'received'" class="status text-ellipsis" fxLayout="row"
-                                         fxLayoutAlign=" center">
-                                        <img alt="" class="status-transaction mr-1"
-                                             src="assets/icons/aqua/receive.svg" />
-
-                                        <span
-                                            class="status-transaction-text">{{ 'HISTORY.RECEIVED' | translate }}</span>
-                                    </div>
-                                </ng-template>
-                            </td>
-                            <!-- Amount -->
-                            <td>
-                                <ng-container *ngIf="transaction.subtransfers; else noSubtransfersAmountTemplate">
-                                    <ng-container *ngFor="let subtransfer of transaction.subtransfers">
-                                        <ng-container *ngIf="subtransfer.asset_id === zanoAssetInfo.asset_id">
-                                            <ng-container
-                                                *ngIf="
-                                                        !subtransfer.is_income
-                                                            ? !subtransfer.amount.eq(transaction.fee ?? 0) || isSelfTransaction(transaction) || (isSwapTransaction(transaction) && isFinalizator(transaction))
-                                                            : subtransfer.amount.toNumber() !== 0
-                                                    "
-                                            >
-                                                <div class="text-ellipsis">
-                                                    <span *ngIf="!subtransfer.is_income">
-                                                        <ng-container
-                                                            *ngIf="isInitiator(transaction)">{{ subtransfer.amount.minus(transaction.fee ?? 0).negated() | intToMoney }}</ng-container>
-                                                        <ng-container
-                                                            *ngIf="isFinalizator(transaction)">{{ subtransfer.amount.negated() | intToMoney }}</ng-container>
-                                                    </span>
-                                                    <span *ngIf="subtransfer.is_income">
-                                                        {{ (isInitiator(transaction) ? subtransfer.amount.plus(transaction.fee) : subtransfer.amount) | intToMoney }}
-                                                    </span>
-                                                    {{ (subtransfer.asset_id | getAssetInfo)?.ticker || '***' }}
-                                                </div>
-                                            </ng-container>
-                                        </ng-container>
-                                        <ng-container *ngIf="subtransfer.asset_id !== zanoAssetInfo.asset_id">
-                                            <ng-container *ngIf="subtransfer.amount.toNumber() !== 0">
-                                                <div class="text-ellipsis">
-                                                        <span *ngIf="!subtransfer.is_income">
-                                                            {{ subtransfer.amount.negated() | intToMoney }}
-                                                        </span>
-                                                    <span *ngIf="subtransfer.is_income">
-                                                            {{ subtransfer.amount | intToMoney }}
-                                                        </span>
-                                                    {{ (subtransfer.asset_id | getAssetInfo)?.ticker || '***' }}
-                                                </div>
-                                            </ng-container>
-                                        </ng-container>
-                                    </ng-container>
-
-                                    <ng-container *ngIf="isInitiator(transaction) && !hasZano(transaction.subtransfers)">
-                                        {{ transaction.fee | intToMoney }} {{ variablesService.defaultCurrency }}
-                                    </ng-container>
-                                </ng-container>
-
-                                <ng-template #noSubtransfersAmountTemplate>
-                                        <span>
-                                            {{ 0 | intToMoney }}
-                                            {{ variablesService.defaultCurrency }}
-                                        </span>
-                                </ng-template>
-                            </td>
-                            <!-- Fee -->
-                            <td>
-                                <div class="cell-fee text-ellipsis" *ngIf="isVisibleFee(transaction)">
-                                    <ng-container *ngIf="transaction?.subtransfers?.length">
-                                        <i class="icon fire mr-1"></i>
-                                        <span *ngIf="transaction.fee; else noFeeTemplate">
-                                                {{ transaction.fee | intToMoney }}
-                                            {{ variablesService.defaultCurrency }}
-                                            </span>
-                                        <ng-template #noFeeTemplate>
-                                            <span>{{ 'HISTORY.NO_FEE' | translate }}</span>
-                                        </ng-template>
-                                    </ng-container>
-                                </div>
-                            </td>
-                            <!-- Address -->
-                            <td class="remote-address">
-                                <ng-container [ngSwitch]="true">
-                                    <ng-container *ngSwitchCase="!(transaction.tx_type === 0)">
-                                        <div class="text-ellipsis">
-                                                <span>
-                                                    {{ transaction | historyTypeMessages }}
-                                                </span>
-                                        </div>
-                                    </ng-container>
-
-                                    <ng-container *ngSwitchCase="transaction.tx_type === 0">
-                                        <div
-                                            *ngIf="
-                                                    transaction.remote_addresses &&
-                                                    transaction.remote_addresses[0] &&
-                                                    !transaction.remote_aliases?.[0]?.trim()?.length
-                                                  "
-                                            class="text-ellipsis"
-                                        >
-                                                <span
-                                                    (contextmenu)="
-                                                        variablesService.onContextMenuOnlyCopy($event, transaction.remote_addresses[0])
-                                                    "
-                                                >
-                                                    {{ transaction.remote_addresses[0] | zanoShortString }}
-                                                </span>
-                                        </div>
-                                        <ng-container
-                                            *ngIf="transaction.remote_aliases && transaction.remote_aliases?.[0]?.trim()?.length"
-                                        >
-                                            <div fxLayout="row wrap">
-                                                <ng-container *ngFor="let alias of transaction.remote_aliases">
-                                                    <ng-container *ngIf="alias && alias.length">
-                                                        <div
-                                                            (contextmenu)="variablesService.onContextMenuOnlyCopy($event, '@' + alias)"
-                                                            [class.available]="alias.length >= 1 && alias.length <= 5"
-                                                            [class.mb-0_5]="transaction.remote_aliases.length >= 2"
-                                                            [class.mr-0_5]="transaction.remote_aliases.length >= 2"
-                                                            class="alias"
-                                                            fxLayout="row inline"
-                                                        >
-                                                            {{ '@' + alias }}
-                                                        </div>
-                                                    </ng-container>
-                                                </ng-container>
-                                            </div>
-                                        </ng-container>
-                                    </ng-container>
-
-                                    <ng-container
-                                        *ngSwitchCase="
-                                                !(transaction.remote_addresses?.length || transaction.remote_aliases?.length) &&
-                                                transaction.tx_type === 0
-                                            "
-                                    >
-                                        {{ 'HISTORY.HIDDEN' | translate }}
-                                    </ng-container>
-                                </ng-container>
-                            </td>
-                            <!-- Date -->
-                            <td>
-                                <div class="text-ellipsis">
-                                    {{ transaction.timestamp * 1000 | date : 'dd-MM-yyyy HH:mm' }}
-                                </div>
-                            </td>
-                        </tr>
-
-                        <tr class="row-divider"></tr>
-
-                        <tr>
-                            <td colspan="5" [ngStyle]="{ padding: '0', 'border-radius': '0.8rem' }">
-                                <app-transaction-details
-                                    *ngIf="transaction.tx_hash === openedDetails"
-                                    @expandOnEnter
-                                    @collapseOnLeave
-                                    [transaction]="transaction"
-                                ></app-transaction-details>
-                            </td>
-                        </tr>
-                        <div
-                            *ngIf="transaction.tx_hash === openedDetails as state"
-                            [@expandOnEnter]="{ value: state, params: { duration: 150 } }"
-                            [@collapseOnLeave]="{
-                                    value: state,
-                                    params: { duration: 400 }
-                                }"
-                            class="row-divider"
-                        ></div>
-                    </ng-container>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="pagination-wrapper">
-                <div class="pagination" fxLayout="row" fxLayoutAlign="space-between center">
-                    <div class="left" fxLayout="row" fxLayoutAlign=" center">
-                        <button
-                            (click)="setPage(variablesService.currentWallet.currentPage - 1)"
-                            [disabled]="
-                                variablesService.currentWallet.currentPage === 1 ||
-                                variablesService.isCurrentWalletSync ||
-                                !variablesService.isCurrentWalletLoaded
-                            "
-                            class="btn-icon circle small mr-1"
-                        >
-                            <i class="icon arrow-left-stroke"></i>
-                        </button>
-
-                        <ng-container *ngIf="!mining">
-                            <button
-                                (click)="setPage(page)"
-                                *ngFor="let page of variablesService.currentWallet.pages"
-                                [disabled]="variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded"
-                                [class.color-primary]="variablesService.currentWallet.currentPage === page"
-                                class="mr-0_5"
-                            >
-                                {{ page }}
-                            </button>
-                        </ng-container>
-
-                        <ng-container *ngIf="mining">
-                            <button
-                                (click)="setPage(variablesService.currentWallet.currentPage)"
-                                [disabled]="
-                                    stop_paginate || variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded
-                                "
-                                [ngClass]="{
-                                    'color-primary': variablesService.currentWallet.currentPage,
-                                    disabled: variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded
-                                }"
-                                class="mr-0_5"
-                            >
-                                {{ variablesService.currentWallet.currentPage }}
-                            </button>
-                        </ng-container>
-
-                        <button
-                            (click)="setPage(variablesService.currentWallet.currentPage + 1)"
-                            [disabled]="stop_paginate || variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded"
-                            class="btn-icon circle small ml-0_5"
-                        >
-                            <i class="icon arrow-right-stroke"></i>
-                        </button>
-                    </div>
-                    <div class="right" fxLayout="row" fxLayoutAlign=" center">
-                        <span class="switch-text mr-2">Hide mining transactions</span>
-                        <app-switch
-                            (emitChange)="toggleMiningTransactions()"
-                            [disabled]="variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded"
-                            [value]="mining"
-                        ></app-switch>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `,
-    styles: [
-        `
-            .cell-fee {
-                display: inline-flex;
-            }
-        `,
-    ],
+    templateUrl: './history.component.html',
+    styleUrls: ['./history.component.scss'],
     animations: [expandOnEnterAnimation(), collapseOnLeaveAnimation()],
 })
 export class HistoryComponent implements OnInit, OnDestroy {
-    zanoAssetInfo = zanoAssetInfo;
+    public zanoAssetInfo: ZanoAssetInfo = zanoAssetInfo;
 
-    openedDetails = '';
+    public opened_transaction_details: string | undefined;
 
-    stop_paginate = false;
+    public stop_paginate: boolean = false;
 
-    mining = false;
+    public mining: boolean = false;
 
-    wallet: Wallet;
+    public wallet: Wallet;
 
-    x = new BigNumber(3);
-
-    y = new BigNumber(0.2);
-
-    private destroy$ = new Subject<void>();
+    private _destroy$: Subject<void> = new Subject<void>();
 
     constructor(
-        private route: ActivatedRoute,
         public variablesService: VariablesService,
-        private pagination: PaginationService,
-        private backend: BackendService,
-        private ngZone: NgZone,
-        private paginationStore: PaginationStore
+        private _pagination: PaginationService,
+        private _backendService: BackendService,
+        private _ngZone: NgZone,
+        private _paginationStore: PaginationStore
     ) {}
 
-    ngOnInit(): void {
-        this.route.parent.params.pipe(takeUntil(this.destroy$)).subscribe({
-            next: () => {
-                this.openedDetails = '';
-            },
-        });
+    get currentWallet(): Wallet {
+        return this.variablesService.currentWallet;
+    }
 
+    ngOnInit(): void {
         this.init();
 
-        this.variablesService.currentWalletChangedEvent.pipe(takeUntil(this.destroy$)).subscribe({
-            next: () => {
+        this.variablesService.currentWalletChangedEvent.pipe(filter(Boolean), takeUntil(this._destroy$)).subscribe({
+            next: (wallet: Wallet) => {
                 this.getRecentTransfers();
+                this.mining = wallet.exclude_mining_txs;
             },
         });
-
-        this.variablesService.currentWalletChangedEvent
-            .pipe(
-                filter(w => !!w),
-                takeUntil(this.destroy$)
-            )
-            .subscribe({
-                next: (currentWallet: Wallet) => {
-                    this.mining = currentWallet.exclude_mining_txs;
-                },
-            });
     }
 
-    isVisibleSubtransferStatus(subtransfer: Subtransfer, transaction: Transaction): boolean {
-        const { amount, asset_id, is_income } = subtransfer;
-        const { fee, subtransfers } = transaction;
+    ngOnDestroy(): void {
+        this.opened_transaction_details = undefined;
 
-        if (subtransfers.length === 1 && asset_id === zanoAssetInfo.asset_id  && is_income === false && amount.eq(fee)) {
-            return true;
-        }
-
-        if (asset_id === zanoAssetInfo.asset_id && this.isSwapTransaction(transaction) && this.isFinalizator(transaction)) {
-            return true;
-        }
-
-        return !(asset_id === zanoAssetInfo.asset_id && is_income === false && amount.eq(fee));
-
-    }
-
-    isInitiator(transaction: Transaction): boolean {
-        const { employed_entries: { spent= [] } } = transaction;
-        return Boolean(spent?.find(({ index }) => {
-            return index === 0;
-        }));
-    }
-
-    isSwapTransaction(transaction: Transaction): boolean {
-        const { subtransfers } = transaction;
-        const arr = subtransfers.map(({ is_income }) => is_income);
-        const condition1 = arr.some((value) => value);
-        const condition2 = arr.some((value) => !value);
-        return condition1 && condition2;
-    }
-
-    isFinalizator(transaction: Transaction): boolean {
-        return !this.isInitiator(transaction);
-    }
-
-    isSelfTransaction(transaction: Transaction): boolean {
-        const { remote_addresses, employed_entries: { receive, spent }, subtransfers, fee } = transaction;
-
-        const condition1 = remote_addresses?.includes(this.variablesService.currentWallet?.address);
-        const condition2 = [...(receive ?? []), ...(spent ?? [])].map(({ asset_id }) => asset_id === zanoAssetInfo.asset_id).every(Boolean);
-        const condition3 = subtransfers?.length === 1 && subtransfers[0].asset_id === zanoAssetInfo.asset_id && subtransfers[0].amount.eq(fee);
-
-        return condition1 && condition2 && condition3;
+        this._destroy$.next();
+        this._destroy$.complete();
     }
 
     init(): void {
@@ -558,35 +94,8 @@ export class HistoryComponent implements OnInit, OnDestroy {
         }
     }
 
-    ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
-    }
-
-    isVisibleFee(transaction: Transaction): boolean {
-        const { subtransfers } = transaction;
-        const condition1 = subtransfers ? !subtransfers?.every(({ is_income }) => is_income) : false;
-        const condition2 = this.isInitiator(transaction);
-        return condition1 && condition2;
-    }
-
-    strokeSize(item): number {
-        const rem = this.variablesService.settings.scale;
-        if ((this.variablesService.height_app - item.height >= 10 && item.height !== 0) || (item.is_mining === true && item.height === 0)) {
-            return 0;
-        } else {
-            if (item.height === 0 || this.variablesService.height_app - item.height < 0) {
-                return 4.5 * parseInt(rem, 10);
-            } else {
-                return (
-                    4.5 * parseInt(rem, 10) - ((4.5 * parseInt(rem, 10)) / 100) * ((this.variablesService.height_app - item.height) * 10)
-                );
-            }
-        }
-    }
-
     resetPaginationValues(): void {
-        this.ngZone.run(() => {
+        this._ngZone.run(() => {
             const total_history_item = this.variablesService.currentWallet.total_history_item;
             const count = this.variablesService.count;
             this.variablesService.currentWallet.totalPages = Math.ceil(total_history_item / count);
@@ -602,10 +111,6 @@ export class HistoryComponent implements OnInit, OnDestroy {
                       .fill(1)
                       .map((value, index) => value + index));
         });
-    }
-
-    hasZano(subtransfers: Subtransfers): boolean {
-        return Boolean(subtransfers.find(({ asset_id }) => asset_id === zanoAssetInfo.asset_id));
     }
 
     setPage(pageNumber: number): void {
@@ -628,13 +133,13 @@ export class HistoryComponent implements OnInit, OnDestroy {
 
     toggleMiningTransactions(): void {
         if (!this.variablesService.sync_started && !this.wallet) {
-            const value = this.paginationStore.value;
+            const value = this._paginationStore.value;
             if (!value) {
-                this.paginationStore.setPage(1, 0, this.variablesService.currentWallet.wallet_id); // add back page for the first page
+                this._paginationStore.setPage(1, 0, this.variablesService.currentWallet.wallet_id); // add back page for the first page
             } else {
                 const pages = value.filter(item => item.walletID === this.variablesService.currentWallet.wallet_id);
                 if (pages.length === 0) {
-                    this.paginationStore.setPage(1, 0, this.variablesService.currentWallet.wallet_id); // add back page for the first page
+                    this._paginationStore.setPage(1, 0, this.variablesService.currentWallet.wallet_id); // add back page for the first page
                 }
             }
             this.mining = !this.mining;
@@ -644,16 +149,16 @@ export class HistoryComponent implements OnInit, OnDestroy {
     }
 
     getRecentTransfers(): void {
-        const offset = this.pagination.getOffset(this.variablesService.currentWallet.wallet_id);
-        const value = this.paginationStore.value;
+        const offset = this._pagination.getOffset(this.variablesService.currentWallet.wallet_id);
+        const value = this._paginationStore.value;
         const pages = value ? value.filter(item => item.walletID === this.variablesService.currentWallet.wallet_id) : [];
-        this.backend.getRecentTransfers(
+        this._backendService.getRecentTransfers(
             this.variablesService.currentWallet.wallet_id,
             offset,
             this.variablesService.count,
             this.variablesService.currentWallet.exclude_mining_txs,
             (status, data) => {
-                const isForward = this.paginationStore.isForward(pages, this.variablesService.currentWallet.currentPage);
+                const isForward = this._paginationStore.isForward(pages, this.variablesService.currentWallet.currentPage);
                 if (this.mining && isForward && pages && pages.length === 1) {
                     this.variablesService.currentWallet.currentPage = 1; // set init page after navigation back
                 }
@@ -665,14 +170,14 @@ export class HistoryComponent implements OnInit, OnDestroy {
                 if (!this.variablesService.stop_paginate[this.variablesService.currentWallet.wallet_id]) {
                     const page = this.variablesService.currentWallet.currentPage + 1;
                     if (isForward && this.mining && history && history.length === this.variablesService.count) {
-                        this.paginationStore.setPage(page, data.last_item_index, this.variablesService.currentWallet.wallet_id); // add back page for current page
+                        this._paginationStore.setPage(page, data.last_item_index, this.variablesService.currentWallet.wallet_id); // add back page for current page
                     }
                 }
 
-                this.pagination.calcPages(data);
-                this.pagination.prepareHistory(data, status);
+                this._pagination.calcPages(data);
+                this._pagination.prepareHistory(data, status);
 
-                this.ngZone.run(() => {
+                this._ngZone.run(() => {
                     this.variablesService.get_recent_transfers = false;
                     if (hasOwnProperty(this.variablesService.after_sync_request, String(this.variablesService.currentWallet.wallet_id))) {
                         // this is will complete get_recent_transfers request
@@ -693,36 +198,11 @@ export class HistoryComponent implements OnInit, OnDestroy {
         }, 1000);
     }
 
-    getHeight(item): number {
-        const { height_app } = this.variablesService;
-        if ((height_app - item.height >= 10 && item.height !== 0) || (item.is_mining === true && item.height === 0)) {
-            return 10;
+    toggleTransactionDetails(tx_hash: string): void {
+        if (tx_hash === this.opened_transaction_details) {
+            this.opened_transaction_details = undefined;
         } else {
-            if (item.height === 0 || height_app - item.height < 0) {
-                return 0;
-            } else {
-                return height_app - item.height;
-            }
+            this.opened_transaction_details = tx_hash;
         }
-    }
-
-    openDetails(tx_hash): void {
-        if (tx_hash === this.openedDetails) {
-            this.openedDetails = '';
-        } else {
-            this.openedDetails = tx_hash;
-        }
-    }
-
-    time(item: Transaction): number {
-        const now = new Date().getTime();
-        return now + (item.unlock_time - this.variablesService.height_max) * 60 * 1000;
-    }
-
-    isLocked(item: Transaction): boolean {
-        if (item.unlock_time > 500000000 && item.unlock_time > new Date().getTime() / 1000) {
-            return true;
-        }
-        return item.unlock_time < 500000000 && item.unlock_time > this.variablesService.height_max;
     }
 }

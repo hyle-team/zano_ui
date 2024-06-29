@@ -685,7 +685,7 @@ export class SendComponent implements OnInit, OnDestroy {
                 },
                 complete: () => {
                     this.loading$.next(false);
-                }
+                },
             });
     }
 

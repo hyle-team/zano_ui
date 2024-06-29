@@ -80,8 +80,7 @@
         <!-- /sending -->
 
         <div class="wrapper-reverse">
-            <button (click)="reverse()" [disabled]="currentWallet.isEmptyAssetsInfoWhitelist" class="revers"
-                    type="button">
+            <button (click)="reverse()" [disabled]="currentWallet.isEmptyAssetsInfoWhitelist" class="revers" type="button">
                 <i class="icon small swap"></i>
             </button>
         </div>
@@ -212,8 +211,7 @@
             >
                 <ng-container *ngIf="aliases$ | async as aliases">
                     <ng-container *ngIf="aliases.length; else notFoundAliases">
-                        <div (click)="form.controls.receiverAddress.patchValue(alias.name)"
-                             *ngFor="let alias of aliases" class="item">
+                        <div (click)="form.controls.receiverAddress.patchValue(alias.name)" *ngFor="let alias of aliases" class="item">
                             <div
                                 [class.available]="alias.name.length >= 2 && alias.name.length <= 6"
                                 [class.pl-1]="alias.name.length > 6"
@@ -256,12 +254,10 @@
 
         <div class="actions">
             <button [disabled]="form.invalid || (loading$ | async)" class="btn primary big w-100" type="submit">
-                <ng-container *ngIf="!(loading$ | async)">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON1' | translate }}
-                </ng-container>
+                <ng-container *ngIf="!(loading$ | async)">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON1' | translate }} </ng-container>
                 <zano-loader *ngIf="loading$ | async" [type]="'circle'"></zano-loader>
             </button>
-            <a class="btn outline big w-100"
-               routerLink="/wallet/swap">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON2' | translate }}</a>
+            <a class="btn outline big w-100" routerLink="/wallet/swap">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON2' | translate }}</a>
         </div>
 
         <div *ngIf="errorRpc" class="error mt-2">

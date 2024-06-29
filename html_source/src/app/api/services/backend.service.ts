@@ -763,7 +763,10 @@ export class BackendService {
         this.runCommand(Commands.call_rpc, params, callback);
     }
 
-    call_wallet_rpc(params: [wallet_id: number, params: Partial<ParamsCallRpc>], callback?: (status: boolean, response_data: any) => void): void {
+    call_wallet_rpc(
+        params: [wallet_id: number, params: Partial<ParamsCallRpc>],
+        callback?: (status: boolean, response_data: any) => void
+    ): void {
         this.runCommand(Commands.call_wallet_rpc, params, callback);
     }
 
@@ -776,7 +779,7 @@ export class BackendService {
                 if (command === 'cancel_offer') {
                     error_translate = this.translate.instant('ERRORS.NO_MONEY_REMOVE_OFFER', {
                         fee: this.variablesService.default_fee,
-                        currency: this.variablesService.defaultCurrency,
+                        currency: this.variablesService.defaultTicker,
                     });
                 }
                 break;
