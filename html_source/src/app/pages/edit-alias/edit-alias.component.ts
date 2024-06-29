@@ -10,82 +10,82 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
 @Component({
     selector: 'app-edit-alias',
     template: `
-        <div class="page-container">
-            <div class="toolbar mb-2">
-                <div class="left">
-                    <app-back-button></app-back-button>
-                    <h1 class="ml-2">{{ 'BREADCRUMBS.EDIT_ALIAS' | translate }}</h1>
-                </div>
-                <div class="right"></div>
-            </div>
+      <div class="page-container">
+        <div class="toolbar mb-2">
+          <div class="left">
+            <app-back-button></app-back-button>
+            <h1 class="ml-2">{{ 'BREADCRUMBS.EDIT_ALIAS' | translate }}</h1>
+          </div>
+          <div class="right"></div>
+        </div>
 
-            <div class="page-content">
-                <app-breadcrumbs class="mb-2" [items]="breadcrumbItems"></app-breadcrumbs>
+        <div class="page-content">
+          <app-breadcrumbs class="mb-2" [items]="breadcrumbItems"></app-breadcrumbs>
 
-                <div class="scrolled-content">
-                    <form class="form">
-                        <div class="form__field">
-                            <label for="alias-name">
-                                {{ 'EDIT_ALIAS.NAME.LABEL' | translate }}
-                            </label>
-                            <input
-                                [value]="alias.name"
-                                class="form__field--input"
-                                id="alias-name"
-                                placeholder="{{ 'EDIT_ALIAS.NAME.PLACEHOLDER' | translate }}"
-                                readonly
-                                type="text"
-                            />
-                        </div>
+          <div class="scrolled-content">
+            <form class="form">
+              <div class="form__field">
+                <label for="alias-name">
+                  {{ 'EDIT_ALIAS.NAME.LABEL' | translate }}
+                </label>
+                <input
+                  [value]="alias.name"
+                  class="form__field--input"
+                  id="alias-name"
+                  placeholder="{{ 'EDIT_ALIAS.NAME.PLACEHOLDER' | translate }}"
+                  readonly
+                  type="text"
+                />
+              </div>
 
-                        <div class="form__field textarea">
-                            <label for="alias-comment">
-                                {{ 'EDIT_ALIAS.COMMENT.LABEL' | translate }}
-                            </label>
-                            <textarea
-                                (contextmenu)="variablesService.onContextMenu($event)"
-                                [(ngModel)]="alias.comment"
-                                [maxlength]="variablesService.maxCommentLength + ''"
-                                [ngModelOptions]="{ standalone: true }"
-                                id="alias-comment"
-                                placeholder="{{ 'EDIT_ALIAS.COMMENT.PLACEHOLDER' | translate }}"
-                            >
+              <div class="form__field textarea">
+                <label for="alias-comment">
+                  {{ 'EDIT_ALIAS.COMMENT.LABEL' | translate }}
+                </label>
+                <textarea
+                  (contextmenu)="variablesService.onContextMenu($event)"
+                  [(ngModel)]="alias.comment"
+                  [maxlength]="variablesService.maxCommentLength + ''"
+                  [ngModelOptions]="{ standalone: true }"
+                  id="alias-comment"
+                  placeholder="{{ 'EDIT_ALIAS.COMMENT.PLACEHOLDER' | translate }}"
+                >
                             </textarea>
-                            <div *ngIf="alias.comment.length > 0 && notEnoughMoney" class="error">
-                                {{ 'EDIT_ALIAS.FORM_ERRORS.NO_MONEY' | translate }}
-                            </div>
-                            <div *ngIf="alias.comment.length >= variablesService.maxCommentLength" class="error">
-                                {{ 'EDIT_ALIAS.FORM_ERRORS.MAX_LENGTH' | translate }}
-                            </div>
-                        </div>
+                <div *ngIf="alias.comment.length > 0 && notEnoughMoney" class="error">
+                  {{ 'EDIT_ALIAS.FORM_ERRORS.NO_MONEY' | translate }}
+                </div>
+                <div *ngIf="alias.comment.length >= variablesService.maxCommentLength" class="error">
+                  {{ 'EDIT_ALIAS.FORM_ERRORS.MAX_LENGTH' | translate }}
+                </div>
+              </div>
 
-                        <div class="alias-cost mb-2">
-                            {{
-                                'EDIT_ALIAS.COST'
-                                    | translate
-                                        : {
-                                              value: variablesService.default_fee,
-                                              currency: variablesService.defaultCurrency
-                                          }
-                            }}
-                        </div>
+              <div class="alias-cost mb-2">
+                {{
+                  'EDIT_ALIAS.COST'
+                    | translate
+                    : {
+                      value: variablesService.default_fee,
+                      currency: variablesService.defaultTicker
+                    }
+                }}
+              </div>
 
-                        <button
-                            (click)="updateAlias()"
-                            [disabled]="
+              <button
+                (click)="updateAlias()"
+                [disabled]="
                                 notEnoughMoney ||
                                 oldAliasComment === alias.comment ||
                                 alias.comment.length > variablesService.maxCommentLength
                             "
-                            class="primary big w-100"
-                            type="button"
-                        >
-                            {{ 'EDIT_ALIAS.BUTTON_EDIT' | translate }}
-                        </button>
-                    </form>
-                </div>
-            </div>
+                class="primary big w-100"
+                type="button"
+              >
+                {{ 'EDIT_ALIAS.BUTTON_EDIT' | translate }}
+              </button>
+            </form>
+          </div>
         </div>
+      </div>
     `,
     styles: [
         `

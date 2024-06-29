@@ -15,7 +15,8 @@ import { takeUntil } from 'rxjs/operators';
         <div class="chart-wrap" fxFlexFill fxLayout="column">
             <div class="scrolled-content h-100" fxFlex="1 1 auto" fxLayout="column">
                 <div class="chart-header mb-1" fxFlex="0 0 auto" fxLayout="column">
-                    <div class="row" fxFlex="0 0 auto" fxLayout="row nowrap" fxLayoutAlign="space-between start" fxLayoutGap="1rem">
+                    <div class="row" fxFlex="0 0 auto" fxLayout="row nowrap" fxLayoutAlign="space-between start"
+                         fxLayoutGap="1rem">
                         <div
                             class="left"
                             fxFlex="1 1 calc(50% - 0.5rem)"
@@ -58,7 +59,7 @@ import { takeUntil } from 'rxjs/operators';
                                         <div class="text-ellipsis mr-1">
                                             {{ pending.total | intToMoney }}
                                         </div>
-                                        {{ variablesService.defaultCurrency }}
+                                        {{ variablesService.defaultTicker }}
                                     </div>
                                 </div>
                                 <div
@@ -74,20 +75,22 @@ import { takeUntil } from 'rxjs/operators';
                                         <div class="text-ellipsis mr-1">
                                             {{ total | intToMoney }}
                                         </div>
-                                        {{ variablesService.defaultCurrency }}
+                                        {{ variablesService.defaultTicker }}
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="right" fxFlex="1 1 calc(50% - 0.5rem)" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="1rem">
-                            <div *ngIf="selectedDate && selectedDate.date" class="selected overflow-hidden" fxHide fxShow.lg fxShow.xl>
+                        <div class="right" fxFlex="1 1 calc(50% - 0.5rem)" fxLayout="row" fxLayoutAlign="end center"
+                             fxLayoutGap="1rem">
+                            <div *ngIf="selectedDate && selectedDate.date" class="selected overflow-hidden" fxHide
+                                 fxShow.lg fxShow.xl>
                                 <div class="overflow-hidden" fxLayout="row">
                                     <div class="text-ellipsis">
                                         {{ selectedDate.date | date : 'EEEE, MMMM d, y' }}
                                         {{ selectedDate.amount }}
                                     </div>
                                     <div class="ml-0_5">
-                                        {{ variablesService.defaultCurrency }}
+                                        {{ variablesService.defaultTicker }}
                                     </div>
                                 </div>
                             </div>
@@ -130,7 +133,7 @@ import { takeUntil } from 'rxjs/operators';
                                         {{ selectedDate.amount }}
                                     </div>
                                     <div class="ml-0_5">
-                                        {{ variablesService.defaultCurrency }}
+                                        {{ variablesService.defaultTicker }}
                                     </div>
                                 </div>
                             </div>
@@ -341,7 +344,7 @@ export class StakingComponent implements OnInit, OnDestroy {
                         color: '#e0e0e0',
                         fontSize: '13px',
                     },
-                    format: '{value} ' + this.variablesService.defaultCurrency,
+                    format: '{value} ' + this.variablesService.defaultTicker,
                 },
             },
 
@@ -451,7 +454,9 @@ export class StakingComponent implements OnInit, OnDestroy {
     }
 
     changePeriod(period?): void {
-        if (!this.chart) { return; }
+        if (!this.chart) {
+            return;
+        }
 
         if (period) {
             this.periods.forEach(p => {

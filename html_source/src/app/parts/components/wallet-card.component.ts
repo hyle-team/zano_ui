@@ -110,7 +110,7 @@ export class WalletCardComponent {
             available.setAttribute('class', 'available');
             available.innerText = `${this.translate.instant('WALLET.AVAILABLE_BALANCE')} `;
             const availableB = document.createElement('b');
-            availableB.innerText = `${ this.intToMoneyPipe.transform(unlocked) } ${ ticker || '---' }`;
+            availableB.innerText = `${this.intToMoneyPipe.transform(unlocked)} ${ticker || '---'}`;
             available.appendChild(availableB);
             scrollWrapper.appendChild(available);
 
@@ -118,7 +118,7 @@ export class WalletCardComponent {
             locked.setAttribute('class', 'locked');
             locked.innerText = `${this.translate.instant('WALLET.LOCKED_BALANCE')} `;
             const lockedB = document.createElement('b');
-            lockedB.innerText = `${ this.intToMoneyPipe.transform(new BigNumber(total).minus(unlocked)) } ${ ticker || '---' }`;
+            lockedB.innerText = `${this.intToMoneyPipe.transform(new BigNumber(total).minus(unlocked))} ${ticker || '---'}`;
             locked.appendChild(lockedB);
             scrollWrapper.appendChild(locked);
         });

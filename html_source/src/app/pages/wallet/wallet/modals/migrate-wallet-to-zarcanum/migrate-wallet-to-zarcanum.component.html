@@ -6,22 +6,29 @@
 
         <div class="details mb-2">
             <p class="mb-2 mt-2">
-                {{ 'MIGRATE_WALLET_TO_ZARCANUM.TEXT1' | translate: {
-                total_bare_outs: dialogData.total_bare_outs,
-                total_amount: dialogData.total_amount | intToMoney
-            } }}
+                {{
+                    'MIGRATE_WALLET_TO_ZARCANUM.TEXT1'
+                        | translate
+                            : {
+                                  total_bare_outs: dialogData.total_bare_outs,
+                                  total_amount: dialogData.total_amount | intToMoney
+                              }
+                }}
             </p>
-            <p class="text-align-center cursor-pointer mb-2" fxLayout="row" fxLayoutAlign="start center"
-               (click)="openZarcanumMigration()">
+            <p class="text-align-center cursor-pointer mb-2" fxLayout="row" fxLayoutAlign="start center" (click)="openZarcanumMigration()">
                 <i class="icon question-circle mr-0_5"></i>
                 <span class="color-primary">{{ 'MIGRATE_WALLET_TO_ZARCANUM.LINK1' | translate }}</span>
             </p>
-            <hr class="mb-2">
+            <hr class="mb-2" />
             <p class="mb-2">
-                {{ 'MIGRATE_WALLET_TO_ZARCANUM.TEXT2' | translate: {
-                    txs_count: dialogData.txs_count,
-                    expected_total_fee: dialogData.expected_total_fee | intToMoney
-                } }}
+                {{
+                    'MIGRATE_WALLET_TO_ZARCANUM.TEXT2'
+                        | translate
+                            : {
+                                  txs_count: dialogData.txs_count,
+                                  expected_total_fee: dialogData.expected_total_fee | intToMoney
+                              }
+                }}
             </p>
         </div>
 

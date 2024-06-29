@@ -29,12 +29,11 @@ import { TooltipModule } from '@parts/directives';
                 </tr>
                 <tr>
                     <td>{{ 'Asset ID' | translate }}</td>
-                    <td
-                        colspan="2"
-                        class="color-primary cursor-pointer"
-                    >
+                    <td colspan="2" class="color-primary cursor-pointer">
                         <ng-container *ngFor="let asset_id of getAllUniqAssetId(transaction)">
-                            <p class="text-ellipsis" (contextmenu)="variablesService.onContextMenuOnlyCopy($event, asset_id)">{{ asset_id }}</p>
+                            <p class="text-ellipsis" (contextmenu)="variablesService.onContextMenuOnlyCopy($event, asset_id)">
+                                {{ asset_id }}
+                            </p>
                         </ng-container>
                     </td>
                     <td>{{ 'HISTORY.DETAILS.CONFIRMATION' | translate }}</td>
@@ -98,7 +97,6 @@ import { TooltipModule } from '@parts/directives';
 export class TransactionDetailsComponent {
     @Input() transaction: Transaction;
     constructor(public variablesService: VariablesService, private backendService: BackendService) {}
-
 
     getAllUniqAssetId(transaction: Transaction): Set<string> {
         const { employed_entries } = transaction;

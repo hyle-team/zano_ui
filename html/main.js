@@ -9880,7 +9880,7 @@ class HistoryComponent {
     ngOnInit() {
         this.route.parent.params.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_16__.takeUntil)(this.destroy$)).subscribe({
             next: () => {
-                this.openedDetails = '';
+                this.opened_transaction_details = '';
             },
         });
         this.init();
@@ -10098,11 +10098,11 @@ class HistoryComponent {
         }
     }
     openDetails(tx_hash) {
-        if (tx_hash === this.openedDetails) {
-            this.openedDetails = '';
+        if (tx_hash === this.opened_transaction_details) {
+            this.opened_transaction_details = '';
         }
         else {
-            this.openedDetails = tx_hash;
+            this.opened_transaction_details = tx_hash;
         }
     }
     time(item) {
@@ -18845,7 +18845,7 @@ TooltipModule.ɵinj = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_1__["
 
 /***/ 2979:
 /*!***************************************************!*\
-  !*** ./src/app/parts/functions/hasOwnProperty.ts ***!
+  !*** ./src/app/parts/functions/has-own-property.ts ***!
   \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 

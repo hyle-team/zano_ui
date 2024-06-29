@@ -81,7 +81,7 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                                     <td>
                                         <div class="text-ellipsis">
                                             <b>
-                                                {{ asset.total | intToMoney: asset.asset_info.decimal_point }}
+                                                {{ asset.total | intToMoney : asset.asset_info.decimal_point }}
                                                 {{ asset.asset_info.ticker }}
                                             </b>
                                         </div>
@@ -90,7 +90,8 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                                         <td>
                                             <div class="text-ellipsis">
                                                 <b>{{
-                                                    (asset.total | intToMoney: asset.asset_info.decimal_point) * variablesService.moneyEquivalent | currency : 'USD'
+                                                    (asset.total | intToMoney : asset.asset_info.decimal_point) *
+                                                        variablesService.moneyEquivalent | currency : 'USD'
                                                 }}</b>
                                             </div>
                                         </td>
@@ -184,7 +185,14 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                     </button>
                 </li>
 
-                <ng-container *ngIf="variablesService.currentWallet.loaded && variablesService.daemon_state === 2 && !variablesService.currentWallet.is_auditable && !variablesService.currentWallet.is_watch_only">
+                <ng-container
+                    *ngIf="
+                        variablesService.currentWallet.loaded &&
+                        variablesService.daemon_state === 2 &&
+                        !variablesService.currentWallet.is_auditable &&
+                        !variablesService.currentWallet.is_watch_only
+                    "
+                >
                     <li class="item">
                         <a routerLink="/wallet/send" [state]="{ asset: currentAsset }" class="w-100 px-2 py-1">
                             <i class="icon arrow-up-square mr-1"></i>
@@ -339,12 +347,12 @@ export class AssetsComponent implements OnInit, OnDestroy {
         }
 
         scrollWrapper.classList.add('balance-scroll-list');
-        [balance].forEach(({ unlocked, total, asset_info: { ticker } }: AssetBalance) => {
+        [balance].forEach(({ unlocked, total, asset_info: { ticker, decimal_point } }: AssetBalance) => {
             const available = document.createElement('span');
             available.setAttribute('class', 'available');
             available.innerText = `${this.translate.instant('WALLET.AVAILABLE_BALANCE')} `;
             const availableB = document.createElement('b');
-            availableB.innerText = `${ this.intToMoneyPipe.transform(unlocked) } ${ ticker || '---' }`;
+            availableB.innerText = `${this.intToMoneyPipe.transform(unlocked, decimal_point)} ${ticker || '---'}`;
             available.appendChild(availableB);
             scrollWrapper.appendChild(available);
 
@@ -352,7 +360,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
             locked.setAttribute('class', 'locked');
             locked.innerText = `${this.translate.instant('WALLET.LOCKED_BALANCE')} `;
             const lockedB = document.createElement('b');
-            lockedB.innerText = `${ this.intToMoneyPipe.transform(new BigNumber(total).minus(unlocked)) } ${ ticker || '---' }`;
+            lockedB.innerText = `${this.intToMoneyPipe.transform(new BigNumber(total).minus(unlocked), decimal_point)} ${ticker || '---'}`;
             locked.appendChild(lockedB);
             scrollWrapper.appendChild(locked);
         });

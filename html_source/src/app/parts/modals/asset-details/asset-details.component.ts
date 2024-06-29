@@ -54,7 +54,8 @@ import { ParamsCallRpc } from '@api/models/call_rpc.model';
                                     {{
                                         (asset.asset_info.asset_id === zanoAssetInfo.asset_id
                                             ? zano_current_supply
-                                            : asset.asset_info.current_supply) | intToMoney: asset.asset_info.decimal_point
+                                            : asset.asset_info.current_supply
+                                        ) | intToMoney : asset.asset_info.decimal_point
                                     }}
                                 </div>
                             </div>
@@ -69,7 +70,7 @@ import { ParamsCallRpc } from '@api/models/call_rpc.model';
                                     {{
                                         asset.asset_info.asset_id === zanoAssetInfo.asset_id
                                             ? 'Uncapped'
-                                            : (asset.asset_info.total_max_supply | intToMoney: asset.asset_info.decimal_point)
+                                            : (asset.asset_info.total_max_supply | intToMoney : asset.asset_info.decimal_point)
                                     }}
                                 </div>
                             </div>

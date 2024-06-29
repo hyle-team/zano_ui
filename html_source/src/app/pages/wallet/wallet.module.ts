@@ -9,7 +9,8 @@ import {
     ContractStatusMessagesPipeModule,
     HistoryTypeMessagesPipeModule,
     IntToMoneyPipeModule,
-    IsAvailableAliasNamePipeModule, ShortStringPipe,
+    IsAvailableAliasNamePipeModule,
+    ShortStringPipe,
 } from '@parts/pipes';
 import { TranslateModule } from '@ngx-translate/core';
 import { ConfirmModalModule } from '@parts/modals/confirm-modal/confirm-modal.module';
@@ -39,6 +40,9 @@ import { WalletModalsModule } from './tabs/send/modals/wallet-modals.module';
 import { GetAssetInfoPipe } from '@parts/pipes/get-asset-info.pipe';
 import { MigrateWalletToZarcanumComponent } from './wallet/modals/migrate-wallet-to-zarcanum/migrate-wallet-to-zarcanum.component';
 import { SuccessSweepBareOutsComponent } from './wallet/modals/success-sweep-bare-outs/success-sweep-bare-outs.component';
+import { GetAmountItemsPipe } from '@parts/pipes/get-amount-items.pipe';
+import { TransactionStatusComponent } from '@parts/components/transaction-status/transaction-status.component';
+import { IsVisibleFeePipe } from '@parts/pipes/is-visible-fee.pipe';
 
 @NgModule({
     declarations: [
@@ -87,6 +91,9 @@ import { SuccessSweepBareOutsComponent } from './wallet/modals/success-sweep-bar
         BackButtonComponent,
         WalletModalsModule,
         GetAssetInfoPipe,
+        GetAmountItemsPipe,
+        TransactionStatusComponent,
+        IsVisibleFeePipe,
     ],
 })
 export class WalletModule {}

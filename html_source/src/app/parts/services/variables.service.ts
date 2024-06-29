@@ -21,9 +21,12 @@ export class VariablesService {
 
     info$ = new BehaviorSubject<any>({});
 
-    is_hardfok_active$: Observable<boolean> = this.info$.pipe(map((info) => {
-        return Boolean(info?.['is_hardfok_active']?.[4]);
-    }), distinctUntilChanged());
+    is_hardfok_active$: Observable<boolean> = this.info$.pipe(
+        map(info => {
+            return Boolean(info?.['is_hardfok_active']?.[4]);
+        }),
+        distinctUntilChanged()
+    );
 
     stop_paginate = {};
 
@@ -43,7 +46,7 @@ export class VariablesService {
 
     moneyEquivalentPercent = 0;
 
-    defaultCurrency = 'ZANO';
+    defaultTicker = 'ZANO';
 
     opening_wallet: Wallet;
 
@@ -93,7 +96,7 @@ export class VariablesService {
         notViewedContracts: [],
         zanoCompanionForm: {
             zanoCompation: false,
-            secret: ''
+            secret: '',
         },
         wallets: [],
     };
@@ -250,7 +253,7 @@ export class VariablesService {
         return Number((bytes / Math.pow(1024, 2)).toFixed(1));
     }
 
-    onContextMenu($event: MouseEvent): void {
+    onContextMenu($event: any): void {
         $event.target['contextSelectionStart'] = $event.target['selectionStart'];
         $event.target['contextSelectionEnd'] = $event.target['selectionEnd'];
         if (
@@ -268,7 +271,7 @@ export class VariablesService {
         }
     }
 
-    onContextMenuOnlyCopy($event: MouseEvent, copyText?: string): void {
+    onContextMenuOnlyCopy($event: any, copyText?: string): void {
         $event.preventDefault();
         $event.stopPropagation();
         this.contextMenuService.show(this.onlyCopyContextMenu, {
@@ -278,7 +281,7 @@ export class VariablesService {
         });
     }
 
-    onContextMenuPasteSelect($event: MouseEvent): void {
+    onContextMenuPasteSelect($event: any): void {
         $event.target['contextSelectionStart'] = $event.target['selectionStart'];
         $event.target['contextSelectionEnd'] = $event.target['selectionEnd'];
 

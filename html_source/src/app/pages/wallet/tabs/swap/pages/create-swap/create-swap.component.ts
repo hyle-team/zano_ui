@@ -6,13 +6,7 @@ import { BreadcrumbsComponent } from '@parts/components/breadcrumbs/breadcrumbs.
 import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
 import { DefaultImgModule, InputValidateModule, LowerCaseDirective } from '@parts/directives';
 import { AbstractControl, FormBuilder, FormControl, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
-import {
-    IntToMoneyPipe,
-    IntToMoneyPipeModule,
-    MoneyToIntPipe,
-    MoneyToIntPipeModule,
-    ShortStringPipe
-} from '@parts/pipes';
+import { IntToMoneyPipe, IntToMoneyPipeModule, MoneyToIntPipe, MoneyToIntPipeModule, ShortStringPipe } from '@parts/pipes';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { VariablesService } from '@parts/services/variables.service';
 import { AssetBalance, AssetInfo } from '@api/models/assets.model';
@@ -159,11 +153,19 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
                 asset_id: this.fb.control(zanoAssetInfo.asset_id, [Validators.required]),
             }),
             receiving: this.fb.group({
-                amount: this.fb.control({ value: null, disabled: this.currentWallet.isEmptyAssetsInfoWhitelist }, [Validators.required, Validators.min(0.000000000001)]),
-                asset_id: this.fb.control({
-                    value: this.currentWallet.isEmptyAssetsInfoWhitelist ? null : (this.allAssetsInfo[1].asset_id ?? zanoAssetInfo.asset_id),
-                    disabled: this.currentWallet.isEmptyAssetsInfoWhitelist
-                }, [Validators.required]),
+                amount: this.fb.control({ value: null, disabled: this.currentWallet.isEmptyAssetsInfoWhitelist }, [
+                    Validators.required,
+                    Validators.min(0.000000000001),
+                ]),
+                asset_id: this.fb.control(
+                    {
+                        value: this.currentWallet.isEmptyAssetsInfoWhitelist
+                            ? null
+                            : this.allAssetsInfo[1].asset_id ?? zanoAssetInfo.asset_id,
+                        disabled: this.currentWallet.isEmptyAssetsInfoWhitelist,
+                    },
+                    [Validators.required]
+                ),
             }),
             receiverAddress: this.fb.control('', [
                 Validators.required,
@@ -240,11 +242,11 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
 
         this.sendingAssetsInfo$ = this.form.controls.receiving.controls.asset_id.valueChanges.pipe(
             startWith(this.form.controls.receiving.controls.asset_id.value),
-            map((asset_id) => this.allAssetsInfo.filter((v) => v.asset_id !== asset_id))
+            map(asset_id => this.allAssetsInfo.filter(v => v.asset_id !== asset_id))
         );
         this.receivingAssetsInfo$ = this.form.controls.sending.controls.asset_id.valueChanges.pipe(
             startWith(this.form.controls.sending.controls.asset_id.value),
-            map((asset_id) => this.allAssetsInfo.filter((v) => v.asset_id !== asset_id))
+            map(asset_id => this.allAssetsInfo.filter(v => v.asset_id !== asset_id))
         );
     }
 
@@ -376,15 +378,15 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
 
         this.backendService.call_wallet_rpc([wallet_id, params2], (status, response_data) => {
             if (response_data?.result) {
-                        this.ngZone.run(() => {
-                            this.router
-                                .navigateByUrl('/wallet/swap-proposal-hex', {
-                                    state: {
-                                        hex_raw_proposal: response_data.result['hex_raw_proposal'],
-                                    },
-                                })
-                                .then();
-                        });
+                this.ngZone.run(() => {
+                    this.router
+                        .navigateByUrl('/wallet/swap-proposal-hex', {
+                            state: {
+                                hex_raw_proposal: response_data.result['hex_raw_proposal'],
+                            },
+                        })
+                        .then();
+                });
             } else {
                 this.ngZone.run(() => {
                     this.errorRpc = response_data.error;

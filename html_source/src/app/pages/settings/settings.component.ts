@@ -111,7 +111,6 @@ import { debounceTime } from 'rxjs/operators';
                             <app-switch (emitChange)="toggleUseTor()" [disabled]="true" [value]="false && appUseTor"></app-switch>
                         </div>
 
-
                         <form [formGroup]="zanoCompanionForm">
                             <div class="form__field">
                                 <label>{{ 'SETTINGS.FORM.ZANO_COMPANION.LABELS.LABEL1' | translate }}</label>
@@ -123,10 +122,7 @@ import { debounceTime } from 'rxjs/operators';
                                         <label for="field-secret">{{ 'SETTINGS.FORM.ZANO_COMPANION.LABELS.LABEL2' | translate }}</label>
                                         <input
                                             (contextmenu)="
-                                                variablesService.onContextMenuOnlyCopy(
-                                                    $event,
-                                                    zanoCompanionForm.controls['secret'].value
-                                                )
+                                                variablesService.onContextMenuOnlyCopy($event, zanoCompanionForm.controls['secret'].value)
                                             "
                                             [class.invalid]="zanoCompanionForm.controls['secret'].invalid"
                                             [readonly]="true"
@@ -144,10 +140,7 @@ import { debounceTime } from 'rxjs/operators';
                                         <label for="field-port">{{ 'SETTINGS.FORM.ZANO_COMPANION.LABELS.LABEL3' | translate }}</label>
                                         <input
                                             (contextmenu)="
-                                                variablesService.onContextMenuOnlyCopy(
-                                                    $event,
-                                                    this.variablesService.rpc_port?.toString()
-                                                )
+                                                variablesService.onContextMenuOnlyCopy($event, this.variablesService.rpc_port?.toString())
                                             "
                                             [readonly]="true"
                                             [value]="this.variablesService.rpc_port"
@@ -159,7 +152,6 @@ import { debounceTime } from 'rxjs/operators';
                                 </div>
                             </ng-container>
                         </form>
-
 
                         <form (ngSubmit)="onSubmitChangePass()" [formGroup]="changeForm">
                             <h4 class="master-password-title mb-2">
@@ -325,8 +317,8 @@ export class SettingsComponent implements OnInit {
     );
 
     zanoCompanionForm: FormGroup<{
-        zanoCompation: FormControl<boolean>,
-        secret: FormControl<string>
+        zanoCompation: FormControl<boolean>;
+        secret: FormControl<string>;
     }> = this.fb.group({
         zanoCompation: this.fb.nonNullable.control({ value: false, disabled: !this.variablesService.hasAppPass }),
         secret: this.fb.nonNullable.control(
@@ -461,11 +453,11 @@ export class SettingsComponent implements OnInit {
                     return;
                 }
 
-                if (zanoCompation && secret || !zanoCompation && !secret) {
+                if ((zanoCompation && secret) || (!zanoCompation && !secret)) {
                     this.backend.setupJwtWalletRpc(value);
                     return;
                 }
-            }
+            },
         });
     }
 
