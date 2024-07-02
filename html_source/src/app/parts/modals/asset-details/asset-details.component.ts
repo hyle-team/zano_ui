@@ -1,10 +1,9 @@
-import { Component, inject, Inject, NgZone, OnInit } from '@angular/core';
+import { Component, inject, Inject, NgZone } from '@angular/core';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { VariablesService } from '@parts/services/variables.service';
-import { AssetInfo } from '@api/models/assets.model';
+import { AssetBalance } from '@api/models/assets.model';
 import { zanoAssetInfo } from '@parts/data/assets';
 import { BackendService } from '@api/services/backend.service';
-import { ParamsCallRpc } from '@api/models/call_rpc.model';
 
 @Component({
     selector: 'app-asset-details',
@@ -14,32 +13,33 @@ import { ParamsCallRpc } from '@api/models/call_rpc.model';
                 <h3 class="title mb-2" fxFlex="0 0 auto">
                     {{ title | translate }}
                 </h3>
-                <ng-container *ngIf="assetInfo; else templateEmpty">
+                <ng-container *ngIf="asset; else templateEmpty">
                     <div class="content mb-2 w-100 overflow-x-hidden overflow-y-auto" fxFlex="1 1 auto">
                         <table class="rounded-corners">
                             <tbody>
                             <tr>
                                 <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.NAME' | translate }}</td>
-                                <td>{{ assetInfo.full_name }}</td>
+                                <td>{{ asset.asset_info.full_name }}</td>
                             </tr>
                             <tr>
                                 <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.TICKER' | translate }}</td>
-                                <td>{{ assetInfo.ticker }}</td>
+                                <td>{{ asset.asset_info.ticker }}</td>
                             </tr>
                             <tr>
                                 <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.OWNER' | translate }}</td>
-                                <td (contextmenu)="variablesService.onContextMenuOnlyCopy($event, assetInfo.owner)">{{ assetInfo.owner }}</td>
+                                <td (contextmenu)="variablesService.onContextMenuOnlyCopy($event, asset.asset_info.owner)">{{ asset.asset_info.owner }}</td>
                             </tr>
                             <tr>
                                 <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.ID' | translate }}</td>
-                                <td (contextmenu)="variablesService.onContextMenuOnlyCopy($event, assetInfo.asset_id)">{{ assetInfo.asset_id }}</td>
+                                <td (contextmenu)="variablesService.onContextMenuOnlyCopy($event, asset.asset_info.asset_id)">{{ asset.asset_info.asset_id }}</td>
                             </tr>
                             <tr>
                                 <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.CURRENT_SUPPLY' | translate }}</td>
                                 <td>{{
-                                        assetInfo.asset_id === zanoAssetInfo.asset_id
-                                            ? (zano_current_supply | intToMoney: zanoAssetInfo.decimal_point)
-                                            : (assetInfo.current_supply | intToMoney: assetInfo.decimal_point)
+                                        (asset.asset_info.asset_id === zanoAssetInfo.asset_id
+                                                ? (variablesService.zano_current_supply ?? 'Unknown')
+                                                : asset.asset_info.current_supply
+                                        ) | intToMoney : asset.asset_info.decimal_point
                                     }}
                                 </td>
                             </tr>
@@ -47,9 +47,9 @@ import { ParamsCallRpc } from '@api/models/call_rpc.model';
                                 <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.MAX_SUPPLE' | translate }}</td>
                                 <td>
                                     {{
-                                        assetInfo.asset_id === zanoAssetInfo.asset_id
+                                        asset.asset_info.asset_id === zanoAssetInfo.asset_id
                                             ? 'Uncapped'
-                                            : assetInfo.total_max_supply | intToMoney: assetInfo.decimal_point
+                                            : (asset.asset_info.total_max_supply | intToMoney : asset.asset_info.decimal_point)
                                     }}
                                 </td>
                             </tr>
@@ -68,10 +68,10 @@ import { ParamsCallRpc } from '@api/models/call_rpc.model';
     `,
     styleUrls: ['./asset-details.component.scss'],
 })
-export class AssetDetailsComponent implements OnInit {
+export class AssetDetailsComponent {
     title = 'Asset Details';
 
-    assetInfo!: AssetInfo;
+    asset!: AssetBalance;
 
     zanoAssetInfo = zanoAssetInfo;
 
@@ -79,41 +79,16 @@ export class AssetDetailsComponent implements OnInit {
 
     ngZone = inject(NgZone);
 
-    zano_current_supply = 'Unknown';
-
     constructor(
         public variablesService: VariablesService,
         private dialogRef: DialogRef,
-        @Inject(DIALOG_DATA) { assetInfo, title }: { assetInfo: AssetInfo; title?: string }
+        @Inject(DIALOG_DATA) { asset, title }: { asset: AssetBalance; title?: string }
     ) {
-        this.assetInfo = assetInfo;
+        this.asset = asset;
 
         if (title) {
             this.title = title;
         }
-    }
-
-    ngOnInit(): void {
-        if (this.assetInfo.asset_id === zanoAssetInfo.asset_id) {
-            this.getZanoCurrentSupply();
-        }
-    }
-
-    private getZanoCurrentSupply(): void {
-        const params: ParamsCallRpc = {
-            jsonrpc: '2.0',
-            id: 0,
-            method: 'getinfo',
-            params: {
-                flags: 1024,
-            },
-        };
-
-        this.backendService.call_rpc(params, (status, response_data) => {
-            this.ngZone.run(() => {
-                this.zano_current_supply = response_data?.['result']?.['total_coins'] ?? 'Unknown';
-            });
-        });
     }
 
     close(): void {

@@ -9,7 +9,7 @@ import { BigNumber } from 'bignumber.js';
 export class IntToMoneyPipe implements PipeTransform {
     constructor(private variablesService: VariablesService) {}
 
-    transform(value: number | string | BigNumber, decimal_point = this.variablesService.digits): any {
+    transform(value: number | string | BigNumber, decimal_point = this.variablesService.decimal_point): any {
         return intToMoney(value, decimal_point);
     }
 }

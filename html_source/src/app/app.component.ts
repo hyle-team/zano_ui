@@ -14,6 +14,7 @@ import { paths, pathsChildrenAuth } from './pages/paths';
 import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { Dialog } from '@angular/cdk/dialog';
 import { ZanoLoadersService } from '@parts/services/zano-loaders.service';
+import { ParamsCallRpc } from '@api/models/call_rpc.model';
 
 @Component({
     selector: 'app-root',
@@ -725,6 +726,7 @@ export class AppComponent implements OnInit, OnDestroy {
                 setTimeout(() => {
                     this.backendService.getOptions();
                     this.getInfo();
+                    this._getZanoCurrentSupply();
                 }, 10 * 1000);
             },
             error: error => {
@@ -874,5 +876,22 @@ export class AppComponent implements OnInit, OnDestroy {
         };
         getInfo();
         setInterval(getInfo, updateTime);
+    }
+
+    private _getZanoCurrentSupply(): void {
+        const params: ParamsCallRpc = {
+            jsonrpc: '2.0',
+            id: 0,
+            method: 'getinfo',
+            params: {
+                flags: 1024,
+            },
+        };
+
+        this.backendService.call_rpc(params, (status, response_data) => {
+            this.ngZone.run(() => {
+                this.variablesService.zano_current_supply = response_data?.['result']?.['total_coins'] ?? 'Unknown';
+            });
+        });
     }
 }

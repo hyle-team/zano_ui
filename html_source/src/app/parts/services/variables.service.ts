@@ -1,19 +1,21 @@
 import { Injectable, NgZone } from '@angular/core';
 import { DeeplinkParams, Wallet } from '@api/models/wallet.model';
 import { Contact } from '@api/models/contact.model';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Idle } from 'idlejs/dist';
 import { Router } from '@angular/router';
 import { ContextMenuComponent, ContextMenuService } from '@perfectmemory/ngx-contextmenu';
 import { BigNumber } from 'bignumber.js';
 import { Aliases } from '@api/models/alias.model';
-import { distinctUntilChanged, map, startWith } from 'rxjs/operators';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root',
 })
 export class VariablesService {
     disable_price_fetch$ = new BehaviorSubject<boolean>(false);
+
+    zano_current_supply = undefined;
 
     rpc_port!: number;
 
@@ -32,13 +34,12 @@ export class VariablesService {
 
     sync_started = false;
 
-    digits = 12;
+    decimal_point = 12;
 
     appPass = '';
 
-    get hasAppPass(): boolean {
-        return Boolean(this.appPass);
-    }
+    // \(2^{64}-1\) => (18,446,744,073,709,551,615)
+    max_amount_for_send: BigNumber = new BigNumber('18446744073709551615');
 
     appLogin = false;
 
@@ -78,13 +79,19 @@ export class VariablesService {
     };
 
     public sync_wallets: { [wallet_id: number]: boolean } = {};
+
     download = {
         progress_value: 0,
         progress_value_text: '0',
     };
-    get_recent_transfers = false; // avoid of execute function before callback complete
+
+    // Avoid of execute function before callback complete
+    get_recent_transfers = false;
+
     default_fee = '0.010000000000';
+
     default_fee_big = new BigNumber('10000000000');
+
     settings = {
         appLockTime: 15,
         appLog: 0,
@@ -100,29 +107,54 @@ export class VariablesService {
         },
         wallets: [],
     };
+
     count = 40;
+
     maxPages = 5;
+
     testnet = false;
-    networkType = ''; // testnet of mainnet
+
+    // Testnet or Mainnet
+    networkType = '';
+
     wallets: Array<Wallet> = [];
+
     currentWallet: Wallet;
+
     aliases: Aliases = [];
+
     aliasesChecked: any = {};
+
     enableAliasSearch = false;
+
     maxWalletNameLength = 25;
+
     maxCommentLength = 255;
+
     dataIsLoaded = false;
+
     contacts: Array<Contact> = [];
+
     pattern = '^[a-zA-Z0-9_.\\]*|~!?@#$%^&+{}()<>:;"\'-=/,[\\\\]*$';
+
     after_sync_request: any = {};
+
     getExpMedTsEvent = new BehaviorSubject(null);
+
     getHeightAppEvent = new BehaviorSubject(null);
+
     getHeightMaxEvent = new BehaviorSubject(null);
+
     getDownloadedAppEvent = new BehaviorSubject(null);
+
     getTotalEvent = new BehaviorSubject(null);
+
     getRefreshStackingEvent = new BehaviorSubject(null);
+
     getAliasChangedEvent = new BehaviorSubject(null);
+
     currentWalletChangedEvent = new BehaviorSubject<Wallet>(null);
+
     idle = new Idle().whenNotInteractive().do(async () => {
         if (this.appPass === '') {
             this.stopCountdown();
@@ -137,11 +169,18 @@ export class VariablesService {
             });
         }
     });
+
     allContextMenu: ContextMenuComponent<any>;
+
     onlyCopyContextMenu: ContextMenuComponent<any>;
+
     pasteSelectContextMenu: ContextMenuComponent<any>;
 
     constructor(private router: Router, private ngZone: NgZone, private contextMenuService: ContextMenuService<any>) {}
+
+    get hasAppPass(): boolean {
+        return Boolean(this.appPass);
+    }
 
     get isCurrentWalletSync(): boolean {
         if (this.currentWallet) {

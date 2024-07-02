@@ -28,7 +28,7 @@ export class Wallet {
     path: string;
     address: string;
 
-    private _balances$ = new BehaviorSubject<AssetBalances | null | undefined>(undefined);
+    private _balances$: BehaviorSubject<AssetBalances> = new BehaviorSubject<AssetBalances>([]);
 
     private _assetsInfoWhitelist: AssetsInfoWhitelist = { global_whitelist: [], local_whitelist: [], own_assets: [] };
 
@@ -53,11 +53,11 @@ export class Wallet {
         return [zanoAssetInfo, ...this.allAssetsInfoWhitelist];
     }
 
-    get balances$(): Observable<AssetBalances | null | undefined> {
+    get balances$(): Observable<AssetBalances> {
         return this._balances$.asObservable();
     }
 
-    get balances(): AssetBalances | null | undefined {
+    get balances(): AssetBalances {
         return this._balances$.value;
     }
 
@@ -144,8 +144,12 @@ export class Wallet {
         this.loaded = false;
     }
 
+    getBalanceByAssetId(value: string): AssetBalance | undefined {
+        return this.balances.find(({ asset_info: { asset_id } }) => asset_id === value);
+    }
+
     getBalanceByTicker(searchTicker: string): AssetBalance | undefined {
-        return this.balances?.find(({ asset_info: { ticker } }) => ticker === searchTicker);
+        return this.balances.find(({ asset_info: { ticker } }) => ticker === searchTicker);
     }
 
     getMoneyEquivalentForZano(equivalent): string {

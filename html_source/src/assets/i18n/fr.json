@@ -357,7 +357,9 @@
     },
     "ERRORS": {
         "ACCESS_DENIED": "Accès refusé",
+        "AMOUNT_GREATER_CURRENT_SUPPLY": "Amount greater current supply",
         "ASSET_HAS_NOT_BEEN_ADDED_TO_WALLET": "Asset has not been added to your wallet",
+        "ASSET_NOT_FOUND": "Asset not found",
         "BAD_ARG": "Argument invalide",
         "CANNOT_BE_GREATER_THAN_TOTAL_MAX_SUPPLY": "Cannot be greater than Total max supply",
         "CORE_BUSY": "Erreur interne : le noyau est occupé",
