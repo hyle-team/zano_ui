@@ -1169,7 +1169,7 @@ body {
   background-color: var(--gray-900);
   color: var(--white-500) !important;
 }.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-disabled {
-  color: var(--white-500) !important;
+  color: rgba(255, 255, 255, 0.5) !important;
 }.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-child {
   padding-left: 2.2rem;
 }[dir=rtl] .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-child {

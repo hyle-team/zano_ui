@@ -304,7 +304,9 @@
     },
     "ERRORS": {
         "ACCESS_DENIED": "Accès refusé",
+        "AMOUNT_GREATER_CURRENT_SUPPLY": "Amount greater current supply",
         "ASSET_HAS_NOT_BEEN_ADDED_TO_WALLET": "Asset has not been added to your wallet",
+        "ASSET_NOT_FOUND": "Asset not found",
         "BAD_ARG": "Argument invalide",
         "CORE_BUSY": "Erreur interne : le noyau est occupé",
         "DAEMON_BUSY": "Erreur interne : le daemon est occupé",
@@ -314,6 +316,7 @@
         "FILE_RESTORED": "Le fichier de portefeuille a été corrompu. Nous avons récupéré les clés et le portefeuille de la blockchain",
         "INSUFFICIENT_FUNDS": "Insufficient funds for this transaction",
         "INVALID_PROPOSAL": "Invalid proposal",
+        "MAX": "Max {{ max }}",
         "NOT_ENOUGH_MONEY": "Fonds insuffisants dans le compte",
         "NOT_ENOUGH_OUTPUTS_TO_MIX": "Le nombre de mixage est trop grand pour l'état actuel de la blockchain. Il n'y a pas assez de sorties non utilisées pour mélanger avec",
         "NOT_FILE_ZANO_WALLET": "This file is not recognized as a Zano wallet..",

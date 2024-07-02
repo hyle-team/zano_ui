@@ -304,7 +304,9 @@
     },
     "ERRORS": {
         "ACCESS_DENIED": "Access denied",
+        "AMOUNT_GREATER_CURRENT_SUPPLY": "Amount greater current supply",
         "ASSET_HAS_NOT_BEEN_ADDED_TO_WALLET": "Asset has not been added to your wallet",
+        "ASSET_NOT_FOUND": "Asset not found",
         "BAD_ARG": "Invalid argument",
         "CORE_BUSY": "Internal error: core is busy",
         "DAEMON_BUSY": "Internal error: daemon is busy",
@@ -314,6 +316,7 @@
         "FILE_RESTORED": "The wallet file was corrupted. We have recovered the keys and the wallet from the blockchain",
         "INSUFFICIENT_FUNDS": "Insufficient funds for this transaction",
         "INVALID_PROPOSAL": "Invalid proposal",
+        "MAX": "Max {{ max }}",
         "NOT_ENOUGH_MONEY": "Insufficient funds in account",
         "NOT_ENOUGH_OUTPUTS_TO_MIX": "Mix-in number is too big for current blockchain state. There are not enough unspent outputs to mix with",
         "NOT_FILE_ZANO_WALLET": "This file is not recognized as a Zano wallet..",
