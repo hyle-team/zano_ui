@@ -292,7 +292,9 @@
     },
     "ERRORS": {
         "ACCESS_DENIED": "Accesso negato",
+        "AMOUNT_GREATER_CURRENT_SUPPLY": "Amount greater current supply",
         "ASSET_HAS_NOT_BEEN_ADDED_TO_WALLET": "Asset has not been added to your wallet",
+        "ASSET_NOT_FOUND": "Asset not found",
         "BAD_ARG": "Argomento non valido",
         "CORE_BUSY": "Errore interno: il core è occupato",
         "DAEMON_BUSY": "Errore interno: daemon è occupato",
@@ -302,6 +304,7 @@
         "FILE_RESTORED": "Il file del portafoglio è stato danneggiato. Abbiamo recuperato le chiavi e il portafoglio dalla blockchain",
         "INSUFFICIENT_FUNDS": "Insufficient funds for this transaction",
         "INVALID_PROPOSAL": "Invalid proposal",
+        "MAX": "Max {{ max }}",
         "NOT_ENOUGH_MONEY": "Fondi insufficienti nell'account",
         "NOT_ENOUGH_OUTPUTS_TO_MIX": "Il numero di Mix-in è troppo grande per lo stato corrente della blockchain. Non ci sono abbastanza output non spesi per mescolare con",
         "NOT_FILE_ZANO_WALLET": "This file is not recognized as a Zano wallet..",

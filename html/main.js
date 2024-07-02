@@ -11438,7 +11438,7 @@ class SendComponent {
     this.zanoAssetInfo = _parts_data_assets__WEBPACK_IMPORTED_MODULE_8__.zanoAssetInfo;
     this.defaultImgSrc = _parts_data_assets__WEBPACK_IMPORTED_MODULE_8__.defaultImgSrc;
     this.isVisibleDropdownAliases$ = new rxjs__WEBPACK_IMPORTED_MODULE_20__.BehaviorSubject(false);
-    this.isVisibleDropdownAliasesObservable$ = this.isVisibleDropdownAliases$.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_21__.delay)(250));
+    this.isVisibleDropdownAliasesObservable$ = this.controllerVisibleDropdownAliasesState$.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_21__.delay)(250));
     this.isModalDialogVisible = false;
     this.isModalDetailsDialogVisible = false;
     this.hideWalletAddress = false;
@@ -11557,7 +11557,7 @@ class SendComponent {
         }, control => {
           var _a, _b;
 
-          const asset_id = (_a = this.sendMoneyParamsForm) === null || _a === void 0 ? void 0 : _a.controls.asset_id.value;
+          const asset_id = (_a = this.form) === null || _a === void 0 ? void 0 : _a.controls.asset_id.value;
 
           if (!asset_id) {
             return null;
@@ -11601,7 +11601,7 @@ class SendComponent {
   }
 
   get sendMoneyParams() {
-    return this.sendMoneyParamsForm.getRawValue();
+    return this.form.getRawValue();
   }
 
   ngOnInit() {
@@ -11626,7 +11626,7 @@ class SendComponent {
           asset_id
         }
       } = asset;
-      this.sendMoneyParamsForm.controls.asset_id.patchValue(asset_id, {
+      this.form.controls.asset_id.patchValue(asset_id, {
         emitEvent: false
       });
     }
@@ -11638,11 +11638,11 @@ class SendComponent {
   }
 
   showDialog() {
-    this.isModalDialogVisible = true;
+    this.isSendModalState = true;
   }
 
   confirmed(confirmed) {
-    this.isModalDialogVisible = false;
+    this.isSendModalState = false;
 
     if (confirmed) {
       this.onSend();
@@ -11650,11 +11650,11 @@ class SendComponent {
   }
 
   onSend() {
-    if (this.sendMoneyParamsForm.valid) {
+    if (this.form.valid) {
       const {
         address
-      } = this.sendMoneyParamsForm.getRawValue();
-      let sendMoneyParams = { ...this.sendMoneyParamsForm.getRawValue()
+      } = this.form.getRawValue();
+      let sendMoneyParams = { ...this.form.getRawValue()
       };
 
       if (address.indexOf('@') === 0) {
@@ -11664,7 +11664,7 @@ class SendComponent {
         }) => name === aliasName);
 
         if (!alias) {
-          this.sendMoneyParamsForm.controls.address.setErrors({
+          this.form.controls.address.setErrors({
             alias_not_found: true
           });
           return;
@@ -11678,7 +11678,7 @@ class SendComponent {
       this.backendService.sendMoney(sendMoneyParams, job_id => {
         this.ngZone.run(() => {
           this.job_id = job_id;
-          this.isModalDetailsDialogVisible = true;
+          this.isSendDetailsModalState = true;
           this.variablesService.currentWallet.sendMoneyParams = null;
         });
       });
@@ -11686,7 +11686,7 @@ class SendComponent {
   }
 
   getReceivedValue() {
-    const amount = this.moneyToInt.transform(this.sendMoneyParamsForm.value.amount);
+    const amount = this.moneyToInt.transform(this.form.value.amount);
     const needed = new bignumber_js__WEBPACK_IMPORTED_MODULE_1__.BigNumber(this.wrapInfo.tx_cost.zano_needed_for_erc20);
 
     if (amount && needed) {
@@ -11697,7 +11697,7 @@ class SendComponent {
   }
 
   handeCloseDetailsModal(success) {
-    this.isModalDetailsDialogVisible = false;
+    this.isSendDetailsModalState = false;
     this.job_id = null;
 
     if (success) {
@@ -11707,7 +11707,7 @@ class SendComponent {
         }
       } = this.variablesService;
       this.variablesService.currentWallet.sendMoneyParams = null;
-      this.sendMoneyParamsForm.reset({ ..._api_models_wallet_model__WEBPACK_IMPORTED_MODULE_6__.defaultSendMoneyParams,
+      this.form.reset({ ..._api_models_wallet_model__WEBPACK_IMPORTED_MODULE_6__.defaultSendMoneyParams,
         wallet_id
       }, {
         emitEvent: false
@@ -11724,7 +11724,7 @@ class SendComponent {
 
     if (currentWallet.sendMoneyParams) {
       sendMoneyParams = currentWallet.sendMoneyParams;
-      this.sendMoneyParamsForm.markAllAsTouched();
+      this.form.markAllAsTouched();
     } else {
       sendMoneyParams = { ..._api_models_wallet_model__WEBPACK_IMPORTED_MODULE_6__.defaultSendMoneyParams,
         fee: default_fee
@@ -11733,23 +11733,23 @@ class SendComponent {
 
     if (currentWallet.is_auditable && !currentWallet.is_watch_only) {
       sendMoneyParams.hide = true;
-      this.sendMoneyParamsForm.controls['hide'].disable();
+      this.form.controls['hide'].disable();
     }
 
     if (currentWallet.is_auditable) {
       sendMoneyParams.mixin = 0;
-      this.sendMoneyParamsForm.controls['mixin'].disable();
+      this.form.controls['mixin'].disable();
     }
 
     sendMoneyParams.wallet_id = currentWallet.wallet_id;
-    this.sendMoneyParamsForm.patchValue(sendMoneyParams, {
+    this.form.patchValue(sendMoneyParams, {
       emitEvent: false
     });
   }
 
   fillDeepLinkData(value) {
-    this.additionalOptions = true;
-    this.sendMoneyParamsForm.patchValue({
+    this.isVisibleAdditionalOptionsState = true;
+    this.form.patchValue({
       address: value.address,
       amount: value.amount || null,
       comment: value.comment || value.comments || '',
@@ -11789,7 +11789,7 @@ class SendComponent {
       value = value.toLowerCase();
     }
 
-    this.sendMoneyParamsForm.controls.address.patchValue(value);
+    this.form.controls.address.patchValue(value);
   }
 
   inputListenAddressField(event) {
@@ -11798,7 +11798,7 @@ class SendComponent {
         value
       }
     } = event;
-    (0,rxjs__WEBPACK_IMPORTED_MODULE_27__.of)(value !== null && value !== void 0 ? value : '').pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_24__.tap)(v => this.lowerCaseDisabled$.next(v.indexOf('@') !== 0)), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_24__.tap)(v => this.isVisibleDropdownAliases$.next(!!v.length && v.indexOf('@') === 0)), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_28__.filter)(v => v.indexOf('@') === 0), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_29__.take)(1)).subscribe({
+    (0,rxjs__WEBPACK_IMPORTED_MODULE_27__.of)(value !== null && value !== void 0 ? value : '').pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_24__.tap)(v => this.lowerCaseDisabled$.next(v.indexOf('@') !== 0)), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_24__.tap)(v => this.controllerVisibleDropdownAliasesState$.next(!!v.length && v.indexOf('@') === 0)), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_28__.filter)(v => v.indexOf('@') === 0), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_29__.take)(1)).subscribe({
       next: v => {
         const filteredAliases = this.variablesService.aliases.filter(({
           name
@@ -11824,9 +11824,9 @@ class SendComponent {
   }
 
   saveSendMoneyParams() {
-    this.sendMoneyParamsForm.valueChanges.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_30__.debounceTime)(200), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_26__.takeUntil)(this.destroy$)).subscribe({
+    this.form.valueChanges.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_30__.debounceTime)(200), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_26__.takeUntil)(this.destroy$)).subscribe({
       next: () => {
-        this.variablesService.currentWallet.sendMoneyParams = this.sendMoneyParamsForm.getRawValue();
+        this.variablesService.currentWallet.sendMoneyParams = this.form.getRawValue();
       }
     });
   }

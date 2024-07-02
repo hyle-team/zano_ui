@@ -39,7 +39,8 @@ import { ParamsCallRpc } from '@api/models/call_rpc.model';
                                 <div class="label max-w-19-rem w-100">
                                     {{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.ID' | translate }}
                                 </div>
-                                <div class="text" (contextmenu)="variablesService.onContextMenuOnlyCopy($event, asset.asset_info.asset_id)">
+                                <div (contextmenu)="variablesService.onContextMenuOnlyCopy($event, asset.asset_info.asset_id)"
+                                     class="text">
                                     {{ asset.asset_info.asset_id }}
                                 </div>
                             </div>
@@ -53,8 +54,8 @@ import { ParamsCallRpc } from '@api/models/call_rpc.model';
                                 <div class="text">
                                     {{
                                         (asset.asset_info.asset_id === zanoAssetInfo.asset_id
-                                            ? zano_current_supply
-                                            : asset.asset_info.current_supply
+                                                ? (variablesService.zano_current_supply ?? 'Unknown')
+                                                : asset.asset_info.current_supply
                                         ) | intToMoney : asset.asset_info.decimal_point
                                     }}
                                 </div>
@@ -96,7 +97,7 @@ import { ParamsCallRpc } from '@api/models/call_rpc.model';
         `,
     ],
 })
-export class AssetDetailsComponent implements OnInit {
+export class AssetDetailsComponent {
     title = 'Asset Details';
 
     asset!: AssetBalance;
@@ -106,8 +107,6 @@ export class AssetDetailsComponent implements OnInit {
     backendService = inject(BackendService);
 
     ngZone = inject(NgZone);
-
-    zano_current_supply = 'Unknown';
 
     constructor(
         public variablesService: VariablesService,
@@ -119,29 +118,6 @@ export class AssetDetailsComponent implements OnInit {
         if (title) {
             this.title = title;
         }
-    }
-
-    ngOnInit(): void {
-        if (this.asset.asset_info.asset_id === zanoAssetInfo.asset_id) {
-            this.getZanoCurrentSupply();
-        }
-    }
-
-    private getZanoCurrentSupply(): void {
-        const params: ParamsCallRpc = {
-            jsonrpc: '2.0',
-            id: 0,
-            method: 'getinfo',
-            params: {
-                flags: 1024,
-            },
-        };
-
-        this.backendService.call_rpc(params, (status, response_data) => {
-            this.ngZone.run(() => {
-                this.zano_current_supply = response_data?.['result']?.['total_coins'] ?? 'Unknown';
-            });
-        });
     }
 
     close(): void {

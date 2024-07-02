@@ -292,7 +292,9 @@
     },
     "ERRORS": {
         "ACCESS_DENIED": "Akses ditolak",
+        "AMOUNT_GREATER_CURRENT_SUPPLY": "Amount greater current supply",
         "ASSET_HAS_NOT_BEEN_ADDED_TO_WALLET": "Asset has not been added to your wallet",
+        "ASSET_NOT_FOUND": "Asset not found",
         "BAD_ARG": "Argumen tidak valid",
         "CORE_BUSY": "Kesalahan intenal: inti sedang sibuk",
         "DAEMON_BUSY": "Kesalahan intenal: daemon sedang sibuk",
@@ -302,6 +304,7 @@
         "FILE_RESTORED": "File dompet rusak. Kami telah memulihkan kunci dan dompet dari blockchain",
         "INSUFFICIENT_FUNDS": "Insufficient funds for this transaction",
         "INVALID_PROPOSAL": "Invalid proposal",
+        "MAX": "Max {{ max }}",
         "NOT_ENOUGH_MONEY": "Dana di akun tidak cukup",
         "NOT_ENOUGH_OUTPUTS_TO_MIX": "Mixin terlalu besar untuk keadaan blockchain saat ini. Tidak ada cukup keluaran yang tidak terpakai untuk digabungkan",
         "NOT_FILE_ZANO_WALLET": "This file is not recognized as a Zano wallet..",
