@@ -1,15 +1,34 @@
 import { Component, inject } from '@angular/core';
 import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
 import { VariablesService } from '@parts/services/variables.service';
-import { AbstractControl, NonNullableFormBuilder, ValidationErrors, Validators } from '@angular/forms';
-import { ConfirmCreateCustomAssetComponent } from '../../modals/confirm-create-custom-asset/confirm-create-custom-asset.component';
+import {
+    AbstractControl,
+    FormControl,
+    FormGroup,
+    NonNullableFormBuilder,
+    ValidationErrors,
+    Validators
+} from '@angular/forms';
+import {
+    ConfirmCreateCustomAssetComponent
+} from '../../modals/confirm-create-custom-asset/confirm-create-custom-asset.component';
 import { Dialog, DialogConfig } from '@angular/cdk/dialog';
-import { AssetDescriptor, DeployAssetParams, Destinations, ResponseDeployAsset } from '@api/models/custom-asstest.model';
+import { AssetDescriptor, DeployAssetParams, Destinations } from '@api/models/custom-asstest.model';
 import { filter, take } from 'rxjs/operators';
 import { BackendService } from '@api/services/backend.service';
-import { WalletsService } from '@parts/services/wallets.service';
 import { Router } from '@angular/router';
 import { BigNumber } from 'bignumber.js';
+import { moneyToInt } from '@parts/functions/money-to-int';
+
+type CreateNewAssetFrom = FormGroup<{
+    ticker: FormControl<string>;
+    full_name: FormControl<string>;
+    total_max_supply: FormControl<string>;
+    current_supply: FormControl<string>;
+    decimal_point: FormControl<string>;
+    meta_info: FormControl<string>;
+    hidden_supply: FormControl<boolean>;
+}>;
 
 @Component({
     selector: 'app-create-new-asset',
@@ -26,27 +45,32 @@ export class CreateNewAssetComponent {
             title: 'CREATE_NEW_ASSETS.BREADCRUMBS.BREADCRUMB2',
         },
     ];
+
     job_id: number;
+
     isModalDetailsDialogVisible = false;
+
     public readonly variablesService: VariablesService = inject(VariablesService);
-    private readonly _walletsService: WalletsService = inject(WalletsService);
+
     private readonly _backendService: BackendService = inject(BackendService);
+
     private readonly _fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
-    public form = this._fb.group(
+
+    public form: CreateNewAssetFrom = this._fb.group(
         {
-            ticker: this._fb.control(undefined, [Validators.required, Validators.minLength(2), Validators.maxLength(30)]),
-            full_name: this._fb.control(undefined, [Validators.required, Validators.minLength(2), Validators.maxLength(150)]),
-            total_max_supply: this._fb.control(undefined, [Validators.required]),
-            current_supply: this._fb.control(undefined, [Validators.required]),
-            decimal_point: this._fb.control(undefined, [Validators.required, Validators.min(1)]),
-            meta_info: this._fb.control('', [Validators.maxLength(255)]),
-            hidden_supply: this._fb.control(false),
+            ticker: this._fb.control<string>(undefined, [Validators.required, Validators.minLength(2), Validators.maxLength(30)]),
+            full_name: this._fb.control<string>(undefined, [Validators.required, Validators.minLength(2), Validators.maxLength(150)]),
+            total_max_supply: this._fb.control<string>(undefined, [Validators.required]),
+            current_supply: this._fb.control<string>(undefined, [Validators.required]),
+            decimal_point: this._fb.control<string>(undefined, [Validators.required, Validators.min(0), Validators.max(20)]),
+            meta_info: this._fb.control<string>('', [Validators.maxLength(255)]),
+            hidden_supply: this._fb.control<boolean>(false),
         },
         {
             validators: [
                 (control: AbstractControl) => {
                     const error = {
-                        current_supply: 'ERRORS.CANNOT_BE_GREATER_THAN_TOTAL_MAX_SUPPLY'
+                        current_supply: 'ERRORS.CANNOT_BE_GREATER_THAN_TOTAL_MAX_SUPPLY,
                     };
                     const total_max_supply = new BigNumber(control.get('total_max_supply').value);
                     const current_supply = new BigNumber(control.get('current_supply').value);
@@ -57,14 +81,15 @@ export class CreateNewAssetComponent {
 
                     return null;
                 },
-                (control: AbstractControl): ValidationErrors  => {
+                (control: AbstractControl): ValidationErrors => {
                     const error = {
                         total_max_supply: 'ERRORS.TO_BIG_TOTAL_SUPPLY'
                     };
                     const decimal_point = control.get('decimal_point').value;
-                    const multiplier = new BigNumber(10).pow(decimal_point);
-                    const total_max_supply = new BigNumber(control.get('total_max_supply').value).multipliedBy(multiplier);
-                    const max = new BigNumber(18000000).multipliedBy(new BigNumber(10).pow(12));
+                    const { value } = control.get('total_max_supply');
+                    const total_max_supply = moneyToInt(value, decimal_point);
+                    // \(2^{64}-1\) => (18,446,744,073,709,551,615)
+                    const max = new BigNumber('18446744073709551615');
 
                     if (max.isLessThan(total_max_supply)) {
                         return error;
@@ -75,7 +100,9 @@ export class CreateNewAssetComponent {
             ],
         }
     );
+
     private readonly _router: Router = inject(Router);
+
     private readonly _dialog: Dialog = inject(Dialog);
 
     submit(): void {
@@ -90,7 +117,7 @@ export class CreateNewAssetComponent {
             full_name,
             meta_info,
             hidden_supply,
-            decimal_point,
+            decimal_point: new BigNumber(decimal_point).toNumber(),
             total_max_supply: new BigNumber(total_max_supply).multipliedBy(multiplier).toString(),
         };
         const destinations: Destinations = [];
@@ -123,21 +150,30 @@ export class CreateNewAssetComponent {
             .closed.pipe(filter(Boolean), take(1))
             .subscribe({
                 next: () => {
-                    this._backendService.asyncCall2a('call_wallet_rpc', wallet_id, {
-                        jsonrpc: '2.0',
-                        id: 0,
-                        method: 'deploy_asset',
-                        params,
-                    }, async (job_id: number) => {
-                        this.job_id = job_id;
-                        this.isModalDetailsDialogVisible = true;
-                    });
+                    this._backendService.asyncCall2a(
+                        'call_wallet_rpc',
+                        wallet_id,
+                        {
+                            jsonrpc: '2.0',
+                            id: 0,
+                            method: 'deploy_asset',
+                            params
+                        },
+                        async (job_id: number): Promise<void> => {
+                            this.job_id = job_id;
+                            this.isModalDetailsDialogVisible = true;
+                        }
+                    );
                 },
             });
     }
 
-    handeCloseDetailsModal(success: boolean): void {
+    async handeCloseDetailsModal(success: boolean): Promise<void> {
         this.isModalDetailsDialogVisible = false;
         this.job_id = null;
+
+        if (success) {
+            await this._router.navigate(['/wallet/custom-assets']);
+        }
     }
 }

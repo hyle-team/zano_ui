@@ -87,7 +87,7 @@ export class CustomAssetsComponent {
             width: '54rem',
             maxWidth: '95vw',
             data: {
-                assetInfo: this.currentAssetInfo,
+                asset_info: this.currentAssetInfo,
             },
         };
         this.dialog.open(AssetDetailsComponent, dialogConfig);

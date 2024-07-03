@@ -3,7 +3,7 @@ import { VariablesService } from '@parts/services/variables.service';
 import { BackendService, Commands } from '@api/services/backend.service';
 import { Subject, take } from 'rxjs';
 import { StateKeys, Store, Sync } from '@store/store';
-import { distinctUntilChanged, filter, map, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { Dialog, DialogConfig } from '@angular/cdk/dialog';
 import { ConfirmModalComponent, ConfirmModalData } from '@parts/modals/confirm-modal/confirm-modal.component';
@@ -572,7 +572,7 @@ export class WalletComponent implements OnInit, OnDestroy {
                 next: asset => {
                     const dialogConfig: DialogConfig = {
                         data: {
-                            assetInfo: asset.asset_info,
+                            asset_info: asset.asset_info,
                             title: 'You added new asset',
                         },
                     };

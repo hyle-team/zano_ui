@@ -8,7 +8,6 @@ import { debounceTime, delay, filter, map, retry, startWith, take, takeUntil, ta
 import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
 import { AssetBalance } from '@api/models/assets.model';
 import { regExpAliasName } from '@parts/utils/zano-validators';
-import { IntToMoneyPipe } from '@parts/pipes';
 import { insuficcientFunds } from '@parts/utils/zano-errors';
 import { Alias, Aliases } from '@api/models/alias.model';
 import { DeeplinkParams, defaultSendMoneyParams } from '@api/models/wallet.model';
@@ -58,8 +57,6 @@ export class SendComponent implements OnInit, OnDestroy {
     isVisibleAdditionalOptionsState: boolean = false;
 
     fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
-
-    intToMoneyPipe: IntToMoneyPipe = inject(IntToMoneyPipe);
 
     variablesService: VariablesService = inject(VariablesService);
 
