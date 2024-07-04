@@ -5,19 +5,26 @@ import { TranslateModule } from '@ngx-translate/core';
 import { BreadcrumbsComponent } from '@parts/components/breadcrumbs/breadcrumbs.component';
 import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
 import { DefaultImgModule, InputValidateModule, LowerCaseDirective } from '@parts/directives';
-import { AbstractControl, FormBuilder, FormControl, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
-import { IntToMoneyPipe, IntToMoneyPipeModule, MoneyToIntPipe, MoneyToIntPipeModule, ShortStringPipe } from '@parts/pipes';
+import {
+    AbstractControl,
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    FormsModule,
+    ReactiveFormsModule,
+    ValidationErrors,
+    Validators,
+} from '@angular/forms';
+import { IntToMoneyPipeModule, MoneyToIntPipeModule, ShortStringPipe } from '@parts/pipes';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { VariablesService } from '@parts/services/variables.service';
 import { AssetBalance, AssetInfo } from '@api/models/assets.model';
-import { defaultImgSrc, ZanoAssetInfo, zanoAssetInfo } from '@parts/data/assets';
+import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
 import { regExpAliasName } from '@parts/utils/zano-validators';
 import { BackendService } from '@api/services/backend.service';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { delay, filter, map, startWith, take, tap } from 'rxjs/operators';
 import { Aliases } from '@api/models/alias.model';
-import { WrapInfoService } from '@api/services/wrap-info.service';
-import { WrapInfo } from '@api/models/wrap-info';
 import { BigNumber } from 'bignumber.js';
 import { assetHasNotBeenAddedToWallet, insuficcientFunds } from '@parts/utils/zano-errors';
 import { ParamsCallRpc } from '@api/models/call_rpc.model';
@@ -49,8 +56,6 @@ import { moneyToInt } from '@parts/functions/money-to-int';
     styleUrls: ['./create-swap.component.scss'],
 })
 export class CreateSwapComponent implements OnInit, OnDestroy {
-    zanoAssetInfo: ZanoAssetInfo = zanoAssetInfo;
-
     breadcrumbItems: BreadcrumbItems = [
         {
             routerLink: '/wallet/swap',
@@ -77,14 +82,6 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
 
     lowerCaseDisabled$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
-    intToMoneyPipe: IntToMoneyPipe = inject(IntToMoneyPipe);
-
-    moneyToIntPipe: MoneyToIntPipe = inject(MoneyToIntPipe);
-
-    wrapInfoService: WrapInfoService = inject(WrapInfoService);
-
-    wrapInfo: WrapInfo;
-
     errorRpc: { code: number; message: string } = null;
 
     currentWallet: Wallet = this.variablesService.currentWallet;
@@ -105,29 +102,32 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
 
     form = this.fb.group(
         {
-            sending: this.fb.group({
-                amount: this.fb.control(null, {
-                    validators: [
-                        Validators.required,
-                        (control: AbstractControl): ValidationErrors | null => {
-                            const max: BigNumber = this.variablesService.max_amount_for_send;
-                            const amount: BigNumber = new BigNumber(control.value);
-                            return amount.isGreaterThan(max) ? { greater_than_max_amount: { max: max.toString() } } : null;
-                        },
-                        (control: FormControl): ValidationErrors | null => {
-                            const isZero = new BigNumber(control.value).eq(0);
-                            if (isZero) {
-                                return { zero: true };
-                            }
+            sending: this.fb.group(
+                {
+                    amount: this.fb.control(null, {
+                        validators: [
+                            Validators.required,
+                            ({ value }: FormControl): ValidationErrors | null => {
+                                const amount: BigNumber = new BigNumber(value);
 
-                            if (!control.value) {
+                                if (amount.eq(0)) {
+                                    return { zero: true };
+                                }
+
                                 return null;
-                            }
+                            },
+                        ],
+                    }),
+                    asset_id: this.fb.control(zanoAssetInfo.asset_id, [Validators.required]),
+                },
+                {
+                    validators: [
+                        (form: FormGroup): ValidationErrors | null => {
+                            const { value: asset_id } = form.get('asset_id');
+                            const { value: amount } = form.get('amount');
+                            const preparedAmount = new BigNumber(amount);
 
-                            return null;
-                        },
-                        (control: FormControl): ValidationErrors | null => {
-                            const asset_id = this.form?.controls.sending.controls.asset_id.value;
+                            const { maximum_value } = this.variablesService;
                             if (!asset_id) {
                                 return null;
                             }
@@ -136,45 +136,77 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
                                 v => v.asset_info.asset_id === asset_id
                             );
                             if (asset) {
-                                const preparedUnlocked = intToMoney(asset.unlocked, asset.asset_info.decimal_point);
-                                return new BigNumber(control.value).isGreaterThan(preparedUnlocked) ? { insuficcientFunds } : null;
+                                const {
+                                    asset_info: { decimal_point },
+                                    unlocked,
+                                } = asset;
+                                const maximum_amount_by_decimal_point = intToMoney(maximum_value, decimal_point);
+                                if (preparedAmount.isGreaterThan(maximum_amount_by_decimal_point)) {
+                                    return { greater_than_maximum_amount: { max: maximum_amount_by_decimal_point } };
+                                }
+
+                                const preparedUnlocked = intToMoney(unlocked, decimal_point);
+                                return preparedAmount.isGreaterThan(preparedUnlocked) ? { insuficcientFunds } : null;
                             } else {
                                 return { assetHasNotBeenAddedToWallet };
                             }
                         },
                     ],
-                }),
-                asset_id: this.fb.control(zanoAssetInfo.asset_id, [Validators.required]),
-            }),
-            receiving: this.fb.group({
-                amount: this.fb.control({ value: null, disabled: this.currentWallet.isEmptyAssetsInfoWhitelist }, [
-                    Validators.required,
-                    (control: FormControl): ValidationErrors | null => {
-                        if (!control.value) {
-                            return null;
-                        }
+                }
+            ),
+            receiving: this.fb.group(
+                {
+                    amount: this.fb.control({ value: null, disabled: this.currentWallet.isEmptyAssetsInfoWhitelist }, [
+                        Validators.required,
+                        (control: FormControl): ValidationErrors | null => {
+                            if (!control.value) {
+                                return null;
+                            }
 
-                        if (control.value === 0) {
-                            return { zero: true };
-                        }
-                        return null;
-                    },
-                    (control: AbstractControl): ValidationErrors | null => {
-                        const max: BigNumber = this.variablesService.max_amount_for_send;
-                        const amount: BigNumber = new BigNumber(control.value);
-                        return amount.isGreaterThan(max) ? { greater_than_max_amount: { max: max.toString() } } : null;
-                    },
-                ]),
-                asset_id: this.fb.control(
-                    {
-                        value: this.currentWallet.isEmptyAssetsInfoWhitelist
-                            ? null
-                            : this.allAssetsInfo[1].asset_id ?? zanoAssetInfo.asset_id,
-                        disabled: this.currentWallet.isEmptyAssetsInfoWhitelist,
-                    },
-                    [Validators.required]
-                ),
-            }),
+                            if (control.value === 0) {
+                                return { zero: true };
+                            }
+                            return null;
+                        },
+                    ]),
+                    asset_id: this.fb.control(
+                        {
+                            value: this.currentWallet.isEmptyAssetsInfoWhitelist
+                                ? null
+                                : this.allAssetsInfo[1].asset_id ?? zanoAssetInfo.asset_id,
+                            disabled: this.currentWallet.isEmptyAssetsInfoWhitelist,
+                        },
+                        [Validators.required]
+                    ),
+                },
+                {
+                    validators: [
+                        (form: FormGroup): ValidationErrors | null => {
+                            const asset_id = form.controls.asset_id.value;
+                            const amount = new BigNumber(form.controls.amount.value);
+                            if (!asset_id) {
+                                return null;
+                            }
+
+                            const asset: AssetBalance | undefined = this.variablesService.currentWallet.balances?.find(
+                                v => v.asset_info.asset_id === asset_id
+                            );
+                            if (asset) {
+                                const {
+                                    asset_info: { decimal_point },
+                                } = asset;
+                                const maximum_amount_by_decimal_point = intToMoney(this.variablesService.maximum_value, decimal_point);
+                                if (amount.isGreaterThan(maximum_amount_by_decimal_point)) {
+                                    return { greater_than_maximum_amount: { max: maximum_amount_by_decimal_point } };
+                                }
+                                return null;
+                            } else {
+                                return { assetHasNotBeenAddedToWallet };
+                            }
+                        },
+                    ],
+                }
+            ),
             receiverAddress: this.fb.control('', [
                 Validators.required,
                 (control: FormControl): ValidationErrors | null => {
@@ -290,6 +322,10 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
 
     isVisibleErrorByControl(control: AbstractControl): boolean {
         return control.invalid && (control.dirty || control.touched);
+    }
+
+    isVisibleErrorByForm(form: FormGroup): boolean {
+        return form.invalid && (form.dirty || form.touched);
     }
 
     reverse(): void {

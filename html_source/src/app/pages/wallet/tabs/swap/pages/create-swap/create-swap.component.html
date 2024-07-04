@@ -19,29 +19,24 @@
                     type="text"
                 />
                 <div
-                    *ngIf="isVisibleErrorByControl(form.controls.sending.controls.amount)"
+                    *ngIf="isVisibleErrorByControl(form.controls.sending.controls.amount) || isVisibleErrorByForm(form.controls.sending)"
                     class="error"
                 >
-                    <div *ngIf="form.controls.sending.controls.amount.errors['zero']">
+                    <div *ngIf="form.controls.sending.controls.amount.hasError('zero')">
                         {{ 'SEND.FORM_ERRORS.AMOUNT_ZERO' | translate }}
-                    </div>
-                    <div *ngIf="form.controls.sending.controls.amount.errors['great_than_unwraped_coins']">
-                        {{ 'SEND.FORM_ERRORS.GREAT_THAN_UNWRAPPED_COINS' | translate }}
-                    </div>
-                    <div *ngIf="form.controls.sending.controls.amount.errors['less_than_zano_needed']">
-                        {{ 'SEND.FORM_ERRORS.LESS_THAN_ZANO_NEEDED' | translate }}
-                    </div>
-                    <div *ngIf="form.controls.sending.controls.amount.errors['wrap_info_null']">
-                        {{ 'SEND.FORM_ERRORS.WRAP_INFO_NULL' | translate }}
                     </div>
                     <div *ngIf="form.controls.sending.controls.amount.hasError('required')">
                         {{ 'ERRORS.REQUIRED' | translate }}
                     </div>
-                    <div *ngIf="form.controls.sending.controls.amount.hasError('insuficcientFunds')">
-                        {{ form.controls.sending.controls.amount.errors['insuficcientFunds'].errorText | translate }}
+                    <div
+                        *ngIf="form.controls.sending.hasError('greater_than_maximum_amount')">
+                        {{ 'ERRORS.MAX' | translate: { max: form.controls.sending.errors['greater_than_maximum_amount'].max } }}
                     </div>
-                    <div *ngIf="form.controls.sending.controls.amount.hasError('assetHasNotBeenAddedToWallet')">
-                        {{ form.controls.sending.controls.amount.errors['assetHasNotBeenAddedToWallet'].errorText | translate }}
+                    <div *ngIf="form.controls.sending.hasError('insuficcientFunds')">
+                        {{ form.controls.sending.errors['insuficcientFunds'].errorText | translate }}
+                    </div>
+                    <div *ngIf="form.controls.sending.hasError('assetHasNotBeenAddedToWallet')">
+                        {{ form.controls.sending.errors['assetHasNotBeenAddedToWallet'].errorText | translate }}
                     </div>
                 </div>
             </div>
@@ -94,7 +89,8 @@
                     type="text"
                 />
                 <div
-                    *ngIf="isVisibleErrorByControl(form.controls.receiving.controls.amount)"
+                    *ngIf="isVisibleErrorByControl(form.controls.receiving.controls.amount) ||
+                    isVisibleErrorByForm(form.controls.receiving)"
                     class="error"
                 >
                     <div *ngIf="form.controls.receiving.controls.amount.hasError('required')">
@@ -102,6 +98,13 @@
                     </div>
                     <div *ngIf="form.controls.receiving.controls.amount.hasError('zero')">
                         {{ 'SEND.FORM_ERRORS.AMOUNT_ZERO' | translate }}
+                    </div>
+                    <div
+                        *ngIf="form.controls.receiving.hasError('greater_than_maximum_amount')">
+                        {{ 'ERRORS.MAX' | translate: { max: form.controls.receiving.errors['greater_than_maximum_amount'].max } }}
+                    </div>
+                    <div *ngIf="form.controls.receiving.hasError('assetHasNotBeenAddedToWallet')">
+                        {{ form.controls.receiving.errors['assetHasNotBeenAddedToWallet'].errorText | translate }}
                     </div>
                 </div>
             </div>
