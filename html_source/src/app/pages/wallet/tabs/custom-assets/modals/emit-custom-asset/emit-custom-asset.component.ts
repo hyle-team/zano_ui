@@ -70,7 +70,7 @@ export class EmitCustomAssetComponent {
             },
             async (job_id: number): Promise<void> => {
                 this._ngZone.run(() => {
-                this.dialogRef.close(job_id);
+                    this.dialogRef.close(job_id);
                 });
             }
         );

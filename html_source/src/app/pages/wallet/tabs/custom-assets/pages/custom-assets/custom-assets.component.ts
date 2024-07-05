@@ -9,7 +9,7 @@ import { AssetDetailsComponent } from '@parts/modals/asset-details/asset-details
 import { UpdateCustomAssetComponent } from '../../modals/update-custom-asset/update-custom-asset.component';
 import { BurnCustomAssetComponent } from '../../modals/burn-custom-asset/burn-custom-asset.component';
 import { EmitCustomAssetComponent } from '../../modals/emit-custom-asset/emit-custom-asset.component';
-import { filter } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 import { TransactionDetailsForCustomAssetsComponent } from '../../modals/transaction-details-for-custom-assets/transaction-details-for-custom-assets.component';
 import { Observable, take } from 'rxjs';
 
@@ -122,7 +122,10 @@ export class CustomAssetsComponent implements OnInit {
             }
         }
 
-        closed.pipe(filter(job_id => typeof job_id === 'number'))
+        closed.pipe(
+            filter(job_id => typeof job_id === 'number'),
+            take(1),
+        )
             .subscribe({
                 next: (job_id: number) => {
                     this.details(job_id);

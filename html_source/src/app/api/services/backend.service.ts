@@ -687,6 +687,7 @@ export class BackendService {
             Commands.async_call_2a,
             [command, wallet_id, params],
             (
+                status,
                 {
                     job_id,
                 }: {
