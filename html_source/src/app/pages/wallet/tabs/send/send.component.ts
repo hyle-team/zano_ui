@@ -450,7 +450,7 @@ export class SendComponent implements OnInit, OnDestroy {
                     validators: [
                         Validators.required,
                         (control: AbstractControl): ValidationErrors | null => {
-                            const max: BigNumber = maximum_value;
+                            const max: BigNumber = new BigNumber(intToMoney(maximum_value, zanoAssetInfo.decimal_point));
                             const amount: BigNumber = new BigNumber(control.value);
                             return amount.isGreaterThan(max) ? { greater_than_max_amount: { max: max.toString() } } : null;
                         },
