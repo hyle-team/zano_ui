@@ -17,6 +17,7 @@
                     [placeholder]="'1000000' | translate"
                     autofocus
                     appInputValidate="money"
+                    [decimalPoint]="data.assetInfo.decimal_point"
                     class="form__field--input"
                     formControlName="amount"
                     id="amount"
@@ -26,6 +27,9 @@
                 <div *ngIf="form.controls.amount.touched && form.controls.amount.invalid" class="error">
                     <div *ngIf="form.controls.amount.hasError('required')">
                         {{ 'ERRORS.REQUIRED' | translate }}
+                    </div>
+                    <div *ngIf="form.controls.amount.hasError('greater_than_total_max_supply')">
+                        {{ 'ERRORS.GREATER_THAN_TOTAL_MAX_SUPPLY' | translate }}
                     </div>
                 </div>
             </div>

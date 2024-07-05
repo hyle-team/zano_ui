@@ -368,6 +368,7 @@
         "FILE_NOT_FOUND": "Fichier introuvable",
         "FILE_NOT_SAVED": "Vous ne pouvez pas enregistrer un fichier de portefeuille dans ce dossier. Veuillez choisir un autre dossier.",
         "FILE_RESTORED": "Le fichier de portefeuille a été corrompu. Nous avons récupéré les clés et le portefeuille de la blockchain",
+        "GREATER_THAN_TOTAL_MAX_SUPPLY": "Greater than total max supply",
         "INSUFFICIENT_FUNDS": "Insufficient funds for this transaction",
         "INVALID_PROPOSAL": "Invalid proposal",
         "MAX": "Max {{ max }}",

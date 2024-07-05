@@ -122,25 +122,26 @@
 >
     <ul (click)="closeDropDownMenu()" class="list">
         <li class="item">
-            <button (click)="details()" class="w-100 px-2 py-1" type="button">
+            <button (click)="assetDetails()" class="w-100 px-2 py-1" type="button">
                 <i class="icon info-icon mr-1"></i>
                 <span>{{ 'CUSTOM_ASSETS.DROP_MENU.LABELS.LABEL1' | translate }}</span>
             </button>
         </li>
         <li class="item">
-            <button (click)="emit()" class="w-100 px-2 py-1" type="button">
+            <button (click)="openDialog('emit')" class="w-100 px-2 py-1" type="button">
                 <i class="icon emit mr-1"></i>
                 <span>{{ 'CUSTOM_ASSETS.DROP_MENU.LABELS.LABEL2' | translate }}</span>
             </button>
         </li>
         <li class="item">
-            <button (click)="update()" class="w-100 px-2 py-1" type="button">
+            <button (click)="openDialog('update')" class="w-100 px-2 py-1" type="button">
                 <i class="icon update-with-dash mr-1"></i>
                 <span>{{ 'CUSTOM_ASSETS.DROP_MENU.LABELS.LABEL3' | translate }}</span>
             </button>
         </li>
-        <li class="item">
-            <button (click)="burn()" class="w-100 px-2 py-1" type="button">
+        <!-- TODO: Add after create API for burn -->
+        <li *ngIf="false" class="item">
+            <button (click)="openDialog('burn')" class="w-100 px-2 py-1" type="button">
                 <i class="icon fire mr-1"></i>
                 <span>{{ 'CUSTOM_ASSETS.DROP_MENU.LABELS.LABEL4' | translate }}</span>
             </button>

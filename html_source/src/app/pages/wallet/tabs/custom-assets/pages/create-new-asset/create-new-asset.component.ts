@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, NgZone } from '@angular/core';
 import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
 import { VariablesService } from '@parts/services/variables.service';
 import { AbstractControl, FormControl, FormGroup, NonNullableFormBuilder, ValidationErrors, Validators } from '@angular/forms';
@@ -9,7 +9,10 @@ import { filter, take } from 'rxjs/operators';
 import { BackendService } from '@api/services/backend.service';
 import { Router } from '@angular/router';
 import { BigNumber } from 'bignumber.js';
+import { intToMoney } from '@parts/functions/int-to-money';
 import { moneyToInt } from '@parts/functions/money-to-int';
+import { TransactionDetailsForCustomAssetsComponent } from '../../modals/transaction-details-for-custom-assets/transaction-details-for-custom-assets.component';
+import { zanoAssetInfo } from '@parts/data/assets';
 
 type CreateNewAssetFrom = FormGroup<{
     ticker: FormControl<string>;
@@ -37,10 +40,6 @@ export class CreateNewAssetComponent {
         },
     ];
 
-    job_id: number;
-
-    isModalDetailsDialogVisible = false;
-
     public readonly variablesService: VariablesService = inject(VariablesService);
 
     private readonly _backendService: BackendService = inject(BackendService);
@@ -53,7 +52,7 @@ export class CreateNewAssetComponent {
             full_name: this._fb.control<string>(undefined, [Validators.required, Validators.minLength(2), Validators.maxLength(150)]),
             total_max_supply: this._fb.control<string>(undefined, [Validators.required]),
             current_supply: this._fb.control<string>(undefined, [Validators.required]),
-            decimal_point: this._fb.control<string>(undefined, [Validators.required, Validators.min(0), Validators.max(20)]),
+            decimal_point: this._fb.control<string>('12', [Validators.required, Validators.min(0), Validators.max(20)]),
             meta_info: this._fb.control<string>('', [Validators.maxLength(255)]),
             hidden_supply: this._fb.control<boolean>(false),
         },
@@ -73,16 +72,15 @@ export class CreateNewAssetComponent {
                     return null;
                 },
                 (control: AbstractControl): ValidationErrors => {
-                    const error = {
-                        total_max_supply: 'ERRORS.TO_BIG_TOTAL_SUPPLY',
-                    };
-                    const decimal_point = control.get('decimal_point').value;
-                    const { value } = control.get('total_max_supply');
-                    const total_max_supply = moneyToInt(value, decimal_point);
-                    // \(2^{64}-1\) => (18,446,744,073,709,551,615)
-                    const max = new BigNumber('18446744073709551615');
+                    const { maximum_value } = this.variablesService;
+                    const { value: decimal_point } = control.get('decimal_point');
+                    const { value: total_max_supply } = control.get('total_max_supply');
 
-                    if (max.isLessThan(total_max_supply)) {
+                    const prepared_total_max_supply = new BigNumber(total_max_supply);
+                    const max = new BigNumber(intToMoney(maximum_value, +decimal_point || 0));
+                    const error = { greater_than_max: { max: max.toString() } };
+
+                    if (prepared_total_max_supply.isGreaterThan(max)) {
                         return error;
                     }
 
@@ -96,20 +94,39 @@ export class CreateNewAssetComponent {
 
     private readonly _dialog: Dialog = inject(Dialog);
 
+    private readonly _ngZone: NgZone = inject(NgZone);
+
+    details(job_id: number): void {
+        const dialogConfig: DialogConfig = {
+            width: '54rem',
+            maxWidth: '95vw',
+            data: {
+                job_id,
+            },
+            disableClose: true
+        };
+        this._dialog.open(TransactionDetailsForCustomAssetsComponent, dialogConfig).closed.pipe(filter(Boolean), take(1)).subscribe({
+            next: async () => {
+                await this._ngZone.run(async () => {
+                    await this._router.navigate(['/wallet/custom-assets']);
+                });
+            }
+        });
+    }
+
     submit(): void {
         const { address, wallet_id } = this.variablesService.currentWallet;
         const { ticker, full_name, meta_info, hidden_supply, current_supply, total_max_supply, decimal_point } = this.form.getRawValue();
 
-        const multiplier = new BigNumber(10).pow(decimal_point);
         const divider = 2;
-        const destinationAmount = new BigNumber(current_supply).multipliedBy(multiplier).dividedBy(divider).toString();
+        const destinationAmount = moneyToInt(current_supply, decimal_point).dividedBy(divider).toString();
         const asset_descriptor: AssetDescriptor = {
             ticker,
             full_name,
             meta_info,
             hidden_supply,
             decimal_point: new BigNumber(decimal_point).toNumber(),
-            total_max_supply: new BigNumber(total_max_supply).multipliedBy(multiplier).toString(),
+            total_max_supply: moneyToInt(total_max_supply, decimal_point).toString(),
         };
         const destinations: Destinations = [];
 
@@ -117,6 +134,7 @@ export class CreateNewAssetComponent {
             destinations.push({
                 address,
                 amount: destinationAmount,
+                asset_id: zanoAssetInfo.asset_id
             });
         }
 
@@ -132,7 +150,7 @@ export class CreateNewAssetComponent {
             data: {
                 asset_descriptor: {
                     ...asset_descriptor,
-                    current_supply: new BigNumber(current_supply).multipliedBy(multiplier).toString(),
+                    current_supply: moneyToInt(current_supply, decimal_point).toString(),
                 },
             },
         };
@@ -151,20 +169,10 @@ export class CreateNewAssetComponent {
                             params,
                         },
                         async (job_id: number): Promise<void> => {
-                            this.job_id = job_id;
-                            this.isModalDetailsDialogVisible = true;
+                            this._ngZone.run(() => this.details(job_id));
                         }
                     );
                 },
             });
-    }
-
-    async handeCloseDetailsModal(success: boolean): Promise<void> {
-        this.isModalDetailsDialogVisible = false;
-        this.job_id = null;
-
-        if (success) {
-            await this._router.navigate(['/wallet/custom-assets']);
-        }
     }
 }

@@ -18,7 +18,7 @@ export const intToMoney = (value: number | string | BigNumber, decimal_point?: a
         }
     }
     if (str.length >= 21) {
-        str = str.slice(0, str.indexOf('.') !== -1 ? (decimal_point === 20 ? 22 : 21) : 20);
+        str = str.slice(0, str.indexOf('.') !== -1 ? (decimal_point == 20 ? 22 : 21) : 20);
     }
     if (str[str.length - 1] === '.') {
         str = str.substr(0, str.length - 1);

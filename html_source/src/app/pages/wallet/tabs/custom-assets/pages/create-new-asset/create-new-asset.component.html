@@ -1,12 +1,13 @@
 <div class="scrolled-content" fxFlex="1 1 auto" fxLayout="column">
     <app-breadcrumbs [items]="breadcrumbItems" class="mb-2"></app-breadcrumbs>
 
-    <form [formGroup]="form"
-          (ngSubmit)="submit()"
+    <form (ngSubmit)="submit()"
+          [formGroup]="form"
           class="form"
           fxFlex="0 1 50rem"
           fxLayout="column"
           fxLayoutAlign="start stretch">
+        <!-- ticker -->
         <div class="form__field--row">
             <div class="form__field">
                 <label for="ticker">
@@ -77,6 +78,7 @@
             </div>
         </div>
 
+        <!-- total_max_supply -->
         <div class="form__field--row">
             <div class="form__field">
                 <label for="total_max_supply">
@@ -87,6 +89,7 @@
                     (contextmenu)="variablesService.onContextMenu($event)"
                     [placeholder]="'1000000000' | translate"
                     appInputValidate="money"
+                    [decimalPoint]="+form.controls.decimal_point.value"
                     class="form__field--input"
                     formControlName="total_max_supply"
                     id="total_max_supply"
@@ -104,11 +107,13 @@
                     </span>
                 </div>
 
-                <div *ngIf="form.hasError('total_max_supply') && (form.dirty || form.touched)" class="error">
-                      {{ form.errors['total_max_supply'] | translate }}
+                <div *ngIf="form.hasError('greater_than_max') && (form.dirty || form.touched)" class="error">
+                    {{ 'ERRORS.TO_BIG_TOTAL_SUPPLY' | translate }}
+                    {{ 'ERRORS.MAX' | translate: { max: form.errors['greater_than_max'].max } }}
                 </div>
             </div>
 
+            <!-- current_supply -->
             <div class="form__field">
                 <label for="current_supply">
                     {{ 'CREATE_NEW_ASSETS.FORM.LABELS.LABEL4' | translate }}
@@ -118,6 +123,7 @@
                     (contextmenu)="variablesService.onContextMenu($event)"
                     [placeholder]="'1000000000' | translate"
                     appInputValidate="money"
+                    [decimalPoint]="+form.controls.decimal_point.value"
                     class="form__field--input"
                     formControlName="current_supply"
                     id="current_supply"
@@ -140,6 +146,7 @@
             </div>
         </div>
 
+        <!-- decimal_point -->
         <div class="form__field">
             <label for="decimal_point">
                 {{ 'CREATE_NEW_ASSETS.FORM.LABELS.LABEL5' | translate }}
@@ -175,6 +182,7 @@
             </div>
         </div>
 
+        <!-- meta_info -->
         <div class="form__field textarea">
             <label for="meta_info">
                 {{ 'CREATE_NEW_ASSETS.FORM.LABELS.LABEL6' | translate }}
@@ -207,10 +215,3 @@
         </button>
     </form>
 </div>
-
-
-<app-send-details-modal
-    *ngIf="isModalDetailsDialogVisible"
-    [job_id]="job_id"
-    (eventClose)="handeCloseDetailsModal($event)"
-></app-send-details-modal>

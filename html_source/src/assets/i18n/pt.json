@@ -368,6 +368,7 @@
         "FILE_NOT_FOUND": "Ficheiro não encontrado",
         "FILE_NOT_SAVED": "Não pode gravar um ficheiro de carteira nesta pasta. Por favor escolha outra pasta.",
         "FILE_RESTORED": "O ficheiro de carteira estava corrompido. Recuperámos as chaves e a carteira a partir da blockchain",
+        "GREATER_THAN_TOTAL_MAX_SUPPLY": "Greater than total max supply",
         "INSUFFICIENT_FUNDS": "Insufficient funds for this transaction",
         "INVALID_PROPOSAL": "Invalid proposal",
         "MAX": "Max {{ max }}",

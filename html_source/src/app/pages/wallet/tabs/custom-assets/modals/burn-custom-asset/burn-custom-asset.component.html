@@ -16,6 +16,7 @@
                         [class.invalid]="form.controls.amount.touched && form.controls.amount.invalid"
                         [placeholder]="'1000000' | translate"
                         appInputValidate="money"
+                        [decimalPoint]="data.assetInfo.decimal_point"
                         autofocus
                         class="form__field--input"
                         formControlName="amount"
@@ -23,9 +24,21 @@
                         name="amount"
                         type="text"
                     />
-                    <div *ngIf="form.controls.amount.touched && form.controls.amount.invalid" class="error">
+                    <div *ngIf="form.controls.amount.invalid && (form.controls.amount.touched ||
+                    form.controls.amount.dirty)" class="error">
                         <div *ngIf="form.controls.amount.hasError('required')">
                             {{ 'ERRORS.REQUIRED' | translate }}
+                        </div>
+                        <div
+                            *ngIf="form.controls.amount.hasError('insuficcientFunds')">
+                            {{ form.controls.amount.errors['insuficcientFunds'].errorText | translate }}
+                        </div>
+                        <div *ngIf="form.controls.amount.hasError('asset_not_found')">
+                            {{ 'ERRORS.ASSET_NOT_FOUND' | translate }}
+                        </div>
+                        <div
+                            *ngIf="form.controls.amount.hasError('greater_than_maximum_amount')">
+                            {{ 'ERRORS.MAX' | translate: { max: form.controls.amount.errors['greater_than_maximum_amount'].max } }}
                         </div>
                     </div>
                 </div>

@@ -68,9 +68,9 @@ export interface ResponseAsyncTransfer {
     };
 }
 
-export interface AsyncCommandResults {
+export interface AsyncCommandResults<T = any> {
     job_id: number;
-    response: ResponseAsyncTransfer;
+    response: T;
 }
 
 export enum StatusCurrentActionState {
@@ -683,9 +683,19 @@ export class BackendService {
     }
 
     asyncCall2a(command: string, wallet_id: number, params: PramsObj, callback?: (job_id?: number) => void | any): void {
-        this.runCommand(Commands.async_call_2a, [command, wallet_id, params], (status, { job_id }: { job_id: number }) => {
-            callback(job_id);
-        });
+        this.runCommand(
+            Commands.async_call_2a,
+            [command, wallet_id, params],
+            (
+                {
+                    job_id,
+                }: {
+                    job_id: number;
+                }
+            ) => {
+                callback(job_id);
+            }
+        );
     }
 
     dispatchAsyncCallResult(): void {
@@ -694,7 +704,7 @@ export class BackendService {
                 job_id: +job_id,
                 response: JSON.parse(json_resp),
             };
-            this.ngZone.run(() => this.dispatchAsyncCallResult$.next(asyncCommandResults));
+            this.ngZone.run(() => setTimeout(() => this.dispatchAsyncCallResult$.next(asyncCommandResults), 250));
         });
     }
 

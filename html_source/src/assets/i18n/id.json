@@ -368,6 +368,7 @@
         "FILE_NOT_FOUND": "File tidak ditemukan",
         "FILE_NOT_SAVED": "Anda tidak dapat menyimpan file dompet di folder ini. Tolong pilih folder yang lain.",
         "FILE_RESTORED": "File dompet rusak. Kami telah memulihkan kunci dan dompet dari blockchain",
+        "GREATER_THAN_TOTAL_MAX_SUPPLY": "Greater than total max supply",
         "INSUFFICIENT_FUNDS": "Insufficient funds for this transaction",
         "INVALID_PROPOSAL": "Invalid proposal",
         "MAX": "Max {{ max }}",

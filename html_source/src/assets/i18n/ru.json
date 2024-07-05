@@ -368,6 +368,7 @@
         "FILE_NOT_FOUND": "File not found",
         "FILE_NOT_SAVED": "You cannot save a wallet file in this folder. Please choose another folder.",
         "FILE_RESTORED": "The wallet file was corrupted. We have recovered the keys and the wallet from the blockchain",
+        "GREATER_THAN_TOTAL_MAX_SUPPLY": "Greater than total max supply",
         "INSUFFICIENT_FUNDS": "Insufficient funds for this transaction",
         "INVALID_PROPOSAL": "Invalid proposal",
         "MAX": "Max {{ max }}",

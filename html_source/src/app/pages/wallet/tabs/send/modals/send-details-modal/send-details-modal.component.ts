@@ -255,7 +255,7 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
         } = this.variablesService;
 
         if (appUseTor) {
-            this.backendService.handleCurrentActionState$.pipe(takeUntil(this.destroy$)).subscribe({
+            this.backendService.handleCurrentActionState$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe({
                 next: (currentActionState: CurrentActionState) => {
                     this.currentActionState$.next(currentActionState);
                     this.currentActionStates$.next([...this.currentActionStates, currentActionState]);
@@ -272,11 +272,12 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
 
         this.backendService.dispatchAsyncCallResult$
             .pipe(
-                filter(({ job_id, response }: AsyncCommandResults) => this.job_id === job_id && !!response),
+                filter(Boolean),
+                filter(({ job_id, response }: AsyncCommandResults<ResponseAsyncTransfer>) => this.job_id === job_id && !!response),
                 takeUntil(this.destroy$)
             )
             .subscribe({
-                next: ({ response }: AsyncCommandResults) => {
+                next: ({ response }: AsyncCommandResults<ResponseAsyncTransfer>) => {
                     const { response_data } = response;
                     const success = response_data?.success ?? false;
                     this.success = success;

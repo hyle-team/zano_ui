@@ -368,6 +368,7 @@
         "FILE_NOT_FOUND": "File non trovato",
         "FILE_NOT_SAVED": "Non puoi salvare un file di portafoglio in questa cartella. Scegli un'altra cartella.",
         "FILE_RESTORED": "Il file del portafoglio è stato danneggiato. Abbiamo recuperato le chiavi e il portafoglio dalla blockchain",
+        "GREATER_THAN_TOTAL_MAX_SUPPLY": "Greater than total max supply",
         "INSUFFICIENT_FUNDS": "Insufficient funds for this transaction",
         "INVALID_PROPOSAL": "Invalid proposal",
         "MAX": "Max {{ max }}",
