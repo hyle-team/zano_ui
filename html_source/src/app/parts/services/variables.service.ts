@@ -19,9 +19,9 @@ export class VariablesService {
 
     rpc_port!: number;
 
-    use_debug_mode$ = new BehaviorSubject<boolean>(false);
+    use_debug_mode$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-    info$ = new BehaviorSubject<any>({});
+    info$: BehaviorSubject<any> = new BehaviorSubject<any>({});
 
     is_hardfok_active$: Observable<boolean> = this.info$.pipe(
         map(info => {
@@ -32,46 +32,46 @@ export class VariablesService {
 
     stop_paginate = {};
 
-    sync_started = false;
+    sync_started: boolean = false;
 
-    decimal_point = 12;
+    decimal_point: number = 12;
 
-    appPass = '';
+    appPass: string = '';
 
     // \(2^{64}-1\) => (18,446,744,073,709,551,615)
-    max_amount_for_send: BigNumber = new BigNumber('18446744073709551615');
+    maximum_value: BigNumber = new BigNumber('18446744073709551615');
 
-    appLogin = false;
+    appLogin: boolean = false;
 
-    moneyEquivalent = 0;
+    moneyEquivalent: number = 0;
 
-    moneyEquivalentPercent = 0;
+    moneyEquivalentPercent: number = 0;
 
-    defaultTicker = 'ZANO';
+    defaultTicker: 'ZANO' = 'ZANO';
 
     opening_wallet: Wallet;
 
-    exp_med_ts = 0;
+    exp_med_ts: number = 0;
 
-    net_time_delta_median = 0;
+    net_time_delta_median: number = 0;
 
-    height_app = 0;
+    height_app: number = 0;
 
-    height_max = 0;
+    height_max: number = 0;
 
-    downloaded = 0;
+    downloaded: number = 0;
 
-    total = 0;
+    total: number = 0;
 
-    last_build_available = '';
+    last_build_available: string = '';
 
-    last_build_displaymode = 0;
+    last_build_displaymode: number = 0;
 
-    daemon_state = 3;
+    daemon_state: number = 3;
 
-    deeplink$ = new BehaviorSubject<string | null>(null);
+    deeplink$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
-    sendActionData$ = new BehaviorSubject<DeeplinkParams>({});
+    sendActionData$: BehaviorSubject<DeeplinkParams> = new BehaviorSubject<DeeplinkParams>({});
 
     sync = {
         progress_value: 0,
@@ -86,11 +86,11 @@ export class VariablesService {
     };
 
     // Avoid of execute function before callback complete
-    get_recent_transfers = false;
+    get_recent_transfers: boolean = false;
 
-    default_fee = '0.010000000000';
+    default_fee: string = '0.010000000000';
 
-    default_fee_big = new BigNumber('10000000000');
+    default_fee_big: BigNumber = new BigNumber('10000000000');
 
     settings = {
         appLockTime: 15,
@@ -108,11 +108,11 @@ export class VariablesService {
         wallets: [],
     };
 
-    count = 40;
+    count: number = 40;
 
-    maxPages = 5;
+    maxPages: number = 5;
 
-    testnet = false;
+    testnet: boolean = false;
 
     // Testnet or Mainnet
     networkType = '';
@@ -125,17 +125,17 @@ export class VariablesService {
 
     aliasesChecked: any = {};
 
-    enableAliasSearch = false;
+    enableAliasSearch: boolean = false;
 
-    maxWalletNameLength = 25;
+    maxWalletNameLength: number = 25;
 
-    maxCommentLength = 255;
+    maxCommentLength: number = 255;
 
-    dataIsLoaded = false;
+    dataIsLoaded: boolean = false;
 
     contacts: Array<Contact> = [];
 
-    pattern = '^[a-zA-Z0-9_.\\]*|~!?@#$%^&+{}()<>:;"\'-=/,[\\\\]*$';
+    pattern: string = '^[a-zA-Z0-9_.\\]*|~!?@#$%^&+{}()<>:;"\'-=/,[\\\\]*$';
 
     after_sync_request: any = {};
 

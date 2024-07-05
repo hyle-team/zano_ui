@@ -5,7 +5,7 @@ import { VariablesService } from '@parts/services/variables.service';
 import { BigNumber } from 'bignumber.js';
 import { MIXIN } from '@parts/data/constants';
 import { debounceTime, delay, filter, map, retry, startWith, take, takeUntil, tap } from 'rxjs/operators';
-import { BehaviorSubject, combineLatest, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, merge, Observable, of, Subject } from 'rxjs';
 import { AssetBalance } from '@api/models/assets.model';
 import { regExpAliasName } from '@parts/utils/zano-validators';
 import { insuficcientFunds } from '@parts/utils/zano-errors';
@@ -14,9 +14,10 @@ import { DeeplinkParams, defaultSendMoneyParams } from '@api/models/wallet.model
 import { WrapInfo } from '@api/models/wrap-info';
 import { WrapInfoService } from '@api/services/wrap-info.service';
 import { SendMoneyParams } from '@api/models/send-money.model';
-import { defaultImgSrc, ZanoAssetInfo, zanoAssetInfo } from '@parts/data/assets';
+import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
 import { moneyToInt } from '@parts/functions/money-to-int';
 import { intToMoney } from '@parts/functions/int-to-money';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-send',
@@ -30,10 +31,6 @@ import { intToMoney } from '@parts/functions/int-to-money';
     ],
 })
 export class SendComponent implements OnInit, OnDestroy {
-    zanoAssetInfo: ZanoAssetInfo = zanoAssetInfo;
-
-    defaultImgSrc: string = defaultImgSrc;
-
     job_id: number;
 
     controllerVisibleDropdownAliasesState$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -55,13 +52,8 @@ export class SendComponent implements OnInit, OnDestroy {
     aliasAddress: string;
 
     isVisibleAdditionalOptionsState: boolean = false;
-
-    fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
-
     variablesService: VariablesService = inject(VariablesService);
-
     wrapInfoService: WrapInfoService = inject(WrapInfoService);
-
     items$: Observable<(AssetBalance & { disabled: boolean })[]> = combineLatest([
         this.variablesService.currentWallet.balances$,
         this.isVisibleWrapInfoState$,
@@ -84,11 +76,8 @@ export class SendComponent implements OnInit, OnDestroy {
             return items;
         })
     );
-
-    aliases$: BehaviorSubject<Aliases> = new BehaviorSubject<Aliases>([]);
-
+    aliases$: BehaviorSubject<Aliases> = new BehaviorSubject<Aliases>(this.variablesService.aliases);
     lowerCaseDisabled$: BehaviorSubject<boolean> = new BehaviorSubject(true);
-
     form: FormGroup<{
         wallet_id: FormControl<number>;
         address: FormControl<string>;
@@ -99,20 +88,83 @@ export class SendComponent implements OnInit, OnDestroy {
         fee: FormControl<string>;
         hide: FormControl<boolean>;
     }>;
-
     decimal_point$: Observable<number>;
+    errorMessages: { [key: string]: string | undefined } = {
+        address: undefined,
+        fee: undefined,
+    };
+    private _fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
+    private _destroy$: Subject<void> = new Subject<void>();
 
-    private destroy$: Subject<void> = new Subject<void>();
+    private _backendService: BackendService = inject(BackendService);
 
-    constructor(private backendService: BackendService, private ngZone: NgZone) {}
+    private _ngZone: NgZone = inject(NgZone);
+
+    private _translateService: TranslateService = inject(TranslateService);
 
     ngOnInit(): void {
-        const { aliases } = this.variablesService;
-        this.aliases$.next(aliases);
-
         this._getWrapInfo();
 
         this._createForm();
+    }
+
+    ngOnDestroy(): void {
+        this._destroy$.next();
+        this._destroy$.complete();
+    }
+
+    updateAddressErrorMessage(): void {
+        const {
+            controls: { address },
+        } = this.form;
+        let message: string | undefined;
+
+        switch (true) {
+            case address.hasError('address_not_valid'): {
+                message = 'SEND.FORM_ERRORS.ADDRESS_NOT_VALID';
+                break;
+            }
+            case address.hasError('alias_not_found'): {
+                message = 'SEND.FORM_ERRORS.ALIAS_NOT_FOUND';
+                break;
+            }
+            case address.hasError('alias_not_valid'): {
+                message = 'SEND.FORM_ERRORS.ALIAS_NOT_VALID';
+                break;
+            }
+            case address.hasError('required'): {
+                message = 'ERRORS.REQUIRED';
+                break;
+            }
+        }
+        this.errorMessages['address'] = message;
+    }
+
+    updateFeeErrorMessage(): void {
+        const {
+            controls: { fee },
+        } = this.form;
+        let message: string | undefined;
+
+        switch (true) {
+            case fee.hasError('less_min'): {
+                const { default_fee } = this.variablesService;
+                message = this._translateService.instant('SEND.FORM_ERRORS.FEE_MINIMUM', { fee: default_fee });
+                break;
+            }
+            case fee.hasError('required'): {
+                message = 'SEND.FORM_ERRORS.FEE_REQUIRED';
+                break;
+            }
+            case fee.hasError('greater_than_max_amount'): {
+                const { maximum_value } = this.variablesService;
+                const { decimal_point } = zanoAssetInfo;
+                const max = intToMoney(maximum_value, decimal_point);
+                message = this._translateService.instant('ERRORS.MAX', { max });
+            }
+        }
+
+        this.errorMessages['fee'] = message;
     }
 
     getSrcByAsset({ asset_info: { asset_id } }: AssetBalance): string {
@@ -134,27 +186,18 @@ export class SendComponent implements OnInit, OnDestroy {
         return form.invalid && (form.dirty || form.touched);
     }
 
-    ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
-    }
-
-    showSendModal(): void {
+    beforeSubmit(): void {
         this.isSendModalState = true;
     }
 
     handleConfirmed(confirmed: boolean): void {
         this.isSendModalState = false;
         if (confirmed) {
-            this.send();
+            this.submit();
         }
     }
 
-    send(): void {
-        if (this.form.invalid) {
-            return;
-        }
-
+    submit(): void {
         let sendMoneyParams: SendMoneyParams = this.form.getRawValue();
         const { address, asset_id, amount } = sendMoneyParams;
 
@@ -193,8 +236,8 @@ export class SendComponent implements OnInit, OnDestroy {
             };
         }
 
-        this.backendService.sendMoney(sendMoneyParams, (job_id: number) => {
-            this.ngZone.run(() => {
+        this._backendService.sendMoney(sendMoneyParams, (job_id: number) => {
+            this._ngZone.run(() => {
                 this.job_id = job_id;
                 this.isSendDetailsModalState = true;
                 this.variablesService.currentWallet.sendMoneyParams = null;
@@ -203,10 +246,15 @@ export class SendComponent implements OnInit, OnDestroy {
     }
 
     getReceivedValue(): number | BigNumber {
-        const amount: BigNumber = moneyToInt(this.form.value.amount);
+        const {
+            controls: {
+                amount: { value: amount },
+            },
+        } = this.form;
+        const preparedAmount: BigNumber = moneyToInt(amount);
         const needed: BigNumber = new BigNumber(this.wrapInfo.tx_cost.zano_needed_for_erc20);
-        if (amount && needed) {
-            return amount.minus(needed);
+        if (preparedAmount && needed) {
+            return preparedAmount.minus(needed);
         }
         return 0;
     }
@@ -216,25 +264,28 @@ export class SendComponent implements OnInit, OnDestroy {
         this.job_id = null;
 
         if (success) {
-            const {
-                currentWallet: { wallet_id },
-            } = this.variablesService;
-            this.variablesService.currentWallet.sendMoneyParams = null;
+            const { currentWallet } = this.variablesService;
+            const { wallet_id } = currentWallet;
+            currentWallet.sendMoneyParams = null;
+
             this.form.reset({ ...defaultSendMoneyParams, wallet_id }, { emitEvent: false });
         }
     }
 
     pasteListenAddressField(event: ClipboardEvent): void {
         event.preventDefault();
-
+        const {
+            controls: { address },
+        } = this.form;
         const { clipboardData } = event;
-        let value = clipboardData.getData('Text') ?? '';
+        let value: string = clipboardData.getData('Text') ?? '';
         this.lowerCaseDisabled$.next(value.indexOf('@') !== 0);
 
         if (value.indexOf('@') === 0) {
             value = value.toLowerCase();
         }
-        this.form.controls.address.patchValue(value);
+
+        address.patchValue(value);
     }
 
     inputListenAddressField({ target: { value } }: any): void {
@@ -258,14 +309,14 @@ export class SendComponent implements OnInit, OnDestroy {
     }
 
     private _createForm(): void {
-        const { currentWallet, default_fee, maxCommentLength, max_amount_for_send } = this.variablesService;
+        const { currentWallet, default_fee, maxCommentLength, maximum_value } = this.variablesService;
 
-        let sendMoneyParams: SendMoneyParams;
+        let params: SendMoneyParams;
 
         if (currentWallet.sendMoneyParams) {
-            sendMoneyParams = currentWallet.sendMoneyParams;
+            params = currentWallet.sendMoneyParams;
         } else {
-            sendMoneyParams = {
+            params = {
                 ...defaultSendMoneyParams,
                 wallet_id: currentWallet.wallet_id,
                 fee: default_fee,
@@ -273,11 +324,11 @@ export class SendComponent implements OnInit, OnDestroy {
         }
 
         if (currentWallet.is_auditable && !currentWallet.is_watch_only) {
-            sendMoneyParams.hide = true;
+            params.hide = true;
         }
 
         if (currentWallet.is_auditable) {
-            sendMoneyParams.mixin = 0;
+            params.mixin = 0;
         }
 
         const state = history.state || {};
@@ -287,26 +338,26 @@ export class SendComponent implements OnInit, OnDestroy {
             const {
                 asset_info: { asset_id, decimal_point },
             } = history_asset;
-            sendMoneyParams.asset_id = asset_id;
-            if (sendMoneyParams.amount) {
-                sendMoneyParams.amount = intToMoney(moneyToInt(sendMoneyParams.amount, decimal_point), decimal_point);
+            params.asset_id = asset_id;
+            if (params.amount) {
+                params.amount = intToMoney(moneyToInt(params.amount, decimal_point), decimal_point);
             }
         }
 
-        this.form = this.fb.group(
+        this.form = this._fb.group(
             {
-                wallet_id: this.fb.control<number>(sendMoneyParams.wallet_id, {
+                wallet_id: this._fb.control<number>(params.wallet_id, {
                     validators: [Validators.required],
                 }),
-                address: this.fb.control<string>(sendMoneyParams.address, {
+                address: this._fb.control<string>(params.address, {
                     validators: [
                         Validators.required,
                         (control: AbstractControl): ValidationErrors | null => {
                             this.aliasAddress = '';
                             if (control.value) {
                                 if (control.value.indexOf('@') !== 0) {
-                                    this.backendService.validateAddress(control.value, (valid_status, data) => {
-                                        this.ngZone.run(() => {
+                                    this._backendService.validateAddress(control.value, (valid_status, data) => {
+                                        this._ngZone.run(() => {
                                             this.isVisibleWrapInfoState$.next(data.error_code === 'WRAP');
                                             if (data.error_code === 'WRAP') {
                                                 this.form.controls.asset_id.patchValue(zanoAssetInfo.asset_id);
@@ -329,10 +380,10 @@ export class SendComponent implements OnInit, OnDestroy {
                                     if (!regExpAliasName.test(control.value)) {
                                         return { alias_not_valid: true };
                                     } else {
-                                        this.backendService.getAliasInfoByName(
+                                        this._backendService.getAliasInfoByName(
                                             control.value.replace('@', ''),
                                             (alias_status, alias_data) => {
-                                                this.ngZone.run(() => {
+                                                this._ngZone.run(() => {
                                                     this.aliasAddress = alias_data.address;
                                                     if (alias_status) {
                                                         if (control.hasError('alias_not_found')) {
@@ -355,25 +406,17 @@ export class SendComponent implements OnInit, OnDestroy {
                         },
                     ],
                 }),
-                amount: this.fb.control<string>(sendMoneyParams.amount, {
+                amount: this._fb.control<string>(params.amount, {
                     validators: [
                         Validators.required,
-                        (control: AbstractControl): ValidationErrors | null => {
-                            const max: BigNumber = max_amount_for_send;
-                            const amount: BigNumber = new BigNumber(control.value);
-                            return amount.isGreaterThan(max) ? { greater_than_max_amount: { max: max.toString() } } : null;
-                        },
-                        (control: AbstractControl): ValidationErrors | null => {
-                            const isZero = new BigNumber(control.value).eq(0);
+                        ({ value }: AbstractControl): ValidationErrors | null => {
+                            const isZero: boolean = new BigNumber(value).eq(0);
+
                             if (isZero) {
                                 return { zero: true };
                             }
 
-                            if (!control.value) {
-                                return null;
-                            }
-
-                            const amount: BigNumber = moneyToInt(control.value);
+                            const amount: BigNumber = moneyToInt(value);
 
                             if (this.isVisibleWrapInfoState$.value) {
                                 if (!this.wrapInfo) {
@@ -386,27 +429,28 @@ export class SendComponent implements OnInit, OnDestroy {
                                     return { less_than_zano_needed: true };
                                 }
                             }
+
                             return null;
                         },
                     ],
                 }),
-                comment: this.fb.control<string>(sendMoneyParams.comment, {
+                comment: this._fb.control<string>(params.comment, {
                     validators: [Validators.maxLength(maxCommentLength)],
                 }),
-                asset_id: this.fb.control<string>(sendMoneyParams.asset_id, {
+                asset_id: this._fb.control<string>(params.asset_id, {
                     validators: [Validators.required],
                 }),
-                mixin: this.fb.control<number>(
-                    { value: sendMoneyParams.mixin, disabled: currentWallet.is_auditable },
+                mixin: this._fb.control<number>(
+                    { value: params.mixin, disabled: currentWallet.is_auditable },
                     {
                         validators: [Validators.required, Validators.min(0), Validators.max(1000)],
                     }
                 ),
-                fee: this.fb.control<string>(sendMoneyParams.fee, {
+                fee: this._fb.control<string>(params.fee, {
                     validators: [
                         Validators.required,
                         (control: AbstractControl): ValidationErrors | null => {
-                            const max: BigNumber = max_amount_for_send;
+                            const max: BigNumber = maximum_value;
                             const amount: BigNumber = new BigNumber(control.value);
                             return amount.isGreaterThan(max) ? { greater_than_max_amount: { max: max.toString() } } : null;
                         },
@@ -418,8 +462,8 @@ export class SendComponent implements OnInit, OnDestroy {
                         },
                     ],
                 }),
-                hide: this.fb.control<boolean>({
-                    value: sendMoneyParams.hide,
+                hide: this._fb.control<boolean>({
+                    value: params.hide,
                     disabled: currentWallet.is_auditable && !currentWallet.is_watch_only,
                 }),
             },
@@ -427,7 +471,7 @@ export class SendComponent implements OnInit, OnDestroy {
                 validators: [
                     (form: FormGroup): ValidationErrors | null => {
                         const asset_id = form.controls.asset_id.getRawValue();
-                        const amount = form.controls.amount.getRawValue();
+                        const amount: BigNumber = new BigNumber(form.controls.amount.getRawValue());
 
                         const assetBalance: AssetBalance | undefined = currentWallet.getBalanceByAssetId(asset_id);
 
@@ -442,31 +486,66 @@ export class SendComponent implements OnInit, OnDestroy {
                             asset_info: { decimal_point },
                         } = assetBalance;
 
+                        const maximum_amount_by_decimal_point = intToMoney(this.variablesService.maximum_value, decimal_point);
+                        if (amount.isGreaterThan(maximum_amount_by_decimal_point)) {
+                            return { greater_than_maximum_amount: { max: maximum_amount_by_decimal_point } };
+                        }
+
                         const preparedUnlocked = intToMoney(unlocked, decimal_point);
-                        return new BigNumber(amount).isGreaterThan(preparedUnlocked) ? { insuficcientFunds } : null;
+                        return amount.isGreaterThan(preparedUnlocked) ? { insuficcientFunds } : null;
                     },
                 ],
             }
         );
 
-        if (currentWallet.sendMoneyParams) {
-            this.form.markAllAsTouched();
-        }
-
         this._listenSendActionData();
 
-        this.form.valueChanges.pipe(debounceTime(200), takeUntil(this.destroy$)).subscribe({
-            next: () => {
-                this.variablesService.currentWallet.sendMoneyParams = this.form.getRawValue();
-            },
-        });
+        this._saveSendMoneyParams();
+
+        this._formListeners();
+
+        if (currentWallet.sendMoneyParams) {
+            this.form.markAllAsTouched();
+            this.form.updateValueAndValidity();
+            this._updateErrorMessages();
+        }
+    }
+
+    private _formListeners(): void {
+        const { currentWallet } = this.variablesService;
+        const {
+            controls: { asset_id, address, fee },
+        } = this.form;
 
         this.decimal_point$ = this.form.controls.asset_id.valueChanges.pipe(
-            startWith(this.form.controls.asset_id.value),
-            map((asset_id: string) => {
-                return currentWallet.getBalanceByAssetId(asset_id)?.asset_info.decimal_point ?? 0;
+            startWith(asset_id.value),
+            map((value: string): number => {
+                return currentWallet.getBalanceByAssetId(value)?.asset_info.decimal_point ?? 0;
             })
         );
+
+        merge(address.statusChanges, address.valueChanges)
+            .pipe(takeUntil(this._destroy$))
+            .subscribe((): void => this.updateAddressErrorMessage());
+
+        merge(fee.statusChanges, fee.valueChanges)
+            .pipe(takeUntil(this._destroy$))
+            .subscribe((): void => this.updateFeeErrorMessage());
+    }
+
+    private _updateErrorMessages(): void {
+        this.updateAddressErrorMessage();
+        this.updateFeeErrorMessage();
+    }
+
+    private _saveSendMoneyParams(): void {
+        const { valueChanges } = this.form;
+        const { currentWallet } = this.variablesService;
+        valueChanges.pipe(debounceTime(200), takeUntil(this._destroy$)).subscribe({
+            next: (): void => {
+                currentWallet.sendMoneyParams = this.form.getRawValue();
+            }
+        });
     }
 
     private _getWrapInfo(): void {
@@ -475,7 +554,7 @@ export class SendComponent implements OnInit, OnDestroy {
             .pipe(
                 tap(() => this.loading$.next(true)),
                 retry(5),
-                takeUntil(this.destroy$)
+                takeUntil(this._destroy$)
             )
             .subscribe({
                 next: (wrapInfo: WrapInfo) => {
@@ -492,7 +571,7 @@ export class SendComponent implements OnInit, OnDestroy {
     }
 
     private _listenSendActionData(): void {
-        this.variablesService.sendActionData$.pipe(takeUntil(this.destroy$)).subscribe({
+        this.variablesService.sendActionData$.pipe(takeUntil(this._destroy$)).subscribe({
             next: (value: DeeplinkParams) => {
                 if (value && value.action === 'send') {
                     const { address, amount, comment, comments, mixins, fee, hide_sender } = value;

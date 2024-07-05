@@ -1,6 +1,6 @@
 <div class="container scrolled-content" fxFlex="1 1 auto">
     <form
-        (ngSubmit)="showSendModal()"
+        (ngSubmit)="beforeSubmit()"
         [formGroup]="form"
         class="form"
         fxFlex="0 1 50rem"
@@ -19,6 +19,7 @@
                     (focusout)="controllerVisibleDropdownAliasesState$.next(false)"
                     (input)="inputListenAddressField($event)"
                     (paste)="pasteListenAddressField($event)"
+                    (blur)="updateAddressErrorMessage()"
                     [lowerCaseDisabled]="lowerCaseDisabled$ | async"
                     [placeholder]="'PLACEHOLDERS.ADRESS_PLACEHOLDER' | translate"
                     class="form__field--input"
@@ -61,18 +62,7 @@
                     *ngIf="isVisibleErrorByControl(form.controls.address)"
                     class="error"
                 >
-                    <div *ngIf="form.controls.address.errors['address_not_valid']">
-                        {{ 'SEND.FORM_ERRORS.ADDRESS_NOT_VALID' | translate }}
-                    </div>
-                    <div *ngIf="form.controls.address.errors['alias_not_found']">
-                        {{ 'SEND.FORM_ERRORS.ALIAS_NOT_FOUND' | translate }}
-                    </div>
-                    <div *ngIf="form.controls.address.errors['alias_not_valid']">
-                        {{ 'SEND.FORM_ERRORS.ALIAS_NOT_VALID' | translate }}
-                    </div>
-                    <div *ngIf="form.controls.address.hasError('required')">
-                        {{ 'ERRORS.REQUIRED' | translate }}
-                    </div>
+                    {{ errorMessages['address'] | translate }}
                 </div>
 
                 <div *ngIf="aliasAddress" class="info text-ellipsis">
@@ -115,19 +105,16 @@
                     <div *ngIf="form.controls.amount.hasError('required')">
                         {{ 'ERRORS.REQUIRED' | translate }}
                     </div>
-                    <div *ngIf="form.controls.amount.hasError('greater_than_max_amount')">
-                        {{ 'ERRORS.MAX' | translate: { max: variablesService.max_amount_for_send.toString() } }}
+                    <div
+                        *ngIf="form.hasError('insuficcientFunds')">
+                        {{ form.errors['insuficcientFunds'].errorText | translate }}
                     </div>
                     <div
-                        *ngIf="form.hasError('insuficcientFunds') && !form.controls.amount.hasError('greater_than_max_amount')">
-                        {{ form.errors['insuficcientFunds'].errorText | translate }}
+                        *ngIf="form.hasError('greater_than_maximum_amount')">
+                        {{ 'ERRORS.MAX' | translate: { max: form.errors['greater_than_maximum_amount'].max } }}
                     </div>
                     <div *ngIf="form.hasError('asset_not_found')">
                         {{ 'ERRORS.ASSET_NOT_FOUND' | translate }}
-                    </div>
-                    <div
-                        *ngIf="form.hasError('amount_greater_current_supply') && !form.controls.amount.hasError('greater_than_max_amount')">
-                        {{ 'ERRORS.AMOUNT_GREATER_CURRENT_SUPPLY' | translate }}
                     </div>
                 </div>
             </div>
@@ -282,6 +269,7 @@
                             (contextmenu)="variablesService.onContextMenu($event)"
                             [placeholder]="'PLACEHOLDERS.FEE_PLACEHOLDER' | translate"
                             appInputValidate="money"
+                            (blur)="updateFeeErrorMessage()"
                             class="form__field--input"
                             formControlName="fee"
                             id="send-fee"
@@ -291,15 +279,7 @@
                             *ngIf="isVisibleErrorByControl(form.controls.fee)"
                             class="error"
                         >
-                            <div *ngIf="form.controls.fee.errors['less_min']">
-                                {{ 'SEND.FORM_ERRORS.FEE_MINIMUM' | translate : { fee: variablesService.default_fee } }}
-                            </div>
-                            <div *ngIf="form.controls.fee.hasError('required')">
-                                {{ 'SEND.FORM_ERRORS.FEE_REQUIRED' | translate }}
-                            </div>
-                            <div *ngIf="form.controls.fee.hasError('greater_than_max_amount')">
-                                {{ 'ERRORS.MAX' | translate: { max: variablesService.max_amount_for_send.toString() } }}
-                            </div>
+                            {{ errorMessages['fee'] | translate }}
                         </div>
                     </div>
                 </div>
