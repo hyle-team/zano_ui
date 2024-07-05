@@ -201,23 +201,23 @@ export class SendComponent implements OnInit, OnDestroy {
         let sendMoneyParams: SendMoneyParams = this.form.getRawValue();
         const { address, asset_id, amount } = sendMoneyParams;
 
-        const { currentWallet } = this.variablesService;
-        const asset: AssetBalance | undefined = currentWallet.getBalanceByAssetId(asset_id);
-
-        if (asset) {
-            const {
-                asset_info: { decimal_point },
-            } = asset;
-            sendMoneyParams = {
-                ...sendMoneyParams,
-                amount: moneyToInt(amount, decimal_point).toString(),
-            };
-        } else {
-            this.form.controls.asset_id.setErrors({
-                asset_not_found: true,
-            });
-            return;
-        }
+        // const { currentWallet } = this.variablesService;
+        // const asset: AssetBalance | undefined = currentWallet.getBalanceByAssetId(asset_id);
+        //
+        // if (asset) {
+        //     const {
+        //         asset_info: { decimal_point },
+        //     } = asset;
+        //     sendMoneyParams = {
+        //         ...sendMoneyParams,
+        //         amount: moneyToInt(amount, decimal_point).toString(),
+        //     };
+        // } else {
+        //     this.form.controls.asset_id.setErrors({
+        //         asset_not_found: true,
+        //     });
+        //     return;
+        // }
 
         if (address.indexOf('@') === 0) {
             const aliasName = address;
@@ -450,7 +450,7 @@ export class SendComponent implements OnInit, OnDestroy {
                     validators: [
                         Validators.required,
                         (control: AbstractControl): ValidationErrors | null => {
-                            const max: BigNumber = maximum_value;
+                            const max: BigNumber = new BigNumber(intToMoney(maximum_value, zanoAssetInfo.decimal_point));
                             const amount: BigNumber = new BigNumber(control.value);
                             return amount.isGreaterThan(max) ? { greater_than_max_amount: { max: max.toString() } } : null;
                         },
