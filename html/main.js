@@ -883,7 +883,7 @@ class BackendService {
   }
 
   asyncCall2a(command, wallet_id, params, callback) {
-    this.runCommand(Commands.async_call_2a, [command, wallet_id, params], ({
+    this.runCommand(Commands.async_call_2a, [command, wallet_id, params], (status, {
       job_id
     }) => {
       callback(job_id);
@@ -11427,7 +11427,7 @@ class CustomAssetsComponent {
                 break;
             }
         }
-        closed.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_11__.filter)(job_id => typeof job_id === 'number'))
+        closed.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_11__.filter)(job_id => typeof job_id === 'number'), (0,rxjs__WEBPACK_IMPORTED_MODULE_12__.take)(1))
             .subscribe({
             next: (job_id) => {
                 this.details(job_id);
@@ -24063,7 +24063,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const buildTime = '2024-07-05T22:47:01.064Z';
+const buildTime = '2024-07-05T23:11:14.549Z';
 if (_environments_environment__WEBPACK_IMPORTED_MODULE_1__.environment.production) {
     (0,_angular_core__WEBPACK_IMPORTED_MODULE_3__.enableProdMode)();
 }
