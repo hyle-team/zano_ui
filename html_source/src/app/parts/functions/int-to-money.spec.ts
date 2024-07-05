@@ -35,9 +35,10 @@ describe('int-to-money', () => {
         expect(intToMoney('18446744073709551615', 13)).toBe('1844674.4073709551615');
     });
 
-    it('Decimal point 12', () => {
+     it('Decimal point 12', () => {
         expect(intToMoney('18446744073709551615', 12)).toBe('18446744.073709551615');
         expect(intToMoney('1000000000', 12).toString()).toBe('0.001');
+        expect(intToMoney('1', 12).toString()).toBe('0.000000000001');
     });
 
     it('Decimal point 11', () => {

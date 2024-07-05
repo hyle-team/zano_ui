@@ -1,10 +1,10 @@
 import { BigNumber } from 'bignumber.js';
 
-export const moneyToInt = (value, decimal_point?: any): BigNumber => {
+export const moneyToInt = (value: string, decimal_point?: any): BigNumber => {
     const CURRENCY_DISPLAY_DECIMAL_POINT = decimal_point ?? 12;
     let result: BigNumber = new BigNumber('');
     if (value) {
-        let am_str = new BigNumber(value).toString().trim();
+        let am_str = value.trim();
         const point_index = am_str.indexOf('.');
         let fraction_size = 0;
         if (-1 !== point_index) {
@@ -14,6 +14,7 @@ export const moneyToInt = (value, decimal_point?: any): BigNumber => {
                 am_str = am_str.slice(0, am_str.length - 1);
                 --fraction_size;
             }
+
             if (CURRENCY_DISPLAY_DECIMAL_POINT < fraction_size) {
                 am_str = am_str.slice(0, point_index) + am_str.slice(point_index + 1, CURRENCY_DISPLAY_DECIMAL_POINT);
             } else {
@@ -26,7 +27,7 @@ export const moneyToInt = (value, decimal_point?: any): BigNumber => {
             return undefined;
         }
         if (am_str.length >= 21) {
-            am_str = am_str.slice(0, am_str.indexOf('.') !== -1 ? (decimal_point === 20 ? 22 : 21) : 20);
+            am_str = am_str.slice(0, am_str.indexOf('.') !== -1 ? (decimal_point == 20 ? 22 : 21) : (decimal_point == 20 ? 21 : 20));
         }
         if (am_str[am_str.length - 1] === '.') {
             am_str = am_str.substr(0, am_str.length - 1);

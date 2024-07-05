@@ -1,6 +1,6 @@
 import { BigNumber } from 'bignumber.js';
 
-export const intToMoney = (value: number | string | BigNumber, decimal_point?: any): string => {
+export const   intToMoney = (value: number | string | BigNumber, decimal_point?: any): string => {
     if (value === 0 || value === undefined) {
         return '0';
     }
