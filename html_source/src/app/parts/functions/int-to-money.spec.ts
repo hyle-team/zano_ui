@@ -3,7 +3,7 @@ import { intToMoney } from '@parts/functions/int-to-money';
 
 describe('int-to-money', () => {
     it('Decimal point 20', () => {
-        expect(intToMoney('18446744073709551615', 20)).toBe('0.1844674407370955161');
+        expect(intToMoney('18446744073709551615', 20)).toBe('0.18446744073709551615');
         expect(intToMoney('18446744073709551610', 20)).toBe('0.1844674407370955161');
     });
 
@@ -37,6 +37,7 @@ describe('int-to-money', () => {
 
     it('Decimal point 12', () => {
         expect(intToMoney('18446744073709551615', 12)).toBe('18446744.073709551615');
+        expect(intToMoney('1000000000', 12).toString()).toBe('0.001');
     });
 
     it('Decimal point 11', () => {
