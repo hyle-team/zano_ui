@@ -17,6 +17,7 @@
                     "ID": "Asset ID",
                     "MAX_SUPPLE": "Max supply",
                     "NAME": "Asset name",
+                    "OWNER": "Owner",
                     "TICKER": "Ticker"
                 }
             }
@@ -94,6 +95,21 @@
             "TO": "To"
         },
         "TITLE": "Transaction"
+    },
+    "CONFIRM_CREATE_CUSTOM_ASSET": {
+        "BUTTONS": {
+            "BUTTON1": "Cancel",
+            "BUTTON2": "Confirm"
+        },
+        "TABLE": {
+            "LABEL1": "Ticker",
+            "LABEL2": "Full Name",
+            "LABEL3": "Total Max Supply",
+            "LABEL4": "Current Supply",
+            "LABEL5": "Decimal Point",
+            "LABEL6": "Meta Info"
+        },
+        "TITLE": "Confirm"
     },
     "CONFIRM_SWAP": {
         "BREADCRUMBS": {
@@ -235,6 +251,29 @@
             "REMAINING_ONE_WAITING": "Waiting for {{time}} hour"
         }
     },
+    "CREATE_NEW_ASSETS": {
+        "BREADCRUMBS": {
+            "BREADCRUMB1": "Custom Assets",
+            "BREADCRUMB2": "Create new asset"
+        },
+        "FORM": {
+            "BUTTONS": {
+                "BUTTON1": "Create"
+            },
+            "LABELS": {
+                "LABEL1": "Ticker",
+                "LABEL2": "Full name",
+                "LABEL3": "Total Max Supply",
+                "LABEL4": "Current Supply",
+                "LABEL5": "Decimal Point",
+                "LABEL6": "Meta info"
+            },
+            "PLACEHOLDERS": {
+                "PLACEHOLDER1": "Confidential token",
+                "PLACEHOLDER2": "Comment"
+            }
+        }
+    },
     "CREATE_SWAP": {
         "BREADCRUMBS": {
             "ITEM1": "Swap",
@@ -275,6 +314,17 @@
         "TITLE_SAVE": "Save the wallet file."
     },
     "CUSTOM_ASSETS": {
+        "BUTTONS": {
+            "BUTTON1": "Create new assets"
+        },
+        "DROP_MENU": {
+            "LABELS": {
+                "LABEL1": "Asset Details",
+                "LABEL2": "Emit",
+                "LABEL3": "Update",
+                "LABEL4": "Burn"
+            }
+        },
         "TABLE": {
             "LABELS": {
                 "LABEL1": "Asset ID",
@@ -284,6 +334,9 @@
                 "LABEL5": "Current Supply",
                 "LABEL6": "Decimal point"
             }
+        },
+        "TEXT": {
+            "EMPTY": "No custom assets"
         }
     },
     "EDIT_ALIAS": {
@@ -308,21 +361,27 @@
         "ASSET_HAS_NOT_BEEN_ADDED_TO_WALLET": "Asset has not been added to your wallet",
         "ASSET_NOT_FOUND": "Asset not found",
         "BAD_ARG": "Invalid argument",
+        "CANNOT_BE_GREATER_THAN_TOTAL_MAX_SUPPLY": "Cannot be greater than Total max supply",
         "CORE_BUSY": "Internal error: core is busy",
         "DAEMON_BUSY": "Internal error: daemon is busy",
         "FILE_EXIST": "A file with that name already exists. Enter another name to save the file under",
         "FILE_NOT_FOUND": "File not found",
         "FILE_NOT_SAVED": "You cannot save a wallet file in this folder. Please choose another folder.",
         "FILE_RESTORED": "The wallet file was corrupted. We have recovered the keys and the wallet from the blockchain",
+        "GREATER_THAN_TOTAL_MAX_SUPPLY": "Greater than total max supply",
         "INSUFFICIENT_FUNDS": "Insufficient funds for this transaction",
         "INVALID_PROPOSAL": "Invalid proposal",
         "MAX": "Max {{ max }}",
+        "MAX_LENGTH": "Maximin length {{ requiredLength }}",
+        "MIN": "Min {{ min }}",
+        "MIN_LENGTH": "Min length {{ requiredLength }}",
         "NOT_ENOUGH_MONEY": "Insufficient funds in account",
         "NOT_ENOUGH_OUTPUTS_TO_MIX": "Mix-in number is too big for current blockchain state. There are not enough unspent outputs to mix with",
         "NOT_FILE_ZANO_WALLET": "This file is not recognized as a Zano wallet..",
         "NO_MONEY": "Not enough funds for this transaction",
         "NO_MONEY_REMOVE_OFFER": "There is no fee for deleting an offer, but in order to protect the network against flood transactions you need to have at least {{fee}} {{currency}} in your wallet",
         "REQUIRED": "Required field",
+        "TO_BIG_TOTAL_SUPPLY": "To big total supply, reduce it or make decimal point smaller",
         "TRANSACTION_ERROR": "Error. Transaction not completed.",
         "TRANSACTION_IS_TO_BIG": "Transaction exceeds network limit, send required amount with multiple transactions",
         "TRANSFER_ATTEMPT": "There is no connection to Zano network",
