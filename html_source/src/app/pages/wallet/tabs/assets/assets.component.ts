@@ -287,7 +287,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
     assetDetails(): void {
         const dialogConfig: DialogConfig = {
             data: {
-                asset_info: this.currentAsset.asset_inf,
+                asset_info: this.currentAsset.asset_info,
             },
         };
         this.dialog.open(AssetDetailsComponent, dialogConfig);

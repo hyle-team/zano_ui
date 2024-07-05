@@ -1,17 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
 import { VariablesService } from '@parts/services/variables.service';
-import {
-    AbstractControl,
-    FormControl,
-    FormGroup,
-    NonNullableFormBuilder,
-    ValidationErrors,
-    Validators
-} from '@angular/forms';
-import {
-    ConfirmCreateCustomAssetComponent
-} from '../../modals/confirm-create-custom-asset/confirm-create-custom-asset.component';
+import { AbstractControl, FormControl, FormGroup, NonNullableFormBuilder, ValidationErrors, Validators } from '@angular/forms';
+import { ConfirmCreateCustomAssetComponent } from '../../modals/confirm-create-custom-asset/confirm-create-custom-asset.component';
 import { Dialog, DialogConfig } from '@angular/cdk/dialog';
 import { AssetDescriptor, DeployAssetParams, Destinations } from '@api/models/custom-asstest.model';
 import { filter, take } from 'rxjs/operators';
@@ -70,7 +61,7 @@ export class CreateNewAssetComponent {
             validators: [
                 (control: AbstractControl) => {
                     const error = {
-                        current_supply: 'ERRORS.CANNOT_BE_GREATER_THAN_TOTAL_MAX_SUPPLY,
+                        current_supply: 'ERRORS.CANNOT_BE_GREATER_THAN_TOTAL_MAX_SUPPLY',
                     };
                     const total_max_supply = new BigNumber(control.get('total_max_supply').value);
                     const current_supply = new BigNumber(control.get('current_supply').value);
@@ -83,7 +74,7 @@ export class CreateNewAssetComponent {
                 },
                 (control: AbstractControl): ValidationErrors => {
                     const error = {
-                        total_max_supply: 'ERRORS.TO_BIG_TOTAL_SUPPLY'
+                        total_max_supply: 'ERRORS.TO_BIG_TOTAL_SUPPLY',
                     };
                     const decimal_point = control.get('decimal_point').value;
                     const { value } = control.get('total_max_supply');
@@ -157,7 +148,7 @@ export class CreateNewAssetComponent {
                             jsonrpc: '2.0',
                             id: 0,
                             method: 'deploy_asset',
-                            params
+                            params,
                         },
                         async (job_id: number): Promise<void> => {
                             this.job_id = job_id;
