@@ -372,6 +372,7 @@
         "INSUFFICIENT_FUNDS": "Insufficient funds for this transaction",
         "INVALID_PROPOSAL": "Invalid proposal",
         "MAX": "Max {{ max }}",
+        "MAX_DECIMAL_POINT": "Max decimal point {{ max }}",
         "MAX_LENGTH": "Maximin length {{ requiredLength }}",
         "MIN": "Min {{ min }}",
         "MIN_LENGTH": "Min length {{ requiredLength }}",

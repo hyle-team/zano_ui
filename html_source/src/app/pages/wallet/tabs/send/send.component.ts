@@ -205,12 +205,13 @@ export class SendComponent implements OnInit, OnDestroy {
         const asset: AssetBalance | undefined = currentWallet.getBalanceByAssetId(asset_id);
 
         if (asset) {
-            const {
-                asset_info: { decimal_point },
-            } = asset;
+            // const {
+            //     asset_info: { decimal_point },
+            // } = asset;
             sendMoneyParams = {
                 ...sendMoneyParams,
-                amount: moneyToInt(amount, decimal_point).toString(),
+                // amount: moneyToInt(amount, decimal_point).toString(),
+                amount,
             };
         } else {
             this.form.controls.asset_id.setErrors({
@@ -485,6 +486,12 @@ export class SendComponent implements OnInit, OnDestroy {
                             unlocked,
                             asset_info: { decimal_point },
                         } = assetBalance;
+
+                        if (decimal_point > 18) {
+                            return {
+                                max_decimal_point: { max: 18 }
+                            };
+                        }
 
                         const maximum_amount_by_decimal_point = intToMoney(this.variablesService.maximum_value, decimal_point);
                         if (amount.isGreaterThan(maximum_amount_by_decimal_point)) {

@@ -201,11 +201,14 @@
                 </ng-template>
             </ng-select>
             <div
-                *ngIf="isVisibleErrorByControl(form.controls.asset_id)"
+                *ngIf="isVisibleErrorByControl(form.controls.asset_id) || isVisibleErrorByControl(form)"
                 class="error"
             >
                 <div *ngIf="form.controls.asset_id.hasError('required')">
                     {{ 'ERRORS.REQUIRED' | translate }}
+                </div>
+                <div *ngIf="form.hasError('max_decimal_point')">
+                    {{ 'ERRORS.MAX_DECIMAL_POINT' | translate: { max: form.errors['max_decimal_point'].max } }}
                 </div>
             </div>
         </div>

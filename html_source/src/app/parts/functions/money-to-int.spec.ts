@@ -90,6 +90,7 @@ describe('money-to-int', () => {
     it('Decimal point 3', () => {
         expect(moneyToInt('18446744073709551.615', 3).toString()).toBe('18446744073709551615');
         expect(moneyToInt('0.001', 3).toString()).toBe('1');
+        expect(moneyToInt('0.003', 3).toString()).toBe('3');
     });
 
     it('Decimal point 2', () => {
@@ -102,6 +103,7 @@ describe('money-to-int', () => {
         expect(moneyToInt('1844674407370955160.9', 1).toString()).toBe('18446744073709551609');
         expect(moneyToInt('184467440737095516991.52', 1).toString()).toBe('18446744073709551699');
         expect(moneyToInt('0.1', 1).toString()).toBe('1');
+        expect(moneyToInt('1', 1).toString()).toBe('10');
     });
 
     it('Decimal point 0', () => {
@@ -114,5 +116,6 @@ describe('money-to-int', () => {
         expect(moneyToInt('0.1', 0).toString()).toBe('0');
         expect(moneyToInt('184467440737095516161', 0).toString()).toBe('18446744073709551616');
         expect(moneyToInt('15245.2548', 0).toString()).toBe('15245');
+        expect(moneyToInt('180', 0).toString()).toBe('180');
     });
 });

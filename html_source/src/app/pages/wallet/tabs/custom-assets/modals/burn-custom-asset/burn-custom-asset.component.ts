@@ -67,20 +67,20 @@ export class BurnCustomAssetComponent {
         const {
             currentWallet: { wallet_id },
         } = this.variablesService;
-        const { assetInfo: { decimal_point } } = this.data;
+        const { assetInfo: { asset_id, decimal_point } } = this.data;
 
         const params = {
-            amount: moneyToInt(amount, decimal_point).toString()
+            amount: moneyToInt(amount, decimal_point).toString(),
+            asset_id
         };
 
-        // TODO: Update after creation api for burn
         this._backendService.asyncCall2a(
             'call_wallet_rpc',
             wallet_id,
             {
                 jsonrpc: '2.0',
                 id: 0,
-                method: 'burn',
+                method: 'burn_asset',
                 params,
             },
             (job_id: number): void => {

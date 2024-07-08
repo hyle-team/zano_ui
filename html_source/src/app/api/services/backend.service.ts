@@ -705,6 +705,9 @@ export class BackendService {
                 job_id: +job_id,
                 response: JSON.parse(json_resp),
             };
+            console.group(`----------- ${Commands.dispatch_async_call_result} -----------`);
+                console.log(asyncCommandResults);
+            console.groupEnd();
             this.ngZone.run(() => setTimeout(() => this.dispatchAsyncCallResult$.next(asyncCommandResults), 250));
         });
     }

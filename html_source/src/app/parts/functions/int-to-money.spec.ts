@@ -1,10 +1,13 @@
 
 import { intToMoney } from '@parts/functions/int-to-money';
+import BigNumber from 'bignumber.js';
 
 describe('int-to-money', () => {
     it('Decimal point 20', () => {
         expect(intToMoney('18446744073709551615', 20)).toBe('0.18446744073709551615');
         expect(intToMoney('18446744073709551610', 20)).toBe('0.1844674407370955161');
+        expect(intToMoney('1', 20)).toBe('0.00000000000000000001');
+        expect(intToMoney(new BigNumber('1').negated().toString(), 20)).toBe('-0.00000000000000000001');
     });
 
     it('Decimal point 19', () => {
@@ -75,6 +78,7 @@ describe('int-to-money', () => {
 
     it('Decimal point 3', () => {
         expect(intToMoney('18446744073709551615', 3)).toBe('18446744073709551.615');
+        expect(intToMoney('3', 3)).toBe('0.003');
     });
 
     it('Decimal point 2', () => {
@@ -98,5 +102,6 @@ describe('int-to-money', () => {
         expect(intToMoney('0.1', 0)).toBe('0');
         expect(intToMoney('184467440737095516161', 0)).toBe('18446744073709551616');
         expect(intToMoney('15245.2548', 0)).toBe('15245');
+        expect(intToMoney('1800000', 0)).toBe('1800000');
     });
 });
