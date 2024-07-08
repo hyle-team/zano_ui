@@ -487,12 +487,6 @@ export class SendComponent implements OnInit, OnDestroy {
                             asset_info: { decimal_point },
                         } = assetBalance;
 
-                        if (decimal_point > 18) {
-                            return {
-                                max_decimal_point: { max: 18 }
-                            };
-                        }
-
                         const maximum_amount_by_decimal_point = intToMoney(this.variablesService.maximum_value, decimal_point);
                         if (amount.isGreaterThan(maximum_amount_by_decimal_point)) {
                             return { greater_than_maximum_amount: { max: maximum_amount_by_decimal_point } };
