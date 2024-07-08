@@ -14186,15 +14186,6 @@ class SendComponent {
             decimal_point
           }
         } = assetBalance;
-
-        if (decimal_point > 18) {
-          return {
-            max_decimal_point: {
-              max: 18
-            }
-          };
-        }
-
         const maximum_amount_by_decimal_point = (0,_parts_functions_int_to_money__WEBPACK_IMPORTED_MODULE_10__.intToMoney)(this.variablesService.maximum_value, decimal_point);
 
         if (amount.isGreaterThan(maximum_amount_by_decimal_point)) {
@@ -24110,7 +24101,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const buildTime = '2024-07-08T13:02:51.920Z';
+const buildTime = '2024-07-08T13:57:49.794Z';
 if (_environments_environment__WEBPACK_IMPORTED_MODULE_1__.environment.production) {
     (0,_angular_core__WEBPACK_IMPORTED_MODULE_3__.enableProdMode)();
 }
