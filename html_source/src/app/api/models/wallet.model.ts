@@ -21,14 +21,20 @@ export const defaultSendMoneyParams: SendMoneyParams = {
 
 export class Wallet {
     open_from_exist: boolean;
+
     updated = false;
+
     wallet_id: number;
+
     name: string;
+
     pass: string;
+
     path: string;
+
     address: string;
 
-    private _balances$ = new BehaviorSubject<AssetBalances | null | undefined>(undefined);
+    private _balances$: BehaviorSubject<AssetBalances> = new BehaviorSubject<AssetBalances>([]);
 
     private _assetsInfoWhitelist: AssetsInfoWhitelist = { global_whitelist: [], local_whitelist: [], own_assets: [] };
 
@@ -36,13 +42,13 @@ export class Wallet {
         this._assetsInfoWhitelist = value;
     }
 
+    get assetsInfoWhitelist() {
+        return this._assetsInfoWhitelist;
+    }
+
     get allAssetsInfoWhitelist(): AssetInfo[] {
-        const { global_whitelist = [], local_whitelist= [], own_assets= [] } = this._assetsInfoWhitelist;
-        return [
-            ...global_whitelist,
-            ...local_whitelist,
-            ...own_assets
-        ];
+        const { global_whitelist = [], local_whitelist = [], own_assets = [] } = this._assetsInfoWhitelist;
+        return [...global_whitelist, ...local_whitelist, ...own_assets];
     }
 
     get isEmptyAssetsInfoWhitelist(): boolean {
@@ -50,17 +56,14 @@ export class Wallet {
     }
 
     get allAssetsInfo(): AssetInfo[] {
-        return [
-            zanoAssetInfo,
-            ...this.allAssetsInfoWhitelist
-        ];
+        return [zanoAssetInfo, ...this.allAssetsInfoWhitelist];
     }
 
-    get balances$(): Observable<AssetBalances | null | undefined> {
+    get balances$(): Observable<AssetBalances> {
         return this._balances$.asObservable();
     }
 
-    get balances(): AssetBalances | null | undefined {
+    get balances(): AssetBalances {
         return this._balances$.value;
     }
 
@@ -97,30 +100,47 @@ export class Wallet {
     }
 
     mined_total: number;
+
     tracking_hey: string;
+
     is_auditable: boolean;
+
     is_watch_only: boolean;
+
     exclude_mining_txs: boolean;
+
     alias_available: boolean;
+
     has_bare_unspent_outputs = false;
 
     alias?: Partial<Alias>;
+
     wakeAlias?: boolean;
+
     staking?: boolean;
+
     new_messages?: number;
+
     new_contracts?: number;
 
     history: Transactions = [];
+
     total_history_item?: number;
+
     pages = [];
+
     totalPages: number;
+
     currentPage: number;
+
     excluded_history: Transactions = [];
 
     contracts: Contracts = [];
 
     progress?: number;
+
     loaded?: boolean;
+
     restore?: boolean;
 
     sendMoneyParams: SendMoneyParams | null = null;
@@ -147,8 +167,16 @@ export class Wallet {
         this.loaded = false;
     }
 
+    getBalanceByAssetId(value: string): AssetBalance | undefined {
+        return this.balances.find(({ asset_info: { asset_id } }) => asset_id === value);
+    }
+
+    getAssetInfoByAssetId(value: string): AssetInfo | undefined {
+        return this.allAssetsInfo.find(({ asset_id }) => asset_id === value);
+    }
+
     getBalanceByTicker(searchTicker: string): AssetBalance | undefined {
-        return this.balances?.find(({ asset_info: { ticker } }) => ticker === searchTicker);
+        return this.balances.find(({ asset_info: { ticker } }) => ticker === searchTicker);
     }
 
     getMoneyEquivalentForZano(equivalent): string {

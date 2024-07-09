@@ -8,17 +8,20 @@ import { IntToMoneyPipe } from '@parts/pipes';
 import { BigNumber } from 'bignumber.js';
 import { ModalService } from '@parts/services/modal.service';
 import { StateKeys, Store } from '@store/store';
-import { shareReplay, Subject, switchMap, take } from 'rxjs';
+import { Subject, take } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { paths, pathsChildrenAuth } from './pages/paths';
-import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
+import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { Dialog } from '@angular/cdk/dialog';
 import { ZanoLoadersService } from '@parts/services/zano-loaders.service';
+import { ParamsCallRpc } from '@api/models/call_rpc.model';
 
 @Component({
     selector: 'app-root',
     template: `
-        <router-outlet *ngIf="[0, 1, 2, 6].indexOf(variablesService.daemon_state) !== -1 && !(zanoLoadersService.getState('fullScreen') | async)"></router-outlet>
+        <router-outlet
+            *ngIf="[0, 1, 2, 6].indexOf(variablesService.daemon_state) !== -1 && !(zanoLoadersService.getState('fullScreen') | async)"
+        ></router-outlet>
 
         <div *ngIf="[3, 4, 5].indexOf(variablesService.daemon_state) !== -1" class="preloader">
             <p *ngIf="variablesService.daemon_state === 3" class="mb-2">
@@ -723,6 +726,7 @@ export class AppComponent implements OnInit, OnDestroy {
                 setTimeout(() => {
                     this.backendService.getOptions();
                     this.getInfo();
+                    this._getZanoCurrentSupply();
                 }, 10 * 1000);
             },
             error: error => {
@@ -763,7 +767,7 @@ export class AppComponent implements OnInit, OnDestroy {
             .get('https://explorer.zano.org/api/price?asset=zano')
             .pipe(take(1))
             .subscribe({
-                next: ({ data }: { data: { zano: { usd: number, usd_24h_change: number }, success: boolean} }): void => {
+                next: ({ data }: { data: { zano: { usd: number; usd_24h_change: number }; success: boolean } }): void => {
                     this.variablesService.moneyEquivalent = data['zano']['usd'];
                     this.variablesService.moneyEquivalentPercent = data['zano']['usd_24h_change'];
                 },
@@ -872,5 +876,22 @@ export class AppComponent implements OnInit, OnDestroy {
         };
         getInfo();
         setInterval(getInfo, updateTime);
+    }
+
+    private _getZanoCurrentSupply(): void {
+        const params: ParamsCallRpc = {
+            jsonrpc: '2.0',
+            id: 0,
+            method: 'getinfo',
+            params: {
+                flags: 1024,
+            },
+        };
+
+        this.backendService.call_rpc(params, (status, response_data) => {
+            this.ngZone.run(() => {
+                this.variablesService.zano_current_supply = response_data?.['result']?.['total_coins'] ?? 'Unknown';
+            });
+        });
     }
 }

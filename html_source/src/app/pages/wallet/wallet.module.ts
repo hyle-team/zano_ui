@@ -9,7 +9,8 @@ import {
     ContractStatusMessagesPipeModule,
     HistoryTypeMessagesPipeModule,
     IntToMoneyPipeModule,
-    IsAvailableAliasNamePipeModule, ShortStringPipe,
+    IsAvailableAliasNamePipeModule,
+    ShortStringPipe,
 } from '@parts/pipes';
 import { TranslateModule } from '@ngx-translate/core';
 import { ConfirmModalModule } from '@parts/modals/confirm-modal/confirm-modal.module';
@@ -32,13 +33,23 @@ import { CheckboxComponent } from '@parts/components/checkbox.component';
 import { CopyButtonComponent } from '@parts/components/copy-button.component';
 import { StakingSwitchComponent } from '@parts/components/staking-switch.component';
 import { SwitchComponent } from '@parts/components/switch.component';
-import { TransactionDetailsComponent } from '@parts/components/transaction-details.component';
 import { BreadcrumbsComponent } from '@parts/components/breadcrumbs/breadcrumbs.component';
 import { BackButtonComponent } from '@parts/components/back-button/back-button.component';
 import { WalletModalsModule } from './tabs/send/modals/wallet-modals.module';
 import { GetAssetInfoPipe } from '@parts/pipes/get-asset-info.pipe';
 import { MigrateWalletToZarcanumComponent } from './wallet/modals/migrate-wallet-to-zarcanum/migrate-wallet-to-zarcanum.component';
 import { SuccessSweepBareOutsComponent } from './wallet/modals/success-sweep-bare-outs/success-sweep-bare-outs.component';
+import { GetAmountItemsPipe } from '@parts/pipes/get-amount-items.pipe';
+import { TransactionStatusComponent } from '@parts/components/transaction-status/transaction-status.component';
+import { IsVisibleFeePipe } from '@parts/pipes/is-visible-fee.pipe';
+import { CustomAssetsComponent } from './tabs/custom-assets/pages/custom-assets/custom-assets.component';
+import { CreateNewAssetComponent } from './tabs/custom-assets/pages/create-new-asset/create-new-asset.component';
+import { ConfirmCreateCustomAssetComponent } from './tabs/custom-assets/modals/confirm-create-custom-asset/confirm-create-custom-asset.component';
+import { UpdateCustomAssetComponent } from './tabs/custom-assets/modals/update-custom-asset/update-custom-asset.component';
+import { EmitCustomAssetComponent } from './tabs/custom-assets/modals/emit-custom-asset/emit-custom-asset.component';
+import { BurnCustomAssetComponent } from './tabs/custom-assets/modals/burn-custom-asset/burn-custom-asset.component';
+import { TransactionDetailsForCustomAssetsComponent } from './tabs/custom-assets/modals/transaction-details-for-custom-assets/transaction-details-for-custom-assets.component';
+import { TransactionDetailsComponent } from '@parts/components/transaction-details.component';
 
 @NgModule({
     declarations: [
@@ -52,6 +63,13 @@ import { SuccessSweepBareOutsComponent } from './wallet/modals/success-sweep-bar
         SendComponent,
         MigrateWalletToZarcanumComponent,
         SuccessSweepBareOutsComponent,
+        CustomAssetsComponent,
+        CreateNewAssetComponent,
+        ConfirmCreateCustomAssetComponent,
+        UpdateCustomAssetComponent,
+        EmitCustomAssetComponent,
+        BurnCustomAssetComponent,
+        TransactionDetailsForCustomAssetsComponent,
     ],
     imports: [
         CommonModule,
@@ -81,12 +99,15 @@ import { SuccessSweepBareOutsComponent } from './wallet/modals/success-sweep-bar
         CheckboxComponent,
         AssetDetailsModule,
         CopyButtonComponent,
-        TransactionDetailsComponent,
         LowerCaseDirective,
         BreadcrumbsComponent,
         BackButtonComponent,
         WalletModalsModule,
         GetAssetInfoPipe,
+        GetAmountItemsPipe,
+        TransactionStatusComponent,
+        IsVisibleFeePipe,
+        TransactionDetailsComponent,
     ],
 })
 export class WalletModule {}

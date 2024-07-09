@@ -3,8 +3,8 @@ import { VariablesService } from '@parts/services/variables.service';
 import { BackendService, Commands } from '@api/services/backend.service';
 import { Subject, take } from 'rxjs';
 import { StateKeys, Store, Sync } from '@store/store';
-import { distinctUntilChanged, filter, map, takeUntil } from 'rxjs/operators';
-import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
+import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
+import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { Dialog, DialogConfig } from '@angular/cdk/dialog';
 import { ConfirmModalComponent, ConfirmModalData } from '@parts/modals/confirm-modal/confirm-modal.component';
 import { ExportHistoryModalComponent } from './modals/export-history-modal/export-history-modal.component';
@@ -13,18 +13,9 @@ import { AssetBalance } from '@api/models/assets.model';
 import { AssetDetailsComponent } from '@parts/modals/asset-details/asset-details.component';
 import { WalletsService } from '@parts/services/wallets.service';
 import { Wallet } from '@api/models/wallet.model';
-import {
-    NavigationCancel,
-    NavigationEnd,
-    NavigationError,
-    NavigationStart,
-    Router,
-    RouterEvent
-} from '@angular/router';
+import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterEvent } from '@angular/router';
 import { ZARCANUM_MIGRATION } from '@parts/data/constants';
-import {
-    MigrateWalletToZarcanumComponent
-} from './modals/migrate-wallet-to-zarcanum/migrate-wallet-to-zarcanum.component';
+import { MigrateWalletToZarcanumComponent } from './modals/migrate-wallet-to-zarcanum/migrate-wallet-to-zarcanum.component';
 import { ScrollStrategy, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { ParamsCallRpc } from '@api/models/call_rpc.model';
 import { ModalService } from '@parts/services/modal.service';
@@ -40,7 +31,7 @@ interface Tab {
     indicator?: boolean;
 }
 
-type TabNameKeys = 'assets' | 'history' | 'send' | 'receive' | 'swap' | 'staking';
+type TabNameKeys = 'assets' | 'history' | 'send' | 'receive' | 'swap' | 'staking' | 'custom-assets';
 
 const objTabs: { [key in TabNameKeys]: Tab } = {
     assets: {
@@ -49,7 +40,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
         icon: 'balance-icon',
         link: '/assets',
         disabled: false,
-        hidden: false
+        hidden: false,
     },
     history: {
         id: 'history',
@@ -57,7 +48,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
         icon: 'time-circle',
         link: '/history',
         disabled: false,
-        hidden: false
+        hidden: false,
     },
     send: {
         id: 'send',
@@ -65,7 +56,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
         icon: 'arrow-up-square',
         link: '/send',
         disabled: false,
-        hidden: false
+        hidden: false,
     },
     receive: {
         id: 'receive',
@@ -73,7 +64,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
         icon: 'arrow-down-square',
         link: '/receive',
         disabled: false,
-        hidden: false
+        hidden: false,
     },
     swap: {
         id: 'swap',
@@ -81,7 +72,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
         icon: 'swap',
         link: '/swap',
         disabled: false,
-        hidden: true
+        hidden: true,
     },
     // TODO: https://github.com/hyle-team/zano/issues/374
     // contract: {
@@ -98,15 +89,23 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
         link: '/staking',
         indicator: false,
         disabled: false,
-        hidden: false
+        hidden: false,
     },
+    'custom-assets': {
+        id: 'custom-assets',
+        title: 'Custom assets',
+        icon: 'custom-asset',
+        link: '/custom-assets',
+        indicator: false,
+        disabled: false,
+        hidden: false
+    }
 };
 
 @Component({
     selector: 'app-wallet',
     template: `
-        <div class="header mb-2" fxFlex="0 0 auto" fxLayout="row nowrap" fxLayoutAlign="space-between start"
-             fxLayoutGap="1rem">
+        <div class="header mb-2" fxFlex="0 0 auto" fxLayout="row nowrap" fxLayoutAlign="space-between start" fxLayoutGap="1rem">
             <div class="left overflow-hidden" fxFlex="1 1 auto" fxLayoutAlign="start center" fxLayout="row nowrap" fxLayoutGap="3rem">
                 <div class="wallet-wrapper" fxLayout="column" fxLayoutAlign="start start">
                     <div class="title" fxLayout="row nowrap" fxLayoutAlign="start center">
@@ -152,8 +151,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
                                     variablesService.daemon_state === 2
                                 "
                             >
-                                <div [class.available]="variablesService.currentWallet.alias | isAvailableAliasName"
-                                     class="alias mr-1">
+                                <div [class.available]="variablesService.currentWallet.alias | isAvailableAliasName" class="alias mr-1">
                                     {{ variablesService.currentWallet.alias.name }}
                                 </div>
 
@@ -187,20 +185,27 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
                     </div>
                 </div>
                 <ng-container *ngIf="!variablesService.currentWallet.is_auditable && !variablesService.currentWallet.is_watch_only">
-                  <ng-container *ngIf="variablesService.currentWallet.has_bare_unspent_outputs">
-                    <hr fxFlex="0 0 1px" style="height: 3.6rem; border: none; border-right: 1px solid #ffffff10">
-                    <div class="migrate-alert" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2rem">
-                        <button class="btn-migrate" type="button" (click)="openMigrateWalletToZarcanum()">{{ 'WALLET.MIGRATE.BUTTON2' | translate }}</button>
+                    <ng-container *ngIf="variablesService.currentWallet.has_bare_unspent_outputs">
+                        <hr fxFlex="0 0 1px" style="height: 3.6rem; border: none; border-right: 1px solid #ffffff10" />
+                        <div class="migrate-alert" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2rem">
+                            <button class="btn-migrate" type="button" (click)="openMigrateWalletToZarcanum()">
+                                {{ 'WALLET.MIGRATE.BUTTON2' | translate }}
+                            </button>
 
-                        <div class="migration-details">
-                            <p class="text-wrap">{{ 'WALLET.MIGRATE.TEXT1' | translate }}</p>
-                            <p class="text-align-center cursor-pointer" fxLayout="row" fxLayoutAlign="start center" (click)="openZarcanumMigration()">
-                                <i class="icon info-circle mr-0_5"></i>
-                                <span class="color-primary">{{ 'WALLET.MIGRATE.BUTTON1' | translate }}</span>
-                            </p>
+                            <div class="migration-details">
+                                <p class="text-wrap">{{ 'WALLET.MIGRATE.TEXT1' | translate }}</p>
+                                <p
+                                    class="text-align-center cursor-pointer"
+                                    fxLayout="row"
+                                    fxLayoutAlign="start center"
+                                    (click)="openZarcanumMigration()"
+                                >
+                                    <i class="icon info-circle mr-0_5"></i>
+                                    <span class="color-primary">{{ 'WALLET.MIGRATE.BUTTON1' | translate }}</span>
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                </ng-container>
+                    </ng-container>
                 </ng-container>
             </div>
             <div class="right">
@@ -328,12 +333,15 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
             <div class="tabs-header">
                 <ng-container *ngFor="let tab of tabs">
                     <ng-container *ngIf="!tab.hidden">
-                        <button [disabled]="tab.disabled" [routerLink]="['/wallet' + tab.link]" class="tab-header"
-                                routerLinkActive="active">
+                        <button
+                            [disabled]="tab.disabled"
+                            [routerLink]="['/wallet' + tab.link]"
+                            class="tab-header"
+                            routerLinkActive="active"
+                        >
                             <i [ngClass]="tab.icon" class="icon mr-1"></i>
                             <span>{{ tab.title | translate }}</span>
-                            <span *ngIf="tab.indicator"
-                                  class="indicator">{{ variablesService.currentWallet.new_contracts }}</span>
+                            <span *ngIf="tab.indicator" class="indicator">{{ variablesService.currentWallet.new_contracts }}</span>
                         </button>
                     </ng-container>
                 </ng-container>
@@ -381,7 +389,7 @@ export class WalletComponent implements OnInit, OnDestroy {
         private modalService: ModalService,
         private walletsService: WalletsService,
         private router: Router,
-        private readonly  scrollStrategyOptions: ScrollStrategyOptions
+        private readonly scrollStrategyOptions: ScrollStrategyOptions
     ) {
         this.scrollStrategyNoop = this.scrollStrategyOptions.noop();
 
@@ -390,34 +398,26 @@ export class WalletComponent implements OnInit, OnDestroy {
         }
         this.walletLoaded = this.variablesService.currentWallet.loaded;
 
-        this.variablesService.currentWalletChangedEvent
-            .pipe(
-                takeUntil(this.destroy$)
-            )
-            .subscribe({
-                next: (wallet: Wallet) => {
-                    this.createTabs(wallet);
-                    const disabled =  !wallet.loaded;
-                    this.setDisabledTabs(['send', 'swap', 'staking'], disabled);
+        this.variablesService.currentWalletChangedEvent.pipe(takeUntil(this.destroy$)).subscribe({
+            next: (wallet: Wallet) => {
+                this.createTabs(wallet);
+                const disabled = !wallet.loaded;
+                this.setDisabledTabs(['send', 'swap', 'staking', 'custom-assets'], disabled);
 
-                    this.variablesService.is_hardfok_active$.pipe(
-                        take(1)
-                    ).subscribe({
-                        next: (value) => {
-                            const hidden = !value;
-                            this.setHiddenTabs(['swap'], hidden);
-                        }
-                    });
-                },
-            });
+                this.variablesService.is_hardfok_active$.pipe(take(1)).subscribe({
+                    next: value => {
+                        const hidden = !value;
+                        this.setHiddenTabs(['swap'], hidden);
+                    },
+                });
+            },
+        });
 
-        this.variablesService.is_hardfok_active$.pipe(
-            takeUntil(this.destroy$)
-        ).subscribe({
-            next: (value) => {
+        this.variablesService.is_hardfok_active$.pipe(takeUntil(this.destroy$)).subscribe({
+            next: value => {
                 const hidden = !value;
                 this.setHiddenTabs(['swap'], hidden);
-            }
+            },
         });
 
         this.router.events.pipe(takeUntil(this.destroy$)).subscribe((e: RouterEvent) => {
@@ -444,7 +444,6 @@ export class WalletComponent implements OnInit, OnDestroy {
                 this.loader = false;
             }, 500);
         }
-
     }
 
     createTabs({ is_auditable, is_watch_only }: Wallet): void {
@@ -465,6 +464,10 @@ export class WalletComponent implements OnInit, OnDestroy {
         }
 
         tabs.push(objTabs.staking);
+
+        if (conditionForHiding) {
+            tabs.push(objTabs['custom-assets']);
+        }
 
         this.tabs = tabs;
     }
@@ -550,11 +553,7 @@ export class WalletComponent implements OnInit, OnDestroy {
 
         this.dialog
             .open<boolean>(ConfirmModalComponent, dialogConfig)
-            .closed
-            .pipe(
-                filter(Boolean),
-                takeUntil(this.destroy$)
-            )
+            .closed.pipe(filter(Boolean), takeUntil(this.destroy$))
             .subscribe({
                 next: () => {
                     this.walletsService.closeWallet(wallet_id);
@@ -573,7 +572,7 @@ export class WalletComponent implements OnInit, OnDestroy {
                 next: asset => {
                     const dialogConfig: DialogConfig = {
                         data: {
-                            asset,
+                            asset_info: asset.asset_info,
                             title: 'You added new asset',
                         },
                     };
@@ -593,10 +592,14 @@ export class WalletComponent implements OnInit, OnDestroy {
     }
 
     openMigrateWalletToZarcanum(): void {
-        const { currentWallet: { wallet_id }} = this.variablesService;
+        const {
+            currentWallet: { wallet_id },
+        } = this.variablesService;
         const params: ParamsCallRpc = {
-            id: 0, jsonrpc: '2.0', method: 'get_bare_outs_stats', params: {}
-
+            id: 0,
+            jsonrpc: '2.0',
+            method: 'get_bare_outs_stats',
+            params: {},
         };
         this.backend.call_wallet_rpc([wallet_id, params], (status, response_data) => {
             this.ngZone.run(() => {
@@ -607,7 +610,7 @@ export class WalletComponent implements OnInit, OnDestroy {
                         maxWidth: '90vw',
                         width: '540px',
                         scrollStrategy: this.scrollStrategyNoop,
-                        data
+                        data,
                     };
                     this.dialog.open(MigrateWalletToZarcanumComponent, dialogConfig);
                 } else {
@@ -642,30 +645,28 @@ export class WalletComponent implements OnInit, OnDestroy {
 
                 if (wallet_state === 2) {
                     this.walletLoaded = true;
-                    this.setDisabledTabs(['send', 'swap', 'staking'], false);
+                    this.setDisabledTabs(['send', 'swap', 'staking', 'custom-assets'], false);
                 } else {
                     this.walletLoaded = false;
-                    this.setDisabledTabs(['send', 'swap', 'staking'], true);
+                    this.setDisabledTabs(['send', 'swap', 'staking', 'custom-assets'], true);
                 }
             });
         });
     }
 
     setHiddenTabs(ids: string[], hidden: boolean): void {
-        this.tabs
-            .forEach(tab => {
-                if (ids.includes(tab.id)) {
-                    tab.hidden = hidden;
-                }
-            });
+        this.tabs.forEach(tab => {
+            if (ids.includes(tab.id)) {
+                tab.hidden = hidden;
+            }
+        });
     }
 
     setDisabledTabs(ids: string[], disabled: boolean): void {
-        this.tabs
-            .forEach(tab => {
-                if (ids.includes(tab.id)) {
-                    tab.disabled = disabled;
-                }
-            });
+        this.tabs.forEach(tab => {
+            if (ids.includes(tab.id)) {
+                tab.disabled = disabled;
+            }
+        });
     }
 }

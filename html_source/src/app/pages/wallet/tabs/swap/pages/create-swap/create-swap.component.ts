@@ -5,14 +5,17 @@ import { TranslateModule } from '@ngx-translate/core';
 import { BreadcrumbsComponent } from '@parts/components/breadcrumbs/breadcrumbs.component';
 import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
 import { DefaultImgModule, InputValidateModule, LowerCaseDirective } from '@parts/directives';
-import { AbstractControl, FormBuilder, FormControl, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import {
-    IntToMoneyPipe,
-    IntToMoneyPipeModule,
-    MoneyToIntPipe,
-    MoneyToIntPipeModule,
-    ShortStringPipe
-} from '@parts/pipes';
+    AbstractControl,
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    FormsModule,
+    ReactiveFormsModule,
+    ValidationErrors,
+    Validators,
+} from '@angular/forms';
+import { IntToMoneyPipeModule, MoneyToIntPipeModule, ShortStringPipe } from '@parts/pipes';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { VariablesService } from '@parts/services/variables.service';
 import { AssetBalance, AssetInfo } from '@api/models/assets.model';
@@ -20,15 +23,15 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
 import { regExpAliasName } from '@parts/utils/zano-validators';
 import { BackendService } from '@api/services/backend.service';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
-import { delay, filter, map, retry, startWith, take, takeUntil, tap } from 'rxjs/operators';
+import { delay, filter, map, startWith, take, tap } from 'rxjs/operators';
 import { Aliases } from '@api/models/alias.model';
-import { WrapInfoService } from '@api/services/wrap-info.service';
-import { WrapInfo } from '@api/models/wrap-info';
 import { BigNumber } from 'bignumber.js';
 import { assetHasNotBeenAddedToWallet, insuficcientFunds } from '@parts/utils/zano-errors';
 import { ParamsCallRpc } from '@api/models/call_rpc.model';
 import { LoaderComponent } from '@parts/components/loader.component';
 import { Wallet } from '@api/models/wallet.model';
+import { intToMoney } from '@parts/functions/int-to-money';
+import { moneyToInt } from '@parts/functions/money-to-int';
 
 @Component({
     selector: 'app-create-swap',
@@ -53,10 +56,6 @@ import { Wallet } from '@api/models/wallet.model';
     styleUrls: ['./create-swap.component.scss'],
 })
 export class CreateSwapComponent implements OnInit, OnDestroy {
-    zanoAssetInfo = zanoAssetInfo;
-
-    defaultImgSrc = defaultImgSrc;
-
     breadcrumbItems: BreadcrumbItems = [
         {
             routerLink: '/wallet/swap',
@@ -67,79 +66,68 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
         },
     ];
 
-    variablesService = inject(VariablesService);
+    variablesService: VariablesService = inject(VariablesService);
 
-    fb = inject(FormBuilder);
+    fb: FormBuilder = inject(FormBuilder);
 
     aliasAddress: string;
 
-    loading$ = new BehaviorSubject<boolean>(false);
+    loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-    isWrapShown = false;
+    aliases$: BehaviorSubject<Aliases> = new BehaviorSubject<Aliases>([]);
 
-    aliases$ = new BehaviorSubject<Aliases>([]);
+    isVisibleDropdownAliases$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-    isVisibleDropdownAliases$ = new BehaviorSubject<boolean>(false);
+    isVisibleDropdownAliasesObservable$: Observable<boolean> = this.isVisibleDropdownAliases$.pipe(delay(150));
 
-    isVisibleDropdownAliasesObservable$ = this.isVisibleDropdownAliases$.pipe(delay(150));
-
-    lowerCaseDisabled$ = new BehaviorSubject(true);
-
-    intToMoneyPipe = inject(IntToMoneyPipe);
-
-    moneyToIntPipe = inject(MoneyToIntPipe);
-
-    wrapInfoService = inject(WrapInfoService);
-
-    wrapInfo: WrapInfo;
+    lowerCaseDisabled$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
     errorRpc: { code: number; message: string } = null;
 
-    private backendService = inject(BackendService);
-
-    private ngZone = inject(NgZone);
-
-    private router = inject(Router);
-
-    private destroy$ = new Subject<void>();
-
-    private moneyToInt = inject(MoneyToIntPipe);
-
     currentWallet: Wallet = this.variablesService.currentWallet;
 
-    allAssetsInfo = this.currentWallet.allAssetsInfo;
+    allAssetsInfo: AssetInfo[] = this.currentWallet.allAssetsInfo;
+
+    sendingAssetsInfo$: Observable<AssetInfo[]>;
+
+    sendingDecimalPoint$: Observable<number>;
+
+    receivingAssetsInfo$: Observable<AssetInfo[]>;
+
+    receivingDecimalPoint$: Observable<number>;
+
+    private backendService: BackendService = inject(BackendService);
+
+    private ngZone: NgZone = inject(NgZone);
 
     form = this.fb.group(
         {
-            sending: this.fb.group({
-                amount: this.fb.control(null, {
-                    validators: [
-                        Validators.required,
-                        Validators.min(0.000000000001),
-                        (control: FormControl): ValidationErrors | null => {
-                            if (!control.value) {
-                                return null;
-                            }
+            sending: this.fb.group(
+                {
+                    amount: this.fb.control(null, {
+                        validators: [
+                            Validators.required,
+                            ({ value }: FormControl): ValidationErrors | null => {
+                                const amount: BigNumber = new BigNumber(value);
 
-                            if (control.value === 0) {
-                                return { zero: true };
-                            }
-                            const bigAmount = this.moneyToInt.transform(control.value) as BigNumber;
-                            if (this.isWrapShown) {
-                                if (!this.wrapInfo) {
-                                    return { wrap_info_null: true };
+                                if (amount.eq(0)) {
+                                    return { zero: true };
                                 }
-                                if (bigAmount.isGreaterThan(new BigNumber(this.wrapInfo.unwraped_coins_left))) {
-                                    return { great_than_unwraped_coins: true };
-                                }
-                                if (bigAmount.isLessThan(new BigNumber(this.wrapInfo.tx_cost.zano_needed_for_erc20))) {
-                                    return { less_than_zano_needed: true };
-                                }
-                            }
-                            return null;
-                        },
-                        (control: FormControl): ValidationErrors | null => {
-                            const asset_id = this.form?.controls.sending.controls.asset_id.value;
+
+                                return null;
+                            },
+                        ],
+                    }),
+                    asset_id: this.fb.control(zanoAssetInfo.asset_id, [Validators.required]),
+                },
+                {
+                    validators: [
+                        (form: FormGroup): ValidationErrors | null => {
+                            const { value: asset_id } = form.get('asset_id');
+                            const { value: amount } = form.get('amount');
+                            const preparedAmount = new BigNumber(amount);
+
+                            const { maximum_value } = this.variablesService;
                             if (!asset_id) {
                                 return null;
                             }
@@ -148,23 +136,77 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
                                 v => v.asset_info.asset_id === asset_id
                             );
                             if (asset) {
-                                const unlocked = +this.intToMoneyPipe.transform(asset.unlocked);
-                                return +control.value > unlocked ? { insuficcientFunds } : null;
+                                const {
+                                    asset_info: { decimal_point },
+                                    unlocked,
+                                } = asset;
+                                const maximum_amount_by_decimal_point = intToMoney(maximum_value, decimal_point);
+                                if (preparedAmount.isGreaterThan(maximum_amount_by_decimal_point)) {
+                                    return { greater_than_maximum_amount: { max: maximum_amount_by_decimal_point } };
+                                }
+
+                                const preparedUnlocked = intToMoney(unlocked, decimal_point);
+                                return preparedAmount.isGreaterThan(preparedUnlocked) ? { insuficcientFunds } : null;
                             } else {
                                 return { assetHasNotBeenAddedToWallet };
                             }
                         },
                     ],
-                }),
-                asset_id: this.fb.control(zanoAssetInfo.asset_id, [Validators.required]),
-            }),
-            receiving: this.fb.group({
-                amount: this.fb.control({ value: null, disabled: this.currentWallet.isEmptyAssetsInfoWhitelist }, [Validators.required, Validators.min(0.000000000001)]),
-                asset_id: this.fb.control({
-                    value: this.currentWallet.isEmptyAssetsInfoWhitelist ? null : (this.allAssetsInfo[1].asset_id ?? zanoAssetInfo.asset_id),
-                    disabled: this.currentWallet.isEmptyAssetsInfoWhitelist
-                }, [Validators.required]),
-            }),
+                }
+            ),
+            receiving: this.fb.group(
+                {
+                    amount: this.fb.control({ value: null, disabled: this.currentWallet.isEmptyAssetsInfoWhitelist }, [
+                        Validators.required,
+                        (control: FormControl): ValidationErrors | null => {
+                            if (!control.value) {
+                                return null;
+                            }
+
+                            if (control.value === 0) {
+                                return { zero: true };
+                            }
+                            return null;
+                        },
+                    ]),
+                    asset_id: this.fb.control(
+                        {
+                            value: this.currentWallet.isEmptyAssetsInfoWhitelist
+                                ? null
+                                : this.allAssetsInfo[1].asset_id ?? zanoAssetInfo.asset_id,
+                            disabled: this.currentWallet.isEmptyAssetsInfoWhitelist,
+                        },
+                        [Validators.required]
+                    ),
+                },
+                {
+                    validators: [
+                        (form: FormGroup): ValidationErrors | null => {
+                            const asset_id = form.controls.asset_id.value;
+                            const amount = new BigNumber(form.controls.amount.value);
+                            if (!asset_id) {
+                                return null;
+                            }
+
+                            const asset: AssetBalance | undefined = this.variablesService.currentWallet.balances?.find(
+                                v => v.asset_info.asset_id === asset_id
+                            );
+                            if (asset) {
+                                const {
+                                    asset_info: { decimal_point },
+                                } = asset;
+                                const maximum_amount_by_decimal_point = intToMoney(this.variablesService.maximum_value, decimal_point);
+                                if (amount.isGreaterThan(maximum_amount_by_decimal_point)) {
+                                    return { greater_than_maximum_amount: { max: maximum_amount_by_decimal_point } };
+                                }
+                                return null;
+                            } else {
+                                return { assetHasNotBeenAddedToWallet };
+                            }
+                        },
+                    ],
+                }
+            ),
             receiverAddress: this.fb.control('', [
                 Validators.required,
                 (control: FormControl): ValidationErrors | null => {
@@ -173,8 +215,7 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
                         if (control.value.indexOf('@') !== 0) {
                             this.backendService.validateAddress(control.value, (valid_status, data) => {
                                 this.ngZone.run(() => {
-                                    this.isWrapShown = data.error_code === 'WRAP';
-                                    if (valid_status === false && !this.isWrapShown) {
+                                    if (valid_status === false) {
                                         control.setErrors(Object.assign({ address_not_valid: true }, control.errors));
                                     } else {
                                         if (control.hasError('address_not_valid')) {
@@ -229,28 +270,62 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
         }
     );
 
-    sendingAssetsInfo$: Observable<AssetInfo[]>;
+    private router = inject(Router);
 
-    receivingAssetsInfo$: Observable<AssetInfo[]>;
+    private destroy$ = new Subject<void>();
 
     ngOnInit(): void {
-        this.getWrapInfo();
-        this.getAliases();
-        this.setSendingAssetIdFromHistoryState();
+        this._getAliases();
+        this._setSendingAssetIdFromHistoryState();
 
         this.sendingAssetsInfo$ = this.form.controls.receiving.controls.asset_id.valueChanges.pipe(
             startWith(this.form.controls.receiving.controls.asset_id.value),
-            map((asset_id) => this.allAssetsInfo.filter((v) => v.asset_id !== asset_id))
+            map(asset_id => this.allAssetsInfo.filter(v => v.asset_id !== asset_id))
         );
         this.receivingAssetsInfo$ = this.form.controls.sending.controls.asset_id.valueChanges.pipe(
             startWith(this.form.controls.sending.controls.asset_id.value),
-            map((asset_id) => this.allAssetsInfo.filter((v) => v.asset_id !== asset_id))
+            map(asset_id => this.allAssetsInfo.filter(v => v.asset_id !== asset_id))
+        );
+
+        const { currentWallet } = this.variablesService;
+
+        this.sendingDecimalPoint$ = this.form.controls.sending.controls.asset_id.valueChanges.pipe(
+            startWith(this.form.controls.sending.controls.asset_id.value),
+            map((asset_id: string) => {
+                return currentWallet.getBalanceByAssetId(asset_id)?.asset_info.decimal_point ?? 0;
+            })
+        );
+
+        this.receivingDecimalPoint$ = this.form.controls.receiving.controls.asset_id.valueChanges.pipe(
+            startWith(this.form.controls.receiving.controls.asset_id.value),
+            map((asset_id: string) => {
+                return currentWallet.getBalanceByAssetId(asset_id)?.asset_info.decimal_point ?? 0;
+            })
         );
     }
 
     ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
+    }
+
+    getSrcByAssetInfo({ asset_id }: AssetInfo): string {
+        switch (asset_id) {
+            case zanoAssetInfo.asset_id: {
+                return zanoAssetInfo.logo;
+            }
+            default: {
+                return defaultImgSrc;
+            }
+        }
+    }
+
+    isVisibleErrorByControl(control: AbstractControl): boolean {
+        return control.invalid && (control.dirty || control.touched);
+    }
+
+    isVisibleErrorByForm(form: FormGroup): boolean {
+        return form.invalid && (form.dirty || form.touched);
     }
 
     reverse(): void {
@@ -269,15 +344,6 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
         });
         this.form.controls.sending.controls.amount.updateValueAndValidity();
         this.form.controls.receiving.controls.amount.updateValueAndValidity();
-    }
-
-    getReceivedValue(): number | BigNumber {
-        const amount = this.moneyToInt.transform(this.form.getRawValue().receiving.amount);
-        const needed = new BigNumber(this.wrapInfo.tx_cost.zano_needed_for_erc20);
-        if (amount && needed) {
-            return (amount as BigNumber).minus(needed);
-        }
-        return 0;
     }
 
     inputListenReceiverAddressField(event: any): void {
@@ -327,12 +393,26 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
         const { sending, receiving, receiverAddress } = this.form.getRawValue();
         const { wallet_id } = this.variablesService.currentWallet;
         const { default_fee_big } = this.variablesService;
-        const params1: ParamsCallRpc = {
-            jsonrpc: '2.0',
-            id: 0,
-            method: 'mw_select_wallet',
-            params: { wallet_id },
-        };
+
+        const { currentWallet } = this.variablesService;
+
+        const sendingAsset: AssetInfo | undefined = currentWallet.getAssetInfoByAssetId(sending.asset_id);
+        const receivingAsset: AssetInfo | undefined = currentWallet.getAssetInfoByAssetId(receiving.asset_id);
+
+        if (!sendingAsset) {
+            this.form.controls.sending.controls.asset_id.setErrors({
+                alias_not_found: true,
+            });
+            return;
+        }
+
+        if (!receivingAsset) {
+            this.form.controls.receiving.controls.asset_id.setErrors({
+                alias_not_found: true,
+            });
+            return;
+        }
+
         const params2: ParamsCallRpc = {
             jsonrpc: '2.0',
             id: 0,
@@ -342,13 +422,13 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
                     to_finalizer: [
                         {
                             asset_id: sending.asset_id,
-                            amount: this.moneyToIntPipe.transform(sending.amount),
+                            amount: moneyToInt(sending.amount, sendingAsset.decimal_point),
                         },
                     ],
                     to_initiator: [
                         {
                             asset_id: receiving.asset_id,
-                            amount: this.moneyToIntPipe.transform(receiving.amount),
+                            amount: moneyToInt(receiving.amount, receivingAsset.decimal_point),
                         },
                     ],
                     mixins: 10,
@@ -376,15 +456,15 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
 
         this.backendService.call_wallet_rpc([wallet_id, params2], (status, response_data) => {
             if (response_data?.result) {
-                        this.ngZone.run(() => {
-                            this.router
-                                .navigateByUrl('/wallet/swap-proposal-hex', {
-                                    state: {
-                                        hex_raw_proposal: response_data.result['hex_raw_proposal'],
-                                    },
-                                })
-                                .then();
-                        });
+                this.ngZone.run(() => {
+                    this.router
+                        .navigateByUrl('/wallet/swap-proposal-hex', {
+                            state: {
+                                hex_raw_proposal: response_data.result['hex_raw_proposal'],
+                            },
+                        })
+                        .then();
+                });
             } else {
                 this.ngZone.run(() => {
                     this.errorRpc = response_data.error;
@@ -394,13 +474,13 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
         });
     }
 
-    private setSendingAssetIdFromHistoryState(): void {
+    private _setSendingAssetIdFromHistoryState(): void {
         const state = history.state || {};
-        const asset: AssetBalance = state['asset'];
-        if (asset) {
+        const assetInfo: AssetInfo = state['assetInfo'];
+        if (assetInfo) {
             const {
-                asset_info: { asset_id },
-            } = asset;
+                asset_id,
+            } = assetInfo;
             this.form.patchValue({
                 sending: {
                     asset_id,
@@ -409,27 +489,8 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
         }
     }
 
-    private getAliases(): void {
+    private _getAliases(): void {
         const { aliases } = this.variablesService;
         this.aliases$.next(aliases);
-    }
-
-    private getWrapInfo(): void {
-        this.wrapInfoService
-            .getWrapInfo()
-            .pipe(
-                tap(() => this.loading$.next(true)),
-                retry(5),
-                takeUntil(this.destroy$)
-            )
-            .subscribe({
-                next: value => {
-                    this.wrapInfo = value;
-                    this.loading$.next(false);
-                },
-                error: () => {
-                    this.loading$.next(false);
-                },
-            });
     }
 }

@@ -17,6 +17,7 @@
                     "ID": "Identifiant de l'actif",
                     "MAX_SUPPLE": "Approvisionnement max",
                     "NAME": "Nom de l'actif",
+                    "OWNER": "Owner",
                     "TICKER": "Ticker"
                 }
             }
@@ -94,6 +95,21 @@
             "TO": "À"
         },
         "TITLE": "Confirmer la transaction"
+    },
+    "CONFIRM_CREATE_CUSTOM_ASSET": {
+        "BUTTONS": {
+            "BUTTON1": "Cancel",
+            "BUTTON2": "Confirm"
+        },
+        "TABLE": {
+            "LABEL1": "Ticker",
+            "LABEL2": "Full Name",
+            "LABEL3": "Total Max Supply",
+            "LABEL4": "Current Supply",
+            "LABEL5": "Decimal Point",
+            "LABEL6": "Meta Info"
+        },
+        "TITLE": "Confirm"
     },
     "CONFIRM_SWAP": {
         "BREADCRUMBS": {
@@ -235,6 +251,29 @@
             "REMAINING_ONE_WAITING": "En attente de {{time}}  heure"
         }
     },
+    "CREATE_NEW_ASSETS": {
+        "BREADCRUMBS": {
+            "BREADCRUMB1": "Custom Assets",
+            "BREADCRUMB2": "Create new asset"
+        },
+        "FORM": {
+            "BUTTONS": {
+                "BUTTON1": "Create"
+            },
+            "LABELS": {
+                "LABEL1": "Ticker",
+                "LABEL2": "Full name",
+                "LABEL3": "Total Max Supply",
+                "LABEL4": "Current Supply",
+                "LABEL5": "Decimal Point",
+                "LABEL6": "Meta info"
+            },
+            "PLACEHOLDERS": {
+                "PLACEHOLDER1": "Confidential token",
+                "PLACEHOLDER2": "Comment"
+            }
+        }
+    },
     "CREATE_SWAP": {
         "BREADCRUMBS": {
             "ITEM1": "Swap",
@@ -274,6 +313,32 @@
         "PASS": "Définir le mot de passe du portefeuille",
         "TITLE_SAVE": "Enregistrer le fichier du portefeuille."
     },
+    "CUSTOM_ASSETS": {
+        "BUTTONS": {
+            "BUTTON1": "Create new assets"
+        },
+        "DROP_MENU": {
+            "LABELS": {
+                "LABEL1": "Asset Details",
+                "LABEL2": "Emit",
+                "LABEL3": "Update",
+                "LABEL4": "Burn"
+            }
+        },
+        "TABLE": {
+            "LABELS": {
+                "LABEL1": "Asset ID",
+                "LABEL2": "Ticker",
+                "LABEL3": "Name",
+                "LABEL4": "Total max supply",
+                "LABEL5": "Current Supply",
+                "LABEL6": "Decimal point"
+            }
+        },
+        "TEXT": {
+            "EMPTY": "No custom assets"
+        }
+    },
     "EDIT_ALIAS": {
         "BUTTON_EDIT": "Modifier",
         "COMMENT": {
@@ -292,22 +357,32 @@
     },
     "ERRORS": {
         "ACCESS_DENIED": "Accès refusé",
+        "AMOUNT_GREATER_CURRENT_SUPPLY": "Amount greater current supply",
         "ASSET_HAS_NOT_BEEN_ADDED_TO_WALLET": "Asset has not been added to your wallet",
+        "ASSET_NOT_FOUND": "Asset not found",
         "BAD_ARG": "Argument invalide",
+        "CANNOT_BE_GREATER_THAN_TOTAL_MAX_SUPPLY": "Cannot be greater than Total max supply",
         "CORE_BUSY": "Erreur interne : le noyau est occupé",
         "DAEMON_BUSY": "Erreur interne : le daemon est occupé",
         "FILE_EXIST": "Un fichier avec ce nom existe déjà. Entrez un autre nom pour enregistrer le fichier sous",
         "FILE_NOT_FOUND": "Fichier introuvable",
         "FILE_NOT_SAVED": "Vous ne pouvez pas enregistrer un fichier de portefeuille dans ce dossier. Veuillez choisir un autre dossier.",
         "FILE_RESTORED": "Le fichier de portefeuille a été corrompu. Nous avons récupéré les clés et le portefeuille de la blockchain",
+        "GREATER_THAN_TOTAL_MAX_SUPPLY": "Greater than total max supply",
         "INSUFFICIENT_FUNDS": "Insufficient funds for this transaction",
         "INVALID_PROPOSAL": "Invalid proposal",
+        "MAX": "Max {{ max }}",
+        "MAX_DECIMAL_POINT": "Max decimal point {{ max }}",
+        "MAX_LENGTH": "Maximin length {{ requiredLength }}",
+        "MIN": "Min {{ min }}",
+        "MIN_LENGTH": "Min length {{ requiredLength }}",
         "NOT_ENOUGH_MONEY": "Fonds insuffisants dans le compte",
         "NOT_ENOUGH_OUTPUTS_TO_MIX": "Le nombre de mixage est trop grand pour l'état actuel de la blockchain. Il n'y a pas assez de sorties non utilisées pour mélanger avec",
         "NOT_FILE_ZANO_WALLET": "This file is not recognized as a Zano wallet..",
         "NO_MONEY": "Pas assez de fonds",
         "NO_MONEY_REMOVE_OFFER": "Il n'y a pas de frais pour supprimer une offre, mais pour protéger le réseau contre les transactions de spam, vous devez avoir au moins {{fee}} {{currency}} dans votre portefeuille",
         "REQUIRED": "Required field",
+        "TO_BIG_TOTAL_SUPPLY": "To big total supply, reduce it or make decimal point smaller",
         "TRANSACTION_ERROR": "Erreur. Transaction non complétée.",
         "TRANSACTION_IS_TO_BIG": "La transaction dépasse la limite réseau, envoyez le montant requis avec plusieurs transactions",
         "TRANSFER_ATTEMPT": "Il n'y a pas de connexion au réseau Zano",

@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { Wallet } from '@api/models/wallet.model';
-import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
+import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';

@@ -36,6 +36,14 @@ i {
     }
 
     // WHITE
+    &.custom-asset {
+        background: center / contain no-repeat url(~src/assets/icons/white/custom-asset_icon.svg);
+    }
+
+    &.emit {
+        background: center / contain no-repeat url(~src/assets/icons/white/emit_icon.svg);
+    }
+
     &.arrow-down-square {
         background: center / contain no-repeat url(~src/assets/icons/white/arrow-down-square.svg);
     }
@@ -178,6 +186,10 @@ i {
 
     &.update {
         background: center / contain no-repeat url(~src/assets/icons/white/update.svg);
+    }
+
+    &.update-with-dash {
+        background: center / contain no-repeat url(~src/assets/icons/white/update-with-dash_icon.svg);
     }
 
     &.lock-transaction {

@@ -4,9 +4,9 @@ import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { BehaviorSubject } from 'rxjs';
 
 @Component({
-  selector: 'app-success-sweep-bare-outs',
-  templateUrl: './success-sweep-bare-outs.component.html',
-  styleUrls: ['./success-sweep-bare-outs.component.scss']
+    selector: 'app-success-sweep-bare-outs',
+    templateUrl: './success-sweep-bare-outs.component.html',
+    styleUrls: ['./success-sweep-bare-outs.component.scss'],
 })
 export class SuccessSweepBareOutsComponent {
     readonly dialogData: SweepBareOuts = inject<SweepBareOuts>(DIALOG_DATA);

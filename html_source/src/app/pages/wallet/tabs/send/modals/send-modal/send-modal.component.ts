@@ -19,98 +19,97 @@ import { ZanoValidators } from '@parts/utils/zano-validators';
 @Component({
     selector: 'app-send-modal',
     template: `
-      <div class="modal p-2 border-radius-0_8-rem bg-light-blue max-w-54-rem w-100 max-h-100" fxLayout="row">
-        <div class="wrapper">
-          <form (ngSubmit)="beforeSubmit()" [formGroup]="confirmForm" class="overflow-hidden" fxFlexFill
-                fxLayout="column">
-            <h3 class="title mb-2" fxFlex="0 0 auto">
-              {{ 'CONFIRM.TITLE' | translate }}
-            </h3>
+        <div class="modal p-2 border-radius-0_8-rem bg-light-blue max-w-54-rem w-100 max-h-100" fxLayout="row">
+            <div class="wrapper">
+                <form (ngSubmit)="beforeSubmit()" [formGroup]="confirmForm" class="overflow-hidden" fxFlexFill fxLayout="column">
+                    <h3 class="title mb-2" fxFlex="0 0 auto">
+                        {{ 'CONFIRM.TITLE' | translate }}
+                    </h3>
 
-            <div class="content mb-2 w-100 overflow-x-hidden overflow-y-auto" fxFlex="1 1 auto">
-              <div class="table-info mb-2">
-                <div class="row">
-                  <div class="label max-w-19-rem w-100">
-                    {{ 'CONFIRM.MESSAGE.SEND' | translate }}
-                  </div>
-                  <div class="text">
-                    {{ sendMoneyParams.amount }}
-                    {{ (sendMoneyParams.asset_id | getAssetInfo)?.ticker || '***' }}
-                  </div>
-                </div>
+                    <div class="content mb-2 w-100 overflow-x-hidden overflow-y-auto" fxFlex="1 1 auto">
+                        <div class="table-info mb-2">
+                            <div class="row">
+                                <div class="label max-w-19-rem w-100">
+                                    {{ 'CONFIRM.MESSAGE.SEND' | translate }}
+                                </div>
+                                <div class="text">
+                                    {{ sendMoneyParams.amount }}
+                                    {{ (sendMoneyParams.asset_id | getAssetInfo)?.ticker || '***' }}
+                                </div>
+                            </div>
 
-                <hr class="separator" />
+                            <hr class="separator" />
 
-                <div class="row">
-                  <div class="label max-w-19-rem w-100">
-                    {{ 'CONFIRM.MESSAGE.FROM' | translate }}
-                  </div>
-                  <div class="text">
-                    {{ variablesService.currentWallet.address }}
-                  </div>
-                </div>
+                            <div class="row">
+                                <div class="label max-w-19-rem w-100">
+                                    {{ 'CONFIRM.MESSAGE.FROM' | translate }}
+                                </div>
+                                <div class="text">
+                                    {{ variablesService.currentWallet.address }}
+                                </div>
+                            </div>
 
-                <ng-container *ngIf="!!sendMoneyParams.address">
-                  <hr class="separator" />
+                            <ng-container *ngIf="!!sendMoneyParams.address">
+                                <hr class="separator" />
 
-                  <div class="row">
-                    <div class="label max-w-19-rem w-100">
-                      {{ 'CONFIRM.MESSAGE.TO' | translate }}
+                                <div class="row">
+                                    <div class="label max-w-19-rem w-100">
+                                        {{ 'CONFIRM.MESSAGE.TO' | translate }}
+                                    </div>
+                                    <div class="text">{{ sendMoneyParams.address }}</div>
+                                </div>
+                            </ng-container>
+
+                            <ng-container *ngIf="!!sendMoneyParams.comment">
+                                <hr class="separator" />
+
+                                <div class="row">
+                                    <div class="label max-w-19-rem w-100">
+                                        {{ 'CONFIRM.MESSAGE.COMMENT' | translate }}
+                                    </div>
+                                    <div class="text">{{ sendMoneyParams.comment }}</div>
+                                </div>
+                            </ng-container>
+                        </div>
+
+                        <div *ngIf="variablesService.appPass" class="form__field mb-0">
+                            <label for="password">
+                                {{ 'LOGIN.MASTER_PASS' | translate }}
+                                <span class="color-red">*</span>
+                            </label>
+                            <input
+                                (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
+                                [placeholder]="'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate"
+                                autofocus
+                                class="form__field--input"
+                                [class.invalid]="confirmForm.touched && confirmForm.invalid"
+                                formControlName="password"
+                                id="password"
+                                name="password"
+                                type="password"
+                            />
+                            <div *ngIf="confirmForm.touched && confirmForm.invalid" class="error">
+                                <div *ngIf="confirmForm.hasError('passwordNotMatch')">
+                                    {{ 'LOGIN.FORM_ERRORS.WRONG_PASSWORD' | translate }}
+                                </div>
+                                <div *ngIf="confirmForm.controls.password.hasError('required')">
+                                    {{ 'LOGIN.FORM_ERRORS.PASS_REQUIRED' | translate }}
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="text">{{ sendMoneyParams.address }}</div>
-                  </div>
-                </ng-container>
 
-                <ng-container *ngIf="!!sendMoneyParams.comment">
-                  <hr class="separator" />
-
-                  <div class="row">
-                    <div class="label max-w-19-rem w-100">
-                      {{ 'CONFIRM.MESSAGE.COMMENT' | translate }}
+                    <div class="controls w-100" fxFlex="0 0 auto" fxLayout="row nowrap" fxLayoutGap="1rem">
+                        <button (click)="onClose()" class="outline big w-100" type="button">
+                            {{ 'CONFIRM.BUTTON_CANCEL' | translate }}
+                        </button>
+                        <button class="primary big w-100" type="submit">
+                            {{ 'CONFIRM.BUTTON_CONFIRM' | translate }}
+                        </button>
                     </div>
-                    <div class="text">{{ sendMoneyParams.comment }}</div>
-                  </div>
-                </ng-container>
-              </div>
-
-              <div *ngIf="variablesService.appPass" class="form__field mb-0">
-                <label for="password">
-                  {{ 'LOGIN.MASTER_PASS' | translate }}
-                  <span class="color-red">*</span>
-                </label>
-                <input
-                  (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
-                  [placeholder]="'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate"
-                  autofocus
-                  class="form__field--input"
-                  [class.invalid]="confirmForm.touched && confirmForm.invalid"
-                  formControlName="password"
-                  id="password"
-                  name="password"
-                  type="password"
-                />
-                <div *ngIf="confirmForm.touched && confirmForm.invalid" class="error">
-                  <div *ngIf="confirmForm.hasError('passwordNotMatch')">
-                    {{ 'LOGIN.FORM_ERRORS.WRONG_PASSWORD' | translate }}
-                  </div>
-                  <div *ngIf="confirmForm.controls.password.hasError('required')">
-                    {{ 'LOGIN.FORM_ERRORS.PASS_REQUIRED' | translate }}
-                  </div>
-                </div>
-              </div>
+                </form>
             </div>
-
-            <div class="controls w-100" fxFlex="0 0 auto" fxLayout="row nowrap" fxLayoutGap="1rem">
-              <button (click)="onClose()" class="outline big w-100" type="button">
-                {{ 'CONFIRM.BUTTON_CANCEL' | translate }}
-              </button>
-              <button class="primary big w-100" type="submit">
-                {{ 'CONFIRM.BUTTON_CONFIRM' | translate }}
-              </button>
-            </div>
-          </form>
         </div>
-      </div>
     `,
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

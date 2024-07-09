@@ -1,359 +1,27 @@
 import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, NonNullableFormBuilder, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, NonNullableFormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { BigNumber } from 'bignumber.js';
 import { MIXIN } from '@parts/data/constants';
-import { MoneyToIntPipe } from '@parts/pipes/money-to-int-pipe/money-to-int.pipe';
-import { debounceTime, delay, filter, retry, take, takeUntil, tap } from 'rxjs/operators';
-import { BehaviorSubject, of, Subject } from 'rxjs';
+import { debounceTime, delay, filter, map, retry, startWith, take, takeUntil, tap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, merge, Observable, of, Subject } from 'rxjs';
 import { AssetBalance } from '@api/models/assets.model';
 import { regExpAliasName } from '@parts/utils/zano-validators';
-import { IntToMoneyPipe } from '@parts/pipes';
 import { insuficcientFunds } from '@parts/utils/zano-errors';
-import { Aliases } from '@api/models/alias.model';
+import { Alias, Aliases } from '@api/models/alias.model';
 import { DeeplinkParams, defaultSendMoneyParams } from '@api/models/wallet.model';
 import { WrapInfo } from '@api/models/wrap-info';
 import { WrapInfoService } from '@api/services/wrap-info.service';
 import { SendMoneyParams } from '@api/models/send-money.model';
 import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
+import { moneyToInt } from '@parts/functions/money-to-int';
+import { intToMoney } from '@parts/functions/int-to-money';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-send',
-    template: `
-        <div class="container scrolled-content" fxFlex="1 1 auto">
-            <form
-                (ngSubmit)="showDialog()"
-                [formGroup]="sendMoneyParamsForm"
-                class="form"
-                fxFlex="0 1 50rem"
-                fxLayout="column"
-                fxLayoutAlign="start stretch"
-            >
-                <div class="form__field--row">
-                    <div class="form__field form__field-dropdown">
-                        <label for="send-address">
-                            {{ 'SEND.ADDRESS' | translate }}
-                            <span class="color-red">*</span>
-                        </label>
-                        <input
-                            (contextmenu)="variablesService.onContextMenu($event)"
-                            (focusout)="isVisibleDropdownAliases$.next(false)"
-                            (input)="inputListenAddressField($event)"
-                            (paste)="pasteListenAddressField($event)"
-                            [placeholder]="'PLACEHOLDERS.ADRESS_PLACEHOLDER' | translate"
-                            class="form__field--input"
-                            formControlName="address"
-                            id="send-address"
-                            type="text"
-                            lowerCase
-                            [lowerCaseDisabled]="lowerCaseDisabled$ | async"
-                        />
-
-                        <div
-                            *ngIf="isVisibleDropdownAliasesObservable$ | async"
-                            class="dropdown py-0_5 border-radius-0_8-rem bg-light-blue-details"
-                            [ngStyle]="{
-                                'z-index': 1
-                            }"
-                        >
-                            <ng-container *ngIf="aliases$ | async as aliases">
-                                <ng-container *ngIf="aliases.length; else notFoundAliases">
-                                    <div
-                                        *ngFor="let alias of aliases"
-                                        (click)="sendMoneyParamsForm.controls.address.patchValue(alias.name)"
-                                        class="item"
-                                    >
-                                        <div
-                                            [class.available]="alias.name.length >= 2 && alias.name.length <= 6"
-                                            [class.pl-1]="alias.name.length > 6"
-                                            class="alias"
-                                        >
-                                            <div class="text-ellipsis">{{ alias.name }}</div>
-                                        </div>
-                                    </div>
-                                </ng-container>
-                                <ng-template #notFoundAliases>
-                                    <div class="item pl-1">Not found aliases</div>
-                                </ng-template>
-                            </ng-container>
-                        </div>
-
-                        <div
-                            *ngIf="
-                                sendMoneyParamsForm.controls.address.invalid &&
-                                (sendMoneyParamsForm.controls.address.dirty || sendMoneyParamsForm.controls.address.touched)
-                            "
-                            class="error"
-                        >
-                            <div *ngIf="sendMoneyParamsForm.controls.address.errors['address_not_valid']">
-                                {{ 'SEND.FORM_ERRORS.ADDRESS_NOT_VALID' | translate }}
-                            </div>
-                            <div *ngIf="sendMoneyParamsForm.controls.address.errors['alias_not_found']">
-                                {{ 'SEND.FORM_ERRORS.ALIAS_NOT_FOUND' | translate }}
-                            </div>
-                            <div *ngIf="sendMoneyParamsForm.controls.address.errors['alias_not_valid']">
-                                {{ 'SEND.FORM_ERRORS.ALIAS_NOT_VALID' | translate }}
-                            </div>
-                            <div *ngIf="sendMoneyParamsForm.controls.address.hasError('required')">
-                                {{ 'ERRORS.REQUIRED' | translate }}
-                            </div>
-                        </div>
-
-                        <div *ngIf="aliasAddress" class="info text-ellipsis">
-                            <span>{{ aliasAddress | zanoShortString }}</span>
-                        </div>
-                    </div>
-
-                    <div class="form__field">
-                        <label for="send-amount">
-                            {{ 'SEND.AMOUNT' | translate }}
-                            <span class="color-red">*</span>
-                        </label>
-                        <input
-                            (contextmenu)="variablesService.onContextMenu($event)"
-                            [placeholder]="'PLACEHOLDERS.AMOUNT_PLACEHOLDER' | translate"
-                            appInputValidate="money"
-                            class="form__field--input"
-                            formControlName="amount"
-                            id="send-amount"
-                            type="text"
-                        />
-                        <div
-                            *ngIf="
-                                sendMoneyParamsForm.controls.amount.invalid &&
-                                (sendMoneyParamsForm.controls.amount.dirty || sendMoneyParamsForm.controls.amount.touched)
-                            "
-                            class="error"
-                        >
-                            <div *ngIf="sendMoneyParamsForm.controls.amount.errors['zero']">
-                                {{ 'SEND.FORM_ERRORS.AMOUNT_ZERO' | translate }}
-                            </div>
-                            <div *ngIf="sendMoneyParamsForm.controls.amount.errors['great_than_unwraped_coins']">
-                                {{ 'SEND.FORM_ERRORS.GREAT_THAN_UNWRAPPED_COINS' | translate }}
-                            </div>
-                            <div *ngIf="sendMoneyParamsForm.controls.amount.errors['less_than_zano_needed']">
-                                {{ 'SEND.FORM_ERRORS.LESS_THAN_ZANO_NEEDED' | translate }}
-                            </div>
-                            <div *ngIf="sendMoneyParamsForm.controls.amount.errors['wrap_info_null']">
-                                {{ 'SEND.FORM_ERRORS.WRAP_INFO_NULL' | translate }}
-                            </div>
-                            <div *ngIf="sendMoneyParamsForm.controls.amount.hasError('required')">
-                                {{ 'ERRORS.REQUIRED' | translate }}
-                            </div>
-                            <div *ngIf="sendMoneyParamsForm.controls.amount.hasError('insuficcientFunds')">
-                                {{ sendMoneyParamsForm.controls.amount.errors['insuficcientFunds'].errorText | translate }}
-                            </div>
-                            <div *ngIf="sendMoneyParamsForm.controls.amount.hasError('min')">
-                                {{ 'SEND.FORM_ERRORS.AMOUNT_ZERO' | translate }}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form__field">
-                    <label for="send-comment">{{ 'SEND.COMMENT' | translate }}</label>
-                    <input
-                        (contextmenu)="variablesService.onContextMenu($event)"
-                        [maxLength]="variablesService.maxCommentLength"
-                        class="form__field--input"
-                        formControlName="comment"
-                        id="send-comment"
-                        placeholder="{{ 'PLACEHOLDERS.COMMENT_PLACEHOLDER' | translate }}"
-                        type="text"
-                    />
-                    <div
-                        *ngIf="
-                            sendMoneyParamsForm.controls.comment.invalid &&
-                            (sendMoneyParamsForm.controls.comment.dirty || sendMoneyParamsForm.controls.comment.touched)
-                        "
-                        class="error"
-                    >
-                        <div *ngIf="sendMoneyParamsForm.controls.comment.hasError('maxLength')">
-                            {{ 'SEND.FORM_ERRORS.MAX_LENGTH' | translate }}
-                        </div>
-                    </div>
-                </div>
-
-                <div *ngIf="isWrapShown && wrapInfo && !(loading$ | async)" class="wrap mt-2 mb-2 p-2">
-                    <div class="title">
-                        {{ 'SEND.WRAP.TITLE' | translate }}
-                        <i class="icon info-circle"></i>
-                    </div>
-                    <div class="text-wrap">
-                        {{ 'SEND.WRAP.MAIN_TEXT' | translate }}
-                    </div>
-                    <div class="title">{{ 'SEND.WRAP.ESTIMATE' | translate }}</div>
-                    <table class="text-wrap">
-                        <tr>
-                            <td>{{ 'SEND.WRAP.WILL_RECEIVE' | translate }}</td>
-                            <td *ngIf="!sendMoneyParamsForm.controls.amount.errors">
-                                {{ getReceivedValue() | intToMoney }}
-                                {{ 'SEND.WRAP.wZANO' | translate }}
-                            </td>
-                            <td *ngIf="sendMoneyParamsForm.controls.amount.errors">-</td>
-                        </tr>
-                        <tr>
-                            <td>{{ 'SEND.WRAP.FEE' | translate }}</td>
-                            <td>
-                                {{ wrapInfo?.tx_cost?.zano_needed_for_erc20 | intToMoney : 3 }}
-                                {{ 'SEND.WRAP.ZANO' | translate }}
-                                ({{ '$' + wrapInfo.tx_cost?.usd_needed_for_erc20 }})
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-
-                <div class="form__field">
-                    <label>
-                        {{ 'SEND.ASSET' | translate }}
-                        <span class="color-red">*</span>
-                    </label>
-                    <ng-select
-                        [clearable]="false"
-                        [items]="variablesService.currentWallet.balances$ | async"
-                        [searchable]="false"
-                        (change)="sendMoneyParamsForm.controls.amount.updateValueAndValidity()"
-                        formControlName="asset_id"
-                        class="custom-select with-circle"
-                        [bindValue]="'asset_info.asset_id'"
-                    >
-                        <ng-template ng-option-tmp ng-label-tmp let-asset="item">
-                            <img
-                                height="15"
-                                width="15"
-                                [src]="asset.asset_info.asset_id === zanoAssetInfo.asset_id ? zanoAssetInfo.logo : defaultImgSrc"
-                                [alt]="asset.asset_info.ticker"
-                                defaultImgAlt="default"
-                                [defaultImgSrc]="defaultImgSrc"
-                                appDefaultImg
-                            />
-                            {{ asset.asset_info.full_name || '---' }}
-                            ({{ asset.total | intToMoney }} {{ asset.asset_info.ticker }})
-                        </ng-template>
-                    </ng-select>
-                    <div
-                        *ngIf="
-                            sendMoneyParamsForm.controls.asset_id.invalid &&
-                            (sendMoneyParamsForm.controls.asset_id.dirty || sendMoneyParamsForm.controls.asset_id.touched)
-                        "
-                        class="error"
-                    >
-                        <div *ngIf="sendMoneyParamsForm.controls.asset_id.hasError('required')">
-                            {{ 'ERRORS.REQUIRED' | translate }}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="details mb-2">
-                    <button
-                        (click)="additionalOptions = !additionalOptions"
-                        [class.border-radius-all]="!additionalOptions"
-                        class="header"
-                        type="button"
-                    >
-                        <span>{{ 'SEND.DETAILS' | translate }}</span>
-                        <i
-                            [class.dropdown-arrow-down]="!additionalOptions"
-                            [class.dropdown-arrow-up]="additionalOptions"
-                            class="icon ml-1"
-                        ></i>
-                    </button>
-
-                    <div *ngIf="additionalOptions" class="content">
-                        <div class="form__field--row">
-                            <div class="form__field">
-                                <label for="send-mixin">
-                                    {{ 'SEND.MIXIN' | translate }}
-                                    <span class="color-red">*</span>
-                                </label>
-                                <input
-                                    (contextmenu)="variablesService.onContextMenu($event)"
-                                    [placeholder]="'PLACEHOLDERS.AMOUNT_PLACEHOLDER' | translate"
-                                    appInputValidate="integer"
-                                    class="form__field--input"
-                                    formControlName="mixin"
-                                    id="send-mixin"
-                                    type="text"
-                                    maxlength="3"
-                                />
-                                <div
-                                    *ngIf="
-                                        sendMoneyParamsForm.controls.mixin.invalid &&
-                                        (sendMoneyParamsForm.controls.mixin.dirty || sendMoneyParamsForm.controls.mixin.touched)
-                                    "
-                                    class="error"
-                                >
-                                    <div *ngIf="sendMoneyParamsForm.controls.mixin.hasError('required')">
-                                        {{ 'ERRORS.REQUIRED' | translate }}
-                                    </div>
-                                    <div *ngIf="sendMoneyParamsForm.controls.mixin.hasError('min')">
-                                        {{ 'Min' }} {{ sendMoneyParamsForm.controls.mixin.getError('min')['min'] }}
-                                    </div>
-                                    <div *ngIf="sendMoneyParamsForm.controls.mixin.hasError('max')">
-                                        {{ 'Max' }} {{ sendMoneyParamsForm.controls.mixin.getError('max')['max'] }}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form__field">
-                                <label for="send-fee">
-                                    {{ 'SEND.FEE' | translate }}
-                                    <span class="color-red">*</span>
-                                </label>
-                                <input
-                                    (contextmenu)="variablesService.onContextMenu($event)"
-                                    [placeholder]="'PLACEHOLDERS.FEE_PLACEHOLDER' | translate"
-                                    appInputValidate="money"
-                                    class="form__field--input"
-                                    formControlName="fee"
-                                    id="send-fee"
-                                    type="text"
-                                />
-                                <div
-                                    *ngIf="
-                                        sendMoneyParamsForm.controls.fee.invalid &&
-                                        (sendMoneyParamsForm.controls.fee.dirty || sendMoneyParamsForm.controls.fee.touched)
-                                    "
-                                    class="error"
-                                >
-                                    <div *ngIf="sendMoneyParamsForm.controls.fee.errors['less_min']">
-                                        {{ 'SEND.FORM_ERRORS.FEE_MINIMUM' | translate : { fee: variablesService.default_fee } }}
-                                    </div>
-                                    <div *ngIf="sendMoneyParamsForm.controls.fee.hasError('required')">
-                                        {{ 'SEND.FORM_ERRORS.FEE_REQUIRED' | translate }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <app-checkbox
-                            [label]="'SEND.HIDE' | translate"
-                            [value]="hideWalletAddress || sendMoneyParamsForm.controls['hide'].value"
-                            class="mt-1"
-                            formControlName="hide"
-                        ></app-checkbox>
-                    </div>
-                </div>
-
-                <button
-                    [disabled]="sendMoneyParamsForm.invalid || !variablesService.currentWallet.loaded"
-                    class="primary big max-w-19-rem w-100"
-                    type="submit"
-                >
-                    {{ 'SEND.BUTTON' | translate }}
-                </button>
-            </form>
-        </div>
-
-        <app-send-modal *ngIf="isModalDialogVisible" [sendMoneyParams]="sendMoneyParams" (confirmed)="confirmed($event)"></app-send-modal>
-
-        <app-send-details-modal
-            *ngIf="isModalDetailsDialogVisible"
-            [job_id]="job_id"
-            (eventClose)="handeCloseDetailsModal($event)"
-        ></app-send-details-modal>
-    `,
+    templateUrl: 'send.component.html',
     styles: [
         `
             :host {
@@ -363,358 +31,277 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
     ],
 })
 export class SendComponent implements OnInit, OnDestroy {
-    zanoAssetInfo = zanoAssetInfo;
-
-    defaultImgSrc = defaultImgSrc;
-
     job_id: number;
 
-    isVisibleDropdownAliases$ = new BehaviorSubject<boolean>(false);
+    controllerVisibleDropdownAliasesState$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-    isVisibleDropdownAliasesObservable$ = this.isVisibleDropdownAliases$.pipe(delay(250));
+    isVisibleDropdownAliasesState$: Observable<boolean> = this.controllerVisibleDropdownAliasesState$.pipe(delay(250));
 
-    isModalDialogVisible = false;
+    isSendModalState: boolean = false;
 
-    isModalDetailsDialogVisible = false;
+    isSendDetailsModalState: boolean = false;
 
-    hideWalletAddress = false;
+    hideWalletAddress: boolean = false;
 
     wrapInfo: WrapInfo;
 
-    loading$ = new BehaviorSubject<boolean>(true);
+    loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
-    isWrapShown = false;
+    isVisibleWrapInfoState$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
     aliasAddress: string;
 
-    additionalOptions = false;
+    isVisibleAdditionalOptionsState: boolean = false;
+    variablesService: VariablesService = inject(VariablesService);
+    wrapInfoService: WrapInfoService = inject(WrapInfoService);
+    items$: Observable<(AssetBalance & { disabled: boolean })[]> = combineLatest([
+        this.variablesService.currentWallet.balances$,
+        this.isVisibleWrapInfoState$,
+    ]).pipe(
+        map(([balances, disabled]) => {
+            const items: (AssetBalance & { disabled: boolean })[] = [];
 
-    fb = inject(NonNullableFormBuilder);
+            balances.forEach((balance: AssetBalance) => {
+                const {
+                    asset_info: { asset_id },
+                } = balance;
 
-    intToMoneyPipe = inject(IntToMoneyPipe);
+                if (asset_id === zanoAssetInfo.asset_id) {
+                    return items.push({ ...balance, disabled: false });
+                }
 
-    variablesService = inject(VariablesService);
+                return items.push({ ...balance, disabled });
+            });
 
-    wrapInfoService = inject(WrapInfoService);
+            return items;
+        })
+    );
+    aliases$: BehaviorSubject<Aliases> = new BehaviorSubject<Aliases>(this.variablesService.aliases);
+    lowerCaseDisabled$: BehaviorSubject<boolean> = new BehaviorSubject(true);
+    form: FormGroup<{
+        wallet_id: FormControl<number>;
+        address: FormControl<string>;
+        amount: FormControl<string>;
+        comment: FormControl<string>;
+        asset_id: FormControl<string>;
+        mixin: FormControl<number>;
+        fee: FormControl<string>;
+        hide: FormControl<boolean>;
+    }>;
+    decimal_point$: Observable<number>;
+    errorMessages: { [key: string]: string | undefined } = {
+        address: undefined,
+        fee: undefined,
+    };
+    private _fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
+    private _destroy$: Subject<void> = new Subject<void>();
 
-    aliases$ = new BehaviorSubject<Aliases>([]);
+    private _backendService: BackendService = inject(BackendService);
 
-    lowerCaseDisabled$ = new BehaviorSubject(true);
+    private _ngZone: NgZone = inject(NgZone);
 
-    sendMoneyParamsForm = this.fb.group({
-        wallet_id: this.fb.control(undefined, {
-            validators: [Validators.required],
-        }),
-        address: this.fb.control('', {
-            validators: [
-                Validators.required,
-                (control: FormControl): ValidationErrors | null => {
-                    this.aliasAddress = '';
-                    if (control.value) {
-                        if (control.value.indexOf('@') !== 0) {
-                            this.backendService.validateAddress(control.value, (valid_status, data) => {
-                                this.ngZone.run(() => {
-                                    this.isWrapShown = data.error_code === 'WRAP';
-                                    if (valid_status === false && !this.isWrapShown) {
-                                        control.setErrors(Object.assign({ address_not_valid: true }, control.errors));
-                                    } else {
-                                        if (control.hasError('address_not_valid')) {
-                                            delete control.errors['address_not_valid'];
-                                            if (Object.keys(control.errors).length === 0) {
-                                                control.setErrors(null);
-                                            }
-                                        }
-                                    }
-                                });
-                            });
-                            return control.hasError('address_not_valid') ? { address_not_valid: true } : null;
-                        } else {
-                            if (!regExpAliasName.test(control.value)) {
-                                return { alias_not_valid: true };
-                            } else {
-                                this.backendService.getAliasInfoByName(control.value.replace('@', ''), (alias_status, alias_data) => {
-                                    this.ngZone.run(() => {
-                                        this.aliasAddress = alias_data.address;
-                                        if (alias_status) {
-                                            if (control.hasError('alias_not_found')) {
-                                                delete control.errors['alias_not_found'];
-                                                if (Object.keys(control.errors).length === 0) {
-                                                    control.setErrors(null);
-                                                }
-                                            }
-                                        } else {
-                                            control.setErrors(Object.assign({ alias_not_found: true }, control.errors));
-                                        }
-                                    });
-                                });
-                            }
-                            return control.hasError('alias_not_found') ? { alias_not_found: true } : null;
-                        }
-                    }
-                    return null;
-                },
-            ],
-        }),
-        amount: this.fb.control(undefined, {
-            validators: [
-                Validators.required,
-                Validators.min(0.000000000001),
-                (control: FormControl): ValidationErrors | null => {
-                    if (!control.value) {
-                        return null;
-                    }
-
-                    if (control.value === 0) {
-                        return { zero: true };
-                    }
-                    const bigAmount = this.moneyToInt.transform(control.value) as BigNumber;
-                    if (this.isWrapShown) {
-                        if (!this.wrapInfo) {
-                            return { wrap_info_null: true };
-                        }
-                        if (bigAmount.isGreaterThan(new BigNumber(this.wrapInfo.unwraped_coins_left))) {
-                            return { great_than_unwraped_coins: true };
-                        }
-                        if (bigAmount.isLessThan(new BigNumber(this.wrapInfo.tx_cost.zano_needed_for_erc20))) {
-                            return { less_than_zano_needed: true };
-                        }
-                    }
-                    return null;
-                },
-
-                (control: FormControl): ValidationErrors | null => {
-                    const asset_id = this.sendMoneyParamsForm?.controls.asset_id.value;
-                    if (!asset_id) {
-                        return null;
-                    }
-
-                    const asset: AssetBalance | undefined = this.variablesService.currentWallet.balances?.find(
-                        v => v.asset_info.asset_id === asset_id
-                    );
-                    if (asset) {
-                        const unlocked = +this.intToMoneyPipe.transform(asset.unlocked);
-                        return +control.value > unlocked ? { insuficcientFunds } : null;
-                    }
-                    return null;
-                },
-            ],
-        }),
-        comment: this.fb.control('', {
-            validators: [Validators.maxLength(this.variablesService.maxCommentLength)],
-        }),
-        asset_id: this.fb.control(undefined, {
-            validators: [Validators.required],
-        }),
-        mixin: this.fb.control(MIXIN, {
-            validators: [Validators.required, Validators.min(0), Validators.max(1000)],
-        }),
-        fee: this.fb.control(this.variablesService.default_fee, {
-            validators: [
-                Validators.required,
-                (g: FormControl): ValidationErrors | null => {
-                    if (new BigNumber(g.value).isLessThan(this.variablesService.default_fee)) {
-                        return { less_min: true };
-                    }
-                    return null;
-                },
-            ],
-        }),
-        hide: this.fb.control(false),
-    });
-
-    get sendMoneyParams(): SendMoneyParams {
-        return this.sendMoneyParamsForm.getRawValue() as SendMoneyParams;
-    }
-
-    private destroy$ = new Subject<void>();
-
-    constructor(private backendService: BackendService, private ngZone: NgZone, private moneyToInt: MoneyToIntPipe) {}
+    private _translateService: TranslateService = inject(TranslateService);
 
     ngOnInit(): void {
-        const { aliases } = this.variablesService;
-        this.aliases$.next(aliases);
+        this._getWrapInfo();
 
-        this.getWrapInfo();
-        this.listenSendActionData();
-        this.patchSendMoneyParamsByCurrentWallet();
-        this.saveSendMoneyParams();
-        this.setAssetFromHistoryState();
-    }
-
-    setAssetFromHistoryState(): void {
-        const state = history.state || {};
-        const asset: AssetBalance = state['asset'];
-        if (asset) {
-            const {
-                asset_info: { asset_id },
-            } = asset;
-            this.sendMoneyParamsForm.controls.asset_id.patchValue(asset_id, { emitEvent: false });
-        }
+        this._createForm();
     }
 
     ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
+        this._destroy$.next();
+        this._destroy$.complete();
     }
 
-    showDialog(): void {
-        this.isModalDialogVisible = true;
+    updateAddressErrorMessage(): void {
+        const {
+            controls: { address },
+        } = this.form;
+        let message: string | undefined;
+
+        switch (true) {
+            case address.hasError('address_not_valid'): {
+                message = 'SEND.FORM_ERRORS.ADDRESS_NOT_VALID';
+                break;
+            }
+            case address.hasError('alias_not_found'): {
+                message = 'SEND.FORM_ERRORS.ALIAS_NOT_FOUND';
+                break;
+            }
+            case address.hasError('alias_not_valid'): {
+                message = 'SEND.FORM_ERRORS.ALIAS_NOT_VALID';
+                break;
+            }
+            case address.hasError('required'): {
+                message = 'ERRORS.REQUIRED';
+                break;
+            }
+        }
+        this.errorMessages['address'] = message;
     }
 
-    confirmed(confirmed: boolean): void {
-        this.isModalDialogVisible = false;
-        if (confirmed) {
-            this.onSend();
+    updateFeeErrorMessage(): void {
+        const {
+            controls: { fee },
+        } = this.form;
+        let message: string | undefined;
+
+        switch (true) {
+            case fee.hasError('less_min'): {
+                const { default_fee } = this.variablesService;
+                message = this._translateService.instant('SEND.FORM_ERRORS.FEE_MINIMUM', { fee: default_fee });
+                break;
+            }
+            case fee.hasError('required'): {
+                message = 'SEND.FORM_ERRORS.FEE_REQUIRED';
+                break;
+            }
+            case fee.hasError('greater_than_max_amount'): {
+                const { maximum_value } = this.variablesService;
+                const { decimal_point } = zanoAssetInfo;
+                const max = intToMoney(maximum_value, decimal_point);
+                message = this._translateService.instant('ERRORS.MAX', { max });
+            }
+        }
+
+        this.errorMessages['fee'] = message;
+    }
+
+    getSrcByAsset({ asset_info: { asset_id } }: AssetBalance): string {
+        switch (asset_id) {
+            case zanoAssetInfo.asset_id: {
+                return zanoAssetInfo.logo;
+            }
+            default: {
+                return defaultImgSrc;
+            }
         }
     }
 
-    onSend(): void {
-        if (this.sendMoneyParamsForm.valid) {
-            const { address } = this.sendMoneyParamsForm.getRawValue();
-            let sendMoneyParams: SendMoneyParams = {
-                ...this.sendMoneyParamsForm.getRawValue(),
+    isVisibleErrorByControl(control: AbstractControl): boolean {
+        return control.invalid && (control.dirty || control.touched);
+    }
+
+    isVisibleErrorByForm(form: FormGroup): boolean {
+        return form.invalid && (form.dirty || form.touched);
+    }
+
+    beforeSubmit(): void {
+        this.isSendModalState = true;
+    }
+
+    handleConfirmed(confirmed: boolean): void {
+        this.isSendModalState = false;
+        if (confirmed) {
+            this.submit();
+        }
+    }
+
+    submit(): void {
+        let sendMoneyParams: SendMoneyParams = this.form.getRawValue();
+        const { address, asset_id, amount } = sendMoneyParams;
+
+        const { currentWallet } = this.variablesService;
+        const asset: AssetBalance | undefined = currentWallet.getBalanceByAssetId(asset_id);
+
+        if (asset) {
+            // const {
+            //     asset_info: { decimal_point },
+            // } = asset;
+            sendMoneyParams = {
+                ...sendMoneyParams,
+                // amount: moneyToInt(amount, decimal_point).toString(),
+                amount,
             };
+        } else {
+            this.form.controls.asset_id.setErrors({
+                asset_not_found: true,
+            });
+            return;
+        }
 
-            if (address.indexOf('@') === 0) {
-                const aliasName = address;
-                const alias = this.aliases$.value.find(({ name }) => name === aliasName);
+        if (address.indexOf('@') === 0) {
+            const aliasName = address;
+            const alias = this.aliases$.value.find(({ name }) => name === aliasName);
 
-                if (!alias) {
-                    this.sendMoneyParamsForm.controls.address.setErrors({
-                        alias_not_found: true,
-                    });
-                    return;
-                }
-
-                sendMoneyParams = {
-                    ...sendMoneyParams,
-                    address: alias.address,
-                };
+            if (!alias) {
+                this.form.controls.address.setErrors({
+                    alias_not_found: true,
+                });
+                return;
             }
 
-            this.backendService.sendMoney(sendMoneyParams, job_id => {
-                this.ngZone.run(() => {
-                    this.job_id = job_id;
-                    this.isModalDetailsDialogVisible = true;
-                    this.variablesService.currentWallet.sendMoneyParams = null;
-                });
-            });
+            sendMoneyParams = {
+                ...sendMoneyParams,
+                address: alias.address,
+            };
         }
+
+        this._backendService.sendMoney(sendMoneyParams, (job_id: number) => {
+            this._ngZone.run(() => {
+                this.job_id = job_id;
+                this.isSendDetailsModalState = true;
+                this.variablesService.currentWallet.sendMoneyParams = null;
+            });
+        });
     }
 
     getReceivedValue(): number | BigNumber {
-        const amount = this.moneyToInt.transform(this.sendMoneyParamsForm.value.amount);
-        const needed = new BigNumber(this.wrapInfo.tx_cost.zano_needed_for_erc20);
-        if (amount && needed) {
-            return (amount as BigNumber).minus(needed);
+        const {
+            controls: {
+                amount: { value: amount },
+            },
+        } = this.form;
+        const preparedAmount: BigNumber = moneyToInt(amount);
+        const needed: BigNumber = new BigNumber(this.wrapInfo.tx_cost.zano_needed_for_erc20);
+        if (preparedAmount && needed) {
+            return preparedAmount.minus(needed);
         }
         return 0;
     }
 
-    handeCloseDetailsModal(success: boolean): void {
-        this.isModalDetailsDialogVisible = false;
+    handeCloseSendDetailsModal(success: boolean): void {
+        this.isSendDetailsModalState = false;
         this.job_id = null;
 
         if (success) {
-            const {
-                currentWallet: { wallet_id },
-            } = this.variablesService;
-            this.variablesService.currentWallet.sendMoneyParams = null;
-            this.sendMoneyParamsForm.reset({ ...defaultSendMoneyParams, wallet_id }, { emitEvent: false });
+            const { currentWallet } = this.variablesService;
+            const { wallet_id } = currentWallet;
+            currentWallet.sendMoneyParams = null;
+
+            this.form.reset({ ...defaultSendMoneyParams, wallet_id }, { emitEvent: false });
         }
     }
 
-    private patchSendMoneyParamsByCurrentWallet(): void {
-        const { currentWallet, default_fee } = this.variablesService;
-
-        let sendMoneyParams: SendMoneyParams;
-
-        if (currentWallet.sendMoneyParams) {
-            sendMoneyParams = currentWallet.sendMoneyParams;
-            this.sendMoneyParamsForm.markAllAsTouched();
-        } else {
-            sendMoneyParams = {
-                ...defaultSendMoneyParams,
-                fee: default_fee,
-            };
-        }
-
-        if (currentWallet.is_auditable && !currentWallet.is_watch_only) {
-            sendMoneyParams.hide = true;
-            this.sendMoneyParamsForm.controls['hide'].disable();
-        }
-
-        if (currentWallet.is_auditable) {
-            sendMoneyParams.mixin = 0;
-            this.sendMoneyParamsForm.controls['mixin'].disable();
-        }
-
-        sendMoneyParams.wallet_id = currentWallet.wallet_id;
-
-        this.sendMoneyParamsForm.patchValue(sendMoneyParams, { emitEvent: false });
-    }
-
-    private fillDeepLinkData(value: DeeplinkParams): void {
-        this.additionalOptions = true;
-        this.sendMoneyParamsForm.patchValue({
-            address: value.address,
-            amount: value.amount || null,
-            comment: value.comment || value.comments || '',
-            mixin: +value.mixins || MIXIN,
-            asset_id: zanoAssetInfo.asset_id,
-            fee: value.fee || this.variablesService.default_fee,
-            hide: value.hide_sender === 'true',
-        });
-    }
-
-    private getWrapInfo(): void {
-        this.wrapInfoService
-            .getWrapInfo()
-            .pipe(
-                tap(() => this.loading$.next(true)),
-                retry(5),
-                takeUntil(this.destroy$)
-            )
-            .subscribe({
-                next: value => {
-                    this.wrapInfo = value;
-                    this.loading$.next(false);
-                },
-                error: () => {
-                    this.loading$.next(false);
-                },
-                complete: () => {
-                    this.loading$.next(false);
-                }
-            });
-    }
-
-    pasteListenAddressField(event: any): void {
+    pasteListenAddressField(event: ClipboardEvent): void {
         event.preventDefault();
+        const {
+            controls: { address },
+        } = this.form;
         const { clipboardData } = event;
-        let value = clipboardData.getData('Text') ?? '';
+        let value: string = clipboardData.getData('Text') ?? '';
         this.lowerCaseDisabled$.next(value.indexOf('@') !== 0);
 
         if (value.indexOf('@') === 0) {
             value = value.toLowerCase();
         }
-        this.sendMoneyParamsForm.controls.address.patchValue(value);
+
+        address.patchValue(value);
     }
 
-    inputListenAddressField(event: any): void {
-        const {
-            target: { value },
-        } = event;
-        of((value ?? '') as string)
+    inputListenAddressField({ target: { value } }: any): void {
+        const { aliases } = this.variablesService;
+
+        of(value ?? '')
             .pipe(
                 tap(v => this.lowerCaseDisabled$.next(v.indexOf('@') !== 0)),
-                tap(v => this.isVisibleDropdownAliases$.next(!!v.length && v.indexOf('@') === 0)),
+                tap(v => this.controllerVisibleDropdownAliasesState$.next(!!v.length && v.indexOf('@') === 0)),
                 filter(v => v.indexOf('@') === 0),
                 take(1)
             )
             .subscribe({
                 next: v => {
-                    const filteredAliases = this.variablesService.aliases.filter(({ name }) => {
+                    const filteredAliases: Alias[] = aliases.filter(({ name }) => {
                         return name.indexOf(v) > -1;
                     });
                     this.aliases$.next(filteredAliases);
@@ -722,23 +309,285 @@ export class SendComponent implements OnInit, OnDestroy {
             });
     }
 
-    private listenSendActionData(): void {
-        this.variablesService.sendActionData$.pipe(takeUntil(this.destroy$)).subscribe({
-            next: value => {
-                if (value && value.action === 'send') {
-                    setTimeout(() => {
-                        this.fillDeepLinkData(value);
-                    }, 100);
-                    this.variablesService.sendActionData$.next({});
-                }
+    private _createForm(): void {
+        const { currentWallet, default_fee, maxCommentLength, maximum_value } = this.variablesService;
+
+        let params: SendMoneyParams;
+
+        if (currentWallet.sendMoneyParams) {
+            params = currentWallet.sendMoneyParams;
+        } else {
+            params = {
+                ...defaultSendMoneyParams,
+                wallet_id: currentWallet.wallet_id,
+                fee: default_fee,
+            };
+        }
+
+        if (currentWallet.is_auditable && !currentWallet.is_watch_only) {
+            params.hide = true;
+        }
+
+        if (currentWallet.is_auditable) {
+            params.mixin = 0;
+        }
+
+        const state = history.state || {};
+        const history_asset: AssetBalance = state['asset'];
+
+        if (history_asset) {
+            const {
+                asset_info: { asset_id, decimal_point },
+            } = history_asset;
+            params.asset_id = asset_id;
+            if (params.amount) {
+                params.amount = intToMoney(moneyToInt(params.amount, decimal_point), decimal_point);
+            }
+        }
+
+        this.form = this._fb.group(
+            {
+                wallet_id: this._fb.control<number>(params.wallet_id, {
+                    validators: [Validators.required],
+                }),
+                address: this._fb.control<string>(params.address, {
+                    validators: [
+                        Validators.required,
+                        (control: AbstractControl): ValidationErrors | null => {
+                            this.aliasAddress = '';
+                            if (control.value) {
+                                if (control.value.indexOf('@') !== 0) {
+                                    this._backendService.validateAddress(control.value, (valid_status, data) => {
+                                        this._ngZone.run(() => {
+                                            this.isVisibleWrapInfoState$.next(data.error_code === 'WRAP');
+                                            if (data.error_code === 'WRAP') {
+                                                this.form.controls.asset_id.patchValue(zanoAssetInfo.asset_id);
+                                            }
+
+                                            if (valid_status === false && !this.isVisibleWrapInfoState$.value) {
+                                                control.setErrors(Object.assign({ address_not_valid: true }, control.errors));
+                                            } else {
+                                                if (control.hasError('address_not_valid')) {
+                                                    delete control.errors['address_not_valid'];
+                                                    if (Object.keys(control.errors).length === 0) {
+                                                        control.setErrors(null);
+                                                    }
+                                                }
+                                            }
+                                        });
+                                    });
+                                    return control.hasError('address_not_valid') ? { address_not_valid: true } : null;
+                                } else {
+                                    if (!regExpAliasName.test(control.value)) {
+                                        return { alias_not_valid: true };
+                                    } else {
+                                        this._backendService.getAliasInfoByName(
+                                            control.value.replace('@', ''),
+                                            (alias_status, alias_data) => {
+                                                this._ngZone.run(() => {
+                                                    this.aliasAddress = alias_data.address;
+                                                    if (alias_status) {
+                                                        if (control.hasError('alias_not_found')) {
+                                                            delete control.errors['alias_not_found'];
+                                                            if (Object.keys(control.errors).length === 0) {
+                                                                control.setErrors(null);
+                                                            }
+                                                        }
+                                                    } else {
+                                                        control.setErrors(Object.assign({ alias_not_found: true }, control.errors));
+                                                    }
+                                                });
+                                            }
+                                        );
+                                    }
+                                    return control.hasError('alias_not_found') ? { alias_not_found: true } : null;
+                                }
+                            }
+                            return null;
+                        },
+                    ],
+                }),
+                amount: this._fb.control<string>(params.amount, {
+                    validators: [
+                        Validators.required,
+                        ({ value }: AbstractControl): ValidationErrors | null => {
+                            const isZero: boolean = new BigNumber(value).eq(0);
+
+                            if (isZero) {
+                                return { zero: true };
+                            }
+
+                            const amount: BigNumber = moneyToInt(value);
+
+                            if (this.isVisibleWrapInfoState$.value) {
+                                if (!this.wrapInfo) {
+                                    return { wrap_info_null: true };
+                                }
+                                if (amount.isGreaterThan(new BigNumber(this.wrapInfo.unwraped_coins_left))) {
+                                    return { great_than_unwraped_coins: true };
+                                }
+                                if (amount.isLessThan(new BigNumber(this.wrapInfo.tx_cost.zano_needed_for_erc20))) {
+                                    return { less_than_zano_needed: true };
+                                }
+                            }
+
+                            return null;
+                        },
+                    ],
+                }),
+                comment: this._fb.control<string>(params.comment, {
+                    validators: [Validators.maxLength(maxCommentLength)],
+                }),
+                asset_id: this._fb.control<string>(params.asset_id, {
+                    validators: [Validators.required],
+                }),
+                mixin: this._fb.control<number>(
+                    { value: params.mixin, disabled: currentWallet.is_auditable },
+                    {
+                        validators: [Validators.required, Validators.min(0), Validators.max(1000)],
+                    }
+                ),
+                fee: this._fb.control<string>(params.fee, {
+                    validators: [
+                        Validators.required,
+                        (control: AbstractControl): ValidationErrors | null => {
+                            const max: BigNumber = new BigNumber(intToMoney(maximum_value, zanoAssetInfo.decimal_point));
+                            const amount: BigNumber = new BigNumber(control.value);
+                            return amount.isGreaterThan(max) ? { greater_than_max_amount: { max: max.toString() } } : null;
+                        },
+                        ({ value }: FormControl): ValidationErrors | null => {
+                            if (new BigNumber(value).isLessThan(default_fee)) {
+                                return { less_min: true };
+                            }
+                            return null;
+                        },
+                    ],
+                }),
+                hide: this._fb.control<boolean>({
+                    value: params.hide,
+                    disabled: currentWallet.is_auditable && !currentWallet.is_watch_only,
+                }),
             },
+            {
+                validators: [
+                    (form: FormGroup): ValidationErrors | null => {
+                        const asset_id = form.controls.asset_id.getRawValue();
+                        const amount: BigNumber = new BigNumber(form.controls.amount.getRawValue());
+
+                        const assetBalance: AssetBalance | undefined = currentWallet.getBalanceByAssetId(asset_id);
+
+                        if (!assetBalance) {
+                            return {
+                                asset_not_found: true,
+                            };
+                        }
+
+                        const {
+                            unlocked,
+                            asset_info: { decimal_point },
+                        } = assetBalance;
+
+                        const maximum_amount_by_decimal_point = intToMoney(this.variablesService.maximum_value, decimal_point);
+                        if (amount.isGreaterThan(maximum_amount_by_decimal_point)) {
+                            return { greater_than_maximum_amount: { max: maximum_amount_by_decimal_point } };
+                        }
+
+                        const preparedUnlocked = intToMoney(unlocked, decimal_point);
+                        return amount.isGreaterThan(preparedUnlocked) ? { insuficcientFunds } : null;
+                    },
+                ],
+            }
+        );
+
+        this._listenSendActionData();
+
+        this._saveSendMoneyParams();
+
+        this._formListeners();
+
+        if (currentWallet.sendMoneyParams) {
+            this.form.markAllAsTouched();
+            this.form.updateValueAndValidity();
+            this._updateErrorMessages();
+        }
+    }
+
+    private _formListeners(): void {
+        const { currentWallet } = this.variablesService;
+        const {
+            controls: { asset_id, address, fee },
+        } = this.form;
+
+        this.decimal_point$ = this.form.controls.asset_id.valueChanges.pipe(
+            startWith(asset_id.value),
+            map((value: string): number => {
+                return currentWallet.getBalanceByAssetId(value)?.asset_info.decimal_point ?? 0;
+            })
+        );
+
+        merge(address.statusChanges, address.valueChanges)
+            .pipe(takeUntil(this._destroy$))
+            .subscribe((): void => this.updateAddressErrorMessage());
+
+        merge(fee.statusChanges, fee.valueChanges)
+            .pipe(takeUntil(this._destroy$))
+            .subscribe((): void => this.updateFeeErrorMessage());
+    }
+
+    private _updateErrorMessages(): void {
+        this.updateAddressErrorMessage();
+        this.updateFeeErrorMessage();
+    }
+
+    private _saveSendMoneyParams(): void {
+        const { valueChanges } = this.form;
+        const { currentWallet } = this.variablesService;
+        valueChanges.pipe(debounceTime(200), takeUntil(this._destroy$)).subscribe({
+            next: (): void => {
+                currentWallet.sendMoneyParams = this.form.getRawValue();
+            }
         });
     }
 
-    private saveSendMoneyParams(): void {
-        this.sendMoneyParamsForm.valueChanges.pipe(debounceTime(200), takeUntil(this.destroy$)).subscribe({
-            next: () => {
-                this.variablesService.currentWallet.sendMoneyParams = this.sendMoneyParamsForm.getRawValue();
+    private _getWrapInfo(): void {
+        this.wrapInfoService
+            .getWrapInfo()
+            .pipe(
+                tap(() => this.loading$.next(true)),
+                retry(5),
+                takeUntil(this._destroy$)
+            )
+            .subscribe({
+                next: (wrapInfo: WrapInfo) => {
+                    this.wrapInfo = wrapInfo;
+                    this.loading$.next(false);
+                },
+                error: () => {
+                    this.loading$.next(false);
+                },
+                complete: () => {
+                    this.loading$.next(false);
+                },
+            });
+    }
+
+    private _listenSendActionData(): void {
+        this.variablesService.sendActionData$.pipe(takeUntil(this._destroy$)).subscribe({
+            next: (value: DeeplinkParams) => {
+                if (value && value.action === 'send') {
+                    const { address, amount, comment, comments, mixins, fee, hide_sender } = value;
+                    this.isVisibleAdditionalOptionsState = true;
+                    this.form.patchValue({
+                        address,
+                        amount: amount || null,
+                        comment: comment || comments || '',
+                        mixin: +mixins || MIXIN,
+                        asset_id: zanoAssetInfo.asset_id,
+                        fee: fee || this.variablesService.default_fee,
+                        hide: hide_sender === 'true',
+                    });
+                    this.variablesService.sendActionData$.next({});
+                }
             },
         });
     }

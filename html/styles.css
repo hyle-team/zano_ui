@@ -777,6 +777,10 @@ body {
   background: center/contain no-repeat url('purchase-arrow-down.svg');
 }.icon.purchase-arrow-up {
   background: center/contain no-repeat url('purchase-arrow-up.svg');
+}.icon.custom-asset {
+  background: center/contain no-repeat url('custom-asset_icon.svg');
+}.icon.emit {
+  background: center/contain no-repeat url('emit_icon.svg');
 }.icon.arrow-down-square {
   background: center/contain no-repeat url('arrow-down-square.svg');
 }.icon.swap {
@@ -849,6 +853,8 @@ body {
   background: center/contain no-repeat url('wallet-options.svg');
 }.icon.update {
   background: center/contain no-repeat url('update.svg');
+}.icon.update-with-dash {
+  background: center/contain no-repeat url('update-with-dash_icon.svg');
 }.icon.lock-transaction {
   background: center/contain no-repeat url('lock-transaction.svg');
 }.icon.unlock-transaction {
@@ -887,7 +893,7 @@ body {
   }
 }.migrate-alert .btn-migrate {
   background-color: rgba(31, 143, 235, 0.2);
-  color: #1F8FEB;
+  color: #1f8feb;
   font-size: 1.8rem;
   line-height: 1.2;
   padding: 0.8rem 2rem;
@@ -1163,7 +1169,7 @@ body {
   background-color: var(--gray-900);
   color: var(--white-500) !important;
 }.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-disabled {
-  color: var(--white-500) !important;
+  color: rgba(255, 255, 255, 0.5) !important;
 }.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-child {
   padding-left: 2.2rem;
 }[dir=rtl] .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-child {
@@ -1426,60 +1432,60 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   100% {
     background-position: 100% 7rem;
   }
-}table {
+}table.zano-table {
   width: 100%;
   table-layout: fixed;
-}table .row-divider {
+}table.zano-table .row-divider {
   height: 1rem;
   transition: 0.2s height linear, 0s font-size;
   transition-delay: 0s, 0.2s;
-}table .row-divider.hide {
+}table.zano-table .row-divider.hide {
   height: 0;
-}table thead {
+}table.zano-table thead {
   text-align: left;
   border-radius: 0.8rem;
   overflow: auto;
-}table thead tr {
+}table.zano-table thead tr {
   /** Sticky header */
-}table thead tr th {
+}table.zano-table thead tr th {
   background-color: var(--blue-700);
   z-index: 5;
   max-width: 10rem;
   overflow: hidden;
   text-overflow: ellipsis;
-}table thead tr th .bg {
+}table.zano-table thead tr th .bg {
   background-color: var(--blue-400);
-}table thead tr th .title {
+}table.zano-table thead tr th .title {
   overflow: hidden;
   text-overflow: ellipsis;
   padding: 2rem;
   width: 100%;
-}table thead tr th:first-child .title {
+}table.zano-table thead tr th:first-child .title {
   border-radius: 0.8rem 0 0 0.8rem;
-}table thead tr th:last-child .title {
+}table.zano-table thead tr th:last-child .title {
   border-radius: 0 0.8rem 0.8rem 0;
-}table thead tr th {
+}table.zano-table thead tr th {
   position: sticky;
   top: 0;
-}table tbody {
+}table.zano-table tbody {
   text-align: left;
-}table tbody tr {
+}table.zano-table tbody tr {
   background-color: var(--blue-300);
   transition: 0.5s height linear, 0s font-size;
   transition-delay: 0s, 0.5s;
   height: auto;
-}table tbody tr td {
+}table.zano-table tbody tr td {
   padding: 2rem;
   vertical-align: middle;
   white-space: nowrap;
   max-width: 10rem;
   overflow: hidden;
   text-overflow: ellipsis;
-}table tbody tr td:first-child {
+}table.zano-table tbody tr td:first-child {
   border-radius: 0.8rem 0 0 0.8rem;
-}table tbody tr td:last-child {
+}table.zano-table tbody tr td:last-child {
   border-radius: 0 0.8rem 0.8rem 0;
-}table tbody tr:not(.details) {
+}table.zano-table tbody tr:not(.details) {
   cursor: pointer;
 }.table-info {
   display: flex;
@@ -1510,6 +1516,34 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
 }.table-info .row .text {
   width: 100%;
   word-break: break-word;
+}table.rounded-corners {
+  border-spacing: 0;
+  border-collapse: separate;
+  border-radius: 1rem;
+  border: 1.5px solid #33426E;
+}table.rounded-corners th:not(:last-child),
+table.rounded-corners td:not(:last-child) {
+  border-right: 1.5px solid #33426E;
+}table.rounded-corners > tbody > tr:first-child > td:first-child {
+  border-top-left-radius: 0.8rem;
+}table.rounded-corners > tbody > tr:first-child > td:last-child {
+  border-top-right-radius: 0.8rem;
+}table.rounded-corners > tbody > tr:last-child > td:first-child {
+  border-bottom-left-radius: 0.8rem;
+}table.rounded-corners > tbody > tr:last-child > td:last-child {
+  border-bottom-right-radius: 0.8rem;
+}table.rounded-corners > thead > tr:not(:last-child) > th,
+table.rounded-corners > thead > tr:not(:last-child) > td,
+table.rounded-corners > tbody > tr:not(:last-child) > th,
+table.rounded-corners > tbody > tr:not(:last-child) > td,
+table.rounded-corners > tfoot > tr:not(:last-child) > th,
+table.rounded-corners > tfoot > tr:not(:last-child) > td,
+table.rounded-corners > tr:not(:last-child) > td,
+table.rounded-corners > tr:not(:last-child) > th,
+table.rounded-corners > thead:not(:last-child),
+table.rounded-corners > tbody:not(:last-child),
+table.rounded-corners > tfoot:not(:last-child) {
+  border-bottom: 1.5px solid #33426E;
 }.tabs {
   display: flex;
   flex-direction: column;
@@ -1932,30 +1966,44 @@ app-sidebar .sidebar-footer .synchronization-status .status-container .online {
   background-color: var(--gray-800);
 }.wallet .progress-bar .fill {
   background-color: var(--white-500);
-}app-send-details-modal .status .image, app-success-sweep-bare-outs .status .image {
+}app-send-details-modal .status .image,
+app-success-sweep-bare-outs .status .image,
+app-transaction-details-for-custom-assets .status .image {
   max-width: 13rem;
   max-height: 13rem;
   width: 100%;
   height: 100%;
-}app-send-details-modal .status .image img, app-success-sweep-bare-outs .status .image img {
+}app-send-details-modal .status .image img,
+app-success-sweep-bare-outs .status .image img,
+app-transaction-details-for-custom-assets .status .image img {
   width: 100%;
   height: 100%;
-}app-send-details-modal .details .header, app-success-sweep-bare-outs .details .header {
+}app-send-details-modal .details .header,
+app-success-sweep-bare-outs .details .header,
+app-transaction-details-for-custom-assets .details .header {
   min-height: 4rem;
   max-height: 4rem;
   background-color: var(--blue-500);
-}app-send-details-modal .details-wrapper, app-success-sweep-bare-outs .details-wrapper {
+}app-send-details-modal .details-wrapper,
+app-success-sweep-bare-outs .details-wrapper,
+app-transaction-details-for-custom-assets .details-wrapper {
   max-height: 35rem;
   background-color: var(--blue-500);
   scroll-behavior: smooth;
-}app-send-details-modal .details-list, app-success-sweep-bare-outs .details-list {
+}app-send-details-modal .details-list,
+app-success-sweep-bare-outs .details-list,
+app-transaction-details-for-custom-assets .details-list {
   width: 100%;
-}app-send-details-modal .details-list .item .image, app-success-sweep-bare-outs .details-list .item .image {
+}app-send-details-modal .details-list .item .image,
+app-success-sweep-bare-outs .details-list .item .image,
+app-transaction-details-for-custom-assets .details-list .item .image {
   max-width: 1.5rem;
   max-height: 1.5rem;
   width: 100%;
   height: 100%;
-}app-send-details-modal .details-list .item .image img, app-success-sweep-bare-outs .details-list .item .image img {
+}app-send-details-modal .details-list .item .image img,
+app-success-sweep-bare-outs .details-list .item .image img,
+app-transaction-details-for-custom-assets .details-list .item .image img {
   width: 100%;
   height: 100%;
 }app-assign-alias .assign-alias-tooltip {
@@ -2142,6 +2190,8 @@ app-contracts .container .wrap-table table.contracts-table tbody tr .comment {
   text-align: center;
 }.word-break-break-all {
   word-break: break-all;
+}.word-break-break-word {
+  word-break: break-word;
 }.bg-light-gray {
   background-color: var(--gray-900);
 }.bg-light-blue {
@@ -2367,6 +2417,8 @@ app-contracts .container .wrap-table table.contracts-table tbody tr .comment {
   max-height: 100%;
 }.min-width-4_4-rem {
   min-width: 4.4rem;
+}.min-w-19-rem {
+  min-width: 19rem;
 }.min-height-4_4-rem {
   min-height: 4.4rem;
 }.max-w-19-rem {

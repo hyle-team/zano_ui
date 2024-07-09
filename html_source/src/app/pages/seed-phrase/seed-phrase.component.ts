@@ -3,7 +3,7 @@ import { BackendService } from '@api/services/backend.service';
 import { ActivatedRoute } from '@angular/router';
 import { VariablesService } from '@parts/services/variables.service';
 import { FormBuilder, Validators } from '@angular/forms';
-import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
+import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';

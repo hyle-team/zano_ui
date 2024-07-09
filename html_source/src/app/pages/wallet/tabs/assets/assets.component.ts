@@ -21,7 +21,7 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
     template: `
         <div fxFlexFill fxLayout="column">
             <div class="scrolled-content" [class.mb-2]="isShowPagination" fxFlex="1 1 auto">
-                <table class="assets-table">
+                <table class="zano-table assets-table">
                     <thead>
                         <tr>
                             <th>
@@ -81,7 +81,7 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                                     <td>
                                         <div class="text-ellipsis">
                                             <b>
-                                                {{ asset.total | intToMoney }}
+                                                {{ asset.total | intToMoney : asset.asset_info.decimal_point }}
                                                 {{ asset.asset_info.ticker }}
                                             </b>
                                         </div>
@@ -90,7 +90,8 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                                         <td>
                                             <div class="text-ellipsis">
                                                 <b>{{
-                                                    (asset.total | intToMoney) * variablesService.moneyEquivalent | currency : 'USD'
+                                                    (asset.total | intToMoney : asset.asset_info.decimal_point) *
+                                                        variablesService.moneyEquivalent | currency : 'USD'
                                                 }}</b>
                                             </div>
                                         </td>
@@ -184,9 +185,16 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                     </button>
                 </li>
 
-                <ng-container *ngIf="variablesService.currentWallet.loaded && variablesService.daemon_state === 2 && !variablesService.currentWallet.is_auditable && !variablesService.currentWallet.is_watch_only">
+                <ng-container
+                    *ngIf="
+                        variablesService.currentWallet.loaded &&
+                        variablesService.daemon_state === 2 &&
+                        !variablesService.currentWallet.is_auditable &&
+                        !variablesService.currentWallet.is_watch_only
+                    "
+                >
                     <li class="item">
-                        <a routerLink="/wallet/send" [state]="{ asset: currentAsset }" class="w-100 px-2 py-1">
+                        <a routerLink="/wallet/send" [state]="{ assetInfo: currentAsset }" class="w-100 px-2 py-1">
                             <i class="icon arrow-up-square mr-1"></i>
                             <span>{{ 'Send' | translate }}</span>
                         </a>
@@ -194,7 +202,7 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
 
                     <ng-container *ngIf="variablesService.is_hardfok_active$ | async">
                         <li class="item">
-                            <a routerLink="/wallet/create-swap" [state]="{ asset: currentAsset }" class="w-100 px-2 py-1">
+                            <a routerLink="/wallet/create-swap" [state]="{ assetInfo: currentAsset }" class="w-100 px-2 py-1">
                                 <i class="icon swap mr-1"></i>
                                 <span>{{ 'Swap' | translate }}</span>
                             </a>
@@ -220,6 +228,21 @@ export class AssetsComponent implements OnInit, OnDestroy {
     itemsPerPage = 10;
 
     paginationId = 'pagination-assets-id';
+    zanoAssetInfo = zanoAssetInfo;
+    defaultImgSrc = defaultImgSrc;
+    triggerOrigin!: CdkOverlayOrigin;
+    currentAsset!: AssetBalance;
+    isOpenDropDownMenu = false;
+    private destroy$ = new Subject<void>();
+
+    constructor(
+        public variablesService: VariablesService,
+        private backendService: BackendService,
+        private walletsService: WalletsService,
+        private dialog: Dialog,
+        private intToMoneyPipe: IntToMoneyPipe,
+        private translate: TranslateService
+    ) {}
 
     get paginatePipeArgs(): PaginatePipeArgs {
         return {
@@ -237,27 +260,6 @@ export class AssetsComponent implements OnInit, OnDestroy {
         }
         return false;
     }
-
-    zanoAssetInfo = zanoAssetInfo;
-
-    defaultImgSrc = defaultImgSrc;
-
-    triggerOrigin!: CdkOverlayOrigin;
-
-    currentAsset!: AssetBalance;
-
-    isOpenDropDownMenu = false;
-
-    private destroy$ = new Subject<void>();
-
-    constructor(
-        public variablesService: VariablesService,
-        private backendService: BackendService,
-        private walletsService: WalletsService,
-        private dialog: Dialog,
-        private intToMoneyPipe: IntToMoneyPipe,
-        private translate: TranslateService
-    ) {}
 
     ngOnInit(): void {
         this.listenChangeWallet();
@@ -285,7 +287,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
     assetDetails(): void {
         const dialogConfig: DialogConfig = {
             data: {
-                asset: this.currentAsset,
+                asset_info: this.currentAsset.asset_info,
             },
         };
         this.dialog.open(AssetDetailsComponent, dialogConfig);
@@ -295,9 +297,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
         if (!this.currentAsset) {
             return;
         }
-        const {
-            asset_info: { full_name },
-        } = this.currentAsset;
+        const { full_name } = this.currentAsset.asset_info;
         const dialogConfig: DialogConfig<ConfirmModalData> = {
             data: {
                 title: `Do you want delete "${full_name}"`,
@@ -314,9 +314,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
 
     removeAsset(): void {
         const { wallet_id, sendMoneyParams } = this.variablesService.currentWallet;
-        const {
-            asset_info: { asset_id },
-        } = this.currentAsset;
+        const { asset_id } = this.currentAsset.asset_info;
         const params: ParamsRemoveCustomAssetId = {
             wallet_id,
             asset_id,
@@ -339,12 +337,12 @@ export class AssetsComponent implements OnInit, OnDestroy {
         }
 
         scrollWrapper.classList.add('balance-scroll-list');
-        [balance].forEach(({ unlocked, total, asset_info: { ticker } }: AssetBalance) => {
+        [balance].forEach(({ unlocked, total, asset_info: { ticker, decimal_point } }: AssetBalance) => {
             const available = document.createElement('span');
             available.setAttribute('class', 'available');
             available.innerText = `${this.translate.instant('WALLET.AVAILABLE_BALANCE')} `;
             const availableB = document.createElement('b');
-            availableB.innerText = `${ this.intToMoneyPipe.transform(unlocked) } ${ ticker || '---' }`;
+            availableB.innerText = `${this.intToMoneyPipe.transform(unlocked, decimal_point)} ${ticker || '---'}`;
             available.appendChild(availableB);
             scrollWrapper.appendChild(available);
 
@@ -352,7 +350,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
             locked.setAttribute('class', 'locked');
             locked.innerText = `${this.translate.instant('WALLET.LOCKED_BALANCE')} `;
             const lockedB = document.createElement('b');
-            lockedB.innerText = `${ this.intToMoneyPipe.transform(new BigNumber(total).minus(unlocked)) } ${ ticker || '---' }`;
+            lockedB.innerText = `${this.intToMoneyPipe.transform(new BigNumber(total).minus(unlocked), decimal_point)} ${ticker || '---'}`;
             locked.appendChild(lockedB);
             scrollWrapper.appendChild(locked);
         });

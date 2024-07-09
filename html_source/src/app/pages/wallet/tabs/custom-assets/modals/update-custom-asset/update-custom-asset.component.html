@@ -1,0 +1,49 @@
+<div class="p-2 border-radius-0_8-rem bg-light-blue w-100 max-h-90-vh" fxFlex="0 1 54rem">
+    <div class="overflow-hidden" fxFlexFill fxLayout="column">
+        <form (ngSubmit)="submit()" [formGroup]="form" class="overflow-hidden" fxFlexFill fxLayout="column">
+            <h3 class="title mb-2" fxFlex="0 0 auto">
+                {{ 'Update asset' | translate }}
+            </h3>
+
+            <div class="content mb-2 w-100 overflow-x-hidden overflow-y-auto" fxFlex="1 1 auto">
+                <div class="form__field mb-0">
+                    <label for="owner">
+                        {{ 'Owner' | translate }}
+                        <span class="color-red">*</span>
+                    </label>
+                    <input
+                        (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
+                        [class.invalid]="form.controls.owner.touched && form.controls.owner.invalid"
+                        [placeholder]="'Owner' | translate"
+                        autofocus
+                        class="form__field--input"
+                        formControlName="owner"
+                        id="owner"
+                        name="owner"
+                        type="text"
+                    />
+                    <div
+                        *ngIf="form.controls.owner.invalid &&
+                        (form.controls.owner.touched || form.controls.owner.dirty)" class="error">
+                        <div *ngIf="form.controls.owner.hasError('required')">
+                            {{ 'ERRORS.REQUIRED' | translate }}
+                        </div>
+                        <div *ngIf="form.controls.owner.hasError('pattern')">
+                            {{ 'Is not hex' | translate }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls w-100" fxFlex="0 0 auto" fxLayout="row nowrap" fxLayoutGap="1rem">
+                <button (click)="dialogRef.close(false)" class="outline big w-100" type="button">
+                    {{ 'Cancel' | translate }}
+                </button>
+                <button [disabled]="form.invalid" class="primary big w-100"
+                        type="submit">
+                    {{ 'Confirm' | translate }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

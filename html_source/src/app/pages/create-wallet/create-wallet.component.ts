@@ -191,43 +191,53 @@ export class CreateWalletComponent {
         setTimeout(() => {
             const { path: selectedPath, password, name } = this.createForm.getRawValue();
             this.backend.generateWallet(selectedPath, password, async (generate_status, generate_data, errorCode) => {
-            if (generate_status) {
-                const { wallet_id } = generate_data;
-                const { path, address, balance, unlocked_balance, mined_total, tracking_hey } = generate_data['wi'];
-                const wallet = new Wallet(wallet_id, name, password, path, address, balance, unlocked_balance, mined_total, tracking_hey);
-                wallet.alias = this.backend.getWalletAlias(address);
-                wallet.total_history_item = 0;
-                wallet.pages = new Array(1).fill(1);
-                wallet.totalPages = 1;
-                wallet.currentPage = 1;
-                await this.backend.runWallet(wallet_id, async (run_status, run_data) => {
-                    if (run_status) {
-                        await this.ngZone.run(async () => {
-                            this.walletsService.addWallet(wallet);
-                            if (this.variablesService.appPass) {
-                                this.backend.storeSecureAppData();
-                            }
-                            this.variablesService.setCurrentWallet(wallet_id);
-                            this.loading$.next(false);
-                            await this.router.navigate(['/seed-phrase'], { queryParams: { wallet_id } });
-                        });
-                    } else {
-                        console.log(run_data['error_code']);
-                        this.ngZone.run(() => {
-                            this.loading$.next(false);
-                        });
-                    }
-                });
-            } else {
-                const errorTranslationKey =
-                    errorCode === 'ALREADY_EXISTS' ? 'CREATE_WALLET.ERROR_CANNOT_SAVE_TOP' : 'CREATE_WALLET.ERROR_CANNOT_SAVE_SYSTEM';
-                this.modalService.prepareModal('error', errorTranslationKey);
+                if (generate_status) {
+                    const { wallet_id } = generate_data;
+                    const { path, address, balance, unlocked_balance, mined_total, tracking_hey } = generate_data['wi'];
+                    const wallet = new Wallet(
+                        wallet_id,
+                        name,
+                        password,
+                        path,
+                        address,
+                        balance,
+                        unlocked_balance,
+                        mined_total,
+                        tracking_hey
+                    );
+                    wallet.alias = this.backend.getWalletAlias(address);
+                    wallet.total_history_item = 0;
+                    wallet.pages = new Array(1).fill(1);
+                    wallet.totalPages = 1;
+                    wallet.currentPage = 1;
+                    await this.backend.runWallet(wallet_id, async (run_status, run_data) => {
+                        if (run_status) {
+                            await this.ngZone.run(async () => {
+                                this.walletsService.addWallet(wallet);
+                                if (this.variablesService.appPass) {
+                                    this.backend.storeSecureAppData();
+                                }
+                                this.variablesService.setCurrentWallet(wallet_id);
+                                this.loading$.next(false);
+                                await this.router.navigate(['/seed-phrase'], { queryParams: { wallet_id } });
+                            });
+                        } else {
+                            console.log(run_data['error_code']);
+                            this.ngZone.run(() => {
+                                this.loading$.next(false);
+                            });
+                        }
+                    });
+                } else {
+                    const errorTranslationKey =
+                        errorCode === 'ALREADY_EXISTS' ? 'CREATE_WALLET.ERROR_CANNOT_SAVE_TOP' : 'CREATE_WALLET.ERROR_CANNOT_SAVE_SYSTEM';
+                    this.modalService.prepareModal('error', errorTranslationKey);
 
-                this.ngZone.run(() => {
-                    this.loading$.next(false);
-                });
-            }
-        });
+                    this.ngZone.run(() => {
+                        this.loading$.next(false);
+                    });
+                }
+            });
         }, 500);
     }
 

@@ -32,7 +32,8 @@ import {
     IntToMoneyPipeModule,
     IsAvailableAliasNamePipeModule,
     MoneyToIntPipeModule,
-    SafeHtmlPipeModule, ShortStringPipe,
+    SafeHtmlPipeModule,
+    ShortStringPipe,
 } from '@parts/pipes';
 import { InputValidateModule } from '@parts/directives/input-validate';
 import { InputDisableSelectionModule } from '@parts/directives/input-disable-selection';
