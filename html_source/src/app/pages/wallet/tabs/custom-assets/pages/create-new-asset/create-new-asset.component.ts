@@ -13,7 +13,6 @@ import { intToMoney } from '@parts/functions/int-to-money';
 import { moneyToInt } from '@parts/functions/money-to-int';
 import { TransactionDetailsForCustomAssetsComponent } from '../../modals/transaction-details-for-custom-assets/transaction-details-for-custom-assets.component';
 import { zanoAssetInfo } from '@parts/data/assets';
-import { of } from 'rxjs';
 
 type CreateNewAssetFrom = FormGroup<{
     ticker: FormControl<string>;
@@ -87,10 +86,7 @@ export class CreateNewAssetComponent {
 
                     return null;
                 },
-            ],
-            // asyncValidators: [(control: AbstractControl) => {
-            //     return of(control.value).pipe();
-            // }]
+            ]
         }
     );
 
