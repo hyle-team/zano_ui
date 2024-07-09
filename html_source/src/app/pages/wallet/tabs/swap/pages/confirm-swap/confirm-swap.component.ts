@@ -91,8 +91,6 @@ export class ConfirmSwapComponent implements OnInit, OnDestroy {
                 proposalDetails,
             },
             disableClose: true,
-            width: '54rem',
-            maxHeight: '90vh',
         };
         this.dialog
             .open(SwapConfirmMasterPasswordComponent, config)

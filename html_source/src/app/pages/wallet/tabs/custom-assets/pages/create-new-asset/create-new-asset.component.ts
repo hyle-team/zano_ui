@@ -98,8 +98,6 @@ export class CreateNewAssetComponent {
 
     details(job_id: number): void {
         const dialogConfig: DialogConfig = {
-            width: '54rem',
-            maxWidth: '95vw',
             data: {
                 job_id,
             },
@@ -152,8 +150,6 @@ export class CreateNewAssetComponent {
 
         const config: DialogConfig = {
             disableClose: true,
-            width: '54rem',
-            maxHeight: '90vh',
             data: {
                 asset_descriptor: {
                     ...asset_descriptor,

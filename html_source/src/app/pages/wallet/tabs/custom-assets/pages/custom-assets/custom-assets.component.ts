@@ -9,7 +9,7 @@ import { AssetDetailsComponent } from '@parts/modals/asset-details/asset-details
 import { UpdateCustomAssetComponent } from '../../modals/update-custom-asset/update-custom-asset.component';
 import { BurnCustomAssetComponent } from '../../modals/burn-custom-asset/burn-custom-asset.component';
 import { EmitCustomAssetComponent } from '../../modals/emit-custom-asset/emit-custom-asset.component';
-import { filter, tap } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { TransactionDetailsForCustomAssetsComponent } from '../../modals/transaction-details-for-custom-assets/transaction-details-for-custom-assets.component';
 import { Observable, take } from 'rxjs';
 
@@ -46,7 +46,6 @@ export class CustomAssetsComponent implements OnInit {
     private readonly _walletsService: WalletsService = inject(WalletsService);
 
     public variablesService: VariablesService = inject(VariablesService);
-
 
     get assets(): AssetInfo[] {
         return this._walletsService.currentWallet?.assetsInfoWhitelist?.own_assets ?? [];
@@ -87,8 +86,6 @@ export class CustomAssetsComponent implements OnInit {
 
     assetDetails(): void {
         const dialogConfig: DialogConfig = {
-            width: '54rem',
-            maxWidth: '95vw',
             data: {
                 asset_info: this.currentAssetInfo,
             },
@@ -98,8 +95,6 @@ export class CustomAssetsComponent implements OnInit {
 
     openDialog(type: 'emit' | 'burn' | 'update'): void {
         const dialogConfig: DialogConfig = {
-            width: '54rem',
-            maxWidth: '95vw',
             data: {
                 assetInfo: this.currentAssetInfo,
             },
@@ -135,8 +130,6 @@ export class CustomAssetsComponent implements OnInit {
 
     details(job_id: number): void {
         const dialogConfig: DialogConfig = {
-            width: '54rem',
-            maxWidth: '95vw',
             data: {
                 job_id,
             },
