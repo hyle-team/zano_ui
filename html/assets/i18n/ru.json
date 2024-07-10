@@ -357,6 +357,7 @@
     },
     "ERRORS": {
         "ACCESS_DENIED": "Access denied",
+        "ADDRESS_NOT_VALID": "Address not valid",
         "AMOUNT_GREATER_CURRENT_SUPPLY": "Amount greater current supply",
         "ASSET_HAS_NOT_BEEN_ADDED_TO_WALLET": "Asset has not been added to your wallet",
         "ASSET_NOT_FOUND": "Asset not found",
@@ -369,6 +370,7 @@
         "FILE_NOT_SAVED": "You cannot save a wallet file in this folder. Please choose another folder.",
         "FILE_RESTORED": "The wallet file was corrupted. We have recovered the keys and the wallet from the blockchain",
         "GREATER_THAN_TOTAL_MAX_SUPPLY": "Greater than total max supply",
+        "HEX_NOT_VALID": "Hex not valid",
         "INSUFFICIENT_FUNDS": "Insufficient funds for this transaction",
         "INVALID_PROPOSAL": "Invalid proposal",
         "MAX": "Max {{ max }}",
@@ -891,17 +893,18 @@
             "BUTTON2": "Migrate",
             "TEXT1": "Your wallet contains pre-zarcanum outputs"
         },
-        "MODAL_ADD_CUSTOM_TOKEN": {
+        "MODAL_WHITELIST_ASSET": {
             "FIELD_TITLE": "Asset ID",
             "FORM_ERRORS": {
                 "ERROR1": "Invalid Asset ID"
             },
-            "TITLE": "Add Custom Token"
+            "TITLE": "Whitelist asset"
         },
         "REGISTER_ALIAS": "Register an alias",
         "TABS": {
             "ASSETS": "Assets",
             "CONTRACTS": "Contracts",
+            "CONTROL_ASSETS": "Control assets",
             "HISTORY": "History",
             "MESSAGES": "Messages",
             "RECEIVE": "Receive",
@@ -909,15 +912,14 @@
             "STAKING": "Staking"
         },
         "TOOLTIPS": {
-            "ADD_CUSTOM_TOKEN": "Add Custom Token",
             "EDIT_ALIAS": "Edit alias",
             "REMOVE": "Remove wallet",
             "SETTINGS": "Settings",
-            "TRANSFER_ALIAS": "Transfer alias"
+            "TRANSFER_ALIAS": "Transfer alias",
+            "WHITELIST_ASSET": "Whitelist asset"
         }
     },
     "WALLET_DETAILS": {
-        "ADD_CUSTOM_TOKEN": "Add Custom Token",
         "BUTTON_REMOVE": "Remove wallet",
         "BUTTON_SAVE": "Save",
         "CREATE_PASSWORD_SECURE": "Create a password to secure your seed",
@@ -942,6 +944,7 @@
         "SEED_IS_SECURED": "Seed is secured",
         "SEED_IS_UNSECURED": "Seed is unsecured",
         "SEED_PHRASE_HINT": "Click to reveal the seed phrase",
-        "WALLET_OPTIONS": "Wallet options..."
+        "WALLET_OPTIONS": "Wallet options...",
+        "WHITELIST_ASSET": "Whitelist asset"
     }
 }
