@@ -357,6 +357,7 @@
     },
     "ERRORS": {
         "ACCESS_DENIED": "Acesso negado",
+        "ADDRESS_NOT_VALID": "Address not valid",
         "AMOUNT_GREATER_CURRENT_SUPPLY": "Amount greater current supply",
         "ASSET_HAS_NOT_BEEN_ADDED_TO_WALLET": "Asset has not been added to your wallet",
         "ASSET_NOT_FOUND": "Asset not found",
@@ -369,6 +370,7 @@
         "FILE_NOT_SAVED": "Não pode gravar um ficheiro de carteira nesta pasta. Por favor escolha outra pasta.",
         "FILE_RESTORED": "O ficheiro de carteira estava corrompido. Recuperámos as chaves e a carteira a partir da blockchain",
         "GREATER_THAN_TOTAL_MAX_SUPPLY": "Greater than total max supply",
+        "HEX_NOT_VALID": "Hex not valid",
         "INSUFFICIENT_FUNDS": "Insufficient funds for this transaction",
         "INVALID_PROPOSAL": "Invalid proposal",
         "MAX": "Max {{ max }}",
@@ -891,7 +893,7 @@
             "BUTTON2": "Migrate",
             "TEXT1": "Your wallet contains pre-zarcanum outputs"
         },
-        "MODAL_ADD_CUSTOM_TOKEN": {
+        "MODAL_WHITELIST_ASSET": {
             "FIELD_TITLE": "ID do recurso",
             "FORM_ERRORS": {
                 "ERROR1": "Invalid Asset ID"
@@ -902,6 +904,7 @@
         "TABS": {
             "ASSETS": "Bens",
             "CONTRACTS": "Contratos",
+            "CONTROL_ASSETS": "Control assets",
             "HISTORY": "Histórico",
             "MESSAGES": "Mensagens",
             "RECEIVE": "Receber",
@@ -909,15 +912,14 @@
             "STAKING": "Estacando"
         },
         "TOOLTIPS": {
-            "ADD_CUSTOM_TOKEN": "Adicionar token personalizado",
             "CLOSE": "Fechar carteira",
             "EDIT_ALIAS": "Editar alias",
             "SETTINGS": "Configurações",
-            "TRANSFER_ALIAS": "Alias de transferência"
+            "TRANSFER_ALIAS": "Alias de transferência",
+            "WHITELIST_ASSET": "Adicionar token personalizado"
         }
     },
     "WALLET_DETAILS": {
-        "ADD_CUSTOM_TOKEN": "Adicionar token personalizado",
         "BUTTON_REMOVE": "Fechar Carteira",
         "BUTTON_SAVE": "Salvar",
         "CREATE_PASSWORD_SECURE": "Crie uma senha para proteger sua semente",
@@ -942,6 +944,7 @@
         "SEED_IS_SECURED": "A semente está protegida",
         "SEED_IS_UNSECURED": "A semente não é segura",
         "SEED_PHRASE_HINT": "Clique para revelar a frase inicial",
-        "WALLET_OPTIONS": "Opções de carteira..."
+        "WALLET_OPTIONS": "Opções de carteira...",
+        "WHITELIST_ASSET": "Adicionar token personalizado"
     }
 }

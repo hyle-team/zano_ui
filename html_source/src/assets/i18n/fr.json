@@ -357,6 +357,7 @@
     },
     "ERRORS": {
         "ACCESS_DENIED": "Accès refusé",
+        "ADDRESS_NOT_VALID": "Address not valid",
         "AMOUNT_GREATER_CURRENT_SUPPLY": "Amount greater current supply",
         "ASSET_HAS_NOT_BEEN_ADDED_TO_WALLET": "Asset has not been added to your wallet",
         "ASSET_NOT_FOUND": "Asset not found",
@@ -369,6 +370,7 @@
         "FILE_NOT_SAVED": "Vous ne pouvez pas enregistrer un fichier de portefeuille dans ce dossier. Veuillez choisir un autre dossier.",
         "FILE_RESTORED": "Le fichier de portefeuille a été corrompu. Nous avons récupéré les clés et le portefeuille de la blockchain",
         "GREATER_THAN_TOTAL_MAX_SUPPLY": "Greater than total max supply",
+        "HEX_NOT_VALID": "Hex not valid",
         "INSUFFICIENT_FUNDS": "Insufficient funds for this transaction",
         "INVALID_PROPOSAL": "Invalid proposal",
         "MAX": "Max {{ max }}",
@@ -891,7 +893,7 @@
             "BUTTON2": "Migrate",
             "TEXT1": "Your wallet contains pre-zarcanum outputs"
         },
-        "MODAL_ADD_CUSTOM_TOKEN": {
+        "MODAL_WHITELIST_ASSET": {
             "FIELD_TITLE": "Identifiant de l'élément",
             "FORM_ERRORS": {
                 "ERROR1": "Invalid Asset ID"
@@ -902,6 +904,7 @@
         "TABS": {
             "ASSETS": "Les atouts",
             "CONTRACTS": "Contrats",
+            "CONTROL_ASSETS": "Control assets",
             "HISTORY": "Historique",
             "MESSAGES": "Messages",
             "RECEIVE": "Recevoir",
@@ -909,15 +912,14 @@
             "STAKING": "Mise"
         },
         "TOOLTIPS": {
-            "ADD_CUSTOM_TOKEN": "Ajouter un jeton personnalisé",
             "CLOSE": "Fermer le portefeuille",
             "EDIT_ALIAS": "Modifier l'alias",
             "SETTINGS": "Paramètres",
-            "TRANSFER_ALIAS": "Alias de transfert"
+            "TRANSFER_ALIAS": "Alias de transfert",
+            "WHITELIST_ASSET": "Ajouter un jeton personnalisé"
         }
     },
     "WALLET_DETAILS": {
-        "ADD_CUSTOM_TOKEN": "Ajouter un jeton personnalisé",
         "BUTTON_REMOVE": "Fermer le portefeuille",
         "BUTTON_SAVE": "Enregistrer",
         "CREATE_PASSWORD_SECURE": "Créez un mot de passe pour sécuriser votre graine",
@@ -942,6 +944,7 @@
         "SEED_IS_SECURED": "La graine est sécurisée",
         "SEED_IS_UNSECURED": "La graine n'est pas sécurisée",
         "SEED_PHRASE_HINT": "Cliquez pour révéler la phrase de départ",
-        "WALLET_OPTIONS": "Options de portefeuille..."
+        "WALLET_OPTIONS": "Options de portefeuille...",
+        "WHITELIST_ASSET": "Ajouter un jeton personnalisé"
     }
 }

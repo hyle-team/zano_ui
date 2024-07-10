@@ -70,7 +70,7 @@ export class BurnCustomAssetComponent {
         const { assetInfo: { asset_id, decimal_point } } = this.data;
 
         const params = {
-            amount: moneyToInt(amount, decimal_point).toString(),
+            burn_amount: moneyToInt(amount, decimal_point).toString(),
             asset_id
         };
 

@@ -357,6 +357,7 @@
     },
     "ERRORS": {
         "ACCESS_DENIED": "Akses ditolak",
+        "ADDRESS_NOT_VALID": "Address not valid",
         "AMOUNT_GREATER_CURRENT_SUPPLY": "Amount greater current supply",
         "ASSET_HAS_NOT_BEEN_ADDED_TO_WALLET": "Asset has not been added to your wallet",
         "ASSET_NOT_FOUND": "Asset not found",
@@ -369,6 +370,7 @@
         "FILE_NOT_SAVED": "Anda tidak dapat menyimpan file dompet di folder ini. Tolong pilih folder yang lain.",
         "FILE_RESTORED": "File dompet rusak. Kami telah memulihkan kunci dan dompet dari blockchain",
         "GREATER_THAN_TOTAL_MAX_SUPPLY": "Greater than total max supply",
+        "HEX_NOT_VALID": "Hex not valid",
         "INSUFFICIENT_FUNDS": "Insufficient funds for this transaction",
         "INVALID_PROPOSAL": "Invalid proposal",
         "MAX": "Max {{ max }}",
@@ -891,7 +893,7 @@
             "BUTTON2": "Migrate",
             "TEXT1": "Your wallet contains pre-zarcanum outputs"
         },
-        "MODAL_ADD_CUSTOM_TOKEN": {
+        "MODAL_WHITELIST_ASSET": {
             "FIELD_TITLE": "ID Aset",
             "FORM_ERRORS": {
                 "ERROR1": "Invalid Asset ID"
@@ -902,6 +904,7 @@
         "TABS": {
             "ASSETS": "Aktiva",
             "CONTRACTS": "Kontrak",
+            "CONTROL_ASSETS": "Control assets",
             "HISTORY": "Riwayat",
             "MESSAGES": "Pesan",
             "RECEIVE": "Terima",
@@ -909,15 +912,14 @@
             "STAKING": "Mempertaruhkan"
         },
         "TOOLTIPS": {
-            "ADD_CUSTOM_TOKEN": "Tambahkan Token Khusus",
             "CLOSE": "Tutup dompet",
             "EDIT_ALIAS": "Ubah alias",
             "SETTINGS": "Pengaturan",
-            "TRANSFER_ALIAS": "Alias transfer"
+            "TRANSFER_ALIAS": "Alias transfer",
+            "WHITELIST_ASSET": "Tambahkan Token Khusus"
         }
     },
     "WALLET_DETAILS": {
-        "ADD_CUSTOM_TOKEN": "Tambahkan Token Khusus",
         "BUTTON_REMOVE": "Tutup dompet",
         "BUTTON_SAVE": "Simpan",
         "CREATE_PASSWORD_SECURE": "Buat kata sandi untuk mengamankan seed Anda",
@@ -942,6 +944,7 @@
         "SEED_IS_SECURED": "Benih diamankan",
         "SEED_IS_UNSECURED": "Benih tidak aman",
         "SEED_PHRASE_HINT": "Klik untuk membuka frasa kunci",
-        "WALLET_OPTIONS": "Opsi dompet..."
+        "WALLET_OPTIONS": "Opsi dompet...",
+        "WHITELIST_ASSET": "Tambahkan Token Khusus"
     }
 }

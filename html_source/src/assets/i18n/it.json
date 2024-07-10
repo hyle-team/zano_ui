@@ -357,6 +357,7 @@
     },
     "ERRORS": {
         "ACCESS_DENIED": "Accesso negato",
+        "ADDRESS_NOT_VALID": "Address not valid",
         "AMOUNT_GREATER_CURRENT_SUPPLY": "Amount greater current supply",
         "ASSET_HAS_NOT_BEEN_ADDED_TO_WALLET": "Asset has not been added to your wallet",
         "ASSET_NOT_FOUND": "Asset not found",
@@ -369,6 +370,7 @@
         "FILE_NOT_SAVED": "Non puoi salvare un file di portafoglio in questa cartella. Scegli un'altra cartella.",
         "FILE_RESTORED": "Il file del portafoglio è stato danneggiato. Abbiamo recuperato le chiavi e il portafoglio dalla blockchain",
         "GREATER_THAN_TOTAL_MAX_SUPPLY": "Greater than total max supply",
+        "HEX_NOT_VALID": "Hex not valid",
         "INSUFFICIENT_FUNDS": "Insufficient funds for this transaction",
         "INVALID_PROPOSAL": "Invalid proposal",
         "MAX": "Max {{ max }}",
@@ -891,7 +893,7 @@
             "BUTTON2": "Migrate",
             "TEXT1": "Your wallet contains pre-zarcanum outputs"
         },
-        "MODAL_ADD_CUSTOM_TOKEN": {
+        "MODAL_WHITELIST_ASSET": {
             "FIELD_TITLE": "ID risorsa",
             "FORM_ERRORS": {
                 "ERROR1": "Invalid Asset ID"
@@ -902,6 +904,7 @@
         "TABS": {
             "ASSETS": "Risorse",
             "CONTRACTS": "Contratti",
+            "CONTROL_ASSETS": "Control assets",
             "HISTORY": "Storico",
             "MESSAGES": "Messaggi",
             "RECEIVE": "Ricevi",
@@ -909,15 +912,14 @@
             "STAKING": "Picchettamento"
         },
         "TOOLTIPS": {
-            "ADD_CUSTOM_TOKEN": "Aggiungi token personalizzato",
             "CLOSE": "Chiudi portafoglio",
             "EDIT_ALIAS": "Modifica alias",
             "SETTINGS": "Impostazioni",
-            "TRANSFER_ALIAS": "Alias di trasferimento"
+            "TRANSFER_ALIAS": "Alias di trasferimento",
+            "WHITELIST_ASSET": "Aggiungi token personalizzato"
         }
     },
     "WALLET_DETAILS": {
-        "ADD_CUSTOM_TOKEN": "Aggiungi token personalizzato",
         "BUTTON_REMOVE": "Chiudi portafoglio",
         "BUTTON_SAVE": "Salva",
         "CREATE_PASSWORD_SECURE": "Crea una password per proteggere il tuo seme",
@@ -942,6 +944,7 @@
         "SEED_IS_SECURED": "Il seme è protetto",
         "SEED_IS_UNSECURED": "Il seme non è protetto",
         "SEED_PHRASE_HINT": "Clicca per rivelare la frase segreta",
-        "WALLET_OPTIONS": "Opzioni portafoglio..."
+        "WALLET_OPTIONS": "Opzioni portafoglio...",
+        "WHITELIST_ASSET": "Aggiungi token personalizzato"
     }
 }

@@ -28,8 +28,11 @@
                         <div *ngIf="form.controls.owner.hasError('required')">
                             {{ 'ERRORS.REQUIRED' | translate }}
                         </div>
-                        <div *ngIf="form.controls.owner.hasError('pattern')">
-                            {{ 'Is not hex' | translate }}
+                        <div *ngIf="form.controls.owner.hasError('hex_not_valid')">
+                            {{ 'ERRORS.HEX_NOT_VALID' | translate }}
+                        </div>
+                        <div *ngIf="form.controls.owner.hasError('address_not_valid')">
+                            {{ 'ERRORS.ADDRESS_NOT_VALID' | translate }}
                         </div>
                     </div>
                 </div>
