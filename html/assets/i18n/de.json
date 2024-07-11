@@ -357,6 +357,7 @@
     },
     "ERRORS": {
         "ACCESS_DENIED": "Zugriff verweigert",
+        "ADDRESS_NOT_VALID": "Address not valid",
         "AMOUNT_GREATER_CURRENT_SUPPLY": "Amount greater current supply",
         "ASSET_HAS_NOT_BEEN_ADDED_TO_WALLET": "Asset has not been added to your wallet",
         "ASSET_NOT_FOUND": "Asset not found",
@@ -369,6 +370,7 @@
         "FILE_NOT_SAVED": "Sie können keine Wallet-Datei in diesem Ordner speichern. Bitte wählen Sie einen anderen Ordner.",
         "FILE_RESTORED": "Die Wallet-Datei wurde beschädigt. Wir haben die Schlüssel und die Wallet von der Blockchain wiederhergestellt",
         "GREATER_THAN_TOTAL_MAX_SUPPLY": "Greater than total max supply",
+        "HEX_NOT_VALID": "Hex not valid",
         "INSUFFICIENT_FUNDS": "Insufficient funds for this transaction",
         "INVALID_PROPOSAL": "Invalid proposal",
         "MAX": "Max {{ max }}",
@@ -891,7 +893,7 @@
             "BUTTON2": "Migrate",
             "TEXT1": "Your wallet contains pre-zarcanum outputs"
         },
-        "MODAL_ADD_CUSTOM_TOKEN": {
+        "MODAL_WHITELIST_ASSET": {
             "FIELD_TITLE": "Asset-ID",
             "FORM_ERRORS": {
                 "ERROR1": "Invalid Asset ID"
@@ -902,6 +904,7 @@
         "TABS": {
             "ASSETS": "Vermögenswerte",
             "CONTRACTS": "Verträge",
+            "CONTROL_ASSETS": "Control assets",
             "HISTORY": "Verlauf",
             "MESSAGES": "Nachrichten",
             "RECEIVE": "Empfangen",
@@ -909,15 +912,14 @@
             "STAKING": "Abstecken"
         },
         "TOOLTIPS": {
-            "ADD_CUSTOM_TOKEN": "Benutzerdefiniertes Token hinzufügen",
             "CLOSE": "Brieftasche schließen",
             "EDIT_ALIAS": "Alias bearbeiten",
             "SETTINGS": "Einstellungen",
-            "TRANSFER_ALIAS": "Alias übertragen"
+            "TRANSFER_ALIAS": "Alias übertragen",
+            "WHITELIST_ASSET": "Benutzerdefiniertes Token hinzufügen"
         }
     },
     "WALLET_DETAILS": {
-        "ADD_CUSTOM_TOKEN": "Benutzerdefiniertes Token hinzufügen",
         "BUTTON_REMOVE": "Wallet schließen",
         "BUTTON_SAVE": "Speichern",
         "CREATE_PASSWORD_SECURE": "Erstelle ein Passwort, um deinen Seed zu sichern",
@@ -942,6 +944,7 @@
         "SEED_IS_SECURED": "Seed ist gesichert",
         "SEED_IS_UNSECURED": "Seed ist ungesichert",
         "SEED_PHRASE_HINT": "Klicken Sie, um die Startphrase anzuzeigen",
-        "WALLET_OPTIONS": "Wallet-Optionen..."
+        "WALLET_OPTIONS": "Wallet-Optionen...",
+        "WHITELIST_ASSET": "Benutzerdefiniertes Token hinzufügen"
     }
 }

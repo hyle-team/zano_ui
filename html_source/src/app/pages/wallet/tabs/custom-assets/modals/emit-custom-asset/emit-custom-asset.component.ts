@@ -8,6 +8,7 @@ import { BackendService } from '@api/services/backend.service';
 import { intToMoney } from '@parts/functions/int-to-money';
 import BigNumber from 'bignumber.js';
 import { moneyToInt } from '@parts/functions/money-to-int';
+import { zanoAssetInfo } from '@parts/data/assets';
 
 @Component({
     selector: 'app-emit-custom-asset',
@@ -55,6 +56,7 @@ export class EmitCustomAssetComponent {
                 {
                     address,
                     amount: moneyToInt(amount, decimal_point).toString(),
+                    asset_id: '0000000000000000000000000000000000000000000000000000000000000000'
                 },
             ],
         };

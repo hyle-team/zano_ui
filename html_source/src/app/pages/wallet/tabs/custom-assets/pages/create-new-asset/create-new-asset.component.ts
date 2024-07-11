@@ -139,7 +139,7 @@ export class CreateNewAssetComponent {
             destinations.push({
                 address,
                 amount: destinationAmount,
-                asset_id: zanoAssetInfo.asset_id
+                asset_id: '0000000000000000000000000000000000000000000000000000000000000000'
             });
         }
 

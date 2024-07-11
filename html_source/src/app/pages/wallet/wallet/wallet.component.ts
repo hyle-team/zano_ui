@@ -93,7 +93,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
     },
     'custom-assets': {
         id: 'custom-assets',
-        title: 'Custom assets',
+        title: 'WALLET.TABS.CONTROL_ASSETS',
         icon: 'custom-asset',
         link: '/custom-assets',
         indicator: false,
@@ -269,12 +269,12 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
                                 [timeDelay]="500"
                                 class="w-100 px-2 py-1"
                                 placement="left"
-                                tooltip="{{ 'WALLET.TOOLTIPS.ADD_CUSTOM_TOKEN' | translate }}"
+                                tooltip="{{ 'WALLET.TOOLTIPS.WHITELIST_ASSET' | translate }}"
                                 tooltipClass="table-tooltip account-tooltip"
                                 type="button"
                             >
                                 <i class="icon add mr-1"></i>
-                                <span>{{ 'WALLET_DETAILS.ADD_CUSTOM_TOKEN' | translate }}</span>
+                                <span>{{ 'WALLET_DETAILS.WHITELIST_ASSET' | translate }}</span>
                             </button>
                         </li>
                     </ng-container>
