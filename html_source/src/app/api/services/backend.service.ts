@@ -192,7 +192,22 @@ export class BackendService {
     static bigNumberParser(key, val): any {
         if (
             val.constructor.name === 'BigNumber' &&
-            ['balance', 'unlocked_balance', 'amount', 'fee', 'b_fee', 'to_pay', 'a_pledge', 'b_pledge', 'coast', 'a'].indexOf(key) === -1
+            [
+                'balance',
+                'unlocked_balance',
+                'amount',
+                'fee',
+                'b_fee',
+                'to_pay',
+                'a_pledge',
+                'b_pledge',
+                'coast',
+                'a',
+                'total',
+                'unlocked',
+                'current_supply',
+                'total_max_supply',
+            ].indexOf(key) === -1
         ) {
             return val.toNumber();
         }
@@ -706,7 +721,7 @@ export class BackendService {
                 response: JSON.parse(json_resp),
             };
             console.group(`----------- ${Commands.dispatch_async_call_result} -----------`);
-                console.log(asyncCommandResults);
+            console.log(asyncCommandResults);
             console.groupEnd();
             this.ngZone.run(() => setTimeout(() => this.dispatchAsyncCallResult$.next(asyncCommandResults), 250));
         });
