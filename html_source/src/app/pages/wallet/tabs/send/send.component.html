@@ -197,7 +197,9 @@
                         width="15"
                     />
                     {{ asset.asset_info.full_name ?? '***' }}
-                    ({{ asset.total | intToMoney: asset.asset_info.decimal_point }} {{ asset.asset_info.ticker }})
+                    <ng-container *appVisibilityBalance>
+                        ({{ asset.total | intToMoney: asset.asset_info.decimal_point }} {{ asset.asset_info.ticker }})
+                    </ng-container>
                 </ng-template>
             </ng-select>
             <div

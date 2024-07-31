@@ -739,6 +739,7 @@
             "TITLE": "Interface scale"
         },
         "SETTINGS_SAVED": "Saved! Settings Updated",
+        "SHOW_BALANCE": "Show balance",
         "TITLE": "Settings",
         "USE_TOR_TO_RELAY_TRANSACTIONS": "Use TOR to relay transactions",
         "WHITE_THEME": "White theme"

@@ -739,6 +739,7 @@
             "TITLE": "Échelle d'interface"
         },
         "SETTINGS_SAVED": "Enregistré! Paramètres mis à jour",
+        "SHOW_BALANCE": "Show balance",
         "TITLE": "Paramètres",
         "USE_TOR_TO_RELAY_TRANSACTIONS": "Utiliser TOR pour relayer les transactions",
         "WHITE_THEME": "Thème blanc"

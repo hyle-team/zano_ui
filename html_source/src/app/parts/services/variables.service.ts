@@ -1,7 +1,7 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, OnDestroy } from '@angular/core';
 import { DeeplinkParams, Wallet } from '@api/models/wallet.model';
 import { Contact } from '@api/models/contact.model';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Idle } from 'idlejs/dist';
 import { Router } from '@angular/router';
 import { ContextMenuComponent, ContextMenuService } from '@perfectmemory/ngx-contextmenu';
@@ -12,8 +12,10 @@ import { distinctUntilChanged, map } from 'rxjs/operators';
 @Injectable({
     providedIn: 'root',
 })
-export class VariablesService {
+export class VariablesService implements OnDestroy {
     disable_price_fetch$ = new BehaviorSubject<boolean>(false);
+
+    visibilityBalance$ = new BehaviorSubject<boolean>(false);
 
     zano_current_supply = undefined;
 
@@ -97,6 +99,7 @@ export class VariablesService {
         appLog: 0,
         scale: '10px',
         appUseTor: false,
+        visibilityBalance: false,
         language: 'en',
         default_path: '/',
         viewedContracts: [],
@@ -176,7 +179,20 @@ export class VariablesService {
 
     pasteSelectContextMenu: ContextMenuComponent<any>;
 
-    constructor(private router: Router, private ngZone: NgZone, private contextMenuService: ContextMenuService<any>) {}
+    private _destroy$ = new Subject<void>();
+
+    constructor(private router: Router, private ngZone: NgZone, private contextMenuService: ContextMenuService<any>) {
+        this.visibilityBalance$.subscribe({
+            next: visibilityBalance => {
+                this.settings.visibilityBalance = visibilityBalance;
+            }
+        });
+    }
+
+    ngOnDestroy(): void {
+        this._destroy$.next();
+        this._destroy$.complete();
+    }
 
     get hasAppPass(): boolean {
         return Boolean(this.appPass);

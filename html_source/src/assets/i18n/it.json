@@ -739,6 +739,7 @@
             "TITLE": "Scala dell'interfaccia"
         },
         "SETTINGS_SAVED": "Salvato! Impostazioni aggiornate",
+        "SHOW_BALANCE": "Show balance",
         "TITLE": "Impostazioni",
         "USE_TOR_TO_RELAY_TRANSACTIONS": "Utilizza TOR per inoltrare le transazioni",
         "WHITE_THEME": "Tema bianco"

@@ -668,6 +668,7 @@ export class AppComponent implements OnInit, OnDestroy {
                                 this.variablesService.settings[key] = data[key];
                             }
                         }
+                        this.variablesService.visibilityBalance$.next(this.variablesService.settings.visibilityBalance);
                         // TODO: Delete this line after return appUseTor
                         this.variablesService.settings.appUseTor = false;
                         if (

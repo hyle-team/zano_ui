@@ -111,6 +111,12 @@ import { debounceTime } from 'rxjs/operators';
                             <app-switch (emitChange)="toggleUseTor()" [disabled]="true" [value]="false && appUseTor"></app-switch>
                         </div>
 
+                        <div class="form__field">
+                            <label>{{ 'SETTINGS.SHOW_BALANCE' | translate }}</label>
+                            <app-switch (emitChange)="showPrice()"
+                                        [value]="this.variablesService.visibilityBalance$ | async"></app-switch>
+                        </div>
+
                         <form [formGroup]="zanoCompanionForm">
                             <div class="form__field">
                                 <label>{{ 'SETTINGS.FORM.ZANO_COMPANION.LABELS.LABEL1' | translate }}</label>
@@ -550,6 +556,11 @@ export class SettingsComponent implements OnInit {
 
     onLanguageChange(): void {
         this.translate.use(this.variablesService.settings.language);
+        this.backend.storeAppData();
+    }
+
+    showPrice(): void {
+        this.variablesService.visibilityBalance$.next(!this.variablesService.visibilityBalance$.value);
         this.backend.storeAppData();
     }
 }

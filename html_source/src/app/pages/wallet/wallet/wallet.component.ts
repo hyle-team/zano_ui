@@ -209,7 +209,13 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
                     </ng-container>
                 </ng-container>
             </div>
-            <div class="right">
+            <div class="right" fxFlex fxLayout="row" fxLayoutAlign="end" fxLayoutGap="1rem">
+                <button class="btn-icon circle big" (click)="variablesService.visibilityBalance$.next(!variablesService.visibilityBalance$.value)">
+                    <i class="icon" [ngClass]="{
+                      'hide-balance': variablesService.visibilityBalance$ | async,
+                      'show-balance': !(variablesService.visibilityBalance$ | async)
+                    }"></i>
+                </button>
                 <div class="dropdown">
                     <button
                         (click)="$event.stopPropagation(); toggleMenuDropdown()"
@@ -396,11 +402,6 @@ export class WalletComponent implements OnInit, OnDestroy {
         private router: Router,
         private readonly scrollStrategyOptions: ScrollStrategyOptions
     ) {
-        this.isViewTabName$.subscribe({
-            next: (v) => {
-                console.log(v);
-            }
-        });
         this.scrollStrategyNoop = this.scrollStrategyOptions.noop();
 
         if (!this.variablesService.currentWallet && this.variablesService.wallets.length > 0) {

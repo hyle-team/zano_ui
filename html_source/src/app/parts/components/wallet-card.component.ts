@@ -10,6 +10,7 @@ import { BackendService } from '@api/services/backend.service';
 import { CommonModule } from '@angular/common';
 import { DisablePriceFetchModule, TooltipModule } from '@parts/directives';
 import { StakingSwitchComponent } from '@parts/components/staking-switch.component';
+import { VisibilityBalanceDirective } from '@parts/directives/visibility-balance.directive';
 
 @Component({
     selector: 'app-wallet-card',
@@ -49,25 +50,28 @@ import { StakingSwitchComponent } from '@parts/components/staking-switch.compone
                 </div>
             </div>
 
-            <h4
-                *appDisablePriceFetch
-                [delay]="500"
-                [placement]="'bottom'"
-                [timeDelay]="1000"
-                [tooltipClass]="'balance-tooltip'"
-                [tooltip]="getBalancesTooltip()"
-                class="price"
-            >
-                {{ wallet.getMoneyEquivalentForZano(variablesService.moneyEquivalent) | intToMoney | currency : 'USD' || '---' }}
-                <span [class.red]="variablesService.moneyEquivalentPercent < 0" class="percent">
-                    {{ variablesService.moneyEquivalentPercent | number : '1.2-2' }}%
-                </span>
+            <h4>
+                <ng-container *appVisibilityBalance>
+                    <span *appDisablePriceFetch
+                          [delay]="500"
+                          [placement]="'bottom'"
+                          [timeDelay]="1000"
+                          [tooltipClass]="'balance-tooltip'"
+                          [tooltip]="getBalancesTooltip()" class="price">
+                    {{ wallet.getMoneyEquivalentForZano(variablesService.moneyEquivalent) | intToMoney | currency : 'USD' || '---' }}
+                        <span [class.red]="variablesService.moneyEquivalentPercent < 0" class="percent">
+                        {{ variablesService.moneyEquivalentPercent | number : '1.2-2' }}%
+                    </span>
+                        </span>
+                </ng-container>
             </h4>
 
-            <ng-container *ngIf="(!wallet.is_auditable && !wallet.is_watch_only) || (wallet.is_auditable && !wallet.is_watch_only)">
+            <ng-container
+                *ngIf="(!wallet.is_auditable && !wallet.is_watch_only) || (wallet.is_auditable && !wallet.is_watch_only)">
                 <div *ngIf="!(!wallet.loaded && variablesService.daemon_state === 2)" class="staking">
                     <span class="text">{{ 'SIDEBAR.ACCOUNT.STAKING' | translate }}</span>
-                    <app-staking-switch [(staking)]="wallet.staking" [wallet_id]="wallet.wallet_id"></app-staking-switch>
+                    <app-staking-switch [(staking)]="wallet.staking"
+                                        [wallet_id]="wallet.wallet_id"></app-staking-switch>
                 </div>
             </ng-container>
 
@@ -80,7 +84,15 @@ import { StakingSwitchComponent } from '@parts/components/staking-switch.compone
         </div>
     `,
     standalone: true,
-    imports: [CommonModule, TooltipModule, TranslateModule, IntToMoneyPipeModule, StakingSwitchComponent, DisablePriceFetchModule],
+    imports: [
+        CommonModule,
+        TooltipModule,
+        TranslateModule,
+        IntToMoneyPipeModule,
+        StakingSwitchComponent,
+        DisablePriceFetchModule,
+        VisibilityBalanceDirective,
+    ],
 })
 export class WalletCardComponent {
     @HostBinding('class') classAttr = 'wallet';

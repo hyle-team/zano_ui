@@ -80,7 +80,7 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                                     </td>
                                     <td>
                                         <div class="text-ellipsis">
-                                            <b>
+                                            <b *appVisibilityBalance>
                                                 {{ asset.total | intToMoney : asset.asset_info.decimal_point }}
                                                 {{ asset.asset_info.ticker }}
                                             </b>
@@ -89,7 +89,7 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                                     <ng-container *ngIf="asset.asset_info.asset_id === zanoAssetInfo.asset_id; else templateNotLoadPrice">
                                         <td>
                                             <div class="text-ellipsis">
-                                                <b>{{
+                                                <b *appVisibilityBalance>{{
                                                     (asset.total | intToMoney : asset.asset_info.decimal_point) *
                                                         variablesService.moneyEquivalent | currency : 'USD'
                                                 }}</b>
@@ -332,6 +332,8 @@ export class AssetsComponent implements OnInit, OnDestroy {
     getBalanceTooltip(balance: AssetBalance): HTMLDivElement {
         const tooltip = document.createElement('div');
         const scrollWrapper = document.createElement('div');
+        const visibilityBalance = this.variablesService.visibilityBalance$.value;
+
         if (!balance) {
             return null;
         }
@@ -342,7 +344,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
             available.setAttribute('class', 'available');
             available.innerText = `${this.translate.instant('WALLET.AVAILABLE_BALANCE')} `;
             const availableB = document.createElement('b');
-            availableB.innerText = `${this.intToMoneyPipe.transform(unlocked, decimal_point)} ${ticker || '---'}`;
+            availableB.innerText = visibilityBalance ? `${this.intToMoneyPipe.transform(unlocked, decimal_point)} ${ticker || '---'}` : '******';
             available.appendChild(availableB);
             scrollWrapper.appendChild(available);
 
@@ -350,7 +352,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
             locked.setAttribute('class', 'locked');
             locked.innerText = `${this.translate.instant('WALLET.LOCKED_BALANCE')} `;
             const lockedB = document.createElement('b');
-            lockedB.innerText = `${this.intToMoneyPipe.transform(new BigNumber(total).minus(unlocked), decimal_point)} ${ticker || '---'}`;
+            lockedB.innerText = visibilityBalance ? `${this.intToMoneyPipe.transform(new BigNumber(total).minus(unlocked), decimal_point)} ${ticker || '---'}` : '******';
             locked.appendChild(lockedB);
             scrollWrapper.appendChild(locked);
         });

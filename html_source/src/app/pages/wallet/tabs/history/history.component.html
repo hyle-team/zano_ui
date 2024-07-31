@@ -35,7 +35,7 @@
                         <!-- Amount -->
                         <td>
                             <ng-container *ngFor="let item of (transaction | getAmountItems: currentWallet)">
-                                <div class="cell-amount">
+                                <div class="cell-amount" *appVisibilityBalance>
                                     <div class="amount">{{ item.amount }}</div>
                                     <span class="ticker">{{ item.ticker }}</span>
                                 </div>

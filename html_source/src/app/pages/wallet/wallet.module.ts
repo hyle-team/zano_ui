@@ -50,6 +50,7 @@ import { EmitCustomAssetComponent } from './tabs/custom-assets/modals/emit-custo
 import { BurnCustomAssetComponent } from './tabs/custom-assets/modals/burn-custom-asset/burn-custom-asset.component';
 import { TransactionDetailsForCustomAssetsComponent } from './tabs/custom-assets/modals/transaction-details-for-custom-assets/transaction-details-for-custom-assets.component';
 import { TransactionDetailsComponent } from '@parts/components/transaction-details.component';
+import { VisibilityBalanceDirective } from '@parts/directives/visibility-balance.directive';
 
 @NgModule({
     declarations: [
@@ -108,6 +109,7 @@ import { TransactionDetailsComponent } from '@parts/components/transaction-detai
         TransactionStatusComponent,
         IsVisibleFeePipe,
         TransactionDetailsComponent,
+        VisibilityBalanceDirective,
     ],
 })
 export class WalletModule {}
