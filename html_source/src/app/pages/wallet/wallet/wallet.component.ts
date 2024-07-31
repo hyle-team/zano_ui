@@ -1,9 +1,9 @@
-import { Component, HostListener, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostListener, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { VariablesService } from '@parts/services/variables.service';
 import { BackendService, Commands } from '@api/services/backend.service';
-import { Subject, take } from 'rxjs';
+import { Observable, Subject, take } from 'rxjs';
 import { StateKeys, Store, Sync } from '@store/store';
-import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, takeUntil } from 'rxjs/operators';
 import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { Dialog, DialogConfig } from '@angular/cdk/dialog';
 import { ConfirmModalComponent, ConfirmModalData } from '@parts/modals/confirm-modal/confirm-modal.component';
@@ -20,6 +20,7 @@ import { ScrollStrategy, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { ParamsCallRpc } from '@api/models/call_rpc.model';
 import { ModalService } from '@parts/services/modal.service';
 import { GetBareOutsStats } from '@api/models/rpc.models';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 interface Tab {
     id: string;
@@ -339,8 +340,8 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
                             class="tab-header"
                             routerLinkActive="active"
                         >
-                            <i [ngClass]="tab.icon" class="icon mr-1"></i>
-                            <span>{{ tab.title | translate }}</span>
+                            <i [ngClass]="tab.icon" class="icon"></i>
+                            <span *ngIf="isViewTabName$ | async" class="ml-1">{{ tab.title | translate }}</span>
                             <span *ngIf="tab.indicator" class="indicator">{{ variablesService.currentWallet.new_contracts }}</span>
                         </button>
                     </ng-container>
@@ -363,6 +364,10 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
 })
 export class WalletComponent implements OnInit, OnDestroy {
     settingsButtonInterval;
+
+    private breakpointObserver: BreakpointObserver = inject(BreakpointObserver);
+
+    isViewTabName$: Observable<boolean> = this.breakpointObserver.observe(['(min-width: 1400px)']).pipe(map(({ matches }) => matches));
 
     settingsButtonDisabled = true;
 
@@ -391,6 +396,11 @@ export class WalletComponent implements OnInit, OnDestroy {
         private router: Router,
         private readonly scrollStrategyOptions: ScrollStrategyOptions
     ) {
+        this.isViewTabName$.subscribe({
+            next: (v) => {
+                console.log(v);
+            }
+        });
         this.scrollStrategyNoop = this.scrollStrategyOptions.noop();
 
         if (!this.variablesService.currentWallet && this.variablesService.wallets.length > 0) {

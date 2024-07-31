@@ -131,6 +131,9 @@ import { debounceTime } from 'rxjs/operators';
                                             id="field-secret"
                                             type="text"
                                         />
+                                        <button class="btn--copy" (click)="backend.setClipboard(zanoCompanionForm.controls['secret'].value || '')">
+                                            <i class="icon copy"></i>
+                                        </button>
                                         <button class="btn--regenerate" (click)="regenerateSecret()">
                                             <i class="icon regenerate"></i>
                                         </button>
@@ -277,7 +280,17 @@ import { debounceTime } from 'rxjs/operators';
             }
 
             .form__field--secret .form__field--input {
-                padding-right: 4rem;
+                padding-right: 7rem;
+            }
+
+            .btn--copy {
+                padding: 4px;
+                border-radius: 4px;
+                position: absolute;
+                right: 4rem;
+                top: 3.6rem;
+                background: #ffffff1a;
+                cursor: pointer;
             }
 
             .btn--regenerate {
@@ -408,7 +421,7 @@ export class SettingsComponent implements OnInit {
         public translate: TranslateService,
         public variablesService: VariablesService,
         private renderer: Renderer2,
-        private backend: BackendService,
+        public backend: BackendService,
         private ngZone: NgZone
     ) {
         this.scale = this.variablesService.settings.scale;
