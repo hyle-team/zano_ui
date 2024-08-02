@@ -516,7 +516,7 @@
         "WITH_ADDRESS_ALREADY_OPEN": "A wallet with this address is already open"
     },
     "PLACEHOLDERS": {
-        "ADRESS_PLACEHOLDER": "Enter adress here",
+        "ADDRESS_PLACEHOLDER": "Enter adress here",
         "AMOUNT_PLACEHOLDER": "Please enter the amount",
         "COMMENT_PLACEHOLDER": "Enter your comment here",
         "CONFIRM_WALET_PASSWORD_PLACEHOLDER": "Confirm wallet password here",

@@ -9,54 +9,59 @@
     >
         <div class="form__field--row">
             <!-- Address -->
-            <div class="form__field form__field-dropdown">
-                <label for="send-address">
+            <div
+                *ngIf="{items: addressItems$ | async, loading: loadingAddressItems$ | async,
+            lowerCaseDisabled: lowerCaseDisabled$ | async }
+             as vm" class="form__field">
+                <label for="address">
                     {{ 'SEND.ADDRESS' | translate }}
                     <span class="color-red">*</span>
                 </label>
+
                 <input
-                    (contextmenu)="variablesService.onContextMenu($event)"
-                    (focusout)="controllerVisibleDropdownAliasesState$.next(false)"
-                    (input)="inputListenAddressField($event)"
-                    (paste)="pasteListenAddressField($event)"
                     (blur)="updateAddressErrorMessage()"
-                    [lowerCaseDisabled]="lowerCaseDisabled$ | async"
-                    [placeholder]="'PLACEHOLDERS.ADRESS_PLACEHOLDER' | translate"
+                    (contextmenu)="variablesService.onContextMenu($event)"
+                    (paste)="pasteListenAddressField($event)"
+                    [lowerCaseDisabled]="vm.lowerCaseDisabled"
+                    [matAutocomplete]="auto"
+                    [placeholder]="'PLACEHOLDERS.ADDRESS_PLACEHOLDER' | translate"
                     class="form__field--input"
                     formControlName="address"
-                    id="send-address"
                     lowerCase
+                    matAutocompletePosition="below"
                     type="text"
-                />
-
-                <div
-                    *ngIf="isVisibleDropdownAliasesState$ | async"
-                    [ngStyle]="{
-                                'z-index': 1
-                            }"
-                    class="dropdown py-0_5 border-radius-0_8-rem bg-light-blue-details"
+                    id="address"
                 >
-                    <ng-container *ngIf="aliases$ | async as aliases">
-                        <ng-container *ngIf="aliases.length; else notFoundAliases">
-                            <div
-                                (click)="form.controls.address.patchValue(alias.name)"
-                                *ngFor="let alias of aliases"
-                                class="item"
-                            >
-                                <div
-                                    [class.available]="alias.name.length >= 2 && alias.name.length <= 6"
-                                    [class.pl-1]="alias.name.length > 6"
-                                    class="alias"
-                                >
-                                    <div class="text-ellipsis">{{ alias.name }}</div>
+
+                <mat-autocomplete #auto="matAutocomplete" class="zano-autocomplete-panel">
+                    <mat-option *ngIf="vm.loading" class="loading" disabled>
+                        <zano-loader class="mx-auto" style="display: block; width: fit-content"></zano-loader>
+                    </mat-option>
+
+                    <mat-option *ngIf="form.controls.address.value[0] === '@' && vm.items?.length === 0 &&
+                !vm.loading" disabled>
+                    <span class="pl-1">
+                        Not found aliases
+                    </span>
+                    </mat-option>
+
+                    <ng-container *ngIf="!vm.loading">
+                        <mat-option *ngFor="let item of vm.items; trackBy: trackByFn" [value]="item">
+                            <!-- Alias -->
+                            <ng-container *ngIf="item[0] === '@'; else itemAddressTemplate">
+                                <div [ngClass]="{
+                                'available': item.length >= 2 && item.length <= 6,
+                                'pl-1': item.length > 6
+                            }" class="alias">{{ item }}
                                 </div>
-                            </div>
-                        </ng-container>
-                        <ng-template #notFoundAliases>
-                            <div class="item pl-1">Not found aliases</div>
-                        </ng-template>
+                            </ng-container>
+                            <!-- Address -->
+                            <ng-template #itemAddressTemplate>
+                                <span class="pl-1">{{ item | zanoShortString }}</span>
+                            </ng-template>
+                        </mat-option>
                     </ng-container>
-                </div>
+                </mat-autocomplete>
 
                 <div
                     *ngIf="isVisibleErrorByControl(form.controls.address)"
@@ -87,7 +92,7 @@
                     type="text"
                 />
                 <div
-                    *ngIf="isVisibleErrorByControl(form.controls.amount) || isVisibleErrorByForm(form)"
+                    *ngIf="isVisibleErrorByControl(form.controls.amount) || isVisibleErrorByControl(form)"
                     class="error"
                 >
                     <div *ngIf="form.controls.amount.hasError('zero')">
@@ -144,34 +149,34 @@
 
         <!-- Wrap information -->
         <ng-container *ngIf="isVisibleWrapInfoState$ | async">
-            <div *ngIf="wrapInfo && !(loading$ | async)" class="wrap mt-2 mb-2 p-2">
-            <div class="title">
-                {{ 'SEND.WRAP.TITLE' | translate }}
-                <i class="icon info-circle"></i>
+            <div *ngIf="wrapInfo && !(loadingWrapInfo$ | async)" class="wrap mt-2 mb-2 p-2">
+                <div class="title">
+                    {{ 'SEND.WRAP.TITLE' | translate }}
+                    <i class="icon info-circle"></i>
+                </div>
+                <div class="text-wrap">
+                    {{ 'SEND.WRAP.MAIN_TEXT' | translate }}
+                </div>
+                <div class="title">{{ 'SEND.WRAP.ESTIMATE' | translate }}</div>
+                <table class="text-wrap">
+                    <tr>
+                        <td>{{ 'SEND.WRAP.WILL_RECEIVE' | translate }}</td>
+                        <td *ngIf="!form.controls.amount.errors">
+                            {{ getReceivedValue() | intToMoney }}
+                            {{ 'SEND.WRAP.wZANO' | translate }}
+                        </td>
+                        <td *ngIf="form.controls.amount.errors">-</td>
+                    </tr>
+                    <tr>
+                        <td>{{ 'SEND.WRAP.FEE' | translate }}</td>
+                        <td>
+                            {{ wrapInfo?.tx_cost?.zano_needed_for_erc20 | intToMoney : zanoAssetInfo.decimal_point }}
+                            {{ 'SEND.WRAP.ZANO' | translate }}
+                            ({{ '$' + wrapInfo.tx_cost?.usd_needed_for_erc20 }})
+                        </td>
+                    </tr>
+                </table>
             </div>
-            <div class="text-wrap">
-                {{ 'SEND.WRAP.MAIN_TEXT' | translate }}
-            </div>
-            <div class="title">{{ 'SEND.WRAP.ESTIMATE' | translate }}</div>
-            <table class="text-wrap">
-                <tr>
-                    <td>{{ 'SEND.WRAP.WILL_RECEIVE' | translate }}</td>
-                    <td *ngIf="!form.controls.amount.errors">
-                        {{ getReceivedValue() | intToMoney }}
-                        {{ 'SEND.WRAP.wZANO' | translate }}
-                    </td>
-                    <td *ngIf="form.controls.amount.errors">-</td>
-                </tr>
-                <tr>
-                    <td>{{ 'SEND.WRAP.FEE' | translate }}</td>
-                    <td>
-                        {{ wrapInfo?.tx_cost?.zano_needed_for_erc20 | intToMoney : 12 }}
-                        {{ 'SEND.WRAP.ZANO' | translate }}
-                        ({{ '$' + wrapInfo.tx_cost?.usd_needed_for_erc20 }})
-                    </td>
-                </tr>
-            </table>
-        </div>
         </ng-container>
 
         <!-- Asset -->
@@ -184,7 +189,7 @@
                 (change)="form.controls.amount.updateValueAndValidity()"
                 [bindValue]="'asset_info.asset_id'"
                 [clearable]="false"
-                [items]="items$ | async"
+                [items]="assetItems$ | async"
                 [searchable]="false"
                 class="custom-select with-circle"
                 formControlName="asset_id"
@@ -271,10 +276,10 @@
                             <span class="color-red">*</span>
                         </label>
                         <input
+                            (blur)="updateFeeErrorMessage()"
                             (contextmenu)="variablesService.onContextMenu($event)"
                             [placeholder]="'PLACEHOLDERS.FEE_PLACEHOLDER' | translate"
                             appInputValidate="money"
-                            (blur)="updateFeeErrorMessage()"
                             class="form__field--input"
                             formControlName="fee"
                             id="send-fee"
@@ -292,7 +297,6 @@
                 <!-- HIDE -->
                 <app-checkbox
                     [label]="'SEND.HIDE' | translate"
-                    [value]="hideWalletAddress || form.controls['hide'].value"
                     class="mt-1"
                     formControlName="hide"
                 ></app-checkbox>

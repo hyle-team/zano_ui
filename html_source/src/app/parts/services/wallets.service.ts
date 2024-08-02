@@ -10,12 +10,12 @@ import { AssetsWhitelistGetResponseData } from '@api/models/assets.model';
     providedIn: 'root',
 })
 export class WalletsService {
-    get wallets(): Wallet[] | null | undefined {
+    get wallets(): Wallet[] {
         return this.variablesService.wallets;
     }
 
     set wallets(value) {
-        this.variablesService.wallets = value;
+        this.variablesService.wallets = value ?? [];
     }
 
     get currentWallet(): Wallet | null | undefined {

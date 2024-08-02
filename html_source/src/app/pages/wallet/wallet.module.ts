@@ -51,6 +51,8 @@ import { BurnCustomAssetComponent } from './tabs/custom-assets/modals/burn-custo
 import { TransactionDetailsForCustomAssetsComponent } from './tabs/custom-assets/modals/transaction-details-for-custom-assets/transaction-details-for-custom-assets.component';
 import { TransactionDetailsComponent } from '@parts/components/transaction-details.component';
 import { VisibilityBalanceDirective } from '@parts/directives/visibility-balance.directive';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { LoaderComponent } from '@parts/components/loader.component';
 
 @NgModule({
     declarations: [
@@ -110,6 +112,8 @@ import { VisibilityBalanceDirective } from '@parts/directives/visibility-balance
         IsVisibleFeePipe,
         TransactionDetailsComponent,
         VisibilityBalanceDirective,
+        MatAutocompleteModule,
+        LoaderComponent,
     ],
 })
 export class WalletModule {}

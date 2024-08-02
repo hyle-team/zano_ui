@@ -516,7 +516,7 @@
         "WITH_ADDRESS_ALREADY_OPEN": "Un portafoglio con questo indirizzo è già aperto"
     },
     "PLACEHOLDERS": {
-        "ADRESS_PLACEHOLDER": "Inserisci qui l'indirizzo",
+        "ADDRESS_PLACEHOLDER": "Inserisci qui l'indirizzo",
         "AMOUNT_PLACEHOLDER": "Inserisci l'importo qui",
         "COMMENT_PLACEHOLDER": "Inserisci qui il tuo commento",
         "CONFIRM_WALET_PASSWORD_PLACEHOLDER": "Conferma qui la password del portafoglio",

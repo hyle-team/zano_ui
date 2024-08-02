@@ -4,12 +4,11 @@ import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { BigNumber } from 'bignumber.js';
 import { MIXIN } from '@parts/data/constants';
-import { debounceTime, delay, filter, map, retry, startWith, take, takeUntil, tap } from 'rxjs/operators';
-import { BehaviorSubject, combineLatest, merge, Observable, of, Subject } from 'rxjs';
+import { debounceTime, map, retry, startWith, takeUntil, tap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, merge, Observable, Subject } from 'rxjs';
 import { AssetBalance } from '@api/models/assets.model';
 import { regExpAliasName } from '@parts/utils/zano-validators';
 import { insuficcientFunds } from '@parts/utils/zano-errors';
-import { Alias, Aliases } from '@api/models/alias.model';
 import { DeeplinkParams, defaultSendMoneyParams } from '@api/models/wallet.model';
 import { WrapInfo } from '@api/models/wrap-info';
 import { WrapInfoService } from '@api/services/wrap-info.service';
@@ -18,6 +17,7 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
 import { moneyToInt } from '@parts/functions/money-to-int';
 import { intToMoney } from '@parts/functions/int-to-money';
 import { TranslateService } from '@ngx-translate/core';
+import { WalletsService } from '@parts/services/wallets.service';
 
 @Component({
     selector: 'app-send',
@@ -33,28 +33,25 @@ import { TranslateService } from '@ngx-translate/core';
 export class SendComponent implements OnInit, OnDestroy {
     job_id: number;
 
-    controllerVisibleDropdownAliasesState$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
-    isVisibleDropdownAliasesState$: Observable<boolean> = this.controllerVisibleDropdownAliasesState$.pipe(delay(250));
-
     isSendModalState: boolean = false;
 
     isSendDetailsModalState: boolean = false;
 
-    hideWalletAddress: boolean = false;
-
     wrapInfo: WrapInfo;
 
-    loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+    loadingWrapInfo$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
     isVisibleWrapInfoState$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
     aliasAddress: string;
 
     isVisibleAdditionalOptionsState: boolean = false;
+
     variablesService: VariablesService = inject(VariablesService);
+
     wrapInfoService: WrapInfoService = inject(WrapInfoService);
-    items$: Observable<(AssetBalance & { disabled: boolean })[]> = combineLatest([
+
+    assetItems$: Observable<(AssetBalance & { disabled: boolean })[]> = combineLatest([
         this.variablesService.currentWallet.balances$,
         this.isVisibleWrapInfoState$,
     ]).pipe(
@@ -76,8 +73,9 @@ export class SendComponent implements OnInit, OnDestroy {
             return items;
         })
     );
-    aliases$: BehaviorSubject<Aliases> = new BehaviorSubject<Aliases>(this.variablesService.aliases);
+
     lowerCaseDisabled$: BehaviorSubject<boolean> = new BehaviorSubject(true);
+
     form: FormGroup<{
         wallet_id: FormControl<number>;
         address: FormControl<string>;
@@ -88,12 +86,20 @@ export class SendComponent implements OnInit, OnDestroy {
         fee: FormControl<string>;
         hide: FormControl<boolean>;
     }>;
+
+    addressItems$: Observable<string[]>;
+
+    loadingAddressItems$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+
     decimal_point$: Observable<number>;
+
     errorMessages: { [key: string]: string | undefined } = {
         address: undefined,
         fee: undefined,
     };
+
     private _fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
+
     private _destroy$: Subject<void> = new Subject<void>();
 
     private _backendService: BackendService = inject(BackendService);
@@ -101,6 +107,14 @@ export class SendComponent implements OnInit, OnDestroy {
     private _ngZone: NgZone = inject(NgZone);
 
     private _translateService: TranslateService = inject(TranslateService);
+
+    private _walletsService: WalletsService = inject(WalletsService);
+
+    private _openedWalletItems: string[] = this._walletsService.wallets.map(({ address, alias }) => alias?.name ?? address);
+
+    private _aliasItems: string[] = this.variablesService.aliases.map(({ name }) => name);
+
+    readonly zanoAssetInfo = zanoAssetInfo;
 
     ngOnInit(): void {
         this._getWrapInfo();
@@ -182,10 +196,6 @@ export class SendComponent implements OnInit, OnDestroy {
         return control.invalid && (control.dirty || control.touched);
     }
 
-    isVisibleErrorByForm(form: FormGroup): boolean {
-        return form.invalid && (form.dirty || form.touched);
-    }
-
     beforeSubmit(): void {
         this.isSendModalState = true;
     }
@@ -205,12 +215,8 @@ export class SendComponent implements OnInit, OnDestroy {
         const asset: AssetBalance | undefined = currentWallet.getBalanceByAssetId(asset_id);
 
         if (asset) {
-            // const {
-            //     asset_info: { decimal_point },
-            // } = asset;
             sendMoneyParams = {
                 ...sendMoneyParams,
-                // amount: moneyToInt(amount, decimal_point).toString(),
                 amount,
             };
         } else {
@@ -222,7 +228,8 @@ export class SendComponent implements OnInit, OnDestroy {
 
         if (address.indexOf('@') === 0) {
             const aliasName = address;
-            const alias = this.aliases$.value.find(({ name }) => name === aliasName);
+            const { aliases } = this.variablesService;
+            const alias = aliases.find(({ name }) => name === aliasName);
 
             if (!alias) {
                 this.form.controls.address.setErrors({
@@ -253,7 +260,10 @@ export class SendComponent implements OnInit, OnDestroy {
             },
         } = this.form;
         const preparedAmount: BigNumber = moneyToInt(amount);
-        const needed: BigNumber = new BigNumber(this.wrapInfo.tx_cost.zano_needed_for_erc20);
+
+        const { tx_cost: { zano_needed_for_erc20 } } = this.wrapInfo;
+        const needed: BigNumber = new BigNumber(zano_needed_for_erc20);
+
         if (preparedAmount && needed) {
             return preparedAmount.minus(needed);
         }
@@ -289,24 +299,8 @@ export class SendComponent implements OnInit, OnDestroy {
         address.patchValue(value);
     }
 
-    inputListenAddressField({ target: { value } }: any): void {
-        const { aliases } = this.variablesService;
-
-        of(value ?? '')
-            .pipe(
-                tap(v => this.lowerCaseDisabled$.next(v.indexOf('@') !== 0)),
-                tap(v => this.controllerVisibleDropdownAliasesState$.next(!!v.length && v.indexOf('@') === 0)),
-                filter(v => v.indexOf('@') === 0),
-                take(1)
-            )
-            .subscribe({
-                next: v => {
-                    const filteredAliases: Alias[] = aliases.filter(({ name }) => {
-                        return name.indexOf(v) > -1;
-                    });
-                    this.aliases$.next(filteredAliases);
-                },
-            });
+    trackByFn(index: number, value: string): number | string {
+        return value ?? index;
     }
 
     private _createForm(): void {
@@ -471,8 +465,8 @@ export class SendComponent implements OnInit, OnDestroy {
             {
                 validators: [
                     (form: FormGroup): ValidationErrors | null => {
-                        const asset_id = form.controls.asset_id.getRawValue();
-                        const amount: BigNumber = new BigNumber(form.controls.amount.getRawValue());
+                        const asset_id = form.controls.asset_id.value;
+                        const amount: BigNumber = new BigNumber(form.controls.amount.value);
 
                         const assetBalance: AssetBalance | undefined = currentWallet.getBalanceByAssetId(asset_id);
 
@@ -518,7 +512,7 @@ export class SendComponent implements OnInit, OnDestroy {
             controls: { asset_id, address, fee },
         } = this.form;
 
-        this.decimal_point$ = this.form.controls.asset_id.valueChanges.pipe(
+        this.decimal_point$ = asset_id.valueChanges.pipe(
             startWith(asset_id.value),
             map((value: string): number => {
                 return currentWallet.getBalanceByAssetId(value)?.asset_info.decimal_point ?? 0;
@@ -532,6 +526,28 @@ export class SendComponent implements OnInit, OnDestroy {
         merge(fee.statusChanges, fee.valueChanges)
             .pipe(takeUntil(this._destroy$))
             .subscribe((): void => this.updateFeeErrorMessage());
+
+        this.addressItems$ = address.valueChanges.pipe(
+            startWith(address.value),
+            tap(value => {
+                const condition = value[0] === '@';
+                this.lowerCaseDisabled$.next(!condition);
+                this.loadingAddressItems$.next(condition);
+            }),
+            debounceTime(250),
+            map(value => {
+                if (!value?.length) {
+                    return this._openedWalletItems;
+                }
+                if (value[0] === '@') {
+                    return this._aliasItems.filter(name => {
+                        return name.includes(value);
+                    });
+                }
+                return [];
+            }),
+            tap(() => this.loadingAddressItems$.next(false))
+        );
     }
 
     private _updateErrorMessages(): void {
@@ -545,7 +561,7 @@ export class SendComponent implements OnInit, OnDestroy {
         valueChanges.pipe(debounceTime(200), takeUntil(this._destroy$)).subscribe({
             next: (): void => {
                 currentWallet.sendMoneyParams = this.form.getRawValue();
-            }
+            },
         });
     }
 
@@ -553,20 +569,20 @@ export class SendComponent implements OnInit, OnDestroy {
         this.wrapInfoService
             .getWrapInfo()
             .pipe(
-                tap(() => this.loading$.next(true)),
+                tap(() => this.loadingWrapInfo$.next(true)),
                 retry(5),
                 takeUntil(this._destroy$)
             )
             .subscribe({
                 next: (wrapInfo: WrapInfo) => {
                     this.wrapInfo = wrapInfo;
-                    this.loading$.next(false);
+                    this.loadingWrapInfo$.next(false);
                 },
                 error: () => {
-                    this.loading$.next(false);
+                    this.loadingWrapInfo$.next(false);
                 },
                 complete: () => {
-                    this.loading$.next(false);
+                    this.loadingWrapInfo$.next(false);
                 },
             });
     }

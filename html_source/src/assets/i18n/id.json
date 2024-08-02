@@ -516,7 +516,7 @@
         "WITH_ADDRESS_ALREADY_OPEN": "Dompet dengan alamat ini sudah terbuka"
     },
     "PLACEHOLDERS": {
-        "ADRESS_PLACEHOLDER": "Masukkan alamat di sini",
+        "ADDRESS_PLACEHOLDER": "Masukkan alamat di sini",
         "AMOUNT_PLACEHOLDER": "Masukkan jumlah di sini",
         "COMMENT_PLACEHOLDER": "Masukkan komentar Anda di sini",
         "CONFIRM_WALET_PASSWORD_PLACEHOLDER": "Konfirmasi kata sandi dompet di sini",
