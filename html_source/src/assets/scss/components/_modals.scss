@@ -12,6 +12,10 @@
     z-index: 100;
 }
 
+.modal-overlay-transparent {
+    background: transparent;
+}
+
 .modal {
     position: relative;
     overflow: hidden;

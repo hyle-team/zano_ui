@@ -16,11 +16,14 @@ export class ModalService {
         private translate: TranslateService
     ) {}
 
-    prepareModal(type: 'error' | 'info' | 'success' | string, message): void {
+    prepareModal(type: 'error' | 'info' | 'success' | string, message, options?: { oneOverlay: boolean }): void {
         const length = this.components.push(
             this.componentFactoryResolver.resolveComponentFactory(ModalContainerComponent).create(this.injector)
         );
 
+        if (options?.oneOverlay) {
+            this.components[length - 1].instance['modalOverlayTransparent'] = length > 1;
+        }
         this.components[length - 1].instance['type'] = type;
         this.components[length - 1].instance['message'] = message.length ? this.translate.instant(message) : '';
         this.components[length - 1].instance['eventClose']?.subscribe({

@@ -12,7 +12,7 @@ import { TranslateService } from '@ngx-translate/core';
             <div class="content mb-2" fxLayout="row" fxLayoutAlign="start center">
                 <i
                     [class.error]="type === 'error'"
-                    [class.info]="type === 'info'"
+                    [class.info-icon]="type === 'info'"
                     [class.success]="type === 'success'"
                     class="icon min-width-4_4-rem min-height-4_4-rem mr-1"
                     fxFlex="0 0 auto"
@@ -34,6 +34,8 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class ModalContainerComponent implements OnInit, OnDestroy {
     @HostBinding('class.modal-overlay') modalOverlay = true;
+
+    @HostBinding('class.modal-overlay-transparent') modalOverlayTransparent = false;
 
     public title: string;
 

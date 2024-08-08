@@ -805,7 +805,8 @@
         "TITLE_GROUP": "Group:",
         "TITLE_PENDING": "Pending",
         "TITLE_PERIOD": "Time period:",
-        "TITLE_TOTAL": "Total"
+        "TITLE_TOTAL": "Total",
+        "WALLET_STAKING_ON": "{{ value }} staking is ON"
     },
     "SUCCESS_SWEEP_BARE_OUTS": {
         "DETAILS": "{{ txs_sent }} transactions were successfully sent, {{ bare_outs_swept }}  bare outputs migrated, {{ amount_swept }} coins transferred, and {{ fee_spent }} was spent for fees."

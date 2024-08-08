@@ -1,10 +1,12 @@
-import { Injectable, NgZone } from '@angular/core';
+import { inject, Injectable, NgZone } from '@angular/core';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { ResponseGetWalletInfo, Wallet } from '@api/models/wallet.model';
 import { Router } from '@angular/router';
 import { ParamsCallRpc } from '@api/models/call_rpc.model';
 import { AssetsWhitelistGetResponseData } from '@api/models/assets.model';
+import { TranslateService } from '@ngx-translate/core';
+import { ModalService } from '@parts/services/modal.service';
 
 @Injectable({
     providedIn: 'root',
@@ -30,11 +32,20 @@ export class WalletsService {
         private backendService: BackendService,
         private variablesService: VariablesService,
         private router: Router,
-        private ngZone: NgZone
+        private ngZone: NgZone,
+        private _translateService: TranslateService,
+        private _modalService: ModalService,
     ) {}
 
     addWallet(wallet: Wallet): void {
-        const { wallet_id } = wallet;
+        const { wallet_id, staking } = wallet;
+
+
+        if (staking) {
+            const text = this._translateService.instant('STAKING.WALLET_STAKING_ON', { value: wallet.alias?.name ?? wallet.name });
+            this._modalService.prepareModal('info', text, { oneOverlay: true });
+        }
+
         this.variablesService.wallets.push(wallet);
         this.updateWalletInfo(wallet_id);
     }
