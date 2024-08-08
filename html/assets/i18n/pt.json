@@ -516,7 +516,7 @@
         "WITH_ADDRESS_ALREADY_OPEN": "Uma carteira com este endereço já está aberta"
     },
     "PLACEHOLDERS": {
-        "ADRESS_PLACEHOLDER": "Digite o endereço aqui",
+        "ADDRESS_PLACEHOLDER": "Digite o endereço aqui",
         "AMOUNT_PLACEHOLDER": "Insira o valor aqui",
         "COMMENT_PLACEHOLDER": "Digite seu comentário aqui",
         "CONFIRM_WALET_PASSWORD_PLACEHOLDER": "Confirme a senha da carteira aqui",
@@ -739,6 +739,7 @@
             "TITLE": "escala de interface"
         },
         "SETTINGS_SAVED": "Salvo! Configurações atualizadas",
+        "SHOW_BALANCE": "Show balance",
         "TITLE": "Definições",
         "USE_TOR_TO_RELAY_TRANSACTIONS": "Use TOR para retransmitir transações",
         "WHITE_THEME": "Tema branco"
@@ -804,7 +805,8 @@
         "TITLE_GROUP": "Grupo:",
         "TITLE_PENDING": "Pendente",
         "TITLE_PERIOD": "Período de tempo:",
-        "TITLE_TOTAL": "Total"
+        "TITLE_TOTAL": "Total",
+        "WALLET_STAKING_ON": "{{ value }} staking is ON"
     },
     "SUCCESS_SWEEP_BARE_OUTS": {
         "DETAILS": "{{ txs_sent }} transactions were successfully sent, {{ bare_outs_swept }}  bare outputs migrated, {{ amount_swept }} coins transferred, and {{ fee_spent }} was spent for fees."

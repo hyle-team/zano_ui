@@ -52,3 +52,23 @@
         }
     }
 }
+
+.zano-autocomplete-panel {
+    border-radius: 0.8rem !important;
+    background-color: var(--blue-500);
+    border: var(--border);
+
+    .mat-option {
+        height: 4rem;
+        line-height: 1;
+        padding: 0;
+        cursor: pointer;
+        &:hover {
+            background-color: var(--gray-900);
+        }
+    }
+
+    .mat-option-text {
+        padding: 0.4rem;
+    }
+}

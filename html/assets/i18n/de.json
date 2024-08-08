@@ -516,7 +516,7 @@
         "WITH_ADDRESS_ALREADY_OPEN": "Eine Wallet mit dieser Adresse ist bereits geöffnet"
     },
     "PLACEHOLDERS": {
-        "ADRESS_PLACEHOLDER": "Adresse hier eingeben",
+        "ADDRESS_PLACEHOLDER": "Adresse hier eingeben",
         "AMOUNT_PLACEHOLDER": "Betrag hier eingeben",
         "COMMENT_PLACEHOLDER": "Geben Sie hier Ihren Kommentar ein",
         "CONFIRM_WALET_PASSWORD_PLACEHOLDER": "Wallet-Passwort hier bestätigen",
@@ -739,6 +739,7 @@
             "TITLE": "Interface scale"
         },
         "SETTINGS_SAVED": "Gerettet! Einstellungen aktualisiert",
+        "SHOW_BALANCE": "Show balance",
         "TITLE": "Einstellungen",
         "USE_TOR_TO_RELAY_TRANSACTIONS": "Verwenden Sie TOR, um Transaktionen weiterzuleiten",
         "WHITE_THEME": "Tagmodus"
@@ -804,7 +805,8 @@
         "TITLE_GROUP": "Gruppe:",
         "TITLE_PENDING": "Ausstehend",
         "TITLE_PERIOD": "Zeitspanne:",
-        "TITLE_TOTAL": "Gesamt"
+        "TITLE_TOTAL": "Gesamt",
+        "WALLET_STAKING_ON": "{{ value }} staking is ON"
     },
     "SUCCESS_SWEEP_BARE_OUTS": {
         "DETAILS": "{{ txs_sent }} transactions were successfully sent, {{ bare_outs_swept }}  bare outputs migrated, {{ amount_swept }} coins transferred, and {{ fee_spent }} was spent for fees."

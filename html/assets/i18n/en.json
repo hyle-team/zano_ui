@@ -516,7 +516,7 @@
         "WITH_ADDRESS_ALREADY_OPEN": "A wallet with this address is already open"
     },
     "PLACEHOLDERS": {
-        "ADRESS_PLACEHOLDER": "Please enter an address",
+        "ADDRESS_PLACEHOLDER": "Please enter an address",
         "AMOUNT_PLACEHOLDER": "Please enter the amount",
         "COMMENT_PLACEHOLDER": "Enter your comment here",
         "CONFIRM_WALET_PASSWORD_PLACEHOLDER": "Confirm wallet password here",
@@ -739,6 +739,7 @@
             "TITLE": "Interface scale"
         },
         "SETTINGS_SAVED": "Settings have been updated.",
+        "SHOW_BALANCE": "Show balance",
         "TITLE": "Settings",
         "USE_TOR_TO_RELAY_TRANSACTIONS": "Use TOR to relay transactions",
         "WHITE_THEME": "White theme"
@@ -804,7 +805,8 @@
         "TITLE_GROUP": "Group:",
         "TITLE_PENDING": "Pending",
         "TITLE_PERIOD": "Time period:",
-        "TITLE_TOTAL": "Total"
+        "TITLE_TOTAL": "Total",
+        "WALLET_STAKING_ON": "{{ value }} staking is ON"
     },
     "SUCCESS_SWEEP_BARE_OUTS": {
         "DETAILS": "{{ txs_sent }} transactions were successfully sent, {{ bare_outs_swept }}  bare outputs migrated, {{ amount_swept }} coins transferred, and {{ fee_spent }} was spent for fees."

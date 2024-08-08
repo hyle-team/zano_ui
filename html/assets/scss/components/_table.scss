@@ -35,6 +35,7 @@ table.zano-table {
                     text-overflow: ellipsis;
                     padding: 2rem;
                     width: 100%;
+                    white-space: nowrap;
                 }
 
                 &:first-child {

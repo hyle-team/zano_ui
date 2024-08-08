@@ -40,6 +40,14 @@ i {
         background: center / contain no-repeat url(~src/assets/icons/white/custom-asset_icon.svg);
     }
 
+    &.show-balance {
+        background: center / contain no-repeat url(~src/assets/icons/white/show-balance_icon.svg);
+    }
+
+    &.hide-balance {
+        background: center / contain no-repeat url(~src/assets/icons/white/hide-balance_ico.svg);
+    }
+
     &.emit {
         background: center / contain no-repeat url(~src/assets/icons/white/emit_icon.svg);
     }
