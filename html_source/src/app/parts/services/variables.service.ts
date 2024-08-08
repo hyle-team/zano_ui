@@ -45,9 +45,9 @@ export class VariablesService implements OnDestroy {
 
     appLogin: boolean = false;
 
-    moneyEquivalent: number = 0;
+    zanoMoneyEquivalent: number = 0;
 
-    moneyEquivalentPercent: number = 0;
+    zanoMoneyEquivalentPercent: number = 0;
 
     defaultTicker: 'ZANO' = 'ZANO';
 
@@ -179,7 +179,7 @@ export class VariablesService implements OnDestroy {
 
     pasteSelectContextMenu: ContextMenuComponent<any>;
 
-    private _destroy$ = new Subject<void>();
+    private _destroy$: Subject<void> = new Subject<void>();
 
     constructor(private router: Router, private ngZone: NgZone, private contextMenuService: ContextMenuService<any>) {
         this.visibilityBalance$.subscribe({

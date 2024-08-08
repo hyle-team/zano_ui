@@ -12,9 +12,11 @@ import {
     Renderer2,
 } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
-import { SendMoneyParams } from '@api/models/send-money.model';
+import { SendMoneyFormParams } from '@api/models/send-money.model';
 import { VariablesService } from '@parts/services/variables.service';
 import { ZanoValidators } from '@parts/utils/zano-validators';
+import { BigNumber } from 'bignumber.js';
+import { AssetBalance, PriceInfo } from '@api/models/assets.model';
 
 @Component({
     selector: 'app-send-modal',
@@ -33,7 +35,7 @@ import { ZanoValidators } from '@parts/utils/zano-validators';
                                     {{ 'CONFIRM.MESSAGE.SEND' | translate }}
                                 </div>
                                 <div class="text">
-                                    {{ sendMoneyParams.amount }}
+                                    {{ amount }}
                                     {{ (sendMoneyParams.asset_id | getAssetInfo)?.ticker || '***' }}
                                 </div>
                             </div>
@@ -116,9 +118,39 @@ import { ZanoValidators } from '@parts/utils/zano-validators';
 export class SendModalComponent implements OnInit, OnDestroy {
     @HostBinding('class.modal-overlay') modalOverlay = true;
 
-    @Input() sendMoneyParams: SendMoneyParams;
+    @Input() sendMoneyParams: SendMoneyFormParams;
+
+    @Input() priceInfo: PriceInfo;
 
     @Output() confirmed: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+    get amount(): string {
+        const { amount, isAmountUSD, asset_id,  } = this.sendMoneyParams;
+        const convertedAmountUSD = (): string => {
+            let usd = 0;
+
+            if (typeof this.priceInfo.data === 'object') {
+                const { data } = this.priceInfo;
+                usd = data.usd;
+            }
+
+            let decimal_point = 0;
+
+            const { currentWallet } = this.variablesService;
+            const asset: AssetBalance | undefined = currentWallet.getBalanceByAssetId(asset_id);
+
+            if (asset) {
+                const { asset_info } = asset;
+                decimal_point = asset_info.decimal_point;
+            }
+
+            const convertedAmount = new BigNumber(amount || 0).dividedBy(usd || 0).decimalPlaces(decimal_point);
+
+            return convertedAmount.toString();
+        };
+
+        return isAmountUSD ? convertedAmountUSD() : amount;
+    }
 
     cdr = inject(ChangeDetectorRef);
 

@@ -58,9 +58,9 @@ import { VisibilityBalanceDirective } from '@parts/directives/visibility-balance
                           [timeDelay]="1000"
                           [tooltipClass]="'balance-tooltip'"
                           [tooltip]="getBalancesTooltip()" class="price">
-                    {{ wallet.getMoneyEquivalentForZano(variablesService.moneyEquivalent) | intToMoney | currency : 'USD' || '---' }}
-                        <span [class.red]="variablesService.moneyEquivalentPercent < 0" class="percent">
-                        {{ variablesService.moneyEquivalentPercent | number : '1.2-2' }}%
+                    {{ wallet.getMoneyEquivalentForZano(variablesService.zanoMoneyEquivalent) | intToMoney | currency : 'USD' || '---' }}
+                        <span [class.red]="variablesService.zanoMoneyEquivalentPercent < 0" class="percent">
+                        {{ variablesService.zanoMoneyEquivalentPercent | number : '1.2-2' }}%
                     </span>
                         </span>
                 </ng-container>

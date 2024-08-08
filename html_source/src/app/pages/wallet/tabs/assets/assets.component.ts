@@ -23,113 +23,117 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
             <div class="scrolled-content" [class.mb-2]="isShowPagination" fxFlex="1 1 auto">
                 <table class="zano-table assets-table">
                     <thead>
-                        <tr>
-                            <th>
-                                <div class="bg title">
-                                    {{ 'ASSETS.TABLE.LABELS.NAME' | translate }}
-                                </div>
-                            </th>
-                            <th>
-                                <div class="bg title">
-                                    {{ 'ASSETS.TABLE.LABELS.BALANCE' | translate }}
-                                </div>
-                            </th>
-                            <th>
-                                <div class="bg title">
-                                    {{ 'ASSETS.TABLE.LABELS.VALUE' | translate }}
-                                </div>
-                            </th>
-                            <th>
-                                <div class="bg title">
-                                    {{ 'ASSETS.TABLE.LABELS.PRICE' | translate }}
-                                </div>
-                            </th>
-                            <th>
-                                <div class="bg title">&nbsp;</div>
-                            </th>
-                        </tr>
-                        <div class="row-divider"></div>
+                    <tr>
+                        <th>
+                            <div class="bg title">
+                                {{ 'ASSETS.TABLE.LABELS.NAME' | translate }}
+                            </div>
+                        </th>
+                        <th>
+                            <div class="bg title">
+                                {{ 'ASSETS.TABLE.LABELS.BALANCE' | translate }}
+                            </div>
+                        </th>
+                        <th>
+                            <div class="bg title">
+                                {{ 'ASSETS.TABLE.LABELS.VALUE' | translate }}
+                            </div>
+                        </th>
+                        <th>
+                            <div class="bg title">
+                                {{ 'ASSETS.TABLE.LABELS.PRICE' | translate }}
+                            </div>
+                        </th>
+                        <th>
+                            <div class="bg title">&nbsp;</div>
+                        </th>
+                    </tr>
+                    <div class="row-divider"></div>
                     </thead>
                     <tbody>
-                        <ng-container *ngIf="variablesService.currentWallet.balances$ | async as assets">
-                            <ng-container *ngFor="let asset of assets | paginate : paginatePipeArgs; trackBy: trackByAssets">
-                                <tr
-                                    [delay]="500"
-                                    [placement]="'bottom'"
-                                    [timeDelay]="1000"
-                                    [tooltipClass]="'balance-tooltip'"
-                                    [tooltip]="getBalanceTooltip(asset)"
-                                >
-                                    <td>
-                                        <div class="text-ellipsis" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2rem">
-                                            <div class="token-logo mr-1">
-                                                <img
-                                                    [src]="
+                    <ng-container *ngIf="variablesService.currentWallet.balances$ | async as assets">
+                        <ng-container
+                            *ngFor="let asset of assets | paginate : paginatePipeArgs; trackBy: trackByAssets">
+                            <tr
+                                [delay]="500"
+                                [placement]="'bottom'"
+                                [timeDelay]="1000"
+                                [tooltipClass]="'balance-tooltip'"
+                                [tooltip]="getBalanceTooltip(asset)"
+                            >
+                                <td>
+                                    <div class="text-ellipsis" fxLayout="row" fxLayoutAlign="start center"
+                                         fxLayoutGap="2rem">
+                                        <div class="token-logo mr-1">
+                                            <img
+                                                [src]="
                                                         asset.asset_info.asset_id === zanoAssetInfo.asset_id
                                                             ? zanoAssetInfo.logo
                                                             : defaultImgSrc
                                                     "
-                                                    [alt]="asset.asset_info.ticker"
-                                                    defaultImgAlt="default"
-                                                    [defaultImgSrc]="defaultImgSrc"
-                                                    appDefaultImg
-                                                />
-                                            </div>
-                                            <b class="text-ellipsis">{{ asset.asset_info.full_name }}</b>
+                                                [alt]="asset.asset_info.ticker"
+                                                defaultImgAlt="default"
+                                                [defaultImgSrc]="defaultImgSrc"
+                                                appDefaultImg
+                                            />
+                                        </div>
+                                        <b class="text-ellipsis">{{ asset.asset_info.full_name }}</b>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="text-ellipsis">
+                                        <b *appVisibilityBalance>
+                                            {{ asset.total | intToMoney : asset.asset_info.decimal_point }}
+                                            {{ asset.asset_info.ticker }}
+                                        </b>
+                                    </div>
+                                </td>
+                                <ng-container
+                                    *ngIf="asset.asset_info.asset_id === zanoAssetInfo.asset_id; else templateNotLoadPrice">
+                                    <td>
+                                        <div class="text-ellipsis">
+                                            <b *appVisibilityBalance>{{
+                                                    (asset.total | intToMoney : asset.asset_info.decimal_point) *
+                                                    variablesService.zanoMoneyEquivalent | currency : 'USD'
+                                                }}</b>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="text-ellipsis">
-                                            <b *appVisibilityBalance>
-                                                {{ asset.total | intToMoney : asset.asset_info.decimal_point }}
-                                                {{ asset.asset_info.ticker }}
-                                            </b>
-                                        </div>
-                                    </td>
-                                    <ng-container *ngIf="asset.asset_info.asset_id === zanoAssetInfo.asset_id; else templateNotLoadPrice">
-                                        <td>
-                                            <div class="text-ellipsis">
-                                                <b *appVisibilityBalance>{{
-                                                    (asset.total | intToMoney : asset.asset_info.decimal_point) *
-                                                        variablesService.moneyEquivalent | currency : 'USD'
-                                                }}</b>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div class="text-ellipsis">
-                                                <b class="mr-0_5">{{ variablesService.moneyEquivalent | currency : 'USD' }}</b>
-                                                <span
-                                                    [class.color-aqua]="variablesService.moneyEquivalentPercent > 0"
-                                                    [class.color-red]="variablesService.moneyEquivalentPercent < 0"
-                                                >
-                                                    {{ variablesService.moneyEquivalentPercent | number : '1.2-2' }}%
-                                                </span>
-                                            </div>
-                                        </td>
-                                    </ng-container>
-
-                                    <ng-template #templateNotLoadPrice>
-                                        <td></td>
-                                        <td></td>
-                                    </ng-template>
-                                    <td>
-                                        <div class="text-ellipsis" fxLayout="row" fxLayoutAlign="end center">
-                                            <button
-                                                #trigger="cdkOverlayOrigin"
-                                                (click)="$event.stopPropagation(); toggleDropDownMenu(trigger, asset)"
-                                                [disabled]="false"
-                                                cdkOverlayOrigin
-                                                class="btn-icon circle small ml-auto"
-                                                type="button"
+                                            <b class="mr-0_5">{{ variablesService.zanoMoneyEquivalent | currency : 'USD' }}</b>
+                                            <span
+                                                [class.color-aqua]="variablesService.zanoMoneyEquivalentPercent > 0"
+                                                [class.color-red]="variablesService.zanoMoneyEquivalentPercent < 0"
                                             >
-                                                <i class="icon dots rotate-90"></i>
-                                            </button>
+                                                    {{ variablesService.zanoMoneyEquivalentPercent | number : '1.2-2' }}
+                                                %
+                                                </span>
                                         </div>
                                     </td>
-                                </tr>
-                                <tr class="row-divider"></tr>
-                            </ng-container>
+                                </ng-container>
+
+                                <ng-template #templateNotLoadPrice>
+                                    <td></td>
+                                    <td></td>
+                                </ng-template>
+                                <td>
+                                    <div class="text-ellipsis" fxLayout="row" fxLayoutAlign="end center">
+                                        <button
+                                            #trigger="cdkOverlayOrigin"
+                                            (click)="$event.stopPropagation(); toggleDropDownMenu(trigger, asset)"
+                                            [disabled]="false"
+                                            cdkOverlayOrigin
+                                            class="btn-icon circle small ml-auto"
+                                            type="button"
+                                        >
+                                            <i class="icon dots rotate-90"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="row-divider"></tr>
                         </ng-container>
+                    </ng-container>
                     </tbody>
                 </table>
             </div>
@@ -141,11 +145,13 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                 class="ngx-pagination custom-pagination"
                 (pageChange)="currentPage = $event"
             >
-                <button (click)="p.previous()" [disabled]="p.isFirstPage()" class="pagination-previous btn-icon circle small mr-0_5">
+                <button (click)="p.previous()" [disabled]="p.isFirstPage()"
+                        class="pagination-previous btn-icon circle small mr-0_5">
                     <i class="icon arrow-left-stroke"></i>
                 </button>
 
-                <div *ngFor="let page of p.pages; trackBy: trackByPages" [class.current]="p.getCurrent() === page.value" class="mr-0_5">
+                <div *ngFor="let page of p.pages; trackBy: trackByPages" [class.current]="p.getCurrent() === page.value"
+                     class="mr-0_5">
                     <a (click)="p.setCurrent(page.value)" *ngIf="p.getCurrent() !== page.value">
                         <span>{{ page.label }}</span>
                     </a>
@@ -202,7 +208,8 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
 
                     <ng-container *ngIf="variablesService.is_hardfok_active$ | async">
                         <li class="item">
-                            <a routerLink="/wallet/create-swap" [state]="{ assetInfo: currentAsset }" class="w-100 px-2 py-1">
+                            <a routerLink="/wallet/create-swap" [state]="{ assetInfo: currentAsset }"
+                               class="w-100 px-2 py-1">
                                 <i class="icon swap mr-1"></i>
                                 <span>{{ 'Swap' | translate }}</span>
                             </a>

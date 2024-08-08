@@ -9,90 +9,114 @@
     >
         <div class="form__field--row">
             <!-- Address -->
-            <div
-                *ngIf="{items: addressItems$ | async, loading: loadingAddressItems$ | async,
+            <ng-container *ngIf="{items: addressItems$ | async, loading: loadingAddressItems$ | async,
             lowerCaseDisabled: lowerCaseDisabled$ | async }
-             as vm" class="form__field">
-                <label for="address">
-                    {{ 'SEND.ADDRESS' | translate }}
-                    <span class="color-red">*</span>
-                </label>
+             as vm">
+                <div class="form__field">
+                    <label for="address">
+                        {{ 'SEND.ADDRESS' | translate }}
+                        <span class="color-red">*</span>
+                    </label>
 
-                <input
-                    (blur)="updateAddressErrorMessage()"
-                    (contextmenu)="variablesService.onContextMenu($event)"
-                    (paste)="pasteListenAddressField($event)"
-                    [lowerCaseDisabled]="vm.lowerCaseDisabled"
-                    [matAutocomplete]="auto"
-                    [placeholder]="'PLACEHOLDERS.ADDRESS_PLACEHOLDER' | translate"
-                    class="form__field--input"
-                    formControlName="address"
-                    lowerCase
-                    matAutocompletePosition="below"
-                    type="text"
-                    id="address"
-                >
+                    <input
+                        (blur)="updateAddressErrorMessage()"
+                        (contextmenu)="variablesService.onContextMenu($event)"
+                        (paste)="pasteListenAddressField($event)"
+                        [lowerCaseDisabled]="vm.lowerCaseDisabled"
+                        [matAutocomplete]="auto"
+                        [placeholder]="'PLACEHOLDERS.ADDRESS_PLACEHOLDER' | translate"
+                        class="form__field--input"
+                        formControlName="address"
+                        id="address"
+                        lowerCase
+                        matAutocompletePosition="below"
+                        type="text"
+                    >
 
-                <mat-autocomplete #auto="matAutocomplete" class="zano-autocomplete-panel">
-                    <mat-option *ngIf="vm.loading" class="loading" disabled>
-                        <zano-loader class="mx-auto" style="display: block; width: fit-content"></zano-loader>
-                    </mat-option>
+                    <mat-autocomplete #auto="matAutocomplete" class="zano-autocomplete-panel">
+                        <mat-option *ngIf="vm.loading" class="loading" disabled>
+                            <zano-loader class="mx-auto" style="display: block; width: fit-content"></zano-loader>
+                        </mat-option>
 
-                    <mat-option *ngIf="form.controls.address.value[0] === '@' && vm.items?.length === 0 &&
+                        <mat-option *ngIf="form.controls.address.value[0] === '@' && vm.items?.length === 0 &&
                 !vm.loading" disabled>
                     <span class="pl-1">
                         Not found aliases
                     </span>
-                    </mat-option>
+                        </mat-option>
 
-                    <ng-container *ngIf="!vm.loading">
-                        <mat-option *ngFor="let item of vm.items; trackBy: trackByFn" [value]="item">
-                            <!-- Alias -->
-                            <ng-container *ngIf="item[0] === '@'; else itemAddressTemplate">
-                                <div [ngClass]="{
+                        <ng-container *ngIf="!vm.loading">
+                            <mat-option *ngFor="let item of vm.items; trackBy: trackByFn" [value]="item">
+                                <!-- Alias -->
+                                <ng-container *ngIf="item[0] === '@'; else itemAddressTemplate">
+                                    <div [ngClass]="{
                                 'available': item.length >= 2 && item.length <= 6,
                                 'pl-1': item.length > 6
                             }" class="alias">{{ item }}
-                                </div>
-                            </ng-container>
-                            <!-- Address -->
-                            <ng-template #itemAddressTemplate>
-                                <span class="pl-1">{{ item | zanoShortString }}</span>
-                            </ng-template>
-                        </mat-option>
-                    </ng-container>
-                </mat-autocomplete>
+                                    </div>
+                                </ng-container>
+                                <!-- Address -->
+                                <ng-template #itemAddressTemplate>
+                                    <span class="pl-1">{{ item | zanoShortString }}</span>
+                                </ng-template>
+                            </mat-option>
+                        </ng-container>
+                    </mat-autocomplete>
 
-                <div
-                    *ngIf="isVisibleErrorByControl(form.controls.address)"
-                    class="error"
-                >
-                    {{ errorMessages['address'] | translate }}
-                </div>
+                    <div
+                        *ngIf="isVisibleError(form.controls.address)"
+                        class="error"
+                    >
+                        {{ errorMessages['address'] | translate }}
+                    </div>
 
-                <div *ngIf="aliasAddress" class="info text-ellipsis">
-                    <span>{{ aliasAddress | zanoShortString }}</span>
+                    <div *ngIf="aliasAddress" class="info text-ellipsis">
+                        <span>{{ aliasAddress | zanoShortString }}</span>
+                    </div>
                 </div>
-            </div>
+            </ng-container>
 
             <!-- Amount -->
-            <div class="form__field">
+            <div class="form__field amount">
                 <label for="send-amount">
                     {{ 'SEND.AMOUNT' | translate }}
                     <span class="color-red">*</span>
                 </label>
+
                 <input
                     (contextmenu)="variablesService.onContextMenu($event)"
-                    [decimalPoint]="decimal_point$ | async"
-                    [placeholder]="'PLACEHOLDERS.AMOUNT_PLACEHOLDER' | translate"
+                    [decimalPoint]="amountInputParams.decimalPoint"
+                    [placeholder]="form.value.isAmountUSD ? '0.00' : '0'"
                     appInputValidate="money"
                     class="form__field--input"
                     formControlName="amount"
                     id="send-amount"
                     type="text"
                 />
+
+                <button (click)="toggleAmountUSD()" [disabled]="amountInputParams.reverseDisabled" class="btn-reverse"
+                        type="button">
+                    <i class="icon small swap"></i>
+                </button>
+
+                <div [delay]="150"
+                     [placement]="'bottom'"
+                     [timeDelay]="1000"
+                     [timeout]="0"
+                     [tooltipClass]="'table-tooltip'"
+                     [tooltip]="amountInputParams.inputTicker"
+                     class="ticker">
+                    <div class="text-ellipsis">
+                        {{ amountInputParams.inputTicker }}
+                    </div>
+                </div>
+
+                <div class="hint text-ellipsis">
+                    {{ amountInputParams.hintAmount }} {{ amountInputParams.hintTicker }}
+                </div>
+
                 <div
-                    *ngIf="isVisibleErrorByControl(form.controls.amount) || isVisibleErrorByControl(form)"
+                    *ngIf="isVisibleError(form.controls.amount) || isVisibleError(form)"
                     class="error"
                 >
                     <div *ngIf="form.controls.amount.hasError('zero')">
@@ -125,6 +149,7 @@
             </div>
         </div>
 
+
         <!-- Comment -->
         <div class="form__field">
             <label for="send-comment">{{ 'SEND.COMMENT' | translate }}</label>
@@ -138,7 +163,7 @@
                 type="text"
             />
             <div
-                *ngIf="isVisibleErrorByControl(form.controls.comment)"
+                *ngIf="isVisibleError(form.controls.comment)"
                 class="error"
             >
                 <div *ngIf="form.controls.comment.hasError('maxLength')">
@@ -208,7 +233,7 @@
                 </ng-template>
             </ng-select>
             <div
-                *ngIf="isVisibleErrorByControl(form.controls.asset_id) || isVisibleErrorByControl(form)"
+                *ngIf="isVisibleError(form.controls.asset_id) || isVisibleError(form)"
                 class="error"
             >
                 <div *ngIf="form.controls.asset_id.hasError('required')">
@@ -255,7 +280,7 @@
                             type="text"
                         />
                         <div
-                            *ngIf="isVisibleErrorByControl(form.controls.mixin)"
+                            *ngIf="isVisibleError(form.controls.mixin)"
                             class="error"
                         >
                             <div *ngIf="form.controls.mixin.hasError('required')">
@@ -286,7 +311,7 @@
                             type="text"
                         />
                         <div
-                            *ngIf="isVisibleErrorByControl(form.controls.fee)"
+                            *ngIf="isVisibleError(form.controls.fee)"
                             class="error"
                         >
                             {{ errorMessages['fee'] | translate }}
@@ -314,7 +339,7 @@
 </div>
 
 <app-send-modal (confirmed)="handleConfirmed($event)" *ngIf="isSendModalState"
-                [sendMoneyParams]="form.getRawValue()"></app-send-modal>
+                [sendMoneyParams]="form.getRawValue()" [priceInfo]="priceInfo"></app-send-modal>
 
 <app-send-details-modal
     (eventClose)="handeCloseSendDetailsModal($event)"

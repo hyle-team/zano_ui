@@ -1,3 +1,14 @@
+export interface PriceInfo {
+    success: boolean;
+    data:
+        | string
+        | {
+        name: string;
+        usd: number;
+        usd_24h_change: number;
+    };
+}
+
 export interface AssetBalance {
     asset_info: AssetInfo;
     awaiting_in: number;

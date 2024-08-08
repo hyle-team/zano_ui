@@ -53,6 +53,7 @@ import { TransactionDetailsComponent } from '@parts/components/transaction-detai
 import { VisibilityBalanceDirective } from '@parts/directives/visibility-balance.directive';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { LoaderComponent } from '@parts/components/loader.component';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
     declarations: [
@@ -114,6 +115,7 @@ import { LoaderComponent } from '@parts/components/loader.component';
         VisibilityBalanceDirective,
         MatAutocompleteModule,
         LoaderComponent,
+        MatInputModule,
     ],
 })
 export class WalletModule {}

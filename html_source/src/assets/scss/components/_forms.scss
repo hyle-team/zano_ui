@@ -225,6 +225,13 @@
                 border: var(--border);
             }
         }
+
+        .hint {
+            margin-top: 5px;
+
+            color: #ffffff60;
+            font-size: 1.4rem;
+        }
     }
 
     .details {
@@ -360,5 +367,40 @@
         height: 1.8rem;
         background-color: var(--white-500);
         box-shadow: var(--shadow-gray);
+    }
+}
+
+
+.amount {
+    .form__field--input {
+        padding-right: 10.8rem;
+    }
+
+    .ticker {
+        position: absolute;
+        top: 3.1rem;
+        right: 4.8rem;
+        width: 5rem;
+        height: 3.6rem;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        color: #ffffff60;
+    }
+
+    .btn-reverse {
+        width: 3.8rem;
+        height: 3.6rem;
+        position: absolute;
+        border-radius: 0 0.4rem 0.4rem 0;
+        right: 0.18rem;
+        top: 3.1rem;
+
+        display: flex;
+        justify-items: center;
+        align-items: center;
+        background: #FFFFFF1A;
     }
 }
