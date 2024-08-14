@@ -99,6 +99,12 @@
                 </div>
 
                 <div class="form__field">
+                    <label>{{ 'SETTINGS.DARK_THEME' | translate }}</label>
+                    <app-switch (emitChange)="toggleDarkTheme()"
+                                [value]="variablesService.settings.isDarkTheme"></app-switch>
+                </div>
+
+                <div class="form__field">
                     <label>{{ 'SETTINGS.SHOW_BALANCE' | translate }}</label>
                     <app-switch (emitChange)="showPrice()"
                                 [value]="this.variablesService.visibilityBalance$ | async"></app-switch>
@@ -113,7 +119,6 @@
                         <div class="form__card">
                             <div class="form__field form__field--secret">
                                 <label for="field-secret">{{ 'SETTINGS.FORM.ZANO_COMPANION.LABELS.LABEL2' | translate }}</label>
-
                                 <input
                                     (contextmenu)="
                                                 variablesService.onContextMenuOnlyCopy($event, zanoCompanionForm.controls['secret'].value)
@@ -135,7 +140,7 @@
                                 </button>
 
                                 <div *ngIf="isSecretWasCopied" class="info success" style="text-align: right">
-                                    Secret was copied
+                                    {{ 'SETTINGS.SECRET_WAS_COPIED' | translate }}
                                 </div>
                             </div>
 
