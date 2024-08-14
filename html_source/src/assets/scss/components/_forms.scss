@@ -403,3 +403,26 @@
         background: #FFFFFF1A;
     }
 }
+
+
+.XSmall, .Small, .Medium {
+    .form {
+        &__field {
+            &--row {
+                flex-direction: column;
+
+                > div {
+                    max-width: 100%;
+
+                    &:first-child {
+                        margin-right: 0;
+                    }
+
+                    &:last-child {
+                        margin-left: 0;
+                    }
+                }
+            }
+        }
+    }
+}

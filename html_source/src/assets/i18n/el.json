@@ -738,6 +738,7 @@
             "75": "75% scale",
             "TITLE": "Interface scale"
         },
+        "SECRET_WAS_COPIED": "Secret was copied",
         "SETTINGS_SAVED": "Saved! Settings Updated",
         "SHOW_BALANCE": "Show balance",
         "TITLE": "Settings",

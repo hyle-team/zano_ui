@@ -15,6 +15,7 @@ import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { Dialog } from '@angular/cdk/dialog';
 import { ZanoLoadersService } from '@parts/services/zano-loaders.service';
 import { ParamsCallRpc } from '@api/models/call_rpc.model';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 
 @Component({
     selector: 'app-root',
@@ -63,6 +64,15 @@ export class AppComponent implements OnInit, OnDestroy {
 
     needOpenWallets = [];
 
+    currentScreenSize: string;
+
+    displayNameMap = new Map([
+        [Breakpoints.XSmall, 'XSmall'],
+        [Breakpoints.Small, 'Small'],
+        [Breakpoints.Medium, 'Medium'],
+        [Breakpoints.Large, 'Large'],
+        [Breakpoints.XLarge, 'XLarge'],
+    ]);
     private destroy$ = new Subject<void>();
 
     constructor(
@@ -77,15 +87,43 @@ export class AppComponent implements OnInit, OnDestroy {
         private modalService: ModalService,
         private store: Store,
         private dialog: Dialog,
-        public zanoLoadersService: ZanoLoadersService
+        public zanoLoadersService: ZanoLoadersService,
+        private _breakpointObserver: BreakpointObserver
     ) {
         translate.addLangs(['en', 'fr', 'de', 'it', 'pt']);
         translate.setDefaultLang('en');
-        translate.use('en').subscribe({
-            next: () => {
-                this.translateUsed = true;
-            },
-        });
+        translate
+            .use('en')
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: () => {
+                    this.translateUsed = true;
+                },
+            });
+
+        this._setResponseClasses();
+    }
+
+    private _setResponseClasses(): void {
+        this._breakpointObserver
+            .observe([
+                Breakpoints.XSmall, // XSmall	(max-width: 599.98px)
+                Breakpoints.Small, // Small	(min-width: 600px) and (max-width: 959.98px)
+                Breakpoints.Medium, // Medium	(min-width: 960px) and (max-width: 1279.98px)
+                Breakpoints.Large, // Large	(min-width: 1280px) and (max-width: 1919.98px)
+                Breakpoints.XLarge, // XLarge	(min-width: 1920px)
+            ])
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(result => {
+                for (const query of Object.keys(result.breakpoints)) {
+                    if (result.breakpoints[query]) {
+                        this.currentScreenSize = this.displayNameMap.get(query) ?? 'Unknown';
+
+                        document.body.classList.remove(...this.displayNameMap.values());
+                        document.body.classList.add(this.currentScreenSize);
+                    }
+                }
+            });
     }
 
     setBackendLocalization(): void {

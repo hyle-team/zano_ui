@@ -10,315 +10,15 @@ import { debounceTime } from 'rxjs/operators';
 
 @Component({
     selector: 'app-settings',
-    template: `
-        <div class="page-container">
-            <div class="toolbar mb-2">
-                <div class="left">
-                    <app-back-button></app-back-button>
-                    <h1 class="ml-2">{{ 'SETTINGS.TITLE' | translate }}</h1>
-                </div>
-                <div class="right"></div>
-            </div>
-
-            <div class="page-content">
-                <div class="scrolled-content">
-                    <div class="settings" fxFlex="0 1 50rem" fxFlexFill fxLayout="column" fxLayoutAlign="start stretch">
-                        <div class="form__field">
-                            <label>{{ 'SETTINGS.LANGUAGE.TITLE' | translate }}</label>
-                            <ng-select
-                                (change)="onLanguageChange()"
-                                [(ngModel)]="variablesService.settings.language"
-                                [clearable]="false"
-                                [items]="languagesOptions"
-                                [searchable]="false"
-                                bindLabel="language"
-                                bindValue="name"
-                                class="with-circle"
-                            >
-                                <ng-template let-item="item" ng-label-tmp>
-                                    {{ item.language | translate }}
-                                </ng-template>
-                                <ng-template let-index="index" let-item="item" ng-option-tmp>
-                                    {{ item.language | translate }}
-                                </ng-template>
-                            </ng-select>
-                        </div>
-
-                        <div class="form__field">
-                            <label>{{ 'SETTINGS.APP_LOCK.TITLE' | translate }}</label>
-                            <ng-select
-                                (change)="onLockChange()"
-                                [(ngModel)]="variablesService.settings.appLockTime"
-                                [clearable]="false"
-                                [items]="appLockOptions"
-                                [searchable]="false"
-                                bindLabel="translationKey"
-                                bindValue="time"
-                                class="with-circle"
-                            >
-                                <ng-template let-item="item" ng-label-tmp>
-                                    {{ item.translationKey | translate }}
-                                </ng-template>
-                                <ng-template let-index="index" let-item="item" ng-option-tmp>
-                                    {{ item.translationKey | translate }}
-                                </ng-template>
-                            </ng-select>
-                        </div>
-
-                        <div class="form__field">
-                            <label>{{ 'SETTINGS.SCALE.TITLE' | translate }}</label>
-                            <ng-select
-                                (change)="setScale()"
-                                [(ngModel)]="variablesService.settings.scale"
-                                [clearable]="false"
-                                [items]="appScaleOptions"
-                                [searchable]="false"
-                                bindLabel="name"
-                                bindValue="value"
-                                class="with-circle"
-                            >
-                                <ng-template let-item="item" ng-label-tmp>
-                                    {{ item.name | translate }}
-                                </ng-template>
-                                <ng-template let-index="index" let-item="item" ng-option-tmp>
-                                    {{ item.name | translate }}
-                                </ng-template>
-                            </ng-select>
-                        </div>
-
-                        <div class="form__field">
-                            <label>{{ 'SETTINGS.APP_LOG_TITLE' | translate }}</label>
-                            <ng-select
-                                (change)="onLogChange()"
-                                [(ngModel)]="variablesService.settings.appLog"
-                                [clearable]="false"
-                                [items]="appLogOptions"
-                                [searchable]="false"
-                                bindLabel="id"
-                                bindValue="id"
-                                class="with-circle"
-                            >
-                            </ng-select>
-                        </div>
-
-                        <div class="form__field">
-                            <label>{{ 'SETTINGS.NOTIFICATIONS' | translate }}</label>
-                            <app-switch (emitChange)="toggleNotifications()" [value]="currentNotificationsState"></app-switch>
-                        </div>
-
-                        <div class="form__field">
-                            <label>{{ 'SETTINGS.USE_TOR_TO_RELAY_TRANSACTIONS' | translate }} (Temporarily disabled)</label>
-                            <app-switch (emitChange)="toggleUseTor()" [disabled]="true" [value]="false && appUseTor"></app-switch>
-                        </div>
-
-                        <div class="form__field">
-                            <label>{{ 'SETTINGS.DARK_THEME' | translate }}</label>
-                            <app-switch (emitChange)="toggleDarkTheme()"
-                                        [value]="variablesService.settings.isDarkTheme"></app-switch>
-                        </div>
-
-                        <div class="form__field">
-                            <label>{{ 'SETTINGS.SHOW_BALANCE' | translate }}</label>
-                            <app-switch (emitChange)="showPrice()"
-                                        [value]="this.variablesService.visibilityBalance$ | async"></app-switch>
-                        </div>
-
-                        <form [formGroup]="zanoCompanionForm">
-                            <div class="form__field">
-                                <label>{{ 'SETTINGS.FORM.ZANO_COMPANION.LABELS.LABEL1' | translate }}</label>
-                                <app-switch formControlName="zanoCompation"></app-switch>
-                            </div>
-                            <ng-container *ngIf="zanoCompanionForm.controls.zanoCompation.getRawValue()">
-                                <div class="form__card">
-                                    <div class="form__field form__field--secret">
-                                        <label for="field-secret">{{ 'SETTINGS.FORM.ZANO_COMPANION.LABELS.LABEL2' | translate }}</label>
-                                        <input
-                                            (contextmenu)="
-                                                variablesService.onContextMenuOnlyCopy($event, zanoCompanionForm.controls['secret'].value)
-                                            "
-                                            [class.invalid]="zanoCompanionForm.controls['secret'].invalid"
-                                            [readonly]="true"
-                                            formControlName="secret"
-                                            class="form__field--input"
-                                            id="field-secret"
-                                            type="text"
-                                        />
-                                        <button class="btn--copy" (click)="backend.setClipboard(zanoCompanionForm.controls['secret'].value || '')">
-                                            <i class="icon copy"></i>
-                                        </button>
-                                        <button class="btn--regenerate" (click)="regenerateSecret()">
-                                            <i class="icon regenerate"></i>
-                                        </button>
-                                    </div>
-
-                                    <div class="form__field">
-                                        <label for="field-port">{{ 'SETTINGS.FORM.ZANO_COMPANION.LABELS.LABEL3' | translate }}</label>
-                                        <input
-                                            (contextmenu)="
-                                                variablesService.onContextMenuOnlyCopy($event, this.variablesService.rpc_port?.toString())
-                                            "
-                                            [readonly]="true"
-                                            [value]="this.variablesService.rpc_port"
-                                            class="form__field--input"
-                                            id="field-port"
-                                            type="text"
-                                        />
-                                    </div>
-                                </div>
-                            </ng-container>
-                        </form>
-
-                        <form (ngSubmit)="onSubmitChangePass()" [formGroup]="changeForm">
-                            <h4 class="master-password-title mb-2">
-                                {{ 'SETTINGS.MASTER_PASSWORD.TITLE' | translate }}
-                            </h4>
-
-                            <div class="form__card">
-                                <div *ngIf="variablesService.appPass" class="form__field">
-                                    <label for="old-password">{{ 'SETTINGS.MASTER_PASSWORD.OLD' | translate }}</label>
-                                    <input
-                                        (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
-                                        [class.invalid]="
-                                            changeForm.invalid &&
-                                            changeForm.controls['password'].valid &&
-                                            (changeForm.controls['password'].dirty || changeForm.controls['password'].touched) &&
-                                            changeForm.errors &&
-                                            changeForm.errors['pass_mismatch'] &&
-                                            changeForm.get('password').value.length > 0
-                                        "
-                                        class="form__field--input"
-                                        formControlName="password"
-                                        id="old-password"
-                                        placeholder="{{ 'PLACEHOLDERS.PLACEHOLDER_OLD' | translate }}"
-                                        type="password"
-                                    />
-                                    <div
-                                        *ngIf="
-                                            changeForm.invalid &&
-                                            changeForm.controls['password'].valid &&
-                                            (changeForm.controls['password'].dirty || changeForm.controls['password'].touched) &&
-                                            changeForm.errors &&
-                                            changeForm.errors['pass_mismatch'] &&
-                                            changeForm.get('password').value.length > 0
-                                        "
-                                        class="error"
-                                    >
-                                        {{ 'SETTINGS.FORM_ERRORS.CURRENT_PASS_NOT_MATCH' | translate }}
-                                    </div>
-                                </div>
-
-                                <div class="form__field">
-                                    <label for="new-password">{{ 'SETTINGS.MASTER_PASSWORD.NEW' | translate }}</label>
-                                    <input
-                                        (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
-                                        [class.invalid]="
-                                            changeForm.controls['new_password'].touched && changeForm.controls['new_password'].invalid
-                                        "
-                                        class="form__field--input"
-                                        formControlName="new_password"
-                                        id="new-password"
-                                        placeholder="{{ 'PLACEHOLDERS.PLACEHOLDER_NEW' | translate }}"
-                                        type="password"
-                                    />
-                                    <div
-                                        *ngIf="changeForm.controls['new_password'].touched && changeForm.controls['new_password'].invalid"
-                                        class="error"
-                                    >
-                                        <div *ngIf="changeForm.controls['new_password'].errors?.pattern">
-                                            {{ 'ERRORS.WRONG_PASSWORD_MUST_BE' | translate }} a-zA-Z0-9_.*|~!?@#$%^&+&#123;}()<>:;"'-=,/[]*$
-                                        </div>
-                                        <div *ngIf="changeForm.controls['new_password'].hasError('required')">
-                                            {{ 'ERRORS.REQUIRED' | translate }}
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="form__field">
-                                    <label for="confirm-password">{{ 'SETTINGS.MASTER_PASSWORD.CONFIRM' | translate }}</label>
-                                    <input
-                                        (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
-                                        [class.invalid]="
-                                            changeForm.invalid &&
-                                            (changeForm.controls['new_confirmation'].dirty ||
-                                                changeForm.controls['new_confirmation'].touched) &&
-                                            changeForm.errors &&
-                                            changeForm.errors['mismatch'] &&
-                                            changeForm.get('new_confirmation').value.length > 0
-                                        "
-                                        class="form__field--input"
-                                        formControlName="new_confirmation"
-                                        id="confirm-password"
-                                        placeholder="{{ 'PLACEHOLDERS.PLACEHOLDER_CONFIRM' | translate }}"
-                                        type="password"
-                                    />
-                                    <div
-                                        *ngIf="
-                                            changeForm.invalid &&
-                                            (changeForm.controls['new_confirmation'].dirty ||
-                                                changeForm.controls['new_confirmation'].touched) &&
-                                            changeForm.errors &&
-                                            changeForm.errors['mismatch'] &&
-                                            changeForm.get('new_confirmation').value.length > 0
-                                        "
-                                        class="error"
-                                    >
-                                        {{ 'SETTINGS.FORM_ERRORS.CONFIRM_NOT_MATCH' | translate }}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="submit-button-container">
-                                <button [disabled]="!changeForm.valid" class="primary big max-w-19-rem w-100" type="submit">
-                                    {{ 'SETTINGS.MASTER_PASSWORD.BUTTON' | translate }}
-                                </button>
-                                <span *ngIf="ifSaved" [class.active]="ifSaved" class="ml-1 color-aqua">{{
-                                    'SETTINGS.SETTINGS_SAVED' | translate
-                                }}</span>
-                            </div>
-                        </form>
-
-                        <p class="mt-2">Build version: {{ currentBuild }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `,
-    styles: [
-        `
-            :host {
-                width: 100%;
-                height: 100%;
-                overflow: hidden;
-            }
-
-            .form__field--secret .form__field--input {
-                padding-right: 7rem;
-            }
-
-            .btn--copy {
-                padding: 4px;
-                border-radius: 4px;
-                position: absolute;
-                right: 4rem;
-                top: 3.6rem;
-                background: #ffffff1a;
-                cursor: pointer;
-            }
-
-            .btn--regenerate {
-                padding: 4px;
-                border-radius: 4px;
-                position: absolute;
-                right: 0.6rem;
-                top: 3.6rem;
-                background: #ffffff1a;
-                cursor: pointer;
-            }
-        `,
-    ],
+    templateUrl: './settings.component.html',
+    styleUrls: [`./settings.component.scss`],
 })
 export class SettingsComponent implements OnInit {
     ifSaved = false;
+
+    isSecretWasCopied: boolean = false;
+
+    secretWasCopiedTimeout;
 
     scale: string;
 
@@ -459,8 +159,9 @@ export class SettingsComponent implements OnInit {
                 }
             });
         });
-        this.backend.getIsDisabledNotifications(res => {
-            this.currentNotificationsState = res;
+
+        this.backend.getIsDisabledNotifications(state => {
+            this.currentNotificationsState = state;
         });
 
         this.zanoCompanionForm.valueChanges.pipe(debounceTime(200)).subscribe({
@@ -484,6 +185,18 @@ export class SettingsComponent implements OnInit {
                 }
             },
         });
+    }
+
+    copySecret(): void {
+        const { secret } = this.zanoCompanionForm.getRawValue();
+
+        this.backend.setClipboard(secret);
+
+        this.isSecretWasCopied = true;
+        this.secretWasCopiedTimeout = setTimeout(() => {
+            this.isSecretWasCopied = false;
+            clearTimeout(this.secretWasCopiedTimeout);
+        }, 3000);
     }
 
     private generateSecret(): void {
