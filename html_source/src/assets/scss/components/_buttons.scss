@@ -3,7 +3,7 @@ button,
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: var(--white-500);
+    color: var(--button-color);
     transition: all 0.25s ease;
     border: none;
     outline: none;
@@ -36,6 +36,7 @@ button,
 
     &.primary {
         background-color: var(--azure-500);
+        color: var(--white-500);
 
         &:not(:disabled) {
             &:focus,
@@ -47,7 +48,7 @@ button,
     }
 
     &.outline {
-        border: 0.2rem solid var(--azure-500);
+        border: 1px solid var(--azure-500);
 
         &:not(:disabled) {
             &:hover,
@@ -84,6 +85,27 @@ button,
 
         &:hover {
             background-color: var(--gray-700);
+        }
+    }
+}
+
+.light {
+    button,
+    .btn {
+        &.outline {
+            &:not(:disabled) {
+                &:hover,
+                &:focus,
+                &.active {
+                    background-color: rgba(0, 0, 0, 0.05);
+                }
+            }
+        }
+
+        &.btn-icon {
+            &:hover {
+                background-color: rgba(0, 0, 0, 0.1);
+            }
         }
     }
 }

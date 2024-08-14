@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 import { ContextMenuComponent, ContextMenuService } from '@perfectmemory/ngx-contextmenu';
 import { BigNumber } from 'bignumber.js';
 import { Aliases } from '@api/models/alias.model';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import { distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root',
@@ -109,7 +109,10 @@ export class VariablesService implements OnDestroy {
             secret: '',
         },
         wallets: [],
+        isDarkTheme: true
     };
+
+    isDarkTheme$ = new BehaviorSubject(true);
 
     count: number = 40;
 
@@ -182,7 +185,7 @@ export class VariablesService implements OnDestroy {
     private _destroy$: Subject<void> = new Subject<void>();
 
     constructor(private router: Router, private ngZone: NgZone, private contextMenuService: ContextMenuService<any>) {
-        this.visibilityBalance$.subscribe({
+        this.visibilityBalance$.pipe(takeUntil(this._destroy$)).subscribe({
             next: visibilityBalance => {
                 this.settings.visibilityBalance = visibilityBalance;
             }

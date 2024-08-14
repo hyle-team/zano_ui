@@ -83,7 +83,7 @@
             background-color: transparent;
             overflow: hidden;
             text-overflow: ellipsis;
-            color: var(--white-500);
+            color: var(--input-color);
             font-size: 1.8rem;
             line-height: 1.2;
             transition: border 0.2s ease-in-out;
@@ -104,7 +104,7 @@
             }
 
             &::placeholder {
-                color: var(--gray-800);
+                color: var(--input-placeholder);
             }
 
             &.invalid,
@@ -369,7 +369,6 @@
         box-shadow: var(--shadow-gray);
     }
 }
-
 
 .amount {
     .form__field--input {

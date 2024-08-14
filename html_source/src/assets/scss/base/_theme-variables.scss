@@ -1,0 +1,38 @@
+.light {
+    --main-background: #F0F6FB;
+    --sidebar-background: #FCFCFC;
+    --main-text: var(--blue-900);
+    --button-color: var(--blue-900);
+    --synchronization-status-color: var(--blue-900);
+
+    --auth-card-background: #FCFCFC;
+    --auth-card-form-background: #FFFFFF;
+    --auth-card-form-border: 1px solid #1F8FEB33;
+
+    // field
+    --input-color: var(--blue-900);
+    --input-placeholder: #0C0C3A4D;
+    --border: 1px solid #1F8FEB66;
+    --border-not-empty: 1px solid #1F8FEB99;
+    --border-disabled: 1px solid #1F8FEB66;
+    --border-error: 1px solid var(--red-600);
+}
+.dark {
+    --main-background: var(--blue-900);
+    --sidebar-background: var(--blue-700);
+    --main-text: var(--white-500);
+    --button-color: var(--white-500);
+    --synchronization-status-color: var(--white-500);
+
+    --auth-card-background: var(--blue-700);
+    --auth-card-form-background: var(--blue-500);
+    --auth-card-form-border: 1px solid transparent;
+
+    // field
+    --input-color: var(--white-500);
+    --input-placeholder: var(--gray-800);
+    --border: 1px solid var(--gray-800);
+    --border-not-empty: 1px solid var(--gray-500);
+    --border-disabled: 1px solid var(--gray-800);
+    --border-error: 1px solid var(--red-600);
+}

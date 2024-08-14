@@ -697,7 +697,7 @@
             "TITLE": "Kunci aplikasi setelah:"
         },
         "APP_LOG_TITLE": "Tingkat log:",
-        "DARK_THEME": "Tema Gelap",
+        "DARK_THEME": "Dark theme",
         "FORM": {
             "ZANO_COMPANION": {
                 "LABELS": {
@@ -741,8 +741,7 @@
         "SETTINGS_SAVED": "Tersimpan! Pengaturan Diperbarui",
         "SHOW_BALANCE": "Show balance",
         "TITLE": "Pengaturan",
-        "USE_TOR_TO_RELAY_TRANSACTIONS": "Gunakan TOR untuk menyampaikan transaksi",
-        "WHITE_THEME": "Tema Biasa/Putih"
+        "USE_TOR_TO_RELAY_TRANSACTIONS": "Gunakan TOR untuk menyampaikan transaksi"
     },
     "SIDEBAR": {
         "ACCOUNT": {

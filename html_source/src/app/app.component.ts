@@ -668,18 +668,24 @@ export class AppComponent implements OnInit, OnDestroy {
                                 this.variablesService.settings[key] = data[key];
                             }
                         }
-                        this.variablesService.visibilityBalance$.next(this.variablesService.settings.visibilityBalance);
+
+                        const { isDarkTheme$, visibilityBalance$, settings } = this.variablesService;
+
+                        isDarkTheme$.next(settings.isDarkTheme);
+                        visibilityBalance$.next(settings.visibilityBalance);
                         // TODO: Delete this line after return appUseTor
-                        this.variablesService.settings.appUseTor = false;
+                        settings.appUseTor = false;
                         if (
-                            hasOwnProperty(this.variablesService.settings, 'scale') &&
-                            ['8px', '10px', '12px', '14px'].indexOf(this.variablesService.settings.scale) !== -1
+                            hasOwnProperty(settings, 'scale') &&
+                            ['8px', '10px', '12px', '14px'].indexOf(settings.scale) !== -1
                         ) {
-                            this.renderer.setStyle(document.documentElement, 'font-size', this.variablesService.settings.scale);
+                            this.renderer.setStyle(document.documentElement, 'font-size', settings.scale);
                         } else {
-                            this.variablesService.settings.scale = '10px';
-                            this.renderer.setStyle(document.documentElement, 'font-size', this.variablesService.settings.scale);
+                            settings.scale = '10px';
+                            this.renderer.setStyle(document.documentElement, 'font-size', settings.scale);
                         }
+
+                        this.renderer.setAttribute(document.documentElement, 'class', settings.isDarkTheme ? 'dark' : 'light');
                     }
                     this.translate.use(this.variablesService.settings.language);
                     this.setBackendLocalization();
@@ -688,7 +694,10 @@ export class AppComponent implements OnInit, OnDestroy {
                     this.backendService.setEnableTor(this.variablesService.settings.appUseTor);
 
                     if (!this.variablesService.settings.wallets || this.variablesService.settings.wallets.length === 0) {
-                        return this.router.navigate([`${paths.auth}/${pathsChildrenAuth.noWallet}`]).then();
+                        this.ngZone.run(() => {
+                            this.router.navigate([`${ paths.auth }/${ pathsChildrenAuth.noWallet }`]).then();
+                        });
+                        return;
                     }
 
                     if (this.router.url !== '/login') {
@@ -735,6 +744,7 @@ export class AppComponent implements OnInit, OnDestroy {
             },
         });
 
+
         this.variablesService.disable_price_fetch$.pipe(takeUntil(this.destroy$)).subscribe({
             next: disable_price_fetch => {
                 const updateTime = 10 * 60 * 1000;
@@ -749,6 +759,12 @@ export class AppComponent implements OnInit, OnDestroy {
                     }
                 }
             },
+        });
+
+        this.variablesService.isDarkTheme$.pipe(takeUntil(this.destroy$)).subscribe({
+            next: (isDarkTheme) => {
+                this.renderer.setAttribute(document.documentElement, 'class', isDarkTheme ? 'dark' : 'light');
+            }
         });
     }
 
@@ -776,6 +792,12 @@ export class AppComponent implements OnInit, OnDestroy {
                     console.warn('api.coingecko.com price error: ', error);
                 },
             });
+
+        this.variablesService.isDarkTheme$.pipe(takeUntil(this.destroy$)).subscribe({
+            next: (isDarkTheme) => {
+                this.renderer.setAttribute(document.documentElement, 'class', isDarkTheme ? 'dark' : 'light');
+            }
+        });
     }
 
     getAliases(): void {

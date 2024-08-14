@@ -1,0 +1,11 @@
+:host {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.with-sidebar-layout-container {
+    overflow: auto;
+    padding: 2rem;
+}

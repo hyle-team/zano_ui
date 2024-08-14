@@ -112,6 +112,12 @@ import { debounceTime } from 'rxjs/operators';
                         </div>
 
                         <div class="form__field">
+                            <label>{{ 'SETTINGS.DARK_THEME' | translate }}</label>
+                            <app-switch (emitChange)="toggleDarkTheme()"
+                                        [value]="variablesService.settings.isDarkTheme"></app-switch>
+                        </div>
+
+                        <div class="form__field">
                             <label>{{ 'SETTINGS.SHOW_BALANCE' | translate }}</label>
                             <app-switch (emitChange)="showPrice()"
                                         [value]="this.variablesService.visibilityBalance$ | async"></app-switch>
@@ -561,6 +567,15 @@ export class SettingsComponent implements OnInit {
 
     showPrice(): void {
         this.variablesService.visibilityBalance$.next(!this.variablesService.visibilityBalance$.value);
+        this.backend.storeAppData();
+    }
+
+    toggleDarkTheme(): void {
+        const { settings, isDarkTheme$ } = this.variablesService;
+        const isDarkTheme: boolean = !settings.isDarkTheme;
+        this.variablesService.settings.isDarkTheme = isDarkTheme;
+        isDarkTheme$.next(isDarkTheme);
+
         this.backend.storeAppData();
     }
 }

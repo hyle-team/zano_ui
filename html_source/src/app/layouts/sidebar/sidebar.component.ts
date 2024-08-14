@@ -15,7 +15,7 @@ import { ZanoLoadersService } from '@parts/services/zano-loaders.service';
     template: `
         <div class="sidebar-header mb-2">
             <div class="logo">
-                <img alt="zano-logo" src="assets/icons/blue/zano-logo.svg" />
+                <img alt="zano-logo" [src]="zanoLogo" />
             </div>
         </div>
 
@@ -91,9 +91,13 @@ import { ZanoLoadersService } from '@parts/services/zano-loaders.service';
 
         <app-deeplink></app-deeplink>
     `,
-    styles: [],
 })
 export class SidebarComponent implements OnDestroy {
+    get zanoLogo(): string {
+        const { settings: { isDarkTheme } } = this.variablesService;
+        return isDarkTheme ? 'assets/icons/blue/zano-logo.svg' : 'assets/icons/blue/light-zano-logo.svg';
+    }
+
     private destroy$ = new Subject<void>();
 
     constructor(
