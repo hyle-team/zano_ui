@@ -21,6 +21,7 @@ import {
 import { BehaviorSubject, Subject } from 'rxjs';
 import { VariablesService } from '@parts/services/variables.service';
 import { filter, takeUntil } from 'rxjs/operators';
+import { BLOCK_EXPLORER_TN_TX_URL_PREFIX, BLOCK_EXPLORER_TX_URL_PREFIX } from '@parts/data/constants';
 
 const successfulStatuses: string[] = [
     StatusCurrentActionState.STATE_SENDING,
@@ -151,7 +152,7 @@ const failedStatuses: string[] = [StatusCurrentActionState.STATE_SEND_FAILED, St
 
                                 <ng-container *ngIf="responseData$ | async as data">
                                     <li class="item mb-1 color-primary" fxLayout="row nowrap" fxLayoutAlign=" center">
-                                        <span class="word-break-break-all"> tx id: {{ data.response_data.tx_hash || '---' }} </span>
+                                        <span class="word-break-break-all" (click)="openInBrowser(data.response_data.tx_hash)"> tx id: {{ data.response_data.tx_hash || '---' }} </span>
                                         <app-copy-button
                                             *ngIf="data.response_data.tx_hash"
                                             [value]="data.response_data.tx_hash"
@@ -322,5 +323,11 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
             const { nativeElement } = this.elDetailsList;
             nativeElement.scrollTop = nativeElement.scrollHeight;
         }
+    }
+
+    openInBrowser(hash: string): void {
+        this.backendService.openUrlInBrowser(
+            (this.variablesService.testnet ? BLOCK_EXPLORER_TN_TX_URL_PREFIX : BLOCK_EXPLORER_TX_URL_PREFIX) + hash
+        );
     }
 }

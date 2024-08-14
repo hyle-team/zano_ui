@@ -96,6 +96,7 @@ import { TooltipModule } from '@parts/directives';
 })
 export class TransactionDetailsComponent {
     @Input() transaction: Transaction;
+
     constructor(public variablesService: VariablesService, private backendService: BackendService) {}
 
     getAllUniqAssetId(transaction: Transaction): Set<string> {
@@ -104,9 +105,9 @@ export class TransactionDetailsComponent {
         return new Set([...receive, ...spent].map(({ asset_id }) => asset_id));
     }
 
-    openInBrowser(tr): void {
+    openInBrowser(hash: string): void {
         this.backendService.openUrlInBrowser(
-            (this.variablesService.testnet ? BLOCK_EXPLORER_TN_TX_URL_PREFIX : BLOCK_EXPLORER_TX_URL_PREFIX) + tr
+            (this.variablesService.testnet ? BLOCK_EXPLORER_TN_TX_URL_PREFIX : BLOCK_EXPLORER_TX_URL_PREFIX) + hash
         );
     }
 }
