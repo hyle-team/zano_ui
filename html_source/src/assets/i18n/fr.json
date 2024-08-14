@@ -738,6 +738,7 @@
             "75": "75% échelle",
             "TITLE": "Échelle d'interface"
         },
+        "SECRET_WAS_COPIED": "Secret was copied",
         "SETTINGS_SAVED": "Enregistré! Paramètres mis à jour",
         "SHOW_BALANCE": "Show balance",
         "TITLE": "Paramètres",
