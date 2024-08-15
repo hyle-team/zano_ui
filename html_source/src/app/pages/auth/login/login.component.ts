@@ -111,11 +111,11 @@ export class LoginComponent implements OnInit, OnDestroy {
         // This delay is necessary for the loader to display, as the application freezes for a few seconds
         setTimeout(() => {
             this.resetJwtWalletRpc();
+            this.closeAllWallets();
             this.backend.dropSecureAppData(() => {
                 this.resetLoading$.next(false);
                 this.onSkipCreatePass();
             });
-            this.closeAllWallets();
             this.variablesService.contacts = [];
         }, 500);
     }
@@ -289,15 +289,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     closeAllWallets(): void {
         this.variablesService.wallets.forEach(({ wallet_id }) => this.closeWallet(wallet_id));
-        if (this.variablesService.appPass) {
-            this.backend.storeSecureAppData();
-        }
     }
 
     closeWallet(wallet_id) {
         this.backend.closeWallet(wallet_id, () => {
             for (let i = this.variablesService.wallets.length - 1; i >= 0; i--) {
                 this.variablesService.wallets.splice(i, 1);
+                this.backend.storeSecureAppData();
             }
         });
     }

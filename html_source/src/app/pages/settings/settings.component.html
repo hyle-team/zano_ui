@@ -112,7 +112,12 @@
 
                 <form [formGroup]="zanoCompanionForm">
                     <div class="form__field">
-                        <label>{{ 'SETTINGS.FORM.ZANO_COMPANION.LABELS.LABEL1' | translate }}</label>
+                        <label>
+                            {{ 'SETTINGS.FORM.ZANO_COMPANION.LABELS.LABEL1' | translate }}
+                            <ng-container *ngIf="!variablesService.appPass">
+                                {{ 'SETTINGS.FORM.ZANO_COMPANION.LABELS.LABEL4' | translate }}
+                            </ng-container>
+                        </label>
                         <app-switch formControlName="zanoCompation"></app-switch>
                     </div>
                     <ng-container *ngIf="zanoCompanionForm.controls.zanoCompation.getRawValue()">
@@ -147,9 +152,7 @@
                             <div class="form__field">
                                 <label for="field-port">{{ 'SETTINGS.FORM.ZANO_COMPANION.LABELS.LABEL3' | translate }}</label>
                                 <input
-                                    (contextmenu)="
-                                                variablesService.onContextMenuOnlyCopy($event, this.variablesService.rpc_port?.toString())
-                                            "
+                                    (contextmenu)="variablesService.onContextMenuOnlyCopy($event, this.variablesService.rpc_port?.toString())"
                                     [readonly]="true"
                                     [value]="this.variablesService.rpc_port"
                                     class="form__field--input"

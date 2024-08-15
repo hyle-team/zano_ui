@@ -78,6 +78,10 @@ export class VariablesService implements OnDestroy {
     sync = {
         progress_value: 0,
         progress_value_text: '0',
+        blocks: {
+            current: 0,
+            max: 0
+        }
     };
 
     public sync_wallets: { [wallet_id: number]: boolean } = {};
