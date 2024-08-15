@@ -228,11 +228,11 @@ export class LoginComponent implements OnInit, OnDestroy {
         // This delay is necessary for the loader to display, as the application freezes for a few seconds
         setTimeout(() => {
             this.resetJwtWalletRpc();
+            this.closeAllWallets();
             this.backend.dropSecureAppData(() => {
                 this.resetLoading$.next(false);
                 this.onSkipCreatePass();
             });
-            this.closeAllWallets();
             this.variablesService.contacts = [];
         }, 500);
     }
