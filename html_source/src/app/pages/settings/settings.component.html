@@ -106,7 +106,12 @@
 
                 <form [formGroup]="zanoCompanionForm">
                     <div class="form__field">
-                        <label>{{ 'SETTINGS.FORM.ZANO_COMPANION.LABELS.LABEL1' | translate }}</label>
+                        <label>
+                            {{ 'SETTINGS.FORM.ZANO_COMPANION.LABELS.LABEL1' | translate }}
+                            <ng-container *ngIf="!variablesService.appPass">
+                                {{ 'SETTINGS.FORM.ZANO_COMPANION.LABELS.LABEL4' | translate }}
+                            </ng-container>
+                        </label>
                         <app-switch formControlName="zanoCompation"></app-switch>
                     </div>
                     <ng-container *ngIf="zanoCompanionForm.controls.zanoCompation.getRawValue()">
