@@ -40,22 +40,29 @@ import { TooltipModule } from '@parts/directives';
                     {{ variablesService.download.progress_value_text }}%
                 </div>
 
-                <div *ngIf="variablesService.daemon_state === 1 || variablesService.daemon_state === 3" class="progress-bar-container">
-                    <div *ngIf="variablesService.daemon_state === 1" class="syncing">
-                        <div class="progress-bar">
-                            <div [style.width]="variablesService.sync.progress_value + '%'" class="fill"></div>
+                <ng-container *ngIf="variablesService.daemon_state === 1 || variablesService.daemon_state === 3">
+                    <div class="progress-bar-container">
+                        <div *ngIf="variablesService.daemon_state === 1" class="syncing">
+                            <div class="progress-bar">
+                                <div [style.width]="variablesService.sync.progress_value + '%'" class="fill"></div>
+                            </div>
                         </div>
-                    </div>
-                    <div *ngIf="variablesService.daemon_state === 3" class="loading"></div>
-                </div>
 
-                <div *ngIf="variablesService.daemon_state === 6" class="progress-bar-container">
-                    <div *ngIf="variablesService.daemon_state === 6" class="syncing downloading">
-                        <div class="progress-bar">
-                            <div [style.width]="variablesService.download.progress_value + '%'" class="fill"></div>
+                        <div *ngIf="variablesService.daemon_state === 3" class="loading"></div>
+                    </div>
+
+                    <p class="blocks"><i class="icon block mr-0_5"></i><span>{{ variablesService.sync.blocks.current }}</span><wbr>/{{ variablesService.sync.blocks.max }} Blocks</p>
+                </ng-container>
+
+                <ng-container *ngIf="variablesService.daemon_state === 6">
+                    <div class="progress-bar-container">
+                        <div class="syncing downloading">
+                            <div class="progress-bar">
+                                <div [style.width]="variablesService.download.progress_value + '%'" class="fill"></div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </ng-container>
             </div>
 
             <div
@@ -67,7 +74,8 @@ import { TooltipModule } from '@parts/directives';
             >
                 <ng-container *ngIf="variablesService.last_build_displaymode === 2">
                     <div class="update-text standard">
-                        <span (click)="getUpdate()" [style.cursor]="'pointer'">{{ 'SIDEBAR.UPDATE.STANDARD' | translate }}</span>
+                        <span (click)="getUpdate()"
+                              [style.cursor]="'pointer'">{{ 'SIDEBAR.UPDATE.STANDARD' | translate }}</span>
                     </div>
                     <i
                         [delay]="500"
@@ -80,7 +88,8 @@ import { TooltipModule } from '@parts/directives';
 
                 <ng-container *ngIf="variablesService.last_build_displaymode === 3">
                     <div class="update-text important">
-                        <span (click)="getUpdate()" [style.cursor]="'pointer'">{{ 'SIDEBAR.UPDATE.IMPORTANT' | translate }}</span>
+                        <span (click)="getUpdate()"
+                              [style.cursor]="'pointer'">{{ 'SIDEBAR.UPDATE.IMPORTANT' | translate }}</span>
                         <span style="font-size: 1rem">{{ 'SIDEBAR.UPDATE.IMPORTANT_HINT' | translate }}</span>
                     </div>
                     <i
@@ -94,7 +103,8 @@ import { TooltipModule } from '@parts/directives';
 
                 <ng-container *ngIf="variablesService.last_build_displaymode === 4">
                     <div class="update-text critical">
-                        <span (click)="getUpdate()" [style.cursor]="'pointer'">{{ 'SIDEBAR.UPDATE.CRITICAL' | translate }}</span>
+                        <span (click)="getUpdate()"
+                              [style.cursor]="'pointer'">{{ 'SIDEBAR.UPDATE.CRITICAL' | translate }}</span>
                         <span style="font-size: 1rem">{{ 'SIDEBAR.UPDATE.IMPORTANT_HINT' | translate }}</span>
                     </div>
                     <i
@@ -107,7 +117,8 @@ import { TooltipModule } from '@parts/directives';
                 </ng-container>
             </div>
 
-            <div *ngIf="variablesService.daemon_state === 2 && variablesService.net_time_delta_median !== 0" class="update-container">
+            <div *ngIf="variablesService.daemon_state === 2 && variablesService.net_time_delta_median !== 0"
+                 class="update-container">
                 <div class="update-text time-orange">
                     <span>{{ 'SIDEBAR.UPDATE.TIME' | translate }}</span>
                 </div>

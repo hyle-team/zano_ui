@@ -277,12 +277,18 @@ export class AppComponent implements OnInit, OnDestroy {
                             if (max === 0 || return_val < 0) {
                                 this.variablesService.sync.progress_value = 0;
                                 this.variablesService.sync.progress_value_text = '0.00';
+                                this.variablesService.sync.blocks.current = 0;
+                                this.variablesService.sync.blocks.max = 0;
                             } else if (return_val >= 100) {
                                 this.variablesService.sync.progress_value = 100;
                                 this.variablesService.sync.progress_value_text = '99.99';
+                                this.variablesService.sync.blocks.current = current;
+                                this.variablesService.sync.blocks.max = max;
                             } else {
                                 this.variablesService.sync.progress_value = return_val;
                                 this.variablesService.sync.progress_value_text = return_val.toFixed(2);
+                                this.variablesService.sync.blocks.current = current;
+                                this.variablesService.sync.blocks.max = max;
                             }
                         }
 

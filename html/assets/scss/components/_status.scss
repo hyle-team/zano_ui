@@ -109,6 +109,26 @@ app-synchronization-status {
                 height: 100%;
             }
         }
+
+        .blocks {
+            font-size: 1.4rem;
+            line-height: 1.4;
+            font-weight: 400;
+            color: #FFFFFF;
+            word-break: break-all;
+
+            i {
+                min-width: 1rem;
+                min-height: 1rem;
+            }
+
+            span {
+                font-size: 1.4rem;
+                line-height: 1.4;
+                font-weight: 400;
+                color: #A8ABB5;
+            }
+        }
     }
 
     .update-container {
