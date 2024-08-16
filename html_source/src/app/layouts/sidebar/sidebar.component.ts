@@ -9,12 +9,14 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { WalletsService } from '@parts/services/wallets.service';
 import { ZanoLoadersService } from '@parts/services/zano-loaders.service';
+import { BackendService } from '@api/services/backend.service';
 
 @Component({
     selector: 'app-sidebar',
     template: `
         <div class="sidebar-header mb-2">
-            <div class="logo">
+            <!--TODO: Remove after added light theme-->
+            <div class="logo" (click)="toggleDarkTheme()">
                 <img alt="zano-logo" [src]="zanoLogo" />
             </div>
         </div>
@@ -91,6 +93,7 @@ import { ZanoLoadersService } from '@parts/services/zano-loaders.service';
 
         <app-deeplink></app-deeplink>
     `,
+    styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnDestroy {
     get zanoLogo(): string {
@@ -107,12 +110,22 @@ export class SidebarComponent implements OnDestroy {
         private router: Router,
         private ngZone: NgZone,
         private dialog: Dialog,
+        private backend: BackendService,
         public zanoLoadersService: ZanoLoadersService
     ) {}
 
     ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
+    }
+
+    toggleDarkTheme(): void {
+        const { settings, isDarkTheme$ } = this.variablesService;
+        const isDarkTheme: boolean = !settings.isDarkTheme;
+        this.variablesService.settings.isDarkTheme = isDarkTheme;
+        isDarkTheme$.next(isDarkTheme);
+
+        this.backend.storeAppData();
     }
 
     goMainPage(): void {

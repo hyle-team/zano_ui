@@ -353,19 +353,19 @@
 
     &.on {
         justify-content: flex-end;
-        background-color: var(--aqua-500);
+        background-color: var(--switch-on-background);
     }
 
     &.off {
         justify-content: flex-start;
-        background-color: var(--gray-800);
+        background-color: var(--switch-off-background);
     }
 
     .circle {
         border-radius: 50%;
         width: 1.8rem;
         height: 1.8rem;
-        background-color: var(--white-500);
+        background-color: var(--switch-circle-background);
         box-shadow: var(--shadow-gray);
     }
 }

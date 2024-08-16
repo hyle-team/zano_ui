@@ -8,9 +8,10 @@
     min-width: 19rem;
     width: 100%;
     padding: 1.2rem;
-    background-color: var(--blue-500);
-    border: 0.2rem solid var(--blue-500);
+    background-color: var(--wallet-background);
+    border: var(--wallet-border);
     cursor: pointer;
+    color: var(--wallet-text);
 
     .content {
         z-index: 10;
@@ -102,9 +103,10 @@
     }
 
     &.active {
+        color: var(--wallet-active-text);
         border: none;
         padding: 1.35rem;
-        background: var(--gradietAquaToBlue);
+        background: var(--wallet-active-background);
 
         .price {
             .percent {
@@ -119,7 +121,7 @@
     &.watch-only {
         border-width: 0;
         padding: 1.35rem;
-        background: var(--gradietLightAmethystToPurpurle);
+        background: var(--wallet-auditable-watch-only-background);
     }
 
     &.auditable {
@@ -131,17 +133,18 @@
         &.active {
             padding: 1.35rem;
             border: none;
-            background: var(--gradietAmethystToPurpurle);
+            background: var(--wallet-auditable-active-background);
         }
     }
 
     &.watch-only {
+        color: var(--wallet-watch-only-text);
         &:after {
             content: '';
             display: block;
-            background: var(--blue-500);
+            background: var(--wallet-watch-only-after-background);
             position: absolute;
-            border-radius: 0.8rem;
+            border-radius: 0.6rem;
             left: 0.25rem;
             right: 0.25rem;
             top: 0.25rem;
@@ -151,7 +154,7 @@
 
         &.active,
         &:hover {
-            background: var(--gradietAmethystToPurpurle);
+            background: var(--wallet-watch-only-active-background);
         }
 
         .price {
@@ -164,7 +167,7 @@
     }
 
     &:hover:not(.active):not(.watch-only) {
-        border-color: var(--gray-800);
+        border-color: var(--wallet-border-color-hover);
     }
 
     &:focus {
