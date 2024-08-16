@@ -10,12 +10,25 @@
     --main-text: var(--blue-900);
     --button-color: var(--blue-900);
     --synchronization-status-color: var(--blue-900);
+    --dialog-background: #ffffff;
 
+    // auth
     --auth-card-background: #FCFCFC;
     --auth-card-form-background: #FFFFFF;
     --auth-card-form-border: 1px solid #1F8FEB33;
 
+    // form
+    --form-card-background: #F0F6FB;
+
+    // ng-select
+    --ng-select-bg: #DBECFA;
+    --ng-select-border: #1F8FEB40;
+    --ng-select-highlight: #1F8FEB10;
+    --ng-select-circle-border: 1px solid #1F8FEB50;
+    --ng-select-circle-background: #1F8FEB;
+
     // field
+    --input-background: #FFFFFF;
     --input-color: var(--blue-900);
     --input-placeholder: #0C0C3A4D;
     --border: 1px solid #1F8FEB66;
@@ -40,6 +53,23 @@
     --wallet-watch-only-text: var(--blue-900);
     --wallet-active-text: #FFFFFF;
     --wallet-text: var(--blue-900);
+
+    // table
+    --table-thead-bg: #1F8FEB4D;
+    --table-row-bg: #DBECF9;
+    --table-rounded-corners-border: 1.5px solid #D9DFE8;
+
+    // buttons
+    --btn-icon-background: #1F8FEB1A;
+    --btn-icon-hover-background: #1F8FEB4D;
+
+    // list
+    --list-background: #F9FCFF;
+    --list-border: 1px solid #1F8FEB80;
+    --list-item-hover-background: #1F8FEB1A;
+
+    // tooltip
+    --tooltip-background: #8DBEE8;
 }
 .dark {
     --main-background: var(--blue-900);
@@ -53,12 +83,25 @@
     --main-text: var(--white-500);
     --button-color: var(--white-500);
     --synchronization-status-color: var(--white-500);
+    --dialog-background: var(--blue-700);
 
+    // auth
     --auth-card-background: var(--blue-700);
     --auth-card-form-background: var(--blue-500);
     --auth-card-form-border: 1px solid transparent;
 
+    //form
+    --form-card-background: var(--blue-500);
+
+    //ng-select
+    --ng-select-bg: var(--blue-500);
+    --ng-select-border: var(--gray-500);
+    --ng-select-highlight: var(--gray-900);
+    --ng-select-circle-border: 1px solid white;
+    --ng-select-circle-background: var(--white-500);
+
     // field
+    --input-background: transparent;
     --input-color: var(--white-500);
     --input-placeholder: var(--gray-800);
     --border: 1px solid var(--gray-800);
@@ -83,4 +126,21 @@
     --wallet-watch-only-text: #FFFFFF;
     --wallet-active-text: #FFFFFF;
     --wallet-text: #FFFFFF;
+
+    // table
+    --table-thead-bg: var(--blue-400);
+    --table-row-bg: var(--blue-300);
+    --table-rounded-corners-border: 1.5px solid #33426E;
+
+    // buttons
+    --btn-icon-background: var(--gray-900);
+    --btn-icon-hover-background: var(--gray-700);
+
+    // list
+    --list-background: var(--blue-500);
+    --list-border: var(--border);
+    --list-item-hover-background: var(--gray-900);
+
+    // tooltip
+    --tooltip-background: var(--blue-450);
 }

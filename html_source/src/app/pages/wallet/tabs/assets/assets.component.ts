@@ -200,19 +200,19 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                     "
                 >
                     <li class="item">
-                        <a routerLink="/wallet/send" [state]="{ assetInfo: currentAsset }" class="w-100 px-2 py-1">
+                        <button routerLink="/wallet/send" [state]="{ assetInfo: currentAsset }" class="w-100 px-2 py-1">
                             <i class="icon arrow-up-square mr-1"></i>
                             <span>{{ 'Send' | translate }}</span>
-                        </a>
+                        </button>
                     </li>
 
                     <ng-container *ngIf="variablesService.is_hardfok_active$ | async">
                         <li class="item">
-                            <a routerLink="/wallet/create-swap" [state]="{ assetInfo: currentAsset }"
+                            <button routerLink="/wallet/create-swap" [state]="{ assetInfo: currentAsset }"
                                class="w-100 px-2 py-1">
                                 <i class="icon swap mr-1"></i>
                                 <span>{{ 'Swap' | translate }}</span>
-                            </a>
+                            </button>
                         </li>
                     </ng-container>
                 </ng-container>

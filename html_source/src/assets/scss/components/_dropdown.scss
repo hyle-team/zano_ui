@@ -29,21 +29,19 @@
 
 .list {
     border-radius: 0.8rem;
-    background-color: var(--blue-500);
-    border: var(--border);
+    background-color: var(--list-background);
+    border: var(--list-border);
     .item {
         &:hover,
         .active {
-            background-color: var(--gray-900);
+            background-color: var(--list-item-hover-background);
         }
 
-        button,
-        a {
+        button {
             display: inline-flex;
             white-space: nowrap;
             justify-content: flex-start;
             border-radius: 0;
-            color: white;
             span {
                 overflow: hidden;
                 text-overflow: ellipsis;
@@ -55,8 +53,8 @@
 
 .zano-autocomplete-panel {
     border-radius: 0.8rem !important;
-    background-color: var(--blue-500);
-    border: var(--border);
+    background-color: var(--list-background);
+    border: var(--list-border);
 
     .mat-option {
         height: 4rem;
@@ -64,7 +62,7 @@
         padding: 0;
         cursor: pointer;
         &:hover {
-            background-color: var(--gray-900);
+            background-color: var(--list-item-hover-background);
         }
     }
 

@@ -16,64 +16,8 @@ import { LoaderComponent } from '@parts/components/loader.component';
 @Component({
     selector: 'app-add-custom-token',
     standalone: true,
-    template: `
-        <form
-            (ngSubmit)="beforeSubmit()"
-            [formGroup]="formGroup"
-            class="modal p-2 border-radius-0_8-rem bg-light-blue max-w-54-rem w-100 max-h-100"
-        >
-            <div class="content" fxLayout="column">
-                <h3 class="mb-2">
-                    {{ 'WALLET.MODAL_WHITELIST_ASSET.TITLE' | translate }}
-                </h3>
-
-                <div class="form__field">
-                    <label for="asset_id">{{ 'WALLET.MODAL_WHITELIST_ASSET.FIELD_TITLE' | translate }}</label>
-                    <input
-                        (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
-                        class="form__field--input"
-                        formControlName="asset_id"
-                        id="asset_id"
-                        name="asset_id"
-                        placeholder="Enter Asset ID"
-                        type="text"
-                        maxlength="64"
-                    />
-                    <ng-container *ngIf="formGroup.get('asset_id').touched">
-                        <div *ngIf="formGroup.get('asset_id').hasError('invalidHash')" class="error">
-                            {{ 'WALLET.MODAL_WHITELIST_ASSET.FORM_ERRORS.ERROR1' | translate }}
-                        </div>
-                        <div *ngIf="formGroup.get('asset_id').hasError('wrongAssetId')" class="error">
-                            {{ formGroup.get('asset_id').errors['wrongAssetId'].errorText | translate }}
-                        </div>
-                    </ng-container>
-                </div>
-            </div>
-
-            <div class="controls" fxLayout="row nowrap" fxLayoutGap="1rem">
-                <button (click)="close()" class="outline big w-100" type="button">
-                    {{ 'MODALS.CANCEL' | translate }}
-                </button>
-                <button [disabled]="formGroup.invalid || (loading$ | async)" class="primary big w-100" type="submit">
-                    <ng-container *ngIf="!(loading$ | async); else loadingTemplate">
-                        {{ 'MODALS.ADD_TOKEN' | translate }}
-                    </ng-container>
-                    <ng-template #loadingTemplate>
-                        <zano-loader></zano-loader>
-                    </ng-template>
-                </button>
-            </div>
-        </form>
-    `,
-    styles: [
-        `
-            :host {
-                max-width: 54rem;
-                width: 100vw;
-                display: block;
-            }
-        `,
-    ],
+    templateUrl: './add-custom-token.component.html',
+    styleUrls: ['./add-custom-token.component.scss'],
     imports: [CommonModule, FlexModule, TranslateModule, ReactiveFormsModule, LoaderComponent],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })

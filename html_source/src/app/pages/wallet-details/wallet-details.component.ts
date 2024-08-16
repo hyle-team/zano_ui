@@ -80,7 +80,7 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                                 <form
                                     (ngSubmit)="beforeSubmitPasswordSeedPhrase()"
                                     [formGroup]="passwordSeedPhraseForm"
-                                    class="form bg-light-blue-details p-2"
+                                    class="form form__card pb-2"
                                     fxFlex="0 0 auto"
                                     fxLayout="column"
                                     fxLayoutAlign="start center"
@@ -142,7 +142,7 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
 
                             <ng-template #seedPhraseContent>
                                 <div
-                                    class="seed-phrase bg-light-blue-details p-2 border-radius-0_8-rem"
+                                    class="seed-phrase form__card pb-2"
                                     fxFlex="0 0 auto"
                                     fxLayout="column"
                                 >

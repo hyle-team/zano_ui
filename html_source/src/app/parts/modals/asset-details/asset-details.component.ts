@@ -8,13 +8,13 @@ import { BackendService } from '@api/services/backend.service';
 @Component({
     selector: 'app-asset-details',
     template: `
-        <div class="p-2 border-radius-0_8-rem bg-light-blue w-100 max-h-90-vh" fxFlex="0 1 54rem">
+        <div class="asset-details-wrapper" fxFlex="0 1 54rem">
             <div class="overflow-hidden" fxFlexFill fxLayout="column">
                 <h3 class="title mb-2" fxFlex="0 0 auto">
                     {{ title | translate }}
                 </h3>
                 <ng-container *ngIf="asset_info; else templateEmpty">
-                    <div class="content mb-2 w-100 overflow-x-hidden overflow-y-auto" fxFlex="1 1 auto">
+                    <div class="mb-2 w-100 overflow-x-hidden overflow-y-auto" fxFlex="1 1 auto">
                         <table class="rounded-corners">
                             <tbody>
                                 <tr>
@@ -63,7 +63,7 @@ import { BackendService } from '@api/services/backend.service';
                     </div>
                 </ng-container>
                 <ng-template #templateEmpty>No data</ng-template>
-                <div class="controls w-100" fxFlex="0 0 auto" fxLayout="row nowrap" fxLayoutGap="1rem">
+                <div class="w-100" fxFlex="0 0 auto" fxLayout="row nowrap" fxLayoutGap="1rem">
                     <button (click)="close()" class="outline big w-100" type="button">
                         {{ 'MODALS.OK' | translate }}
                     </button>

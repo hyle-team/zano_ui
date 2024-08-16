@@ -76,7 +76,7 @@ button,
     }
 
     &.btn-icon {
-        background-color: var(--gray-900);
+        background-color: var(--btn-icon-background);
         transition: background-color 0.2s ease-in-out;
 
         &.circle {
@@ -84,7 +84,7 @@ button,
         }
 
         &:hover {
-            background-color: var(--gray-700);
+            background-color: var(--btn-icon-hover-background);
         }
     }
 }
@@ -99,12 +99,6 @@ button,
                 &.active {
                     background-color: rgba(0, 0, 0, 0.05);
                 }
-            }
-        }
-
-        &.btn-icon {
-            &:hover {
-                background-color: rgba(0, 0, 0, 0.1);
             }
         }
     }
