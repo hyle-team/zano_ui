@@ -67,7 +67,7 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                         </form>
 
                         <ng-container *ngIf="!showSeed; else seedPhraseContent">
-                            <form (ngSubmit)="onSubmitSeed()" [formGroup]="seedPhraseForm" class="form bg-light-blue-details p-2">
+                            <form (ngSubmit)="onSubmitSeed()" [formGroup]="seedPhraseForm" class="form form__card pb-2">
                                 <div class="form__field">
                                     <label for="create-password">{{ 'WALLET_DETAILS.CREATE_PASSWORD_SECURE' | translate }}</label>
                                     <input
@@ -116,7 +116,7 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                         </ng-container>
 
                         <ng-template #seedPhraseContent>
-                            <div class="seed-phrase bg-light-blue-details p-2 border-radius-0_8-rem">
+                            <div class="seed-phrase form__card pb-2">
                                 <div class="header mb-2" fxLayout="row" fxLayoutAlign="space-between center">
                                     <div class="left">
                                         <span>{{ 'WALLET_DETAILS.LABEL_SEED_PHRASE' | translate }}</span>

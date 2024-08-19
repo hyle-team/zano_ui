@@ -828,9 +828,11 @@ export class AppComponent implements OnInit, OnDestroy {
             .get('https://explorer.zano.org/api/price?asset=zano')
             .pipe(take(1))
             .subscribe({
-                next: ({ data }: { data: { zano: { usd: number; usd_24h_change: number }; success: boolean } }): void => {
-                    this.variablesService.zanoMoneyEquivalent = data['zano']['usd'];
-                    this.variablesService.zanoMoneyEquivalentPercent = data['zano']['usd_24h_change'];
+                next: ({ data, success }: { data: { zano: { usd: number; usd_24h_change: number }; }; success: boolean }): void => {
+                    if (success) {
+                        this.variablesService.zanoMoneyEquivalent = data['zano']['usd'];
+                        this.variablesService.zanoMoneyEquivalentPercent = data['zano']['usd_24h_change'];
+                    }
                 },
                 error: error => {
                     console.warn('api.coingecko.com price error: ', error);

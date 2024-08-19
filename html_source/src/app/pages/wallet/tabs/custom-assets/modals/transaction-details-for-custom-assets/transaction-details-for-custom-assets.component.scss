@@ -3,3 +3,12 @@
     width: 100vw;
     display: block;
 }
+
+.transaction-details-custom-asset-wrapper {
+    padding: 2rem;
+    border-radius: 0.8rem;
+    background: var(--dialog-background);
+    width: 100%;
+    max-width: 54rem;
+    max-height: 90vh;
+}

@@ -14,7 +14,7 @@
     position: absolute;
     right: 4rem;
     top: 3.6rem;
-    background: #ffffff1a;
+    background: var(--btn-icon-background);
     cursor: pointer;
 }
 
@@ -24,6 +24,6 @@
     position: absolute;
     right: 0.6rem;
     top: 3.6rem;
-    background: #ffffff1a;
+    background: var(--btn-icon-background);
     cursor: pointer;
 }

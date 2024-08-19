@@ -13,7 +13,7 @@ export interface ConfirmModalData {
 @Component({
     selector: 'app-confirm-modal',
     template: `
-        <div class="modal p-2 border-radius-0_8-rem bg-light-blue w-100 max-h-100" fxLayout="column">
+        <div class="modal confirm-wrapper" fxLayout="column">
             <button (click)="close()" class="close" type="button">
                 <i class="icon close"></i>
             </button>
@@ -37,15 +37,7 @@ export interface ConfirmModalData {
             </div>
         </div>
     `,
-    styles: [
-        `
-            :host {
-                max-width: 54rem;
-                width: 100vw;
-                display: block;
-            }
-        `,
-    ],
+    styleUrls: ['./confirm-modal.component.scss'],
 })
 export class ConfirmModalComponent implements OnInit {
     title: string;
