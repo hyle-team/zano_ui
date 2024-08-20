@@ -118,7 +118,6 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
                             [delay]="150"
                             [placement]="'bottom'"
                             [timeout]="0"
-                            [size]="'big'"
                             [tooltipClass]="'table-tooltip'"
                             [tooltip]="variablesService.currentWallet.address"
                             [value]="variablesService.currentWallet.address"

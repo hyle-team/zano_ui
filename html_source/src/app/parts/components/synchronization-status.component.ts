@@ -53,7 +53,7 @@ import { MatIconModule } from '@angular/material/icon';
                     </div>
 
                     <p class="blocks">
-                        <mat-icon svgIcon="zano-block-sync" class="mr-0_5"></mat-icon>
+                        <mat-icon svgIcon="zano-block-sync" class="mr-0_5" style="width: 0.8rem; height: 0.8rem; color: var(--block-sync)"></mat-icon>
                         <span>{{ variablesService.sync.blocks.current }}</span><wbr>/{{ variablesService.sync.blocks.max }} Blocks</p>
                 </ng-container>
 

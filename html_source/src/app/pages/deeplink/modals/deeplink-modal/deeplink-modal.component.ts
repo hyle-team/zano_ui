@@ -11,7 +11,7 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
     selector: 'app-deeplink-modal',
     template: `
-        <div class="modal p-2 border-radius-0_8-rem bg-light-blue max-h-100" fxFlex="0 1 54rem" fxLayout="column">
+        <div class="modal deeplink-modal-wrapper" fxFlex="0 1 54rem" fxLayout="column">
             <ng-container *ngIf="walletsToPay.length > 1 && !secondStep">
                 <div class="content mb-2" fxFlex="0 0 auto" fxLayout="column">
                     <div class="form__field" fxFlex="0 0 auto">
@@ -183,7 +183,7 @@ import { takeUntil } from 'rxjs/operators';
             </ng-container>
         </div>
     `,
-    styles: [],
+    styleUrls: ['./deeplink-modal.component.scss'],
 })
 export class DeeplinkModalComponent implements OnInit, OnDestroy {
     @HostBinding('class.modal-overlay') modalOverlay = true;
