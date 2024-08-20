@@ -101,7 +101,7 @@ import { BehaviorSubject } from 'rxjs';
                         </div>
 
                         <button *ngIf="createForm.controls.path.valid" class="outline big w-100 mb-2" disabled type="button">
-                            <i class="icon check-circle mr-1"></i>
+                            <mat-icon svgIcon="zano-check-circle" class="mr-1"></mat-icon>
                             {{ savedWalletName }}
                         </button>
 

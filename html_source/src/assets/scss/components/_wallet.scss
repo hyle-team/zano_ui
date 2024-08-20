@@ -186,3 +186,15 @@
         }
     }
 }
+
+.light {
+    .wallet {
+        &.active {
+            .header {
+                .close {
+                    color: #FFFFFF;
+                }
+            }
+        }
+    }
+}

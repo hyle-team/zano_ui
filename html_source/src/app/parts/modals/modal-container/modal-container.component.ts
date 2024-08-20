@@ -4,9 +4,9 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
     selector: 'app-modal-container',
     template: `
-        <div class="modal p-2 border-radius-0_8-rem bg-light-blue max-w-34-rem w-100 max-h-100">
+        <div class="modal modal-container-wrapper">
             <button (click)="onClose()" class="close" type="button">
-                <i class="icon close"></i>
+                <mat-icon svgIcon="zano-close"></mat-icon>
             </button>
 
             <div class="content mb-2" fxLayout="row" fxLayoutAlign="start center">
@@ -30,7 +30,7 @@ import { TranslateService } from '@ngx-translate/core';
             </div>
         </div>
     `,
-    styles: [],
+    styleUrls: ['./modal-container.component.scss'],
 })
 export class ModalContainerComponent implements OnInit, OnDestroy {
     @HostBinding('class.modal-overlay') modalOverlay = true;

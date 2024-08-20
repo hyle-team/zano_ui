@@ -39,13 +39,9 @@
                             {{ 'SEND_DETAILS_MODAL.TITLE2' | translate }}
                         </p>
                         <button fxLayout="row" fxLayoutAlign="center center">
-                            <img
-                                *ngIf="!isShowDetailsState"
-                                alt="dropdown-arrow-down"
-                                src="assets/icons/white/dropdown-arrow-down.svg"
-                            />
-                            <img *ngIf="isShowDetailsState" alt="dropdown-arrow-up"
-                                 src="assets/icons/white/dropdown-arrow-up.svg" />
+                            <mat-icon class="ml-1" svgIcon="zano-dropdown-arrow-down" [ngClass]="{
+                                'rotate-180': isShowDetailsState
+                            }"></mat-icon>
                         </button>
                     </div>
                     <div

@@ -46,11 +46,13 @@
                         <td>
                             <div class="cell-fee" *ngIf="transaction | isVisibleFee">
                                 <ng-container *ngIf="transaction?.subtransfers?.length">
-                                    <i class="icon fire mr-1"></i>
-                                    <span *ngIf="transaction.fee; else noFeeTemplate">
+
+                                    <ng-container *ngIf="transaction.fee; else noFeeTemplate">
+                                        <mat-icon svgIcon="zano-fire" class="mr-1" style="opacity: 50"></mat-icon>
+
                                         {{ transaction.fee | intToMoney }}
                                         {{ variablesService.defaultTicker }}
-                                    </span>
+                                    </ng-container>
 
                                     <ng-template #noFeeTemplate>
                                         <span>{{ 'HISTORY.NO_FEE' | translate }}</span>
@@ -124,7 +126,7 @@
                         </td>
                     </tr>
 
-                    <tr class="row-divider"></tr>
+                    <div class="row-divider"></div>
 
                     <tr>
                         <td colspan="5" [ngStyle]="{ padding: '0', 'border-radius': '0.8rem' }">
@@ -163,7 +165,7 @@
                     "
                     class="btn-icon circle small mr-1"
                 >
-                    <i class="icon arrow-left-stroke"></i>
+                    <mat-icon svgIcon="zano-arrow-left"></mat-icon>
                 </button>
 
                 <ng-container *ngIf="!mining">
@@ -197,7 +199,7 @@
                     [disabled]="stop_paginate || variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded"
                     class="btn-icon circle small ml-0_5"
                 >
-                    <i class="icon arrow-right-stroke"></i>
+                    <mat-icon svgIcon="zano-arrow-right"></mat-icon>
                 </button>
             </div>
             <div class="right" fxLayout="row" fxLayoutAlign=" center">

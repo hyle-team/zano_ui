@@ -46,6 +46,7 @@ import { LoaderComponent } from '@parts/components/loader.component';
 import { AutoFocusDirective } from '@parts/directives/autofocus.directive';
 import { BreadcrumbsComponent } from '@parts/components/breadcrumbs/breadcrumbs.component';
 import { BackButtonComponent } from '@parts/components/back-button/back-button.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
     declarations: [
@@ -98,6 +99,7 @@ import { BackButtonComponent } from '@parts/components/back-button/back-button.c
         AutoFocusDirective,
         BreadcrumbsComponent,
         BackButtonComponent,
+        MatIconModule,
     ],
 })
 export class PagesModule {}

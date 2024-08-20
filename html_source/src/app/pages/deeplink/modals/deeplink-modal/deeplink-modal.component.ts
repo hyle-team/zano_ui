@@ -162,8 +162,7 @@ import { takeUntil } from 'rxjs/operators';
                                 fxLayoutAlign="start center"
                             >
                                 {{ marketplaceConfirmHash }}
-                                <i (click)="copyHash()" [class.check]="copyAnimation" [class.copy]="!copyAnimation"
-                                   class="icon ml-1"></i>
+                                <mat-icon (click)="copyHash()" [svgIcon]="copyAnimation ? 'zano-check' : 'zano-copy'" class="ml-1"></mat-icon>
                             </div>
                         </div>
                     </div>

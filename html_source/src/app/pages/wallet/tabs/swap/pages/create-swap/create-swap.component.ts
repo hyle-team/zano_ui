@@ -34,6 +34,7 @@ import { moneyToInt } from '@parts/functions/money-to-int';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatOptionModule } from '@angular/material/core';
 import { WalletsService } from '@parts/services/wallets.service';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
     selector: 'app-create-swap',
@@ -55,6 +56,7 @@ import { WalletsService } from '@parts/services/wallets.service';
         LoaderComponent,
         MatAutocompleteModule,
         MatOptionModule,
+        MatIconModule,
     ],
     templateUrl: './create-swap.component.html',
     styleUrls: ['./create-swap.component.scss'],

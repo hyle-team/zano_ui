@@ -43,7 +43,7 @@ import { ModalService } from '@parts/services/modal.service';
                                 fxLayout="row"
                                 fxLayoutAlign="center center"
                             >
-                                <i class="icon question-circle mr-1"></i>
+                                <mat-icon svgIcon="zano-question" class="mr-1"></mat-icon>
                                 <span class="color-primary">{{ 'MAIN.HELP' | translate }}</span>
                             </p>
                         </div>

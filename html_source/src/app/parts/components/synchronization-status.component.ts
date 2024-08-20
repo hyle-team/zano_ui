@@ -5,6 +5,7 @@ import { BackendService } from '@api/services/backend.service';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { TooltipModule } from '@parts/directives';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
     selector: 'app-synchronization-status',
@@ -51,7 +52,9 @@ import { TooltipModule } from '@parts/directives';
                         <div *ngIf="variablesService.daemon_state === 3" class="loading"></div>
                     </div>
 
-                    <p class="blocks"><i class="icon block mr-0_5"></i><span>{{ variablesService.sync.blocks.current }}</span><wbr>/{{ variablesService.sync.blocks.max }} Blocks</p>
+                    <p class="blocks">
+                        <mat-icon svgIcon="zano-block-sync" class="mr-0_5"></mat-icon>
+                        <span>{{ variablesService.sync.blocks.current }}</span><wbr>/{{ variablesService.sync.blocks.max }} Blocks</p>
                 </ng-container>
 
                 <ng-container *ngIf="variablesService.daemon_state === 6">
@@ -134,7 +137,7 @@ import { TooltipModule } from '@parts/directives';
     `,
     styles: [],
     standalone: true,
-    imports: [CommonModule, TranslateModule, TooltipModule],
+    imports: [CommonModule, TranslateModule, TooltipModule, MatIconModule],
 })
 export class SynchronizationStatusComponent {
     constructor(public variablesService: VariablesService, private backend: BackendService) {}

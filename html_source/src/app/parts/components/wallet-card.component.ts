@@ -1,7 +1,6 @@
-import { Component, EventEmitter, HostBinding, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
 import { Wallet } from '@api/models/wallet.model';
 import { VariablesService } from '@parts/services/variables.service';
-import { AssetBalance } from '@api/models/assets.model';
 import { BigNumber } from 'bignumber.js';
 import { LOCKED_BALANCE_HELP_PAGE } from '@parts/data/constants';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -11,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { DisablePriceFetchModule, TooltipModule } from '@parts/directives';
 import { StakingSwitchComponent } from '@parts/components/staking-switch.component';
 import { VisibilityBalanceDirective } from '@parts/directives/visibility-balance.directive';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
     selector: 'app-wallet-card',
@@ -44,34 +44,38 @@ import { VisibilityBalanceDirective } from '@parts/directives/visibility-balance
                         tooltip="{{ 'WALLET.TOOLTIPS.REMOVE' | translate }}"
                         tooltipClass="table-tooltip account-tooltip"
                         type="button"
+                        class="close"
                     >
-                        <i class="icon close"></i>
+                        <mat-icon svgIcon="zano-close"></mat-icon>
                     </button>
                 </div>
             </div>
 
             <h4>
                 <ng-container *appVisibilityBalance>
-                    <span *appDisablePriceFetch
-                          [delay]="500"
-                          [placement]="'bottom'"
-                          [timeDelay]="1000"
-                          [tooltipClass]="'balance-tooltip'"
-                          [tooltip]="getBalancesTooltip()" class="price">
-                    {{ wallet.getMoneyEquivalentForZano(variablesService.zanoMoneyEquivalent) | intToMoney | currency : 'USD' || '---' }}
+                    <span
+                        *appDisablePriceFetch
+                        [delay]="500"
+                        [placement]="'bottom'"
+                        [timeDelay]="1000"
+                        [tooltipClass]="'balance-tooltip'"
+                        [tooltip]="getBalancesTooltip()"
+                        class="price"
+                    >
+                        {{
+                            wallet.getMoneyEquivalentForZano(variablesService.zanoMoneyEquivalent) | intToMoney | currency : 'USD' || '---'
+                        }}
                         <span [class.red]="variablesService.zanoMoneyEquivalentPercent < 0" class="percent">
-                        {{ variablesService.zanoMoneyEquivalentPercent | number : '1.2-2' }}%
-                    </span>
+                            {{ variablesService.zanoMoneyEquivalentPercent | number : '1.2-2' }}%
                         </span>
+                    </span>
                 </ng-container>
             </h4>
 
-            <ng-container
-                *ngIf="(!wallet.is_auditable && !wallet.is_watch_only) || (wallet.is_auditable && !wallet.is_watch_only)">
+            <ng-container *ngIf="(!wallet.is_auditable && !wallet.is_watch_only) || (wallet.is_auditable && !wallet.is_watch_only)">
                 <div *ngIf="!(!wallet.loaded && variablesService.daemon_state === 2)" class="staking">
                     <span class="text">{{ 'SIDEBAR.ACCOUNT.STAKING' | translate }}</span>
-                    <app-staking-switch [(staking)]="wallet.staking"
-                                        [wallet_id]="wallet.wallet_id"></app-staking-switch>
+                    <app-staking-switch [(staking)]="wallet.staking" [wallet_id]="wallet.wallet_id"></app-staking-switch>
                 </div>
             </ng-container>
 
@@ -92,6 +96,7 @@ import { VisibilityBalanceDirective } from '@parts/directives/visibility-balance
         StakingSwitchComponent,
         DisablePriceFetchModule,
         VisibilityBalanceDirective,
+        MatIconModule,
     ],
 })
 export class WalletCardComponent {

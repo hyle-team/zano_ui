@@ -54,6 +54,7 @@ import { VisibilityBalanceDirective } from '@parts/directives/visibility-balance
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { LoaderComponent } from '@parts/components/loader.component';
 import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
     declarations: [
@@ -116,6 +117,7 @@ import { MatInputModule } from '@angular/material/input';
         MatAutocompleteModule,
         LoaderComponent,
         MatInputModule,
+        MatIconModule,
     ],
 })
 export class WalletModule {}

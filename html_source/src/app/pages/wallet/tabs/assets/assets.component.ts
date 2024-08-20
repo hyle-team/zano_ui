@@ -123,10 +123,10 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                                             (click)="$event.stopPropagation(); toggleDropDownMenu(trigger, asset)"
                                             [disabled]="false"
                                             cdkOverlayOrigin
-                                            class="btn-icon circle small ml-auto"
+                                            class="btn-icon circle row-options small ml-auto"
                                             type="button"
                                         >
-                                            <i class="icon dots rotate-90"></i>
+                                            <mat-icon class="small" svgIcon="zano-row-options"></mat-icon>
                                         </button>
                                     </div>
                                 </td>
@@ -147,7 +147,7 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
             >
                 <button (click)="p.previous()" [disabled]="p.isFirstPage()"
                         class="pagination-previous btn-icon circle small mr-0_5">
-                    <i class="icon arrow-left-stroke"></i>
+                    <mat-icon svgIcon="zano-arrow-left"></mat-icon>
                 </button>
 
                 <div *ngFor="let page of p.pages; trackBy: trackByPages" [class.current]="p.getCurrent() === page.value"
@@ -161,7 +161,7 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                 </div>
 
                 <button (click)="p.next()" [disabled]="p.isLastPage()" class="pagination-next btn-icon circle small">
-                    <i class="icon arrow-right-stroke"></i>
+                    <mat-icon svgIcon="zano-arrow-right"></mat-icon>
                 </button>
             </pagination-template>
         </div>
@@ -186,7 +186,7 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
             <ul (click)="isOpenDropDownMenu = false" class="list">
                 <li class="item">
                     <button class="w-100 px-2 py-1" type="button" (click)="assetDetails()">
-                        <i class="icon info-icon mr-1"></i>
+                        <mat-icon svgIcon="zano-info-v2" class="mr-1"></mat-icon>
                         <span>{{ 'ASSETS.DROP_DOWN_MENU.ASSET_DETAILS' | translate }}</span>
                     </button>
                 </li>
@@ -201,7 +201,7 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                 >
                     <li class="item">
                         <button routerLink="/wallet/send" [state]="{ assetInfo: currentAsset }" class="w-100 px-2 py-1">
-                            <i class="icon arrow-up-square mr-1"></i>
+                            <mat-icon svgIcon="zano-send" class="mr-1"></mat-icon>
                             <span>{{ 'Send' | translate }}</span>
                         </button>
                     </li>
@@ -210,7 +210,7 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                         <li class="item">
                             <button routerLink="/wallet/create-swap" [state]="{ assetInfo: currentAsset }"
                                class="w-100 px-2 py-1">
-                                <i class="icon swap mr-1"></i>
+                                <mat-icon svgIcon="zano-swap" class="mr-1"></mat-icon>
                                 <span>{{ 'Swap' | translate }}</span>
                             </button>
                         </li>
@@ -220,7 +220,7 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                 <ng-container *ngIf="currentAsset.asset_info.ticker !== 'ZANO'">
                     <li class="item">
                         <button class="w-100 px-2 py-1" type="button" (click)="beforeRemoveAsset()">
-                            <i class="icon delete mr-1"></i>
+                            <mat-icon svgIcon="zano-delete" class="mr-1"></mat-icon>
                             <span>{{ 'ASSETS.DROP_DOWN_MENU.REMOVE_ASSET' | translate }}</span>
                         </button>
                     </li>

@@ -38,7 +38,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
     assets: {
         id: 'assets',
         title: 'WALLET.TABS.ASSETS',
-        icon: 'balance-icon',
+        icon: 'zano-balance',
         link: '/assets',
         disabled: false,
         hidden: false,
@@ -46,7 +46,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
     history: {
         id: 'history',
         title: 'WALLET.TABS.HISTORY',
-        icon: 'time-circle',
+        icon: 'zano-history',
         link: '/history',
         disabled: false,
         hidden: false,
@@ -54,7 +54,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
     send: {
         id: 'send',
         title: 'WALLET.TABS.SEND',
-        icon: 'arrow-up-square',
+        icon: 'zano-send',
         link: '/send',
         disabled: false,
         hidden: false,
@@ -62,7 +62,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
     receive: {
         id: 'receive',
         title: 'WALLET.TABS.RECEIVE',
-        icon: 'arrow-down-square',
+        icon: 'zano-receive',
         link: '/receive',
         disabled: false,
         hidden: false,
@@ -70,7 +70,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
     swap: {
         id: 'swap',
         title: 'Swap',
-        icon: 'swap',
+        icon: 'zano-swap',
         link: '/swap',
         disabled: false,
         hidden: true,
@@ -86,7 +86,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
     staking: {
         id: 'staking',
         title: 'WALLET.TABS.STAKING',
-        icon: 'staking',
+        icon: 'zano-staking',
         link: '/staking',
         indicator: false,
         disabled: false,
@@ -95,7 +95,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
     'custom-assets': {
         id: 'custom-assets',
         title: 'WALLET.TABS.CONTROL_ASSETS',
-        icon: 'custom-asset',
+        icon: 'zano-custom-asset',
         link: '/custom-assets',
         indicator: false,
         disabled: false,
@@ -118,6 +118,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
                             [delay]="150"
                             [placement]="'bottom'"
                             [timeout]="0"
+                            [size]="'big'"
                             [tooltipClass]="'table-tooltip'"
                             [tooltip]="variablesService.currentWallet.address"
                             [value]="variablesService.currentWallet.address"
@@ -140,7 +141,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
                                     variablesService.currentWallet.alias_available
                                 "
                             >
-                                <button [routerLink]="['/assign-alias']" class="px-1 py-0_8 bg-light-gray">
+                                <button [routerLink]="['/assign-alias']" class="px-1 py-0_8 btn-light-background">
                                     {{ 'WALLET.REGISTER_ALIAS' | translate }}
                                 </button>
                             </ng-container>
@@ -166,7 +167,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
                                         tooltip="{{ 'WALLET.TOOLTIPS.EDIT_ALIAS' | translate }}"
                                         tooltipClass="table-tooltip account-tooltip"
                                     >
-                                        <i class="icon edit-square"></i>
+                                        <mat-icon svgIcon="zano-edit"></mat-icon>
                                     </button>
 
                                     <button
@@ -178,7 +179,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
                                         tooltip="{{ 'WALLET.TOOLTIPS.TRANSFER_ALIAS' | translate }}"
                                         tooltipClass="table-tooltip account-tooltip"
                                     >
-                                        <i class="icon arrow-up-square"></i>
+                                        <mat-icon svgIcon="zano-send"></mat-icon>
                                     </button>
                                 </ng-container>
                             </ng-container>
@@ -201,7 +202,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
                                     fxLayoutAlign="start center"
                                     (click)="openZarcanumMigration()"
                                 >
-                                    <i class="icon info-circle mr-0_5"></i>
+                                    <mat-icon svgIcon="zano-info" class="mr-0_5"></mat-icon>
                                     <span class="color-primary">{{ 'WALLET.MIGRATE.BUTTON1' | translate }}</span>
                                 </p>
                             </div>
@@ -211,10 +212,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
             </div>
             <div class="right" fxFlex fxLayout="row" fxLayoutAlign="end" fxLayoutGap="1rem">
                 <button class="btn-icon circle big" (click)="variablesService.visibilityBalance$.next(!variablesService.visibilityBalance$.value)">
-                    <i class="icon" [ngClass]="{
-                      'hide-balance': variablesService.visibilityBalance$ | async,
-                      'show-balance': !(variablesService.visibilityBalance$ | async)
-                    }"></i>
+                    <mat-icon [svgIcon]="(variablesService.visibilityBalance$ | async) ? 'zano-hide-balance' : 'zano-show-balance'"></mat-icon>
                 </button>
                 <div class="dropdown">
                     <button
@@ -225,7 +223,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
                         class="btn-icon circle big"
                         data-target="wallet-dropdown-button"
                     >
-                        <i class="icon dots"></i>
+                        <mat-icon svgIcon="zano-wallet-settings"></mat-icon>
                     </button>
                 </div>
             </div>
@@ -263,7 +261,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
                             tooltipClass="table-tooltip account-tooltip"
                             type="button"
                         >
-                            <i class="icon settings mr-1"></i>
+                            <mat-icon svgIcon="zano-settings" class="mr-1"></mat-icon>
                             <span>{{ 'WALLET_DETAILS.WALLET_OPTIONS' | translate }}</span>
                         </button>
                     </li>
@@ -280,7 +278,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
                                 tooltipClass="table-tooltip account-tooltip"
                                 type="button"
                             >
-                                <i class="icon add mr-1"></i>
+                                <mat-icon svgIcon="zano-plus" class="mr-1"></mat-icon>
                                 <span>{{ 'WALLET_DETAILS.WHITELIST_ASSET' | translate }}</span>
                             </button>
                         </li>
@@ -297,7 +295,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
                             tooltipClass="table-tooltip account-tooltip"
                             type="button"
                         >
-                            <i class="icon export mr-1"></i>
+                            <mat-icon svgIcon="zano-export" class="mr-1"></mat-icon>
                             <span>{{ 'EXPORT_HISTORY.EXPORT_BUTTON' | translate }}</span>
                         </button>
                     </li>
@@ -314,7 +312,8 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
                                 tooltipClass="table-tooltip account-tooltip"
                                 type="button"
                             >
-                                <i class="icon update mr-1"></i><span>{{ 'WALLET_DETAILS.RESYNC_WALLET_BUTTON' | translate }}</span>
+                                <mat-icon svgIcon="zano-update" class="mr-1"></mat-icon>
+                                <span>{{ 'WALLET_DETAILS.RESYNC_WALLET_BUTTON' | translate }}</span>
                             </button>
                         </li>
                     </ng-container>
@@ -329,7 +328,8 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
                             tooltipClass="table-tooltip account-tooltip"
                             type="button"
                         >
-                            <i class="icon close-square mr-1"></i><span>{{ 'WALLET_DETAILS.BUTTON_REMOVE' | translate }}</span>
+                            <mat-icon svgIcon="zano-close-v2" class="mr-1"></mat-icon>
+                            <span>{{ 'WALLET_DETAILS.BUTTON_REMOVE' | translate }}</span>
                         </button>
                     </li>
                 </ul>
@@ -346,7 +346,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
                             class="tab-header"
                             routerLinkActive="active"
                         >
-                            <i [ngClass]="tab.icon" class="icon"></i>
+                            <mat-icon [svgIcon]="tab.icon"></mat-icon>
                             <span *ngIf="isViewTabName$ | async" class="ml-1">{{ tab.title | translate }}</span>
                             <span *ngIf="tab.indicator" class="indicator">{{ variablesService.currentWallet.new_contracts }}</span>
                         </button>

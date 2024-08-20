@@ -15,11 +15,11 @@ export interface ConfirmModalData {
     template: `
         <div class="modal confirm-wrapper" fxLayout="column">
             <button (click)="close()" class="close" type="button">
-                <i class="icon close"></i>
+                <mat-icon svgIcon="zano-close"></mat-icon>
             </button>
 
             <div class="content mb-2" fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem">
-                <i class="icon modal-info"></i>
+                <mat-icon svgIcon="zano-info-v2"></mat-icon>
 
                 <div fxLayout="column" fxLayoutAlign="start stretch">
                     <h3 class="title">{{ title | translate }}</h3>

@@ -129,12 +129,12 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                                     </div>
 
                                     <button [disabled]="!passwordSeedPhraseForm.valid" class="primary big w-100 mb-2" type="submit">
-                                        <i class="icon check-shield mr-1"></i>
+                                        <mat-icon svgIcon="zano-check-shield" class="mr-1"></mat-icon>
                                         {{ 'WALLET_DETAILS.FORM.GENERATE_SECURE_SEED' | translate }}
                                     </button>
 
                                     <p class="color-primary" fxLayout="row" fxLayoutAlign="center center">
-                                        <i class="icon info-circle mr-1"></i>
+                                        <mat-icon svgIcon="zano-info" class="mr-1"></mat-icon>
                                         {{ 'WALLET_DETAILS.FORM.SECURED_SEED_WILL_REQUIRE' | translate }}
                                     </p>
                                 </form>
@@ -158,7 +158,7 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                                                 fxLayoutAlign="start center"
                                             >
                                                 {{ 'WALLET_DETAILS.SEED_IS_UNSECURED' | translate }}
-                                                <i class="icon unsecured ml-1"></i>
+                                                <mat-icon svgIcon="zano-unsecured" class="ml-1"></mat-icon>
                                             </span>
                                             <span
                                                 *ngIf="passwordSeedPhraseForm.controls.password.value.length > 0"
@@ -167,7 +167,7 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                                                 fxLayoutAlign="start center"
                                             >
                                                 {{ 'WALLET_DETAILS.SEED_IS_SECURED' | translate }}
-                                                <i class="icon secured ml-1"></i>
+                                                <mat-icon svgIcon="zano-secured" class="ml-1"></mat-icon>
                                             </span>
                                         </div>
                                     </div>
@@ -192,16 +192,16 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                                     <div class="footer max-w-50-rem w-100" fxLayout="column">
                                         <button (click)="copySeedPhrase()" class="outline big w-100 mb-2" type="button">
                                             <ng-container *ngIf="!seedPhraseCopied">
-                                                <i class="icon copy mr-1"></i>
+                                                <mat-icon svgIcon="zano-copy" class="mr-1"></mat-icon>
                                                 {{ 'SEED_PHRASE.BUTTON_COPY' | translate }}
                                             </ng-container>
                                             <ng-container *ngIf="seedPhraseCopied">
-                                                <i class="icon check mr-1"></i>
+                                                <mat-icon svgIcon="zano-check" class="mr-1"></mat-icon>
                                                 {{ 'SEED_PHRASE.BUTTON_COPIED' | translate }}
                                             </ng-container>
                                         </button>
                                         <p *ngIf="passwordSeedPhraseForm.controls.password.value.length > 0" class="text-align-center">
-                                            <i class="icon info-circle mr-1"></i>
+                                            <mat-icon svgIcon="zano-info" class="mr-1"></mat-icon>
                                             <span class="color-primary">{{ 'WALLET_DETAILS.REMEMBER_YOU_WILL_REQUIRE' | translate }}</span>
                                         </p>
                                     </div>

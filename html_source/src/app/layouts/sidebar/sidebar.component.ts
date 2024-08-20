@@ -45,7 +45,7 @@ import { BackendService } from '@api/services/backend.service';
                     fxLayout="row inline wrap"
                     fxLayoutAlign="start center"
                 >
-                    <i class="icon plus mr-1"></i>
+                    <mat-icon svgIcon="zano-plus" class="mr-1"></mat-icon>
                     <span>{{ 'SIDEBAR.ADD_NEW' | translate }}</span>
                 </button>
 
@@ -56,7 +56,7 @@ import { BackendService } from '@api/services/backend.service';
                     fxLayoutAlign="start center"
                     routerLinkActive="active"
                 >
-                    <i class="icon settings mr-1"></i>
+                    <mat-icon svgIcon="zano-settings" class="mr-1"></mat-icon>
                     <span>{{ 'SIDEBAR.SETTINGS' | translate }}</span>
                 </button>
 
@@ -73,14 +73,14 @@ import { BackendService } from '@api/services/backend.service';
                         tooltip="{{ 'SIDEBAR.LOG_OUT_TOOLTIP' | translate }}"
                         tooltipClass="table-tooltip account-tooltip"
                     >
-                        <i class="icon logout mr-1"></i>
+                        <mat-icon svgIcon="zano-logout" class="mr-1"></mat-icon>
                         <span>{{ 'SIDEBAR.LOG_OUT' | translate }}</span>
                     </button>
                 </ng-container>
 
                 <ng-template #masterPass>
                     <button (click)="logOut()" class="outline small w-100 px-2" fxLayout="row inline wrap" fxLayoutAlign="start center">
-                        <i class="icon logout mr-1"></i>
+                        <mat-icon svgIcon="zano-logout" class="mr-1"></mat-icon>
                         <span> {{ 'SIDEBAR.LOG_OUT' | translate }}</span>
                     </button>
                 </ng-template>

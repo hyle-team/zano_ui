@@ -11,11 +11,20 @@ import { IDeactivateComponent } from '@parts/interfaces/deactivete-component.int
 import { Observable } from 'rxjs';
 import { Dialog, DialogConfig } from '@angular/cdk/dialog';
 import { ConfirmModalComponent, ConfirmModalData } from '@parts/modals/confirm-modal/confirm-modal.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
     selector: 'app-swap-proposal-hex',
     standalone: true,
-    imports: [CommonModule, BreadcrumbsComponent, RouterLinkWithHref, InputValidateModule, TranslateModule, ReactiveFormsModule],
+    imports: [
+        CommonModule,
+        BreadcrumbsComponent,
+        RouterLinkWithHref,
+        InputValidateModule,
+        TranslateModule,
+        ReactiveFormsModule,
+        MatIconModule,
+    ],
     templateUrl: './swap-proposal-hex.component.html',
     styleUrls: ['./swap-proposal-hex.component.scss'],
 })

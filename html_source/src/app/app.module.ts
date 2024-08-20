@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { inject, NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PagesModule } from './pages/pages.module';
@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { TranslateLoader, TranslateModule, TranslateModuleConfig } from '@ngx-translate/core';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ChartModule, HIGHCHARTS_MODULES } from 'angular-highcharts';
 import * as highcharts from 'highcharts';
@@ -17,6 +17,8 @@ import { FlexModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
 import { RegisterContextTemplatesComponent } from '@parts/components/register-context-templates.component';
 import { DEFAULT_DIALOG_CONFIG, DialogConfig } from '@angular/cdk/dialog';
+import { MatIconRegistry } from '@angular/material/icon';
+import { materialZanoIcons } from '../assets/material-zano-icons';
 
 export function highchartsFactory(): any[] {
     highcharts.setOptions({
@@ -75,4 +77,22 @@ export const translateModuleConfig: TranslateModuleConfig = {
     ],
     bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+    private _matIconRegistry: MatIconRegistry = inject(MatIconRegistry);
+    private _sanitizer: DomSanitizer = inject(DomSanitizer);
+
+    constructor() {
+        this.registerIcons(materialZanoIcons);
+    }
+
+    registerIcons(icons: Array<string>): void {
+        icons.forEach((icon: string) => {
+            this._matIconRegistry.addSvgIcon(
+                icon,
+                this._sanitizer.bypassSecurityTrustResourceUrl(
+                    `assets/material-zano-icons/${icon}.svg`
+                )
+            );
+        });
+    }
+}

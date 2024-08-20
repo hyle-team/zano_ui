@@ -96,7 +96,7 @@
 
                 <button (click)="toggleAmountUSD()" [disabled]="amountInputParams.reverseDisabled" class="btn-reverse"
                         type="button">
-                    <i class="icon small swap"></i>
+                    <mat-icon svgIcon="zano-swap" class="small"></mat-icon>
                 </button>
 
                 <div [delay]="150"
@@ -177,7 +177,7 @@
             <div *ngIf="wrapInfo && !(loadingWrapInfo$ | async)" class="wrap mt-2 mb-2 p-2">
                 <div class="title">
                     {{ 'SEND.WRAP.TITLE' | translate }}
-                    <i class="icon info-circle"></i>
+                    <mat-icon svgIcon="zano-info"></mat-icon>
                 </div>
                 <div class="text-wrap">
                     {{ 'SEND.WRAP.MAIN_TEXT' | translate }}
@@ -254,11 +254,9 @@
                 type="button"
             >
                 <span>{{ 'SEND.DETAILS' | translate }}</span>
-                <i
-                    [class.dropdown-arrow-down]="!isVisibleAdditionalOptionsState"
-                    [class.dropdown-arrow-up]="isVisibleAdditionalOptionsState"
-                    class="icon ml-1"
-                ></i>
+                <mat-icon class="ml-1" svgIcon="zano-dropdown-arrow-down" [ngClass]="{
+                    'rotate-180': isVisibleAdditionalOptionsState
+                }"></mat-icon>
             </button>
 
             <div *ngIf="isVisibleAdditionalOptionsState" class="content">

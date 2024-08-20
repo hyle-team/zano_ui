@@ -27,8 +27,9 @@
                         {{ 'SEND_DETAILS_MODAL.TITLE2' | translate }}
                     </p>
                     <button fxLayout="row" fxLayoutAlign="center center">
-                        <img *ngIf="!(stateDetails$ | async)" alt="dropdown-arrow-down" src="assets/icons/white/dropdown-arrow-down.svg" />
-                        <img *ngIf="stateDetails$ | async" alt="dropdown-arrow-up" src="assets/icons/white/dropdown-arrow-up.svg" />
+                        <mat-icon svgIcon="zano-dropdown-arrow-down" [ngClass]="{
+                                'rotate-180': stateDetails$ | async
+                            }"></mat-icon>
                     </button>
                 </div>
                 <div

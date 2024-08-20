@@ -62,7 +62,7 @@
                                     class="btn-icon circle small ml-auto"
                                     type="button"
                                 >
-                                    <i class="icon dots rotate-90"></i>
+                                    <mat-icon class="small" svgIcon="zano-row-options"></mat-icon>
                                 </button>
                             </div>
                         </td>
@@ -85,7 +85,7 @@
         >
             <button (click)="p.previous()" [disabled]="p.isFirstPage()"
                     class="pagination-previous btn-icon circle small mr-0_5">
-                <i class="icon arrow-left-stroke"></i>
+                <mat-icon svgIcon="zano-arrow-left"></mat-icon>
             </button>
 
             <div *ngFor="let page of p.pages; trackBy: trackByPages" [class.current]="p.getCurrent() === page.value"
@@ -99,7 +99,7 @@
             </div>
 
             <button (click)="p.next()" [disabled]="p.isLastPage()" class="pagination-next btn-icon circle small">
-                <i class="icon arrow-right-stroke"></i>
+                <mat-icon svgIcon="zano-arrow-right"></mat-icon>
             </button>
         </pagination-template>
     </ng-container>
@@ -123,25 +123,25 @@
     <ul (click)="closeDropDownMenu()" class="list">
         <li class="item">
             <button (click)="assetDetails()" class="w-100 px-2 py-1" type="button">
-                <i class="icon info-icon mr-1"></i>
+                <mat-icon svgIcon="zano-info-v2" class="mr-1"></mat-icon>
                 <span>{{ 'CUSTOM_ASSETS.DROP_MENU.LABELS.LABEL1' | translate }}</span>
             </button>
         </li>
         <li class="item">
             <button (click)="openDialog('emit')" class="w-100 px-2 py-1" type="button">
-                <i class="icon emit mr-1"></i>
+                <mat-icon svgIcon="zano-emit" class="mr-1"></mat-icon>
                 <span>{{ 'CUSTOM_ASSETS.DROP_MENU.LABELS.LABEL2' | translate }}</span>
             </button>
         </li>
         <li class="item">
             <button (click)="openDialog('update')" class="w-100 px-2 py-1" type="button">
-                <i class="icon update-with-dash mr-1"></i>
+                <mat-icon svgIcon="zano-update" class="mr-1"></mat-icon>
                 <span>{{ 'CUSTOM_ASSETS.DROP_MENU.LABELS.LABEL3' | translate }}</span>
             </button>
         </li>
         <li class="item">
             <button (click)="openDialog('burn')" class="w-100 px-2 py-1" type="button">
-                <i class="icon fire mr-1"></i>
+                <mat-icon svgIcon="zano-burn" class="mr-1"></mat-icon>
                 <span>{{ 'CUSTOM_ASSETS.DROP_MENU.LABELS.LABEL4' | translate }}</span>
             </button>
         </li>

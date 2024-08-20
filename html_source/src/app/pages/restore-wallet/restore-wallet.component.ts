@@ -168,7 +168,6 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                         </div>
 
                         <button *ngIf="walletSaved" class="outline big w-100 mb-2" disabled type="button">
-                            <i class="icon"></i>
                             {{ walletSavedName }}
                         </button>
                         <button
