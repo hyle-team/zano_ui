@@ -1,17 +1,14 @@
 <div class="container scrolled-content" fxFlex="1 1 auto">
-    <form
-        (ngSubmit)="beforeSubmit()"
-        [formGroup]="form"
-        class="form"
-        fxFlex="0 1 50rem"
-        fxLayout="column"
-        fxLayoutAlign="start stretch"
-    >
+    <form (ngSubmit)="beforeSubmit()" [formGroup]="form" class="form" fxFlex="0 1 50rem" fxLayout="column" fxLayoutAlign="start stretch">
         <div class="form__field--row">
             <!-- Address -->
-            <ng-container *ngIf="{items: addressItems$ | async, loading: loadingAddressItems$ | async,
-            lowerCaseDisabled: lowerCaseDisabled$ | async }
-             as vm">
+            <ng-container
+                *ngIf="{
+                    items: addressItems$ | async,
+                    loading: loadingAddressItems$ | async,
+                    lowerCaseDisabled: lowerCaseDisabled$ | async
+                } as vm"
+            >
                 <div class="form__field">
                     <label for="address">
                         {{ 'SEND.ADDRESS' | translate }}
@@ -31,28 +28,29 @@
                         lowerCase
                         matAutocompletePosition="below"
                         type="text"
-                    >
+                    />
 
                     <mat-autocomplete #auto="matAutocomplete" class="zano-autocomplete-panel">
                         <mat-option *ngIf="vm.loading" class="loading" disabled>
                             <zano-loader class="mx-auto" style="display: block; width: fit-content"></zano-loader>
                         </mat-option>
 
-                        <mat-option *ngIf="form.controls.address.value[0] === '@' && vm.items?.length === 0 &&
-                !vm.loading" disabled>
-                    <span class="pl-1">
-                        Not found aliases
-                    </span>
+                        <mat-option *ngIf="form.controls.address.value[0] === '@' && vm.items?.length === 0 && !vm.loading" disabled>
+                            <span class="pl-1"> Not found aliases </span>
                         </mat-option>
 
                         <ng-container *ngIf="!vm.loading">
                             <mat-option *ngFor="let item of vm.items; trackBy: trackByFn" [value]="item">
                                 <!-- Alias -->
                                 <ng-container *ngIf="item[0] === '@'; else itemAddressTemplate">
-                                    <div [ngClass]="{
-                                'available': item.length >= 2 && item.length <= 6,
-                                'pl-1': item.length > 6
-                            }" class="alias">{{ item }}
+                                    <div
+                                        [ngClass]="{
+                                            available: item.length >= 2 && item.length <= 6,
+                                            'pl-1': item.length > 6
+                                        }"
+                                        class="alias"
+                                    >
+                                        {{ item }}
                                     </div>
                                 </ng-container>
                                 <!-- Address -->
@@ -63,10 +61,7 @@
                         </ng-container>
                     </mat-autocomplete>
 
-                    <div
-                        *ngIf="isVisibleError(form.controls.address)"
-                        class="error"
-                    >
+                    <div *ngIf="isVisibleError(form.controls.address)" class="error">
                         {{ errorMessages['address'] | translate }}
                     </div>
 
@@ -94,31 +89,27 @@
                     type="text"
                 />
 
-                <button (click)="toggleAmountUSD()" [disabled]="amountInputParams.reverseDisabled" class="btn-reverse"
-                        type="button">
+                <button (click)="toggleAmountUSD()" [disabled]="amountInputParams.reverseDisabled" class="btn-reverse" type="button">
                     <mat-icon svgIcon="zano-swap" class="small"></mat-icon>
                 </button>
 
-                <div [delay]="150"
-                     [placement]="'bottom'"
-                     [timeDelay]="1000"
-                     [timeout]="0"
-                     [tooltipClass]="'table-tooltip'"
-                     [tooltip]="amountInputParams.inputTicker"
-                     class="ticker">
+                <div
+                    [delay]="150"
+                    [placement]="'bottom'"
+                    [timeDelay]="1000"
+                    [timeout]="0"
+                    [tooltipClass]="'table-tooltip'"
+                    [tooltip]="amountInputParams.inputTicker"
+                    class="ticker"
+                >
                     <div class="text-ellipsis">
                         {{ amountInputParams.inputTicker }}
                     </div>
                 </div>
 
-                <div class="hint text-ellipsis">
-                    {{ amountInputParams.hintAmount }} {{ amountInputParams.hintTicker }}
-                </div>
+                <div class="hint text-ellipsis">{{ amountInputParams.hintAmount }} {{ amountInputParams.hintTicker }}</div>
 
-                <div
-                    *ngIf="isVisibleError(form.controls.amount) || isVisibleError(form)"
-                    class="error"
-                >
+                <div *ngIf="isVisibleError(form.controls.amount) || isVisibleError(form)" class="error">
                     <div *ngIf="form.controls.amount.hasError('zero')">
                         {{ 'SEND.FORM_ERRORS.AMOUNT_ZERO' | translate }}
                     </div>
@@ -134,13 +125,11 @@
                     <div *ngIf="form.controls.amount.hasError('required')">
                         {{ 'ERRORS.REQUIRED' | translate }}
                     </div>
-                    <div
-                        *ngIf="form.hasError('insuficcientFunds')">
+                    <div *ngIf="form.hasError('insuficcientFunds')">
                         {{ form.errors['insuficcientFunds'].errorText | translate }}
                     </div>
-                    <div
-                        *ngIf="form.hasError('greater_than_maximum_amount')">
-                        {{ 'ERRORS.MAX' | translate: { max: form.errors['greater_than_maximum_amount'].max } }}
+                    <div *ngIf="form.hasError('greater_than_maximum_amount')">
+                        {{ 'ERRORS.MAX' | translate : { max: form.errors['greater_than_maximum_amount'].max } }}
                     </div>
                     <div *ngIf="form.hasError('asset_not_found')">
                         {{ 'ERRORS.ASSET_NOT_FOUND' | translate }}
@@ -148,7 +137,6 @@
                 </div>
             </div>
         </div>
-
 
         <!-- Comment -->
         <div class="form__field">
@@ -162,10 +150,7 @@
                 placeholder="{{ 'PLACEHOLDERS.COMMENT_PLACEHOLDER' | translate }}"
                 type="text"
             />
-            <div
-                *ngIf="isVisibleError(form.controls.comment)"
-                class="error"
-            >
+            <div *ngIf="isVisibleError(form.controls.comment)" class="error">
                 <div *ngIf="form.controls.comment.hasError('maxLength')">
                     {{ 'SEND.FORM_ERRORS.MAX_LENGTH' | translate }}
                 </div>
@@ -220,27 +205,19 @@
                 formControlName="asset_id"
             >
                 <ng-template let-asset="item" ng-label-tmp ng-option-tmp>
-                    <img
-                        [alt]="asset.asset_info.ticker"
-                        [src]="getSrcByAsset(asset)"
-                        height="15"
-                        width="15"
-                    />
+                    <img [alt]="asset.asset_info.ticker" [src]="getSrcByAsset(asset)" height="15" width="15" />
                     {{ asset.asset_info.full_name ?? '***' }}
                     <ng-container *appVisibilityBalance>
-                        ({{ asset.total | intToMoney: asset.asset_info.decimal_point }} {{ asset.asset_info.ticker }})
+                        ({{ asset.total | intToMoney : asset.asset_info.decimal_point }} {{ asset.asset_info.ticker }})
                     </ng-container>
                 </ng-template>
             </ng-select>
-            <div
-                *ngIf="isVisibleError(form.controls.asset_id) || isVisibleError(form)"
-                class="error"
-            >
+            <div *ngIf="isVisibleError(form.controls.asset_id) || isVisibleError(form)" class="error">
                 <div *ngIf="form.controls.asset_id.hasError('required')">
                     {{ 'ERRORS.REQUIRED' | translate }}
                 </div>
                 <div *ngIf="form.hasError('max_decimal_point')">
-                    {{ 'ERRORS.MAX_DECIMAL_POINT' | translate: { max: form.errors['max_decimal_point'].max } }}
+                    {{ 'ERRORS.MAX_DECIMAL_POINT' | translate : { max: form.errors['max_decimal_point'].max } }}
                 </div>
             </div>
         </div>
@@ -254,9 +231,13 @@
                 type="button"
             >
                 <span>{{ 'SEND.DETAILS' | translate }}</span>
-                <mat-icon class="ml-1" svgIcon="zano-dropdown-arrow-down" [ngClass]="{
-                    'rotate-180': isVisibleAdditionalOptionsState
-                }"></mat-icon>
+                <mat-icon
+                    class="ml-1"
+                    svgIcon="zano-dropdown-arrow-down"
+                    [ngClass]="{
+                        'rotate-180': isVisibleAdditionalOptionsState
+                    }"
+                ></mat-icon>
             </button>
 
             <div *ngIf="isVisibleAdditionalOptionsState" class="content">
@@ -277,10 +258,7 @@
                             maxlength="3"
                             type="text"
                         />
-                        <div
-                            *ngIf="isVisibleError(form.controls.mixin)"
-                            class="error"
-                        >
+                        <div *ngIf="isVisibleError(form.controls.mixin)" class="error">
                             <div *ngIf="form.controls.mixin.hasError('required')">
                                 {{ 'ERRORS.REQUIRED' | translate }}
                             </div>
@@ -308,36 +286,29 @@
                             id="send-fee"
                             type="text"
                         />
-                        <div
-                            *ngIf="isVisibleError(form.controls.fee)"
-                            class="error"
-                        >
+                        <div *ngIf="isVisibleError(form.controls.fee)" class="error">
                             {{ errorMessages['fee'] | translate }}
                         </div>
                     </div>
                 </div>
 
                 <!-- HIDE -->
-                <app-checkbox
-                    [label]="'SEND.HIDE' | translate"
-                    class="mt-1"
-                    formControlName="hide"
-                ></app-checkbox>
+                <app-checkbox [label]="'SEND.HIDE' | translate" class="mt-1" formControlName="hide"></app-checkbox>
             </div>
         </div>
 
-        <button
-            [disabled]="form.invalid || !variablesService.currentWallet.loaded"
-            class="primary big max-w-19-rem w-100"
-            type="submit"
-        >
+        <button [disabled]="form.invalid || !variablesService.currentWallet.loaded" class="primary big max-w-19-rem w-100" type="submit">
             {{ 'SEND.BUTTON' | translate }}
         </button>
     </form>
 </div>
 
-<app-send-modal (confirmed)="handleConfirmed($event)" *ngIf="isSendModalState"
-                [sendMoneyParams]="form.getRawValue()" [priceInfo]="priceInfo"></app-send-modal>
+<app-send-modal
+    (confirmed)="handleConfirmed($event)"
+    *ngIf="isSendModalState"
+    [sendMoneyParams]="form.getRawValue()"
+    [priceInfo]="priceInfo"
+></app-send-modal>
 
 <app-send-details-modal
     (eventClose)="handeCloseSendDetailsModal($event)"

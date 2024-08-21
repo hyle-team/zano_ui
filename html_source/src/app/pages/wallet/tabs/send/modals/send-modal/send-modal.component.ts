@@ -34,7 +34,7 @@ export class SendModalComponent implements OnInit, OnDestroy {
     @Output() confirmed: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     get amount(): string {
-        const { amount, isAmountUSD, asset_id,  } = this.sendMoneyParams;
+        const { amount, isAmountUSD, asset_id } = this.sendMoneyParams;
         const convertedAmountUSD = (): string => {
             let usd = 0;
 

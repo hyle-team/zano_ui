@@ -1,0 +1,182 @@
+.light {
+    --main-background: #F0F6FB;
+    --page-content-background: #FCFCFC;
+    --sidebar-background: #FCFCFC;
+    --tab-content-background: #FCFCFC;
+    --tab-preloader-background: #FCFCFC;
+    --tab-preloader-text: var(--blue-900);
+    --tab-header-background: #D9EBFA;
+    --tab-header-active-background: #FCFCFC;
+    --main-text: var(--blue-900);
+    --button-color: var(--blue-900);
+    --synchronization-status-color: var(--blue-900);
+    --dialog-background: #ffffff;
+    --block-sync: #505274;
+
+    // auth
+    --auth-card-background: #FCFCFC;
+    --auth-card-form-background: #FFFFFF;
+    --auth-card-form-border: 1.5px solid #1F8FEB33;
+
+    // form
+    --form-card-background: #F0F6FB;
+
+    // ng-select
+    --ng-select-bg: #DBECFA;
+    --ng-select-border: #1F8FEB40;
+    --ng-select-highlight: #1F8FEB10;
+    --ng-select-circle-border: 1.5px solid #1F8FEB50;
+    --ng-select-circle-background: #1F8FEB;
+
+    // field
+    --input-background: #FFFFFF;
+    --input-color: var(--blue-900);
+    --input-placeholder: #0C0C3A4D;
+    --border: 1.5px solid #1F8FEB66;
+    --border-not-empty: 1.5px solid #1F8FEB99;
+    --border-disabled: 1.5px solid #1F8FEB66;
+    --border-error: 1.5px solid var(--red-600);
+    --hint-text: #0C0C3A99;
+
+    // field amount
+    --amount-ticker-text: #0C0C3A99;
+    --amount-btn-revers-background: #1F8FEB1A;
+
+    // checkbox
+    --checkbox-border: 1.5px solid #1F8FEB66;
+    --checkbox-hover-border: 1.5px solid #1F8FEB99;
+    --checkbox-active-border: 1.5px solid #1F8FEB99;
+    --checkbox-checked-background: #1F8FEB;
+
+    // switch
+    --switch-on-background: var(--aqua-500);
+    --switch-off-background: #0C0C3A1A;
+    --switch-circle-background: var(--white-500);
+
+    //wallet
+    --wallet-background: #1F8FEB26;
+    --wallet-active-background: var(--gradietAquaToBlue);
+    --wallet-border: 1.5px solid #1F8FEB00;
+    --wallet-border-color-hover: #1F8FEB;
+    --wallet-auditable-watch-only-background: radial-gradient(100% 246.57% at 0% 0%, rgba(163, 102, 255, 0.75) 0%, rgba(96, 31, 255, 0.75) 100%);
+    --wallet-auditable-active-background: var(--gradietAmethystToPurpurle);
+    --wallet-watch-only-active-background: var(--gradietAmethystToPurpurle);
+    --wallet-watch-only-after-background: #dbecf9;
+    --wallet-watch-only-text: var(--blue-900);
+    --wallet-active-text: #FFFFFF;
+    --wallet-text: var(--blue-900);
+
+    // table
+    --table-thead-bg: #1F8FEB4D;
+    --table-row-bg: #DBECF9;
+    --table-rounded-corners-border: 1.5px solid #D9DFE8;
+
+    --table-info-border: 1.5px solid #D9DFE8;
+    --table-info-label-background: #F0F6FB;
+
+    // buttons
+    --btn-icon-background: #1F8FEB1A;
+    --btn-icon-hover-background: #1F8FEB4D;
+
+    // list
+    --list-background: #F9FCFF;
+    --list-border: 1.5px solid #1F8FEB80;
+    --list-item-hover-background: #1F8FEB1A;
+
+    // tooltip
+    --tooltip-background: #8DBEE8;
+
+    // details
+    --details-background: #DBECFA;
+}
+.dark {
+    --main-background: var(--blue-900);
+    --page-content-background: var(--blue-700);
+    --sidebar-background: var(--blue-700);
+    --tab-content-background: var(--blue-700);
+    --tab-preloader-background: var(--blue-700);
+    --tab-preloader-text: #FFFFFF;
+    --tab-header-background: var(--blue-800);
+    --tab-header-active-background: var(--blue-700);
+    --main-text: var(--white-500);
+    --button-color: var(--white-500);
+    --synchronization-status-color: var(--white-500);
+    --dialog-background: var(--blue-700);
+    --block-sync: #A8ABB5;
+
+    // auth
+    --auth-card-background: var(--blue-700);
+    --auth-card-form-background: var(--blue-500);
+    --auth-card-form-border: 1.5px solid transparent;
+
+    //form
+    --form-card-background: var(--blue-500);
+
+    //ng-select
+    --ng-select-bg: var(--blue-500);
+    --ng-select-border: var(--gray-500);
+    --ng-select-highlight: var(--gray-900);
+    --ng-select-circle-border: 1.5px solid white;
+    --ng-select-circle-background: var(--white-500);
+
+    // field
+    --input-background: transparent;
+    --input-color: var(--white-500);
+    --input-placeholder: var(--gray-800);
+    --border: 1.5px solid var(--gray-800);
+    --border-not-empty: 1.5px solid var(--gray-500);
+    --border-disabled: 1.5px solid var(--gray-800);
+    --border-error: 1.5px solid var(--red-600);
+    --hint-text: #ffffff60;
+
+    // field amount
+    --amount-ticker-text: #ffffff60;
+    --amount-btn-revers-background: #FFFFFF1A;
+
+    // checkbox
+    --checkbox-border: 1.5px solid #FFFFFF33;
+    --checkbox-hover-border: 1.5px solid #FFFFFF66;
+    --checkbox-active-border: 1.5px solid #FFFFFF66;
+    --checkbox-checked-background: #FFFFFF;
+
+    // switch
+    --switch-on-background: var(--aqua-500);
+    --switch-off-background: var(--gray-800);
+    --switch-circle-background: var(--white-500);
+
+    //wallet
+    --wallet-background: var(--blue-500);
+    --wallet-active-background: var(--gradietAquaToBlue);
+    --wallet-border: 1.5px solid var(--blue-500);
+    --wallet-border-color-hover: var(--gray-800);
+    --wallet-auditable-watch-only-background: var(--gradietLightAmethystToPurpurle);
+    --wallet-auditable-active-background: var(--gradietAmethystToPurpurle);
+    --wallet-watch-only-active-background: var(--gradietAmethystToPurpurle);
+    --wallet-watch-only-after-background: var(--blue-500);
+    --wallet-watch-only-text: #FFFFFF;
+    --wallet-active-text: #FFFFFF;
+    --wallet-text: #FFFFFF;
+
+    // table
+    --table-thead-bg: var(--blue-400);
+    --table-row-bg: var(--blue-300);
+    --table-rounded-corners-border: 1.5px solid #33426E;
+
+    --table-info-border: 1.5px solid #33426E;
+    --table-info-label-background: var(--blue-500);
+
+    // buttons
+    --btn-icon-background: var(--gray-900);
+    --btn-icon-hover-background: var(--gray-700);
+
+    // list
+    --list-background: var(--blue-500);
+    --list-border: var(--border);
+    --list-item-hover-background: var(--gray-900);
+
+    // tooltip
+    --tooltip-background: var(--blue-450);
+
+    // details
+    --details-background: var(--blue-500);
+}

@@ -7,10 +7,11 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { CheckboxComponent } from '@parts/components/checkbox.component';
 import { SwitchComponent } from '@parts/components/switch.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
     declarations: [ExportHistoryModalComponent],
     exports: [ExportHistoryModalComponent],
-    imports: [CommonModule, TranslateModule, FlexModule, SwitchComponent, CheckboxComponent, NgSelectModule, FormsModule],
+    imports: [CommonModule, TranslateModule, FlexModule, SwitchComponent, CheckboxComponent, NgSelectModule, FormsModule, MatDialogModule],
 })
 export class ExportHistoryModalModule {}

@@ -21,6 +21,7 @@ import { ParamsCallRpc } from '@api/models/call_rpc.model';
 import { ModalService } from '@parts/services/modal.service';
 import { GetBareOutsStats } from '@api/models/rpc.models';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 interface Tab {
     id: string;
@@ -99,8 +100,8 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
         link: '/custom-assets',
         indicator: false,
         disabled: false,
-        hidden: false
-    }
+        hidden: false,
+    },
 };
 
 @Component({
@@ -210,8 +211,13 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
                 </ng-container>
             </div>
             <div class="right" fxFlex fxLayout="row" fxLayoutAlign="end" fxLayoutGap="1rem">
-                <button class="btn-icon circle big" (click)="variablesService.visibilityBalance$.next(!variablesService.visibilityBalance$.value)">
-                    <mat-icon [svgIcon]="(variablesService.visibilityBalance$ | async) ? 'zano-hide-balance' : 'zano-show-balance'"></mat-icon>
+                <button
+                    class="btn-icon circle big"
+                    (click)="variablesService.visibilityBalance$.next(!variablesService.visibilityBalance$.value)"
+                >
+                    <mat-icon
+                        [svgIcon]="(variablesService.visibilityBalance$ | async) ? 'zano-hide-balance' : 'zano-show-balance'"
+                    ></mat-icon>
                 </button>
                 <div class="dropdown">
                     <button
@@ -388,7 +394,7 @@ export class WalletComponent implements OnInit, OnDestroy {
 
     loader = true;
 
-    scrollStrategyNoop: ScrollStrategy;
+    private readonly _matDialog: MatDialog = inject(MatDialog);
 
     constructor(
         private backend: BackendService,
@@ -398,10 +404,8 @@ export class WalletComponent implements OnInit, OnDestroy {
         private dialog: Dialog,
         private modalService: ModalService,
         private walletsService: WalletsService,
-        private router: Router,
-        private readonly scrollStrategyOptions: ScrollStrategyOptions
+        private router: Router
     ) {
-        this.scrollStrategyNoop = this.scrollStrategyOptions.noop();
 
         if (!this.variablesService.currentWallet && this.variablesService.wallets.length > 0) {
             this.variablesService.setCurrentWallet(0);
@@ -572,29 +576,29 @@ export class WalletComponent implements OnInit, OnDestroy {
     }
 
     addCustomToken(): void {
-        this.dialog
-            .open<AssetBalance | undefined>(AddCustomTokenComponent)
-            .closed.pipe(
+        this._matDialog
+            .open<AddCustomTokenComponent, void, AssetBalance | undefined>(AddCustomTokenComponent)
+            .afterClosed().pipe(
                 filter(response_data => Boolean(response_data)),
                 takeUntil(this.destroy$)
             )
             .subscribe({
                 next: asset => {
-                    const dialogConfig: DialogConfig = {
+                    const config: MatDialogConfig = {
                         data: {
-                            asset_info: asset.asset_info,
+                            assetInfo: asset.asset_info,
                             title: 'You added new asset',
                         },
                     };
                     this.ngZone.run(() => {
-                        this.dialog.open(AssetDetailsComponent, dialogConfig);
+                        this._matDialog.open(AssetDetailsComponent, config);
                     });
                 },
             });
     }
 
     exportHistory(): void {
-        this.dialog.open(ExportHistoryModalComponent);
+        this._matDialog.open(ExportHistoryModalComponent);
     }
 
     openZarcanumMigration(): void {
@@ -616,13 +620,11 @@ export class WalletComponent implements OnInit, OnDestroy {
                 if (response_data?.result) {
                     const data = response_data.result;
 
-                    const dialogConfig: DialogConfig<GetBareOutsStats> = {
-                        maxWidth: '90vw',
-                        width: '540px',
-                        scrollStrategy: this.scrollStrategyNoop,
+                    const config: MatDialogConfig<GetBareOutsStats> = {
                         data,
+                        disableClose: false
                     };
-                    this.dialog.open(MigrateWalletToZarcanumComponent, dialogConfig);
+                    this._matDialog.open(MigrateWalletToZarcanumComponent, config);
                 } else {
                     const message = response_data.error;
                     this.modalService.prepareModal('error', message);

@@ -63,7 +63,7 @@ export class InputValidateDirective {
         if (1 in _zero_fill && _zero_fill[1].length) {
             _zero_fill[1] = _zero_fill[1].substr(0, this._decimalPoint);
         }
-        return  this._decimalPoint ? _zero_fill.join('.') : _zero_fill[0];
+        return this._decimalPoint ? _zero_fill.join('.') : _zero_fill[0];
     }
 
     private _money(): void {

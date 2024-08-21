@@ -20,14 +20,14 @@ table.zano-table {
 
         tr {
             th {
-                background-color: var(--blue-700);
+                background-color: var(--tab-content-background);
                 z-index: 5;
                 max-width: 10rem;
                 overflow: hidden;
                 text-overflow: ellipsis;
 
                 .bg {
-                    background-color: var(--blue-400);
+                    background-color: var(--table-thead-bg);
                 }
 
                 .title {
@@ -63,7 +63,7 @@ table.zano-table {
         text-align: left;
 
         tr {
-            background-color: var(--blue-300);
+            background-color: var(--table-row-bg);
             -webkit-transition: 0.5s height linear, 0s font-size;
             transition: 0.5s height linear, 0s font-size;
             transition-delay: 0s, 0.5s;
@@ -97,15 +97,13 @@ table.zano-table {
     display: flex;
     flex-direction: column;
     width: 100%;
-    border: var(--border);
+    border: var(--table-info-border);
     border-radius: 0.8rem;
     overflow: hidden;
 
     .separator {
         border: none;
-        height: 2px;
-        color: var(--gray-800); /* old IE */
-        background-color: var(--gray-800); /* Modern Browsers */
+        border-bottom: var(--table-info-border);
     }
 
     .row {
@@ -122,7 +120,7 @@ table.zano-table {
 
         .label {
             color: var(--azure-500);
-            background: var(--blue-500);
+            background: var(--table-info-label-background);
             overflow: hidden;
             text-overflow: ellipsis;
         }
@@ -140,12 +138,12 @@ table.rounded-corners {
     border-spacing: 0;
     border-collapse: separate;
     border-radius: 1rem;
-    border: 1.5px solid #33426E;
+    border: var(--table-rounded-corners-border);
 }
 
 table.rounded-corners th:not(:last-child),
 table.rounded-corners td:not(:last-child) {
-    border-right: 1.5px solid #33426E;
+    border-right: var(--table-rounded-corners-border);
 }
 
 table.rounded-corners > tbody > tr:first-child > td:first-child {
@@ -174,5 +172,5 @@ table.rounded-corners > tr:not(:last-child) > th,
 table.rounded-corners > thead:not(:last-child),
 table.rounded-corners > tbody:not(:last-child),
 table.rounded-corners > tfoot:not(:last-child) {
-    border-bottom: 1.5px solid #33426E;
+    border-bottom: var(--table-rounded-corners-border);
 }

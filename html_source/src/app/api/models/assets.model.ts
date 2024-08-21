@@ -3,10 +3,10 @@ export interface PriceInfo {
     data:
         | string
         | {
-        name: string;
-        usd: number;
-        usd_24h_change: number;
-    };
+              name: string;
+              usd: number;
+              usd_24h_change: number;
+          };
 }
 
 export interface AssetBalance {

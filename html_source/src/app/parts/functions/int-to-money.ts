@@ -1,6 +1,6 @@
 import { BigNumber } from 'bignumber.js';
 
-export const   intToMoney = (value: number | string | BigNumber, decimal_point?: any): string => {
+export const intToMoney = (value: number | string | BigNumber, decimal_point?: any): string => {
     if (value === 0 || value === undefined) {
         return '0';
     }
@@ -11,7 +11,7 @@ export const   intToMoney = (value: number | string | BigNumber, decimal_point?:
     const power = Math.pow(10, maxFraction);
     let str = new BigNumber(value).div(power).toFixed(maxFraction, 1);
 
-    if (maxFraction != 0)  {
+    if (maxFraction != 0) {
         for (let i = str.length - 1; i >= 0; i--) {
             if (str[i] !== '0') {
                 str = str.substr(0, i + 1);
@@ -24,7 +24,7 @@ export const   intToMoney = (value: number | string | BigNumber, decimal_point?:
         const hasMinus = str.indexOf('-') !== -1;
         const hasDot = str.indexOf('.') !== -1;
         const sliceFrom = 0;
-        let sliceTo =  20;
+        let sliceTo = 20;
 
         if (hasDot) {
             sliceTo += 1;

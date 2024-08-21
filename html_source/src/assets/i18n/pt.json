@@ -19,7 +19,8 @@
                     "NAME": "Nome do recurso",
                     "OWNER": "Owner",
                     "TICKER": "TICKER"
-                }
+                },
+                "TITLE": "Asset Details"
             }
         },
         "TABLE": {

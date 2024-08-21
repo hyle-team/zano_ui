@@ -3,7 +3,7 @@ button,
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    color: var(--white-500);
+    color: var(--button-color);
     transition: all 0.25s ease;
     border: none;
     outline: none;
@@ -36,6 +36,7 @@ button,
 
     &.primary {
         background-color: var(--azure-500);
+        color: var(--white-500);
 
         &:not(:disabled) {
             &:focus,
@@ -47,7 +48,7 @@ button,
     }
 
     &.outline {
-        border: 0.2rem solid var(--azure-500);
+        border: 1.5px solid var(--azure-500);
 
         &:not(:disabled) {
             &:hover,
@@ -75,15 +76,46 @@ button,
     }
 
     &.btn-icon {
-        background-color: var(--gray-900);
+        background-color: var(--btn-icon-background);
         transition: background-color 0.2s ease-in-out;
 
         &.circle {
             border-radius: 50%;
         }
 
+        .row-options {}
+
         &:hover {
-            background-color: var(--gray-700);
+            background-color: var(--btn-icon-hover-background);
+        }
+    }
+}
+
+.btn-light-background {
+    background-color: var(--btn-icon-background);
+
+    &:not(:disabled):hover {
+        background-color: var(--btn-icon-hover-background);
+    }
+}
+
+.light {
+    button,
+    .btn {
+        &.outline {
+            &:not(:disabled) {
+                &:hover,
+                &:focus,
+                &.active {
+                    background-color: rgba(0, 0, 0, 0.05);
+                }
+            }
+        }
+
+        &.btn-icon {
+            &.row-options {
+                color: #1F8FEB;
+            }
         }
     }
 }

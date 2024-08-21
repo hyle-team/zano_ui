@@ -1,16 +1,11 @@
 <div class="auth" fxFlexFill fxLayout="row" fxLayoutAlign="center center">
     <div class="auth-card">
-        <div class="logo mb-3" fxLayout="row"
-             fxLayoutAlign="center center">
-            <img
-                [src]="zanoLogo"
-                alt="zano-logo" />
+        <div class="logo mb-3" fxLayout="row" fxLayoutAlign="center center">
+            <img [src]="zanoLogo" alt="zano-logo" />
         </div>
 
-        <form (ngSubmit)="onSubmitCreatePass()" *ngIf="type === 'reg'" [formGroup]="regForm"
-              class="form">
-            <div
-                class="auth-card-form">
+        <form (ngSubmit)="onSubmitCreatePass()" *ngIf="type === 'reg'" [formGroup]="regForm" class="form">
+            <div class="auth-card-form">
                 <div class="form__field mb-2">
                     <label for="master-pass">{{ 'LOGIN.SETUP_MASTER_PASS' | translate }}</label>
                     <input
@@ -22,8 +17,7 @@
                         placeholder="{{ 'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate }}"
                         type="password"
                     />
-                    <div *ngIf="regForm.controls['password'].dirty && regForm.controls['password'].errors"
-                         class="error">
+                    <div *ngIf="regForm.controls['password'].dirty && regForm.controls['password'].errors" class="error">
                         <div *ngIf="regForm.controls['password'].errors.pattern">
                             {{ 'ERRORS.WRONG_PASSWORD' | translate }}
                         </div>
@@ -53,11 +47,11 @@
 
             <button
                 [disabled]="
-                            !regForm.controls['password'].value.length ||
-                            !regForm.controls['confirmation'].value.length ||
-                            (regForm.errors && regForm.errors['mismatch']) ||
-                            regForm.controls['password'].errors
-                        "
+                    !regForm.controls['password'].value.length ||
+                    !regForm.controls['confirmation'].value.length ||
+                    (regForm.errors && regForm.errors['mismatch']) ||
+                    regForm.controls['password'].errors
+                "
                 class="primary big w-100 mb-1"
                 type="submit"
             >
@@ -89,8 +83,10 @@
                         type="password"
                     />
                     <div
-                        *ngIf="authForm.controls['password'].invalid &&
-                                    (authForm.controls['password'].dirty || authForm.controls['password'].touched)"
+                        *ngIf="
+                            authForm.controls['password'].invalid &&
+                            (authForm.controls['password'].dirty || authForm.controls['password'].touched)
+                        "
                         class="error"
                     >
                         <div *ngIf="authForm.controls['password'].hasError('wrong_password')">

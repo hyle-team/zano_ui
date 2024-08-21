@@ -1,19 +1,47 @@
 .seed-phrase {
     .content {
         .item {
-            border: var(--border);
-            background-color: var(--gray-900);
-
             .number {
                 width: 1.8rem;
                 height: 1.8rem;
                 border-radius: 50%;
                 font-size: 1rem;
-                background-color: var(--gray-600);
             }
 
             .word {
                 white-space: nowrap;
+            }
+        }
+    }
+}
+
+.light {
+    .seed-phrase {
+        .content {
+            .item {
+                border: var(--border);
+                background-color: #1F8FEB1A;
+                color: #1F8FEB;
+
+                .number {
+                    background-color: #1F8FEB26;
+                    color: #1F8FEB;
+                }
+            }
+        }
+    }
+}
+
+.dark {
+    .seed-phrase {
+        .content {
+            .item {
+                border: var(--border);
+                background-color: var(--gray-900);
+
+                .number {
+                    background-color: var(--gray-600);
+                }
             }
         }
     }

@@ -12,7 +12,9 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class NoWalletComponent {
     get zanoLogo(): string {
-        const { settings: { isDarkTheme } } = this.variablesService;
+        const {
+            settings: { isDarkTheme },
+        } = this.variablesService;
         return isDarkTheme ? 'assets/icons/blue/zano-logo.svg' : 'assets/icons/blue/light-zano-logo.svg';
     }
 

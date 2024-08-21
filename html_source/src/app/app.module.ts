@@ -19,6 +19,7 @@ import { RegisterContextTemplatesComponent } from '@parts/components/register-co
 import { DEFAULT_DIALOG_CONFIG, DialogConfig } from '@angular/cdk/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
 import { materialZanoIcons } from '../assets/material-zano-icons';
+import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
 
 export function highchartsFactory(): any[] {
     highcharts.setOptions({
@@ -61,6 +62,7 @@ export const translateModuleConfig: TranslateModuleConfig = {
         MoneyToIntPipeModule,
         FlexModule,
         FormsModule,
+        MatDialogModule,
         RegisterContextTemplatesComponent,
     ],
     providers: [
@@ -68,12 +70,24 @@ export const translateModuleConfig: TranslateModuleConfig = {
         {
             provide: DEFAULT_DIALOG_CONFIG,
             useValue: <DialogConfig>{
-                width: '54rem',
-                maxWidth: '95vw',
+                width: '95vw',
+                maxWidth: '54rem',
+                maxHeight: '90vh',
                 hasBackdrop: true,
-                disableClose: true
-            }
-        }
+                disableClose: true,
+            },
+        },
+        {
+            provide: MAT_DIALOG_DEFAULT_OPTIONS,
+            useValue: <MatDialogConfig>{
+                width: '95vw',
+                maxWidth: '54rem',
+                maxHeight: '90vh',
+                panelClass: 'zano-mat-dialog',
+                hasBackdrop: true,
+                disableClose: true,
+            },
+        },
     ],
     bootstrap: [AppComponent],
 })
@@ -89,9 +103,7 @@ export class AppModule {
         icons.forEach((icon: string) => {
             this._matIconRegistry.addSvgIcon(
                 icon,
-                this._sanitizer.bypassSecurityTrustResourceUrl(
-                    `assets/material-zano-icons/${icon}.svg`
-                )
+                this._sanitizer.bypassSecurityTrustResourceUrl(`assets/material-zano-icons/${icon}.svg`)
             );
         });
     }

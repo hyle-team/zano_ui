@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
-import { DialogRef } from '@angular/cdk/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-export-history-modal',
@@ -10,9 +10,7 @@ import { DialogRef } from '@angular/cdk/dialog';
     styleUrls: ['./export-history-modal.component.scss'],
 })
 export class ExportHistoryModalComponent {
-    posFilterIsOn = true;
-
-    currentFormat: string;
+    posFilterIsOn: boolean = true;
 
     exportData = {
         wallet_id: 0,
@@ -36,18 +34,15 @@ export class ExportHistoryModalComponent {
         },
     ];
 
-    constructor(
-        private backend: BackendService,
-        public variablesService: VariablesService,
-        private translate: TranslateService,
-        private dialogRef: DialogRef
-    ) {
-        this.currentFormat = this.exportFormats[0].format;
-    }
+    currentFormat: string = this.exportFormats[0].format;
 
-    closeModal(): void {
-        this.dialogRef.close();
-    }
+    private backend: BackendService = inject(BackendService);
+
+    public variablesService: VariablesService = inject(VariablesService);
+
+    private translate: TranslateService = inject(TranslateService);
+
+    private matDialogRef: MatDialogRef<ExportHistoryModalComponent> = inject(MatDialogRef);
 
     confirmExport(): void {
         this.exportData.format = `${this.currentFormat}`;
@@ -66,7 +61,7 @@ export class ExportHistoryModalComponent {
                 }
                 if (file_status) {
                     this.backend.exportWalletHistory(JSON.stringify(this.exportData));
-                    this.closeModal();
+                    this.matDialogRef.close();
                 }
             }
         );

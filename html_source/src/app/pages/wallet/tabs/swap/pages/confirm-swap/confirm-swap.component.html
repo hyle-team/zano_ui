@@ -25,7 +25,8 @@
 
                     <div class="text">
                         <p *ngFor="let item of proposalDetails.to_initiator">
-                            {{ item.amount | intToMoney:(item.asset_id | getAssetInfo)?.decimal_point }} {{ (item.asset_id | getAssetInfo)?.ticker || '***' }}
+                            {{ item.amount | intToMoney : (item.asset_id | getAssetInfo)?.decimal_point }}
+                            {{ (item.asset_id | getAssetInfo)?.ticker || '***' }}
                         </p>
                     </div>
                 </div>
@@ -38,7 +39,7 @@
                     </div>
                     <div class="text">
                         <p *ngFor="let item of proposalDetails.to_finalizer">
-                            {{ item.amount | intToMoney:(item.asset_id | getAssetInfo)?.decimal_point }}
+                            {{ item.amount | intToMoney : (item.asset_id | getAssetInfo)?.decimal_point }}
                             {{ (item.asset_id | getAssetInfo)?.ticker || '***' }}
                         </p>
                     </div>

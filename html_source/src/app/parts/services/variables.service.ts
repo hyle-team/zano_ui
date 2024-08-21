@@ -1,4 +1,4 @@
-import { Injectable, NgZone, OnDestroy } from '@angular/core';
+import { inject, Injectable, NgZone, OnDestroy } from '@angular/core';
 import { DeeplinkParams, Wallet } from '@api/models/wallet.model';
 import { Contact } from '@api/models/contact.model';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
@@ -8,6 +8,8 @@ import { ContextMenuComponent, ContextMenuService } from '@perfectmemory/ngx-con
 import { BigNumber } from 'bignumber.js';
 import { Aliases } from '@api/models/alias.model';
 import { distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
+import { Dialog } from '@angular/cdk/dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 @Injectable({
     providedIn: 'root',
@@ -80,8 +82,8 @@ export class VariablesService implements OnDestroy {
         progress_value_text: '0',
         blocks: {
             current: 0,
-            max: 0
-        }
+            max: 0,
+        },
     };
 
     public sync_wallets: { [wallet_id: number]: boolean } = {};
@@ -113,7 +115,7 @@ export class VariablesService implements OnDestroy {
             secret: '',
         },
         wallets: [],
-        isDarkTheme: true
+        isDarkTheme: true,
     };
 
     isDarkTheme$ = new BehaviorSubject(true);
@@ -165,6 +167,10 @@ export class VariablesService implements OnDestroy {
 
     currentWalletChangedEvent = new BehaviorSubject<Wallet>(null);
 
+    private _dialog: Dialog = inject(Dialog);
+
+    private _matDialog: MatDialog = inject(MatDialog);
+
     idle = new Idle().whenNotInteractive().do(async () => {
         if (this.appPass === '') {
             this.stopCountdown();
@@ -173,6 +179,8 @@ export class VariablesService implements OnDestroy {
                 this.stopCountdown();
                 this.appPass = '';
                 this.appLogin = false;
+                this._dialog.closeAll();
+                this._matDialog.closeAll();
                 await this.router.navigate(['/login'], {
                     queryParams: { type: 'auth' },
                 });
@@ -192,7 +200,7 @@ export class VariablesService implements OnDestroy {
         this.visibilityBalance$.pipe(takeUntil(this._destroy$)).subscribe({
             next: visibilityBalance => {
                 this.settings.visibilityBalance = visibilityBalance;
-            }
+            },
         });
     }
 

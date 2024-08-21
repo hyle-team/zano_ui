@@ -7,9 +7,7 @@ import { RCV_ADDR_QR_SCALE } from '@parts/data/constants';
     selector: 'app-receive',
     template: `
         <div class="container overflow-auto" fxFlexFill fxLayout="column" fxLayoutAlign="center center">
-            <div
-                class="wrap-qr mb-2"
-            >
+            <div class="wrap-qr mb-2">
                 <img alt="qr-code" [src]="qrImageSrc" />
             </div>
 

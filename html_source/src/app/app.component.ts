@@ -16,6 +16,7 @@ import { Dialog } from '@angular/cdk/dialog';
 import { ZanoLoadersService } from '@parts/services/zano-loaders.service';
 import { ParamsCallRpc } from '@api/models/call_rpc.model';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-root',
@@ -87,6 +88,7 @@ export class AppComponent implements OnInit, OnDestroy {
         private modalService: ModalService,
         private store: Store,
         private dialog: Dialog,
+        private matDialog: MatDialog,
         public zanoLoadersService: ZanoLoadersService,
         private _breakpointObserver: BreakpointObserver
     ) {
@@ -170,6 +172,8 @@ export class AppComponent implements OnInit, OnDestroy {
                     // });
 
                     this.dialog.closeAll();
+                    this.matDialog.closeAll();
+
                     this.needOpenWallets = [];
                     this.variablesService.daemon_state = 5;
 
@@ -719,10 +723,7 @@ export class AppComponent implements OnInit, OnDestroy {
                         visibilityBalance$.next(settings.visibilityBalance);
                         // TODO: Delete this line after return appUseTor
                         settings.appUseTor = false;
-                        if (
-                            hasOwnProperty(settings, 'scale') &&
-                            ['8px', '10px', '12px', '14px'].indexOf(settings.scale) !== -1
-                        ) {
+                        if (hasOwnProperty(settings, 'scale') && ['8px', '10px', '12px', '14px'].indexOf(settings.scale) !== -1) {
                             this.renderer.setStyle(document.documentElement, 'font-size', settings.scale);
                         } else {
                             settings.scale = '10px';
@@ -739,7 +740,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
                     if (!this.variablesService.settings.wallets || this.variablesService.settings.wallets.length === 0) {
                         this.ngZone.run(() => {
-                            this.router.navigate([`${ paths.auth }/${ pathsChildrenAuth.noWallet }`]).then();
+                            this.router.navigate([`${paths.auth}/${pathsChildrenAuth.noWallet}`]).then();
                         });
                         return;
                     }
@@ -788,7 +789,6 @@ export class AppComponent implements OnInit, OnDestroy {
             },
         });
 
-
         this.variablesService.disable_price_fetch$.pipe(takeUntil(this.destroy$)).subscribe({
             next: disable_price_fetch => {
                 const updateTime = 10 * 60 * 1000;
@@ -806,9 +806,9 @@ export class AppComponent implements OnInit, OnDestroy {
         });
 
         this.variablesService.isDarkTheme$.pipe(takeUntil(this.destroy$)).subscribe({
-            next: (isDarkTheme) => {
+            next: isDarkTheme => {
                 this.renderer.setAttribute(document.documentElement, 'class', isDarkTheme ? 'dark' : 'light');
-            }
+            },
         });
     }
 
@@ -828,7 +828,7 @@ export class AppComponent implements OnInit, OnDestroy {
             .get('https://explorer.zano.org/api/price?asset=zano')
             .pipe(take(1))
             .subscribe({
-                next: ({ data, success }: { data: { zano: { usd: number; usd_24h_change: number }; }; success: boolean }): void => {
+                next: ({ data, success }: { data: { zano: { usd: number; usd_24h_change: number } }; success: boolean }): void => {
                     if (success) {
                         this.variablesService.zanoMoneyEquivalent = data['zano']['usd'];
                         this.variablesService.zanoMoneyEquivalentPercent = data['zano']['usd_24h_change'];
@@ -840,9 +840,9 @@ export class AppComponent implements OnInit, OnDestroy {
             });
 
         this.variablesService.isDarkTheme$.pipe(takeUntil(this.destroy$)).subscribe({
-            next: (isDarkTheme) => {
+            next: isDarkTheme => {
                 this.renderer.setAttribute(document.documentElement, 'class', isDarkTheme ? 'dark' : 'light');
-            }
+            },
         });
     }
 

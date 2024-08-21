@@ -1,58 +1,54 @@
-<div class="burn-custom-asset-wrapper" fxFlex="0 1 54rem">
-    <div class="overflow-hidden" fxFlexFill fxLayout="column">
-        <form (ngSubmit)="submit()" [formGroup]="form" class="overflow-hidden" fxFlexFill fxLayout="column">
-            <h3 class="title mb-2" fxFlex="0 0 auto">
-                {{ 'Burn' | translate }}
-            </h3>
+<form (ngSubmit)="submit()" [formGroup]="form">
+    <h3 mat-dialog-title>
+        {{ 'Burn' | translate }}
+    </h3>
 
-            <div class="content mb-2 w-100 overflow-x-hidden overflow-y-auto" fxFlex="1 1 auto">
-                <div class="form__field mb-0">
-                    <label for="amount">
-                        {{ 'Amount' | translate }}
-                        <span class="color-red">*</span>
-                    </label>
-                    <input
-                        (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
-                        [class.invalid]="form.controls.amount.touched && form.controls.amount.invalid"
-                        [placeholder]="'1000000' | translate"
-                        appInputValidate="money"
-                        [decimalPoint]="data.assetInfo.decimal_point"
-                        autofocus
-                        class="form__field--input"
-                        formControlName="amount"
-                        id="amount"
-                        name="amount"
-                        type="text"
-                    />
-                    <div *ngIf="form.controls.amount.invalid && (form.controls.amount.touched ||
-                    form.controls.amount.dirty)" class="error">
-                        <div *ngIf="form.controls.amount.hasError('required')">
-                            {{ 'ERRORS.REQUIRED' | translate }}
-                        </div>
-                        <div
-                            *ngIf="form.controls.amount.hasError('insuficcientFunds')">
-                            {{ form.controls.amount.errors['insuficcientFunds'].errorText | translate }}
-                        </div>
-                        <div *ngIf="form.controls.amount.hasError('asset_not_found')">
-                            {{ 'ERRORS.ASSET_NOT_FOUND' | translate }}
-                        </div>
-                        <div
-                            *ngIf="form.controls.amount.hasError('greater_than_maximum_amount')">
-                            {{ 'ERRORS.MAX' | translate: { max: form.controls.amount.errors['greater_than_maximum_amount'].max } }}
-                        </div>
-                    </div>
+    <mat-dialog-content>
+        <div class="form__field mb-0">
+            <label for="amount">
+                {{ 'Amount' | translate }}
+                <span class="color-red">*</span>
+            </label>
+
+            <input
+                (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
+                [class.invalid]="form.controls.amount.touched && form.controls.amount.invalid"
+                [decimalPoint]="data.assetInfo.decimal_point"
+                [placeholder]="'1000000' | translate"
+                appInputValidate="money"
+                autofocus
+                class="form__field--input"
+                formControlName="amount"
+                id="amount"
+                name="amount"
+                type="text"
+            />
+
+            <div *ngIf="form.controls.amount.invalid && (form.controls.amount.touched || form.controls.amount.dirty)" class="error">
+                <div *ngIf="form.controls.amount.hasError('required')">
+                    {{ 'ERRORS.REQUIRED' | translate }}
+                </div>
+                <div *ngIf="form.controls.amount.hasError('insuficcientFunds')">
+                    {{ form.controls.amount.errors['insuficcientFunds'].errorText | translate }}
+                </div>
+                <div *ngIf="form.controls.amount.hasError('asset_not_found')">
+                    {{ 'ERRORS.ASSET_NOT_FOUND' | translate }}
+                </div>
+                <div *ngIf="form.controls.amount.hasError('greater_than_maximum_amount')">
+                    {{ 'ERRORS.MAX' | translate : { max: form.controls.amount.errors['greater_than_maximum_amount'].max } }}
                 </div>
             </div>
+        </div>
+    </mat-dialog-content>
 
-            <div class="controls w-100" fxFlex="0 0 auto" fxLayout="row nowrap" fxLayoutGap="1rem">
-                <button (click)="dialogRef.close(false)" class="outline big w-100" type="button">
-                    {{ 'Cancel' | translate }}
-                </button>
-                <button [disabled]="form.invalid" class="primary big w-100"
-                        type="submit">
-                    {{ 'Confirm' | translate }}
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
+    <mat-dialog-actions>
+        <div fxFlex="1 1 auto" fxLayout="row nowrap" fxLayoutGap="1rem">
+            <button mat-dialog-close class="outline big w-100" type="button">
+                {{ 'Cancel' | translate }}
+            </button>
+            <button [disabled]="form.invalid" class="primary big w-100" type="submit">
+                {{ 'Confirm' | translate }}
+            </button>
+        </div>
+    </mat-dialog-actions>
+</form>

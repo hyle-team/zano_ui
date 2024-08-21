@@ -34,12 +34,11 @@ export class WalletsService {
         private router: Router,
         private ngZone: NgZone,
         private _translateService: TranslateService,
-        private _modalService: ModalService,
+        private _modalService: ModalService
     ) {}
 
     addWallet(wallet: Wallet): void {
         const { wallet_id, staking } = wallet;
-
 
         if (staking) {
             const text = this._translateService.instant('STAKING.WALLET_STAKING_ON', { value: wallet.alias?.name ?? wallet.name });

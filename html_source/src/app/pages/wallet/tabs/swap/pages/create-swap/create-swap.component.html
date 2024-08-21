@@ -28,9 +28,8 @@
                     <div *ngIf="form.controls.sending.controls.amount.hasError('required')">
                         {{ 'ERRORS.REQUIRED' | translate }}
                     </div>
-                    <div
-                        *ngIf="form.controls.sending.hasError('greater_than_maximum_amount')">
-                        {{ 'ERRORS.MAX' | translate: { max: form.controls.sending.errors['greater_than_maximum_amount'].max } }}
+                    <div *ngIf="form.controls.sending.hasError('greater_than_maximum_amount')">
+                        {{ 'ERRORS.MAX' | translate : { max: form.controls.sending.errors['greater_than_maximum_amount'].max } }}
                     </div>
                     <div *ngIf="form.controls.sending.hasError('insuficcientFunds')">
                         {{ form.controls.sending.errors['insuficcientFunds'].errorText | translate }}
@@ -53,12 +52,7 @@
                     formControlName="asset_id"
                 >
                     <ng-template let-assetInfo="item" ng-label-tmp ng-option-tmp>
-                        <img
-                            [alt]="assetInfo.ticker"
-                            [src]="getSrcByAssetInfo(assetInfo)"
-                            height="15"
-                            width="15"
-                        />
+                        <img [alt]="assetInfo.ticker" [src]="getSrcByAssetInfo(assetInfo)" height="15" width="15" />
                         {{ assetInfo.full_name || '---' }}
                     </ng-template>
                 </ng-select>
@@ -67,8 +61,7 @@
         <!-- /Sending -->
 
         <div class="wrapper-reverse">
-            <button (click)="reverse()" [disabled]="currentWallet.isEmptyAssetsInfoWhitelist" class="revers"
-                    type="button">
+            <button (click)="reverse()" [disabled]="currentWallet.isEmptyAssetsInfoWhitelist" class="revers" type="button">
                 <mat-icon class="rotate-90" svgIcon="zano-swap"></mat-icon>
             </button>
         </div>
@@ -89,8 +82,9 @@
                     type="text"
                 />
                 <div
-                    *ngIf="isVisibleErrorByControl(form.controls.receiving.controls.amount) ||
-                    isVisibleErrorByForm(form.controls.receiving)"
+                    *ngIf="
+                        isVisibleErrorByControl(form.controls.receiving.controls.amount) || isVisibleErrorByForm(form.controls.receiving)
+                    "
                     class="error"
                 >
                     <div *ngIf="form.controls.receiving.controls.amount.hasError('required')">
@@ -99,9 +93,8 @@
                     <div *ngIf="form.controls.receiving.controls.amount.hasError('zero')">
                         {{ 'SEND.FORM_ERRORS.AMOUNT_ZERO' | translate }}
                     </div>
-                    <div
-                        *ngIf="form.controls.receiving.hasError('greater_than_maximum_amount')">
-                        {{ 'ERRORS.MAX' | translate: { max: form.controls.receiving.errors['greater_than_maximum_amount'].max } }}
+                    <div *ngIf="form.controls.receiving.hasError('greater_than_maximum_amount')">
+                        {{ 'ERRORS.MAX' | translate : { max: form.controls.receiving.errors['greater_than_maximum_amount'].max } }}
                     </div>
                     <div *ngIf="form.controls.receiving.hasError('assetHasNotBeenAddedToWallet')">
                         {{ form.controls.receiving.errors['assetHasNotBeenAddedToWallet'].errorText | translate }}
@@ -120,12 +113,7 @@
                     formControlName="asset_id"
                 >
                     <ng-template let-assetInfo="item" ng-label-tmp ng-option-tmp>
-                        <img
-                            [alt]="assetInfo.ticker"
-                            [src]="getSrcByAssetInfo(assetInfo)"
-                            height="15"
-                            width="15"
-                        />
+                        <img [alt]="assetInfo.ticker" [src]="getSrcByAssetInfo(assetInfo)" height="15" width="15" />
                         {{ assetInfo.full_name || '---' }}
                     </ng-template>
                 </ng-select>
@@ -148,9 +136,13 @@
 
         <!-- Receiving Address -->
         <div
-            *ngIf="{ items: addressItems$ | async, loading: loadingAddressItems$ | async,
-            lowerCaseDisabled: lowerCaseDisabled$ | async }
-             as vm" class="form__field">
+            *ngIf="{
+                items: addressItems$ | async,
+                loading: loadingAddressItems$ | async,
+                lowerCaseDisabled: lowerCaseDisabled$ | async
+            } as vm"
+            class="form__field"
+        >
             <label for="address">
                 {{ 'CREATE_SWAP.FORM.LABELS.LABEL3' | translate }}
                 <span class="color-red">*</span>
@@ -169,28 +161,29 @@
                 matAutocompletePosition="below"
                 type="text"
                 id="address"
-            >
+            />
 
             <mat-autocomplete #auto="matAutocomplete" class="zano-autocomplete-panel">
                 <mat-option *ngIf="vm.loading" class="loading" disabled>
                     <zano-loader class="mx-auto" style="display: block; width: fit-content"></zano-loader>
                 </mat-option>
 
-                <mat-option *ngIf="form.controls.receiverAddress.value[0] === '@' && vm.items?.length === 0 &&
-                !vm.loading" disabled>
-                    <span class="pl-1">
-                        Not found aliases
-                    </span>
+                <mat-option *ngIf="form.controls.receiverAddress.value[0] === '@' && vm.items?.length === 0 && !vm.loading" disabled>
+                    <span class="pl-1"> Not found aliases </span>
                 </mat-option>
 
                 <ng-container *ngIf="!vm.loading">
                     <mat-option *ngFor="let item of vm.items; trackBy: trackByFn" [value]="item">
                         <!-- Alias -->
                         <ng-container *ngIf="item[0] === '@'; else itemAddressTemplate">
-                            <div [ngClass]="{
-                                'available': item.length >= 2 && item.length <= 6,
-                                'pl-1': item.length > 6
-                            }" class="alias">{{ item }}
+                            <div
+                                [ngClass]="{
+                                    available: item.length >= 2 && item.length <= 6,
+                                    'pl-1': item.length > 6
+                                }"
+                                class="alias"
+                            >
+                                {{ item }}
                             </div>
                         </ng-container>
                         <!-- Address -->
@@ -201,10 +194,7 @@
                 </ng-container>
             </mat-autocomplete>
 
-            <div
-                *ngIf="isVisibleErrorByControl(form.controls.receiverAddress)"
-                class="error"
-            >
+            <div *ngIf="isVisibleErrorByControl(form.controls.receiverAddress)" class="error">
                 {{ errorMessages['receiverAddress'] | translate }}
             </div>
 
@@ -216,12 +206,10 @@
 
         <div class="actions">
             <button [disabled]="form.invalid || (loading$ | async)" class="btn primary big w-100" type="submit">
-                <ng-container *ngIf="!(loading$ | async)">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON1' | translate }}
-                </ng-container>
+                <ng-container *ngIf="!(loading$ | async)">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON1' | translate }} </ng-container>
                 <zano-loader *ngIf="loading$ | async" [type]="'circle'"></zano-loader>
             </button>
-            <a class="btn outline big w-100"
-               routerLink="/wallet/swap">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON2' | translate }}</a>
+            <a class="btn outline big w-100" routerLink="/wallet/swap">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON2' | translate }}</a>
         </div>
 
         <div *ngIf="errorRpc" class="error mt-2">

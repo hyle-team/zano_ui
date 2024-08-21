@@ -6,7 +6,7 @@ app-synchronization-status {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    color: var(--white-500);
+    color: var(--synchronization-status-color);
     width: 100%;
 
     .status-container {
@@ -114,7 +114,6 @@ app-synchronization-status {
             font-size: 1.4rem;
             line-height: 1.4;
             font-weight: 400;
-            color: #FFFFFF;
             word-break: break-all;
 
             i {

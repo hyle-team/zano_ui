@@ -697,7 +697,7 @@
             "TITLE": "Verrouiller l'application après :"
         },
         "APP_LOG_TITLE": "Niveau de log :",
-        "DARK_THEME": "Thème sombre",
+        "DARK_THEME": "Dark theme",
         "FORM": {
             "ZANO_COMPANION": {
                 "LABELS": {
@@ -743,8 +743,7 @@
         "SETTINGS_SAVED": "Enregistré! Paramètres mis à jour",
         "SHOW_BALANCE": "Show balance",
         "TITLE": "Paramètres",
-        "USE_TOR_TO_RELAY_TRANSACTIONS": "Utiliser TOR pour relayer les transactions",
-        "WHITE_THEME": "Thème blanc"
+        "USE_TOR_TO_RELAY_TRANSACTIONS": "Utiliser TOR pour relayer les transactions"
     },
     "SIDEBAR": {
         "ACCOUNT": {

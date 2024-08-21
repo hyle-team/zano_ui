@@ -16,8 +16,7 @@ import { takeUntil } from 'rxjs/operators';
         <div class="chart-wrap" fxFlexFill fxLayout="column">
             <div class="scrolled-content h-100" fxFlex="1 1 auto" fxLayout="column">
                 <div class="chart-header mb-1" fxFlex="0 0 auto" fxLayout="column">
-                    <div class="row" fxFlex="0 0 auto" fxLayout="row nowrap" fxLayoutAlign="space-between start"
-                         fxLayoutGap="1rem">
+                    <div class="row" fxFlex="0 0 auto" fxLayout="row nowrap" fxLayoutAlign="space-between start" fxLayoutGap="1rem">
                         <div
                             class="left"
                             fxFlex="1 1 calc(50% - 0.5rem)"
@@ -81,10 +80,8 @@ import { takeUntil } from 'rxjs/operators';
                                 </div>
                             </div>
                         </div>
-                        <div class="right" fxFlex="1 1 calc(50% - 0.5rem)" fxLayout="row" fxLayoutAlign="end center"
-                             fxLayoutGap="1rem">
-                            <div *ngIf="selectedDate && selectedDate.date" class="selected overflow-hidden" fxHide
-                                 fxShow.lg fxShow.xl>
+                        <div class="right" fxFlex="1 1 calc(50% - 0.5rem)" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="1rem">
+                            <div *ngIf="selectedDate && selectedDate.date" class="selected overflow-hidden" fxHide fxShow.lg fxShow.xl>
                                 <div class="overflow-hidden" fxLayout="row">
                                     <div class="text-ellipsis">
                                         {{ selectedDate.date | date : 'EEEE, MMMM d, y' }}
@@ -452,97 +449,99 @@ export class StakingComponent implements OnInit, OnDestroy {
                 this.ngZone.run(() => {
                     this.drawChart([]);
                     this.themeChangesSubscription?.unsubscribe();
-                    this.themeChangesSubscription = combineLatest([this.chart.ref$, this.variablesService.isDarkTheme$]).pipe(takeUntil(this.destroy$)).subscribe({
-                        next: ([ref, isDarkTheme]) => {
-                            let option: Highcharts.Options = {};
-                            if (isDarkTheme) {
-                                option = {
-                                    ...option,
-                                    plotOptions: {
-                                        area: {
-                                            fillColor: {
-                                                linearGradient: {
-                                                    x1: 0,
-                                                    y1: 0,
-                                                    x2: 0,
-                                                    y2: 1,
+                    this.themeChangesSubscription = combineLatest([this.chart.ref$, this.variablesService.isDarkTheme$])
+                        .pipe(takeUntil(this.destroy$))
+                        .subscribe({
+                            next: ([ref, isDarkTheme]) => {
+                                let option: Highcharts.Options = {};
+                                if (isDarkTheme) {
+                                    option = {
+                                        ...option,
+                                        plotOptions: {
+                                            area: {
+                                                fillColor: {
+                                                    linearGradient: {
+                                                        x1: 0,
+                                                        y1: 0,
+                                                        x2: 0,
+                                                        y2: 1,
+                                                    },
+                                                    stops: [
+                                                        [0, 'rgba(124,181,236,0.2)'],
+                                                        [1, 'rgba(124,181,236,0)'],
+                                                    ],
                                                 },
-                                                stops: [
-                                                    [0, 'rgba(124,181,236,0.2)'],
-                                                    [1, 'rgba(124,181,236,0)'],
-                                                ],
-                                            },
-                                            marker: {
-                                                enabled: false,
-                                                radius: 2,
-                                            },
-                                            lineWidth: 2,
-                                            threshold: null,
-                                        },
-                                    },
-                                    yAxis: {
-                                        gridLineColor: '#2b3644',
-                                        lineColor: '#2b3644',
-                                        tickColor: '#2b3644',
-                                        labels: {
-                                            style: {
-                                                color: '#e0e0e0',
+                                                marker: {
+                                                    enabled: false,
+                                                    radius: 2,
+                                                },
+                                                lineWidth: 2,
+                                                threshold: null,
                                             },
                                         },
-                                    },
+                                        yAxis: {
+                                            gridLineColor: '#2b3644',
+                                            lineColor: '#2b3644',
+                                            tickColor: '#2b3644',
+                                            labels: {
+                                                style: {
+                                                    color: '#e0e0e0',
+                                                },
+                                            },
+                                        },
 
-                                    xAxis: {
-                                        gridLineColor: '#2b3644',
-                                        lineColor: '#2b3644',
-                                        tickColor: '#2b3644',
-                                        labels: {
-                                            style: {
-                                                color: '#e0e0e0',
+                                        xAxis: {
+                                            gridLineColor: '#2b3644',
+                                            lineColor: '#2b3644',
+                                            tickColor: '#2b3644',
+                                            labels: {
+                                                style: {
+                                                    color: '#e0e0e0',
+                                                },
                                             },
                                         },
-                                    },
-                                };
-                            } else {
-                                option = {
-                                    ...option,
-                                    plotOptions: {
-                                        area: {
-                                            color: '#1F8FEB',
-                                            marker: {
-                                                enabled: false,
-                                                radius: 2,
-                                            },
-                                            lineWidth: 2,
-                                            threshold: null,
-                                        },
-                                    },
-                                    yAxis: {
-                                        gridLineColor: '#1F8FEB20',
-                                        lineColor: '#1F8FEB20',
-                                        tickColor: '#1F8FEB20',
-                                        labels: {
-                                            style: {
-                                                color: '#0C0C3A',
+                                    };
+                                } else {
+                                    option = {
+                                        ...option,
+                                        plotOptions: {
+                                            area: {
+                                                color: '#1F8FEB',
+                                                marker: {
+                                                    enabled: false,
+                                                    radius: 2,
+                                                },
+                                                lineWidth: 2,
+                                                threshold: null,
                                             },
                                         },
-                                    },
+                                        yAxis: {
+                                            gridLineColor: '#1F8FEB20',
+                                            lineColor: '#1F8FEB20',
+                                            tickColor: '#1F8FEB20',
+                                            labels: {
+                                                style: {
+                                                    color: '#0C0C3A',
+                                                },
+                                            },
+                                        },
 
-                                    xAxis: {
-                                        gridLineColor: '#1F8FEB20',
-                                        lineColor: '#1F8FEB20',
-                                        tickColor: '#1F8FEB20',
-                                        labels: {
-                                            style: {
-                                                color: '#0C0C3A',
+                                        xAxis: {
+                                            gridLineColor: '#1F8FEB20',
+                                            lineColor: '#1F8FEB20',
+                                            tickColor: '#1F8FEB20',
+                                            labels: {
+                                                style: {
+                                                    color: '#0C0C3A',
+                                                },
                                             },
                                         },
-                                    },
-                                };
-                            }
+                                    };
+                                }
 
-                            ref.update(option, true);
-                        }
-                    });
+                                ref.update(option, true);
+                            },
+                        });
                 });
             });
         }

@@ -83,7 +83,8 @@ button,
             border-radius: 50%;
         }
 
-        .row-options {}
+        .row-options {
+        }
 
         &:hover {
             background-color: var(--btn-icon-hover-background);
@@ -114,7 +115,7 @@ button,
 
         &.btn-icon {
             &.row-options {
-                color: #1F8FEB;
+                color: #1f8feb;
             }
         }
     }

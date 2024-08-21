@@ -141,11 +141,7 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                             </ng-container>
 
                             <ng-template #seedPhraseContent>
-                                <div
-                                    class="seed-phrase form__card pb-2"
-                                    fxFlex="0 0 auto"
-                                    fxLayout="column"
-                                >
+                                <div class="seed-phrase form__card pb-2" fxFlex="0 0 auto" fxLayout="column">
                                     <div class="header mb-2" fxFlex="0 0 auto" fxLayout="row" fxLayoutAlign="space-between center">
                                         <div class="left">
                                             <span>{{ 'WALLET_DETAILS.LABEL_SEED_PHRASE' | translate }}</span>

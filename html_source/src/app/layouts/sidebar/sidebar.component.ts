@@ -97,7 +97,9 @@ import { BackendService } from '@api/services/backend.service';
 })
 export class SidebarComponent implements OnDestroy {
     get zanoLogo(): string {
-        const { settings: { isDarkTheme } } = this.variablesService;
+        const {
+            settings: { isDarkTheme },
+        } = this.variablesService;
         return isDarkTheme ? 'assets/icons/blue/zano-logo.svg' : 'assets/icons/blue/light-zano-logo.svg';
     }
 

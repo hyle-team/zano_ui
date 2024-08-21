@@ -6,20 +6,20 @@ import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { VariablesService } from '@parts/services/variables.service';
 import { ZanoValidators } from '@parts/utils/zano-validators';
-import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { ProposalDetails } from '@api/models/swap.model';
+import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-swap-confirm-master-password',
     standalone: true,
-    imports: [CommonModule, FlexModule, ReactiveFormsModule, TranslateModule, IntToMoneyPipeModule, GetAssetInfoPipe],
+    imports: [CommonModule, FlexModule, ReactiveFormsModule, TranslateModule, IntToMoneyPipeModule, GetAssetInfoPipe, MatDialogModule],
     templateUrl: './swap-confirm-master-password.component.html',
     styleUrls: ['./swap-confirm-master-password.component.scss'],
 })
 export class SwapConfirmMasterPasswordComponent {
-    variablesService = inject(VariablesService);
+    variablesService: VariablesService = inject(VariablesService);
 
-    fb = inject(NonNullableFormBuilder);
+    fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
 
     confirmForm = this.fb.group(
         {
@@ -29,7 +29,5 @@ export class SwapConfirmMasterPasswordComponent {
         { validators: [ZanoValidators.formMatch('password', 'appPass', 'passwordNotMatch')] }
     );
 
-    data: { proposalDetails: ProposalDetails } = inject(DIALOG_DATA);
-
-    dialogRef = inject(DialogRef);
+    data: { proposalDetails: ProposalDetails } = inject(MAT_DIALOG_DATA);
 }

@@ -4,13 +4,11 @@ import { Wallet } from '@api/models/wallet.model';
 import { AmountItems, getAmountItems } from '@parts/functions/get-amount-items';
 
 @Pipe({
-  name: 'getAmountItems',
-  standalone: true
+    name: 'getAmountItems',
+    standalone: true,
 })
 export class GetAmountItemsPipe implements PipeTransform {
-
-  transform(transaction: Transaction, wallet: Wallet): AmountItems {
-    return getAmountItems(transaction, wallet);
-  }
-
+    transform(transaction: Transaction, wallet: Wallet): AmountItems {
+        return getAmountItems(transaction, wallet);
+    }
 }

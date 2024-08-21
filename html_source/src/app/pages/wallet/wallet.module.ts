@@ -28,7 +28,6 @@ import { ReceiveComponent } from './tabs/receive/receive.component';
 import { DialogModule } from '@angular/cdk/dialog';
 import { SendComponent } from './tabs/send/send.component';
 import { ExportImportComponent } from '../export-import/export-import.component';
-import { AssetDetailsModule } from '@parts/modals/asset-details/asset-details.module';
 import { CheckboxComponent } from '@parts/components/checkbox.component';
 import { CopyButtonComponent } from '@parts/components/copy-button.component';
 import { StakingSwitchComponent } from '@parts/components/staking-switch.component';
@@ -55,6 +54,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { LoaderComponent } from '@parts/components/loader.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { AssetDetailsComponent } from '@parts/modals/asset-details/asset-details.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
     declarations: [
@@ -102,7 +103,7 @@ import { MatIconModule } from '@angular/material/icon';
         HistoryTypeMessagesPipeModule,
         InputValidateModule,
         CheckboxComponent,
-        AssetDetailsModule,
+        AssetDetailsComponent,
         CopyButtonComponent,
         LowerCaseDirective,
         BreadcrumbsComponent,
@@ -118,6 +119,7 @@ import { MatIconModule } from '@angular/material/icon';
         LoaderComponent,
         MatInputModule,
         MatIconModule,
+        MatDialogModule,
     ],
 })
 export class WalletModule {}

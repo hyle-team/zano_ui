@@ -53,8 +53,15 @@ import { MatIconModule } from '@angular/material/icon';
                     </div>
 
                     <p class="blocks">
-                        <mat-icon svgIcon="zano-block-sync" class="mr-0_5" style="width: 0.8rem; height: 0.8rem; color: var(--block-sync)"></mat-icon>
-                        <span>{{ variablesService.sync.blocks.current }}</span><wbr>/{{ variablesService.sync.blocks.max }} Blocks</p>
+                        <mat-icon
+                            class="mr-0_5"
+                            style="width: 14px; height: 14px; color: var(--block-sync)"
+                            svgIcon="zano-block-sync"
+                        ></mat-icon>
+                        <span>{{ variablesService.sync.blocks.current }}</span>
+                        <wbr />
+                        /{{ variablesService.sync.blocks.max }} Blocks
+                    </p>
                 </ng-container>
 
                 <ng-container *ngIf="variablesService.daemon_state === 6">
@@ -77,8 +84,7 @@ import { MatIconModule } from '@angular/material/icon';
             >
                 <ng-container *ngIf="variablesService.last_build_displaymode === 2">
                     <div class="update-text standard">
-                        <span (click)="getUpdate()"
-                              [style.cursor]="'pointer'">{{ 'SIDEBAR.UPDATE.STANDARD' | translate }}</span>
+                        <span (click)="getUpdate()" [style.cursor]="'pointer'">{{ 'SIDEBAR.UPDATE.STANDARD' | translate }}</span>
                     </div>
                     <i
                         [delay]="500"
@@ -91,8 +97,7 @@ import { MatIconModule } from '@angular/material/icon';
 
                 <ng-container *ngIf="variablesService.last_build_displaymode === 3">
                     <div class="update-text important">
-                        <span (click)="getUpdate()"
-                              [style.cursor]="'pointer'">{{ 'SIDEBAR.UPDATE.IMPORTANT' | translate }}</span>
+                        <span (click)="getUpdate()" [style.cursor]="'pointer'">{{ 'SIDEBAR.UPDATE.IMPORTANT' | translate }}</span>
                         <span style="font-size: 1rem">{{ 'SIDEBAR.UPDATE.IMPORTANT_HINT' | translate }}</span>
                     </div>
                     <i
@@ -106,8 +111,7 @@ import { MatIconModule } from '@angular/material/icon';
 
                 <ng-container *ngIf="variablesService.last_build_displaymode === 4">
                     <div class="update-text critical">
-                        <span (click)="getUpdate()"
-                              [style.cursor]="'pointer'">{{ 'SIDEBAR.UPDATE.CRITICAL' | translate }}</span>
+                        <span (click)="getUpdate()" [style.cursor]="'pointer'">{{ 'SIDEBAR.UPDATE.CRITICAL' | translate }}</span>
                         <span style="font-size: 1rem">{{ 'SIDEBAR.UPDATE.IMPORTANT_HINT' | translate }}</span>
                     </div>
                     <i
@@ -120,8 +124,7 @@ import { MatIconModule } from '@angular/material/icon';
                 </ng-container>
             </div>
 
-            <div *ngIf="variablesService.daemon_state === 2 && variablesService.net_time_delta_median !== 0"
-                 class="update-container">
+            <div *ngIf="variablesService.daemon_state === 2 && variablesService.net_time_delta_median !== 0" class="update-container">
                 <div class="update-text time-orange">
                     <span>{{ 'SIDEBAR.UPDATE.TIME' | translate }}</span>
                 </div>

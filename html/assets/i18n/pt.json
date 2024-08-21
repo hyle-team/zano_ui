@@ -697,7 +697,7 @@
             "TITLE": "Bloquear aplicação após:"
         },
         "APP_LOG_TITLE": "Nível de registro:",
-        "DARK_THEME": "Tema escuro",
+        "DARK_THEME": "Dark theme",
         "FORM": {
             "ZANO_COMPANION": {
                 "LABELS": {
@@ -743,8 +743,7 @@
         "SETTINGS_SAVED": "Salvo! Configurações atualizadas",
         "SHOW_BALANCE": "Show balance",
         "TITLE": "Definições",
-        "USE_TOR_TO_RELAY_TRANSACTIONS": "Use TOR para retransmitir transações",
-        "WHITE_THEME": "Tema branco"
+        "USE_TOR_TO_RELAY_TRANSACTIONS": "Use TOR para retransmitir transações"
     },
     "SIDEBAR": {
         "ACCOUNT": {

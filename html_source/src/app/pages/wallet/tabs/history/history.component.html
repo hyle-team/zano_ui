@@ -34,7 +34,7 @@
 
                         <!-- Amount -->
                         <td>
-                            <ng-container *ngFor="let item of (transaction | getAmountItems: currentWallet)">
+                            <ng-container *ngFor="let item of transaction | getAmountItems : currentWallet">
                                 <div class="cell-amount" *appVisibilityBalance>
                                     <div class="amount">{{ item.amount }}</div>
                                     <span class="ticker">{{ item.ticker }}</span>
@@ -46,7 +46,6 @@
                         <td>
                             <div class="cell-fee" *ngIf="transaction | isVisibleFee">
                                 <ng-container *ngIf="transaction?.subtransfers?.length">
-
                                     <ng-container *ngIf="transaction.fee; else noFeeTemplate">
                                         <mat-icon svgIcon="zano-fire" class="mr-1" style="opacity: 50"></mat-icon>
 
@@ -140,7 +139,7 @@
                     </tr>
 
                     <tr
-                        *ngIf="(transaction.tx_hash === opened_transaction_details) as state"
+                        *ngIf="transaction.tx_hash === opened_transaction_details as state"
                         [@expandOnEnter]="{ value: state, params: { duration: 150 } }"
                         [@collapseOnLeave]="{
                             value: state,

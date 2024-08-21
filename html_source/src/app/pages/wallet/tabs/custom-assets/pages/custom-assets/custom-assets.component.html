@@ -1,79 +1,79 @@
-<div [ngClass]="{ 'center': !assets.length }" class="container">
+<div [ngClass]="{ center: !assets.length }" class="container">
     <ng-container *ngIf="assets.length; else emptyTemplate">
         <div class="scrolled-content mb-2" fxFlex="1 1 auto">
             <table class="zano-table">
                 <thead>
-                <tr>
-                    <th>
-                        <div class="bg title">
-                            {{ 'CUSTOM_ASSETS.TABLE.LABELS.LABEL1' | translate }}
-                        </div>
-                    </th>
-                    <th>
-                        <div class="bg title">
-                            {{ 'CUSTOM_ASSETS.TABLE.LABELS.LABEL2' | translate }}
-                        </div>
-                    </th>
-                    <th>
-                        <div class="bg title">
-                            {{ 'CUSTOM_ASSETS.TABLE.LABELS.LABEL3' | translate }}
-                        </div>
-                    </th>
-                    <th>
-                        <div class="bg title">
-                            {{ 'CUSTOM_ASSETS.TABLE.LABELS.LABEL4' | translate }}
-                        </div>
-                    </th>
-                    <th>
-                        <div class="bg title">
-                            {{ 'CUSTOM_ASSETS.TABLE.LABELS.LABEL5' | translate }}
-                        </div>
-                    </th>
-                    <th>
-                        <div class="bg title">
-                            {{ 'CUSTOM_ASSETS.TABLE.LABELS.LABEL6' | translate }}
-                        </div>
-                    </th>
-                    <th>
-                        <div class="bg title">&nbsp;</div>
-                    </th>
-                </tr>
-                <div class="row-divider"></div>
+                    <tr>
+                        <th>
+                            <div class="bg title">
+                                {{ 'CUSTOM_ASSETS.TABLE.LABELS.LABEL1' | translate }}
+                            </div>
+                        </th>
+                        <th>
+                            <div class="bg title">
+                                {{ 'CUSTOM_ASSETS.TABLE.LABELS.LABEL2' | translate }}
+                            </div>
+                        </th>
+                        <th>
+                            <div class="bg title">
+                                {{ 'CUSTOM_ASSETS.TABLE.LABELS.LABEL3' | translate }}
+                            </div>
+                        </th>
+                        <th>
+                            <div class="bg title">
+                                {{ 'CUSTOM_ASSETS.TABLE.LABELS.LABEL4' | translate }}
+                            </div>
+                        </th>
+                        <th>
+                            <div class="bg title">
+                                {{ 'CUSTOM_ASSETS.TABLE.LABELS.LABEL5' | translate }}
+                            </div>
+                        </th>
+                        <th>
+                            <div class="bg title">
+                                {{ 'CUSTOM_ASSETS.TABLE.LABELS.LABEL6' | translate }}
+                            </div>
+                        </th>
+                        <th>
+                            <div class="bg title">&nbsp;</div>
+                        </th>
+                    </tr>
+                    <div class="row-divider"></div>
                 </thead>
                 <tbody>
-                <ng-container *ngFor="let asset of assets |
-                    paginate :
-                    paginateArgs; trackBy:
-                    trackByAssets">
-                    <tr>
-                        <td (contextmenu)="variablesService.onContextMenuOnlyCopy($event, asset.asset_id)">{{ asset.asset_id | zanoShortString }}</td>
-                        <td>{{ asset.ticker }}</td>
-                        <td>{{ asset.full_name }}</td>
-                        <td>{{ asset.total_max_supply | intToMoney: asset.decimal_point }}</td>
-                        <td>{{ asset.current_supply | intToMoney: asset.decimal_point }}</td>
-                        <td>{{ asset.decimal_point }}</td>
-                        <td>
-                            <div fxLayout="row" fxLayoutAlign="end center">
-                                <button
-                                    #trigger="cdkOverlayOrigin"
-                                    (click)="$event.stopPropagation(); toggleDropDownMenu(trigger, asset)"
-                                    [disabled]="false"
-                                    cdkOverlayOrigin
-                                    class="btn-icon circle row-options small ml-auto"
-                                    type="button"
-                                >
-                                    <mat-icon class="small" svgIcon="zano-row-options"></mat-icon>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr class="row-divider"></tr>
-                </ng-container>
+                    <ng-container *ngFor="let asset of assets | paginate : paginateArgs; trackBy: trackByAssets">
+                        <tr>
+                            <td (contextmenu)="variablesService.onContextMenuOnlyCopy($event, asset.asset_id)">
+                                {{ asset.asset_id | zanoShortString }}
+                            </td>
+                            <td>{{ asset.ticker }}</td>
+                            <td>{{ asset.full_name }}</td>
+                            <td>{{ asset.total_max_supply | intToMoney : asset.decimal_point }}</td>
+                            <td>{{ asset.current_supply | intToMoney : asset.decimal_point }}</td>
+                            <td>{{ asset.decimal_point }}</td>
+                            <td>
+                                <div fxLayout="row" fxLayoutAlign="end center">
+                                    <button
+                                        #trigger="cdkOverlayOrigin"
+                                        (click)="$event.stopPropagation(); toggleDropDownMenu(trigger, asset)"
+                                        [disabled]="false"
+                                        cdkOverlayOrigin
+                                        class="btn-icon circle row-options small ml-auto"
+                                        type="button"
+                                    >
+                                        <mat-icon class="small" svgIcon="zano-row-options"></mat-icon>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="row-divider"></tr>
+                    </ng-container>
                 </tbody>
             </table>
 
-            <a class="btn create-new-asset primary big"
-               routerLink="/wallet/create-new-asset">{{ 'CUSTOM_ASSETS.BUTTONS.BUTTON1' | translate }}</a>
+            <a class="btn create-new-asset primary big" routerLink="/wallet/create-new-asset">{{
+                'CUSTOM_ASSETS.BUTTONS.BUTTON1' | translate
+            }}</a>
         </div>
 
         <pagination-template
@@ -83,13 +83,11 @@
             [id]="paginationId"
             class="ngx-pagination custom-pagination"
         >
-            <button (click)="p.previous()" [disabled]="p.isFirstPage()"
-                    class="pagination-previous btn-icon circle small mr-0_5">
+            <button (click)="p.previous()" [disabled]="p.isFirstPage()" class="pagination-previous btn-icon circle small mr-0_5">
                 <mat-icon svgIcon="zano-arrow-left"></mat-icon>
             </button>
 
-            <div *ngFor="let page of p.pages; trackBy: trackByPages" [class.current]="p.getCurrent() === page.value"
-                 class="mr-0_5">
+            <div *ngFor="let page of p.pages; trackBy: trackByPages" [class.current]="p.getCurrent() === page.value" class="mr-0_5">
                 <a (click)="p.setCurrent(page.value)" *ngIf="p.getCurrent() !== page.value">
                     <span>{{ page.label }}</span>
                 </a>
@@ -106,8 +104,9 @@
 
     <ng-template #emptyTemplate>
         <p class="mb-2">{{ 'CUSTOM_ASSETS.TEXT.EMPTY' | translate }}</p>
-        <a class="btn create-new-asset primary big"
-           routerLink="/wallet/create-new-asset">{{ 'CUSTOM_ASSETS.BUTTONS.BUTTON1' | translate }}</a>
+        <a class="btn create-new-asset primary big" routerLink="/wallet/create-new-asset">{{
+            'CUSTOM_ASSETS.BUTTONS.BUTTON1' | translate
+        }}</a>
     </ng-template>
 </div>
 
@@ -122,7 +121,7 @@
 >
     <ul (click)="closeDropDownMenu()" class="list">
         <li class="item">
-            <button (click)="assetDetails()" class="w-100 px-2 py-1" type="button">
+            <button (click)="openDialog('assetDetails')" class="w-100 px-2 py-1" type="button">
                 <mat-icon svgIcon="zano-info-v2" class="mr-1"></mat-icon>
                 <span>{{ 'CUSTOM_ASSETS.DROP_MENU.LABELS.LABEL1' | translate }}</span>
             </button>

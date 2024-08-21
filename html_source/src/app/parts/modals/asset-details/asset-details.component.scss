@@ -1,15 +1,9 @@
-:host {
-    max-width: 54rem;
-    width: 100vw;
-    display: block;
-}
-
 .asset-details-wrapper {
     padding: 2rem;
     border-radius: 0.8rem;
-    background: var(--dialog-background);
-    width: 100%;
     max-height: 90vh;
+
+    background: var(--dialog-background);
 }
 
 table {
@@ -29,14 +23,12 @@ table {
     }
 }
 
-
 .light {
     :host {
         table {
-
             tr {
                 td:nth-child(1) {
-                    background: #F0F6FB;
+                    background: #f0f6fb;
                 }
             }
         }
@@ -46,7 +38,6 @@ table {
 .dark {
     :host {
         table {
-
             tr {
                 td:nth-child(1) {
                     background: var(--blue-500);
@@ -55,5 +46,3 @@ table {
         }
     }
 }
-
-

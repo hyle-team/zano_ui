@@ -23,7 +23,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     fb = inject(FormBuilder);
 
     get zanoLogo(): string {
-        const { settings: { isDarkTheme } } = this.variablesService;
+        const {
+            settings: { isDarkTheme },
+        } = this.variablesService;
         return isDarkTheme ? 'assets/icons/blue/zano-logo.svg' : 'assets/icons/blue/light-zano-logo.svg';
     }
 
