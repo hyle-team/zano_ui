@@ -15,8 +15,7 @@ import { BackendService } from '@api/services/backend.service';
     selector: 'app-sidebar',
     template: `
         <div class="sidebar-header mb-2">
-            <!--TODO: Remove after added light theme-->
-            <div class="logo" (click)="toggleDarkTheme()">
+            <div class="logo">
                 <img alt="zano-logo" [src]="zanoLogo" />
             </div>
         </div>
