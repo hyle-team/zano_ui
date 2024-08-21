@@ -19,7 +19,8 @@
                     "NAME": "Nom de l'actif",
                     "OWNER": "Owner",
                     "TICKER": "Ticker"
-                }
+                },
+                "TITLE": "Asset Details"
             }
         },
         "TABLE": {

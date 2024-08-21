@@ -19,7 +19,8 @@
                     "NAME": "Asset name",
                     "OWNER": "Owner",
                     "TICKER": "Ticker"
-                }
+                },
+                "TITLE": "Asset Details"
             }
         },
         "TABLE": {

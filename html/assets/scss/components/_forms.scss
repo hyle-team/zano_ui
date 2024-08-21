@@ -298,7 +298,8 @@
             position: relative;
         }
 
-        & + label:before, & + label:after {
+        & + label:before,
+        & + label:after {
             content: '';
             position: absolute;
             top: 50%;
@@ -306,7 +307,7 @@
             transition: all 0.2s ease-in-out;
         }
 
-        & + label:before  {
+        & + label:before {
             left: 0;
             width: 2.4rem;
             height: 2.4rem;
@@ -330,7 +331,7 @@
                 height: 1.6rem;
                 border-radius: 0.2rem;
                 background: var(--checkbox-checked-background);
-             }
+            }
         }
 
         &:disabled {
@@ -413,8 +414,9 @@
     }
 }
 
-
-.XSmall, .Small, .Medium {
+.XSmall,
+.Small,
+.Medium {
     .form {
         &__field {
             &--row {

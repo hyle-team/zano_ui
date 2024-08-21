@@ -19,7 +19,8 @@
                     "NAME": "Nome risorsa",
                     "OWNER": "Owner",
                     "TICKER": "Ticker"
-                }
+                },
+                "TITLE": "Asset Details"
             }
         },
         "TABLE": {

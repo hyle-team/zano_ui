@@ -19,7 +19,8 @@
                     "NAME": "Nama aset",
                     "OWNER": "Owner",
                     "TICKER": "Tiker"
-                }
+                },
+                "TITLE": "Asset Details"
             }
         },
         "TABLE": {
