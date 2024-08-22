@@ -4,10 +4,12 @@ import { ConfirmModalComponent } from './confirm-modal.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialogModule } from '@angular/material/dialog';
+import { AutoFocusDirective } from '@parts/directives/autofocus.directive';
 
 @NgModule({
     declarations: [ConfirmModalComponent],
-    imports: [CommonModule, TranslateModule, FlexLayoutModule, MatIconModule],
+    imports: [CommonModule, TranslateModule, FlexLayoutModule, MatIconModule, MatDialogModule, AutoFocusDirective],
     exports: [ConfirmModalComponent],
 })
 export class ConfirmModalModule {}

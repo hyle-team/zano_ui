@@ -558,16 +558,16 @@ export class WalletComponent implements OnInit, OnDestroy {
     }
 
     close(wallet_id: number): void {
-        const dialogConfig: DialogConfig<ConfirmModalData> = {
+        const config: MatDialogConfig<ConfirmModalData> = {
             data: {
                 title: 'WALLET.CONFIRM.MESSAGE',
                 message: 'WALLET.CONFIRM.TITLE',
             },
         };
 
-        this.dialog
-            .open<boolean>(ConfirmModalComponent, dialogConfig)
-            .closed.pipe(filter(Boolean), takeUntil(this.destroy$))
+        this._matDialog
+            .open<ConfirmModalComponent, ConfirmModalData, boolean>(ConfirmModalComponent, config)
+            .afterClosed().pipe(filter(Boolean), takeUntil(this.destroy$))
             .subscribe({
                 next: () => {
                     this.walletsService.closeWallet(wallet_id);

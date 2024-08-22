@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 import { Dialog, DialogConfig } from '@angular/cdk/dialog';
 import { ConfirmModalComponent, ConfirmModalData } from '@parts/modals/confirm-modal/confirm-modal.component';
 import { MatIconModule } from '@angular/material/icon';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-swap-proposal-hex',
@@ -49,9 +50,9 @@ export class SwapProposalHexComponent implements OnInit, IDeactivateComponent {
         hex_raw_proposal: this.fb.control('', [Validators.required]),
     });
 
-    private backendService = inject(BackendService);
+    private readonly backendService: BackendService = inject(BackendService);
 
-    private dialog = inject(Dialog);
+    private readonly _matDialog: MatDialog = inject(MatDialog);
 
     ngOnInit(): void {
         this.setSwapProposalHexFromHistoryState();
@@ -68,7 +69,7 @@ export class SwapProposalHexComponent implements OnInit, IDeactivateComponent {
     }
 
     canExit(): Observable<boolean> | Promise<boolean> | boolean {
-        const dialogConfig: DialogConfig<ConfirmModalData> = {
+        const config: MatDialogConfig<ConfirmModalData> = {
             disableClose: true,
             data: {
                 title: 'SWAP_PROPOSAL_HEX.MODALS.CONFIRM_MODAL.TITLE',
@@ -79,8 +80,9 @@ export class SwapProposalHexComponent implements OnInit, IDeactivateComponent {
                 },
             },
         };
-        const dialogRef = this.dialog.open<boolean>(ConfirmModalComponent, dialogConfig);
-        return dialogRef.closed;
+        const dialogRef = this._matDialog
+            .open<ConfirmModalComponent, ConfirmModalData, boolean>(ConfirmModalComponent, config);
+        return dialogRef.afterClosed();
     }
 
     private setSwapProposalHexFromHistoryState(): void {

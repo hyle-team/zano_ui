@@ -301,15 +301,15 @@ export class AssetsComponent implements OnInit, OnDestroy {
             return;
         }
         const { full_name } = this.currentAsset.asset_info;
-        const dialogConfig: DialogConfig<ConfirmModalData> = {
+        const config: MatDialogConfig<ConfirmModalData> = {
             data: {
                 title: `Do you want delete "${full_name}"`,
             },
         };
 
-        this.dialog
-            .open<boolean>(ConfirmModalComponent, dialogConfig)
-            .closed.pipe(takeUntil(this.destroy$))
+        this._matDialog
+            .open<ConfirmModalComponent, ConfirmModalData, boolean>(ConfirmModalComponent, config)
+            .afterClosed().pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: confirmed => confirmed && this.removeAsset(),
             });

@@ -10,6 +10,7 @@ import { takeUntil } from 'rxjs/operators';
 import { WalletsService } from '@parts/services/wallets.service';
 import { ZanoLoadersService } from '@parts/services/zano-loaders.service';
 import { BackendService } from '@api/services/backend.service';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-sidebar',
@@ -110,7 +111,7 @@ export class SidebarComponent implements OnDestroy {
         private route: ActivatedRoute,
         private router: Router,
         private ngZone: NgZone,
-        private dialog: Dialog,
+        private _matDialog: MatDialog,
         private backend: BackendService,
         public zanoLoadersService: ZanoLoadersService
     ) {}
@@ -153,16 +154,16 @@ export class SidebarComponent implements OnDestroy {
     }
 
     beforeClose(wallet_id): void {
-        const dialogConfig: DialogConfig<ConfirmModalData> = {
+        const config: MatDialogConfig<ConfirmModalData> = {
             data: {
                 title: 'WALLET.CONFIRM.MESSAGE',
                 message: 'WALLET.CONFIRM.TITLE',
             },
         };
 
-        this.dialog
-            .open<boolean>(ConfirmModalComponent, dialogConfig)
-            .closed.pipe(takeUntil(this.destroy$))
+        this._matDialog
+            .open<ConfirmModalComponent, ConfirmModalData, boolean>(ConfirmModalComponent, config)
+            .afterClosed().pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: confirmed => confirmed && this.closeWallet(wallet_id),
             });
