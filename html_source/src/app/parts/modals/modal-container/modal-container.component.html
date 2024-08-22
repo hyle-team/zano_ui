@@ -1,0 +1,15 @@
+<mat-dialog-content>
+    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem">
+        <mat-icon style="width: 3rem; height: 3rem" [svgIcon]="'zano-system-modal-' + data.type"></mat-icon>
+        <div class="message-container">
+            <h3 class="title">{{ 'MODALS.' + data.type.toUpperCase() | translate }}</h3>
+            <p [innerHTML]="data.message | translate" class="message"></p>
+        </div>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="center">
+    <button class="primary max-w-19-rem w-100 big" mat-dialog-close type="button">
+        {{ 'MODALS.OK' | translate }}
+    </button>
+</mat-dialog-actions>

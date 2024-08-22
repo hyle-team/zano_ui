@@ -60,7 +60,6 @@ import { MatIconModule } from '@angular/material/icon';
         AssignAliasComponent,
         EditAliasComponent,
         TransferAliasComponent,
-        ModalContainerComponent,
     ],
     imports: [
         CommonModule,

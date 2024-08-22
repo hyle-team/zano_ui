@@ -40,10 +40,11 @@ export class WalletsService {
     addWallet(wallet: Wallet): void {
         const { wallet_id, staking } = wallet;
 
-        if (staking) {
-            const text = this._translateService.instant('STAKING.WALLET_STAKING_ON', { value: wallet.alias?.name ?? wallet.name });
-            this._modalService.prepareModal('info', text, { oneOverlay: true });
-        }
+        // TODO: Need added notification call after implementing on core
+        // if (staking) {
+        //     const text = this._translateService.instant('STAKING.WALLET_STAKING_ON', { value: wallet.alias?.name ?? wallet.name });
+        //     this._modalService.prepareModal('info', text);
+        // }
 
         this.variablesService.wallets.push(wallet);
         this.updateWalletInfo(wallet_id);

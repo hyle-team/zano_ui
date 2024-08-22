@@ -196,5 +196,19 @@
                 }
             }
         }
+
+        .progress-bar {
+            background-color: #0c0c3a1a;
+
+            .fill {
+                background-color: var(--aqua-500);
+            }
+        }
+
+        &.active .progress-bar {
+            .fill {
+                background-color: var(--white-500);
+            }
+        }
     }
 }
