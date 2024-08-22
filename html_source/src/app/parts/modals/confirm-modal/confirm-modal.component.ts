@@ -18,7 +18,7 @@ export interface ConfirmModalData {
 export class ConfirmModalComponent {
     data: ConfirmModalData = inject(MAT_DIALOG_DATA);
 
-    private readonly _dialogRef: MatDialogRef<ConfirmModalComponent> = inject(MatDialogRef);
+    private _dialogRef: MatDialogRef<ConfirmModalComponent> = inject(MatDialogRef);
 
     get title(): string {
         const { title } = this.data;

@@ -3,7 +3,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { VariablesService } from '@parts/services/variables.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Wallet } from '@api/models/wallet.model';
-import { Dialog, DialogConfig } from '@angular/cdk/dialog';
 import { ConfirmModalComponent, ConfirmModalData } from '@parts/modals/confirm-modal/confirm-modal.component';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -96,13 +95,6 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
     styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnDestroy {
-    get zanoLogo(): string {
-        const {
-            settings: { isDarkTheme },
-        } = this.variablesService;
-        return isDarkTheme ? 'assets/icons/blue/zano-logo.svg' : 'assets/icons/blue/light-zano-logo.svg';
-    }
-
     private destroy$ = new Subject<void>();
 
     constructor(
@@ -115,6 +107,13 @@ export class SidebarComponent implements OnDestroy {
         private backend: BackendService,
         public zanoLoadersService: ZanoLoadersService
     ) {}
+
+    get zanoLogo(): string {
+        const {
+            settings: { isDarkTheme },
+        } = this.variablesService;
+        return isDarkTheme ? 'assets/icons/blue/zano-logo.svg' : 'assets/icons/blue/light-zano-logo.svg';
+    }
 
     ngOnDestroy(): void {
         this.destroy$.next();
@@ -163,7 +162,8 @@ export class SidebarComponent implements OnDestroy {
 
         this._matDialog
             .open<ConfirmModalComponent, ConfirmModalData, boolean>(ConfirmModalComponent, config)
-            .afterClosed().pipe(takeUntil(this.destroy$))
+            .afterClosed()
+            .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: confirmed => confirmed && this.closeWallet(wallet_id),
             });
