@@ -546,6 +546,9 @@ body {
   text-overflow: ellipsis;
   border-radius: 0.8rem;
   font-size: 1.8rem;
+}button:not(:disabled),
+.btn:not(:disabled) {
+  cursor: pointer;
 }button:not(:disabled):hover,
 .btn:not(:disabled):hover {
   cursor: pointer;
@@ -943,20 +946,16 @@ body {
   align-items: center;
   background: var(--amount-btn-revers-background);
 }.XSmall .form__field--row,
-.Small .form__field--row,
-.Medium .form__field--row {
+.Small .form__field--row {
   flex-direction: column;
 }.XSmall .form__field--row > div,
-.Small .form__field--row > div,
-.Medium .form__field--row > div {
+.Small .form__field--row > div {
   max-width: 100%;
 }.XSmall .form__field--row > div:first-child,
-.Small .form__field--row > div:first-child,
-.Medium .form__field--row > div:first-child {
+.Small .form__field--row > div:first-child {
   margin-right: 0;
 }.XSmall .form__field--row > div:last-child,
-.Small .form__field--row > div:last-child,
-.Medium .form__field--row > div:last-child {
+.Small .form__field--row > div:last-child {
   margin-left: 0;
 }body .mat-icon {
   width: 1.8rem;
@@ -2179,6 +2178,12 @@ table.rounded-corners > tfoot:not(:last-child) {
   background-color: var(--white-500);
 }.light .wallet.active .header .close {
   color: #ffffff;
+}.light .wallet .progress-bar {
+  background-color: rgba(12, 12, 58, 0.1019607843);
+}.light .wallet .progress-bar .fill {
+  background-color: var(--aqua-500);
+}.light .wallet.active .progress-bar .fill {
+  background-color: var(--white-500);
 }app-send-details-modal .status .image,
 app-success-sweep-bare-outs .status .image,
 app-transaction-details-for-custom-assets .status .image {

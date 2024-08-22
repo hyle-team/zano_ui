@@ -13,6 +13,10 @@ button,
     border-radius: 0.8rem;
     font-size: 1.8rem;
 
+    &:not(:disabled) {
+        cursor: pointer;
+    }
+
     &:not(:disabled):hover {
         cursor: pointer;
     }
