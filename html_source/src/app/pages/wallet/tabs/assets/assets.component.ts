@@ -196,7 +196,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
                     "
                 >
                     <li class="item">
-                        <button routerLink="/wallet/send" [state]="{ assetInfo: currentAsset }" class="w-100 px-2 py-1">
+                        <button routerLink="/wallet/send" [state]="{ asset: currentAsset }" class="w-100 px-2 py-1">
                             <mat-icon svgIcon="zano-send" class="mr-1"></mat-icon>
                             <span>{{ 'Send' | translate }}</span>
                         </button>
@@ -204,7 +204,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
                     <ng-container *ngIf="variablesService.is_hardfok_active$ | async">
                         <li class="item">
-                            <button routerLink="/wallet/create-swap" [state]="{ assetInfo: currentAsset }" class="w-100 px-2 py-1">
+                            <button routerLink="/wallet/create-swap" [state]="{ asset: currentAsset }" class="w-100 px-2 py-1">
                                 <mat-icon svgIcon="zano-swap" class="mr-1"></mat-icon>
                                 <span>{{ 'Swap' | translate }}</span>
                             </button>

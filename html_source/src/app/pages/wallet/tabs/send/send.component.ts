@@ -1,4 +1,4 @@
-import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, NgZone, OnDestroy } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, NonNullableFormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
@@ -39,7 +39,7 @@ interface AmountInputParams {
         `,
     ],
 })
-export class SendComponent implements OnInit, OnDestroy {
+export class SendComponent implements OnDestroy {
     job_id: number;
 
     isSendModalState: boolean = false;
@@ -126,7 +126,7 @@ export class SendComponent implements OnInit, OnDestroy {
     private _openedWalletItems: string[] = this._walletsService.wallets.map(({ address, alias }) => alias?.name ?? address);
     private _aliasItems: string[] = this.variablesService.aliases.map(({ name }) => name);
 
-    ngOnInit(): void {
+    constructor() {
         this._getWrapInfo();
 
         this._createForm();
