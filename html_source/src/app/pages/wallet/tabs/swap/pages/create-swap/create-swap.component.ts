@@ -1,4 +1,4 @@
-import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, NgZone, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLinkWithHref } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -59,7 +59,7 @@ import { WalletsService } from '@parts/services/wallets.service';
     templateUrl: './create-swap.component.html',
     styleUrls: ['./create-swap.component.scss'],
 })
-export class CreateSwapComponent implements OnInit, OnDestroy {
+export class CreateSwapComponent implements OnDestroy {
     breadcrumbItems: BreadcrumbItems = [
         {
             routerLink: '/wallet/swap',
@@ -128,7 +128,7 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
 
     private _destroy$ = new Subject<void>();
 
-    ngOnInit(): void {
+    constructor() {
         this._createForm();
     }
 
@@ -550,9 +550,9 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
 
     private _setSendingAssetIdFromHistoryState(): void {
         const state = history.state || {};
-        const assetInfo: AssetInfo = state['assetInfo'];
-        if (assetInfo) {
-            const { asset_id } = assetInfo;
+        const history_asset: AssetBalance = state['asset'];
+        if (history_asset) {
+            const { asset_info: { asset_id } } = history_asset;
             this.form.patchValue({
                 sending: {
                     asset_id,
