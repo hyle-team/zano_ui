@@ -127,7 +127,6 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
                         </app-copy-button>
 
                         <div
-                            *ngIf="!variablesService.currentWallet.is_auditable"
                             class="controls"
                             fxFlex="0 0 auto"
                             fxLayout="row"
@@ -157,30 +156,32 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
                                     {{ variablesService.currentWallet.alias.name }}
                                 </div>
 
-                                <ng-container *ngIf="variablesService.currentWallet.alias_available">
-                                    <button
-                                        [delay]="500"
-                                        [routerLink]="['/edit-alias']"
-                                        [timeDelay]="500"
-                                        class="btn-icon circle small mr-1"
-                                        placement="bottom-right"
-                                        tooltip="{{ 'WALLET.TOOLTIPS.EDIT_ALIAS' | translate }}"
-                                        tooltipClass="table-tooltip account-tooltip"
-                                    >
-                                        <mat-icon svgIcon="zano-edit"></mat-icon>
-                                    </button>
+                                <ng-container *ngIf="!variablesService.currentWallet.is_auditable">
+                                    <ng-container *ngIf="variablesService.currentWallet.alias_available">
+                                        <button
+                                            [delay]="500"
+                                            [routerLink]="['/edit-alias']"
+                                            [timeDelay]="500"
+                                            class="btn-icon circle small mr-1"
+                                            placement="bottom-right"
+                                            tooltip="{{ 'WALLET.TOOLTIPS.EDIT_ALIAS' | translate }}"
+                                            tooltipClass="table-tooltip account-tooltip"
+                                        >
+                                            <mat-icon svgIcon="zano-edit"></mat-icon>
+                                        </button>
 
-                                    <button
-                                        [delay]="500"
-                                        [routerLink]="['/transfer-alias']"
-                                        [timeDelay]="500"
-                                        class="btn-icon circle small"
-                                        placement="right"
-                                        tooltip="{{ 'WALLET.TOOLTIPS.TRANSFER_ALIAS' | translate }}"
-                                        tooltipClass="table-tooltip account-tooltip"
-                                    >
-                                        <mat-icon svgIcon="zano-send"></mat-icon>
-                                    </button>
+                                        <button
+                                            [delay]="500"
+                                            [routerLink]="['/transfer-alias']"
+                                            [timeDelay]="500"
+                                            class="btn-icon circle small"
+                                            placement="right"
+                                            tooltip="{{ 'WALLET.TOOLTIPS.TRANSFER_ALIAS' | translate }}"
+                                            tooltipClass="table-tooltip account-tooltip"
+                                        >
+                                            <mat-icon svgIcon="zano-send"></mat-icon>
+                                        </button>
+                                    </ng-container>
                                 </ng-container>
                             </ng-container>
                         </div>
