@@ -116,7 +116,7 @@ type LoaderType = 'circle' | 'circle-2' | 'circle-3' | 'dots' | 'dots-2' | 'puls
                 height: 32px;
                 width: 32px;
                 clip: rect(0, 32px, 32px, 16px);
-                border: 3px solid #fff;
+                border: 3px solid currentColor;
                 border-radius: 50%;
                 -webkit-animation: loader-1-3 1.2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
                 animation: loader-1-3 1.2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
@@ -218,7 +218,7 @@ type LoaderType = 'circle' | 'circle-2' | 'circle-3' | 'dots' | 'dots-2' | 'puls
                 height: 32px;
                 width: 32px;
                 border: 3px solid transparent;
-                border-top: 3px solid #fff;
+                border-top: 3px solid currentColor;
                 border-radius: 50%;
                 -webkit-animation: loader-2-3 1.5s cubic-bezier(0.77, 0, 0.175, 1) infinite;
                 animation: loader-2-3 1.5s cubic-bezier(0.77, 0, 0.175, 1) infinite;
@@ -287,7 +287,7 @@ type LoaderType = 'circle' | 'circle-2' | 'circle-3' | 'dots' | 'dots-2' | 'puls
                 margin: auto;
                 height: 32px;
                 width: 32px;
-                border: 3px solid #fff;
+                border: 3px solid currentColor;
                 border-bottom: 3px solid transparent;
                 border-radius: 50%;
                 -webkit-animation: loader-3-1 1.5s cubic-bezier(0.77, 0, 0.175, 1) infinite;
@@ -334,7 +334,7 @@ type LoaderType = 'circle' | 'circle-2' | 'circle-3' | 'dots' | 'dots-2' | 'puls
                 margin: auto;
                 width: 6px;
                 height: 6px;
-                background: #fff;
+                background: currentColor;
                 border-radius: 50%;
                 -webkit-animation: loader-3-2 1.5s cubic-bezier(0.77, 0, 0.175, 1) infinite;
                 animation: loader-3-2 1.5s cubic-bezier(0.77, 0, 0.175, 1) infinite;
@@ -392,7 +392,7 @@ type LoaderType = 'circle' | 'circle-2' | 'circle-3' | 'dots' | 'dots-2' | 'puls
                 bottom: 0;
                 right: 0;
                 margin: auto;
-                background: #fff;
+                background: currentColor;
                 border-radius: 50%;
                 -webkit-animation: loader-4-1 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
                 animation: loader-4-1 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
@@ -478,7 +478,7 @@ type LoaderType = 'circle' | 'circle-2' | 'circle-3' | 'dots' | 'dots-2' | 'puls
                 margin: auto;
                 height: 12px;
                 width: 12px;
-                background: #fff;
+                background: currentColor;
                 border-radius: 50%;
                 -webkit-animation: loader-4-3 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
                 animation: loader-4-3 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
@@ -574,7 +574,7 @@ type LoaderType = 'circle' | 'circle-2' | 'circle-3' | 'dots' | 'dots-2' | 'puls
                 margin: auto;
                 width: 8px;
                 height: 8px;
-                background: #fff;
+                background: currentColor;
                 border-radius: 50%;
                 -webkit-animation: loader-5-2 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
                 animation: loader-5-2 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
@@ -615,7 +615,7 @@ type LoaderType = 'circle' | 'circle-2' | 'circle-3' | 'dots' | 'dots-2' | 'puls
                 margin: auto;
                 width: 8px;
                 height: 8px;
-                background: #fff;
+                background: currentColor;
                 border-radius: 50%;
                 -webkit-animation: loader-5-3 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
                 animation: loader-5-3 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
@@ -668,7 +668,7 @@ type LoaderType = 'circle' | 'circle-2' | 'circle-3' | 'dots' | 'dots-2' | 'puls
                 margin: auto;
                 width: 8px;
                 height: 8px;
-                background: #fff;
+                background: currentColor;
                 border-radius: 50%;
                 -webkit-animation: loader-5-4 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
                 animation: loader-5-4 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
@@ -709,7 +709,7 @@ type LoaderType = 'circle' | 'circle-2' | 'circle-3' | 'dots' | 'dots-2' | 'puls
                 margin: auto;
                 width: 8px;
                 height: 8px;
-                background: #fff;
+                background: currentColor;
                 border-radius: 50%;
                 -webkit-animation: loader-5-5 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
                 animation: loader-5-5 2s cubic-bezier(0.77, 0, 0.175, 1) infinite;
@@ -769,7 +769,7 @@ type LoaderType = 'circle' | 'circle-2' | 'circle-3' | 'dots' | 'dots-2' | 'puls
                 margin: auto;
                 height: 32px;
                 width: 32px;
-                border: 2px solid #fff;
+                border: 2px solid currentColor;
                 border-radius: 50%;
                 opacity: 0;
                 -webkit-animation: loader-6-1 1.5s cubic-bezier(0.075, 0.82, 0.165, 1) infinite;
