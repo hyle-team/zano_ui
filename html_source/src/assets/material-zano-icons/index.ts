@@ -37,6 +37,7 @@ export const materialZanoIcons = [
     'zano-system-modal-info',
     'zano-system-modal-success',
     'zano-staking',
+    'zano-secured',
     'zano-swap',
     'zano-update',
     'zano-wallet-settings',

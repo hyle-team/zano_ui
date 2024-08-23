@@ -139,6 +139,7 @@
 
     &.watch-only {
         color: var(--wallet-watch-only-text);
+
         &:after {
             content: '';
             display: block;
@@ -193,6 +194,14 @@
             .header {
                 .close {
                     color: #ffffff;
+                }
+            }
+
+            &.watch-only {
+                .header {
+                    .close {
+                        color: var(--wallet-watch-only-text);
+                    }
                 }
             }
         }
