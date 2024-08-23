@@ -110,6 +110,9 @@
                             <input
                                 class="form__field--input"
                                 formControlName="seedPassword"
+                                [ngClass]="{
+                                    'invalid': !seedPhraseInfo.hash_sum_matched
+                                }"
                                 id="seed-password"
                                 [placeholder]="'PLACEHOLDERS.SEED_PHRASE_PLACEHOLDER' | translate"
                                 type="password"

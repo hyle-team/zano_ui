@@ -138,8 +138,8 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
         this._backend.restoreWallet(this.selectedLocationWalletPath, password, key, seedPassword, (status, data) => {
             this._ngZone.run(() => {
                 if (status) {
-                    const { wallet_id, path, address, balance, unlocked_balance, mined_total, tracking_hey, is_auditable, is_watch_only } =
-                        data['wi'];
+                    const { wallet_id } = data;
+                    const { path, address, balance, unlocked_balance, mined_total, tracking_hey, is_auditable, is_watch_only } = data['wi'];
                     const wallet: Wallet = new Wallet(
                         wallet_id,
                         name,
