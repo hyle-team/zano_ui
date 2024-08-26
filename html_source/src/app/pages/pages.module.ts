@@ -47,6 +47,7 @@ import { AutoFocusDirective } from '@parts/directives/autofocus.directive';
 import { BreadcrumbsComponent } from '@parts/components/breadcrumbs/breadcrumbs.component';
 import { BackButtonComponent } from '@parts/components/back-button/back-button.component';
 import { MatIconModule } from '@angular/material/icon';
+import { IsVisibleControlErrorPipe } from '@parts/pipes/is-visible-control-error.pipe';
 
 @NgModule({
     declarations: [
@@ -99,6 +100,7 @@ import { MatIconModule } from '@angular/material/icon';
         BreadcrumbsComponent,
         BackButtonComponent,
         MatIconModule,
+        IsVisibleControlErrorPipe,
     ],
 })
 export class PagesModule {}

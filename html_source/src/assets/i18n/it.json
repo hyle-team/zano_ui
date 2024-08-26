@@ -631,6 +631,7 @@
             "MAX_LENGTH": "Lunghezza massima del nome raggiunta",
             "NAME_DUPLICATE": "Il nome è un duplicato",
             "NAME_REQUIRED": "Il nome è richiesto",
+            "PASSWORD_SEED_PHRASE_INCORRECT": "The password for this seed phrase is incorrect",
             "SEED_PHRASE_IS_NO_VALID": "The seed phrase is not valid."
         },
         "LABEL_NAME": "Nome del portafoglio",

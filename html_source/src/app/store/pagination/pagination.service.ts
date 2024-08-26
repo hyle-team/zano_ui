@@ -71,7 +71,7 @@ export class PaginationService {
                       .fill(1)
                       .map((value, index) => value + index));
         } else if (this.variables.currentWallet.restore) {
-            this.variables.currentWallet.totalPages = Math.ceil(data.history.length / this.variables.count);
+            this.variables.currentWallet.totalPages = Math.ceil((data.history.length ?? 0) / this.variables.count);
             this.variables.currentWallet.totalPages > this.variables.maxPages
                 ? (this.variables.currentWallet.pages = new Array(5).fill(1).map((value, index) => value + index))
                 : (this.variables.currentWallet.pages = new Array(this.variables.currentWallet.totalPages)

@@ -1,12 +1,10 @@
-import { inject, Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { ResponseGetWalletInfo, Wallet } from '@api/models/wallet.model';
 import { Router } from '@angular/router';
 import { ParamsCallRpc } from '@api/models/call_rpc.model';
 import { AssetsWhitelistGetResponseData } from '@api/models/assets.model';
-import { TranslateService } from '@ngx-translate/core';
-import { ModalService } from '@parts/services/modal.service';
 
 @Injectable({
     providedIn: 'root',
@@ -32,13 +30,11 @@ export class WalletsService {
         private backendService: BackendService,
         private variablesService: VariablesService,
         private router: Router,
-        private ngZone: NgZone,
-        private _translateService: TranslateService,
-        private _modalService: ModalService
+        private ngZone: NgZone
     ) {}
 
     addWallet(wallet: Wallet): void {
-        const { wallet_id, staking } = wallet;
+        const { wallet_id } = wallet;
 
         // TODO: Need added notification call after implementing on core
         // if (staking) {

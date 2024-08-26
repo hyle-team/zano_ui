@@ -631,6 +631,7 @@
             "MAX_LENGTH": "Atingido comprimento máximo do nome",
             "NAME_DUPLICATE": "Nome é duplicado",
             "NAME_REQUIRED": "Nome é necessário",
+            "PASSWORD_SEED_PHRASE_INCORRECT": "The password for this seed phrase is incorrect",
             "SEED_PHRASE_IS_NO_VALID": "The seed phrase is not valid."
         },
         "LABEL_NAME": "Nome da carteira",
