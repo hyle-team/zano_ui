@@ -3,7 +3,7 @@ import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { Router } from '@angular/router';
-import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
+import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
 import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
 

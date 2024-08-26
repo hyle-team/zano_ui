@@ -68,9 +68,9 @@ export interface ResponseAsyncTransfer {
     };
 }
 
-export interface AsyncCommandResults {
+export interface AsyncCommandResults<T = any> {
     job_id: number;
-    response: ResponseAsyncTransfer;
+    response: T;
 }
 
 export enum StatusCurrentActionState {
@@ -108,6 +108,7 @@ export enum Commands {
     set_enable_tor = 'set_enable_tor',
     dispatch_async_call_result = 'dispatch_async_call_result',
     async_call = 'async_call',
+    async_call_2a = 'async_call_2a',
     set_log_level = 'set_log_level',
     get_network_type = 'get_network_type',
     get_version = 'get_version',
@@ -164,6 +165,8 @@ export enum Commands {
     set_localization_strings = 'set_localization_strings',
     request_alias_registration = 'request_alias_registration',
     call_rpc = 'call_rpc',
+    call_wallet_rpc = 'call_wallet_rpc',
+    setup_jwt_wallet_rpc = 'setup_jwt_wallet_rpc',
 }
 
 @Injectable({
@@ -189,7 +192,22 @@ export class BackendService {
     static bigNumberParser(key, val): any {
         if (
             val.constructor.name === 'BigNumber' &&
-            ['balance', 'unlocked_balance', 'amount', 'fee', 'b_fee', 'to_pay', 'a_pledge', 'b_pledge', 'coast', 'a'].indexOf(key) === -1
+            [
+                'balance',
+                'unlocked_balance',
+                'amount',
+                'fee',
+                'b_fee',
+                'to_pay',
+                'a_pledge',
+                'b_pledge',
+                'coast',
+                'a',
+                'total',
+                'unlocked',
+                'current_supply',
+                'total_max_supply',
+            ].indexOf(key) === -1
         ) {
             return val.toNumber();
         }
@@ -427,6 +445,15 @@ export class BackendService {
         };
 
         this.asyncCall(Commands.transfer, params, callback);
+    }
+
+    setupJwtWalletRpc(value: { zanoCompation: boolean; secret: string }): void {
+        const { secret } = value;
+
+        this.runCommand(Commands.setup_jwt_wallet_rpc, secret, () => {
+            this.variablesService.settings.zanoCompanionForm = value;
+            this.storeAppData();
+        });
     }
 
     validateAddress(address, callback): void {
@@ -670,13 +697,33 @@ export class BackendService {
         });
     }
 
+    asyncCall2a(command: string, wallet_id: number, params: PramsObj, callback?: (job_id?: number) => void | any): void {
+        this.runCommand(
+            Commands.async_call_2a,
+            [command, wallet_id, params],
+            (
+                status,
+                {
+                    job_id,
+                }: {
+                    job_id: number;
+                }
+            ) => {
+                callback(job_id);
+            }
+        );
+    }
+
     dispatchAsyncCallResult(): void {
         this.backendObject[Commands.dispatch_async_call_result].connect((job_id: string, json_resp: string) => {
             const asyncCommandResults: AsyncCommandResults = {
                 job_id: +job_id,
                 response: JSON.parse(json_resp),
             };
-            this.ngZone.run(() => this.dispatchAsyncCallResult$.next(asyncCommandResults));
+            console.group(`----------- ${Commands.dispatch_async_call_result} -----------`);
+            console.log(asyncCommandResults);
+            console.groupEnd();
+            this.ngZone.run(() => setTimeout(() => this.dispatchAsyncCallResult$.next(asyncCommandResults), 250));
         });
     }
 
@@ -697,9 +744,17 @@ export class BackendService {
         this.runCommand(
             Commands.get_options,
             {},
-            (status, { disable_price_fetch, use_debug_mode }: { disable_price_fetch: boolean; use_debug_mode: boolean }) => {
+            (
+                status,
+                {
+                    disable_price_fetch,
+                    use_debug_mode,
+                    rpc_port,
+                }: { disable_price_fetch: boolean; use_debug_mode: boolean; rpc_port: number }
+            ) => {
                 this.variablesService.disable_price_fetch$.next(disable_price_fetch);
                 this.variablesService.use_debug_mode$.next(use_debug_mode);
+                this.variablesService.rpc_port = rpc_port;
             }
         );
     }
@@ -733,8 +788,15 @@ export class BackendService {
     }
 
     // Use for call rpc-api https://docs.zano.org/docs/build/rpc-api
-    call_rpc(params: ParamsCallRpc, callback?: (status: boolean, response_data: any) => void): void {
+    call_rpc(params: Partial<ParamsCallRpc>, callback?: (status: boolean, response_data: any) => void): void {
         this.runCommand(Commands.call_rpc, params, callback);
+    }
+
+    call_wallet_rpc(
+        params: [wallet_id: number, params: Partial<ParamsCallRpc>],
+        callback?: (status: boolean, response_data: any) => void
+    ): void {
+        this.runCommand(Commands.call_wallet_rpc, params, callback);
     }
 
     private informerRun(error: string, params, command: string): void {
@@ -746,7 +808,7 @@ export class BackendService {
                 if (command === 'cancel_offer') {
                     error_translate = this.translate.instant('ERRORS.NO_MONEY_REMOVE_OFFER', {
                         fee: this.variablesService.default_fee,
-                        currency: this.variablesService.defaultCurrency,
+                        currency: this.variablesService.defaultTicker,
                     });
                 }
                 break;

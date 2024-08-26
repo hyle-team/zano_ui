@@ -1,0 +1,16 @@
+.cell-fee {
+    display: inline-flex;
+}
+
+.cell-amount {
+    display: flex;
+    max-width: 100%;
+    .amount {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    .ticker {
+        margin-left: 0.4rem;
+    }
+}

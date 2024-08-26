@@ -8,7 +8,7 @@ import { Wallet } from '@api/models/wallet.model';
 import { IntToMoneyPipe } from '@parts/pipes/int-to-money-pipe/int-to-money.pipe';
 import BigNumber from 'bignumber.js';
 import { Subject } from 'rxjs';
-import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
+import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { takeUntil } from 'rxjs/operators';
 import { regExpAliasName } from '@parts/utils/zano-validators';
 import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
@@ -66,11 +66,9 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                                 >
                                     {{ 'ASSIGN_ALIAS.FORM_ERRORS.NAME_WRONG' | translate }}
                                 </div>
-                                <div *ngIf="assignForm.get('name').value.length <= 6 || assignForm.get('name').value.length > 25">
+                                <div
+                                    *ngIf="assignForm.get('name').value.length <= 6 || assignForm.get('name').value.length > 25">
                                     {{ 'ASSIGN_ALIAS.FORM_ERRORS.NAME_LENGTH' | translate }}
-                                </div>
-                                <div *ngIf="assignForm.controls['name'].hasError('required')">
-                                    {{ 'ASSIGN_ALIAS.FORM_ERRORS.NAME_REQUIRED' | translate }}
                                 </div>
                             </div>
                             <div *ngIf="alias.exists" class="error">
@@ -104,7 +102,8 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                                 placeholder="{{ 'ASSIGN_ALIAS.COMMENT.PLACEHOLDER' | translate }}"
                             >
                             </textarea>
-                            <div *ngIf="assignForm.get('comment').value.length >= variablesService.maxCommentLength" class="error">
+                            <div *ngIf="assignForm.get('comment').value.length >= variablesService.maxCommentLength"
+                                 class="error">
                                 {{ 'ASSIGN_ALIAS.FORM_ERRORS.MAX_LENGTH' | translate }}
                             </div>
                         </div>
@@ -113,10 +112,10 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                             {{
                                 'ASSIGN_ALIAS.COST'
                                     | translate
-                                        : {
-                                              value: alias.price | intToMoney,
-                                              currency: variablesService.defaultCurrency
-                                          }
+                                    : {
+                                        value: alias.price | intToMoney,
+                                        currency: variablesService.defaultTicker
+                                    }
                             }}
                         </p>
 
@@ -216,8 +215,8 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
                                         }
                                         const unlocked_balance = new BigNumber(this.wallet.getBalanceByTicker('ZANO')?.unlocked || 0);
                                         this.notEnoughMoney = this.alias.price.isGreaterThan(unlocked_balance);
-                                        this.alias.reward = this.intToMoney.transform(this.alias.price, false);
-                                        this.alias.rewardOriginal = this.intToMoney.transform(dataPrice['coast'], false);
+                                        this.alias.reward = this.intToMoney.transform(this.alias.price);
+                                        this.alias.rewardOriginal = this.intToMoney.transform(dataPrice['coast']);
                                         this.canRegister = !this.notEnoughMoney;
                                     });
                                 });

@@ -9,6 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
 import { WalletsService } from '@parts/services/wallets.service';
 import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
     selector: 'app-create-wallet',
@@ -118,11 +119,14 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
 
                         <button (click)="createWallet()" [disabled]="createForm.invalid" class="primary big w-100" type="button">
                             {{ 'CREATE_WALLET.BUTTON_CREATE' | translate }}
+                            <span class="ml-1" *ngIf="loading$ | async" [ngTemplateOutlet]="loaderTemp"></span>
                         </button>
                     </form>
                 </div>
             </div>
         </div>
+
+        <ng-template #loaderTemp><zano-loader></zano-loader></ng-template>
     `,
     styles: [
         `
@@ -136,6 +140,8 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
 })
 export class CreateWalletComponent {
     variablesService = inject(VariablesService);
+
+    loading$ = new BehaviorSubject(false);
 
     breadcrumbItems: BreadcrumbItems = [
         {
@@ -179,37 +185,60 @@ export class CreateWalletComponent {
     }
 
     createWallet(): void {
-        const { path: selectedPath, password, name } = this.createForm.getRawValue();
-        this.backend.generateWallet(selectedPath, password, async (generate_status, generate_data, errorCode) => {
-            if (generate_status) {
-                const { wallet_id } = generate_data;
-                const { path, address, balance, unlocked_balance, mined_total, tracking_hey } = generate_data['wi'];
-                const wallet = new Wallet(wallet_id, name, password, path, address, balance, unlocked_balance, mined_total, tracking_hey);
-                wallet.alias = this.backend.getWalletAlias(address);
-                wallet.total_history_item = 0;
-                wallet.pages = new Array(1).fill(1);
-                wallet.totalPages = 1;
-                wallet.currentPage = 1;
-                await this.backend.runWallet(wallet_id, async (run_status, run_data) => {
-                    if (run_status) {
-                        await this.ngZone.run(async () => {
-                            this.walletsService.addWallet(wallet);
-                            if (this.variablesService.appPass) {
-                                this.backend.storeSecureAppData();
-                            }
-                            this.variablesService.setCurrentWallet(wallet_id);
-                            await this.router.navigate(['/seed-phrase'], { queryParams: { wallet_id } });
-                        });
-                    } else {
-                        console.log(run_data['error_code']);
-                    }
-                });
-            } else {
-                const errorTranslationKey =
-                    errorCode === 'ALREADY_EXISTS' ? 'CREATE_WALLET.ERROR_CANNOT_SAVE_TOP' : 'CREATE_WALLET.ERROR_CANNOT_SAVE_SYSTEM';
-                this.modalService.prepareModal('error', errorTranslationKey);
-            }
-        });
+        this.loading$.next(true);
+
+        // This delay is necessary for the loader to display, as the application freezes for a few seconds
+        setTimeout(() => {
+            const { path: selectedPath, password, name } = this.createForm.getRawValue();
+            this.backend.generateWallet(selectedPath, password, async (generate_status, generate_data, errorCode) => {
+                if (generate_status) {
+                    const { wallet_id } = generate_data;
+                    const { path, address, balance, unlocked_balance, mined_total, tracking_hey } = generate_data['wi'];
+                    const wallet = new Wallet(
+                        wallet_id,
+                        name,
+                        password,
+                        path,
+                        address,
+                        balance,
+                        unlocked_balance,
+                        mined_total,
+                        tracking_hey
+                    );
+                    wallet.alias = this.backend.getWalletAlias(address);
+                    wallet.total_history_item = 0;
+                    wallet.pages = new Array(1).fill(1);
+                    wallet.totalPages = 1;
+                    wallet.currentPage = 1;
+                    await this.backend.runWallet(wallet_id, async (run_status, run_data) => {
+                        if (run_status) {
+                            await this.ngZone.run(async () => {
+                                this.walletsService.addWallet(wallet);
+                                if (this.variablesService.appPass) {
+                                    this.backend.storeSecureAppData();
+                                }
+                                this.variablesService.setCurrentWallet(wallet_id);
+                                this.loading$.next(false);
+                                await this.router.navigate(['/seed-phrase'], { queryParams: { wallet_id } });
+                            });
+                        } else {
+                            console.log(run_data['error_code']);
+                            this.ngZone.run(() => {
+                                this.loading$.next(false);
+                            });
+                        }
+                    });
+                } else {
+                    const errorTranslationKey =
+                        errorCode === 'ALREADY_EXISTS' ? 'CREATE_WALLET.ERROR_CANNOT_SAVE_TOP' : 'CREATE_WALLET.ERROR_CANNOT_SAVE_SYSTEM';
+                    this.modalService.prepareModal('error', errorTranslationKey);
+
+                    this.ngZone.run(() => {
+                        this.loading$.next(false);
+                    });
+                }
+            });
+        }, 500);
     }
 
     selectWalletLocation(): void {

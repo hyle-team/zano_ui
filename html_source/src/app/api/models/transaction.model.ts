@@ -1,6 +1,14 @@
 import { BigNumber } from 'bignumber.js';
 
-export class Transaction {
+export interface Subtransfer {
+    amount: BigNumber;
+    asset_id: string;
+    is_income: boolean;
+}
+
+export type Subtransfers = Subtransfer[];
+
+export interface Transaction {
     comment: string;
     employed_entries: {
         receive: {
@@ -22,11 +30,7 @@ export class Transaction {
     payment_id: string;
     remote_addresses: string[];
     show_sender: boolean;
-    subtransfers: {
-        amount: BigNumber;
-        asset_id: string;
-        is_income: boolean;
-    }[];
+    subtransfers?: Subtransfers | undefined;
     timestamp: number;
     tx_blob_size: number;
     remote_aliases?: string[];

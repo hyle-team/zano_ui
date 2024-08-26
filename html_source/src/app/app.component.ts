@@ -8,16 +8,20 @@ import { IntToMoneyPipe } from '@parts/pipes';
 import { BigNumber } from 'bignumber.js';
 import { ModalService } from '@parts/services/modal.service';
 import { StateKeys, Store } from '@store/store';
-import { shareReplay, Subject, switchMap, take } from 'rxjs';
+import { Subject, take } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { paths, pathsChildrenAuth } from './pages/paths';
-import { hasOwnProperty } from '@parts/functions/hasOwnProperty';
+import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { Dialog } from '@angular/cdk/dialog';
+import { ZanoLoadersService } from '@parts/services/zano-loaders.service';
+import { ParamsCallRpc } from '@api/models/call_rpc.model';
 
 @Component({
     selector: 'app-root',
     template: `
-        <router-outlet *ngIf="[0, 1, 2, 6].indexOf(variablesService.daemon_state) !== -1"></router-outlet>
+        <router-outlet
+            *ngIf="[0, 1, 2, 6].indexOf(variablesService.daemon_state) !== -1 && !(zanoLoadersService.getState('fullScreen') | async)"
+        ></router-outlet>
 
         <div *ngIf="[3, 4, 5].indexOf(variablesService.daemon_state) !== -1" class="preloader">
             <p *ngIf="variablesService.daemon_state === 3" class="mb-2">
@@ -28,6 +32,13 @@ import { Dialog } from '@angular/cdk/dialog';
             </p>
             <p *ngIf="variablesService.daemon_state === 5" class="mb-2">
                 {{ 'SIDEBAR.SYNCHRONIZATION.COMPLETE' | translate }}
+            </p>
+            <div class="loading-bar"></div>
+        </div>
+
+        <div class="preloader" *ngIf="zanoLoadersService.getState('fullScreen') | async">
+            <p class="mb-2">
+                {{ zanoLoadersService.getMessage('fullScreen') | async | translate }}
             </p>
             <div class="loading-bar"></div>
         </div>
@@ -65,7 +76,8 @@ export class AppComponent implements OnInit, OnDestroy {
         private intToMoneyPipe: IntToMoneyPipe,
         private modalService: ModalService,
         private store: Store,
-        private dialog: Dialog
+        private dialog: Dialog,
+        public zanoLoadersService: ZanoLoadersService
     ) {
         translate.addLangs(['en', 'fr', 'de', 'it', 'pt']);
         translate.setDefaultLang('en');
@@ -104,7 +116,6 @@ export class AppComponent implements OnInit, OnDestroy {
         this.backendService.initService().subscribe({
             next: initMessage => {
                 console.log('Init message: ', initMessage);
-                this.backendService.getOptions();
                 this.backendService.webkitLaunchedScript();
 
                 this.backendService.start_backend(false, '127.0.0.1', 11512, (st2, dd2) => {
@@ -116,9 +127,9 @@ export class AppComponent implements OnInit, OnDestroy {
                         return;
                     }
 
-                    await this.ngZone.run(async () => {
-                        await this.router.navigate(['/']);
-                    });
+                    // await this.ngZone.run(async () => {
+                    //     await this.router.navigate(['/']);
+                    // });
 
                     this.dialog.closeAll();
                     this.needOpenWallets = [];
@@ -174,6 +185,7 @@ export class AppComponent implements OnInit, OnDestroy {
                             wallet.balances = data.balances;
                             wallet.mined_total = data.minied_total;
                             wallet.alias_available = data.is_alias_operations_available;
+                            wallet.has_bare_unspent_outputs = data.has_bare_unspent_outputs;
                         });
                     }
                 });
@@ -710,6 +722,12 @@ export class AppComponent implements OnInit, OnDestroy {
                 this.backendService.handleCurrentActionState();
 
                 this.getVersion();
+
+                setTimeout(() => {
+                    this.backendService.getOptions();
+                    this.getInfo();
+                    this._getZanoCurrentSupply();
+                }, 10 * 1000);
             },
             error: error => {
                 console.log(error);
@@ -745,20 +763,18 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     updateMoneyEquivalent(): void {
-        const ping$ = this.http.get('https://api.coingecko.com/api/v3/ping').pipe(shareReplay(1));
-
-        ping$.pipe(
-            switchMap(() => this.http.get('https://api.coingecko.com/api/v3/simple/price?ids=zano&vs_currencies=usd&include_24hr_change=true')),
-            take(1)
-        ).subscribe({
-            next: data => {
-                this.variablesService.moneyEquivalent = data['zano']['usd'];
-                this.variablesService.moneyEquivalentPercent = data['zano']['usd_24h_change'];
-            },
-            error: error => {
-                console.warn('api.coingecko.com price error: ', error);
-            },
-        });
+        this.http
+            .get('https://explorer.zano.org/api/price?asset=zano')
+            .pipe(take(1))
+            .subscribe({
+                next: ({ data }: { data: { zano: { usd: number; usd_24h_change: number }; success: boolean } }): void => {
+                    this.variablesService.moneyEquivalent = data['zano']['usd'];
+                    this.variablesService.moneyEquivalentPercent = data['zano']['usd_24h_change'];
+                },
+                error: error => {
+                    console.warn('api.coingecko.com price error: ', error);
+                },
+            });
     }
 
     getAliases(): void {
@@ -842,6 +858,39 @@ export class AppComponent implements OnInit, OnDestroy {
                     this.variablesService.testnet = type === 'testnet';
                     this.variablesService.networkType = type;
                 }
+            });
+        });
+    }
+
+    getInfo(): void {
+        const updateTime = 60 * 1000;
+        const getInfo = () => {
+            const params = {
+                jsonrpc: '2.0',
+                method: 'getinfo',
+            };
+
+            this.backendService.call_rpc(params, (status, response_data) => {
+                this.variablesService.info$.next(response_data.result);
+            });
+        };
+        getInfo();
+        setInterval(getInfo, updateTime);
+    }
+
+    private _getZanoCurrentSupply(): void {
+        const params: ParamsCallRpc = {
+            jsonrpc: '2.0',
+            id: 0,
+            method: 'getinfo',
+            params: {
+                flags: 1024,
+            },
+        };
+
+        this.backendService.call_rpc(params, (status, response_data) => {
+            this.ngZone.run(() => {
+                this.variablesService.zano_current_supply = response_data?.['result']?.['total_coins'] ?? 'Unknown';
             });
         });
     }

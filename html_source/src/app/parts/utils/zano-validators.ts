@@ -2,13 +2,13 @@ import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { notFileZanoWallet, ZanoValidationErrors } from '@parts/utils/zano-errors';
 import { MIMETypes } from '@parts/utils/MIME-types';
 
-export const regExpHash = /^[a-f0-9]{64}$/i;
+export const regExpHex = /^[a-f0-9]{64}$/i;
 export const regExpAliasName = /^@?[a-z\d.-]{2,25}$/;
 export const regExpPassword = /^[a-zA-Z0-9_.\]*|~!?@#$%^&+{}()<>:;"'-=,/[\\]*$/;
 
 export class ZanoValidators {
     static hash({ value }: AbstractControl): ValidationErrors | null {
-        return regExpHash.test(value) ? null : { invalidHash: true };
+        return regExpHex.test(value) ? null : { invalidHash: true };
     }
 
     static formMatch(firstControlName: string, secondControlName: string, nameErrorKey = 'mismatch'): ValidatorFn {

@@ -1,4 +1,4 @@
-table {
+table.zano-table {
     width: 100%;
     table-layout: fixed;
 
@@ -131,4 +131,47 @@ table {
             word-break: break-word;
         }
     }
+}
+
+
+// Table with rounded-corners
+table.rounded-corners {
+    border-spacing: 0;
+    border-collapse: separate;
+    border-radius: 1rem;
+    border: 1.5px solid #33426E;
+}
+
+table.rounded-corners th:not(:last-child),
+table.rounded-corners td:not(:last-child) {
+    border-right: 1.5px solid #33426E;
+}
+
+table.rounded-corners > tbody > tr:first-child > td:first-child {
+    border-top-left-radius: 0.8rem;
+}
+table.rounded-corners > tbody > tr:first-child > td:last-child {
+    border-top-right-radius: 0.8rem;
+}
+
+table.rounded-corners > tbody > tr:last-child > td:first-child {
+    border-bottom-left-radius: 0.8rem;
+}
+
+table.rounded-corners > tbody > tr:last-child > td:last-child {
+    border-bottom-right-radius: 0.8rem;
+}
+
+table.rounded-corners > thead > tr:not(:last-child) > th,
+table.rounded-corners > thead > tr:not(:last-child) > td,
+table.rounded-corners > tbody > tr:not(:last-child) > th,
+table.rounded-corners > tbody > tr:not(:last-child) > td,
+table.rounded-corners > tfoot > tr:not(:last-child) > th,
+table.rounded-corners > tfoot > tr:not(:last-child) > td,
+table.rounded-corners > tr:not(:last-child) > td,
+table.rounded-corners > tr:not(:last-child) > th,
+table.rounded-corners > thead:not(:last-child),
+table.rounded-corners > tbody:not(:last-child),
+table.rounded-corners > tfoot:not(:last-child) {
+    border-bottom: 1.5px solid #33426E;
 }

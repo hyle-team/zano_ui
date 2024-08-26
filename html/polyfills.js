@@ -3552,6 +3552,7 @@ var createMethod = function (IS_INCLUDES) {
   return function ($this, el, fromIndex) {
     var O = toIndexedObject($this);
     var length = lengthOfArrayLike(O);
+    if (length === 0) return !IS_INCLUDES && -1;
     var index = toAbsoluteIndex(fromIndex, length);
     var value;
     // Array#includes uses SameValueZero equality algorithm
@@ -3880,14 +3881,13 @@ module.exports = function (bitmap, value) {
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
-var toPropertyKey = __webpack_require__(/*! ../internals/to-property-key */ 263);
+var DESCRIPTORS = __webpack_require__(/*! ../internals/descriptors */ 740);
 var definePropertyModule = __webpack_require__(/*! ../internals/object-define-property */ 5909);
 var createPropertyDescriptor = __webpack_require__(/*! ../internals/create-property-descriptor */ 2016);
 
 module.exports = function (object, key, value) {
-  var propertyKey = toPropertyKey(key);
-  if (propertyKey in object) definePropertyModule.f(object, propertyKey, createPropertyDescriptor(0, value));
-  else object[propertyKey] = value;
+  if (DESCRIPTORS) definePropertyModule.f(object, key, createPropertyDescriptor(0, value));
+  else object[key] = value;
 };
 
 
@@ -5830,7 +5830,8 @@ module.exports = IS_PURE || !fails(function () {
 
 /* eslint-disable no-proto -- safe */
 var uncurryThisAccessor = __webpack_require__(/*! ../internals/function-uncurry-this-accessor */ 541);
-var anObject = __webpack_require__(/*! ../internals/an-object */ 858);
+var isObject = __webpack_require__(/*! ../internals/is-object */ 6833);
+var requireObjectCoercible = __webpack_require__(/*! ../internals/require-object-coercible */ 5028);
 var aPossiblePrototype = __webpack_require__(/*! ../internals/a-possible-prototype */ 1610);
 
 // `Object.setPrototypeOf` method
@@ -5847,8 +5848,9 @@ module.exports = Object.setPrototypeOf || ('__proto__' in {} ? function () {
     CORRECT_SETTER = test instanceof Array;
   } catch (error) { /* empty */ }
   return function setPrototypeOf(O, proto) {
-    anObject(O);
+    requireObjectCoercible(O);
     aPossiblePrototype(proto);
+    if (!isObject(O)) return O;
     if (CORRECT_SETTER) setter(O, proto);
     else O.__proto__ = proto;
     return O;
@@ -6089,13 +6091,20 @@ module.exports = function (key) {
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
-var global = __webpack_require__(/*! ../internals/global */ 6308);
+var IS_PURE = __webpack_require__(/*! ../internals/is-pure */ 777);
+var globalThis = __webpack_require__(/*! ../internals/global */ 6308);
 var defineGlobalProperty = __webpack_require__(/*! ../internals/define-global-property */ 189);
 
 var SHARED = '__core-js_shared__';
-var store = global[SHARED] || defineGlobalProperty(SHARED, {});
+var store = module.exports = globalThis[SHARED] || defineGlobalProperty(SHARED, {});
 
-module.exports = store;
+(store.versions || (store.versions = [])).push({
+  version: '3.37.1',
+  mode: IS_PURE ? 'pure' : 'global',
+  copyright: '© 2014-2024 Denis Pushkarev (zloirock.ru)',
+  license: 'https://github.com/zloirock/core-js/blob/v3.37.1/LICENSE',
+  source: 'https://github.com/zloirock/core-js'
+});
 
 
 /***/ }),
@@ -6107,18 +6116,11 @@ module.exports = store;
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
-var IS_PURE = __webpack_require__(/*! ../internals/is-pure */ 777);
 var store = __webpack_require__(/*! ../internals/shared-store */ 5111);
 
-(module.exports = function (key, value) {
-  return store[key] || (store[key] = value !== undefined ? value : {});
-})('versions', []).push({
-  version: '3.35.1',
-  mode: IS_PURE ? 'pure' : 'global',
-  copyright: '© 2014-2024 Denis Pushkarev (zloirock.ru)',
-  license: 'https://github.com/zloirock/core-js/blob/v3.35.1/LICENSE',
-  source: 'https://github.com/zloirock/core-js'
-});
+module.exports = function (key, value) {
+  return store[key] || (store[key] = value || {});
+};
 
 
 /***/ }),
@@ -7038,13 +7040,22 @@ var aCallable = __webpack_require__(/*! ../internals/a-callable */ 6022);
 var requireObjectCoercible = __webpack_require__(/*! ../internals/require-object-coercible */ 5028);
 var toPropertyKey = __webpack_require__(/*! ../internals/to-property-key */ 263);
 var iterate = __webpack_require__(/*! ../internals/iterate */ 308);
+var fails = __webpack_require__(/*! ../internals/fails */ 2325);
 
+// eslint-disable-next-line es/no-object-map-groupby -- testing
+var nativeGroupBy = Object.groupBy;
 var create = getBuiltIn('Object', 'create');
 var push = uncurryThis([].push);
 
+var DOES_NOT_WORK_WITH_PRIMITIVES = !nativeGroupBy || fails(function () {
+  return nativeGroupBy('ab', function (it) {
+    return it;
+  }).a.length !== 1;
+});
+
 // `Object.groupBy` method
 // https://github.com/tc39/proposal-array-grouping
-$({ target: 'Object', stat: true }, {
+$({ target: 'Object', stat: true, forced: DOES_NOT_WORK_WITH_PRIMITIVES }, {
   groupBy: function groupBy(items, callbackfn) {
     requireObjectCoercible(items);
     aCallable(callbackfn);

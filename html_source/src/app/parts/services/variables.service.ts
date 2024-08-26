@@ -1,12 +1,13 @@
 import { Injectable, NgZone } from '@angular/core';
 import { DeeplinkParams, Wallet } from '@api/models/wallet.model';
 import { Contact } from '@api/models/contact.model';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Idle } from 'idlejs/dist';
 import { Router } from '@angular/router';
 import { ContextMenuComponent, ContextMenuService } from '@perfectmemory/ngx-contextmenu';
 import { BigNumber } from 'bignumber.js';
 import { Aliases } from '@api/models/alias.model';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root',
@@ -14,47 +15,63 @@ import { Aliases } from '@api/models/alias.model';
 export class VariablesService {
     disable_price_fetch$ = new BehaviorSubject<boolean>(false);
 
-    use_debug_mode$ = new BehaviorSubject<boolean>(false);
+    zano_current_supply = undefined;
+
+    rpc_port!: number;
+
+    use_debug_mode$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+    info$: BehaviorSubject<any> = new BehaviorSubject<any>({});
+
+    is_hardfok_active$: Observable<boolean> = this.info$.pipe(
+        map(info => {
+            return Boolean(info?.['is_hardfok_active']?.[4]);
+        }),
+        distinctUntilChanged()
+    );
 
     stop_paginate = {};
 
-    sync_started = false;
+    sync_started: boolean = false;
 
-    digits = 12;
+    decimal_point: number = 12;
 
-    appPass = '';
+    appPass: string = '';
 
-    appLogin = false;
+    // \(2^{64}-1\) => (18,446,744,073,709,551,615)
+    maximum_value: BigNumber = new BigNumber('18446744073709551615');
 
-    moneyEquivalent = 0;
+    appLogin: boolean = false;
 
-    moneyEquivalentPercent = 0;
+    moneyEquivalent: number = 0;
 
-    defaultCurrency = 'ZANO';
+    moneyEquivalentPercent: number = 0;
+
+    defaultTicker: 'ZANO' = 'ZANO';
 
     opening_wallet: Wallet;
 
-    exp_med_ts = 0;
+    exp_med_ts: number = 0;
 
-    net_time_delta_median = 0;
+    net_time_delta_median: number = 0;
 
-    height_app = 0;
+    height_app: number = 0;
 
-    height_max = 0;
+    height_max: number = 0;
 
-    downloaded = 0;
+    downloaded: number = 0;
 
-    total = 0;
+    total: number = 0;
 
-    last_build_available = '';
+    last_build_available: string = '';
 
-    last_build_displaymode = 0;
+    last_build_displaymode: number = 0;
 
-    daemon_state = 3;
+    daemon_state: number = 3;
 
-    deeplink$ = new BehaviorSubject<string | null>(null);
+    deeplink$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
-    sendActionData$ = new BehaviorSubject<DeeplinkParams>({});
+    sendActionData$: BehaviorSubject<DeeplinkParams> = new BehaviorSubject<DeeplinkParams>({});
 
     sync = {
         progress_value: 0,
@@ -63,32 +80,17 @@ export class VariablesService {
 
     public sync_wallets: { [wallet_id: number]: boolean } = {};
 
-    get isCurrentWalletSync(): boolean {
-        if (this.currentWallet) {
-            const { wallet_id } = this.currentWallet;
-            return this.sync_wallets[wallet_id] || false;
-        }
-        return false;
-    }
-
-    get isCurrentWalletLoaded(): boolean {
-        if (this.currentWallet) {
-            const { loaded } = this.currentWallet;
-            return loaded;
-        }
-        return false;
-    }
-
     download = {
         progress_value: 0,
         progress_value_text: '0',
     };
 
-    get_recent_transfers = false; // avoid of execute function before callback complete
+    // Avoid of execute function before callback complete
+    get_recent_transfers: boolean = false;
 
-    default_fee = '0.010000000000';
+    default_fee: string = '0.010000000000';
 
-    default_fee_big = new BigNumber('10000000000');
+    default_fee_big: BigNumber = new BigNumber('10000000000');
 
     settings = {
         appLockTime: 15,
@@ -99,22 +101,23 @@ export class VariablesService {
         default_path: '/',
         viewedContracts: [],
         notViewedContracts: [],
+        zanoCompanionForm: {
+            zanoCompation: false,
+            secret: '',
+        },
         wallets: [],
     };
 
-    count = 40;
+    count: number = 40;
 
-    maxPages = 5;
+    maxPages: number = 5;
 
-    testnet = false;
+    testnet: boolean = false;
 
-    networkType = ''; // testnet of mainnet
+    // Testnet or Mainnet
+    networkType = '';
 
     wallets: Array<Wallet> = [];
-
-    get walletNamesForComparisons(): string[] {
-        return this.wallets.map(({ name }) => name) ?? [];
-    }
 
     currentWallet: Wallet;
 
@@ -122,17 +125,17 @@ export class VariablesService {
 
     aliasesChecked: any = {};
 
-    enableAliasSearch = false;
+    enableAliasSearch: boolean = false;
 
-    maxWalletNameLength = 25;
+    maxWalletNameLength: number = 25;
 
-    maxCommentLength = 255;
+    maxCommentLength: number = 255;
 
-    dataIsLoaded = false;
+    dataIsLoaded: boolean = false;
 
     contacts: Array<Contact> = [];
 
-    pattern = '^[a-zA-Z0-9_.\\]*|~!?@#$%^&+{}()<>:;"\'-=/,[\\\\]*$';
+    pattern: string = '^[a-zA-Z0-9_.\\]*|~!?@#$%^&+{}()<>:;"\'-=/,[\\\\]*$';
 
     after_sync_request: any = {};
 
@@ -150,7 +153,7 @@ export class VariablesService {
 
     getAliasChangedEvent = new BehaviorSubject(null);
 
-    getWalletChangedEvent = new BehaviorSubject<Wallet>(null);
+    currentWalletChangedEvent = new BehaviorSubject<Wallet>(null);
 
     idle = new Idle().whenNotInteractive().do(async () => {
         if (this.appPass === '') {
@@ -174,6 +177,30 @@ export class VariablesService {
     pasteSelectContextMenu: ContextMenuComponent<any>;
 
     constructor(private router: Router, private ngZone: NgZone, private contextMenuService: ContextMenuService<any>) {}
+
+    get hasAppPass(): boolean {
+        return Boolean(this.appPass);
+    }
+
+    get isCurrentWalletSync(): boolean {
+        if (this.currentWallet) {
+            const { wallet_id } = this.currentWallet;
+            return this.sync_wallets[wallet_id] || false;
+        }
+        return false;
+    }
+
+    get isCurrentWalletLoaded(): boolean {
+        if (this.currentWallet) {
+            const { loaded } = this.currentWallet;
+            return loaded;
+        }
+        return false;
+    }
+
+    get walletNamesForComparisons(): string[] {
+        return this.wallets.map(({ name }) => name) ?? [];
+    }
 
     setExpMedTs(timestamp: number): void {
         if (timestamp !== this.exp_med_ts) {
@@ -222,7 +249,7 @@ export class VariablesService {
         this.wallets.forEach(wallet => {
             if (wallet.wallet_id === id) {
                 this.currentWallet = wallet;
-                this.getWalletChangedEvent.next(wallet);
+                this.currentWalletChangedEvent.next(wallet);
             }
         });
     }
@@ -265,7 +292,7 @@ export class VariablesService {
         return Number((bytes / Math.pow(1024, 2)).toFixed(1));
     }
 
-    onContextMenu($event: MouseEvent): void {
+    onContextMenu($event: any): void {
         $event.target['contextSelectionStart'] = $event.target['selectionStart'];
         $event.target['contextSelectionEnd'] = $event.target['selectionEnd'];
         if (
@@ -283,7 +310,7 @@ export class VariablesService {
         }
     }
 
-    onContextMenuOnlyCopy($event: MouseEvent, copyText?: string): void {
+    onContextMenuOnlyCopy($event: any, copyText?: string): void {
         $event.preventDefault();
         $event.stopPropagation();
         this.contextMenuService.show(this.onlyCopyContextMenu, {
@@ -293,7 +320,7 @@ export class VariablesService {
         });
     }
 
-    onContextMenuPasteSelect($event: MouseEvent): void {
+    onContextMenuPasteSelect($event: any): void {
         $event.target['contextSelectionStart'] = $event.target['selectionStart'];
         $event.target['contextSelectionEnd'] = $event.target['selectionEnd'];
 

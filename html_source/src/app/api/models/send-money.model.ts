@@ -6,5 +6,5 @@ export interface SendMoneyParams {
     mixin: number;
     comment: string;
     hide: boolean;
-    asset_id: string | null;
+    asset_id: string;
 }

@@ -34,7 +34,8 @@ import { takeUntil } from 'rxjs/operators';
                     </div>
                 </div>
 
-                <div class="controls" fxFlex="0 0 auto" fxLayout="row nowrap" fxLayoutAlign="space-between center" fxLayoutGap="1rem">
+                <div class="controls" fxFlex="0 0 auto" fxLayout="row nowrap" fxLayoutAlign="space-between center"
+                     fxLayoutGap="1rem">
                     <button (click)="canselAction()" class="outline big w-100" type="button">
                         {{ 'EXPORT_HISTORY.CANCEL' | translate }}
                     </button>
@@ -42,7 +43,8 @@ import { takeUntil } from 'rxjs/operators';
                 </div>
             </ng-container>
 
-            <ng-container *ngIf="secondStep && marketplaceModalShow && actionData.action === 'marketplace_offer_create'">
+            <ng-container
+                *ngIf="secondStep && marketplaceModalShow && actionData.action === 'marketplace_offer_create'">
                 <h4 class="mb-2" fxFlex="0 0 auto">Creating a marketplace offer</h4>
                 <div class="content scrolled-content mb-2" fxFlex="1 1 auto" fxLayout="column">
                     <div class="table-info" fxFlex="0 0 auto">
@@ -79,7 +81,7 @@ import { takeUntil } from 'rxjs/operators';
                             </div>
                             <div class="text">
                                 {{ actionData.price }}
-                                {{ this.variablesService.defaultCurrency }}
+                                {{ this.variablesService.defaultTicker }}
                             </div>
                         </div>
 
@@ -129,13 +131,14 @@ import { takeUntil } from 'rxjs/operators';
                             </div>
                             <div class="text">
                                 {{ actionData.price * (actionData.fee || this.variablesService.default_fee) }}
-                                {{ this.variablesService.defaultCurrency }}
+                                {{ this.variablesService.defaultTicker }}
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="controls" fxFlex="0 0 auto" fxLayout="row nowrap" fxLayoutAlign="space-between center" fxLayoutGap="1rem">
+                <div class="controls" fxFlex="0 0 auto" fxLayout="row nowrap" fxLayoutAlign="space-between center"
+                     fxLayoutGap="1rem">
                     <button (click)="canselAction()" class="outline big w-100" type="button">
                         {{ 'EXPORT_HISTORY.CANCEL' | translate }}
                     </button>
@@ -159,7 +162,8 @@ import { takeUntil } from 'rxjs/operators';
                                 fxLayoutAlign="start center"
                             >
                                 {{ marketplaceConfirmHash }}
-                                <i (click)="copyHash()" [class.check]="copyAnimation" [class.copy]="!copyAnimation" class="icon ml-1"></i>
+                                <i (click)="copyHash()" [class.check]="copyAnimation" [class.copy]="!copyAnimation"
+                                   class="icon ml-1"></i>
                             </div>
                         </div>
                     </div>
@@ -171,7 +175,8 @@ import { takeUntil } from 'rxjs/operators';
             </ng-container>
 
             <ng-container *ngIf="!walletsToPay.length">
-                <h4 class="mb-2" fxFlex="0 0 auto">Your wallets have not loaded yet. Try this action a little later.</h4>
+                <h4 class="mb-2" fxFlex="0 0 auto">Your wallets have not loaded yet. Try this action a little
+                                                   later.</h4>
 
                 <div class="controls" fxFlex="0 0 auto" fxLayout="row" fxLayoutAlign="space-between center">
                     <button (click)="canselAction()" class="primary big w-100" type="button">Ok</button>

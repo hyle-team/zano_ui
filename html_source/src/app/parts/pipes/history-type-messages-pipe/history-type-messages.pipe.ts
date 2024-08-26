@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { hasOwnProperty } from '../../functions/hasOwnProperty';
+import { hasOwnProperty } from '../../functions/has-own-property';
 
 @Pipe({
     name: 'historyTypeMessages',
@@ -42,11 +42,15 @@ export class HistoryTypeMessagesPipe implements PipeTransform {
                 case 5:
                     return this.translate.instant('HISTORY.TYPE_MESSAGES.UPDATE_ALIAS');
                 case 6:
-                    return item.td['spn'] && item.td['spn'].length
+                    return item.employed_entries?.spent?.length
                         ? this.translate.instant('HISTORY.TYPE_MESSAGES.POS_REWARD')
                         : this.translate.instant('HISTORY.TYPE_MESSAGES.POW_REWARD');
                 case 7:
-                    return this.translate.instant('HISTORY.TYPE_MESSAGES.CREATE_CONTRACT');
+                    if (!item.subtransfers || !item.subtransfers.length) {
+                        return this.translate.instant('HISTORY.TYPE_MESSAGES.SERVICE_TRANSACTIONS');
+                    } else {
+                        return this.translate.instant('HISTORY.TYPE_MESSAGES.CREATE_CONTRACT');
+                    }
                 case 8:
                     return this.translate.instant('HISTORY.TYPE_MESSAGES.PLEDGE_CONTRACT');
                 // case 9:

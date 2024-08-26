@@ -4,7 +4,7 @@ import { VariablesService } from '@parts/services/variables.service';
 import { ZanoValidators } from '@parts/utils/zano-validators';
 import { DialogRef } from '@angular/cdk/dialog';
 import { BackendService } from '@api/services/backend.service';
-import { Asset, ParamsAddCustomAssetId } from '@api/models/assets.model';
+import { AssetBalance, ParamsAddCustomAssetId } from '@api/models/assets.model';
 import { WalletsService } from '@parts/services/wallets.service';
 import { wrongAssetId } from '@parts/utils/zano-errors';
 import { BehaviorSubject } from 'rxjs';
@@ -24,11 +24,11 @@ import { LoaderComponent } from '@parts/components/loader.component';
         >
             <div class="content" fxLayout="column">
                 <h3 class="mb-2">
-                    {{ 'WALLET.MODAL_ADD_CUSTOM_TOKEN.TITLE' | translate }}
+                    {{ 'WALLET.MODAL_WHITELIST_ASSET.TITLE' | translate }}
                 </h3>
 
                 <div class="form__field">
-                    <label for="asset_id">{{ 'WALLET.MODAL_ADD_CUSTOM_TOKEN.FIELD_TITLE' | translate }}</label>
+                    <label for="asset_id">{{ 'WALLET.MODAL_WHITELIST_ASSET.FIELD_TITLE' | translate }}</label>
                     <input
                         (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
                         class="form__field--input"
@@ -40,7 +40,9 @@ import { LoaderComponent } from '@parts/components/loader.component';
                         maxlength="64"
                     />
                     <ng-container *ngIf="formGroup.get('asset_id').touched">
-                        <div *ngIf="formGroup.get('asset_id').hasError('invalidHash')" class="error">Invalid hash</div>
+                        <div *ngIf="formGroup.get('asset_id').hasError('invalidHash')" class="error">
+                            {{ 'WALLET.MODAL_WHITELIST_ASSET.FORM_ERRORS.ERROR1' | translate }}
+                        </div>
                         <div *ngIf="formGroup.get('asset_id').hasError('wrongAssetId')" class="error">
                             {{ formGroup.get('asset_id').errors['wrongAssetId'].errorText | translate }}
                         </div>
@@ -90,7 +92,7 @@ export class AddCustomTokenComponent {
         public variablesService: VariablesService,
         public backendService: BackendService,
         private walletsService: WalletsService,
-        private dialogRef: DialogRef<Asset | undefined>
+        private dialogRef: DialogRef<AssetBalance | undefined>
     ) {}
 
     beforeSubmit(): void {
@@ -113,7 +115,7 @@ export class AddCustomTokenComponent {
         };
         this.backendService.addCustomAssetId(params, (status, { asset_descriptor }) => {
             if (status) {
-                const asset: Asset = {
+                const asset: AssetBalance = {
                     asset_info: {
                         ...asset_descriptor,
                         asset_id,

@@ -3,6 +3,8 @@ import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { ResponseGetWalletInfo, Wallet } from '@api/models/wallet.model';
 import { Router } from '@angular/router';
+import { ParamsCallRpc } from '@api/models/call_rpc.model';
+import { AssetsWhitelistGetResponseData } from '@api/models/assets.model';
 
 @Injectable({
     providedIn: 'root',
@@ -37,6 +39,26 @@ export class WalletsService {
         this.updateWalletInfo(wallet_id);
     }
 
+    loadAssetsWhitelist(wallet_id: number): void {
+        const wallet = this.getWalletById(wallet_id);
+
+        if (!wallet) {
+            console.warn(`You want update assetsWhiteList by wallet_id: (${wallet_id}). But this wallet not uploaded.`);
+            return;
+        }
+
+        const params: ParamsCallRpc = {
+            jsonrpc: '2.0',
+            id: 0,
+            method: 'assets_whitelist_get',
+            params: {},
+        };
+        this.backendService.call_wallet_rpc([wallet_id, params], (status, response_data: AssetsWhitelistGetResponseData) => {
+            const { result } = response_data;
+            wallet.assetsInfoWhitelist = result;
+        });
+    }
+
     getWalletById(wallet_id: number): Wallet | undefined {
         const { wallets } = this.variablesService;
         return wallets.find(w => w.wallet_id === wallet_id);
@@ -59,6 +81,8 @@ export class WalletsService {
         };
 
         this.backendService.getWalletInfo(wallet_id, callback);
+
+        this.loadAssetsWhitelist(wallet_id);
     }
 
     closeWallet(wallet_id: number): void {

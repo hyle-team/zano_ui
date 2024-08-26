@@ -29,7 +29,7 @@ $ng-select-dropdown-optgroup-text: var(--white-500) !default;
 $ng-select-dropdown-optgroup-marked: $ng-select-dropdown-optgroup-text !default;
 $ng-select-dropdown-option-bg: $ng-select-dropdown-bg !default;
 $ng-select-dropdown-option-text: var(--white-500) !default;
-$ng-select-dropdown-option-disabled: $ng-select-primary-text !default;
+$ng-select-dropdown-option-disabled: rgba(255, 255, 255, 0.5) !important !default;
 
 $ng-select-input-text: var(--white-500) !default;
 
@@ -98,8 +98,12 @@ $circle-background: white !default;
         cursor: not-allowed !important;
 
         > .ng-select-container {
-            background-color: $ng-select-disabled-text;
             cursor: not-allowed !important;
+
+            &:hover {
+                box-shadow: none;
+                border: 0.2rem solid $ng-select-bg;
+            }
         }
     }
 

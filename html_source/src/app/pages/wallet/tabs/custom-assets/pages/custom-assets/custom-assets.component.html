@@ -1,0 +1,149 @@
+<div [ngClass]="{ 'center': !assets.length }" class="container">
+    <ng-container *ngIf="assets.length; else emptyTemplate">
+        <div class="scrolled-content mb-2" fxFlex="1 1 auto">
+            <table class="zano-table">
+                <thead>
+                <tr>
+                    <th>
+                        <div class="bg title">
+                            {{ 'CUSTOM_ASSETS.TABLE.LABELS.LABEL1' | translate }}
+                        </div>
+                    </th>
+                    <th>
+                        <div class="bg title">
+                            {{ 'CUSTOM_ASSETS.TABLE.LABELS.LABEL2' | translate }}
+                        </div>
+                    </th>
+                    <th>
+                        <div class="bg title">
+                            {{ 'CUSTOM_ASSETS.TABLE.LABELS.LABEL3' | translate }}
+                        </div>
+                    </th>
+                    <th>
+                        <div class="bg title">
+                            {{ 'CUSTOM_ASSETS.TABLE.LABELS.LABEL4' | translate }}
+                        </div>
+                    </th>
+                    <th>
+                        <div class="bg title">
+                            {{ 'CUSTOM_ASSETS.TABLE.LABELS.LABEL5' | translate }}
+                        </div>
+                    </th>
+                    <th>
+                        <div class="bg title">
+                            {{ 'CUSTOM_ASSETS.TABLE.LABELS.LABEL6' | translate }}
+                        </div>
+                    </th>
+                    <th>
+                        <div class="bg title">&nbsp;</div>
+                    </th>
+                </tr>
+                <div class="row-divider"></div>
+                </thead>
+                <tbody>
+                <ng-container *ngFor="let asset of assets |
+                    paginate :
+                    paginateArgs; trackBy:
+                    trackByAssets">
+                    <tr>
+                        <td (contextmenu)="variablesService.onContextMenuOnlyCopy($event, asset.asset_id)">{{ asset.asset_id | zanoShortString }}</td>
+                        <td>{{ asset.ticker }}</td>
+                        <td>{{ asset.full_name }}</td>
+                        <td>{{ asset.total_max_supply | intToMoney: asset.decimal_point }}</td>
+                        <td>{{ asset.current_supply | intToMoney: asset.decimal_point }}</td>
+                        <td>{{ asset.decimal_point }}</td>
+                        <td>
+                            <div fxLayout="row" fxLayoutAlign="end center">
+                                <button
+                                    #trigger="cdkOverlayOrigin"
+                                    (click)="$event.stopPropagation(); toggleDropDownMenu(trigger, asset)"
+                                    [disabled]="false"
+                                    cdkOverlayOrigin
+                                    class="btn-icon circle small ml-auto"
+                                    type="button"
+                                >
+                                    <i class="icon dots rotate-90"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="row-divider"></tr>
+                </ng-container>
+                </tbody>
+            </table>
+
+            <a class="btn create-new-asset primary big"
+               routerLink="/wallet/create-new-asset">{{ 'CUSTOM_ASSETS.BUTTONS.BUTTON1' | translate }}</a>
+        </div>
+
+        <pagination-template
+            #p="paginationApi"
+            (pageChange)="paginateArgs.currentPage = $event"
+            *ngIf="isShowPagination"
+            [id]="paginationId"
+            class="ngx-pagination custom-pagination"
+        >
+            <button (click)="p.previous()" [disabled]="p.isFirstPage()"
+                    class="pagination-previous btn-icon circle small mr-0_5">
+                <i class="icon arrow-left-stroke"></i>
+            </button>
+
+            <div *ngFor="let page of p.pages; trackBy: trackByPages" [class.current]="p.getCurrent() === page.value"
+                 class="mr-0_5">
+                <a (click)="p.setCurrent(page.value)" *ngIf="p.getCurrent() !== page.value">
+                    <span>{{ page.label }}</span>
+                </a>
+                <div *ngIf="p.getCurrent() === page.value">
+                    <span>{{ page.label }}</span>
+                </div>
+            </div>
+
+            <button (click)="p.next()" [disabled]="p.isLastPage()" class="pagination-next btn-icon circle small">
+                <i class="icon arrow-right-stroke"></i>
+            </button>
+        </pagination-template>
+    </ng-container>
+
+    <ng-template #emptyTemplate>
+        <p class="mb-2">{{ 'CUSTOM_ASSETS.TEXT.EMPTY' | translate }}</p>
+        <a class="btn create-new-asset primary big"
+           routerLink="/wallet/create-new-asset">{{ 'CUSTOM_ASSETS.BUTTONS.BUTTON1' | translate }}</a>
+    </ng-template>
+</div>
+
+<ng-template
+    (backdropClick)="$event.stopPropagation(); closeDropDownMenu()"
+    [cdkConnectedOverlayBackdropClass]="'opacity-0'"
+    [cdkConnectedOverlayHasBackdrop]="true"
+    [cdkConnectedOverlayOpen]="isOpenDropDownMenu"
+    [cdkConnectedOverlayOrigin]="triggerOrigin"
+    [cdkConnectedOverlayPositions]="connectedOverlayPositions"
+    cdkConnectedOverlay
+>
+    <ul (click)="closeDropDownMenu()" class="list">
+        <li class="item">
+            <button (click)="assetDetails()" class="w-100 px-2 py-1" type="button">
+                <i class="icon info-icon mr-1"></i>
+                <span>{{ 'CUSTOM_ASSETS.DROP_MENU.LABELS.LABEL1' | translate }}</span>
+            </button>
+        </li>
+        <li class="item">
+            <button (click)="openDialog('emit')" class="w-100 px-2 py-1" type="button">
+                <i class="icon emit mr-1"></i>
+                <span>{{ 'CUSTOM_ASSETS.DROP_MENU.LABELS.LABEL2' | translate }}</span>
+            </button>
+        </li>
+        <li class="item">
+            <button (click)="openDialog('update')" class="w-100 px-2 py-1" type="button">
+                <i class="icon update-with-dash mr-1"></i>
+                <span>{{ 'CUSTOM_ASSETS.DROP_MENU.LABELS.LABEL3' | translate }}</span>
+            </button>
+        </li>
+        <li class="item">
+            <button (click)="openDialog('burn')" class="w-100 px-2 py-1" type="button">
+                <i class="icon fire mr-1"></i>
+                <span>{{ 'CUSTOM_ASSETS.DROP_MENU.LABELS.LABEL4' | translate }}</span>
+            </button>
+        </li>
+    </ul>
+</ng-template>

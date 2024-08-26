@@ -36,6 +36,14 @@ i {
     }
 
     // WHITE
+    &.custom-asset {
+        background: center / contain no-repeat url(~src/assets/icons/white/custom-asset_icon.svg);
+    }
+
+    &.emit {
+        background: center / contain no-repeat url(~src/assets/icons/white/emit_icon.svg);
+    }
+
     &.arrow-down-square {
         background: center / contain no-repeat url(~src/assets/icons/white/arrow-down-square.svg);
     }
@@ -46,6 +54,10 @@ i {
 
     &.add {
         background: center / contain no-repeat url(~src/assets/icons/white/add.svg);
+    }
+
+    &.regenerate {
+        background: center / contain no-repeat url(~src/assets/icons/white/regenerate.svg);
     }
 
     &.balance-icon {
@@ -176,6 +188,10 @@ i {
         background: center / contain no-repeat url(~src/assets/icons/white/update.svg);
     }
 
+    &.update-with-dash {
+        background: center / contain no-repeat url(~src/assets/icons/white/update-with-dash_icon.svg);
+    }
+
     &.lock-transaction {
         background: center / contain no-repeat url(~src/assets/icons/white/lock-transaction.svg);
     }
@@ -217,5 +233,10 @@ i {
 
     &.success {
         background: center / contain no-repeat url(~src/assets/icons/aqua/modal-success.svg);
+    }
+
+    // gray
+    &.fire {
+        background: center / contain no-repeat url(~src/assets/icons/gray/fire_ico.svg);
     }
 }

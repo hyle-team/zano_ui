@@ -2,6 +2,7 @@
     <app-breadcrumbs [items]="breadcrumbItems" class="mb-2"></app-breadcrumbs>
 
     <form (ngSubmit)="beforeSubmit()" [formGroup]="form" class="form">
+        <!-- Sending -->
         <div class="form__row" formGroupName="sending">
             <div class="form__field">
                 <label for="sending-amount">
@@ -9,6 +10,7 @@
                 </label>
                 <input
                     (contextmenu)="variablesService.onContextMenu($event)"
+                    [decimalPoint]="sendingDecimalPoint$ | async"
                     [placeholder]="'CREATE_SWAP.FORM.PLACEHOLDERS.PLACEHOLDER1' | translate"
                     appInputValidate="money"
                     class="form__field--input"
@@ -17,32 +19,24 @@
                     type="text"
                 />
                 <div
-                    *ngIf="
-                        form.controls.sending.controls.amount.invalid &&
-                        (form.controls.sending.controls.amount.dirty || form.controls.sending.controls.amount.touched)
-                    "
+                    *ngIf="isVisibleErrorByControl(form.controls.sending.controls.amount) || isVisibleErrorByForm(form.controls.sending)"
                     class="error"
                 >
-                    <div *ngIf="form.controls.sending.controls.amount.errors['zero']">
+                    <div *ngIf="form.controls.sending.controls.amount.hasError('zero')">
                         {{ 'SEND.FORM_ERRORS.AMOUNT_ZERO' | translate }}
-                    </div>
-                    <div *ngIf="form.controls.sending.controls.amount.errors['great_than_unwraped_coins']">
-                        {{ 'SEND.FORM_ERRORS.GREAT_THAN_UNWRAPPED_COINS' | translate }}
-                    </div>
-                    <div *ngIf="form.controls.sending.controls.amount.errors['less_than_zano_needed']">
-                        {{ 'SEND.FORM_ERRORS.LESS_THAN_ZANO_NEEDED' | translate }}
-                    </div>
-                    <div *ngIf="form.controls.sending.controls.amount.errors['wrap_info_null']">
-                        {{ 'SEND.FORM_ERRORS.WRAP_INFO_NULL' | translate }}
                     </div>
                     <div *ngIf="form.controls.sending.controls.amount.hasError('required')">
-                        {{ 'SEND.FORM_ERRORS.AMOUNT_REQUIRED' | translate }}
+                        {{ 'ERRORS.REQUIRED' | translate }}
                     </div>
-                    <div *ngIf="form.controls.sending.controls.amount.hasError('insuficcientFunds')">
-                        {{ form.controls.sending.controls.amount.errors['insuficcientFunds'].errorText | translate }}
+                    <div
+                        *ngIf="form.controls.sending.hasError('greater_than_maximum_amount')">
+                        {{ 'ERRORS.MAX' | translate: { max: form.controls.sending.errors['greater_than_maximum_amount'].max } }}
                     </div>
-                    <div *ngIf="form.controls.sending.controls.amount.hasError('min')">
-                        {{ 'SEND.FORM_ERRORS.AMOUNT_ZERO' | translate }}
+                    <div *ngIf="form.controls.sending.hasError('insuficcientFunds')">
+                        {{ form.controls.sending.errors['insuficcientFunds'].errorText | translate }}
+                    </div>
+                    <div *ngIf="form.controls.sending.hasError('assetHasNotBeenAddedToWallet')">
+                        {{ form.controls.sending.errors['assetHasNotBeenAddedToWallet'].errorText | translate }}
                     </div>
                 </div>
             </div>
@@ -51,41 +45,42 @@
                 <label> &nbsp; </label>
                 <ng-select
                     (change)="form.controls.sending.controls.amount.updateValueAndValidity()"
-                    [bindValue]="'asset_info.asset_id'"
+                    [bindValue]="'asset_id'"
                     [clearable]="false"
-                    [items]="variablesService.currentWallet.balances$ | async"
+                    [items]="sendingAssetsInfo$ | async"
                     [searchable]="false"
                     class="custom-select with-circle"
                     formControlName="asset_id"
                 >
-                    <ng-template let-asset="item" ng-label-tmp ng-option-tmp>
+                    <ng-template let-assetInfo="item" ng-label-tmp ng-option-tmp>
                         <img
-                            [alt]="asset.asset_info.ticker"
-                            [defaultImgSrc]="defaultImgSrc"
-                            [src]="asset.asset_info.asset_id === zanoAssetInfo.asset_id ? zanoAssetInfo.logo : defaultImgSrc"
-                            appDefaultImg
-                            defaultImgAlt="default"
+                            [alt]="assetInfo.ticker"
+                            [src]="getSrcByAssetInfo(assetInfo)"
                             height="15"
                             width="15"
                         />
-                        {{ asset.asset_info.full_name || '---' }}
+                        {{ assetInfo.full_name || '---' }}
                     </ng-template>
                 </ng-select>
             </div>
         </div>
+        <!-- /sending -->
 
         <div class="wrapper-reverse">
-            <button (click)="reverse()" class="revers" type="button">
+            <button (click)="reverse()" [disabled]="currentWallet.isEmptyAssetsInfoWhitelist" class="revers"
+                    type="button">
                 <i class="icon small swap"></i>
             </button>
         </div>
 
+        <!-- Receiving -->
         <div class="form__row" formGroupName="receiving">
             <div class="form__field">
                 <label for="receiving-amount">
                     {{ 'CREATE_SWAP.FORM.LABELS.LABEL2' | translate }}
                 </label>
                 <input
+                    [decimalPoint]="receivingDecimalPoint$ | async"
                     [placeholder]="'CREATE_SWAP.FORM.PLACEHOLDERS.PLACEHOLDER1' | translate"
                     appInputValidate="money"
                     class="form__field--input"
@@ -94,17 +89,22 @@
                     type="text"
                 />
                 <div
-                    *ngIf="
-                        form.controls.receiving.controls.amount.invalid &&
-                        (form.controls.receiving.controls.amount.dirty || form.controls.receiving.controls.amount.touched)
-                    "
+                    *ngIf="isVisibleErrorByControl(form.controls.receiving.controls.amount) ||
+                    isVisibleErrorByForm(form.controls.receiving)"
                     class="error"
                 >
                     <div *ngIf="form.controls.receiving.controls.amount.hasError('required')">
-                        {{ 'SEND.FORM_ERRORS.AMOUNT_REQUIRED' | translate }}
+                        {{ 'ERRORS.REQUIRED' | translate }}
                     </div>
-                    <div *ngIf="form.controls.receiving.controls.amount.hasError('min')">
+                    <div *ngIf="form.controls.receiving.controls.amount.hasError('zero')">
                         {{ 'SEND.FORM_ERRORS.AMOUNT_ZERO' | translate }}
+                    </div>
+                    <div
+                        *ngIf="form.controls.receiving.hasError('greater_than_maximum_amount')">
+                        {{ 'ERRORS.MAX' | translate: { max: form.controls.receiving.errors['greater_than_maximum_amount'].max } }}
+                    </div>
+                    <div *ngIf="form.controls.receiving.hasError('assetHasNotBeenAddedToWallet')">
+                        {{ form.controls.receiving.errors['assetHasNotBeenAddedToWallet'].errorText | translate }}
                     </div>
                 </div>
             </div>
@@ -112,24 +112,21 @@
             <div class="form__field">
                 <label> &nbsp; </label>
                 <ng-select
-                    [bindValue]="'asset_info.asset_id'"
+                    [bindValue]="'asset_id'"
                     [clearable]="false"
-                    [items]="variablesService.currentWallet.balances$ | async"
+                    [items]="receivingAssetsInfo$ | async"
                     [searchable]="false"
                     class="custom-select with-circle"
                     formControlName="asset_id"
                 >
-                    <ng-template let-asset="item" ng-label-tmp ng-option-tmp>
+                    <ng-template let-assetInfo="item" ng-label-tmp ng-option-tmp>
                         <img
-                            [alt]="asset.asset_info.ticker"
-                            [defaultImgSrc]="defaultImgSrc"
-                            [src]="asset.asset_info.asset_id === zanoAssetInfo.asset_id ? zanoAssetInfo.logo : defaultImgSrc"
-                            appDefaultImg
-                            defaultImgAlt="default"
+                            [alt]="assetInfo.ticker"
+                            [src]="getSrcByAssetInfo(assetInfo)"
                             height="15"
                             width="15"
                         />
-                        {{ asset.asset_info.full_name || '---' }}
+                        {{ assetInfo.full_name || '---' }}
                     </ng-template>
                 </ng-select>
                 <div
@@ -147,35 +144,7 @@
                 </div>
             </div>
         </div>
-
-        <div *ngIf="isWrapShown && wrapInfo && !(loading$ | async)" class="wrap mt-2 mb-2 p-2">
-            <div class="title">
-                {{ 'SEND.WRAP.TITLE' | translate }}
-                <i class="icon info-circle"></i>
-            </div>
-            <div class="text-wrap">
-                {{ 'SEND.WRAP.MAIN_TEXT' | translate }}
-            </div>
-            <div class="title">{{ 'SEND.WRAP.ESTIMATE' | translate }}</div>
-            <table class="text-wrap">
-                <tr>
-                    <td>{{ 'SEND.WRAP.WILL_RECEIVE' | translate }}</td>
-                    <td *ngIf="!form.controls.receiving.controls.amount.errors">
-                        {{ getReceivedValue() | intToMoney }}
-                        {{ 'SEND.WRAP.wZANO' | translate }}
-                    </td>
-                    <td *ngIf="form.controls.receiving.controls.amount.errors">-</td>
-                </tr>
-                <tr>
-                    <td>{{ 'SEND.WRAP.FEE' | translate }}</td>
-                    <td>
-                        {{ wrapInfo?.tx_cost?.zano_needed_for_erc20 | intToMoney : 3 }}
-                        {{ 'SEND.WRAP.ZANO' | translate }}
-                        ({{ '$' + wrapInfo.tx_cost?.usd_needed_for_erc20 }})
-                    </td>
-                </tr>
-            </table>
-        </div>
+        <!-- /receiving -->
 
         <div class="form__field form__field-dropdown">
             <label for="receiving-address">
@@ -204,7 +173,8 @@
             >
                 <ng-container *ngIf="aliases$ | async as aliases">
                     <ng-container *ngIf="aliases.length; else notFoundAliases">
-                        <div (click)="form.controls.receiverAddress.patchValue(alias.name)" *ngFor="let alias of aliases" class="item">
+                        <div (click)="form.controls.receiverAddress.patchValue(alias.name)"
+                             *ngFor="let alias of aliases" class="item">
                             <div
                                 [class.available]="alias.name.length >= 2 && alias.name.length <= 6"
                                 [class.pl-1]="alias.name.length > 6"
@@ -221,9 +191,7 @@
             </div>
 
             <div
-                *ngIf="
-                    form.controls.receiverAddress.invalid && (form.controls.receiverAddress.dirty || form.controls.receiverAddress.touched)
-                "
+                *ngIf="isVisibleErrorByControl(form.controls.receiverAddress)"
                 class="error"
             >
                 <div *ngIf="form.controls.receiverAddress.errors['address_not_valid']">
@@ -236,7 +204,7 @@
                     {{ 'SEND.FORM_ERRORS.ALIAS_NOT_VALID' | translate }}
                 </div>
                 <div *ngIf="form.controls.receiverAddress.hasError('required')">
-                    {{ 'SEND.FORM_ERRORS.ADDRESS_REQUIRED' | translate }}
+                    {{ 'ERRORS.REQUIRED' | translate }}
                 </div>
             </div>
 
@@ -247,14 +215,16 @@
 
         <div class="actions">
             <button [disabled]="form.invalid || (loading$ | async)" class="btn primary big w-100" type="submit">
-                <ng-container *ngIf="!(loading$ | async)">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON1' | translate }}</ng-container>
+                <ng-container *ngIf="!(loading$ | async)">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON1' | translate }}
+                </ng-container>
                 <zano-loader *ngIf="loading$ | async" [type]="'circle'"></zano-loader>
             </button>
-            <a class="btn outline big w-100" routerLink="/wallet/swap">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON2' | translate }}</a>
+            <a class="btn outline big w-100"
+               routerLink="/wallet/swap">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON2' | translate }}</a>
         </div>
+
         <div *ngIf="errorRpc" class="error mt-2">
-            Error code: {{ errorRpc.code }} <br />
-            Error message: {{ errorRpc.message || 'hex_raw_proposal not created' }}
+            {{ 'ERRORS.INVALID_PROPOSAL' | translate }}
         </div>
     </form>
 </div>

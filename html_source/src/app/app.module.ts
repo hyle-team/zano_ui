@@ -16,6 +16,7 @@ import { OpenWalletModalComponent } from '@parts/modals/open-wallet-modal/open-w
 import { FlexModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
 import { RegisterContextTemplatesComponent } from '@parts/components/register-context-templates.component';
+import { DEFAULT_DIALOG_CONFIG, DialogConfig } from '@angular/cdk/dialog';
 
 export function highchartsFactory(): any[] {
     highcharts.setOptions({
@@ -60,7 +61,18 @@ export const translateModuleConfig: TranslateModuleConfig = {
         FormsModule,
         RegisterContextTemplatesComponent,
     ],
-    providers: [provideHighchartsFactory],
+    providers: [
+        provideHighchartsFactory,
+        {
+            provide: DEFAULT_DIALOG_CONFIG,
+            useValue: <DialogConfig>{
+                width: '54rem',
+                maxWidth: '95vw',
+                hasBackdrop: true,
+                disableClose: true
+            }
+        }
+    ],
     bootstrap: [AppComponent],
 })
 export class AppModule {}

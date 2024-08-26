@@ -5,11 +5,12 @@ import { SendDetailsModalComponent } from './send-details-modal/send-details-mod
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { GetAssetPipe } from '@parts/pipes';
+import { GetAssetInfoPipe } from '@parts/pipes';
+import { CopyButtonComponent } from '@parts/components/copy-button.component';
 
 @NgModule({
     declarations: [SendModalComponent, SendDetailsModalComponent],
-    imports: [CommonModule, TranslateModule, FlexLayoutModule, ReactiveFormsModule, GetAssetPipe],
+    imports: [CommonModule, TranslateModule, FlexLayoutModule, ReactiveFormsModule, GetAssetInfoPipe, CopyButtonComponent],
     exports: [SendModalComponent, SendDetailsModalComponent],
 })
 export class WalletModalsModule {}

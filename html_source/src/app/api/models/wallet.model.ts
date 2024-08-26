@@ -1,7 +1,7 @@
 import { Contracts } from './contract.model';
 import { Transaction, Transactions } from './transaction.model';
 import { BigNumber } from 'bignumber.js';
-import { Asset, Assets } from './assets.model';
+import { AssetBalance, AssetInfo, AssetBalances, AssetsInfoWhitelist } from './assets.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Alias } from '@api/models/alias.model';
 import { SendMoneyParams } from '@api/models/send-money.model';
@@ -21,25 +21,54 @@ export const defaultSendMoneyParams: SendMoneyParams = {
 
 export class Wallet {
     open_from_exist: boolean;
+
     updated = false;
+
     wallet_id: number;
+
     name: string;
+
     pass: string;
+
     path: string;
+
     address: string;
 
-    private _balances$ = new BehaviorSubject<Assets | null | undefined>(undefined);
+    private _balances$: BehaviorSubject<AssetBalances> = new BehaviorSubject<AssetBalances>([]);
 
-    get balances$(): Observable<Assets | null | undefined> {
+    private _assetsInfoWhitelist: AssetsInfoWhitelist = { global_whitelist: [], local_whitelist: [], own_assets: [] };
+
+    set assetsInfoWhitelist(value: AssetsInfoWhitelist) {
+        this._assetsInfoWhitelist = value;
+    }
+
+    get assetsInfoWhitelist() {
+        return this._assetsInfoWhitelist;
+    }
+
+    get allAssetsInfoWhitelist(): AssetInfo[] {
+        const { global_whitelist = [], local_whitelist = [], own_assets = [] } = this._assetsInfoWhitelist;
+        return [...global_whitelist, ...local_whitelist, ...own_assets];
+    }
+
+    get isEmptyAssetsInfoWhitelist(): boolean {
+        return !this.allAssetsInfoWhitelist.length;
+    }
+
+    get allAssetsInfo(): AssetInfo[] {
+        return [zanoAssetInfo, ...this.allAssetsInfoWhitelist];
+    }
+
+    get balances$(): Observable<AssetBalances> {
         return this._balances$.asObservable();
     }
 
-    get balances(): Assets | null | undefined {
+    get balances(): AssetBalances {
         return this._balances$.value;
     }
 
-    set balances(value: Assets | null | undefined) {
-        const sortedAssets: Assets = [];
+    set balances(value: AssetBalances | null | undefined) {
+        const sortedAssets: AssetBalances = [];
         if (value) {
             const assets = [...value];
             const indexZano = assets.findIndex(({ asset_info: { ticker } }) => ticker === 'ZANO');
@@ -53,30 +82,65 @@ export class Wallet {
         this._balances$.next(sortedAssets);
     }
 
+    get isEmptyBalances(): boolean {
+        if (!this.balances) {
+            return true;
+        }
+
+        for (const asset of this.balances) {
+            const value = asset.total || 0;
+            const isEmpty = !Boolean(new BigNumber(value).toNumber());
+
+            if (!isEmpty) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     mined_total: number;
+
     tracking_hey: string;
+
     is_auditable: boolean;
+
     is_watch_only: boolean;
+
     exclude_mining_txs: boolean;
+
     alias_available: boolean;
 
+    has_bare_unspent_outputs = false;
+
     alias?: Partial<Alias>;
+
     wakeAlias?: boolean;
+
     staking?: boolean;
+
     new_messages?: number;
+
     new_contracts?: number;
 
     history: Transactions = [];
+
     total_history_item?: number;
+
     pages = [];
+
     totalPages: number;
+
     currentPage: number;
+
     excluded_history: Transactions = [];
 
     contracts: Contracts = [];
 
     progress?: number;
+
     loaded?: boolean;
+
     restore?: boolean;
 
     sendMoneyParams: SendMoneyParams | null = null;
@@ -103,8 +167,16 @@ export class Wallet {
         this.loaded = false;
     }
 
-    getBalanceByTicker(searchTicker: string): Asset | undefined {
-        return this.balances?.find(({ asset_info: { ticker } }) => ticker === searchTicker);
+    getBalanceByAssetId(value: string): AssetBalance | undefined {
+        return this.balances.find(({ asset_info: { asset_id } }) => asset_id === value);
+    }
+
+    getAssetInfoByAssetId(value: string): AssetInfo | undefined {
+        return this.allAssetsInfo.find(({ asset_id }) => asset_id === value);
+    }
+
+    getBalanceByTicker(searchTicker: string): AssetBalance | undefined {
+        return this.balances.find(({ asset_info: { ticker } }) => ticker === searchTicker);
     }
 
     getMoneyEquivalentForZano(equivalent): string {
@@ -115,8 +187,8 @@ export class Wallet {
     prepareHistory(items: Transaction[]): void {
         for (let i = 0; i < items.length; i++) {
             if (
-                (items[i].tx_type === 7 && items[i].subtransfers.find(({ is_income }) => is_income)) ||
-                (items[i].tx_type === 11 && items[i].subtransfers.find(({ is_income }) => is_income))
+                (items[i].tx_type === 7 && items[i].subtransfers?.find(({ is_income }) => is_income)) ||
+                (items[i].tx_type === 11 && items[i].subtransfers?.find(({ is_income }) => is_income))
             ) {
                 let exists = false;
                 for (let j = 0; j < this.excluded_history.length; j++) {
@@ -207,7 +279,7 @@ export interface PushOffer {
 
 export interface ResponseGetWalletInfo {
     address: string;
-    balances: Assets;
+    balances: AssetBalances;
     is_auditable: boolean;
     is_watch_only: boolean;
     mined_total: number;
