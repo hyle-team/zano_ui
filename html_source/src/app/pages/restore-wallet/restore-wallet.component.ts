@@ -63,7 +63,7 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
                 Validators.maxLength(this.variablesService.maxWalletNameLength),
                 ZanoValidators.duplicate(this.variablesService.walletNamesForComparisons),
             ]),
-            key: this._fb.control('', Validators.required),
+            seedPhrase: this._fb.control('', Validators.required),
             password: this._fb.control('', Validators.pattern(regExpPassword)),
             confirm: this._fb.control(''),
             seedPassword: this._fb.control('', Validators.pattern(regExpPassword)),
@@ -85,6 +85,12 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
 
     private readonly _translate: TranslateService = inject(TranslateService);
 
+    private submitting: boolean = false;
+
+    get isDisabledCreatedWallet(): boolean {
+        return this.form.invalid || !this.selectedLocationWalletPath || this.submitting;
+    }
+
     get invalidSeedPhraseInfo(): boolean {
         if (!this.seedPhraseInfo) {
             return true;
@@ -96,13 +102,19 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         const {
-            controls: { seedPassword, key },
+            controls: { seedPassword, seedPhrase },
         } = this.form;
-        combineLatest([key.valueChanges, seedPassword.valueChanges.pipe(startWith(seedPassword.value))])
+
+        const obs1 = seedPhrase.valueChanges;
+        const obs2 = seedPassword.valueChanges.pipe(startWith(seedPassword.value));
+
+        combineLatest([obs1, obs2])
             .pipe(debounceTime(500), takeUntil(this._destroy$))
             .subscribe({
                 next: ([seed_phrase, seed_password]) => {
-                    this._backend.getSeedPhraseInfo({ seed_phrase, seed_password }, (status, data) => {
+                    const params = { seed_phrase, seed_password };
+
+                    this._backend.getSeedPhraseInfo(params, (status, data) => {
                         this._ngZone.run(() => {
                             if (!status) {
                                 this.seedPhraseInfo = undefined;
@@ -113,12 +125,13 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
                         });
                     });
 
-                    this._backend.isValidRestoreWalletText({ seed_phrase, seed_password }, (status, data) => {
+                    this._backend.isValidRestoreWalletText(params, (_, data) => {
                         this._ngZone.run(() => {
+                            const control = this.form.get('seedPhrase');
                             if (data !== 'TRUE') {
-                                this.form.get('key').setErrors({ password_seed_phrase_not_valid: true });
+                                control.setErrors({ password_seed_phrase_not_valid: true });
                             } else {
-                                this.form.get('key').updateValueAndValidity();
+                                control.updateValueAndValidity({ emitEvent: false });
                             }
                         });
                     });
@@ -133,9 +146,10 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
         this._destroy$.complete();
     }
 
-    createWallet(): void {
-        const { name, password, key, seedPassword } = this.form.getRawValue();
-        this._backend.restoreWallet(this.selectedLocationWalletPath, password, key, seedPassword, (status, data) => {
+    restore(): void {
+        this.submitting = true;
+        const { name, password, seedPhrase, seedPassword } = this.form.getRawValue();
+        this._backend.restoreWallet(this.selectedLocationWalletPath, password, seedPhrase, seedPassword, (status, data) => {
             this._ngZone.run(() => {
                 if (status) {
                     const { wallet_id } = data;
@@ -173,9 +187,10 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
 
                     this.variablesService.opening_wallet = wallet;
 
-                    this.runWallet();
+                    this._runWallet();
                 } else {
                     this._modalService.prepareModal('error', 'RESTORE_WALLET.NOT_CORRECT_FILE_OR_PASSWORD');
+                    this.submitting = false;
                 }
             });
         });
@@ -202,14 +217,14 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
         });
     }
 
-    runWallet(): void {
+    private _runWallet(): void {
         const { opening_wallet, wallets, appPass } = this.variablesService;
         const { wallet_id, address } = opening_wallet;
 
         // Add flag when wallet was restored form seed
         this.variablesService.after_sync_request[wallet_id] = true;
 
-        const exists: boolean = wallets.some(wallet => wallet.address === address);
+        const exists: boolean = wallets.some((wallet: Wallet): boolean => wallet.address === address);
 
         if (exists) {
             this.variablesService.opening_wallet = null;
@@ -225,11 +240,11 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
             return;
         }
 
+        this.walletsService.addWallet(opening_wallet);
+
         this._backend.runWallet(wallet_id, (status, data) => {
             this._ngZone.run(() => {
                 if (status) {
-                    this.walletsService.addWallet(opening_wallet);
-
                     if (appPass) {
                         this._backend.storeSecureAppData();
                     }
@@ -239,7 +254,9 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
 
                     this._router.navigate(['/wallet/']);
                 } else {
-                    console.log(data['error_code']);
+                    this._modalService.prepareModal('error', data['error_code']);
+                    this.submitting = false;
+                    console.error(data['error_code']);
                 }
             });
         });
