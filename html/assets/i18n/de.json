@@ -631,6 +631,7 @@
             "MAX_LENGTH": "Maximale Namenslänge erreicht",
             "NAME_DUPLICATE": "Name existiert bereits",
             "NAME_REQUIRED": "Name ist erforderlich",
+            "PASSWORD_SEED_PHRASE_INCORRECT": "The password for this seed phrase is incorrect",
             "SEED_PHRASE_IS_NO_VALID": "The seed phrase is not valid."
         },
         "LABEL_NAME": "Wallet-Name",

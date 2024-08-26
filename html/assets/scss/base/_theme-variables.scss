@@ -10,6 +10,7 @@
     --main-text: var(--blue-900);
     --button-color: var(--blue-900);
     --synchronization-status-color: var(--blue-900);
+    --synchronization-progress-bar-container-background: rgba(0, 0, 0, 0.1);
     --dialog-background: #ffffff;
     --block-sync: #505274;
 
@@ -105,6 +106,7 @@
     --main-text: var(--white-500);
     --button-color: var(--white-500);
     --synchronization-status-color: var(--white-500);
+    --synchronization-progress-bar-container-background: var(--gray-900);
     --dialog-background: var(--blue-700);
     --block-sync: #a8abb5;
 

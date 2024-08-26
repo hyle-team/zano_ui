@@ -216,6 +216,7 @@ strong {
   --main-text: var(--blue-900);
   --button-color: var(--blue-900);
   --synchronization-status-color: var(--blue-900);
+  --synchronization-progress-bar-container-background: rgba(0, 0, 0, 0.1);
   --dialog-background: #ffffff;
   --block-sync: #505274;
   --auth-card-background: #fcfcfc;
@@ -283,6 +284,7 @@ strong {
   --main-text: var(--white-500);
   --button-color: var(--white-500);
   --synchronization-status-color: var(--white-500);
+  --synchronization-progress-bar-container-background: var(--gray-900);
   --dialog-background: var(--blue-700);
   --block-sync: #a8abb5;
   --auth-card-background: var(--blue-700);
@@ -1578,7 +1580,7 @@ body {
   height: 0.6rem;
   width: 100%;
   overflow: hidden;
-  background-color: var(--gray-900);
+  background-color: var(--synchronization-progress-bar-container-background);
 }.synchronization-status .status-container .progress-bar-container .syncing .progress-bar .fill {
   border-radius: 0.2rem;
   height: 100%;
@@ -2178,6 +2180,8 @@ table.rounded-corners > tfoot:not(:last-child) {
   background-color: var(--white-500);
 }.light .wallet.active .header .close {
   color: #ffffff;
+}.light .wallet.active.watch-only .header .close {
+  color: var(--wallet-watch-only-text);
 }.light .wallet .progress-bar {
   background-color: rgba(12, 12, 58, 0.1019607843);
 }.light .wallet .progress-bar .fill {
