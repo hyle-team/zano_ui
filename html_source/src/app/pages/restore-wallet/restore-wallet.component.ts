@@ -1,199 +1,28 @@
 import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { ModalService } from '@parts/services/modal.service';
 import { Wallet } from '@api/models/wallet.model';
 import { TranslateService } from '@ngx-translate/core';
-import { pairwise, startWith, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { debounceTime, startWith, takeUntil } from 'rxjs/operators';
+import { combineLatest, Subject } from 'rxjs';
 import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
 import { WalletsService } from '@parts/services/wallets.service';
 import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
 
+interface SeedPhraseInfo {
+    address: string;
+    hash_sum_matched: boolean;
+    require_password: boolean;
+    syntax_correct: boolean;
+    tracking: boolean;
+}
+
 @Component({
     selector: 'app-restore-wallet',
-    template: `
-        <div class="page-container">
-            <div class="toolbar mb-2">
-                <div class="left">
-                    <app-back-button></app-back-button>
-                    <h1 class="ml-2">{{ 'BREADCRUMBS.ADD_WALLET' | translate }}</h1>
-                </div>
-                <div class="right"></div>
-            </div>
-
-            <div class="page-content">
-                <app-breadcrumbs class="mb-2" [items]="breadcrumbItems"></app-breadcrumbs>
-
-                <div class="scrolled-content">
-                    <form [formGroup]="restoreForm" class="form">
-                        <div class="form__field">
-                            <label for="wallet-name">{{ 'RESTORE_WALLET.LABEL_NAME' | translate }}</label>
-                            <input
-                                (contextmenu)="variablesService.onContextMenu($event)"
-                                [attr.readonly]="walletSaved ? '' : null"
-                                [maxLength]="variablesService.maxWalletNameLength"
-                                [placeholder]="'PLACEHOLDERS.WALLET_NAME_PLACEHOLDER' | translate"
-                                class="form__field--input"
-                                formControlName="name"
-                                id="wallet-name"
-                                type="text"
-                            />
-                            <div
-                                *ngIf="
-                                    restoreForm.controls['name'].invalid &&
-                                    (restoreForm.controls['name'].dirty || restoreForm.controls['name'].touched)
-                                "
-                                class="error"
-                            >
-                                <div *ngIf="restoreForm.controls['name'].errors['duplicate']">
-                                    {{ 'RESTORE_WALLET.FORM_ERRORS.NAME_DUPLICATE' | translate }}
-                                </div>
-                                <div *ngIf="restoreForm.get('name').value.length >= variablesService.maxWalletNameLength">
-                                    {{ 'RESTORE_WALLET.FORM_ERRORS.MAX_LENGTH' | translate }}
-                                </div>
-                                <div *ngIf="restoreForm.get('name').value.length >= variablesService.maxWalletNameLength">
-                                    {{ 'RESTORE_WALLET.FORM_ERRORS.MAX_LENGTH' | translate }}
-                                </div>
-                                <div *ngIf="restoreForm.controls['name'].errors['required']">
-                                    {{ 'RESTORE_WALLET.FORM_ERRORS.NAME_REQUIRED' | translate }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form__field">
-                            <label for="wallet-password">{{ 'RESTORE_WALLET.PASS' | translate }}</label>
-                            <input
-                                (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
-                                [attr.readonly]="walletSaved ? '' : null"
-                                class="form__field--input"
-                                formControlName="password"
-                                id="wallet-password"
-                                placeholder="{{ 'PLACEHOLDERS.WALET_PASSWORD_PLACEHOLDER' | translate }}"
-                                type="password"
-                            />
-                            <div *ngIf="restoreForm.controls['password'].dirty && restoreForm.controls['password'].errors" class="error">
-                                <div *ngIf="restoreForm.controls['password'].errors.pattern">
-                                    {{ 'ERRORS.WRONG_PASSWORD' | translate }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form__field">
-                            <label for="confirm-wallet-password">{{ 'RESTORE_WALLET.CONFIRM' | translate }}</label>
-                            <input
-                                (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
-                                [attr.readonly]="walletSaved ? '' : null"
-                                [class.invalid]="
-                                    restoreForm.controls['password'].dirty &&
-                                    restoreForm.controls['confirm'].dirty &&
-                                    restoreForm.errors &&
-                                    restoreForm.get('confirm').value.length > 0
-                                "
-                                class="form__field--input"
-                                formControlName="confirm"
-                                id="confirm-wallet-password"
-                                placeholder="{{ 'PLACEHOLDERS.CONFIRM_WALET_PASSWORD_PLACEHOLDER' | translate }}"
-                                type="password"
-                            />
-                            <div
-                                *ngIf="
-                                    restoreForm.controls['password'].dirty &&
-                                    restoreForm.controls['confirm'].dirty &&
-                                    restoreForm.errors &&
-                                    restoreForm.get('confirm').value.length > 0
-                                "
-                                class="error"
-                            >
-                                <div *ngIf="restoreForm.errors['mismatch']">
-                                    {{ 'RESTORE_WALLET.FORM_ERRORS.CONFIRM_NOT_MATCH' | translate }}
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form__field">
-                            <label for="phrase-key">{{ 'RESTORE_WALLET.LABEL_PHRASE_KEY' | translate }}</label>
-                            <input
-                                (contextmenu)="variablesService.onContextMenu($event)"
-                                [attr.readonly]="walletSaved ? '' : null"
-                                [placeholder]="'PLACEHOLDERS.SEED_PHRASE_PLACEHOLDER' | translate"
-                                class="form__field--input"
-                                formControlName="key"
-                                id="phrase-key"
-                                type="text"
-                            />
-                            <div
-                                *ngIf="
-                                    restoreForm.controls['key'].invalid &&
-                                    (restoreForm.controls['key'].dirty || restoreForm.controls['key'].touched)
-                                "
-                                class="error"
-                            >
-                                <div *ngIf="restoreForm.controls['key'].errors['required']">
-                                    {{ 'RESTORE_WALLET.FORM_ERRORS.KEY_REQUIRED' | translate }}
-                                </div>
-                            </div>
-                            <div
-                                *ngIf="
-                                    (restoreForm.controls['key'].dirty || restoreForm.controls['key'].touched) &&
-                                    !this.seedPhraseInfo?.syntax_correct
-                                "
-                                class="error"
-                            >
-                                {{ 'RESTORE_WALLET.FORM_ERRORS.SEED_PHRASE_IS_NO_VALID' | translate }}
-                            </div>
-                        </div>
-                        <div *ngIf="this.seedPhraseInfo?.syntax_correct && this.seedPhraseInfo?.require_password" class="form__field">
-                            <label for="seed-password">{{ 'RESTORE_WALLET.SEED_PASSWORD' | translate }}</label>
-                            <input
-                                class="form__field--input"
-                                formControlName="seedPassword"
-                                id="seed-password"
-                                placeholder="{{ 'PLACEHOLDERS.SEED_PHRASE_PLACEHOLDER' | translate }}"
-                                type="password"
-                            />
-                            <div
-                                *ngIf="
-                                    (restoreForm.controls['seedPassword'].dirty || restoreForm.controls['seedPassword'].touched) &&
-                                    !this.seedPhraseInfo?.hash_sum_matched
-                                "
-                                class="error"
-                            >
-                                <span>{{ 'RESTORE_WALLET.FORM_ERRORS.INCORRECT_PASSWORD' | translate }}</span>
-                            </div>
-                            <div *ngIf="this.seedPhraseInfo?.hash_sum_matched" class="success">
-                                <span>{{ 'RESTORE_WALLET.OK' | translate }}</span>
-                            </div>
-                        </div>
-
-                        <button *ngIf="walletSaved" class="outline big w-100 mb-2" disabled type="button">
-                            <i class="icon"></i>
-                            {{ walletSavedName }}
-                        </button>
-                        <button
-                            (click)="saveWallet()"
-                            *ngIf="!walletSaved"
-                            [disabled]="
-                                restoreForm.invalid ||
-                                ((!this.seedPhraseInfo?.syntax_correct ||
-                                    !this.seedPhraseInfo?.require_password ||
-                                    !this.seedPhraseInfo?.hash_sum_matched) &&
-                                    (!this.seedPhraseInfo?.syntax_correct || this.seedPhraseInfo?.require_password))
-                            "
-                            class="outline big w-100 mb-2"
-                            type="button"
-                        >
-                            {{ 'RESTORE_WALLET.BUTTON_SELECT' | translate }}
-                        </button>
-                        <button (click)="createWallet()" [disabled]="!walletSaved" class="primary big w-100 mb-2" type="button">
-                            {{ 'RESTORE_WALLET.BUTTON_CREATE' | translate }}
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    `,
+    templateUrl: './restore-wallet.component.html',
     styles: [
         `
             :host {
@@ -205,9 +34,7 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
     ],
 })
 export class RestoreWalletComponent implements OnInit, OnDestroy {
-    fb = inject(FormBuilder);
-
-    breadcrumbItems: BreadcrumbItems = [
+    public readonly breadcrumbItems: BreadcrumbItems = [
         {
             routerLink: '/add-wallet',
             title: 'BREADCRUMBS.ADD_WALLET',
@@ -217,207 +44,221 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
         },
     ];
 
-    restoreForm = this.fb.group(
+    public selectedLocationWalletName: string;
+
+    public selectedLocationWalletPath: string;
+
+    public seedPhraseInfo: SeedPhraseInfo = null;
+
+    public readonly walletsService: WalletsService = inject(WalletsService);
+
+    public readonly variablesService: VariablesService = inject(VariablesService);
+
+    private readonly _fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
+
+    public readonly form = this._fb.group(
         {
-            name: this.fb.nonNullable.control('', [
+            name: this._fb.control('', [
                 Validators.required,
+                Validators.maxLength(this.variablesService.maxWalletNameLength),
                 ZanoValidators.duplicate(this.variablesService.walletNamesForComparisons),
             ]),
-            key: this.fb.nonNullable.control('', Validators.required),
-            password: this.fb.nonNullable.control('', Validators.pattern(regExpPassword)),
-            confirm: this.fb.nonNullable.control('', Validators.pattern(regExpPassword)),
-            seedPassword: this.fb.nonNullable.control('', Validators.pattern(regExpPassword)),
+            seedPhrase: this._fb.control('', Validators.required),
+            password: this._fb.control('', Validators.pattern(regExpPassword)),
+            confirm: this._fb.control(''),
+            seedPassword: this._fb.control('', Validators.pattern(regExpPassword)),
         },
         {
             validators: [ZanoValidators.formMatch('password', 'confirm')],
         }
     );
 
-    wallet = {
-        id: '',
-    };
+    private _destroy$: Subject<void> = new Subject<void>();
 
-    walletSaved = false;
+    private readonly _router: Router = inject(Router);
 
-    walletSavedName = '';
+    private readonly _backend: BackendService = inject(BackendService);
 
-    progressWidth = '9rem';
+    private readonly _modalService: ModalService = inject(ModalService);
 
-    seedPhraseInfo = null;
+    private readonly _ngZone: NgZone = inject(NgZone);
 
-    private destroy$ = new Subject<void>();
+    private readonly _translate: TranslateService = inject(TranslateService);
 
-    constructor(
-        public walletsService: WalletsService,
-        public variablesService: VariablesService,
-        private router: Router,
-        private backend: BackendService,
-        private modalService: ModalService,
-        private ngZone: NgZone,
-        private translate: TranslateService
-    ) {}
+    private submitting: boolean = false;
+
+    get isDisabledCreatedWallet(): boolean {
+        return this.form.invalid || !this.selectedLocationWalletPath || this.submitting;
+    }
+
+    get invalidSeedPhraseInfo(): boolean {
+        if (!this.seedPhraseInfo) {
+            return true;
+        }
+
+        const { syntax_correct, require_password, hash_sum_matched } = this.seedPhraseInfo;
+        return (!syntax_correct || !require_password || !hash_sum_matched) && (!syntax_correct || require_password);
+    }
 
     ngOnInit(): void {
-        this.checkValidSeedPhrasePassword();
-        this.changeDetectionSeedPhrasePassword();
+        const {
+            controls: { seedPassword, seedPhrase },
+        } = this.form;
+
+        const obs1 = seedPhrase.valueChanges;
+        const obs2 = seedPassword.valueChanges.pipe(startWith(seedPassword.value));
+
+        combineLatest([obs1, obs2])
+            .pipe(debounceTime(500), takeUntil(this._destroy$))
+            .subscribe({
+                next: ([seed_phrase, seed_password]) => {
+                    const params = { seed_phrase, seed_password };
+
+                    this._backend.getSeedPhraseInfo(params, (status, data) => {
+                        this._ngZone.run(() => {
+                            if (!status) {
+                                this.seedPhraseInfo = undefined;
+                                return;
+                            }
+
+                            this.seedPhraseInfo = data;
+                        });
+                    });
+
+                    this._backend.isValidRestoreWalletText(params, (_, data) => {
+                        this._ngZone.run(() => {
+                            const control = this.form.get('seedPhrase');
+                            if (data !== 'TRUE') {
+                                control.setErrors({ password_seed_phrase_not_valid: true });
+                            } else {
+                                control.updateValueAndValidity({ emitEvent: false });
+                            }
+                        });
+                    });
+                },
+            });
     }
 
     ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
+        this.variablesService.opening_wallet = null;
+
+        this._destroy$.next();
+        this._destroy$.complete();
     }
 
-    changeDetectionSeedPhrasePassword(): void {
-        this.restoreForm.controls.seedPassword.valueChanges.pipe(startWith(null), pairwise(), takeUntil(this.destroy$)).subscribe({
-            next: () => {
-                this.checkValidSeedPhrasePassword();
-            },
-        });
-        this.restoreForm.controls.key.valueChanges.pipe(startWith(null), pairwise(), takeUntil(this.destroy$)).subscribe({
-            next: () => {
-                this.checkValidSeedPhrasePassword();
-            },
-        });
-    }
+    restore(): void {
+        this.submitting = true;
+        const { name, password, seedPhrase, seedPassword } = this.form.getRawValue();
+        this._backend.restoreWallet(this.selectedLocationWalletPath, password, seedPhrase, seedPassword, (status, data) => {
+            this._ngZone.run(() => {
+                if (status) {
+                    const { wallet_id } = data;
+                    const { path, address, balance, unlocked_balance, mined_total, tracking_hey, is_auditable, is_watch_only } = data['wi'];
+                    const wallet: Wallet = new Wallet(
+                        wallet_id,
+                        name,
+                        password,
+                        path,
+                        address,
+                        balance,
+                        unlocked_balance,
+                        mined_total,
+                        tracking_hey
+                    );
+                    wallet.is_auditable = is_auditable;
+                    wallet.is_watch_only = is_watch_only;
 
-    checkValidSeedPhrasePassword(): void {
-        const seed_password = this.restoreForm.controls.seedPassword.value;
-        const seed_phrase = this.restoreForm.controls.key.value;
-        this.backend.getSeedPhraseInfo({ seed_phrase, seed_password }, (status, data) => {
-            this.ngZone.run(() => {
-                this.seedPhraseInfo = data;
-            });
-        });
-    }
+                    wallet.restore = true;
 
-    createWallet(): void {
-        this.ngZone.run(() => {
-            this.progressWidth = '100%';
-            this.runWallet();
-        });
-    }
+                    wallet.alias = this._backend.getWalletAlias(wallet.address);
 
-    saveWallet(): void {
-        if (this.restoreForm.valid && this.restoreForm.get('name').value.length <= this.variablesService.maxWalletNameLength) {
-            this.backend.isValidRestoreWalletText(
-                {
-                    seed_phrase: this.restoreForm.get('key').value,
-                    seed_password: this.restoreForm.get('seedPassword').value,
-                },
-                (valid_status, valid_data) => {
-                    if (valid_data !== 'TRUE') {
-                        this.ngZone.run(() => {
-                            this.restoreForm.get('key').setErrors({ key_not_valid: true });
-                        });
-                    } else {
-                        this.backend.saveFileDialog(
-                            this.translate.instant('RESTORE_WALLET.CHOOSE_PATH'),
-                            '*',
-                            this.variablesService.settings.default_path,
-                            (save_status, save_data) => {
-                                if (save_status) {
-                                    this.variablesService.settings.default_path = save_data.path.substr(0, save_data.path.lastIndexOf('/'));
-                                    this.walletSavedName = save_data.path.substr(
-                                        save_data.path.lastIndexOf('/') + 1,
-                                        save_data.path.length - 1
-                                    );
-                                    this.backend.restoreWallet(
-                                        save_data.path,
-                                        this.restoreForm.get('password').value,
-                                        this.restoreForm.get('key').value,
-                                        this.restoreForm.get('seedPassword').value,
-                                        (restore_status, restore_data) => {
-                                            if (restore_status) {
-                                                this.wallet.id = restore_data.wallet_id;
-                                                this.variablesService.opening_wallet = new Wallet(
-                                                    restore_data.wallet_id,
-                                                    this.restoreForm.get('name').value,
-                                                    this.restoreForm.get('password').value,
-                                                    restore_data['wi'].path,
-                                                    restore_data['wi'].address,
-                                                    restore_data['wi'].balance,
-                                                    restore_data['wi'].unlocked_balance,
-                                                    restore_data['wi'].mined_total,
-                                                    restore_data['wi'].tracking_hey
-                                                );
-                                                this.variablesService.opening_wallet.is_auditable = restore_data['wi'].is_auditable;
-                                                this.variablesService.opening_wallet.is_watch_only = restore_data['wi'].is_watch_only;
-                                                this.variablesService.opening_wallet.currentPage = 1;
-                                                this.variablesService.opening_wallet.alias = this.backend.getWalletAlias(
-                                                    this.variablesService.opening_wallet.address
-                                                );
-                                                this.variablesService.opening_wallet.pages = new Array(1).fill(1);
-                                                this.variablesService.opening_wallet.totalPages = 1;
-                                                this.variablesService.opening_wallet.currentPage = 1;
-                                                this.variablesService.opening_wallet.total_history_item = 0;
-                                                this.variablesService.opening_wallet.restore = true;
-                                                if (restore_data.recent_history && restore_data.recent_history.history) {
-                                                    this.variablesService.opening_wallet.totalPages = Math.ceil(
-                                                        restore_data.recent_history.total_history_items / this.variablesService.count
-                                                    );
-                                                    this.variablesService.opening_wallet.totalPages > this.variablesService.maxPages
-                                                        ? (this.variablesService.opening_wallet.pages = new Array(5)
-                                                              .fill(1)
-                                                              .map((value, index) => value + index))
-                                                        : (this.variablesService.opening_wallet.pages = new Array(
-                                                              this.variablesService.opening_wallet.totalPages
-                                                          )
-                                                              .fill(1)
-                                                              .map((value, index) => value + index));
-                                                    this.variablesService.opening_wallet.prepareHistory(
-                                                        restore_data.recent_history.history
-                                                    );
-                                                }
-                                                this.ngZone.run(() => {
-                                                    this.walletSaved = true;
-                                                    this.progressWidth = '50%';
-                                                });
-                                            } else {
-                                                this.modalService.prepareModal('error', 'RESTORE_WALLET.NOT_CORRECT_FILE_OR_PASSWORD');
-                                            }
-                                        }
-                                    );
-                                }
-                            }
-                        );
+                    wallet.currentPage = 1;
+                    wallet.pages = new Array(1).fill(1);
+                    wallet.totalPages = 1;
+                    wallet.total_history_item = 0;
+
+                    if (data.recent_history && data.recent_history.history) {
+                        wallet.totalPages = Math.ceil(data.recent_history.total_history_items / this.variablesService.count);
+                        wallet.totalPages > this.variablesService.maxPages
+                            ? (wallet.pages = new Array(5).fill(1).map((value, index) => value + index))
+                            : (wallet.pages = new Array(wallet.totalPages).fill(1).map((value, index) => value + index));
+                        wallet.prepareHistory(data.recent_history.history);
                     }
-                }
-            );
-        }
-    }
 
-    runWallet(): void {
-        // add flag when wallet was restored form seed
-        this.variablesService.after_sync_request[this.wallet.id] = true;
-        let exists = false;
-        this.variablesService.wallets.forEach(wallet => {
-            if (wallet.address === this.variablesService.opening_wallet.address) {
-                exists = true;
-            }
-        });
-        if (!exists) {
-            this.backend.runWallet(this.wallet.id, (run_status, run_data) => {
-                if (run_status) {
-                    this.walletsService.addWallet(this.variablesService.opening_wallet);
-                    if (this.variablesService.appPass) {
-                        this.backend.storeSecureAppData();
-                    }
-                    this.ngZone.run(() => {
-                        this.variablesService.setCurrentWallet(this.wallet.id);
-                        this.router.navigate(['/wallet/']);
-                    });
+                    this.variablesService.opening_wallet = wallet;
+
+                    this._runWallet();
                 } else {
-                    console.log(run_data['error_code']);
+                    this._modalService.prepareModal('error', 'RESTORE_WALLET.NOT_CORRECT_FILE_OR_PASSWORD');
+                    this.submitting = false;
                 }
             });
-        } else {
+        });
+    }
+
+    selectLocation(): void {
+        const caption = this._translate.instant('RESTORE_WALLET.CHOOSE_PATH');
+        const fileMask = '*';
+        const {
+            settings: { default_path },
+        } = this.variablesService;
+
+        this._backend.saveFileDialog(caption, fileMask, default_path, (status, data) => {
+            this._ngZone.run(() => {
+                if (status) {
+                    const startWalletName = data.path.lastIndexOf('/') + 1;
+                    const endWalletName = data.path.length - 1;
+                    this.selectedLocationWalletName = data.path.substr(startWalletName, endWalletName);
+                    this.selectedLocationWalletPath = data.path;
+
+                    this.variablesService.settings.default_path = data.path.substr(0, data.path.lastIndexOf('/'));
+                }
+            });
+        });
+    }
+
+    private _runWallet(): void {
+        const { opening_wallet, wallets, appPass } = this.variablesService;
+        const { wallet_id, address } = opening_wallet;
+
+        // Add flag when wallet was restored form seed
+        this.variablesService.after_sync_request[wallet_id] = true;
+
+        const exists: boolean = wallets.some((wallet: Wallet): boolean => wallet.address === address);
+
+        if (exists) {
             this.variablesService.opening_wallet = null;
-            this.modalService.prepareModal('error', 'OPEN_WALLET.WITH_ADDRESS_ALREADY_OPEN');
-            this.backend.closeWallet(this.wallet.id, () => {
-                this.ngZone.run(() => {
-                    this.router.navigate(['/']);
+
+            this._modalService.prepareModal('error', 'OPEN_WALLET.WITH_ADDRESS_ALREADY_OPEN');
+
+            this._backend.closeWallet(wallet_id, () => {
+                this._ngZone.run(() => {
+                    this._router.navigate(['/']);
                 });
             });
+
+            return;
         }
+
+        this.walletsService.addWallet(opening_wallet);
+
+        this._backend.runWallet(wallet_id, (status, data) => {
+            this._ngZone.run(() => {
+                if (status) {
+                    if (appPass) {
+                        this._backend.storeSecureAppData();
+                    }
+
+                    this.variablesService.setCurrentWallet(wallet_id);
+                    this.variablesService.opening_wallet = null;
+
+                    this._router.navigate(['/wallet/']);
+                } else {
+                    this._modalService.prepareModal('error', data['error_code']);
+                    this.submitting = false;
+                    console.error(data['error_code']);
+                }
+            });
+        });
     }
 }

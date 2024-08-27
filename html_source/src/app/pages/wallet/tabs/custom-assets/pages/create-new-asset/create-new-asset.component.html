@@ -1,12 +1,7 @@
 <div class="scrolled-content" fxFlex="1 1 auto" fxLayout="column">
     <app-breadcrumbs [items]="breadcrumbItems" class="mb-2"></app-breadcrumbs>
 
-    <form (ngSubmit)="submit()"
-          [formGroup]="form"
-          class="form"
-          fxFlex="0 1 50rem"
-          fxLayout="column"
-          fxLayoutAlign="start stretch">
+    <form (ngSubmit)="submit()" [formGroup]="form" class="form" fxFlex="0 1 50rem" fxLayout="column" fxLayoutAlign="start stretch">
         <!-- ticker -->
         <div class="form__field--row">
             <div class="form__field">
@@ -22,23 +17,17 @@
                     id="ticker"
                     type="text"
                 />
-                <div
-                    *ngIf="
-                                form.controls.ticker.invalid &&
-                                (form.controls.ticker.dirty || form.controls.ticker.touched)
-                            "
-                    class="error"
-                >
+                <div *ngIf="form.controls.ticker.invalid && (form.controls.ticker.dirty || form.controls.ticker.touched)" class="error">
                     <div *ngIf="form.controls.ticker.errors['required']">
                         {{ 'ERRORS.REQUIRED' | translate }}
                     </div>
 
                     <div *ngIf="form.controls.ticker.errors['minlength'] as err">
-                        {{ 'ERRORS.MIN_LENGTH' | translate: { requiredLength: err.requiredLength } }}
+                        {{ 'ERRORS.MIN_LENGTH' | translate : { requiredLength: err.requiredLength } }}
                     </div>
 
                     <div *ngIf="form.controls.ticker.errors['maxlength'] as err">
-                        {{ 'ERRORS.MAX_LENGTH' | translate: { requiredLength: err.requiredLength } }}
+                        {{ 'ERRORS.MAX_LENGTH' | translate : { requiredLength: err.requiredLength } }}
                     </div>
                 </div>
             </div>
@@ -57,10 +46,7 @@
                     type="text"
                 />
                 <div
-                    *ngIf="
-                                form.controls.full_name.invalid &&
-                                (form.controls.full_name.dirty || form.controls.full_name.touched)
-                            "
+                    *ngIf="form.controls.full_name.invalid && (form.controls.full_name.dirty || form.controls.full_name.touched)"
                     class="error"
                 >
                     <div *ngIf="form.controls.full_name.errors['required']">
@@ -68,11 +54,11 @@
                     </div>
 
                     <div *ngIf="form.controls.full_name.errors['minlength'] as err">
-                        {{ 'ERRORS.MIN_LENGTH' | translate: { requiredLength: err.requiredLength } }}
+                        {{ 'ERRORS.MIN_LENGTH' | translate : { requiredLength: err.requiredLength } }}
                     </div>
 
                     <div *ngIf="form.controls.full_name.errors['maxLength'] as err">
-                        {{ 'ERRORS.MAX_LENGTH' | translate: { requiredLength: err.requiredLength } }}
+                        {{ 'ERRORS.MAX_LENGTH' | translate : { requiredLength: err.requiredLength } }}
                     </div>
                 </div>
             </div>
@@ -97,9 +83,9 @@
                 />
                 <div
                     *ngIf="
-                                form.controls.total_max_supply.invalid &&
-                                (form.controls.total_max_supply.dirty || form.controls.total_max_supply.touched)
-                            "
+                        form.controls.total_max_supply.invalid &&
+                        (form.controls.total_max_supply.dirty || form.controls.total_max_supply.touched)
+                    "
                     class="error"
                 >
                     <span *ngIf="form.controls.total_max_supply.errors['required']">
@@ -109,7 +95,7 @@
 
                 <div *ngIf="form.hasError('greater_than_max') && (form.dirty || form.touched)" class="error">
                     {{ 'ERRORS.TO_BIG_TOTAL_SUPPLY' | translate }}
-                    {{ 'ERRORS.MAX' | translate: { max: form.errors['greater_than_max'].max } }}
+                    {{ 'ERRORS.MAX' | translate : { max: form.errors['greater_than_max'].max } }}
                 </div>
             </div>
 
@@ -131,9 +117,8 @@
                 />
                 <div
                     *ngIf="
-                                form.controls.current_supply.invalid &&
-                                (form.controls.current_supply.dirty || form.controls.current_supply.touched)
-                            "
+                        form.controls.current_supply.invalid && (form.controls.current_supply.dirty || form.controls.current_supply.touched)
+                    "
                     class="error"
                 >
                     <div *ngIf="form.controls.current_supply.errors['required']">
@@ -162,10 +147,7 @@
                 type="text"
             />
             <div
-                *ngIf="
-                                form.controls.decimal_point.invalid &&
-                                (form.controls.decimal_point.dirty || form.controls.decimal_point.touched)
-                            "
+                *ngIf="form.controls.decimal_point.invalid && (form.controls.decimal_point.dirty || form.controls.decimal_point.touched)"
                 class="error"
             >
                 <div *ngIf="form.controls.decimal_point.errors['required']">
@@ -173,11 +155,11 @@
                 </div>
 
                 <div *ngIf="form.controls.decimal_point.errors['min'] as error">
-                    {{ 'ERRORS.MIN' | translate: { min: error.min } }}
+                    {{ 'ERRORS.MIN' | translate : { min: error.min } }}
                 </div>
 
                 <div *ngIf="form.controls.decimal_point.errors['max'] as error">
-                    {{ 'ERRORS.MAX' | translate: { max: error.max } }}
+                    {{ 'ERRORS.MAX' | translate : { max: error.max } }}
                 </div>
             </div>
         </div>
@@ -194,23 +176,16 @@
             ></textarea>
 
             <div
-                *ngIf="
-                                form.controls.meta_info.invalid &&
-                                (form.controls.meta_info.dirty || form.controls.meta_info.touched)
-                            "
+                *ngIf="form.controls.meta_info.invalid && (form.controls.meta_info.dirty || form.controls.meta_info.touched)"
                 class="error"
             >
                 <div *ngIf="form.controls.meta_info.errors['maxlength'] as err">
-                    {{ 'ERRORS.MAX_LENGTH' | translate: { requiredLength: err.requiredLength } }}
+                    {{ 'ERRORS.MAX_LENGTH' | translate : { requiredLength: err.requiredLength } }}
                 </div>
             </div>
         </div>
 
-        <button
-            [disabled]="form.invalid"
-            class="primary big max-w-19-rem w-100"
-            type="submit"
-        >
+        <button [disabled]="form.invalid" class="primary big max-w-19-rem w-100" type="submit">
             {{ 'CREATE_NEW_ASSETS.FORM.BUTTONS.BUTTON1' | translate }}
         </button>
     </form>

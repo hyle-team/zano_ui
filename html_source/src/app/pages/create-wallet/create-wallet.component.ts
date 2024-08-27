@@ -101,7 +101,7 @@ import { BehaviorSubject } from 'rxjs';
                         </div>
 
                         <button *ngIf="createForm.controls.path.valid" class="outline big w-100 mb-2" disabled type="button">
-                            <i class="icon check-circle mr-1"></i>
+                            <mat-icon svgIcon="zano-check-circle" class="mr-1"></mat-icon>
                             {{ savedWalletName }}
                         </button>
 
@@ -210,10 +210,10 @@ export class CreateWalletComponent {
                     wallet.pages = new Array(1).fill(1);
                     wallet.totalPages = 1;
                     wallet.currentPage = 1;
+                    this.walletsService.addWallet(wallet);
                     await this.backend.runWallet(wallet_id, async (run_status, run_data) => {
                         if (run_status) {
                             await this.ngZone.run(async () => {
-                                this.walletsService.addWallet(wallet);
                                 if (this.variablesService.appPass) {
                                     this.backend.storeSecureAppData();
                                 }

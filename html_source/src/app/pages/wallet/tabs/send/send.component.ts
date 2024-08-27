@@ -1,23 +1,32 @@
-import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, NgZone, OnDestroy } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, NonNullableFormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { BigNumber } from 'bignumber.js';
 import { MIXIN } from '@parts/data/constants';
-import { debounceTime, delay, filter, map, retry, startWith, take, takeUntil, tap } from 'rxjs/operators';
+import { catchError, debounceTime, distinctUntilChanged, map, retry, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { BehaviorSubject, combineLatest, merge, Observable, of, Subject } from 'rxjs';
-import { AssetBalance } from '@api/models/assets.model';
+import { AssetBalance, PriceInfo } from '@api/models/assets.model';
 import { regExpAliasName } from '@parts/utils/zano-validators';
 import { insuficcientFunds } from '@parts/utils/zano-errors';
-import { Alias, Aliases } from '@api/models/alias.model';
 import { DeeplinkParams, defaultSendMoneyParams } from '@api/models/wallet.model';
 import { WrapInfo } from '@api/models/wrap-info';
 import { WrapInfoService } from '@api/services/wrap-info.service';
-import { SendMoneyParams } from '@api/models/send-money.model';
-import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
+import { SendMoneyFormParams } from '@api/models/send-money.model';
+import { defaultImgSrc, ZanoAssetInfo, zanoAssetInfo } from '@parts/data/assets';
 import { moneyToInt } from '@parts/functions/money-to-int';
 import { intToMoney } from '@parts/functions/int-to-money';
 import { TranslateService } from '@ngx-translate/core';
+import { WalletsService } from '@parts/services/wallets.service';
+import { HttpClient } from '@angular/common/http';
+
+interface AmountInputParams {
+    decimalPoint: number;
+    inputTicker: string;
+    hintTicker: string;
+    hintAmount: string;
+    reverseDisabled: boolean;
+}
 
 @Component({
     selector: 'app-send',
@@ -30,31 +39,28 @@ import { TranslateService } from '@ngx-translate/core';
         `,
     ],
 })
-export class SendComponent implements OnInit, OnDestroy {
+export class SendComponent implements OnDestroy {
     job_id: number;
-
-    controllerVisibleDropdownAliasesState$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
-    isVisibleDropdownAliasesState$: Observable<boolean> = this.controllerVisibleDropdownAliasesState$.pipe(delay(250));
 
     isSendModalState: boolean = false;
 
     isSendDetailsModalState: boolean = false;
 
-    hideWalletAddress: boolean = false;
-
     wrapInfo: WrapInfo;
 
-    loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+    loadingWrapInfo$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
     isVisibleWrapInfoState$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
     aliasAddress: string;
 
     isVisibleAdditionalOptionsState: boolean = false;
+
     variablesService: VariablesService = inject(VariablesService);
+
     wrapInfoService: WrapInfoService = inject(WrapInfoService);
-    items$: Observable<(AssetBalance & { disabled: boolean })[]> = combineLatest([
+
+    assetItems$: Observable<(AssetBalance & { disabled: boolean })[]> = combineLatest([
         this.variablesService.currentWallet.balances$,
         this.isVisibleWrapInfoState$,
     ]).pipe(
@@ -76,33 +82,51 @@ export class SendComponent implements OnInit, OnDestroy {
             return items;
         })
     );
-    aliases$: BehaviorSubject<Aliases> = new BehaviorSubject<Aliases>(this.variablesService.aliases);
+
     lowerCaseDisabled$: BehaviorSubject<boolean> = new BehaviorSubject(true);
+
     form: FormGroup<{
         wallet_id: FormControl<number>;
         address: FormControl<string>;
         amount: FormControl<string>;
+        isAmountUSD: FormControl<boolean>;
         comment: FormControl<string>;
         asset_id: FormControl<string>;
         mixin: FormControl<number>;
         fee: FormControl<string>;
         hide: FormControl<boolean>;
     }>;
-    decimal_point$: Observable<number>;
+
+    addressItems$: Observable<string[]>;
+
+    loadingAddressItems$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+
+    amountInputParams: AmountInputParams = {
+        decimalPoint: 0,
+        inputTicker: '',
+        hintTicker: '',
+        hintAmount: '',
+        reverseDisabled: false,
+    };
+
     errorMessages: { [key: string]: string | undefined } = {
         address: undefined,
         fee: undefined,
     };
+    public readonly zanoAssetInfo: ZanoAssetInfo = zanoAssetInfo;
+    public priceInfo: PriceInfo = { success: false, data: 'Asset not found' };
+    private _priceInfo$: Subject<PriceInfo> = new Subject();
     private _fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
+    private _httpClient: HttpClient = inject(HttpClient);
     private _destroy$: Subject<void> = new Subject<void>();
-
     private _backendService: BackendService = inject(BackendService);
-
     private _ngZone: NgZone = inject(NgZone);
-
     private _translateService: TranslateService = inject(TranslateService);
+    private _walletsService: WalletsService = inject(WalletsService);
+    private _openedWalletItems: string[] = this._walletsService.wallets.map(({ address, alias }) => alias?.name ?? address);
+    private _aliasItems: string[] = this.variablesService.aliases.map(({ name }) => name);
 
-    ngOnInit(): void {
+    constructor() {
         this._getWrapInfo();
 
         this._createForm();
@@ -178,12 +202,8 @@ export class SendComponent implements OnInit, OnDestroy {
         }
     }
 
-    isVisibleErrorByControl(control: AbstractControl): boolean {
+    isVisibleError(control: AbstractControl): boolean {
         return control.invalid && (control.dirty || control.touched);
-    }
-
-    isVisibleErrorByForm(form: FormGroup): boolean {
-        return form.invalid && (form.dirty || form.touched);
     }
 
     beforeSubmit(): void {
@@ -198,19 +218,39 @@ export class SendComponent implements OnInit, OnDestroy {
     }
 
     submit(): void {
-        let sendMoneyParams: SendMoneyParams = this.form.getRawValue();
-        const { address, asset_id, amount } = sendMoneyParams;
+        let sendMoneyParams = this.form.getRawValue();
+
+        const { address, asset_id, isAmountUSD } = sendMoneyParams;
+        let { amount } = sendMoneyParams;
 
         const { currentWallet } = this.variablesService;
         const asset: AssetBalance | undefined = currentWallet.getBalanceByAssetId(asset_id);
 
         if (asset) {
-            // const {
-            //     asset_info: { decimal_point },
-            // } = asset;
+            const convertedAmountUSD = (): string => {
+                let usd = 0;
+
+                if (typeof this.priceInfo.data === 'object') {
+                    const { data } = this.priceInfo;
+                    usd = data.usd;
+                }
+
+                let decimal_point = 0;
+
+                if (asset) {
+                    const { asset_info } = asset;
+                    decimal_point = asset_info.decimal_point;
+                }
+
+                const convertedAmount = new BigNumber(amount || 0).dividedBy(usd || 0).decimalPlaces(decimal_point);
+
+                return convertedAmount.toString();
+            };
+
+            amount = isAmountUSD ? convertedAmountUSD() : amount;
+
             sendMoneyParams = {
                 ...sendMoneyParams,
-                // amount: moneyToInt(amount, decimal_point).toString(),
                 amount,
             };
         } else {
@@ -222,7 +262,8 @@ export class SendComponent implements OnInit, OnDestroy {
 
         if (address.indexOf('@') === 0) {
             const aliasName = address;
-            const alias = this.aliases$.value.find(({ name }) => name === aliasName);
+            const { aliases } = this.variablesService;
+            const alias = aliases.find(({ name }) => name === aliasName);
 
             if (!alias) {
                 this.form.controls.address.setErrors({
@@ -237,6 +278,9 @@ export class SendComponent implements OnInit, OnDestroy {
             };
         }
 
+        // Remove unused param
+        delete sendMoneyParams.isAmountUSD;
+
         this._backendService.sendMoney(sendMoneyParams, (job_id: number) => {
             this._ngZone.run(() => {
                 this.job_id = job_id;
@@ -250,10 +294,39 @@ export class SendComponent implements OnInit, OnDestroy {
         const {
             controls: {
                 amount: { value: amount },
+                isAmountUSD: { value: isAmountUSD },
+                asset_id: { value: asset_id },
             },
         } = this.form;
-        const preparedAmount: BigNumber = moneyToInt(amount);
-        const needed: BigNumber = new BigNumber(this.wrapInfo.tx_cost.zano_needed_for_erc20);
+
+        const convertedAmountUSD = (): string => {
+            let usd = 0;
+
+            if (typeof this.priceInfo.data === 'object') {
+                const { data } = this.priceInfo;
+                usd = data.usd;
+            }
+
+            let decimal_point = 0;
+            const { currentWallet } = this.variablesService;
+            const asset: AssetBalance | undefined = currentWallet.getBalanceByAssetId(asset_id);
+
+            if (asset) {
+                const { asset_info } = asset;
+                decimal_point = asset_info.decimal_point;
+            }
+
+            const convertedAmount = new BigNumber(amount || 0).dividedBy(usd || 0).decimalPlaces(decimal_point);
+
+            return convertedAmount.toString();
+        };
+        const preparedAmount: BigNumber = moneyToInt(isAmountUSD ? convertedAmountUSD() : amount || '0');
+
+        const {
+            tx_cost: { zano_needed_for_erc20 },
+        } = this.wrapInfo;
+        const needed: BigNumber = new BigNumber(zano_needed_for_erc20);
+
         if (preparedAmount && needed) {
             return preparedAmount.minus(needed);
         }
@@ -289,30 +362,19 @@ export class SendComponent implements OnInit, OnDestroy {
         address.patchValue(value);
     }
 
-    inputListenAddressField({ target: { value } }: any): void {
-        const { aliases } = this.variablesService;
+    trackByFn(index: number, value: string): number | string {
+        return value ?? index;
+    }
 
-        of(value ?? '')
-            .pipe(
-                tap(v => this.lowerCaseDisabled$.next(v.indexOf('@') !== 0)),
-                tap(v => this.controllerVisibleDropdownAliasesState$.next(!!v.length && v.indexOf('@') === 0)),
-                filter(v => v.indexOf('@') === 0),
-                take(1)
-            )
-            .subscribe({
-                next: v => {
-                    const filteredAliases: Alias[] = aliases.filter(({ name }) => {
-                        return name.indexOf(v) > -1;
-                    });
-                    this.aliases$.next(filteredAliases);
-                },
-            });
+    toggleAmountUSD(): void {
+        const { isAmountUSD } = this.form.getRawValue();
+        this.form.controls.isAmountUSD.patchValue(!isAmountUSD);
     }
 
     private _createForm(): void {
         const { currentWallet, default_fee, maxCommentLength, maximum_value } = this.variablesService;
 
-        let params: SendMoneyParams;
+        let params: SendMoneyFormParams;
 
         if (currentWallet.sendMoneyParams) {
             params = currentWallet.sendMoneyParams;
@@ -355,6 +417,7 @@ export class SendComponent implements OnInit, OnDestroy {
                         Validators.required,
                         (control: AbstractControl): ValidationErrors | null => {
                             this.aliasAddress = '';
+                            this.isVisibleWrapInfoState$.next(false);
                             if (control.value) {
                                 if (control.value.indexOf('@') !== 0) {
                                     this._backendService.validateAddress(control.value, (valid_status, data) => {
@@ -411,30 +474,17 @@ export class SendComponent implements OnInit, OnDestroy {
                     validators: [
                         Validators.required,
                         ({ value }: AbstractControl): ValidationErrors | null => {
-                            const isZero: boolean = new BigNumber(value).eq(0);
+                            const isZero: boolean = new BigNumber(value || 0).eq(0);
 
                             if (isZero) {
                                 return { zero: true };
-                            }
-
-                            const amount: BigNumber = moneyToInt(value);
-
-                            if (this.isVisibleWrapInfoState$.value) {
-                                if (!this.wrapInfo) {
-                                    return { wrap_info_null: true };
-                                }
-                                if (amount.isGreaterThan(new BigNumber(this.wrapInfo.unwraped_coins_left))) {
-                                    return { great_than_unwraped_coins: true };
-                                }
-                                if (amount.isLessThan(new BigNumber(this.wrapInfo.tx_cost.zano_needed_for_erc20))) {
-                                    return { less_than_zano_needed: true };
-                                }
                             }
 
                             return null;
                         },
                     ],
                 }),
+                isAmountUSD: this._fb.control<boolean>(params.isAmountUSD),
                 comment: this._fb.control<string>(params.comment, {
                     validators: [Validators.maxLength(maxCommentLength)],
                 }),
@@ -471,10 +521,41 @@ export class SendComponent implements OnInit, OnDestroy {
             {
                 validators: [
                     (form: FormGroup): ValidationErrors | null => {
-                        const asset_id = form.controls.asset_id.getRawValue();
-                        const amount: BigNumber = new BigNumber(form.controls.amount.getRawValue());
+                        const asset_id = form.controls.asset_id.value;
+                        const isAmountUSD = form.controls.isAmountUSD.value;
+
+                        const convertedAmountUSD = (): BigNumber => {
+                            let usd = 0;
+                            if (typeof this.priceInfo.data === 'object') {
+                                const { data } = this.priceInfo;
+                                usd = data.usd;
+                            }
+                            return new BigNumber(form.controls.amount.value).dividedBy(usd);
+                        };
+
+                        const amount: BigNumber = isAmountUSD ? convertedAmountUSD() : new BigNumber(form.controls.amount.value);
 
                         const assetBalance: AssetBalance | undefined = currentWallet.getBalanceByAssetId(asset_id);
+
+                        if (this.isVisibleWrapInfoState$.value) {
+                            let error = null;
+
+                            if (!this.wrapInfo) {
+                                error = { wrap_info_null: true };
+                            }
+
+                            if (amount.isGreaterThan(intToMoney(new BigNumber(this.wrapInfo.unwraped_coins_left)))) {
+                                error = { great_than_unwraped_coins: true };
+                            }
+
+                            if (amount.isLessThan(intToMoney(new BigNumber(this.wrapInfo.tx_cost.zano_needed_for_erc20)))) {
+                                error = { less_than_zano_needed: true };
+                            }
+
+                            if (error) {
+                                form.controls.amount.setErrors(error);
+                            }
+                        }
 
                         if (!assetBalance) {
                             return {
@@ -514,24 +595,119 @@ export class SendComponent implements OnInit, OnDestroy {
 
     private _formListeners(): void {
         const { currentWallet } = this.variablesService;
-        const {
-            controls: { asset_id, address, fee },
-        } = this.form;
+        const { controls } = this.form;
 
-        this.decimal_point$ = this.form.controls.asset_id.valueChanges.pipe(
-            startWith(asset_id.value),
-            map((value: string): number => {
-                return currentWallet.getBalanceByAssetId(value)?.asset_info.decimal_point ?? 0;
-            })
-        );
+        combineLatest([
+            controls.asset_id.valueChanges.pipe(startWith(controls.asset_id.value)),
+            controls.isAmountUSD.valueChanges.pipe(startWith(controls.isAmountUSD.value), distinctUntilChanged()),
+            controls.amount.valueChanges.pipe(startWith(controls.amount.value)),
+            this._priceInfo$,
+        ])
+            .pipe(
+                map(([asset_id, isAmountUSD, amount, priceInfo]) => {
+                    const { decimal_point, ticker } = currentWallet.getBalanceByAssetId(asset_id)?.asset_info ?? {};
 
-        merge(address.statusChanges, address.valueChanges)
+                    const params: AmountInputParams = {
+                        decimalPoint: decimal_point,
+                        inputTicker: ticker,
+                        hintTicker: 'USD',
+                        hintAmount: '0',
+                        reverseDisabled: false,
+                    };
+
+                    const { success } = priceInfo;
+
+                    if (success) {
+                        const { data } = priceInfo;
+
+                        let usd = 0;
+
+                        if (typeof data === 'object') {
+                            usd = data.usd;
+                        }
+
+                        if (isAmountUSD) {
+                            params.decimalPoint = 2;
+                            params.inputTicker = 'USD';
+                            params.hintTicker = ticker;
+                            params.hintAmount = `~ ${new BigNumber(+amount ?? 0).dividedBy(usd ?? 0).decimalPlaces(decimal_point)}`;
+                        } else {
+                            params.decimalPoint = decimal_point;
+                            params.inputTicker = ticker;
+                            params.hintTicker = 'USD';
+                            params.hintAmount = `~ ${new BigNumber(usd ?? 0).multipliedBy(+amount ?? 0).decimalPlaces(2)}`;
+                        }
+                    } else {
+                        params.reverseDisabled = true;
+                        controls.isAmountUSD.patchValue(false);
+                    }
+
+                    return params;
+                })
+            )
+            .pipe(takeUntil(this._destroy$))
+            .subscribe({
+                next: params => {
+                    this.amountInputParams = params;
+                },
+            });
+
+        controls.asset_id.valueChanges
+            .pipe(
+                startWith(controls.asset_id.value),
+                switchMap(asset_id => {
+                    const default$ = of({
+                        success: false,
+                        data: 'Asset not found',
+                    });
+                    const price$ = this._httpClient.get<PriceInfo>(`https://explorer.zano.org/api/price?asset_id=${asset_id}`).pipe(
+                        retry(5),
+                        catchError((err: Error) => {
+                            return default$;
+                        })
+                    );
+                    return zanoAssetInfo.asset_id === asset_id ? price$ : default$;
+                }),
+                takeUntil(this._destroy$)
+            )
+            .subscribe({
+                next: (value: PriceInfo) => {
+                    this.priceInfo = value;
+                    this._priceInfo$.next(value);
+
+                    this.form.controls.amount.updateValueAndValidity({ emitEvent: false });
+                },
+            });
+
+        merge(controls.address.statusChanges, controls.address.valueChanges)
             .pipe(takeUntil(this._destroy$))
             .subscribe((): void => this.updateAddressErrorMessage());
 
-        merge(fee.statusChanges, fee.valueChanges)
+        merge(controls.fee.statusChanges, controls.fee.valueChanges)
             .pipe(takeUntil(this._destroy$))
             .subscribe((): void => this.updateFeeErrorMessage());
+
+        this.addressItems$ = controls.address.valueChanges.pipe(
+            startWith(controls.address.value),
+            tap(value => {
+                const condition = value[0] === '@';
+                this.lowerCaseDisabled$.next(!condition);
+                this.loadingAddressItems$.next(condition);
+            }),
+            debounceTime(250),
+            map(value => {
+                if (!value?.length) {
+                    return this._openedWalletItems;
+                }
+                if (value[0] === '@') {
+                    return this._aliasItems.filter(name => {
+                        return name.includes(value);
+                    });
+                }
+                return [];
+            }),
+            tap(() => this.loadingAddressItems$.next(false))
+        );
     }
 
     private _updateErrorMessages(): void {
@@ -545,7 +721,7 @@ export class SendComponent implements OnInit, OnDestroy {
         valueChanges.pipe(debounceTime(200), takeUntil(this._destroy$)).subscribe({
             next: (): void => {
                 currentWallet.sendMoneyParams = this.form.getRawValue();
-            }
+            },
         });
     }
 
@@ -553,20 +729,20 @@ export class SendComponent implements OnInit, OnDestroy {
         this.wrapInfoService
             .getWrapInfo()
             .pipe(
-                tap(() => this.loading$.next(true)),
+                tap(() => this.loadingWrapInfo$.next(true)),
                 retry(5),
                 takeUntil(this._destroy$)
             )
             .subscribe({
                 next: (wrapInfo: WrapInfo) => {
                     this.wrapInfo = wrapInfo;
-                    this.loading$.next(false);
+                    this.loadingWrapInfo$.next(false);
                 },
                 error: () => {
-                    this.loading$.next(false);
+                    this.loadingWrapInfo$.next(false);
                 },
                 complete: () => {
-                    this.loading$.next(false);
+                    this.loadingWrapInfo$.next(false);
                 },
             });
     }

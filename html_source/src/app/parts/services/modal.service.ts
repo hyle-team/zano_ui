@@ -1,59 +1,38 @@
-import { ApplicationRef, ComponentFactoryResolver, EmbeddedViewRef, Injectable, Injector, NgZone } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { inject, Injectable, NgZone } from '@angular/core';
 import { ModalContainerComponent } from '../modals/modal-container/modal-container.component';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
+import { take } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
 })
 export class ModalService {
-    private components: any[] = [];
+    private _count: number = 0;
 
-    constructor(
-        private componentFactoryResolver: ComponentFactoryResolver,
-        private appRef: ApplicationRef,
-        private injector: Injector,
-        private ngZone: NgZone,
-        private translate: TranslateService
-    ) {}
+    private readonly _matDialog: MatDialog = inject(MatDialog);
 
-    prepareModal(type: 'error' | 'info' | 'success' | string, message): void {
-        const length = this.components.push(
-            this.componentFactoryResolver.resolveComponentFactory(ModalContainerComponent).create(this.injector)
-        );
+    private readonly _ngZone: NgZone = inject(NgZone);
 
-        this.components[length - 1].instance['type'] = type;
-        this.components[length - 1].instance['message'] = message.length ? this.translate.instant(message) : '';
-        this.components[length - 1].instance['eventClose']?.subscribe({
-            next: () => {
-                this.ngZone.run(() => {
-                    this.removeModal(length - 1);
-                });
+    prepareModal(type: 'error' | 'info' | 'success' | string, message: any): void {
+        const config: MatDialogConfig = {
+            data: {
+                type,
+                message,
             },
-        });
+            width: '34rem'
+        };
 
-        this.ngZone.run(() => {
-            this.appendModal(length - 1);
-        });
-    }
+        this._ngZone.run(() => {
+            const matDialogRef: MatDialogRef<ModalContainerComponent> = this._matDialog.open(ModalContainerComponent, config);
 
-    appendModal(index): void {
-        setTimeout(() => {
-            this.appRef.attachView(this.components[index].hostView);
-            const domElem = (this.components[index].hostView as EmbeddedViewRef<any>).rootNodes[0] as HTMLElement;
-            document.body.appendChild(domElem);
+            matDialogRef
+                .afterOpened()
+                .pipe(take(1))
+                .subscribe(() => this._count + 1);
+            matDialogRef
+                .afterClosed()
+                .pipe(take(1))
+                .subscribe(() => this._count - 1);
         });
-    }
-
-    removeModal(index): void {
-        if (this.components[index]) {
-            this.appRef.detachView(this.components[index].hostView);
-            this.components[index].destroy();
-            this.components.splice(index, 1);
-        } else {
-            const last = this.components.length - 1;
-            this.appRef.detachView(this.components[last].hostView);
-            this.components[last].destroy();
-            this.components.splice(last, 1);
-        }
     }
 }

@@ -15,6 +15,8 @@ import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { Dialog } from '@angular/cdk/dialog';
 import { ZanoLoadersService } from '@parts/services/zano-loaders.service';
 import { ParamsCallRpc } from '@api/models/call_rpc.model';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-root',
@@ -63,6 +65,15 @@ export class AppComponent implements OnInit, OnDestroy {
 
     needOpenWallets = [];
 
+    currentScreenSize: string;
+
+    displayNameMap = new Map([
+        [Breakpoints.XSmall, 'XSmall'],
+        [Breakpoints.Small, 'Small'],
+        [Breakpoints.Medium, 'Medium'],
+        [Breakpoints.Large, 'Large'],
+        [Breakpoints.XLarge, 'XLarge'],
+    ]);
     private destroy$ = new Subject<void>();
 
     constructor(
@@ -77,15 +88,44 @@ export class AppComponent implements OnInit, OnDestroy {
         private modalService: ModalService,
         private store: Store,
         private dialog: Dialog,
-        public zanoLoadersService: ZanoLoadersService
+        private matDialog: MatDialog,
+        public zanoLoadersService: ZanoLoadersService,
+        private _breakpointObserver: BreakpointObserver
     ) {
         translate.addLangs(['en', 'fr', 'de', 'it', 'pt']);
         translate.setDefaultLang('en');
-        translate.use('en').subscribe({
-            next: () => {
-                this.translateUsed = true;
-            },
-        });
+        translate
+            .use('en')
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: () => {
+                    this.translateUsed = true;
+                },
+            });
+
+        this._setResponseClasses();
+    }
+
+    private _setResponseClasses(): void {
+        this._breakpointObserver
+            .observe([
+                Breakpoints.XSmall, // XSmall	(max-width: 599.98px)
+                Breakpoints.Small, // Small	(min-width: 600px) and (max-width: 959.98px)
+                Breakpoints.Medium, // Medium	(min-width: 960px) and (max-width: 1279.98px)
+                Breakpoints.Large, // Large	(min-width: 1280px) and (max-width: 1919.98px)
+                Breakpoints.XLarge, // XLarge	(min-width: 1920px)
+            ])
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(result => {
+                for (const query of Object.keys(result.breakpoints)) {
+                    if (result.breakpoints[query]) {
+                        this.currentScreenSize = this.displayNameMap.get(query) ?? 'Unknown';
+
+                        document.body.classList.remove(...this.displayNameMap.values());
+                        document.body.classList.add(this.currentScreenSize);
+                    }
+                }
+            });
     }
 
     setBackendLocalization(): void {
@@ -132,6 +172,8 @@ export class AppComponent implements OnInit, OnDestroy {
                     // });
 
                     this.dialog.closeAll();
+                    this.matDialog.closeAll();
+
                     this.needOpenWallets = [];
                     this.variablesService.daemon_state = 5;
 
@@ -239,12 +281,18 @@ export class AppComponent implements OnInit, OnDestroy {
                             if (max === 0 || return_val < 0) {
                                 this.variablesService.sync.progress_value = 0;
                                 this.variablesService.sync.progress_value_text = '0.00';
+                                this.variablesService.sync.blocks.current = 0;
+                                this.variablesService.sync.blocks.max = 0;
                             } else if (return_val >= 100) {
                                 this.variablesService.sync.progress_value = 100;
                                 this.variablesService.sync.progress_value_text = '99.99';
+                                this.variablesService.sync.blocks.current = current;
+                                this.variablesService.sync.blocks.max = max;
                             } else {
                                 this.variablesService.sync.progress_value = return_val;
                                 this.variablesService.sync.progress_value_text = return_val.toFixed(2);
+                                this.variablesService.sync.blocks.current = current;
+                                this.variablesService.sync.blocks.max = max;
                             }
                         }
 
@@ -668,17 +716,21 @@ export class AppComponent implements OnInit, OnDestroy {
                                 this.variablesService.settings[key] = data[key];
                             }
                         }
+
+                        const { isDarkTheme$, visibilityBalance$, settings } = this.variablesService;
+
+                        isDarkTheme$.next(settings.isDarkTheme);
+                        visibilityBalance$.next(settings.visibilityBalance);
                         // TODO: Delete this line after return appUseTor
-                        this.variablesService.settings.appUseTor = false;
-                        if (
-                            hasOwnProperty(this.variablesService.settings, 'scale') &&
-                            ['8px', '10px', '12px', '14px'].indexOf(this.variablesService.settings.scale) !== -1
-                        ) {
-                            this.renderer.setStyle(document.documentElement, 'font-size', this.variablesService.settings.scale);
+                        settings.appUseTor = false;
+                        if (hasOwnProperty(settings, 'scale') && ['8px', '10px', '12px', '14px'].indexOf(settings.scale) !== -1) {
+                            this.renderer.setStyle(document.documentElement, 'font-size', settings.scale);
                         } else {
-                            this.variablesService.settings.scale = '10px';
-                            this.renderer.setStyle(document.documentElement, 'font-size', this.variablesService.settings.scale);
+                            settings.scale = '10px';
+                            this.renderer.setStyle(document.documentElement, 'font-size', settings.scale);
                         }
+
+                        this.renderer.setAttribute(document.documentElement, 'class', settings.isDarkTheme ? 'dark' : 'light');
                     }
                     this.translate.use(this.variablesService.settings.language);
                     this.setBackendLocalization();
@@ -687,7 +739,10 @@ export class AppComponent implements OnInit, OnDestroy {
                     this.backendService.setEnableTor(this.variablesService.settings.appUseTor);
 
                     if (!this.variablesService.settings.wallets || this.variablesService.settings.wallets.length === 0) {
-                        return this.router.navigate([`${paths.auth}/${pathsChildrenAuth.noWallet}`]).then();
+                        this.ngZone.run(() => {
+                            this.router.navigate([`${paths.auth}/${pathsChildrenAuth.noWallet}`]).then();
+                        });
+                        return;
                     }
 
                     if (this.router.url !== '/login') {
@@ -749,6 +804,12 @@ export class AppComponent implements OnInit, OnDestroy {
                 }
             },
         });
+
+        this.variablesService.isDarkTheme$.pipe(takeUntil(this.destroy$)).subscribe({
+            next: isDarkTheme => {
+                this.renderer.setAttribute(document.documentElement, 'class', isDarkTheme ? 'dark' : 'light');
+            },
+        });
     }
 
     ngOnDestroy(): void {
@@ -767,14 +828,22 @@ export class AppComponent implements OnInit, OnDestroy {
             .get('https://explorer.zano.org/api/price?asset=zano')
             .pipe(take(1))
             .subscribe({
-                next: ({ data }: { data: { zano: { usd: number; usd_24h_change: number }; success: boolean } }): void => {
-                    this.variablesService.moneyEquivalent = data['zano']['usd'];
-                    this.variablesService.moneyEquivalentPercent = data['zano']['usd_24h_change'];
+                next: ({ data, success }: { data: { zano: { usd: number; usd_24h_change: number } }; success: boolean }): void => {
+                    if (success) {
+                        this.variablesService.zanoMoneyEquivalent = data['zano']['usd'];
+                        this.variablesService.zanoMoneyEquivalentPercent = data['zano']['usd_24h_change'];
+                    }
                 },
                 error: error => {
                     console.warn('api.coingecko.com price error: ', error);
                 },
             });
+
+        this.variablesService.isDarkTheme$.pipe(takeUntil(this.destroy$)).subscribe({
+            next: isDarkTheme => {
+                this.renderer.setAttribute(document.documentElement, 'class', isDarkTheme ? 'dark' : 'light');
+            },
+        });
     }
 
     getAliases(): void {

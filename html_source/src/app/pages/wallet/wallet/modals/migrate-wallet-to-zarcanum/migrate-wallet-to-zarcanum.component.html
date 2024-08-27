@@ -1,41 +1,41 @@
-<div class="p-2 border-radius-0_8-rem bg-light-blue w-100 max-h-90-vh" fxFlex="0 1 54rem">
-    <div class="overflow-hidden" fxFlexFill fxLayout="column">
-        <h3 class="title mb-2" fxFlex="0 0 auto">
-            {{ 'MIGRATE_WALLET_TO_ZARCANUM.TITLE' | translate }}
-        </h3>
+<h3 mat-dialog-title>
+    {{ 'MIGRATE_WALLET_TO_ZARCANUM.TITLE' | translate }}
+</h3>
 
-        <div class="details mb-2">
-            <p class="mb-2 mt-2">
-                {{
-                    'MIGRATE_WALLET_TO_ZARCANUM.TEXT1'
-                        | translate
-                            : {
-                                  total_bare_outs: dialogData.total_bare_outs,
-                                  total_amount: dialogData.total_amount | intToMoney
-                              }
-                }}
-            </p>
-            <p class="text-align-center cursor-pointer mb-2" fxLayout="row" fxLayoutAlign="start center" (click)="openZarcanumMigration()">
-                <i class="icon question-circle mr-0_5"></i>
-                <span class="color-primary">{{ 'MIGRATE_WALLET_TO_ZARCANUM.LINK1' | translate }}</span>
-            </p>
-            <hr class="mb-2" />
-            <p class="mb-2">
-                {{
-                    'MIGRATE_WALLET_TO_ZARCANUM.TEXT2'
-                        | translate
-                            : {
-                                  txs_count: dialogData.txs_count,
-                                  expected_total_fee: dialogData.expected_total_fee | intToMoney
-                              }
-                }}
-            </p>
-        </div>
-
-        <div class="controls w-100" fxFlex="0 0 auto" fxLayout="row nowrap" fxLayoutGap="1rem">
-            <button class="primary big w-100" type="button" (click)="migrate()">
-                {{ 'MIGRATE_WALLET_TO_ZARCANUM.BUTTON1' | translate }}
-            </button>
-        </div>
+<mat-dialog-content>
+    <div class="details">
+        <p class="mb-2 mt-2">
+            {{
+                'MIGRATE_WALLET_TO_ZARCANUM.TEXT1'
+                    | translate
+                        : {
+                              total_bare_outs: data.total_bare_outs,
+                              total_amount: data.total_amount | intToMoney
+                          }
+            }}
+        </p>
+        <p (click)="openZarcanumMigration()" class="text-align-center cursor-pointer mb-2" fxLayout="row" fxLayoutAlign="start center">
+            <mat-icon class="mr-0_5" svgIcon="zano-question"></mat-icon>
+            <span class="color-primary">{{ 'MIGRATE_WALLET_TO_ZARCANUM.LINK1' | translate }}</span>
+        </p>
+        <hr class="mb-2" />
+        <p class="mb-2">
+            {{
+                'MIGRATE_WALLET_TO_ZARCANUM.TEXT2'
+                    | translate
+                        : {
+                              txs_count: data.txs_count,
+                              expected_total_fee: data.expected_total_fee | intToMoney
+                          }
+            }}
+        </p>
     </div>
-</div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <div fxFlex="1 1 auto" fxLayout="row nowrap" fxLayoutGap="1rem">
+        <button (click)="migrate()" class="primary big w-100" type="button">
+            {{ 'MIGRATE_WALLET_TO_ZARCANUM.BUTTON1' | translate }}
+        </button>
+    </div>
+</mat-dialog-actions>

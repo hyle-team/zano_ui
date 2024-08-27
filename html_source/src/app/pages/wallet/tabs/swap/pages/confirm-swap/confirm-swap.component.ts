@@ -12,10 +12,10 @@ import { VariablesService } from '@parts/services/variables.service';
 import { ParamsCallRpc } from '@api/models/call_rpc.model';
 import { BackendService } from '@api/services/backend.service';
 import { IntToMoneyPipeModule } from '@parts/pipes';
-import { Dialog, DialogConfig } from '@angular/cdk/dialog';
 import { SwapConfirmMasterPasswordComponent } from '../../modals/swap-confirm-master-password/swap-confirm-master-password.component';
 import { ProposalDetails } from '@api/models/swap.model';
 import { GetAssetInfoPipe } from '@parts/pipes/get-asset-info.pipe';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-confirm-swap',
@@ -58,13 +58,13 @@ export class ConfirmSwapComponent implements OnInit, OnDestroy {
 
     hex_raw_proposal: string | undefined;
 
-    private backendService = inject(BackendService);
+    private backendService: BackendService = inject(BackendService);
 
-    private router = inject(Router);
+    private router: Router = inject(Router);
 
-    private ngZone = inject(NgZone);
+    private ngZone: NgZone = inject(NgZone);
 
-    private dialog = inject(Dialog);
+    private _matDialog: MatDialog = inject(MatDialog);
 
     private destroy$ = new Subject<void>();
 
@@ -86,15 +86,16 @@ export class ConfirmSwapComponent implements OnInit, OnDestroy {
 
     swapConfirmMasterPasswordDialog(): void {
         const proposalDetails = this.proposalDetails;
-        const config: DialogConfig = {
+        const config: MatDialogConfig = {
             data: {
                 proposalDetails,
             },
             disableClose: true,
         };
-        this.dialog
+        this._matDialog
             .open(SwapConfirmMasterPasswordComponent, config)
-            .closed.pipe(filter(Boolean), take(1))
+            .afterClosed()
+            .pipe(filter(Boolean), take(1))
             .subscribe({
                 next: () => this.acceptProposal(),
             });

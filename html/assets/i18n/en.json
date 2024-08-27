@@ -19,7 +19,8 @@
                     "NAME": "Asset name",
                     "OWNER": "Owner",
                     "TICKER": "Ticker"
-                }
+                },
+                "TITLE": "Asset Details"
             }
         },
         "TABLE": {
@@ -516,7 +517,7 @@
         "WITH_ADDRESS_ALREADY_OPEN": "A wallet with this address is already open"
     },
     "PLACEHOLDERS": {
-        "ADRESS_PLACEHOLDER": "Please enter an address",
+        "ADDRESS_PLACEHOLDER": "Please enter an address",
         "AMOUNT_PLACEHOLDER": "Please enter the amount",
         "COMMENT_PLACEHOLDER": "Enter your comment here",
         "CONFIRM_WALET_PASSWORD_PLACEHOLDER": "Confirm wallet password here",
@@ -630,6 +631,7 @@
             "MAX_LENGTH": "Maximum name length reached",
             "NAME_DUPLICATE": "Name is duplicate",
             "NAME_REQUIRED": "Wallet Name is required",
+            "PASSWORD_SEED_PHRASE_INCORRECT": "The password for this seed phrase is incorrect",
             "SEED_PHRASE_IS_NO_VALID": "The seed phrase is not valid."
         },
         "LABEL_NAME": "Wallet Name",
@@ -703,7 +705,8 @@
                 "LABELS": {
                     "LABEL1": "Zano Companion",
                     "LABEL2": "Secret",
-                    "LABEL3": "Port"
+                    "LABEL3": "Port",
+                    "LABEL4": "(master password required)"
                 }
             }
         },
@@ -738,10 +741,11 @@
             "75": "75% scale",
             "TITLE": "Interface scale"
         },
+        "SECRET_WAS_COPIED": "Secret was copied",
         "SETTINGS_SAVED": "Settings have been updated.",
+        "SHOW_BALANCE": "Show balance",
         "TITLE": "Settings",
-        "USE_TOR_TO_RELAY_TRANSACTIONS": "Use TOR to relay transactions",
-        "WHITE_THEME": "White theme"
+        "USE_TOR_TO_RELAY_TRANSACTIONS": "Use TOR to relay transactions"
     },
     "SIDEBAR": {
         "ACCOUNT": {
@@ -804,7 +808,8 @@
         "TITLE_GROUP": "Group:",
         "TITLE_PENDING": "Pending",
         "TITLE_PERIOD": "Time period:",
-        "TITLE_TOTAL": "Total"
+        "TITLE_TOTAL": "Total",
+        "WALLET_STAKING_ON": "{{ value }} staking is ON"
     },
     "SUCCESS_SWEEP_BARE_OUTS": {
         "DETAILS": "{{ txs_sent }} transactions were successfully sent, {{ bare_outs_swept }}  bare outputs migrated, {{ amount_swept }} coins transferred, and {{ fee_spent }} was spent for fees."

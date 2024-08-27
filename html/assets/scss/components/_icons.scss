@@ -1,3 +1,16 @@
+body {
+    .mat-icon {
+        width: 1.8rem;
+        height: 1.8rem;
+
+        &.small {
+            width: 1.6rem;
+            height: 1.6rem;
+        }
+    }
+}
+
+// Deprecated, use register custom-icons for mat-icon
 i {
     display: inline-block;
 
@@ -38,6 +51,14 @@ i {
     // WHITE
     &.custom-asset {
         background: center / contain no-repeat url(~src/assets/icons/white/custom-asset_icon.svg);
+    }
+
+    &.show-balance {
+        background: center / contain no-repeat url(~src/assets/icons/white/show-balance_icon.svg);
+    }
+
+    &.hide-balance {
+        background: center / contain no-repeat url(~src/assets/icons/white/hide-balance_ico.svg);
     }
 
     &.emit {
@@ -238,5 +259,9 @@ i {
     // gray
     &.fire {
         background: center / contain no-repeat url(~src/assets/icons/gray/fire_ico.svg);
+    }
+
+    &.block {
+        background: center / contain no-repeat url(~src/assets/icons/gray/block_ico.svg);
     }
 }

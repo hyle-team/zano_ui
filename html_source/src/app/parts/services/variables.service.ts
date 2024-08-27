@@ -1,19 +1,23 @@
-import { Injectable, NgZone } from '@angular/core';
+import { inject, Injectable, NgZone, OnDestroy } from '@angular/core';
 import { DeeplinkParams, Wallet } from '@api/models/wallet.model';
 import { Contact } from '@api/models/contact.model';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { Idle } from 'idlejs/dist';
 import { Router } from '@angular/router';
 import { ContextMenuComponent, ContextMenuService } from '@perfectmemory/ngx-contextmenu';
 import { BigNumber } from 'bignumber.js';
 import { Aliases } from '@api/models/alias.model';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import { distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
+import { Dialog } from '@angular/cdk/dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 @Injectable({
     providedIn: 'root',
 })
-export class VariablesService {
+export class VariablesService implements OnDestroy {
     disable_price_fetch$ = new BehaviorSubject<boolean>(false);
+
+    visibilityBalance$ = new BehaviorSubject<boolean>(false);
 
     zano_current_supply = undefined;
 
@@ -43,9 +47,9 @@ export class VariablesService {
 
     appLogin: boolean = false;
 
-    moneyEquivalent: number = 0;
+    zanoMoneyEquivalent: number = 0;
 
-    moneyEquivalentPercent: number = 0;
+    zanoMoneyEquivalentPercent: number = 0;
 
     defaultTicker: 'ZANO' = 'ZANO';
 
@@ -76,6 +80,10 @@ export class VariablesService {
     sync = {
         progress_value: 0,
         progress_value_text: '0',
+        blocks: {
+            current: 0,
+            max: 0,
+        },
     };
 
     public sync_wallets: { [wallet_id: number]: boolean } = {};
@@ -97,6 +105,7 @@ export class VariablesService {
         appLog: 0,
         scale: '10px',
         appUseTor: false,
+        visibilityBalance: false,
         language: 'en',
         default_path: '/',
         viewedContracts: [],
@@ -106,7 +115,10 @@ export class VariablesService {
             secret: '',
         },
         wallets: [],
+        isDarkTheme: true,
     };
+
+    isDarkTheme$ = new BehaviorSubject(true);
 
     count: number = 40;
 
@@ -155,6 +167,10 @@ export class VariablesService {
 
     currentWalletChangedEvent = new BehaviorSubject<Wallet>(null);
 
+    private _dialog: Dialog = inject(Dialog);
+
+    private _matDialog: MatDialog = inject(MatDialog);
+
     idle = new Idle().whenNotInteractive().do(async () => {
         if (this.appPass === '') {
             this.stopCountdown();
@@ -163,6 +179,8 @@ export class VariablesService {
                 this.stopCountdown();
                 this.appPass = '';
                 this.appLogin = false;
+                this._dialog.closeAll();
+                this._matDialog.closeAll();
                 await this.router.navigate(['/login'], {
                     queryParams: { type: 'auth' },
                 });
@@ -176,7 +194,20 @@ export class VariablesService {
 
     pasteSelectContextMenu: ContextMenuComponent<any>;
 
-    constructor(private router: Router, private ngZone: NgZone, private contextMenuService: ContextMenuService<any>) {}
+    private _destroy$: Subject<void> = new Subject<void>();
+
+    constructor(private router: Router, private ngZone: NgZone, private contextMenuService: ContextMenuService<any>) {
+        this.visibilityBalance$.pipe(takeUntil(this._destroy$)).subscribe({
+            next: visibilityBalance => {
+                this.settings.visibilityBalance = visibilityBalance;
+            },
+        });
+    }
+
+    ngOnDestroy(): void {
+        this._destroy$.next();
+        this._destroy$.complete();
+    }
 
     get hasAppPass(): boolean {
         return Boolean(this.appPass);

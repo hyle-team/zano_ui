@@ -12,6 +12,18 @@
     z-index: 100;
 }
 
+.dialog-wrapper {
+    padding: 2rem;
+    border-radius: 0.8rem;
+    max-height: 90vh;
+
+    background: var(--dialog-background);
+}
+
+.modal-overlay-transparent {
+    background: transparent;
+}
+
 .modal {
     position: relative;
     overflow: hidden;

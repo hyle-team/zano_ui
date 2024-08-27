@@ -13,10 +13,7 @@
                         class="confirmation mr-1"
                         placement="bottom-left"
                         style="transform: rotateZ(-90deg)"
-                        tooltip="{{
-                                                        'HISTORY.STATUS_TOOLTIP'
-                                                            | translate : { current: getHeight(transaction), total: 10 }
-                                                    }}"
+                        tooltip="{{ 'HISTORY.STATUS_TOOLTIP' | translate : { current: getHeight(transaction), total: 10 } }}"
                         tooltipClass="table-tooltip"
                     >
                         <circle
@@ -46,58 +43,43 @@
                 </ng-container>
 
                 <ng-container *ngIf="getHeight(transaction) === 10">
-                    <img
-                        *ngIf="!subtransfer.is_income"
-                        alt=""
-                        class="status-transaction mr-1"
-                        src="assets/icons/blue/send.svg"
-                    />
-                    <img
-                        *ngIf="subtransfer.is_income"
-                        alt=""
-                        class="status-transaction mr-1"
-                        src="assets/icons/aqua/receive.svg"
-                    />
+                    <img *ngIf="!subtransfer.is_income" alt="" class="status-transaction mr-1" src="assets/icons/blue/send.svg" />
+                    <img *ngIf="subtransfer.is_income" alt="" class="status-transaction mr-1" src="assets/icons/aqua/receive.svg" />
                 </ng-container>
 
-                <span class="status-transaction-text">{{
-                        (subtransfer.is_income ? 'HISTORY.RECEIVED' : 'HISTORY.SEND') | translate
-                    }}</span>
+                <span class="status-transaction-text">{{ (subtransfer.is_income ? 'HISTORY.RECEIVED' : 'HISTORY.SEND') | translate }}</span>
 
                 <ng-container *ngIf="transaction.unlock_time !== 0 && transaction.tx_type !== 6">
                     <ng-container *ngIf="isLocked(transaction); else unlock">
                         <ng-container *ngIf="transaction.unlock_time < 500000000">
                             <i
                                 [class.position]="
-                                                                variablesService.height_app - transaction.height < 10 ||
-                                                                (transaction.height === 0 && transaction.timestamp > 0)
-                                                            "
+                                    variablesService.height_app - transaction.height < 10 ||
+                                    (transaction.height === 0 && transaction.timestamp > 0)
+                                "
                                 [delay]="500"
                                 class="icon lock-transaction mr-1"
                                 placement="bottom-left"
-                                tooltip="{{
-                                                                'HISTORY.LOCK_TOOLTIP'
-                                                                    | translate : { date: time(transaction) | date : 'MM.dd.yy' }
-                                                            }}"
+                                tooltip="{{ 'HISTORY.LOCK_TOOLTIP' | translate : { date: time(transaction) | date : 'MM.dd.yy' } }}"
                                 tooltipClass="table-tooltip"
                             ></i>
                         </ng-container>
                         <ng-container *ngIf="transaction.unlock_time > 500000000">
                             <i
                                 [class.position]="
-                                                                variablesService.height_app - transaction.height < 10 ||
-                                                                (transaction.height === 0 && transaction.timestamp > 0)
-                                                            "
+                                    variablesService.height_app - transaction.height < 10 ||
+                                    (transaction.height === 0 && transaction.timestamp > 0)
+                                "
                                 [delay]="500"
                                 class="icon lock-transaction mr-1"
                                 placement="bottom-left"
                                 tooltip="{{
-                                                                'HISTORY.LOCK_TOOLTIP'
-                                                                    | translate
-                                                                        : {
-                                                                              date: transaction.unlock_time * 1000 | date : 'MM.dd.yy'
-                                                                          }
-                                                            }}"
+                                    'HISTORY.LOCK_TOOLTIP'
+                                        | translate
+                                            : {
+                                                  date: transaction.unlock_time * 1000 | date : 'MM.dd.yy'
+                                              }
+                                }}"
                                 tooltipClass="table-tooltip"
                             ></i>
                         </ng-container>
@@ -105,9 +87,9 @@
                     <ng-template #unlock>
                         <i
                             [class.position]="
-                                                            variablesService.height_app - transaction.height < 10 ||
-                                                            (transaction.height === 0 && transaction.timestamp > 0)
-                                                        "
+                                variablesService.height_app - transaction.height < 10 ||
+                                (transaction.height === 0 && transaction.timestamp > 0)
+                            "
                             class="icon unlock-transaction mr-1"
                         ></i>
                     </ng-template>

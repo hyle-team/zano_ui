@@ -4,15 +4,16 @@ import { BigNumber } from 'bignumber.js';
 import { AssetBalance, AssetInfo, AssetBalances, AssetsInfoWhitelist } from './assets.model';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Alias } from '@api/models/alias.model';
-import { SendMoneyParams } from '@api/models/send-money.model';
+import { SendMoneyFormParams } from '@api/models/send-money.model';
 import { MIXIN } from '@parts/data/constants';
 import { zanoAssetInfo } from '@parts/data/assets';
 
-export const defaultSendMoneyParams: SendMoneyParams = {
+export const defaultSendMoneyParams: SendMoneyFormParams = {
     asset_id: zanoAssetInfo.asset_id,
     wallet_id: undefined,
     address: '',
     amount: undefined,
+    isAmountUSD: false,
     comment: '',
     mixin: MIXIN,
     fee: '0.01',
@@ -143,7 +144,7 @@ export class Wallet {
 
     restore?: boolean;
 
-    sendMoneyParams: SendMoneyParams | null = null;
+    sendMoneyParams: SendMoneyFormParams | null = null;
 
     constructor(id, name, pass, path, address, balances, unlocked_balance, mined = 0, tracking = '') {
         this.wallet_id = id;

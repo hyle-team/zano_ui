@@ -1,0 +1,29 @@
+:host {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.form__field--secret .form__field--input {
+    padding-right: 7rem;
+}
+
+.btn--copy {
+    padding: 4px;
+    border-radius: 4px;
+    position: absolute;
+    right: 4rem;
+    top: 3.6rem;
+    background: var(--btn-icon-background);
+    cursor: pointer;
+}
+
+.btn--regenerate {
+    padding: 4px;
+    border-radius: 4px;
+    position: absolute;
+    right: 0.6rem;
+    top: 3.6rem;
+    background: var(--btn-icon-background);
+    cursor: pointer;
+}

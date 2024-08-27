@@ -1,0 +1,59 @@
+<h2 mat-dialog-title>{{ data?.title ?? 'ASSETS.MODALS.ASSET_DETAILS.TITLE' | translate }}</h2>
+
+<mat-dialog-content>
+    <ng-container *ngIf="data.assetInfo as assetInfo; else templateEmpty">
+        <table class="rounded-corners">
+            <tbody>
+                <tr>
+                    <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.NAME' | translate }}</td>
+                    <td>{{ assetInfo.full_name }}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.TICKER' | translate }}</td>
+                    <td>{{ assetInfo.ticker }}</td>
+                </tr>
+                <tr>
+                    <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.OWNER' | translate }}</td>
+                    <td (contextmenu)="variablesService.onContextMenuOnlyCopy($event, assetInfo.owner)">
+                        {{ assetInfo.owner }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.ID' | translate }}</td>
+                    <td (contextmenu)="variablesService.onContextMenuOnlyCopy($event, assetInfo.asset_id)">
+                        {{ assetInfo.asset_id }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.CURRENT_SUPPLY' | translate }}</td>
+                    <td>
+                        {{
+                            (assetInfo.asset_id === zanoAssetInfo.asset_id
+                                ? variablesService.zano_current_supply ?? 'Unknown'
+                                : assetInfo.current_supply
+                            ) | intToMoney : assetInfo.decimal_point
+                        }}
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.MAX_SUPPLE' | translate }}</td>
+                    <td>
+                        {{
+                            assetInfo.asset_id === zanoAssetInfo.asset_id
+                                ? 'Uncapped'
+                                : (assetInfo.total_max_supply | intToMoney : assetInfo.decimal_point)
+                        }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </ng-container>
+
+    <ng-template #templateEmpty>No data</ng-template>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button class="outline big w-100" mat-dialog-close type="button">
+        {{ 'MODALS.OK' | translate }}
+    </button>
+</mat-dialog-actions>

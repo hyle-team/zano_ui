@@ -12,130 +12,8 @@ import { WalletsService } from '@parts/services/wallets.service';
 
 @Component({
     selector: 'app-login',
-    template: `
-        <div class="auth" fxFlexFill fxLayout="row" fxLayoutAlign="center center">
-            <div class="card max-w-42-rem max-h-100 w-100 p-2 border-radius-0_8-rem bg-light-blue overflow-x-hidden">
-                <div class="logo border-radius-0_8-rem overflow-hidden mb-3" fxLayout="row" fxLayoutAlign="center center">
-                    <img alt="zano-logo" src="assets/icons/blue/zano-logo.svg" />
-                </div>
-
-                <form (ngSubmit)="onSubmitCreatePass()" *ngIf="type === 'reg'" [formGroup]="regForm" class="form bg-light-blue-details">
-                    <div class="form__field--wrapper pt-2 pl-2 pr-2 pb-1 mb-2 bg-light-blue-details border-radius-0_8-rem overflow-hidden">
-                        <div class="form__field mb-2">
-                            <label for="master-pass">{{ 'LOGIN.SETUP_MASTER_PASS' | translate }}</label>
-                            <input
-                                (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
-                                class="form__field--input"
-                                formControlName="password"
-                                id="master-pass"
-                                appAutofocus
-                                placeholder="{{ 'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate }}"
-                                type="password"
-                            />
-                            <div *ngIf="regForm.controls['password'].dirty && regForm.controls['password'].errors" class="error">
-                                <div *ngIf="regForm.controls['password'].errors.pattern">
-                                    {{ 'ERRORS.WRONG_PASSWORD' | translate }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form__field">
-                            <label for="confirm-pass">{{ 'LOGIN.SETUP_CONFIRM_PASS' | translate }}</label>
-                            <input
-                                (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
-                                class="form__field--input"
-                                formControlName="confirmation"
-                                id="confirm-pass"
-                                placeholder="{{ 'PLACEHOLDERS.PLACEHOLDER_CONFIRM' | translate }}"
-                                type="password"
-                            />
-                            <div
-                                *ngIf="regForm.controls['password'].dirty && regForm.controls['confirmation'].dirty && regForm.errors"
-                                class="error"
-                            >
-                                <div *ngIf="regForm.errors['mismatch']">
-                                    {{ 'LOGIN.FORM_ERRORS.MISMATCH' | translate }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button
-                        [disabled]="
-                            !regForm.controls['password'].value.length ||
-                            !regForm.controls['confirmation'].value.length ||
-                            (regForm.errors && regForm.errors['mismatch']) ||
-                            regForm.controls['password'].errors
-                        "
-                        class="primary big w-100 mb-1"
-                        type="submit"
-                    >
-                        {{ 'LOGIN.BUTTON_NEXT' | translate }}
-                    </button>
-
-                    <button
-                        (click)="onSkipCreatePass()"
-                        [disabled]="regForm.controls['password'].value.length || regForm.controls['confirmation'].value.length"
-                        class="primary big w-100"
-                        type="button"
-                    >
-                        {{ 'LOGIN.BUTTON_SKIP' | translate }}
-                    </button>
-                </form>
-
-                <form (ngSubmit)="onSubmitAuthPass()" *ngIf="type !== 'reg'" [formGroup]="authForm" class="form">
-                    <div class="form__field--wrapper pt-2 pl-2 pr-2 pb-1 mb-2 bg-light-blue-details border-radius-0_8-rem overflow-hidden">
-                        <div class="form__field">
-                            <label for="master-pass-login">{{ 'LOGIN.MASTER_PASS' | translate }}</label>
-                            <input
-                                (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
-                                [placeholder]="'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate"
-                                autofocus
-                                appAutofocus
-                                class="form__field--input"
-                                formControlName="password"
-                                id="master-pass-login"
-                                type="password"
-                            />
-                            <div
-                                *ngIf="
-                                    authForm.controls['password'].invalid &&
-                                    (authForm.controls['password'].dirty || authForm.controls['password'].touched)
-                                "
-                                class="error"
-                            >
-                                <div *ngIf="authForm.controls['password'].hasError('wrong_password')">
-                                    {{ 'LOGIN.FORM_ERRORS.INVALID_PASS' | translate }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="primary big w-100 mb-1" type="submit">
-                        {{ 'LOGIN.BUTTON_NEXT' | translate }}
-                        <span class="ml-1" *ngIf="submitLoading$ | async" [ngTemplateOutlet]="loaderTemp"></span>
-                    </button>
-
-                    <button (click)="dropSecureAppData()" class="outline big w-100" type="button">
-                        {{ 'LOGIN.BUTTON_RESET' | translate }}
-                        <span class="ml-1" *ngIf="resetLoading$ | async" [ngTemplateOutlet]="loaderTemp"></span>
-                    </button>
-                </form>
-            </div>
-
-            <app-synchronization-status class="max-w-19-rem"></app-synchronization-status>
-        </div>
-
-        <ng-template #loaderTemp><zano-loader></zano-loader></ng-template>
-    `,
-    styles: [
-        `
-            :host {
-                width: 100%;
-                height: 100%;
-                overflow: hidden;
-            }
-        `,
-    ],
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
     submitLoading$ = new BehaviorSubject(false);
@@ -143,6 +21,13 @@ export class LoginComponent implements OnInit, OnDestroy {
     resetLoading$ = new BehaviorSubject(false);
 
     fb = inject(FormBuilder);
+
+    get zanoLogo(): string {
+        const {
+            settings: { isDarkTheme },
+        } = this.variablesService;
+        return isDarkTheme ? 'assets/icons/blue/zano-logo.svg' : 'assets/icons/blue/light-zano-logo.svg';
+    }
 
     regForm = this.fb.group(
         {
@@ -228,11 +113,11 @@ export class LoginComponent implements OnInit, OnDestroy {
         // This delay is necessary for the loader to display, as the application freezes for a few seconds
         setTimeout(() => {
             this.resetJwtWalletRpc();
+            this.closeAllWallets();
             this.backend.dropSecureAppData(() => {
                 this.resetLoading$.next(false);
                 this.onSkipCreatePass();
             });
-            this.closeAllWallets();
             this.variablesService.contacts = [];
         }, 500);
     }
@@ -406,15 +291,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     closeAllWallets(): void {
         this.variablesService.wallets.forEach(({ wallet_id }) => this.closeWallet(wallet_id));
-        if (this.variablesService.appPass) {
-            this.backend.storeSecureAppData();
-        }
     }
 
     closeWallet(wallet_id) {
         this.backend.closeWallet(wallet_id, () => {
             for (let i = this.variablesService.wallets.length - 1; i >= 0; i--) {
                 this.variablesService.wallets.splice(i, 1);
+                this.backend.storeSecureAppData();
             }
         });
     }
