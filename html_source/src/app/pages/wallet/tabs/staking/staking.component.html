@@ -1,0 +1,145 @@
+<div class="chart-wrap" fxFlexFill fxLayout="column">
+    <div class="scrolled-content h-100" fxFlex="1 1 auto" fxLayout="column">
+        <div class="chart-header mb-1" fxFlex="0 0 auto" fxLayout="column">
+            <div class="row" fxFlex="0 0 auto" fxLayout="row nowrap" fxLayoutAlign="space-between start" fxLayoutGap="1rem">
+                <div
+                    class="left"
+                    fxFlex="1 1 calc(50% - 0.5rem)"
+                    fxLayout="row wrap"
+                    fxLayoutAlign="start center"
+                    fxLayoutGap="1rem"
+                >
+                    <div class="items" fxLayout="row wrap" fxLayoutGap="1rem">
+                        <div
+                            *ngIf="isShowStagingSwitch"
+                            class="item overflow-hidden p-1 border-radius-0_8-rem mb-1"
+                            fxLayout="row nowrap"
+                            fxLayoutAlign="space-between center"
+                        >
+                            <div class="left overflow-hidden mr-1" fxLayout="row" fxLayoutAlign="start center">
+                                {{ 'STAKING.TITLE' | translate }}
+                            </div>
+
+                            <div class="right overflow-hidden w-100" fxLayout="row" fxLayoutAlign="end center">
+                                <app-staking-switch
+                                    [(staking)]="variablesService.currentWallet.staking"
+                                    [wallet_id]="variablesService.currentWallet.wallet_id"
+                                >
+                                </app-staking-switch>
+                            </div>
+                        </div>
+                        <div
+                            class="item overflow-hidden p-1 border-radius-0_8-rem mb-1"
+                            fxLayout="row nowrap"
+                            fxLayoutAlign="space-between center"
+                        >
+                            <div class="left overflow-hidden mr-1" fxLayout="row" fxLayoutAlign="start center">
+                                {{ 'STAKING.TITLE_PENDING' | translate }}
+                                :
+                            </div>
+                            <div class="right overflow-hidden w-100" fxLayout="row" fxLayoutAlign="end center">
+                                <div class="text-ellipsis mr-1">
+                                    {{ pending.total | intToMoney }}
+                                </div>
+                                {{ variablesService.defaultTicker }}
+                            </div>
+                        </div>
+                        <div
+                            class="item overflow-hidden p-1 border-radius-0_8-rem mb-1"
+                            fxLayout="row nowrap"
+                            fxLayoutAlign="space-between center"
+                        >
+                            <div class="left overflow-hidden mr-1" fxLayout="row" fxLayoutAlign="start center">
+                                {{ 'STAKING.TITLE_TOTAL' | translate }}
+                                :
+                            </div>
+                            <div class="right overflow-hidden w-100" fxLayout="row" fxLayoutAlign="end center">
+                                <div class="text-ellipsis mr-1">
+                                    {{ total | intToMoney }}
+                                </div>
+                                {{ variablesService.defaultTicker }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="right" fxFlex="1 1 calc(50% - 0.5rem)" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="1rem">
+                    <ng-container *ngIf="isShowPointerDetails">
+                        <div class="selected overflow-hidden" fxHide fxShow.lg fxShow.xl>
+                            <div class="overflow-hidden" fxLayout="row">
+                                <div class="text-ellipsis">
+                                    {{ pointDetails.date | date : 'EEEE, MMMM d, y' }}
+                                    {{ pointDetails.amount }}
+                                </div>
+                                <div class="ml-0_5">
+                                    {{ variablesService.defaultTicker }}
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                    <ng-select
+                        [clearable]="false"
+                        [items]="groupItems"
+                        [searchable]="false"
+                        bindLabel="title"
+                        bindValue="value"
+                        [formControl]="filtersForm.controls.group"
+                        class="selected-group max-w-19-rem w-100"
+                    >
+                        <ng-template let-item="item" ng-label-tmp>
+                            Sort by {{ (item.title | translate | lowercase) + 's' }}
+                        </ng-template>
+                        <ng-template let-index="index" let-item="item" ng-option-tmp>
+                            {{ item.title | translate }}
+                        </ng-template>
+                    </ng-select>
+                </div>
+            </div>
+            <div
+                class="row"
+                fxFlex="0 0 2rem"
+                fxHide.lg
+                fxHide.xl
+                fxLayout="row nowrap"
+                fxLayoutAlign="space-between center"
+                fxLayoutGap="1rem"
+                fxShow
+            >
+                <div class="left"></div>
+                <div class="right" fxLayoutAlign="end center">
+                    <div *ngIf="pointDetails && pointDetails.date" class="selected overflow-hidden">
+                        <div class="overflow-hidden" fxLayout="row">
+                            <div class="text-ellipsis">
+                                {{ pointDetails.date | date : 'EEEE, MMMM d, y' }}
+                                {{ pointDetails.amount }}
+                            </div>
+                            <div class="ml-0_5">
+                                {{ variablesService.defaultTicker }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart border-radius-0_8-rem" fxFlex="1 1 auto" fxLayoutAlign=" center">
+            <div [chart]="chart"></div>
+        </div>
+
+        <div class="chart-options mt-2" fxFlex="0 0 auto" fxLayoutAlign=" center">
+            <ng-container *ngFor="let item of periodItems; let last = last">
+                <button
+                    (click)="filtersForm.controls.period.patchValue(item.value)"
+                    [class.active]="item.value === filtersForm.controls.period.value"
+                    [class.mr-1]="!last"
+                    [class.outline]="!last"
+                    [class.primary]="last"
+                    class="big w-100"
+                    type="button"
+                >
+                    {{ item.title | translate }}
+                </button>
+            </ng-container>
+        </div>
+    </div>
+</div>

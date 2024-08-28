@@ -116,6 +116,9 @@ export class VariablesService implements OnDestroy {
         },
         wallets: [],
         isDarkTheme: true,
+        filters: {
+            stakingFilters: null
+        }
     };
 
     isDarkTheme$ = new BehaviorSubject(true);
@@ -160,8 +163,6 @@ export class VariablesService implements OnDestroy {
     getDownloadedAppEvent = new BehaviorSubject(null);
 
     getTotalEvent = new BehaviorSubject(null);
-
-    getRefreshStackingEvent = new BehaviorSubject(null);
 
     getAliasChangedEvent = new BehaviorSubject(null);
 
