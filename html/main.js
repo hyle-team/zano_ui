@@ -1292,7 +1292,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "AppComponent": () => (/* binding */ AppComponent)
 /* harmony export */ });
-/* harmony import */ var _home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
+/* harmony import */ var _Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
 /* harmony import */ var _api_services_backend_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @api/services/backend.service */ 10122);
 /* harmony import */ var bignumber_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! bignumber.js */ 82481);
 /* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @store/store */ 85041);
@@ -1518,7 +1518,7 @@ class AppComponent {
         this.backendService.start_backend(false, '127.0.0.1', 11512, (st2, dd2) => {
           console.log(st2, dd2);
         });
-        this.backendService.eventSubscribe(_api_services_backend_service__WEBPACK_IMPORTED_MODULE_1__.Commands.quit_requested, /*#__PURE__*/(0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+        this.backendService.eventSubscribe(_api_services_backend_service__WEBPACK_IMPORTED_MODULE_1__.Commands.quit_requested, /*#__PURE__*/(0,_Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
           if (_this.onQuitRequest) {
             return;
           } // await this.ngZone.run(async () => {
@@ -2900,7 +2900,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "AddWalletComponent": () => (/* binding */ AddWalletComponent)
 /* harmony export */ });
-/* harmony import */ var _home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
+/* harmony import */ var _Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @ngx-translate/core */ 87514);
 /* harmony import */ var _parts_data_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @parts/data/constants */ 23480);
@@ -2951,7 +2951,7 @@ class AddWalletComponent {
     const caption = this.translateService.instant('MAIN.CHOOSE_PATH');
     const default_path = this.variablesService.settings.default_path;
     this.backendService.openFileDialog(caption, '*', default_path, /*#__PURE__*/function () {
-      var _ref = (0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (file_status, file_data) {
+      var _ref = (0,_Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (file_status, file_data) {
         if (!file_status) {
           if (file_data['error_code'] !== 'CANCELED') {
             _this.modalService.prepareModal('error', file_data['error_code']);
@@ -2973,7 +2973,7 @@ class AddWalletComponent {
         }
 
         _this.variablesService.settings.default_path = new_default_path;
-        yield _this.ngZone.run( /*#__PURE__*/(0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+        yield _this.ngZone.run( /*#__PURE__*/(0,_Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
           yield _this.router.navigate(['/open'], {
             queryParams: {
               path: file_data.path
@@ -3079,7 +3079,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "AssignAliasComponent": () => (/* binding */ AssignAliasComponent)
 /* harmony export */ });
-/* harmony import */ var _home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
+/* harmony import */ var _Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/forms */ 90587);
 /* harmony import */ var bignumber_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! bignumber.js */ 82481);
@@ -3310,13 +3310,13 @@ class AssignAliasComponent {
     } else {
       this.alias.comment = this.assignForm.get('comment').value;
       this.backend.registerAlias(this.wallet.wallet_id, this.alias.name, this.wallet.address, this.alias.fee, this.alias.comment, this.alias.rewardOriginal, /*#__PURE__*/function () {
-        var _ref = (0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (status) {
+        var _ref = (0,_Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (status) {
           if (status) {
             _this.wallet.wakeAlias = true;
 
             _this.modalService.prepareModal('info', 'ASSIGN_ALIAS.REQUEST_ADD_REG');
 
-            yield _this.ngZone.run( /*#__PURE__*/(0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+            yield _this.ngZone.run( /*#__PURE__*/(0,_Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
               yield _this.router.navigate(['/wallet/']);
             }));
           }
@@ -4297,7 +4297,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "CreateWalletComponent": () => (/* binding */ CreateWalletComponent)
 /* harmony export */ });
-/* harmony import */ var _home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
+/* harmony import */ var _Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/forms */ 90587);
 /* harmony import */ var _api_services_backend_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @api/services/backend.service */ 10122);
@@ -4540,7 +4540,7 @@ class CreateWalletComponent {
         name
       } = this.createForm.getRawValue();
       this.backend.generateWallet(selectedPath, password, /*#__PURE__*/function () {
-        var _ref = (0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (generate_status, generate_data, errorCode) {
+        var _ref = (0,_Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (generate_status, generate_data, errorCode) {
           if (generate_status) {
             const {
               wallet_id
@@ -4563,9 +4563,9 @@ class CreateWalletComponent {
             _this.walletsService.addWallet(wallet);
 
             yield _this.backend.runWallet(wallet_id, /*#__PURE__*/function () {
-              var _ref2 = (0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (run_status, run_data) {
+              var _ref2 = (0,_Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (run_status, run_data) {
                 if (run_status) {
-                  yield _this.ngZone.run( /*#__PURE__*/(0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+                  yield _this.ngZone.run( /*#__PURE__*/(0,_Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
                     if (_this.variablesService.appPass) {
                       _this.backend.storeSecureAppData();
                     }
@@ -10209,7 +10209,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "EmitCustomAssetComponent": () => (/* binding */ EmitCustomAssetComponent)
 /* harmony export */ });
-/* harmony import */ var _home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
+/* harmony import */ var _Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _parts_services_variables_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @parts/services/variables.service */ 22994);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/forms */ 90587);
@@ -10353,7 +10353,7 @@ class EmitCustomAssetComponent {
       method: 'emit_asset',
       params
     }, /*#__PURE__*/function () {
-      var _ref = (0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (job_id) {
+      var _ref = (0,_Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (job_id) {
         _this._ngZone.run(() => {
           _this.matDialogRef.close(job_id);
         });
@@ -10623,7 +10623,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "UpdateCustomAssetComponent": () => (/* binding */ UpdateCustomAssetComponent)
 /* harmony export */ });
-/* harmony import */ var _home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
+/* harmony import */ var _Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _parts_services_variables_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @parts/services/variables.service */ 22994);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/forms */ 90587);
@@ -10783,7 +10783,7 @@ class UpdateCustomAssetComponent {
       method: 'update_asset',
       params
     }, /*#__PURE__*/function () {
-      var _ref = (0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (job_id) {
+      var _ref = (0,_Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (job_id) {
         _this._ngZone.run(() => {
           _this.matDialogRef.close(job_id);
         });
@@ -10876,7 +10876,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "CreateNewAssetComponent": () => (/* binding */ CreateNewAssetComponent)
 /* harmony export */ });
-/* harmony import */ var _home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
+/* harmony import */ var _Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _parts_services_variables_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @parts/services/variables.service */ 22994);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/forms */ 90587);
@@ -11316,8 +11316,8 @@ class CreateNewAssetComponent {
 
     this._matDialog.open(_modals_transaction_details_for_custom_assets_transaction_details_for_custom_assets_component__WEBPACK_IMPORTED_MODULE_7__.TransactionDetailsForCustomAssetsComponent, config).afterClosed().pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_14__.filter)(Boolean), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_15__.take)(1)).subscribe({
       next: function () {
-        var _ref = (0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-          yield _this._ngZone.run( /*#__PURE__*/(0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+        var _ref = (0,_Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+          yield _this._ngZone.run( /*#__PURE__*/(0,_Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
             yield _this._router.navigate(['/wallet/custom-assets']);
           }));
         });
@@ -11393,7 +11393,7 @@ class CreateNewAssetComponent {
           method: 'deploy_asset',
           params
         }, /*#__PURE__*/function () {
-          var _ref3 = (0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (job_id) {
+          var _ref3 = (0,_Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (job_id) {
             _this2._ngZone.run(() => _this2.details(job_id));
           });
 
@@ -15279,23 +15279,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "StakingComponent": () => (/* binding */ StakingComponent)
 /* harmony export */ });
-/* harmony import */ var angular_highcharts__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! angular-highcharts */ 64072);
-/* harmony import */ var bignumber_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! bignumber.js */ 82481);
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! rxjs */ 80228);
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! rxjs */ 26562);
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! rxjs/operators */ 68951);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _parts_services_variables_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @parts/services/variables.service */ 22994);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/router */ 52816);
-/* harmony import */ var _api_services_backend_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @api/services/backend.service */ 10122);
-/* harmony import */ var _parts_pipes_int_to_money_pipe_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @parts/pipes/int-to-money-pipe/int-to-money.pipe */ 25985);
-/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @ngx-translate/core */ 87514);
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/common */ 36362);
-/* harmony import */ var _angular_flex_layout__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/flex-layout */ 55434);
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/forms */ 90587);
-/* harmony import */ var _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @ng-select/ng-select */ 88660);
-/* harmony import */ var _angular_flex_layout_extended__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @angular/flex-layout/extended */ 13338);
+/* harmony import */ var _parts_services_variables_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @parts/services/variables.service */ 22994);
+/* harmony import */ var angular_highcharts__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! angular-highcharts */ 64072);
+/* harmony import */ var _api_services_backend_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @api/services/backend.service */ 10122);
+/* harmony import */ var _parts_pipes_int_to_money_pipe_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @parts/pipes/int-to-money-pipe/int-to-money.pipe */ 25985);
+/* harmony import */ var bignumber_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! bignumber.js */ 82481);
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! rxjs */ 80228);
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! rxjs */ 26562);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! rxjs/operators */ 68951);
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/forms */ 90587);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/common */ 36362);
+/* harmony import */ var _angular_flex_layout__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/flex-layout */ 55434);
+/* harmony import */ var _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @ng-select/ng-select */ 88660);
+/* harmony import */ var _angular_flex_layout_extended__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/flex-layout/extended */ 13338);
 /* harmony import */ var _parts_components_staking_switch_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../parts/components/staking-switch.component */ 73396);
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @ngx-translate/core */ 87514);
+
 
 
 
@@ -15330,18 +15330,20 @@ function StakingComponent_div_6_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](3);
     _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵproperty"]("staking", ctx_r0.variablesService.currentWallet.staking)("wallet_id", ctx_r0.variablesService.currentWallet.wallet_id);
 } }
-function StakingComponent_div_26_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](0, "div", 25)(1, "div", 26)(2, "div", 27);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtext"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipe"](4, "date");
+function StakingComponent_ng_container_26_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementContainerStart"](0);
+    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](1, "div", 25)(2, "div", 26)(3, "div", 27);
+    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtext"](4);
+    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipe"](5, "date");
     _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](5, "div", 28);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtext"](6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](6, "div", 28);
+    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtext"](7);
     _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]()()();
+    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementContainerEnd"]();
 } if (rf & 2) {
     const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtextInterpolate2"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipeBind2"](4, 3, ctx_r1.selectedDate.date, "EEEE, MMMM d, y"), " ", ctx_r1.selectedDate.amount, " ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](4);
+    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtextInterpolate2"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipeBind2"](5, 3, ctx_r1.pointDetails.date, "EEEE, MMMM d, y"), " ", ctx_r1.pointDetails.amount, " ");
     _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](3);
     _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtextInterpolate1"](" ", ctx_r1.variablesService.defaultTicker, " ");
 } }
@@ -15371,7 +15373,7 @@ function StakingComponent_div_33_Template(rf, ctx) { if (rf & 1) {
 } if (rf & 2) {
     const ctx_r4 = _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵnextContext"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtextInterpolate2"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipeBind2"](4, 3, ctx_r4.selectedDate.date, "EEEE, MMMM d, y"), " ", ctx_r4.selectedDate.amount, " ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtextInterpolate2"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipeBind2"](4, 3, ctx_r4.pointDetails.date, "EEEE, MMMM d, y"), " ", ctx_r4.pointDetails.amount, " ");
     _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](3);
     _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtextInterpolate1"](" ", ctx_r4.variablesService.defaultTicker, " ");
 } }
@@ -15379,111 +15381,107 @@ function StakingComponent_ng_container_37_Template(rf, ctx) { if (rf & 1) {
     const _r14 = _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵgetCurrentView"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementContainerStart"](0);
     _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](1, "button", 30);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵlistener"]("click", function StakingComponent_ng_container_37_Template_button_click_1_listener() { const restoredCtx = _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵrestoreView"](_r14); const period_r11 = restoredCtx.$implicit; const ctx_r13 = _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵnextContext"](); return _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵresetView"](ctx_r13.changePeriod(period_r11)); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵlistener"]("click", function StakingComponent_ng_container_37_Template_button_click_1_listener() { const restoredCtx = _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵrestoreView"](_r14); const item_r11 = restoredCtx.$implicit; const ctx_r13 = _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵnextContext"](); return _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵresetView"](ctx_r13.filtersForm.controls.period.patchValue(item_r11.value)); });
     _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipe"](3, "translate");
     _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementContainerEnd"]();
 } if (rf & 2) {
-    const period_r11 = ctx.$implicit;
+    const item_r11 = ctx.$implicit;
     const last_r12 = ctx.last;
+    const ctx_r5 = _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵnextContext"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵclassProp"]("active", period_r11.active)("mr-1", !last_r12)("outline", !last_r12)("primary", last_r12);
+    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵclassProp"]("active", item_r11.value === ctx_r5.filtersForm.controls.period.value)("mr-1", !last_r12)("outline", !last_r12)("primary", last_r12);
     _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtextInterpolate1"](" ", period_r11.title, " ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipeBind1"](3, 9, item_r11.title), " ");
 } }
+const periodItems = [
+    {
+        title: 'STAKING.PERIOD.WEEK1',
+        value: '1 week',
+    },
+    {
+        title: 'STAKING.PERIOD.WEEK2',
+        value: '2 week',
+    },
+    {
+        title: 'STAKING.PERIOD.MONTH1',
+        value: '1 month',
+    },
+    {
+        title: 'STAKING.PERIOD.MONTH3',
+        value: '3 month',
+    },
+    {
+        title: 'STAKING.PERIOD.MONTH6',
+        value: '6 month',
+    },
+    {
+        title: 'STAKING.PERIOD.YEAR',
+        value: '1 year',
+    },
+    {
+        title: 'STAKING.PERIOD.ALL',
+        value: 'All',
+    },
+];
+const groupItems = [
+    {
+        title: 'STAKING.GROUP.DAY',
+        value: 'day',
+    },
+    {
+        title: 'STAKING.GROUP.WEEK',
+        value: 'week',
+    },
+    {
+        title: 'STAKING.GROUP.MONTH',
+        value: 'month',
+    },
+];
 class StakingComponent {
-    constructor(variablesService, route, backend, ngZone, intToMoneyPipe, translate) {
-        this.variablesService = variablesService;
-        this.route = route;
-        this.backend = backend;
-        this.ngZone = ngZone;
-        this.intToMoneyPipe = intToMoneyPipe;
-        this.translate = translate;
-        this.periods = [
-            {
-                title: this.translate.instant('STAKING.PERIOD.WEEK1'),
-                key: '1 week',
-                active: false,
-            },
-            {
-                title: this.translate.instant('STAKING.PERIOD.WEEK2'),
-                key: '2 week',
-                active: false,
-            },
-            {
-                title: this.translate.instant('STAKING.PERIOD.MONTH1'),
-                key: '1 month',
-                active: false,
-            },
-            {
-                title: this.translate.instant('STAKING.PERIOD.MONTH3'),
-                key: '3 month',
-                active: false,
-            },
-            {
-                title: this.translate.instant('STAKING.PERIOD.MONTH6'),
-                key: '6 month',
-                active: false,
-            },
-            {
-                title: this.translate.instant('STAKING.PERIOD.YEAR'),
-                key: '1 year',
-                active: false,
-            },
-            {
-                title: this.translate.instant('STAKING.PERIOD.ALL'),
-                key: 'All',
-                active: true,
-            },
-        ];
-        this.groups = [
-            {
-                title: this.translate.instant('STAKING.GROUP.DAY'),
-                key: 'day',
-                active: true,
-            },
-            {
-                title: this.translate.instant('STAKING.GROUP.WEEK'),
-                key: 'week',
-                active: false,
-            },
-            {
-                title: this.translate.instant('STAKING.GROUP.MONTH'),
-                key: 'month',
-                active: false,
-            },
-        ];
-        this.selectedGroup = this.groups[0].key;
-        this.selectedDate = {
+    constructor() {
+        this.total = new bignumber_js__WEBPACK_IMPORTED_MODULE_3__.BigNumber(0);
+        this.pending = {
+            list: [],
+            total: new bignumber_js__WEBPACK_IMPORTED_MODULE_3__.BigNumber(0),
+        };
+        this.variablesService = (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.inject)(_parts_services_variables_service__WEBPACK_IMPORTED_MODULE_0__.VariablesService);
+        this.periodItems = periodItems;
+        this.groupItems = groupItems;
+        this._fb = (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.inject)(_angular_forms__WEBPACK_IMPORTED_MODULE_6__.NonNullableFormBuilder);
+        this.filtersForm = this._fb.group({
+            group: this._fb.control('day'),
+            period: this._fb.control('All'),
+        });
+        this.pointDetails = {
             date: null,
             amount: null,
         };
         this.originalData = [];
-        this.total = new bignumber_js__WEBPACK_IMPORTED_MODULE_0__.BigNumber(0);
-        this.pending = {
-            list: [],
-            total: new bignumber_js__WEBPACK_IMPORTED_MODULE_0__.BigNumber(0),
-        };
-        this.destroy$ = new rxjs__WEBPACK_IMPORTED_MODULE_6__.Subject();
+        this._destroy$ = new rxjs__WEBPACK_IMPORTED_MODULE_7__.Subject();
+        this._backendService = (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.inject)(_api_services_backend_service__WEBPACK_IMPORTED_MODULE_1__.BackendService);
+        this._ngZone = (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.inject)(_angular_core__WEBPACK_IMPORTED_MODULE_5__.NgZone);
+        this._intToMoneyPipe = (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.inject)(_parts_pipes_int_to_money_pipe_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_2__.IntToMoneyPipe);
     }
-    static makeGroupTime(key, date) {
-        if (key === 'day') {
-            return date.setHours(0, 0, 0, 0);
-        }
-        else if (key === 'week') {
-            return new Date(date.setDate(date.getDate() - date.getDay())).setHours(0, 0, 0, 0);
-        }
-        else {
-            return new Date(date.setDate(1)).setHours(0, 0, 0, 0);
-        }
+    get isShowStagingSwitch() {
+        const { currentWallet: { is_watch_only, is_auditable }, } = this.variablesService;
+        const condition1 = !is_auditable && !is_watch_only;
+        const condition2 = is_auditable && !is_watch_only;
+        return condition1 || condition2;
+    }
+    get isShowPointerDetails() {
+        const { date, amount } = this.pointDetails;
+        return date !== null && amount !== null;
     }
     ngOnInit() {
-        this.route.parent.params.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_7__.takeUntil)(this.destroy$)).subscribe({
-            next: () => {
-                this.getMiningHistory();
-            },
-        });
-        this.variablesService.getHeightAppEvent.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_7__.takeUntil)(this.destroy$)).subscribe({
+        const { settings } = this.variablesService;
+        const savedStakingFilters = settings.filters.stakingFilters;
+        if (savedStakingFilters) {
+            this.filtersForm.patchValue(savedStakingFilters);
+        }
+        this.getMiningHistory();
+        this.variablesService.getHeightAppEvent.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_8__.takeUntil)(this._destroy$)).subscribe({
             next: (newHeight) => {
                 if (!this.pending.total.isZero()) {
                     const pendingCount = this.pending.list.length;
@@ -15493,7 +15491,7 @@ class StakingComponent {
                         }
                     }
                     if (pendingCount !== this.pending.list.length) {
-                        this.pending.total = new bignumber_js__WEBPACK_IMPORTED_MODULE_0__.BigNumber(0);
+                        this.pending.total = new bignumber_js__WEBPACK_IMPORTED_MODULE_3__.BigNumber(0);
                         for (let i = 0; i < this.pending.list.length; i++) {
                             this.pending.total = this.pending.total.plus(this.pending.list[i].a);
                         }
@@ -15501,20 +15499,19 @@ class StakingComponent {
                 }
             },
         });
-        this.variablesService.getRefreshStackingEvent.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_7__.takeUntil)(this.destroy$)).subscribe({
-            next: (wallet_id) => {
-                if (this.variablesService.currentWallet.wallet_id === wallet_id) {
-                    this.getMiningHistory();
-                }
+        this.filtersForm.valueChanges.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_8__.takeUntil)(this._destroy$)).subscribe({
+            next: () => {
+                settings.filters.stakingFilters = this.filtersForm.getRawValue();
+                this.changePeriod();
             },
         });
     }
     ngOnDestroy() {
-        this.destroy$.next();
-        this.destroy$.complete();
+        this._destroy$.next();
+        this._destroy$.complete();
     }
     drawChart(data) {
-        this.chart = new angular_highcharts__WEBPACK_IMPORTED_MODULE_8__.Chart({
+        this.chart = new angular_highcharts__WEBPACK_IMPORTED_MODULE_9__.Chart({
             title: { text: '' },
             credits: { enabled: false },
             exporting: { enabled: false },
@@ -15570,7 +15567,6 @@ class StakingComponent {
                 minPadding: 0,
                 maxPadding: 0,
                 minRange: 86400000,
-                // tickInterval: 86400000,
                 minTickInterval: 3600000,
             },
             tooltip: {
@@ -15601,15 +15597,15 @@ class StakingComponent {
                     point: {
                         events: {
                             mouseOver: (obj) => {
-                                this.selectedDate.date = obj.target['x'];
-                                this.selectedDate.amount = obj.target['y'];
+                                this.pointDetails.date = obj.target['x'];
+                                this.pointDetails.amount = obj.target['y'];
                             },
                         },
                     },
                     events: {
                         mouseOut: () => {
-                            this.selectedDate.date = null;
-                            this.selectedDate.amount = null;
+                            this.pointDetails.date = null;
+                            this.pointDetails.amount = null;
                         },
                     },
                 },
@@ -15624,10 +15620,10 @@ class StakingComponent {
     }
     getMiningHistory() {
         if (this.variablesService.currentWallet.loaded) {
-            this.backend.getMiningHistory(this.variablesService.currentWallet.wallet_id, (status, data) => {
-                this.total = new bignumber_js__WEBPACK_IMPORTED_MODULE_0__.BigNumber(0);
+            this._backendService.getMiningHistory(this.variablesService.currentWallet.wallet_id, (status, data) => {
+                this.total = new bignumber_js__WEBPACK_IMPORTED_MODULE_3__.BigNumber(0);
                 this.pending.list = [];
-                this.pending.total = new bignumber_js__WEBPACK_IMPORTED_MODULE_0__.BigNumber(0);
+                this.pending.total = new bignumber_js__WEBPACK_IMPORTED_MODULE_3__.BigNumber(0);
                 this.originalData = [];
                 if (data.mined_entries) {
                     data.mined_entries.forEach((item, key) => {
@@ -15641,18 +15637,18 @@ class StakingComponent {
                             this.pending.list.push(item);
                             this.pending.total = this.pending.total.plus(item.a);
                         }
-                        this.originalData.push([parseInt(item.t, 10), parseFloat(this.intToMoneyPipe.transform(item.a))]);
+                        this.originalData.push([parseInt(item.t, 10), parseFloat(this._intToMoneyPipe.transform(item.a))]);
                     });
                     this.originalData = this.originalData.sort(function (a, b) {
                         return a[0] - b[0];
                     });
                 }
-                this.ngZone.run(() => {
+                this._ngZone.run(() => {
                     var _a;
                     this.drawChart([]);
                     (_a = this.themeChangesSubscription) === null || _a === void 0 ? void 0 : _a.unsubscribe();
-                    this.themeChangesSubscription = (0,rxjs__WEBPACK_IMPORTED_MODULE_9__.combineLatest)([this.chart.ref$, this.variablesService.isDarkTheme$])
-                        .pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_7__.takeUntil)(this.destroy$))
+                    this.themeChangesSubscription = (0,rxjs__WEBPACK_IMPORTED_MODULE_10__.combineLatest)([this.chart.ref$, this.variablesService.isDarkTheme$])
+                        .pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_8__.takeUntil)(this._destroy$))
                         .subscribe({
                         next: ([ref, isDarkTheme]) => {
                             let option = {};
@@ -15746,30 +15742,32 @@ class StakingComponent {
             });
         }
     }
-    changePeriod(period) {
+    changePeriod() {
         var _a, _b, _c, _d, _e, _f, _g, _h;
         if (!this.chart) {
             return;
         }
-        if (period) {
-            this.periods.forEach(p => {
-                p.active = false;
-            });
-            period.active = true;
-        }
-        else {
-            period = this.periods.find(p => p.active);
-        }
         const d = new Date();
         let min = null;
         const newData = [];
-        const group = this.groups.find(g => g.active);
-        if (period.key === '1 week') {
+        const { group, period } = this.filtersForm.getRawValue();
+        const makeGroupTime = (value, date) => {
+            if (value === 'day') {
+                return date.setHours(0, 0, 0, 0);
+            }
+            else if (value === 'week') {
+                return new Date(date.setDate(date.getDate() - date.getDay())).setHours(0, 0, 0, 0);
+            }
+            else {
+                return new Date(date.setDate(1)).setHours(0, 0, 0, 0);
+            }
+        };
+        if (period === '1 week') {
             this.originalData.forEach(item => {
-                const time = StakingComponent.makeGroupTime(group.key, new Date(item[0]));
+                const time = makeGroupTime(group, new Date(item[0]));
                 const find = newData.find(itemNew => itemNew[0] === time);
                 if (find) {
-                    find[1] = new bignumber_js__WEBPACK_IMPORTED_MODULE_0__.BigNumber(find[1]).plus(item[1]).toNumber();
+                    find[1] = new bignumber_js__WEBPACK_IMPORTED_MODULE_3__.BigNumber(find[1]).plus(item[1]).toNumber();
                 }
                 else {
                     newData.push([time, item[1]]);
@@ -15778,12 +15776,12 @@ class StakingComponent {
             (_a = this.chart.ref) === null || _a === void 0 ? void 0 : _a.series[0].setData(newData, true);
             min = Date.UTC(d.getFullYear(), d.getMonth(), d.getDate() - 7, 0, 0, 0, 0);
         }
-        else if (period.key === '2 week') {
+        else if (period === '2 week') {
             this.originalData.forEach(item => {
-                const time = StakingComponent.makeGroupTime(group.key, new Date(item[0]));
+                const time = makeGroupTime(group, new Date(item[0]));
                 const find = newData.find(itemNew => itemNew[0] === time);
                 if (find) {
-                    find[1] = new bignumber_js__WEBPACK_IMPORTED_MODULE_0__.BigNumber(find[1]).plus(item[1]).toNumber();
+                    find[1] = new bignumber_js__WEBPACK_IMPORTED_MODULE_3__.BigNumber(find[1]).plus(item[1]).toNumber();
                 }
                 else {
                     newData.push([time, item[1]]);
@@ -15792,12 +15790,12 @@ class StakingComponent {
             (_b = this.chart.ref) === null || _b === void 0 ? void 0 : _b.series[0].setData(newData, true);
             min = Date.UTC(d.getFullYear(), d.getMonth(), d.getDate() - 14, 0, 0, 0, 0);
         }
-        else if (period.key === '1 month') {
+        else if (period === '1 month') {
             this.originalData.forEach(item => {
-                const time = StakingComponent.makeGroupTime(group.key, new Date(item[0]));
+                const time = makeGroupTime(group, new Date(item[0]));
                 const find = newData.find(itemNew => itemNew[0] === time);
                 if (find) {
-                    find[1] = new bignumber_js__WEBPACK_IMPORTED_MODULE_0__.BigNumber(find[1]).plus(item[1]).toNumber();
+                    find[1] = new bignumber_js__WEBPACK_IMPORTED_MODULE_3__.BigNumber(find[1]).plus(item[1]).toNumber();
                 }
                 else {
                     newData.push([time, item[1]]);
@@ -15806,12 +15804,12 @@ class StakingComponent {
             (_c = this.chart.ref) === null || _c === void 0 ? void 0 : _c.series[0].setData(newData, true);
             min = Date.UTC(d.getFullYear(), d.getMonth() - 1, d.getDate(), 0, 0, 0, 0);
         }
-        else if (period.key === '3 month') {
+        else if (period === '3 month') {
             this.originalData.forEach(item => {
-                const time = StakingComponent.makeGroupTime(group.key, new Date(item[0]));
+                const time = makeGroupTime(group, new Date(item[0]));
                 const find = newData.find(itemNew => itemNew[0] === time);
                 if (find) {
-                    find[1] = new bignumber_js__WEBPACK_IMPORTED_MODULE_0__.BigNumber(find[1]).plus(item[1]).toNumber();
+                    find[1] = new bignumber_js__WEBPACK_IMPORTED_MODULE_3__.BigNumber(find[1]).plus(item[1]).toNumber();
                 }
                 else {
                     newData.push([time, item[1]]);
@@ -15820,12 +15818,12 @@ class StakingComponent {
             (_d = this.chart.ref) === null || _d === void 0 ? void 0 : _d.series[0].setData(newData, true);
             min = Date.UTC(d.getFullYear(), d.getMonth() - 3, d.getDate(), 0, 0, 0, 0);
         }
-        else if (period.key === '6 month') {
+        else if (period === '6 month') {
             this.originalData.forEach(item => {
-                const time = StakingComponent.makeGroupTime(group.key, new Date(item[0]));
+                const time = makeGroupTime(group, new Date(item[0]));
                 const find = newData.find(itemNew => itemNew[0] === time);
                 if (find) {
-                    find[1] = new bignumber_js__WEBPACK_IMPORTED_MODULE_0__.BigNumber(find[1]).plus(item[1]).toNumber();
+                    find[1] = new bignumber_js__WEBPACK_IMPORTED_MODULE_3__.BigNumber(find[1]).plus(item[1]).toNumber();
                 }
                 else {
                     newData.push([time, item[1]]);
@@ -15834,12 +15832,12 @@ class StakingComponent {
             (_e = this.chart.ref) === null || _e === void 0 ? void 0 : _e.series[0].setData(newData, true);
             min = Date.UTC(d.getFullYear(), d.getMonth() - 6, d.getDate(), 0, 0, 0, 0);
         }
-        else if (period.key === '1 year') {
+        else if (period === '1 year') {
             this.originalData.forEach(item => {
-                const time = StakingComponent.makeGroupTime(group.key, new Date(item[0]));
+                const time = makeGroupTime(group, new Date(item[0]));
                 const find = newData.find(itemNew => itemNew[0] === time);
                 if (find) {
-                    find[1] = new bignumber_js__WEBPACK_IMPORTED_MODULE_0__.BigNumber(find[1]).plus(item[1]).toNumber();
+                    find[1] = new bignumber_js__WEBPACK_IMPORTED_MODULE_3__.BigNumber(find[1]).plus(item[1]).toNumber();
                 }
                 else {
                     newData.push([time, item[1]]);
@@ -15850,10 +15848,10 @@ class StakingComponent {
         }
         else {
             this.originalData.forEach(item => {
-                const time = StakingComponent.makeGroupTime(group.key, new Date(item[0]));
+                const time = makeGroupTime(group, new Date(item[0]));
                 const find = newData.find(itemNew => itemNew[0] === time);
                 if (find) {
-                    find[1] = new bignumber_js__WEBPACK_IMPORTED_MODULE_0__.BigNumber(find[1]).plus(item[1]).toNumber();
+                    find[1] = new bignumber_js__WEBPACK_IMPORTED_MODULE_3__.BigNumber(find[1]).plus(item[1]).toNumber();
                 }
                 else {
                     newData.push([time, item[1]]);
@@ -15863,16 +15861,9 @@ class StakingComponent {
         }
         (_h = this.chart.ref) === null || _h === void 0 ? void 0 : _h.xAxis[0].setExtremes(min, null);
     }
-    changeGroup(group) {
-        this.groups.forEach(g => {
-            g.active = false;
-        });
-        group.active = true;
-        this.changePeriod();
-    }
 }
-StakingComponent.ɵfac = function StakingComponent_Factory(t) { return new (t || StakingComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdirectiveInject"](_parts_services_variables_service__WEBPACK_IMPORTED_MODULE_1__.VariablesService), _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_10__.ActivatedRoute), _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdirectiveInject"](_api_services_backend_service__WEBPACK_IMPORTED_MODULE_2__.BackendService), _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdirectiveInject"](_angular_core__WEBPACK_IMPORTED_MODULE_5__.NgZone), _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdirectiveInject"](_parts_pipes_int_to_money_pipe_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_3__.IntToMoneyPipe), _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdirectiveInject"](_ngx_translate_core__WEBPACK_IMPORTED_MODULE_11__.TranslateService)); };
-StakingComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineComponent"]({ type: StakingComponent, selectors: [["app-staking"]], decls: 38, vars: 23, consts: [["fxFlexFill", "", "fxLayout", "column", 1, "chart-wrap"], ["fxFlex", "1 1 auto", "fxLayout", "column", 1, "scrolled-content", "h-100"], ["fxFlex", "0 0 auto", "fxLayout", "column", 1, "chart-header", "mb-1"], ["fxFlex", "0 0 auto", "fxLayout", "row nowrap", "fxLayoutAlign", "space-between start", "fxLayoutGap", "1rem", 1, "row"], ["fxFlex", "1 1 calc(50% - 0.5rem)", "fxLayout", "row wrap", "fxLayoutAlign", "start center", "fxLayoutGap", "1rem", 1, "left"], ["fxLayout", "row wrap", "fxLayoutGap", "1rem", 1, "items"], ["class", "item overflow-hidden p-1 border-radius-0_8-rem mb-1", "fxLayout", "row nowrap", "fxLayoutAlign", "space-between center", 4, "ngIf"], ["fxLayout", "row nowrap", "fxLayoutAlign", "space-between center", 1, "item", "overflow-hidden", "p-1", "border-radius-0_8-rem", "mb-1"], ["fxLayout", "row", "fxLayoutAlign", "start center", 1, "left", "overflow-hidden", "mr-1"], ["fxLayout", "row", "fxLayoutAlign", "end center", 1, "right", "overflow-hidden", "w-100"], [1, "text-ellipsis", "mr-1"], ["fxFlex", "1 1 calc(50% - 0.5rem)", "fxLayout", "row", "fxLayoutAlign", "end center", "fxLayoutGap", "1rem", 1, "right"], ["class", "selected overflow-hidden", "fxHide", "", "fxShow.lg", "", "fxShow.xl", "", 4, "ngIf"], ["bindLabel", "title", "bindValue", "key", 1, "selected-group", "max-w-19-rem", "w-100", 3, "ngModel", "clearable", "items", "searchable", "change", "ngModelChange"], ["ng-label-tmp", ""], ["ng-option-tmp", ""], ["fxFlex", "0 0 2rem", "fxHide.lg", "", "fxHide.xl", "", "fxLayout", "row nowrap", "fxLayoutAlign", "space-between center", "fxLayoutGap", "1rem", "fxShow", "", 1, "row"], [1, "left"], ["fxLayoutAlign", "end center", 1, "right"], ["class", "selected overflow-hidden", 4, "ngIf"], ["fxFlex", "1 1 auto", "fxLayoutAlign", " center", 1, "chart", "border-radius-0_8-rem"], [3, "chart"], ["fxFlex", "0 0 auto", "fxLayoutAlign", " center", 1, "chart-options", "mt-2"], [4, "ngFor", "ngForOf"], [3, "staking", "wallet_id", "stakingChange"], ["fxHide", "", "fxShow.lg", "", "fxShow.xl", "", 1, "selected", "overflow-hidden"], ["fxLayout", "row", 1, "overflow-hidden"], [1, "text-ellipsis"], [1, "ml-0_5"], [1, "selected", "overflow-hidden"], ["type", "button", 1, "big", "w-100", 3, "click"]], template: function StakingComponent_Template(rf, ctx) { if (rf & 1) {
+StakingComponent.ɵfac = function StakingComponent_Factory(t) { return new (t || StakingComponent)(); };
+StakingComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineComponent"]({ type: StakingComponent, selectors: [["app-staking"]], decls: 38, vars: 23, consts: [["fxFlexFill", "", "fxLayout", "column", 1, "chart-wrap"], ["fxFlex", "1 1 auto", "fxLayout", "column", 1, "scrolled-content", "h-100"], ["fxFlex", "0 0 auto", "fxLayout", "column", 1, "chart-header", "mb-1"], ["fxFlex", "0 0 auto", "fxLayout", "row nowrap", "fxLayoutAlign", "space-between start", "fxLayoutGap", "1rem", 1, "row"], ["fxFlex", "1 1 calc(50% - 0.5rem)", "fxLayout", "row wrap", "fxLayoutAlign", "start center", "fxLayoutGap", "1rem", 1, "left"], ["fxLayout", "row wrap", "fxLayoutGap", "1rem", 1, "items"], ["class", "item overflow-hidden p-1 border-radius-0_8-rem mb-1", "fxLayout", "row nowrap", "fxLayoutAlign", "space-between center", 4, "ngIf"], ["fxLayout", "row nowrap", "fxLayoutAlign", "space-between center", 1, "item", "overflow-hidden", "p-1", "border-radius-0_8-rem", "mb-1"], ["fxLayout", "row", "fxLayoutAlign", "start center", 1, "left", "overflow-hidden", "mr-1"], ["fxLayout", "row", "fxLayoutAlign", "end center", 1, "right", "overflow-hidden", "w-100"], [1, "text-ellipsis", "mr-1"], ["fxFlex", "1 1 calc(50% - 0.5rem)", "fxLayout", "row", "fxLayoutAlign", "end center", "fxLayoutGap", "1rem", 1, "right"], [4, "ngIf"], ["bindLabel", "title", "bindValue", "value", 1, "selected-group", "max-w-19-rem", "w-100", 3, "clearable", "items", "searchable", "formControl"], ["ng-label-tmp", ""], ["ng-option-tmp", ""], ["fxFlex", "0 0 2rem", "fxHide.lg", "", "fxHide.xl", "", "fxLayout", "row nowrap", "fxLayoutAlign", "space-between center", "fxLayoutGap", "1rem", "fxShow", "", 1, "row"], [1, "left"], ["fxLayoutAlign", "end center", 1, "right"], ["class", "selected overflow-hidden", 4, "ngIf"], ["fxFlex", "1 1 auto", "fxLayoutAlign", " center", 1, "chart", "border-radius-0_8-rem"], [3, "chart"], ["fxFlex", "0 0 auto", "fxLayoutAlign", " center", 1, "chart-options", "mt-2"], [4, "ngFor", "ngForOf"], [3, "staking", "wallet_id", "stakingChange"], ["fxHide", "", "fxShow.lg", "", "fxShow.xl", "", 1, "selected", "overflow-hidden"], ["fxLayout", "row", 1, "overflow-hidden"], [1, "text-ellipsis"], [1, "ml-0_5"], [1, "selected", "overflow-hidden"], ["type", "button", 1, "big", "w-100", 3, "click"]], template: function StakingComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](0, "div", 0)(1, "div", 1)(2, "div", 2)(3, "div", 3)(4, "div", 4)(5, "div", 5);
         _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtemplate"](6, StakingComponent_div_6_Template, 6, 5, "div", 6);
         _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](7, "div", 7)(8, "div", 8);
@@ -15896,9 +15887,8 @@ StakingComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_5_
         _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtext"](24);
         _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]()()()();
         _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](25, "div", 11);
-        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtemplate"](26, StakingComponent_div_26_Template, 7, 6, "div", 12);
+        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtemplate"](26, StakingComponent_ng_container_26_Template, 8, 6, "ng-container", 12);
         _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](27, "ng-select", 13);
-        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵlistener"]("change", function StakingComponent_Template_ng_select_change_27_listener($event) { return ctx.changeGroup($event); })("ngModelChange", function StakingComponent_Template_ng_select_ngModelChange_27_listener($event) { return ctx.selectedGroup = $event; });
         _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtemplate"](28, StakingComponent_ng_template_28_Template, 3, 5, "ng-template", 14);
         _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtemplate"](29, StakingComponent_ng_template_29_Template, 2, 3, "ng-template", 15);
         _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]()()();
@@ -15911,11 +15901,11 @@ StakingComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_5_
         _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelement"](35, "div", 21);
         _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](36, "div", 22);
-        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtemplate"](37, StakingComponent_ng_container_37_Template, 3, 9, "ng-container", 23);
+        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtemplate"](37, StakingComponent_ng_container_37_Template, 4, 11, "ng-container", 23);
         _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]()()();
     } if (rf & 2) {
         _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](6);
-        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵproperty"]("ngIf", !ctx.variablesService.currentWallet.is_auditable && !ctx.variablesService.currentWallet.is_watch_only || ctx.variablesService.currentWallet.is_auditable && !ctx.variablesService.currentWallet.is_watch_only);
+        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵproperty"]("ngIf", ctx.isShowStagingSwitch);
         _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](3);
         _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipeBind1"](10, 15, "STAKING.TITLE_PENDING"), " : ");
         _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](4);
@@ -15929,16 +15919,16 @@ StakingComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_5_
         _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](2);
         _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtextInterpolate1"](" ", ctx.variablesService.defaultTicker, " ");
         _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵproperty"]("ngIf", ctx.selectedDate && ctx.selectedDate.date);
+        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵproperty"]("ngIf", ctx.isShowPointerDetails);
         _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵproperty"]("ngModel", ctx.selectedGroup)("clearable", false)("items", ctx.groups)("searchable", false);
+        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵproperty"]("clearable", false)("items", ctx.groupItems)("searchable", false)("formControl", ctx.filtersForm.controls.group);
         _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](6);
-        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵproperty"]("ngIf", ctx.selectedDate && ctx.selectedDate.date);
+        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵproperty"]("ngIf", ctx.pointDetails && ctx.pointDetails.date);
         _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](2);
         _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵproperty"]("chart", ctx.chart);
         _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵproperty"]("ngForOf", ctx.periods);
-    } }, dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_12__.NgForOf, _angular_common__WEBPACK_IMPORTED_MODULE_12__.NgIf, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_13__.DefaultLayoutDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_13__.DefaultLayoutGapDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_13__.DefaultLayoutAlignDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_13__.FlexFillDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_13__.DefaultFlexDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_14__.NgControlStatus, angular_highcharts__WEBPACK_IMPORTED_MODULE_8__.ChartDirective, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_15__.NgSelectComponent, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_15__.NgOptionTemplateDirective, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_15__.NgLabelTemplateDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_14__.NgModel, _angular_flex_layout_extended__WEBPACK_IMPORTED_MODULE_16__.DefaultShowHideDirective, _parts_components_staking_switch_component__WEBPACK_IMPORTED_MODULE_4__.StakingSwitchComponent, _angular_common__WEBPACK_IMPORTED_MODULE_12__.LowerCasePipe, _angular_common__WEBPACK_IMPORTED_MODULE_12__.DatePipe, _ngx_translate_core__WEBPACK_IMPORTED_MODULE_11__.TranslatePipe, _parts_pipes_int_to_money_pipe_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_3__.IntToMoneyPipe], styles: ["[_nghost-%COMP%] {\n                width: 100%;\n                height: auto;\n            }\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0YWtpbmcuY29tcG9uZW50LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7WUFDWTtnQkFDSSxXQUFXO2dCQUNYLFlBQVk7WUFDaEIiLCJmaWxlIjoic3Rha2luZy5jb21wb25lbnQudHMiLCJzb3VyY2VzQ29udGVudCI6WyJcbiAgICAgICAgICAgIDpob3N0IHtcbiAgICAgICAgICAgICAgICB3aWR0aDogMTAwJTtcbiAgICAgICAgICAgICAgICBoZWlnaHQ6IGF1dG87XG4gICAgICAgICAgICB9XG4gICAgICAgICJdfQ== */"] });
+        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵproperty"]("ngForOf", ctx.periodItems);
+    } }, dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_11__.NgForOf, _angular_common__WEBPACK_IMPORTED_MODULE_11__.NgIf, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_12__.DefaultLayoutDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_12__.DefaultLayoutGapDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_12__.DefaultLayoutAlignDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_12__.FlexFillDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_12__.DefaultFlexDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_6__.NgControlStatus, _angular_forms__WEBPACK_IMPORTED_MODULE_6__.FormControlDirective, angular_highcharts__WEBPACK_IMPORTED_MODULE_9__.ChartDirective, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_13__.NgSelectComponent, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_13__.NgOptionTemplateDirective, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_13__.NgLabelTemplateDirective, _angular_flex_layout_extended__WEBPACK_IMPORTED_MODULE_14__.DefaultShowHideDirective, _parts_components_staking_switch_component__WEBPACK_IMPORTED_MODULE_4__.StakingSwitchComponent, _angular_common__WEBPACK_IMPORTED_MODULE_11__.LowerCasePipe, _angular_common__WEBPACK_IMPORTED_MODULE_11__.DatePipe, _ngx_translate_core__WEBPACK_IMPORTED_MODULE_15__.TranslatePipe, _parts_pipes_int_to_money_pipe_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_2__.IntToMoneyPipe], styles: ["[_nghost-%COMP%] {\n                width: 100%;\n                height: auto;\n            }\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0YWtpbmcuY29tcG9uZW50LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7WUFDWTtnQkFDSSxXQUFXO2dCQUNYLFlBQVk7WUFDaEIiLCJmaWxlIjoic3Rha2luZy5jb21wb25lbnQudHMiLCJzb3VyY2VzQ29udGVudCI6WyJcbiAgICAgICAgICAgIDpob3N0IHtcbiAgICAgICAgICAgICAgICB3aWR0aDogMTAwJTtcbiAgICAgICAgICAgICAgICBoZWlnaHQ6IGF1dG87XG4gICAgICAgICAgICB9XG4gICAgICAgICJdfQ== */"] });
 
 
 /***/ }),
@@ -24031,7 +24021,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "VariablesService": () => (/* binding */ VariablesService)
 /* harmony export */ });
-/* harmony import */ var _home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
+/* harmony import */ var _Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs */ 76317);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! rxjs */ 80228);
@@ -24125,7 +24115,10 @@ class VariablesService {
         secret: ''
       },
       wallets: [],
-      isDarkTheme: true
+      isDarkTheme: true,
+      filters: {
+        stakingFilters: null
+      }
     };
     this.isDarkTheme$ = new rxjs__WEBPACK_IMPORTED_MODULE_3__.BehaviorSubject(true);
     this.count = 40;
@@ -24148,16 +24141,15 @@ class VariablesService {
     this.getHeightMaxEvent = new rxjs__WEBPACK_IMPORTED_MODULE_3__.BehaviorSubject(null);
     this.getDownloadedAppEvent = new rxjs__WEBPACK_IMPORTED_MODULE_3__.BehaviorSubject(null);
     this.getTotalEvent = new rxjs__WEBPACK_IMPORTED_MODULE_3__.BehaviorSubject(null);
-    this.getRefreshStackingEvent = new rxjs__WEBPACK_IMPORTED_MODULE_3__.BehaviorSubject(null);
     this.getAliasChangedEvent = new rxjs__WEBPACK_IMPORTED_MODULE_3__.BehaviorSubject(null);
     this.currentWalletChangedEvent = new rxjs__WEBPACK_IMPORTED_MODULE_3__.BehaviorSubject(null);
     this._dialog = (0,_angular_core__WEBPACK_IMPORTED_MODULE_6__.inject)(_angular_cdk_dialog__WEBPACK_IMPORTED_MODULE_7__.Dialog);
     this._matDialog = (0,_angular_core__WEBPACK_IMPORTED_MODULE_6__.inject)(_angular_material_dialog__WEBPACK_IMPORTED_MODULE_8__.MatDialog);
-    this.idle = new idlejs_dist__WEBPACK_IMPORTED_MODULE_1__.Idle().whenNotInteractive().do( /*#__PURE__*/(0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    this.idle = new idlejs_dist__WEBPACK_IMPORTED_MODULE_1__.Idle().whenNotInteractive().do( /*#__PURE__*/(0,_Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       if (_this.appPass === '') {
         _this.stopCountdown();
       } else {
-        yield _this.ngZone.run( /*#__PURE__*/(0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+        yield _this.ngZone.run( /*#__PURE__*/(0,_Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
           _this.stopCountdown();
 
           _this.appPass = '';
@@ -24381,7 +24373,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "WalletsService": () => (/* binding */ WalletsService)
 /* harmony export */ });
-/* harmony import */ var _home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
+/* harmony import */ var _Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _api_services_backend_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @api/services/backend.service */ 10122);
 /* harmony import */ var _parts_services_variables_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @parts/services/variables.service */ 22994);
@@ -24485,9 +24477,9 @@ class WalletsService {
     var _this = this;
 
     const callback = /*#__PURE__*/function () {
-      var _ref = (0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      var _ref = (0,_Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
         _this.wallets = _this.wallets.filter(w => w.wallet_id !== wallet_id);
-        yield _this.ngZone.run( /*#__PURE__*/(0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+        yield _this.ngZone.run( /*#__PURE__*/(0,_Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
           let url = '/';
 
           if (_this.wallets.length > 0) {
@@ -25116,7 +25108,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const buildTime = '2024-08-26T07:35:40.106Z';
+const buildTime = '2024-08-28T08:14:02.637Z';
 if (_environments_environment__WEBPACK_IMPORTED_MODULE_1__.environment.production) {
     (0,_angular_core__WEBPACK_IMPORTED_MODULE_3__.enableProdMode)();
 }
