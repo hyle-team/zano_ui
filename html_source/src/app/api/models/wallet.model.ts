@@ -17,7 +17,8 @@ export const defaultSendMoneyParams: SendMoneyFormParams = {
     comment: '',
     mixin: MIXIN,
     fee: '0.01',
-    hide: false,
+    push_payer: true,
+    hide_receiver: false,
 };
 
 export class Wallet {

@@ -673,7 +673,8 @@
             "MUST_BE_GREATER_THAN_ZERO": "Must be greater than zero",
             "WRAP_INFO_NULL": "impossibile richiedere lo stato di wrap"
         },
-        "HIDE": "Nascondi l'indirizzo del tuo portafoglio dal destinatario",
+        "HIDE": "Show address to receiver",
+        "INCLUDE_SENDER_ADDRESS": "Include sender address",
         "MIXIN": "Mixin",
         "SUCCESS_SENT": "Transazione inviata",
         "WRAP": {

@@ -427,7 +427,7 @@ export class BackendService {
         this.runCommand(Commands.restore_wallet, params, callback);
     }
 
-    sendMoney({ wallet_id, address, amount, fee, mixin, comment, hide, asset_id }: SendMoneyParams, callback): void {
+    sendMoney({ wallet_id, address, amount, fee, mixin, comment, hide_receiver, push_payer, asset_id }: SendMoneyParams, callback): void {
         const params = {
             wallet_id,
             destinations: [
@@ -441,7 +441,8 @@ export class BackendService {
             lock_time: 0,
             fee: this.moneyToIntPipe.transform(fee),
             comment: comment,
-            push_payer: !hide,
+            push_payer,
+            hide_receiver
         };
 
         this.asyncCall(Commands.transfer, params, callback);

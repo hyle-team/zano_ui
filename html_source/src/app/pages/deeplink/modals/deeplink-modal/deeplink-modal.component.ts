@@ -114,14 +114,14 @@ import { takeUntil } from 'rxjs/operators';
 
                         <hr class="separator" />
 
-                        <div class="row">
-                            <div class="label max-w-19-rem w-100">
-                                {{ 'Mixins' | translate }}
-                            </div>
-                            <div class="text">{{ actionData.mixins || defaultMixin }}</div>
-                        </div>
+                        <!--<div class="row">-->
+                        <!--    <div class="label max-w-19-rem w-100">-->
+                        <!--        {{ 'Mixins' | translate }}-->
+                        <!--    </div>-->
+                        <!--    <div class="text">{{ actionData.mixins || defaultMixin }}</div>-->
+                        <!--</div>-->
 
-                        <hr class="separator" />
+                        <!--<hr class="separator" />-->
 
                         <div class="row">
                             <div class="label max-w-19-rem w-100">
