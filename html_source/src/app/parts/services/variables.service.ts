@@ -17,7 +17,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class VariablesService implements OnDestroy {
     disable_price_fetch$ = new BehaviorSubject<boolean>(false);
 
-    visibilityBalance$ = new BehaviorSubject<boolean>(false);
+    visibilityBalance$ = new BehaviorSubject<boolean>(true);
 
     zano_current_supply = undefined;
 

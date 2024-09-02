@@ -747,6 +747,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
                     if (this.router.url !== '/login') {
                         this.backendService.haveSecureAppData(statusPass => {
+                            console.log('--------- haveSecureAppData ----------', statusPass);
                             if (statusPass) {
                                 this.ngZone.run(() => {
                                     this.router.navigate(['/login'], {

@@ -191,7 +191,7 @@ export class BackendService {
 
     static bigNumberParser(key, val): any {
         if (
-            val.constructor.name === 'BigNumber' &&
+            val?.constructor?.name === 'BigNumber' &&
             [
                 'balance',
                 'unlocked_balance',
