@@ -21,6 +21,8 @@ export const defaultSendMoneyParams: SendMoneyFormParams = {
     hide_receiver: false,
 };
 
+const defaultAssetsInfoWhitelist = { global_whitelist: [], local_whitelist: [], own_assets: [] };
+
 export class Wallet {
     open_from_exist: boolean;
 
@@ -38,10 +40,10 @@ export class Wallet {
 
     private _balances$: BehaviorSubject<AssetBalances> = new BehaviorSubject<AssetBalances>([]);
 
-    private _assetsInfoWhitelist: AssetsInfoWhitelist = { global_whitelist: [], local_whitelist: [], own_assets: [] };
+    private _assetsInfoWhitelist: AssetsInfoWhitelist = defaultAssetsInfoWhitelist;
 
     set assetsInfoWhitelist(value: AssetsInfoWhitelist) {
-        this._assetsInfoWhitelist = value;
+        this._assetsInfoWhitelist = value ?? defaultAssetsInfoWhitelist;
     }
 
     get assetsInfoWhitelist() {

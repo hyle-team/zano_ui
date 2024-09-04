@@ -273,7 +273,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
                     this.backendService.getContactAlias();
                     this.ngZone.run(() => {
-                        this.variablesService.daemon_state = data['daemon_network_state'];
+                        const daemon_state: number = data['daemon_network_state'];
+                        this.variablesService.daemon_state = daemon_state;
+                        this.variablesService.daemon_state$.next(daemon_state);
+
                         if (data['daemon_network_state'] === 1) {
                             const max = data['max_net_seen_height'] - data['synchronization_start_height'];
                             const current = data.height - data['synchronization_start_height'];

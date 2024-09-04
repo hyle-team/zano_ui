@@ -73,6 +73,8 @@ export class VariablesService implements OnDestroy {
 
     daemon_state: number = 3;
 
+    daemon_state$: BehaviorSubject<number> = new BehaviorSubject<number>(this.daemon_state);
+
     deeplink$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
     sendActionData$: BehaviorSubject<DeeplinkParams> = new BehaviorSubject<DeeplinkParams>({});
@@ -105,7 +107,7 @@ export class VariablesService implements OnDestroy {
         appLog: 0,
         scale: '10px',
         appUseTor: false,
-        visibilityBalance: false,
+        visibilityBalance: true,
         language: 'en',
         default_path: '/',
         viewedContracts: [],

@@ -4,9 +4,9 @@ import { Chart } from 'angular-highcharts';
 import { BackendService } from '@api/services/backend.service';
 import { IntToMoneyPipe } from '@parts/pipes/int-to-money-pipe/int-to-money.pipe';
 import { BigNumber } from 'bignumber.js';
-import { combineLatest, Subject, Subscription } from 'rxjs';
+import { combineLatest, skip, Subject, Subscription } from 'rxjs';
 import * as Highcharts from 'highcharts';
-import { takeUntil } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 import { NonNullableFormBuilder } from '@angular/forms';
 
 type TPeriod = '1 week' | '2 week' | '1 month' | '3 month' | '6 month' | '1 year' | 'All';
@@ -163,6 +163,13 @@ export class StakingComponent implements OnInit, OnDestroy {
                     }
                 }
             },
+        });
+
+        this.variablesService.daemon_state$.pipe(filter((daemon_state: number) => daemon_state === 3), skip(1)).subscribe({
+            next: () => {
+                this.getMiningHistory();
+                this.changePeriod();
+            }
         });
 
         this.filtersForm.valueChanges.pipe(takeUntil(this._destroy$)).subscribe({

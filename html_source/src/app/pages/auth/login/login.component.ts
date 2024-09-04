@@ -96,8 +96,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     onSkipCreatePass(): void {
-        this.variablesService.appPass = '';
         this.ngZone.run(() => {
+            this.variablesService.appPass = '';
             this.variablesService.appLogin = true;
             this.router.navigate(['/']);
         });
@@ -115,8 +115,11 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.resetJwtWalletRpc();
             this.closeAllWallets();
             this.backend.dropSecureAppData(() => {
-                this.resetLoading$.next(false);
-                this.onSkipCreatePass();
+                this.ngZone.run(() => {
+                    this.resetLoading$.next(false);
+                    this.onSkipCreatePass();
+                });
+
             });
             this.variablesService.contacts = [];
         }, 500);
