@@ -32,11 +32,12 @@ const defaultSendMoneyParams = {
     push_payer: true,
     hide_receiver: false,
 };
+const defaultAssetsInfoWhitelist = { global_whitelist: [], local_whitelist: [], own_assets: [] };
 class Wallet {
     constructor(id, name, pass, path, address, balances, unlocked_balance, mined = 0, tracking = '') {
         this.updated = false;
         this._balances$ = new rxjs__WEBPACK_IMPORTED_MODULE_3__.BehaviorSubject([]);
-        this._assetsInfoWhitelist = { global_whitelist: [], local_whitelist: [], own_assets: [] };
+        this._assetsInfoWhitelist = defaultAssetsInfoWhitelist;
         this.has_bare_unspent_outputs = false;
         this.history = [];
         this.pages = [];
@@ -61,7 +62,7 @@ class Wallet {
         this.loaded = false;
     }
     set assetsInfoWhitelist(value) {
-        this._assetsInfoWhitelist = value;
+        this._assetsInfoWhitelist = value !== null && value !== void 0 ? value : defaultAssetsInfoWhitelist;
     }
     get assetsInfoWhitelist() {
         return this._assetsInfoWhitelist;
@@ -347,7 +348,9 @@ class BackendService {
   }
 
   static bigNumberParser(key, val) {
-    if (val.constructor.name === 'BigNumber' && ['balance', 'unlocked_balance', 'amount', 'fee', 'b_fee', 'to_pay', 'a_pledge', 'b_pledge', 'coast', 'a', 'total', 'unlocked', 'current_supply', 'total_max_supply'].indexOf(key) === -1) {
+    var _a;
+
+    if (((_a = val === null || val === void 0 ? void 0 : val.constructor) === null || _a === void 0 ? void 0 : _a.name) === 'BigNumber' && ['balance', 'unlocked_balance', 'amount', 'fee', 'b_fee', 'to_pay', 'a_pledge', 'b_pledge', 'coast', 'a', 'total', 'unlocked', 'current_supply', 'total_max_supply'].indexOf(key) === -1) {
       return val.toNumber();
     }
 
@@ -1636,7 +1639,9 @@ class AppComponent {
           this.variablesService.setTotalBytes(data.download_total_data_size);
           this.backendService.getContactAlias();
           this.ngZone.run(() => {
-            this.variablesService.daemon_state = data['daemon_network_state'];
+            const daemon_state = data['daemon_network_state'];
+            this.variablesService.daemon_state = daemon_state;
+            this.variablesService.daemon_state$.next(daemon_state);
 
             if (data['daemon_network_state'] === 1) {
               const max = data['max_net_seen_height'] - data['synchronization_start_height'];
@@ -2046,6 +2051,8 @@ class AppComponent {
 
           if (this.router.url !== '/login') {
             this.backendService.haveSecureAppData(statusPass => {
+              console.log('--------- haveSecureAppData ----------', statusPass);
+
               if (statusPass) {
                 this.ngZone.run(() => {
                   this.router.navigate(['/login'], {
@@ -3909,8 +3916,8 @@ class LoginComponent {
   }
 
   onSkipCreatePass() {
-    this.variablesService.appPass = '';
     this.ngZone.run(() => {
+      this.variablesService.appPass = '';
       this.variablesService.appLogin = true;
       this.router.navigate(['/']);
     });
@@ -3930,8 +3937,10 @@ class LoginComponent {
       this.resetJwtWalletRpc();
       this.closeAllWallets();
       this.backend.dropSecureAppData(() => {
-        this.resetLoading$.next(false);
-        this.onSkipCreatePass();
+        this.ngZone.run(() => {
+          this.resetLoading$.next(false);
+          this.onSkipCreatePass();
+        });
       });
       this.variablesService.contacts = [];
     }, 500);
@@ -15195,20 +15204,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _parts_services_variables_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @parts/services/variables.service */ 22994);
-/* harmony import */ var angular_highcharts__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! angular-highcharts */ 64072);
+/* harmony import */ var angular_highcharts__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! angular-highcharts */ 64072);
 /* harmony import */ var _api_services_backend_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @api/services/backend.service */ 10122);
 /* harmony import */ var _parts_pipes_int_to_money_pipe_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @parts/pipes/int-to-money-pipe/int-to-money.pipe */ 25985);
 /* harmony import */ var bignumber_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! bignumber.js */ 82481);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! rxjs */ 80228);
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! rxjs */ 26562);
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! rxjs */ 87260);
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! rxjs */ 26562);
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! rxjs/operators */ 68951);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! rxjs/operators */ 60116);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/forms */ 90587);
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/common */ 36362);
-/* harmony import */ var _angular_flex_layout__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/flex-layout */ 55434);
-/* harmony import */ var _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @ng-select/ng-select */ 88660);
-/* harmony import */ var _angular_flex_layout_extended__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/flex-layout/extended */ 13338);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/common */ 36362);
+/* harmony import */ var _angular_flex_layout__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/flex-layout */ 55434);
+/* harmony import */ var _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @ng-select/ng-select */ 88660);
+/* harmony import */ var _angular_flex_layout_extended__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @angular/flex-layout/extended */ 13338);
 /* harmony import */ var _parts_components_staking_switch_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../parts/components/staking-switch.component */ 73396);
-/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @ngx-translate/core */ 87514);
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @ngx-translate/core */ 87514);
 
 
 
@@ -15413,6 +15424,12 @@ class StakingComponent {
                 }
             },
         });
+        this.variablesService.daemon_state$.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_9__.filter)((daemon_state) => daemon_state === 3), (0,rxjs__WEBPACK_IMPORTED_MODULE_10__.skip)(1)).subscribe({
+            next: () => {
+                this.getMiningHistory();
+                this.changePeriod();
+            }
+        });
         this.filtersForm.valueChanges.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_8__.takeUntil)(this._destroy$)).subscribe({
             next: () => {
                 settings.filters.stakingFilters = this.filtersForm.getRawValue();
@@ -15425,7 +15442,7 @@ class StakingComponent {
         this._destroy$.complete();
     }
     drawChart(data) {
-        this.chart = new angular_highcharts__WEBPACK_IMPORTED_MODULE_9__.Chart({
+        this.chart = new angular_highcharts__WEBPACK_IMPORTED_MODULE_11__.Chart({
             title: { text: '' },
             credits: { enabled: false },
             exporting: { enabled: false },
@@ -15561,7 +15578,7 @@ class StakingComponent {
                     var _a;
                     this.drawChart([]);
                     (_a = this.themeChangesSubscription) === null || _a === void 0 ? void 0 : _a.unsubscribe();
-                    this.themeChangesSubscription = (0,rxjs__WEBPACK_IMPORTED_MODULE_10__.combineLatest)([this.chart.ref$, this.variablesService.isDarkTheme$])
+                    this.themeChangesSubscription = (0,rxjs__WEBPACK_IMPORTED_MODULE_12__.combineLatest)([this.chart.ref$, this.variablesService.isDarkTheme$])
                         .pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_8__.takeUntil)(this._destroy$))
                         .subscribe({
                         next: ([ref, isDarkTheme]) => {
@@ -15842,7 +15859,7 @@ StakingComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_5_
         _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵproperty"]("chart", ctx.chart);
         _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](2);
         _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵproperty"]("ngForOf", ctx.periodItems);
-    } }, dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_11__.NgForOf, _angular_common__WEBPACK_IMPORTED_MODULE_11__.NgIf, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_12__.DefaultLayoutDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_12__.DefaultLayoutGapDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_12__.DefaultLayoutAlignDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_12__.FlexFillDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_12__.DefaultFlexDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_6__.NgControlStatus, _angular_forms__WEBPACK_IMPORTED_MODULE_6__.FormControlDirective, angular_highcharts__WEBPACK_IMPORTED_MODULE_9__.ChartDirective, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_13__.NgSelectComponent, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_13__.NgOptionTemplateDirective, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_13__.NgLabelTemplateDirective, _angular_flex_layout_extended__WEBPACK_IMPORTED_MODULE_14__.DefaultShowHideDirective, _parts_components_staking_switch_component__WEBPACK_IMPORTED_MODULE_4__.StakingSwitchComponent, _angular_common__WEBPACK_IMPORTED_MODULE_11__.LowerCasePipe, _angular_common__WEBPACK_IMPORTED_MODULE_11__.DatePipe, _ngx_translate_core__WEBPACK_IMPORTED_MODULE_15__.TranslatePipe, _parts_pipes_int_to_money_pipe_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_2__.IntToMoneyPipe], styles: ["[_nghost-%COMP%] {\n                width: 100%;\n                height: auto;\n            }\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0YWtpbmcuY29tcG9uZW50LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7WUFDWTtnQkFDSSxXQUFXO2dCQUNYLFlBQVk7WUFDaEIiLCJmaWxlIjoic3Rha2luZy5jb21wb25lbnQudHMiLCJzb3VyY2VzQ29udGVudCI6WyJcbiAgICAgICAgICAgIDpob3N0IHtcbiAgICAgICAgICAgICAgICB3aWR0aDogMTAwJTtcbiAgICAgICAgICAgICAgICBoZWlnaHQ6IGF1dG87XG4gICAgICAgICAgICB9XG4gICAgICAgICJdfQ== */"] });
+    } }, dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_13__.NgForOf, _angular_common__WEBPACK_IMPORTED_MODULE_13__.NgIf, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_14__.DefaultLayoutDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_14__.DefaultLayoutGapDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_14__.DefaultLayoutAlignDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_14__.FlexFillDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_14__.DefaultFlexDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_6__.NgControlStatus, _angular_forms__WEBPACK_IMPORTED_MODULE_6__.FormControlDirective, angular_highcharts__WEBPACK_IMPORTED_MODULE_11__.ChartDirective, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_15__.NgSelectComponent, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_15__.NgOptionTemplateDirective, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_15__.NgLabelTemplateDirective, _angular_flex_layout_extended__WEBPACK_IMPORTED_MODULE_16__.DefaultShowHideDirective, _parts_components_staking_switch_component__WEBPACK_IMPORTED_MODULE_4__.StakingSwitchComponent, _angular_common__WEBPACK_IMPORTED_MODULE_13__.LowerCasePipe, _angular_common__WEBPACK_IMPORTED_MODULE_13__.DatePipe, _ngx_translate_core__WEBPACK_IMPORTED_MODULE_17__.TranslatePipe, _parts_pipes_int_to_money_pipe_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_2__.IntToMoneyPipe], styles: ["[_nghost-%COMP%] {\n                width: 100%;\n                height: auto;\n            }\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0YWtpbmcuY29tcG9uZW50LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7WUFDWTtnQkFDSSxXQUFXO2dCQUNYLFlBQVk7WUFDaEIiLCJmaWxlIjoic3Rha2luZy5jb21wb25lbnQudHMiLCJzb3VyY2VzQ29udGVudCI6WyJcbiAgICAgICAgICAgIDpob3N0IHtcbiAgICAgICAgICAgICAgICB3aWR0aDogMTAwJTtcbiAgICAgICAgICAgICAgICBoZWlnaHQ6IGF1dG87XG4gICAgICAgICAgICB9XG4gICAgICAgICJdfQ== */"] });
 
 
 /***/ }),
@@ -23967,7 +23984,7 @@ class VariablesService {
     this.ngZone = ngZone;
     this.contextMenuService = contextMenuService;
     this.disable_price_fetch$ = new rxjs__WEBPACK_IMPORTED_MODULE_3__.BehaviorSubject(false);
-    this.visibilityBalance$ = new rxjs__WEBPACK_IMPORTED_MODULE_3__.BehaviorSubject(false);
+    this.visibilityBalance$ = new rxjs__WEBPACK_IMPORTED_MODULE_3__.BehaviorSubject(true);
     this.zano_current_supply = undefined;
     this.use_debug_mode$ = new rxjs__WEBPACK_IMPORTED_MODULE_3__.BehaviorSubject(false);
     this.info$ = new rxjs__WEBPACK_IMPORTED_MODULE_3__.BehaviorSubject({});
@@ -23995,6 +24012,7 @@ class VariablesService {
     this.last_build_available = '';
     this.last_build_displaymode = 0;
     this.daemon_state = 3;
+    this.daemon_state$ = new rxjs__WEBPACK_IMPORTED_MODULE_3__.BehaviorSubject(this.daemon_state);
     this.deeplink$ = new rxjs__WEBPACK_IMPORTED_MODULE_3__.BehaviorSubject(null);
     this.sendActionData$ = new rxjs__WEBPACK_IMPORTED_MODULE_3__.BehaviorSubject({});
     this.sync = {
@@ -24019,7 +24037,7 @@ class VariablesService {
       appLog: 0,
       scale: '10px',
       appUseTor: false,
-      visibilityBalance: false,
+      visibilityBalance: true,
       language: 'en',
       default_path: '/',
       viewedContracts: [],
@@ -25022,7 +25040,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const buildTime = '2024-08-30T08:20:34.640Z';
+const buildTime = '2024-09-05T09:24:06.881Z';
 if (_environments_environment__WEBPACK_IMPORTED_MODULE_1__.environment.production) {
     (0,_angular_core__WEBPACK_IMPORTED_MODULE_3__.enableProdMode)();
 }
