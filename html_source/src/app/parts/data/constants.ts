@@ -1,4 +1,4 @@
-export const MIXIN = 10; // default mixin value
+export const MIXIN = 15; // default mixin value
 export const RCV_ADDR_QR_SCALE = 1.5; // scale factor for QR code
 
 export const AUDITABLE_WALLET_HELP_PAGE = 'docs.zano.org/docs/use/auditable-wallets-faq';

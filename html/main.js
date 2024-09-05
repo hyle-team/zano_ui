@@ -14423,7 +14423,8 @@ class SendComponent {
     const {
       address,
       asset_id,
-      isAmountUSD
+      isAmountUSD,
+      hide_receiver
     } = sendMoneyParams;
     let {
       amount
@@ -14491,6 +14492,10 @@ class SendComponent {
 
 
     delete sendMoneyParams.isAmountUSD;
+    sendMoneyParams = { ...sendMoneyParams,
+      // Need to send "true" if the value is "false" and "false" if the value is "true"
+      hide_receiver: !hide_receiver
+    };
 
     this._backendService.sendMoney(sendMoneyParams, job_id => {
       this._ngZone.run(() => {
@@ -15029,7 +15034,7 @@ class SendComponent {
             asset_id: _parts_data_assets__WEBPACK_IMPORTED_MODULE_8__.zanoAssetInfo.asset_id,
             fee: fee || this.variablesService.default_fee,
             push_payer: hide_sender === 'false',
-            hide_receiver: hide_receiver === 'true'
+            hide_receiver: hide_receiver === 'false'
           });
           this.variablesService.sendActionData$.next({});
         }
@@ -21097,7 +21102,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "RCV_ADDR_QR_SCALE": () => (/* binding */ RCV_ADDR_QR_SCALE),
 /* harmony export */   "ZARCANUM_MIGRATION": () => (/* binding */ ZARCANUM_MIGRATION)
 /* harmony export */ });
-const MIXIN = 10; // default mixin value
+const MIXIN = 15; // default mixin value
 const RCV_ADDR_QR_SCALE = 1.5; // scale factor for QR code
 const AUDITABLE_WALLET_HELP_PAGE = 'docs.zano.org/docs/use/auditable-wallets-faq';
 const CREATE_NEW_WALLET_HELP_PAGE = 'docs.zano.org/docs/use/wallets/gui-wallet';
@@ -25040,7 +25045,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const buildTime = '2024-09-05T09:24:06.881Z';
+const buildTime = '2024-09-05T10:05:57.569Z';
 if (_environments_environment__WEBPACK_IMPORTED_MODULE_1__.environment.production) {
     (0,_angular_core__WEBPACK_IMPORTED_MODULE_3__.enableProdMode)();
 }

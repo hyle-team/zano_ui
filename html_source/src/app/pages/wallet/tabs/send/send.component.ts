@@ -221,7 +221,7 @@ export class SendComponent implements OnDestroy {
     submit(): void {
         let sendMoneyParams = this.form.getRawValue();
 
-        const { address, asset_id, isAmountUSD } = sendMoneyParams;
+        const { address, asset_id, isAmountUSD, hide_receiver } = sendMoneyParams;
         let { amount } = sendMoneyParams;
 
         const { currentWallet } = this.variablesService;
@@ -281,6 +281,12 @@ export class SendComponent implements OnDestroy {
 
         // Remove unused param
         delete sendMoneyParams.isAmountUSD;
+
+        sendMoneyParams = {
+            ...sendMoneyParams,
+            // Need to send "true" if the value is "false" and "false" if the value is "true"
+            hide_receiver: !hide_receiver
+        };
 
         this._backendService.sendMoney(sendMoneyParams, (job_id: number) => {
             this._ngZone.run(() => {
@@ -763,7 +769,7 @@ export class SendComponent implements OnDestroy {
                         asset_id: zanoAssetInfo.asset_id,
                         fee: fee || this.variablesService.default_fee,
                         push_payer: hide_sender === 'false',
-                        hide_receiver: hide_receiver === 'true',
+                        hide_receiver: hide_receiver === 'false',
                     });
                     this.variablesService.sendActionData$.next({});
                 }
