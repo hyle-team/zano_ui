@@ -9,7 +9,6 @@ import { BackendService } from '@api/services/backend.service';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IDeactivateComponent } from '@parts/interfaces/deactivete-component.interface';
 import { Observable } from 'rxjs';
-import { Dialog, DialogConfig } from '@angular/cdk/dialog';
 import { ConfirmModalComponent, ConfirmModalData } from '@parts/modals/confirm-modal/confirm-modal.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
