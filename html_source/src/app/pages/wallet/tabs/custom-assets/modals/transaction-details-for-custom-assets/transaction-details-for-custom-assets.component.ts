@@ -3,6 +3,8 @@ import { AsyncCommandResults, BackendService } from '@api/services/backend.servi
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { BLOCK_EXPLORER_TN_TX_URL_PREFIX, BLOCK_EXPLORER_TX_URL_PREFIX } from '@parts/data/constants';
+import { VariablesService } from '@parts/services/variables.service';
 
 @Component({
     selector: 'app-transaction-details-for-custom-assets',
@@ -10,15 +12,19 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
     styleUrls: ['./transaction-details-for-custom-assets.component.scss'],
 })
 export class TransactionDetailsForCustomAssetsComponent implements OnInit, OnDestroy {
-    status: 'loading' | 'success' | 'error' = 'loading';
+    public status: 'loading' | 'success' | 'error' = 'loading';
 
-    data: { job_id: number } = inject(MAT_DIALOG_DATA);
+    public data: { job_id: number } = inject(MAT_DIALOG_DATA);
 
-    details: { key: string; value: any }[] = [];
+    public details: { new_asset_id: string; result_tx: string };
+
+    public error: any;
 
     @ViewChild('elDetailsList', { static: true }) elDetailsList: ElementRef;
 
-    isShowDetailsState: boolean = false;
+    public isShowDetailsState: boolean = false;
+
+    public variablesService: VariablesService = inject(VariablesService);
 
     private _backendService: BackendService = inject(BackendService);
 
@@ -35,10 +41,10 @@ export class TransactionDetailsForCustomAssetsComponent implements OnInit, OnDes
                 next: ({ response }) => {
                     if (response.error) {
                         this.status = 'error';
-                        this.details = [{ key: 'Error', value: response.error.message }];
+                        this.error = response.error;
                     } else {
                         this.status = 'success';
-                        this.details = Object.entries(response.result).map(([key, value]) => ({ key, value }));
+                        this.details = response.result;
                     }
                 },
             });
@@ -59,5 +65,11 @@ export class TransactionDetailsForCustomAssetsComponent implements OnInit, OnDes
             const { nativeElement } = this.elDetailsList;
             nativeElement.scrollTop = nativeElement.scrollHeight;
         }
+    }
+
+    openInBrowser(hash: string): void {
+        this._backendService.openUrlInBrowser(
+            (this.variablesService.testnet ? BLOCK_EXPLORER_TN_TX_URL_PREFIX : BLOCK_EXPLORER_TX_URL_PREFIX) + hash
+        );
     }
 }
