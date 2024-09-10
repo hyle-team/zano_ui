@@ -75,7 +75,7 @@ import { MatDialogModule } from '@angular/material/dialog';
         UpdateCustomAssetComponent,
         EmitCustomAssetComponent,
         BurnCustomAssetComponent,
-        TransactionDetailsForCustomAssetsComponent,
+        TransactionDetailsForCustomAssetsComponent
     ],
     imports: [
         CommonModule,
