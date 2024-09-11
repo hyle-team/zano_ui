@@ -24964,7 +24964,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const regExpHex = /^[a-f0-9]{64}$/i;
 const regExpAliasName = /^@?[a-z\d.-]{2,25}$/;
-const regExpPassword = /^[a-zA-Z0-9_.\]*|~!?@#$%^&+{}()<>:;"'-=,/[\\]*$/;
+const regExpPassword = /^(?! )[a-zA-Z0-9_.\]*|~!?@#$%^&+{}()<>:;"'-=,\/[\\ ]*(?<! )$/;
 class ZanoValidators {
     static hash({ value }) {
         return regExpHex.test(value) ? null : { invalidHash: true };
@@ -25333,7 +25333,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const buildTime = '2024-09-10T11:33:33.465Z';
+const buildTime = '2024-09-11T12:12:00.414Z';
 if (_environments_environment__WEBPACK_IMPORTED_MODULE_1__.environment.production) {
     (0,_angular_core__WEBPACK_IMPORTED_MODULE_3__.enableProdMode)();
 }

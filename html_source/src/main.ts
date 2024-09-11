@@ -5,7 +5,7 @@ import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 import 'lodash';
 
-export const buildTime = '2024-09-10T11:33:33.465Z';
+export const buildTime = '2024-09-11T12:12:00.414Z';
 
 if (environment.production) {
     enableProdMode();
