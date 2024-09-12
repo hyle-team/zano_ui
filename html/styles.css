@@ -2190,42 +2190,49 @@ table.rounded-corners > tfoot:not(:last-child) {
   background-color: var(--white-500);
 }app-send-details-modal .status .image,
 app-success-sweep-bare-outs .status .image,
-app-transaction-details-for-custom-assets .status .image {
+app-transaction-details-for-custom-assets .status .image,
+app-swap-details .status .image {
   max-width: 13rem;
   max-height: 13rem;
   width: 100%;
   height: 100%;
 }app-send-details-modal .status .image img,
 app-success-sweep-bare-outs .status .image img,
-app-transaction-details-for-custom-assets .status .image img {
+app-transaction-details-for-custom-assets .status .image img,
+app-swap-details .status .image img {
   width: 100%;
   height: 100%;
 }app-send-details-modal .details .header,
 app-success-sweep-bare-outs .details .header,
-app-transaction-details-for-custom-assets .details .header {
+app-transaction-details-for-custom-assets .details .header,
+app-swap-details .details .header {
   min-height: 4rem;
   max-height: 4rem;
   background-color: var(--details-background);
 }app-send-details-modal .details-wrapper,
 app-success-sweep-bare-outs .details-wrapper,
-app-transaction-details-for-custom-assets .details-wrapper {
+app-transaction-details-for-custom-assets .details-wrapper,
+app-swap-details .details-wrapper {
   max-height: 35rem;
   background-color: var(--details-background);
   scroll-behavior: smooth;
 }app-send-details-modal .details-list,
 app-success-sweep-bare-outs .details-list,
-app-transaction-details-for-custom-assets .details-list {
+app-transaction-details-for-custom-assets .details-list,
+app-swap-details .details-list {
   width: 100%;
 }app-send-details-modal .details-list .item .image,
 app-success-sweep-bare-outs .details-list .item .image,
-app-transaction-details-for-custom-assets .details-list .item .image {
+app-transaction-details-for-custom-assets .details-list .item .image,
+app-swap-details .details-list .item .image {
   max-width: 1.5rem;
   max-height: 1.5rem;
   width: 100%;
   height: 100%;
 }app-send-details-modal .details-list .item .image img,
 app-success-sweep-bare-outs .details-list .item .image img,
-app-transaction-details-for-custom-assets .details-list .item .image img {
+app-transaction-details-for-custom-assets .details-list .item .image img,
+app-swap-details .details-list .item .image img {
   width: 100%;
   height: 100%;
 }app-assign-alias .assign-alias-tooltip {
@@ -2354,6 +2361,7 @@ app-contracts .container .wrap-table table.contracts-table tbody tr .comment {
   min-height: 4rem;
   border: var(--border);
 }app-staking .chart-header .items .item .left {
+  min-width: -moz-fit-content;
   min-width: fit-content;
   width: auto;
 }app-staking .chart {
@@ -2382,6 +2390,7 @@ app-contracts .container .wrap-table table.contracts-table tbody tr .comment {
   max-width: 14rem;
 }app-contacts .wrap-table table.contacts-table tbody tr td:last-child {
   width: 14rem;
+  min-width: -moz-fit-content;
   min-width: fit-content;
 }app-contacts .wrap-table table.contacts-table tbody tr td .button-wrapper button {
   margin-right: 0.8rem;

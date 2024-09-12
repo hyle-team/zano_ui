@@ -673,7 +673,8 @@
             "MUST_BE_GREATER_THAN_ZERO": "Must be greater than zero",
             "WRAP_INFO_NULL": "gagal meminta status bungkus"
         },
-        "HIDE": "Sembunyikan alamat dompet kamu dari penerima",
+        "HIDE": "Show address to receiver",
+        "INCLUDE_SENDER_ADDRESS": "Include sender address",
         "MIXIN": "Mixin",
         "SUCCESS_SENT": "Transaksi dikirim",
         "WRAP": {

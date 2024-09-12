@@ -1,5 +1,6 @@
 <div class="container scrolled-content" fxFlex="1 1 auto">
-    <form (ngSubmit)="beforeSubmit()" [formGroup]="form" class="form" fxFlex="0 1 50rem" fxLayout="column" fxLayoutAlign="start stretch">
+    <form (ngSubmit)="beforeSubmit()" [formGroup]="form" class="form" fxFlex="0 1 50rem" fxLayout="column"
+          fxLayoutAlign="start stretch">
         <div class="form__field--row">
             <!-- Address -->
             <ng-container
@@ -35,7 +36,9 @@
                             <zano-loader class="mx-auto" style="display: block; width: fit-content"></zano-loader>
                         </mat-option>
 
-                        <mat-option *ngIf="form.controls.address.value[0] === '@' && vm.items?.length === 0 && !vm.loading" disabled>
+                        <mat-option
+                            *ngIf="form.controls.address.value[0] === '@' && vm.items?.length === 0 && !vm.loading"
+                            disabled>
                             <span class="pl-1"> Not found aliases </span>
                         </mat-option>
 
@@ -89,8 +92,9 @@
                     type="text"
                 />
 
-                <button (click)="toggleAmountUSD()" [disabled]="amountInputParams.reverseDisabled" class="btn-reverse" type="button">
-                    <mat-icon svgIcon="zano-swap" class="small"></mat-icon>
+                <button (click)="toggleAmountUSD()" [disabled]="amountInputParams.reverseDisabled" class="btn-reverse"
+                        type="button">
+                    <mat-icon class="small" svgIcon="zano-swap"></mat-icon>
                 </button>
 
                 <div
@@ -107,7 +111,8 @@
                     </div>
                 </div>
 
-                <div class="hint text-ellipsis">{{ amountInputParams.hintAmount }} {{ amountInputParams.hintTicker }}</div>
+                <div class="hint text-ellipsis">{{ amountInputParams.hintAmount }} {{ amountInputParams.hintTicker }}
+                </div>
 
                 <div *ngIf="isVisibleError(form.controls.amount) || isVisibleError(form)" class="error">
                     <div *ngIf="form.controls.amount.hasError('zero')">
@@ -232,72 +237,77 @@
             >
                 <span>{{ 'SEND.DETAILS' | translate }}</span>
                 <mat-icon
-                    class="ml-1"
-                    svgIcon="zano-dropdown-arrow-down"
                     [ngClass]="{
                         'rotate-180': isVisibleAdditionalOptionsState
                     }"
+                    class="ml-1"
+                    svgIcon="zano-dropdown-arrow-down"
                 ></mat-icon>
             </button>
 
             <div *ngIf="isVisibleAdditionalOptionsState" class="content">
+                <!--<div class="form__field&#45;&#45;row">-->
                 <!-- MIXIN -->
-                <div class="form__field--row">
-                    <div class="form__field">
-                        <label for="send-mixin">
-                            {{ 'SEND.MIXIN' | translate }}
-                            <span class="color-red">*</span>
-                        </label>
-                        <input
-                            (contextmenu)="variablesService.onContextMenu($event)"
-                            [placeholder]="'PLACEHOLDERS.AMOUNT_PLACEHOLDER' | translate"
-                            appInputValidate="integer"
-                            class="form__field--input"
-                            formControlName="mixin"
-                            id="send-mixin"
-                            maxlength="3"
-                            type="text"
-                        />
-                        <div *ngIf="isVisibleError(form.controls.mixin)" class="error">
-                            <div *ngIf="form.controls.mixin.hasError('required')">
-                                {{ 'ERRORS.REQUIRED' | translate }}
-                            </div>
-                            <div *ngIf="form.controls.mixin.hasError('min')">
-                                {{ 'Min' }} {{ form.controls.mixin.getError('min')['min'] }}
-                            </div>
-                            <div *ngIf="form.controls.mixin.hasError('max')">
-                                {{ 'Max' }} {{ form.controls.mixin.getError('max')['max'] }}
-                            </div>
-                        </div>
-                    </div>
+                <!--<div class="form__field">-->
+                <!--    <label for="send-mixin">-->
+                <!--        {{ 'SEND.MIXIN' | translate }}-->
+                <!--        <span class="color-red">*</span>-->
+                <!--    </label>-->
+                <!--    <input-->
+                <!--        (contextmenu)="variablesService.onContextMenu($event)"-->
+                <!--        [placeholder]="'PLACEHOLDERS.AMOUNT_PLACEHOLDER' | translate"-->
+                <!--        appInputValidate="integer"-->
+                <!--        class="form__field&#45;&#45;input"-->
+                <!--        formControlName="mixin"-->
+                <!--        id="send-mixin"-->
+                <!--        maxlength="3"-->
+                <!--        type="text"-->
+                <!--    />-->
+                <!--    <div *ngIf="isVisibleError(form.controls.mixin)" class="error">-->
+                <!--        <div *ngIf="form.controls.mixin.hasError('required')">-->
+                <!--            {{ 'ERRORS.REQUIRED' | translate }}-->
+                <!--        </div>-->
+                <!--        <div *ngIf="form.controls.mixin.hasError('min')">-->
+                <!--            {{ 'Min' }} {{ form.controls.mixin.getError('min')['min'] }}-->
+                <!--        </div>-->
+                <!--        <div *ngIf="form.controls.mixin.hasError('max')">-->
+                <!--            {{ 'Max' }} {{ form.controls.mixin.getError('max')['max'] }}-->
+                <!--        </div>-->
+                <!--    </div>-->
+                <!--</div>-->
 
-                    <div class="form__field">
-                        <label for="send-fee">
-                            {{ 'SEND.FEE' | translate }}
-                            <span class="color-red">*</span>
-                        </label>
-                        <input
-                            (blur)="updateFeeErrorMessage()"
-                            (contextmenu)="variablesService.onContextMenu($event)"
-                            [placeholder]="'PLACEHOLDERS.FEE_PLACEHOLDER' | translate"
-                            appInputValidate="money"
-                            class="form__field--input"
-                            formControlName="fee"
-                            id="send-fee"
-                            type="text"
-                        />
-                        <div *ngIf="isVisibleError(form.controls.fee)" class="error">
-                            {{ errorMessages['fee'] | translate }}
-                        </div>
+                <!-- FEE -->
+                <div class="form__field">
+                    <label for="send-fee">
+                        {{ 'SEND.FEE' | translate }}
+                        <span class="color-red">*</span>
+                    </label>
+                    <input
+                        (blur)="updateFeeErrorMessage()"
+                        (contextmenu)="variablesService.onContextMenu($event)"
+                        [placeholder]="'PLACEHOLDERS.FEE_PLACEHOLDER' | translate"
+                        appInputValidate="money"
+                        class="form__field--input"
+                        formControlName="fee"
+                        id="send-fee"
+                        type="text"
+                    />
+                    <div *ngIf="isVisibleError(form.controls.fee)" class="error">
+                        {{ errorMessages['fee'] | translate }}
                     </div>
                 </div>
+                <!--</div>-->
+
+                <!-- PUSH -->
+                <app-checkbox [label]="'SEND.INCLUDE_SENDER_ADDRESS' | translate" class="mt-1" formControlName="push_payer"></app-checkbox>
 
                 <!-- HIDE -->
-                <app-checkbox [label]="'SEND.HIDE' | translate" class="mt-1" formControlName="hide"></app-checkbox>
+                <app-checkbox [label]="'SEND.HIDE' | translate" class="mt-1" formControlName="hide_receiver"></app-checkbox>
             </div>
         </div>
 
-        <button [disabled]="form.invalid || !variablesService.currentWallet.loaded" class="primary big max-w-19-rem w-100" type="submit">
+        <button [disabled]="form.invalid || !variablesService.currentWallet.loaded"
+                class="primary big max-w-19-rem w-100" type="submit">
             {{ 'SEND.BUTTON' | translate }}
         </button>
     </form>
@@ -306,8 +316,8 @@
 <app-send-modal
     (confirmed)="handleConfirmed($event)"
     *ngIf="isSendModalState"
-    [sendMoneyParams]="form.getRawValue()"
     [priceInfo]="priceInfo"
+    [sendMoneyParams]="form.getRawValue()"
 ></app-send-modal>
 
 <app-send-details-modal

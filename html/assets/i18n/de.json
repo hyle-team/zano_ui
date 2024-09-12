@@ -673,7 +673,8 @@
             "MUST_BE_GREATER_THAN_ZERO": "Must be greater than zero",
             "WRAP_INFO_NULL": "Wrap-Status konnte nicht angefordert werden"
         },
-        "HIDE": "Verstecke deine Wallet-Adresse vom Empfänger",
+        "HIDE": "Show address to receiver",
+        "INCLUDE_SENDER_ADDRESS": "Include sender address",
         "MIXIN": "Mixin",
         "SUCCESS_SENT": "Transaktion gesendet",
         "WRAP": {

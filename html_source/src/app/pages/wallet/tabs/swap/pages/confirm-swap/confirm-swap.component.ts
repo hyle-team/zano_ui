@@ -16,6 +16,7 @@ import { SwapConfirmMasterPasswordComponent } from '../../modals/swap-confirm-ma
 import { ProposalDetails } from '@api/models/swap.model';
 import { GetAssetInfoPipe } from '@parts/pipes/get-asset-info.pipe';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { SwapDetailsComponent } from '../../modals/swap-details/swap-details.component';
 
 @Component({
     selector: 'app-confirm-swap',
@@ -114,13 +115,21 @@ export class ConfirmSwapComponent implements OnInit, OnDestroy {
             method: 'ionic_swap_accept_proposal',
             params: { hex_raw_proposal },
         };
-        this.backendService.call_wallet_rpc([wallet_id, params], (status, response_data) => {
+        this.backendService.call_wallet_rpc([wallet_id, params], (status, response) => {
             this.ngZone.run(() => {
-                if (response_data.result?.['result_tx_id']) {
-                    this.router.navigate(['/wallet/history']).then();
-                } else {
-                    this.errorRpc = response_data.error;
-                }
+                const config: MatDialogConfig = {
+                    data: {
+                        response,
+                    },
+                    disableClose: true,
+                };
+                this._matDialog
+                    .open(SwapDetailsComponent, config)
+                    .afterClosed()
+                    .pipe(filter(Boolean), take(1))
+                    .subscribe({
+                        next: () => this.router.navigate(['/wallet/history']),
+                    });
             });
         });
     }

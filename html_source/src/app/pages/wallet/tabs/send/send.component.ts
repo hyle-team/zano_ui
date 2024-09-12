@@ -94,7 +94,8 @@ export class SendComponent implements OnDestroy {
         asset_id: FormControl<string>;
         mixin: FormControl<number>;
         fee: FormControl<string>;
-        hide: FormControl<boolean>;
+        push_payer: FormControl<boolean>;
+        hide_receiver: FormControl<boolean>;
     }>;
 
     addressItems$: Observable<string[]>;
@@ -220,7 +221,7 @@ export class SendComponent implements OnDestroy {
     submit(): void {
         let sendMoneyParams = this.form.getRawValue();
 
-        const { address, asset_id, isAmountUSD } = sendMoneyParams;
+        const { address, asset_id, isAmountUSD, hide_receiver } = sendMoneyParams;
         let { amount } = sendMoneyParams;
 
         const { currentWallet } = this.variablesService;
@@ -280,6 +281,12 @@ export class SendComponent implements OnDestroy {
 
         // Remove unused param
         delete sendMoneyParams.isAmountUSD;
+
+        sendMoneyParams = {
+            ...sendMoneyParams,
+            // Need to send "true" if the value is "false" and "false" if the value is "true"
+            hide_receiver: !hide_receiver
+        };
 
         this._backendService.sendMoney(sendMoneyParams, (job_id: number) => {
             this._ngZone.run(() => {
@@ -387,7 +394,7 @@ export class SendComponent implements OnDestroy {
         }
 
         if (currentWallet.is_auditable && !currentWallet.is_watch_only) {
-            params.hide = true;
+            params.hide_receiver = true;
         }
 
         if (currentWallet.is_auditable) {
@@ -513,8 +520,9 @@ export class SendComponent implements OnDestroy {
                         },
                     ],
                 }),
-                hide: this._fb.control<boolean>({
-                    value: params.hide,
+                push_payer: this._fb.control(params.push_payer),
+                hide_receiver: this._fb.control<boolean>({
+                    value: params.hide_receiver,
                     disabled: currentWallet.is_auditable && !currentWallet.is_watch_only,
                 }),
             },
@@ -751,7 +759,7 @@ export class SendComponent implements OnDestroy {
         this.variablesService.sendActionData$.pipe(takeUntil(this._destroy$)).subscribe({
             next: (value: DeeplinkParams) => {
                 if (value && value.action === 'send') {
-                    const { address, amount, comment, comments, mixins, fee, hide_sender } = value;
+                    const { address, amount, comment, comments, mixins, fee, hide_sender, hide_receiver } = value;
                     this.isVisibleAdditionalOptionsState = true;
                     this.form.patchValue({
                         address,
@@ -760,7 +768,8 @@ export class SendComponent implements OnDestroy {
                         mixin: +mixins || MIXIN,
                         asset_id: zanoAssetInfo.asset_id,
                         fee: fee || this.variablesService.default_fee,
-                        hide: hide_sender === 'true',
+                        push_payer: hide_sender === 'false',
+                        hide_receiver: hide_receiver === 'false',
                     });
                     this.variablesService.sendActionData$.next({});
                 }

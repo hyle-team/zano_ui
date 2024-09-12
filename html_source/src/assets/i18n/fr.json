@@ -673,7 +673,8 @@
             "MUST_BE_GREATER_THAN_ZERO": "Must be greater than zero",
             "WRAP_INFO_NULL": "échec de la demande d'état de bouclage"
         },
-        "HIDE": "Masquer votre adresse de portefeuille au destinataire",
+        "HIDE": "Show address to receiver",
+        "INCLUDE_SENDER_ADDRESS": "Include sender address",
         "MIXIN": "Mélange",
         "SUCCESS_SENT": "Transaction envoyée",
         "WRAP": {

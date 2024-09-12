@@ -5,7 +5,8 @@ export interface SendMoneyParams {
     fee: string;
     mixin: number;
     comment: string;
-    hide: boolean;
+    push_payer: boolean;
+    hide_receiver: boolean;
     asset_id: string;
 }
 
@@ -17,6 +18,7 @@ export interface SendMoneyFormParams {
     fee: string;
     mixin: number;
     comment: string;
-    hide: boolean;
+    push_payer: boolean;
+    hide_receiver: boolean;
     asset_id: string;
 }

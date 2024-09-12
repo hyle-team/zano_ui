@@ -11,7 +11,7 @@
 
 <mat-dialog-actions>
     <div fxFlex="1 1 auto" fxLayout="row nowrap" fxLayoutGap="1rem">
-        <button mat-dialog-close class="outline big w-100" type="button">
+        <button [mat-dialog-close]="false" class="outline big w-100" type="button">
             {{ data?.buttons?.close ?? 'MODALS.CANCEL' | translate }}
         </button>
         <button appAutofocus (click)="submit()" class="primary big w-100" type="button">

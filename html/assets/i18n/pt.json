@@ -673,7 +673,8 @@
             "MUST_BE_GREATER_THAN_ZERO": "Must be greater than zero",
             "WRAP_INFO_NULL": "falha ao solicitar estado de wrap"
         },
-        "HIDE": "Ocultar o seu endereço de carteira do recipiente",
+        "HIDE": "Show address to receiver",
+        "INCLUDE_SENDER_ADDRESS": "Include sender address",
         "MIXIN": "Mixagem",
         "SUCCESS_SENT": "Transação enviada",
         "WRAP": {

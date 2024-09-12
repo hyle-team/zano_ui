@@ -17,7 +17,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class VariablesService implements OnDestroy {
     disable_price_fetch$ = new BehaviorSubject<boolean>(false);
 
-    visibilityBalance$ = new BehaviorSubject<boolean>(false);
+    visibilityBalance$ = new BehaviorSubject<boolean>(true);
 
     zano_current_supply = undefined;
 
@@ -73,6 +73,8 @@ export class VariablesService implements OnDestroy {
 
     daemon_state: number = 3;
 
+    daemon_state$: BehaviorSubject<number> = new BehaviorSubject<number>(this.daemon_state);
+
     deeplink$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
     sendActionData$: BehaviorSubject<DeeplinkParams> = new BehaviorSubject<DeeplinkParams>({});
@@ -105,7 +107,7 @@ export class VariablesService implements OnDestroy {
         appLog: 0,
         scale: '10px',
         appUseTor: false,
-        visibilityBalance: false,
+        visibilityBalance: true,
         language: 'en',
         default_path: '/',
         viewedContracts: [],
@@ -116,6 +118,9 @@ export class VariablesService implements OnDestroy {
         },
         wallets: [],
         isDarkTheme: true,
+        filters: {
+            stakingFilters: null
+        }
     };
 
     isDarkTheme$ = new BehaviorSubject(true);
@@ -160,8 +165,6 @@ export class VariablesService implements OnDestroy {
     getDownloadedAppEvent = new BehaviorSubject(null);
 
     getTotalEvent = new BehaviorSubject(null);
-
-    getRefreshStackingEvent = new BehaviorSubject(null);
 
     getAliasChangedEvent = new BehaviorSubject(null);
 

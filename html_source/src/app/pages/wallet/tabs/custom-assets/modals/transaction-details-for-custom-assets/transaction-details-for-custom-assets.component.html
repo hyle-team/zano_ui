@@ -25,7 +25,8 @@
         </p>
     </div>
 
-    <div *ngIf="details.length" class="details border-radius-0_8-rem overflow-hidden" fxFlex="0 0 auto" fxLayout="column">
+    <div *ngIf="details || error" class="details border-radius-0_8-rem overflow-hidden" fxFlex="0 0 auto"
+         fxLayout="column">
         <div
             (click)="toggleDetails()"
             class="header overflow-hidden py-1 px-2 w-100 cursor-pointer"
@@ -54,11 +55,31 @@
             fxLayout="row"
         >
             <ul #elDetailsList class="details-list scrolled-content">
-                <ng-container *ngFor="let detail of details">
-                    <li class="item mb-1 color-primary" fxLayout="row nowrap" fxLayoutAlign="start center">
-                        <span class="text word-break-break-all" [ngClass]="{ 'color-red': status === 'error' }">
-                            {{ detail.key }}: {{ detail.value || 'Opps unknown error...' }}</span
-                        >
+                <ng-container *ngIf="details">
+                    <ng-container *ngIf="details.new_asset_id as new_asset_id">
+                        <li class="item mb-1 color-primary" fxLayout="row nowrap" fxLayoutAlign="start center">
+                            <span class="text word-break-break-all">
+                                New asset id: {{ new_asset_id || '---' }}
+                            </span>
+                            <app-copy-button [value]="new_asset_id" class="ml-1">
+                            </app-copy-button>
+                        </li>
+                    </ng-container>
+                    <ng-container *ngIf="details.result_tx as result_tx">
+                        <li class="item mb-1 color-primary" fxLayout="row nowrap" fxLayoutAlign="start center">
+                            <span class="text word-break-break-all cursor-pointer" (click)="openInBrowser(result_tx)">
+                                Result tx: {{ result_tx }}
+                            </span>
+                            <app-copy-button [value]="result_tx" class="ml-1">
+                            </app-copy-button>
+                        </li>
+                    </ng-container>
+                </ng-container>
+                <ng-container *ngIf="error">
+                    <li class="item mb-1 color-red" fxLayout="row nowrap" fxLayoutAlign="start center">
+                        <span class="text word-break-break-all">
+                            Error: {{ error.message || 'Ops... Unknown error...' }}
+                        </span>
                     </li>
                 </ng-container>
             </ul>
