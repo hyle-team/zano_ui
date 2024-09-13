@@ -25,7 +25,6 @@ export const getAmountItems = (transaction: Transaction, wallet: Wallet): Amount
     if (isInitiator(transaction) && !Boolean(subtransfers.find(({ asset_id }) => asset_id === zanoAssetInfo.asset_id))) {
         const preparedAmount: string = intToMoney(fee, zanoAssetInfo.decimal_point);
         items.push({ amount: preparedAmount, ticker: zanoAssetInfo.ticker });
-        return items;
     }
 
     subtransfers.forEach((subtransfer: Subtransfer) => {
@@ -36,8 +35,7 @@ export const getAmountItems = (transaction: Transaction, wallet: Wallet): Amount
             if (amount.toNumber() === 0) {
                 return;
             }
-            // TODO: Clarify what the amount will look like if you don’t
-            //  find an asset from which you need to take the decimal_point
+
             const preparedAmount: string = (is_income ? amount : amount.negated()).toString();
             items.push({ amount: preparedAmount, ticker: '***' });
             return;

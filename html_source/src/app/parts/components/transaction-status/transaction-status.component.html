@@ -1,3 +1,11 @@
+<ng-container *ngIf="isInitiator(transaction) && !hasZano(transaction.subtransfers)">
+    <div [ngClass]="'received'" class="status text-ellipsis" fxLayout="row" fxLayoutAlign=" center">
+        <img alt="" class="status-transaction mr-1" src="assets/icons/aqua/receive.svg" />
+
+        <span class="status-transaction-text">{{ 'HISTORY.RECEIVED' | translate }}</span>
+    </div>
+</ng-container>
+
 <ng-container *ngIf="transaction.subtransfers; else noSubtransfersStatusTemplate">
     <ng-container *ngFor="let subtransfer of transaction.subtransfers">
         <ng-container *ngIf="isVisibleSubtransferStatus(subtransfer, transaction)">
@@ -97,14 +105,6 @@
             </div>
         </ng-container>
     </ng-container>
-</ng-container>
-
-<ng-container *ngIf="isInitiator(transaction) && !hasZano(transaction.subtransfers)">
-    <div [ngClass]="'received'" class="status text-ellipsis" fxLayout="row" fxLayoutAlign=" center">
-        <img alt="" class="status-transaction mr-1" src="assets/icons/aqua/receive.svg" />
-
-        <span class="status-transaction-text">{{ 'HISTORY.RECEIVED' | translate }}</span>
-    </div>
 </ng-container>
 
 <ng-template #noSubtransfersStatusTemplate>
