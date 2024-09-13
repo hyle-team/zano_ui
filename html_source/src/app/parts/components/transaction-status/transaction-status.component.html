@@ -8,13 +8,14 @@
 
 <ng-container *ngIf="transaction.subtransfers; else noSubtransfersStatusTemplate">
     <ng-container *ngFor="let subtransfer of transaction.subtransfers">
-        <ng-container *ngIf="isVisibleSubtransferStatus(subtransfer, transaction)">
+        <ng-container *ngIf="isVisibleStatusBySubtransfer(subtransfer, transaction)">
             <div
-                [ngClass]="subtransfer.is_income ? 'received' : 'send'"
+                [ngClass]="isIncome(subtransfer, transaction) ? 'received' : 'send'"
                 class="status text-ellipsis"
                 fxLayout="row"
                 fxLayoutAlign=" center"
             >
+                <!-- Progress -->
                 <ng-container *ngIf="getHeight(transaction) < 10">
                     <svg
                         [delay]="500"
@@ -36,7 +37,7 @@
                         ></circle>
                         <circle
                             [style.stroke-dashoffset]="strokeSize(transaction)"
-                            [style.stroke]="subtransfer.is_income ? '#16d1d6' : '#1f8feb'"
+                            [style.stroke]="isIncome(subtransfer, transaction) ? '#16d1d6' : '#1f8feb'"
                             class="progress-circle"
                             cx="50%"
                             cy="50%"
@@ -50,13 +51,14 @@
                     </svg>
                 </ng-container>
 
+                <!-- Status -->
                 <ng-container *ngIf="getHeight(transaction) === 10">
-                    <img *ngIf="!subtransfer.is_income" alt="" class="status-transaction mr-1" src="assets/icons/blue/send.svg" />
-                    <img *ngIf="subtransfer.is_income" alt="" class="status-transaction mr-1" src="assets/icons/aqua/receive.svg" />
+                    <img class="status-transaction mr-1"
+                         [src]="isIncome(subtransfer, transaction) ? 'assets/icons/aqua/receive.svg' : 'assets/icons/blue/send.svg'"  alt="status"/>
                 </ng-container>
+                <span class="status-transaction-text">{{ (isIncome(subtransfer, transaction) ? 'HISTORY.RECEIVED' : 'HISTORY.SEND') | translate }}</span>
 
-                <span class="status-transaction-text">{{ (subtransfer.is_income ? 'HISTORY.RECEIVED' : 'HISTORY.SEND') | translate }}</span>
-
+                <!-- Lock time -->
                 <ng-container *ngIf="transaction.unlock_time !== 0 && transaction.tx_type !== 6">
                     <ng-container *ngIf="isLocked(transaction); else unlock">
                         <ng-container *ngIf="transaction.unlock_time < 500000000">
