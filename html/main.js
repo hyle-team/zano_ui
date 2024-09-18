@@ -25081,7 +25081,7 @@ class PaginationService {
         return offset;
     }
     calcPages(data) {
-        var _a;
+        var _a, _b;
         if (data.total_history_items && data && data.history) {
             this.variables.currentWallet.totalPages = Math.ceil(data.total_history_items / this.variables.count);
             this.variables.currentWallet.totalPages > this.variables.maxPages
@@ -25091,7 +25091,7 @@ class PaginationService {
                     .map((value, index) => value + index));
         }
         else if (this.variables.currentWallet.restore) {
-            this.variables.currentWallet.totalPages = Math.ceil(((_a = data.history.length) !== null && _a !== void 0 ? _a : 0) / this.variables.count);
+            this.variables.currentWallet.totalPages = Math.ceil(((_b = (_a = data.history) === null || _a === void 0 ? void 0 : _a.length) !== null && _b !== void 0 ? _b : 0) / this.variables.count);
             this.variables.currentWallet.totalPages > this.variables.maxPages
                 ? (this.variables.currentWallet.pages = new Array(5).fill(1).map((value, index) => value + index))
                 : (this.variables.currentWallet.pages = new Array(this.variables.currentWallet.totalPages)
@@ -25321,7 +25321,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const buildTime = '2024-09-18T09:21:23.110Z';
+const buildTime = '2024-09-18T12:08:28.621Z';
 if (_environments_environment__WEBPACK_IMPORTED_MODULE_1__.environment.production) {
     (0,_angular_core__WEBPACK_IMPORTED_MODULE_3__.enableProdMode)();
 }
