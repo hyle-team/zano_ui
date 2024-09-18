@@ -5,7 +5,7 @@
                 {{ 'CONFIRM.TITLE' | translate }}
             </h3>
 
-            <div class="content mb-2 w-100 overflow-x-hidden overflow-y-auto" fxFlex="1 1 auto">
+            <div class="content w-100 overflow-x-hidden overflow-y-auto" fxFlex="1 1 auto">
                 <div class="table-info mb-2">
                     <div class="row">
                         <div class="label max-w-19-rem w-100">
@@ -51,7 +51,7 @@
                     </ng-container>
                 </div>
 
-                <div *ngIf="variablesService.appPass" class="form__field mb-0">
+                <div *ngIf="variablesService.appPass" class="form__field fixed">
                     <label for="password">
                         {{ 'LOGIN.MASTER_PASS' | translate }}
                         <span class="color-red">*</span>
@@ -68,7 +68,7 @@
                         type="password"
                     />
                     <div *ngIf="confirmForm.touched && confirmForm.invalid" class="error">
-                        <div *ngIf="confirmForm.hasError('passwordNotMatch')">
+                        <div *ngIf="confirmForm.hasError('passwordNotMatch') && !confirmForm.controls.password.hasError('required')">
                             {{ 'LOGIN.FORM_ERRORS.WRONG_PASSWORD' | translate }}
                         </div>
                         <div *ngIf="confirmForm.controls.password.hasError('required')">

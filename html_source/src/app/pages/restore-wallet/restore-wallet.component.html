@@ -13,7 +13,7 @@
         <div class="scrolled-content">
             <form [formGroup]="form" class="form" (ngSubmit)="restore()">
                 <!-- Name -->
-                <div class="form__field">
+                <div class="form__field fixed">
                     <label for="name">{{ 'RESTORE_WALLET.LABEL_NAME' | translate }}</label>
                     <input
                         (contextmenu)="variablesService.onContextMenu($event)"
@@ -39,7 +39,7 @@
                 </div>
 
                 <!-- Password -->
-                <div class="form__field">
+                <div class="form__field fixed">
                     <label for="password">{{ 'RESTORE_WALLET.PASS' | translate }}</label>
                     <input
                         (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
@@ -59,7 +59,7 @@
                 </div>
 
                 <!-- Confirm Password -->
-                <div class="form__field">
+                <div class="form__field fixed">
                     <label for="confirm">{{ 'RESTORE_WALLET.CONFIRM' | translate }}</label>
                     <input
                         (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
@@ -75,7 +75,7 @@
                 </div>
 
                 <!-- Seed phrase -->
-                <div class="form__field">
+                <div class="form__field fixed">
                     <label for="seed-phrase">{{ 'RESTORE_WALLET.LABEL_PHRASE_KEY' | translate }}</label>
                     <input
                         (contextmenu)="variablesService.onContextMenu($event)"
@@ -90,7 +90,8 @@
                             *ngIf="(control.invalid || !this.seedPhraseInfo?.syntax_correct) && (control.dirty || control.touched)"
                             class="error"
                         >
-                            <div *ngIf="control.hasError('required')">
+                            <div *ngIf="control.hasError('required') &&
+                            (!control.hasError('password_seed_phrase_not_valid') && seedPhraseInfo.require_password)">
                                 {{ 'RESTORE_WALLET.FORM_ERRORS.KEY_REQUIRED' | translate }}
                             </div>
                             <div *ngIf="control.hasError('password_seed_phrase_not_valid') && seedPhraseInfo.require_password">
@@ -106,7 +107,7 @@
                 <!-- Seed password -->
                 <ng-container *ngIf="seedPhraseInfo">
                     <ng-container *ngIf="seedPhraseInfo.syntax_correct && seedPhraseInfo.require_password">
-                        <div class="form__field">
+                        <div class="form__field fixed">
                             <label for="seed-password">{{ 'RESTORE_WALLET.SEED_PASSWORD' | translate }}</label>
                             <input
                                 class="form__field--input"

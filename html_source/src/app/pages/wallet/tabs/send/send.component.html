@@ -10,7 +10,7 @@
                     lowerCaseDisabled: lowerCaseDisabled$ | async
                 } as vm"
             >
-                <div class="form__field">
+                <div class="form__field fixed">
                     <label for="address">
                         {{ 'SEND.ADDRESS' | translate }}
                         <span class="color-red">*</span>
@@ -75,7 +75,7 @@
             </ng-container>
 
             <!-- Amount -->
-            <div class="form__field amount">
+            <div class="form__field fixed amount">
                 <label for="send-amount">
                     {{ 'SEND.AMOUNT' | translate }}
                     <span class="color-red">*</span>
@@ -111,40 +111,20 @@
                     </div>
                 </div>
 
-                <div class="hint text-ellipsis">{{ amountInputParams.hintAmount }} {{ amountInputParams.hintTicker }}
+                <div *ngIf="!errorMessages['amount']" class="hint text-ellipsis">{{ amountInputParams.hintAmount }}
+                    {{ amountInputParams.hintTicker }}
                 </div>
 
-                <div *ngIf="isVisibleError(form.controls.amount) || isVisibleError(form)" class="error">
-                    <div *ngIf="form.controls.amount.hasError('zero')">
-                        {{ 'SEND.FORM_ERRORS.AMOUNT_ZERO' | translate }}
+                <ng-container *ngIf="isVisibleError(form.controls.amount) || isVisibleError(form)">
+                    <div class="error" *ngIf="errorMessages['amount'] as message">
+                        {{ message | translate }}
                     </div>
-                    <div *ngIf="form.controls.amount.hasError('great_than_unwraped_coins')">
-                        {{ 'SEND.FORM_ERRORS.GREAT_THAN_UNWRAPPED_COINS' | translate }}
-                    </div>
-                    <div *ngIf="form.controls.amount.hasError('less_than_zano_needed')">
-                        {{ 'SEND.FORM_ERRORS.LESS_THAN_ZANO_NEEDED' | translate }}
-                    </div>
-                    <div *ngIf="form.controls.amount.hasError('wrap_info_null')">
-                        {{ 'SEND.FORM_ERRORS.WRAP_INFO_NULL' | translate }}
-                    </div>
-                    <div *ngIf="form.controls.amount.hasError('required')">
-                        {{ 'ERRORS.REQUIRED' | translate }}
-                    </div>
-                    <div *ngIf="form.hasError('insuficcientFunds')">
-                        {{ form.errors['insuficcientFunds'].errorText | translate }}
-                    </div>
-                    <div *ngIf="form.hasError('greater_than_maximum_amount')">
-                        {{ 'ERRORS.MAX' | translate : { max: form.errors['greater_than_maximum_amount'].max } }}
-                    </div>
-                    <div *ngIf="form.hasError('asset_not_found')">
-                        {{ 'ERRORS.ASSET_NOT_FOUND' | translate }}
-                    </div>
-                </div>
+                </ng-container>
             </div>
         </div>
 
         <!-- Comment -->
-        <div class="form__field">
+        <div class="form__field fixed">
             <label for="send-comment">{{ 'SEND.COMMENT' | translate }}</label>
             <input
                 (contextmenu)="variablesService.onContextMenu($event)"
@@ -195,7 +175,7 @@
         </ng-container>
 
         <!-- Asset -->
-        <div class="form__field">
+        <div class="form__field fixed">
             <label>
                 {{ 'SEND.ASSET' | translate }}
                 <span class="color-red">*</span>
@@ -248,7 +228,7 @@
             <div *ngIf="isVisibleAdditionalOptionsState" class="content">
                 <!--<div class="form__field&#45;&#45;row">-->
                 <!-- MIXIN -->
-                <!--<div class="form__field">-->
+                <!--<div class="form__field fixed">-->
                 <!--    <label for="send-mixin">-->
                 <!--        {{ 'SEND.MIXIN' | translate }}-->
                 <!--        <span class="color-red">*</span>-->
@@ -277,7 +257,7 @@
                 <!--</div>-->
 
                 <!-- FEE -->
-                <div class="form__field">
+                <div class="form__field fixed">
                     <label for="send-fee">
                         {{ 'SEND.FEE' | translate }}
                         <span class="color-red">*</span>

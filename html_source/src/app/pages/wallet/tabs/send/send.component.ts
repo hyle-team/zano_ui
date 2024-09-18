@@ -113,6 +113,7 @@ export class SendComponent implements OnDestroy {
     errorMessages: { [key: string]: string | undefined } = {
         address: undefined,
         fee: undefined,
+        amount: undefined,
     };
     public readonly zanoAssetInfo: ZanoAssetInfo = zanoAssetInfo;
     public priceInfo: PriceInfo = { success: false, data: 'Asset not found' };
@@ -165,6 +166,50 @@ export class SendComponent implements OnDestroy {
         this.errorMessages['address'] = message;
     }
 
+    updateAmountErrorMessage(): void {
+        const {
+            controls: { amount },
+        } = this.form;
+        let message: string | undefined;
+
+        switch (true) {
+            case amount.hasError('zero'): {
+                message = 'SEND.FORM_ERRORS.AMOUNT_ZERO';
+                break;
+            }
+            case amount.hasError('great_than_unwraped_coins'): {
+                message = 'SEND.FORM_ERRORS.GREAT_THAN_UNWRAPPED_COINS';
+                break;
+            }
+            case amount.hasError('less_than_zano_needed'): {
+                message = 'SEND.FORM_ERRORS.LESS_THAN_ZANO_NEEDED';
+                break;
+            }
+            case amount.hasError('wrap_info_null'): {
+                message = 'SEND.FORM_ERRORS.WRAP_INFO_NULL';
+                break;
+            }
+            case amount.hasError('required'): {
+                message = 'ERRORS.REQUIRED';
+                break;
+            }
+            case this.form.hasError('insuficcientFunds'): {
+                message = this.form.errors['insuficcientFunds'].errorText;
+                break;
+            }
+            case this.form.hasError('greater_than_maximum_amount'): {
+                message = this._translateService.instant('ERRORS.MAX', { max: this.form.errors['greater_than_maximum_amount'].max });
+                break;
+            }
+            case this.form.hasError('asset_not_found'): {
+                message = 'ERRORS.ASSET_NOT_FOUND';
+                break;
+            }
+        }
+
+        this.errorMessages['amount'] = message;
+    }
+
     updateFeeErrorMessage(): void {
         const {
             controls: { fee },
@@ -186,6 +231,7 @@ export class SendComponent implements OnDestroy {
                 const { decimal_point } = zanoAssetInfo;
                 const max = intToMoney(maximum_value, decimal_point);
                 message = this._translateService.instant('ERRORS.MAX', { max });
+                break;
             }
         }
 
@@ -481,7 +527,7 @@ export class SendComponent implements OnDestroy {
                     validators: [
                         Validators.required,
                         ({ value }: AbstractControl): ValidationErrors | null => {
-                            const isZero: boolean = new BigNumber(value || 0).eq(0);
+                            const isZero: boolean = new BigNumber(value).eq(0);
 
                             if (isZero) {
                                 return { zero: true };
@@ -691,6 +737,10 @@ export class SendComponent implements OnDestroy {
             .pipe(takeUntil(this._destroy$))
             .subscribe((): void => this.updateAddressErrorMessage());
 
+        merge(controls.amount.statusChanges, controls.amount.valueChanges, this.form.statusChanges, this.form.valueChanges)
+            .pipe(takeUntil(this._destroy$))
+            .subscribe((): void => this.updateAmountErrorMessage());
+
         merge(controls.fee.statusChanges, controls.fee.valueChanges)
             .pipe(takeUntil(this._destroy$))
             .subscribe((): void => this.updateFeeErrorMessage());
@@ -720,6 +770,7 @@ export class SendComponent implements OnDestroy {
 
     private _updateErrorMessages(): void {
         this.updateAddressErrorMessage();
+        this.updateAmountErrorMessage();
         this.updateFeeErrorMessage();
     }
 

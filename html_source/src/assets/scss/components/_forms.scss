@@ -200,8 +200,36 @@
         .info {
             overflow: hidden;
             width: 100%;
+            font-size: 1.6rem;
             margin-top: 1rem;
         }
+
+        .hint {
+            margin-top: 5px;
+            color: var(--hint-text);
+            font-size: 1.4rem;
+        }
+
+        &.fixed {
+            margin-bottom: 2.6rem;
+            .error,
+            .success,
+            .info {
+                margin-top: 0;
+                position: absolute;
+                bottom: -2.2rem;
+                & > * {
+                    font-size: 1.6rem;
+                }
+            }
+
+            .hint {
+                margin-top: 0;
+                position: absolute;
+                bottom: -2.2rem;
+            }
+        }
+
 
         .error {
             color: var(--red-500);
@@ -226,12 +254,7 @@
             }
         }
 
-        .hint {
-            margin-top: 5px;
 
-            color: var(--hint-text);
-            font-size: 1.4rem;
-        }
     }
 
     .details {

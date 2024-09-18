@@ -372,7 +372,7 @@
         "FILE_RESTORED": "Die Wallet-Datei wurde beschädigt. Wir haben die Schlüssel und die Wallet von der Blockchain wiederhergestellt",
         "GREATER_THAN_TOTAL_MAX_SUPPLY": "Greater than total max supply",
         "HEX_NOT_VALID": "Hex not valid",
-        "INSUFFICIENT_FUNDS": "Insufficient funds for this transaction",
+        "INSUFFICIENT_FUNDS": "Insufficient funds",
         "INVALID_PROPOSAL": "Invalid proposal",
         "MAX": "Max {{ max }}",
         "MAX_DECIMAL_POINT": "Max decimal point {{ max }}",
