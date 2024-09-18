@@ -221,33 +221,33 @@ strong {
   --block-sync: #505274;
   --auth-card-background: #fcfcfc;
   --auth-card-form-background: #ffffff;
-  --auth-card-form-border: 1.5px solid #1f8feb33;
+  --auth-card-form-border: 1px solid #1f8feb33;
   --form-card-background: #f0f6fb;
   --ng-select-bg: #dbecfa;
   --ng-select-border: #1f8feb40;
   --ng-select-highlight: #1f8feb10;
-  --ng-select-circle-border: 1.5px solid #1f8feb50;
+  --ng-select-circle-border: 1px solid #1f8feb50;
   --ng-select-circle-background: #1f8feb;
   --input-background: #ffffff;
   --input-color: var(--blue-900);
   --input-placeholder: #0c0c3a4d;
-  --border: 1.5px solid #1f8feb66;
-  --border-not-empty: 1.5px solid #1f8feb99;
-  --border-disabled: 1.5px solid #1f8feb66;
-  --border-error: 1.5px solid var(--red-600);
+  --border: 1px solid #1f8feb66;
+  --border-not-empty: 1px solid #1f8feb99;
+  --border-disabled: 1px solid #1f8feb66;
+  --border-error: 1px solid var(--red-600);
   --hint-text: #0c0c3a99;
   --amount-ticker-text: #0c0c3a99;
   --amount-btn-revers-background: #1f8feb1a;
-  --checkbox-border: 1.5px solid #1f8feb66;
-  --checkbox-hover-border: 1.5px solid #1f8feb99;
-  --checkbox-active-border: 1.5px solid #1f8feb99;
+  --checkbox-border: 1px solid #1f8feb66;
+  --checkbox-hover-border: 1px solid #1f8feb99;
+  --checkbox-active-border: 1px solid #1f8feb99;
   --checkbox-checked-background: #1f8feb;
   --switch-on-background: var(--aqua-500);
   --switch-off-background: #0c0c3a1a;
   --switch-circle-background: var(--white-500);
   --wallet-background: #1f8feb26;
   --wallet-active-background: var(--gradietAquaToBlue);
-  --wallet-border: 1.5px solid #1f8feb00;
+  --wallet-border: 1px solid #1f8feb00;
   --wallet-border-color-hover: #1f8feb;
   --wallet-auditable-watch-only-background: radial-gradient(
       100% 246.57% at 0% 0%,
@@ -262,13 +262,13 @@ strong {
   --wallet-text: var(--blue-900);
   --table-thead-bg: #1f8feb4d;
   --table-row-bg: #dbecf9;
-  --table-rounded-corners-border: 1.5px solid #d9dfe8;
-  --table-info-border: 1.5px solid #d9dfe8;
+  --table-rounded-corners-border: 1px solid #d9dfe8;
+  --table-info-border: 1px solid #d9dfe8;
   --table-info-label-background: #f0f6fb;
   --btn-icon-background: #1f8feb1a;
   --btn-icon-hover-background: #1f8feb4d;
   --list-background: #f9fcff;
-  --list-border: 1.5px solid #1f8feb80;
+  --list-border: 1px solid #1f8feb80;
   --list-item-hover-background: #1f8feb1a;
   --tooltip-background: #8dbee8;
   --details-background: #dbecfa;
@@ -289,33 +289,33 @@ strong {
   --block-sync: #a8abb5;
   --auth-card-background: var(--blue-700);
   --auth-card-form-background: var(--blue-500);
-  --auth-card-form-border: 1.5px solid transparent;
+  --auth-card-form-border: 1px solid transparent;
   --form-card-background: var(--blue-500);
   --ng-select-bg: var(--blue-500);
   --ng-select-border: var(--gray-500);
   --ng-select-highlight: var(--gray-900);
-  --ng-select-circle-border: 1.5px solid white;
+  --ng-select-circle-border: 1px solid white;
   --ng-select-circle-background: var(--white-500);
   --input-background: transparent;
   --input-color: var(--white-500);
   --input-placeholder: var(--gray-800);
-  --border: 1.5px solid var(--gray-800);
-  --border-not-empty: 1.5px solid var(--gray-500);
-  --border-disabled: 1.5px solid var(--gray-800);
-  --border-error: 1.5px solid var(--red-600);
+  --border: 1px solid var(--gray-800);
+  --border-not-empty: 1px solid var(--gray-500);
+  --border-disabled: 1px solid var(--gray-800);
+  --border-error: 1px solid var(--red-600);
   --hint-text: #ffffff60;
   --amount-ticker-text: #ffffff60;
   --amount-btn-revers-background: #ffffff1a;
-  --checkbox-border: 1.5px solid #ffffff33;
-  --checkbox-hover-border: 1.5px solid #ffffff66;
-  --checkbox-active-border: 1.5px solid #ffffff66;
+  --checkbox-border: 1px solid #ffffff33;
+  --checkbox-hover-border: 1px solid #ffffff66;
+  --checkbox-active-border: 1px solid #ffffff66;
   --checkbox-checked-background: #ffffff;
   --switch-on-background: var(--aqua-500);
   --switch-off-background: var(--gray-800);
   --switch-circle-background: var(--white-500);
   --wallet-background: var(--blue-500);
   --wallet-active-background: var(--gradietAquaToBlue);
-  --wallet-border: 1.5px solid var(--blue-500);
+  --wallet-border: 1px solid var(--blue-500);
   --wallet-border-color-hover: var(--gray-800);
   --wallet-auditable-watch-only-background: var(--gradietLightAmethystToPurpurle);
   --wallet-auditable-active-background: var(--gradietAmethystToPurpurle);
@@ -326,8 +326,8 @@ strong {
   --wallet-text: #ffffff;
   --table-thead-bg: var(--blue-400);
   --table-row-bg: var(--blue-300);
-  --table-rounded-corners-border: 1.5px solid #33426e;
-  --table-info-border: 1.5px solid #33426e;
+  --table-rounded-corners-border: 1px solid #33426e;
+  --table-info-border: 1px solid #33426e;
   --table-info-label-background: var(--blue-500);
   --btn-icon-background: var(--gray-900);
   --btn-icon-hover-background: var(--gray-700);
@@ -577,7 +577,7 @@ body {
   background-color: var(--azure-600);
 }button.outline,
 .btn.outline {
-  border: 1.5px solid var(--azure-500);
+  border: 1px solid var(--azure-500);
 }button.outline:not(:disabled):hover, button.outline:not(:disabled):focus, button.outline:not(:disabled).active,
 .btn.outline:not(:disabled):hover,
 .btn.outline:not(:disabled):focus,
@@ -811,7 +811,28 @@ body {
 .form__field .info {
   overflow: hidden;
   width: 100%;
+  font-size: 1.6rem;
   margin-top: 1rem;
+}.form__field .hint {
+  margin-top: 5px;
+  color: var(--hint-text);
+  font-size: 1.4rem;
+}.form__field.fixed {
+  margin-bottom: 2.6rem;
+}.form__field.fixed .error,
+.form__field.fixed .success,
+.form__field.fixed .info {
+  margin-top: 0;
+  position: absolute;
+  bottom: -2.2rem;
+}.form__field.fixed .error > *,
+.form__field.fixed .success > *,
+.form__field.fixed .info > * {
+  font-size: 1.6rem;
+}.form__field.fixed .hint {
+  margin-top: 0;
+  position: absolute;
+  bottom: -2.2rem;
 }.form__field .error {
   color: var(--red-500);
 }.form__field .success {
@@ -827,10 +848,6 @@ body {
   width: 100%;
   max-height: 15rem;
   border: var(--border);
-}.form__field .hint {
-  margin-top: 5px;
-  color: var(--hint-text);
-  font-size: 1.4rem;
 }.form .details .header {
   padding: 1.2rem 2rem;
   width: 100%;
@@ -1204,7 +1221,7 @@ body {
   cursor: not-allowed !important;
 }.ng-select.ng-select-disabled > .ng-select-container:hover {
   box-shadow: none;
-  border: 1.5px solid var(--ng-select-bg);
+  border: 1px solid var(--ng-select-bg);
 }.ng-select .ng-has-value .ng-placeholder {
   display: none;
 }.ng-select .ng-select-container {
@@ -1212,13 +1229,13 @@ body {
   color: var(--main-text) !important;
   background-color: var(--ng-select-bg);
   border-radius: 0.8rem;
-  border: 1.5px solid var(--ng-select-bg);
+  border: 1px solid var(--ng-select-bg);
   min-height: 4rem;
   transition: border 0.2s ease-in-out;
   cursor: pointer !important;
 }.ng-select .ng-select-container:hover {
   box-shadow: none;
-  border: 1.5px solid var(--ng-select-border);
+  border: 1px solid var(--ng-select-border);
 }.ng-select .ng-select-container .ng-value-container {
   align-items: center;
   padding-left: 1rem;
@@ -1244,7 +1261,7 @@ body {
   cursor: not-allowed;
 }.ng-select.ng-select-multiple.ng-select-disabled > .ng-select-container .ng-value-container .ng-value {
   background-color: var(--main-text);
-  border: 1.5px solid var(--ng-select-border);
+  border: 1px solid var(--ng-select-border);
 }.ng-select.ng-select-multiple.ng-select-disabled > .ng-select-container .ng-value-container .ng-value .ng-value-label {
   padding: 0 0.5rem;
 }.ng-select.ng-select-multiple .ng-select-container .ng-value-container {
@@ -1333,7 +1350,7 @@ body {
   border: var(--border-error);
 }.ng-dropdown-panel {
   background-color: var(--ng-select-bg);
-  border: 1.5px solid var(--ng-select-border);
+  border: 2px solid var(--ng-select-border);
   box-shadow: none;
   left: 0;
 }.ng-dropdown-panel.ng-select-top {
