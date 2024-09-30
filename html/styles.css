@@ -2378,7 +2378,6 @@ app-contracts .container .wrap-table table.contracts-table tbody tr .comment {
   min-height: 4rem;
   border: var(--border);
 }app-staking .chart-header .items .item .left {
-  min-width: -moz-fit-content;
   min-width: fit-content;
   width: auto;
 }app-staking .chart {
@@ -2407,7 +2406,6 @@ app-contracts .container .wrap-table table.contracts-table tbody tr .comment {
   max-width: 14rem;
 }app-contacts .wrap-table table.contacts-table tbody tr td:last-child {
   width: 14rem;
-  min-width: -moz-fit-content;
   min-width: fit-content;
 }app-contacts .wrap-table table.contacts-table tbody tr td .button-wrapper button {
   margin-right: 0.8rem;
