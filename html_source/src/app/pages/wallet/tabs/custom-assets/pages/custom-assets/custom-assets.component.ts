@@ -4,14 +4,14 @@ import { CdkOverlayOrigin, ConnectedPosition } from '@angular/cdk/overlay';
 import { AssetInfo } from '@api/models/assets.model';
 import { VariablesService } from '@parts/services/variables.service';
 import { WalletsService } from '@parts/services/wallets.service';
-import { Dialog, DialogConfig } from '@angular/cdk/dialog';
 import { AssetDetailsComponent } from '@parts/modals/asset-details/asset-details.component';
 import { UpdateCustomAssetComponent } from '../../modals/update-custom-asset/update-custom-asset.component';
 import { BurnCustomAssetComponent } from '../../modals/burn-custom-asset/burn-custom-asset.component';
 import { EmitCustomAssetComponent } from '../../modals/emit-custom-asset/emit-custom-asset.component';
-import { filter } from 'rxjs/operators';
+import { filter, switchMap } from 'rxjs/operators';
 import { TransactionDetailsForCustomAssetsComponent } from '../../modals/transaction-details-for-custom-assets/transaction-details-for-custom-assets.component';
 import { Observable, take } from 'rxjs';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-custom-assets',
@@ -41,11 +41,12 @@ export class CustomAssetsComponent implements OnInit {
         itemsPerPage: 10,
         currentPage: 1,
     };
-    private readonly _dialog: Dialog = inject(Dialog);
-
-    private readonly _walletsService: WalletsService = inject(WalletsService);
 
     public variablesService: VariablesService = inject(VariablesService);
+
+    private readonly _matDialog: MatDialog = inject(MatDialog);
+
+    private readonly _walletsService: WalletsService = inject(WalletsService);
 
     get assets(): AssetInfo[] {
         return this._walletsService.currentWallet?.assetsInfoWhitelist?.own_assets ?? [];
@@ -84,17 +85,8 @@ export class CustomAssetsComponent implements OnInit {
         return index;
     }
 
-    assetDetails(): void {
-        const dialogConfig: DialogConfig = {
-            data: {
-                asset_info: this.currentAssetInfo,
-            },
-        };
-        this._dialog.open(AssetDetailsComponent, dialogConfig);
-    }
-
-    openDialog(type: 'emit' | 'burn' | 'update'): void {
-        const dialogConfig: DialogConfig = {
+    openDialog(type: 'assetDetails' | 'emit' | 'burn' | 'update'): void {
+        const config: MatDialogConfig = {
             data: {
                 assetInfo: this.currentAssetInfo,
             },
@@ -103,40 +95,46 @@ export class CustomAssetsComponent implements OnInit {
         let closed: Observable<number | undefined>;
 
         switch (type) {
+            case 'assetDetails': {
+                this._matDialog.open(AssetDetailsComponent, config);
+                return;
+            }
             case 'emit': {
-                closed = this._dialog.open<number | undefined>(EmitCustomAssetComponent, dialogConfig).closed;
+                closed = this._matDialog
+                    .open<EmitCustomAssetComponent, any, number | undefined>(EmitCustomAssetComponent, config)
+                    .afterClosed();
                 break;
             }
             case 'burn': {
-                closed = this._dialog.open<number | undefined>(BurnCustomAssetComponent, dialogConfig).closed;
+                closed = this._matDialog
+                    .open<BurnCustomAssetComponent, any, number | undefined>(BurnCustomAssetComponent, config)
+                    .afterClosed();
                 break;
             }
             case 'update': {
-                closed = this._dialog.open<number | undefined>(UpdateCustomAssetComponent, dialogConfig).closed;
+                closed = this._matDialog
+                    .open<UpdateCustomAssetComponent, any, number | undefined>(UpdateCustomAssetComponent, config)
+                    .afterClosed();
                 break;
             }
         }
 
-        closed.pipe(
-            filter(job_id => typeof job_id === 'number'),
-            take(1),
-        )
-            .subscribe({
-                next: (job_id: number) => {
-                    this.details(job_id);
-                },
-            });
-    }
-
-    details(job_id: number): void {
-        const dialogConfig: DialogConfig = {
-            data: {
-                job_id,
-            },
-        };
-        this._dialog
-            .open(TransactionDetailsForCustomAssetsComponent, dialogConfig)
-            .closed.pipe(filter(Boolean), take(1))
+        closed
+            .pipe(
+                filter(job_id => typeof job_id === 'number'),
+                switchMap(job_id => {
+                    const config: MatDialogConfig = {
+                        data: {
+                            job_id,
+                        },
+                    };
+                    return this._matDialog
+                        .open<TransactionDetailsForCustomAssetsComponent, any, boolean>(TransactionDetailsForCustomAssetsComponent, config)
+                        .afterClosed();
+                }),
+                filter(Boolean),
+                take(1)
+            )
             .subscribe({
                 next: () => this._loadAssets(),
             });

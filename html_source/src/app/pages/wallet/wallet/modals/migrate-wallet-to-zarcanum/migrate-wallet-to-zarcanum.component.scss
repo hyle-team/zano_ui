@@ -1,10 +1,10 @@
 .details {
     padding: 0 2rem;
     border-radius: 0.8rem;
-    border: 1px solid #33426e;
+    border: var(--table-rounded-corners-border);
 
     hr {
         border: none;
-        border-bottom: 1px solid #ffffff10;
+        border-bottom: var(--table-rounded-corners-border);
     }
 }

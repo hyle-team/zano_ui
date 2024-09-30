@@ -2,12 +2,12 @@ import { Component, inject, NgZone } from '@angular/core';
 import { VariablesService } from '@parts/services/variables.service';
 import { NonNullableFormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { AssetBalance, AssetInfo } from '@api/models/assets.model';
-import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import BigNumber from 'bignumber.js';
 import { intToMoney } from '@parts/functions/int-to-money';
 import { insuficcientFunds } from '@parts/utils/zano-errors';
 import { BackendService } from '@api/services/backend.service';
 import { moneyToInt } from '@parts/functions/money-to-int';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-burn-custom-asset',
@@ -17,9 +17,9 @@ import { moneyToInt } from '@parts/functions/money-to-int';
 export class BurnCustomAssetComponent {
     public readonly variablesService: VariablesService = inject(VariablesService);
 
-    public readonly data: { assetInfo: AssetInfo } = inject(DIALOG_DATA);
+    public readonly data: { assetInfo: AssetInfo } = inject(MAT_DIALOG_DATA);
 
-    public readonly dialogRef: DialogRef = inject(DialogRef);
+    public readonly matDialogRef: MatDialogRef<BurnCustomAssetComponent> = inject(MatDialogRef);
 
     private readonly _fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
 
@@ -57,21 +57,22 @@ export class BurnCustomAssetComponent {
         ]),
     });
 
-    private readonly _backendService = inject(BackendService);
+    private readonly _backendService: BackendService = inject(BackendService);
 
     private readonly _ngZone: NgZone = inject(NgZone);
 
     public submit(): void {
-
         const { amount } = this.form.getRawValue();
         const {
             currentWallet: { wallet_id },
         } = this.variablesService;
-        const { assetInfo: { asset_id, decimal_point } } = this.data;
+        const {
+            assetInfo: { asset_id, decimal_point },
+        } = this.data;
 
         const params = {
             burn_amount: moneyToInt(amount, decimal_point).toString(),
-            asset_id
+            asset_id,
         };
 
         this._backendService.asyncCall2a(
@@ -85,7 +86,7 @@ export class BurnCustomAssetComponent {
             },
             (job_id: number): void => {
                 this._ngZone.run(() => {
-                    this.dialogRef.close(job_id);
+                    this.matDialogRef.close(job_id);
                 });
             }
         );

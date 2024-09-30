@@ -1,168 +1,77 @@
-import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { VariablesService } from '@parts/services/variables.service';
 import { Chart } from 'angular-highcharts';
 import { BackendService } from '@api/services/backend.service';
-import { ActivatedRoute } from '@angular/router';
 import { IntToMoneyPipe } from '@parts/pipes/int-to-money-pipe/int-to-money.pipe';
-import { TranslateService } from '@ngx-translate/core';
 import { BigNumber } from 'bignumber.js';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { combineLatest, skip, Subject, Subscription } from 'rxjs';
+import * as Highcharts from 'highcharts';
+import { filter, takeUntil } from 'rxjs/operators';
+import { NonNullableFormBuilder } from '@angular/forms';
+
+type TPeriod = '1 week' | '2 week' | '1 month' | '3 month' | '6 month' | '1 year' | 'All';
+
+type TGroup = 'day' | 'week' | 'month';
+
+interface IPeriodItem {
+    title: string;
+    value: TPeriod;
+}
+
+interface IGroupItem {
+    title: string;
+    value: TGroup;
+}
+
+const periodItems: IPeriodItem[] = [
+    {
+        title: 'STAKING.PERIOD.WEEK1',
+        value: '1 week',
+    },
+    {
+        title: 'STAKING.PERIOD.WEEK2',
+        value: '2 week',
+    },
+    {
+        title: 'STAKING.PERIOD.MONTH1',
+        value: '1 month',
+    },
+    {
+        title: 'STAKING.PERIOD.MONTH3',
+        value: '3 month',
+    },
+    {
+        title: 'STAKING.PERIOD.MONTH6',
+        value: '6 month',
+    },
+    {
+        title: 'STAKING.PERIOD.YEAR',
+        value: '1 year',
+    },
+    {
+        title: 'STAKING.PERIOD.ALL',
+        value: 'All',
+    },
+];
+
+const groupItems: IGroupItem[] = [
+    {
+        title: 'STAKING.GROUP.DAY',
+        value: 'day',
+    },
+    {
+        title: 'STAKING.GROUP.WEEK',
+        value: 'week',
+    },
+    {
+        title: 'STAKING.GROUP.MONTH',
+        value: 'month',
+    },
+];
 
 @Component({
     selector: 'app-staking',
-    template: `
-        <div class="chart-wrap" fxFlexFill fxLayout="column">
-            <div class="scrolled-content h-100" fxFlex="1 1 auto" fxLayout="column">
-                <div class="chart-header mb-1" fxFlex="0 0 auto" fxLayout="column">
-                    <div class="row" fxFlex="0 0 auto" fxLayout="row nowrap" fxLayoutAlign="space-between start"
-                         fxLayoutGap="1rem">
-                        <div
-                            class="left"
-                            fxFlex="1 1 calc(50% - 0.5rem)"
-                            fxLayout="row wrap"
-                            fxLayoutAlign="start center"
-                            fxLayoutGap="1rem"
-                        >
-                            <div class="items" fxLayout="row wrap" fxLayoutGap="1rem">
-                                <div
-                                    *ngIf="
-                                        (!variablesService.currentWallet.is_auditable && !variablesService.currentWallet.is_watch_only) ||
-                                        (variablesService.currentWallet.is_auditable && !variablesService.currentWallet.is_watch_only)
-                                    "
-                                    class="item overflow-hidden p-1 border-radius-0_8-rem mb-1"
-                                    fxLayout="row nowrap"
-                                    fxLayoutAlign="space-between center"
-                                >
-                                    <div class="left overflow-hidden mr-1" fxLayout="row" fxLayoutAlign="start center">
-                                        {{ 'STAKING.TITLE' | translate }}
-                                    </div>
-
-                                    <div class="right overflow-hidden w-100" fxLayout="row" fxLayoutAlign="end center">
-                                        <app-staking-switch
-                                            [(staking)]="variablesService.currentWallet.staking"
-                                            [wallet_id]="variablesService.currentWallet.wallet_id"
-                                        >
-                                        </app-staking-switch>
-                                    </div>
-                                </div>
-                                <div
-                                    class="item overflow-hidden p-1 border-radius-0_8-rem mb-1"
-                                    fxLayout="row nowrap"
-                                    fxLayoutAlign="space-between center"
-                                >
-                                    <div class="left overflow-hidden mr-1" fxLayout="row" fxLayoutAlign="start center">
-                                        {{ 'STAKING.TITLE_PENDING' | translate }}
-                                        :
-                                    </div>
-                                    <div class="right overflow-hidden w-100" fxLayout="row" fxLayoutAlign="end center">
-                                        <div class="text-ellipsis mr-1">
-                                            {{ pending.total | intToMoney }}
-                                        </div>
-                                        {{ variablesService.defaultTicker }}
-                                    </div>
-                                </div>
-                                <div
-                                    class="item overflow-hidden p-1 border-radius-0_8-rem mb-1"
-                                    fxLayout="row nowrap"
-                                    fxLayoutAlign="space-between center"
-                                >
-                                    <div class="left overflow-hidden mr-1" fxLayout="row" fxLayoutAlign="start center">
-                                        {{ 'STAKING.TITLE_TOTAL' | translate }}
-                                        :
-                                    </div>
-                                    <div class="right overflow-hidden w-100" fxLayout="row" fxLayoutAlign="end center">
-                                        <div class="text-ellipsis mr-1">
-                                            {{ total | intToMoney }}
-                                        </div>
-                                        {{ variablesService.defaultTicker }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="right" fxFlex="1 1 calc(50% - 0.5rem)" fxLayout="row" fxLayoutAlign="end center"
-                             fxLayoutGap="1rem">
-                            <div *ngIf="selectedDate && selectedDate.date" class="selected overflow-hidden" fxHide
-                                 fxShow.lg fxShow.xl>
-                                <div class="overflow-hidden" fxLayout="row">
-                                    <div class="text-ellipsis">
-                                        {{ selectedDate.date | date : 'EEEE, MMMM d, y' }}
-                                        {{ selectedDate.amount }}
-                                    </div>
-                                    <div class="ml-0_5">
-                                        {{ variablesService.defaultTicker }}
-                                    </div>
-                                </div>
-                            </div>
-
-                            <ng-select
-                                (change)="changeGroup($event)"
-                                [(ngModel)]="selectedGroup"
-                                [clearable]="false"
-                                [items]="groups"
-                                [searchable]="false"
-                                bindLabel="title"
-                                bindValue="key"
-                                class="selected-group max-w-19-rem w-100"
-                            >
-                                <ng-template let-item="item" ng-label-tmp>
-                                    Sort by {{ (item.title | translate | lowercase) + 's' }}
-                                </ng-template>
-                                <ng-template let-index="index" let-item="item" ng-option-tmp>
-                                    {{ item.title | translate }}
-                                </ng-template>
-                            </ng-select>
-                        </div>
-                    </div>
-                    <div
-                        class="row"
-                        fxFlex="0 0 2rem"
-                        fxHide.lg
-                        fxHide.xl
-                        fxLayout="row nowrap"
-                        fxLayoutAlign="space-between center"
-                        fxLayoutGap="1rem"
-                        fxShow
-                    >
-                        <div class="left"></div>
-                        <div class="right" fxLayoutAlign="end center">
-                            <div *ngIf="selectedDate && selectedDate.date" class="selected overflow-hidden">
-                                <div class="overflow-hidden" fxLayout="row">
-                                    <div class="text-ellipsis">
-                                        {{ selectedDate.date | date : 'EEEE, MMMM d, y' }}
-                                        {{ selectedDate.amount }}
-                                    </div>
-                                    <div class="ml-0_5">
-                                        {{ variablesService.defaultTicker }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="chart border-radius-0_8-rem" fxFlex="1 1 auto" fxLayoutAlign=" center">
-                    <div [chart]="chart"></div>
-                </div>
-
-                <div class="chart-options mt-2" fxFlex="0 0 auto" fxLayoutAlign=" center">
-                    <ng-container *ngFor="let period of periods; let last = last">
-                        <button
-                            (click)="changePeriod(period)"
-                            [class.active]="period.active"
-                            [class.mr-1]="!last"
-                            [class.outline]="!last"
-                            [class.primary]="last"
-                            class="big w-100"
-                            type="button"
-                        >
-                            {{ period.title }}
-                        </button>
-                    </ng-container>
-                </div>
-            </div>
-        </div>
-    `,
+    templateUrl: './staking.component.html',
     styles: [
         `
             :host {
@@ -173,108 +82,71 @@ import { takeUntil } from 'rxjs/operators';
     ],
 })
 export class StakingComponent implements OnInit, OnDestroy {
-    periods = [
-        {
-            title: this.translate.instant('STAKING.PERIOD.WEEK1'),
-            key: '1 week',
-            active: false,
-        },
-        {
-            title: this.translate.instant('STAKING.PERIOD.WEEK2'),
-            key: '2 week',
-            active: false,
-        },
-        {
-            title: this.translate.instant('STAKING.PERIOD.MONTH1'),
-            key: '1 month',
-            active: false,
-        },
-        {
-            title: this.translate.instant('STAKING.PERIOD.MONTH3'),
-            key: '3 month',
-            active: false,
-        },
-        {
-            title: this.translate.instant('STAKING.PERIOD.MONTH6'),
-            key: '6 month',
-            active: false,
-        },
-        {
-            title: this.translate.instant('STAKING.PERIOD.YEAR'),
-            key: '1 year',
-            active: false,
-        },
-        {
-            title: this.translate.instant('STAKING.PERIOD.ALL'),
-            key: 'All',
-            active: true,
-        },
-    ];
+    public chart: Chart;
 
-    groups = [
-        {
-            title: this.translate.instant('STAKING.GROUP.DAY'),
-            key: 'day',
-            active: true,
-        },
-        {
-            title: this.translate.instant('STAKING.GROUP.WEEK'),
-            key: 'week',
-            active: false,
-        },
-        {
-            title: this.translate.instant('STAKING.GROUP.MONTH'),
-            key: 'month',
-            active: false,
-        },
-    ];
+    public total: BigNumber = new BigNumber(0);
 
-    selectedGroup = this.groups[0].key;
-
-    selectedDate = {
-        date: null,
-        amount: null,
-    };
-
-    originalData = [];
-
-    chart: Chart;
-
-    total = new BigNumber(0);
-
-    pending = {
+    public pending = {
         list: [],
         total: new BigNumber(0),
     };
 
-    private destroy$ = new Subject<void>();
+    public themeChangesSubscription: Subscription;
 
-    constructor(
-        public variablesService: VariablesService,
-        private route: ActivatedRoute,
-        private backend: BackendService,
-        private ngZone: NgZone,
-        private intToMoneyPipe: IntToMoneyPipe,
-        private translate: TranslateService
-    ) {}
+    public readonly variablesService: VariablesService = inject(VariablesService);
 
-    static makeGroupTime(key, date): number {
-        if (key === 'day') {
-            return date.setHours(0, 0, 0, 0);
-        } else if (key === 'week') {
-            return new Date(date.setDate(date.getDate() - date.getDay())).setHours(0, 0, 0, 0);
-        } else {
-            return new Date(date.setDate(1)).setHours(0, 0, 0, 0);
-        }
+    get isShowStagingSwitch(): boolean {
+        const {
+            currentWallet: { is_watch_only, is_auditable },
+        } = this.variablesService;
+        const condition1: boolean = !is_auditable && !is_watch_only;
+        const condition2: boolean = is_auditable && !is_watch_only;
+        return condition1 || condition2;
     }
 
+    get isShowPointerDetails(): boolean {
+        const { date, amount } = this.pointDetails;
+        return date !== null && amount !== null;
+    }
+
+    public periodItems: IPeriodItem[] = periodItems;
+
+    public groupItems: IGroupItem[] = groupItems;
+
+    private readonly _fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
+
+    public readonly filtersForm = this._fb.group({
+        group: this._fb.control<TGroup>('day'),
+        period: this._fb.control<TPeriod>('All'),
+    });
+
+    public pointDetails: { date: string; amount: any } = {
+        date: null,
+        amount: null,
+    };
+
+    public originalData = [];
+
+    private readonly _destroy$: Subject<void> = new Subject<void>();
+
+    private readonly _backendService: BackendService = inject(BackendService);
+
+    private readonly _ngZone: NgZone = inject(NgZone);
+
+    private readonly _intToMoneyPipe: IntToMoneyPipe = inject(IntToMoneyPipe);
+
     ngOnInit(): void {
-        this.route.parent.params.pipe(takeUntil(this.destroy$)).subscribe({
-            next: () => {
-                this.getMiningHistory();
-            },
-        });
-        this.variablesService.getHeightAppEvent.pipe(takeUntil(this.destroy$)).subscribe({
+        const { settings } = this.variablesService;
+
+        const savedStakingFilters = settings.filters.stakingFilters;
+
+        if (savedStakingFilters) {
+            this.filtersForm.patchValue(savedStakingFilters);
+        }
+
+        this.getMiningHistory();
+
+        this.variablesService.getHeightAppEvent.pipe(takeUntil(this._destroy$)).subscribe({
             next: (newHeight: number) => {
                 if (!this.pending.total.isZero()) {
                     const pendingCount = this.pending.list.length;
@@ -292,18 +164,25 @@ export class StakingComponent implements OnInit, OnDestroy {
                 }
             },
         });
-        this.variablesService.getRefreshStackingEvent.pipe(takeUntil(this.destroy$)).subscribe({
-            next: (wallet_id: number) => {
-                if (this.variablesService.currentWallet.wallet_id === wallet_id) {
-                    this.getMiningHistory();
-                }
+
+        this.variablesService.daemon_state$.pipe(filter((daemon_state: number) => daemon_state === 3), skip(1)).subscribe({
+            next: () => {
+                this.getMiningHistory();
+                this.changePeriod();
+            }
+        });
+
+        this.filtersForm.valueChanges.pipe(takeUntil(this._destroy$)).subscribe({
+            next: () => {
+                settings.filters.stakingFilters = this.filtersForm.getRawValue();
+                this.changePeriod();
             },
         });
     }
 
     ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
+        this._destroy$.next();
+        this._destroy$.complete();
     }
 
     drawChart(data): void {
@@ -364,8 +243,7 @@ export class StakingComponent implements OnInit, OnDestroy {
                 },
                 minPadding: 0,
                 maxPadding: 0,
-                minRange: 86400000,
-                // tickInterval: 86400000,
+                minRange: 86400000, // tickInterval: 86400000,
                 minTickInterval: 3600000,
             },
 
@@ -399,15 +277,15 @@ export class StakingComponent implements OnInit, OnDestroy {
                     point: {
                         events: {
                             mouseOver: (obj): void => {
-                                this.selectedDate.date = obj.target['x'];
-                                this.selectedDate.amount = obj.target['y'];
+                                this.pointDetails.date = obj.target['x'];
+                                this.pointDetails.amount = obj.target['y'];
                             },
                         },
                     },
                     events: {
                         mouseOut: (): void => {
-                            this.selectedDate.date = null;
-                            this.selectedDate.amount = null;
+                            this.pointDetails.date = null;
+                            this.pointDetails.amount = null;
                         },
                     },
                 },
@@ -423,7 +301,7 @@ export class StakingComponent implements OnInit, OnDestroy {
 
     getMiningHistory(): void {
         if (this.variablesService.currentWallet.loaded) {
-            this.backend.getMiningHistory(this.variablesService.currentWallet.wallet_id, (status, data) => {
+            this._backendService.getMiningHistory(this.variablesService.currentWallet.wallet_id, (status, data) => {
                 this.total = new BigNumber(0);
                 this.pending.list = [];
                 this.pending.total = new BigNumber(0);
@@ -440,42 +318,137 @@ export class StakingComponent implements OnInit, OnDestroy {
                             this.pending.list.push(item);
                             this.pending.total = this.pending.total.plus(item.a);
                         }
-                        this.originalData.push([parseInt(item.t, 10), parseFloat(this.intToMoneyPipe.transform(item.a))]);
+                        this.originalData.push([parseInt(item.t, 10), parseFloat(this._intToMoneyPipe.transform(item.a))]);
                     });
                     this.originalData = this.originalData.sort(function (a, b) {
                         return a[0] - b[0];
                     });
                 }
-                this.ngZone.run(() => {
+                this._ngZone.run(() => {
                     this.drawChart([]);
+
+                    this.themeChangesSubscription?.unsubscribe();
+                    this.themeChangesSubscription = combineLatest([this.chart.ref$, this.variablesService.isDarkTheme$])
+                        .pipe(takeUntil(this._destroy$))
+                        .subscribe({
+                            next: ([ref, isDarkTheme]) => {
+                                let option: Highcharts.Options = {};
+
+                                if (isDarkTheme) {
+                                    option = {
+                                        ...option,
+                                        plotOptions: {
+                                            area: {
+                                                fillColor: {
+                                                    linearGradient: {
+                                                        x1: 0,
+                                                        y1: 0,
+                                                        x2: 0,
+                                                        y2: 1,
+                                                    },
+                                                    stops: [
+                                                        [0, 'rgba(124,181,236,0.2)'],
+                                                        [1, 'rgba(124,181,236,0)'],
+                                                    ],
+                                                },
+                                                marker: {
+                                                    enabled: false,
+                                                    radius: 2,
+                                                },
+                                                lineWidth: 2,
+                                                threshold: null,
+                                            },
+                                        },
+                                        yAxis: {
+                                            gridLineColor: '#2b3644',
+                                            lineColor: '#2b3644',
+                                            tickColor: '#2b3644',
+                                            labels: {
+                                                style: {
+                                                    color: '#e0e0e0',
+                                                },
+                                            },
+                                        },
+                                        xAxis: {
+                                            gridLineColor: '#2b3644',
+                                            lineColor: '#2b3644',
+                                            tickColor: '#2b3644',
+                                            labels: {
+                                                style: {
+                                                    color: '#e0e0e0',
+                                                },
+                                            },
+                                        },
+                                    };
+                                } else {
+                                    option = {
+                                        ...option,
+                                        plotOptions: {
+                                            area: {
+                                                color: '#1F8FEB',
+                                                marker: {
+                                                    enabled: false,
+                                                    radius: 2,
+                                                },
+                                                lineWidth: 2,
+                                                threshold: null,
+                                            },
+                                        },
+                                        yAxis: {
+                                            gridLineColor: '#1F8FEB20',
+                                            lineColor: '#1F8FEB20',
+                                            tickColor: '#1F8FEB20',
+                                            labels: {
+                                                style: {
+                                                    color: '#0C0C3A',
+                                                },
+                                            },
+                                        },
+                                        xAxis: {
+                                            gridLineColor: '#1F8FEB20',
+                                            lineColor: '#1F8FEB20',
+                                            tickColor: '#1F8FEB20',
+                                            labels: {
+                                                style: {
+                                                    color: '#0C0C3A',
+                                                },
+                                            },
+                                        },
+                                    };
+                                }
+
+                                ref.update(option, true);
+                            },
+                        });
                 });
             });
         }
     }
 
-    changePeriod(period?): void {
+    changePeriod(): void {
         if (!this.chart) {
             return;
-        }
-
-        if (period) {
-            this.periods.forEach(p => {
-                p.active = false;
-            });
-            period.active = true;
-        } else {
-            period = this.periods.find(p => p.active);
         }
 
         const d = new Date();
         let min = null;
         const newData = [];
 
-        const group = this.groups.find(g => g.active);
+        const { group, period } = this.filtersForm.getRawValue();
 
-        if (period.key === '1 week') {
+        const makeGroupTime = (value: TGroup, date): number => {
+            if (value === 'day') {
+                return date.setHours(0, 0, 0, 0);
+            } else if (value === 'week') {
+                return new Date(date.setDate(date.getDate() - date.getDay())).setHours(0, 0, 0, 0);
+            } else {
+                return new Date(date.setDate(1)).setHours(0, 0, 0, 0);
+            }
+        };
+
+        if (period === '1 week') {
             this.originalData.forEach(item => {
-                const time = StakingComponent.makeGroupTime(group.key, new Date(item[0]));
+                const time = makeGroupTime(group, new Date(item[0]));
                 const find = newData.find(itemNew => itemNew[0] === time);
                 if (find) {
                     find[1] = new BigNumber(find[1]).plus(item[1]).toNumber();
@@ -485,9 +458,9 @@ export class StakingComponent implements OnInit, OnDestroy {
             });
             this.chart.ref?.series[0].setData(newData, true);
             min = Date.UTC(d.getFullYear(), d.getMonth(), d.getDate() - 7, 0, 0, 0, 0);
-        } else if (period.key === '2 week') {
+        } else if (period === '2 week') {
             this.originalData.forEach(item => {
-                const time = StakingComponent.makeGroupTime(group.key, new Date(item[0]));
+                const time = makeGroupTime(group, new Date(item[0]));
                 const find = newData.find(itemNew => itemNew[0] === time);
                 if (find) {
                     find[1] = new BigNumber(find[1]).plus(item[1]).toNumber();
@@ -497,9 +470,9 @@ export class StakingComponent implements OnInit, OnDestroy {
             });
             this.chart.ref?.series[0].setData(newData, true);
             min = Date.UTC(d.getFullYear(), d.getMonth(), d.getDate() - 14, 0, 0, 0, 0);
-        } else if (period.key === '1 month') {
+        } else if (period === '1 month') {
             this.originalData.forEach(item => {
-                const time = StakingComponent.makeGroupTime(group.key, new Date(item[0]));
+                const time = makeGroupTime(group, new Date(item[0]));
                 const find = newData.find(itemNew => itemNew[0] === time);
                 if (find) {
                     find[1] = new BigNumber(find[1]).plus(item[1]).toNumber();
@@ -509,9 +482,9 @@ export class StakingComponent implements OnInit, OnDestroy {
             });
             this.chart.ref?.series[0].setData(newData, true);
             min = Date.UTC(d.getFullYear(), d.getMonth() - 1, d.getDate(), 0, 0, 0, 0);
-        } else if (period.key === '3 month') {
+        } else if (period === '3 month') {
             this.originalData.forEach(item => {
-                const time = StakingComponent.makeGroupTime(group.key, new Date(item[0]));
+                const time = makeGroupTime(group, new Date(item[0]));
                 const find = newData.find(itemNew => itemNew[0] === time);
                 if (find) {
                     find[1] = new BigNumber(find[1]).plus(item[1]).toNumber();
@@ -521,9 +494,9 @@ export class StakingComponent implements OnInit, OnDestroy {
             });
             this.chart.ref?.series[0].setData(newData, true);
             min = Date.UTC(d.getFullYear(), d.getMonth() - 3, d.getDate(), 0, 0, 0, 0);
-        } else if (period.key === '6 month') {
+        } else if (period === '6 month') {
             this.originalData.forEach(item => {
-                const time = StakingComponent.makeGroupTime(group.key, new Date(item[0]));
+                const time = makeGroupTime(group, new Date(item[0]));
                 const find = newData.find(itemNew => itemNew[0] === time);
                 if (find) {
                     find[1] = new BigNumber(find[1]).plus(item[1]).toNumber();
@@ -533,9 +506,9 @@ export class StakingComponent implements OnInit, OnDestroy {
             });
             this.chart.ref?.series[0].setData(newData, true);
             min = Date.UTC(d.getFullYear(), d.getMonth() - 6, d.getDate(), 0, 0, 0, 0);
-        } else if (period.key === '1 year') {
+        } else if (period === '1 year') {
             this.originalData.forEach(item => {
-                const time = StakingComponent.makeGroupTime(group.key, new Date(item[0]));
+                const time = makeGroupTime(group, new Date(item[0]));
                 const find = newData.find(itemNew => itemNew[0] === time);
                 if (find) {
                     find[1] = new BigNumber(find[1]).plus(item[1]).toNumber();
@@ -547,7 +520,7 @@ export class StakingComponent implements OnInit, OnDestroy {
             min = Date.UTC(d.getFullYear() - 1, d.getMonth(), d.getDate(), 0, 0, 0, 0);
         } else {
             this.originalData.forEach(item => {
-                const time = StakingComponent.makeGroupTime(group.key, new Date(item[0]));
+                const time = makeGroupTime(group, new Date(item[0]));
                 const find = newData.find(itemNew => itemNew[0] === time);
                 if (find) {
                     find[1] = new BigNumber(find[1]).plus(item[1]).toNumber();
@@ -559,13 +532,5 @@ export class StakingComponent implements OnInit, OnDestroy {
         }
 
         this.chart.ref?.xAxis[0].setExtremes(min, null);
-    }
-
-    changeGroup(group): void {
-        this.groups.forEach(g => {
-            g.active = false;
-        });
-        group.active = true;
-        this.changePeriod();
     }
 }

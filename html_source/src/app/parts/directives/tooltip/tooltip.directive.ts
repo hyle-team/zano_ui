@@ -133,7 +133,7 @@ export class TooltipDirective implements OnDestroy {
         this.renderer.setStyle(document.body, 'position', 'relative');
         this.renderer.setStyle(this.tooltip, 'position', 'absolute');
         if (this.tooltipClass !== null) {
-            const classes = this.tooltipClass.split(' ');
+            const classes = this.tooltipClass?.split(' ') ?? [];
             for (let i = 0; i < classes.length; i++) {
                 this.renderer.addClass(this.tooltip, classes[i]);
             }

@@ -19,7 +19,8 @@
                     "NAME": "Nome risorsa",
                     "OWNER": "Owner",
                     "TICKER": "Ticker"
-                }
+                },
+                "TITLE": "Asset Details"
             }
         },
         "TABLE": {
@@ -516,7 +517,7 @@
         "WITH_ADDRESS_ALREADY_OPEN": "Un portafoglio con questo indirizzo è già aperto"
     },
     "PLACEHOLDERS": {
-        "ADRESS_PLACEHOLDER": "Inserisci qui l'indirizzo",
+        "ADDRESS_PLACEHOLDER": "Inserisci qui l'indirizzo",
         "AMOUNT_PLACEHOLDER": "Inserisci l'importo qui",
         "COMMENT_PLACEHOLDER": "Inserisci qui il tuo commento",
         "CONFIRM_WALET_PASSWORD_PLACEHOLDER": "Conferma qui la password del portafoglio",
@@ -630,6 +631,7 @@
             "MAX_LENGTH": "Lunghezza massima del nome raggiunta",
             "NAME_DUPLICATE": "Il nome è un duplicato",
             "NAME_REQUIRED": "Il nome è richiesto",
+            "PASSWORD_SEED_PHRASE_INCORRECT": "The password for this seed phrase is incorrect",
             "SEED_PHRASE_IS_NO_VALID": "The seed phrase is not valid."
         },
         "LABEL_NAME": "Nome del portafoglio",
@@ -671,7 +673,8 @@
             "MUST_BE_GREATER_THAN_ZERO": "Must be greater than zero",
             "WRAP_INFO_NULL": "impossibile richiedere lo stato di wrap"
         },
-        "HIDE": "Nascondi l'indirizzo del tuo portafoglio dal destinatario",
+        "HIDE": "Show address to receiver",
+        "INCLUDE_SENDER_ADDRESS": "Include sender address",
         "MIXIN": "Mixin",
         "SUCCESS_SENT": "Transazione inviata",
         "WRAP": {
@@ -697,13 +700,14 @@
             "TITLE": "Blocca app dopo:"
         },
         "APP_LOG_TITLE": "Livello di log:",
-        "DARK_THEME": "Tema scuro",
+        "DARK_THEME": "Dark theme",
         "FORM": {
             "ZANO_COMPANION": {
                 "LABELS": {
                     "LABEL1": "Zano Companion",
                     "LABEL2": "Secret",
-                    "LABEL3": "Port"
+                    "LABEL3": "Port",
+                    "LABEL4": "(master password required)"
                 }
             }
         },
@@ -738,10 +742,11 @@
             "75": "75% scala",
             "TITLE": "Scala dell'interfaccia"
         },
+        "SECRET_WAS_COPIED": "Secret was copied",
         "SETTINGS_SAVED": "Salvato! Impostazioni aggiornate",
+        "SHOW_BALANCE": "Show balance",
         "TITLE": "Impostazioni",
-        "USE_TOR_TO_RELAY_TRANSACTIONS": "Utilizza TOR per inoltrare le transazioni",
-        "WHITE_THEME": "Tema bianco"
+        "USE_TOR_TO_RELAY_TRANSACTIONS": "Utilizza TOR per inoltrare le transazioni"
     },
     "SIDEBAR": {
         "ACCOUNT": {
@@ -804,7 +809,8 @@
         "TITLE_GROUP": "Gruppo:",
         "TITLE_PENDING": "In sospeso",
         "TITLE_PERIOD": "Periodo di tempo:",
-        "TITLE_TOTAL": "Totale"
+        "TITLE_TOTAL": "Totale",
+        "WALLET_STAKING_ON": "{{ value }} staking is ON"
     },
     "SUCCESS_SWEEP_BARE_OUTS": {
         "DETAILS": "{{ txs_sent }} transactions were successfully sent, {{ bare_outs_swept }}  bare outputs migrated, {{ amount_swept }} coins transferred, and {{ fee_spent }} was spent for fees."

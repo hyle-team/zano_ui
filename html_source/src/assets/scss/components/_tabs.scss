@@ -10,7 +10,7 @@
         min-height: 5.8rem;
 
         .tab-header {
-            background-color: var(--blue-800);
+            background-color: var(--tab-header-background);
             border-radius: 0.8rem 0.8rem 0 0;
             display: flex;
             align-items: center;
@@ -28,7 +28,7 @@
 
             &.active,
             &:hover:not(.active):not(.disabled) {
-                background-color: var(--blue-700);
+                background-color: var(--tab-header-active-background);
 
                 i,
                 span {
@@ -67,7 +67,7 @@
         flex: auto;
         overflow: hidden;
         border-radius: 0 0 0.8rem 0.8rem;
-        background-color: var(--blue-700);
+        background-color: var(--tab-content-background);
         padding: 2rem;
         position: relative;
     }

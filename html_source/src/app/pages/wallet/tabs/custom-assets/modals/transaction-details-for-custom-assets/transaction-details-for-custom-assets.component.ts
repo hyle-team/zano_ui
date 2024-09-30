@@ -1,8 +1,10 @@
 import { Component, ElementRef, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { AsyncCommandResults, BackendService } from '@api/services/backend.service';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { BLOCK_EXPLORER_TN_TX_URL_PREFIX, BLOCK_EXPLORER_TX_URL_PREFIX } from '@parts/data/constants';
+import { VariablesService } from '@parts/services/variables.service';
 
 @Component({
     selector: 'app-transaction-details-for-custom-assets',
@@ -10,47 +12,47 @@ import { filter, takeUntil } from 'rxjs/operators';
     styleUrls: ['./transaction-details-for-custom-assets.component.scss'],
 })
 export class TransactionDetailsForCustomAssetsComponent implements OnInit, OnDestroy {
-    private _dialogRef: DialogRef = inject(DialogRef);
+    public status: 'loading' | 'success' | 'error' = 'loading';
 
-    private _backendService: BackendService = inject(BackendService);
+    public data: { job_id: number } = inject(MAT_DIALOG_DATA);
 
-    status: 'loading' | 'success' | 'error' = 'loading';
+    public details: { new_asset_id: string; result_tx: string };
 
-    data: { job_id: number } = inject(DIALOG_DATA);
-
-    details: { key: string, value: any }[] = [];
-
-    private _destroy$: Subject<void> = new Subject<void>();
+    public error: any;
 
     @ViewChild('elDetailsList', { static: true }) elDetailsList: ElementRef;
 
-    isShowDetailsState: boolean = false;
+    public isShowDetailsState: boolean = false;
+
+    public variablesService: VariablesService = inject(VariablesService);
+
+    private _backendService: BackendService = inject(BackendService);
+
+    private _destroy$: Subject<void> = new Subject<void>();
 
     ngOnInit(): void {
-        this._backendService.dispatchAsyncCallResult$.pipe(
-            filter(Boolean),
-            filter(({ job_id }: AsyncCommandResults) => this.data.job_id === job_id),
-            takeUntil(this._destroy$)
-        ).subscribe({
-            next: ({ response }) => {
-                if (response.error) {
-                    this.status = 'error';
-                    this.details = [{ key: 'Error', value: response.error.message }];
-                } else {
-                    this.status = 'success';
-                    this.details = Object.entries(response.result).map(([key, value]) => ({ key, value }));
-                }
-            }
-        });
+        this._backendService.dispatchAsyncCallResult$
+            .pipe(
+                filter(Boolean),
+                filter(({ job_id }: AsyncCommandResults) => this.data.job_id === job_id),
+                takeUntil(this._destroy$)
+            )
+            .subscribe({
+                next: ({ response }) => {
+                    if (response.error) {
+                        this.status = 'error';
+                        this.error = response.error;
+                    } else {
+                        this.status = 'success';
+                        this.details = response.result;
+                    }
+                },
+            });
     }
 
     ngOnDestroy(): void {
         this._destroy$.next();
         this._destroy$.complete();
-    }
-
-    close(): void {
-        this._dialogRef.close(this.status === 'success');
     }
 
     toggleDetails(): void {
@@ -63,5 +65,11 @@ export class TransactionDetailsForCustomAssetsComponent implements OnInit, OnDes
             const { nativeElement } = this.elDetailsList;
             nativeElement.scrollTop = nativeElement.scrollHeight;
         }
+    }
+
+    openInBrowser(hash: string): void {
+        this._backendService.openUrlInBrowser(
+            (this.variablesService.testnet ? BLOCK_EXPLORER_TN_TX_URL_PREFIX : BLOCK_EXPLORER_TX_URL_PREFIX) + hash
+        );
     }
 }

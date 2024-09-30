@@ -26,7 +26,7 @@ export const moneyToInt = (value: string, decimal_point?: any): BigNumber => {
             return undefined;
         }
         if (am_str.length >= 21) {
-            am_str = am_str.slice(0, am_str.indexOf('.') !== -1 ? (decimal_point == 20 ? 22 : 21) : (decimal_point == 20 ? 21 : 20));
+            am_str = am_str.slice(0, am_str.indexOf('.') !== -1 ? (decimal_point == 20 ? 22 : 21) : decimal_point == 20 ? 21 : 20);
         }
         if (am_str[am_str.length - 1] === '.') {
             am_str = am_str.substr(0, am_str.length - 1);

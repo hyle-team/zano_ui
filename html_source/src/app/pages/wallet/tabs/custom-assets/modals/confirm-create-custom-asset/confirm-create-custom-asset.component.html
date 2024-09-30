@@ -1,112 +1,111 @@
-<div class="p-2 border-radius-0_8-rem bg-light-blue w-100 max-h-90-vh" fxFlex="0 1 54rem">
-    <div class="overflow-hidden" fxFlexFill fxLayout="column">
-        <form [formGroup]="confirmForm" class="overflow-hidden" fxFlexFill fxLayout="column">
-            <h3 class="title mb-2" fxFlex="0 0 auto">
-                {{ 'CONFIRM_CREATE_CUSTOM_ASSET.TITLE' | translate }}
-            </h3>
+<form [formGroup]="confirmForm">
+    <h3 mat-dialog-title>
+        {{ 'CONFIRM_CREATE_CUSTOM_ASSET.TITLE' | translate }}
+    </h3>
 
-            <div class="content mb-2 w-100 overflow-x-hidden overflow-y-auto" fxFlex="1 1 auto">
-                <div class="table-info mb-2">
-                    <div class="row">
-                        <div class="label max-w-19-rem w-100">
-                            {{ 'CONFIRM_CREATE_CUSTOM_ASSET.TABLE.LABEL1' | translate }}
-                        </div>
-                        <div class="text">
-                            {{ data.asset_descriptor.ticker }}
-                        </div>
-                    </div>
-
-                    <hr class="separator" />
-
-                    <div class="row">
-                        <div class="label max-w-19-rem w-100">
-                            {{ 'CONFIRM_CREATE_CUSTOM_ASSET.TABLE.LABEL2' | translate }}
-                        </div>
-                        <div class="text">
-                            {{ data.asset_descriptor.full_name }}
-                        </div>
-                    </div>
-
-                    <hr class="separator" />
-
-                    <div class="row">
-                        <div class="label max-w-19-rem w-100">
-                            {{ 'CONFIRM_CREATE_CUSTOM_ASSET.TABLE.LABEL3' | translate }}
-                        </div>
-                        <div class="text">
-                            {{ data.asset_descriptor.total_max_supply | intToMoney: data.asset_descriptor.decimal_point }}
-                        </div>
-                    </div>
-
-                    <hr class="separator" />
-
-                    <div class="row">
-                        <div class="label max-w-19-rem w-100">
-                            {{ 'CONFIRM_CREATE_CUSTOM_ASSET.TABLE.LABEL4' | translate }}
-                        </div>
-                        <div class="text">
-                            {{ data.asset_descriptor.current_supply | intToMoney: data.asset_descriptor.decimal_point }}
-                        </div>
-                    </div>
-
-                    <hr class="separator" />
-
-                    <div class="row">
-                        <div class="label max-w-19-rem w-100">
-                            {{ 'CONFIRM_CREATE_CUSTOM_ASSET.TABLE.LABEL5' | translate }}
-                        </div>
-                        <div class="text">
-                            {{ data.asset_descriptor.decimal_point }}
-                        </div>
-                    </div>
-
-                    <hr class="separator" />
-
-                    <div class="row">
-                        <div class="label max-w-19-rem w-100">
-                            {{ 'CONFIRM_CREATE_CUSTOM_ASSET.TABLE.LABEL6' | translate }}
-                        </div>
-                        <div class="text">
-                            {{ data.asset_descriptor.meta_info }}
-                        </div>
-                    </div>
+    <mat-dialog-content>
+        <div class="table-info mb-2">
+            <div class="row">
+                <div class="label max-w-19-rem w-100">
+                    {{ 'CONFIRM_CREATE_CUSTOM_ASSET.TABLE.LABEL1' | translate }}
                 </div>
-
-                <div *ngIf="variablesService.appPass" class="form__field mb-0">
-                    <label for="password">
-                        {{ 'LOGIN.MASTER_PASS' | translate }}
-                        <span class="color-red">*</span>
-                    </label>
-                    <input
-                        (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
-                        [class.invalid]="confirmForm.touched && confirmForm.invalid"
-                        [placeholder]="'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate"
-                        autofocus
-                        class="form__field--input"
-                        formControlName="password"
-                        id="password"
-                        name="password"
-                        type="password"
-                    />
-                    <div *ngIf="confirmForm.touched && confirmForm.invalid" class="error">
-                        <div *ngIf="confirmForm.hasError('passwordNotMatch')">
-                            {{ 'LOGIN.FORM_ERRORS.WRONG_PASSWORD' | translate }}
-                        </div>
-                        <div *ngIf="confirmForm.controls.password.hasError('required')">
-                            {{ 'LOGIN.FORM_ERRORS.PASS_REQUIRED' | translate }}
-                        </div>
-                    </div>
+                <div class="text">
+                    {{ data.asset_descriptor.ticker }}
                 </div>
             </div>
 
-            <div class="controls w-100" fxFlex="0 0 auto" fxLayout="row nowrap" fxLayoutGap="1rem">
-                <button (click)="dialogRef.close(false)" class="outline big w-100" type="button">
-                    {{ 'CONFIRM_CREATE_CUSTOM_ASSET.BUTTONS.BUTTON1' | translate }}
-                </button>
-                <button (click)="dialogRef.close(true)" [disabled]="confirmForm.invalid" class="primary big w-100" type="submit">
-                    {{ 'CONFIRM_CREATE_CUSTOM_ASSET.BUTTONS.BUTTON2' | translate }}
-                </button>
+            <hr class="separator" />
+
+            <div class="row">
+                <div class="label max-w-19-rem w-100">
+                    {{ 'CONFIRM_CREATE_CUSTOM_ASSET.TABLE.LABEL2' | translate }}
+                </div>
+                <div class="text">
+                    {{ data.asset_descriptor.full_name }}
+                </div>
             </div>
-        </form>
-    </div>
-</div>
+
+            <hr class="separator" />
+
+            <div class="row">
+                <div class="label max-w-19-rem w-100">
+                    {{ 'CONFIRM_CREATE_CUSTOM_ASSET.TABLE.LABEL3' | translate }}
+                </div>
+                <div class="text">
+                    {{ data.asset_descriptor.total_max_supply | intToMoney : data.asset_descriptor.decimal_point }}
+                </div>
+            </div>
+
+            <hr class="separator" />
+
+            <div class="row">
+                <div class="label max-w-19-rem w-100">
+                    {{ 'CONFIRM_CREATE_CUSTOM_ASSET.TABLE.LABEL4' | translate }}
+                </div>
+                <div class="text">
+                    {{ data.asset_descriptor.current_supply | intToMoney : data.asset_descriptor.decimal_point }}
+                </div>
+            </div>
+
+            <hr class="separator" />
+
+            <div class="row">
+                <div class="label max-w-19-rem w-100">
+                    {{ 'CONFIRM_CREATE_CUSTOM_ASSET.TABLE.LABEL5' | translate }}
+                </div>
+                <div class="text">
+                    {{ data.asset_descriptor.decimal_point }}
+                </div>
+            </div>
+
+            <hr class="separator" />
+
+            <div class="row">
+                <div class="label max-w-19-rem w-100">
+                    {{ 'CONFIRM_CREATE_CUSTOM_ASSET.TABLE.LABEL6' | translate }}
+                </div>
+                <div class="text">
+                    {{ data.asset_descriptor.meta_info }}
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="variablesService.appPass" class="form__field mb-0">
+            <label for="password">
+                {{ 'LOGIN.MASTER_PASS' | translate }}
+                <span class="color-red">*</span>
+            </label>
+            <input
+                (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
+                [class.invalid]="confirmForm.touched && confirmForm.invalid"
+                [placeholder]="'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate"
+                autofocus
+                class="form__field--input"
+                formControlName="password"
+                id="password"
+                name="password"
+                type="password"
+            />
+            <div *ngIf="confirmForm.touched && confirmForm.invalid" class="error">
+                <div *ngIf="confirmForm.hasError('passwordNotMatch')">
+                    {{ 'LOGIN.FORM_ERRORS.WRONG_PASSWORD' | translate }}
+                </div>
+                <div *ngIf="confirmForm.controls.password.hasError('required')">
+                    {{ 'LOGIN.FORM_ERRORS.PASS_REQUIRED' | translate }}
+                </div>
+            </div>
+        </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions>
+        <div fxFlex="1 1 auto" fxLayout="row nowrap" fxLayoutGap="1rem">
+            <button [mat-dialog-close]="false" class="outline big w-100" type="button">
+                {{ 'CONFIRM_CREATE_CUSTOM_ASSET.BUTTONS.BUTTON1' | translate }}
+            </button>
+            <button [mat-dialog-close]="true" [disabled]="confirmForm.invalid" class="primary big w-100"
+                    type="submit">
+                {{ 'CONFIRM_CREATE_CUSTOM_ASSET.BUTTONS.BUTTON2' | translate }}
+            </button>
+        </div>
+    </mat-dialog-actions>
+</form>

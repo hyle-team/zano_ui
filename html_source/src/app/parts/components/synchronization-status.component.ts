@@ -5,6 +5,7 @@ import { BackendService } from '@api/services/backend.service';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { TooltipModule } from '@parts/directives';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
     selector: 'app-synchronization-status',
@@ -40,22 +41,38 @@ import { TooltipModule } from '@parts/directives';
                     {{ variablesService.download.progress_value_text }}%
                 </div>
 
-                <div *ngIf="variablesService.daemon_state === 1 || variablesService.daemon_state === 3" class="progress-bar-container">
-                    <div *ngIf="variablesService.daemon_state === 1" class="syncing">
-                        <div class="progress-bar">
-                            <div [style.width]="variablesService.sync.progress_value + '%'" class="fill"></div>
+                <ng-container *ngIf="variablesService.daemon_state === 1 || variablesService.daemon_state === 3">
+                    <div class="progress-bar-container">
+                        <div *ngIf="variablesService.daemon_state === 1" class="syncing">
+                            <div class="progress-bar">
+                                <div [style.width]="variablesService.sync.progress_value + '%'" class="fill"></div>
+                            </div>
                         </div>
-                    </div>
-                    <div *ngIf="variablesService.daemon_state === 3" class="loading"></div>
-                </div>
 
-                <div *ngIf="variablesService.daemon_state === 6" class="progress-bar-container">
-                    <div *ngIf="variablesService.daemon_state === 6" class="syncing downloading">
-                        <div class="progress-bar">
-                            <div [style.width]="variablesService.download.progress_value + '%'" class="fill"></div>
+                        <div *ngIf="variablesService.daemon_state === 3" class="loading"></div>
+                    </div>
+
+                    <p class="blocks">
+                        <mat-icon
+                            class="mr-0_5"
+                            style="width: 14px; height: 14px; color: var(--block-sync)"
+                            svgIcon="zano-block-sync"
+                        ></mat-icon>
+                        <span>{{ variablesService.sync.blocks.current }}</span>
+                        <wbr />
+                        /{{ variablesService.sync.blocks.max }} Blocks
+                    </p>
+                </ng-container>
+
+                <ng-container *ngIf="variablesService.daemon_state === 6">
+                    <div class="progress-bar-container">
+                        <div class="syncing downloading">
+                            <div class="progress-bar">
+                                <div [style.width]="variablesService.download.progress_value + '%'" class="fill"></div>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </ng-container>
             </div>
 
             <div
@@ -123,7 +140,7 @@ import { TooltipModule } from '@parts/directives';
     `,
     styles: [],
     standalone: true,
-    imports: [CommonModule, TranslateModule, TooltipModule],
+    imports: [CommonModule, TranslateModule, TooltipModule, MatIconModule],
 })
 export class SynchronizationStatusComponent {
     constructor(public variablesService: VariablesService, private backend: BackendService) {}

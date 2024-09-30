@@ -1,14 +1,13 @@
 import { Component, inject, NgZone } from '@angular/core';
 import { VariablesService } from '@parts/services/variables.service';
 import { NonNullableFormBuilder, ValidationErrors, Validators } from '@angular/forms';
-import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { AssetInfo } from '@api/models/assets.model';
 import { EmitParams } from '@api/models/custom-asstest.model';
 import { BackendService } from '@api/services/backend.service';
 import { intToMoney } from '@parts/functions/int-to-money';
 import BigNumber from 'bignumber.js';
 import { moneyToInt } from '@parts/functions/money-to-int';
-import { zanoAssetInfo } from '@parts/data/assets';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-emit-custom-asset',
@@ -16,12 +15,15 @@ import { zanoAssetInfo } from '@parts/data/assets';
     styleUrls: ['./emit-custom-asset.component.scss'],
 })
 export class EmitCustomAssetComponent {
-    public readonly variablesService = inject(VariablesService);
-    public readonly data: { assetInfo: AssetInfo } = inject(DIALOG_DATA);
-    public readonly dialogRef = inject(DialogRef);
-    private readonly _backendService = inject(BackendService);
-    private readonly _fb = inject(NonNullableFormBuilder);
-    private _ngZone: NgZone = inject(NgZone);
+    public readonly variablesService: VariablesService = inject(VariablesService);
+
+    public readonly data: { assetInfo: AssetInfo } = inject(MAT_DIALOG_DATA);
+
+    public readonly matDialogRef: MatDialogRef<EmitCustomAssetComponent> = inject(MatDialogRef);
+
+    private readonly _backendService: BackendService = inject(BackendService);
+
+    private readonly _fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
 
     public readonly form = this._fb.group({
         amount: this._fb.control('', [
@@ -42,6 +44,8 @@ export class EmitCustomAssetComponent {
         ]),
     });
 
+    private _ngZone: NgZone = inject(NgZone);
+
     public submit(): void {
         const {
             currentWallet: { wallet_id, address },
@@ -56,7 +60,7 @@ export class EmitCustomAssetComponent {
                 {
                     address,
                     amount: moneyToInt(amount, decimal_point).toString(),
-                    asset_id: '0000000000000000000000000000000000000000000000000000000000000000'
+                    asset_id: '0000000000000000000000000000000000000000000000000000000000000000',
                 },
             ],
         };
@@ -72,7 +76,7 @@ export class EmitCustomAssetComponent {
             },
             async (job_id: number): Promise<void> => {
                 this._ngZone.run(() => {
-                    this.dialogRef.close(job_id);
+                    this.matDialogRef.close(job_id);
                 });
             }
         );

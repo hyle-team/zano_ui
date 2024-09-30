@@ -3,19 +3,20 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { VariablesService } from '@parts/services/variables.service';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Wallet } from '@api/models/wallet.model';
-import { Dialog, DialogConfig } from '@angular/cdk/dialog';
 import { ConfirmModalComponent, ConfirmModalData } from '@parts/modals/confirm-modal/confirm-modal.component';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { WalletsService } from '@parts/services/wallets.service';
 import { ZanoLoadersService } from '@parts/services/zano-loaders.service';
+import { BackendService } from '@api/services/backend.service';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-sidebar',
     template: `
         <div class="sidebar-header mb-2">
             <div class="logo">
-                <img alt="zano-logo" src="assets/icons/blue/zano-logo.svg" />
+                <img alt="zano-logo" [src]="zanoLogo" />
             </div>
         </div>
 
@@ -43,7 +44,7 @@ import { ZanoLoadersService } from '@parts/services/zano-loaders.service';
                     fxLayout="row inline wrap"
                     fxLayoutAlign="start center"
                 >
-                    <i class="icon plus mr-1"></i>
+                    <mat-icon svgIcon="zano-plus" class="mr-1"></mat-icon>
                     <span>{{ 'SIDEBAR.ADD_NEW' | translate }}</span>
                 </button>
 
@@ -54,7 +55,7 @@ import { ZanoLoadersService } from '@parts/services/zano-loaders.service';
                     fxLayoutAlign="start center"
                     routerLinkActive="active"
                 >
-                    <i class="icon settings mr-1"></i>
+                    <mat-icon svgIcon="zano-settings" class="mr-1"></mat-icon>
                     <span>{{ 'SIDEBAR.SETTINGS' | translate }}</span>
                 </button>
 
@@ -71,14 +72,14 @@ import { ZanoLoadersService } from '@parts/services/zano-loaders.service';
                         tooltip="{{ 'SIDEBAR.LOG_OUT_TOOLTIP' | translate }}"
                         tooltipClass="table-tooltip account-tooltip"
                     >
-                        <i class="icon logout mr-1"></i>
+                        <mat-icon svgIcon="zano-logout" class="mr-1"></mat-icon>
                         <span>{{ 'SIDEBAR.LOG_OUT' | translate }}</span>
                     </button>
                 </ng-container>
 
                 <ng-template #masterPass>
                     <button (click)="logOut()" class="outline small w-100 px-2" fxLayout="row inline wrap" fxLayoutAlign="start center">
-                        <i class="icon logout mr-1"></i>
+                        <mat-icon svgIcon="zano-logout" class="mr-1"></mat-icon>
                         <span> {{ 'SIDEBAR.LOG_OUT' | translate }}</span>
                     </button>
                 </ng-template>
@@ -91,7 +92,7 @@ import { ZanoLoadersService } from '@parts/services/zano-loaders.service';
 
         <app-deeplink></app-deeplink>
     `,
-    styles: [],
+    styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnDestroy {
     private destroy$ = new Subject<void>();
@@ -102,13 +103,30 @@ export class SidebarComponent implements OnDestroy {
         private route: ActivatedRoute,
         private router: Router,
         private ngZone: NgZone,
-        private dialog: Dialog,
+        private _matDialog: MatDialog,
+        private backend: BackendService,
         public zanoLoadersService: ZanoLoadersService
     ) {}
+
+    get zanoLogo(): string {
+        const {
+            settings: { isDarkTheme },
+        } = this.variablesService;
+        return isDarkTheme ? 'assets/icons/blue/zano-logo.svg' : 'assets/icons/blue/light-zano-logo.svg';
+    }
 
     ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
+    }
+
+    toggleDarkTheme(): void {
+        const { settings, isDarkTheme$ } = this.variablesService;
+        const isDarkTheme: boolean = !settings.isDarkTheme;
+        this.variablesService.settings.isDarkTheme = isDarkTheme;
+        isDarkTheme$.next(isDarkTheme);
+
+        this.backend.storeAppData();
     }
 
     goMainPage(): void {
@@ -135,16 +153,17 @@ export class SidebarComponent implements OnDestroy {
     }
 
     beforeClose(wallet_id): void {
-        const dialogConfig: DialogConfig<ConfirmModalData> = {
+        const config: MatDialogConfig<ConfirmModalData> = {
             data: {
                 title: 'WALLET.CONFIRM.MESSAGE',
                 message: 'WALLET.CONFIRM.TITLE',
             },
         };
 
-        this.dialog
-            .open<boolean>(ConfirmModalComponent, dialogConfig)
-            .closed.pipe(takeUntil(this.destroy$))
+        this._matDialog
+            .open<ConfirmModalComponent, ConfirmModalData, boolean>(ConfirmModalComponent, config)
+            .afterClosed()
+            .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: confirmed => confirmed && this.closeWallet(wallet_id),
             });

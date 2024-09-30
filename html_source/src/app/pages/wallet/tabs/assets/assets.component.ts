@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { VariablesService } from '@parts/services/variables.service';
 import { Subject } from 'rxjs';
 import { AssetBalance, ParamsRemoveCustomAssetId } from '@api/models/assets.model';
@@ -15,6 +15,7 @@ import { LOCKED_BALANCE_HELP_PAGE } from '@parts/data/constants';
 import { IntToMoneyPipe } from '@parts/pipes';
 import { TranslateService } from '@ngx-translate/core';
 import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-assets',
@@ -80,7 +81,7 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                                     </td>
                                     <td>
                                         <div class="text-ellipsis">
-                                            <b>
+                                            <b *appVisibilityBalance>
                                                 {{ asset.total | intToMoney : asset.asset_info.decimal_point }}
                                                 {{ asset.asset_info.ticker }}
                                             </b>
@@ -89,20 +90,21 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                                     <ng-container *ngIf="asset.asset_info.asset_id === zanoAssetInfo.asset_id; else templateNotLoadPrice">
                                         <td>
                                             <div class="text-ellipsis">
-                                                <b>{{
+                                                <b *appVisibilityBalance>{{
                                                     (asset.total | intToMoney : asset.asset_info.decimal_point) *
-                                                        variablesService.moneyEquivalent | currency : 'USD'
+                                                        variablesService.zanoMoneyEquivalent | currency : 'USD'
                                                 }}</b>
                                             </div>
                                         </td>
                                         <td>
                                             <div class="text-ellipsis">
-                                                <b class="mr-0_5">{{ variablesService.moneyEquivalent | currency : 'USD' }}</b>
+                                                <b class="mr-0_5">{{ variablesService.zanoMoneyEquivalent | currency : 'USD' }}</b>
                                                 <span
-                                                    [class.color-aqua]="variablesService.moneyEquivalentPercent > 0"
-                                                    [class.color-red]="variablesService.moneyEquivalentPercent < 0"
+                                                    [class.color-aqua]="variablesService.zanoMoneyEquivalentPercent > 0"
+                                                    [class.color-red]="variablesService.zanoMoneyEquivalentPercent < 0"
                                                 >
-                                                    {{ variablesService.moneyEquivalentPercent | number : '1.2-2' }}%
+                                                    {{ variablesService.zanoMoneyEquivalentPercent | number : '1.2-2' }}
+                                                    %
                                                 </span>
                                             </div>
                                         </td>
@@ -119,10 +121,10 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                                                 (click)="$event.stopPropagation(); toggleDropDownMenu(trigger, asset)"
                                                 [disabled]="false"
                                                 cdkOverlayOrigin
-                                                class="btn-icon circle small ml-auto"
+                                                class="btn-icon circle row-options small ml-auto"
                                                 type="button"
                                             >
-                                                <i class="icon dots rotate-90"></i>
+                                                <mat-icon class="small" svgIcon="zano-row-options"></mat-icon>
                                             </button>
                                         </div>
                                     </td>
@@ -142,7 +144,7 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                 (pageChange)="currentPage = $event"
             >
                 <button (click)="p.previous()" [disabled]="p.isFirstPage()" class="pagination-previous btn-icon circle small mr-0_5">
-                    <i class="icon arrow-left-stroke"></i>
+                    <mat-icon svgIcon="zano-arrow-left"></mat-icon>
                 </button>
 
                 <div *ngFor="let page of p.pages; trackBy: trackByPages" [class.current]="p.getCurrent() === page.value" class="mr-0_5">
@@ -155,7 +157,7 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                 </div>
 
                 <button (click)="p.next()" [disabled]="p.isLastPage()" class="pagination-next btn-icon circle small">
-                    <i class="icon arrow-right-stroke"></i>
+                    <mat-icon svgIcon="zano-arrow-right"></mat-icon>
                 </button>
             </pagination-template>
         </div>
@@ -180,7 +182,7 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
             <ul (click)="isOpenDropDownMenu = false" class="list">
                 <li class="item">
                     <button class="w-100 px-2 py-1" type="button" (click)="assetDetails()">
-                        <i class="icon info-icon mr-1"></i>
+                        <mat-icon svgIcon="zano-info-v2" class="mr-1"></mat-icon>
                         <span>{{ 'ASSETS.DROP_DOWN_MENU.ASSET_DETAILS' | translate }}</span>
                     </button>
                 </li>
@@ -194,18 +196,18 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                     "
                 >
                     <li class="item">
-                        <a routerLink="/wallet/send" [state]="{ assetInfo: currentAsset }" class="w-100 px-2 py-1">
-                            <i class="icon arrow-up-square mr-1"></i>
+                        <button routerLink="/wallet/send" [state]="{ asset: currentAsset }" class="w-100 px-2 py-1">
+                            <mat-icon svgIcon="zano-send" class="mr-1"></mat-icon>
                             <span>{{ 'Send' | translate }}</span>
-                        </a>
+                        </button>
                     </li>
 
                     <ng-container *ngIf="variablesService.is_hardfok_active$ | async">
                         <li class="item">
-                            <a routerLink="/wallet/create-swap" [state]="{ assetInfo: currentAsset }" class="w-100 px-2 py-1">
-                                <i class="icon swap mr-1"></i>
+                            <button routerLink="/wallet/create-swap" [state]="{ asset: currentAsset }" class="w-100 px-2 py-1">
+                                <mat-icon svgIcon="zano-swap" class="mr-1"></mat-icon>
                                 <span>{{ 'Swap' | translate }}</span>
-                            </a>
+                            </button>
                         </li>
                     </ng-container>
                 </ng-container>
@@ -213,7 +215,7 @@ import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
                 <ng-container *ngIf="currentAsset.asset_info.ticker !== 'ZANO'">
                     <li class="item">
                         <button class="w-100 px-2 py-1" type="button" (click)="beforeRemoveAsset()">
-                            <i class="icon delete mr-1"></i>
+                            <mat-icon svgIcon="zano-delete" class="mr-1"></mat-icon>
                             <span>{{ 'ASSETS.DROP_DOWN_MENU.REMOVE_ASSET' | translate }}</span>
                         </button>
                     </li>
@@ -234,6 +236,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
     currentAsset!: AssetBalance;
     isOpenDropDownMenu = false;
     private destroy$ = new Subject<void>();
+    private readonly _matDialog: MatDialog = inject(MatDialog);
 
     constructor(
         public variablesService: VariablesService,
@@ -285,12 +288,12 @@ export class AssetsComponent implements OnInit, OnDestroy {
     }
 
     assetDetails(): void {
-        const dialogConfig: DialogConfig = {
+        const config: MatDialogConfig = {
             data: {
-                asset_info: this.currentAsset.asset_info,
+                assetInfo: this.currentAsset.asset_info,
             },
         };
-        this.dialog.open(AssetDetailsComponent, dialogConfig);
+        this._matDialog.open(AssetDetailsComponent, config);
     }
 
     beforeRemoveAsset(): void {
@@ -298,15 +301,15 @@ export class AssetsComponent implements OnInit, OnDestroy {
             return;
         }
         const { full_name } = this.currentAsset.asset_info;
-        const dialogConfig: DialogConfig<ConfirmModalData> = {
+        const config: MatDialogConfig<ConfirmModalData> = {
             data: {
                 title: `Do you want delete "${full_name}"`,
             },
         };
 
-        this.dialog
-            .open<boolean>(ConfirmModalComponent, dialogConfig)
-            .closed.pipe(takeUntil(this.destroy$))
+        this._matDialog
+            .open<ConfirmModalComponent, ConfirmModalData, boolean>(ConfirmModalComponent, config)
+            .afterClosed().pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: confirmed => confirmed && this.removeAsset(),
             });
@@ -332,6 +335,8 @@ export class AssetsComponent implements OnInit, OnDestroy {
     getBalanceTooltip(balance: AssetBalance): HTMLDivElement {
         const tooltip = document.createElement('div');
         const scrollWrapper = document.createElement('div');
+        const visibilityBalance = this.variablesService.visibilityBalance$.value;
+
         if (!balance) {
             return null;
         }
@@ -342,7 +347,9 @@ export class AssetsComponent implements OnInit, OnDestroy {
             available.setAttribute('class', 'available');
             available.innerText = `${this.translate.instant('WALLET.AVAILABLE_BALANCE')} `;
             const availableB = document.createElement('b');
-            availableB.innerText = `${this.intToMoneyPipe.transform(unlocked, decimal_point)} ${ticker || '---'}`;
+            availableB.innerText = visibilityBalance
+                ? `${this.intToMoneyPipe.transform(unlocked, decimal_point)} ${ticker || '---'}`
+                : '******';
             available.appendChild(availableB);
             scrollWrapper.appendChild(available);
 
@@ -350,7 +357,9 @@ export class AssetsComponent implements OnInit, OnDestroy {
             locked.setAttribute('class', 'locked');
             locked.innerText = `${this.translate.instant('WALLET.LOCKED_BALANCE')} `;
             const lockedB = document.createElement('b');
-            lockedB.innerText = `${this.intToMoneyPipe.transform(new BigNumber(total).minus(unlocked), decimal_point)} ${ticker || '---'}`;
+            lockedB.innerText = visibilityBalance
+                ? `${this.intToMoneyPipe.transform(new BigNumber(total).minus(unlocked), decimal_point)} ${ticker || '---'}`
+                : '******';
             locked.appendChild(lockedB);
             scrollWrapper.appendChild(locked);
         });

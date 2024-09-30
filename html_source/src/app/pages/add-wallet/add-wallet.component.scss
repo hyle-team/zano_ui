@@ -1,0 +1,19 @@
+.light {
+    :host {
+        .how-to-create {
+            .mat-icon {
+                color: white;
+            }
+        }
+    }
+}
+
+.dark {
+    :host {
+        .how-to-create {
+            .mat-icon {
+                color: #0f2055;
+            }
+        }
+    }
+}

@@ -10,7 +10,7 @@ import { BehaviorSubject } from 'rxjs';
 @Component({
     selector: 'app-open-wallet-modal',
     template: `
-        <div class="modal p-2 border-radius-0_8-rem bg-light-blue max-w-34-rem max-h-100 w-100 scrolled-content">
+        <div class="modal open-wallet-modal-wrapper scrolled-content">
             <div class="wrapper w-100">
                 <h3 class="mb-2">{{ 'OPEN_WALLET.MODAL.TITLE' | translate }}</h3>
 
@@ -50,7 +50,7 @@ import { BehaviorSubject } from 'rxjs';
             </div>
         </div>
     `,
-    styles: [],
+    styleUrls: ['./open-wallet-modal.component.scss'],
 })
 export class OpenWalletModalComponent implements OnInit, OnDestroy {
     @HostBinding('class.modal-overlay') modalOverlay = true;

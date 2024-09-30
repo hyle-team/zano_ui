@@ -1,0 +1,21 @@
+<mat-dialog-content>
+    <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem">
+        <mat-icon svgIcon="zano-info-v2"></mat-icon>
+
+        <div fxLayout="column" fxLayoutAlign="start stretch">
+            <h3 class="title">{{ title | translate }}</h3>
+            <p class="message">{{ message | translate }}</p>
+        </div>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <div fxFlex="1 1 auto" fxLayout="row nowrap" fxLayoutGap="1rem">
+        <button [mat-dialog-close]="false" class="outline big w-100" type="button">
+            {{ data?.buttons?.close ?? 'MODALS.CANCEL' | translate }}
+        </button>
+        <button appAutofocus (click)="submit()" class="primary big w-100" type="button">
+            {{ data?.buttons?.submit ?? 'MODALS.OK' | translate }}
+        </button>
+    </div>
+</mat-dialog-actions>

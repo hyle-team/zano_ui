@@ -6,12 +6,12 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: var(--blue-700);
+    background-color: var(--tab-preloader-background);
 }
 
 .preloader {
     align-self: center;
-    color: white;
+    color: var(--tab-preloader-text);
     font-size: 2rem;
     margin: 0 auto;
     text-align: center;

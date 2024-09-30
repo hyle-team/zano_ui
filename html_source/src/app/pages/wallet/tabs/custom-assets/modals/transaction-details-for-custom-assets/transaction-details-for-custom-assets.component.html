@@ -1,81 +1,96 @@
-<div class="p-2 border-radius-0_8-rem bg-light-blue w-100 max-h-90-vh" fxFlex="0 1 54rem">
-    <div class="overflow-hidden" fxFlexFill fxLayout="column">
-        <h3 class="title mb-2" fxFlex="0 0 auto">
-            {{ 'SEND_DETAILS_MODAL.TITLE1' | translate }}
-        </h3>
+<h3 mat-dialog-title>
+    {{ 'SEND_DETAILS_MODAL.TITLE1' | translate }}
+</h3>
 
-        <div class="content mb-2 overflow-x-hidden overflow-y-auto" fxFlex="1 1 auto" fxLayout="column">
-                <div class="status mb-2" fxFlex="0 0 auto" fxLayout="column" fxLayoutAlign=" center">
-                    <div *ngIf="status === 'success'" class="image">
-                        <img alt="success" src="assets/icons/aqua/transaction_success.svg" />
-                    </div>
+<mat-dialog-content fxLayout="column">
+    <div class="status mb-2" fxFlex="0 0 auto" fxLayout="column" fxLayoutAlign=" center">
+        <div *ngIf="status === 'success'" class="image">
+            <img alt="success" src="assets/icons/aqua/transaction_success.svg" />
+        </div>
 
-                    <div *ngIf="status === 'error'" class="image">
-                        <img alt="failed" class="image" src="assets/icons/red/transaction_failed.svg" />
-                    </div>
+        <div *ngIf="status === 'error'" class="image">
+            <img alt="failed" class="image" src="assets/icons/red/transaction_failed.svg" />
+        </div>
 
-                    <div *ngIf="status === 'loading'" class="loader"></div>
+        <div *ngIf="status === 'loading'" class="loader"></div>
 
-                    <p class="color-primary mt-2">
-                        {{
-                            {
-                                success: 'TOR_LIB_STATE.STATE_SENT_SUCCESS',
-                                error: 'TOR_LIB_STATE.STATE_SEND_FAILED',
-                                loading: 'Loading...'
-                            }[status] | translate
-                        }}
-                    </p>
-                </div>
+        <p class="color-primary mt-2">
+            {{
+                {
+                    success: 'TOR_LIB_STATE.STATE_SENT_SUCCESS',
+                    error: 'TOR_LIB_STATE.STATE_SEND_FAILED',
+                    loading: 'Loading...'
+                }[status] | translate
+            }}
+        </p>
+    </div>
 
-                <div *ngIf="details.length" class="details border-radius-0_8-rem overflow-hidden" fxFlex="0 0 auto"
-                     fxLayout="column">
-                    <div
-                        (click)="toggleDetails()"
-                        class="header overflow-hidden py-1 px-2 w-100 cursor-pointer"
-                        fxLayout="row"
-                        fxLayoutAlign="space-between center"
-                    >
-                        <p class="title text-ellipsis mr-2">
-                            {{ 'SEND_DETAILS_MODAL.TITLE2' | translate }}
-                        </p>
-                        <button fxLayout="row" fxLayoutAlign="center center">
-                            <img
-                                *ngIf="!isShowDetailsState"
-                                alt="dropdown-arrow-down"
-                                src="assets/icons/white/dropdown-arrow-down.svg"
-                            />
-                            <img *ngIf="isShowDetailsState" alt="dropdown-arrow-up"
-                                 src="assets/icons/white/dropdown-arrow-up.svg" />
-                        </button>
-                    </div>
-                    <div
-                        [class.px-2]="isShowDetailsState"
-                        [class.py-1]="isShowDetailsState"
-                        [fxHide]="!isShowDetailsState"
-                        class="details-wrapper"
-                        fxFlex="1 1 auto"
-                        fxLayout="row"
-                    >
-                        <ul #elDetailsList class="details-list scrolled-content">
-                            <ng-container *ngFor="let detail of details">
-                                <li class="item mb-1 color-primary"
-                                    fxLayout="row nowrap"
-                                    fxLayoutAlign="start center">
-                                    <span class="text word-break-break-all"
-                                          [ngClass]="{ 'color-red': status === 'error' }">
-                                        {{ detail.key }}:
-                                        {{ detail.value || 'Opps unknown error...' }}</span>
-                                </li>
-                            </ng-container>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-        <div class="controls w-100" fxFlex="0 0 auto" fxLayout="row nowrap" fxLayoutGap="1rem">
-            <button (click)="close()" class="outline big w-100" type="button">
-                {{ 'MODALS.OK' | translate }}
+    <div *ngIf="details || error" class="details border-radius-0_8-rem overflow-hidden" fxFlex="0 0 auto"
+         fxLayout="column">
+        <div
+            (click)="toggleDetails()"
+            class="header overflow-hidden py-1 px-2 w-100 cursor-pointer"
+            fxLayout="row"
+            fxLayoutAlign="space-between center"
+        >
+            <p class="title text-ellipsis mr-2">
+                {{ 'SEND_DETAILS_MODAL.TITLE2' | translate }}
+            </p>
+            <button fxLayout="row" fxLayoutAlign="center center">
+                <mat-icon
+                    class="ml-1"
+                    svgIcon="zano-dropdown-arrow-down"
+                    [ngClass]="{
+                        'rotate-180': isShowDetailsState
+                    }"
+                ></mat-icon>
             </button>
         </div>
+        <div
+            [class.px-2]="isShowDetailsState"
+            [class.py-1]="isShowDetailsState"
+            [fxHide]="!isShowDetailsState"
+            class="details-wrapper"
+            fxFlex="1 1 auto"
+            fxLayout="row"
+        >
+            <ul #elDetailsList class="details-list scrolled-content">
+                <ng-container *ngIf="details">
+                    <ng-container *ngIf="details.new_asset_id as new_asset_id">
+                        <li class="item mb-1 color-primary" fxLayout="row nowrap" fxLayoutAlign="start center">
+                            <span class="text word-break-break-all">
+                                New asset id: {{ new_asset_id || '---' }}
+                            </span>
+                            <app-copy-button [value]="new_asset_id" class="ml-1">
+                            </app-copy-button>
+                        </li>
+                    </ng-container>
+                    <ng-container *ngIf="details.result_tx as result_tx">
+                        <li class="item mb-1 color-primary" fxLayout="row nowrap" fxLayoutAlign="start center">
+                            <span class="text word-break-break-all cursor-pointer" (click)="openInBrowser(result_tx)">
+                                Result tx: {{ result_tx }}
+                            </span>
+                            <app-copy-button [value]="result_tx" class="ml-1">
+                            </app-copy-button>
+                        </li>
+                    </ng-container>
+                </ng-container>
+                <ng-container *ngIf="error">
+                    <li class="item mb-1 color-red" fxLayout="row nowrap" fxLayoutAlign="start center">
+                        <span class="text word-break-break-all">
+                            Error: {{ error.message || 'Ops... Unknown error...' }}
+                        </span>
+                    </li>
+                </ng-container>
+            </ul>
+        </div>
     </div>
-</div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <div fxFlex="1 1 auto" fxLayout="row nowrap" fxLayoutGap="1rem">
+        <button [mat-dialog-close]="status === 'success'" class="outline big w-100" type="button">
+            {{ 'MODALS.OK' | translate }}
+        </button>
+    </div>
+</mat-dialog-actions>

@@ -3,21 +3,19 @@ import { Wallet } from '@api/models/wallet.model';
 import { intToMoney } from '@parts/functions/int-to-money';
 import { AssetInfo } from '@api/models/assets.model';
 import { zanoAssetInfo } from '@parts/data/assets';
-import {
-    isFinalizator,
-    isInitiator,
-    isSelfTransaction,
-    isSwapTransaction
-} from '@parts/functions/identify-transaction';
+import { isFinalizator, isInitiator, isSelfTransaction, isSwapTransaction } from '@parts/functions/identify-transaction';
 
-export interface AmountItem { amount: string; ticker: string; }
+export interface AmountItem {
+    amount: string;
+    ticker: string;
+}
 
 export type AmountItems = AmountItem[];
 
 export const getAmountItems = (transaction: Transaction, wallet: Wallet): AmountItems => {
     const { subtransfers, fee } = transaction;
 
-    const items: { amount: string, ticker: string }[] = [];
+    const items: { amount: string; ticker: string }[] = [];
 
     if (!subtransfers?.length) {
         items.push({ amount: '0', ticker: zanoAssetInfo.ticker });
@@ -32,7 +30,7 @@ export const getAmountItems = (transaction: Transaction, wallet: Wallet): Amount
 
     subtransfers.forEach((subtransfer: Subtransfer) => {
         const { asset_id, amount, is_income } = subtransfer;
-        const assetInfo: AssetInfo | undefined = wallet.allAssetsInfo.find((v) => asset_id === v.asset_id);
+        const assetInfo: AssetInfo | undefined = wallet.allAssetsInfo.find(v => asset_id === v.asset_id);
 
         if (!assetInfo) {
             if (amount.toNumber() === 0) {

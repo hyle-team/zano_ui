@@ -1,7 +1,7 @@
 <div class="breadcrumbs">
     <div *ngFor="let item of items" class="breadcrumb">
         <ng-container *ngIf="item.routerLink; else templateTitle">
-            <a [routerLink]="item.routerLink">{{ item.title | translate }}</a>
+            <span class="link" [routerLink]="item.routerLink">{{ item.title | translate }}</span>
         </ng-container>
 
         <ng-template #templateTitle>

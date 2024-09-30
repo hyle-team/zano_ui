@@ -33,3 +33,17 @@ app-staking {
         }
     }
 }
+
+.light {
+    app-staking {
+        .chart {
+            &-header {
+                .items {
+                    .item {
+                        border: var(--table-info-border);
+                    }
+                }
+            }
+        }
+    }
+}

@@ -6,7 +6,7 @@ app-synchronization-status {
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    color: var(--white-500);
+    color: var(--synchronization-status-color);
     width: 100%;
 
     .status-container {
@@ -64,7 +64,7 @@ app-synchronization-status {
                     height: 0.6rem;
                     width: 100%;
                     overflow: hidden;
-                    background-color: var(--gray-900);
+                    background-color: var(--synchronization-progress-bar-container-background);
 
                     .fill {
                         border-radius: 0.2rem;
@@ -107,6 +107,26 @@ app-synchronization-status {
                     -webkit-gradient(linear, 0 100%, 100% 0, color-stop(0.125, rgba(0, 0, 0, 0.3)), color-stop(0.125, transparent), color-stop(0.25, transparent), color-stop(0.25, rgba(0, 0, 0, 0.25)), color-stop(0.375, rgba(0, 0, 0, 0.25)), color-stop(0.375, transparent), color-stop(0.5, transparent), color-stop(0.5, rgba(0, 0, 0, 0.3)), color-stop(0.625, rgba(0, 0, 0, 0.3)), color-stop(0.625, transparent), color-stop(0.75, transparent), color-stop(0.75, rgba(0, 0, 0, 0.25)), color-stop(0.875, rgba(0, 0, 0, 0.25)), color-stop(0.875, transparent), to(transparent));
                 background-size: 7rem 7rem;
                 height: 100%;
+            }
+        }
+
+        .blocks {
+            margin-top: 5px;
+            font-size: 1.4rem;
+            line-height: 1.4;
+            font-weight: 400;
+            word-break: break-all;
+
+            i {
+                min-width: 1rem;
+                min-height: 1rem;
+            }
+
+            span {
+                font-size: 1.4rem;
+                line-height: 1.4;
+                font-weight: 400;
+                color: #a8abb5;
             }
         }
     }

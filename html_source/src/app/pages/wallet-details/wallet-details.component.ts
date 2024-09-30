@@ -80,7 +80,7 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                                 <form
                                     (ngSubmit)="beforeSubmitPasswordSeedPhrase()"
                                     [formGroup]="passwordSeedPhraseForm"
-                                    class="form bg-light-blue-details p-2"
+                                    class="form form__card pb-2"
                                     fxFlex="0 0 auto"
                                     fxLayout="column"
                                     fxLayoutAlign="start center"
@@ -129,23 +129,19 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                                     </div>
 
                                     <button [disabled]="!passwordSeedPhraseForm.valid" class="primary big w-100 mb-2" type="submit">
-                                        <i class="icon check-shield mr-1"></i>
+                                        <mat-icon svgIcon="zano-check-shield" class="mr-1"></mat-icon>
                                         {{ 'WALLET_DETAILS.FORM.GENERATE_SECURE_SEED' | translate }}
                                     </button>
 
                                     <p class="color-primary" fxLayout="row" fxLayoutAlign="center center">
-                                        <i class="icon info-circle mr-1"></i>
+                                        <mat-icon svgIcon="zano-info" class="mr-1"></mat-icon>
                                         {{ 'WALLET_DETAILS.FORM.SECURED_SEED_WILL_REQUIRE' | translate }}
                                     </p>
                                 </form>
                             </ng-container>
 
                             <ng-template #seedPhraseContent>
-                                <div
-                                    class="seed-phrase bg-light-blue-details p-2 border-radius-0_8-rem"
-                                    fxFlex="0 0 auto"
-                                    fxLayout="column"
-                                >
+                                <div class="seed-phrase form__card pb-2" fxFlex="0 0 auto" fxLayout="column">
                                     <div class="header mb-2" fxFlex="0 0 auto" fxLayout="row" fxLayoutAlign="space-between center">
                                         <div class="left">
                                             <span>{{ 'WALLET_DETAILS.LABEL_SEED_PHRASE' | translate }}</span>
@@ -158,7 +154,7 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                                                 fxLayoutAlign="start center"
                                             >
                                                 {{ 'WALLET_DETAILS.SEED_IS_UNSECURED' | translate }}
-                                                <i class="icon unsecured ml-1"></i>
+                                                <mat-icon svgIcon="zano-unsecured" class="ml-1"></mat-icon>
                                             </span>
                                             <span
                                                 *ngIf="passwordSeedPhraseForm.controls.password.value.length > 0"
@@ -167,7 +163,7 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                                                 fxLayoutAlign="start center"
                                             >
                                                 {{ 'WALLET_DETAILS.SEED_IS_SECURED' | translate }}
-                                                <i class="icon secured ml-1"></i>
+                                                <mat-icon svgIcon="zano-secured" class="ml-1"></mat-icon>
                                             </span>
                                         </div>
                                     </div>
@@ -192,16 +188,16 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                                     <div class="footer max-w-50-rem w-100" fxLayout="column">
                                         <button (click)="copySeedPhrase()" class="outline big w-100 mb-2" type="button">
                                             <ng-container *ngIf="!seedPhraseCopied">
-                                                <i class="icon copy mr-1"></i>
+                                                <mat-icon svgIcon="zano-copy" class="mr-1"></mat-icon>
                                                 {{ 'SEED_PHRASE.BUTTON_COPY' | translate }}
                                             </ng-container>
                                             <ng-container *ngIf="seedPhraseCopied">
-                                                <i class="icon check mr-1"></i>
+                                                <mat-icon svgIcon="zano-check" class="mr-1"></mat-icon>
                                                 {{ 'SEED_PHRASE.BUTTON_COPIED' | translate }}
                                             </ng-container>
                                         </button>
                                         <p *ngIf="passwordSeedPhraseForm.controls.password.value.length > 0" class="text-align-center">
-                                            <i class="icon info-circle mr-1"></i>
+                                            <mat-icon svgIcon="zano-info" class="mr-1"></mat-icon>
                                             <span class="color-primary">{{ 'WALLET_DETAILS.REMEMBER_YOU_WILL_REQUIRE' | translate }}</span>
                                         </p>
                                     </div>

@@ -10,12 +10,12 @@ import { AssetsWhitelistGetResponseData } from '@api/models/assets.model';
     providedIn: 'root',
 })
 export class WalletsService {
-    get wallets(): Wallet[] | null | undefined {
+    get wallets(): Wallet[] {
         return this.variablesService.wallets;
     }
 
     set wallets(value) {
-        this.variablesService.wallets = value;
+        this.variablesService.wallets = value ?? [];
     }
 
     get currentWallet(): Wallet | null | undefined {
@@ -35,6 +35,13 @@ export class WalletsService {
 
     addWallet(wallet: Wallet): void {
         const { wallet_id } = wallet;
+
+        // TODO: Need added notification call after implementing on core
+        // if (staking) {
+        //     const text = this._translateService.instant('STAKING.WALLET_STAKING_ON', { value: wallet.alias?.name ?? wallet.name });
+        //     this._modalService.prepareModal('info', text);
+        // }
+
         this.variablesService.wallets.push(wallet);
         this.updateWalletInfo(wallet_id);
     }

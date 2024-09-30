@@ -1,7 +1,9 @@
-:host {
-    max-width: 54rem;
-    width: 100vw;
-    display: block;
+.asset-details-wrapper {
+    padding: 2rem;
+    border-radius: 0.8rem;
+    max-height: 90vh;
+
+    background: var(--dialog-background);
 }
 
 table {
@@ -12,7 +14,6 @@ table {
     tr {
         td:nth-child(1) {
             width: 17rem;
-            background: var(--blue-500);
             color: var(--azure-500);
         }
 
@@ -22,4 +23,26 @@ table {
     }
 }
 
+.light {
+    :host {
+        table {
+            tr {
+                td:nth-child(1) {
+                    background: #f0f6fb;
+                }
+            }
+        }
+    }
+}
 
+.dark {
+    :host {
+        table {
+            tr {
+                td:nth-child(1) {
+                    background: var(--blue-500);
+                }
+            }
+        }
+    }
+}

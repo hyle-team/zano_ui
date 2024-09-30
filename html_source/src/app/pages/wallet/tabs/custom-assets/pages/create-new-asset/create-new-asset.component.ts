@@ -3,7 +3,6 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
 import { VariablesService } from '@parts/services/variables.service';
 import { AbstractControl, FormControl, FormGroup, NonNullableFormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { ConfirmCreateCustomAssetComponent } from '../../modals/confirm-create-custom-asset/confirm-create-custom-asset.component';
-import { Dialog, DialogConfig } from '@angular/cdk/dialog';
 import { AssetDescriptor, DeployAssetParams, Destinations } from '@api/models/custom-asstest.model';
 import { filter, take } from 'rxjs/operators';
 import { BackendService } from '@api/services/backend.service';
@@ -12,7 +11,7 @@ import { BigNumber } from 'bignumber.js';
 import { intToMoney } from '@parts/functions/int-to-money';
 import { moneyToInt } from '@parts/functions/money-to-int';
 import { TransactionDetailsForCustomAssetsComponent } from '../../modals/transaction-details-for-custom-assets/transaction-details-for-custom-assets.component';
-import { zanoAssetInfo } from '@parts/data/assets';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 type CreateNewAssetFrom = FormGroup<{
     ticker: FormControl<string>;
@@ -86,30 +85,34 @@ export class CreateNewAssetComponent {
 
                     return null;
                 },
-            ]
+            ],
         }
     );
 
     private readonly _router: Router = inject(Router);
 
-    private readonly _dialog: Dialog = inject(Dialog);
+    private readonly _matDialog: MatDialog = inject(MatDialog);
 
     private readonly _ngZone: NgZone = inject(NgZone);
 
     details(job_id: number): void {
-        const dialogConfig: DialogConfig = {
+        const config: MatDialogConfig = {
             data: {
                 job_id,
             },
-            disableClose: true
+            disableClose: true,
         };
-        this._dialog.open(TransactionDetailsForCustomAssetsComponent, dialogConfig).closed.pipe(filter(Boolean), take(1)).subscribe({
-            next: async () => {
-                await this._ngZone.run(async () => {
-                    await this._router.navigate(['/wallet/custom-assets']);
-                });
-            }
-        });
+        this._matDialog
+            .open(TransactionDetailsForCustomAssetsComponent, config)
+            .afterClosed()
+            .pipe(filter(Boolean), take(1))
+            .subscribe({
+                next: async () => {
+                    await this._ngZone.run(async () => {
+                        await this._router.navigate(['/wallet/custom-assets']);
+                    });
+                },
+            });
     }
 
     submit(): void {
@@ -120,7 +123,10 @@ export class CreateNewAssetComponent {
         let destinationAmount: string = moneyToInt(current_supply, decimal_point).toString();
         const halfDestinationAmount: string = new BigNumber(destinationAmount).div(2).toString();
 
-        if (!halfDestinationAmount.includes('.') && new BigNumber(halfDestinationAmount).plus(halfDestinationAmount).eq(destinationAmount)) {
+        if (
+            !halfDestinationAmount.includes('.') &&
+            new BigNumber(halfDestinationAmount).plus(halfDestinationAmount).eq(destinationAmount)
+        ) {
             countDestination = 2;
             destinationAmount = halfDestinationAmount;
         }
@@ -139,7 +145,7 @@ export class CreateNewAssetComponent {
             destinations.push({
                 address,
                 amount: destinationAmount,
-                asset_id: '0000000000000000000000000000000000000000000000000000000000000000'
+                asset_id: '0000000000000000000000000000000000000000000000000000000000000000',
             });
         }
 
@@ -148,7 +154,7 @@ export class CreateNewAssetComponent {
             destinations,
         };
 
-        const config: DialogConfig = {
+        const config: MatDialogConfig = {
             disableClose: true,
             data: {
                 asset_descriptor: {
@@ -157,9 +163,10 @@ export class CreateNewAssetComponent {
                 },
             },
         };
-        this._dialog
+        this._matDialog
             .open(ConfirmCreateCustomAssetComponent, config)
-            .closed.pipe(filter(Boolean), take(1))
+            .afterClosed()
+            .pipe(filter(Boolean), take(1))
             .subscribe({
                 next: () => {
                     this._backendService.asyncCall2a(

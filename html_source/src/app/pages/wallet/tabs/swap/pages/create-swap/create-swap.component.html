@@ -28,9 +28,8 @@
                     <div *ngIf="form.controls.sending.controls.amount.hasError('required')">
                         {{ 'ERRORS.REQUIRED' | translate }}
                     </div>
-                    <div
-                        *ngIf="form.controls.sending.hasError('greater_than_maximum_amount')">
-                        {{ 'ERRORS.MAX' | translate: { max: form.controls.sending.errors['greater_than_maximum_amount'].max } }}
+                    <div *ngIf="form.controls.sending.hasError('greater_than_maximum_amount')">
+                        {{ 'ERRORS.MAX' | translate : { max: form.controls.sending.errors['greater_than_maximum_amount'].max } }}
                     </div>
                     <div *ngIf="form.controls.sending.hasError('insuficcientFunds')">
                         {{ form.controls.sending.errors['insuficcientFunds'].errorText | translate }}
@@ -53,23 +52,17 @@
                     formControlName="asset_id"
                 >
                     <ng-template let-assetInfo="item" ng-label-tmp ng-option-tmp>
-                        <img
-                            [alt]="assetInfo.ticker"
-                            [src]="getSrcByAssetInfo(assetInfo)"
-                            height="15"
-                            width="15"
-                        />
+                        <img [alt]="assetInfo.ticker" [src]="getSrcByAssetInfo(assetInfo)" height="15" width="15" />
                         {{ assetInfo.full_name || '---' }}
                     </ng-template>
                 </ng-select>
             </div>
         </div>
-        <!-- /sending -->
+        <!-- /Sending -->
 
         <div class="wrapper-reverse">
-            <button (click)="reverse()" [disabled]="currentWallet.isEmptyAssetsInfoWhitelist" class="revers"
-                    type="button">
-                <i class="icon small swap"></i>
+            <button (click)="reverse()" [disabled]="currentWallet.isEmptyAssetsInfoWhitelist" class="revers" type="button">
+                <mat-icon class="rotate-90" svgIcon="zano-swap"></mat-icon>
             </button>
         </div>
 
@@ -89,8 +82,9 @@
                     type="text"
                 />
                 <div
-                    *ngIf="isVisibleErrorByControl(form.controls.receiving.controls.amount) ||
-                    isVisibleErrorByForm(form.controls.receiving)"
+                    *ngIf="
+                        isVisibleErrorByControl(form.controls.receiving.controls.amount) || isVisibleErrorByForm(form.controls.receiving)
+                    "
                     class="error"
                 >
                     <div *ngIf="form.controls.receiving.controls.amount.hasError('required')">
@@ -99,9 +93,8 @@
                     <div *ngIf="form.controls.receiving.controls.amount.hasError('zero')">
                         {{ 'SEND.FORM_ERRORS.AMOUNT_ZERO' | translate }}
                     </div>
-                    <div
-                        *ngIf="form.controls.receiving.hasError('greater_than_maximum_amount')">
-                        {{ 'ERRORS.MAX' | translate: { max: form.controls.receiving.errors['greater_than_maximum_amount'].max } }}
+                    <div *ngIf="form.controls.receiving.hasError('greater_than_maximum_amount')">
+                        {{ 'ERRORS.MAX' | translate : { max: form.controls.receiving.errors['greater_than_maximum_amount'].max } }}
                     </div>
                     <div *ngIf="form.controls.receiving.hasError('assetHasNotBeenAddedToWallet')">
                         {{ form.controls.receiving.errors['assetHasNotBeenAddedToWallet'].errorText | translate }}
@@ -120,12 +113,7 @@
                     formControlName="asset_id"
                 >
                     <ng-template let-assetInfo="item" ng-label-tmp ng-option-tmp>
-                        <img
-                            [alt]="assetInfo.ticker"
-                            [src]="getSrcByAssetInfo(assetInfo)"
-                            height="15"
-                            width="15"
-                        />
+                        <img [alt]="assetInfo.ticker" [src]="getSrcByAssetInfo(assetInfo)" height="15" width="15" />
                         {{ assetInfo.full_name || '---' }}
                     </ng-template>
                 </ng-select>
@@ -144,83 +132,84 @@
                 </div>
             </div>
         </div>
-        <!-- /receiving -->
+        <!-- /Receiving -->
 
-        <div class="form__field form__field-dropdown">
-            <label for="receiving-address">
+        <!-- Receiving Address -->
+        <div
+            *ngIf="{
+                items: addressItems$ | async,
+                loading: loadingAddressItems$ | async,
+                lowerCaseDisabled: lowerCaseDisabled$ | async
+            } as vm"
+            class="form__field"
+        >
+            <label for="address">
                 {{ 'CREATE_SWAP.FORM.LABELS.LABEL3' | translate }}
+                <span class="color-red">*</span>
             </label>
+
             <input
+                (blur)="updateReceiverAddressErrorMessage()"
                 (contextmenu)="variablesService.onContextMenu($event)"
-                (focusout)="isVisibleDropdownAliases$.next(false)"
-                (input)="inputListenReceiverAddressField($event)"
                 (paste)="pasteListenReceiverAddressField($event)"
-                [lowerCaseDisabled]="lowerCaseDisabled$ | async"
-                [placeholder]="'PLACEHOLDERS.ADRESS_PLACEHOLDER' | translate"
+                [lowerCaseDisabled]="vm.lowerCaseDisabled"
+                [matAutocomplete]="auto"
+                [placeholder]="'PLACEHOLDERS.ADDRESS_PLACEHOLDER' | translate"
                 class="form__field--input"
                 formControlName="receiverAddress"
-                id="receiving-address"
                 lowerCase
+                matAutocompletePosition="below"
                 type="text"
+                id="address"
             />
 
-            <div
-                *ngIf="isVisibleDropdownAliasesObservable$ | async"
-                [ngStyle]="{
-                    'z-index': 1
-                }"
-                class="dropdown py-0_5 border-radius-0_8-rem bg-light-blue-details"
-            >
-                <ng-container *ngIf="aliases$ | async as aliases">
-                    <ng-container *ngIf="aliases.length; else notFoundAliases">
-                        <div (click)="form.controls.receiverAddress.patchValue(alias.name)"
-                             *ngFor="let alias of aliases" class="item">
+            <mat-autocomplete #auto="matAutocomplete" class="zano-autocomplete-panel">
+                <mat-option *ngIf="vm.loading" class="loading" disabled>
+                    <zano-loader class="mx-auto" style="display: block; width: fit-content"></zano-loader>
+                </mat-option>
+
+                <mat-option *ngIf="form.controls.receiverAddress.value[0] === '@' && vm.items?.length === 0 && !vm.loading" disabled>
+                    <span class="pl-1"> Not found aliases </span>
+                </mat-option>
+
+                <ng-container *ngIf="!vm.loading">
+                    <mat-option *ngFor="let item of vm.items; trackBy: trackByFn" [value]="item">
+                        <!-- Alias -->
+                        <ng-container *ngIf="item[0] === '@'; else itemAddressTemplate">
                             <div
-                                [class.available]="alias.name.length >= 2 && alias.name.length <= 6"
-                                [class.pl-1]="alias.name.length > 6"
+                                [ngClass]="{
+                                    available: item.length >= 2 && item.length <= 6,
+                                    'pl-1': item.length > 6
+                                }"
                                 class="alias"
                             >
-                                <div class="text-ellipsis">{{ alias.name }}</div>
+                                {{ item }}
                             </div>
-                        </div>
-                    </ng-container>
-                    <ng-template #notFoundAliases>
-                        <div class="item pl-1">Not found aliases</div>
-                    </ng-template>
+                        </ng-container>
+                        <!-- Address -->
+                        <ng-template #itemAddressTemplate>
+                            <span class="pl-1">{{ item | zanoShortString }}</span>
+                        </ng-template>
+                    </mat-option>
                 </ng-container>
-            </div>
+            </mat-autocomplete>
 
-            <div
-                *ngIf="isVisibleErrorByControl(form.controls.receiverAddress)"
-                class="error"
-            >
-                <div *ngIf="form.controls.receiverAddress.errors['address_not_valid']">
-                    {{ 'SEND.FORM_ERRORS.ADDRESS_NOT_VALID' | translate }}
-                </div>
-                <div *ngIf="form.controls.receiverAddress.errors['alias_not_found']">
-                    {{ 'SEND.FORM_ERRORS.ALIAS_NOT_FOUND' | translate }}
-                </div>
-                <div *ngIf="form.controls.receiverAddress.errors['alias_not_valid']">
-                    {{ 'SEND.FORM_ERRORS.ALIAS_NOT_VALID' | translate }}
-                </div>
-                <div *ngIf="form.controls.receiverAddress.hasError('required')">
-                    {{ 'ERRORS.REQUIRED' | translate }}
-                </div>
+            <div *ngIf="isVisibleErrorByControl(form.controls.receiverAddress)" class="error">
+                {{ errorMessages['receiverAddress'] | translate }}
             </div>
 
             <div *ngIf="aliasAddress" class="info text-ellipsis">
                 <span>{{ aliasAddress | zanoShortString }}</span>
             </div>
         </div>
+        <!-- /Address -->
 
         <div class="actions">
             <button [disabled]="form.invalid || (loading$ | async)" class="btn primary big w-100" type="submit">
-                <ng-container *ngIf="!(loading$ | async)">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON1' | translate }}
-                </ng-container>
+                <ng-container *ngIf="!(loading$ | async)">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON1' | translate }} </ng-container>
                 <zano-loader *ngIf="loading$ | async" [type]="'circle'"></zano-loader>
             </button>
-            <a class="btn outline big w-100"
-               routerLink="/wallet/swap">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON2' | translate }}</a>
+            <a class="btn outline big w-100" routerLink="/wallet/swap">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON2' | translate }}</a>
         </div>
 
         <div *ngIf="errorRpc" class="error mt-2">

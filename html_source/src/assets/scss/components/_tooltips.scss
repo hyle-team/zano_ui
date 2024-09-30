@@ -2,8 +2,7 @@
     z-index: 999;
     padding: 1rem;
     border-radius: 0.8rem;
-    background: var(--blue-450);
-    color: var(--white-500);
+    background: var(--tooltip-background);
 
     .tooltip-inner {
         font-size: 1.4rem;
@@ -19,7 +18,7 @@
             display: block;
             width: 1rem;
             height: 1rem;
-            background: var(--blue-450);
+            background: var(--tooltip-background);
             transform: rotate(45deg);
             position: absolute;
             bottom: -0.5rem;
@@ -38,7 +37,7 @@
             display: block;
             width: 1rem;
             height: 1rem;
-            background-color: var(--blue-450);
+            background-color: var(--tooltip-background);
             transform: rotate(45deg);
         }
     }
@@ -54,7 +53,7 @@
             display: block;
             width: 1rem;
             height: 1rem;
-            background: var(--blue-450);
+            background: var(--tooltip-background);
             transform: rotate(45deg);
         }
     }
@@ -70,7 +69,7 @@
             display: block;
             width: 1rem;
             height: 1rem;
-            background: var(--blue-450);
+            background: var(--tooltip-background);
             transform: rotate(45deg);
         }
     }
@@ -86,7 +85,7 @@
             display: block;
             width: 1rem;
             height: 1rem;
-            background: var(--blue-450);
+            background: var(--tooltip-background);
             transform: rotate(45deg);
         }
     }
@@ -102,7 +101,7 @@
             display: block;
             width: 1rem;
             height: 1rem;
-            background-color: var(--blue-450);
+            background-color: var(--tooltip-background);
             transform: rotate(45deg);
         }
     }
@@ -119,7 +118,7 @@
             display: block;
             width: 1rem;
             height: 1rem;
-            background: var(--blue-450);
+            background: var(--tooltip-background);
             transform: rotate(45deg);
         }
     }
@@ -135,7 +134,7 @@
             display: block;
             width: 1rem;
             height: 1rem;
-            background: var(--blue-450);
+            background: var(--tooltip-background);
             transform: rotate(45deg);
         }
     }
@@ -151,7 +150,7 @@
             display: block;
             width: 1rem;
             height: 1rem;
-            background: var(--blue-450);
+            background: var(--tooltip-background);
             transform: rotate(45deg);
         }
     }
@@ -169,8 +168,7 @@
     z-index: 999;
     padding: 1rem;
     border-radius: 0.6rem;
-    background-color: var(--blue-450);
-    color: var(--white-500);
+    background-color: var(--tooltip-background);
     font-size: 1.2rem;
 }
 
@@ -178,8 +176,7 @@
     z-index: 999;
     padding: 1rem;
     border-radius: 1rem;
-    background-color: var(--blue-450);
-    color: var(--white-500);
+    background-color: var(--tooltip-background);
 
     .tooltip-inner {
         display: flex;
@@ -234,8 +231,7 @@
 
 .account-tooltip {
     z-index: 999;
-    background-color: var(--blue-450);
-    color: var(--white-500);
+    background-color: var(--tooltip-background);
     .tooltip-inner {
         word-break: break-word;
         max-width: 18rem;
@@ -244,8 +240,7 @@
 
 .comment-tooltip {
     z-index: 999;
-    background-color: var(--blue-450);
-    color: var(--white-500);
+    background-color: var(--tooltip-background);
     .tooltip-inner {
         word-break: break-word;
         max-width: 50rem;
@@ -256,12 +251,10 @@
 .update-tooltip {
     z-index: 999;
     padding: 1rem;
-    background-color: var(--blue-450);
-    color: var(--white-500);
+    background-color: var(--tooltip-background);
 
     &.important {
         background: var(--red-500);
-        color: var(--white-500);
 
         &.ng-tooltip-left-bottom {
             &:after {
@@ -279,7 +272,6 @@
     &.critical {
         padding: 2.5rem;
         background: var(--red-500);
-        color: var(--white-500);
 
         .tooltip-inner {
             display: flex;
@@ -346,7 +338,7 @@
             right: -1rem;
             border-width: 0.5rem;
             border-style: solid;
-            border-color: transparent transparent var(--blue-450) var(--blue-450);
+            border-color: transparent transparent var(--tooltip-background) var(--tooltip-background);
         }
     }
 
@@ -360,15 +352,14 @@
             left: -1rem;
             border-width: 0.5rem;
             border-style: solid;
-            border-color: transparent var(--blue-450) var(--blue-450) transparent;
+            border-color: transparent var(--tooltip-background) var(--tooltip-background) transparent;
         }
     }
 }
 
 .update-tooltip {
     z-index: 999;
-    background-color: var(--blue-450);
-    color: var(--white-500);
+    background-color: var(--tooltip-background);
     .tooltip-inner {
         .icon {
             background: center / contain no-repeat url(~src/assets/icons/red/update-alert.svg);

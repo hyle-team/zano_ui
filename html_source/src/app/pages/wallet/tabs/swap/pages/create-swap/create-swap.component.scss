@@ -28,13 +28,13 @@
     justify-content: center;
 
     .revers {
-        background: rgba(255, 255, 255, 0.1);
+        background: var(--btn-icon-background);
         width: 36px;
         height: 36px;
         border-radius: 999px;
 
         &:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background: var(--btn-icon-hover-background);
         }
 
         display: inline-flex;

@@ -66,8 +66,7 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                                 >
                                     {{ 'ASSIGN_ALIAS.FORM_ERRORS.NAME_WRONG' | translate }}
                                 </div>
-                                <div
-                                    *ngIf="assignForm.get('name').value.length <= 6 || assignForm.get('name').value.length > 25">
+                                <div *ngIf="assignForm.get('name').value.length <= 6 || assignForm.get('name').value.length > 25">
                                     {{ 'ASSIGN_ALIAS.FORM_ERRORS.NAME_LENGTH' | translate }}
                                 </div>
                             </div>
@@ -102,8 +101,7 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                                 placeholder="{{ 'ASSIGN_ALIAS.COMMENT.PLACEHOLDER' | translate }}"
                             >
                             </textarea>
-                            <div *ngIf="assignForm.get('comment').value.length >= variablesService.maxCommentLength"
-                                 class="error">
+                            <div *ngIf="assignForm.get('comment').value.length >= variablesService.maxCommentLength" class="error">
                                 {{ 'ASSIGN_ALIAS.FORM_ERRORS.MAX_LENGTH' | translate }}
                             </div>
                         </div>
@@ -112,10 +110,10 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                             {{
                                 'ASSIGN_ALIAS.COST'
                                     | translate
-                                    : {
-                                        value: alias.price | intToMoney,
-                                        currency: variablesService.defaultTicker
-                                    }
+                                        : {
+                                              value: alias.price | intToMoney,
+                                              currency: variablesService.defaultTicker
+                                          }
                             }}
                         </p>
 

@@ -16,7 +16,7 @@
 
         <div class="actions">
             <button (click)="copy()" [disabled]="form.invalid" class="btn primary big w-100" type="button">
-                <i [class.check]="copyAnimation" [class.copy]="!copyAnimation" class="icon mr-1"></i>
+                <mat-icon class="mr-1" [svgIcon]="copyAnimation ? 'zano-check' : 'zano-copy'"></mat-icon>
                 {{ 'SWAP_PROPOSAL_HEX.FORM.BUTTONS.BUTTON1' | translate }}
             </button>
 

@@ -5,9 +5,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NoWalletComponent } from './no-wallet/no-wallet.component';
 import { SynchronizationStatusComponent } from '@parts/components/synchronization-status.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
     declarations: [NoWalletComponent],
-    imports: [CommonModule, AuthRoutingModule, TranslateModule, FlexLayoutModule, SynchronizationStatusComponent],
+    imports: [CommonModule, AuthRoutingModule, TranslateModule, FlexLayoutModule, SynchronizationStatusComponent, MatIconModule],
 })
 export class AuthModule {}

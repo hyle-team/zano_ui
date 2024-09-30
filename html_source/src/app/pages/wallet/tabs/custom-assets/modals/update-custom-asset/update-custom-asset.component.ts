@@ -2,11 +2,10 @@ import { Component, inject, NgZone } from '@angular/core';
 import { VariablesService } from '@parts/services/variables.service';
 import { NonNullableFormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { AssetInfo } from '@api/models/assets.model';
-import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { BackendService } from '@api/services/backend.service';
 import { UpdateAssetParams } from '@api/models/custom-asstest.model';
-import { zanoAssetInfo } from '@parts/data/assets';
-import { regExpAliasName, regExpHex } from '@parts/utils/zano-validators';
+import { regExpHex } from '@parts/utils/zano-validators';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-update-custom-asset',
@@ -14,44 +13,46 @@ import { regExpAliasName, regExpHex } from '@parts/utils/zano-validators';
     styleUrls: ['./update-custom-asset.component.scss'],
 })
 export class UpdateCustomAssetComponent {
-    public readonly variablesService = inject(VariablesService);
-    public readonly data: { assetInfo: AssetInfo } = inject(DIALOG_DATA);
-    public readonly dialogRef = inject(DialogRef);
-    private readonly _backendService = inject(BackendService);
-    private readonly fb = inject(NonNullableFormBuilder);
+    public readonly variablesService: VariablesService = inject(VariablesService);
+    public readonly data: { assetInfo: AssetInfo } = inject(MAT_DIALOG_DATA);
+    public readonly matDialogRef: MatDialogRef<UpdateCustomAssetComponent> = inject(MatDialogRef);
+    private readonly _backendService: BackendService = inject(BackendService);
+    private readonly fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
+    private _ngZone: NgZone = inject(NgZone);
     public readonly form = this.fb.group({
-        owner: this.fb.control('', [Validators.required, (control): ValidationErrors | null => {
-            if (control.value.length === 64) {
-                if (!regExpHex.test(control.value)) {
-                    return { hex_not_valid: true };
-                } else {
-                    return null;
+        owner: this.fb.control('', [
+            Validators.required,
+            (control): ValidationErrors | null => {
+                if (control.value.length === 64) {
+                    if (!regExpHex.test(control.value)) {
+                        return { hex_not_valid: true };
+                    } else {
+                        return null;
+                    }
                 }
-            }
 
-            if (control.value) {
-                this._backendService.validateAddress(control.value, (status, data) => {
-                    this._ngZone.run(() => {
-                        if (status === false) {
-                            control.setErrors(Object.assign({ address_not_valid: true }, control.errors));
-                        } else {
-                            if (control.hasError('address_not_valid')) {
-                                delete control.errors['address_not_valid'];
-                                if (Object.keys(control.errors).length === 0) {
-                                    control.setErrors(null);
+                if (control.value) {
+                    this._backendService.validateAddress(control.value, (status, data) => {
+                        this._ngZone.run(() => {
+                            if (status === false) {
+                                control.setErrors(Object.assign({ address_not_valid: true }, control.errors));
+                            } else {
+                                if (control.hasError('address_not_valid')) {
+                                    delete control.errors['address_not_valid'];
+                                    if (Object.keys(control.errors).length === 0) {
+                                        control.setErrors(null);
+                                    }
                                 }
                             }
-                        }
+                        });
                     });
-                });
-                return control.hasError('address_not_valid') ? { address_not_valid: true } : null;
-            }
+                    return control.hasError('address_not_valid') ? { address_not_valid: true } : null;
+                }
 
-            return null;
-
-        }]),
+                return null;
+            },
+        ]),
     });
-    private _ngZone: NgZone = inject(NgZone);
 
     public submit(): void {
         const { wallet_id } = this.variablesService.currentWallet;
@@ -75,7 +76,7 @@ export class UpdateCustomAssetComponent {
             },
             async (job_id: number): Promise<void> => {
                 this._ngZone.run(() => {
-                    this.dialogRef.close(job_id);
+                    this.matDialogRef.close(job_id);
                 });
             }
         );

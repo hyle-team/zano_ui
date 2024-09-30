@@ -11,113 +11,113 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
 @Component({
     selector: 'app-transfer-alias',
     template: `
-      <div class="page-container">
-        <div class="toolbar mb-2">
-          <div class="left">
-            <app-back-button></app-back-button>
-            <h1 class="ml-2">{{ 'BREADCRUMBS.TRANSFER_ALIAS' | translate }}</h1>
-          </div>
-          <div class="right"></div>
-        </div>
-
-        <div class="page-content">
-          <app-breadcrumbs class="mb-2" [items]="breadcrumbItems"></app-breadcrumbs>
-
-          <div class="scrolled-content">
-            <form class="form">
-              <div class="form__field">
-                <label for="alias-name">
-                  {{ 'TRANSFER_ALIAS.NAME.LABEL' | translate }}
-                </label>
-                <input
-                  [value]="alias.name"
-                  class="form__field--input"
-                  id="alias-name"
-                  name="alias-name"
-                  placeholder="{{ 'EDIT_ALIAS.NAME.PLACEHOLDER' | translate }}"
-                  readonly
-                  type="text"
-                />
-              </div>
-
-              <div class="form__field textarea">
-                <label for="alias-comment">
-                  {{ 'TRANSFER_ALIAS.COMMENT.LABEL' | translate }}
-                </label>
-                <textarea
-                  [(ngModel)]="alias.comment"
-                  id="alias-comment"
-                  name="alias-comment"
-                  placeholder="{{ 'EDIT_ALIAS.COMMENT.PLACEHOLDER' | translate }}"
-                ></textarea>
-              </div>
-
-              <div class="form__field">
-                <label for="alias-transfer">
-                  {{ 'TRANSFER_ALIAS.ADDRESS.LABEL' | translate }}
-                </label>
-                <input
-                  (contextmenu)="variablesService.onContextMenu($event)"
-                  (input)="changeAddress()"
-                  [(ngModel)]="transferAddress"
-                  [class.invalid]="
-                                    transferAddress.length > 0 &&
-                                    (transferAddressAlias ||
-                                        !transferAddressValid ||
-                                        (transferAddressValid && !permissionSend) ||
-                                        notEnoughMoney)
-                                "
-                  class="form__field--input"
-                  id="alias-transfer"
-                  name="alias-transfer"
-                  placeholder="{{ 'TRANSFER_ALIAS.ADDRESS.PLACEHOLDER' | translate }}"
-                  type="text"
-                />
-                <div
-                  *ngIf="
-                                    transferAddress.length > 0 &&
-                                    (transferAddressAlias ||
-                                        !transferAddressValid ||
-                                        (transferAddressValid && !permissionSend) ||
-                                        notEnoughMoney)
-                                "
-                  class="error"
-                >
-                  <div *ngIf="!transferAddressValid">
-                    {{ 'TRANSFER_ALIAS.FORM_ERRORS.WRONG_ADDRESS' | translate }}
-                  </div>
-                  <div *ngIf="transferAddressAlias || (transferAddressValid && !permissionSend)">
-                    {{ 'TRANSFER_ALIAS.FORM_ERRORS.ALIAS_EXISTS' | translate }}
-                  </div>
-                  <div *ngIf="notEnoughMoney">
-                    {{ 'TRANSFER_ALIAS.FORM_ERRORS.NO_MONEY' | translate }}
-                  </div>
+        <div class="page-container">
+            <div class="toolbar mb-2">
+                <div class="left">
+                    <app-back-button></app-back-button>
+                    <h1 class="ml-2">{{ 'BREADCRUMBS.TRANSFER_ALIAS' | translate }}</h1>
                 </div>
-              </div>
+                <div class="right"></div>
+            </div>
 
-              <div class="alias-cost mb-2">
-                {{
-                  'TRANSFER_ALIAS.COST'
-                    | translate
-                    : {
-                      value: variablesService.default_fee,
-                      currency: variablesService.defaultTicker
-                    }
-                }}
-              </div>
+            <div class="page-content">
+                <app-breadcrumbs class="mb-2" [items]="breadcrumbItems"></app-breadcrumbs>
 
-              <button
-                (click)="transferAlias()"
-                [disabled]="transferAddressAlias || !transferAddressValid || notEnoughMoney"
-                class="primary big w-100"
-                type="button"
-              >
-                {{ 'TRANSFER_ALIAS.BUTTON_TRANSFER' | translate }}
-              </button>
-            </form>
-          </div>
+                <div class="scrolled-content">
+                    <form class="form">
+                        <div class="form__field">
+                            <label for="alias-name">
+                                {{ 'TRANSFER_ALIAS.NAME.LABEL' | translate }}
+                            </label>
+                            <input
+                                [value]="alias.name"
+                                class="form__field--input"
+                                id="alias-name"
+                                name="alias-name"
+                                placeholder="{{ 'EDIT_ALIAS.NAME.PLACEHOLDER' | translate }}"
+                                readonly
+                                type="text"
+                            />
+                        </div>
+
+                        <div class="form__field textarea">
+                            <label for="alias-comment">
+                                {{ 'TRANSFER_ALIAS.COMMENT.LABEL' | translate }}
+                            </label>
+                            <textarea
+                                [(ngModel)]="alias.comment"
+                                id="alias-comment"
+                                name="alias-comment"
+                                placeholder="{{ 'EDIT_ALIAS.COMMENT.PLACEHOLDER' | translate }}"
+                            ></textarea>
+                        </div>
+
+                        <div class="form__field">
+                            <label for="alias-transfer">
+                                {{ 'TRANSFER_ALIAS.ADDRESS.LABEL' | translate }}
+                            </label>
+                            <input
+                                (contextmenu)="variablesService.onContextMenu($event)"
+                                (input)="changeAddress()"
+                                [(ngModel)]="transferAddress"
+                                [class.invalid]="
+                                    transferAddress.length > 0 &&
+                                    (transferAddressAlias ||
+                                        !transferAddressValid ||
+                                        (transferAddressValid && !permissionSend) ||
+                                        notEnoughMoney)
+                                "
+                                class="form__field--input"
+                                id="alias-transfer"
+                                name="alias-transfer"
+                                placeholder="{{ 'TRANSFER_ALIAS.ADDRESS.PLACEHOLDER' | translate }}"
+                                type="text"
+                            />
+                            <div
+                                *ngIf="
+                                    transferAddress.length > 0 &&
+                                    (transferAddressAlias ||
+                                        !transferAddressValid ||
+                                        (transferAddressValid && !permissionSend) ||
+                                        notEnoughMoney)
+                                "
+                                class="error"
+                            >
+                                <div *ngIf="!transferAddressValid">
+                                    {{ 'TRANSFER_ALIAS.FORM_ERRORS.WRONG_ADDRESS' | translate }}
+                                </div>
+                                <div *ngIf="transferAddressAlias || (transferAddressValid && !permissionSend)">
+                                    {{ 'TRANSFER_ALIAS.FORM_ERRORS.ALIAS_EXISTS' | translate }}
+                                </div>
+                                <div *ngIf="notEnoughMoney">
+                                    {{ 'TRANSFER_ALIAS.FORM_ERRORS.NO_MONEY' | translate }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="alias-cost mb-2">
+                            {{
+                                'TRANSFER_ALIAS.COST'
+                                    | translate
+                                        : {
+                                              value: variablesService.default_fee,
+                                              currency: variablesService.defaultTicker
+                                          }
+                            }}
+                        </div>
+
+                        <button
+                            (click)="transferAlias()"
+                            [disabled]="transferAddressAlias || !transferAddressValid || notEnoughMoney"
+                            class="primary big w-100"
+                            type="button"
+                        >
+                            {{ 'TRANSFER_ALIAS.BUTTON_TRANSFER' | translate }}
+                        </button>
+                    </form>
+                </div>
+            </div>
         </div>
-      </div>
     `,
     styles: [
         `

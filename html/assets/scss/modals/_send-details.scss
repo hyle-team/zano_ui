@@ -1,6 +1,7 @@
 app-send-details-modal,
 app-success-sweep-bare-outs,
-app-transaction-details-for-custom-assets {
+app-transaction-details-for-custom-assets,
+app-swap-details {
     .status {
         .image {
             max-width: 13rem;
@@ -19,12 +20,12 @@ app-transaction-details-for-custom-assets {
         .header {
             min-height: 4rem;
             max-height: 4rem;
-            background-color: var(--blue-500);
+            background-color: var(--details-background);
         }
 
         &-wrapper {
             max-height: 35rem;
-            background-color: var(--blue-500);
+            background-color: var(--details-background);
             scroll-behavior: smooth;
         }
 
