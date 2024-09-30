@@ -20,7 +20,7 @@ export class TransactionStatusComponent {
 
     constructor(public variablesService: VariablesService) {}
 
-    isVisibleSubtransferStatus(subtransfer: Subtransfer, transaction: Transaction): boolean {
+    isVisibleStatusBySubtransfer(subtransfer: Subtransfer, transaction: Transaction): boolean {
         const { amount, asset_id, is_income } = subtransfer;
         const { fee, subtransfers } = transaction;
 
@@ -33,6 +33,23 @@ export class TransactionStatusComponent {
         }
 
         return !(asset_id === zanoAssetInfo.asset_id && is_income === false && amount.eq(fee));
+    }
+
+    isIncome(subtransfer: Subtransfer, transaction: Transaction): boolean {
+        const { amount, asset_id, is_income } = subtransfer;
+        const { fee } = transaction;
+
+        // Case: When the amount is less than the fee
+        const condition1 = asset_id === zanoAssetInfo.asset_id;
+        const condition2 = amount.isLessThan(fee);
+        const condition3 = !is_income;
+
+        if (condition1 && condition2 && condition3) {
+            return true;
+        }
+        // ---------------------------------------------
+
+        return is_income;
     }
 
     getHeight(item): number {

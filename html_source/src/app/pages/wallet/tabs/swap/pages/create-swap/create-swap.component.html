@@ -4,7 +4,7 @@
     <form (ngSubmit)="beforeSubmit()" [formGroup]="form" class="form">
         <!-- Sending -->
         <div class="form__row" formGroupName="sending">
-            <div class="form__field">
+            <div class="form__field fixed">
                 <label for="sending-amount">
                     {{ 'CREATE_SWAP.FORM.LABELS.LABEL1' | translate }}
                 </label>
@@ -22,25 +22,25 @@
                     *ngIf="isVisibleErrorByControl(form.controls.sending.controls.amount) || isVisibleErrorByForm(form.controls.sending)"
                     class="error"
                 >
-                    <div *ngIf="form.controls.sending.controls.amount.hasError('zero')">
+                    <ng-container *ngIf="form.controls.sending.controls.amount.hasError('zero')">
                         {{ 'SEND.FORM_ERRORS.AMOUNT_ZERO' | translate }}
-                    </div>
-                    <div *ngIf="form.controls.sending.controls.amount.hasError('required')">
+                    </ng-container>
+                    <ng-container *ngIf="form.controls.sending.controls.amount.hasError('required')">
                         {{ 'ERRORS.REQUIRED' | translate }}
-                    </div>
-                    <div *ngIf="form.controls.sending.hasError('greater_than_maximum_amount')">
+                    </ng-container>
+                    <ng-container *ngIf="form.controls.sending.hasError('greater_than_maximum_amount')">
                         {{ 'ERRORS.MAX' | translate : { max: form.controls.sending.errors['greater_than_maximum_amount'].max } }}
-                    </div>
-                    <div *ngIf="form.controls.sending.hasError('insuficcientFunds')">
+                    </ng-container>
+                    <ng-container *ngIf="form.controls.sending.hasError('insuficcientFunds')">
                         {{ form.controls.sending.errors['insuficcientFunds'].errorText | translate }}
-                    </div>
+                    </ng-container>
                     <div *ngIf="form.controls.sending.hasError('assetHasNotBeenAddedToWallet')">
                         {{ form.controls.sending.errors['assetHasNotBeenAddedToWallet'].errorText | translate }}
                     </div>
                 </div>
             </div>
 
-            <div class="form__field">
+            <div class="form__field fixed">
                 <label> &nbsp; </label>
                 <ng-select
                     (change)="form.controls.sending.controls.amount.updateValueAndValidity()"
@@ -68,7 +68,7 @@
 
         <!-- Receiving -->
         <div class="form__row" formGroupName="receiving">
-            <div class="form__field">
+            <div class="form__field fixed">
                 <label for="receiving-amount">
                     {{ 'CREATE_SWAP.FORM.LABELS.LABEL2' | translate }}
                 </label>
@@ -87,22 +87,22 @@
                     "
                     class="error"
                 >
-                    <div *ngIf="form.controls.receiving.controls.amount.hasError('required')">
+                    <ng-container *ngIf="form.controls.receiving.controls.amount.hasError('required')">
                         {{ 'ERRORS.REQUIRED' | translate }}
-                    </div>
-                    <div *ngIf="form.controls.receiving.controls.amount.hasError('zero')">
+                    </ng-container>
+                    <ng-container *ngIf="form.controls.receiving.controls.amount.hasError('zero')">
                         {{ 'SEND.FORM_ERRORS.AMOUNT_ZERO' | translate }}
-                    </div>
-                    <div *ngIf="form.controls.receiving.hasError('greater_than_maximum_amount')">
+                    </ng-container>
+                    <ng-container *ngIf="form.controls.receiving.hasError('greater_than_maximum_amount')">
                         {{ 'ERRORS.MAX' | translate : { max: form.controls.receiving.errors['greater_than_maximum_amount'].max } }}
-                    </div>
-                    <div *ngIf="form.controls.receiving.hasError('assetHasNotBeenAddedToWallet')">
+                    </ng-container>
+                    <ng-container *ngIf="form.controls.receiving.hasError('assetHasNotBeenAddedToWallet')">
                         {{ form.controls.receiving.errors['assetHasNotBeenAddedToWallet'].errorText | translate }}
-                    </div>
+                    </ng-container>
                 </div>
             </div>
 
-            <div class="form__field">
+            <div class="form__field fixed">
                 <label> &nbsp; </label>
                 <ng-select
                     [bindValue]="'asset_id'"
@@ -126,9 +126,9 @@
                     "
                     class="error"
                 >
-                    <div *ngIf="form.controls.receiving.controls.asset_id.hasError('sameAssetsId')">
+                    <ng-container *ngIf="form.controls.receiving.controls.asset_id.hasError('sameAssetsId')">
                         {{ 'CREATE_SWAP.FORM.ERRORS.ERROR1' | translate }}
-                    </div>
+                    </ng-container>
                 </div>
             </div>
         </div>
@@ -141,7 +141,7 @@
                 loading: loadingAddressItems$ | async,
                 lowerCaseDisabled: lowerCaseDisabled$ | async
             } as vm"
-            class="form__field"
+            class="form__field fixed"
         >
             <label for="address">
                 {{ 'CREATE_SWAP.FORM.LABELS.LABEL3' | translate }}

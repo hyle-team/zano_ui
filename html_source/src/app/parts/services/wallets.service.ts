@@ -5,6 +5,7 @@ import { ResponseGetWalletInfo, Wallet } from '@api/models/wallet.model';
 import { Router } from '@angular/router';
 import { ParamsCallRpc } from '@api/models/call_rpc.model';
 import { AssetsWhitelistGetResponseData } from '@api/models/assets.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
     providedIn: 'root',
@@ -29,18 +30,18 @@ export class WalletsService {
     constructor(
         private backendService: BackendService,
         private variablesService: VariablesService,
+        private _translateService: TranslateService,
         private router: Router,
         private ngZone: NgZone
     ) {}
 
     addWallet(wallet: Wallet): void {
-        const { wallet_id } = wallet;
+        const { wallet_id, staking } = wallet;
 
-        // TODO: Need added notification call after implementing on core
-        // if (staking) {
-        //     const text = this._translateService.instant('STAKING.WALLET_STAKING_ON', { value: wallet.alias?.name ?? wallet.name });
-        //     this._modalService.prepareModal('info', text);
-        // }
+        if (staking) {
+            const message = this._translateService.instant('STAKING.WALLET_STAKING_ON', { value: wallet.alias?.name ?? wallet.name });
+            this.backendService.show_notification('Wallet staking on', message);
+        }
 
         this.variablesService.wallets.push(wallet);
         this.updateWalletInfo(wallet_id);

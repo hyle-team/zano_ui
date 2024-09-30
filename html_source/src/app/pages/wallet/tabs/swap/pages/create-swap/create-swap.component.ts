@@ -1,4 +1,4 @@
-import { Component, inject, NgZone, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, NgZone, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLinkWithHref } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -115,6 +115,8 @@ export class CreateSwapComponent implements OnDestroy {
     addressItems$: Observable<string[]>;
 
     loadingAddressItems$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+
+    private _cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
     private _walletsService: WalletsService = inject(WalletsService);
 
@@ -500,6 +502,8 @@ export class CreateSwapComponent implements OnDestroy {
                                                 }
                                             }
                                         }
+                                        this._cdr.markForCheck();
+                                        this._cdr.detectChanges();
                                     });
                                 });
                                 return control.hasError('address_not_valid') ? { address_not_valid: true } : null;
@@ -520,6 +524,8 @@ export class CreateSwapComponent implements OnDestroy {
                                             } else {
                                                 control.setErrors(Object.assign({ alias_not_found: true }, control.errors));
                                             }
+                                            this._cdr.markForCheck();
+                                            this._cdr.detectChanges();
                                         });
                                     });
                                 }

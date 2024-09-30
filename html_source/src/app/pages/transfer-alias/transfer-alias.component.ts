@@ -89,7 +89,7 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                                 <div *ngIf="transferAddressAlias || (transferAddressValid && !permissionSend)">
                                     {{ 'TRANSFER_ALIAS.FORM_ERRORS.ALIAS_EXISTS' | translate }}
                                 </div>
-                                <div *ngIf="notEnoughMoney">
+                                <div *ngIf="notEnoughMoney && transferAddressValid && !transferAddressAlias">
                                     {{ 'TRANSFER_ALIAS.FORM_ERRORS.NO_MONEY' | translate }}
                                 </div>
                             </div>

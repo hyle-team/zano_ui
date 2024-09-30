@@ -128,17 +128,17 @@
                                     "
                                     [class.invalid]="zanoCompanionForm.controls['secret'].invalid"
                                     [readonly]="true"
-                                    formControlName="secret"
                                     class="form__field--input"
+                                    formControlName="secret"
                                     id="field-secret"
                                     type="text"
                                 />
 
-                                <button class="btn--copy" (click)="copySecret()">
+                                <button (click)="copySecret()" class="btn--copy">
                                     <mat-icon svgIcon="zano-copy"></mat-icon>
                                 </button>
 
-                                <button class="btn--regenerate" (click)="regenerateSecret()">
+                                <button (click)="regenerateSecret()" class="btn--regenerate">
                                     <mat-icon svgIcon="zano-regenerate"></mat-icon>
                                 </button>
 
@@ -269,7 +269,9 @@
                     </div>
                 </form>
 
-                <p class="mt-2">Build version: {{ currentBuild }}</p>
+                <p (contextmenu)="variablesService.onContextMenuOnlyCopy($event, currentBuild)" class="mt-2">
+                    Build version: {{ currentBuild }}
+                </p>
             </div>
         </div>
     </div>

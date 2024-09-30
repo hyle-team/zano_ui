@@ -167,6 +167,7 @@ export enum Commands {
     call_rpc = 'call_rpc',
     call_wallet_rpc = 'call_wallet_rpc',
     setup_jwt_wallet_rpc = 'setup_jwt_wallet_rpc',
+    show_notification = 'show_notification',
 }
 
 @Injectable({
@@ -739,6 +740,10 @@ export class BackendService {
         this.runCommand(Commands.set_enable_tor, <{ v: boolean }>{
             v: value,
         });
+    }
+
+    show_notification(title: string, message: string, callback?: () => void): void {
+        this.runCommand(Commands.show_notification, [title, message], callback);
     }
 
     getOptions(): any {
