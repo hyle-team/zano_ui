@@ -166,7 +166,12 @@
 
                 <form (ngSubmit)="onSubmitChangePass()" [formGroup]="changeForm">
                     <h4 class="master-password-title mb-2">
-                        {{ 'SETTINGS.MASTER_PASSWORD.TITLE' | translate }}
+                        <ng-container *ngIf="!variablesService.appPass">
+                            {{ 'SETTINGS.MASTER_PASSWORD.TITLE1' | translate }}
+                        </ng-container>
+                        <ng-container *ngIf="variablesService.appPass">
+                            {{ 'SETTINGS.MASTER_PASSWORD.TITLE2' | translate }}
+                        </ng-container>
                     </h4>
 
                     <div class="form__card">
