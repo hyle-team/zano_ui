@@ -1,12 +1,12 @@
-import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { VariablesService } from '@parts/services/variables.service';
 import { Chart } from 'angular-highcharts';
 import { BackendService } from '@api/services/backend.service';
 import { IntToMoneyPipe } from '@parts/pipes/int-to-money-pipe/int-to-money.pipe';
 import { BigNumber } from 'bignumber.js';
-import { combineLatest, skip, Subject, Subscription } from 'rxjs';
+import { combineLatest, skip, Subject } from 'rxjs';
 import * as Highcharts from 'highcharts';
-import { filter, takeUntil } from 'rxjs/operators';
+import { debounceTime, delay, filter, take, takeUntil, tap } from 'rxjs/operators';
 import { NonNullableFormBuilder } from '@angular/forms';
 
 type TPeriod = '1 week' | '2 week' | '1 month' | '3 month' | '6 month' | '1 year' | 'All';
@@ -81,7 +81,9 @@ const groupItems: IGroupItem[] = [
         `,
     ],
 })
-export class StakingComponent implements OnInit, OnDestroy {
+export class StakingComponent implements OnInit, AfterViewInit, OnDestroy {
+    public readonly variablesService: VariablesService = inject(VariablesService);
+
     public chart: Chart;
 
     public total: BigNumber = new BigNumber(0);
@@ -90,10 +92,6 @@ export class StakingComponent implements OnInit, OnDestroy {
         list: [],
         total: new BigNumber(0),
     };
-
-    public themeChangesSubscription: Subscription;
-
-    public readonly variablesService: VariablesService = inject(VariablesService);
 
     get isShowStagingSwitch(): boolean {
         const {
@@ -135,57 +133,9 @@ export class StakingComponent implements OnInit, OnDestroy {
 
     private readonly _intToMoneyPipe: IntToMoneyPipe = inject(IntToMoneyPipe);
 
+    private _cacheData: Map<string, { data: any[]; minDate: number }> = new Map();
+
     ngOnInit(): void {
-        const { settings } = this.variablesService;
-
-        const savedStakingFilters = settings.filters.stakingFilters;
-
-        if (savedStakingFilters) {
-            this.filtersForm.patchValue(savedStakingFilters);
-        }
-
-        this.getMiningHistory();
-
-        this.variablesService.getHeightAppEvent.pipe(takeUntil(this._destroy$)).subscribe({
-            next: (newHeight: number) => {
-                if (!this.pending.total.isZero()) {
-                    const pendingCount = this.pending.list.length;
-                    for (let i = pendingCount - 1; i >= 0; i--) {
-                        if (newHeight - this.pending.list[i].h >= 10) {
-                            this.pending.list.splice(i, 1);
-                        }
-                    }
-                    if (pendingCount !== this.pending.list.length) {
-                        this.pending.total = new BigNumber(0);
-                        for (let i = 0; i < this.pending.list.length; i++) {
-                            this.pending.total = this.pending.total.plus(this.pending.list[i].a);
-                        }
-                    }
-                }
-            },
-        });
-
-        this.variablesService.daemon_state$.pipe(filter((daemon_state: number) => daemon_state === 3), skip(1)).subscribe({
-            next: () => {
-                this.getMiningHistory();
-                this.changePeriod();
-            }
-        });
-
-        this.filtersForm.valueChanges.pipe(takeUntil(this._destroy$)).subscribe({
-            next: () => {
-                settings.filters.stakingFilters = this.filtersForm.getRawValue();
-                this.changePeriod();
-            },
-        });
-    }
-
-    ngOnDestroy(): void {
-        this._destroy$.next();
-        this._destroy$.complete();
-    }
-
-    drawChart(data): void {
         this.chart = new Chart({
             title: { text: '' },
             credits: { enabled: false },
@@ -194,14 +144,7 @@ export class StakingComponent implements OnInit, OnDestroy {
             chart: {
                 type: 'line',
                 backgroundColor: 'transparent',
-                height: null,
-                events: {
-                    load: (): void => {
-                        this.changePeriod();
-                    },
-                },
             },
-
             yAxis: {
                 min: 0,
                 tickAmount: 5,
@@ -226,7 +169,6 @@ export class StakingComponent implements OnInit, OnDestroy {
                     format: '{value} ' + this.variablesService.defaultTicker,
                 },
             },
-
             xAxis: {
                 type: 'datetime',
                 gridLineColor: '#2b3644',
@@ -246,11 +188,9 @@ export class StakingComponent implements OnInit, OnDestroy {
                 minRange: 86400000, // tickInterval: 86400000,
                 minTickInterval: 3600000,
             },
-
             tooltip: {
                 enabled: false,
             },
-
             plotOptions: {
                 area: {
                     fillColor: {
@@ -293,244 +233,277 @@ export class StakingComponent implements OnInit, OnDestroy {
             series: [
                 {
                     type: 'area',
-                    data: data,
+                    data: [],
                 },
             ],
         });
+
+        this._restoreFiltersForm();
+        this._subscribeToHeightAppEvent();
+        this._subscribeToDaemonState();
+        this._subscribeToFilterChanges();
+        this._subscribeToThemeChanges();
     }
 
-    getMiningHistory(): void {
-        if (this.variablesService.currentWallet.loaded) {
-            this._backendService.getMiningHistory(this.variablesService.currentWallet.wallet_id, (status, data) => {
-                this.total = new BigNumber(0);
-                this.pending.list = [];
-                this.pending.total = new BigNumber(0);
-                this.originalData = [];
-                if (data.mined_entries) {
-                    data.mined_entries.forEach((item, key) => {
-                        if (item.t.toString().length === 10) {
-                            data.mined_entries[key].t = new Date(item.t * 1000).setUTCMilliseconds(0);
-                        }
-                    });
-                    data.mined_entries.forEach(item => {
-                        this.total = this.total.plus(item.a);
-                        if (this.variablesService.height_app - item.h < 10) {
-                            this.pending.list.push(item);
-                            this.pending.total = this.pending.total.plus(item.a);
-                        }
-                        this.originalData.push([parseInt(item.t, 10), parseFloat(this._intToMoneyPipe.transform(item.a))]);
-                    });
-                    this.originalData = this.originalData.sort(function (a, b) {
-                        return a[0] - b[0];
-                    });
-                }
-                this._ngZone.run(() => {
-                    this.drawChart([]);
-
-                    this.themeChangesSubscription?.unsubscribe();
-                    this.themeChangesSubscription = combineLatest([this.chart.ref$, this.variablesService.isDarkTheme$])
-                        .pipe(takeUntil(this._destroy$))
-                        .subscribe({
-                            next: ([ref, isDarkTheme]) => {
-                                let option: Highcharts.Options = {};
-
-                                if (isDarkTheme) {
-                                    option = {
-                                        ...option,
-                                        plotOptions: {
-                                            area: {
-                                                fillColor: {
-                                                    linearGradient: {
-                                                        x1: 0,
-                                                        y1: 0,
-                                                        x2: 0,
-                                                        y2: 1,
-                                                    },
-                                                    stops: [
-                                                        [0, 'rgba(124,181,236,0.2)'],
-                                                        [1, 'rgba(124,181,236,0)'],
-                                                    ],
-                                                },
-                                                marker: {
-                                                    enabled: false,
-                                                    radius: 2,
-                                                },
-                                                lineWidth: 2,
-                                                threshold: null,
-                                            },
-                                        },
-                                        yAxis: {
-                                            gridLineColor: '#2b3644',
-                                            lineColor: '#2b3644',
-                                            tickColor: '#2b3644',
-                                            labels: {
-                                                style: {
-                                                    color: '#e0e0e0',
-                                                },
-                                            },
-                                        },
-                                        xAxis: {
-                                            gridLineColor: '#2b3644',
-                                            lineColor: '#2b3644',
-                                            tickColor: '#2b3644',
-                                            labels: {
-                                                style: {
-                                                    color: '#e0e0e0',
-                                                },
-                                            },
-                                        },
-                                    };
-                                } else {
-                                    option = {
-                                        ...option,
-                                        plotOptions: {
-                                            area: {
-                                                color: '#1F8FEB',
-                                                marker: {
-                                                    enabled: false,
-                                                    radius: 2,
-                                                },
-                                                lineWidth: 2,
-                                                threshold: null,
-                                            },
-                                        },
-                                        yAxis: {
-                                            gridLineColor: '#1F8FEB20',
-                                            lineColor: '#1F8FEB20',
-                                            tickColor: '#1F8FEB20',
-                                            labels: {
-                                                style: {
-                                                    color: '#0C0C3A',
-                                                },
-                                            },
-                                        },
-                                        xAxis: {
-                                            gridLineColor: '#1F8FEB20',
-                                            lineColor: '#1F8FEB20',
-                                            tickColor: '#1F8FEB20',
-                                            labels: {
-                                                style: {
-                                                    color: '#0C0C3A',
-                                                },
-                                            },
-                                        },
-                                    };
-                                }
-
-                                ref.update(option, true);
-                            },
-                        });
-                });
+    ngAfterViewInit(): void {
+        this.chart.ref$
+            .pipe(
+                delay(50),
+                tap(ref => ref.reflow()),
+                delay(50),
+                take(1)
+            )
+            .subscribe({
+                next: () => {
+                    this._getMiningHistory();
+                },
             });
+    }
+
+    ngOnDestroy(): void {
+        this._destroy$.next();
+        this._destroy$.complete();
+    }
+
+    private _restoreFiltersForm(): void {
+        const { stakingFilters } = this.variablesService.settings.filters;
+        if (stakingFilters) {
+            this.filtersForm.patchValue(stakingFilters);
         }
     }
 
-    changePeriod(): void {
-        if (!this.chart) {
+    private _subscribeToHeightAppEvent(): void {
+        const { getHeightAppEvent } = this.variablesService;
+
+        getHeightAppEvent.pipe(takeUntil(this._destroy$)).subscribe({
+            next: (newHeight: number) => {
+                if (this.pending.total.isZero()) {
+                    return;
+                }
+
+                this._updatePendingList(newHeight);
+            },
+        });
+    }
+
+    private _updatePendingList(newHeight: number): void {
+        this.pending.list = this.pending.list.filter(item => newHeight - item.h < 10);
+        this.pending.total = this.pending.list.reduce((total, item) => total.plus(item.a), new BigNumber(0));
+    }
+
+    private _subscribeToDaemonState(): void {
+        this.variablesService.daemon_state$
+            .pipe(
+                filter((daemon_state: number) => daemon_state === 3),
+                skip(1)
+            )
+            .subscribe({
+                next: () => {
+                    this._getMiningHistory();
+                    this._changePeriod();
+                },
+            });
+    }
+
+    private _subscribeToFilterChanges(): void {
+        this.filtersForm.valueChanges.pipe(debounceTime(250), takeUntil(this._destroy$)).subscribe({
+            next: () => {
+                this.variablesService.settings.filters.stakingFilters = this.filtersForm.getRawValue();
+                this._changePeriod();
+            },
+        });
+    }
+
+    private _subscribeToThemeChanges(): void {
+        combineLatest([this.chart.ref$, this.variablesService.isDarkTheme$])
+            .pipe(takeUntil(this._destroy$))
+            .subscribe({
+                next: ([ref, isDarkTheme]) => {
+                    const options = isDarkTheme ? this._getDarkThemeOptions() : this._getLightThemeOptions();
+                    ref.update(options, true);
+                },
+            });
+    }
+
+    private _getDarkThemeOptions(): Highcharts.Options {
+        return {
+            plotOptions: {
+                area: {
+                    fillColor: {
+                        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                        stops: [
+                            [0, 'rgba(124,181,236,0.2)'],
+                            [1, 'rgba(124,181,236,0)'],
+                        ],
+                    },
+                    marker: { enabled: false, radius: 2 },
+                    lineWidth: 2,
+                    threshold: null,
+                },
+            },
+            yAxis: {
+                gridLineColor: '#2b3644',
+                lineColor: '#2b3644',
+                tickColor: '#2b3644',
+                labels: { style: { color: '#e0e0e0' } },
+            },
+            xAxis: {
+                gridLineColor: '#2b3644',
+                lineColor: '#2b3644',
+                tickColor: '#2b3644',
+                labels: { style: { color: '#e0e0e0' } },
+            },
+        };
+    }
+
+    private _getLightThemeOptions(): Highcharts.Options {
+        return {
+            plotOptions: {
+                area: {
+                    color: '#1F8FEB',
+                    marker: { enabled: false, radius: 2 },
+                    lineWidth: 2,
+                    threshold: null,
+                },
+            },
+            yAxis: {
+                gridLineColor: '#1F8FEB20',
+                lineColor: '#1F8FEB20',
+                tickColor: '#1F8FEB20',
+                labels: { style: { color: '#0C0C3A' } },
+            },
+            xAxis: {
+                gridLineColor: '#1F8FEB20',
+                lineColor: '#1F8FEB20',
+                tickColor: '#1F8FEB20',
+                labels: { style: { color: '#0C0C3A' } },
+            },
+        };
+    }
+
+    private _getMiningHistory(): void {
+        const wallet = this.variablesService.currentWallet;
+
+        const { wallet_id, loaded } = wallet;
+
+        if (!loaded) {
             return;
         }
 
-        const d = new Date();
-        let min = null;
-        const newData = [];
+        this._backendService.getMiningHistory(wallet_id, (_, data) => {
+            this._ngZone.run(() => {
+                this._cacheData.clear();
+                this._processMiningHistoryData(data);
+            });
+        });
+    }
 
-        const { group, period } = this.filtersForm.getRawValue();
+    private _processMiningHistoryData(data: any): void {
+        this.total = new BigNumber(0);
+        this.pending.list = [];
+        this.pending.total = new BigNumber(0);
+        this.originalData = [];
 
-        const makeGroupTime = (value: TGroup, date): number => {
-            if (value === 'day') {
-                return date.setHours(0, 0, 0, 0);
-            } else if (value === 'week') {
-                return new Date(date.setDate(date.getDate() - date.getDay())).setHours(0, 0, 0, 0);
-            } else {
-                return new Date(date.setDate(1)).setHours(0, 0, 0, 0);
-            }
-        };
-
-        if (period === '1 week') {
-            this.originalData.forEach(item => {
-                const time = makeGroupTime(group, new Date(item[0]));
-                const find = newData.find(itemNew => itemNew[0] === time);
-                if (find) {
-                    find[1] = new BigNumber(find[1]).plus(item[1]).toNumber();
-                } else {
-                    newData.push([time, item[1]]);
-                }
-            });
-            this.chart.ref?.series[0].setData(newData, true);
-            min = Date.UTC(d.getFullYear(), d.getMonth(), d.getDate() - 7, 0, 0, 0, 0);
-        } else if (period === '2 week') {
-            this.originalData.forEach(item => {
-                const time = makeGroupTime(group, new Date(item[0]));
-                const find = newData.find(itemNew => itemNew[0] === time);
-                if (find) {
-                    find[1] = new BigNumber(find[1]).plus(item[1]).toNumber();
-                } else {
-                    newData.push([time, item[1]]);
-                }
-            });
-            this.chart.ref?.series[0].setData(newData, true);
-            min = Date.UTC(d.getFullYear(), d.getMonth(), d.getDate() - 14, 0, 0, 0, 0);
-        } else if (period === '1 month') {
-            this.originalData.forEach(item => {
-                const time = makeGroupTime(group, new Date(item[0]));
-                const find = newData.find(itemNew => itemNew[0] === time);
-                if (find) {
-                    find[1] = new BigNumber(find[1]).plus(item[1]).toNumber();
-                } else {
-                    newData.push([time, item[1]]);
-                }
-            });
-            this.chart.ref?.series[0].setData(newData, true);
-            min = Date.UTC(d.getFullYear(), d.getMonth() - 1, d.getDate(), 0, 0, 0, 0);
-        } else if (period === '3 month') {
-            this.originalData.forEach(item => {
-                const time = makeGroupTime(group, new Date(item[0]));
-                const find = newData.find(itemNew => itemNew[0] === time);
-                if (find) {
-                    find[1] = new BigNumber(find[1]).plus(item[1]).toNumber();
-                } else {
-                    newData.push([time, item[1]]);
-                }
-            });
-            this.chart.ref?.series[0].setData(newData, true);
-            min = Date.UTC(d.getFullYear(), d.getMonth() - 3, d.getDate(), 0, 0, 0, 0);
-        } else if (period === '6 month') {
-            this.originalData.forEach(item => {
-                const time = makeGroupTime(group, new Date(item[0]));
-                const find = newData.find(itemNew => itemNew[0] === time);
-                if (find) {
-                    find[1] = new BigNumber(find[1]).plus(item[1]).toNumber();
-                } else {
-                    newData.push([time, item[1]]);
-                }
-            });
-            this.chart.ref?.series[0].setData(newData, true);
-            min = Date.UTC(d.getFullYear(), d.getMonth() - 6, d.getDate(), 0, 0, 0, 0);
-        } else if (period === '1 year') {
-            this.originalData.forEach(item => {
-                const time = makeGroupTime(group, new Date(item[0]));
-                const find = newData.find(itemNew => itemNew[0] === time);
-                if (find) {
-                    find[1] = new BigNumber(find[1]).plus(item[1]).toNumber();
-                } else {
-                    newData.push([time, item[1]]);
-                }
-            });
-            this.chart.ref?.series[0].setData(newData, true);
-            min = Date.UTC(d.getFullYear() - 1, d.getMonth(), d.getDate(), 0, 0, 0, 0);
-        } else {
-            this.originalData.forEach(item => {
-                const time = makeGroupTime(group, new Date(item[0]));
-                const find = newData.find(itemNew => itemNew[0] === time);
-                if (find) {
-                    find[1] = new BigNumber(find[1]).plus(item[1]).toNumber();
-                } else {
-                    newData.push([time, item[1]]);
-                }
-            });
-            this.chart.ref?.series[0].setData(newData, true);
+        if (!data.mined_entries) {
+            return;
         }
 
-        this.chart.ref?.xAxis[0].setExtremes(min, null);
+        data.mined_entries.forEach(item => {
+            this._processMinedEntry(item);
+        });
+
+        this.originalData.sort((a, b) => a[0] - b[0]);
+        this._changePeriod();
+    }
+
+    private _processMinedEntry(item: any): void {
+        const timestamp = item.t.toString().length === 10 ? item.t * 1000 : item.t;
+        item.t = new Date(timestamp).setUTCMilliseconds(0);
+
+        this.total = this.total.plus(item.a);
+
+        if (this.variablesService.height_app - item.h < 10) {
+            this.pending.list.push(item);
+            this.pending.total = this.pending.total.plus(item.a);
+        }
+
+        this.originalData.push([parseInt(item.t, 10), parseFloat(this._intToMoneyPipe.transform(item.a))]);
+    }
+
+    private _changePeriod(): void {
+        this.chart.ref$.pipe(take(1)).subscribe({
+            next: ref => {
+                const formValue = this.filtersForm.getRawValue();
+                const { group, period } = formValue;
+                const currentDate = new Date();
+
+                const periodsConfig = {
+                    '1 week': 7,
+                    '2 week': 14,
+                    '1 month': 30,
+                    '3 month': 90,
+                    '6 month': 180,
+                    '1 year': 365,
+                };
+
+                let data = [];
+                let minDate;
+                const cacheKey = `${group}-${period}`;
+                if (this._cacheData.has(cacheKey)) {
+                    const cacheData = this._cacheData.get(cacheKey);
+                    data = cacheData.data;
+                    minDate = cacheData.minDate;
+                } else {
+                    data = this._getGroupedData(this.originalData, group);
+                    minDate = this._getMinDateForPeriod(period, currentDate, periodsConfig);
+                    this._cacheData.set(cacheKey, { data, minDate });
+                }
+
+                ref.series[0].setData([...data], true);
+                ref.xAxis[0].setExtremes(minDate, null);
+                ref.reflow();
+            },
+        });
+    }
+
+    private _getGroupedData(data: any[], group: TGroup): any[] {
+        const groupedData = [];
+
+        data.forEach(item => {
+            const time = this._makeGroupTime(group, new Date(item[0]));
+            const existingItem = groupedData.find(newItem => newItem[0] === time);
+
+            if (existingItem) {
+                existingItem[1] = new BigNumber(existingItem[1]).plus(item[1]).toNumber();
+            } else {
+                groupedData.push([time, item[1]]);
+            }
+        });
+
+        return groupedData;
+    }
+
+    private _makeGroupTime(group: TGroup, date: Date): number {
+        if (group === 'day') {
+            return date.setHours(0, 0, 0, 0);
+        } else if (group === 'week') {
+            return new Date(date.setDate(date.getDate() - date.getDay())).setHours(0, 0, 0, 0);
+        } else {
+            return new Date(date.setDate(1)).setHours(0, 0, 0, 0);
+        }
+    }
+
+    private _getMinDateForPeriod(
+        period: TPeriod,
+        currentDate: Date,
+        periodsConfig: {
+            [key: string]: number;
+        }
+    ): number | null {
+        const daysOffset = periodsConfig[period];
+        if (daysOffset) {
+            return Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - daysOffset, 0, 0, 0, 0);
+        }
+        return null;
     }
 }

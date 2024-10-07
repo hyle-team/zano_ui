@@ -110,55 +110,49 @@ export class LoginComponent implements OnInit, OnDestroy {
     dropSecureAppData(): void {
         this.resetLoading$.next(true);
 
-        // This delay is necessary for the loader to display, as the application freezes for a few seconds
-        setTimeout(() => {
-            this.resetJwtWalletRpc();
-            this.closeAllWallets();
-            this.backend.dropSecureAppData(() => {
-                this.ngZone.run(() => {
-                    this.resetLoading$.next(false);
-                    this.onSkipCreatePass();
-                });
-
+        this.resetJwtWalletRpc();
+        this.closeAllWallets();
+        this.backend.dropSecureAppData(() => {
+            this.ngZone.run(() => {
+                this.resetLoading$.next(false);
+                this.onSkipCreatePass();
             });
-            this.variablesService.contacts = [];
-        }, 500);
+
+        });
+        this.variablesService.contacts = [];
     }
 
     onSubmitAuthPass(): void {
         this.submitLoading$.next(true);
 
-        // This delay is necessary for the loader to display, as the application freezes for a few seconds
-        setTimeout(() => {
-            if (this.authForm.valid) {
-                this.variablesService.appPass = this.authForm.get('password').value;
-                if (this.variablesService.dataIsLoaded) {
-                    this.backend.checkMasterPassword({ pass: this.variablesService.appPass }, status => {
-                        if (status) {
-                            this.variablesService.appLogin = true;
-                            if (this.variablesService.settings.appLockTime) {
-                                this.variablesService.startCountdown();
-                            }
-                            this.ngZone.run(() => {
-                                this.submitLoading$.next(false);
-                                this.router.navigate(['/'], {
-                                    queryParams: { prevUrl: 'login' },
-                                });
-                            });
-                        } else {
-                            this.ngZone.run(() => {
-                                this.submitLoading$.next(false);
-                                this.setAuthPassError({ wrong_password: true });
-                            });
+        if (this.authForm.valid) {
+            this.variablesService.appPass = this.authForm.get('password').value;
+            if (this.variablesService.dataIsLoaded) {
+                this.backend.checkMasterPassword({ pass: this.variablesService.appPass }, status => {
+                    if (status) {
+                        this.variablesService.appLogin = true;
+                        if (this.variablesService.settings.appLockTime) {
+                            this.variablesService.startCountdown();
                         }
-                    });
-                } else {
-                    this.getData(this.variablesService.appPass);
-                }
+                        this.ngZone.run(() => {
+                            this.submitLoading$.next(false);
+                            this.router.navigate(['/'], {
+                                queryParams: { prevUrl: 'login' },
+                            });
+                        });
+                    } else {
+                        this.ngZone.run(() => {
+                            this.submitLoading$.next(false);
+                            this.setAuthPassError({ wrong_password: true });
+                        });
+                    }
+                });
             } else {
-                this.submitLoading$.next(false);
+                this.getData(this.variablesService.appPass);
             }
-        }, 500);
+        } else {
+            this.submitLoading$.next(false);
+        }
     }
 
     getData(appPass): void {

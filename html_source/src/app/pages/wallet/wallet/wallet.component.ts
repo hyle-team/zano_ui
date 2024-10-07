@@ -5,7 +5,7 @@ import { Observable, Subject, take } from 'rxjs';
 import { StateKeys, Store, Sync } from '@store/store';
 import { distinctUntilChanged, filter, map, takeUntil } from 'rxjs/operators';
 import { hasOwnProperty } from '@parts/functions/has-own-property';
-import { Dialog, DialogConfig } from '@angular/cdk/dialog';
+import { Dialog } from '@angular/cdk/dialog';
 import { ConfirmModalComponent, ConfirmModalData } from '@parts/modals/confirm-modal/confirm-modal.component';
 import { ExportHistoryModalComponent } from './modals/export-history-modal/export-history-modal.component';
 import { AddCustomTokenComponent } from './modals/add-custom-token/add-custom-token.component';
@@ -16,7 +16,6 @@ import { Wallet } from '@api/models/wallet.model';
 import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router, RouterEvent } from '@angular/router';
 import { ZARCANUM_MIGRATION } from '@parts/data/constants';
 import { MigrateWalletToZarcanumComponent } from './modals/migrate-wallet-to-zarcanum/migrate-wallet-to-zarcanum.component';
-import { ScrollStrategy, ScrollStrategyOptions } from '@angular/cdk/overlay';
 import { ParamsCallRpc } from '@api/models/call_rpc.model';
 import { ModalService } from '@parts/services/modal.service';
 import { GetBareOutsStats } from '@api/models/rpc.models';
@@ -445,19 +444,13 @@ export class WalletComponent implements OnInit, OnDestroy {
             this.loader = true;
         }
         if (event instanceof NavigationEnd) {
-            setTimeout(() => {
-                this.loader = false;
-            }, 500);
+            this.loader = false;
         }
         if (event instanceof NavigationCancel) {
-            setTimeout(() => {
-                this.loader = false;
-            }, 500);
+            this.loader = false;
         }
         if (event instanceof NavigationError) {
-            setTimeout(() => {
-                this.loader = false;
-            }, 500);
+            this.loader = false;
         }
     }
 
