@@ -707,7 +707,7 @@
                     "LABEL1": "Zano Companion",
                     "LABEL2": "Secret",
                     "LABEL3": "Port",
-                    "LABEL4": "(master password required)"
+                    "LABEL4": "(Requires master password)"
                 }
             }
         },
@@ -732,7 +732,8 @@
             "CONFIRM": "Confirmer le mot de passe",
             "NEW": "Nouveau mot de passe",
             "OLD": "Ancien mot de passe",
-            "TITLE": "Mettre à jour le mot de passe principal"
+            "TITLE1": "Set up Master Password",
+            "TITLE2": "Update Master Password"
         },
         "NOTIFICATIONS": "Avis",
         "SCALE": {
