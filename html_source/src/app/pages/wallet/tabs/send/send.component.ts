@@ -11,9 +11,9 @@ import { regExpAliasName } from '@parts/utils/zano-validators';
 import { insuficcientFunds } from '@parts/utils/zano-errors';
 import { DeeplinkParams, defaultSendMoneyParams } from '@api/models/wallet.model';
 import { WrapInfo } from '@api/models/wrap-info';
-import { WrapInfoService } from '@api/services/wrap-info.service';
+import { ApiZanoService } from '@api/services/api-zano.service';
 import { SendMoneyFormParams } from '@api/models/send-money.model';
-import { defaultImgSrc, ZanoAssetInfo, zanoAssetInfo } from '@parts/data/assets';
+import { ZanoAssetInfo, zanoAssetInfo } from '@parts/data/assets';
 import { moneyToInt } from '@parts/functions/money-to-int';
 import { intToMoney } from '@parts/functions/int-to-money';
 import { TranslateService } from '@ngx-translate/core';
@@ -58,7 +58,7 @@ export class SendComponent implements OnDestroy {
 
     variablesService: VariablesService = inject(VariablesService);
 
-    wrapInfoService: WrapInfoService = inject(WrapInfoService);
+    wrapInfoService: ApiZanoService = inject(ApiZanoService);
 
     assetItems$: Observable<(AssetBalance & { disabled: boolean })[]> = combineLatest([
         this.variablesService.currentWallet.balances$,
@@ -238,17 +238,6 @@ export class SendComponent implements OnDestroy {
         this.errorMessages['fee'] = message;
     }
 
-    getSrcByAsset({ asset_info: { asset_id } }: AssetBalance): string {
-        switch (asset_id) {
-            case zanoAssetInfo.asset_id: {
-                return zanoAssetInfo.logo;
-            }
-            default: {
-                return defaultImgSrc;
-            }
-        }
-    }
-
     isVisibleError(control: AbstractControl): boolean {
         return control.invalid && (control.dirty || control.touched);
     }
@@ -331,7 +320,7 @@ export class SendComponent implements OnDestroy {
         sendMoneyParams = {
             ...sendMoneyParams,
             // Need to send "true" if the value is "false" and "false" if the value is "true"
-            hide_receiver: !hide_receiver
+            hide_receiver: !hide_receiver,
         };
 
         this._backendService.sendMoney(sendMoneyParams, (job_id: number) => {

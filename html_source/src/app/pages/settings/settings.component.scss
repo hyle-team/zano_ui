@@ -8,12 +8,17 @@
     padding-right: 7rem;
 }
 
+.form__field {
+    .btn--copy {
+        position: absolute;
+        right: 4rem;
+        top: 3.6rem;
+    }
+}
+
 .btn--copy {
     padding: 4px;
     border-radius: 4px;
-    position: absolute;
-    right: 4rem;
-    top: 3.6rem;
     background: var(--btn-icon-background);
     cursor: pointer;
 }

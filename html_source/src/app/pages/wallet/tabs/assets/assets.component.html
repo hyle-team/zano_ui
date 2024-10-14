@@ -1,0 +1,193 @@
+<div fxFlexFill fxLayout="column">
+    <div [class.mb-2]="isShowPagination" class="scrolled-content" fxFlex="1 1 auto">
+        <table class="zano-table assets-table">
+            <thead>
+            <tr>
+                <th>
+                    <div class="bg title">
+                        {{ 'ASSETS.TABLE.LABELS.NAME' | translate }}
+                    </div>
+                </th>
+                <th>
+                    <div class="bg title">
+                        {{ 'ASSETS.TABLE.LABELS.BALANCE' | translate }}
+                    </div>
+                </th>
+                <th>
+                    <div class="bg title">
+                        {{ 'ASSETS.TABLE.LABELS.VALUE' | translate }}
+                    </div>
+                </th>
+                <th>
+                    <div class="bg title">
+                        {{ 'ASSETS.TABLE.LABELS.PRICE' | translate }}
+                    </div>
+                </th>
+                <th>
+                    <div class="bg title">&nbsp;</div>
+                </th>
+            </tr>
+            <div class="row-divider"></div>
+            </thead>
+            <tbody>
+            <ng-container *ngIf="variablesService.currentWallet.balances$ | async as assets">
+                <ng-container *ngFor="let asset of assets | paginate : paginatePipeArgs; trackBy: trackByAssets">
+                    <tr
+                        [delay]="100"
+                        [placement]="'bottom'"
+                        [timeDelay]="1500"
+                        [tooltipClass]="'balance-tooltip'"
+                        [tooltip]="getBalanceTooltip(asset)"
+                    >
+                        <td>
+                            <div class="text-ellipsis" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2rem">
+                                <div class="token-logo mr-1" [innerHTML]="asset.asset_info | getAssetLogo"></div>
+                                <b class="text-ellipsis">{{ asset.asset_info.full_name }}</b>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-ellipsis">
+                                <b *appVisibilityBalance>
+                                    {{ asset.total | intToMoney : asset.asset_info.decimal_point }}
+                                    {{ asset.asset_info.ticker }}
+                                </b>
+                            </div>
+                        </td>
+                        <ng-container
+                            *ngIf="asset.asset_info.asset_id === zanoAssetInfo.asset_id; else templateNotLoadPrice">
+                            <td>
+                                <div class="text-ellipsis">
+                                    <b *appVisibilityBalance>{{
+                                            (asset.total | intToMoney : asset.asset_info.decimal_point) *
+                                            variablesService.zanoMoneyEquivalent | currency : 'USD'
+                                        }}</b>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="text-ellipsis">
+                                    <b class="mr-0_5">{{ variablesService.zanoMoneyEquivalent | currency : 'USD' }}</b>
+                                    <span
+                                        [class.color-aqua]="variablesService.zanoMoneyEquivalentPercent > 0"
+                                        [class.color-red]="variablesService.zanoMoneyEquivalentPercent < 0"
+                                    >
+                                                    {{ variablesService.zanoMoneyEquivalentPercent | number : '1.2-2' }}
+                                        %
+                                                </span>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <ng-template #templateNotLoadPrice>
+                            <td></td>
+                            <td></td>
+                        </ng-template>
+                        <td>
+                            <div class="text-ellipsis" fxLayout="row" fxLayoutAlign="end center">
+                                <button
+                                    #trigger="cdkOverlayOrigin"
+                                    (click)="toggleDropDownMenu(trigger, asset); $event.stopPropagation()"
+                                    [disabled]="false"
+                                    cdkOverlayOrigin
+                                    class="btn-icon circle row-options small ml-auto"
+                                    type="button"
+                                >
+                                    <mat-icon class="small" svgIcon="zano-row-options"></mat-icon>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="row-divider"></tr>
+                </ng-container>
+            </ng-container>
+            </tbody>
+        </table>
+    </div>
+
+    <pagination-template
+        #p="paginationApi"
+        (pageChange)="currentPage = $event"
+        *ngIf="isShowPagination"
+        [id]="paginationId"
+        class="ngx-pagination custom-pagination"
+    >
+        <button (click)="p.previous()" [disabled]="p.isFirstPage()"
+                class="pagination-previous btn-icon circle small mr-0_5">
+            <mat-icon svgIcon="zano-arrow-left"></mat-icon>
+        </button>
+
+        <div *ngFor="let page of p.pages; trackBy: trackByPages" [class.current]="p.getCurrent() === page.value"
+             class="mr-0_5">
+            <a (click)="p.setCurrent(page.value)" *ngIf="p.getCurrent() !== page.value">
+                <span>{{ page.label }}</span>
+            </a>
+            <div *ngIf="p.getCurrent() === page.value">
+                <span>{{ page.label }}</span>
+            </div>
+        </div>
+
+        <button (click)="p.next()" [disabled]="p.isLastPage()" class="pagination-next btn-icon circle small">
+            <mat-icon svgIcon="zano-arrow-right"></mat-icon>
+        </button>
+    </pagination-template>
+</div>
+
+<ng-template
+    (backdropClick)="$event.stopPropagation(); isOpenDropDownMenu = false"
+    [cdkConnectedOverlayBackdropClass]="'opacity-0'"
+    [cdkConnectedOverlayHasBackdrop]="true"
+    [cdkConnectedOverlayOpen]="isOpenDropDownMenu"
+    [cdkConnectedOverlayOrigin]="triggerOrigin"
+    [cdkConnectedOverlayPositions]="[
+                {
+                    originX: 'end',
+                    originY: 'top',
+                    overlayX: 'end',
+                    overlayY: 'top',
+                    offsetY: 30
+                }
+            ]"
+    cdkConnectedOverlay
+>
+    <ul (click)="isOpenDropDownMenu = false" class="list">
+        <li class="item">
+            <button (click)="assetDetails()" class="w-100 px-2 py-1" type="button">
+                <mat-icon class="mr-1" svgIcon="zano-info-v2"></mat-icon>
+                <span>{{ 'ASSETS.DROP_DOWN_MENU.ASSET_DETAILS' | translate }}</span>
+            </button>
+        </li>
+
+        <ng-container
+            *ngIf="
+                        variablesService.currentWallet.loaded &&
+                        variablesService.daemon_state === 2 &&
+                        !variablesService.currentWallet.is_auditable &&
+                        !variablesService.currentWallet.is_watch_only
+                    "
+        >
+            <li class="item">
+                <button [state]="{ asset: currentAsset }" class="w-100 px-2 py-1" routerLink="/wallet/send">
+                    <mat-icon class="mr-1" svgIcon="zano-send"></mat-icon>
+                    <span>{{ 'Send' | translate }}</span>
+                </button>
+            </li>
+
+            <ng-container *ngIf="variablesService.is_hardfok_active$ | async">
+                <li class="item">
+                    <button [state]="{ asset: currentAsset }" class="w-100 px-2 py-1" routerLink="/wallet/create-swap">
+                        <mat-icon class="mr-1" svgIcon="zano-swap"></mat-icon>
+                        <span>{{ 'Swap' | translate }}</span>
+                    </button>
+                </li>
+            </ng-container>
+        </ng-container>
+
+        <ng-container *ngIf="currentAsset.asset_info.ticker !== 'ZANO'">
+            <li class="item">
+                <button (click)="beforeRemoveAsset()" class="w-100 px-2 py-1" type="button">
+                    <mat-icon class="mr-1" svgIcon="zano-delete"></mat-icon>
+                    <span>{{ 'ASSETS.DROP_DOWN_MENU.REMOVE_ASSET' | translate }}</span>
+                </button>
+            </li>
+        </ng-container>
+    </ul>
+</ng-template>

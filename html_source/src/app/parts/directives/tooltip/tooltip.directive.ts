@@ -101,7 +101,9 @@ export class TooltipDirective implements OnDestroy {
     cancelHide(): void {
         clearTimeout(this.removeTooltipTimeout);
         clearTimeout(this.removeTooltipTimeoutInner);
-        this.renderer.setStyle(this.tooltip, 'opacity', '1');
+        if (this.tooltip) {
+            this.renderer.setStyle(this.tooltip, 'opacity', '1');
+        }
     }
 
     create(): void {

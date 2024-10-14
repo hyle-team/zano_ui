@@ -7,11 +7,17 @@
             "root": "",
             "sourceRoot": "src",
             "projectType": "application",
-            "prefix": "app",
+            "prefix": "zano",
             "schematics": {
                 "@schematics/angular:component": {
                     "style": "scss",
-                    "skipTests": true
+                    "standalone": true
+                },
+                "@schematics/angular:directive": {
+                    "standalone": true
+                },
+                "@schematics/angular:pipe": {
+                    "standalone": true
                 }
             },
             "architect": {

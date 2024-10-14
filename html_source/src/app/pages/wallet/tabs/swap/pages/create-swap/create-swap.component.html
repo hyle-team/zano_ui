@@ -22,21 +22,23 @@
                     *ngIf="isVisibleErrorByControl(form.controls.sending.controls.amount) || isVisibleErrorByForm(form.controls.sending)"
                     class="error"
                 >
-                    <ng-container *ngIf="form.controls.sending.controls.amount.hasError('zero')">
-                        {{ 'SEND.FORM_ERRORS.AMOUNT_ZERO' | translate }}
+                    <ng-container [ngSwitch]="true">
+                        <ng-container *ngSwitchCase="form.controls.sending.controls.amount.hasError('zero')">
+                            {{ 'SEND.FORM_ERRORS.AMOUNT_ZERO' | translate }}
+                        </ng-container>
+                        <ng-container *ngSwitchCase="form.controls.sending.controls.amount.hasError('required') && !form.controls.sending.hasError('assetHasNotBeenAddedToWallet')">
+                            {{ 'ERRORS.REQUIRED' | translate }}
+                        </ng-container>
+                        <ng-container *ngSwitchCase="form.controls.sending.hasError('greater_than_maximum_amount')">
+                            {{ 'ERRORS.MAX' | translate : { max: form.controls.sending.errors['greater_than_maximum_amount'].max } }}
+                        </ng-container>
+                        <ng-container *ngSwitchCase="form.controls.sending.hasError('insuficcientFunds')">
+                            {{ form.controls.sending.errors['insuficcientFunds'].errorText | translate }}
+                        </ng-container>
+                        <ng-container *ngSwitchCase="form.controls.sending.hasError('assetHasNotBeenAddedToWallet')">
+                            {{ form.controls.sending.errors['assetHasNotBeenAddedToWallet'].errorText | translate }}
+                        </ng-container>
                     </ng-container>
-                    <ng-container *ngIf="form.controls.sending.controls.amount.hasError('required')">
-                        {{ 'ERRORS.REQUIRED' | translate }}
-                    </ng-container>
-                    <ng-container *ngIf="form.controls.sending.hasError('greater_than_maximum_amount')">
-                        {{ 'ERRORS.MAX' | translate : { max: form.controls.sending.errors['greater_than_maximum_amount'].max } }}
-                    </ng-container>
-                    <ng-container *ngIf="form.controls.sending.hasError('insuficcientFunds')">
-                        {{ form.controls.sending.errors['insuficcientFunds'].errorText | translate }}
-                    </ng-container>
-                    <div *ngIf="form.controls.sending.hasError('assetHasNotBeenAddedToWallet')">
-                        {{ form.controls.sending.errors['assetHasNotBeenAddedToWallet'].errorText | translate }}
-                    </div>
                 </div>
             </div>
 
@@ -52,7 +54,7 @@
                     formControlName="asset_id"
                 >
                     <ng-template let-assetInfo="item" ng-label-tmp ng-option-tmp>
-                        <img [alt]="assetInfo.ticker" [src]="getSrcByAssetInfo(assetInfo)" height="15" width="15" />
+                        <div class="token-logo" [innerHTML]="assetInfo | getAssetLogo"></div>
                         {{ assetInfo.full_name || '---' }}
                     </ng-template>
                 </ng-select>
@@ -87,17 +89,19 @@
                     "
                     class="error"
                 >
-                    <ng-container *ngIf="form.controls.receiving.controls.amount.hasError('required')">
-                        {{ 'ERRORS.REQUIRED' | translate }}
-                    </ng-container>
-                    <ng-container *ngIf="form.controls.receiving.controls.amount.hasError('zero')">
-                        {{ 'SEND.FORM_ERRORS.AMOUNT_ZERO' | translate }}
-                    </ng-container>
-                    <ng-container *ngIf="form.controls.receiving.hasError('greater_than_maximum_amount')">
-                        {{ 'ERRORS.MAX' | translate : { max: form.controls.receiving.errors['greater_than_maximum_amount'].max } }}
-                    </ng-container>
-                    <ng-container *ngIf="form.controls.receiving.hasError('assetHasNotBeenAddedToWallet')">
-                        {{ form.controls.receiving.errors['assetHasNotBeenAddedToWallet'].errorText | translate }}
+                    <ng-container [ngSwitch]="true">
+                        <ng-container *ngSwitchCase="form.controls.receiving.controls.amount.hasError('required') && !form.controls.receiving.hasError('assetHasNotBeenAddedToWallet')">
+                            {{ 'ERRORS.REQUIRED' | translate }}
+                        </ng-container>
+                        <ng-container *ngSwitchCase="form.controls.receiving.controls.amount.hasError('zero')">
+                            {{ 'SEND.FORM_ERRORS.AMOUNT_ZERO' | translate }}
+                        </ng-container>
+                        <ng-container *ngSwitchCase="form.controls.receiving.hasError('greater_than_maximum_amount')">
+                            {{ 'ERRORS.MAX' | translate : { max: form.controls.receiving.errors['greater_than_maximum_amount'].max } }}
+                        </ng-container>
+                        <ng-container *ngSwitchCase="form.controls.receiving.hasError('assetHasNotBeenAddedToWallet')">
+                            {{ form.controls.receiving.errors['assetHasNotBeenAddedToWallet'].errorText | translate }}
+                        </ng-container>
                     </ng-container>
                 </div>
             </div>
@@ -113,7 +117,7 @@
                     formControlName="asset_id"
                 >
                     <ng-template let-assetInfo="item" ng-label-tmp ng-option-tmp>
-                        <img [alt]="assetInfo.ticker" [src]="getSrcByAssetInfo(assetInfo)" height="15" width="15" />
+                        <div class="token-logo" [innerHTML]="assetInfo | getAssetLogo"></div>
                         {{ assetInfo.full_name || '---' }}
                     </ng-template>
                 </ng-select>

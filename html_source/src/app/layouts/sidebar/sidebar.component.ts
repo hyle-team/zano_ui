@@ -16,23 +16,26 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
     template: `
         <div class="sidebar-header mb-2">
             <div class="logo">
-                <img alt="zano-logo" [src]="zanoLogo" />
+                <img [src]="zanoLogo" alt="zano-logo" />
             </div>
         </div>
 
         <div class="sidebar-content">
-            <div (cdkDropListDropped)="drop($event)" cdkDropList cdkDropListLockAxis="y" class="sidebar-content-list scrolled-content mb-1">
+            <div (cdkDropListDropped)="drop($event)" cdkDropList cdkDropListLockAxis="y"
+                 class="sidebar-content-list scrolled-content mb-1">
                 <app-wallet-card
+                    (click)="selectWallet(wallet.wallet_id)"
+                    (eventClose)="beforeClose($event)"
                     *ngFor="let wallet of variablesService.wallets"
                     [cdkDragData]="wallet"
                     [ngClass]="{
                         active: wallet?.wallet_id === variablesService?.currentWallet?.wallet_id,
                         auditable: wallet.is_auditable && !wallet.is_watch_only,
-                        'watch-only': wallet.is_watch_only
+                        'watch-only': wallet.is_watch_only,
+                        'offset-testnet': variablesService.testnet,
+                        'mb-1': !variablesService.testnet
                     }"
                     [wallet]="wallet"
-                    (click)="selectWallet(wallet.wallet_id)"
-                    (eventClose)="beforeClose($event)"
                     cdkDrag
                 ></app-wallet-card>
             </div>
@@ -44,7 +47,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
                     fxLayout="row inline wrap"
                     fxLayoutAlign="start center"
                 >
-                    <mat-icon svgIcon="zano-plus" class="mr-1"></mat-icon>
+                    <mat-icon class="mr-1" svgIcon="zano-plus"></mat-icon>
                     <span>{{ 'SIDEBAR.ADD_NEW' | translate }}</span>
                 </button>
 
@@ -55,7 +58,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
                     fxLayoutAlign="start center"
                     routerLinkActive="active"
                 >
-                    <mat-icon svgIcon="zano-settings" class="mr-1"></mat-icon>
+                    <mat-icon class="mr-1" svgIcon="zano-settings"></mat-icon>
                     <span>{{ 'SIDEBAR.SETTINGS' | translate }}</span>
                 </button>
 
@@ -72,14 +75,15 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
                         tooltip="{{ 'SIDEBAR.LOG_OUT_TOOLTIP' | translate }}"
                         tooltipClass="table-tooltip account-tooltip"
                     >
-                        <mat-icon svgIcon="zano-logout" class="mr-1"></mat-icon>
+                        <mat-icon class="mr-1" svgIcon="zano-logout"></mat-icon>
                         <span>{{ 'SIDEBAR.LOG_OUT' | translate }}</span>
                     </button>
                 </ng-container>
 
                 <ng-template #masterPass>
-                    <button (click)="logOut()" class="outline small w-100 px-2" fxLayout="row inline wrap" fxLayoutAlign="start center">
-                        <mat-icon svgIcon="zano-logout" class="mr-1"></mat-icon>
+                    <button (click)="logOut()" class="outline small w-100 px-2" fxLayout="row inline wrap"
+                            fxLayoutAlign="start center">
+                        <mat-icon class="mr-1" svgIcon="zano-logout"></mat-icon>
                         <span> {{ 'SIDEBAR.LOG_OUT' | translate }}</span>
                     </button>
                 </ng-template>

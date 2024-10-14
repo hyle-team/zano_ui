@@ -35,6 +35,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatOptionModule } from '@angular/material/core';
 import { WalletsService } from '@parts/services/wallets.service';
 import { MatIconModule } from '@angular/material/icon';
+import { GetAssetLogoPipe } from '@parts/pipes/get-asset-logo.pipe';
 
 @Component({
     selector: 'app-create-swap',
@@ -57,6 +58,7 @@ import { MatIconModule } from '@angular/material/icon';
         MatAutocompleteModule,
         MatOptionModule,
         MatIconModule,
+        GetAssetLogoPipe,
     ],
     templateUrl: './create-swap.component.html',
     styleUrls: ['./create-swap.component.scss'],
@@ -560,7 +562,9 @@ export class CreateSwapComponent implements OnDestroy {
         const state = history.state || {};
         const history_asset: AssetBalance = state['asset'];
         if (history_asset) {
-            const { asset_info: { asset_id } } = history_asset;
+            const {
+                asset_info: { asset_id },
+            } = history_asset;
             this.form.patchValue({
                 sending: {
                     asset_id,
