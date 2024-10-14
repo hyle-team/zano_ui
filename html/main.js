@@ -1303,7 +1303,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "AppComponent": () => (/* binding */ AppComponent)
 /* harmony export */ });
-/* harmony import */ var _home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
+/* harmony import */ var _Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
 /* harmony import */ var _api_services_backend_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @api/services/backend.service */ 10122);
 /* harmony import */ var bignumber_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! bignumber.js */ 82481);
 /* harmony import */ var _store_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @store/store */ 85041);
@@ -1529,7 +1529,7 @@ class AppComponent {
         this.backendService.start_backend(false, '127.0.0.1', 11512, (st2, dd2) => {
           console.log(st2, dd2);
         });
-        this.backendService.eventSubscribe(_api_services_backend_service__WEBPACK_IMPORTED_MODULE_1__.Commands.quit_requested, /*#__PURE__*/(0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+        this.backendService.eventSubscribe(_api_services_backend_service__WEBPACK_IMPORTED_MODULE_1__.Commands.quit_requested, /*#__PURE__*/(0,_Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
           if (_this.onQuitRequest) {
             return;
           } // await this.ngZone.run(async () => {
@@ -2915,7 +2915,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "AddWalletComponent": () => (/* binding */ AddWalletComponent)
 /* harmony export */ });
-/* harmony import */ var _home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
+/* harmony import */ var _Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @ngx-translate/core */ 87514);
 /* harmony import */ var _parts_data_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @parts/data/constants */ 23480);
@@ -2966,7 +2966,7 @@ class AddWalletComponent {
     const caption = this.translateService.instant('MAIN.CHOOSE_PATH');
     const default_path = this.variablesService.settings.default_path;
     this.backendService.openFileDialog(caption, '*', default_path, /*#__PURE__*/function () {
-      var _ref = (0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (file_status, file_data) {
+      var _ref = (0,_Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (file_status, file_data) {
         if (!file_status) {
           if (file_data['error_code'] !== 'CANCELED') {
             _this.modalService.prepareModal('error', file_data['error_code']);
@@ -2988,7 +2988,7 @@ class AddWalletComponent {
         }
 
         _this.variablesService.settings.default_path = new_default_path;
-        yield _this.ngZone.run( /*#__PURE__*/(0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+        yield _this.ngZone.run( /*#__PURE__*/(0,_Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
           yield _this.router.navigate(['/open'], {
             queryParams: {
               path: file_data.path
@@ -3094,7 +3094,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "AssignAliasComponent": () => (/* binding */ AssignAliasComponent)
 /* harmony export */ });
-/* harmony import */ var _home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
+/* harmony import */ var _Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/forms */ 90587);
 /* harmony import */ var bignumber_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! bignumber.js */ 82481);
@@ -3325,13 +3325,13 @@ class AssignAliasComponent {
     } else {
       this.alias.comment = this.assignForm.get('comment').value;
       this.backend.registerAlias(this.wallet.wallet_id, this.alias.name, this.wallet.address, this.alias.fee, this.alias.comment, this.alias.rewardOriginal, /*#__PURE__*/function () {
-        var _ref = (0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (status) {
+        var _ref = (0,_Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (status) {
           if (status) {
             _this.wallet.wakeAlias = true;
 
             _this.modalService.prepareModal('info', 'ASSIGN_ALIAS.REQUEST_ADD_REG');
 
-            yield _this.ngZone.run( /*#__PURE__*/(0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+            yield _this.ngZone.run( /*#__PURE__*/(0,_Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
               yield _this.router.navigate(['/wallet/']);
             }));
           }
@@ -3936,63 +3936,58 @@ class LoginComponent {
   }
 
   dropSecureAppData() {
-    this.resetLoading$.next(true); // This delay is necessary for the loader to display, as the application freezes for a few seconds
-
-    setTimeout(() => {
-      this.resetJwtWalletRpc();
-      this.closeAllWallets();
-      this.backend.dropSecureAppData(() => {
-        this.ngZone.run(() => {
-          this.resetLoading$.next(false);
-          this.onSkipCreatePass();
-        });
+    this.resetLoading$.next(true);
+    this.resetJwtWalletRpc();
+    this.closeAllWallets();
+    this.backend.dropSecureAppData(() => {
+      this.ngZone.run(() => {
+        this.resetLoading$.next(false);
+        this.onSkipCreatePass();
       });
-      this.variablesService.contacts = [];
-    }, 500);
+    });
+    this.variablesService.contacts = [];
   }
 
   onSubmitAuthPass() {
-    this.submitLoading$.next(true); // This delay is necessary for the loader to display, as the application freezes for a few seconds
+    this.submitLoading$.next(true);
 
-    setTimeout(() => {
-      if (this.authForm.valid) {
-        this.variablesService.appPass = this.authForm.get('password').value;
+    if (this.authForm.valid) {
+      this.variablesService.appPass = this.authForm.get('password').value;
 
-        if (this.variablesService.dataIsLoaded) {
-          this.backend.checkMasterPassword({
-            pass: this.variablesService.appPass
-          }, status => {
-            if (status) {
-              this.variablesService.appLogin = true;
+      if (this.variablesService.dataIsLoaded) {
+        this.backend.checkMasterPassword({
+          pass: this.variablesService.appPass
+        }, status => {
+          if (status) {
+            this.variablesService.appLogin = true;
 
-              if (this.variablesService.settings.appLockTime) {
-                this.variablesService.startCountdown();
-              }
-
-              this.ngZone.run(() => {
-                this.submitLoading$.next(false);
-                this.router.navigate(['/'], {
-                  queryParams: {
-                    prevUrl: 'login'
-                  }
-                });
-              });
-            } else {
-              this.ngZone.run(() => {
-                this.submitLoading$.next(false);
-                this.setAuthPassError({
-                  wrong_password: true
-                });
-              });
+            if (this.variablesService.settings.appLockTime) {
+              this.variablesService.startCountdown();
             }
-          });
-        } else {
-          this.getData(this.variablesService.appPass);
-        }
+
+            this.ngZone.run(() => {
+              this.submitLoading$.next(false);
+              this.router.navigate(['/'], {
+                queryParams: {
+                  prevUrl: 'login'
+                }
+              });
+            });
+          } else {
+            this.ngZone.run(() => {
+              this.submitLoading$.next(false);
+              this.setAuthPassError({
+                wrong_password: true
+              });
+            });
+          }
+        });
       } else {
-        this.submitLoading$.next(false);
+        this.getData(this.variablesService.appPass);
       }
-    }, 500);
+    } else {
+      this.submitLoading$.next(false);
+    }
   }
 
   getData(appPass) {
@@ -4314,7 +4309,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "CreateWalletComponent": () => (/* binding */ CreateWalletComponent)
 /* harmony export */ });
-/* harmony import */ var _home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
+/* harmony import */ var _Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/forms */ 90587);
 /* harmony import */ var _api_services_backend_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @api/services/backend.service */ 10122);
@@ -4548,84 +4543,81 @@ class CreateWalletComponent {
   createWallet() {
     var _this = this;
 
-    this.loading$.next(true); // This delay is necessary for the loader to display, as the application freezes for a few seconds
+    this.loading$.next(true);
+    const {
+      path: selectedPath,
+      password,
+      name
+    } = this.createForm.getRawValue();
+    this.backend.generateWallet(selectedPath, password, /*#__PURE__*/function () {
+      var _ref = (0,_Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (generate_status, generate_data, errorCode) {
+        if (generate_status) {
+          const {
+            wallet_id
+          } = generate_data;
+          const {
+            path,
+            address,
+            balance,
+            unlocked_balance,
+            mined_total,
+            tracking_hey
+          } = generate_data['wi'];
+          const wallet = new _api_models_wallet_model__WEBPACK_IMPORTED_MODULE_4__.Wallet(wallet_id, name, password, path, address, balance, unlocked_balance, mined_total, tracking_hey);
+          wallet.alias = _this.backend.getWalletAlias(address);
+          wallet.total_history_item = 0;
+          wallet.pages = new Array(1).fill(1);
+          wallet.totalPages = 1;
+          wallet.currentPage = 1;
 
-    setTimeout(() => {
-      const {
-        path: selectedPath,
-        password,
-        name
-      } = this.createForm.getRawValue();
-      this.backend.generateWallet(selectedPath, password, /*#__PURE__*/function () {
-        var _ref = (0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (generate_status, generate_data, errorCode) {
-          if (generate_status) {
-            const {
-              wallet_id
-            } = generate_data;
-            const {
-              path,
-              address,
-              balance,
-              unlocked_balance,
-              mined_total,
-              tracking_hey
-            } = generate_data['wi'];
-            const wallet = new _api_models_wallet_model__WEBPACK_IMPORTED_MODULE_4__.Wallet(wallet_id, name, password, path, address, balance, unlocked_balance, mined_total, tracking_hey);
-            wallet.alias = _this.backend.getWalletAlias(address);
-            wallet.total_history_item = 0;
-            wallet.pages = new Array(1).fill(1);
-            wallet.totalPages = 1;
-            wallet.currentPage = 1;
+          _this.walletsService.addWallet(wallet);
 
-            _this.walletsService.addWallet(wallet);
+          yield _this.backend.runWallet(wallet_id, /*#__PURE__*/function () {
+            var _ref2 = (0,_Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (run_status, run_data) {
+              if (run_status) {
+                yield _this.ngZone.run( /*#__PURE__*/(0,_Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+                  if (_this.variablesService.appPass) {
+                    _this.backend.storeSecureAppData();
+                  }
 
-            yield _this.backend.runWallet(wallet_id, /*#__PURE__*/function () {
-              var _ref2 = (0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (run_status, run_data) {
-                if (run_status) {
-                  yield _this.ngZone.run( /*#__PURE__*/(0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-                    if (_this.variablesService.appPass) {
-                      _this.backend.storeSecureAppData();
+                  _this.variablesService.setCurrentWallet(wallet_id);
+
+                  _this.loading$.next(false);
+
+                  yield _this.router.navigate(['/seed-phrase'], {
+                    queryParams: {
+                      wallet_id
                     }
-
-                    _this.variablesService.setCurrentWallet(wallet_id);
-
-                    _this.loading$.next(false);
-
-                    yield _this.router.navigate(['/seed-phrase'], {
-                      queryParams: {
-                        wallet_id
-                      }
-                    });
-                  }));
-                } else {
-                  console.log(run_data['error_code']);
-
-                  _this.ngZone.run(() => {
-                    _this.loading$.next(false);
                   });
-                }
-              });
+                }));
+              } else {
+                console.log(run_data['error_code']);
 
-              return function (_x4, _x5) {
-                return _ref2.apply(this, arguments);
-              };
-            }());
-          } else {
-            const errorTranslationKey = errorCode === 'ALREADY_EXISTS' ? 'CREATE_WALLET.ERROR_CANNOT_SAVE_TOP' : 'CREATE_WALLET.ERROR_CANNOT_SAVE_SYSTEM';
-
-            _this.modalService.prepareModal('error', errorTranslationKey);
-
-            _this.ngZone.run(() => {
-              _this.loading$.next(false);
+                _this.ngZone.run(() => {
+                  _this.loading$.next(false);
+                });
+              }
             });
-          }
-        });
 
-        return function (_x, _x2, _x3) {
-          return _ref.apply(this, arguments);
-        };
-      }());
-    }, 500);
+            return function (_x4, _x5) {
+              return _ref2.apply(this, arguments);
+            };
+          }());
+        } else {
+          const errorTranslationKey = errorCode === 'ALREADY_EXISTS' ? 'CREATE_WALLET.ERROR_CANNOT_SAVE_TOP' : 'CREATE_WALLET.ERROR_CANNOT_SAVE_SYSTEM';
+
+          _this.modalService.prepareModal('error', errorTranslationKey);
+
+          _this.ngZone.run(() => {
+            _this.loading$.next(false);
+          });
+        }
+      });
+
+      return function (_x, _x2, _x3) {
+        return _ref.apply(this, arguments);
+      };
+    }());
   }
 
   selectWalletLocation() {
@@ -5953,108 +5945,105 @@ class OpenWalletComponent {
     this.loading$.next(true);
 
     if (this.openWalletForm.valid) {
-      // This delay is necessary for the loader to display, as the application freezes for a few seconds
-      setTimeout(() => {
-        const {
-          filePath,
-          password,
-          name
-        } = this.openWalletForm.getRawValue();
-        const {
-          count: txs_to_return
-        } = this.variablesService;
-        this.backend.openWallet(filePath, password, txs_to_return, false, (openStatus, openData, errorCode) => {
-          console.log('openData', openData);
+      const {
+        filePath,
+        password,
+        name
+      } = this.openWalletForm.getRawValue();
+      const {
+        count: txs_to_return
+      } = this.variablesService;
+      this.backend.openWallet(filePath, password, txs_to_return, false, (openStatus, openData, errorCode) => {
+        console.log('openData', openData);
 
-          if (errorCode === 'WRONG_PASSWORD') {
-            this.ngZone.run(() => {
-              this.openWalletForm.controls.password.setErrors({
-                wrongPassword: _parts_utils_zano_errors__WEBPACK_IMPORTED_MODULE_2__.wrongPassword
+        if (errorCode === 'WRONG_PASSWORD') {
+          this.ngZone.run(() => {
+            this.openWalletForm.controls.password.setErrors({
+              wrongPassword: _parts_utils_zano_errors__WEBPACK_IMPORTED_MODULE_2__.wrongPassword
+            });
+            this.loading$.next(false);
+          });
+          return;
+        }
+
+        let errorText = errorCode;
+
+        if (errorCode === 'FILE_NOT_FOUND') {
+          errorText = this.translate.instant('OPEN_WALLET.FILE_NOT_FOUND1');
+          errorText += ':<br>' + filePath;
+          errorText += this.translate.instant('OPEN_WALLET.FILE_NOT_FOUND2');
+        }
+
+        if (errorCode === 'INVALID_FILE') {
+          errorText = this.translate.instant(_parts_utils_zano_errors__WEBPACK_IMPORTED_MODULE_2__.notFileZanoWallet.errorText);
+        }
+
+        if (['INVALID_FILE', 'FILE_NOT_FOUND'].includes(errorCode)) {
+          this.modalService.prepareModal('error', errorText);
+          this.ngZone.run(() => {
+            this.loading$.next(false);
+          });
+          return;
+        }
+
+        if (openStatus || errorCode === 'FILE_RESTORED') {
+          let exists = false;
+          this.variablesService.wallets.forEach(wallet => {
+            if (wallet.address === openData['wi'].address) {
+              exists = true;
+            }
+          });
+
+          if (exists) {
+            this.modalService.prepareModal('error', 'OPEN_WALLET.WITH_ADDRESS_ALREADY_OPEN');
+            this.backend.closeWallet(openData.wallet_id, () => {
+              this.ngZone.run(() => {
+                this.loading$.next(false);
+                this.router.navigate(['/']);
               });
-              this.loading$.next(false);
             });
-            return;
-          }
+          } else {
+            const new_wallet = new _api_models_wallet_model__WEBPACK_IMPORTED_MODULE_0__.Wallet(openData.wallet_id, name, password, openData['wi'].path, openData['wi'].address, openData['wi'].balance, openData['wi'].unlocked_balance, openData['wi'].mined_total, openData['wi'].tracking_hey);
+            new_wallet.alias = this.backend.getWalletAlias(new_wallet.address);
+            new_wallet.currentPage = 1;
+            new_wallet.open_from_exist = true;
+            new_wallet.exclude_mining_txs = false;
+            new_wallet.is_auditable = openData['wi'].is_auditable;
+            new_wallet.is_watch_only = openData['wi'].is_watch_only;
 
-          let errorText = errorCode;
+            if (openData.recent_history && openData.recent_history.history) {
+              new_wallet.total_history_item = openData.recent_history.total_history_items;
+              new_wallet.totalPages = Math.ceil(openData.recent_history.total_history_items / this.variablesService.count);
+              new_wallet.totalPages > this.variablesService.maxPages ? new_wallet.pages = new Array(5).fill(1).map((value, index) => value + index) : new_wallet.pages = new Array(new_wallet.totalPages).fill(1).map((value, index) => value + index);
+              new_wallet.prepareHistory(openData.recent_history.history);
+            } else {
+              new_wallet.total_history_item = 0;
+              new_wallet.pages = new Array(1).fill(1);
+              new_wallet.totalPages = 1;
+            }
 
-          if (errorCode === 'FILE_NOT_FOUND') {
-            errorText = this.translate.instant('OPEN_WALLET.FILE_NOT_FOUND1');
-            errorText += ':<br>' + filePath;
-            errorText += this.translate.instant('OPEN_WALLET.FILE_NOT_FOUND2');
-          }
+            this.walletsService.addWallet(new_wallet);
+            this.backend.runWallet(openData.wallet_id, (run_status, run_data) => {
+              if (run_status) {
+                if (this.variablesService.appPass) {
+                  this.backend.storeSecureAppData();
+                }
 
-          if (errorCode === 'INVALID_FILE') {
-            errorText = this.translate.instant(_parts_utils_zano_errors__WEBPACK_IMPORTED_MODULE_2__.notFileZanoWallet.errorText);
-          }
-
-          if (['INVALID_FILE', 'FILE_NOT_FOUND'].includes(errorCode)) {
-            this.modalService.prepareModal('error', errorText);
-            this.ngZone.run(() => {
-              this.loading$.next(false);
-            });
-            return;
-          }
-
-          if (openStatus || errorCode === 'FILE_RESTORED') {
-            let exists = false;
-            this.variablesService.wallets.forEach(wallet => {
-              if (wallet.address === openData['wi'].address) {
-                exists = true;
-              }
-            });
-
-            if (exists) {
-              this.modalService.prepareModal('error', 'OPEN_WALLET.WITH_ADDRESS_ALREADY_OPEN');
-              this.backend.closeWallet(openData.wallet_id, () => {
+                this.ngZone.run(() => {
+                  this.variablesService.setCurrentWallet(openData.wallet_id);
+                  this.router.navigate(['/wallet/']);
+                  this.loading$.next(false);
+                });
+              } else {
+                console.log(run_data['error_code']);
                 this.ngZone.run(() => {
                   this.loading$.next(false);
-                  this.router.navigate(['/']);
                 });
-              });
-            } else {
-              const new_wallet = new _api_models_wallet_model__WEBPACK_IMPORTED_MODULE_0__.Wallet(openData.wallet_id, name, password, openData['wi'].path, openData['wi'].address, openData['wi'].balance, openData['wi'].unlocked_balance, openData['wi'].mined_total, openData['wi'].tracking_hey);
-              new_wallet.alias = this.backend.getWalletAlias(new_wallet.address);
-              new_wallet.currentPage = 1;
-              new_wallet.open_from_exist = true;
-              new_wallet.exclude_mining_txs = false;
-              new_wallet.is_auditable = openData['wi'].is_auditable;
-              new_wallet.is_watch_only = openData['wi'].is_watch_only;
-
-              if (openData.recent_history && openData.recent_history.history) {
-                new_wallet.total_history_item = openData.recent_history.total_history_items;
-                new_wallet.totalPages = Math.ceil(openData.recent_history.total_history_items / this.variablesService.count);
-                new_wallet.totalPages > this.variablesService.maxPages ? new_wallet.pages = new Array(5).fill(1).map((value, index) => value + index) : new_wallet.pages = new Array(new_wallet.totalPages).fill(1).map((value, index) => value + index);
-                new_wallet.prepareHistory(openData.recent_history.history);
-              } else {
-                new_wallet.total_history_item = 0;
-                new_wallet.pages = new Array(1).fill(1);
-                new_wallet.totalPages = 1;
               }
-
-              this.walletsService.addWallet(new_wallet);
-              this.backend.runWallet(openData.wallet_id, (run_status, run_data) => {
-                if (run_status) {
-                  if (this.variablesService.appPass) {
-                    this.backend.storeSecureAppData();
-                  }
-
-                  this.ngZone.run(() => {
-                    this.variablesService.setCurrentWallet(openData.wallet_id);
-                    this.router.navigate(['/wallet/']);
-                    this.loading$.next(false);
-                  });
-                } else {
-                  console.log(run_data['error_code']);
-                  this.ngZone.run(() => {
-                    this.loading$.next(false);
-                  });
-                }
-              });
-            }
+            });
           }
-        });
-      }, 500);
+        }
+      });
     } else {
       this.loading$.next(false);
     }
@@ -10217,7 +10206,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "EmitCustomAssetComponent": () => (/* binding */ EmitCustomAssetComponent)
 /* harmony export */ });
-/* harmony import */ var _home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
+/* harmony import */ var _Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _parts_services_variables_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @parts/services/variables.service */ 22994);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/forms */ 90587);
@@ -10361,7 +10350,7 @@ class EmitCustomAssetComponent {
       method: 'emit_asset',
       params
     }, /*#__PURE__*/function () {
-      var _ref = (0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (job_id) {
+      var _ref = (0,_Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (job_id) {
         _this._ngZone.run(() => {
           _this.matDialogRef.close(job_id);
         });
@@ -10683,7 +10672,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "UpdateCustomAssetComponent": () => (/* binding */ UpdateCustomAssetComponent)
 /* harmony export */ });
-/* harmony import */ var _home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
+/* harmony import */ var _Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _parts_services_variables_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @parts/services/variables.service */ 22994);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/forms */ 90587);
@@ -10843,7 +10832,7 @@ class UpdateCustomAssetComponent {
       method: 'update_asset',
       params
     }, /*#__PURE__*/function () {
-      var _ref = (0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (job_id) {
+      var _ref = (0,_Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (job_id) {
         _this._ngZone.run(() => {
           _this.matDialogRef.close(job_id);
         });
@@ -10936,7 +10925,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "CreateNewAssetComponent": () => (/* binding */ CreateNewAssetComponent)
 /* harmony export */ });
-/* harmony import */ var _home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
+/* harmony import */ var _Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _parts_services_variables_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @parts/services/variables.service */ 22994);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @angular/forms */ 90587);
@@ -11376,8 +11365,8 @@ class CreateNewAssetComponent {
 
     this._matDialog.open(_modals_transaction_details_for_custom_assets_transaction_details_for_custom_assets_component__WEBPACK_IMPORTED_MODULE_7__.TransactionDetailsForCustomAssetsComponent, config).afterClosed().pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_14__.filter)(Boolean), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_15__.take)(1)).subscribe({
       next: function () {
-        var _ref = (0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
-          yield _this._ngZone.run( /*#__PURE__*/(0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+        var _ref = (0,_Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+          yield _this._ngZone.run( /*#__PURE__*/(0,_Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
             yield _this._router.navigate(['/wallet/custom-assets']);
           }));
         });
@@ -11453,7 +11442,7 @@ class CreateNewAssetComponent {
           method: 'deploy_asset',
           params
         }, /*#__PURE__*/function () {
-          var _ref3 = (0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (job_id) {
+          var _ref3 = (0,_Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* (job_id) {
             _this2._ngZone.run(() => _this2.details(job_id));
           });
 
@@ -12043,31 +12032,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "HistoryComponent": () => (/* binding */ HistoryComponent)
 /* harmony export */ });
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! rxjs */ 80228);
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! rxjs/operators */ 60116);
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! rxjs/operators */ 68951);
 /* harmony import */ var _parts_functions_has_own_property__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @parts/functions/has-own-property */ 77011);
-/* harmony import */ var angular_animations__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! angular-animations */ 19862);
+/* harmony import */ var angular_animations__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! angular-animations */ 19862);
 /* harmony import */ var _parts_data_assets__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @parts/data/assets */ 62400);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _parts_services_variables_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @parts/services/variables.service */ 22994);
 /* harmony import */ var _store_pagination_pagination_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @store/pagination/pagination.service */ 74581);
 /* harmony import */ var _api_services_backend_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @api/services/backend.service */ 10122);
 /* harmony import */ var _store_pagination_pagination_store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @store/pagination/pagination.store */ 86995);
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @angular/common */ 36362);
-/* harmony import */ var _angular_flex_layout__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @angular/flex-layout */ 55434);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @angular/common */ 36362);
+/* harmony import */ var _angular_flex_layout__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @angular/flex-layout */ 55434);
 /* harmony import */ var _parts_components_switch_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../../parts/components/switch.component */ 11281);
-/* harmony import */ var _angular_flex_layout_extended__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @angular/flex-layout/extended */ 13338);
+/* harmony import */ var _angular_flex_layout_extended__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @angular/flex-layout/extended */ 13338);
 /* harmony import */ var _parts_components_transaction_status_transaction_status_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../../../parts/components/transaction-status/transaction-status.component */ 88746);
 /* harmony import */ var _parts_components_transaction_details_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../../../parts/components/transaction-details.component */ 12989);
 /* harmony import */ var _parts_directives_visibility_balance_directive__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../../../parts/directives/visibility-balance.directive */ 90440);
-/* harmony import */ var _angular_material_icon__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! @angular/material/icon */ 65590);
+/* harmony import */ var _angular_material_icon__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @angular/material/icon */ 65590);
 /* harmony import */ var _parts_pipes_short_string_pipe__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../../../../parts/pipes/short-string.pipe */ 73346);
-/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @ngx-translate/core */ 87514);
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @ngx-translate/core */ 87514);
 /* harmony import */ var _parts_pipes_int_to_money_pipe_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @parts/pipes/int-to-money-pipe/int-to-money.pipe */ 25985);
 /* harmony import */ var _parts_pipes_history_type_messages_pipe_history_type_messages_pipe__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! @parts/pipes/history-type-messages-pipe/history-type-messages.pipe */ 42249);
 /* harmony import */ var _parts_pipes_get_amount_items_pipe__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../../../parts/pipes/get-amount-items.pipe */ 63903);
 /* harmony import */ var _parts_pipes_is_visible_fee_pipe__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../../../parts/pipes/is-visible-fee.pipe */ 47161);
-
 
 
 
@@ -12353,6 +12339,7 @@ function HistoryComponent_ng_container_34_Template(rf, ctx) { if (rf & 1) {
 } }
 class HistoryComponent {
     constructor(variablesService, _pagination, _backendService, _ngZone, _paginationStore) {
+        var _a;
         this.variablesService = variablesService;
         this._pagination = _pagination;
         this._backendService = _backendService;
@@ -12360,7 +12347,7 @@ class HistoryComponent {
         this._paginationStore = _paginationStore;
         this.zanoAssetInfo = _parts_data_assets__WEBPACK_IMPORTED_MODULE_1__.zanoAssetInfo;
         this.stop_paginate = false;
-        this.mining = false;
+        this.mining = (_a = this.variablesService.currentWallet.exclude_mining_txs) !== null && _a !== void 0 ? _a : false;
         this._destroy$ = new rxjs__WEBPACK_IMPORTED_MODULE_16__.Subject();
     }
     get currentWallet() {
@@ -12368,12 +12355,6 @@ class HistoryComponent {
     }
     ngOnInit() {
         this.init();
-        this.variablesService.currentWalletChangedEvent.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_17__.filter)(Boolean), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_18__.takeUntil)(this._destroy$)).subscribe({
-            next: (wallet) => {
-                this.getRecentTransfers();
-                this.mining = wallet.exclude_mining_txs;
-            },
-        });
     }
     ngOnDestroy() {
         this.opened_transaction_details = undefined;
@@ -12579,7 +12560,7 @@ HistoryComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_15
         _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵproperty"]("disabled", ctx.stop_paginate || ctx.variablesService.isCurrentWalletSync || !ctx.variablesService.isCurrentWalletLoaded);
         _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵadvance"](5);
         _angular_core__WEBPACK_IMPORTED_MODULE_15__["ɵɵproperty"]("disabled", ctx.variablesService.isCurrentWalletSync || !ctx.variablesService.isCurrentWalletLoaded)("value", ctx.mining);
-    } }, dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_19__.NgClass, _angular_common__WEBPACK_IMPORTED_MODULE_19__.NgForOf, _angular_common__WEBPACK_IMPORTED_MODULE_19__.NgIf, _angular_common__WEBPACK_IMPORTED_MODULE_19__.NgStyle, _angular_common__WEBPACK_IMPORTED_MODULE_19__.NgSwitch, _angular_common__WEBPACK_IMPORTED_MODULE_19__.NgSwitchCase, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_20__.DefaultLayoutDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_20__.DefaultLayoutAlignDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_20__.FlexFillDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_20__.DefaultFlexDirective, _parts_components_switch_component__WEBPACK_IMPORTED_MODULE_6__.SwitchComponent, _angular_flex_layout_extended__WEBPACK_IMPORTED_MODULE_21__.DefaultClassDirective, _angular_flex_layout_extended__WEBPACK_IMPORTED_MODULE_21__.DefaultStyleDirective, _parts_components_transaction_status_transaction_status_component__WEBPACK_IMPORTED_MODULE_7__.TransactionStatusComponent, _parts_components_transaction_details_component__WEBPACK_IMPORTED_MODULE_8__.TransactionDetailsComponent, _parts_directives_visibility_balance_directive__WEBPACK_IMPORTED_MODULE_9__.VisibilityBalanceDirective, _angular_material_icon__WEBPACK_IMPORTED_MODULE_22__.MatIcon, _angular_common__WEBPACK_IMPORTED_MODULE_19__.DatePipe, _parts_pipes_short_string_pipe__WEBPACK_IMPORTED_MODULE_10__.ShortStringPipe, _ngx_translate_core__WEBPACK_IMPORTED_MODULE_23__.TranslatePipe, _parts_pipes_int_to_money_pipe_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_11__.IntToMoneyPipe, _parts_pipes_history_type_messages_pipe_history_type_messages_pipe__WEBPACK_IMPORTED_MODULE_12__.HistoryTypeMessagesPipe, _parts_pipes_get_amount_items_pipe__WEBPACK_IMPORTED_MODULE_13__.GetAmountItemsPipe, _parts_pipes_is_visible_fee_pipe__WEBPACK_IMPORTED_MODULE_14__.IsVisibleFeePipe], styles: [".cell-fee[_ngcontent-%COMP%] {\n  display: table-cell;\n}\n\n.cell-amount[_ngcontent-%COMP%] {\n  display: flex;\n  max-width: 100%;\n}\n\n.cell-amount[_ngcontent-%COMP%]   .amount[_ngcontent-%COMP%] {\n  text-overflow: ellipsis;\n  overflow: hidden;\n  white-space: nowrap;\n}\n\n.cell-amount[_ngcontent-%COMP%]   .ticker[_ngcontent-%COMP%] {\n  margin-left: 0.4rem;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImhpc3RvcnkuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSSxtQkFBQTtBQUNKOztBQUVBO0VBQ0ksYUFBQTtFQUNBLGVBQUE7QUFDSjs7QUFBSTtFQUNJLHVCQUFBO0VBQ0EsZ0JBQUE7RUFDQSxtQkFBQTtBQUVSOztBQUFJO0VBQ0ksbUJBQUE7QUFFUiIsImZpbGUiOiJoaXN0b3J5LmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmNlbGwtZmVlIHtcbiAgICBkaXNwbGF5OiB0YWJsZS1jZWxsO1xufVxuXG4uY2VsbC1hbW91bnQge1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgbWF4LXdpZHRoOiAxMDAlO1xuICAgIC5hbW91bnQge1xuICAgICAgICB0ZXh0LW92ZXJmbG93OiBlbGxpcHNpcztcbiAgICAgICAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgICAgICAgd2hpdGUtc3BhY2U6IG5vd3JhcDtcbiAgICB9XG4gICAgLnRpY2tlciB7XG4gICAgICAgIG1hcmdpbi1sZWZ0OiAwLjRyZW07XG4gICAgfVxufVxuIl19 */"], data: { animation: [(0,angular_animations__WEBPACK_IMPORTED_MODULE_24__.expandOnEnterAnimation)(), (0,angular_animations__WEBPACK_IMPORTED_MODULE_24__.collapseOnLeaveAnimation)()] } });
+    } }, dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_17__.NgClass, _angular_common__WEBPACK_IMPORTED_MODULE_17__.NgForOf, _angular_common__WEBPACK_IMPORTED_MODULE_17__.NgIf, _angular_common__WEBPACK_IMPORTED_MODULE_17__.NgStyle, _angular_common__WEBPACK_IMPORTED_MODULE_17__.NgSwitch, _angular_common__WEBPACK_IMPORTED_MODULE_17__.NgSwitchCase, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_18__.DefaultLayoutDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_18__.DefaultLayoutAlignDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_18__.FlexFillDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_18__.DefaultFlexDirective, _parts_components_switch_component__WEBPACK_IMPORTED_MODULE_6__.SwitchComponent, _angular_flex_layout_extended__WEBPACK_IMPORTED_MODULE_19__.DefaultClassDirective, _angular_flex_layout_extended__WEBPACK_IMPORTED_MODULE_19__.DefaultStyleDirective, _parts_components_transaction_status_transaction_status_component__WEBPACK_IMPORTED_MODULE_7__.TransactionStatusComponent, _parts_components_transaction_details_component__WEBPACK_IMPORTED_MODULE_8__.TransactionDetailsComponent, _parts_directives_visibility_balance_directive__WEBPACK_IMPORTED_MODULE_9__.VisibilityBalanceDirective, _angular_material_icon__WEBPACK_IMPORTED_MODULE_20__.MatIcon, _angular_common__WEBPACK_IMPORTED_MODULE_17__.DatePipe, _parts_pipes_short_string_pipe__WEBPACK_IMPORTED_MODULE_10__.ShortStringPipe, _ngx_translate_core__WEBPACK_IMPORTED_MODULE_21__.TranslatePipe, _parts_pipes_int_to_money_pipe_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_11__.IntToMoneyPipe, _parts_pipes_history_type_messages_pipe_history_type_messages_pipe__WEBPACK_IMPORTED_MODULE_12__.HistoryTypeMessagesPipe, _parts_pipes_get_amount_items_pipe__WEBPACK_IMPORTED_MODULE_13__.GetAmountItemsPipe, _parts_pipes_is_visible_fee_pipe__WEBPACK_IMPORTED_MODULE_14__.IsVisibleFeePipe], styles: [".cell-fee[_ngcontent-%COMP%] {\n  display: table-cell;\n}\n\n.cell-amount[_ngcontent-%COMP%] {\n  display: flex;\n  max-width: 100%;\n}\n\n.cell-amount[_ngcontent-%COMP%]   .amount[_ngcontent-%COMP%] {\n  text-overflow: ellipsis;\n  overflow: hidden;\n  white-space: nowrap;\n}\n\n.cell-amount[_ngcontent-%COMP%]   .ticker[_ngcontent-%COMP%] {\n  margin-left: 0.4rem;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImhpc3RvcnkuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSSxtQkFBQTtBQUNKOztBQUVBO0VBQ0ksYUFBQTtFQUNBLGVBQUE7QUFDSjs7QUFBSTtFQUNJLHVCQUFBO0VBQ0EsZ0JBQUE7RUFDQSxtQkFBQTtBQUVSOztBQUFJO0VBQ0ksbUJBQUE7QUFFUiIsImZpbGUiOiJoaXN0b3J5LmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLmNlbGwtZmVlIHtcbiAgICBkaXNwbGF5OiB0YWJsZS1jZWxsO1xufVxuXG4uY2VsbC1hbW91bnQge1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAgbWF4LXdpZHRoOiAxMDAlO1xuICAgIC5hbW91bnQge1xuICAgICAgICB0ZXh0LW92ZXJmbG93OiBlbGxpcHNpcztcbiAgICAgICAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgICAgICAgd2hpdGUtc3BhY2U6IG5vd3JhcDtcbiAgICB9XG4gICAgLnRpY2tlciB7XG4gICAgICAgIG1hcmdpbi1sZWZ0OiAwLjRyZW07XG4gICAgfVxufVxuIl19 */"], data: { animation: [(0,angular_animations__WEBPACK_IMPORTED_MODULE_22__.expandOnEnterAnimation)(), (0,angular_animations__WEBPACK_IMPORTED_MODULE_22__.collapseOnLeaveAnimation)()] } });
 
 
 /***/ }),
@@ -15228,22 +15209,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _parts_services_variables_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @parts/services/variables.service */ 22994);
-/* harmony import */ var angular_highcharts__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! angular-highcharts */ 64072);
+/* harmony import */ var angular_highcharts__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! angular-highcharts */ 64072);
 /* harmony import */ var _api_services_backend_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @api/services/backend.service */ 10122);
 /* harmony import */ var _parts_pipes_int_to_money_pipe_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @parts/pipes/int-to-money-pipe/int-to-money.pipe */ 25985);
 /* harmony import */ var bignumber_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! bignumber.js */ 82481);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! rxjs */ 80228);
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! rxjs */ 87260);
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! rxjs */ 26562);
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! rxjs/operators */ 68951);
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! rxjs/operators */ 60116);
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! rxjs */ 87260);
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! rxjs */ 26562);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! rxjs/operators */ 21339);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! rxjs/operators */ 19337);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! rxjs/operators */ 59295);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! rxjs/operators */ 68951);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! rxjs/operators */ 60116);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! rxjs/operators */ 71989);
 /* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/forms */ 90587);
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @angular/common */ 36362);
-/* harmony import */ var _angular_flex_layout__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! @angular/flex-layout */ 55434);
-/* harmony import */ var _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @ng-select/ng-select */ 88660);
-/* harmony import */ var _angular_flex_layout_extended__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @angular/flex-layout/extended */ 13338);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @angular/common */ 36362);
+/* harmony import */ var _angular_flex_layout__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @angular/flex-layout */ 55434);
+/* harmony import */ var _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @ng-select/ng-select */ 88660);
+/* harmony import */ var _angular_flex_layout_extended__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @angular/flex-layout/extended */ 13338);
 /* harmony import */ var _parts_components_staking_switch_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../parts/components/staking-switch.component */ 73396);
-/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @ngx-translate/core */ 87514);
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @ngx-translate/core */ 87514);
 
 
 
@@ -15390,12 +15375,12 @@ const groupItems = [
 ];
 class StakingComponent {
     constructor() {
+        this.variablesService = (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.inject)(_parts_services_variables_service__WEBPACK_IMPORTED_MODULE_0__.VariablesService);
         this.total = new bignumber_js__WEBPACK_IMPORTED_MODULE_3__.BigNumber(0);
         this.pending = {
             list: [],
             total: new bignumber_js__WEBPACK_IMPORTED_MODULE_3__.BigNumber(0),
         };
-        this.variablesService = (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.inject)(_parts_services_variables_service__WEBPACK_IMPORTED_MODULE_0__.VariablesService);
         this.periodItems = periodItems;
         this.groupItems = groupItems;
         this._fb = (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.inject)(_angular_forms__WEBPACK_IMPORTED_MODULE_6__.NonNullableFormBuilder);
@@ -15412,6 +15397,7 @@ class StakingComponent {
         this._backendService = (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.inject)(_api_services_backend_service__WEBPACK_IMPORTED_MODULE_1__.BackendService);
         this._ngZone = (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.inject)(_angular_core__WEBPACK_IMPORTED_MODULE_5__.NgZone);
         this._intToMoneyPipe = (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.inject)(_parts_pipes_int_to_money_pipe_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_2__.IntToMoneyPipe);
+        this._cacheData = new Map();
     }
     get isShowStagingSwitch() {
         const { currentWallet: { is_watch_only, is_auditable }, } = this.variablesService;
@@ -15424,49 +15410,7 @@ class StakingComponent {
         return date !== null && amount !== null;
     }
     ngOnInit() {
-        const { settings } = this.variablesService;
-        const savedStakingFilters = settings.filters.stakingFilters;
-        if (savedStakingFilters) {
-            this.filtersForm.patchValue(savedStakingFilters);
-        }
-        this.getMiningHistory();
-        this.variablesService.getHeightAppEvent.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_8__.takeUntil)(this._destroy$)).subscribe({
-            next: (newHeight) => {
-                if (!this.pending.total.isZero()) {
-                    const pendingCount = this.pending.list.length;
-                    for (let i = pendingCount - 1; i >= 0; i--) {
-                        if (newHeight - this.pending.list[i].h >= 10) {
-                            this.pending.list.splice(i, 1);
-                        }
-                    }
-                    if (pendingCount !== this.pending.list.length) {
-                        this.pending.total = new bignumber_js__WEBPACK_IMPORTED_MODULE_3__.BigNumber(0);
-                        for (let i = 0; i < this.pending.list.length; i++) {
-                            this.pending.total = this.pending.total.plus(this.pending.list[i].a);
-                        }
-                    }
-                }
-            },
-        });
-        this.variablesService.daemon_state$.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_9__.filter)((daemon_state) => daemon_state === 3), (0,rxjs__WEBPACK_IMPORTED_MODULE_10__.skip)(1)).subscribe({
-            next: () => {
-                this.getMiningHistory();
-                this.changePeriod();
-            }
-        });
-        this.filtersForm.valueChanges.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_8__.takeUntil)(this._destroy$)).subscribe({
-            next: () => {
-                settings.filters.stakingFilters = this.filtersForm.getRawValue();
-                this.changePeriod();
-            },
-        });
-    }
-    ngOnDestroy() {
-        this._destroy$.next();
-        this._destroy$.complete();
-    }
-    drawChart(data) {
-        this.chart = new angular_highcharts__WEBPACK_IMPORTED_MODULE_11__.Chart({
+        this.chart = new angular_highcharts__WEBPACK_IMPORTED_MODULE_8__.Chart({
             title: { text: '' },
             credits: { enabled: false },
             exporting: { enabled: false },
@@ -15474,12 +15418,6 @@ class StakingComponent {
             chart: {
                 type: 'line',
                 backgroundColor: 'transparent',
-                height: null,
-                events: {
-                    load: () => {
-                        this.changePeriod();
-                    },
-                },
             },
             yAxis: {
                 min: 0,
@@ -15568,253 +15506,233 @@ class StakingComponent {
             series: [
                 {
                     type: 'area',
-                    data: data,
+                    data: [],
                 },
             ],
         });
+        this._restoreFiltersForm();
+        this._subscribeToHeightAppEvent();
+        this._subscribeToDaemonState();
+        this._subscribeToFilterChanges();
+        this._subscribeToThemeChanges();
     }
-    getMiningHistory() {
-        if (this.variablesService.currentWallet.loaded) {
-            this._backendService.getMiningHistory(this.variablesService.currentWallet.wallet_id, (status, data) => {
-                this.total = new bignumber_js__WEBPACK_IMPORTED_MODULE_3__.BigNumber(0);
-                this.pending.list = [];
-                this.pending.total = new bignumber_js__WEBPACK_IMPORTED_MODULE_3__.BigNumber(0);
-                this.originalData = [];
-                if (data.mined_entries) {
-                    data.mined_entries.forEach((item, key) => {
-                        if (item.t.toString().length === 10) {
-                            data.mined_entries[key].t = new Date(item.t * 1000).setUTCMilliseconds(0);
-                        }
-                    });
-                    data.mined_entries.forEach(item => {
-                        this.total = this.total.plus(item.a);
-                        if (this.variablesService.height_app - item.h < 10) {
-                            this.pending.list.push(item);
-                            this.pending.total = this.pending.total.plus(item.a);
-                        }
-                        this.originalData.push([parseInt(item.t, 10), parseFloat(this._intToMoneyPipe.transform(item.a))]);
-                    });
-                    this.originalData = this.originalData.sort(function (a, b) {
-                        return a[0] - b[0];
-                    });
-                }
-                this._ngZone.run(() => {
-                    var _a;
-                    this.drawChart([]);
-                    (_a = this.themeChangesSubscription) === null || _a === void 0 ? void 0 : _a.unsubscribe();
-                    this.themeChangesSubscription = (0,rxjs__WEBPACK_IMPORTED_MODULE_12__.combineLatest)([this.chart.ref$, this.variablesService.isDarkTheme$])
-                        .pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_8__.takeUntil)(this._destroy$))
-                        .subscribe({
-                        next: ([ref, isDarkTheme]) => {
-                            let option = {};
-                            if (isDarkTheme) {
-                                option = {
-                                    ...option,
-                                    plotOptions: {
-                                        area: {
-                                            fillColor: {
-                                                linearGradient: {
-                                                    x1: 0,
-                                                    y1: 0,
-                                                    x2: 0,
-                                                    y2: 1,
-                                                },
-                                                stops: [
-                                                    [0, 'rgba(124,181,236,0.2)'],
-                                                    [1, 'rgba(124,181,236,0)'],
-                                                ],
-                                            },
-                                            marker: {
-                                                enabled: false,
-                                                radius: 2,
-                                            },
-                                            lineWidth: 2,
-                                            threshold: null,
-                                        },
-                                    },
-                                    yAxis: {
-                                        gridLineColor: '#2b3644',
-                                        lineColor: '#2b3644',
-                                        tickColor: '#2b3644',
-                                        labels: {
-                                            style: {
-                                                color: '#e0e0e0',
-                                            },
-                                        },
-                                    },
-                                    xAxis: {
-                                        gridLineColor: '#2b3644',
-                                        lineColor: '#2b3644',
-                                        tickColor: '#2b3644',
-                                        labels: {
-                                            style: {
-                                                color: '#e0e0e0',
-                                            },
-                                        },
-                                    },
-                                };
-                            }
-                            else {
-                                option = {
-                                    ...option,
-                                    plotOptions: {
-                                        area: {
-                                            color: '#1F8FEB',
-                                            marker: {
-                                                enabled: false,
-                                                radius: 2,
-                                            },
-                                            lineWidth: 2,
-                                            threshold: null,
-                                        },
-                                    },
-                                    yAxis: {
-                                        gridLineColor: '#1F8FEB20',
-                                        lineColor: '#1F8FEB20',
-                                        tickColor: '#1F8FEB20',
-                                        labels: {
-                                            style: {
-                                                color: '#0C0C3A',
-                                            },
-                                        },
-                                    },
-                                    xAxis: {
-                                        gridLineColor: '#1F8FEB20',
-                                        lineColor: '#1F8FEB20',
-                                        tickColor: '#1F8FEB20',
-                                        labels: {
-                                            style: {
-                                                color: '#0C0C3A',
-                                            },
-                                        },
-                                    },
-                                };
-                            }
-                            ref.update(option, true);
-                        },
-                    });
-                });
-            });
+    ngAfterViewInit() {
+        this.chart.ref$
+            .pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_9__.delay)(50), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_10__.tap)(ref => ref.reflow()), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_9__.delay)(50), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_11__.take)(1))
+            .subscribe({
+            next: () => {
+                this._getMiningHistory();
+            },
+        });
+    }
+    ngOnDestroy() {
+        this._destroy$.next();
+        this._destroy$.complete();
+    }
+    _restoreFiltersForm() {
+        const { stakingFilters } = this.variablesService.settings.filters;
+        if (stakingFilters) {
+            this.filtersForm.patchValue(stakingFilters);
         }
     }
-    changePeriod() {
-        var _a, _b, _c, _d, _e, _f, _g, _h;
-        if (!this.chart) {
+    _subscribeToHeightAppEvent() {
+        const { getHeightAppEvent } = this.variablesService;
+        getHeightAppEvent.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_12__.takeUntil)(this._destroy$)).subscribe({
+            next: (newHeight) => {
+                if (this.pending.total.isZero()) {
+                    return;
+                }
+                this._updatePendingList(newHeight);
+            },
+        });
+    }
+    _updatePendingList(newHeight) {
+        this.pending.list = this.pending.list.filter(item => newHeight - item.h < 10);
+        this.pending.total = this.pending.list.reduce((total, item) => total.plus(item.a), new bignumber_js__WEBPACK_IMPORTED_MODULE_3__.BigNumber(0));
+    }
+    _subscribeToDaemonState() {
+        this.variablesService.daemon_state$
+            .pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_13__.filter)((daemon_state) => daemon_state === 3), (0,rxjs__WEBPACK_IMPORTED_MODULE_14__.skip)(1))
+            .subscribe({
+            next: () => {
+                this._getMiningHistory();
+                this._changePeriod();
+            },
+        });
+    }
+    _subscribeToFilterChanges() {
+        this.filtersForm.valueChanges.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_15__.debounceTime)(250), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_12__.takeUntil)(this._destroy$)).subscribe({
+            next: () => {
+                this.variablesService.settings.filters.stakingFilters = this.filtersForm.getRawValue();
+                this._changePeriod();
+            },
+        });
+    }
+    _subscribeToThemeChanges() {
+        (0,rxjs__WEBPACK_IMPORTED_MODULE_16__.combineLatest)([this.chart.ref$, this.variablesService.isDarkTheme$])
+            .pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_12__.takeUntil)(this._destroy$))
+            .subscribe({
+            next: ([ref, isDarkTheme]) => {
+                const options = isDarkTheme ? this._getDarkThemeOptions() : this._getLightThemeOptions();
+                ref.update(options, true);
+            },
+        });
+    }
+    _getDarkThemeOptions() {
+        return {
+            plotOptions: {
+                area: {
+                    fillColor: {
+                        linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                        stops: [
+                            [0, 'rgba(124,181,236,0.2)'],
+                            [1, 'rgba(124,181,236,0)'],
+                        ],
+                    },
+                    marker: { enabled: false, radius: 2 },
+                    lineWidth: 2,
+                    threshold: null,
+                },
+            },
+            yAxis: {
+                gridLineColor: '#2b3644',
+                lineColor: '#2b3644',
+                tickColor: '#2b3644',
+                labels: { style: { color: '#e0e0e0' } },
+            },
+            xAxis: {
+                gridLineColor: '#2b3644',
+                lineColor: '#2b3644',
+                tickColor: '#2b3644',
+                labels: { style: { color: '#e0e0e0' } },
+            },
+        };
+    }
+    _getLightThemeOptions() {
+        return {
+            plotOptions: {
+                area: {
+                    color: '#1F8FEB',
+                    marker: { enabled: false, radius: 2 },
+                    lineWidth: 2,
+                    threshold: null,
+                },
+            },
+            yAxis: {
+                gridLineColor: '#1F8FEB20',
+                lineColor: '#1F8FEB20',
+                tickColor: '#1F8FEB20',
+                labels: { style: { color: '#0C0C3A' } },
+            },
+            xAxis: {
+                gridLineColor: '#1F8FEB20',
+                lineColor: '#1F8FEB20',
+                tickColor: '#1F8FEB20',
+                labels: { style: { color: '#0C0C3A' } },
+            },
+        };
+    }
+    _getMiningHistory() {
+        const wallet = this.variablesService.currentWallet;
+        const { wallet_id, loaded } = wallet;
+        if (!loaded) {
             return;
         }
-        const d = new Date();
-        let min = null;
-        const newData = [];
-        const { group, period } = this.filtersForm.getRawValue();
-        const makeGroupTime = (value, date) => {
-            if (value === 'day') {
-                return date.setHours(0, 0, 0, 0);
-            }
-            else if (value === 'week') {
-                return new Date(date.setDate(date.getDate() - date.getDay())).setHours(0, 0, 0, 0);
+        this._backendService.getMiningHistory(wallet_id, (_, data) => {
+            this._ngZone.run(() => {
+                this._cacheData.clear();
+                this._processMiningHistoryData(data);
+            });
+        });
+    }
+    _processMiningHistoryData(data) {
+        this.total = new bignumber_js__WEBPACK_IMPORTED_MODULE_3__.BigNumber(0);
+        this.pending.list = [];
+        this.pending.total = new bignumber_js__WEBPACK_IMPORTED_MODULE_3__.BigNumber(0);
+        this.originalData = [];
+        if (!data.mined_entries) {
+            return;
+        }
+        data.mined_entries.forEach(item => {
+            this._processMinedEntry(item);
+        });
+        this.originalData.sort((a, b) => a[0] - b[0]);
+        this._changePeriod();
+    }
+    _processMinedEntry(item) {
+        const timestamp = item.t.toString().length === 10 ? item.t * 1000 : item.t;
+        item.t = new Date(timestamp).setUTCMilliseconds(0);
+        this.total = this.total.plus(item.a);
+        if (this.variablesService.height_app - item.h < 10) {
+            this.pending.list.push(item);
+            this.pending.total = this.pending.total.plus(item.a);
+        }
+        this.originalData.push([parseInt(item.t, 10), parseFloat(this._intToMoneyPipe.transform(item.a))]);
+    }
+    _changePeriod() {
+        this.chart.ref$.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_11__.take)(1)).subscribe({
+            next: ref => {
+                const formValue = this.filtersForm.getRawValue();
+                const { group, period } = formValue;
+                const currentDate = new Date();
+                const periodsConfig = {
+                    '1 week': 7,
+                    '2 week': 14,
+                    '1 month': 30,
+                    '3 month': 90,
+                    '6 month': 180,
+                    '1 year': 365,
+                };
+                let data = [];
+                let minDate;
+                const cacheKey = `${group}-${period}`;
+                if (this._cacheData.has(cacheKey)) {
+                    const cacheData = this._cacheData.get(cacheKey);
+                    data = cacheData.data;
+                    minDate = cacheData.minDate;
+                }
+                else {
+                    data = this._getGroupedData(this.originalData, group);
+                    minDate = this._getMinDateForPeriod(period, currentDate, periodsConfig);
+                    this._cacheData.set(cacheKey, { data, minDate });
+                }
+                ref.series[0].setData([...data], true);
+                ref.xAxis[0].setExtremes(minDate, null);
+                ref.reflow();
+            },
+        });
+    }
+    _getGroupedData(data, group) {
+        const groupedData = [];
+        data.forEach(item => {
+            const time = this._makeGroupTime(group, new Date(item[0]));
+            const existingItem = groupedData.find(newItem => newItem[0] === time);
+            if (existingItem) {
+                existingItem[1] = new bignumber_js__WEBPACK_IMPORTED_MODULE_3__.BigNumber(existingItem[1]).plus(item[1]).toNumber();
             }
             else {
-                return new Date(date.setDate(1)).setHours(0, 0, 0, 0);
+                groupedData.push([time, item[1]]);
             }
-        };
-        if (period === '1 week') {
-            this.originalData.forEach(item => {
-                const time = makeGroupTime(group, new Date(item[0]));
-                const find = newData.find(itemNew => itemNew[0] === time);
-                if (find) {
-                    find[1] = new bignumber_js__WEBPACK_IMPORTED_MODULE_3__.BigNumber(find[1]).plus(item[1]).toNumber();
-                }
-                else {
-                    newData.push([time, item[1]]);
-                }
-            });
-            (_a = this.chart.ref) === null || _a === void 0 ? void 0 : _a.series[0].setData(newData, true);
-            min = Date.UTC(d.getFullYear(), d.getMonth(), d.getDate() - 7, 0, 0, 0, 0);
+        });
+        return groupedData;
+    }
+    _makeGroupTime(group, date) {
+        if (group === 'day') {
+            return date.setHours(0, 0, 0, 0);
         }
-        else if (period === '2 week') {
-            this.originalData.forEach(item => {
-                const time = makeGroupTime(group, new Date(item[0]));
-                const find = newData.find(itemNew => itemNew[0] === time);
-                if (find) {
-                    find[1] = new bignumber_js__WEBPACK_IMPORTED_MODULE_3__.BigNumber(find[1]).plus(item[1]).toNumber();
-                }
-                else {
-                    newData.push([time, item[1]]);
-                }
-            });
-            (_b = this.chart.ref) === null || _b === void 0 ? void 0 : _b.series[0].setData(newData, true);
-            min = Date.UTC(d.getFullYear(), d.getMonth(), d.getDate() - 14, 0, 0, 0, 0);
-        }
-        else if (period === '1 month') {
-            this.originalData.forEach(item => {
-                const time = makeGroupTime(group, new Date(item[0]));
-                const find = newData.find(itemNew => itemNew[0] === time);
-                if (find) {
-                    find[1] = new bignumber_js__WEBPACK_IMPORTED_MODULE_3__.BigNumber(find[1]).plus(item[1]).toNumber();
-                }
-                else {
-                    newData.push([time, item[1]]);
-                }
-            });
-            (_c = this.chart.ref) === null || _c === void 0 ? void 0 : _c.series[0].setData(newData, true);
-            min = Date.UTC(d.getFullYear(), d.getMonth() - 1, d.getDate(), 0, 0, 0, 0);
-        }
-        else if (period === '3 month') {
-            this.originalData.forEach(item => {
-                const time = makeGroupTime(group, new Date(item[0]));
-                const find = newData.find(itemNew => itemNew[0] === time);
-                if (find) {
-                    find[1] = new bignumber_js__WEBPACK_IMPORTED_MODULE_3__.BigNumber(find[1]).plus(item[1]).toNumber();
-                }
-                else {
-                    newData.push([time, item[1]]);
-                }
-            });
-            (_d = this.chart.ref) === null || _d === void 0 ? void 0 : _d.series[0].setData(newData, true);
-            min = Date.UTC(d.getFullYear(), d.getMonth() - 3, d.getDate(), 0, 0, 0, 0);
-        }
-        else if (period === '6 month') {
-            this.originalData.forEach(item => {
-                const time = makeGroupTime(group, new Date(item[0]));
-                const find = newData.find(itemNew => itemNew[0] === time);
-                if (find) {
-                    find[1] = new bignumber_js__WEBPACK_IMPORTED_MODULE_3__.BigNumber(find[1]).plus(item[1]).toNumber();
-                }
-                else {
-                    newData.push([time, item[1]]);
-                }
-            });
-            (_e = this.chart.ref) === null || _e === void 0 ? void 0 : _e.series[0].setData(newData, true);
-            min = Date.UTC(d.getFullYear(), d.getMonth() - 6, d.getDate(), 0, 0, 0, 0);
-        }
-        else if (period === '1 year') {
-            this.originalData.forEach(item => {
-                const time = makeGroupTime(group, new Date(item[0]));
-                const find = newData.find(itemNew => itemNew[0] === time);
-                if (find) {
-                    find[1] = new bignumber_js__WEBPACK_IMPORTED_MODULE_3__.BigNumber(find[1]).plus(item[1]).toNumber();
-                }
-                else {
-                    newData.push([time, item[1]]);
-                }
-            });
-            (_f = this.chart.ref) === null || _f === void 0 ? void 0 : _f.series[0].setData(newData, true);
-            min = Date.UTC(d.getFullYear() - 1, d.getMonth(), d.getDate(), 0, 0, 0, 0);
+        else if (group === 'week') {
+            return new Date(date.setDate(date.getDate() - date.getDay())).setHours(0, 0, 0, 0);
         }
         else {
-            this.originalData.forEach(item => {
-                const time = makeGroupTime(group, new Date(item[0]));
-                const find = newData.find(itemNew => itemNew[0] === time);
-                if (find) {
-                    find[1] = new bignumber_js__WEBPACK_IMPORTED_MODULE_3__.BigNumber(find[1]).plus(item[1]).toNumber();
-                }
-                else {
-                    newData.push([time, item[1]]);
-                }
-            });
-            (_g = this.chart.ref) === null || _g === void 0 ? void 0 : _g.series[0].setData(newData, true);
+            return new Date(date.setDate(1)).setHours(0, 0, 0, 0);
         }
-        (_h = this.chart.ref) === null || _h === void 0 ? void 0 : _h.xAxis[0].setExtremes(min, null);
+    }
+    _getMinDateForPeriod(period, currentDate, periodsConfig) {
+        const daysOffset = periodsConfig[period];
+        if (daysOffset) {
+            return Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate() - daysOffset, 0, 0, 0, 0);
+        }
+        return null;
     }
 }
 StakingComponent.ɵfac = function StakingComponent_Factory(t) { return new (t || StakingComponent)(); };
@@ -15883,7 +15801,7 @@ StakingComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_5_
         _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵproperty"]("chart", ctx.chart);
         _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](2);
         _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵproperty"]("ngForOf", ctx.periodItems);
-    } }, dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_13__.NgForOf, _angular_common__WEBPACK_IMPORTED_MODULE_13__.NgIf, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_14__.DefaultLayoutDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_14__.DefaultLayoutGapDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_14__.DefaultLayoutAlignDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_14__.FlexFillDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_14__.DefaultFlexDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_6__.NgControlStatus, _angular_forms__WEBPACK_IMPORTED_MODULE_6__.FormControlDirective, angular_highcharts__WEBPACK_IMPORTED_MODULE_11__.ChartDirective, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_15__.NgSelectComponent, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_15__.NgOptionTemplateDirective, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_15__.NgLabelTemplateDirective, _angular_flex_layout_extended__WEBPACK_IMPORTED_MODULE_16__.DefaultShowHideDirective, _parts_components_staking_switch_component__WEBPACK_IMPORTED_MODULE_4__.StakingSwitchComponent, _angular_common__WEBPACK_IMPORTED_MODULE_13__.LowerCasePipe, _angular_common__WEBPACK_IMPORTED_MODULE_13__.DatePipe, _ngx_translate_core__WEBPACK_IMPORTED_MODULE_17__.TranslatePipe, _parts_pipes_int_to_money_pipe_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_2__.IntToMoneyPipe], styles: ["[_nghost-%COMP%] {\n                width: 100%;\n                height: auto;\n            }\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0YWtpbmcuY29tcG9uZW50LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7WUFDWTtnQkFDSSxXQUFXO2dCQUNYLFlBQVk7WUFDaEIiLCJmaWxlIjoic3Rha2luZy5jb21wb25lbnQudHMiLCJzb3VyY2VzQ29udGVudCI6WyJcbiAgICAgICAgICAgIDpob3N0IHtcbiAgICAgICAgICAgICAgICB3aWR0aDogMTAwJTtcbiAgICAgICAgICAgICAgICBoZWlnaHQ6IGF1dG87XG4gICAgICAgICAgICB9XG4gICAgICAgICJdfQ== */"] });
+    } }, dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_17__.NgForOf, _angular_common__WEBPACK_IMPORTED_MODULE_17__.NgIf, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_18__.DefaultLayoutDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_18__.DefaultLayoutGapDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_18__.DefaultLayoutAlignDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_18__.FlexFillDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_18__.DefaultFlexDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_6__.NgControlStatus, _angular_forms__WEBPACK_IMPORTED_MODULE_6__.FormControlDirective, angular_highcharts__WEBPACK_IMPORTED_MODULE_8__.ChartDirective, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_19__.NgSelectComponent, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_19__.NgOptionTemplateDirective, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_19__.NgLabelTemplateDirective, _angular_flex_layout_extended__WEBPACK_IMPORTED_MODULE_20__.DefaultShowHideDirective, _parts_components_staking_switch_component__WEBPACK_IMPORTED_MODULE_4__.StakingSwitchComponent, _angular_common__WEBPACK_IMPORTED_MODULE_17__.LowerCasePipe, _angular_common__WEBPACK_IMPORTED_MODULE_17__.DatePipe, _ngx_translate_core__WEBPACK_IMPORTED_MODULE_21__.TranslatePipe, _parts_pipes_int_to_money_pipe_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_2__.IntToMoneyPipe], styles: ["[_nghost-%COMP%] {\n                width: 100%;\n                height: auto;\n            }\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0YWtpbmcuY29tcG9uZW50LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7WUFDWTtnQkFDSSxXQUFXO2dCQUNYLFlBQVk7WUFDaEIiLCJmaWxlIjoic3Rha2luZy5jb21wb25lbnQudHMiLCJzb3VyY2VzQ29udGVudCI6WyJcbiAgICAgICAgICAgIDpob3N0IHtcbiAgICAgICAgICAgICAgICB3aWR0aDogMTAwJTtcbiAgICAgICAgICAgICAgICBoZWlnaHQ6IGF1dG87XG4gICAgICAgICAgICB9XG4gICAgICAgICJdfQ== */"] });
 
 
 /***/ }),
@@ -18967,7 +18885,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 const _c0 = function () {
   return ["/assign-alias"];
 };
@@ -19472,21 +19389,15 @@ class WalletComponent {
     }
 
     if (event instanceof _angular_router__WEBPACK_IMPORTED_MODULE_23__.NavigationEnd) {
-      setTimeout(() => {
-        this.loader = false;
-      }, 500);
+      this.loader = false;
     }
 
     if (event instanceof _angular_router__WEBPACK_IMPORTED_MODULE_23__.NavigationCancel) {
-      setTimeout(() => {
-        this.loader = false;
-      }, 500);
+      this.loader = false;
     }
 
     if (event instanceof _angular_router__WEBPACK_IMPORTED_MODULE_23__.NavigationError) {
-      setTimeout(() => {
-        this.loader = false;
-      }, 500);
+      this.loader = false;
     }
   }
 
@@ -24223,7 +24134,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "VariablesService": () => (/* binding */ VariablesService)
 /* harmony export */ });
-/* harmony import */ var _home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
+/* harmony import */ var _Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs */ 76317);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! rxjs */ 80228);
@@ -24348,11 +24259,11 @@ class VariablesService {
     this.currentWalletChangedEvent = new rxjs__WEBPACK_IMPORTED_MODULE_3__.BehaviorSubject(null);
     this._dialog = (0,_angular_core__WEBPACK_IMPORTED_MODULE_6__.inject)(_angular_cdk_dialog__WEBPACK_IMPORTED_MODULE_7__.Dialog);
     this._matDialog = (0,_angular_core__WEBPACK_IMPORTED_MODULE_6__.inject)(_angular_material_dialog__WEBPACK_IMPORTED_MODULE_8__.MatDialog);
-    this.idle = new idlejs_dist__WEBPACK_IMPORTED_MODULE_1__.Idle().whenNotInteractive().do( /*#__PURE__*/(0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+    this.idle = new idlejs_dist__WEBPACK_IMPORTED_MODULE_1__.Idle().whenNotInteractive().do( /*#__PURE__*/(0,_Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
       if (_this.appPass === '') {
         _this.stopCountdown();
       } else {
-        yield _this.ngZone.run( /*#__PURE__*/(0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+        yield _this.ngZone.run( /*#__PURE__*/(0,_Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
           _this.stopCountdown();
 
           _this.appPass = '';
@@ -24576,7 +24487,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "WalletsService": () => (/* binding */ WalletsService)
 /* harmony export */ });
-/* harmony import */ var _home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
+/* harmony import */ var _Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./node_modules/@babel/runtime/helpers/esm/asyncToGenerator.js */ 71670);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _api_services_backend_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @api/services/backend.service */ 10122);
 /* harmony import */ var _parts_services_variables_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @parts/services/variables.service */ 22994);
@@ -24690,9 +24601,9 @@ class WalletsService {
     var _this = this;
 
     const callback = /*#__PURE__*/function () {
-      var _ref = (0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+      var _ref = (0,_Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
         _this.wallets = _this.wallets.filter(w => w.wallet_id !== wallet_id);
-        yield _this.ngZone.run( /*#__PURE__*/(0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
+        yield _this.ngZone.run( /*#__PURE__*/(0,_Users_nazarusov_work_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
           let url = '/';
 
           if (_this.wallets.length > 0) {
@@ -25321,7 +25232,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const buildTime = '2024-09-18T12:08:28.621Z';
+const buildTime = '2024-10-14T16:52:18.218Z';
 if (_environments_environment__WEBPACK_IMPORTED_MODULE_1__.environment.production) {
     (0,_angular_core__WEBPACK_IMPORTED_MODULE_3__.enableProdMode)();
 }
