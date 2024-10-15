@@ -56,7 +56,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { AssetDetailsComponent } from '@parts/modals/asset-details/asset-details.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { GetAssetLogoPipe } from '@parts/pipes/get-asset-logo.pipe';
+import { GetLogoByAssetInfoPipe } from '@parts/pipes/get-logo-by-asset-info.pipe';
 import { ShieldTestnetComponent } from '@parts/components/shield-testnet/shield-testnet.component';
 import {
     VisibilityBalanceButtonComponent
@@ -127,7 +127,7 @@ import { AliasControlsComponent } from '@parts/components/alias-controls/alias-c
         MatInputModule,
         MatIconModule,
         MatDialogModule,
-        GetAssetLogoPipe,
+        GetLogoByAssetInfoPipe,
         ShieldTestnetComponent,
         VisibilityBalanceButtonComponent,
         MigrateAlertComponent,

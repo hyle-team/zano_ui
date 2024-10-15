@@ -1,9 +1,9 @@
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { VariablesService } from '@parts/services/variables.service';
-import { Subject } from 'rxjs';
+import { combineLatest, Observable, Subject, switchMap } from 'rxjs';
 import { AssetBalance, ParamsRemoveCustomAssetId } from '@api/models/assets.model';
 import { PaginatePipeArgs } from 'ngx-pagination';
-import { takeUntil } from 'rxjs/operators';
+import { map, startWith, takeUntil } from 'rxjs/operators';
 import { CdkOverlayOrigin } from '@angular/cdk/overlay';
 import { AssetDetailsComponent } from '@parts/modals/asset-details/asset-details.component';
 import { BackendService } from '@api/services/backend.service';
@@ -35,6 +35,8 @@ export class AssetsComponent implements OnInit, OnDestroy {
 
     isOpenDropDownMenu = false;
 
+    items$: Observable<AssetBalance[]>;
+
     private destroy$ = new Subject<void>();
 
     private readonly _matDialog: MatDialog = inject(MatDialog);
@@ -45,7 +47,33 @@ export class AssetsComponent implements OnInit, OnDestroy {
         private walletsService: WalletsService,
         private intToMoneyPipe: IntToMoneyPipe,
         private translate: TranslateService
-    ) {}
+    ) {
+        const { verifiedAssetInfoWhitelist$, currentWalletChangedEvent, currentWallet } = this.variablesService;
+
+        this.items$ = combineLatest([verifiedAssetInfoWhitelist$, currentWalletChangedEvent.pipe(startWith(currentWallet), switchMap(({ balances$ }) => balances$ ))]).pipe(
+            map(([verifiedAssetInfoWhitelist, balances]) => {
+                const items: AssetBalance[] = [...balances];
+
+                for (const verifiedAssetInfo of verifiedAssetInfoWhitelist) {
+                    const balance = items.find(i => i.asset_info.asset_id === verifiedAssetInfo.asset_id);
+
+                    if (balance) {
+                        balance.asset_info = { ...balance.asset_info, ...verifiedAssetInfo };
+                    } else {
+                        items.push({
+                            asset_info: verifiedAssetInfo,
+                            awaiting_in: 0,
+                            awaiting_out: 0,
+                            total: 0,
+                            unlocked: 0,
+                        });
+                    }
+                }
+
+                return items;
+            })
+        );
+    }
 
     get paginatePipeArgs(): PaginatePipeArgs {
         return {
@@ -65,7 +93,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        this.listenChangeWallet();
+        this._listenChangeWallet();
     }
 
     ngOnDestroy(): void {
@@ -175,7 +203,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
         return tooltip;
     }
 
-    private listenChangeWallet(): void {
+    private _listenChangeWallet(): void {
         this.variablesService.currentWalletChangedEvent.pipe(takeUntil(this.destroy$)).subscribe({
             next: () => {
                 this.currentPage = 0;

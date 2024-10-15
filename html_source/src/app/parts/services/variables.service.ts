@@ -10,7 +10,7 @@ import { Aliases } from '@api/models/alias.model';
 import { distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
 import { Dialog } from '@angular/cdk/dialog';
 import { MatDialog } from '@angular/material/dialog';
-import { VerifiedAssetsWhitelist } from '@api/models/assets.model';
+import { VerifiedAssetInfoWhitelist } from '@api/models/assets.model';
 
 @Injectable({
     providedIn: 'root',
@@ -171,7 +171,7 @@ export class VariablesService implements OnDestroy {
 
     currentWalletChangedEvent = new BehaviorSubject<Wallet>(null);
 
-    verifiedAssetsWhitelist: VerifiedAssetsWhitelist = [];
+    verifiedAssetInfoWhitelist$: BehaviorSubject<VerifiedAssetInfoWhitelist> = new BehaviorSubject([]);
 
     private _dialog: Dialog = inject(Dialog);
 

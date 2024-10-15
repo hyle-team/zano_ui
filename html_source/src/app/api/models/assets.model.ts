@@ -10,7 +10,7 @@ export interface PriceInfo {
 }
 
 export interface AssetBalance {
-    asset_info: AssetInfo;
+    asset_info: AssetInfo | VerifiedAssetInfo;
     awaiting_in: number;
     awaiting_out: number;
     total: number;
@@ -28,12 +28,12 @@ export interface AssetInfo {
     owner: string;
 }
 
-export type VerifiedAssetWhitelist = AssetInfo & {
+export type VerifiedAssetInfo = AssetInfo & {
     logo: string;
     price_url: string;
 };
 
-export type VerifiedAssetsWhitelist = VerifiedAssetWhitelist[];
+export type VerifiedAssetInfoWhitelist = VerifiedAssetInfo[];
 
 export type AssetBalances = AssetBalance[];
 

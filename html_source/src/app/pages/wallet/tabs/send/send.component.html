@@ -190,7 +190,7 @@
                 formControlName="asset_id"
             >
                 <ng-template let-asset="item" ng-label-tmp ng-option-tmp>
-                    <div class="token-logo" [innerHTML]="asset.asset_info | getAssetLogo"></div>
+                    <div class="token-logo" [innerHTML]="asset.asset_info | getLogoByAssetInfo"></div>
                     {{ asset.asset_info.full_name ?? '***' }}
                     <ng-container *appVisibilityBalance>
                         ({{ asset.total | intToMoney : asset.asset_info.decimal_point }} {{ asset.asset_info.ticker }})

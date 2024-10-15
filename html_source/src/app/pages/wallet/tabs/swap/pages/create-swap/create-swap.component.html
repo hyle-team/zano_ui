@@ -54,7 +54,7 @@
                     formControlName="asset_id"
                 >
                     <ng-template let-assetInfo="item" ng-label-tmp ng-option-tmp>
-                        <div class="token-logo" [innerHTML]="assetInfo | getAssetLogo"></div>
+                        <div class="token-logo" [innerHTML]="assetInfo | getLogoByAssetInfo"></div>
                         {{ assetInfo.full_name || '---' }}
                     </ng-template>
                 </ng-select>
@@ -117,7 +117,7 @@
                     formControlName="asset_id"
                 >
                     <ng-template let-assetInfo="item" ng-label-tmp ng-option-tmp>
-                        <div class="token-logo" [innerHTML]="assetInfo | getAssetLogo"></div>
+                        <div class="token-logo" [innerHTML]="assetInfo | getLogoByAssetInfo"></div>
                         {{ assetInfo.full_name || '---' }}
                     </ng-template>
                 </ng-select>

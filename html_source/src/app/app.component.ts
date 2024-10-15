@@ -9,7 +9,7 @@ import { BigNumber } from 'bignumber.js';
 import { ModalService } from '@parts/services/modal.service';
 import { StateKeys, Store } from '@store/store';
 import { interval, Subject, take } from 'rxjs';
-import { retry, switchMap, takeUntil } from 'rxjs/operators';
+import { retry, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { paths, pathsChildrenAuth } from './pages/paths';
 import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { Dialog } from '@angular/cdk/dialog';
@@ -933,20 +933,25 @@ export class AppComponent implements OnInit, OnDestroy {
                     console.log('----------------- type -----------------', type);
                     this.variablesService.testnet = type === 'testnet';
                     this.variablesService.networkType = type;
-                    this._getAssetsWhitelist(type);
+
+                    this._getVerifiedAssetInfoWhitelist(type);
                 }
             });
         });
     }
 
-    private _getAssetsWhitelist(type: 'mainnet' | 'testnet'): void {
+    private _getVerifiedAssetInfoWhitelist(type: 'mainnet' | 'testnet'): void {
         const updateTime = 10 * 60 * 1000; // 10 minutes
 
         interval(updateTime)
-            .pipe(switchMap(() => this._apiZanoService.getAssetsWhitelist(type).pipe(retry(5), takeUntil(this.destroy$))))
+            .pipe(
+                startWith(0),
+                switchMap(() => this._apiZanoService.getVerifiedAssetInfoWhitelist(type).pipe(retry(5))),
+                takeUntil(this.destroy$)
+            )
             .subscribe({
                 next: ({ assets }) => {
-                    this.variablesService.verifiedAssetsWhitelist = assets;
+                    this.variablesService.verifiedAssetInfoWhitelist$.next(assets);
                 },
             });
     }

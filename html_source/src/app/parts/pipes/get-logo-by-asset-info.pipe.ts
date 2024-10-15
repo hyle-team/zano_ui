@@ -1,23 +1,23 @@
 import { inject, Pipe, PipeTransform } from '@angular/core';
-import { AssetInfo } from '@api/models/assets.model';
+import { AssetInfo, VerifiedAssetInfo } from '@api/models/assets.model';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
 import { VariablesService } from '@parts/services/variables.service';
 
 @Pipe({
-    name: 'getAssetLogo',
+    name: 'getLogoByAssetInfo',
     standalone: true
 })
-export class GetAssetLogoPipe implements PipeTransform {
+export class GetLogoByAssetInfoPipe implements PipeTransform {
     private _variablesService: VariablesService = inject(VariablesService);
 
     private _sanitizer: DomSanitizer = inject(DomSanitizer);
 
-    transform(value: AssetInfo): string | SafeHtml {
-        return this._getLogo(value);
+    transform(value: AssetInfo | VerifiedAssetInfo): string | SafeHtml {
+        return this._getLogoByAssetInfo(value);
     }
 
-    private _getLogo(asset_info: AssetInfo): string | SafeHtml {
+    private _getLogoByAssetInfo(asset_info: AssetInfo | VerifiedAssetInfo): string | SafeHtml {
         let src: string = defaultImgSrc;
         const alt: string = asset_info.ticker;
 
@@ -27,11 +27,12 @@ export class GetAssetLogoPipe implements PipeTransform {
 
         let template: string = `<img alt="${alt}" src="${src}"/>`;
 
-        const { verifiedAssetsWhitelist } = this._variablesService;
+        const { verifiedAssetInfoWhitelist$ } = this._variablesService;
+        const verifiedAssetsWhitelist = verifiedAssetInfoWhitelist$.value;
 
         const verifiedAsset = verifiedAssetsWhitelist.find(i => i.asset_id === asset_info.asset_id);
 
-        if (verifiedAsset && verifiedAsset.logo) {
+        if (verifiedAsset?.logo) {
             template = verifiedAsset.logo;
         }
 

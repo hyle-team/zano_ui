@@ -35,7 +35,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatOptionModule } from '@angular/material/core';
 import { WalletsService } from '@parts/services/wallets.service';
 import { MatIconModule } from '@angular/material/icon';
-import { GetAssetLogoPipe } from '@parts/pipes/get-asset-logo.pipe';
+import { GetLogoByAssetInfoPipe } from '@parts/pipes/get-logo-by-asset-info.pipe';
 
 @Component({
     selector: 'app-create-swap',
@@ -58,7 +58,7 @@ import { GetAssetLogoPipe } from '@parts/pipes/get-asset-logo.pipe';
         MatAutocompleteModule,
         MatOptionModule,
         MatIconModule,
-        GetAssetLogoPipe,
+        GetLogoByAssetInfoPipe,
     ],
     templateUrl: './create-swap.component.html',
     styleUrls: ['./create-swap.component.scss'],

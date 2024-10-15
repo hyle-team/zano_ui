@@ -30,74 +30,73 @@
             <div class="row-divider"></div>
             </thead>
             <tbody>
-            <ng-container *ngIf="variablesService.currentWallet.balances$ | async as assets">
-                <ng-container *ngFor="let asset of assets | paginate : paginatePipeArgs; trackBy: trackByAssets">
-                    <tr
-                        [delay]="100"
-                        [placement]="'bottom'"
-                        [timeDelay]="1500"
-                        [tooltipClass]="'balance-tooltip'"
-                        [tooltip]="getBalanceTooltip(asset)"
-                    >
+            <ng-container *ngFor="let asset of items$ | async | paginate : paginatePipeArgs; trackBy: trackByAssets">
+                <tr
+                    [delay]="100"
+                    [placement]="'bottom'"
+                    [timeDelay]="1500"
+                    [tooltipClass]="'balance-tooltip'"
+                    [tooltip]="getBalanceTooltip(asset)"
+                >
+                    <td>
+                        <div class="text-ellipsis" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2rem">
+                            <div [innerHTML]="asset.asset_info | getLogoByAssetInfo" class="token-logo mr-1"></div>
+                            <b class="text-ellipsis">{{ asset.asset_info.full_name }}</b>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="text-ellipsis">
+                            <b *appVisibilityBalance>
+                                {{ asset.total | intToMoney : asset.asset_info.decimal_point }}
+                                {{ asset.asset_info.ticker }}
+                            </b>
+                        </div>
+                    </td>
+                    <ng-container
+                        *ngIf="asset.asset_info.asset_id === zanoAssetInfo.asset_id; else templateNotLoadPrice">
                         <td>
-                            <div class="text-ellipsis" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2rem">
-                                <div class="token-logo mr-1" [innerHTML]="asset.asset_info | getAssetLogo"></div>
-                                <b class="text-ellipsis">{{ asset.asset_info.full_name }}</b>
+                            <div class="text-ellipsis">
+                                <b *appVisibilityBalance>{{
+                                        (asset.total | intToMoney : asset.asset_info.decimal_point) *
+                                        variablesService.zanoMoneyEquivalent | currency : 'USD'
+                                    }}</b>
                             </div>
                         </td>
                         <td>
                             <div class="text-ellipsis">
-                                <b *appVisibilityBalance>
-                                    {{ asset.total | intToMoney : asset.asset_info.decimal_point }}
-                                    {{ asset.asset_info.ticker }}
-                                </b>
-                            </div>
-                        </td>
-                        <ng-container
-                            *ngIf="asset.asset_info.asset_id === zanoAssetInfo.asset_id; else templateNotLoadPrice">
-                            <td>
-                                <div class="text-ellipsis">
-                                    <b *appVisibilityBalance>{{
-                                            (asset.total | intToMoney : asset.asset_info.decimal_point) *
-                                            variablesService.zanoMoneyEquivalent | currency : 'USD'
-                                        }}</b>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-ellipsis">
-                                    <b class="mr-0_5">{{ variablesService.zanoMoneyEquivalent | currency : 'USD' }}</b>
-                                    <span
-                                        [class.color-aqua]="variablesService.zanoMoneyEquivalentPercent > 0"
-                                        [class.color-red]="variablesService.zanoMoneyEquivalentPercent < 0"
-                                    >
-                                                    {{ variablesService.zanoMoneyEquivalentPercent | number : '1.2-2' }}
-                                        %
-                                                </span>
-                                </div>
-                            </td>
-                        </ng-container>
-
-                        <ng-template #templateNotLoadPrice>
-                            <td></td>
-                            <td></td>
-                        </ng-template>
-                        <td>
-                            <div class="text-ellipsis" fxLayout="row" fxLayoutAlign="end center">
-                                <button
-                                    #trigger="cdkOverlayOrigin"
-                                    (click)="toggleDropDownMenu(trigger, asset); $event.stopPropagation()"
-                                    [disabled]="false"
-                                    cdkOverlayOrigin
-                                    class="btn-icon circle row-options small ml-auto"
-                                    type="button"
+                                <b class="mr-0_5">{{ variablesService.zanoMoneyEquivalent | currency : 'USD' }}</b>
+                                <span
+                                    [class.color-aqua]="variablesService.zanoMoneyEquivalentPercent > 0"
+                                    [class.color-red]="variablesService.zanoMoneyEquivalentPercent < 0"
                                 >
-                                    <mat-icon class="small" svgIcon="zano-row-options"></mat-icon>
-                                </button>
+                                                    {{ variablesService.zanoMoneyEquivalentPercent | number : '1.2-2' }}
+                                    %
+                                                </span>
                             </div>
                         </td>
-                    </tr>
-                    <tr class="row-divider"></tr>
-                </ng-container>
+                    </ng-container>
+
+                    <ng-template #templateNotLoadPrice>
+                        <td></td>
+                        <td></td>
+                    </ng-template>
+
+                    <td>
+                        <div class="text-ellipsis" fxLayout="row" fxLayoutAlign="end center">
+                            <button
+                                #trigger="cdkOverlayOrigin"
+                                (click)="toggleDropDownMenu(trigger, asset); $event.stopPropagation()"
+                                [disabled]="false"
+                                cdkOverlayOrigin
+                                class="btn-icon circle row-options small ml-auto"
+                                type="button"
+                            >
+                                <mat-icon class="small" svgIcon="zano-row-options"></mat-icon>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                <tr class="row-divider"></tr>
             </ng-container>
             </tbody>
         </table>
