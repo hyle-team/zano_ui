@@ -50,7 +50,13 @@ export class AssetsComponent implements OnInit, OnDestroy {
     ) {
         const { verifiedAssetInfoWhitelist$, currentWalletChangedEvent, currentWallet } = this.variablesService;
 
-        this.items$ = combineLatest([verifiedAssetInfoWhitelist$, currentWalletChangedEvent.pipe(startWith(currentWallet), switchMap(({ balances$ }) => balances$ ))]).pipe(
+        this.items$ = combineLatest([
+            verifiedAssetInfoWhitelist$,
+            currentWalletChangedEvent.pipe(
+                startWith(currentWallet),
+                switchMap(({ balances$ }) => balances$)
+            ),
+        ]).pipe(
             map(([verifiedAssetInfoWhitelist, balances]) => {
                 const items: AssetBalance[] = [...balances];
 
@@ -201,6 +207,36 @@ export class AssetsComponent implements OnInit, OnDestroy {
         });
         tooltip.appendChild(link);
         return tooltip;
+    }
+
+    isShowSentAsset(): boolean {
+        const {
+            asset_info: { asset_id },
+        } = this.currentAsset;
+        const { currentWallet: { balances } } = this.variablesService;
+        return balances.map(i => i.asset_info.asset_id).includes(asset_id);
+    }
+
+    isShowSwapAsset(): boolean {
+        const {
+            asset_info: { asset_id },
+        } = this.currentAsset;
+        const { currentWallet: { balances, allAssetsInfo } } = this.variablesService;
+        const condition1 = balances.map(i => i.asset_info.asset_id).includes(asset_id);
+        const condition2 = allAssetsInfo.map(i => i.asset_id).includes(asset_id);
+        return condition1 && condition2;
+    }
+
+    isShowDeleteAsset(): boolean {
+        const {
+            asset_info: { asset_id },
+        } = this.currentAsset;
+        const { verifiedAssetInfoWhitelist$ } = this.variablesService;
+        const verifiedAssetInfoWhitelist = verifiedAssetInfoWhitelist$.value;
+        /**
+         * You can't delete asset zano and assets that are in whitelist
+         * */
+        return ![zanoAssetInfo.asset_id, ...verifiedAssetInfoWhitelist.map(i => i.asset_id)].includes(asset_id);
     }
 
     private _listenChangeWallet(): void {

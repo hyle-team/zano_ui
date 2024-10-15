@@ -163,24 +163,27 @@
                         !variablesService.currentWallet.is_watch_only
                     "
         >
-            <li class="item">
-                <button [state]="{ asset: currentAsset }" class="w-100 px-2 py-1" routerLink="/wallet/send">
-                    <mat-icon class="mr-1" svgIcon="zano-send"></mat-icon>
-                    <span>{{ 'Send' | translate }}</span>
-                </button>
-            </li>
-
-            <ng-container *ngIf="variablesService.is_hardfok_active$ | async">
+            <ng-container *ngIf="isShowSentAsset()">
                 <li class="item">
-                    <button [state]="{ asset: currentAsset }" class="w-100 px-2 py-1" routerLink="/wallet/create-swap">
-                        <mat-icon class="mr-1" svgIcon="zano-swap"></mat-icon>
-                        <span>{{ 'Swap' | translate }}</span>
+                    <button [state]="{ asset: currentAsset }" class="w-100 px-2 py-1" routerLink="/wallet/send">
+                        <mat-icon class="mr-1" svgIcon="zano-send"></mat-icon>
+                        <span>{{ 'Send' | translate }}</span>
                     </button>
                 </li>
             </ng-container>
+            <ng-container *ngIf="variablesService.is_hardfok_active$ | async">
+                <ng-container *ngIf="isShowSwapAsset()">
+                    <li class="item">
+                        <button [state]="{ asset: currentAsset }" class="w-100 px-2 py-1" routerLink="/wallet/create-swap">
+                            <mat-icon class="mr-1" svgIcon="zano-swap"></mat-icon>
+                            <span>{{ 'Swap' | translate }}</span>
+                        </button>
+                    </li>
+                </ng-container>
+            </ng-container>
         </ng-container>
 
-        <ng-container *ngIf="currentAsset.asset_info.ticker !== 'ZANO'">
+        <ng-container *ngIf="isShowDeleteAsset()">
             <li class="item">
                 <button (click)="beforeRemoveAsset()" class="w-100 px-2 py-1" type="button">
                     <mat-icon class="mr-1" svgIcon="zano-delete"></mat-icon>

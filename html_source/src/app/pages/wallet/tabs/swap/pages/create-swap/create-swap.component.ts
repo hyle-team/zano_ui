@@ -19,7 +19,7 @@ import { IntToMoneyPipeModule, MoneyToIntPipeModule, ShortStringPipe } from '@pa
 import { NgSelectModule } from '@ng-select/ng-select';
 import { VariablesService } from '@parts/services/variables.service';
 import { AssetBalance, AssetInfo } from '@api/models/assets.model';
-import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
+import { zanoAssetInfo } from '@parts/data/assets';
 import { regExpAliasName } from '@parts/utils/zano-validators';
 import { BackendService } from '@api/services/backend.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
@@ -141,17 +141,6 @@ export class CreateSwapComponent implements OnDestroy {
     ngOnDestroy(): void {
         this._destroy$.next();
         this._destroy$.complete();
-    }
-
-    getSrcByAssetInfo({ asset_id }: AssetInfo): string {
-        switch (asset_id) {
-            case zanoAssetInfo.asset_id: {
-                return zanoAssetInfo.logo;
-            }
-            default: {
-                return defaultImgSrc;
-            }
-        }
     }
 
     isVisibleErrorByControl(control: AbstractControl): boolean {
@@ -568,8 +557,21 @@ export class CreateSwapComponent implements OnDestroy {
             this.form.patchValue({
                 sending: {
                     asset_id,
-                },
+                }
             });
+
+            if (this.form.getRawValue().receiving.asset_id === asset_id) {
+                for (const assetsInfo of this.allAssetsInfo) {
+                    if (assetsInfo.asset_id !== asset_id) {
+                        this.form.patchValue({
+                            receiving: {
+                                asset_id: assetsInfo.asset_id,
+                            }
+                        });
+                        break;
+                    }
+                }
+            }
         }
     }
 }
