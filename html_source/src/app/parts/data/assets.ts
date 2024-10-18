@@ -15,4 +15,4 @@ export const zanoAssetInfo: ZanoAssetInfo = {
     total_max_supply: 0,
 };
 
-export const defaultImgSrc = 'assets/currency-icons/custom_token.svg';
+export const defaultAssetLogoSrc = 'assets/currency-icons/custom_token.svg';

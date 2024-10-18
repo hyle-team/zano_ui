@@ -1,9 +1,9 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { VariablesService } from '@parts/services/variables.service';
-import { combineLatest, Observable, Subject, switchMap } from 'rxjs';
+import { Subject } from 'rxjs';
 import { AssetBalance, ParamsRemoveCustomAssetId } from '@api/models/assets.model';
 import { PaginatePipeArgs } from 'ngx-pagination';
-import { map, startWith, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { CdkOverlayOrigin } from '@angular/cdk/overlay';
 import { AssetDetailsComponent } from '@parts/modals/asset-details/asset-details.component';
 import { BackendService } from '@api/services/backend.service';
@@ -21,79 +21,39 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
     templateUrl: `./assets.component.html`,
 })
 export class AssetsComponent implements OnInit, OnDestroy {
-    currentPage = 1;
-
-    itemsPerPage = 10;
-
-    paginationId = 'pagination-assets-id';
-
-    zanoAssetInfo = zanoAssetInfo;
+    paginatePipeArgs: PaginatePipeArgs = {
+        id: 'pagination-assets-id',
+        itemsPerPage: 10,
+        currentPage: 1,
+    };
 
     triggerOrigin!: CdkOverlayOrigin;
 
-    currentAsset!: AssetBalance;
+    currentAssetBalance!: AssetBalance;
 
     isOpenDropDownMenu = false;
 
-    items$: Observable<AssetBalance[]>;
-
-    private destroy$ = new Subject<void>();
+    private readonly _destroy$ = new Subject<void>();
 
     private readonly _matDialog: MatDialog = inject(MatDialog);
 
-    constructor(
-        public variablesService: VariablesService,
-        private backendService: BackendService,
-        private walletsService: WalletsService,
-        private intToMoneyPipe: IntToMoneyPipe,
-        private translate: TranslateService
-    ) {
-        const { verifiedAssetInfoWhitelist$, currentWalletChangedEvent, currentWallet } = this.variablesService;
+    public readonly variablesService: VariablesService = inject(VariablesService);
 
-        this.items$ = combineLatest([
-            verifiedAssetInfoWhitelist$,
-            currentWalletChangedEvent.pipe(
-                startWith(currentWallet),
-                switchMap(({ balances$ }) => balances$)
-            ),
-        ]).pipe(
-            map(([verifiedAssetInfoWhitelist, balances]) => {
-                const items: AssetBalance[] = [...balances];
+    private readonly _backendService: BackendService = inject(BackendService);
 
-                for (const verifiedAssetInfo of verifiedAssetInfoWhitelist) {
-                    const balance = items.find(i => i.asset_info.asset_id === verifiedAssetInfo.asset_id);
+    private readonly _walletsService: WalletsService = inject(WalletsService);
 
-                    if (balance) {
-                        balance.asset_info = { ...balance.asset_info, ...verifiedAssetInfo };
-                    } else {
-                        items.push({
-                            asset_info: verifiedAssetInfo,
-                            awaiting_in: 0,
-                            awaiting_out: 0,
-                            total: 0,
-                            unlocked: 0,
-                        });
-                    }
-                }
+    private readonly _intToMoneyPipe: IntToMoneyPipe = inject(IntToMoneyPipe);
 
-                return items;
-            })
-        );
-    }
+    private readonly _translateService: TranslateService = inject(TranslateService);
 
-    get paginatePipeArgs(): PaginatePipeArgs {
-        return {
-            id: this.paginationId,
-            itemsPerPage: this.itemsPerPage,
-            currentPage: this.currentPage,
-        };
-    }
+    private readonly _ngZone: NgZone = inject(NgZone);
 
     get isShowPagination(): boolean {
         const { currentWallet } = this.variablesService;
         if (currentWallet) {
             const { balances } = currentWallet;
-            return (balances?.length || 0) > this.itemsPerPage;
+            return (balances?.length || 0) > this.paginatePipeArgs.itemsPerPage;
         }
         return false;
     }
@@ -103,14 +63,14 @@ export class AssetsComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
+        this._destroy$.next();
+        this._destroy$.complete();
     }
 
-    toggleDropDownMenu(trigger: CdkOverlayOrigin, asset: AssetBalance): void {
+    toggleDropDownMenu(trigger: CdkOverlayOrigin, assetBalance: AssetBalance): void {
         this.isOpenDropDownMenu = !this.isOpenDropDownMenu;
         this.triggerOrigin = trigger;
-        this.currentAsset = asset;
+        this.currentAssetBalance = assetBalance;
     }
 
     trackByAssets(index: number, { asset_info: { asset_id } }: AssetBalance): number | string {
@@ -122,21 +82,23 @@ export class AssetsComponent implements OnInit, OnDestroy {
     }
 
     assetDetails(): void {
+        const { asset_info } = this.currentAssetBalance;
         const config: MatDialogConfig = {
             data: {
-                assetInfo: this.currentAsset.asset_info,
+                asset_info
             },
         };
         this._matDialog.open(AssetDetailsComponent, config);
     }
 
     beforeRemoveAsset(): void {
-        if (!this.currentAsset) {
+        if (!this.currentAssetBalance) {
             return;
         }
-        const { full_name } = this.currentAsset.asset_info;
+        const { full_name } = this.currentAssetBalance.asset_info;
         const config: MatDialogConfig<ConfirmModalData> = {
             data: {
+                // TODO: Add in translates
                 title: `Do you want delete "${full_name}"`,
             },
         };
@@ -144,26 +106,36 @@ export class AssetsComponent implements OnInit, OnDestroy {
         this._matDialog
             .open<ConfirmModalComponent, ConfirmModalData, boolean>(ConfirmModalComponent, config)
             .afterClosed()
-            .pipe(takeUntil(this.destroy$))
+            .pipe(takeUntil(this._destroy$))
             .subscribe({
-                next: confirmed => confirmed && this.removeAsset(),
+                next: confirmed => confirmed && this._removeAsset(),
             });
     }
 
-    removeAsset(): void {
-        const { wallet_id, sendMoneyParams } = this.variablesService.currentWallet;
-        const { asset_id } = this.currentAsset.asset_info;
+    private _removeAsset(): void {
+        const {
+            currentWallet
+        } = this.variablesService;
+        const { wallet_id, sendMoneyParams } = currentWallet;
+        const {
+            asset_info: { asset_id },
+        } = this.currentAssetBalance;
+
         const params: ParamsRemoveCustomAssetId = {
             wallet_id,
             asset_id,
         };
-        this.backendService.removeCustomAssetId(params, () => {
-            this.walletsService.updateWalletInfo(wallet_id);
-            this.currentAsset = undefined;
 
-            if (sendMoneyParams) {
-                this.walletsService.currentWallet.sendMoneyParams.asset_id = zanoAssetInfo.asset_id;
-            }
+        this._backendService.removeCustomAssetId(params, () => {
+            this._ngZone.run(() => {
+                if (sendMoneyParams?.asset_id === asset_id) {
+                    this._walletsService.currentWallet.sendMoneyParams.asset_id = zanoAssetInfo.asset_id;
+                }
+
+                this._walletsService.updateWalletInfo(wallet_id);
+
+                this.currentAssetBalance = undefined;
+            });
         });
     }
 
@@ -180,20 +152,20 @@ export class AssetsComponent implements OnInit, OnDestroy {
         [balance].forEach(({ unlocked, total, asset_info: { ticker, decimal_point } }: AssetBalance) => {
             const available = document.createElement('span');
             available.setAttribute('class', 'available');
-            available.innerText = `${this.translate.instant('WALLET.AVAILABLE_BALANCE')} `;
+            available.innerText = `${this._translateService.instant('WALLET.AVAILABLE_BALANCE')} `;
             const availableB = document.createElement('b');
             availableB.innerText = visibilityBalance
-                ? `${this.intToMoneyPipe.transform(unlocked, decimal_point)} ${ticker || '---'}`
+                ? `${this._intToMoneyPipe.transform(unlocked, decimal_point)} ${ticker || '---'}`
                 : '******';
             available.appendChild(availableB);
             scrollWrapper.appendChild(available);
 
             const locked = document.createElement('span');
             locked.setAttribute('class', 'locked');
-            locked.innerText = `${this.translate.instant('WALLET.LOCKED_BALANCE')} `;
+            locked.innerText = `${this._translateService.instant('WALLET.LOCKED_BALANCE')} `;
             const lockedB = document.createElement('b');
             lockedB.innerText = visibilityBalance
-                ? `${this.intToMoneyPipe.transform(new BigNumber(total).minus(unlocked), decimal_point)} ${ticker || '---'}`
+                ? `${this._intToMoneyPipe.transform(new BigNumber(total).minus(unlocked), decimal_point)} ${ticker || '---'}`
                 : '******';
             locked.appendChild(lockedB);
             scrollWrapper.appendChild(locked);
@@ -201,48 +173,36 @@ export class AssetsComponent implements OnInit, OnDestroy {
         tooltip.appendChild(scrollWrapper);
         const link = document.createElement('span');
         link.setAttribute('class', 'link');
-        link.innerHTML = this.translate.instant('WALLET.LOCKED_BALANCE_LINK');
+        link.innerHTML = this._translateService.instant('WALLET.LOCKED_BALANCE_LINK');
         link.addEventListener('click', () => {
-            this.backendService.openUrlInBrowser(LOCKED_BALANCE_HELP_PAGE);
+            this._backendService.openUrlInBrowser(LOCKED_BALANCE_HELP_PAGE);
         });
         tooltip.appendChild(link);
         return tooltip;
     }
 
-    isShowSentAsset(): boolean {
-        const {
-            asset_info: { asset_id },
-        } = this.currentAsset;
-        const { currentWallet: { balances } } = this.variablesService;
-        return balances.map(i => i.asset_info.asset_id).includes(asset_id);
-    }
-
-    isShowSwapAsset(): boolean {
-        const {
-            asset_info: { asset_id },
-        } = this.currentAsset;
-        const { currentWallet: { balances, allAssetsInfo } } = this.variablesService;
-        const condition1 = balances.map(i => i.asset_info.asset_id).includes(asset_id);
-        const condition2 = allAssetsInfo.map(i => i.asset_id).includes(asset_id);
-        return condition1 && condition2;
-    }
-
     isShowDeleteAsset(): boolean {
         const {
             asset_info: { asset_id },
-        } = this.currentAsset;
-        const { verifiedAssetInfoWhitelist$ } = this.variablesService;
-        const verifiedAssetInfoWhitelist = verifiedAssetInfoWhitelist$.value;
+        } = this.currentAssetBalance;
+        const {
+            verifiedAssetInfoWhitelist$: { value: verifiedAssetInfoWhitelist },
+        } = this.variablesService;
         /**
          * You can't delete asset zano and assets that are in whitelist
          * */
         return ![zanoAssetInfo.asset_id, ...verifiedAssetInfoWhitelist.map(i => i.asset_id)].includes(asset_id);
     }
 
+    isShowPriceColumns(balance: AssetBalance): boolean {
+        return balance.asset_info.asset_id === zanoAssetInfo.asset_id;
+    }
+
     private _listenChangeWallet(): void {
-        this.variablesService.currentWalletChangedEvent.pipe(takeUntil(this.destroy$)).subscribe({
+        const { currentWalletChangedEvent } = this.variablesService;
+        currentWalletChangedEvent.pipe(takeUntil(this._destroy$)).subscribe({
             next: () => {
-                this.currentPage = 0;
+                this.paginatePipeArgs.currentPage = 0;
             },
         });
     }

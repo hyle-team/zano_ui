@@ -144,6 +144,6 @@ export class CustomAssetsComponent implements OnInit {
         const {
             currentWallet: { wallet_id },
         } = this._walletsService;
-        this._walletsService.loadAssetsWhitelist(wallet_id);
+        this._walletsService.loadAssetsInfoWhitelist(wallet_id);
     }
 }

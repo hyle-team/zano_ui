@@ -18,6 +18,7 @@ import { ParamsCallRpc } from '@api/models/call_rpc.model';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MatDialog } from '@angular/material/dialog';
 import { ApiZanoService } from '@api/services/api-zano.service';
+import { WalletsService } from '@parts/services/wallets.service';
 
 @Component({
     selector: 'app-root',
@@ -92,6 +93,7 @@ export class AppComponent implements OnInit, OnDestroy {
         private matDialog: MatDialog,
         public zanoLoadersService: ZanoLoadersService,
         private _apiZanoService: ApiZanoService,
+        private _walletsService: WalletsService,
         private _breakpointObserver: BreakpointObserver
     ) {
         translate.addLangs(['en', 'fr', 'de', 'it', 'pt']);
@@ -934,14 +936,14 @@ export class AppComponent implements OnInit, OnDestroy {
                     this.variablesService.testnet = type === 'testnet';
                     this.variablesService.networkType = type;
 
-                    this._getVerifiedAssetInfoWhitelist(type);
+                    this._loadVerifiedAssetInfoWhitelist(type);
                 }
             });
         });
     }
 
-    private _getVerifiedAssetInfoWhitelist(type: 'mainnet' | 'testnet'): void {
-        const updateTime = 10 * 60 * 1000; // 10 minutes
+    private _loadVerifiedAssetInfoWhitelist(type: 'mainnet' | 'testnet'): void {
+        const updateTime: number = 10 * 60 * 1000; // 10 minutes
 
         interval(updateTime)
             .pipe(
@@ -952,24 +954,32 @@ export class AppComponent implements OnInit, OnDestroy {
             .subscribe({
                 next: ({ assets }) => {
                     this.variablesService.verifiedAssetInfoWhitelist$.next(assets);
+                    this._walletsService.setVerifiedAssetInfoWhitelist(assets);
                 },
             });
     }
 
     getInfo(): void {
-        const updateTime = 60 * 1000;
-        const getInfo = () => {
-            const params = {
-                jsonrpc: '2.0',
-                method: 'getinfo',
-            };
+        const updateTime: number = 60 * 1000; // 1 minutes
 
-            this.backendService.call_rpc(params, (status, response_data) => {
-                this.variablesService.info$.next(response_data.result);
-            });
-        };
-        getInfo();
-        setInterval(getInfo, updateTime);
+        interval(updateTime)
+            .pipe(
+                startWith(0),
+                takeUntil(this.destroy$)
+            ).subscribe({
+            next: () => {
+                const params = {
+                    jsonrpc: '2.0',
+                    method: 'getinfo',
+                };
+
+                this.backendService.call_rpc(params, (status, response_data) => {
+                    this.ngZone.run(() => {
+                        this.variablesService.info$.next(response_data.result);
+                    });
+                });
+            }
+        });
     }
 
     private _getZanoCurrentSupply(): void {

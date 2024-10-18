@@ -63,7 +63,7 @@
         <!-- /Sending -->
 
         <div class="wrapper-reverse">
-            <button (click)="reverse()" [disabled]="currentWallet.isEmptyAssetsInfoWhitelist" class="revers" type="button">
+            <button (click)="reverse()" [disabled]="currentWallet.balances.length === 1" class="revers" type="button">
                 <mat-icon class="rotate-90" svgIcon="zano-swap"></mat-icon>
             </button>
         </div>

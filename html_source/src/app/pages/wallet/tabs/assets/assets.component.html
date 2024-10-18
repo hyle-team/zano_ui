@@ -30,34 +30,36 @@
             <div class="row-divider"></div>
             </thead>
             <tbody>
-            <ng-container *ngFor="let asset of items$ | async | paginate : paginatePipeArgs; trackBy: trackByAssets">
+            <ng-container *ngFor="let balance of variablesService.currentWallet.balances$ | async | paginate :
+                paginatePipeArgs; trackBy: trackByAssets">
                 <tr
                     [delay]="100"
                     [placement]="'bottom'"
                     [timeDelay]="1500"
                     [tooltipClass]="'balance-tooltip'"
-                    [tooltip]="getBalanceTooltip(asset)"
+                    [tooltip]="getBalanceTooltip(balance)"
                 >
                     <td>
                         <div class="text-ellipsis" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2rem">
-                            <div [innerHTML]="asset.asset_info | getLogoByAssetInfo" class="token-logo mr-1"></div>
-                            <b class="text-ellipsis">{{ asset.asset_info.full_name }}</b>
+                            <div [innerHTML]="balance.asset_info | getLogoByAssetInfo" class="token-logo mr-1"></div>
+                            <b class="text-ellipsis">{{ balance.asset_info.full_name }}</b>
                         </div>
                     </td>
                     <td>
                         <div class="text-ellipsis">
                             <b *appVisibilityBalance>
-                                {{ asset.total | intToMoney : asset.asset_info.decimal_point }}
-                                {{ asset.asset_info.ticker }}
+                                {{ balance.total | intToMoney : balance.asset_info.decimal_point }}
+                                {{ balance.asset_info.ticker }}
                             </b>
                         </div>
                     </td>
+
                     <ng-container
-                        *ngIf="asset.asset_info.asset_id === zanoAssetInfo.asset_id; else templateNotLoadPrice">
+                        *ngIf="isShowPriceColumns(balance); else templateNotLoadPrice">
                         <td>
                             <div class="text-ellipsis">
                                 <b *appVisibilityBalance>{{
-                                        (asset.total | intToMoney : asset.asset_info.decimal_point) *
+                                        (balance.total | intToMoney : balance.asset_info.decimal_point) *
                                         variablesService.zanoMoneyEquivalent | currency : 'USD'
                                     }}</b>
                             </div>
@@ -68,10 +70,7 @@
                                 <span
                                     [class.color-aqua]="variablesService.zanoMoneyEquivalentPercent > 0"
                                     [class.color-red]="variablesService.zanoMoneyEquivalentPercent < 0"
-                                >
-                                                    {{ variablesService.zanoMoneyEquivalentPercent | number : '1.2-2' }}
-                                    %
-                                                </span>
+                                >{{ variablesService.zanoMoneyEquivalentPercent | number : '1.2-2' }} %</span>
                             </div>
                         </td>
                     </ng-container>
@@ -85,7 +84,7 @@
                         <div class="text-ellipsis" fxLayout="row" fxLayoutAlign="end center">
                             <button
                                 #trigger="cdkOverlayOrigin"
-                                (click)="toggleDropDownMenu(trigger, asset); $event.stopPropagation()"
+                                (click)="toggleDropDownMenu(trigger, balance); $event.stopPropagation()"
                                 [disabled]="false"
                                 cdkOverlayOrigin
                                 class="btn-icon circle row-options small ml-auto"
@@ -104,9 +103,9 @@
 
     <pagination-template
         #p="paginationApi"
-        (pageChange)="currentPage = $event"
+        (pageChange)="paginatePipeArgs.currentPage = $event"
         *ngIf="isShowPagination"
-        [id]="paginationId"
+        [id]="paginatePipeArgs.id"
         class="ngx-pagination custom-pagination"
     >
         <button (click)="p.previous()" [disabled]="p.isFirstPage()"
@@ -163,23 +162,20 @@
                         !variablesService.currentWallet.is_watch_only
                     "
         >
-            <ng-container *ngIf="isShowSentAsset()">
+            <li class="item">
+                <button [state]="{ asset: currentAssetBalance }" class="w-100 px-2 py-1" routerLink="/wallet/send">
+                    <mat-icon class="mr-1" svgIcon="zano-send"></mat-icon>
+                    <span>{{ 'Send' | translate }}</span>
+                </button>
+            </li>
+            <ng-container *ngIf="variablesService.is_hardfok_active$ | async">
                 <li class="item">
-                    <button [state]="{ asset: currentAsset }" class="w-100 px-2 py-1" routerLink="/wallet/send">
-                        <mat-icon class="mr-1" svgIcon="zano-send"></mat-icon>
-                        <span>{{ 'Send' | translate }}</span>
+                    <button [state]="{ asset: currentAssetBalance }" class="w-100 px-2 py-1"
+                            routerLink="/wallet/create-swap">
+                        <mat-icon class="mr-1" svgIcon="zano-swap"></mat-icon>
+                        <span>{{ 'Swap' | translate }}</span>
                     </button>
                 </li>
-            </ng-container>
-            <ng-container *ngIf="variablesService.is_hardfok_active$ | async">
-                <ng-container *ngIf="isShowSwapAsset()">
-                    <li class="item">
-                        <button [state]="{ asset: currentAsset }" class="w-100 px-2 py-1" routerLink="/wallet/create-swap">
-                            <mat-icon class="mr-1" svgIcon="zano-swap"></mat-icon>
-                            <span>{{ 'Swap' | translate }}</span>
-                        </button>
-                    </li>
-                </ng-container>
             </ng-container>
         </ng-container>
 

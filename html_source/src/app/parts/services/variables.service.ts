@@ -132,8 +132,7 @@ export class VariablesService implements OnDestroy {
 
     testnet: boolean = false;
 
-    // Testnet or Mainnet
-    networkType = '';
+    networkType: 'mainnet' | 'testnet' = 'mainnet';
 
     wallets: Array<Wallet> = [];
 
