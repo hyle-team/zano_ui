@@ -45,7 +45,7 @@
             "NAME_EXISTS": "Alias name already exists",
             "NAME_LENGTH": "The alias must be 6-25 characters long",
             "NAME_REQUIRED": "Name is required",
-            "NAME_WRONG": "Use only letters (A–Z, a–z), numbers (0–9), and special characters (-.)",
+            "NAME_WRONG": "Invalid name. Use only letters (A–Z, a–z), numbers (0–9), and special characters (-.)",
             "NO_MONEY": "Insufficient funds to assign the alias"
         },
         "NAME": {
@@ -373,9 +373,9 @@
         "GREATER_THAN_TOTAL_MAX_SUPPLY": "Greater than total max supply",
         "HEX_NOT_VALID": "Hex not valid",
         "INSUFFICIENT_FUNDS": "Insufficient funds",
-        "INVALID_FULL_NAME_ASSET_PATTERN": "Use only letters (A–Z, a–z), numbers (0–9), and special characters (\".,:!-()\" and space)",
+        "INVALID_FULL_NAME_ASSET_PATTERN": "Invalid asset name. Use only letters (A–Z, a–z), numbers (0–9), and special characters (\".,:!-()\" and space)",
         "INVALID_PROPOSAL": "Invalid proposal",
-        "INVALID_TICKER_PATTERN": "Use only letters (A–Z, a–z), numbers (0–9)",
+        "INVALID_TICKER_PATTERN": "Invalid ticker. Use only letters (A–Z, a–z), numbers (0–9)",
         "MAX": "Max {{ max }}",
         "MAX_DECIMAL_POINT": "Max decimal point {{ max }}",
         "MAX_LENGTH": "Maximin length {{ requiredLength }}",
@@ -386,6 +386,7 @@
         "NOT_FILE_ZANO_WALLET": "This file is not recognized as a Zano wallet..",
         "NO_MONEY": "Not enough funds for this transaction",
         "NO_MONEY_REMOVE_OFFER": "There is no fee for deleting an offer, but in order to protect the network against flood transactions you need to have at least {{fee}} {{currency}} in your wallet",
+        "REGEXP_INVALID_PASSWORD": "Invalid password. Use only letters (A–Z, a–z), numbers (0–9), and special characters !@#$%^&*()_+-={}[]|:;\"'<>,.?/~. Maximum length: 40 characters.",
         "REQUIRED": "This field is required",
         "TO_BIG_TOTAL_SUPPLY": "To big total supply, reduce it or make decimal point smaller",
         "TRANSACTION_ERROR": "Error. Transaction not completed.",

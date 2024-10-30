@@ -224,7 +224,7 @@
                                 class="error"
                             >
                                 <div *ngIf="changeForm.controls['new_password'].errors?.pattern">
-                                    {{ 'ERRORS.WRONG_PASSWORD_MUST_BE' | translate }} a-zA-Z0-9_.*|~!?@#$%^&+&#123;}()<>:;"'-=,/[]*$
+                                    {{ 'ERRORS.REGEXP_INVALID_PASSWORD' | translate }}
                                 </div>
                                 <div *ngIf="changeForm.controls['new_password'].hasError('required')">
                                     {{ 'ERRORS.REQUIRED' | translate }}
