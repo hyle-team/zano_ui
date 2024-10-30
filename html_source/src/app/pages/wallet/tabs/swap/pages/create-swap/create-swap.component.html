@@ -53,9 +53,9 @@
                     class="custom-select with-circle"
                     formControlName="asset_id"
                 >
-                    <ng-template let-assetInfo="item" ng-label-tmp ng-option-tmp>
-                        <div class="token-logo" [innerHTML]="assetInfo | getLogoByAssetInfo"></div>
-                        {{ assetInfo.full_name || '---' }}
+                    <ng-template let-item="item" ng-label-tmp ng-option-tmp>
+                        <div class="token-logo" [innerHTML]="item | getLogoByAssetInfo"></div>
+                        {{ item.full_name || '---' }}
                     </ng-template>
                 </ng-select>
             </div>
@@ -116,9 +116,9 @@
                     class="custom-select with-circle"
                     formControlName="asset_id"
                 >
-                    <ng-template let-assetInfo="item" ng-label-tmp ng-option-tmp>
-                        <div class="token-logo" [innerHTML]="assetInfo | getLogoByAssetInfo"></div>
-                        {{ assetInfo.full_name || '---' }}
+                    <ng-template let-item="item" ng-label-tmp ng-option-tmp>
+                        <div class="token-logo" [innerHTML]="item | getLogoByAssetInfo"></div>
+                        {{ item.full_name || '---' }}
                     </ng-template>
                 </ng-select>
                 <div

@@ -88,7 +88,7 @@ export class CustomAssetsComponent implements OnInit {
     openDialog(type: 'assetDetails' | 'emit' | 'burn' | 'update'): void {
         const config: MatDialogConfig = {
             data: {
-                assetInfo: this.currentAssetInfo,
+                asset_info: this.currentAssetInfo,
             },
         };
 

@@ -14,13 +14,19 @@ export class ApiZanoService {
         return this.httpClient.get<WrapInfo>('https://wrapped.zano.org/api2/get_wrap_info');
     }
 
-    getVerifiedAssetInfoWhitelist(type: 'mainnet' | 'testnet'): Observable<{ assets: VerifiedAssetInfoWhitelist; signature: string }> {
+    getVerifiedAssetInfoWhitelist(type: 'mainnet' | 'testnet'): Observable<{
+        assets: VerifiedAssetInfoWhitelist;
+        signature: string;
+    }> {
         let url: string;
         if (type === 'mainnet') {
             url = 'https://api.zano.org/assets_whitelist.json';
         } else {
             url = 'https://api.zano.org/assets_whitelist_testnet.json';
         }
-        return this.httpClient.get<{ assets: VerifiedAssetInfoWhitelist; signature: string }>(url);
+
+        return this.httpClient.get<{ assets: VerifiedAssetInfoWhitelist; signature: string }>(url, {
+            headers: { 'Cache-Control': 'no-cache' },
+        });
     }
 }

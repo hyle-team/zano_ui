@@ -17,7 +17,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 export class EmitCustomAssetComponent {
     public readonly variablesService: VariablesService = inject(VariablesService);
 
-    public readonly data: { assetInfo: AssetInfo } = inject(MAT_DIALOG_DATA);
+    public readonly data: { asset_info: AssetInfo } = inject(MAT_DIALOG_DATA);
 
     public readonly matDialogRef: MatDialogRef<EmitCustomAssetComponent> = inject(MatDialogRef);
 
@@ -30,7 +30,7 @@ export class EmitCustomAssetComponent {
             Validators.required,
             (control): ValidationErrors | null => {
                 const {
-                    assetInfo: { total_max_supply, current_supply, decimal_point },
+                    asset_info: { total_max_supply, current_supply, decimal_point },
                 } = this.data;
                 const { value: amount } = control;
 
@@ -51,7 +51,7 @@ export class EmitCustomAssetComponent {
             currentWallet: { wallet_id, address },
         } = this.variablesService;
         const {
-            assetInfo: { asset_id, decimal_point },
+            asset_info: { asset_id, decimal_point },
         } = this.data;
         const { amount } = this.form.getRawValue();
         const params: EmitParams = {

@@ -1,37 +1,37 @@
 <h2 mat-dialog-title>{{ data?.title ?? 'ASSETS.MODALS.ASSET_DETAILS.TITLE' | translate }}</h2>
 
 <mat-dialog-content>
-    <ng-container *ngIf="data.asset_info as assetInfo; else templateEmpty">
+    <ng-container *ngIf="data.asset_info as asset_info; else templateEmpty">
         <table class="rounded-corners">
             <tbody>
                 <tr>
                     <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.NAME' | translate }}</td>
-                    <td>{{ assetInfo.full_name }}</td>
+                    <td>{{ asset_info.full_name }}</td>
                 </tr>
                 <tr>
                     <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.TICKER' | translate }}</td>
-                    <td>{{ assetInfo.ticker }}</td>
+                    <td>{{ asset_info.ticker }}</td>
                 </tr>
                 <tr>
                     <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.OWNER' | translate }}</td>
-                    <td (contextmenu)="variablesService.onContextMenuOnlyCopy($event, assetInfo.owner)">
-                        {{ assetInfo.owner }}
+                    <td (contextmenu)="variablesService.onContextMenuOnlyCopy($event, asset_info.owner)">
+                        {{ asset_info.owner }}
                     </td>
                 </tr>
                 <tr>
                     <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.ID' | translate }}</td>
-                    <td (contextmenu)="variablesService.onContextMenuOnlyCopy($event, assetInfo.asset_id)">
-                        {{ assetInfo.asset_id }}
+                    <td (contextmenu)="variablesService.onContextMenuOnlyCopy($event, asset_info.asset_id)">
+                        {{ asset_info.asset_id }}
                     </td>
                 </tr>
                 <tr>
                     <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.CURRENT_SUPPLY' | translate }}</td>
                     <td>
                         {{
-                            (assetInfo.asset_id === zanoAssetInfo.asset_id
+                            (asset_info.asset_id === zanoAssetInfo.asset_id
                                 ? variablesService.zano_current_supply ?? 'Unknown'
-                                : assetInfo.current_supply
-                            ) | intToMoney : assetInfo.decimal_point
+                                : asset_info.current_supply
+                            ) | intToMoney : asset_info.decimal_point
                         }}
                     </td>
                 </tr>
@@ -39,9 +39,9 @@
                     <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.MAX_SUPPLE' | translate }}</td>
                     <td>
                         {{
-                            assetInfo.asset_id === zanoAssetInfo.asset_id
+                            asset_info.asset_id === zanoAssetInfo.asset_id
                                 ? 'Uncapped'
-                                : (assetInfo.total_max_supply | intToMoney : assetInfo.decimal_point)
+                                : (asset_info.total_max_supply | intToMoney : asset_info.decimal_point)
                         }}
                     </td>
                 </tr>

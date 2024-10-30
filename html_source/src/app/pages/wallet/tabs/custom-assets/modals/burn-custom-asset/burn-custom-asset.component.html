@@ -13,7 +13,7 @@
             <input
                 (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
                 [class.invalid]="form.controls.amount.touched && form.controls.amount.invalid"
-                [decimalPoint]="data.assetInfo.decimal_point"
+                [decimalPoint]="data.asset_info.decimal_point"
                 [placeholder]="'1000000' | translate"
                 appInputValidate="money"
                 autofocus

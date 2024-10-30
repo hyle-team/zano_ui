@@ -94,6 +94,18 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                                             placeholder="{{ 'PLACEHOLDERS.PASSWORD_PLACEHOLDER' | translate }}"
                                             type="password"
                                         />
+                                        <div
+                                            *ngIf="
+                                                passwordSeedPhraseForm.controls.password.invalid &&
+                                                (passwordSeedPhraseForm.controls['password'].dirty ||
+                                                    passwordSeedPhraseForm.controls['password'].touched)
+                                            "
+                                            class="error"
+                                        >
+                                            <ng-container *ngIf="passwordSeedPhraseForm.controls['password'].hasError('pattern')">
+                                                {{ 'ERRORS.REGEXP_INVALID_PASSWORD' | translate }}
+                                            </ng-container>
+                                        </div>
                                     </div>
 
                                     <div class="form__field">
@@ -239,7 +251,7 @@ export class WalletDetailsComponent {
     passwordSeedPhraseForm = this.fb.group(
         {
             password: this.fb.control('', Validators.pattern(regExpPassword)),
-            confirmPassword: this.fb.control('', Validators.pattern(regExpPassword)),
+            confirmPassword: this.fb.control(''),
         },
         {
             validators: [ZanoValidators.formMatch('password', 'confirmPassword')],
