@@ -360,7 +360,7 @@
         "ACCESS_DENIED": "Access denied",
         "ADDRESS_NOT_VALID": "Address not valid",
         "AMOUNT_GREATER_CURRENT_SUPPLY": "Amount greater current supply",
-        "ASSET_HAS_NOT_BEEN_ADDED_TO_WALLET": "Asset has not been added to your wallet",
+        "ASSET_HAS_NOT_BEEN_ADDED_TO_WALLET": "Asset has not been added",
         "ASSET_NOT_FOUND": "Asset not found",
         "BAD_ARG": "Invalid argument",
         "CANNOT_BE_GREATER_THAN_TOTAL_MAX_SUPPLY": "Cannot be greater than Total max supply",
@@ -707,7 +707,7 @@
                     "LABEL1": "Zano Companion",
                     "LABEL2": "Secret",
                     "LABEL3": "Port",
-                    "LABEL4": "(master password required)"
+                    "LABEL4": "(Requires master password)"
                 }
             }
         },
@@ -732,7 +732,8 @@
             "CONFIRM": "New password confirmation",
             "NEW": "New password",
             "OLD": "Old password",
-            "TITLE": "Update master password"
+            "TITLE1": "Set up Master Password",
+            "TITLE2": "Update Master Password"
         },
         "NOTIFICATIONS": "Notifications",
         "SCALE": {

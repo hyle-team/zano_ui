@@ -9,53 +9,13 @@ import { BehaviorSubject } from 'rxjs';
 
 @Component({
     selector: 'app-open-wallet-modal',
-    template: `
-        <div class="modal open-wallet-modal-wrapper scrolled-content">
-            <div class="wrapper w-100">
-                <h3 class="mb-2">{{ 'OPEN_WALLET.MODAL.TITLE' | translate }}</h3>
-
-                <div class="word-break-break-all mb-2">{{ wallet.name }}</div>
-                <div class="word-break-break-all mb-2">{{ wallet.path }}</div>
-
-                <form (ngSubmit)="openWallet()" class="form" fxLayout="column">
-                    <div *ngIf="!wallet.notFound" class="form__field">
-                        <label for="password">{{ 'OPEN_WALLET.MODAL.LABEL' | translate }}</label>
-                        <input
-                            [(ngModel)]="wallet.pass"
-                            [class.invalid]="isWrongPassword$ | async"
-                            (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
-                            (focusin)="isWrongPassword$.next(false)"
-                            class="form__field--input"
-                            id="password"
-                            name="password"
-                            type="password"
-                        />
-                        <div *ngIf="wallet.notFound" class="error">
-                            {{ 'OPEN_WALLET.MODAL.NOT_FOUND' | translate }}
-                        </div>
-                        <div *ngIf="isWrongPassword$ | async" class="error">
-                            {{ 'ERRORS.WRONG_PASSWORD' | translate }}
-                        </div>
-                    </div>
-
-                    <div fxLayout="row nowrap" fxLayoutGap="1rem">
-                        <button [disabled]="wallet.notFound || isWrongPassword$ | async" class="primary big w-100" type="submit">
-                            {{ 'OPEN_WALLET.MODAL.OPEN' | translate }}
-                        </button>
-                        <button (click)="skipWallet()" class="outline big w-100" type="button">
-                            {{ 'OPEN_WALLET.MODAL.SKIP' | translate }}
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    `,
+    templateUrl: './open-wallet-modal.component.html',
     styleUrls: ['./open-wallet-modal.component.scss'],
 })
 export class OpenWalletModalComponent implements OnInit, OnDestroy {
     @HostBinding('class.modal-overlay') modalOverlay = true;
 
-    @Input() wallets;
+    @Input() wallets: any[];
 
     isWrongPassword$ = new BehaviorSubject<boolean>(false);
 
@@ -70,108 +30,140 @@ export class OpenWalletModalComponent implements OnInit, OnDestroy {
     constructor(
         public variablesService: VariablesService,
         public walletsService: WalletsService,
-        private backend: BackendService,
-        private translate: TranslateService,
-        private modalService: ModalService,
-        private ngZone: NgZone,
-        private renderer: Renderer2
+        private _backendService: BackendService,
+        private _translateService: TranslateService,
+        private _modalService: ModalService,
+        private _ngZone: NgZone,
+        private _renderer: Renderer2
     ) {}
 
     ngOnInit(): void {
-        this.renderer.addClass(document.body, 'no-scroll');
-        if (this.wallets.length) {
-            this.wallet = this.wallets[0];
-            this.wallet.pass = '';
-        }
+        this._renderer.addClass(document.body, 'no-scroll');
+        this.initializeWallet();
     }
 
     ngOnDestroy(): void {
-        this.renderer.removeClass(document.body, 'no-scroll');
+        this._renderer.removeClass(document.body, 'no-scroll');
+    }
+
+    initializeWallet(): void {
+        if (this.wallets.length) {
+            this.wallet = { ...this.wallets[0], pass: '' };
+        }
+    }
+
+    resetPasswordError(): void {
+        this.isWrongPassword$.next(false);
+    }
+
+    isFormInvalid(): boolean {
+        return this.wallet.notFound || this.isWrongPassword$.value;
     }
 
     openWallet(): void {
-        if (this.wallets.length === 0) {
+        if (!this.wallets.length) {
             return;
         }
-        this.backend.openWallet(
+
+        this._backendService.openWallet(
             this.wallet.path,
             this.wallet.pass,
             this.variablesService.count,
             false,
-            (open_status, open_data, open_error) => {
-                if (open_error === 'WRONG_PASSWORD') {
-                    this.ngZone.run(() => {
-                        this.isWrongPassword$.next(true);
-                    });
-                }
-                if (open_error && open_error === 'FILE_NOT_FOUND') {
-                    this.ngZone.run(() => {
-                        this.wallet.notFound = true;
-                    });
-                    let error_translate = this.translate.instant('OPEN_WALLET.FILE_NOT_FOUND1');
-                    error_translate += ':<br>' + this.wallet.path;
-                    error_translate += this.translate.instant('OPEN_WALLET.FILE_NOT_FOUND2');
-                    this.modalService.prepareModal('error', error_translate);
-                } else {
-                    if (open_status || open_error === 'FILE_RESTORED') {
-                        let exists = false;
-                        this.variablesService.wallets.forEach(wallet => {
-                            if (wallet.address === open_data['wi'].address) {
-                                exists = true;
-                            }
-                        });
-
-                        if (exists) {
-                            this.modalService.prepareModal('error', 'OPEN_WALLET.WITH_ADDRESS_ALREADY_OPEN');
-                            this.backend.closeWallet(open_data.wallet_id);
-                        } else {
-                            const new_wallet = new Wallet(
-                                open_data.wallet_id,
-                                this.wallet.name,
-                                this.wallet.pass,
-                                open_data['wi'].path,
-                                open_data['wi'].address,
-                                open_data['wi'].balance,
-                                open_data['wi'].unlocked_balance,
-                                open_data['wi'].mined_total,
-                                open_data['wi'].tracking_hey
-                            );
-                            new_wallet.alias = this.backend.getWalletAlias(new_wallet.address);
-                            new_wallet.is_auditable = open_data['wi'].is_auditable;
-                            new_wallet.is_watch_only = open_data['wi'].is_watch_only;
-                            new_wallet.currentPage = 1;
-                            new_wallet.exclude_mining_txs = false;
-                            if (open_data.recent_history && open_data.recent_history.history) {
-                                new_wallet.total_history_item = open_data.recent_history.total_history_items;
-                                new_wallet.totalPages = Math.ceil(
-                                    open_data.recent_history.total_history_items / this.variablesService.count
-                                );
-                                new_wallet.totalPages > this.variablesService.maxPages
-                                    ? (new_wallet.pages = new Array(5).fill(1).map((value, index) => value + index))
-                                    : (new_wallet.pages = new Array(new_wallet.totalPages).fill(1).map((value, index) => value + index));
-                                new_wallet.prepareHistory(open_data.recent_history.history);
-                            } else {
-                                new_wallet.total_history_item = 0;
-                                new_wallet.pages = new Array(1).fill(1);
-                                new_wallet.totalPages = 1;
-                            }
-                            this.walletsService.addWallet(new_wallet);
-                            this.backend.runWallet(open_data.wallet_id);
-                            this.skipWallet();
-                            this.isWrongPassword$.next(false);
-                        }
-                    }
-                }
-            }
+            this.handleWalletOpening.bind(this)
         );
     }
 
-    skipWallet(): void {
-        this.ngZone.run(() => {
-            if (this.wallets.length) {
-                this.wallets.splice(0, 1);
-                this.ngOnInit();
+    handleWalletOpening(open_status, open_data, open_error): void {
+        this._ngZone.run(() => {
+            if (open_error === 'WRONG_PASSWORD') {
+                this.handleWrongPassword();
+            } else if (open_error === 'FILE_NOT_FOUND') {
+                this.handleFileNotFound();
+            } else if (open_status || open_error === 'FILE_RESTORED') {
+                this.handleSuccessfulWalletOpen(open_data);
             }
         });
+    }
+
+    handleWrongPassword(): void {
+        this._ngZone.run(() => {
+            this.isWrongPassword$.next(true);
+        });
+    }
+
+    handleFileNotFound(): void {
+        this._ngZone.run(() => {
+            this.wallet.notFound = true;
+        });
+
+        const errorMessage = `${this._translateService.instant('OPEN_WALLET.FILE_NOT_FOUND1')}:<br>${this.wallet.path}${this._translateService.instant(
+            'OPEN_WALLET.FILE_NOT_FOUND2'
+        )}`;
+        this._modalService.prepareModal('error', errorMessage);
+    }
+
+    handleSuccessfulWalletOpen(open_data): void {
+        const walletExists = this.variablesService.wallets.some(wallet => wallet.address === open_data['wi'].address);
+
+        if (walletExists) {
+            this._modalService.prepareModal('error', 'OPEN_WALLET.WITH_ADDRESS_ALREADY_OPEN');
+            this._backendService.closeWallet(open_data.wallet_id);
+        } else {
+            this.addNewWallet(open_data);
+            this.skipWallet();
+            this.isWrongPassword$.next(false);
+        }
+    }
+
+    addNewWallet(open_data): void {
+        const newWallet = this.createWalletFromData(open_data);
+        this.walletsService.addWallet(newWallet);
+        this._backendService.runWallet(open_data.wallet_id);
+    }
+
+    createWalletFromData(open_data): Wallet {
+        const newWallet = new Wallet(
+            open_data.wallet_id,
+            this.wallet.name,
+            this.wallet.pass,
+            open_data['wi'].path,
+            open_data['wi'].address,
+            open_data['wi'].balance,
+            open_data['wi'].unlocked_balance,
+            open_data['wi'].mined_total,
+            open_data['wi'].tracking_key
+        );
+        newWallet.alias = this._backendService.getWalletAlias(newWallet.address);
+        newWallet.is_auditable = open_data['wi'].is_auditable;
+        newWallet.is_watch_only = open_data['wi'].is_watch_only;
+        newWallet.currentPage = 1;
+        newWallet.exclude_mining_txs = false;
+
+        if (open_data.recent_history?.history) {
+            newWallet.total_history_item = open_data.recent_history.total_history_items;
+            newWallet.totalPages = Math.ceil(open_data.recent_history.total_history_items / this.variablesService.count);
+            newWallet.pages = this.createPagesArray(newWallet.totalPages);
+            newWallet.prepareHistory(open_data.recent_history.history);
+        } else {
+            newWallet.total_history_item = 0;
+            newWallet.pages = [1];
+            newWallet.totalPages = 1;
+        }
+
+        return newWallet;
+    }
+
+    createPagesArray(totalPages: number): number[] {
+        return totalPages > this.variablesService.maxPages
+            ? Array.from({ length: 5 }, (_, index) => index + 1)
+            : Array.from({ length: totalPages }, (_, index) => index + 1);
+    }
+
+    skipWallet(): void {
+        if (this.wallets.length) {
+            this.wallets.shift();
+            this.initializeWallet();
+        }
     }
 }

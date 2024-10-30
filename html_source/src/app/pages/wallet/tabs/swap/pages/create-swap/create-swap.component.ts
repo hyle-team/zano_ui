@@ -19,11 +19,11 @@ import { IntToMoneyPipeModule, MoneyToIntPipeModule, ShortStringPipe } from '@pa
 import { NgSelectModule } from '@ng-select/ng-select';
 import { VariablesService } from '@parts/services/variables.service';
 import { AssetBalance, AssetInfo } from '@api/models/assets.model';
-import { defaultImgSrc, zanoAssetInfo } from '@parts/data/assets';
+import { zanoAssetInfo } from '@parts/data/assets';
 import { regExpAliasName } from '@parts/utils/zano-validators';
 import { BackendService } from '@api/services/backend.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { debounceTime, map, startWith, tap } from 'rxjs/operators';
+import { debounceTime, filter, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { BigNumber } from 'bignumber.js';
 import { assetHasNotBeenAddedToWallet, insuficcientFunds } from '@parts/utils/zano-errors';
 import { ParamsCallRpc } from '@api/models/call_rpc.model';
@@ -35,6 +35,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatOptionModule } from '@angular/material/core';
 import { WalletsService } from '@parts/services/wallets.service';
 import { MatIconModule } from '@angular/material/icon';
+import { GetLogoByAssetInfoPipe } from '@parts/pipes/get-logo-by-asset-info.pipe';
 
 @Component({
     selector: 'app-create-swap',
@@ -57,6 +58,7 @@ import { MatIconModule } from '@angular/material/icon';
         MatAutocompleteModule,
         MatOptionModule,
         MatIconModule,
+        GetLogoByAssetInfoPipe,
     ],
     templateUrl: './create-swap.component.html',
     styleUrls: ['./create-swap.component.scss'],
@@ -85,8 +87,6 @@ export class CreateSwapComponent implements OnDestroy {
     errorRpc: { code: number; message: string } = null;
 
     currentWallet: Wallet = this.variablesService.currentWallet;
-
-    allAssetsInfo: AssetInfo[] = this.currentWallet.allAssetsInfo;
 
     sendingAssetsInfo$: Observable<AssetInfo[]>;
 
@@ -139,17 +139,6 @@ export class CreateSwapComponent implements OnDestroy {
     ngOnDestroy(): void {
         this._destroy$.next();
         this._destroy$.complete();
-    }
-
-    getSrcByAssetInfo({ asset_id }: AssetInfo): string {
-        switch (asset_id) {
-            case zanoAssetInfo.asset_id: {
-                return zanoAssetInfo.logo;
-            }
-            default: {
-                return defaultImgSrc;
-            }
-        }
     }
 
     isVisibleErrorByControl(control: AbstractControl): boolean {
@@ -322,13 +311,20 @@ export class CreateSwapComponent implements OnDestroy {
     }
 
     private _formListeners(): void {
+        const { balances$ } = this.currentWallet;
         this.sendingAssetsInfo$ = this.form.controls.receiving.controls.asset_id.valueChanges.pipe(
             startWith(this.form.controls.receiving.controls.asset_id.value),
-            map(asset_id => this.allAssetsInfo.filter(v => v.asset_id !== asset_id))
+            switchMap(asset_id => balances$.pipe(
+                map(balances => balances.filter(v => v.asset_info.asset_id !== asset_id)),
+                map(balances => balances.map(({ asset_info }) => asset_info))
+            ))
         );
         this.receivingAssetsInfo$ = this.form.controls.sending.controls.asset_id.valueChanges.pipe(
             startWith(this.form.controls.sending.controls.asset_id.value),
-            map(asset_id => this.allAssetsInfo.filter(v => v.asset_id !== asset_id))
+            switchMap(asset_id => balances$.pipe(
+                map(balances => balances.filter(v => v.asset_info.asset_id !== asset_id)),
+                map(balances => balances.map(({ asset_info }) => asset_info))
+            ))
         );
 
         const { currentWallet } = this.variablesService;
@@ -430,7 +426,7 @@ export class CreateSwapComponent implements OnDestroy {
                         amount: this.fb.control(
                             {
                                 value: null,
-                                disabled: this.currentWallet.isEmptyAssetsInfoWhitelist,
+                                disabled: this.currentWallet.balances.length === 1,
                             },
                             [
                                 Validators.required,
@@ -448,10 +444,10 @@ export class CreateSwapComponent implements OnDestroy {
                         ),
                         asset_id: this.fb.control(
                             {
-                                value: this.currentWallet.isEmptyAssetsInfoWhitelist
+                                value: this.currentWallet.balances.length <= 1
                                     ? null
-                                    : this.allAssetsInfo[1].asset_id ?? zanoAssetInfo.asset_id,
-                                disabled: this.currentWallet.isEmptyAssetsInfoWhitelist,
+                                    : this.currentWallet.balances[1]?.asset_info?.asset_id ?? zanoAssetInfo.asset_id,
+                                disabled: this.currentWallet.balances.length <= 1,
                             },
                             [Validators.required]
                         ),
@@ -560,12 +556,27 @@ export class CreateSwapComponent implements OnDestroy {
         const state = history.state || {};
         const history_asset: AssetBalance = state['asset'];
         if (history_asset) {
-            const { asset_info: { asset_id } } = history_asset;
+            const {
+                asset_info: { asset_id },
+            } = history_asset;
             this.form.patchValue({
                 sending: {
                     asset_id,
-                },
+                }
             });
+
+            if (this.form.getRawValue().receiving.asset_id === asset_id) {
+                for (const balance of this.currentWallet.balances) {
+                    if (balance.asset_info.asset_id !== asset_id) {
+                        this.form.patchValue({
+                            receiving: {
+                                asset_id: balance.asset_info.asset_id,
+                            }
+                        });
+                        break;
+                    }
+                }
+            }
         }
     }
 }

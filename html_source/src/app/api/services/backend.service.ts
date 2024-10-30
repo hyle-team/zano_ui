@@ -335,7 +335,7 @@ export class BackendService {
     }
 
     dropSecureAppData(callback?): void {
-        this.backendObject[Commands.drop_secure_app_data](dataStore => {
+        this.backendObject[Commands.drop_secure_app_data]('', dataStore => {
             this.backendCallback(dataStore, {}, callback, Commands.drop_secure_app_data);
         });
     }

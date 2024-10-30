@@ -56,6 +56,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { AssetDetailsComponent } from '@parts/modals/asset-details/asset-details.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { GetLogoByAssetInfoPipe } from '@parts/pipes/get-logo-by-asset-info.pipe';
+import { ShieldTestnetComponent } from '@parts/components/shield-testnet/shield-testnet.component';
+import {
+    VisibilityBalanceButtonComponent
+} from '@parts/components/visibility-balance-button/visibility-balance-button.component';
+import { MigrateAlertComponent } from '@parts/components/migrate-alert/migrate-alert.component';
+import { AliasControlsComponent } from '@parts/components/alias-controls/alias-controls.component';
 
 @NgModule({
     declarations: [
@@ -75,7 +82,7 @@ import { MatDialogModule } from '@angular/material/dialog';
         UpdateCustomAssetComponent,
         EmitCustomAssetComponent,
         BurnCustomAssetComponent,
-        TransactionDetailsForCustomAssetsComponent
+        TransactionDetailsForCustomAssetsComponent,
     ],
     imports: [
         CommonModule,
@@ -120,6 +127,11 @@ import { MatDialogModule } from '@angular/material/dialog';
         MatInputModule,
         MatIconModule,
         MatDialogModule,
+        GetLogoByAssetInfoPipe,
+        ShieldTestnetComponent,
+        VisibilityBalanceButtonComponent,
+        MigrateAlertComponent,
+        AliasControlsComponent,
     ],
 })
 export class WalletModule {}

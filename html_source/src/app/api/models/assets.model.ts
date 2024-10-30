@@ -19,14 +19,18 @@ export interface AssetBalance {
 
 export interface AssetInfo {
     asset_id: string;
+    ticker: string;
+    full_name: string;
+    total_max_supply: number;
     current_supply: number;
     decimal_point: number;
-    full_name: string;
     meta_info: string;
     owner: string;
-    ticker: string;
-    total_max_supply: number;
+    logo?: string;
+    price_url?: string;
 }
+
+export type VerifiedAssetInfoWhitelist = AssetInfo[];
 
 export type AssetBalances = AssetBalance[];
 

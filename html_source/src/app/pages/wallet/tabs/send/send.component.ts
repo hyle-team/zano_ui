@@ -9,11 +9,11 @@ import { BehaviorSubject, combineLatest, merge, Observable, of, Subject } from '
 import { AssetBalance, PriceInfo } from '@api/models/assets.model';
 import { regExpAliasName } from '@parts/utils/zano-validators';
 import { insuficcientFunds } from '@parts/utils/zano-errors';
-import { DeeplinkParams, defaultSendMoneyParams } from '@api/models/wallet.model';
+import { DeeplinkParams } from '@api/models/wallet.model';
 import { WrapInfo } from '@api/models/wrap-info';
-import { WrapInfoService } from '@api/services/wrap-info.service';
+import { ApiZanoService } from '@api/services/api-zano.service';
 import { SendMoneyFormParams } from '@api/models/send-money.model';
-import { defaultImgSrc, ZanoAssetInfo, zanoAssetInfo } from '@parts/data/assets';
+import { ZanoAssetInfo, zanoAssetInfo } from '@parts/data/assets';
 import { moneyToInt } from '@parts/functions/money-to-int';
 import { intToMoney } from '@parts/functions/int-to-money';
 import { TranslateService } from '@ngx-translate/core';
@@ -27,6 +27,21 @@ interface AmountInputParams {
     hintAmount: string;
     reverseDisabled: boolean;
 }
+
+type AssetItems = (AssetBalance & { disabled: boolean })[];
+
+const defaultSendMoneyParams: SendMoneyFormParams = {
+    asset_id: zanoAssetInfo.asset_id,
+    wallet_id: undefined,
+    address: '',
+    amount: undefined,
+    isAmountUSD: false,
+    comment: '',
+    mixin: MIXIN,
+    fee: '0.01',
+    push_payer: true,
+    hide_receiver: false,
+};
 
 @Component({
     selector: 'app-send',
@@ -58,14 +73,11 @@ export class SendComponent implements OnDestroy {
 
     variablesService: VariablesService = inject(VariablesService);
 
-    wrapInfoService: WrapInfoService = inject(WrapInfoService);
+    wrapInfoService: ApiZanoService = inject(ApiZanoService);
 
-    assetItems$: Observable<(AssetBalance & { disabled: boolean })[]> = combineLatest([
-        this.variablesService.currentWallet.balances$,
-        this.isVisibleWrapInfoState$,
-    ]).pipe(
+    assetItems$: Observable<AssetItems> = combineLatest([this.variablesService.currentWallet.balances$, this.isVisibleWrapInfoState$]).pipe(
         map(([balances, disabled]) => {
-            const items: (AssetBalance & { disabled: boolean })[] = [];
+            const items: AssetItems = [];
 
             balances.forEach((balance: AssetBalance) => {
                 const {
@@ -115,18 +127,30 @@ export class SendComponent implements OnDestroy {
         fee: undefined,
         amount: undefined,
     };
+
     public readonly zanoAssetInfo: ZanoAssetInfo = zanoAssetInfo;
+
     public priceInfo: PriceInfo = { success: false, data: 'Asset not found' };
-    private _priceInfo$: Subject<PriceInfo> = new Subject();
-    private _fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
-    private _httpClient: HttpClient = inject(HttpClient);
-    private _destroy$: Subject<void> = new Subject<void>();
-    private _backendService: BackendService = inject(BackendService);
-    private _ngZone: NgZone = inject(NgZone);
-    private _translateService: TranslateService = inject(TranslateService);
-    private _walletsService: WalletsService = inject(WalletsService);
-    private _openedWalletItems: string[] = this._walletsService.wallets.map(({ address, alias }) => alias?.name ?? address);
-    private _aliasItems: string[] = this.variablesService.aliases.map(({ name }) => name);
+
+    private readonly _priceInfo$: Subject<PriceInfo> = new Subject();
+
+    private readonly _fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
+
+    private readonly _httpClient: HttpClient = inject(HttpClient);
+
+    private readonly _destroy$: Subject<void> = new Subject<void>();
+
+    private readonly _backendService: BackendService = inject(BackendService);
+
+    private readonly _ngZone: NgZone = inject(NgZone);
+
+    private readonly _translateService: TranslateService = inject(TranslateService);
+
+    private readonly _walletsService: WalletsService = inject(WalletsService);
+
+    private readonly _openedWalletItems: string[] = this._walletsService.wallets.map(({ address, alias }) => alias?.name ?? address);
+
+    private readonly _aliasItems: string[] = this.variablesService.aliases.map(({ name }) => name);
 
     constructor() {
         this._getWrapInfo();
@@ -238,17 +262,6 @@ export class SendComponent implements OnDestroy {
         this.errorMessages['fee'] = message;
     }
 
-    getSrcByAsset({ asset_info: { asset_id } }: AssetBalance): string {
-        switch (asset_id) {
-            case zanoAssetInfo.asset_id: {
-                return zanoAssetInfo.logo;
-            }
-            default: {
-                return defaultImgSrc;
-            }
-        }
-    }
-
     isVisibleError(control: AbstractControl): boolean {
         return control.invalid && (control.dirty || control.touched);
     }
@@ -331,7 +344,7 @@ export class SendComponent implements OnDestroy {
         sendMoneyParams = {
             ...sendMoneyParams,
             // Need to send "true" if the value is "false" and "false" if the value is "true"
-            hide_receiver: !hide_receiver
+            hide_receiver: !hide_receiver,
         };
 
         this._backendService.sendMoney(sendMoneyParams, (job_id: number) => {

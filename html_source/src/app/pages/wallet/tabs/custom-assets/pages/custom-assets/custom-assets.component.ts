@@ -123,13 +123,13 @@ export class CustomAssetsComponent implements OnInit {
             .pipe(
                 filter(job_id => typeof job_id === 'number'),
                 switchMap(job_id => {
-                    const config: MatDialogConfig = {
+                    const config2: MatDialogConfig = {
                         data: {
                             job_id,
                         },
                     };
                     return this._matDialog
-                        .open<TransactionDetailsForCustomAssetsComponent, any, boolean>(TransactionDetailsForCustomAssetsComponent, config)
+                        .open<TransactionDetailsForCustomAssetsComponent, any, boolean>(TransactionDetailsForCustomAssetsComponent, config2)
                         .afterClosed();
                 }),
                 filter(Boolean),
@@ -144,6 +144,6 @@ export class CustomAssetsComponent implements OnInit {
         const {
             currentWallet: { wallet_id },
         } = this._walletsService;
-        this._walletsService.loadAssetsWhitelist(wallet_id);
+        this._walletsService.loadAssetsInfoWhitelist(wallet_id);
     }
 }
