@@ -17,7 +17,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 export class BurnCustomAssetComponent {
     public readonly variablesService: VariablesService = inject(VariablesService);
 
-    public readonly data: { assetInfo: AssetInfo } = inject(MAT_DIALOG_DATA);
+    public readonly data: { asset_info: AssetInfo } = inject(MAT_DIALOG_DATA);
 
     public readonly matDialogRef: MatDialogRef<BurnCustomAssetComponent> = inject(MatDialogRef);
 
@@ -29,7 +29,7 @@ export class BurnCustomAssetComponent {
             (control): ValidationErrors | null => {
                 const { value: amount } = control;
                 const {
-                    assetInfo: { asset_id },
+                    asset_info: { asset_id },
                 } = this.data;
                 const { currentWallet, maximum_value } = this.variablesService;
                 const prepared_amount = new BigNumber(amount);
@@ -67,7 +67,7 @@ export class BurnCustomAssetComponent {
             currentWallet: { wallet_id },
         } = this.variablesService;
         const {
-            assetInfo: { asset_id, decimal_point },
+            asset_info: { asset_id, decimal_point },
         } = this.data;
 
         const params = {
