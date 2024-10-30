@@ -17,7 +17,7 @@ import { IntToMoneyPipeModule } from '@parts/pipes';
 export class AssetDetailsComponent {
     public readonly zanoAssetInfo: ZanoAssetInfo = zanoAssetInfo;
 
-    public readonly data: { assetInfo: AssetInfo; title?: string } = inject(MAT_DIALOG_DATA);
+    public readonly data: { asset_info: AssetInfo; title?: string } = inject(MAT_DIALOG_DATA);
 
     public readonly variablesService: VariablesService = inject(VariablesService);
 }

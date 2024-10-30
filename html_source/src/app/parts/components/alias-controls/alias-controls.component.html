@@ -1,0 +1,48 @@
+<div
+    class="controls"
+    fxFlex="0 0 auto"
+    fxLayout="row"
+    fxLayoutAlign="start center"
+>
+    <ng-container
+        *ngIf="isShowRegisterAlias"
+    >
+        <button [routerLink]="['/assign-alias']" class="px-1 py-0_8 btn-light-background">
+            {{ 'WALLET.REGISTER_ALIAS' | translate }}
+        </button>
+    </ng-container>
+
+    <ng-container
+        *ngIf="isShowAlias"
+    >
+        <div [class.available]="variablesService.currentWallet.alias | isAvailableAliasName" class="alias mr-1">
+            {{ variablesService.currentWallet.alias.name }}
+        </div>
+
+        <ng-container *ngIf="isShowAliasButtons">
+            <button
+                [delay]="500"
+                [routerLink]="['/edit-alias']"
+                [timeDelay]="500"
+                class="btn-icon circle small mr-1"
+                placement="bottom-right"
+                tooltip="{{ 'WALLET.TOOLTIPS.EDIT_ALIAS' | translate }}"
+                tooltipClass="table-tooltip account-tooltip"
+            >
+                <mat-icon svgIcon="zano-edit"></mat-icon>
+            </button>
+
+            <button
+                [delay]="500"
+                [routerLink]="['/transfer-alias']"
+                [timeDelay]="500"
+                class="btn-icon circle small"
+                placement="right"
+                tooltip="{{ 'WALLET.TOOLTIPS.TRANSFER_ALIAS' | translate }}"
+                tooltipClass="table-tooltip account-tooltip"
+            >
+                <mat-icon svgIcon="zano-send"></mat-icon>
+            </button>
+        </ng-container>
+    </ng-container>
+</div>

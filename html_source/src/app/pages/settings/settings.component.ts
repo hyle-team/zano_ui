@@ -20,6 +20,10 @@ export class SettingsComponent implements OnInit {
 
     secretWasCopiedTimeout;
 
+    isBuildVersionWasCopied: boolean = false;
+
+    buildVersionWasCopiedTimeout;
+
     scale: string;
 
     appUseTor: boolean;
@@ -161,7 +165,7 @@ export class SettingsComponent implements OnInit {
         });
 
         this.backend.getIsDisabledNotifications(state => {
-            this.currentNotificationsState = state;
+            this.currentNotificationsState = !state;
         });
 
         this.zanoCompanionForm.valueChanges.pipe(debounceTime(200)).subscribe({
@@ -196,6 +200,16 @@ export class SettingsComponent implements OnInit {
         this.secretWasCopiedTimeout = setTimeout(() => {
             this.isSecretWasCopied = false;
             clearTimeout(this.secretWasCopiedTimeout);
+        }, 3000);
+    }
+
+    copyBuildVersion(): void {
+        this.backend.setClipboard(`Build version: ${this.currentBuild}`);
+
+        this.isBuildVersionWasCopied = true;
+        this.buildVersionWasCopiedTimeout = setTimeout(() => {
+            this.isBuildVersionWasCopied = false;
+            clearTimeout(this.buildVersionWasCopiedTimeout);
         }, 3000);
     }
 
@@ -242,10 +256,10 @@ export class SettingsComponent implements OnInit {
 
     toggleNotifications(): void {
         if (!this.currentNotificationsState) {
-            this.backend.setIsDisabledNotifications('true');
+            this.backend.setIsDisabledNotifications('false');
             this.currentNotificationsState = true;
         } else {
-            this.backend.setIsDisabledNotifications('false');
+            this.backend.setIsDisabledNotifications('true');
             this.currentNotificationsState = false;
         }
     }

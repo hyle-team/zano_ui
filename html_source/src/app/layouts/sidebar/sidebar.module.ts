@@ -11,7 +11,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { IntToMoneyPipeModule } from '@parts/pipes';
 import { StakingSwitchComponent } from '@parts/components/staking-switch.component';
 import { SynchronizationStatusComponent } from '@parts/components/synchronization-status.component';
-import { WalletCardComponent } from '@parts/components/wallet-card.component';
+import { WalletCardComponent } from '@parts/components/wallet-card/wallet-card.component';
 import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({

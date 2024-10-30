@@ -166,7 +166,12 @@
 
                 <form (ngSubmit)="onSubmitChangePass()" [formGroup]="changeForm">
                     <h4 class="master-password-title mb-2">
-                        {{ 'SETTINGS.MASTER_PASSWORD.TITLE' | translate }}
+                        <ng-container *ngIf="!variablesService.appPass">
+                            {{ 'SETTINGS.MASTER_PASSWORD.TITLE1' | translate }}
+                        </ng-container>
+                        <ng-container *ngIf="variablesService.appPass">
+                            {{ 'SETTINGS.MASTER_PASSWORD.TITLE2' | translate }}
+                        </ng-container>
                     </h4>
 
                     <div class="form__card">
@@ -269,9 +274,18 @@
                     </div>
                 </form>
 
-                <p (contextmenu)="variablesService.onContextMenuOnlyCopy($event, currentBuild)" class="mt-2">
-                    Build version: {{ currentBuild }}
-                </p>
+                <div class="mt-2">
+                    <p *ngIf="!isBuildVersionWasCopied">
+                        Build version: {{ currentBuild }}
+                        <button (click)="copyBuildVersion()" class="btn--copy">
+                            <mat-icon svgIcon="zano-copy"></mat-icon>
+                        </button>
+                    </p>
+
+                    <p *ngIf="isBuildVersionWasCopied" style="color: var(--aqua-500)">
+                        {{ 'Build version was copied' | translate }}
+                    </p>
+                </div>
             </div>
         </div>
     </div>

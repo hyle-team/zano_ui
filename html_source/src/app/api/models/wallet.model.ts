@@ -1,27 +1,78 @@
 import { Contracts } from './contract.model';
 import { Transaction, Transactions } from './transaction.model';
 import { BigNumber } from 'bignumber.js';
-import { AssetBalance, AssetInfo, AssetBalances, AssetsInfoWhitelist } from './assets.model';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { AssetBalance, AssetBalances, AssetInfo, AssetsInfoWhitelist, VerifiedAssetInfoWhitelist } from './assets.model';
+import { BehaviorSubject, combineLatest } from 'rxjs';
 import { Alias } from '@api/models/alias.model';
 import { SendMoneyFormParams } from '@api/models/send-money.model';
-import { MIXIN } from '@parts/data/constants';
-import { zanoAssetInfo } from '@parts/data/assets';
+import { defaultAssetLogoSrc, zanoAssetInfo } from '@parts/data/assets';
+import { map } from 'rxjs/operators';
 
-export const defaultSendMoneyParams: SendMoneyFormParams = {
-    asset_id: zanoAssetInfo.asset_id,
-    wallet_id: undefined,
-    address: '',
-    amount: undefined,
-    isAmountUSD: false,
-    comment: '',
-    mixin: MIXIN,
-    fee: '0.01',
-    push_payer: true,
-    hide_receiver: false,
+export const defaultAssetsInfoWhitelist = { global_whitelist: [], local_whitelist: [], own_assets: [] };
+
+export const defaultVerificationAssetsInfoWhitelist = [];
+
+const sortBalances = (value: AssetBalances | null | undefined): AssetBalances => {
+    const sortedBalances: AssetBalances = [];
+    if (value) {
+        const assets = [...value];
+        const indexZano = assets.findIndex(({ asset_info: { ticker } }) => ticker === 'ZANO');
+        if (indexZano >= 0) {
+            const assetZano = assets.splice(indexZano, 1)[0];
+            sortedBalances.push(assetZano);
+        }
+        const sortedAssetsByBalance = assets.sort((a, b) => new BigNumber(b.total).minus(new BigNumber(a.total)).toNumber());
+        sortedBalances.push(...sortedAssetsByBalance);
+    }
+    return sortedBalances;
 };
 
-const defaultAssetsInfoWhitelist = { global_whitelist: [], local_whitelist: [], own_assets: [] };
+const prepareBalances = (
+    value: [AssetBalances, AssetsInfoWhitelist, VerifiedAssetInfoWhitelist]
+): AssetBalances => {
+    const [assetBalances, assetInfoWhitelist, verifiedAssetInfoWhitelist] = value;
+
+    const items: AssetBalances = [...assetBalances];
+
+    const ensureLogoAndPriceUrl = (asset_info: AssetInfo): AssetInfo => ({
+        ...asset_info,
+        logo: asset_info.logo || (asset_info.asset_id === zanoAssetInfo.asset_id ? zanoAssetInfo.logo : defaultAssetLogoSrc),
+        price_url: asset_info.price_url || (asset_info.asset_id === zanoAssetInfo.asset_id ? zanoAssetInfo.price_url : ''),
+    });
+
+    for (const asset_info of verifiedAssetInfoWhitelist) {
+        const assetBalance = items.find(i => i.asset_info.asset_id === asset_info.asset_id);
+
+        if (assetBalance) {
+            assetBalance.asset_info = { ...assetBalance.asset_info, ...ensureLogoAndPriceUrl(asset_info) };
+        } else {
+            items.push({
+                asset_info: ensureLogoAndPriceUrl(asset_info),
+                awaiting_in: 0,
+                awaiting_out: 0,
+                total: 0,
+                unlocked: 0,
+            });
+        }
+    }
+
+    const { global_whitelist, local_whitelist, own_assets } = assetInfoWhitelist;
+    const allWhitelistedAssets = [...global_whitelist, ...local_whitelist, ...own_assets];
+
+    for (const asset_info of allWhitelistedAssets) {
+        const assetBalance = items.find(i => i.asset_info.asset_id === asset_info.asset_id);
+
+        if (assetBalance) {
+            assetBalance.asset_info = { ...ensureLogoAndPriceUrl(asset_info), ...assetBalance.asset_info };
+        }
+    }
+
+    for (const assetBalance of items) {
+        assetBalance.asset_info = ensureLogoAndPriceUrl(assetBalance.asset_info);
+    }
+
+    return items;
+};
 
 export class Wallet {
     open_from_exist: boolean;
@@ -38,69 +89,33 @@ export class Wallet {
 
     address: string;
 
-    private _balances$: BehaviorSubject<AssetBalances> = new BehaviorSubject<AssetBalances>([]);
-
-    private _assetsInfoWhitelist: AssetsInfoWhitelist = defaultAssetsInfoWhitelist;
-
-    set assetsInfoWhitelist(value: AssetsInfoWhitelist) {
-        this._assetsInfoWhitelist = value ?? defaultAssetsInfoWhitelist;
-    }
-
-    get assetsInfoWhitelist() {
-        return this._assetsInfoWhitelist;
-    }
+    assetsInfoWhitelist: AssetsInfoWhitelist = defaultAssetsInfoWhitelist;
 
     get allAssetsInfoWhitelist(): AssetInfo[] {
-        const { global_whitelist = [], local_whitelist = [], own_assets = [] } = this._assetsInfoWhitelist;
+        const { global_whitelist = [], local_whitelist = [], own_assets = [] } = this.assetsInfoWhitelist;
         return [...global_whitelist, ...local_whitelist, ...own_assets];
-    }
-
-    get isEmptyAssetsInfoWhitelist(): boolean {
-        return !this.allAssetsInfoWhitelist.length;
     }
 
     get allAssetsInfo(): AssetInfo[] {
         return [zanoAssetInfo, ...this.allAssetsInfoWhitelist];
     }
 
-    get balances$(): Observable<AssetBalances> {
-        return this._balances$.asObservable();
-    }
+    originalBalances$: BehaviorSubject<AssetBalances> = new BehaviorSubject<AssetBalances>([]);
+
+    assetsInfoWhitelist$: BehaviorSubject<AssetsInfoWhitelist> = new BehaviorSubject(defaultAssetsInfoWhitelist);
+
+    verificationAssetsInfoWhitelist$: BehaviorSubject<VerifiedAssetInfoWhitelist> = new BehaviorSubject<VerifiedAssetInfoWhitelist>(
+        defaultVerificationAssetsInfoWhitelist
+    );
+
+    balances$: BehaviorSubject<AssetBalances> = new BehaviorSubject([]);
 
     get balances(): AssetBalances {
-        return this._balances$.value;
+        return this.balances$.value;
     }
 
     set balances(value: AssetBalances | null | undefined) {
-        const sortedAssets: AssetBalances = [];
-        if (value) {
-            const assets = [...value];
-            const indexZano = assets.findIndex(({ asset_info: { ticker } }) => ticker === 'ZANO');
-            if (indexZano >= 0) {
-                const assetZano = assets.splice(indexZano, 1)[0];
-                sortedAssets.push(assetZano);
-            }
-            const sortedAssetsByBalance = assets.sort((a, b) => new BigNumber(b.total).minus(new BigNumber(a.total)).toNumber());
-            sortedAssets.push(...sortedAssetsByBalance);
-        }
-        this._balances$.next(sortedAssets);
-    }
-
-    get isEmptyBalances(): boolean {
-        if (!this.balances) {
-            return true;
-        }
-
-        for (const asset of this.balances) {
-            const value = asset.total || 0;
-            const isEmpty = !Boolean(new BigNumber(value).toNumber());
-
-            if (!isEmpty) {
-                return false;
-            }
-        }
-
-        return true;
+        this.originalBalances$.next(value ?? []);
     }
 
     mined_total: number;
@@ -169,6 +184,16 @@ export class Wallet {
 
         this.progress = 0;
         this.loaded = false;
+
+        combineLatest([
+            this.originalBalances$.pipe(map(sortBalances)),
+            this.assetsInfoWhitelist$,
+            this.verificationAssetsInfoWhitelist$,
+        ]).pipe(map(prepareBalances)).subscribe({
+            next: (value) => {
+                this.balances$.next(value);
+            }
+        });
     }
 
     getBalanceByAssetId(value: string): AssetBalance | undefined {

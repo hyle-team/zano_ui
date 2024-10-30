@@ -12,7 +12,6 @@ import { RestoreWalletComponent } from './restore-wallet/restore-wallet.componen
 import { SeedPhraseComponent } from './seed-phrase/seed-phrase.component';
 import { AssignAliasComponent } from './assign-alias/assign-alias.component';
 import { EditAliasComponent } from './edit-alias/edit-alias.component';
-import { ModalContainerComponent } from '@parts/modals/modal-container/modal-container.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { DefaultImgModule, DisablePriceFetchModule } from '@parts/directives';
 import { TooltipModule } from '@parts/directives/tooltip/tooltip.module';

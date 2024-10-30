@@ -10,6 +10,7 @@ import { Aliases } from '@api/models/alias.model';
 import { distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
 import { Dialog } from '@angular/cdk/dialog';
 import { MatDialog } from '@angular/material/dialog';
+import { VerifiedAssetInfoWhitelist } from '@api/models/assets.model';
 
 @Injectable({
     providedIn: 'root',
@@ -131,8 +132,7 @@ export class VariablesService implements OnDestroy {
 
     testnet: boolean = false;
 
-    // Testnet or Mainnet
-    networkType = '';
+    networkType: 'mainnet' | 'testnet' = 'mainnet';
 
     wallets: Array<Wallet> = [];
 
@@ -169,6 +169,8 @@ export class VariablesService implements OnDestroy {
     getAliasChangedEvent = new BehaviorSubject(null);
 
     currentWalletChangedEvent = new BehaviorSubject<Wallet>(null);
+
+    verifiedAssetInfoWhitelist$: BehaviorSubject<VerifiedAssetInfoWhitelist> = new BehaviorSubject([]);
 
     private _dialog: Dialog = inject(Dialog);
 

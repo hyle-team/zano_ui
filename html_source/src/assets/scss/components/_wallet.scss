@@ -1,6 +1,5 @@
 .wallet {
     border-radius: 0.8rem;
-    margin-bottom: 1rem;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -12,6 +11,24 @@
     border: var(--wallet-border);
     cursor: pointer;
     color: var(--wallet-text);
+
+    &.offset-testnet {
+        margin: 1rem 0.5rem 0 0;
+    }
+
+    .testnet {
+        background-color: var(--red-500);
+        color: var(--white);
+        text-transform: uppercase;
+        font-weight: bold;
+        font-size: 0.8rem;
+        padding: 0.2rem 0.5rem;
+        border-radius: 999px;
+
+        position: absolute;
+        right: -0.5rem;
+        top: -0.4rem;
+    }
 
     .content {
         z-index: 10;
@@ -175,15 +192,19 @@
         outline: none;
     }
 
-    &:last-child {
-        margin-bottom: 0 !important;
-    }
-
     .progress-bar {
         background-color: var(--gray-800);
 
         .fill {
             background-color: var(--white-500);
+        }
+    }
+}
+
+app-wallet-card {
+    &:last-child {
+        .wallet {
+            margin-bottom: 0 !important;
         }
     }
 }

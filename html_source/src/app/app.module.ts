@@ -1,4 +1,4 @@
-import { inject, NgModule } from '@angular/core';
+import { inject, NgModule, Provider } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PagesModule } from './pages/pages.module';
@@ -40,11 +40,34 @@ export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
 }
 
-export const translateModuleConfig: TranslateModuleConfig = {
+const translateModuleConfig: TranslateModuleConfig = {
     loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
         deps: [HttpClient],
+    },
+};
+
+const provideDialog: Provider = {
+    provide: DEFAULT_DIALOG_CONFIG,
+    useValue: <DialogConfig>{
+        width: '95vw',
+        maxWidth: '54rem',
+        maxHeight: '90vh',
+        hasBackdrop: true,
+        disableClose: true,
+    },
+};
+
+const providerMatDialog: Provider = {
+    provide: MAT_DIALOG_DEFAULT_OPTIONS,
+    useValue: <MatDialogConfig>{
+        width: '95vw',
+        maxWidth: '54rem',
+        maxHeight: '90vh',
+        panelClass: 'zano-mat-dialog',
+        hasBackdrop: true,
+        disableClose: true,
     },
 };
 
@@ -67,39 +90,21 @@ export const translateModuleConfig: TranslateModuleConfig = {
     ],
     providers: [
         provideHighchartsFactory,
-        {
-            provide: DEFAULT_DIALOG_CONFIG,
-            useValue: <DialogConfig>{
-                width: '95vw',
-                maxWidth: '54rem',
-                maxHeight: '90vh',
-                hasBackdrop: true,
-                disableClose: true,
-            },
-        },
-        {
-            provide: MAT_DIALOG_DEFAULT_OPTIONS,
-            useValue: <MatDialogConfig>{
-                width: '95vw',
-                maxWidth: '54rem',
-                maxHeight: '90vh',
-                panelClass: 'zano-mat-dialog',
-                hasBackdrop: true,
-                disableClose: true,
-            },
-        },
+        provideDialog,
+        providerMatDialog,
     ],
     bootstrap: [AppComponent],
 })
 export class AppModule {
     private _matIconRegistry: MatIconRegistry = inject(MatIconRegistry);
+
     private _sanitizer: DomSanitizer = inject(DomSanitizer);
 
     constructor() {
-        this.registerIcons(materialZanoIcons);
+        this._registerIcons(materialZanoIcons);
     }
 
-    registerIcons(icons: Array<string>): void {
+    private _registerIcons(icons: Array<string>): void {
         icons.forEach((icon: string) => {
             this._matIconRegistry.addSvgIcon(
                 icon,

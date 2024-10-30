@@ -1,0 +1,18 @@
+.shield-testnet {
+    background-color: var(--red-500);
+    color: var(--white);
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1.4rem;
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+
+    display: inline-flex;
+    align-items: center;
+
+    mat-icon {
+        width: 1.4rem;
+        height: 1.4rem;
+        margin-right: 0.5rem;
+    }
+}
