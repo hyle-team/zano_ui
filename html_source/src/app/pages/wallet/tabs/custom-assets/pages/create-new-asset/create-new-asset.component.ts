@@ -47,8 +47,18 @@ export class CreateNewAssetComponent {
 
     public form: CreateNewAssetFrom = this._fb.group(
         {
-            ticker: this._fb.control<string>(undefined, [Validators.required, Validators.minLength(2), Validators.maxLength(30)]),
-            full_name: this._fb.control<string>(undefined, [Validators.required, Validators.minLength(2), Validators.maxLength(150)]),
+            ticker: this._fb.control<string>(undefined, [
+                Validators.required,
+                Validators.pattern(/^[A-Za-z0-9]+$/),
+                Validators.minLength(2),
+                Validators.maxLength(30),
+            ]),
+            full_name: this._fb.control<string>(undefined, [
+                Validators.required,
+                Validators.pattern(/^[A-Za-z0-9.,:!\-() ]+$/),
+                Validators.minLength(2),
+                Validators.maxLength(150),
+            ]),
             total_max_supply: this._fb.control<string>(undefined, [Validators.required]),
             current_supply: this._fb.control<string>(undefined, [Validators.required]),
             decimal_point: this._fb.control<string>('12', [Validators.required, Validators.min(0), Validators.max(18)]),

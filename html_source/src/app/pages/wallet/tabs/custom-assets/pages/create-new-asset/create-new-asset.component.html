@@ -29,6 +29,10 @@
                     <div *ngIf="form.controls.ticker.errors['maxlength'] as err">
                         {{ 'ERRORS.MAX_LENGTH' | translate : { requiredLength: err.requiredLength } }}
                     </div>
+
+                    <div *ngIf="form.controls.ticker.errors['pattern'] as err">
+                        {{ 'ERRORS.INVALID_TICKER_PATTERN' | translate }}
+                    </div>
                 </div>
             </div>
 
@@ -59,6 +63,10 @@
 
                     <div *ngIf="form.controls.full_name.errors['maxLength'] as err">
                         {{ 'ERRORS.MAX_LENGTH' | translate : { requiredLength: err.requiredLength } }}
+                    </div>
+
+                    <div *ngIf="form.controls.full_name.errors['pattern'] as err">
+                        {{ 'ERRORS.INVALID_FULL_NAME_ASSET_PATTERN' | translate }}
                     </div>
                 </div>
             </div>
