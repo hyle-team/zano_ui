@@ -165,7 +165,7 @@ export class SettingsComponent implements OnInit {
         });
 
         this.backend.getIsDisabledNotifications(state => {
-            this.currentNotificationsState = state;
+            this.currentNotificationsState = !state;
         });
 
         this.zanoCompanionForm.valueChanges.pipe(debounceTime(200)).subscribe({
@@ -256,10 +256,10 @@ export class SettingsComponent implements OnInit {
 
     toggleNotifications(): void {
         if (!this.currentNotificationsState) {
-            this.backend.setIsDisabledNotifications('true');
+            this.backend.setIsDisabledNotifications('false');
             this.currentNotificationsState = true;
         } else {
-            this.backend.setIsDisabledNotifications('false');
+            this.backend.setIsDisabledNotifications('true');
             this.currentNotificationsState = false;
         }
     }
