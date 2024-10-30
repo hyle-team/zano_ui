@@ -326,7 +326,7 @@ export class WalletComponent implements OnInit, OnDestroy {
                 next: asset => {
                     const config: MatDialogConfig = {
                         data: {
-                            assetInfo: asset.asset_info,
+                            asset_info: asset.asset_info,
                             title: 'You added new asset',
                         },
                     };
