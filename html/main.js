@@ -19661,7 +19661,7 @@ class WalletComponent {
       next: asset => {
         const config = {
           data: {
-            assetInfo: asset.asset_info,
+            asset_info: asset.asset_info,
             title: 'You added new asset'
           }
         };
