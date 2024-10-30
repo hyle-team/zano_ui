@@ -45,7 +45,7 @@
             "NAME_EXISTS": "Nome de alias já existe",
             "NAME_LENGTH": "O alias deve ter entre 6 e 25 caracteres",
             "NAME_REQUIRED": "Nome é necessário",
-            "NAME_WRONG": "Nome inválido: símbolos permitidos \"0-9\", \"a-z\", \"-\", \".\"",
+            "NAME_WRONG": "Use only letters (A–Z, a–z), numbers (0–9), and special characters (-.)",
             "NO_MONEY": "Não tem fundos suficientes para atribuir esse alias"
         },
         "NAME": {

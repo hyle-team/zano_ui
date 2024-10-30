@@ -45,7 +45,7 @@
             "NAME_EXISTS": "Alias name already exists",
             "NAME_LENGTH": "The alias must be 6-25 characters long",
             "NAME_REQUIRED": "Name is required",
-            "NAME_WRONG": "Alias has wrong name",
+            "NAME_WRONG": "Use only letters (A–Z, a–z), numbers (0–9), and special characters (-.)",
             "NO_MONEY": "Insufficient funds to assign the alias"
         },
         "NAME": {

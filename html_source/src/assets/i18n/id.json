@@ -45,7 +45,7 @@
             "NAME_EXISTS": "Nama alias sudah ada",
             "NAME_LENGTH": "Alias harus 6-25 karakter",
             "NAME_REQUIRED": "Nama di butuhkan",
-            "NAME_WRONG": "Alias memiliki nama yang salah",
+            "NAME_WRONG": "Use only letters (A–Z, a–z), numbers (0–9), and special characters (-.)",
             "NO_MONEY": "Anda tidak memiliki cukup dana untuk menetapkan alias ini"
         },
         "NAME": {
