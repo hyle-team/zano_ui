@@ -5807,7 +5807,7 @@ exports.f = NASHORN_BUG ? function propertyIsEnumerable(V) {
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 
-/* eslint-disable no-undef, no-useless-call, sonar/no-reference-error -- required for testing */
+/* eslint-disable no-undef, no-useless-call, sonarjs/no-reference-error -- required for testing */
 /* eslint-disable es/no-legacy-object-prototype-accessor-methods -- required for testing */
 var IS_PURE = __webpack_require__(/*! ../internals/is-pure */ 70777);
 var globalThis = __webpack_require__(/*! ../internals/global-this */ 3975);
@@ -6106,10 +6106,10 @@ var SHARED = '__core-js_shared__';
 var store = module.exports = globalThis[SHARED] || defineGlobalProperty(SHARED, {});
 
 (store.versions || (store.versions = [])).push({
-  version: '3.38.1',
+  version: '3.39.0',
   mode: IS_PURE ? 'pure' : 'global',
   copyright: '© 2014-2024 Denis Pushkarev (zloirock.ru)',
-  license: 'https://github.com/zloirock/core-js/blob/v3.38.1/LICENSE',
+  license: 'https://github.com/zloirock/core-js/blob/v3.39.0/LICENSE',
   source: 'https://github.com/zloirock/core-js'
 });
 
@@ -6453,9 +6453,9 @@ module.exports = function (key) {
 /* eslint-disable es/no-symbol -- required for testing */
 var NATIVE_SYMBOL = __webpack_require__(/*! ../internals/symbol-constructor-detection */ 46762);
 
-module.exports = NATIVE_SYMBOL
-  && !Symbol.sham
-  && typeof Symbol.iterator == 'symbol';
+module.exports = NATIVE_SYMBOL &&
+  !Symbol.sham &&
+  typeof Symbol.iterator == 'symbol';
 
 
 /***/ }),
@@ -6879,7 +6879,7 @@ var iterate = __webpack_require__(/*! ../internals/iterate */ 80308);
 var createProperty = __webpack_require__(/*! ../internals/create-property */ 12894);
 
 // `Object.fromEntries` method
-// https://github.com/tc39/proposal-object-from-entries
+// https://tc39.es/ecma262/#sec-object.fromentries
 $({ target: 'Object', stat: true }, {
   fromEntries: function fromEntries(iterable) {
     var obj = {};
@@ -7061,7 +7061,7 @@ var DOES_NOT_WORK_WITH_PRIMITIVES = !nativeGroupBy || fails(function () {
 });
 
 // `Object.groupBy` method
-// https://github.com/tc39/proposal-array-grouping
+// https://tc39.es/ecma262/#sec-object.groupby
 $({ target: 'Object', stat: true, forced: DOES_NOT_WORK_WITH_PRIMITIVES }, {
   groupBy: function groupBy(items, callbackfn) {
     requireObjectCoercible(items);
