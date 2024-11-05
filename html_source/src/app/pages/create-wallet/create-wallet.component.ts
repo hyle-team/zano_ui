@@ -71,7 +71,7 @@ import { BehaviorSubject } from 'rxjs';
                             />
                             <div *ngIf="createForm.controls.path.dirty && createForm.controls.password.invalid" class="error">
                                 <div *ngIf="createForm.controls.password.hasError('pattern')">
-                                    {{ 'ERRORS.WRONG_PASSWORD' | translate }}
+                                    {{ 'ERRORS.REGEXP_INVALID_PASSWORD' | translate }}
                                 </div>
                             </div>
                         </div>
