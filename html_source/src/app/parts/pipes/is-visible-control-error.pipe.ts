@@ -2,15 +2,15 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { AbstractControl } from '@angular/forms';
 
 @Pipe({
-  name: 'isVisibleControlError',
-  standalone: true
+    name: 'isVisibleControlError',
+    standalone: true,
+    pure: false,
 })
 export class IsVisibleControlErrorPipe implements PipeTransform {
-
-  transform(control: AbstractControl | null): boolean {
-      if (!control) {
-          return false;
-      }
-      return control.invalid && (control.dirty || control.touched);
-  }
+    transform(control: AbstractControl | null): boolean {
+        if (!control) {
+            return false;
+        }
+        return control.invalid && (control.dirty || control.touched);
+    }
 }
