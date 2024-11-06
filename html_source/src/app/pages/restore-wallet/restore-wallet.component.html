@@ -39,7 +39,7 @@
                 </div>
 
                 <!-- Password -->
-                <div class="form__field fixed">
+                <div class="form__field">
                     <label for="password">{{ 'RESTORE_WALLET.PASS' | translate }}</label>
                     <input
                         (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
@@ -49,10 +49,10 @@
                         [placeholder]="'PLACEHOLDERS.WALET_PASSWORD_PLACEHOLDER' | translate"
                         type="password"
                     />
-                    <ng-container *ngIf="form.get('password') as control">
+                    <ng-container *ngIf="form.controls.password as control">
                         <div *ngIf="control | isVisibleControlError" class="error">
                             <div *ngIf="control.hasError('pattern')">
-                                {{ 'ERRORS.WRONG_PASSWORD' | translate }}
+                                {{ 'ERRORS.REGEXP_INVALID_PASSWORD' | translate }}
                             </div>
                         </div>
                     </ng-container>

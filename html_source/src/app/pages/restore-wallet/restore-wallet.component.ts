@@ -8,7 +8,7 @@ import { Wallet } from '@api/models/wallet.model';
 import { TranslateService } from '@ngx-translate/core';
 import { debounceTime, startWith, takeUntil } from 'rxjs/operators';
 import { combineLatest, Subject } from 'rxjs';
-import { ZanoValidators } from '@parts/utils/zano-validators';
+import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
 import { WalletsService } from '@parts/services/wallets.service';
 import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
 
@@ -64,7 +64,7 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
                 ZanoValidators.duplicate(this.variablesService.walletNamesForComparisons),
             ]),
             seedPhrase: this._fb.control('', Validators.required),
-            password: this._fb.control(''),
+            password: this._fb.control('', Validators.pattern(regExpPassword)),
             confirm: this._fb.control(''),
             seedPassword: this._fb.control(''),
         },
