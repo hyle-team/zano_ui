@@ -95,17 +95,20 @@
 
                 <div class="form__field">
                     <label>{{ 'SETTINGS.USE_TOR_TO_RELAY_TRANSACTIONS' | translate }} (Temporarily disabled)</label>
-                    <app-switch (emitChange)="toggleUseTor()" [disabled]="true" [value]="false && appUseTor"></app-switch>
+                    <app-switch (emitChange)="toggleUseTor()" [disabled]="true"
+                                [value]="false && appUseTor"></app-switch>
                 </div>
 
                 <div class="form__field">
                     <label>{{ 'SETTINGS.DARK_THEME' | translate }}</label>
-                    <app-switch (emitChange)="toggleDarkTheme()" [value]="variablesService.settings.isDarkTheme"></app-switch>
+                    <app-switch (emitChange)="toggleDarkTheme()"
+                                [value]="variablesService.settings.isDarkTheme"></app-switch>
                 </div>
 
                 <div class="form__field">
                     <label>{{ 'SETTINGS.SHOW_BALANCE' | translate }}</label>
-                    <app-switch (emitChange)="showPrice()" [value]="this.variablesService.visibilityBalance$ | async"></app-switch>
+                    <app-switch (emitChange)="showPrice()"
+                                [value]="this.variablesService.visibilityBalance$ | async"></app-switch>
                 </div>
 
                 <form [formGroup]="zanoCompanionForm">
@@ -121,7 +124,8 @@
                     <ng-container *ngIf="zanoCompanionForm.controls.zanoCompation.getRawValue()">
                         <div class="form__card">
                             <div class="form__field form__field--secret">
-                                <label for="field-secret">{{ 'SETTINGS.FORM.ZANO_COMPANION.LABELS.LABEL2' | translate }}</label>
+                                <label
+                                    for="field-secret">{{ 'SETTINGS.FORM.ZANO_COMPANION.LABELS.LABEL2' | translate }}</label>
                                 <input
                                     (contextmenu)="
                                         variablesService.onContextMenuOnlyCopy($event, zanoCompanionForm.controls['secret'].value)
@@ -148,7 +152,8 @@
                             </div>
 
                             <div class="form__field">
-                                <label for="field-port">{{ 'SETTINGS.FORM.ZANO_COMPANION.LABELS.LABEL3' | translate }}</label>
+                                <label
+                                    for="field-port">{{ 'SETTINGS.FORM.ZANO_COMPANION.LABELS.LABEL3' | translate }}</label>
                                 <input
                                     (contextmenu)="
                                         variablesService.onContextMenuOnlyCopy($event, this.variablesService.rpc_port?.toString())
@@ -206,6 +211,11 @@
                             >
                                 {{ 'SETTINGS.FORM_ERRORS.CURRENT_PASS_NOT_MATCH' | translate }}
                             </div>
+                            <div *ngIf="changeForm.invalid && (changeForm.controls['password'].dirty ||
+                            changeForm.controls['password'].touched) && changeForm.controls['password'].errors?.pattern"
+                                 class="error">
+                                {{ 'ERRORS.REGEXP_INVALID_PASSWORD' | translate }}
+                            </div>
                         </div>
 
                         <div class="form__field">
@@ -224,7 +234,7 @@
                                 class="error"
                             >
                                 <div *ngIf="changeForm.controls['new_password'].errors?.pattern">
-                                    {{ 'ERRORS.WRONG_PASSWORD_MUST_BE' | translate }} a-zA-Z0-9_.*|~!?@#$%^&+&#123;}()<>:;"'-=,/[]*$
+                                    {{ 'ERRORS.REGEXP_INVALID_PASSWORD' | translate }}
                                 </div>
                                 <div *ngIf="changeForm.controls['new_password'].hasError('required')">
                                     {{ 'ERRORS.REQUIRED' | translate }}
@@ -269,8 +279,8 @@
                             {{ 'SETTINGS.MASTER_PASSWORD.BUTTON' | translate }}
                         </button>
                         <span *ngIf="ifSaved" [class.active]="ifSaved" class="ml-1 color-aqua">{{
-                            'SETTINGS.SETTINGS_SAVED' | translate
-                        }}</span>
+                                'SETTINGS.SETTINGS_SAVED' | translate
+                            }}</span>
                     </div>
                 </form>
 

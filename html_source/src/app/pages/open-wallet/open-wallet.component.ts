@@ -8,7 +8,7 @@ import { Wallet } from '@api/models/wallet.model';
 import { TranslateService } from '@ngx-translate/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
+import { ZanoValidators } from '@parts/utils/zano-validators';
 import { WalletsService } from '@parts/services/wallets.service';
 import { notFileZanoWallet, wrongPassword } from '@parts/utils/zano-errors';
 import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
@@ -118,7 +118,7 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
             Validators.maxLength(this.variablesService.maxWalletNameLength),
             ZanoValidators.duplicate(this.variablesService.walletNamesForComparisons),
         ]),
-        password: this.fb.control('', [Validators.pattern(regExpPassword)]),
+        password: this.fb.control(''),
         filePath: this.fb.control('', Validators.required),
     });
 

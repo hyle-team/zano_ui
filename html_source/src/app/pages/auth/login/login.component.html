@@ -6,7 +6,7 @@
 
         <form (ngSubmit)="onSubmitCreatePass()" *ngIf="type === 'reg'" [formGroup]="regForm" class="form">
             <div class="auth-card-form">
-                <div class="form__field fixed mb-2">
+                <div class="form__field mb-2">
                     <label for="master-pass">{{ 'LOGIN.SETUP_MASTER_PASS' | translate }}</label>
                     <input
                         (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
@@ -19,7 +19,7 @@
                     />
                     <div *ngIf="regForm.controls['password'].dirty && regForm.controls['password'].errors" class="error">
                         <div *ngIf="regForm.controls['password'].errors.pattern">
-                            {{ 'ERRORS.WRONG_PASSWORD' | translate }}
+                            {{ 'ERRORS.REGEXP_INVALID_PASSWORD' | translate }}
                         </div>
                     </div>
                 </div>

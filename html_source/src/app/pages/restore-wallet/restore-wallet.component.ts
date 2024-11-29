@@ -66,7 +66,7 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
             seedPhrase: this._fb.control('', Validators.required),
             password: this._fb.control('', Validators.pattern(regExpPassword)),
             confirm: this._fb.control(''),
-            seedPassword: this._fb.control('', Validators.pattern(regExpPassword)),
+            seedPassword: this._fb.control(''),
         },
         {
             validators: [ZanoValidators.formMatch('password', 'confirm')],

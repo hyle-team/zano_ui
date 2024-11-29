@@ -14,7 +14,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 })
 export class UpdateCustomAssetComponent {
     public readonly variablesService: VariablesService = inject(VariablesService);
-    public readonly data: { assetInfo: AssetInfo } = inject(MAT_DIALOG_DATA);
+    public readonly data: { asset_info: AssetInfo } = inject(MAT_DIALOG_DATA);
     public readonly matDialogRef: MatDialogRef<UpdateCustomAssetComponent> = inject(MatDialogRef);
     private readonly _backendService: BackendService = inject(BackendService);
     private readonly fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
@@ -56,7 +56,7 @@ export class UpdateCustomAssetComponent {
 
     public submit(): void {
         const { wallet_id } = this.variablesService.currentWallet;
-        const { asset_id } = this.data.assetInfo;
+        const { asset_id } = this.data.asset_info;
         const { owner } = this.form.getRawValue();
         const params: UpdateAssetParams = {
             asset_id,

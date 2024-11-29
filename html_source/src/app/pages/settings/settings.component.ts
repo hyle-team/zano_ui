@@ -33,7 +33,7 @@ export class SettingsComponent implements OnInit {
     changeForm = this.fb.group(
         {
             password: this.fb.nonNullable.control('', Validators.compose([Validators.pattern(regExpPassword)])),
-            new_password: this.fb.nonNullable.control('', Validators.compose([Validators.required, Validators.pattern(regExpPassword)])),
+            new_password: this.fb.nonNullable.control('', Validators.compose([Validators.pattern(regExpPassword)])),
             new_confirmation: this.fb.nonNullable.control(''),
             appPass: this.fb.nonNullable.control(this.variablesService.appPass ?? ''),
         },
@@ -165,7 +165,7 @@ export class SettingsComponent implements OnInit {
         });
 
         this.backend.getIsDisabledNotifications(state => {
-            this.currentNotificationsState = state;
+            this.currentNotificationsState = !state;
         });
 
         this.zanoCompanionForm.valueChanges.pipe(debounceTime(200)).subscribe({
@@ -250,16 +250,16 @@ export class SettingsComponent implements OnInit {
                 }
             });
 
-            this.changeForm.reset();
+            this.changeForm.reset({ appPass: this.variablesService.appPass });
         }
     }
 
     toggleNotifications(): void {
         if (!this.currentNotificationsState) {
-            this.backend.setIsDisabledNotifications('true');
+            this.backend.setIsDisabledNotifications('false');
             this.currentNotificationsState = true;
         } else {
-            this.backend.setIsDisabledNotifications('false');
+            this.backend.setIsDisabledNotifications('true');
             this.currentNotificationsState = false;
         }
     }

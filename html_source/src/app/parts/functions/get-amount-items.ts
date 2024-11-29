@@ -29,9 +29,9 @@ export const getAmountItems = (transaction: Transaction, wallet: Wallet): Amount
 
     subtransfers.forEach((subtransfer: Subtransfer) => {
         const { asset_id, amount, is_income } = subtransfer;
-        const assetInfo: AssetInfo | undefined = wallet.allAssetsInfo.find(v => asset_id === v.asset_id);
+        const asset_info: AssetInfo | undefined = wallet.allAssetsInfo.find(v => asset_id === v.asset_id);
 
-        if (!assetInfo) {
+        if (!asset_info) {
             if (amount.toNumber() === 0) {
                 return;
             }
@@ -41,7 +41,7 @@ export const getAmountItems = (transaction: Transaction, wallet: Wallet): Amount
             return;
         }
 
-        const { ticker, decimal_point } = assetInfo;
+        const { ticker, decimal_point } = asset_info;
 
         if (asset_id !== zanoAssetInfo.asset_id) {
             if (amount.toNumber() === 0) {
