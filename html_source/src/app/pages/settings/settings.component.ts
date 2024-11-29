@@ -33,7 +33,7 @@ export class SettingsComponent implements OnInit {
     changeForm = this.fb.group(
         {
             password: this.fb.nonNullable.control('', Validators.compose([Validators.pattern(regExpPassword)])),
-            new_password: this.fb.nonNullable.control('', Validators.compose([Validators.required, Validators.pattern(regExpPassword)])),
+            new_password: this.fb.nonNullable.control('', Validators.compose([Validators.pattern(regExpPassword)])),
             new_confirmation: this.fb.nonNullable.control(''),
             appPass: this.fb.nonNullable.control(this.variablesService.appPass ?? ''),
         },
@@ -250,7 +250,7 @@ export class SettingsComponent implements OnInit {
                 }
             });
 
-            this.changeForm.reset();
+            this.changeForm.reset({ appPass: this.variablesService.appPass });
         }
     }
 

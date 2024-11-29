@@ -69,7 +69,7 @@ import { BehaviorSubject } from 'rxjs';
                                 placeholder="{{ 'PLACEHOLDERS.PLACEHOLDER_NEW' | translate }}"
                                 type="password"
                             />
-                            <div *ngIf="createForm.controls.path.dirty && createForm.controls.password.invalid" class="error">
+                            <div *ngIf="createForm.controls.password.dirty && createForm.controls.password.invalid" class="error">
                                 <div *ngIf="createForm.controls.password.hasError('pattern')">
                                     {{ 'ERRORS.REGEXP_INVALID_PASSWORD' | translate }}
                                 </div>
