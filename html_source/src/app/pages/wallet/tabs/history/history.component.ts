@@ -8,6 +8,7 @@ import { Subject } from 'rxjs';
 import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { collapseOnLeaveAnimation, expandOnEnterAnimation } from 'angular-animations';
 import { ZanoAssetInfo, zanoAssetInfo } from '@parts/data/assets';
+import { filter, takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'app-history',
@@ -22,7 +23,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
 
     public stop_paginate: boolean = false;
 
-    public mining: boolean = this.variablesService.currentWallet.exclude_mining_txs ?? false;
+    public mining: boolean = false;
 
     public wallet: Wallet;
 
@@ -42,6 +43,13 @@ export class HistoryComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.init();
+
+        this.variablesService.currentWalletChangedEvent.pipe(filter(Boolean), takeUntil(this._destroy$)).subscribe({
+            next: (wallet: Wallet) => {
+                this.getRecentTransfers();
+                this.mining = wallet.exclude_mining_txs;
+            },
+        });
     }
 
     ngOnDestroy(): void {
