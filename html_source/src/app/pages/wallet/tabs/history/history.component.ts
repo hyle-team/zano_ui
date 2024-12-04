@@ -5,10 +5,10 @@ import { PaginationStore } from '@store/pagination/pagination.store';
 import { Wallet } from '@api/models/wallet.model';
 import { BackendService } from '@api/services/backend.service';
 import { Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
 import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { collapseOnLeaveAnimation, expandOnEnterAnimation } from 'angular-animations';
 import { ZanoAssetInfo, zanoAssetInfo } from '@parts/data/assets';
+import { filter, takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'app-history',

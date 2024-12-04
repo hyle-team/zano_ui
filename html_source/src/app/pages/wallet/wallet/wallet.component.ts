@@ -182,19 +182,13 @@ export class WalletComponent implements OnInit, OnDestroy {
             this.loader = true;
         }
         if (event instanceof NavigationEnd) {
-            setTimeout(() => {
-                this.loader = false;
-            }, 500);
+            this.loader = false;
         }
         if (event instanceof NavigationCancel) {
-            setTimeout(() => {
-                this.loader = false;
-            }, 500);
+            this.loader = false;
         }
         if (event instanceof NavigationError) {
-            setTimeout(() => {
-                this.loader = false;
-            }, 500);
+            this.loader = false;
         }
     }
 
