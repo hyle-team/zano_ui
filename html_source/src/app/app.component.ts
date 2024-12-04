@@ -350,7 +350,7 @@ export class AppComponent implements OnInit, OnDestroy {
                             wallet.balances = data.balances;
 
                             if (tr_info.tx_type === 6) {
-                                this.variablesService.setRefreshStacking(wallet_id);
+                                this.variablesService.refreshStakingEvent$.next();
                             }
 
                             let tr_exists = wallet.excluded_history.some(elem => elem.tx_hash === tr_info.tx_hash);

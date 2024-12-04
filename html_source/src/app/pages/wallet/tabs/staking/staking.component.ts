@@ -240,7 +240,7 @@ export class StakingComponent implements OnInit, AfterViewInit, OnDestroy {
 
         this._restoreFiltersForm();
         this._subscribeToHeightAppEvent();
-        this._subscribeToDaemonState();
+        this._subscribeToRefreshStakingEvent();
         this._subscribeToFilterChanges();
         this._subscribeToThemeChanges();
     }
@@ -291,18 +291,13 @@ export class StakingComponent implements OnInit, AfterViewInit, OnDestroy {
         this.pending.total = this.pending.list.reduce((total, item) => total.plus(item.a), new BigNumber(0));
     }
 
-    private _subscribeToDaemonState(): void {
-        this.variablesService.daemon_state$
-            .pipe(
-                filter((daemon_state: number) => daemon_state === 3),
-                skip(1)
-            )
-            .subscribe({
-                next: () => {
-                    this._getMiningHistory();
-                    this._changePeriod();
-                },
-            });
+    private _subscribeToRefreshStakingEvent(): void {
+        this.variablesService.refreshStakingEvent$.pipe(takeUntil(this._destroy$)).subscribe({
+            next: () => {
+                this._getMiningHistory();
+                this._changePeriod();
+            }
+        });
     }
 
     private _subscribeToFilterChanges(): void {
