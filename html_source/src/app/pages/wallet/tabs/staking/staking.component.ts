@@ -165,7 +165,7 @@ export class StakingComponent implements OnInit, OnDestroy {
             },
         });
 
-        this.variablesService.daemon_state$.pipe(filter((daemon_state: number) => daemon_state === 3), skip(1)).subscribe({
+        this.variablesService.refreshStakingEvent$.pipe(takeUntil(this._destroy$)).subscribe({
             next: () => {
                 this.getMiningHistory();
                 this.changePeriod();

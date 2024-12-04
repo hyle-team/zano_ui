@@ -170,6 +170,8 @@ export class VariablesService implements OnDestroy {
 
     currentWalletChangedEvent = new BehaviorSubject<Wallet>(null);
 
+    refreshStakingEvent$: Subject<void> = new Subject<void>();
+
     verifiedAssetInfoWhitelist$: BehaviorSubject<VerifiedAssetInfoWhitelist> = new BehaviorSubject([]);
 
     private _dialog: Dialog = inject(Dialog);
@@ -271,10 +273,6 @@ export class VariablesService implements OnDestroy {
             this.total = this.bytesToMb(bytes);
             this.getTotalEvent.next(bytes);
         }
-    }
-
-    setRefreshStacking(wallet_id: number): void {
-        this.getHeightAppEvent.next(wallet_id);
     }
 
     changeAliases(): void {
