@@ -24,6 +24,8 @@ export class VariablesService implements OnDestroy {
 
     rpc_port!: number;
 
+    is_remote_node = false;
+
     use_debug_mode$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
     info$: BehaviorSubject<any> = new BehaviorSubject<any>({});

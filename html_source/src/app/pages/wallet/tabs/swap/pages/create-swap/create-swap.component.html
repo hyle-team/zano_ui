@@ -26,7 +26,8 @@
                         <ng-container *ngSwitchCase="form.controls.sending.controls.amount.hasError('zero')">
                             {{ 'SEND.FORM_ERRORS.AMOUNT_ZERO' | translate }}
                         </ng-container>
-                        <ng-container *ngSwitchCase="form.controls.sending.controls.amount.hasError('required') && !form.controls.sending.hasError('assetHasNotBeenAddedToWallet')">
+                        <ng-container
+                            *ngSwitchCase="form.controls.sending.controls.amount.hasError('required') && !form.controls.sending.hasError('assetHasNotBeenAddedToWallet')">
                             {{ 'ERRORS.REQUIRED' | translate }}
                         </ng-container>
                         <ng-container *ngSwitchCase="form.controls.sending.hasError('greater_than_maximum_amount')">
@@ -54,7 +55,7 @@
                     formControlName="asset_id"
                 >
                     <ng-template let-item="item" ng-label-tmp ng-option-tmp>
-                        <div class="token-logo" [innerHTML]="item | getLogoByAssetInfo"></div>
+                        <div [innerHTML]="item | getLogoByAssetInfo" class="token-logo"></div>
                         {{ item.full_name || '---' }}
                     </ng-template>
                 </ng-select>
@@ -90,7 +91,8 @@
                     class="error"
                 >
                     <ng-container [ngSwitch]="true">
-                        <ng-container *ngSwitchCase="form.controls.receiving.controls.amount.hasError('required') && !form.controls.receiving.hasError('assetHasNotBeenAddedToWallet')">
+                        <ng-container
+                            *ngSwitchCase="form.controls.receiving.controls.amount.hasError('required') && !form.controls.receiving.hasError('assetHasNotBeenAddedToWallet')">
                             {{ 'ERRORS.REQUIRED' | translate }}
                         </ng-container>
                         <ng-container *ngSwitchCase="form.controls.receiving.controls.amount.hasError('zero')">
@@ -117,7 +119,7 @@
                     formControlName="asset_id"
                 >
                     <ng-template let-item="item" ng-label-tmp ng-option-tmp>
-                        <div class="token-logo" [innerHTML]="item | getLogoByAssetInfo"></div>
+                        <div [innerHTML]="item | getLogoByAssetInfo" class="token-logo"></div>
                         {{ item.full_name || '---' }}
                     </ng-template>
                 </ng-select>
@@ -161,20 +163,24 @@
                 [placeholder]="'PLACEHOLDERS.ADDRESS_PLACEHOLDER' | translate"
                 class="form__field--input"
                 formControlName="receiverAddress"
+                id="address"
                 lowerCase
                 matAutocompletePosition="below"
                 type="text"
-                id="address"
             />
 
             <mat-autocomplete #auto="matAutocomplete" class="zano-autocomplete-panel">
-                <mat-option *ngIf="vm.loading" class="loading" disabled>
-                    <zano-loader class="mx-auto" style="display: block; width: fit-content"></zano-loader>
-                </mat-option>
+                <ng-container *ngIf="!variablesService.is_remote_node">
+                    <mat-option *ngIf="vm.loading" class="loading" disabled>
+                        <zano-loader class="mx-auto" style="display: block; width: fit-content"></zano-loader>
+                    </mat-option>
 
-                <mat-option *ngIf="form.controls.receiverAddress.value[0] === '@' && vm.items?.length === 0 && !vm.loading" disabled>
-                    <span class="pl-1"> Not found aliases </span>
-                </mat-option>
+                    <mat-option
+                        *ngIf="form.controls.receiverAddress.value[0] === '@' && vm.items?.length === 0 && !vm.loading"
+                        disabled>
+                        <span class="pl-1"> Not found aliases </span>
+                    </mat-option>
+                </ng-container>
 
                 <ng-container *ngIf="!vm.loading">
                     <mat-option *ngFor="let item of vm.items; trackBy: trackByFn" [value]="item">
@@ -210,10 +216,12 @@
 
         <div class="actions">
             <button [disabled]="form.invalid || (loading$ | async)" class="btn primary big w-100" type="submit">
-                <ng-container *ngIf="!(loading$ | async)">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON1' | translate }} </ng-container>
+                <ng-container *ngIf="!(loading$ | async)">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON1' | translate }}
+                </ng-container>
                 <zano-loader *ngIf="loading$ | async" [type]="'circle'"></zano-loader>
             </button>
-            <a class="btn outline big w-100" routerLink="/wallet/swap">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON2' | translate }}</a>
+            <a class="btn outline big w-100"
+               routerLink="/wallet/swap">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON2' | translate }}</a>
         </div>
 
         <div *ngIf="errorRpc" class="error mt-2">

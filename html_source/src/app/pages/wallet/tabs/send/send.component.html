@@ -32,15 +32,18 @@
                     />
 
                     <mat-autocomplete #auto="matAutocomplete" class="zano-autocomplete-panel">
-                        <mat-option *ngIf="vm.loading" class="loading" disabled>
-                            <zano-loader class="mx-auto" style="display: block; width: fit-content"></zano-loader>
-                        </mat-option>
+                        <ng-container *ngIf="!variablesService.is_remote_node">
+                            <mat-option *ngIf="vm.loading" class="loading" disabled>
+                                <zano-loader class="mx-auto" style="display: block; width: fit-content"></zano-loader>
+                            </mat-option>
 
-                        <mat-option
-                            *ngIf="form.controls.address.value[0] === '@' && vm.items?.length === 0 && !vm.loading"
-                            disabled>
-                            <span class="pl-1"> Not found aliases </span>
-                        </mat-option>
+
+                            <mat-option
+                                *ngIf="form.controls.address.value[0] === '@' && vm.items?.length === 0 && !vm.loading"
+                                disabled>
+                                <span class="pl-1"> Not found aliases </span>
+                            </mat-option>
+                        </ng-container>
 
                         <ng-container *ngIf="!vm.loading">
                             <mat-option *ngFor="let item of vm.items; trackBy: trackByFn" [value]="item">
@@ -116,7 +119,7 @@
                 </div>
 
                 <ng-container *ngIf="isVisibleError(form.controls.amount) || isVisibleError(form)">
-                    <div class="error" *ngIf="errorMessages['amount'] as message">
+                    <div *ngIf="errorMessages['amount'] as message" class="error">
                         {{ message | translate }}
                     </div>
                 </ng-container>
@@ -190,7 +193,7 @@
                 formControlName="asset_id"
             >
                 <ng-template let-asset="item" ng-label-tmp ng-option-tmp>
-                    <div class="token-logo" [innerHTML]="asset.asset_info | getLogoByAssetInfo"></div>
+                    <div [innerHTML]="asset.asset_info | getLogoByAssetInfo" class="token-logo"></div>
                     {{ asset.asset_info.full_name ?? '***' }}
                     <ng-container *appVisibilityBalance>
                         ({{ asset.total | intToMoney : asset.asset_info.decimal_point }} {{ asset.asset_info.ticker }})
@@ -279,10 +282,12 @@
                 <!--</div>-->
 
                 <!-- PUSH -->
-                <app-checkbox [label]="'SEND.INCLUDE_SENDER_ADDRESS' | translate" class="mt-1" formControlName="push_payer"></app-checkbox>
+                <app-checkbox [label]="'SEND.INCLUDE_SENDER_ADDRESS' | translate" class="mt-1"
+                              formControlName="push_payer"></app-checkbox>
 
                 <!-- HIDE -->
-                <app-checkbox [label]="'SEND.HIDE' | translate" class="mt-1" formControlName="hide_receiver"></app-checkbox>
+                <app-checkbox [label]="'SEND.HIDE' | translate" class="mt-1"
+                              formControlName="hide_receiver"></app-checkbox>
             </div>
         </div>
 

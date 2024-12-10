@@ -168,6 +168,7 @@ export enum Commands {
     call_wallet_rpc = 'call_wallet_rpc',
     setup_jwt_wallet_rpc = 'setup_jwt_wallet_rpc',
     show_notification = 'show_notification',
+    is_remnotenode_mode_preconfigured = 'is_remnotenode_mode_preconfigured',
 }
 
 @Injectable({
@@ -687,6 +688,10 @@ export class BackendService {
                 callback(version, type, errorVersion ?? errorType);
             });
         });
+    }
+
+    isRemnoteNodeModePreconfigured(callback): void {
+        this.runCommand(Commands.is_remnotenode_mode_preconfigured, {}, callback);
     }
 
     setLogLevel(level): void {
