@@ -788,6 +788,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
                 this.getInfo();
 
+                this.backendService.isRemnoteNodeModePreconfigured((is_remote_node: boolean) => {
+                    this.variablesService.is_remote_node = is_remote_node;
+                });
+
                 setTimeout(() => {
                     this.backendService.getOptions();
                     this._getZanoCurrentSupply();

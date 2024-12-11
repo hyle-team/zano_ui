@@ -321,20 +321,9 @@ export class SendComponent implements OnDestroy {
         }
 
         if (address.indexOf('@') === 0) {
-            const aliasName = address;
-            const { aliases } = this.variablesService;
-            const alias = aliases.find(({ name }) => name === aliasName);
-
-            if (!alias) {
-                this.form.controls.address.setErrors({
-                    alias_not_found: true,
-                });
-                return;
-            }
-
             sendMoneyParams = {
                 ...sendMoneyParams,
-                address: alias.address,
+                address: this.aliasAddress,
             };
         }
 

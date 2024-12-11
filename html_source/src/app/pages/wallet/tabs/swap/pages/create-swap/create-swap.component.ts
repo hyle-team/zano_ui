@@ -274,18 +274,7 @@ export class CreateSwapComponent implements OnDestroy {
         };
 
         if (receiverAddress.indexOf('@') === 0) {
-            const aliasName = receiverAddress;
-            const { aliases } = this.variablesService;
-            const alias = aliases.find(({ name }) => name === aliasName);
-
-            if (!alias) {
-                this.form.controls.receiverAddress.setErrors({
-                    alias_not_found: true,
-                });
-                return;
-            }
-
-            params2.params['destination_address'] = alias.address;
+            params2.params['destination_address'] = this.aliasAddress;
         } else {
             params2.params['destination_address'] = receiverAddress;
         }
