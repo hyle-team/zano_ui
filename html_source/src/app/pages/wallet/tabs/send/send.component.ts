@@ -67,6 +67,8 @@ export class SendComponent implements OnDestroy {
 
     isVisibleWrapInfoState$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
+    wrapInfoServiceInactive$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+
     aliasAddress: string;
 
     isVisibleAdditionalOptionsState: boolean = false;
@@ -796,10 +798,12 @@ export class SendComponent implements OnDestroy {
             )
             .subscribe({
                 next: (wrapInfo: WrapInfo) => {
+                    this.wrapInfoServiceInactive$.next(false);
                     this.wrapInfo = wrapInfo;
                     this.loadingWrapInfo$.next(false);
                 },
                 error: () => {
+                    this.wrapInfoServiceInactive$.next(true);
                     this.loadingWrapInfo$.next(false);
                 },
                 complete: () => {

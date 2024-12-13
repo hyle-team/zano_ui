@@ -10,7 +10,7 @@
                     lowerCaseDisabled: lowerCaseDisabled$ | async
                 } as vm"
             >
-                <div class="form__field fixed">
+                <div class="form__field">
                     <label for="address">
                         {{ 'SEND.ADDRESS' | translate }}
                         <span class="color-red">*</span>
@@ -71,6 +71,14 @@
                         {{ errorMessages['address'] | translate }}
                     </div>
 
+                    <ng-container *ngIf="isVisibleWrapInfoState$ | async">
+                        <ng-container  *ngIf="wrapInfoServiceInactive$ | async">
+                            <div class="error">
+                                {{ 'ERRORS.WRAP_SERVICE_IS_INACTIVE' | translate }}
+                            </div>
+                        </ng-container>
+                    </ng-container>
+
                     <div *ngIf="aliasAddress" class="info text-ellipsis">
                         <span>{{ aliasAddress | zanoShortString }}</span>
                     </div>
@@ -78,7 +86,7 @@
             </ng-container>
 
             <!-- Amount -->
-            <div class="form__field fixed amount">
+            <div class="form__field amount">
                 <label for="send-amount">
                     {{ 'SEND.AMOUNT' | translate }}
                     <span class="color-red">*</span>
@@ -291,7 +299,8 @@
             </div>
         </div>
 
-        <button [disabled]="form.invalid || !variablesService.currentWallet.loaded"
+        <button [disabled]="form.invalid || !variablesService.currentWallet.loaded ||
+        ((isVisibleWrapInfoState$ | async) ?? (wrapInfoServiceInactive$ | async))"
                 class="primary big max-w-19-rem w-100" type="submit">
             {{ 'SEND.BUTTON' | translate }}
         </button>
