@@ -401,6 +401,7 @@
         "TX_TYPE_UPDATE_ALIAS": "Error. Gagal mengubah komentar menjadi alias dengan aman",
         "WALLET_WATCH_ONLY_NOT_SUPPORTED": "Dompet khusus jam tangan hanya dapat dibuka dengan simplewallet",
         "WALLET_WRONG_ID": "ID dompet tidak valid",
+        "WRAP_SERVICE_IS_INACTIVE": "Wrap service is inactive",
         "WRONG_PASSWORD": "Katasandi tidak valid",
         "WRONG_PASSWORD_MUST_BE": "Invalid password. Password must be"
     },
