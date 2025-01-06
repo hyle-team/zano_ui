@@ -401,6 +401,7 @@
         "TX_TYPE_UPDATE_ALIAS": "Errore. Impossibile cambiare il commento all'alias in sicurezza",
         "WALLET_WATCH_ONLY_NOT_SUPPORTED": "I portafogli solo per orologi possono essere aperti solo da simplewallet",
         "WALLET_WRONG_ID": "ID portafoglio non valido",
+        "WRAP_SERVICE_IS_INACTIVE": "Wrap service is inactive",
         "WRONG_PASSWORD": "Password non valida",
         "WRONG_PASSWORD_MUST_BE": "Invalid password. Password must be"
     },

@@ -401,6 +401,7 @@
         "TX_TYPE_UPDATE_ALIAS": "Erro. Falha ao mudar comentário a um alias seguro",
         "WALLET_WATCH_ONLY_NOT_SUPPORTED": "Carteiras somente para assistir só podem ser abertas por simplewallet",
         "WALLET_WRONG_ID": "ID de carteira inválido",
+        "WRAP_SERVICE_IS_INACTIVE": "Wrap service is inactive",
         "WRONG_PASSWORD": "Password inválida",
         "WRONG_PASSWORD_MUST_BE": "Invalid password. Password must be"
     },
