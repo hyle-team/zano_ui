@@ -1,0 +1,126 @@
+<div class="page-container">
+    <div class="toolbar mb-2">
+        <div class="left">
+            <app-back-button></app-back-button>
+            <h1 class="ml-2">{{ 'BREADCRUMBS.ASSIGN_ALIAS' | translate }}</h1>
+        </div>
+
+        <div class="right"></div>
+    </div>
+
+    <div class="page-content">
+        <app-breadcrumbs [items]="breadcrumbItems" class="mb-2"></app-breadcrumbs>
+
+        <div class="scrolled-content">
+            <form (ngSubmit)="beforeSubmit()" [formGroup]="form" class="form">
+                <!--Name-->
+                <div class="form__field">
+                    <label
+                        [delay]="50"
+                        [tooltip]="'ASSIGN_ALIAS.NAME.TOOLTIP' | translate"
+                        for="alias-name"
+                        placement="bottom-left"
+                        tooltipClass="table-tooltip assign-alias-tooltip"
+                    >
+                        {{ 'ASSIGN_ALIAS.NAME.LABEL' | translate }}
+                    </label>
+                    <div class="has-no-edit-symbol">
+                        <input
+                            (contextmenu)="variablesService.onContextMenu($event)"
+                            [placeholder]="'ASSIGN_ALIAS.NAME.PLACEHOLDER' | translate"
+                            class="form__field--input"
+                            formControlName="name"
+                            id="alias-name"
+                            type="text"
+                        />
+                    </div>
+                    <ng-container
+                        *ngIf="(form.controls.name.dirty || form.controls.name.touched) && form.controls.name.invalid">
+                        <div class="error">
+                            <ng-container
+                                *ngIf="form.controls.name.hasError('pattern'); else nameMinLengthErrorTemplate">
+                                <p>{{ 'ASSIGN_ALIAS.FORM_ERRORS.NAME_WRONG' | translate }}</p>
+                            </ng-container>
+
+                            <ng-template #nameMinLengthErrorTemplate>
+                                <ng-container
+                                    *ngIf="form.controls.name.hasError('minlength'); else nameMaxLengthErrorTemplate">
+                                    <p>{{ 'ASSIGN_ALIAS.FORM_ERRORS.NAME_LENGTH' | translate }}</p>
+                                </ng-container>
+                            </ng-template>
+
+                            <ng-template #nameMaxLengthErrorTemplate>
+                                <ng-container *ngIf="form.controls.name.hasError('maxlength')">
+                                    <p>{{ 'ASSIGN_ALIAS.FORM_ERRORS.NAME_LENGTH' | translate }}</p>
+                                </ng-container>
+                            </ng-template>
+                        </div>
+                    </ng-container>
+
+                    <ng-container *ngIf="alias.exists; else notEnoughMoneyErrorTemplate">
+                        <div class="error">
+                            <p>
+                                {{ 'ASSIGN_ALIAS.FORM_ERRORS.NAME_EXISTS' | translate }}
+                            </p>
+                        </div>
+                    </ng-container>
+
+                    <ng-template #notEnoughMoneyErrorTemplate>
+                        <ng-container *ngIf="notEnoughMoney">
+                            <div class="error">
+                                <p>
+                                    {{ 'ASSIGN_ALIAS.FORM_ERRORS.NO_MONEY' | translate }}
+                                </p>
+                            </div>
+                        </ng-container>
+                    </ng-template>
+                </div>
+
+                <!--Comment-->
+                <div class="form__field textarea">
+                    <label
+                        [delay]="50"
+                        [tooltip]="'ASSIGN_ALIAS.COMMENT.TOOLTIP' | translate"
+                        for="alias-comment"
+                        placement="bottom-left"
+                        tooltipClass="table-tooltip assign-alias-tooltip"
+                    >
+                        {{ 'ASSIGN_ALIAS.COMMENT.LABEL' | translate }}
+                    </label>
+                    <textarea
+                        (contextmenu)="variablesService.onContextMenu($event)"
+                        [maxLength]="variablesService.maxCommentLength"
+                        [placeholder]="'ASSIGN_ALIAS.COMMENT.PLACEHOLDER' | translate"
+                        class="scrolled-content"
+                        formControlName="comment"
+                        id="alias-comment"
+                    ></textarea>
+                    <ng-container *ngIf="form.controls.comment.value.length >= variablesService.maxCommentLength">
+                        <div class="error">
+                            {{ 'ASSIGN_ALIAS.FORM_ERRORS.MAX_LENGTH' | translate }}
+                        </div>
+                    </ng-container>
+                </div>
+
+                <p class="mb-2">
+                    {{
+                        'ASSIGN_ALIAS.COST'
+                            | translate
+                            : {
+                                value: alias.price | intToMoney,
+                                currency: variablesService.defaultTicker
+                            }
+                    }}
+                </p>
+
+                <button
+                    [disabled]="form.invalid || !canRegister || notEnoughMoney"
+                    class="primary big w-100"
+                    type="submit"
+                >
+                    {{ 'ASSIGN_ALIAS.BUTTON_ASSIGN' | translate }}
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
