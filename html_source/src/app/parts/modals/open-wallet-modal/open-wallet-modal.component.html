@@ -13,6 +13,7 @@
                     [class.invalid]="isWrongPassword$ | async"
                     (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
                     (focusin)="resetPasswordError()"
+                    (keydown)="resetPasswordError()"
                     class="form__field--input"
                     id="password"
                     name="password"

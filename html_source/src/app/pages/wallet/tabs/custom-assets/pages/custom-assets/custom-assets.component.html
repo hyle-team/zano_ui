@@ -133,7 +133,7 @@
             </button>
         </li>
         <li class="item">
-            <button (click)="openDialog('update')" class="w-100 px-2 py-1" type="button">
+            <button [disabled]="true" (click)="openDialog('update')" class="w-100 px-2 py-1" type="button">
                 <mat-icon svgIcon="zano-update" class="mr-1"></mat-icon>
                 <span>{{ 'CUSTOM_ASSETS.DROP_MENU.LABELS.LABEL3' | translate }}</span>
             </button>

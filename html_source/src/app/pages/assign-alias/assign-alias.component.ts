@@ -1,5 +1,5 @@
 import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
@@ -10,126 +10,12 @@ import BigNumber from 'bignumber.js';
 import { Subject } from 'rxjs';
 import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { takeUntil } from 'rxjs/operators';
-import { regExpAliasName } from '@parts/utils/zano-validators';
+import { regExpRegisterAliasName } from '@parts/utils/zano-validators';
 import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
 
 @Component({
     selector: 'app-assign-alias',
-    template: `
-        <div class="page-container">
-            <div class="toolbar mb-2">
-                <div class="left">
-                    <app-back-button></app-back-button>
-                    <h1 class="ml-2">{{ 'BREADCRUMBS.ASSIGN_ALIAS' | translate }}</h1>
-                </div>
-                <div class="right"></div>
-            </div>
-
-            <div class="page-content">
-                <app-breadcrumbs class="mb-2" [items]="breadcrumbItems"></app-breadcrumbs>
-
-                <div class="scrolled-content">
-                    <form [formGroup]="assignForm" class="form">
-                        <div class="form__field">
-                            <label
-                                [delay]="50"
-                                for="alias-name"
-                                placement="bottom-left"
-                                tooltip="{{ 'ASSIGN_ALIAS.NAME.TOOLTIP' | translate }}"
-                                tooltipClass="table-tooltip assign-alias-tooltip"
-                            >
-                                {{ 'ASSIGN_ALIAS.NAME.LABEL' | translate }}
-                            </label>
-                            <div class="has-no-edit-symbol">
-                                <input
-                                    (contextmenu)="variablesService.onContextMenu($event)"
-                                    [placeholder]="'ASSIGN_ALIAS.NAME.PLACEHOLDER' | translate"
-                                    class="form__field--input"
-                                    formControlName="name"
-                                    id="alias-name"
-                                    type="text"
-                                />
-                            </div>
-                            <div
-                                *ngIf="
-                                    assignForm.controls['name'].invalid &&
-                                    (assignForm.controls['name'].dirty || assignForm.controls['name'].touched)
-                                "
-                                class="error"
-                            >
-                                <div
-                                    *ngIf="
-                                        assignForm.controls['name'].errors['pattern'] &&
-                                        assignForm.get('name').value.length > 6 &&
-                                        assignForm.get('name').value.length <= 25
-                                    "
-                                >
-                                    {{ 'ASSIGN_ALIAS.FORM_ERRORS.NAME_WRONG' | translate }}
-                                </div>
-                                <div *ngIf="assignForm.get('name').value.length <= 6 || assignForm.get('name').value.length > 25">
-                                    {{ 'ASSIGN_ALIAS.FORM_ERRORS.NAME_LENGTH' | translate }}
-                                </div>
-                            </div>
-                            <div *ngIf="alias.exists" class="error">
-                                <div>
-                                    {{ 'ASSIGN_ALIAS.FORM_ERRORS.NAME_EXISTS' | translate }}
-                                </div>
-                            </div>
-                            <div *ngIf="notEnoughMoney" class="error">
-                                <div>
-                                    {{ 'ASSIGN_ALIAS.FORM_ERRORS.NO_MONEY' | translate }}
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="form__field textarea">
-                            <label
-                                [delay]="50"
-                                for="alias-comment"
-                                placement="bottom-left"
-                                tooltip="{{ 'ASSIGN_ALIAS.COMMENT.TOOLTIP' | translate }}"
-                                tooltipClass="table-tooltip assign-alias-tooltip"
-                            >
-                                {{ 'ASSIGN_ALIAS.COMMENT.LABEL' | translate }}
-                            </label>
-                            <textarea
-                                (contextmenu)="variablesService.onContextMenu($event)"
-                                [maxLength]="variablesService.maxCommentLength"
-                                class="scrolled-content"
-                                formControlName="comment"
-                                id="alias-comment"
-                                placeholder="{{ 'ASSIGN_ALIAS.COMMENT.PLACEHOLDER' | translate }}"
-                            >
-                            </textarea>
-                            <div *ngIf="assignForm.get('comment').value.length >= variablesService.maxCommentLength" class="error">
-                                {{ 'ASSIGN_ALIAS.FORM_ERRORS.MAX_LENGTH' | translate }}
-                            </div>
-                        </div>
-
-                        <p class="mb-2">
-                            {{
-                                'ASSIGN_ALIAS.COST'
-                                    | translate
-                                        : {
-                                              value: alias.price | intToMoney,
-                                              currency: variablesService.defaultTicker
-                                          }
-                            }}
-                        </p>
-
-                        <button
-                            (click)="assignAlias()"
-                            [disabled]="!assignForm.valid || !canRegister || notEnoughMoney"
-                            class="primary big w-100"
-                            type="button"
-                        >
-                            {{ 'ASSIGN_ALIAS.BUTTON_ASSIGN' | translate }}
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    `,
+    templateUrl: './assign-alias.component.html',
     styles: [
         `
             :host {
@@ -141,9 +27,9 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
     ],
 })
 export class AssignAliasComponent implements OnInit, OnDestroy {
-    wallet: Wallet;
+    public wallet: Wallet = this.variablesService.currentWallet;
 
-    breadcrumbItems: BreadcrumbItems = [
+    public readonly breadcrumbItems: BreadcrumbItems = [
         {
             routerLink: '/wallet/history',
             title: this.variablesService.currentWallet.name,
@@ -153,14 +39,22 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
         },
     ];
 
-    fb = inject(FormBuilder);
+    private readonly _fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
 
-    assignForm = this.fb.group({
-        name: this.fb.nonNullable.control('', [Validators.required, Validators.pattern(regExpAliasName)]),
-        comment: this.fb.nonNullable.control('', [Validators.maxLength(this.variablesService.maxCommentLength)]),
+    public readonly form = this._fb.group({
+        name: this._fb.control(
+            '',
+            Validators.compose([
+                Validators.required,
+                Validators.minLength(6),
+                Validators.maxLength(25),
+                Validators.pattern(regExpRegisterAliasName),
+            ])
+        ),
+        comment: this._fb.control('', Validators.compose([Validators.maxLength(this.variablesService.maxCommentLength)])),
     });
 
-    alias = {
+    public alias = {
         name: '',
         fee: this.variablesService.default_fee,
         price: new BigNumber(0),
@@ -170,98 +64,116 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
         exists: false,
     };
 
-    canRegister = false;
+    public canRegister: boolean = false;
 
-    notEnoughMoney = false;
+    public notEnoughMoney: boolean = false;
 
-    private destroy$ = new Subject<void>();
+    private _destroy$: Subject<void> = new Subject<void>();
 
     constructor(
-        public variablesService: VariablesService,
-        private ngZone: NgZone,
-        private router: Router,
-        private backend: BackendService,
-        private modalService: ModalService,
-        private intToMoney: IntToMoneyPipe
+        public readonly variablesService: VariablesService,
+        private readonly _ngZone: NgZone,
+        private readonly _router: Router,
+        private readonly _backendService: BackendService,
+        private readonly _modalService: ModalService,
+        private readonly _intToMoney: IntToMoneyPipe
     ) {}
 
     ngOnInit(): void {
-        this.wallet = this.variablesService.currentWallet;
-        this.assignForm
-            .get('name')
-            .valueChanges.pipe(takeUntil(this.destroy$))
-            .subscribe({
-                next: value => {
-                    this.canRegister = false;
-                    this.alias.exists = false;
-                    const newName = value.toLowerCase().replace('@', '');
-                    if (
-                        !(this.assignForm.controls['name'].errors && hasOwnProperty(this.assignForm.controls['name'].errors, 'pattern')) &&
-                        newName.length >= 6 &&
-                        newName.length <= 25
-                    ) {
-                        this.backend.getAliasInfoByName(newName, status => {
-                            this.ngZone.run(() => {
-                                this.alias.exists = status;
-                            });
-                            if (!status) {
-                                this.alias.price = new BigNumber(0);
-                                this.backend.getAliasCoast(newName, (statusPrice, dataPrice) => {
-                                    this.ngZone.run(() => {
-                                        if (statusPrice) {
-                                            this.alias.price = BigNumber.sum(dataPrice['coast'], this.variablesService.default_fee_big);
-                                        }
-                                        const unlocked_balance = new BigNumber(this.wallet.getBalanceByTicker('ZANO')?.unlocked || 0);
-                                        this.notEnoughMoney = this.alias.price.isGreaterThan(unlocked_balance);
-                                        this.alias.reward = this.intToMoney.transform(this.alias.price);
-                                        this.alias.rewardOriginal = this.intToMoney.transform(dataPrice['coast']);
-                                        this.canRegister = !this.notEnoughMoney;
-                                    });
-                                });
-                            } else {
-                                this.notEnoughMoney = false;
-                                this.alias.reward = '0';
-                                this.alias.rewardOriginal = '0';
-                            }
-                        });
-                    } else {
-                        this.notEnoughMoney = false;
-                        this.alias.reward = '0';
-                        this.alias.rewardOriginal = '0';
-                    }
-                    this.alias.name = newName;
-                },
-            });
+        this._subscribeToNameValueChanges();
     }
 
     ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
+        this._destroy$.next();
+        this._destroy$.complete();
     }
 
-    assignAlias(): void {
-        const alias = this.backend.getWalletAlias(this.wallet.address);
+    public beforeSubmit(): void {
+        if (!this.canRegister) {
+            return;
+        }
+
+        if (this.notEnoughMoney) {
+            return;
+        }
+
+        if (this.form.invalid) {
+            this.form.markAllAsTouched();
+            this.form.updateValueAndValidity();
+            return;
+        }
+
+        this.submit();
+    }
+
+    public submit(): void {
+        const alias = this._backendService.getWalletAlias(this.wallet.address);
         if (hasOwnProperty(alias, 'name')) {
-            this.modalService.prepareModal('info', 'ASSIGN_ALIAS.ONE_ALIAS');
+            this._modalService.prepareModal('info', 'ASSIGN_ALIAS.ONE_ALIAS');
         } else {
-            this.alias.comment = this.assignForm.get('comment').value;
-            this.backend.registerAlias(
+            this.alias.comment = this.form.controls.comment.value;
+            this._backendService.registerAlias(
                 this.wallet.wallet_id,
                 this.alias.name,
                 this.wallet.address,
                 this.alias.fee,
                 this.alias.comment,
                 this.alias.rewardOriginal,
-                async status => {
+                async (status) => {
                     if (status) {
                         this.wallet.wakeAlias = true;
-                        this.modalService.prepareModal('info', 'ASSIGN_ALIAS.REQUEST_ADD_REG');
-                        await this.ngZone.run(async () => {
-                            await this.router.navigate(['/wallet/']);
+                        this._modalService.prepareModal('info', 'ASSIGN_ALIAS.REQUEST_ADD_REG');
+                        await this._ngZone.run(async () => {
+                            await this._router.navigate(['/wallet/']);
                         });
                     }
                 }
             );
         }
+    }
+
+    private _subscribeToNameValueChanges(): void {
+        const {
+            controls: { name: control },
+        } = this.form;
+
+        control.valueChanges.pipe(takeUntil(this._destroy$)).subscribe({
+            next: value => {
+                this.canRegister = false;
+                this.alias.exists = false;
+                const newName = value.toLowerCase().replace('@', '');
+                if (!(control.errors && control.hasError('pattern')) && newName.length >= 6 && newName.length <= 25) {
+                    this._backendService.getAliasInfoByName(newName, status => {
+                        this._ngZone.run(() => {
+                            this.alias.exists = status;
+                        });
+                        if (!status) {
+                            this.alias.price = new BigNumber(0);
+                            this._backendService.getAliasCoast(newName, (statusPrice, dataPrice) => {
+                                this._ngZone.run(() => {
+                                    if (statusPrice) {
+                                        this.alias.price = BigNumber.sum(dataPrice['coast'], this.variablesService.default_fee_big);
+                                    }
+                                    const unlocked_balance = new BigNumber(this.wallet.getBalanceByTicker('ZANO')?.unlocked || 0);
+                                    this.notEnoughMoney = this.alias.price.isGreaterThan(unlocked_balance);
+                                    this.alias.reward = this._intToMoney.transform(this.alias.price);
+                                    this.alias.rewardOriginal = this._intToMoney.transform(dataPrice['coast']);
+                                    this.canRegister = !this.notEnoughMoney;
+                                });
+                            });
+                        } else {
+                            this.notEnoughMoney = false;
+                            this.alias.reward = '0';
+                            this.alias.rewardOriginal = '0';
+                        }
+                    });
+                } else {
+                    this.notEnoughMoney = false;
+                    this.alias.reward = '0';
+                    this.alias.rewardOriginal = '0';
+                }
+                this.alias.name = newName;
+            },
+        });
     }
 }

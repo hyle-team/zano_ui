@@ -4,6 +4,7 @@ import { MIMETypes } from '@parts/utils/MIME-types';
 
 export const regExpHex = /^[a-f0-9]{64}$/i;
 export const regExpAliasName = /^@?[a-z\d.-]{2,25}$/;
+export const regExpRegisterAliasName = /^@?[a-z\d.-]{6,25}$/;
 export const regExpPassword = /^[A-Za-z0-9!@#$%^&*()_+\-={}\[\]|:;"'<>,.?/~`]{1,40}$/;
 
 export class ZanoValidators {

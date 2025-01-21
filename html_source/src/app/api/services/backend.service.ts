@@ -450,12 +450,15 @@ export class BackendService {
         this.asyncCall(Commands.transfer, params, callback);
     }
 
-    setupJwtWalletRpc(value: { zanoCompation: boolean; secret: string }): void {
+    setupJwtWalletRpc(value: { zanoCompation: boolean; secret: string }, callback?: () => void): void {
         const { secret } = value;
 
         this.runCommand(Commands.setup_jwt_wallet_rpc, secret, () => {
             this.variablesService.settings.zanoCompanionForm = value;
             this.storeAppData();
+            if (callback) {
+                callback();
+            }
         });
     }
 
