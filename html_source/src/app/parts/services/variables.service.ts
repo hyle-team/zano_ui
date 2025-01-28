@@ -1,16 +1,18 @@
 import { inject, Injectable, NgZone, OnDestroy } from '@angular/core';
 import { DeeplinkParams, Wallet } from '@api/models/wallet.model';
 import { Contact } from '@api/models/contact.model';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, concatMap, from, Observable, scan, Subject } from 'rxjs';
 import { Idle } from 'idlejs/dist';
 import { Router } from '@angular/router';
 import { ContextMenuComponent, ContextMenuService } from '@perfectmemory/ngx-contextmenu';
 import { BigNumber } from 'bignumber.js';
 import { Aliases } from '@api/models/alias.model';
-import { distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, takeUntil } from 'rxjs/operators';
 import { Dialog } from '@angular/cdk/dialog';
 import { MatDialog } from '@angular/material/dialog';
-import { VerifiedAssetInfoWhitelist } from '@api/models/assets.model';
+import { AssetBalance, VerifiedAssetInfoWhitelist } from '@api/models/assets.model';
+import { CurrentPriceForAsset, CurrentPriceForAssets } from '@api/models/api.models';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
     providedIn: 'root',
@@ -49,10 +51,6 @@ export class VariablesService implements OnDestroy {
     maximum_value: BigNumber = new BigNumber('18446744073709551615');
 
     appLogin: boolean = false;
-
-    zanoMoneyEquivalent: number = 0;
-
-    zanoMoneyEquivalentPercent: number = 0;
 
     defaultTicker: 'ZANO' = 'ZANO';
 
@@ -140,6 +138,10 @@ export class VariablesService implements OnDestroy {
 
     currentWallet: Wallet;
 
+    currentPriceForAssets: CurrentPriceForAssets = {};
+
+    currentPriceForAssets$: BehaviorSubject<CurrentPriceForAssets> = new BehaviorSubject({});
+
     aliases: Aliases = [];
 
     aliasesChecked: any = {};
@@ -205,7 +207,7 @@ export class VariablesService implements OnDestroy {
 
     private _destroy$: Subject<void> = new Subject<void>();
 
-    constructor(private router: Router, private ngZone: NgZone, private contextMenuService: ContextMenuService<any>) {
+    constructor(private router: Router, private ngZone: NgZone, private contextMenuService: ContextMenuService<any>, private _httpClient: HttpClient) {
         this.visibilityBalance$.pipe(takeUntil(this._destroy$)).subscribe({
             next: visibilityBalance => {
                 this.settings.visibilityBalance = visibilityBalance;
@@ -376,5 +378,47 @@ export class VariablesService implements OnDestroy {
             $event.preventDefault();
             $event.stopPropagation();
         }
+    }
+
+
+    loadCurrentPriceForAssets(): void {
+        const wallets = this.wallets;
+
+        if (!wallets.length) {
+            return;
+        }
+
+        wallets.forEach(wallet => {
+            const { balances } = wallet;
+            this.loadCurrentPriceForAssetsByBalances(balances);
+        });
+    }
+
+    loadCurrentPriceForAssetsByBalances(balances: AssetBalance[]): void {
+        const predicateGetCurrentPriceForAsset = ({ asset_info: { asset_id } }: AssetBalance) =>
+            this._httpClient
+                .get<
+                    CurrentPriceForAsset & {
+                    asset_id: string;
+                }
+                >(`https://explorer.zano.org/api/price?asset_id=${asset_id}`)
+                .pipe(map(response => ({ ...response, asset_id })));
+        from(balances.map(predicateGetCurrentPriceForAsset))
+            .pipe(
+                concatMap(observable => observable),
+                filter(({ success }) => success),
+                scan((acc, value) => {
+                    const { asset_id, data, success } = value;
+                    return { ...acc, [asset_id]: { data, success } };
+                }, <CurrentPriceForAssets>{})
+            )
+            .subscribe({
+                next: (currentPriceForAssets: CurrentPriceForAssets) => {
+                    const prevCurrentPriceForAssets = this.currentPriceForAssets;
+                    const newCurrentPriceForAssets = { ...prevCurrentPriceForAssets, ...currentPriceForAssets };
+                    this.currentPriceForAssets = newCurrentPriceForAssets;
+                    this.currentPriceForAssets$.next(newCurrentPriceForAssets);
+                },
+            });
     }
 }
