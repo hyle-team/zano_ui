@@ -774,7 +774,7 @@ export class AppComponent implements OnInit, OnDestroy {
             .pipe(takeUntil(this.destroy$))
             .subscribe({
                 next: () => {
-                    this.variablesService.loadCurrentPriceForAssets();
+                    this.variablesService.loadCurrentPriceForAllAssets();
                 },
             });
 

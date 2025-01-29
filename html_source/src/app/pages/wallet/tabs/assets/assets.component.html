@@ -58,10 +58,12 @@
                         <div class="text-ellipsis">
                             <ng-container
                                 *ngIf="variablesService.currentPriceForAssets[balance.asset_info.asset_id] as currentPriceForAsset">
-                                <b *appVisibilityBalance>{{
+                                <b *appVisibilityBalance>
+                                    {{
                                         (balance.total | intToMoney : balance.asset_info.decimal_point) *
-                                        currentPriceForAsset.data.usd | currency : 'USD'
-                                    }}</b>
+                                        (currentPriceForAsset.data.usd ?? 0) | currency : 'USD'
+                                    }}
+                                </b>
                             </ng-container>
                         </div>
                     </td>
@@ -70,11 +72,18 @@
                         <div class="text-ellipsis">
                             <ng-container
                                 *ngIf="variablesService.currentPriceForAssets[balance.asset_info.asset_id] as currentPriceForAsset">
-                                <b class="mr-0_5">{{ currentPriceForAsset.data.usd | currency : 'USD' }}</b>
-                                <span
-                                    [class.color-aqua]="currentPriceForAsset.data.usd_24h_change  > 0"
-                                    [class.color-red]="currentPriceForAsset.data.usd_24h_change < 0"
-                                >{{ currentPriceForAsset.data.usd_24h_change | number : '1.2-2' }} %</span>
+                                <ng-container *ngIf="currentPriceForAsset.data.usd !== null">
+                                    <b class="mr-0_5">{{ currentPriceForAsset.data.usd | currency : 'USD' }}</b>
+                                </ng-container>
+
+                                <ng-container *ngIf="currentPriceForAsset.data.usd_24h_change !== null">
+                                    <span
+                                        [class.color-aqua]="currentPriceForAsset.data.usd_24h_change  > 0"
+                                        [class.color-red]="currentPriceForAsset.data.usd_24h_change < 0"
+                                    >
+                                        {{ currentPriceForAsset.data.usd_24h_change | number : '1.2-2' }} %
+                                    </span>
+                                </ng-container>
                             </ng-container>
                         </div>
                     </td>
