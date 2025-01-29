@@ -97,6 +97,8 @@ export class WalletsService {
                 if (status) {
                     const { balances } = response_data;
                     wallet.balances = balances;
+
+                    this._variablesService.loadCurrentPriceForAssets(balances);
                 }
             });
         };

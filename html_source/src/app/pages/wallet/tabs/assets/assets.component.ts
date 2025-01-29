@@ -194,10 +194,6 @@ export class AssetsComponent implements OnInit, OnDestroy {
         return ![zanoAssetInfo.asset_id, ...verifiedAssetInfoWhitelist.map(i => i.asset_id)].includes(asset_id);
     }
 
-    isShowPriceColumns(balance: AssetBalance): boolean {
-        return balance.asset_info.asset_id === zanoAssetInfo.asset_id;
-    }
-
     private _listenChangeWallet(): void {
         const { currentWalletChangedEvent } = this.variablesService;
         currentWalletChangedEvent.pipe(takeUntil(this._destroy$)).subscribe({

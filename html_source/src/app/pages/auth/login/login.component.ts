@@ -305,19 +305,6 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.submitLoading$.next(false);
     }
 
-    closeAllWallets(): void {
-        this.variablesService.wallets.forEach(({ wallet_id }) => this.closeWallet(wallet_id));
-    }
-
-    closeWallet(wallet_id) {
-        this.backend.closeWallet(wallet_id, () => {
-            for (let i = this.variablesService.wallets.length - 1; i >= 0; i--) {
-                this.variablesService.wallets.splice(i, 1);
-                this.backend.storeSecureAppData();
-            }
-        });
-    }
-
     private setAuthPassError(errors: ValidationErrors | null): void {
         this.authForm.controls['password'].setErrors(errors);
     }
