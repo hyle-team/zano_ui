@@ -10,8 +10,7 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Wallet": () => (/* binding */ Wallet),
-/* harmony export */   "defaultAssetsInfoWhitelist": () => (/* binding */ defaultAssetsInfoWhitelist),
-/* harmony export */   "defaultVerificationAssetsInfoWhitelist": () => (/* binding */ defaultVerificationAssetsInfoWhitelist)
+/* harmony export */   "defaultAssetsInfoWhitelist": () => (/* binding */ defaultAssetsInfoWhitelist)
 /* harmony export */ });
 /* harmony import */ var bignumber_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! bignumber.js */ 82481);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! rxjs */ 76317);
@@ -23,7 +22,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const defaultAssetsInfoWhitelist = { global_whitelist: [], local_whitelist: [], own_assets: [] };
-const defaultVerificationAssetsInfoWhitelist = [];
 const sortBalances = (value) => {
     const sortedBalances = [];
     if (value) {
@@ -39,8 +37,8 @@ const sortBalances = (value) => {
     return sortedBalances;
 };
 const prepareBalances = (value) => {
-    const [assetBalances, assetInfoWhitelist, verifiedAssetInfoWhitelist] = value;
-    const items = [...assetBalances];
+    const [assetBalances, assetInfoWhitelist, verifiedAssetInfoWhitelist, localBlacklistVerifiedAssets] = value;
+    let items = [...assetBalances];
     const ensureLogoAndPriceUrl = (asset_info) => ({
         ...asset_info,
         logo: asset_info.logo || (asset_info.asset_id === _parts_data_assets__WEBPACK_IMPORTED_MODULE_1__.zanoAssetInfo.asset_id ? _parts_data_assets__WEBPACK_IMPORTED_MODULE_1__.zanoAssetInfo.logo : _parts_data_assets__WEBPACK_IMPORTED_MODULE_1__.defaultAssetLogoSrc),
@@ -72,6 +70,9 @@ const prepareBalances = (value) => {
     for (const assetBalance of items) {
         assetBalance.asset_info = ensureLogoAndPriceUrl(assetBalance.asset_info);
     }
+    if (localBlacklistVerifiedAssets.length) {
+        items = items.filter(({ asset_info: { asset_id } }) => !localBlacklistVerifiedAssets.includes(asset_id));
+    }
     return items;
 };
 class Wallet {
@@ -80,7 +81,8 @@ class Wallet {
         this.assetsInfoWhitelist = defaultAssetsInfoWhitelist;
         this.originalBalances$ = new rxjs__WEBPACK_IMPORTED_MODULE_2__.BehaviorSubject([]);
         this.assetsInfoWhitelist$ = new rxjs__WEBPACK_IMPORTED_MODULE_2__.BehaviorSubject(defaultAssetsInfoWhitelist);
-        this.verificationAssetsInfoWhitelist$ = new rxjs__WEBPACK_IMPORTED_MODULE_2__.BehaviorSubject(defaultVerificationAssetsInfoWhitelist);
+        this.verificationAssetsInfoWhitelist$ = new rxjs__WEBPACK_IMPORTED_MODULE_2__.BehaviorSubject([]);
+        this.localBlacklistVerifiedAssets$ = new rxjs__WEBPACK_IMPORTED_MODULE_2__.BehaviorSubject([]);
         this.balances$ = new rxjs__WEBPACK_IMPORTED_MODULE_2__.BehaviorSubject([]);
         this.has_bare_unspent_outputs = false;
         this.history = [];
@@ -108,10 +110,13 @@ class Wallet {
             this.originalBalances$.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_4__.map)(sortBalances)),
             this.assetsInfoWhitelist$,
             this.verificationAssetsInfoWhitelist$,
-        ]).pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_4__.map)(prepareBalances)).subscribe({
-            next: (value) => {
+            this.localBlacklistVerifiedAssets$,
+        ])
+            .pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_4__.map)(prepareBalances))
+            .subscribe({
+            next: value => {
                 this.balances$.next(value);
-            }
+            },
         });
     }
     get allAssetsInfoWhitelist() {
@@ -189,6 +194,14 @@ class Wallet {
                 break;
             }
         }
+    }
+    addAssetToLocalBlacklistVerifiedAssets(asset_id) {
+        const blackList = [...this.localBlacklistVerifiedAssets$.value, asset_id];
+        this.localBlacklistVerifiedAssets$.next(blackList);
+    }
+    removeAssetFromLocalBlacklistVerifiedAssets(asset_id) {
+        const blackList = this.localBlacklistVerifiedAssets$.value.filter(v => v !== asset_id);
+        this.localBlacklistVerifiedAssets$.next(blackList);
     }
 }
 
@@ -498,14 +511,28 @@ class BackendService {
   }
 
   storeAppData(callback) {
-    if (this.variablesService.wallets.length > 0) {
+    const {
+      wallets
+    } = this.variablesService;
+
+    if (wallets.length > 0) {
       this.variablesService.settings.wallets = [];
-      this.variablesService.wallets.forEach(wallet => {
+      wallets.forEach(wallet => {
         this.variablesService.settings.wallets.push({
           name: wallet.name,
           path: wallet.path
         });
       });
+      this.variablesService.settings.localBlacklistsOfVerifiedAssetsByWallets = wallets.reduce((acc, {
+        address,
+        localBlacklistVerifiedAssets$: {
+          value: localBlacklistVerifiedAssets
+        }
+      }) => {
+        return { ...acc,
+          [address]: localBlacklistVerifiedAssets
+        };
+      }, {});
     }
 
     this.runCommand(Commands.store_app_data, this.variablesService.settings, callback);
@@ -2277,7 +2304,7 @@ class AppComponent {
       next: ({
         assets
       }) => {
-        this.variablesService.verifiedAssetInfoWhitelist$.next(assets);
+        this.variablesService.verifiedAssetInfoWhitelist = assets;
 
         this._walletsService.setVerifiedAssetInfoWhitelist(assets);
       }
@@ -9656,11 +9683,36 @@ function AssetsComponent_ng_template_30_ng_container_7_ng_container_7_Template(r
   }
 
   if (rf & 2) {
-    const ctx_r36 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnextContext"](3);
+    const ctx_r35 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnextContext"](3);
     _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵproperty"]("state", _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵpureFunction1"](4, _c0, ctx_r36.currentAssetBalance));
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵproperty"]("state", _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵpureFunction1"](4, _c0, ctx_r35.currentAssetBalance));
     _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵadvance"](3);
     _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵpipeBind1"](6, 2, "Swap"));
+  }
+}
+
+function AssetsComponent_ng_template_30_ng_container_7_ng_container_9_Template(rf, ctx) {
+  if (rf & 1) {
+    const _r38 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵgetCurrentView"]();
+
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelementContainerStart"](0);
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelementStart"](1, "li", 29)(2, "button", 30);
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵlistener"]("click", function AssetsComponent_ng_template_30_ng_container_7_ng_container_9_Template_button_click_2_listener() {
+      _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵrestoreView"](_r38);
+      const ctx_r37 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnextContext"](3);
+      return _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵresetView"](ctx_r37.beforeRemoveAsset());
+    });
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelement"](3, "mat-icon", 36);
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelementStart"](4, "span");
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵtext"](5);
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵpipe"](6, "translate");
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelementEnd"]()()();
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelementContainerEnd"]();
+  }
+
+  if (rf & 2) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵadvance"](5);
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵpipeBind1"](6, 1, "ASSETS.DROP_DOWN_MENU.REMOVE_ASSET"));
   }
 }
 
@@ -9675,42 +9727,20 @@ function AssetsComponent_ng_template_30_ng_container_7_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelementEnd"]()()();
     _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵtemplate"](7, AssetsComponent_ng_template_30_ng_container_7_ng_container_7_Template, 7, 6, "ng-container", 13);
     _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵpipe"](8, "async");
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵtemplate"](9, AssetsComponent_ng_template_30_ng_container_7_ng_container_9_Template, 7, 3, "ng-container", 13);
     _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelementContainerEnd"]();
   }
 
   if (rf & 2) {
     const ctx_r34 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnextContext"](2);
     _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵproperty"]("state", _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵpureFunction1"](7, _c0, ctx_r34.currentAssetBalance));
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵproperty"]("state", _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵpureFunction1"](8, _c0, ctx_r34.currentAssetBalance));
     _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵadvance"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵpipeBind1"](6, 3, "Send"));
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵpipeBind1"](6, 4, "Send"));
     _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵproperty"]("ngIf", _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵpipeBind1"](8, 5, ctx_r34.variablesService.is_hardfok_active$));
-  }
-}
-
-function AssetsComponent_ng_template_30_ng_container_8_Template(rf, ctx) {
-  if (rf & 1) {
-    const _r38 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵgetCurrentView"]();
-
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelementContainerStart"](0);
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelementStart"](1, "li", 29)(2, "button", 30);
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵlistener"]("click", function AssetsComponent_ng_template_30_ng_container_8_Template_button_click_2_listener() {
-      _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵrestoreView"](_r38);
-      const ctx_r37 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnextContext"](2);
-      return _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵresetView"](ctx_r37.beforeRemoveAsset());
-    });
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelement"](3, "mat-icon", 36);
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelementStart"](4, "span");
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵtext"](5);
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵpipe"](6, "translate");
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelementEnd"]()()();
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelementContainerEnd"]();
-  }
-
-  if (rf & 2) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵadvance"](5);
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵpipeBind1"](6, 1, "ASSETS.DROP_DOWN_MENU.REMOVE_ASSET"));
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵproperty"]("ngIf", _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵpipeBind1"](8, 6, ctx_r34.variablesService.is_hardfok_active$));
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵadvance"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵproperty"]("ngIf", ctx_r34.isShowDeleteAsset());
   }
 }
 
@@ -9735,19 +9765,16 @@ function AssetsComponent_ng_template_30_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵtext"](5);
     _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵpipe"](6, "translate");
     _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelementEnd"]()()();
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵtemplate"](7, AssetsComponent_ng_template_30_ng_container_7_Template, 9, 9, "ng-container", 13);
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵtemplate"](8, AssetsComponent_ng_template_30_ng_container_8_Template, 7, 3, "ng-container", 13);
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵtemplate"](7, AssetsComponent_ng_template_30_ng_container_7_Template, 10, 10, "ng-container", 13);
     _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelementEnd"]();
   }
 
   if (rf & 2) {
     const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵnextContext"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵadvance"](5);
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵpipeBind1"](6, 3, "ASSETS.DROP_DOWN_MENU.ASSET_DETAILS"));
+    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵpipeBind1"](6, 2, "ASSETS.DROP_DOWN_MENU.ASSET_DETAILS"));
     _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵadvance"](2);
     _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵproperty"]("ngIf", ctx_r2.variablesService.currentWallet.loaded && ctx_r2.variablesService.daemon_state === 2 && !ctx_r2.variablesService.currentWallet.is_auditable && !ctx_r2.variablesService.currentWallet.is_watch_only);
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵproperty"]("ngIf", ctx_r2.isShowDeleteAsset());
   }
 }
 
@@ -9861,7 +9888,8 @@ class AssetsComponent {
 
   _removeAsset() {
     const {
-      currentWallet
+      currentWallet,
+      verifiedAssetIdWhitelist
     } = this.variablesService;
     const {
       wallet_id,
@@ -9872,22 +9900,28 @@ class AssetsComponent {
         asset_id
       }
     } = this.currentAssetBalance;
-    const params = {
-      wallet_id,
-      asset_id
-    };
+    const isVerifiedAsset = verifiedAssetIdWhitelist.includes(asset_id);
 
-    this._backendService.removeCustomAssetId(params, () => {
-      this._ngZone.run(() => {
-        if ((sendMoneyParams === null || sendMoneyParams === void 0 ? void 0 : sendMoneyParams.asset_id) === asset_id) {
-          this._walletsService.currentWallet.sendMoneyParams.asset_id = _parts_data_assets__WEBPACK_IMPORTED_MODULE_8__.zanoAssetInfo.asset_id;
-        }
+    if (isVerifiedAsset) {
+      currentWallet.addAssetToLocalBlacklistVerifiedAssets(asset_id);
+    } else {
+      const params = {
+        wallet_id,
+        asset_id
+      };
 
-        this._walletsService.updateWalletInfo(wallet_id);
+      this._backendService.removeCustomAssetId(params, () => {
+        this._ngZone.run(() => {
+          if ((sendMoneyParams === null || sendMoneyParams === void 0 ? void 0 : sendMoneyParams.asset_id) === asset_id) {
+            this._walletsService.currentWallet.sendMoneyParams.asset_id = _parts_data_assets__WEBPACK_IMPORTED_MODULE_8__.zanoAssetInfo.asset_id;
+          }
 
-        this.currentAssetBalance = undefined;
+          this._walletsService.updateWalletInfo(wallet_id);
+
+          this.currentAssetBalance = undefined;
+        });
       });
-    });
+    }
   }
 
   getBalanceTooltip(balance) {
@@ -9940,16 +9974,9 @@ class AssetsComponent {
         asset_id
       }
     } = this.currentAssetBalance;
-    const {
-      verifiedAssetInfoWhitelist$: {
-        value: verifiedAssetInfoWhitelist
-      }
-    } = this.variablesService;
-    /**
-     * You can't delete asset zano and assets that are in whitelist
-     * */
+    /** You can't delete asset zano */
 
-    return ![_parts_data_assets__WEBPACK_IMPORTED_MODULE_8__.zanoAssetInfo.asset_id, ...verifiedAssetInfoWhitelist.map(i => i.asset_id)].includes(asset_id);
+    return ![_parts_data_assets__WEBPACK_IMPORTED_MODULE_8__.zanoAssetInfo.asset_id].includes(asset_id);
   }
 
   _listenChangeWallet() {
@@ -10005,7 +10032,7 @@ AssetsComponent.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_13__
       _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelementEnd"]()()();
       _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵtemplate"](29, AssetsComponent_pagination_template_29_Template, 7, 5, "pagination-template", 6);
       _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵelementEnd"]();
-      _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵtemplate"](30, AssetsComponent_ng_template_30_Template, 9, 5, "ng-template", 7);
+      _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵtemplate"](30, AssetsComponent_ng_template_30_Template, 8, 4, "ng-template", 7);
       _angular_core__WEBPACK_IMPORTED_MODULE_13__["ɵɵlistener"]("backdropClick", function AssetsComponent_Template_ng_template_backdropClick_30_listener($event) {
         $event.stopPropagation();
         return ctx.isOpenDropDownMenu = false;
@@ -14979,8 +15006,6 @@ class SendComponent {
       currentWallet.sendMoneyParams = null;
       this.form.reset({ ...defaultSendMoneyParams,
         wallet_id
-      }, {
-        emitEvent: false
       });
     }
   }
@@ -18782,35 +18807,59 @@ class AddCustomTokenComponent {
     submit() {
         this.loading = true;
         const { asset_id } = this.formGroup.getRawValue();
-        const { wallet_id } = this.variablesService.currentWallet;
+        const { currentWallet, verifiedAssetIdWhitelist } = this.variablesService;
+        const { wallet_id, verificationAssetsInfoWhitelist$: { value: verificationAssetsInfoWhitelist } } = currentWallet;
         const params = {
             asset_id,
             wallet_id,
         };
-        this.backendService.addCustomAssetId(params, (status, { asset_descriptor }) => {
-            this.ngZone.run(() => {
-                if (status) {
-                    const asset = {
-                        asset_info: {
-                            ...asset_descriptor,
-                            asset_id,
-                        },
-                        awaiting_in: 0,
-                        awaiting_out: 0,
-                        total: 0,
-                        unlocked: 0,
-                    };
-                    this.walletsService.updateWalletInfo(wallet_id);
-                    this.matDialogRef.close(asset);
-                }
-                else {
-                    this.formGroup.controls.asset_id.setErrors({
-                        wrongAssetId: _parts_utils_zano_errors__WEBPACK_IMPORTED_MODULE_4__.wrongAssetId,
-                    });
-                    this.loading = false;
-                }
+        const isVerifiedAsset = verifiedAssetIdWhitelist.includes(asset_id);
+        if (isVerifiedAsset) {
+            currentWallet.removeAssetFromLocalBlacklistVerifiedAssets(asset_id);
+            const assetInfo = verificationAssetsInfoWhitelist.find((v) => v.asset_id === asset_id);
+            if (!assetInfo) {
+                this.matDialogRef.close();
+                return;
+            }
+            const asset = {
+                asset_info: {
+                    ...assetInfo,
+                    asset_id,
+                },
+                awaiting_in: 0,
+                awaiting_out: 0,
+                total: 0,
+                unlocked: 0,
+            };
+            this.walletsService.updateWalletInfo(wallet_id);
+            this.matDialogRef.close(asset);
+        }
+        else {
+            this.backendService.addCustomAssetId(params, (status, { asset_descriptor }) => {
+                this.ngZone.run(() => {
+                    if (status) {
+                        const asset = {
+                            asset_info: {
+                                ...asset_descriptor,
+                                asset_id,
+                            },
+                            awaiting_in: 0,
+                            awaiting_out: 0,
+                            total: 0,
+                            unlocked: 0,
+                        };
+                        this.walletsService.updateWalletInfo(wallet_id);
+                        this.matDialogRef.close(asset);
+                    }
+                    else {
+                        this.formGroup.controls.asset_id.setErrors({
+                            wrongAssetId: _parts_utils_zano_errors__WEBPACK_IMPORTED_MODULE_4__.wrongAssetId,
+                        });
+                        this.loading = false;
+                    }
+                });
             });
-        });
+        }
     }
 }
 AddCustomTokenComponent.ɵfac = function AddCustomTokenComponent_Factory(t) { return new (t || AddCustomTokenComponent)(); };
@@ -24965,7 +25014,8 @@ class VariablesService {
       isDarkTheme: true,
       filters: {
         stakingFilters: null
-      }
+      },
+      localBlacklistsOfVerifiedAssetsByWallets: {}
     };
     this.isDarkTheme$ = new rxjs__WEBPACK_IMPORTED_MODULE_4__.BehaviorSubject(true);
     this.count = 40;
@@ -24992,7 +25042,7 @@ class VariablesService {
     this.getAliasChangedEvent = new rxjs__WEBPACK_IMPORTED_MODULE_4__.BehaviorSubject(null);
     this.currentWalletChangedEvent = new rxjs__WEBPACK_IMPORTED_MODULE_4__.BehaviorSubject(null);
     this.refreshStakingEvent$ = new rxjs__WEBPACK_IMPORTED_MODULE_7__.Subject();
-    this.verifiedAssetInfoWhitelist$ = new rxjs__WEBPACK_IMPORTED_MODULE_4__.BehaviorSubject([]);
+    this.verifiedAssetInfoWhitelist = [];
     this._dialog = (0,_angular_core__WEBPACK_IMPORTED_MODULE_8__.inject)(_angular_cdk_dialog__WEBPACK_IMPORTED_MODULE_9__.Dialog);
     this._matDialog = (0,_angular_core__WEBPACK_IMPORTED_MODULE_8__.inject)(_angular_material_dialog__WEBPACK_IMPORTED_MODULE_10__.MatDialog);
     this.idle = new idlejs_dist__WEBPACK_IMPORTED_MODULE_1__.Idle().whenNotInteractive().do( /*#__PURE__*/(0,_home_runner_work_zano_ui_zano_ui_html_source_node_modules_babel_runtime_helpers_esm_asyncToGenerator_js__WEBPACK_IMPORTED_MODULE_0__["default"])(function* () {
@@ -25023,6 +25073,12 @@ class VariablesService {
         this.settings.visibilityBalance = visibilityBalance;
       }
     });
+  }
+
+  get verifiedAssetIdWhitelist() {
+    return this.verifiedAssetInfoWhitelist.map(({
+      asset_id
+    }) => asset_id);
   }
 
   ngOnDestroy() {
@@ -25320,10 +25376,14 @@ class WalletsService {
 
     const {
       wallet_id,
-      staking
+      staking,
+      address
     } = wallet;
     const {
-      verifiedAssetInfoWhitelist$
+      verifiedAssetInfoWhitelist,
+      settings: {
+        localBlacklistsOfVerifiedAssetsByWallets
+      }
     } = this._variablesService;
 
     if (staking) {
@@ -25334,10 +25394,14 @@ class WalletsService {
       this._backendService.show_notification('Wallet staking on', message);
     }
 
+    if (localBlacklistsOfVerifiedAssetsByWallets[address]) {
+      wallet.localBlacklistVerifiedAssets$.next(localBlacklistsOfVerifiedAssetsByWallets[address]);
+    }
+
     this._variablesService.wallets.push(wallet);
 
     this.updateWalletInfo(wallet_id);
-    this.setVerifiedAssetInfoWhitelist(verifiedAssetInfoWhitelist$.value);
+    this.setVerifiedAssetInfoWhitelist(verifiedAssetInfoWhitelist);
   }
 
   loadAssetsInfoWhitelist(wallet_id) {
@@ -25398,7 +25462,7 @@ class WalletsService {
           } = response_data;
           wallet.balances = balances;
 
-          this._variablesService.loadCurrentPriceForAssets(balances);
+          this._variablesService.loadCurrentPriceForAssets(wallet.balances);
         }
       });
     };
