@@ -168,6 +168,7 @@
                     <span>{{ 'Send' | translate }}</span>
                 </button>
             </li>
+
             <ng-container *ngIf="variablesService.is_hardfok_active$ | async">
                 <li class="item">
                     <button [state]="{ asset: currentAssetBalance }" class="w-100 px-2 py-1"
@@ -177,15 +178,15 @@
                     </button>
                 </li>
             </ng-container>
-        </ng-container>
 
-        <ng-container *ngIf="isShowDeleteAsset()">
-            <li class="item">
-                <button (click)="beforeRemoveAsset()" class="w-100 px-2 py-1" type="button">
-                    <mat-icon class="mr-1" svgIcon="zano-delete"></mat-icon>
-                    <span>{{ 'ASSETS.DROP_DOWN_MENU.REMOVE_ASSET' | translate }}</span>
-                </button>
-            </li>
+            <ng-container *ngIf="isShowDeleteAsset()">
+                <li class="item">
+                    <button (click)="beforeRemoveAsset()" class="w-100 px-2 py-1" type="button">
+                        <mat-icon class="mr-1" svgIcon="zano-delete"></mat-icon>
+                        <span>{{ 'ASSETS.DROP_DOWN_MENU.REMOVE_ASSET' | translate }}</span>
+                    </button>
+                </li>
+            </ng-container>
         </ng-container>
     </ul>
 </ng-template>

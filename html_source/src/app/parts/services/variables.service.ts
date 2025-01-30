@@ -10,7 +10,7 @@ import { Aliases } from '@api/models/alias.model';
 import { distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
 import { Dialog } from '@angular/cdk/dialog';
 import { MatDialog } from '@angular/material/dialog';
-import { VerifiedAssetInfoWhitelist } from '@api/models/assets.model';
+import { AssetInfo, VerifiedAssetInfoWhitelist } from '@api/models/assets.model';
 
 @Injectable({
     providedIn: 'root',
@@ -122,8 +122,9 @@ export class VariablesService implements OnDestroy {
         wallets: [],
         isDarkTheme: true,
         filters: {
-            stakingFilters: null
-        }
+            stakingFilters: null,
+        },
+        localBlacklistsOfVerifiedAssetsByWallets: {}
     };
 
     isDarkTheme$ = new BehaviorSubject(true);
@@ -174,7 +175,11 @@ export class VariablesService implements OnDestroy {
 
     refreshStakingEvent$: Subject<void> = new Subject<void>();
 
-    verifiedAssetInfoWhitelist$: BehaviorSubject<VerifiedAssetInfoWhitelist> = new BehaviorSubject([]);
+    verifiedAssetInfoWhitelist: VerifiedAssetInfoWhitelist = [];
+
+    get verifiedAssetIdWhitelist(): string[] {
+        return this.verifiedAssetInfoWhitelist.map(({ asset_id }: AssetInfo): string => asset_id);
+    }
 
     private _dialog: Dialog = inject(Dialog);
 
