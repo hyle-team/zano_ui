@@ -8,7 +8,7 @@ import { IntToMoneyPipe } from '@parts/pipes';
 import { BigNumber } from 'bignumber.js';
 import { ModalService } from '@parts/services/modal.service';
 import { StateKeys, Store } from '@store/store';
-import { interval, Subject, take } from 'rxjs';
+import { interval, Subject } from 'rxjs';
 import { retry, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { paths, pathsChildrenAuth } from './pages/paths';
 import { hasOwnProperty } from '@parts/functions/has-own-property';
@@ -19,6 +19,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MatDialog } from '@angular/material/dialog';
 import { ApiZanoService } from '@api/services/api-zano.service';
 import { WalletsService } from '@parts/services/wallets.service';
+
 
 @Component({
     selector: 'app-root',
@@ -53,8 +54,6 @@ import { WalletsService } from '@parts/services/wallets.service';
     `,
 })
 export class AppComponent implements OnInit, OnDestroy {
-    intervalUpdatePriceState;
-
     intervalUpdateContractsState;
 
     expMedTsEvent;
@@ -76,7 +75,8 @@ export class AppComponent implements OnInit, OnDestroy {
         [Breakpoints.Large, 'Large'],
         [Breakpoints.XLarge, 'XLarge'],
     ]);
-    private destroy$ = new Subject<void>();
+
+    private destroy$: Subject<void> = new Subject<void>();
 
     constructor(
         public variablesService: VariablesService,
@@ -96,40 +96,8 @@ export class AppComponent implements OnInit, OnDestroy {
         private _walletsService: WalletsService,
         private _breakpointObserver: BreakpointObserver
     ) {
-        translate.addLangs(['en', 'fr', 'de', 'it', 'pt']);
-        translate.setDefaultLang('en');
-        translate
-            .use('en')
-            .pipe(takeUntil(this.destroy$))
-            .subscribe({
-                next: () => {
-                    this.translateUsed = true;
-                },
-            });
-
+        this._setTranslate();
         this._setResponseClasses();
-    }
-
-    private _setResponseClasses(): void {
-        this._breakpointObserver
-            .observe([
-                Breakpoints.XSmall, // XSmall	(max-width: 599.98px)
-                Breakpoints.Small, // Small	(min-width: 600px) and (max-width: 959.98px)
-                Breakpoints.Medium, // Medium	(min-width: 960px) and (max-width: 1279.98px)
-                Breakpoints.Large, // Large	(min-width: 1280px) and (max-width: 1919.98px)
-                Breakpoints.XLarge, // XLarge	(min-width: 1920px)
-            ])
-            .pipe(takeUntil(this.destroy$))
-            .subscribe(result => {
-                for (const query of Object.keys(result.breakpoints)) {
-                    if (result.breakpoints[query]) {
-                        this.currentScreenSize = this.displayNameMap.get(query) ?? 'Unknown';
-
-                        document.body.classList.remove(...this.displayNameMap.values());
-                        document.body.classList.add(this.currentScreenSize);
-                    }
-                }
-            });
     }
 
     setBackendLocalization(): void {
@@ -728,8 +696,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
                         isDarkTheme$.next(settings.isDarkTheme);
                         visibilityBalance$.next(settings.visibilityBalance);
-                        // TODO: Delete this line after return appUseTor
-                        settings.appUseTor = false;
+                        settings.appUseTor = false; // TODO: Delete this line after return appUseTor
                         if (hasOwnProperty(settings, 'scale') && ['8px', '10px', '12px', '14px'].indexOf(settings.scale) !== -1) {
                             this.renderer.setStyle(document.documentElement, 'font-size', settings.scale);
                         } else {
@@ -802,21 +769,14 @@ export class AppComponent implements OnInit, OnDestroy {
             },
         });
 
-        this.variablesService.disable_price_fetch$.pipe(takeUntil(this.destroy$)).subscribe({
-            next: disable_price_fetch => {
-                const updateTime = 10 * 60 * 1000;
-                if (!disable_price_fetch) {
-                    this.updateMoneyEquivalent();
-                    this.intervalUpdatePriceState = setInterval(() => {
-                        this.updateMoneyEquivalent();
-                    }, updateTime);
-                } else {
-                    if (this.intervalUpdatePriceState) {
-                        clearInterval(this.intervalUpdatePriceState);
-                    }
-                }
-            },
-        });
+        const updateTime = 10 * 60 * 1000; // 10 minutes
+        interval(updateTime)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: () => {
+                    this.variablesService.loadCurrentPriceForAllAssets();
+                },
+            });
 
         this.variablesService.isDarkTheme$.pipe(takeUntil(this.destroy$)).subscribe({
             next: isDarkTheme => {
@@ -830,33 +790,7 @@ export class AppComponent implements OnInit, OnDestroy {
         if (this.intervalUpdateContractsState) {
             clearInterval(this.intervalUpdateContractsState);
         }
-        if (this.intervalUpdatePriceState) {
-            clearInterval(this.intervalUpdatePriceState);
-        }
         this.expMedTsEvent.unsubscribe();
-    }
-
-    updateMoneyEquivalent(): void {
-        this.http
-            .get('https://explorer.zano.org/api/price?asset=zano')
-            .pipe(take(1))
-            .subscribe({
-                next: ({ data, success }: { data: { zano: { usd: number; usd_24h_change: number } }; success: boolean }): void => {
-                    if (success) {
-                        this.variablesService.zanoMoneyEquivalent = data['zano']['usd'];
-                        this.variablesService.zanoMoneyEquivalentPercent = data['zano']['usd_24h_change'];
-                    }
-                },
-                error: error => {
-                    console.warn('api.coingecko.com price error: ', error);
-                },
-            });
-
-        this.variablesService.isDarkTheme$.pipe(takeUntil(this.destroy$)).subscribe({
-            next: isDarkTheme => {
-                this.renderer.setAttribute(document.documentElement, 'class', isDarkTheme ? 'dark' : 'light');
-            },
-        });
     }
 
     getAliases(): void {
@@ -967,23 +901,21 @@ export class AppComponent implements OnInit, OnDestroy {
         const updateTime: number = 60 * 1000; // 1 minutes
 
         interval(updateTime)
-            .pipe(
-                startWith(0),
-                takeUntil(this.destroy$)
-            ).subscribe({
-            next: () => {
-                const params = {
-                    jsonrpc: '2.0',
-                    method: 'getinfo',
-                };
+            .pipe(startWith(0), takeUntil(this.destroy$))
+            .subscribe({
+                next: () => {
+                    const params = {
+                        jsonrpc: '2.0',
+                        method: 'getinfo',
+                    };
 
-                this.backendService.call_rpc(params, (status, response_data) => {
-                    this.ngZone.run(() => {
-                        this.variablesService.info$.next(response_data.result);
+                    this.backendService.call_rpc(params, (status, response_data) => {
+                        this.ngZone.run(() => {
+                            this.variablesService.info$.next(response_data.result);
+                        });
                     });
-                });
-            }
-        });
+                },
+            });
     }
 
     private _getZanoCurrentSupply(): void {
@@ -1001,5 +933,40 @@ export class AppComponent implements OnInit, OnDestroy {
                 this.variablesService.zano_current_supply = response_data?.['result']?.['total_coins'] ?? 'Unknown';
             });
         });
+    }
+
+    private _setTranslate(): void {
+        this.translate.addLangs(['en', 'fr', 'de', 'it', 'pt']);
+        this.translate.setDefaultLang('en');
+        this.translate
+            .use('en')
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: () => {
+                    this.translateUsed = true;
+                },
+            });
+    }
+
+    private _setResponseClasses(): void {
+        this._breakpointObserver
+            .observe([
+                Breakpoints.XSmall, // XSmall	(max-width: 599.98px)
+                Breakpoints.Small, // Small	(min-width: 600px) and (max-width: 959.98px)
+                Breakpoints.Medium, // Medium	(min-width: 960px) and (max-width: 1279.98px)
+                Breakpoints.Large, // Large	(min-width: 1280px) and (max-width: 1919.98px)
+                Breakpoints.XLarge, // XLarge	(min-width: 1920px)
+            ])
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(result => {
+                for (const query of Object.keys(result.breakpoints)) {
+                    if (result.breakpoints[query]) {
+                        this.currentScreenSize = this.displayNameMap.get(query) ?? 'Unknown';
+
+                        document.body.classList.remove(...this.displayNameMap.values());
+                        document.body.classList.add(this.currentScreenSize);
+                    }
+                }
+            });
     }
 }
