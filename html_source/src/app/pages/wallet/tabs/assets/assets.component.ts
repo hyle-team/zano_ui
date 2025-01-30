@@ -85,7 +85,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
         const { asset_info } = this.currentAssetBalance;
         const config: MatDialogConfig = {
             data: {
-                asset_info
+                asset_info,
             },
         };
         this._matDialog.open(AssetDetailsComponent, config);
@@ -113,30 +113,34 @@ export class AssetsComponent implements OnInit, OnDestroy {
     }
 
     private _removeAsset(): void {
-        const {
-            currentWallet
-        } = this.variablesService;
+        const { currentWallet, verifiedAssetIdWhitelist } = this.variablesService;
         const { wallet_id, sendMoneyParams } = currentWallet;
         const {
             asset_info: { asset_id },
         } = this.currentAssetBalance;
 
-        const params: ParamsRemoveCustomAssetId = {
-            wallet_id,
-            asset_id,
-        };
+        const isVerifiedAsset: boolean = verifiedAssetIdWhitelist.includes(asset_id);
 
-        this._backendService.removeCustomAssetId(params, () => {
-            this._ngZone.run(() => {
-                if (sendMoneyParams?.asset_id === asset_id) {
-                    this._walletsService.currentWallet.sendMoneyParams.asset_id = zanoAssetInfo.asset_id;
-                }
+        if (isVerifiedAsset) {
+            currentWallet.addAssetToLocalBlacklistVerifiedAssets(asset_id);
+        } else {
+            const params: ParamsRemoveCustomAssetId = {
+                wallet_id,
+                asset_id,
+            };
 
-                this._walletsService.updateWalletInfo(wallet_id);
+            this._backendService.removeCustomAssetId(params, () => {
+                this._ngZone.run(() => {
+                    if (sendMoneyParams?.asset_id === asset_id) {
+                        this._walletsService.currentWallet.sendMoneyParams.asset_id = zanoAssetInfo.asset_id;
+                    }
 
-                this.currentAssetBalance = undefined;
+                    this._walletsService.updateWalletInfo(wallet_id);
+
+                    this.currentAssetBalance = undefined;
+                });
             });
-        });
+        }
     }
 
     getBalanceTooltip(balance: AssetBalance): HTMLDivElement {
@@ -185,13 +189,8 @@ export class AssetsComponent implements OnInit, OnDestroy {
         const {
             asset_info: { asset_id },
         } = this.currentAssetBalance;
-        const {
-            verifiedAssetInfoWhitelist$: { value: verifiedAssetInfoWhitelist },
-        } = this.variablesService;
-        /**
-         * You can't delete asset zano and assets that are in whitelist
-         * */
-        return ![zanoAssetInfo.asset_id, ...verifiedAssetInfoWhitelist.map(i => i.asset_id)].includes(asset_id);
+        /** You can't delete asset zano */
+        return ![zanoAssetInfo.asset_id].includes(asset_id);
     }
 
     private _listenChangeWallet(): void {

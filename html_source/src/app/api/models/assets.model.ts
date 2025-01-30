@@ -32,6 +32,8 @@ export interface AssetInfo {
 
 export type VerifiedAssetInfoWhitelist = AssetInfo[];
 
+export type LocalBlacklistVerifiedAssets = string[];
+
 export type AssetBalances = AssetBalance[];
 
 export interface ParamsCustomAssetId {

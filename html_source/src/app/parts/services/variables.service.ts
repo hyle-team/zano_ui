@@ -10,7 +10,7 @@ import { Aliases } from '@api/models/alias.model';
 import { distinctUntilChanged, filter, map, takeUntil } from 'rxjs/operators';
 import { Dialog } from '@angular/cdk/dialog';
 import { MatDialog } from '@angular/material/dialog';
-import { AssetBalance, VerifiedAssetInfoWhitelist } from '@api/models/assets.model';
+import { AssetBalance, AssetInfo, VerifiedAssetInfoWhitelist } from '@api/models/assets.model';
 import { CurrentPriceForAssets } from '@api/models/api-zano.models';
 import { ApiZanoService } from '@api/services/api-zano.service';
 
@@ -122,6 +122,7 @@ export class VariablesService implements OnDestroy {
         filters: {
             stakingFilters: null,
         },
+        localBlacklistsOfVerifiedAssetsByWallets: {}
     };
 
     isDarkTheme$ = new BehaviorSubject(true);
@@ -176,7 +177,11 @@ export class VariablesService implements OnDestroy {
 
     refreshStakingEvent$: Subject<void> = new Subject<void>();
 
-    verifiedAssetInfoWhitelist$: BehaviorSubject<VerifiedAssetInfoWhitelist> = new BehaviorSubject([]);
+    verifiedAssetInfoWhitelist: VerifiedAssetInfoWhitelist = [];
+
+    get verifiedAssetIdWhitelist(): string[] {
+        return this.verifiedAssetInfoWhitelist.map(({ asset_id }: AssetInfo): string => asset_id);
+    }
 
     private _dialog: Dialog = inject(Dialog);
 

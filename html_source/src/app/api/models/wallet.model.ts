@@ -1,7 +1,14 @@
 import { Contracts } from './contract.model';
 import { Transaction, Transactions } from './transaction.model';
 import { BigNumber } from 'bignumber.js';
-import { AssetBalance, AssetBalances, AssetInfo, AssetsInfoWhitelist, VerifiedAssetInfoWhitelist } from './assets.model';
+import {
+    AssetBalance,
+    AssetBalances,
+    AssetInfo,
+    AssetsInfoWhitelist,
+    LocalBlacklistVerifiedAssets,
+    VerifiedAssetInfoWhitelist,
+} from './assets.model';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { Alias } from '@api/models/alias.model';
 import { SendMoneyFormParams } from '@api/models/send-money.model';
@@ -9,8 +16,6 @@ import { defaultAssetLogoSrc, zanoAssetInfo } from '@parts/data/assets';
 import { map } from 'rxjs/operators';
 
 export const defaultAssetsInfoWhitelist = { global_whitelist: [], local_whitelist: [], own_assets: [] };
-
-export const defaultVerificationAssetsInfoWhitelist = [];
 
 const sortBalances = (value: AssetBalances | null | undefined): AssetBalances => {
     const sortedBalances: AssetBalances = [];
@@ -28,11 +33,11 @@ const sortBalances = (value: AssetBalances | null | undefined): AssetBalances =>
 };
 
 const prepareBalances = (
-    value: [AssetBalances, AssetsInfoWhitelist, VerifiedAssetInfoWhitelist]
+    value: [AssetBalances, AssetsInfoWhitelist, VerifiedAssetInfoWhitelist, LocalBlacklistVerifiedAssets]
 ): AssetBalances => {
-    const [assetBalances, assetInfoWhitelist, verifiedAssetInfoWhitelist] = value;
+    const [assetBalances, assetInfoWhitelist, verifiedAssetInfoWhitelist, localBlacklistVerifiedAssets] = value;
 
-    const items: AssetBalances = [...assetBalances];
+    let items: AssetBalances = [...assetBalances];
 
     const ensureLogoAndPriceUrl = (asset_info: AssetInfo): AssetInfo => ({
         ...asset_info,
@@ -71,6 +76,10 @@ const prepareBalances = (
         assetBalance.asset_info = ensureLogoAndPriceUrl(assetBalance.asset_info);
     }
 
+    if (localBlacklistVerifiedAssets.length) {
+        items = items.filter(({ asset_info: { asset_id } }: AssetBalance): boolean => !localBlacklistVerifiedAssets.includes(asset_id));
+    }
+
     return items;
 };
 
@@ -104,9 +113,9 @@ export class Wallet {
 
     assetsInfoWhitelist$: BehaviorSubject<AssetsInfoWhitelist> = new BehaviorSubject(defaultAssetsInfoWhitelist);
 
-    verificationAssetsInfoWhitelist$: BehaviorSubject<VerifiedAssetInfoWhitelist> = new BehaviorSubject<VerifiedAssetInfoWhitelist>(
-        defaultVerificationAssetsInfoWhitelist
-    );
+    verificationAssetsInfoWhitelist$: BehaviorSubject<VerifiedAssetInfoWhitelist> = new BehaviorSubject<VerifiedAssetInfoWhitelist>([]);
+
+    localBlacklistVerifiedAssets$: BehaviorSubject<LocalBlacklistVerifiedAssets> = new BehaviorSubject<LocalBlacklistVerifiedAssets>([]);
 
     balances$: BehaviorSubject<AssetBalances> = new BehaviorSubject([]);
 
@@ -189,11 +198,14 @@ export class Wallet {
             this.originalBalances$.pipe(map(sortBalances)),
             this.assetsInfoWhitelist$,
             this.verificationAssetsInfoWhitelist$,
-        ]).pipe(map(prepareBalances)).subscribe({
-            next: (value) => {
-                this.balances$.next(value);
-            }
-        });
+            this.localBlacklistVerifiedAssets$,
+        ])
+            .pipe(map(prepareBalances))
+            .subscribe({
+                next: value => {
+                    this.balances$.next(value);
+                },
+            });
     }
 
     getBalanceByAssetId(value: string): AssetBalance | undefined {
@@ -261,6 +273,16 @@ export class Wallet {
                 break;
             }
         }
+    }
+
+    addAssetToLocalBlacklistVerifiedAssets(asset_id: string): void {
+        const blackList: LocalBlacklistVerifiedAssets = [...this.localBlacklistVerifiedAssets$.value, asset_id];
+        this.localBlacklistVerifiedAssets$.next(blackList);
+    }
+
+    removeAssetFromLocalBlacklistVerifiedAssets(asset_id: string): void {
+        const blackList: LocalBlacklistVerifiedAssets = this.localBlacklistVerifiedAssets$.value.filter(v => v !== asset_id);
+        this.localBlacklistVerifiedAssets$.next(blackList);
     }
 }
 

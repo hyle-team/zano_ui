@@ -273,19 +273,27 @@ export class BackendService {
         this.runCommand(Commands.on_request_quit);
     }
 
-    getAppData(callback): void {
+    getAppData(callback?: any): void {
         this.runCommand(Commands.get_app_data, {}, callback);
     }
 
-    storeAppData(callback?): void {
-        if (this.variablesService.wallets.length > 0) {
+    storeAppData(callback?: any): void {
+        const { wallets } = this.variablesService;
+        if (wallets.length > 0) {
             this.variablesService.settings.wallets = [];
-            this.variablesService.wallets.forEach(wallet => {
+            wallets.forEach(wallet => {
                 this.variablesService.settings.wallets.push({
                     name: wallet.name,
                     path: wallet.path,
                 });
             });
+
+            this.variablesService.settings.localBlacklistsOfVerifiedAssetsByWallets = wallets.reduce(
+                (acc, { address, localBlacklistVerifiedAssets$: { value: localBlacklistVerifiedAssets } }) => {
+                    return { ...acc, [address]: localBlacklistVerifiedAssets };
+                },
+                {}
+            );
         }
         this.runCommand(Commands.store_app_data, this.variablesService.settings, callback);
     }
@@ -444,7 +452,7 @@ export class BackendService {
             fee: this.moneyToIntPipe.transform(fee),
             comment: comment,
             push_payer,
-            hide_receiver
+            hide_receiver,
         };
 
         this.asyncCall(Commands.transfer, params, callback);

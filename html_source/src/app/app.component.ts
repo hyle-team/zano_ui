@@ -891,7 +891,7 @@ export class AppComponent implements OnInit, OnDestroy {
             )
             .subscribe({
                 next: ({ assets }) => {
-                    this.variablesService.verifiedAssetInfoWhitelist$.next(assets);
+                    this.variablesService.verifiedAssetInfoWhitelist = assets;
                     this._walletsService.setVerifiedAssetInfoWhitelist(assets);
                 },
             });

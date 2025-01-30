@@ -3,7 +3,7 @@ import { FormControl, NonNullableFormBuilder, ReactiveFormsModule, Validators } 
 import { VariablesService } from '@parts/services/variables.service';
 import { ZanoValidators } from '@parts/utils/zano-validators';
 import { BackendService } from '@api/services/backend.service';
-import { AssetBalance, ParamsAddCustomAssetId } from '@api/models/assets.model';
+import { AssetBalance, AssetInfo, ParamsAddCustomAssetId, ResponseAddCustomAssetId } from '@api/models/assets.model';
 import { WalletsService } from '@parts/services/wallets.service';
 import { wrongAssetId } from '@parts/utils/zano-errors';
 import { CommonModule } from '@angular/common';
@@ -51,33 +51,61 @@ export class AddCustomTokenComponent {
     submit(): void {
         this.loading = true;
         const { asset_id } = this.formGroup.getRawValue();
-        const { wallet_id } = this.variablesService.currentWallet;
+        const { currentWallet, verifiedAssetIdWhitelist } = this.variablesService;
+        const { wallet_id, verificationAssetsInfoWhitelist$: { value: verificationAssetsInfoWhitelist } } = currentWallet;
         const params: ParamsAddCustomAssetId = {
             asset_id,
             wallet_id,
         };
-        this.backendService.addCustomAssetId(params, (status, { asset_descriptor }) => {
-            this.ngZone.run(() => {
-                if (status) {
-                    const asset: AssetBalance = {
-                        asset_info: {
-                            ...asset_descriptor,
-                            asset_id,
-                        },
-                        awaiting_in: 0,
-                        awaiting_out: 0,
-                        total: 0,
-                        unlocked: 0,
-                    };
-                    this.walletsService.updateWalletInfo(wallet_id);
-                    this.matDialogRef.close(asset);
-                } else {
-                    this.formGroup.controls.asset_id.setErrors({
-                        wrongAssetId,
-                    });
-                    this.loading = false;
-                }
+
+        const isVerifiedAsset: boolean = verifiedAssetIdWhitelist.includes(asset_id);
+
+        if (isVerifiedAsset) {
+            currentWallet.removeAssetFromLocalBlacklistVerifiedAssets(asset_id);
+            const assetInfo: AssetInfo | undefined = verificationAssetsInfoWhitelist.find((v: AssetInfo): boolean => v.asset_id === asset_id);
+
+            if (!assetInfo) {
+                this.matDialogRef.close();
+                return;
+            }
+
+            const asset: AssetBalance = {
+                asset_info: {
+                    ...assetInfo,
+                    asset_id,
+                },
+                awaiting_in: 0,
+                awaiting_out: 0,
+                total: 0,
+                unlocked: 0,
+            };
+
+            this.walletsService.updateWalletInfo(wallet_id);
+            this.matDialogRef.close(asset);
+        } else {
+            this.backendService.addCustomAssetId(params, (status: boolean, { asset_descriptor }: ResponseAddCustomAssetId) => {
+                this.ngZone.run(() => {
+                    if (status) {
+                        const asset: AssetBalance = {
+                            asset_info: {
+                                ...asset_descriptor,
+                                asset_id,
+                            },
+                            awaiting_in: 0,
+                            awaiting_out: 0,
+                            total: 0,
+                            unlocked: 0,
+                        };
+                        this.walletsService.updateWalletInfo(wallet_id);
+                        this.matDialogRef.close(asset);
+                    } else {
+                        this.formGroup.controls.asset_id.setErrors({
+                            wrongAssetId,
+                        });
+                        this.loading = false;
+                    }
+                });
             });
-        });
+        }
     }
 }

@@ -36,17 +36,21 @@ export class WalletsService {
     ) {}
 
     addWallet(wallet: Wallet): void {
-        const { wallet_id, staking } = wallet;
-        const { verifiedAssetInfoWhitelist$ } = this._variablesService;
+        const { wallet_id, staking, address } = wallet;
+        const { verifiedAssetInfoWhitelist, settings: { localBlacklistsOfVerifiedAssetsByWallets } } = this._variablesService;
 
         if (staking) {
             const message = this._translateService.instant('STAKING.WALLET_STAKING_ON', { value: wallet.alias?.name ?? wallet.name });
             this._backendService.show_notification('Wallet staking on', message);
         }
 
+        if (localBlacklistsOfVerifiedAssetsByWallets[address]) {
+            wallet.localBlacklistVerifiedAssets$.next(localBlacklistsOfVerifiedAssetsByWallets[address]);
+        }
+
         this._variablesService.wallets.push(wallet);
         this.updateWalletInfo(wallet_id);
-        this.setVerifiedAssetInfoWhitelist(verifiedAssetInfoWhitelist$.value);
+        this.setVerifiedAssetInfoWhitelist(verifiedAssetInfoWhitelist);
     }
 
     loadAssetsInfoWhitelist(wallet_id: number): void {
@@ -98,7 +102,7 @@ export class WalletsService {
                     const { balances } = response_data;
                     wallet.balances = balances;
 
-                    this._variablesService.loadCurrentPriceForAssets(balances);
+                    this._variablesService.loadCurrentPriceForAssets(wallet.balances);
                 }
             });
         };
