@@ -80,6 +80,7 @@ export class AddCustomTokenComponent {
                 unlocked: 0,
             };
 
+            this.walletsService.updateWalletInfo(wallet_id);
             this.matDialogRef.close(asset);
         } else {
             this.backendService.addCustomAssetId(params, (status: boolean, { asset_descriptor }: ResponseAddCustomAssetId) => {
