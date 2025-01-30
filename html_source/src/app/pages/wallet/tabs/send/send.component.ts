@@ -399,7 +399,7 @@ export class SendComponent implements OnDestroy {
             const { wallet_id } = currentWallet;
             currentWallet.sendMoneyParams = null;
 
-            this.form.reset({ ...defaultSendMoneyParams, wallet_id }, { emitEvent: false });
+            this.form.reset({ ...defaultSendMoneyParams, wallet_id });
         }
     }
 
