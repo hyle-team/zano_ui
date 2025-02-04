@@ -38,11 +38,11 @@
             </p>
             <button fxLayout="row" fxLayoutAlign="center center">
                 <mat-icon
-                    class="ml-1"
-                    svgIcon="zano-dropdown-arrow-down"
                     [ngClass]="{
                         'rotate-180': isShowDetailsState
                     }"
+                    class="ml-1"
+                    svgIcon="zano-dropdown-arrow-down"
                 ></mat-icon>
             </button>
         </div>
@@ -67,7 +67,7 @@
                     </ng-container>
                     <ng-container *ngIf="details.result_tx as result_tx">
                         <li class="item mb-1 color-primary" fxLayout="row nowrap" fxLayoutAlign="start center">
-                            <span class="text word-break-break-all cursor-pointer" (click)="openInBrowser(result_tx)">
+                            <span (click)="openInBrowser(result_tx)" class="text word-break-break-all cursor-pointer">
                                 Result tx: {{ result_tx }}
                             </span>
                             <app-copy-button [value]="result_tx" class="ml-1">
@@ -78,7 +78,11 @@
                 <ng-container *ngIf="error">
                     <li class="item mb-1 color-red" fxLayout="row nowrap" fxLayoutAlign="start center">
                         <span class="text word-break-break-all">
-                            Error: {{ error.message || 'Ops... Unknown error...' }}
+                            Error: {{
+                                error.message ?
+                                    (('ERRORS' + '.' + error.message) | translate) :
+                                    'Ops... Unknown error...'
+                            }}
                         </span>
                     </li>
                 </ng-container>
