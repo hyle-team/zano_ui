@@ -930,7 +930,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
         this.backendService.call_rpc(params, (status, response_data) => {
             this.ngZone.run(() => {
-                this.variablesService.zano_current_supply = response_data?.['result']?.['total_coins'] ?? 'Unknown';
+                this.variablesService.zano_current_supply = response_data?.['result']?.['total_coins'];
             });
         });
     }
