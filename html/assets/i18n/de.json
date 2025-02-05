@@ -399,6 +399,7 @@
         "TX_TYPE_NORMAL_END": "wurde nicht abgeschlossen.",
         "TX_TYPE_NORMAL_TO": "zu",
         "TX_TYPE_UPDATE_ALIAS": "Fehler. Fehlgeschlagen Kommentar von gespeichertem Alias zu ändern",
+        "WALLET_RPC_ERROR_CODE_NOT_ENOUGH_MONEY": "Insufficient funds for this transaction",
         "WALLET_WATCH_ONLY_NOT_SUPPORTED": "Watch-only-Wallets können nur von simplewallet geöffnet werden",
         "WALLET_WRONG_ID": "Ungültige Wallet-ID",
         "WRAP_SERVICE_IS_INACTIVE": "Wrap service is inactive",
