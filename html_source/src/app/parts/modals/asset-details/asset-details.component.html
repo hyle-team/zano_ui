@@ -4,47 +4,54 @@
     <ng-container *ngIf="data.asset_info as asset_info; else templateEmpty">
         <table class="rounded-corners">
             <tbody>
-                <tr>
-                    <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.NAME' | translate }}</td>
-                    <td>{{ asset_info.full_name }}</td>
-                </tr>
-                <tr>
-                    <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.TICKER' | translate }}</td>
-                    <td>{{ asset_info.ticker }}</td>
-                </tr>
-                <tr>
-                    <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.OWNER' | translate }}</td>
-                    <td (contextmenu)="variablesService.onContextMenuOnlyCopy($event, asset_info.owner)">
-                        {{ asset_info.owner }}
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.ID' | translate }}</td>
-                    <td (contextmenu)="variablesService.onContextMenuOnlyCopy($event, asset_info.asset_id)">
-                        {{ asset_info.asset_id }}
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.CURRENT_SUPPLY' | translate }}</td>
-                    <td>
-                        {{
-                            (asset_info.asset_id === zanoAssetInfo.asset_id
-                                ? variablesService.zano_current_supply ?? 'Unknown'
-                                : asset_info.current_supply
-                            ) | intToMoney : asset_info.decimal_point
-                        }}
-                    </td>
-                </tr>
-                <tr>
-                    <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.MAX_SUPPLE' | translate }}</td>
-                    <td>
-                        {{
-                            asset_info.asset_id === zanoAssetInfo.asset_id
-                                ? 'Uncapped'
-                                : (asset_info.total_max_supply | intToMoney : asset_info.decimal_point)
-                        }}
-                    </td>
-                </tr>
+            <tr>
+                <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.NAME' | translate }}</td>
+                <td>{{ asset_info.full_name }}</td>
+            </tr>
+            <tr>
+                <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.TICKER' | translate }}</td>
+                <td>{{ asset_info.ticker }}</td>
+            </tr>
+            <tr>
+                <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.OWNER' | translate }}</td>
+                <td (contextmenu)="variablesService.onContextMenuOnlyCopy($event, asset_info.owner)">
+                    {{ asset_info.owner }}
+                </td>
+            </tr>
+            <tr>
+                <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.ID' | translate }}</td>
+                <td (contextmenu)="variablesService.onContextMenuOnlyCopy($event, asset_info.asset_id)">
+                    {{ asset_info.asset_id }}
+                </td>
+            </tr>
+            <tr>
+                <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.CURRENT_SUPPLY' | translate }}</td>
+                <td>
+                    <ng-container *ngIf="asset_info.asset_id !== zanoAssetInfo.asset_id; else zanoCurrentSupply">
+                        {{ (asset_info.current_supply | intToMoney : asset_info.decimal_point) }}
+                    </ng-container>
+
+                    <ng-template #zanoCurrentSupply>
+                        <ng-container
+                            *ngIf="variablesService.zano_current_supply !== undefined; else emptyCurrentSupply">
+                            {{ (variablesService.zano_current_supply | intToMoney : asset_info.decimal_point) }}
+                        </ng-container>
+                    </ng-template>
+
+                    <ng-template #emptyCurrentSupply>
+                        Unknown
+                    </ng-template>
+            </tr>
+            <tr>
+                <td>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.MAX_SUPPLE' | translate }}</td>
+                <td>
+                    {{
+                        asset_info.asset_id === zanoAssetInfo.asset_id
+                            ? 'Uncapped'
+                            : (asset_info.total_max_supply | intToMoney : asset_info.decimal_point)
+                    }}
+                </td>
+            </tr>
             </tbody>
         </table>
     </ng-container>
