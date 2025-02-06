@@ -16,7 +16,7 @@
 
                 <div *ngIf="!isSentSuccess && !isSentFailed" class="loader"></div>
 
-                <p class="color-primary mt-2" *ngIf="currentActionState$ | async as currentActionState">
+                <p class="color-primary mt-2 mb-0_5" *ngIf="currentActionState$ | async as currentActionState">
                     {{
                         (currentActionState ? 'TOR_LIB_STATE' + '.' + currentActionState.status : 'TOR_LIB_STATE.STATE_INITIALIZING')
                             | translate
@@ -144,7 +144,7 @@
         </ng-container>
         <ng-container *ngSwitchCase="'OK'"></ng-container>
         <ng-container *ngSwitchDefault>
-            <p class="color-red">{{ prefix }} {{ error_code }}</p>
+            <p class="color-red">{{ prefix }} {{ 'ERRORS' + '.' + error_code | translate }}</p>
         </ng-container>
     </ng-container>
 </ng-template>
