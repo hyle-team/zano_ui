@@ -13354,6 +13354,7 @@ function SendDetailsModalComponent_ng_template_34_ng_container_3_Template(rf, ct
     _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementContainerStart"](0);
     _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](1, "p", 42);
     _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpipe"](3, "translate");
     _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementEnd"]();
     _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementContainerEnd"]();
   }
@@ -13363,7 +13364,7 @@ function SendDetailsModalComponent_ng_template_34_ng_container_3_Template(rf, ct
     const prefix_r32 = ctx_r38.prefix;
     const error_code_r33 = ctx_r38.error_code;
     _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtextInterpolate2"]("", prefix_r32, " ", error_code_r33, "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtextInterpolate2"]("", prefix_r32, " ", _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpipeBind1"](3, 2, "ERRORS" + "." + error_code_r33), "");
   }
 }
 
@@ -13372,7 +13373,7 @@ function SendDetailsModalComponent_ng_template_34_Template(rf, ctx) {
     _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementContainerStart"](0, 39);
     _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtemplate"](1, SendDetailsModalComponent_ng_template_34_ng_container_1_Template, 4, 4, "ng-container", 40);
     _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtemplate"](2, SendDetailsModalComponent_ng_template_34_ng_container_2_Template, 1, 0, "ng-container", 40);
-    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtemplate"](3, SendDetailsModalComponent_ng_template_34_ng_container_3_Template, 3, 2, "ng-container", 41);
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtemplate"](3, SendDetailsModalComponent_ng_template_34_ng_container_3_Template, 4, 4, "ng-container", 41);
     _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementContainerEnd"]();
   }
 
@@ -13545,7 +13546,7 @@ SendDetailsModalComponent.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_M
   },
   decls: 36,
   vars: 38,
-  consts: [["fxFlex", "0 1 54rem", 1, "send-details-modal-wrapper"], ["fxFlex", "", "fxLayout", "column", 1, "wrapper", "w-100"], ["fxFlex", "0 0 auto", 1, "title", "mb-2"], ["fxFlex", "1 1 auto", "fxLayout", "column", 1, "content", "mb-2", "overflow-x-hidden", "overflow-y-auto"], ["fxFlex", "0 0 auto", "fxLayout", "column", "fxLayoutAlign", " center", 1, "status", "mb-2"], ["class", "image", 4, "ngIf"], ["class", "loader", 4, "ngIf"], ["class", "color-primary mt-2", 4, "ngIf"], [4, "ngIf"], ["fxFlex", "0 0 auto", "fxLayout", "column", 1, "details", "border-radius-0_8-rem", "overflow-hidden"], ["fxLayout", "row", "fxLayoutAlign", "space-between center", 1, "header", "overflow-hidden", "py-1", "px-2", "w-100", "cursor-pointer", 3, "click"], [1, "title", "text-ellipsis", "mr-2"], ["fxLayout", "row", "fxLayoutAlign", "center center", 4, "ngIf"], ["fxFlex", "1 1 auto", "fxLayout", "row", 1, "details-wrapper", 3, "fxHide"], [1, "details-list", "scrolled-content"], ["elDetailsList", ""], ["class", "item mb-1 color-primary", "fxLayout", "row nowrap", "fxLayoutAlign", " center", 4, "ngFor", "ngForOf", "ngForTrackBy"], ["fxFlex", "0 0 auto", 1, "controls"], [1, "primary", "big", "w-100", 3, "disabled", "click"], ["errorCodesTemplate", ""], [1, "image"], ["alt", "success", "src", "assets/icons/aqua/transaction_success.svg"], ["alt", "failed", "src", "assets/icons/red/transaction_failed.svg", 1, "image"], [1, "loader"], [1, "color-primary", "mt-2"], [4, "ngTemplateOutlet", "ngTemplateOutletContext"], ["fxLayout", "row", "fxLayoutAlign", "center center"], ["svgIcon", "zano-dropdown-arrow-down", 3, "ngClass"], ["fxLayout", "row nowrap", "fxLayoutAlign", " center", 1, "item", "mb-1", "color-primary"], [1, "text", "text-ellipsis", "mr-1"], ["alt", "success", "class", "image", "src", "assets/icons/blue/check_with_blue_bg.svg", 4, "ngIf"], ["alt", "failed", "class", "image", "src", "assets/icons/red/transaction_failed.svg", 4, "ngIf"], ["alt", "success", "src", "assets/icons/blue/check_with_blue_bg.svg", 1, "image"], [1, "word-break-break-all", "cursor-pointer", 3, "click"], ["class", "ml-1", 3, "value", 4, "ngIf"], [1, "word-break-break-all"], ["class", "item", 4, "ngIf"], [1, "ml-1", 3, "value"], [1, "item"], [3, "ngSwitch"], [4, "ngSwitchCase"], [4, "ngSwitchDefault"], [1, "color-red"]],
+  consts: [["fxFlex", "0 1 54rem", 1, "send-details-modal-wrapper"], ["fxFlex", "", "fxLayout", "column", 1, "wrapper", "w-100"], ["fxFlex", "0 0 auto", 1, "title", "mb-2"], ["fxFlex", "1 1 auto", "fxLayout", "column", 1, "content", "mb-2", "overflow-x-hidden", "overflow-y-auto"], ["fxFlex", "0 0 auto", "fxLayout", "column", "fxLayoutAlign", " center", 1, "status", "mb-2"], ["class", "image", 4, "ngIf"], ["class", "loader", 4, "ngIf"], ["class", "color-primary mt-2 mb-0_5", 4, "ngIf"], [4, "ngIf"], ["fxFlex", "0 0 auto", "fxLayout", "column", 1, "details", "border-radius-0_8-rem", "overflow-hidden"], ["fxLayout", "row", "fxLayoutAlign", "space-between center", 1, "header", "overflow-hidden", "py-1", "px-2", "w-100", "cursor-pointer", 3, "click"], [1, "title", "text-ellipsis", "mr-2"], ["fxLayout", "row", "fxLayoutAlign", "center center", 4, "ngIf"], ["fxFlex", "1 1 auto", "fxLayout", "row", 1, "details-wrapper", 3, "fxHide"], [1, "details-list", "scrolled-content"], ["elDetailsList", ""], ["class", "item mb-1 color-primary", "fxLayout", "row nowrap", "fxLayoutAlign", " center", 4, "ngFor", "ngForOf", "ngForTrackBy"], ["fxFlex", "0 0 auto", 1, "controls"], [1, "primary", "big", "w-100", 3, "disabled", "click"], ["errorCodesTemplate", ""], [1, "image"], ["alt", "success", "src", "assets/icons/aqua/transaction_success.svg"], ["alt", "failed", "src", "assets/icons/red/transaction_failed.svg", 1, "image"], [1, "loader"], [1, "color-primary", "mt-2", "mb-0_5"], [4, "ngTemplateOutlet", "ngTemplateOutletContext"], ["fxLayout", "row", "fxLayoutAlign", "center center"], ["svgIcon", "zano-dropdown-arrow-down", 3, "ngClass"], ["fxLayout", "row nowrap", "fxLayoutAlign", " center", 1, "item", "mb-1", "color-primary"], [1, "text", "text-ellipsis", "mr-1"], ["alt", "success", "class", "image", "src", "assets/icons/blue/check_with_blue_bg.svg", 4, "ngIf"], ["alt", "failed", "class", "image", "src", "assets/icons/red/transaction_failed.svg", 4, "ngIf"], ["alt", "success", "src", "assets/icons/blue/check_with_blue_bg.svg", 1, "image"], [1, "word-break-break-all", "cursor-pointer", 3, "click"], ["class", "ml-1", 3, "value", 4, "ngIf"], [1, "word-break-break-all"], ["class", "item", 4, "ngIf"], [1, "ml-1", 3, "value"], [1, "item"], [3, "ngSwitch"], [4, "ngSwitchCase"], [4, "ngSwitchDefault"], [1, "color-red"]],
   template: function SendDetailsModalComponent_Template(rf, ctx) {
     if (rf & 1) {
       _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵelementStart"](0, "div", 0)(1, "div", 1)(2, "h3", 2);

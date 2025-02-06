@@ -392,6 +392,7 @@
         "TRANSACTION_ERROR": "Kesalahan. Transaksi tidak selesai.",
         "TRANSACTION_IS_TO_BIG": "Transaksi melebihi batas jaringan, mengirim jumlah yang diperlukan dengan banyak transaksi",
         "TRANSFER_ATTEMPT": "Tidak ada koneksi ke jaringan Zano",
+        "TX_IS_TOO_BIG": "Transaction exceeds network limit, send required amount with multiple transactions",
         "TX_TYPE_COIN_BASE": "Error. Pembayaran tidak selesai.",
         "TX_TYPE_NEW_ALIAS": "Error. Gagal untuk mendaftarkan alias ",
         "TX_TYPE_NEW_ALIAS_END": "Silakan coba lagi",
