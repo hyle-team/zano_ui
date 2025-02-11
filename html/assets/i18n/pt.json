@@ -392,6 +392,7 @@
         "TRANSACTION_ERROR": "Erro. Transação não completada.",
         "TRANSACTION_IS_TO_BIG": "Transação excede o limite de rede, envie quantidade necessária com várias transações",
         "TRANSFER_ATTEMPT": "Sem conexão à rede Zano",
+        "TX_IS_TOO_BIG": "Transaction exceeds network limit, send required amount with multiple transactions",
         "TX_TYPE_COIN_BASE": "Erro. Pagamento não foi completado.",
         "TX_TYPE_NEW_ALIAS": "Erro. Falha ao registar alias para seguro",
         "TX_TYPE_NEW_ALIAS_END": "Por favor tente novamente.",
