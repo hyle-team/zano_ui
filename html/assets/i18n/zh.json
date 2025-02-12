@@ -373,9 +373,9 @@
         "GREATER_THAN_TOTAL_MAX_SUPPLY": "Greater than total max supply",
         "HEX_NOT_VALID": "Hex not valid",
         "INSUFFICIENT_FUNDS": "Insufficient funds",
-        "INVALID_FULL_NAME_ASSET_PATTERN": "Invalid asset name. Use only letters (a–z), numbers (0–9), and special characters (\".,:!-()\" and space)",
+        "INVALID_FULL_NAME_ASSET_PATTERN": "Invalid asset name. Use only letters (A-Za–z), numbers (0–9), and special characters (\".,:!-()\" and space)",
         "INVALID_PROPOSAL": "Invalid proposal",
-        "INVALID_TICKER_PATTERN": "Invalid ticker. Use only letters (a–z), numbers (0–9)",
+        "INVALID_TICKER_PATTERN": "Invalid ticker. Use only letters (A-Za–z), numbers (0–9)",
         "MAX": "Max {{ max }}",
         "MAX_DECIMAL_POINT": "Max decimal point {{ max }}",
         "MAX_LENGTH": "Maximin length {{ requiredLength }}",
@@ -644,7 +644,7 @@
         "LABEL_PHRASE_KEY": "Seed phrase / tracking seed",
         "NOT_CORRECT_FILE_OR_PASSWORD": "Invalid wallet file or password does not match",
         "OK": "OK",
-        "PASS": "Wallet password",
+        "PASS": "Set Wallet password",
         "SEED_PASSWORD": "Seed password"
     },
     "SEED_PHRASE": {
