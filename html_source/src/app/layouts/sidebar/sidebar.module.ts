@@ -30,8 +30,8 @@ import { MatIconModule } from '@angular/material/icon';
         FlexLayoutModule,
         IntToMoneyPipeModule,
         WalletCardComponent,
-        MatIconModule,
+        MatIconModule
     ],
-    exports: [SidebarComponent],
+    exports: [SidebarComponent]
 })
 export class SidebarModule {}

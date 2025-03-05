@@ -7,9 +7,7 @@ import { ZARCANUM_MIGRATION } from '@parts/data/constants';
 import { ParamsCallRpc } from '@api/models/call_rpc.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { GetBareOutsStats } from '@api/models/rpc.models';
-import {
-    MigrateWalletToZarcanumComponent
-} from '../../../pages/wallet/wallet/modals/migrate-wallet-to-zarcanum/migrate-wallet-to-zarcanum.component';
+import { MigrateWalletToZarcanumComponent } from '../../../pages/wallet/wallet/modals/migrate-wallet-to-zarcanum/migrate-wallet-to-zarcanum.component';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { ModalService } from '@parts/services/modal.service';
@@ -19,7 +17,7 @@ import { ModalService } from '@parts/services/modal.service';
     standalone: true,
     imports: [CommonModule, FlexModule, MatIconModule, TranslateModule],
     templateUrl: './migrate-alert.component.html',
-    styleUrls: ['./migrate-alert.component.scss'],
+    styleUrls: ['./migrate-alert.component.scss']
 })
 export class MigrateAlertComponent implements OnInit {
     private readonly _backend: BackendService = inject(BackendService);
@@ -38,13 +36,13 @@ export class MigrateAlertComponent implements OnInit {
 
     openMigrateWalletToZarcanum(): void {
         const {
-            currentWallet: { wallet_id },
+            current_wallet: { wallet_id }
         } = this._variablesService;
         const params: ParamsCallRpc = {
             id: 0,
             jsonrpc: '2.0',
             method: 'get_bare_outs_stats',
-            params: {},
+            params: {}
         };
         this._backend.call_wallet_rpc([wallet_id, params], (status, response_data) => {
             this._ngZone.run(() => {

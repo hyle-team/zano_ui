@@ -1,0 +1,31 @@
+<div class="wrap p-2">
+    <p class="title">
+        {{ 'SEND.WRAP.TITLE' | translate }}
+        <mat-icon svgIcon="zano-info"></mat-icon>
+    </p>
+
+    <p class="text-wrap">
+        {{ 'SEND.WRAP.MAIN_TEXT' | translate }}
+    </p>
+
+    <p class="title">{{ 'SEND.WRAP.ESTIMATE' | translate }}</p>
+
+    <table class="text-wrap">
+        <tr>
+            <td>{{ 'SEND.WRAP.WILL_RECEIVE' | translate }}</td>
+            <td *ngIf="!hide_received_value">
+                {{ getReceivedValue() | intToMoney }}
+                {{ 'SEND.WRAP.wZANO' | translate }}
+            </td>
+            <td *ngIf="hide_received_value">-</td>
+        </tr>
+        <tr>
+            <td>{{ 'SEND.WRAP.FEE' | translate }}</td>
+            <td>
+                {{ wrap_info?.tx_cost?.zano_needed_for_erc20 | intToMoney : zano_asset_info.decimal_point }}
+                {{ 'SEND.WRAP.ZANO' | translate }}
+                (${{ wrap_info.tx_cost?.usd_needed_for_erc20 }})
+            </td>
+        </tr>
+    </table>
+</div>

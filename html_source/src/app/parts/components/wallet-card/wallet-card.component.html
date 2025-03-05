@@ -1,6 +1,4 @@
-<div *ngIf="variablesService.testnet" class="testnet">
-    Testnet
-</div>
+<div *ngIf="variablesService.testnet" class="testnet">Testnet</div>
 <div class="content">
     <div class="header">
         <div class="left">
@@ -49,23 +47,22 @@
                 class="price"
             >
                 {{
-                    wallet.getMoneyEquivalentForZano(variablesService.currentPriceForAssets[zanoAssetInfo.asset_id]?.data?.usd ?? 0) |
-                        intToMoney |
-                        currency
-                        : 'USD' || '---'
+                    wallet.getMoneyEquivalentForZano(variablesService.currentPriceForAssets[zanoAssetInfo.asset_id]?.data?.usd ?? 0)
+                        | intToMoney
+                        | currency : 'USD' || '---'
                 }}
                 <span
                     [class.red]="(variablesService.currentPriceForAssets[zanoAssetInfo.asset_id]?.data?.usd_24h_change ?? 0) < 0"
-                    class="percent">
-                    {{ (variablesService.currentPriceForAssets[zanoAssetInfo.asset_id]?.data?.usd_24h_change ?? 0) | number : '1.2-2' }}
+                    class="percent"
+                >
+                    {{ variablesService.currentPriceForAssets[zanoAssetInfo.asset_id]?.data?.usd_24h_change ?? 0 | number : '1.2-2' }}
                     %
                 </span>
             </span>
         </ng-container>
     </h4>
 
-    <ng-container
-        *ngIf="(!wallet.is_auditable && !wallet.is_watch_only) || (wallet.is_auditable && !wallet.is_watch_only)">
+    <ng-container *ngIf="(!wallet.is_auditable && !wallet.is_watch_only) || (wallet.is_auditable && !wallet.is_watch_only)">
         <div *ngIf="!(!wallet.loaded && variablesService.daemon_state === 2)" class="staking">
             <span class="text">{{ 'SIDEBAR.ACCOUNT.STAKING' | translate }}</span>
             <app-staking-switch [(staking)]="wallet.staking" [wallet_id]="wallet.wallet_id"></app-staking-switch>

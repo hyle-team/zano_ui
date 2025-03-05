@@ -12,7 +12,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 @Component({
     selector: 'app-emit-custom-asset',
     templateUrl: './emit-custom-asset.component.html',
-    styleUrls: ['./emit-custom-asset.component.scss'],
+    styleUrls: ['./emit-custom-asset.component.scss']
 })
 export class EmitCustomAssetComponent {
     public readonly variablesService: VariablesService = inject(VariablesService);
@@ -30,7 +30,7 @@ export class EmitCustomAssetComponent {
             Validators.required,
             (control): ValidationErrors | null => {
                 const {
-                    asset_info: { total_max_supply, current_supply, decimal_point },
+                    asset_info: { total_max_supply, current_supply, decimal_point }
                 } = this.data;
                 const { value: amount } = control;
 
@@ -40,18 +40,18 @@ export class EmitCustomAssetComponent {
                     return { greater_than_total_max_supply: { max: prepared_total_max_supply.toString() } };
                 }
                 return null;
-            },
-        ]),
+            }
+        ])
     });
 
     private _ngZone: NgZone = inject(NgZone);
 
     public submit(): void {
         const {
-            currentWallet: { wallet_id, address },
+            current_wallet: { wallet_id, address }
         } = this.variablesService;
         const {
-            asset_info: { asset_id, decimal_point },
+            asset_info: { asset_id, decimal_point }
         } = this.data;
         const { amount } = this.form.getRawValue();
         const params: EmitParams = {
@@ -60,9 +60,9 @@ export class EmitCustomAssetComponent {
                 {
                     address,
                     amount: moneyToInt(amount, decimal_point).toString(),
-                    asset_id: '0000000000000000000000000000000000000000000000000000000000000000',
-                },
-            ],
+                    asset_id: '0000000000000000000000000000000000000000000000000000000000000000'
+                }
+            ]
         };
 
         this._backendService.asyncCall2a(
@@ -72,7 +72,7 @@ export class EmitCustomAssetComponent {
                 jsonrpc: '2.0',
                 id: 0,
                 method: 'emit_asset',
-                params,
+                params
             },
             async (job_id: number): Promise<void> => {
                 this._ngZone.run(() => {

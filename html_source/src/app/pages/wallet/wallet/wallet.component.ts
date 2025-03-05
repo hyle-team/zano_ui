@@ -35,7 +35,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
         icon: 'zano-balance',
         link: '/assets',
         disabled: false,
-        hidden: false,
+        hidden: false
     },
     history: {
         id: 'history',
@@ -43,7 +43,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
         icon: 'zano-history',
         link: '/history',
         disabled: false,
-        hidden: false,
+        hidden: false
     },
     send: {
         id: 'send',
@@ -51,7 +51,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
         icon: 'zano-send',
         link: '/send',
         disabled: false,
-        hidden: false,
+        hidden: false
     },
     receive: {
         id: 'receive',
@@ -59,7 +59,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
         icon: 'zano-receive',
         link: '/receive',
         disabled: false,
-        hidden: false,
+        hidden: false
     },
     swap: {
         id: 'swap',
@@ -67,7 +67,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
         icon: 'zano-swap',
         link: '/swap',
         disabled: false,
-        hidden: true,
+        hidden: true
     },
     // TODO: https://github.com/hyle-team/zano/issues/374
     // contract: {
@@ -84,7 +84,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
         link: '/staking',
         indicator: false,
         disabled: false,
-        hidden: false,
+        hidden: false
     },
     'custom-assets': {
         id: 'custom-assets',
@@ -93,14 +93,14 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
         link: '/custom-assets',
         indicator: false,
         disabled: false,
-        hidden: false,
-    },
+        hidden: false
+    }
 };
 
 @Component({
     selector: 'app-wallet',
     templateUrl: './wallet.component.html',
-    styleUrls: ['./wallet.component.scss'],
+    styleUrls: ['./wallet.component.scss']
 })
 export class WalletComponent implements OnInit, OnDestroy {
     settingsButtonInterval;
@@ -126,13 +126,13 @@ export class WalletComponent implements OnInit, OnDestroy {
     private readonly _matDialog: MatDialog = inject(MatDialog);
 
     get isShowMigrateAlert(): boolean {
-        const {
-            currentWallet
-        } = this.variablesService;
+        const { current_wallet } = this.variablesService;
 
-        if (!currentWallet) { return false; }
+        if (!current_wallet) {
+            return false;
+        }
 
-        const { is_auditable, is_watch_only, has_bare_unspent_outputs } = currentWallet;
+        const { is_auditable, is_watch_only, has_bare_unspent_outputs } = current_wallet;
 
         return !is_auditable && !is_watch_only && has_bare_unspent_outputs;
     }
@@ -145,10 +145,10 @@ export class WalletComponent implements OnInit, OnDestroy {
         private walletsService: WalletsService,
         private router: Router
     ) {
-        if (!this.variablesService.currentWallet && this.variablesService.wallets.length > 0) {
+        if (!this.variablesService.current_wallet && this.variablesService.wallets.length > 0) {
             this.variablesService.setCurrentWallet(0);
         }
-        this.walletLoaded = this.variablesService.currentWallet.loaded;
+        this.walletLoaded = this.variablesService.current_wallet.loaded;
 
         this.variablesService.currentWalletChangedEvent.pipe(takeUntil(this.destroy$)).subscribe({
             next: (wallet: Wallet) => {
@@ -160,16 +160,16 @@ export class WalletComponent implements OnInit, OnDestroy {
                     next: value => {
                         const hidden = !value;
                         this.setHiddenTabs(['swap'], hidden);
-                    },
+                    }
                 });
-            },
+            }
         });
 
         this.variablesService.is_hardfok_active$.pipe(takeUntil(this.destroy$)).subscribe({
             next: value => {
                 const hidden = !value;
                 this.setHiddenTabs(['swap'], hidden);
-            },
+            }
         });
 
         this.router.events.pipe(takeUntil(this.destroy$)).subscribe((e: RouterEvent) => {
@@ -245,7 +245,7 @@ export class WalletComponent implements OnInit, OnDestroy {
             .pipe(filter(Boolean), distinctUntilChanged(), takeUntil(this.destroy$))
             .subscribe({
                 next: (value: any) => {
-                    const data = value.filter((item: Sync) => item.wallet_id === this.variablesService.currentWallet.wallet_id)[0];
+                    const data = value.filter((item: Sync) => item.wallet_id === this.variablesService.current_wallet.wallet_id)[0];
                     if (data && !data.sync) {
                         let in_progress;
                         const values = this.store.state.sync;
@@ -261,17 +261,17 @@ export class WalletComponent implements OnInit, OnDestroy {
                             this.variablesService.sync_wallets[data.wallet_id] = false;
                         }
                     }
-                },
+                }
             });
-        if (hasOwnProperty(this.variablesService.currentWallet.alias, 'name')) {
-            this.variablesService.currentWallet.wakeAlias = false;
+        if (hasOwnProperty(this.variablesService.current_wallet.alias, 'name')) {
+            this.variablesService.current_wallet.wakeAlias = false;
         }
         this.variablesService.getAliasChangedEvent.pipe(takeUntil(this.destroy$)).subscribe({
             next: () => {
-                if (hasOwnProperty(this.variablesService.currentWallet.alias, 'name')) {
-                    this.variablesService.currentWallet.wakeAlias = false;
+                if (hasOwnProperty(this.variablesService.current_wallet.alias, 'name')) {
+                    this.variablesService.current_wallet.wakeAlias = false;
                 }
-            },
+            }
         });
         this.updateWalletStatus();
     }
@@ -293,8 +293,8 @@ export class WalletComponent implements OnInit, OnDestroy {
         const config: MatDialogConfig<ConfirmModalData> = {
             data: {
                 title: 'WALLET.CONFIRM.MESSAGE',
-                message: 'WALLET.CONFIRM.TITLE',
-            },
+                message: 'WALLET.CONFIRM.TITLE'
+            }
         };
 
         this._matDialog
@@ -304,7 +304,7 @@ export class WalletComponent implements OnInit, OnDestroy {
             .subscribe({
                 next: () => {
                     this.walletsService.closeWallet(wallet_id);
-                },
+                }
             });
     }
 
@@ -321,13 +321,13 @@ export class WalletComponent implements OnInit, OnDestroy {
                     const config: MatDialogConfig = {
                         data: {
                             asset_info: asset.asset_info,
-                            title: 'You added new asset',
-                        },
+                            title: 'You added new asset'
+                        }
                     };
                     this.ngZone.run(() => {
                         this._matDialog.open(AssetDetailsComponent, config);
                     });
-                },
+                }
             });
     }
 
@@ -343,7 +343,7 @@ export class WalletComponent implements OnInit, OnDestroy {
     updateWalletStatus(): void {
         this.backend.eventSubscribe(Commands.wallet_sync_progress, data => {
             const wallet_id = data.wallet_id;
-            if (wallet_id === this.variablesService.currentWallet.wallet_id) {
+            if (wallet_id === this.variablesService.current_wallet.wallet_id) {
                 this.ngZone.run(() => {
                     this.walletLoaded = false;
                 });
@@ -353,7 +353,7 @@ export class WalletComponent implements OnInit, OnDestroy {
             const wallet_state = data.wallet_state;
             const wallet_id = data.wallet_id;
             this.ngZone.run(() => {
-                if (wallet_id !== this.variablesService.currentWallet.wallet_id) {
+                if (wallet_id !== this.variablesService.current_wallet.wallet_id) {
                     return;
                 }
 

@@ -14,7 +14,7 @@ import { Component } from '@angular/core';
                 height: 100%;
                 overflow: hidden;
             }
-        `,
-    ],
+        `
+    ]
 })
 export class FullLayoutComponent {}

@@ -6,4 +6,3 @@ export interface CurrentPriceForAsset {
 export interface CurrentPriceForAssets {
     [key: string]: CurrentPriceForAsset;
 }
-

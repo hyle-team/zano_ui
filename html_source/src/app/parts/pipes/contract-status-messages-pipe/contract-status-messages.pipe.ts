@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 @Pipe({
-    name: 'contractStatusMessages',
+    name: 'contractStatusMessages'
 })
 export class ContractStatusMessagesPipe implements PipeTransform {
     constructor(private translate: TranslateService) {}

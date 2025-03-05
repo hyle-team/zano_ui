@@ -22,7 +22,7 @@
                 <div class="row-divider"></div>
             </thead>
             <tbody>
-                <ng-container *ngFor="let transaction of variablesService.currentWallet.history; let i = index">
+                <ng-container *ngFor="let transaction of variablesService.current_wallet.history; let i = index">
                     <tr
                         (click)="toggleTransactionDetails(transaction.tx_hash)"
                         [class.locked-transaction]="!transaction.is_mining && transaction.unlock_time > 0"
@@ -156,9 +156,9 @@
         <div class="pagination" fxLayout="row" fxLayoutAlign="space-between center">
             <div class="left" fxLayout="row" fxLayoutAlign=" center">
                 <button
-                    (click)="setPage(variablesService.currentWallet.currentPage - 1)"
+                    (click)="setPage(variablesService.current_wallet.currentPage - 1)"
                     [disabled]="
-                        variablesService.currentWallet.currentPage === 1 ||
+                        variablesService.current_wallet.currentPage === 1 ||
                         variablesService.isCurrentWalletSync ||
                         !variablesService.isCurrentWalletLoaded
                     "
@@ -170,9 +170,9 @@
                 <ng-container *ngIf="!mining">
                     <button
                         (click)="setPage(page)"
-                        *ngFor="let page of variablesService.currentWallet.pages"
+                        *ngFor="let page of variablesService.current_wallet.pages"
                         [disabled]="variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded"
-                        [class.color-primary]="variablesService.currentWallet.currentPage === page"
+                        [class.color-primary]="variablesService.current_wallet.currentPage === page"
                         class="mr-0_5"
                     >
                         {{ page }}
@@ -181,20 +181,20 @@
 
                 <ng-container *ngIf="mining">
                     <button
-                        (click)="setPage(variablesService.currentWallet.currentPage)"
+                        (click)="setPage(variablesService.current_wallet.currentPage)"
                         [disabled]="stop_paginate || variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded"
                         [ngClass]="{
-                            'color-primary': variablesService.currentWallet.currentPage,
+                            'color-primary': variablesService.current_wallet.currentPage,
                             disabled: variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded
                         }"
                         class="mr-0_5"
                     >
-                        {{ variablesService.currentWallet.currentPage }}
+                        {{ variablesService.current_wallet.currentPage }}
                     </button>
                 </ng-container>
 
                 <button
-                    (click)="setPage(variablesService.currentWallet.currentPage + 1)"
+                    (click)="setPage(variablesService.current_wallet.currentPage + 1)"
                     [disabled]="stop_paginate || variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded"
                     class="btn-icon circle small ml-0_5"
                 >

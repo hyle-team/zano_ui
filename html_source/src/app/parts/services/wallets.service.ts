@@ -8,7 +8,7 @@ import { AssetsWhitelistGetResponseData, VerifiedAssetInfoWhitelist } from '@api
 import { TranslateService } from '@ngx-translate/core';
 
 @Injectable({
-    providedIn: 'root',
+    providedIn: 'root'
 })
 export class WalletsService {
     get wallets(): Wallet[] {
@@ -20,11 +20,11 @@ export class WalletsService {
     }
 
     get currentWallet(): Wallet | null | undefined {
-        return this._variablesService.currentWallet;
+        return this._variablesService.current_wallet;
     }
 
     set currentWallet(value) {
-        this._variablesService.currentWallet = value;
+        this._variablesService.current_wallet = value;
     }
 
     constructor(
@@ -37,7 +37,10 @@ export class WalletsService {
 
     addWallet(wallet: Wallet): void {
         const { wallet_id, staking, address } = wallet;
-        const { verifiedAssetInfoWhitelist, settings: { localBlacklistsOfVerifiedAssetsByWallets } } = this._variablesService;
+        const {
+            verifiedAssetInfoWhitelist,
+            settings: { localBlacklistsOfVerifiedAssetsByWallets }
+        } = this._variablesService;
 
         if (staking) {
             const message = this._translateService.instant('STAKING.WALLET_STAKING_ON', { value: wallet.alias?.name ?? wallet.name });
@@ -65,7 +68,7 @@ export class WalletsService {
             jsonrpc: '2.0',
             id: 0,
             method: 'assets_whitelist_get',
-            params: {},
+            params: {}
         };
         this._backendService.call_wallet_rpc([wallet_id, params], (status, response_data: AssetsWhitelistGetResponseData) => {
             this._ngZone.run(() => {

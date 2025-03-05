@@ -29,7 +29,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
                     *ngFor="let wallet of variablesService.wallets"
                     [cdkDragData]="wallet"
                     [ngClass]="{
-                        active: wallet?.wallet_id === variablesService?.currentWallet?.wallet_id,
+                        active: wallet?.wallet_id === variablesService?.current_wallet?.wallet_id,
                         auditable: wallet.is_auditable && !wallet.is_watch_only,
                         'watch-only': wallet.is_watch_only,
                         'offset-testnet': variablesService.testnet,
@@ -96,7 +96,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
         <app-deeplink></app-deeplink>
     `,
-    styleUrls: ['./sidebar.component.scss'],
+    styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnDestroy {
     private destroy$ = new Subject<void>();
@@ -114,7 +114,7 @@ export class SidebarComponent implements OnDestroy {
 
     get zanoLogo(): string {
         const {
-            settings: { isDarkTheme },
+            settings: { isDarkTheme }
         } = this.variablesService;
         return isDarkTheme ? 'assets/icons/blue/zano-logo.svg' : 'assets/icons/blue/light-zano-logo.svg';
     }
@@ -160,8 +160,8 @@ export class SidebarComponent implements OnDestroy {
         const config: MatDialogConfig<ConfirmModalData> = {
             data: {
                 title: 'WALLET.CONFIRM.MESSAGE',
-                message: 'WALLET.CONFIRM.TITLE',
-            },
+                message: 'WALLET.CONFIRM.TITLE'
+            }
         };
 
         this._matDialog
@@ -169,7 +169,7 @@ export class SidebarComponent implements OnDestroy {
             .afterClosed()
             .pipe(takeUntil(this.destroy$))
             .subscribe({
-                next: confirmed => confirmed && this.closeWallet(wallet_id),
+                next: confirmed => confirmed && this.closeWallet(wallet_id)
             });
     }
 

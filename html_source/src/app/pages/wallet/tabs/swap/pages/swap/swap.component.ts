@@ -9,7 +9,7 @@ import { TranslateModule } from '@ngx-translate/core';
     standalone: true,
     imports: [CommonModule, FlexModule, RouterLinkWithHref, TranslateModule],
     templateUrl: './swap.component.html',
-    styleUrls: ['./swap.component.scss'],
+    styleUrls: ['./swap.component.scss']
 })
 export class SwapComponent implements OnInit {
     constructor() {}

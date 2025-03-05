@@ -16,7 +16,7 @@
     <div class="details border-radius-0_8-rem overflow-hidden" fxFlex="0 0 auto" fxLayout="column">
         <div
             (click)="toggleDetails()"
-            [ngStyle]="{ 'border-radius': (stateDetails) ? '0.8rem 0.8rem 0 0' : '0.8rem' }"
+            [ngStyle]="{ 'border-radius': stateDetails ? '0.8rem 0.8rem 0 0' : '0.8rem' }"
             class="header overflow-hidden py-1 px-2 w-100 cursor-pointer"
             fxLayout="row"
             fxLayoutAlign="space-between center"
@@ -36,8 +36,8 @@
         <div
             [class.px-2]="stateDetails"
             [class.py-1]="stateDetails"
-            [fxHide]="!(stateDetails)"
-            [ngStyle]="{ 'border-radius': (stateDetails) ? '0 0 0.8rem 0.8rem ' : '0' }"
+            [fxHide]="!stateDetails"
+            [ngStyle]="{ 'border-radius': stateDetails ? '0 0 0.8rem 0.8rem ' : '0' }"
             class="details-wrapper"
             fxFlex="1 1 auto"
             fxLayout="row"
@@ -48,12 +48,12 @@
                         {{
                             'SUCCESS_SWEEP_BARE_OUTS.DETAILS'
                                 | translate
-                                : {
-                                    txs_sent: data.txs_sent,
-                                    bare_outs_swept: data.bare_outs_swept,
-                                    amount_swept: data.amount_swept | intToMoney,
-                                    fee_spent: data.fee_spent | intToMoney
-                                }
+                                    : {
+                                          txs_sent: data.txs_sent,
+                                          bare_outs_swept: data.bare_outs_swept,
+                                          amount_swept: data.amount_swept | intToMoney,
+                                          fee_spent: data.fee_spent | intToMoney
+                                      }
                         }}
                     </p>
                 </li>

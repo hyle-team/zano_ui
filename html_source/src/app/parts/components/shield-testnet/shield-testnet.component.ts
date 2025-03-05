@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
     standalone: true,
     imports: [CommonModule, MatIconModule],
     templateUrl: './shield-testnet.component.html',
-    styleUrls: ['./shield-testnet.component.scss'],
+    styleUrls: ['./shield-testnet.component.scss']
 })
 export class ShieldTestnetComponent implements OnInit {
     constructor() {}

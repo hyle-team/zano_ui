@@ -28,14 +28,14 @@
                 <div *ngIf="form.controls.amount.hasError('required')">
                     {{ 'ERRORS.REQUIRED' | translate }}
                 </div>
-                <div *ngIf="form.controls.amount.hasError('insuficcientFunds')">
-                    {{ form.controls.amount.errors['insuficcientFunds'].errorText | translate }}
+                <div *ngIf="form.controls.amount.hasError('insufficientFunds')">
+                    {{ form.controls.amount.errors['insufficientFunds'].errorText | translate }}
                 </div>
                 <div *ngIf="form.controls.amount.hasError('asset_not_found')">
                     {{ 'ERRORS.ASSET_NOT_FOUND' | translate }}
                 </div>
-                <div *ngIf="form.controls.amount.hasError('greater_than_maximum_amount')">
-                    {{ 'ERRORS.MAX' | translate : { max: form.controls.amount.errors['greater_than_maximum_amount'].max } }}
+                <div *ngIf="form.controls.amount.hasError('greater_max')">
+                    {{ 'ERRORS.MAX' | translate : { max: form.controls.amount.errors['greater_max'].max } }}
                 </div>
             </div>
         </div>

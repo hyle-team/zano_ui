@@ -9,6 +9,6 @@ import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
     declarations: [NoWalletComponent],
-    imports: [CommonModule, AuthRoutingModule, TranslateModule, FlexLayoutModule, SynchronizationStatusComponent, MatIconModule],
+    imports: [CommonModule, AuthRoutingModule, TranslateModule, FlexLayoutModule, SynchronizationStatusComponent, MatIconModule]
 })
 export class AuthModule {}

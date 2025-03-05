@@ -2,7 +2,7 @@ import { Subtransfer, Transaction } from '@api/models/transaction.model';
 import { Wallet } from '@api/models/wallet.model';
 import { intToMoney } from '@parts/functions/int-to-money';
 import { AssetInfo } from '@api/models/assets.model';
-import { zanoAssetInfo } from '@parts/data/assets';
+import { ZANO_ASSET_INFO } from '@parts/data/assets';
 import { isFinalizator, isInitiator, isSelfTransaction, isSwapTransaction } from '@parts/functions/identify-transaction';
 
 export interface AmountItem {
@@ -18,13 +18,13 @@ export const getAmountItems = (transaction: Transaction, wallet: Wallet): Amount
     const items: { amount: string; ticker: string }[] = [];
 
     if (!subtransfers?.length) {
-        items.push({ amount: '0', ticker: zanoAssetInfo.ticker });
+        items.push({ amount: '0', ticker: ZANO_ASSET_INFO.ticker });
         return items;
     }
 
-    if (isInitiator(transaction) && !Boolean(subtransfers.find(({ asset_id }) => asset_id === zanoAssetInfo.asset_id))) {
-        const preparedAmount: string = intToMoney(fee, zanoAssetInfo.decimal_point);
-        items.push({ amount: preparedAmount, ticker: zanoAssetInfo.ticker });
+    if (isInitiator(transaction) && !Boolean(subtransfers.find(({ asset_id }) => asset_id === ZANO_ASSET_INFO.asset_id))) {
+        const preparedAmount: string = intToMoney(fee, ZANO_ASSET_INFO.decimal_point);
+        items.push({ amount: preparedAmount, ticker: ZANO_ASSET_INFO.ticker });
     }
 
     subtransfers.forEach((subtransfer: Subtransfer) => {
@@ -43,7 +43,7 @@ export const getAmountItems = (transaction: Transaction, wallet: Wallet): Amount
 
         const { ticker, decimal_point } = asset_info;
 
-        if (asset_id !== zanoAssetInfo.asset_id) {
+        if (asset_id !== ZANO_ASSET_INFO.asset_id) {
             if (amount.toNumber() === 0) {
                 return;
             }
@@ -53,7 +53,7 @@ export const getAmountItems = (transaction: Transaction, wallet: Wallet): Amount
             return;
         }
 
-        if (asset_id === zanoAssetInfo.asset_id) {
+        if (asset_id === ZANO_ASSET_INFO.asset_id) {
             const { address } = wallet;
 
             const selfTransaction: boolean = isSelfTransaction(transaction, address);

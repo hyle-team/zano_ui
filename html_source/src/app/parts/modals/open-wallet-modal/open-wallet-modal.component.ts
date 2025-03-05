@@ -10,7 +10,7 @@ import { BehaviorSubject } from 'rxjs';
 @Component({
     selector: 'app-open-wallet-modal',
     templateUrl: './open-wallet-modal.component.html',
-    styleUrls: ['./open-wallet-modal.component.scss'],
+    styleUrls: ['./open-wallet-modal.component.scss']
 })
 export class OpenWalletModalComponent implements OnInit, OnDestroy {
     @HostBinding('class.modal-overlay') modalOverlay = true;
@@ -24,7 +24,7 @@ export class OpenWalletModalComponent implements OnInit, OnDestroy {
         path: '',
         pass: '',
         notFound: false,
-        emptyPass: false,
+        emptyPass: false
     };
 
     constructor(
@@ -97,9 +97,9 @@ export class OpenWalletModalComponent implements OnInit, OnDestroy {
             this.wallet.notFound = true;
         });
 
-        const errorMessage = `${this._translateService.instant('OPEN_WALLET.FILE_NOT_FOUND1')}:<br>${this.wallet.path}${this._translateService.instant(
-            'OPEN_WALLET.FILE_NOT_FOUND2'
-        )}`;
+        const errorMessage = `${this._translateService.instant('OPEN_WALLET.FILE_NOT_FOUND1')}:<br>${
+            this.wallet.path
+        }${this._translateService.instant('OPEN_WALLET.FILE_NOT_FOUND2')}`;
         this._modalService.prepareModal('error', errorMessage);
     }
 

@@ -126,8 +126,8 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                 height: 100%;
                 overflow: hidden;
             }
-        `,
-    ],
+        `
+    ]
 })
 export class TransferAliasComponent implements OnInit {
     wallet: Wallet;
@@ -137,11 +137,11 @@ export class TransferAliasComponent implements OnInit {
     breadcrumbItems: BreadcrumbItems = [
         {
             routerLink: '/wallet/history',
-            title: this.variablesService.currentWallet.name,
+            title: this.variablesService.current_wallet.name
         },
         {
-            title: 'BREADCRUMBS.TRANSFER_ALIAS',
-        },
+            title: 'BREADCRUMBS.TRANSFER_ALIAS'
+        }
     ];
 
     transferAddress = '';
@@ -165,13 +165,13 @@ export class TransferAliasComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.wallet = this.variablesService.currentWallet;
+        this.wallet = this.variablesService.current_wallet;
         const alias = this.backend.getWalletAlias(this.wallet.address);
         this.alias = {
             name: alias.name,
             address: alias.address,
             comment: alias.comment,
-            tracking_key: alias.tracking_key,
+            tracking_key: alias.tracking_key
         };
         const unlocked_balance = new BigNumber(this.wallet.getBalanceByTicker('ZANO')?.unlocked || 0);
         this.notEnoughMoney = unlocked_balance.isLessThan(this.variablesService.default_fee_big);
@@ -223,7 +223,7 @@ export class TransferAliasComponent implements OnInit {
             name: this.alias.name,
             address: this.transferAddress,
             comment: this.alias.comment,
-            tracking_key: this.alias.tracking_key,
+            tracking_key: this.alias.tracking_key
         };
         this.backend.updateAlias(this.wallet.wallet_id, newAlias, this.variablesService.default_fee, (status, data) => {
             if (status && hasOwnProperty(data, 'success') && data.success) {

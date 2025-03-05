@@ -1,22 +1,13 @@
-<div
-    class="controls"
-    fxFlex="0 0 auto"
-    fxLayout="row"
-    fxLayoutAlign="start center"
->
-    <ng-container
-        *ngIf="isShowRegisterAlias"
-    >
+<div class="controls" fxFlex="0 0 auto" fxLayout="row" fxLayoutAlign="start center">
+    <ng-container *ngIf="isShowRegisterAlias">
         <button [routerLink]="['/assign-alias']" class="px-1 py-0_8 btn-light-background">
             {{ 'WALLET.REGISTER_ALIAS' | translate }}
         </button>
     </ng-container>
 
-    <ng-container
-        *ngIf="isShowAlias"
-    >
-        <div [class.available]="variablesService.currentWallet.alias | isAvailableAliasName" class="alias mr-1">
-            {{ variablesService.currentWallet.alias.name }}
+    <ng-container *ngIf="isShowAlias">
+        <div [class.available]="variablesService.current_wallet.alias | isAvailableAliasName" class="alias mr-1">
+            {{ variablesService.current_wallet.alias.name }}
         </div>
 
         <ng-container *ngIf="isShowAliasButtons">

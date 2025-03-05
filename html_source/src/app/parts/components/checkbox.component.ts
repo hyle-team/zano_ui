@@ -22,17 +22,17 @@ import { CommonModule } from '@angular/common';
             :host {
                 display: inline-flex;
             }
-        `,
+        `
     ],
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
             useExisting: forwardRef(() => CheckboxComponent),
-            multi: true,
-        },
+            multi: true
+        }
     ],
     standalone: true,
-    imports: [CommonModule],
+    imports: [CommonModule]
 })
 export class CheckboxComponent implements ControlValueAccessor {
     @Input() value = false;

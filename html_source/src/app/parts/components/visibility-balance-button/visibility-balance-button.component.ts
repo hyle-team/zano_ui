@@ -8,7 +8,7 @@ import { VariablesService } from '@parts/services/variables.service';
     standalone: true,
     imports: [CommonModule, MatIconModule],
     templateUrl: './visibility-balance-button.component.html',
-    styleUrls: ['./visibility-balance-button.component.scss'],
+    styleUrls: ['./visibility-balance-button.component.scss']
 })
 export class VisibilityBalanceButtonComponent implements OnInit {
     public readonly variablesService: VariablesService = inject(VariablesService);

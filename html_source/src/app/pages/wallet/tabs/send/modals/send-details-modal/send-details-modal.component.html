@@ -99,8 +99,7 @@
 
                         <ng-container *ngIf="responseData$ | async as data">
                             <li class="item mb-1 color-primary" fxLayout="row nowrap" fxLayoutAlign=" center">
-                                <span class="word-break-break-all cursor-pointer"
-                                      (click)="openInBrowser(data.response_data.tx_hash)">
+                                <span class="word-break-break-all cursor-pointer" (click)="openInBrowser(data.response_data.tx_hash)">
                                     tx id: {{ data.response_data.tx_hash || '---' }}
                                 </span>
                                 <app-copy-button *ngIf="data.response_data.tx_hash" [value]="data.response_data.tx_hash" class="ml-1">
@@ -130,7 +129,7 @@
             </div>
         </div>
         <div class="controls" fxFlex="0 0 auto">
-            <button (click)="eventClose.emit(success)" [disabled]="!isSentSuccess && !isSentFailed" class="primary big w-100">
+            <button (click)="event_close.emit(success)" [disabled]="!isSentSuccess && !isSentFailed" class="primary big w-100">
                 {{ 'Ok' | translate }}
             </button>
         </div>

@@ -8,6 +8,6 @@ import { MatIconModule } from '@angular/material/icon';
     standalone: true,
     imports: [CommonModule, BackButtonModule, MatIconModule],
     templateUrl: './back-button.component.html',
-    styleUrls: ['./back-button.component.scss'],
+    styleUrls: ['./back-button.component.scss']
 })
 export class BackButtonComponent {}

@@ -5,7 +5,7 @@ import { AmountItems, getAmountItems } from '@parts/functions/get-amount-items';
 
 @Pipe({
     name: 'getAmountItems',
-    standalone: true,
+    standalone: true
 })
 export class GetAmountItemsPipe implements PipeTransform {
     transform(transaction: Transaction, wallet: Wallet): AmountItems {

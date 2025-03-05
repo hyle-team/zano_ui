@@ -7,13 +7,13 @@ import { Wallet } from '@api/models/wallet.model';
 import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
+import { REG_EXP_PASSWORD, ZanoValidators } from '@parts/utils/zano-validators';
 import { WalletsService } from '@parts/services/wallets.service';
 
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss'],
+    styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
     submitLoading$ = new BehaviorSubject(false);
@@ -24,23 +24,23 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     get zanoLogo(): string {
         const {
-            settings: { isDarkTheme },
+            settings: { isDarkTheme }
         } = this.variablesService;
         return isDarkTheme ? 'assets/icons/blue/zano-logo.svg' : 'assets/icons/blue/light-zano-logo.svg';
     }
 
     regForm = this.fb.group(
         {
-            password: this.fb.nonNullable.control('', Validators.pattern(regExpPassword)),
-            confirmation: this.fb.nonNullable.control(''),
+            password: this.fb.nonNullable.control('', Validators.pattern(REG_EXP_PASSWORD)),
+            confirmation: this.fb.nonNullable.control('')
         },
         {
-            validators: [ZanoValidators.formMatch('password', 'confirmation')],
+            validators: [ZanoValidators.formMatch('password', 'confirmation')]
         }
     );
 
     authForm = this.fb.group({
-        password: this.fb.nonNullable.control(''),
+        password: this.fb.nonNullable.control('')
     });
 
     type = 'reg';
@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                 if (params.type) {
                     this.type = params.type;
                 }
-            },
+            }
         });
     }
 
@@ -78,7 +78,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.backend.setMasterPassword({ pass: this.variablesService.appPass }, (status, data) => {
                 if (status) {
                     this.backend.storeSecureAppData({
-                        pass: this.variablesService.appPass,
+                        pass: this.variablesService.appPass
                     });
                     this.variablesService.appLogin = true;
                     this.variablesService.dataIsLoaded = true;
@@ -156,7 +156,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                         this.ngZone.run(() => {
                             this.submitLoading$.next(false);
                             this.router.navigate(['/'], {
-                                queryParams: { prevUrl: 'login' },
+                                queryParams: { prevUrl: 'login' }
                             });
                         });
                     } else {

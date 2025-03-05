@@ -32,7 +32,7 @@ import {
     IsAvailableAliasNamePipeModule,
     MoneyToIntPipeModule,
     SafeHtmlPipeModule,
-    ShortStringPipe,
+    ShortStringPipe
 } from '@parts/pipes';
 import { InputValidateModule } from '@parts/directives/input-validate';
 import { InputDisableSelectionModule } from '@parts/directives/input-disable-selection';
@@ -59,7 +59,7 @@ import { IsVisibleControlErrorPipe } from '@parts/pipes/is-visible-control-error
         SeedPhraseComponent,
         AssignAliasComponent,
         EditAliasComponent,
-        TransferAliasComponent,
+        TransferAliasComponent
     ],
     imports: [
         CommonModule,
@@ -99,7 +99,7 @@ import { IsVisibleControlErrorPipe } from '@parts/pipes/is-visible-control-error
         BreadcrumbsComponent,
         BackButtonComponent,
         MatIconModule,
-        IsVisibleControlErrorPipe,
-    ],
+        IsVisibleControlErrorPipe
+    ]
 })
 export class PagesModule {}

@@ -13,18 +13,18 @@ import { BigNumber } from 'bignumber.js';
 import { LOCKED_BALANCE_HELP_PAGE } from '@parts/data/constants';
 import { IntToMoneyPipe } from '@parts/pipes';
 import { TranslateService } from '@ngx-translate/core';
-import { zanoAssetInfo } from '@parts/data/assets';
+import { ZANO_ASSET_INFO } from '@parts/data/assets';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-assets',
-    templateUrl: `./assets.component.html`,
+    templateUrl: `./assets.component.html`
 })
 export class AssetsComponent implements OnInit, OnDestroy {
     paginatePipeArgs: PaginatePipeArgs = {
         id: 'pagination-assets-id',
         itemsPerPage: 10,
-        currentPage: 1,
+        currentPage: 1
     };
 
     triggerOrigin!: CdkOverlayOrigin;
@@ -50,9 +50,9 @@ export class AssetsComponent implements OnInit, OnDestroy {
     private readonly _ngZone: NgZone = inject(NgZone);
 
     get isShowPagination(): boolean {
-        const { currentWallet } = this.variablesService;
-        if (currentWallet) {
-            const { balances } = currentWallet;
+        const { current_wallet } = this.variablesService;
+        if (current_wallet) {
+            const { balances } = current_wallet;
             return (balances?.length || 0) > this.paginatePipeArgs.itemsPerPage;
         }
         return false;
@@ -85,8 +85,8 @@ export class AssetsComponent implements OnInit, OnDestroy {
         const { asset_info } = this.currentAssetBalance;
         const config: MatDialogConfig = {
             data: {
-                asset_info,
-            },
+                asset_info
+            }
         };
         this._matDialog.open(AssetDetailsComponent, config);
     }
@@ -99,8 +99,8 @@ export class AssetsComponent implements OnInit, OnDestroy {
         const config: MatDialogConfig<ConfirmModalData> = {
             data: {
                 // TODO: Add in translates
-                title: `Do you want delete "${full_name}"`,
-            },
+                title: `Do you want delete "${full_name}"`
+            }
         };
 
         this._matDialog
@@ -108,31 +108,31 @@ export class AssetsComponent implements OnInit, OnDestroy {
             .afterClosed()
             .pipe(takeUntil(this._destroy$))
             .subscribe({
-                next: confirmed => confirmed && this._removeAsset(),
+                next: confirmed => confirmed && this._removeAsset()
             });
     }
 
     private _removeAsset(): void {
-        const { currentWallet, verifiedAssetIdWhitelist } = this.variablesService;
-        const { wallet_id, sendMoneyParams } = currentWallet;
+        const { current_wallet, verifiedAssetIdWhitelist } = this.variablesService;
+        const { wallet_id, transfer_form_value } = current_wallet;
         const {
-            asset_info: { asset_id },
+            asset_info: { asset_id }
         } = this.currentAssetBalance;
 
         const isVerifiedAsset: boolean = verifiedAssetIdWhitelist.includes(asset_id);
 
         if (isVerifiedAsset) {
-            currentWallet.addAssetToLocalBlacklistVerifiedAssets(asset_id);
+            current_wallet.addAssetToLocalBlacklistVerifiedAssets(asset_id);
         } else {
             const params: ParamsRemoveCustomAssetId = {
                 wallet_id,
-                asset_id,
+                asset_id
             };
 
             this._backendService.removeCustomAssetId(params, () => {
                 this._ngZone.run(() => {
-                    if (sendMoneyParams?.asset_id === asset_id) {
-                        this._walletsService.currentWallet.sendMoneyParams.asset_id = zanoAssetInfo.asset_id;
+                    if (transfer_form_value?.asset_id === asset_id) {
+                        this._walletsService.currentWallet.transfer_form_value.asset_id = ZANO_ASSET_INFO.asset_id;
                     }
 
                     this._walletsService.updateWalletInfo(wallet_id);
@@ -187,10 +187,10 @@ export class AssetsComponent implements OnInit, OnDestroy {
 
     isShowDeleteAsset(): boolean {
         const {
-            asset_info: { asset_id },
+            asset_info: { asset_id }
         } = this.currentAssetBalance;
         /** You can't delete asset zano */
-        return ![zanoAssetInfo.asset_id].includes(asset_id);
+        return ![ZANO_ASSET_INFO.asset_id].includes(asset_id);
     }
 
     private _listenChangeWallet(): void {
@@ -198,7 +198,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
         currentWalletChangedEvent.pipe(takeUntil(this._destroy$)).subscribe({
             next: () => {
                 this.paginatePipeArgs.currentPage = 0;
-            },
+            }
         });
     }
 }

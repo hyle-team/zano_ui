@@ -10,6 +10,6 @@ import { MatIconModule } from '@angular/material/icon';
 @NgModule({
     declarations: [DeeplinkModalComponent],
     imports: [CommonModule, NgSelectModule, FormsModule, FlexLayoutModule, TranslateModule, MatIconModule],
-    exports: [DeeplinkModalComponent],
+    exports: [DeeplinkModalComponent]
 })
 export class DeeplinkModalModule {}

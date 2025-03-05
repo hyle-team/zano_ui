@@ -10,7 +10,7 @@ import {
     HistoryTypeMessagesPipeModule,
     IntToMoneyPipeModule,
     IsAvailableAliasNamePipeModule,
-    ShortStringPipe,
+    ShortStringPipe
 } from '@parts/pipes';
 import { TranslateModule } from '@ngx-translate/core';
 import { ConfirmModalModule } from '@parts/modals/confirm-modal/confirm-modal.module';
@@ -58,11 +58,20 @@ import { AssetDetailsComponent } from '@parts/modals/asset-details/asset-details
 import { MatDialogModule } from '@angular/material/dialog';
 import { GetLogoByAssetInfoPipe } from '@parts/pipes/get-logo-by-asset-info.pipe';
 import { ShieldTestnetComponent } from '@parts/components/shield-testnet/shield-testnet.component';
-import {
-    VisibilityBalanceButtonComponent
-} from '@parts/components/visibility-balance-button/visibility-balance-button.component';
+import { VisibilityBalanceButtonComponent } from '@parts/components/visibility-balance-button/visibility-balance-button.component';
 import { MigrateAlertComponent } from '@parts/components/migrate-alert/migrate-alert.component';
 import { AliasControlsComponent } from '@parts/components/alias-controls/alias-controls.component';
+import { IsVisibleControlErrorPipe } from '@parts/pipes/is-visible-control-error.pipe';
+import { WrapInformationComponent } from './tabs/send/components/wrap-information/wrap-information.component';
+import { FeeFieldComponent } from './tabs/send/components/fee-field/fee-field.component';
+import { MixinFieldComponent } from './tabs/send/components/mixin-field/mixin-field.component';
+import { AssetFieldComponent } from './tabs/send/components/asset-field/asset-field.component';
+import { CommentFieldComponent } from './tabs/send/components/comment-field/comment-field.component';
+import { AddressFieldComponent } from './tabs/send/components/address-field/address-field.component';
+import { AmountFieldComponent } from './tabs/send/components/amount-field/amount-field.component';
+import {
+  AddAnotherDestinationButtonComponent
+} from './tabs/send/components/add-another-destination-button/add-another-destination-button.component';
 
 @NgModule({
     declarations: [
@@ -82,7 +91,7 @@ import { AliasControlsComponent } from '@parts/components/alias-controls/alias-c
         UpdateCustomAssetComponent,
         EmitCustomAssetComponent,
         BurnCustomAssetComponent,
-        TransactionDetailsForCustomAssetsComponent,
+        TransactionDetailsForCustomAssetsComponent
     ],
     imports: [
         CommonModule,
@@ -132,6 +141,15 @@ import { AliasControlsComponent } from '@parts/components/alias-controls/alias-c
         VisibilityBalanceButtonComponent,
         MigrateAlertComponent,
         AliasControlsComponent,
-    ],
+        IsVisibleControlErrorPipe,
+        WrapInformationComponent,
+        FeeFieldComponent,
+        MixinFieldComponent,
+        AssetFieldComponent,
+        CommentFieldComponent,
+        AddressFieldComponent,
+        AmountFieldComponent,
+        AddAnotherDestinationButtonComponent
+    ]
 })
 export class WalletModule {}

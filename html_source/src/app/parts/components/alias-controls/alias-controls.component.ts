@@ -13,43 +13,43 @@ import { VariablesService } from '@parts/services/variables.service';
     standalone: true,
     imports: [CommonModule, FlexModule, IsAvailableAliasNamePipeModule, MatIconModule, TooltipModule, TranslateModule, RouterLink],
     templateUrl: './alias-controls.component.html',
-    styleUrls: ['./alias-controls.component.scss'],
+    styleUrls: ['./alias-controls.component.scss']
 })
 export class AliasControlsComponent implements OnInit {
     public readonly variablesService: VariablesService = inject(VariablesService);
 
     get isShowRegisterAlias(): boolean {
-        const { currentWallet, daemon_state } = this.variablesService;
+        const { current_wallet, daemon_state } = this.variablesService;
 
-        if (!currentWallet) {
+        if (!current_wallet) {
             return false;
         }
 
-        const { alias, loaded, alias_available } = currentWallet;
+        const { alias, loaded, alias_available } = current_wallet;
 
         return !alias.hasOwnProperty('name') && loaded && daemon_state === 2 && alias_available;
     }
 
     get isShowAlias(): boolean {
-        const { currentWallet, daemon_state } = this.variablesService;
+        const { current_wallet, daemon_state } = this.variablesService;
 
-        if (!currentWallet) {
+        if (!current_wallet) {
             return false;
         }
 
-        const { alias, loaded } = currentWallet;
+        const { alias, loaded } = current_wallet;
 
         return alias.hasOwnProperty('name') && loaded && daemon_state === 2;
     }
 
     get isShowAliasButtons(): boolean {
-        const { currentWallet, daemon_state } = this.variablesService;
+        const { current_wallet, daemon_state } = this.variablesService;
 
-        if (!currentWallet) {
+        if (!current_wallet) {
             return false;
         }
 
-        const { is_auditable, alias_available } = currentWallet;
+        const { is_auditable, alias_available } = current_wallet;
 
         return !is_auditable && alias_available;
     }

@@ -1,0 +1,28 @@
+<div class="form__field fixed">
+    <label>
+        {{ 'SEND.ASSET' | translate }}
+        <span class="color-red">*</span>
+    </label>
+    <ng-select
+        [bindValue]="'asset_info.asset_id'"
+        [clearable]="false"
+        [items]="items"
+        [searchable]="false"
+        class="custom-select with-circle"
+        [formControl]="control_ref"
+    >
+        <ng-template let-asset="item" ng-label-tmp ng-option-tmp>
+            <div [innerHTML]="asset.asset_info | getLogoByAssetInfo" class="token-logo"></div>
+            {{ asset.asset_info.full_name ?? '***' }}
+
+            <ng-container *appVisibilityBalance>
+                ({{ asset.total | intToMoney : asset.asset_info.decimal_point }} {{ asset.asset_info.ticker }})
+            </ng-container>
+        </ng-template>
+    </ng-select>
+    <div *ngIf="control_ref | isVisibleControlError" class="error">
+        <div *ngIf="control_ref.hasError('required')">
+            {{ 'ERRORS.REQUIRED' | translate }}
+        </div>
+    </div>
+</div>

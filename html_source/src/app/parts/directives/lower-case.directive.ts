@@ -2,7 +2,7 @@ import { Directive, HostListener, Input } from '@angular/core';
 
 @Directive({
     selector: 'input[lowerCase]:not([upperCase]),textarea[lowerCase]:not([upperCase])',
-    standalone: true,
+    standalone: true
 })
 export class LowerCaseDirective {
     @Input() lowerCaseValue: string;
@@ -12,7 +12,7 @@ export class LowerCaseDirective {
     private getCaret(el) {
         return {
             start: el.selectionStart,
-            end: el.selectionEnd,
+            end: el.selectionEnd
         };
     }
 

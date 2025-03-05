@@ -8,12 +8,12 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
     selector: 'app-no-wallet',
     templateUrl: './no-wallet.component.html',
-    styleUrls: ['./no-wallet.component.scss'],
+    styleUrls: ['./no-wallet.component.scss']
 })
 export class NoWalletComponent {
     get zanoLogo(): string {
         const {
-            settings: { isDarkTheme },
+            settings: { isDarkTheme }
         } = this.variablesService;
         return isDarkTheme ? 'assets/icons/blue/zano-logo.svg' : 'assets/icons/blue/light-zano-logo.svg';
     }
@@ -37,7 +37,7 @@ export class NoWalletComponent {
                     this.ngZone.run(() => {
                         this.router
                             .navigate(['/open'], {
-                                queryParams: { path: file_data.path },
+                                queryParams: { path: file_data.path }
                             })
                             .then();
                     });

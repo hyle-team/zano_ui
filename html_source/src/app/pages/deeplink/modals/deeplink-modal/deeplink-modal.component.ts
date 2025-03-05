@@ -22,6 +22,7 @@ import { takeUntil } from 'rxjs/operators';
                             [items]="walletsToPay"
                             [searchable]="false"
                             bindLabel="name"
+                            appendTo="body"
                             bindValue="wallet_id"
                         >
                             <ng-template let-item="item" ng-label-tmp>
@@ -183,7 +184,7 @@ import { takeUntil } from 'rxjs/operators';
             </ng-container>
         </div>
     `,
-    styleUrls: ['./deeplink-modal.component.scss'],
+    styleUrls: ['./deeplink-modal.component.scss']
 })
 export class DeeplinkModalComponent implements OnInit, OnDestroy {
     @HostBinding('class.modal-overlay') modalOverlay = true;
@@ -215,7 +216,7 @@ export class DeeplinkModalComponent implements OnInit, OnDestroy {
         private ngZone: NgZone,
         private renderer: Renderer2
     ) {
-        this.walletsToPay = this.variablesService.wallets.filter(wallet => !wallet.is_watch_only || !wallet.is_auditable);
+        this.walletsToPay = this.variablesService.wallets.filter(wallet => !wallet.is_watch_only || !wallet.is_auditable || wallet.loaded);
     }
 
     ngOnInit(): void {
@@ -247,7 +248,7 @@ export class DeeplinkModalComponent implements OnInit, OnDestroy {
                         }
                     }
                 }
-            },
+            }
         });
     }
 
@@ -294,8 +295,8 @@ export class DeeplinkModalComponent implements OnInit, OnDestroy {
                 ot: 1,
                 pt: 'Credit cards, BTC, ZANO, ETH',
                 t: this.actionData.title || '',
-                url: this.actionData.url || this.actionData.img_url || '',
-            },
+                url: this.actionData.url || this.actionData.img_url || ''
+            }
         };
         this.backend.push_offer(offerObject, (status, data) => {
             this.ngZone.run(() => {
@@ -322,12 +323,12 @@ export class DeeplinkModalComponent implements OnInit, OnDestroy {
             this.variablesService.setCurrentWallet(this.walletToPayId);
             this._router.navigate(['/wallet/send']).then();
             this.secondStep = false;
-        } else if (this.actionData.action === 'escrow') {
-            this.variablesService.sendActionData$.next(this.actionData);
-            this.variablesService.deeplink$.next(null);
-            this.variablesService.setCurrentWallet(this.walletToPayId);
-            this._router.navigate(['/wallet/contracts/purchase']).then();
-            this.secondStep = false;
+        // } else if (this.actionData.action === 'escrow') {
+        //     this.variablesService.sendActionData$.next(this.actionData);
+        //     this.variablesService.deeplink$.next(null);
+        //     this.variablesService.setCurrentWallet(this.walletToPayId);
+        //     this._router.navigate(['/wallet/contracts/purchase']).then();
+        //     this.secondStep = false;
         } else {
             this.secondStep = true;
         }

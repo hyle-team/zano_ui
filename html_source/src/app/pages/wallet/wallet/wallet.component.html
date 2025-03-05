@@ -3,7 +3,7 @@
         <div class="wallet-wrapper" fxLayout="column" fxLayoutAlign="start start">
             <div class="title" fxLayout="row nowrap" fxLayoutAlign="start center" fxLayoutGap="1rem">
                 <h1 class="text-ellipsis">
-                    {{ variablesService.currentWallet.address | zanoShortString }}
+                    {{ variablesService.current_wallet.address | zanoShortString }}
                 </h1>
 
                 <app-copy-button
@@ -11,8 +11,8 @@
                     [placement]="'bottom'"
                     [timeout]="0"
                     [tooltipClass]="'table-tooltip'"
-                    [tooltip]="variablesService.currentWallet.address"
-                    [value]="variablesService.currentWallet.address"
+                    [tooltip]="variablesService.current_wallet.address"
+                    [value]="variablesService.current_wallet.address"
                 >
                 </app-copy-button>
 
@@ -36,7 +36,7 @@
                 (click)="$event.stopPropagation(); toggleMenuDropdown()"
                 #trigger="cdkOverlayOrigin"
                 cdkOverlayOrigin
-                [disabled]="settingsButtonDisabled && !variablesService.currentWallet.loaded"
+                [disabled]="settingsButtonDisabled && !variablesService.current_wallet.loaded"
                 class="btn-icon circle big"
                 data-target="wallet-dropdown-button"
             >
@@ -53,14 +53,14 @@
     [cdkConnectedOverlayOrigin]="trigger"
     [cdkConnectedOverlayOpen]="openDropdown"
     [cdkConnectedOverlayPositions]="[
-                {
-                    originX: 'end',
-                    originY: 'top',
-                    overlayX: 'end',
-                    overlayY: 'top',
-                    offsetY: 40
-                }
-            ]"
+        {
+            originX: 'end',
+            originY: 'top',
+            overlayX: 'end',
+            overlayY: 'top',
+            offsetY: 40
+        }
+    ]"
     cdkConnectedOverlay
 >
     <div (click)="toggleMenuDropdown()" class="content-bottom-right py-0_5">
@@ -68,7 +68,7 @@
             <li class="item">
                 <button
                     [delay]="500"
-                    [disabled]="!variablesService.currentWallet.loaded"
+                    [disabled]="!variablesService.current_wallet.loaded"
                     [routerLink]="['/details']"
                     [timeDelay]="500"
                     class="w-100 px-2 py-1"
@@ -104,7 +104,7 @@
                 <button
                     (click)="exportHistory()"
                     [delay]="500"
-                    [disabled]="variablesService.currentWallet.history.length <= 0"
+                    [disabled]="variablesService.current_wallet.history.length <= 0"
                     [timeDelay]="500"
                     class="w-100 px-2 py-1"
                     placement="left"
@@ -119,9 +119,9 @@
             <ng-container *ngIf="walletSyncVisible">
                 <li class="item">
                     <button
-                        (click)="resyncCurrentWallet(variablesService.currentWallet.wallet_id)"
+                        (click)="resyncCurrentWallet(variablesService.current_wallet.wallet_id)"
                         [delay]="500"
-                        [disabled]="!variablesService.currentWallet.loaded"
+                        [disabled]="!variablesService.current_wallet.loaded"
                         [timeDelay]="500"
                         class="w-100 px-2 py-1"
                         placement="left"
@@ -136,7 +136,7 @@
             </ng-container>
             <li class="item">
                 <button
-                    (click)="close(variablesService.currentWallet.wallet_id)"
+                    (click)="close(variablesService.current_wallet.wallet_id)"
                     [delay]="500"
                     [timeDelay]="500"
                     class="w-100 px-2 py-1"
@@ -157,15 +157,10 @@
     <div class="tabs-header">
         <ng-container *ngFor="let tab of tabs">
             <ng-container *ngIf="!tab.hidden">
-                <button
-                    [disabled]="tab.disabled"
-                    [routerLink]="['/wallet' + tab.link]"
-                    class="tab-header"
-                    routerLinkActive="active"
-                >
+                <button [disabled]="tab.disabled" [routerLink]="['/wallet' + tab.link]" class="tab-header" routerLinkActive="active">
                     <mat-icon [svgIcon]="tab.icon"></mat-icon>
                     <span *ngIf="isViewTabName$ | async" class="ml-1">{{ tab.title | translate }}</span>
-                    <span *ngIf="tab.indicator" class="indicator">{{ variablesService.currentWallet.new_contracts }}</span>
+                    <span *ngIf="tab.indicator" class="indicator">{{ variablesService.current_wallet.new_contracts }}</span>
                 </button>
             </ng-container>
         </ng-container>

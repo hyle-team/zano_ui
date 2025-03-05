@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
     `,
     styles: [],
     standalone: true,
-    imports: [CommonModule],
+    imports: [CommonModule]
 })
 export class StakingSwitchComponent {
     @Input() wallet_id: number;

@@ -24,8 +24,8 @@ import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogConfig, MatDialogModule } from '@a
 export function highchartsFactory(): any[] {
     highcharts.setOptions({
         time: {
-            useUTC: false,
-        },
+            useUTC: false
+        }
     });
 
     return [exporting];
@@ -33,7 +33,7 @@ export function highchartsFactory(): any[] {
 
 export const provideHighchartsFactory = {
     provide: HIGHCHARTS_MODULES,
-    useFactory: highchartsFactory,
+    useFactory: highchartsFactory
 };
 
 export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
@@ -44,8 +44,8 @@ const translateModuleConfig: TranslateModuleConfig = {
     loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient],
-    },
+        deps: [HttpClient]
+    }
 };
 
 const provideDialog: Provider = {
@@ -55,8 +55,8 @@ const provideDialog: Provider = {
         maxWidth: '54rem',
         maxHeight: '90vh',
         hasBackdrop: true,
-        disableClose: true,
-    },
+        disableClose: true
+    }
 };
 
 const providerMatDialog: Provider = {
@@ -67,8 +67,8 @@ const providerMatDialog: Provider = {
         maxHeight: '90vh',
         panelClass: 'zano-mat-dialog',
         hasBackdrop: true,
-        disableClose: true,
-    },
+        disableClose: true
+    }
 };
 
 @NgModule({
@@ -86,14 +86,10 @@ const providerMatDialog: Provider = {
         FlexModule,
         FormsModule,
         MatDialogModule,
-        RegisterContextTemplatesComponent,
+        RegisterContextTemplatesComponent
     ],
-    providers: [
-        provideHighchartsFactory,
-        provideDialog,
-        providerMatDialog,
-    ],
-    bootstrap: [AppComponent],
+    providers: [provideHighchartsFactory, provideDialog, providerMatDialog],
+    bootstrap: [AppComponent]
 })
 export class AppModule {
     private _matIconRegistry: MatIconRegistry = inject(MatIconRegistry);

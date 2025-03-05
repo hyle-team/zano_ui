@@ -12,10 +12,10 @@ import {
     ParamsAddCustomAssetId,
     ParamsRemoveCustomAssetId,
     ResponseAddCustomAssetId,
-    ResponseRemoveCustomAssetId,
+    ResponseRemoveCustomAssetId
 } from '@api/models/assets.model';
 import { Alias } from '@api/models/alias.model';
-import { SendMoneyParams } from '@api/models/send-money.model';
+import { TransferParams } from '@api/models/transfer.model';
 import { ParamsCallRpc } from '@api/models/call_rpc.model';
 
 export interface PramsObj {
@@ -29,7 +29,7 @@ export type Params = string | PramsObj | PramsArray;
 export enum ParamsType {
     array = 'array',
     object = 'object',
-    string = 'string',
+    string = 'string'
 }
 
 export const getParamsType = (value: Params): ParamsType | null => {
@@ -51,7 +51,7 @@ export const convertersObjectForTypes: ConvertersObjectForTypes = {
     [ParamsType.array]: (value: PramsArray): string[] =>
         value.map(v => {
             return typeof v === ParamsType.string ? (v as string) : JSONBigNumber.stringify(v);
-        }),
+        })
 };
 
 export const convertorParams = (value: Params): string | string[] => {
@@ -83,7 +83,7 @@ export enum StatusCurrentActionState {
     STATE_MAKING_TUNNEL_B = 'STATE_MAKING_TUNNEL_B',
     STATE_CREATING_STREAM = 'STATE_CREATING_STREAM',
     STATE_FAILED = 'STATE_FAILED',
-    STATE_SUCCESS = 'STATE_SUCCESS',
+    STATE_SUCCESS = 'STATE_SUCCESS'
 }
 
 export interface CurrentActionState {
@@ -168,11 +168,11 @@ export enum Commands {
     call_wallet_rpc = 'call_wallet_rpc',
     setup_jwt_wallet_rpc = 'setup_jwt_wallet_rpc',
     show_notification = 'show_notification',
-    is_remnotenode_mode_preconfigured = 'is_remnotenode_mode_preconfigured',
+    is_remnotenode_mode_preconfigured = 'is_remnotenode_mode_preconfigured'
 }
 
 @Injectable({
-    providedIn: 'root',
+    providedIn: 'root'
 })
 export class BackendService {
     dispatchAsyncCallResult$ = new Subject<AsyncCommandResults>();
@@ -208,7 +208,7 @@ export class BackendService {
                 'total',
                 'unlocked',
                 'current_supply',
-                'total_max_supply',
+                'total_max_supply'
             ].indexOf(key) === -1
         ) {
             return val.toNumber();
@@ -284,7 +284,7 @@ export class BackendService {
             wallets.forEach(wallet => {
                 this.variablesService.settings.wallets.push({
                     name: wallet.name,
-                    path: wallet.path,
+                    path: wallet.path
                 });
             });
 
@@ -327,14 +327,14 @@ export class BackendService {
                 name: wallet.name,
                 pass: wallet.pass,
                 path: wallet.path,
-                staking: wallet.staking,
+                staking: wallet.staking
             });
         });
         this.variablesService.contacts.forEach(contact => {
             contacts.push({
                 name: contact.name,
                 address: contact.address,
-                notes: contact.notes,
+                notes: contact.notes
             });
         });
         const data = { wallets: wallets, contacts: contacts };
@@ -358,7 +358,7 @@ export class BackendService {
         const params = {
             caption: caption,
             filemask: fileMask,
-            default_dir: dir,
+            default_dir: dir
         };
         this.runCommand(Commands.show_savefile_dialog, params, callback);
     }
@@ -368,7 +368,7 @@ export class BackendService {
         const params = {
             caption,
             filemask,
-            default_dir,
+            default_dir
         };
         this.runCommand(Commands.show_openfile_dialog, params, callback);
     }
@@ -388,7 +388,7 @@ export class BackendService {
     generateWallet(path, pass, callback): void {
         const params = {
             path: path,
-            pass: pass,
+            pass: pass
         };
         this.runCommand(Commands.generate_wallet, params, callback);
     }
@@ -401,7 +401,7 @@ export class BackendService {
         const params = {
             path: path,
             pass: pass,
-            txs_to_return: txs_to_return,
+            txs_to_return: txs_to_return
         };
         params['testEmpty'] = !!testEmpty;
         this.runCommand(Commands.open_wallet, params, callback);
@@ -432,29 +432,12 @@ export class BackendService {
             seed_phrase: seed_phrase,
             path: path,
             pass: pass,
-            seed_pass,
+            seed_pass
         };
         this.runCommand(Commands.restore_wallet, params, callback);
     }
 
-    sendMoney({ wallet_id, address, amount, fee, mixin, comment, hide_receiver, push_payer, asset_id }: SendMoneyParams, callback): void {
-        const params = {
-            wallet_id,
-            destinations: [
-                {
-                    address,
-                    amount,
-                    ...(asset_id && { asset_id }),
-                },
-            ],
-            mixin_count: mixin ?? 0,
-            lock_time: 0,
-            fee: this.moneyToIntPipe.transform(fee),
-            comment: comment,
-            push_payer,
-            hide_receiver,
-        };
-
+    sendMoney(params: TransferParams, callback: (job_id: number) => void): void {
         this.asyncCall(Commands.transfer, params, callback);
     }
 
@@ -492,12 +475,12 @@ export class BackendService {
                 b_addr: b_addr,
                 to_pay: this.moneyToIntPipe.transform(to_pay),
                 a_pledge: this.moneyToIntPipe.transform(a_pledge),
-                b_pledge: this.moneyToIntPipe.transform(b_pledge),
+                b_pledge: this.moneyToIntPipe.transform(b_pledge)
             },
             payment_id: payment_id,
             expiration_period: parseInt(time, 10) * 60 * 60,
             fee: this.variablesService.default_fee_big,
-            b_fee: this.variablesService.default_fee_big,
+            b_fee: this.variablesService.default_fee_big
         };
         BackendService.Debug(1, params);
         this.runCommand(Commands.create_proposal, params, callback);
@@ -505,7 +488,7 @@ export class BackendService {
 
     getContracts(wallet_id, callback): void {
         const params = {
-            wallet_id: parseInt(wallet_id, 10),
+            wallet_id: parseInt(wallet_id, 10)
         };
         BackendService.Debug(1, params);
         this.runCommand(Commands.get_contracts, params, callback);
@@ -514,7 +497,7 @@ export class BackendService {
     acceptProposal(wallet_id, contract_id, callback): void {
         const params = {
             wallet_id: parseInt(wallet_id, 10),
-            contract_id: contract_id,
+            contract_id: contract_id
         };
         BackendService.Debug(1, params);
         this.runCommand(Commands.accept_proposal, params, callback);
@@ -524,7 +507,7 @@ export class BackendService {
         const params = {
             wallet_id: parseInt(wallet_id, 10),
             contract_id: contract_id,
-            release_type: release_type, // "normal" or "burn"
+            release_type: release_type // "normal" or "burn"
         };
         BackendService.Debug(1, params);
         this.runCommand(Commands.release_contract, params, callback);
@@ -535,7 +518,7 @@ export class BackendService {
             wallet_id: parseInt(wallet_id, 10),
             contract_id: contract_id,
             fee: this.variablesService.default_fee_big,
-            expiration_period: parseInt(time, 10) * 60 * 60,
+            expiration_period: parseInt(time, 10) * 60 * 60
         };
         BackendService.Debug(1, params);
         this.runCommand(Commands.request_cancel_contract, params, callback);
@@ -544,7 +527,7 @@ export class BackendService {
     acceptCancelContract(wallet_id, contract_id, callback): void {
         const params = {
             wallet_id: parseInt(wallet_id, 10),
-            contract_id: contract_id,
+            contract_id: contract_id
         };
         BackendService.Debug(1, params);
         this.runCommand(Commands.accept_cancel_contract, params, callback);
@@ -570,7 +553,7 @@ export class BackendService {
         const params = {
             configure_for_remote_node: node,
             remote_node_host: host,
-            remote_node_port: parseInt(port, 10),
+            remote_node_port: parseInt(port, 10)
         };
         this.runCommand(Commands.start_backend, params, callback);
     }
@@ -582,7 +565,7 @@ export class BackendService {
     setBackendLocalization(stringsArray, title, callback?): void {
         const params = {
             strings: stringsArray,
-            language_title: title,
+            language_title: title
         };
         this.runCommand(Commands.set_localization_strings, params, callback);
     }
@@ -594,10 +577,10 @@ export class BackendService {
                 alias: alias,
                 address: address,
                 tracking_key: '',
-                comment: comment,
+                comment: comment
             },
             fee: this.moneyToIntPipe.transform(fee),
-            reward: this.moneyToIntPipe.transform(reward),
+            reward: this.moneyToIntPipe.transform(reward)
         };
         this.runCommand(Commands.request_alias_registration, params, callback);
     }
@@ -609,9 +592,9 @@ export class BackendService {
                 alias: alias.name.replace('@', ''),
                 address: alias.address,
                 tracking_key: '',
-                comment: alias.comment,
+                comment: alias.comment
             },
-            fee: this.moneyToIntPipe.transform(fee),
+            fee: this.moneyToIntPipe.transform(fee)
         };
         this.runCommand(Commands.request_alias_update, params, callback);
     }
@@ -684,7 +667,7 @@ export class BackendService {
             wallet_id: id,
             offset: offset,
             count: count,
-            exclude_mining_txs: exclude_mining_txs,
+            exclude_mining_txs: exclude_mining_txs
         };
         this.runCommand(Commands.get_recent_transfers, params, callback);
     }
@@ -722,7 +705,7 @@ export class BackendService {
             (
                 status,
                 {
-                    job_id,
+                    job_id
                 }: {
                     job_id: number;
                 }
@@ -736,7 +719,7 @@ export class BackendService {
         this.backendObject[Commands.dispatch_async_call_result].connect((job_id: string, json_resp: string) => {
             const asyncCommandResults: AsyncCommandResults = {
                 job_id: +job_id,
-                response: JSON.parse(json_resp),
+                response: JSON.parse(json_resp)
             };
             console.group(`----------- ${Commands.dispatch_async_call_result} -----------`);
             console.log(asyncCommandResults);
@@ -754,7 +737,7 @@ export class BackendService {
 
     setEnableTor(value: boolean): void {
         this.runCommand(Commands.set_enable_tor, <{ v: boolean }>{
-            v: value,
+            v: value
         });
     }
 
@@ -771,8 +754,12 @@ export class BackendService {
                 {
                     disable_price_fetch,
                     use_debug_mode,
-                    rpc_port,
-                }: { disable_price_fetch: boolean; use_debug_mode: boolean; rpc_port: number }
+                    rpc_port
+                }: {
+                    disable_price_fetch: boolean;
+                    use_debug_mode: boolean;
+                    rpc_port: number;
+                }
             ) => {
                 this.variablesService.disable_price_fetch$.next(disable_price_fetch);
                 this.variablesService.use_debug_mode$.next(use_debug_mode);
@@ -830,7 +817,7 @@ export class BackendService {
                 if (command === 'cancel_offer') {
                     error_translate = this.translate.instant('ERRORS.NO_MONEY_REMOVE_OFFER', {
                         fee: this.variablesService.default_fee,
-                        currency: this.variablesService.defaultTicker,
+                        currency: this.variablesService.defaultTicker
                     });
                 }
                 break;
@@ -944,7 +931,7 @@ export class BackendService {
         BackendService.Debug(2, '----------------- ' + command + ' -----------------');
         const debug = {
             _send_params: params,
-            _result: result,
+            _result: result
         };
         BackendService.Debug(2, debug);
         try {
@@ -969,7 +956,7 @@ export class BackendService {
         } else {
             Result = {
                 error_code: 'OK',
-                response_data: Result,
+                response_data: Result
             };
         }
 
@@ -997,7 +984,7 @@ export class BackendService {
                     if (command !== Commands.get_recent_transfers) {
                         this.runCommand(command, params, callback);
                     } else {
-                        const current_wallet_id = this.variablesService.currentWallet.wallet_id;
+                        const current_wallet_id = this.variablesService.current_wallet.wallet_id;
                         if (current_wallet_id === params.wallet_id) {
                             this.runCommand(command, params, callback);
                         }

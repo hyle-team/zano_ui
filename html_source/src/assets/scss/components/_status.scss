@@ -3,9 +3,9 @@ app-synchronization-status {
 }
 
 .synchronization-status {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
+    display: grid;
+    gap: 1rem;
+    justify-content: center;
     color: var(--synchronization-status-color);
     width: 100%;
 

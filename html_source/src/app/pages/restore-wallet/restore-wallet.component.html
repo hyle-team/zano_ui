@@ -90,8 +90,13 @@
                             *ngIf="(control.invalid || !this.seedPhraseInfo?.syntax_correct) && (control.dirty || control.touched)"
                             class="error"
                         >
-                            <div *ngIf="control.hasError('required') &&
-                            (!control.hasError('password_seed_phrase_not_valid') && seedPhraseInfo.require_password)">
+                            <div
+                                *ngIf="
+                                    control.hasError('required') &&
+                                    !control.hasError('password_seed_phrase_not_valid') &&
+                                    seedPhraseInfo.require_password
+                                "
+                            >
                                 {{ 'RESTORE_WALLET.FORM_ERRORS.KEY_REQUIRED' | translate }}
                             </div>
                             <div *ngIf="control.hasError('password_seed_phrase_not_valid') && seedPhraseInfo.require_password">

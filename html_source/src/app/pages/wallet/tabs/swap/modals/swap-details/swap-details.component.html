@@ -25,8 +25,7 @@
         </p>
     </div>
 
-    <div *ngIf="details || error" class="details border-radius-0_8-rem overflow-hidden" fxFlex="0 0 auto"
-         fxLayout="column">
+    <div *ngIf="details || error" class="details border-radius-0_8-rem overflow-hidden" fxFlex="0 0 auto" fxLayout="column">
         <div
             (click)="toggleDetails()"
             class="header overflow-hidden py-1 px-2 w-100 cursor-pointer"
@@ -61,16 +60,13 @@
                             <span class="text word-break-break-all cursor-pointer" (click)="openInBrowser(result_tx_id)">
                                 Result tx: {{ result_tx_id }}
                             </span>
-                            <app-copy-button [value]="result_tx_id" class="ml-1">
-                            </app-copy-button>
+                            <app-copy-button [value]="result_tx_id" class="ml-1"> </app-copy-button>
                         </li>
                     </ng-container>
                 </ng-container>
                 <ng-container *ngIf="error">
                     <li class="item mb-1 color-red" fxLayout="row nowrap" fxLayoutAlign="start center">
-                        <span class="text word-break-break-all">
-                            Error: {{ error.message || 'Ops... Unknown error...' }}
-                        </span>
+                        <span class="text word-break-break-all"> Error: {{ error.message || 'Ops... Unknown error...' }} </span>
                     </li>
                 </ng-container>
             </ul>

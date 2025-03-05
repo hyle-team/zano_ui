@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subtransfer, Subtransfers, Transaction } from '@api/models/transaction.model';
-import { zanoAssetInfo } from '@parts/data/assets';
+import { ZANO_ASSET_INFO } from '@parts/data/assets';
 import { isFinalizator, isInitiator, isSwapTransaction } from '@parts/functions/identify-transaction';
 import { VariablesService } from '@parts/services/variables.service';
 import { TooltipModule } from '@parts/directives';
@@ -13,7 +13,7 @@ import { FlexModule } from '@angular/flex-layout';
     standalone: true,
     imports: [CommonModule, TooltipModule, TranslateModule, FlexModule],
     templateUrl: './transaction-status.component.html',
-    styleUrls: ['./transaction-status.component.scss'],
+    styleUrls: ['./transaction-status.component.scss']
 })
 export class TransactionStatusComponent {
     @Input() transaction: Transaction;
@@ -24,15 +24,15 @@ export class TransactionStatusComponent {
         const { amount, asset_id, is_income } = subtransfer;
         const { fee, subtransfers } = transaction;
 
-        if (subtransfers.length === 1 && asset_id === zanoAssetInfo.asset_id && is_income === false && amount.eq(fee)) {
+        if (subtransfers.length === 1 && asset_id === ZANO_ASSET_INFO.asset_id && is_income === false && amount.eq(fee)) {
             return true;
         }
 
-        if (asset_id === zanoAssetInfo.asset_id && isSwapTransaction(transaction) && isFinalizator(transaction)) {
+        if (asset_id === ZANO_ASSET_INFO.asset_id && isSwapTransaction(transaction) && isFinalizator(transaction)) {
             return true;
         }
 
-        return !(asset_id === zanoAssetInfo.asset_id && is_income === false && amount.eq(fee));
+        return !(asset_id === ZANO_ASSET_INFO.asset_id && is_income === false && amount.eq(fee));
     }
 
     isIncome(subtransfer: Subtransfer, transaction: Transaction): boolean {
@@ -40,7 +40,7 @@ export class TransactionStatusComponent {
         const { fee } = transaction;
 
         // Case: When the amount is less than the fee
-        const condition1 = asset_id === zanoAssetInfo.asset_id;
+        const condition1 = asset_id === ZANO_ASSET_INFO.asset_id;
         const condition2 = amount.isLessThan(fee);
         const condition3 = !is_income;
 
@@ -93,7 +93,7 @@ export class TransactionStatusComponent {
     }
 
     hasZano(subtransfers: Subtransfers): boolean {
-        return Boolean(subtransfers.find(({ asset_id }) => asset_id === zanoAssetInfo.asset_id));
+        return Boolean(subtransfers.find(({ asset_id }) => asset_id === ZANO_ASSET_INFO.asset_id));
     }
 
     isInitiator(transaction: Transaction): boolean {

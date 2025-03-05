@@ -60,8 +60,8 @@ import { Router } from '@angular/router';
                 flex: 1 0 auto;
                 margin: 0 0.5rem;
             }
-        `,
-    ],
+        `
+    ]
 })
 export class ExportImportComponent {
     constructor(
@@ -84,7 +84,7 @@ export class ExportImportComponent {
                             this.modalService.prepareModal('error', 'CONTACTS.ERROR_IMPORT_EMPTY');
                         } else {
                             const options = {
-                                header: true,
+                                header: true
                             };
                             const elements = this.papa.parse(data, options);
                             const isArray = Array.isArray(elements.data);
@@ -110,7 +110,7 @@ export class ExportImportComponent {
                                                     this.translate.instant('CONTACTS.COPY') as string
                                                 }`,
                                                 address: element.address,
-                                                notes: element.notes,
+                                                notes: element.notes
                                             });
                                         }
                                     });

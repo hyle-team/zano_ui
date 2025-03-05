@@ -34,17 +34,14 @@
                             type="text"
                         />
                     </div>
-                    <ng-container
-                        *ngIf="(form.controls.name.dirty || form.controls.name.touched) && form.controls.name.invalid">
+                    <ng-container *ngIf="(form.controls.name.dirty || form.controls.name.touched) && form.controls.name.invalid">
                         <div class="error">
-                            <ng-container
-                                *ngIf="form.controls.name.hasError('pattern'); else nameMinLengthErrorTemplate">
+                            <ng-container *ngIf="form.controls.name.hasError('pattern'); else nameMinLengthErrorTemplate">
                                 <p>{{ 'ASSIGN_ALIAS.FORM_ERRORS.NAME_WRONG' | translate }}</p>
                             </ng-container>
 
                             <ng-template #nameMinLengthErrorTemplate>
-                                <ng-container
-                                    *ngIf="form.controls.name.hasError('minlength'); else nameMaxLengthErrorTemplate">
+                                <ng-container *ngIf="form.controls.name.hasError('minlength'); else nameMaxLengthErrorTemplate">
                                     <p>{{ 'ASSIGN_ALIAS.FORM_ERRORS.NAME_LENGTH' | translate }}</p>
                                 </ng-container>
                             </ng-template>
@@ -106,18 +103,14 @@
                     {{
                         'ASSIGN_ALIAS.COST'
                             | translate
-                            : {
-                                value: alias.price | intToMoney,
-                                currency: variablesService.defaultTicker
-                            }
+                                : {
+                                      value: alias.price | intToMoney,
+                                      currency: variablesService.defaultTicker
+                                  }
                     }}
                 </p>
 
-                <button
-                    [disabled]="form.invalid || !canRegister || notEnoughMoney"
-                    class="primary big w-100"
-                    type="submit"
-                >
+                <button [disabled]="form.invalid || !canRegister || notEnoughMoney" class="primary big w-100" type="submit">
                     {{ 'ASSIGN_ALIAS.BUTTON_ASSIGN' | translate }}
                 </button>
             </form>

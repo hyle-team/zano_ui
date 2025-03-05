@@ -8,13 +8,13 @@ import {
     OnDestroy,
     Output,
     Renderer2,
-    SecurityContext,
+    SecurityContext
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Directive({
     // eslint-disable-next-line
-    selector: '[tooltip]',
+    selector: '[tooltip]'
 })
 export class TooltipDirective implements OnDestroy {
     @HostBinding('style.cursor') cursor;
@@ -110,7 +110,7 @@ export class TooltipDirective implements OnDestroy {
         this.tooltip = this.renderer.createElement('div');
         let innerBlock = this.renderer.createElement('div');
         if (typeof this.tooltipInner === 'string') {
-            innerBlock.innerText = this.sanitizer.sanitize(SecurityContext.HTML, this.tooltipInner);
+            innerBlock.innerHTML = this.sanitizer.sanitize(SecurityContext.HTML, this.tooltipInner);
         } else {
             if (this.tooltipInner) {
                 innerBlock = this.tooltipInner;

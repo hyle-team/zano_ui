@@ -90,7 +90,7 @@ import { MatIconModule } from '@angular/material/icon';
                         [delay]="500"
                         class="icon update standard"
                         placement="right-bottom"
-                        tooltip="{{ 'SIDEBAR.UPDATE.STANDARD_TOOLTIP' | translate }}"
+                        [tooltip]="'SIDEBAR.UPDATE.STANDARD_TOOLTIP' | translate"
                         tooltipClass="update-tooltip"
                     ></i>
                 </ng-container>
@@ -104,7 +104,7 @@ import { MatIconModule } from '@angular/material/icon';
                         [delay]="500"
                         class="icon update important"
                         placement="right-bottom"
-                        tooltip="{{ 'SIDEBAR.UPDATE.IMPORTANT_TOOLTIP' | translate }}"
+                        [tooltip]="'SIDEBAR.UPDATE.IMPORTANT_TOOLTIP' | translate"
                         tooltipClass="update-tooltip important"
                     ></i>
                 </ng-container>
@@ -118,7 +118,7 @@ import { MatIconModule } from '@angular/material/icon';
                         [delay]="500"
                         class="icon update critical"
                         placement="right-bottom"
-                        tooltip="{{ 'SIDEBAR.UPDATE.CRITICAL_TOOLTIP' | translate }}"
+                        [tooltip]="'SIDEBAR.UPDATE.CRITICAL_TOOLTIP' | translate"
                         tooltipClass="update-tooltip critical"
                     ></i>
                 </ng-container>
@@ -132,7 +132,7 @@ import { MatIconModule } from '@angular/material/icon';
                     [delay]="500"
                     class="icon time-orange"
                     placement="right-bottom"
-                    tooltip="{{ 'SIDEBAR.UPDATE.TIME_TOOLTIP' | translate }}"
+                    [tooltip]="'SIDEBAR.UPDATE.TIME_TOOLTIP' | translate"
                     tooltipClass="update-tooltip important"
                 ></i>
             </div>
@@ -140,7 +140,7 @@ import { MatIconModule } from '@angular/material/icon';
     `,
     styles: [],
     standalone: true,
-    imports: [CommonModule, TranslateModule, TooltipModule, MatIconModule],
+    imports: [CommonModule, TranslateModule, TooltipModule, MatIconModule]
 })
 export class SynchronizationStatusComponent {
     constructor(public variablesService: VariablesService, private backend: BackendService) {}

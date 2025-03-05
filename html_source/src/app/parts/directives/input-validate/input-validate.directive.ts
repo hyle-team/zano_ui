@@ -3,7 +3,7 @@ import { VariablesService } from '../../services/variables.service';
 import { BigNumber } from 'bignumber.js';
 
 @Directive({
-    selector: '[appInputValidate]',
+    selector: '[appInputValidate]'
 })
 export class InputValidateDirective {
     constructor(private el: ElementRef, private variablesService: VariablesService) {}

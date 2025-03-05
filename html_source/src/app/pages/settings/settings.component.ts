@@ -4,14 +4,14 @@ import { BackendService } from '@api/services/backend.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { scaleItems } from '@parts/data/scale-items';
-import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
+import { REG_EXP_PASSWORD, ZanoValidators } from '@parts/utils/zano-validators';
 import { generateRandomString } from '@parts/utils/generate-random-string';
 import { debounceTime } from 'rxjs/operators';
 
 @Component({
     selector: 'app-settings',
     templateUrl: './settings.component.html',
-    styleUrls: [`./settings.component.scss`],
+    styleUrls: [`./settings.component.scss`]
 })
 export class SettingsComponent implements OnInit {
     ifSaved = false;
@@ -32,16 +32,16 @@ export class SettingsComponent implements OnInit {
 
     changeForm = this.fb.group(
         {
-            password: this.fb.nonNullable.control('', Validators.compose([Validators.pattern(regExpPassword)])),
-            new_password: this.fb.nonNullable.control('', Validators.compose([Validators.pattern(regExpPassword)])),
+            password: this.fb.nonNullable.control('', Validators.compose([Validators.pattern(REG_EXP_PASSWORD)])),
+            new_password: this.fb.nonNullable.control('', Validators.compose([Validators.pattern(REG_EXP_PASSWORD)])),
             new_confirmation: this.fb.nonNullable.control(''),
-            appPass: this.fb.nonNullable.control(this.variablesService.appPass ?? ''),
+            appPass: this.fb.nonNullable.control(this.variablesService.appPass ?? '')
         },
         {
             validators: [
                 ZanoValidators.formMatch('new_password', 'new_confirmation'),
-                ZanoValidators.formMatch('password', 'appPass', 'pass_mismatch'),
-            ],
+                ZanoValidators.formMatch('password', 'appPass', 'pass_mismatch')
+            ]
         }
     );
 
@@ -53,9 +53,9 @@ export class SettingsComponent implements OnInit {
         secret: this.fb.nonNullable.control(
             { value: '', disabled: false },
             {
-                validators: Validators.compose([]),
+                validators: Validators.compose([])
             }
-        ),
+        )
     });
 
     public currentNotificationsState;
@@ -63,70 +63,70 @@ export class SettingsComponent implements OnInit {
     languagesOptions = [
         {
             name: 'en',
-            language: 'SETTINGS.LANGUAGE.EN',
+            language: 'SETTINGS.LANGUAGE.EN'
         },
         {
             name: 'fr',
-            language: 'SETTINGS.LANGUAGE.FR',
+            language: 'SETTINGS.LANGUAGE.FR'
         },
         {
             name: 'de',
-            language: 'SETTINGS.LANGUAGE.DE',
+            language: 'SETTINGS.LANGUAGE.DE'
         },
         {
             name: 'id',
-            language: 'SETTINGS.LANGUAGE.ID',
+            language: 'SETTINGS.LANGUAGE.ID'
         },
         {
             name: 'it',
-            language: 'SETTINGS.LANGUAGE.IT',
+            language: 'SETTINGS.LANGUAGE.IT'
         },
         {
             name: 'pt',
-            language: 'SETTINGS.LANGUAGE.PT',
-        },
+            language: 'SETTINGS.LANGUAGE.PT'
+        }
     ];
 
     appLockOptions = [
         {
             time: 5,
-            translationKey: 'SETTINGS.APP_LOCK.TIME1',
+            translationKey: 'SETTINGS.APP_LOCK.TIME1'
         },
         {
             time: 15,
-            translationKey: 'SETTINGS.APP_LOCK.TIME2',
+            translationKey: 'SETTINGS.APP_LOCK.TIME2'
         },
         {
             time: 60,
-            translationKey: 'SETTINGS.APP_LOCK.TIME3',
+            translationKey: 'SETTINGS.APP_LOCK.TIME3'
         },
         {
             time: 0,
-            translationKey: 'SETTINGS.APP_LOCK.TIME4',
-        },
+            translationKey: 'SETTINGS.APP_LOCK.TIME4'
+        }
     ];
 
     appScaleOptions = scaleItems;
 
     appLogOptions = [
         {
-            id: -1,
+            id: -1
         },
         {
-            id: 0,
+            id: 0
         },
         {
-            id: 1,
+            id: 1
         },
         {
-            id: 2,
+            id: 2
         },
         {
-            id: 3,
+            id: 3
         },
         {
-            id: 4,
-        },
+            id: 4
+        }
     ];
 
     currentBuild = '';
@@ -187,7 +187,7 @@ export class SettingsComponent implements OnInit {
                     this.backend.setupJwtWalletRpc(value);
                     return;
                 }
-            },
+            }
         });
     }
 
@@ -234,7 +234,7 @@ export class SettingsComponent implements OnInit {
             this.backend.setMasterPassword({ pass: this.variablesService.appPass }, (status, data) => {
                 if (status) {
                     this.backend.storeSecureAppData({
-                        pass: this.variablesService.appPass,
+                        pass: this.variablesService.appPass
                     });
                     this.variablesService.appLogin = true;
                     this.variablesService.dataIsLoaded = true;

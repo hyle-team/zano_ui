@@ -6,7 +6,7 @@ import { ModalService } from '@parts/services/modal.service';
 import { Router } from '@angular/router';
 import { Wallet } from '@api/models/wallet.model';
 import { TranslateService } from '@ngx-translate/core';
-import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
+import { REG_EXP_PASSWORD, ZanoValidators } from '@parts/utils/zano-validators';
 import { WalletsService } from '@parts/services/wallets.service';
 import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
 import { BehaviorSubject } from 'rxjs';
@@ -135,8 +135,8 @@ import { BehaviorSubject } from 'rxjs';
                 height: 100%;
                 overflow: hidden;
             }
-        `,
-    ],
+        `
+    ]
 })
 export class CreateWalletComponent {
     variablesService = inject(VariablesService);
@@ -146,11 +146,11 @@ export class CreateWalletComponent {
     breadcrumbItems: BreadcrumbItems = [
         {
             routerLink: '/add-wallet',
-            title: 'BREADCRUMBS.ADD_WALLET',
+            title: 'BREADCRUMBS.ADD_WALLET'
         },
         {
-            title: 'BREADCRUMBS.CREATE_WALLET',
-        },
+            title: 'BREADCRUMBS.CREATE_WALLET'
+        }
     ];
 
     walletsService = inject(WalletsService);
@@ -160,12 +160,12 @@ export class CreateWalletComponent {
     createForm = this.fb.group(
         {
             name: this.fb.control('', [Validators.required, ZanoValidators.duplicate(this.variablesService.walletNamesForComparisons)]),
-            password: this.fb.control('', Validators.pattern(regExpPassword)),
+            password: this.fb.control('', Validators.pattern(REG_EXP_PASSWORD)),
             confirm: this.fb.control(''),
-            path: this.fb.control('', Validators.required),
+            path: this.fb.control('', Validators.required)
         },
         {
-            validators: [ZanoValidators.formMatch('password', 'confirm')],
+            validators: [ZanoValidators.formMatch('password', 'confirm')]
         }
     );
 
@@ -192,17 +192,7 @@ export class CreateWalletComponent {
             if (generate_status) {
                 const { wallet_id } = generate_data;
                 const { path, address, balance, unlocked_balance, mined_total, tracking_hey } = generate_data['wi'];
-                const wallet = new Wallet(
-                    wallet_id,
-                    name,
-                    password,
-                    path,
-                    address,
-                    balance,
-                    unlocked_balance,
-                    mined_total,
-                    tracking_hey
-                );
+                const wallet = new Wallet(wallet_id, name, password, path, address, balance, unlocked_balance, mined_total, tracking_hey);
                 wallet.alias = this.backend.getWalletAlias(address);
                 wallet.total_history_item = 0;
                 wallet.pages = new Array(1).fill(1);

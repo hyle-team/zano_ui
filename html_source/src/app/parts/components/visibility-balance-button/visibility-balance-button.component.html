@@ -1,8 +1,3 @@
-<button
-    class="btn-icon circle big"
-    (click)="toggle()"
->
-    <mat-icon
-        [svgIcon]="(variablesService.visibilityBalance$ | async) ? 'zano-hide-balance' : 'zano-show-balance'"
-    ></mat-icon>
+<button class="btn-icon circle big" (click)="toggle()">
+    <mat-icon [svgIcon]="(variablesService.visibilityBalance$ | async) ? 'zano-hide-balance' : 'zano-show-balance'"></mat-icon>
 </button>

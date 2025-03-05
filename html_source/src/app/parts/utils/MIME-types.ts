@@ -78,5 +78,5 @@ export const MIMETypes: string[] = [
     '.xul',
     '.3gp',
     '.3g2',
-    '.7z',
+    '.7z'
 ];
