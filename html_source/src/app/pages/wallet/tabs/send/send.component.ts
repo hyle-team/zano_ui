@@ -117,7 +117,7 @@ export class SendComponent implements OnInit, OnDestroy {
 
         const condition1: boolean = this.form?.invalid ?? true;
         const condition2: boolean = !is_current_wallet_loaded;
-        const condition3: boolean = this.is_visible_wrap_info || is_wrap_info_service_inactive;
+        const condition3: boolean = !this.variables_service.wrap_info$.value || is_wrap_info_service_inactive;
 
         return condition1 || condition2 || condition3;
     }
