@@ -1,0 +1,13 @@
+<div class="logo">
+    <ng-container *ngIf="variablesService.settings.isDarkTheme; else lightZanoLogoTemplate">
+        <img alt="zano-logo" src="assets/icons/blue/zano-logo.svg">
+    </ng-container>
+
+    <ng-template #lightZanoLogoTemplate>
+        <img alt="zano-logo" src="assets/icons/blue/light-zano-logo.svg">
+    </ng-template>
+
+    <ng-container *ngIf="variablesService.testnet">
+        <div class="testnet">TESTNET</div>
+    </ng-container>
+</div>

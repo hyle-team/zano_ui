@@ -22,13 +22,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     fb = inject(FormBuilder);
 
-    get zanoLogo(): string {
-        const {
-            settings: { isDarkTheme }
-        } = this.variablesService;
-        return isDarkTheme ? 'assets/icons/blue/zano-logo.svg' : 'assets/icons/blue/light-zano-logo.svg';
-    }
-
     regForm = this.fb.group(
         {
             password: this.fb.nonNullable.control('', Validators.pattern(REG_EXP_PASSWORD)),

@@ -47,6 +47,7 @@ import { BreadcrumbsComponent } from '@parts/components/breadcrumbs/breadcrumbs.
 import { BackButtonComponent } from '@parts/components/back-button/back-button.component';
 import { MatIconModule } from '@angular/material/icon';
 import { IsVisibleControlErrorPipe } from '@parts/pipes/is-visible-control-error.pipe';
+import { ZanoLogoComponent } from '@parts/components/zano-logo/zano-logo.component';
 
 @NgModule({
     declarations: [
@@ -99,7 +100,8 @@ import { IsVisibleControlErrorPipe } from '@parts/pipes/is-visible-control-error
         BreadcrumbsComponent,
         BackButtonComponent,
         MatIconModule,
-        IsVisibleControlErrorPipe
+        IsVisibleControlErrorPipe,
+        ZanoLogoComponent
     ]
 })
 export class PagesModule {}

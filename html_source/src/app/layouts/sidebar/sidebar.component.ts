@@ -15,9 +15,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
     selector: 'app-sidebar',
     template: `
         <div class="sidebar-header mb-2">
-            <div class="logo">
-                <img [src]="zanoLogo" alt="zano-logo" />
-            </div>
+            <zano-zano-logo></zano-zano-logo>
         </div>
 
         <div class="sidebar-content">
@@ -112,25 +110,9 @@ export class SidebarComponent implements OnDestroy {
         public zanoLoadersService: ZanoLoadersService
     ) {}
 
-    get zanoLogo(): string {
-        const {
-            settings: { isDarkTheme }
-        } = this.variablesService;
-        return isDarkTheme ? 'assets/icons/blue/zano-logo.svg' : 'assets/icons/blue/light-zano-logo.svg';
-    }
-
     ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
-    }
-
-    toggleDarkTheme(): void {
-        const { settings, isDarkTheme$ } = this.variablesService;
-        const isDarkTheme: boolean = !settings.isDarkTheme;
-        this.variablesService.settings.isDarkTheme = isDarkTheme;
-        isDarkTheme$.next(isDarkTheme);
-
-        this.backend.storeAppData();
     }
 
     goMainPage(): void {
