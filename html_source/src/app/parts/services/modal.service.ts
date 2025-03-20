@@ -4,7 +4,7 @@ import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dial
 import { take } from 'rxjs';
 
 @Injectable({
-    providedIn: 'root',
+    providedIn: 'root'
 })
 export class ModalService {
     private _count: number = 0;
@@ -17,7 +17,7 @@ export class ModalService {
         const config: MatDialogConfig = {
             data: {
                 type,
-                message,
+                message
             },
             width: '34rem'
         };

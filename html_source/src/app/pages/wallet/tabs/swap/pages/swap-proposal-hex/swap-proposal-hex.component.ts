@@ -23,20 +23,20 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
         InputValidateModule,
         TranslateModule,
         ReactiveFormsModule,
-        MatIconModule,
+        MatIconModule
     ],
     templateUrl: './swap-proposal-hex.component.html',
-    styleUrls: ['./swap-proposal-hex.component.scss'],
+    styleUrls: ['./swap-proposal-hex.component.scss']
 })
 export class SwapProposalHexComponent implements OnInit, IDeactivateComponent {
     breadcrumbItems: BreadcrumbItems = [
         {
             routerLink: '/wallet/swap',
-            title: 'SWAP_PROPOSAL_HEX.BREADCRUMBS.ITEM1',
+            title: 'SWAP_PROPOSAL_HEX.BREADCRUMBS.ITEM1'
         },
         {
-            title: 'SWAP_PROPOSAL_HEX.BREADCRUMBS.ITEM2',
-        },
+            title: 'SWAP_PROPOSAL_HEX.BREADCRUMBS.ITEM2'
+        }
     ];
 
     copyAnimation = false;
@@ -46,7 +46,7 @@ export class SwapProposalHexComponent implements OnInit, IDeactivateComponent {
     fb = inject(FormBuilder);
 
     form = this.fb.group({
-        hex_raw_proposal: this.fb.control('', [Validators.required]),
+        hex_raw_proposal: this.fb.control('', [Validators.required])
     });
 
     private readonly backendService: BackendService = inject(BackendService);
@@ -75,12 +75,11 @@ export class SwapProposalHexComponent implements OnInit, IDeactivateComponent {
                 message: 'SWAP_PROPOSAL_HEX.MODALS.CONFIRM_MODAL.MESSAGE',
                 buttons: {
                     submit: 'SWAP_PROPOSAL_HEX.MODALS.CONFIRM_MODAL.BUTTONS.SUBMIT',
-                    close: 'SWAP_PROPOSAL_HEX.MODALS.CONFIRM_MODAL.BUTTONS.CLOSE',
-                },
-            },
+                    close: 'SWAP_PROPOSAL_HEX.MODALS.CONFIRM_MODAL.BUTTONS.CLOSE'
+                }
+            }
         };
-        const dialogRef = this._matDialog
-            .open<ConfirmModalComponent, ConfirmModalData, boolean>(ConfirmModalComponent, config);
+        const dialogRef = this._matDialog.open<ConfirmModalComponent, ConfirmModalData, boolean>(ConfirmModalComponent, config);
         return dialogRef.afterClosed();
     }
 

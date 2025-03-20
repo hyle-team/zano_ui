@@ -7,12 +7,12 @@ import {
     AssetInfo,
     AssetsInfoWhitelist,
     LocalBlacklistVerifiedAssets,
-    VerifiedAssetInfoWhitelist,
+    VerifiedAssetInfoWhitelist
 } from './assets.model';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { Alias } from '@api/models/alias.model';
-import { SendMoneyFormParams } from '@api/models/send-money.model';
-import { defaultAssetLogoSrc, zanoAssetInfo } from '@parts/data/assets';
+import { TransferFormValue } from '@api/models/transfer.model';
+import { DEFAULT_ASSET_LOGO_SRC, ZANO_ASSET_INFO } from '@parts/data/assets';
 import { map } from 'rxjs/operators';
 
 export const defaultAssetsInfoWhitelist = { global_whitelist: [], local_whitelist: [], own_assets: [] };
@@ -41,8 +41,8 @@ const prepareBalances = (
 
     const ensureLogoAndPriceUrl = (asset_info: AssetInfo): AssetInfo => ({
         ...asset_info,
-        logo: asset_info.logo || (asset_info.asset_id === zanoAssetInfo.asset_id ? zanoAssetInfo.logo : defaultAssetLogoSrc),
-        price_url: asset_info.price_url || (asset_info.asset_id === zanoAssetInfo.asset_id ? zanoAssetInfo.price_url : ''),
+        logo: asset_info.logo || (asset_info.asset_id === ZANO_ASSET_INFO.asset_id ? ZANO_ASSET_INFO.logo : DEFAULT_ASSET_LOGO_SRC),
+        price_url: asset_info.price_url || (asset_info.asset_id === ZANO_ASSET_INFO.asset_id ? ZANO_ASSET_INFO.price_url : '')
     });
 
     for (const asset_info of verifiedAssetInfoWhitelist) {
@@ -56,7 +56,7 @@ const prepareBalances = (
                 awaiting_in: 0,
                 awaiting_out: 0,
                 total: 0,
-                unlocked: 0,
+                unlocked: 0
             });
         }
     }
@@ -106,7 +106,7 @@ export class Wallet {
     }
 
     get allAssetsInfo(): AssetInfo[] {
-        return [zanoAssetInfo, ...this.allAssetsInfoWhitelist];
+        return [ZANO_ASSET_INFO, ...this.allAssetsInfoWhitelist];
     }
 
     originalBalances$: BehaviorSubject<AssetBalances> = new BehaviorSubject<AssetBalances>([]);
@@ -171,7 +171,7 @@ export class Wallet {
 
     restore?: boolean;
 
-    sendMoneyParams: SendMoneyFormParams | null = null;
+    transfer_form_value: TransferFormValue | null = null;
 
     constructor(id, name, pass, path, address, balances, unlocked_balance, mined = 0, tracking = '') {
         this.wallet_id = id;
@@ -198,13 +198,13 @@ export class Wallet {
             this.originalBalances$.pipe(map(sortBalances)),
             this.assetsInfoWhitelist$,
             this.verificationAssetsInfoWhitelist$,
-            this.localBlacklistVerifiedAssets$,
+            this.localBlacklistVerifiedAssets$
         ])
             .pipe(map(prepareBalances))
             .subscribe({
                 next: value => {
                     this.balances$.next(value);
-                },
+                }
             });
     }
 

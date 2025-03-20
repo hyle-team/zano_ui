@@ -1,0 +1,17 @@
+<div class="form__field fixed">
+    <label for="send-comment">{{ 'SEND.COMMENT' | translate }}</label>
+    <input
+        (contextmenu)="variables_service.onContextMenu($event)"
+        [formControl]="control_ref"
+        [maxLength]="variables_service.maxCommentLength"
+        [placeholder]="'PLACEHOLDERS.COMMENT_PLACEHOLDER' | translate"
+        class="form__field--input"
+        id="send-comment"
+        type="text"
+    />
+    <div *ngIf="control_ref | isVisibleControlError" class="error">
+        <div *ngIf="control_ref.hasError('maxLength')">
+            {{ 'SEND.FORM_ERRORS.MAX_LENGTH' | translate }}
+        </div>
+    </div>
+</div>

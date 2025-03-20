@@ -26,47 +26,47 @@ interface IGroupItem {
 const periodItems: IPeriodItem[] = [
     {
         title: 'STAKING.PERIOD.WEEK1',
-        value: '1 week',
+        value: '1 week'
     },
     {
         title: 'STAKING.PERIOD.WEEK2',
-        value: '2 week',
+        value: '2 week'
     },
     {
         title: 'STAKING.PERIOD.MONTH1',
-        value: '1 month',
+        value: '1 month'
     },
     {
         title: 'STAKING.PERIOD.MONTH3',
-        value: '3 month',
+        value: '3 month'
     },
     {
         title: 'STAKING.PERIOD.MONTH6',
-        value: '6 month',
+        value: '6 month'
     },
     {
         title: 'STAKING.PERIOD.YEAR',
-        value: '1 year',
+        value: '1 year'
     },
     {
         title: 'STAKING.PERIOD.ALL',
-        value: 'All',
-    },
+        value: 'All'
+    }
 ];
 
 const groupItems: IGroupItem[] = [
     {
         title: 'STAKING.GROUP.DAY',
-        value: 'day',
+        value: 'day'
     },
     {
         title: 'STAKING.GROUP.WEEK',
-        value: 'week',
+        value: 'week'
     },
     {
         title: 'STAKING.GROUP.MONTH',
-        value: 'month',
-    },
+        value: 'month'
+    }
 ];
 
 @Component({
@@ -78,8 +78,8 @@ const groupItems: IGroupItem[] = [
                 width: 100%;
                 height: auto;
             }
-        `,
-    ],
+        `
+    ]
 })
 export class StakingComponent implements OnInit, AfterViewInit, OnDestroy {
     public readonly variablesService: VariablesService = inject(VariablesService);
@@ -90,12 +90,12 @@ export class StakingComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public pending = {
         list: [],
-        total: new BigNumber(0),
+        total: new BigNumber(0)
     };
 
     get isShowStagingSwitch(): boolean {
         const {
-            currentWallet: { is_watch_only, is_auditable },
+            current_wallet: { is_watch_only, is_auditable }
         } = this.variablesService;
         const condition1: boolean = !is_auditable && !is_watch_only;
         const condition2: boolean = is_auditable && !is_watch_only;
@@ -115,12 +115,12 @@ export class StakingComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public readonly filtersForm = this._fb.group({
         group: this._fb.control<TGroup>('day'),
-        period: this._fb.control<TPeriod>('All'),
+        period: this._fb.control<TPeriod>('All')
     });
 
     public pointDetails: { date: string; amount: any } = {
         date: null,
-        amount: null,
+        amount: null
     };
 
     public originalData = [];
@@ -143,13 +143,13 @@ export class StakingComponent implements OnInit, AfterViewInit, OnDestroy {
             legend: { enabled: false },
             chart: {
                 type: 'line',
-                backgroundColor: 'transparent',
+                backgroundColor: 'transparent'
             },
             yAxis: {
                 min: 0,
                 tickAmount: 5,
                 title: {
-                    text: '',
+                    text: ''
                 },
                 gridLineColor: '#2b3644',
                 gridLineWidth: 2,
@@ -164,10 +164,10 @@ export class StakingComponent implements OnInit, AfterViewInit, OnDestroy {
                     x: -120,
                     style: {
                         color: '#e0e0e0',
-                        fontSize: '13px',
+                        fontSize: '13px'
                     },
-                    format: '{value} ' + this.variablesService.defaultTicker,
-                },
+                    format: '{value} ' + this.variablesService.defaultTicker
+                }
             },
             xAxis: {
                 type: 'datetime',
@@ -180,16 +180,16 @@ export class StakingComponent implements OnInit, AfterViewInit, OnDestroy {
                 labels: {
                     style: {
                         color: '#e0e0e0',
-                        fontSize: '13px',
-                    },
+                        fontSize: '13px'
+                    }
                 },
                 minPadding: 0,
                 maxPadding: 0,
                 minRange: 86400000, // tickInterval: 86400000,
-                minTickInterval: 3600000,
+                minTickInterval: 3600000
             },
             tooltip: {
-                enabled: false,
+                enabled: false
             },
             plotOptions: {
                 area: {
@@ -198,19 +198,19 @@ export class StakingComponent implements OnInit, AfterViewInit, OnDestroy {
                             x1: 0,
                             y1: 0,
                             x2: 0,
-                            y2: 1,
+                            y2: 1
                         },
                         stops: [
                             [0, 'rgba(124,181,236,0.2)'],
-                            [1, 'rgba(124,181,236,0)'],
-                        ],
+                            [1, 'rgba(124,181,236,0)']
+                        ]
                     },
                     marker: {
                         enabled: false,
-                        radius: 2,
+                        radius: 2
                     },
                     lineWidth: 2,
-                    threshold: null,
+                    threshold: null
                 },
 
                 series: {
@@ -219,23 +219,23 @@ export class StakingComponent implements OnInit, AfterViewInit, OnDestroy {
                             mouseOver: (obj): void => {
                                 this.pointDetails.date = obj.target['x'];
                                 this.pointDetails.amount = obj.target['y'];
-                            },
-                        },
+                            }
+                        }
                     },
                     events: {
                         mouseOut: (): void => {
                             this.pointDetails.date = null;
                             this.pointDetails.amount = null;
-                        },
-                    },
-                },
+                        }
+                    }
+                }
             },
             series: [
                 {
                     type: 'area',
-                    data: [],
-                },
-            ],
+                    data: []
+                }
+            ]
         });
 
         this._restoreFiltersForm();
@@ -256,7 +256,7 @@ export class StakingComponent implements OnInit, AfterViewInit, OnDestroy {
             .subscribe({
                 next: () => {
                     this._getMiningHistory();
-                },
+                }
             });
     }
 
@@ -282,7 +282,7 @@ export class StakingComponent implements OnInit, AfterViewInit, OnDestroy {
                 }
 
                 this._updatePendingList(newHeight);
-            },
+            }
         });
     }
 
@@ -305,7 +305,7 @@ export class StakingComponent implements OnInit, AfterViewInit, OnDestroy {
             next: () => {
                 this.variablesService.settings.filters.stakingFilters = this.filtersForm.getRawValue();
                 this._changePeriod();
-            },
+            }
         });
     }
 
@@ -316,7 +316,7 @@ export class StakingComponent implements OnInit, AfterViewInit, OnDestroy {
                 next: ([ref, isDarkTheme]) => {
                     const options = isDarkTheme ? this._getDarkThemeOptions() : this._getLightThemeOptions();
                     ref.update(options, true);
-                },
+                }
             });
     }
 
@@ -328,26 +328,26 @@ export class StakingComponent implements OnInit, AfterViewInit, OnDestroy {
                         linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
                         stops: [
                             [0, 'rgba(124,181,236,0.2)'],
-                            [1, 'rgba(124,181,236,0)'],
-                        ],
+                            [1, 'rgba(124,181,236,0)']
+                        ]
                     },
                     marker: { enabled: false, radius: 2 },
                     lineWidth: 2,
-                    threshold: null,
-                },
+                    threshold: null
+                }
             },
             yAxis: {
                 gridLineColor: '#2b3644',
                 lineColor: '#2b3644',
                 tickColor: '#2b3644',
-                labels: { style: { color: '#e0e0e0' } },
+                labels: { style: { color: '#e0e0e0' } }
             },
             xAxis: {
                 gridLineColor: '#2b3644',
                 lineColor: '#2b3644',
                 tickColor: '#2b3644',
-                labels: { style: { color: '#e0e0e0' } },
-            },
+                labels: { style: { color: '#e0e0e0' } }
+            }
         };
     }
 
@@ -358,26 +358,26 @@ export class StakingComponent implements OnInit, AfterViewInit, OnDestroy {
                     color: '#1F8FEB',
                     marker: { enabled: false, radius: 2 },
                     lineWidth: 2,
-                    threshold: null,
-                },
+                    threshold: null
+                }
             },
             yAxis: {
                 gridLineColor: '#1F8FEB20',
                 lineColor: '#1F8FEB20',
                 tickColor: '#1F8FEB20',
-                labels: { style: { color: '#0C0C3A' } },
+                labels: { style: { color: '#0C0C3A' } }
             },
             xAxis: {
                 gridLineColor: '#1F8FEB20',
                 lineColor: '#1F8FEB20',
                 tickColor: '#1F8FEB20',
-                labels: { style: { color: '#0C0C3A' } },
-            },
+                labels: { style: { color: '#0C0C3A' } }
+            }
         };
     }
 
     private _getMiningHistory(): void {
-        const wallet = this.variablesService.currentWallet;
+        const wallet = this.variablesService.current_wallet;
 
         const { wallet_id, loaded } = wallet;
 
@@ -438,7 +438,7 @@ export class StakingComponent implements OnInit, AfterViewInit, OnDestroy {
                     '1 month': 30,
                     '3 month': 90,
                     '6 month': 180,
-                    '1 year': 365,
+                    '1 year': 365
                 };
 
                 let data = [];
@@ -457,7 +457,7 @@ export class StakingComponent implements OnInit, AfterViewInit, OnDestroy {
                 ref.series[0].setData([...data], true);
                 ref.xAxis[0].setExtremes(minDate, null);
                 ref.reflow();
-            },
+            }
         });
     }
 

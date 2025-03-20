@@ -8,7 +8,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 @Component({
     selector: 'app-confirm-create-custom-asset',
     templateUrl: './confirm-create-custom-asset.component.html',
-    styleUrls: ['./confirm-create-custom-asset.component.scss'],
+    styleUrls: ['./confirm-create-custom-asset.component.scss']
 })
 export class ConfirmCreateCustomAssetComponent {
     public readonly variablesService: VariablesService = inject(VariablesService);
@@ -20,7 +20,7 @@ export class ConfirmCreateCustomAssetComponent {
     public readonly confirmForm = this.fb.group(
         {
             password: this.fb.control(''),
-            appPass: this.fb.control(this.variablesService.appPass || ''),
+            appPass: this.fb.control(this.variablesService.appPass || '')
         },
         { validators: [ZanoValidators.formMatch('password', 'appPass', 'passwordNotMatch')] }
     );

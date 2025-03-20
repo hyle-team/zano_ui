@@ -1,292 +1,86 @@
 <div class="container scrolled-content" fxFlex="1 1 auto">
     <form (ngSubmit)="beforeSubmit()" [formGroup]="form" class="form" fxFlex="0 1 50rem" fxLayout="column"
           fxLayoutAlign="start stretch">
-        <div class="form__field--row">
-            <!-- Address -->
-            <ng-container
-                *ngIf="{
-                    items: addressItems$ | async,
-                    loading: loadingAddressItems$ | async,
-                    lowerCaseDisabled: lowerCaseDisabled$ | async
-                } as vm"
-            >
-                <div class="form__field">
-                    <label for="address">
-                        {{ 'SEND.ADDRESS' | translate }}
-                        <span class="color-red">*</span>
-                    </label>
+        <!-- Asset -->
+        <zano-asset-field
+            [balances]="variables_service.current_wallet.balances$ | async"
+            [control_ref]="form.controls.asset_id"
+            [is_visible_wrap_info]="is_visible_wrap_info"
+        >
+        </zano-asset-field>
 
-                    <input
-                        (blur)="updateAddressErrorMessage()"
-                        (contextmenu)="variablesService.onContextMenu($event)"
-                        (paste)="pasteListenAddressField($event)"
-                        [lowerCaseDisabled]="vm.lowerCaseDisabled"
-                        [matAutocomplete]="auto"
-                        [placeholder]="'PLACEHOLDERS.ADDRESS_PLACEHOLDER' | translate"
-                        class="form__field--input"
-                        formControlName="address"
-                        id="address"
-                        lowerCase
-                        matAutocompletePosition="below"
-                        type="text"
-                    />
+        <!-- Destinations -->
+        <ng-container
+            *ngFor="let destinationControl of form.controls.destinations.controls; let index = index;let first = first;">
+            <!-- Address and Amount -->
+            <div [formGroup]="destinationControl" class="form__field--row destination">
+                <!-- Address -->
+                <div>
+                    <zano-address-field [control_ref]="destinationControl"></zano-address-field>
+                </div>
 
-                    <mat-autocomplete #auto="matAutocomplete" class="zano-autocomplete-panel">
-                        <ng-container *ngIf="!variablesService.is_remote_node">
-                            <mat-option *ngIf="vm.loading" class="loading" disabled>
-                                <zano-loader class="mx-auto" style="display: block; width: fit-content"></zano-loader>
-                            </mat-option>
+                <!-- Amount -->
+                <div>
+                    <zano-amount-field [control_ref]="destinationControl"
+                                       [price_info]="price_info$ | async"></zano-amount-field>
 
-
-                            <mat-option
-                                *ngIf="form.controls.address.value[0] === '@' && vm.items?.length === 0 && !vm.loading"
-                                disabled>
-                                <span class="pl-1"> Not found aliases </span>
-                            </mat-option>
-                        </ng-container>
-
-                        <ng-container *ngIf="!vm.loading">
-                            <mat-option *ngFor="let item of vm.items; trackBy: trackByFn" [value]="item">
-                                <!-- Alias -->
-                                <ng-container *ngIf="item[0] === '@'; else itemAddressTemplate">
-                                    <div
-                                        [ngClass]="{
-                                            available: item.length >= 2 && item.length <= 6,
-                                            'pl-1': item.length > 6
-                                        }"
-                                        class="alias"
-                                    >
-                                        {{ item }}
-                                    </div>
-                                </ng-container>
-                                <!-- Address -->
-                                <ng-template #itemAddressTemplate>
-                                    <span class="pl-1">{{ item | zanoShortString }}</span>
-                                </ng-template>
-                            </mat-option>
-                        </ng-container>
-                    </mat-autocomplete>
-
-                    <div *ngIf="isVisibleError(form.controls.address)" class="error">
-                        {{ errorMessages['address'] | translate }}
-                    </div>
-
-                    <ng-container *ngIf="isVisibleWrapInfoState$ | async">
-                        <ng-container  *ngIf="wrapInfoServiceInactive$ | async">
-                            <div class="error">
-                                {{ 'ERRORS.WRAP_SERVICE_IS_INACTIVE' | translate }}
-                            </div>
-                        </ng-container>
+                    <ng-container *ngIf="!first">
+                        <mat-icon (click)="removeDestination(index)" class="remove" svgIcon="zano-close"></mat-icon>
                     </ng-container>
-
-                    <div *ngIf="aliasAddress" class="info text-ellipsis">
-                        <span>{{ aliasAddress | zanoShortString }}</span>
-                    </div>
                 </div>
-            </ng-container>
+            </div>
 
-            <!-- Amount -->
-            <div class="form__field amount">
-                <label for="send-amount">
-                    {{ 'SEND.AMOUNT' | translate }}
-                    <span class="color-red">*</span>
-                </label>
-
-                <input
-                    (contextmenu)="variablesService.onContextMenu($event)"
-                    [decimalPoint]="amountInputParams.decimalPoint"
-                    [placeholder]="form.value.isAmountUSD ? '0.00' : '0'"
-                    appInputValidate="money"
-                    class="form__field--input"
-                    formControlName="amount"
-                    id="send-amount"
-                    type="text"
-                />
-
-                <button (click)="toggleAmountUSD()" [disabled]="amountInputParams.reverseDisabled" class="btn-reverse"
-                        type="button">
-                    <mat-icon class="small" svgIcon="zano-swap"></mat-icon>
-                </button>
-
-                <div
-                    [delay]="150"
-                    [placement]="'bottom'"
-                    [timeDelay]="1000"
-                    [timeout]="0"
-                    [tooltipClass]="'table-tooltip'"
-                    [tooltip]="amountInputParams.inputTicker"
-                    class="ticker"
-                >
-                    <div class="text-ellipsis">
-                        {{ amountInputParams.inputTicker }}
-                    </div>
-                </div>
-
-                <div *ngIf="!errorMessages['amount']" class="hint text-ellipsis">{{ amountInputParams.hintAmount }}
-                    {{ amountInputParams.hintTicker }}
-                </div>
-
-                <ng-container *ngIf="isVisibleError(form.controls.amount) || isVisibleError(form)">
-                    <div *ngIf="errorMessages['amount'] as message" class="error">
-                        {{ message | translate }}
+            <!-- Wrap information -->
+            <ng-container *ngIf="destinationControl.controls.is_visible_wrap_info.value">
+                <ng-container
+                    *ngIf="(variables_service.wrap_info$ | async) && !(variables_service.loadingWrapInfo$ | async)">
+                    <div class="mb-2">
+                        <zano-wrap-information
+                            [amount]="destinationControl.controls.amount.value"
+                            [asset_id]="destinationControl.controls.asset_id.value"
+                            [hide_received_value]="destinationControl.controls.amount.invalid"
+                            [is_amount_usd]="destinationControl.controls.is_amount_usd.value"
+                            [price_info]="price_info$ | async"
+                            [wrap_info]="variables_service.wrap_info$ | async"
+                        ></zano-wrap-information>
                     </div>
                 </ng-container>
-            </div>
-        </div>
-
-        <!-- Comment -->
-        <div class="form__field fixed">
-            <label for="send-comment">{{ 'SEND.COMMENT' | translate }}</label>
-            <input
-                (contextmenu)="variablesService.onContextMenu($event)"
-                [maxLength]="variablesService.maxCommentLength"
-                class="form__field--input"
-                formControlName="comment"
-                id="send-comment"
-                placeholder="{{ 'PLACEHOLDERS.COMMENT_PLACEHOLDER' | translate }}"
-                type="text"
-            />
-            <div *ngIf="isVisibleError(form.controls.comment)" class="error">
-                <div *ngIf="form.controls.comment.hasError('maxLength')">
-                    {{ 'SEND.FORM_ERRORS.MAX_LENGTH' | translate }}
-                </div>
-            </div>
-        </div>
-
-        <!-- Wrap information -->
-        <ng-container *ngIf="isVisibleWrapInfoState$ | async">
-            <div *ngIf="wrapInfo && !(loadingWrapInfo$ | async)" class="wrap mt-2 mb-2 p-2">
-                <div class="title">
-                    {{ 'SEND.WRAP.TITLE' | translate }}
-                    <mat-icon svgIcon="zano-info"></mat-icon>
-                </div>
-                <div class="text-wrap">
-                    {{ 'SEND.WRAP.MAIN_TEXT' | translate }}
-                </div>
-                <div class="title">{{ 'SEND.WRAP.ESTIMATE' | translate }}</div>
-                <table class="text-wrap">
-                    <tr>
-                        <td>{{ 'SEND.WRAP.WILL_RECEIVE' | translate }}</td>
-                        <td *ngIf="!form.controls.amount.errors">
-                            {{ getReceivedValue() | intToMoney }}
-                            {{ 'SEND.WRAP.wZANO' | translate }}
-                        </td>
-                        <td *ngIf="form.controls.amount.errors">-</td>
-                    </tr>
-                    <tr>
-                        <td>{{ 'SEND.WRAP.FEE' | translate }}</td>
-                        <td>
-                            {{ wrapInfo?.tx_cost?.zano_needed_for_erc20 | intToMoney : zanoAssetInfo.decimal_point }}
-                            {{ 'SEND.WRAP.ZANO' | translate }}
-                            ({{ '$' + wrapInfo.tx_cost?.usd_needed_for_erc20 }})
-                        </td>
-                    </tr>
-                </table>
-            </div>
+            </ng-container>
         </ng-container>
 
-        <!-- Asset -->
-        <div class="form__field fixed">
-            <label>
-                {{ 'SEND.ASSET' | translate }}
-                <span class="color-red">*</span>
-            </label>
-            <ng-select
-                (change)="form.controls.amount.updateValueAndValidity()"
-                [bindValue]="'asset_info.asset_id'"
-                [clearable]="false"
-                [items]="assetItems$ | async"
-                [searchable]="false"
-                class="custom-select with-circle"
-                formControlName="asset_id"
-            >
-                <ng-template let-asset="item" ng-label-tmp ng-option-tmp>
-                    <div [innerHTML]="asset.asset_info | getLogoByAssetInfo" class="token-logo"></div>
-                    {{ asset.asset_info.full_name ?? '***' }}
-                    <ng-container *appVisibilityBalance>
-                        ({{ asset.total | intToMoney : asset.asset_info.decimal_point }} {{ asset.asset_info.ticker }})
-                    </ng-container>
-                </ng-template>
-            </ng-select>
-            <div *ngIf="isVisibleError(form.controls.asset_id) || isVisibleError(form)" class="error">
-                <div *ngIf="form.controls.asset_id.hasError('required')">
-                    {{ 'ERRORS.REQUIRED' | translate }}
-                </div>
-                <div *ngIf="form.hasError('max_decimal_point')">
-                    {{ 'ERRORS.MAX_DECIMAL_POINT' | translate : { max: form.errors['max_decimal_point'].max } }}
-                </div>
-            </div>
-        </div>
+        <zano-add-another-destination-button
+            (click)="addDestination()"
+            class="mb-2">
+        </zano-add-another-destination-button>
+
+        <!-- Comment -->
+        <zano-comment-field [control_ref]="form.controls.comment"></zano-comment-field>
 
         <!-- Details -->
         <div class="details mb-2">
             <button
-                (click)="isVisibleAdditionalOptionsState = !isVisibleAdditionalOptionsState"
-                [class.border-radius-all]="!isVisibleAdditionalOptionsState"
+                (click)="is_visible_additional_options_state = !is_visible_additional_options_state"
+                [class.border-radius-all]="!is_visible_additional_options_state"
                 class="header"
                 type="button"
             >
                 <span>{{ 'SEND.DETAILS' | translate }}</span>
                 <mat-icon
                     [ngClass]="{
-                        'rotate-180': isVisibleAdditionalOptionsState
+                        'rotate-180': is_visible_additional_options_state
                     }"
                     class="ml-1"
                     svgIcon="zano-dropdown-arrow-down"
                 ></mat-icon>
             </button>
 
-            <div *ngIf="isVisibleAdditionalOptionsState" class="content">
+            <div *ngIf="is_visible_additional_options_state" class="content">
                 <!--<div class="form__field&#45;&#45;row">-->
                 <!-- MIXIN -->
-                <!--<div class="form__field fixed">-->
-                <!--    <label for="send-mixin">-->
-                <!--        {{ 'SEND.MIXIN' | translate }}-->
-                <!--        <span class="color-red">*</span>-->
-                <!--    </label>-->
-                <!--    <input-->
-                <!--        (contextmenu)="variablesService.onContextMenu($event)"-->
-                <!--        [placeholder]="'PLACEHOLDERS.AMOUNT_PLACEHOLDER' | translate"-->
-                <!--        appInputValidate="integer"-->
-                <!--        class="form__field&#45;&#45;input"-->
-                <!--        formControlName="mixin"-->
-                <!--        id="send-mixin"-->
-                <!--        maxlength="3"-->
-                <!--        type="text"-->
-                <!--    />-->
-                <!--    <div *ngIf="isVisibleError(form.controls.mixin)" class="error">-->
-                <!--        <div *ngIf="form.controls.mixin.hasError('required')">-->
-                <!--            {{ 'ERRORS.REQUIRED' | translate }}-->
-                <!--        </div>-->
-                <!--        <div *ngIf="form.controls.mixin.hasError('min')">-->
-                <!--            {{ 'Min' }} {{ form.controls.mixin.getError('min')['min'] }}-->
-                <!--        </div>-->
-                <!--        <div *ngIf="form.controls.mixin.hasError('max')">-->
-                <!--            {{ 'Max' }} {{ form.controls.mixin.getError('max')['max'] }}-->
-                <!--        </div>-->
-                <!--    </div>-->
-                <!--</div>-->
+                <!--<zano-mixin-field [control_ref]="form.controls.mixin"></zano-mixin-field>-->
 
                 <!-- FEE -->
-                <div class="form__field fixed">
-                    <label for="send-fee">
-                        {{ 'SEND.FEE' | translate }}
-                        <span class="color-red">*</span>
-                    </label>
-                    <input
-                        (blur)="updateFeeErrorMessage()"
-                        (contextmenu)="variablesService.onContextMenu($event)"
-                        [placeholder]="'PLACEHOLDERS.FEE_PLACEHOLDER' | translate"
-                        appInputValidate="money"
-                        class="form__field--input"
-                        formControlName="fee"
-                        id="send-fee"
-                        type="text"
-                    />
-                    <div *ngIf="isVisibleError(form.controls.fee)" class="error">
-                        {{ errorMessages['fee'] | translate }}
-                    </div>
-                </div>
+                <zano-fee-field [control_ref]="form.controls.fee"></zano-fee-field>
                 <!--</div>-->
 
                 <!-- PUSH -->
@@ -299,9 +93,11 @@
             </div>
         </div>
 
-        <button [disabled]="form.invalid || !variablesService.currentWallet.loaded ||
-        ((isVisibleWrapInfoState$ | async) ?? (wrapInfoServiceInactive$ | async))"
-                class="primary big max-w-19-rem w-100" type="submit">
+        <button
+            [disabled]="is_submit_disabled"
+            class="primary big max-w-19-rem w-100"
+            type="submit"
+        >
             {{ 'SEND.BUTTON' | translate }}
         </button>
     </form>
@@ -309,13 +105,13 @@
 
 <app-send-modal
     (confirmed)="handleConfirmed($event)"
-    *ngIf="isSendModalState"
-    [priceInfo]="priceInfo"
-    [sendMoneyParams]="form.getRawValue()"
+    *ngIf="is_send_modal_state"
+    [price_info]="price_info$ | async"
+    [transfer_params]="getTransferParams()"
 ></app-send-modal>
 
 <app-send-details-modal
-    (eventClose)="handeCloseSendDetailsModal($event)"
-    *ngIf="isSendDetailsModalState"
+    (event_close)="handeCloseSendDetailsModal($event)"
+    *ngIf="is_send_details_modal_state"
     [job_id]="job_id"
 ></app-send-details-modal>

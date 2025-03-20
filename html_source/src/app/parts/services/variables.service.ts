@@ -12,10 +12,12 @@ import { Dialog } from '@angular/cdk/dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { AssetBalance, AssetInfo, VerifiedAssetInfoWhitelist } from '@api/models/assets.model';
 import { CurrentPriceForAssets } from '@api/models/api-zano.models';
-import { ApiZanoService } from '@api/services/api-zano.service';
+import { ApiService } from '@api/services/api.service';
+import { WrapInfo } from '@api/models/wrap-info';
+import { MAXIMUM_VALUE } from '@parts/data/constants';
 
 @Injectable({
-    providedIn: 'root',
+    providedIn: 'root'
 })
 export class VariablesService implements OnDestroy {
     disable_price_fetch$ = new BehaviorSubject<boolean>(false);
@@ -46,9 +48,6 @@ export class VariablesService implements OnDestroy {
     decimal_point: number = 12;
 
     appPass: string = '';
-
-    // \(2^{64}-1\) => (18,446,744,073,709,551,615)
-    maximum_value: BigNumber = new BigNumber('18446744073709551615');
 
     appLogin: boolean = false;
 
@@ -85,21 +84,21 @@ export class VariablesService implements OnDestroy {
         progress_value_text: '0',
         blocks: {
             current: 0,
-            max: 0,
-        },
+            max: 0
+        }
     };
 
     public sync_wallets: { [wallet_id: number]: boolean } = {};
 
     download = {
         progress_value: 0,
-        progress_value_text: '0',
+        progress_value_text: '0'
     };
 
     // Avoid of execute function before callback complete
     get_recent_transfers: boolean = false;
 
-    default_fee: string = '0.010000000000';
+    default_fee: string = '0.01';
 
     default_fee_big: BigNumber = new BigNumber('10000000000');
 
@@ -115,12 +114,12 @@ export class VariablesService implements OnDestroy {
         notViewedContracts: [],
         zanoCompanionForm: {
             zanoCompation: false,
-            secret: '',
+            secret: ''
         },
         wallets: [],
         isDarkTheme: true,
         filters: {
-            stakingFilters: null,
+            stakingFilters: null
         },
         localBlacklistsOfVerifiedAssetsByWallets: {}
     };
@@ -137,7 +136,7 @@ export class VariablesService implements OnDestroy {
 
     wallets: Array<Wallet> = [];
 
-    currentWallet: Wallet;
+    current_wallet: Wallet;
 
     currentPriceForAssets: CurrentPriceForAssets = {};
 
@@ -198,7 +197,7 @@ export class VariablesService implements OnDestroy {
                 this._dialog.closeAll();
                 this._matDialog.closeAll();
                 await this.router.navigate(['/login'], {
-                    queryParams: { type: 'auth' },
+                    queryParams: { type: 'auth' }
                 });
             });
         }
@@ -210,18 +209,24 @@ export class VariablesService implements OnDestroy {
 
     pasteSelectContextMenu: ContextMenuComponent<any>;
 
+    wrap_info$: BehaviorSubject<WrapInfo | null> = new BehaviorSubject<WrapInfo | null>(null);
+
+    loadingWrapInfo$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+
+    is_wrap_info_service_inactive$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+
     private _destroy$: Subject<void> = new Subject<void>();
 
     constructor(
         private router: Router,
         private ngZone: NgZone,
-        private _apiZanoService: ApiZanoService,
+        private _apiZanoService: ApiService,
         private contextMenuService: ContextMenuService<any>
     ) {
         this.visibilityBalance$.pipe(takeUntil(this._destroy$)).subscribe({
             next: visibilityBalance => {
                 this.settings.visibilityBalance = visibilityBalance;
-            },
+            }
         });
     }
 
@@ -235,16 +240,16 @@ export class VariablesService implements OnDestroy {
     }
 
     get isCurrentWalletSync(): boolean {
-        if (this.currentWallet) {
-            const { wallet_id } = this.currentWallet;
+        if (this.current_wallet) {
+            const { wallet_id } = this.current_wallet;
             return this.sync_wallets[wallet_id] || false;
         }
         return false;
     }
 
     get isCurrentWalletLoaded(): boolean {
-        if (this.currentWallet) {
-            const { loaded } = this.currentWallet;
+        if (this.current_wallet) {
+            const { loaded } = this.current_wallet;
             return loaded;
         }
         return false;
@@ -296,7 +301,7 @@ export class VariablesService implements OnDestroy {
     setCurrentWallet(id): void {
         this.wallets.forEach(wallet => {
             if (wallet.wallet_id === id) {
-                this.currentWallet = wallet;
+                this.current_wallet = wallet;
                 this.currentWalletChangedEvent.next(wallet);
             }
         });
@@ -351,7 +356,7 @@ export class VariablesService implements OnDestroy {
             this.contextMenuService.show(this.allContextMenu, {
                 x: $event.x,
                 y: $event.y,
-                value: $event.target,
+                value: $event.target
             });
             $event.preventDefault();
             $event.stopPropagation();
@@ -364,7 +369,7 @@ export class VariablesService implements OnDestroy {
         this.contextMenuService.show(this.onlyCopyContextMenu, {
             value: copyText,
             x: $event.x,
-            y: $event.y,
+            y: $event.y
         });
     }
 
@@ -383,7 +388,7 @@ export class VariablesService implements OnDestroy {
             this.contextMenuService.show(this.pasteSelectContextMenu, {
                 x: $event.x,
                 y: $event.y,
-                value: $event.target,
+                value: $event.target
             });
             $event.preventDefault();
             $event.stopPropagation();
@@ -433,7 +438,7 @@ export class VariablesService implements OnDestroy {
 
                     this.currentPriceForAssets = newCurrentPriceForAssets;
                     this.currentPriceForAssets$.next(newCurrentPriceForAssets);
-                },
+                }
             });
     }
 }

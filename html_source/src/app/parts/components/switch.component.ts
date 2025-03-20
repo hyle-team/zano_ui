@@ -20,7 +20,7 @@ import { CommonModule } from '@angular/common';
             :host {
                 display: inline-flex;
             }
-        `,
+        `
     ],
     standalone: true,
     imports: [CommonModule],
@@ -28,9 +28,9 @@ import { CommonModule } from '@angular/common';
         {
             provide: NG_VALUE_ACCESSOR,
             useExisting: forwardRef(() => SwitchComponent),
-            multi: true,
-        },
-    ],
+            multi: true
+        }
+    ]
 })
 export class SwitchComponent implements ControlValueAccessor {
     @Input() value = false;

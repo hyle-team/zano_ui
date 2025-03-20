@@ -2,109 +2,115 @@
     <div [class.mb-2]="isShowPagination" class="scrolled-content" fxFlex="1 1 auto">
         <table class="zano-table assets-table">
             <thead>
-            <tr>
-                <th>
-                    <div class="bg title">
-                        {{ 'ASSETS.TABLE.LABELS.NAME' | translate }}
-                    </div>
-                </th>
-                <th>
-                    <div class="bg title">
-                        {{ 'ASSETS.TABLE.LABELS.BALANCE' | translate }}
-                    </div>
-                </th>
-                <th>
-                    <div class="bg title">
-                        {{ 'ASSETS.TABLE.LABELS.VALUE' | translate }}
-                    </div>
-                </th>
-                <th>
-                    <div class="bg title">
-                        {{ 'ASSETS.TABLE.LABELS.PRICE' | translate }}
-                    </div>
-                </th>
-                <th>
-                    <div class="bg title">&nbsp;</div>
-                </th>
-            </tr>
-            <div class="row-divider"></div>
+                <tr>
+                    <th>
+                        <div class="bg title">
+                            {{ 'ASSETS.TABLE.LABELS.NAME' | translate }}
+                        </div>
+                    </th>
+                    <th>
+                        <div class="bg title">
+                            {{ 'ASSETS.TABLE.LABELS.BALANCE' | translate }}
+                        </div>
+                    </th>
+                    <th>
+                        <div class="bg title">
+                            {{ 'ASSETS.TABLE.LABELS.VALUE' | translate }}
+                        </div>
+                    </th>
+                    <th>
+                        <div class="bg title">
+                            {{ 'ASSETS.TABLE.LABELS.PRICE' | translate }}
+                        </div>
+                    </th>
+                    <th>
+                        <div class="bg title">&nbsp;</div>
+                    </th>
+                </tr>
+                <div class="row-divider"></div>
             </thead>
             <tbody>
-            <ng-container *ngFor="let balance of variablesService.currentWallet.balances$ | async | paginate :
-                paginatePipeArgs; trackBy: trackByAssets">
-                <tr
-                    [delay]="100"
-                    [placement]="'bottom'"
-                    [timeDelay]="1500"
-                    [tooltipClass]="'balance-tooltip'"
-                    [tooltip]="getBalanceTooltip(balance)"
+                <ng-container
+                    *ngFor="
+                        let balance of variablesService.current_wallet.balances$ | async | paginate : paginatePipeArgs;
+                        trackBy: trackByAssets
+                    "
                 >
-                    <td>
-                        <div class="text-ellipsis" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2rem">
-                            <div [innerHTML]="balance.asset_info | getLogoByAssetInfo" class="token-logo mr-1"></div>
-                            <b class="text-ellipsis">{{ balance.asset_info.full_name }}</b>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="text-ellipsis">
-                            <b *appVisibilityBalance>
-                                {{ balance.total | intToMoney : balance.asset_info.decimal_point }}
-                                {{ balance.asset_info.ticker }}
-                            </b>
-                        </div>
-                    </td>
-
-                    <td>
-                        <div class="text-ellipsis">
-                            <ng-container
-                                *ngIf="variablesService.currentPriceForAssets[balance.asset_info.asset_id] as currentPriceForAsset">
+                    <tr
+                        [delay]="100"
+                        [placement]="'bottom'"
+                        [timeDelay]="1500"
+                        [tooltipClass]="'balance-tooltip'"
+                        [tooltip]="getBalanceTooltip(balance)"
+                    >
+                        <td>
+                            <div class="text-ellipsis" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2rem">
+                                <div [innerHTML]="balance.asset_info | getLogoByAssetInfo" class="token-logo mr-1"></div>
+                                <b class="text-ellipsis">{{ balance.asset_info.full_name }}</b>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-ellipsis">
                                 <b *appVisibilityBalance>
-                                    {{
-                                        (balance.total | intToMoney : balance.asset_info.decimal_point) *
-                                        (currentPriceForAsset.data.usd ?? 0) | currency : 'USD'
-                                    }}
+                                    {{ balance.total | intToMoney : balance.asset_info.decimal_point }}
+                                    {{ balance.asset_info.ticker }}
                                 </b>
-                            </ng-container>
-                        </div>
-                    </td>
+                            </div>
+                        </td>
 
-                    <td>
-                        <div class="text-ellipsis">
-                            <ng-container
-                                *ngIf="variablesService.currentPriceForAssets[balance.asset_info.asset_id] as currentPriceForAsset">
-                                <ng-container *ngIf="currentPriceForAsset.data.usd !== null">
-                                    <b class="mr-0_5">{{ currentPriceForAsset.data.usd | currency : 'USD' }}</b>
+                        <td>
+                            <div class="text-ellipsis">
+                                <ng-container
+                                    *ngIf="variablesService.currentPriceForAssets[balance.asset_info.asset_id] as currentPriceForAsset"
+                                >
+                                    <b *appVisibilityBalance>
+                                        {{
+                                            (balance.total | intToMoney : balance.asset_info.decimal_point) *
+                                                (currentPriceForAsset.data.usd ?? 0) | currency : 'USD'
+                                        }}
+                                    </b>
                                 </ng-container>
+                            </div>
+                        </td>
 
-                                <ng-container *ngIf="currentPriceForAsset.data.usd_24h_change !== null">
-                                    <span
-                                        [class.color-aqua]="currentPriceForAsset.data.usd_24h_change  > 0"
-                                        [class.color-red]="currentPriceForAsset.data.usd_24h_change < 0"
-                                    >
-                                        {{ currentPriceForAsset.data.usd_24h_change | number : '1.2-2' }} %
-                                    </span>
+                        <td>
+                            <div class="text-ellipsis">
+                                <ng-container
+                                    *ngIf="variablesService.currentPriceForAssets[balance.asset_info.asset_id] as currentPriceForAsset"
+                                >
+                                    <ng-container *ngIf="currentPriceForAsset.data.usd !== null">
+                                        <b class="mr-0_5">{{ currentPriceForAsset.data.usd | currency : 'USD' }}</b>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="currentPriceForAsset.data.usd_24h_change !== null">
+                                        <span
+                                            [class.color-aqua]="currentPriceForAsset.data.usd_24h_change > 0"
+                                            [class.color-red]="currentPriceForAsset.data.usd_24h_change < 0"
+                                        >
+                                            {{ currentPriceForAsset.data.usd_24h_change | number : '1.2-2' }} %
+                                        </span>
+                                    </ng-container>
                                 </ng-container>
-                            </ng-container>
-                        </div>
-                    </td>
+                            </div>
+                        </td>
 
-                    <td>
-                        <div class="text-ellipsis" fxLayout="row" fxLayoutAlign="end center">
-                            <button
-                                #trigger="cdkOverlayOrigin"
-                                (click)="toggleDropDownMenu(trigger, balance); $event.stopPropagation()"
-                                [disabled]="false"
-                                cdkOverlayOrigin
-                                class="btn-icon circle row-options small ml-auto"
-                                type="button"
-                            >
-                                <mat-icon class="small" svgIcon="zano-row-options"></mat-icon>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
-                <tr class="row-divider"></tr>
-            </ng-container>
+                        <td>
+                            <div class="text-ellipsis" fxLayout="row" fxLayoutAlign="end center">
+                                <button
+                                    #trigger="cdkOverlayOrigin"
+                                    (click)="toggleDropDownMenu(trigger, balance); $event.stopPropagation()"
+                                    [disabled]="false"
+                                    cdkOverlayOrigin
+                                    class="btn-icon circle row-options small ml-auto"
+                                    type="button"
+                                >
+                                    <mat-icon class="small" svgIcon="zano-row-options"></mat-icon>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="row-divider"></tr>
+                </ng-container>
             </tbody>
         </table>
     </div>
@@ -116,13 +122,11 @@
         [id]="paginatePipeArgs.id"
         class="ngx-pagination custom-pagination"
     >
-        <button (click)="p.previous()" [disabled]="p.isFirstPage()"
-                class="pagination-previous btn-icon circle small mr-0_5">
+        <button (click)="p.previous()" [disabled]="p.isFirstPage()" class="pagination-previous btn-icon circle small mr-0_5">
             <mat-icon svgIcon="zano-arrow-left"></mat-icon>
         </button>
 
-        <div *ngFor="let page of p.pages; trackBy: trackByPages" [class.current]="p.getCurrent() === page.value"
-             class="mr-0_5">
+        <div *ngFor="let page of p.pages; trackBy: trackByPages" [class.current]="p.getCurrent() === page.value" class="mr-0_5">
             <a (click)="p.setCurrent(page.value)" *ngIf="p.getCurrent() !== page.value">
                 <span>{{ page.label }}</span>
             </a>
@@ -144,14 +148,14 @@
     [cdkConnectedOverlayOpen]="isOpenDropDownMenu"
     [cdkConnectedOverlayOrigin]="triggerOrigin"
     [cdkConnectedOverlayPositions]="[
-                {
-                    originX: 'end',
-                    originY: 'top',
-                    overlayX: 'end',
-                    overlayY: 'top',
-                    offsetY: 30
-                }
-            ]"
+        {
+            originX: 'end',
+            originY: 'top',
+            overlayX: 'end',
+            overlayY: 'top',
+            offsetY: 30
+        }
+    ]"
     cdkConnectedOverlay
 >
     <ul (click)="isOpenDropDownMenu = false" class="list">
@@ -164,11 +168,11 @@
 
         <ng-container
             *ngIf="
-                        variablesService.currentWallet.loaded &&
-                        variablesService.daemon_state === 2 &&
-                        !variablesService.currentWallet.is_auditable &&
-                        !variablesService.currentWallet.is_watch_only
-                    "
+                variablesService.current_wallet.loaded &&
+                variablesService.daemon_state === 2 &&
+                !variablesService.current_wallet.is_auditable &&
+                !variablesService.current_wallet.is_watch_only
+            "
         >
             <li class="item">
                 <button [state]="{ asset: currentAssetBalance }" class="w-100 px-2 py-1" routerLink="/wallet/send">
@@ -179,8 +183,7 @@
 
             <ng-container *ngIf="variablesService.is_hardfok_active$ | async">
                 <li class="item">
-                    <button [state]="{ asset: currentAssetBalance }" class="w-100 px-2 py-1"
-                            routerLink="/wallet/create-swap">
+                    <button [state]="{ asset: currentAssetBalance }" class="w-100 px-2 py-1" routerLink="/wallet/create-swap">
                         <mat-icon class="mr-1" svgIcon="zano-swap"></mat-icon>
                         <span>{{ 'Swap' | translate }}</span>
                     </button>

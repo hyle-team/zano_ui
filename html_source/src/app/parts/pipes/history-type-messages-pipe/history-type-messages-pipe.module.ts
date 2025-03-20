@@ -6,6 +6,6 @@ import { HistoryTypeMessagesPipe } from '@parts/pipes/history-type-messages-pipe
     declarations: [HistoryTypeMessagesPipe],
     exports: [HistoryTypeMessagesPipe],
     providers: [HistoryTypeMessagesPipe],
-    imports: [CommonModule],
+    imports: [CommonModule]
 })
 export class HistoryTypeMessagesPipeModule {}

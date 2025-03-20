@@ -1,5 +1,5 @@
 import { AssetInfo } from '@api/models/assets.model';
-import { defaultAssetLogoSrc } from '@parts/data/assets';
+import { DEFAULT_ASSET_LOGO_SRC } from '@parts/data/assets';
 
 export const getLogoTemplateByAssetInfo = ({ logo, ticker }: AssetInfo) => {
     let template: string = '';
@@ -7,7 +7,7 @@ export const getLogoTemplateByAssetInfo = ({ logo, ticker }: AssetInfo) => {
     if (logo.includes('<svg')) {
         template = logo;
     } else {
-        template = `<img alt="${ticker}" src="${logo ?? defaultAssetLogoSrc}"/>`;
+        template = `<img alt="${ticker}" src="${logo ?? DEFAULT_ASSET_LOGO_SRC}"/>`;
     }
 
     return template;

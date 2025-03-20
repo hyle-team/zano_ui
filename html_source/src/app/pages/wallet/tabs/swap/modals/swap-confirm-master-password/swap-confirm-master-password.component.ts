@@ -14,7 +14,7 @@ import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
     standalone: true,
     imports: [CommonModule, FlexModule, ReactiveFormsModule, TranslateModule, IntToMoneyPipeModule, GetAssetInfoPipe, MatDialogModule],
     templateUrl: './swap-confirm-master-password.component.html',
-    styleUrls: ['./swap-confirm-master-password.component.scss'],
+    styleUrls: ['./swap-confirm-master-password.component.scss']
 })
 export class SwapConfirmMasterPasswordComponent {
     variablesService: VariablesService = inject(VariablesService);
@@ -24,7 +24,7 @@ export class SwapConfirmMasterPasswordComponent {
     confirmForm = this.fb.group(
         {
             password: this.fb.control(''),
-            appPass: this.fb.control(this.variablesService.appPass || ''),
+            appPass: this.fb.control(this.variablesService.appPass || '')
         },
         { validators: [ZanoValidators.formMatch('password', 'appPass', 'passwordNotMatch')] }
     );

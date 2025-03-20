@@ -53,10 +53,15 @@
 
                 <!-- Status -->
                 <ng-container *ngIf="getHeight(transaction) === 10">
-                    <img class="status-transaction mr-1"
-                         [src]="isIncome(subtransfer, transaction) ? 'assets/icons/aqua/receive.svg' : 'assets/icons/blue/send.svg'"  alt="status"/>
+                    <img
+                        class="status-transaction mr-1"
+                        [src]="isIncome(subtransfer, transaction) ? 'assets/icons/aqua/receive.svg' : 'assets/icons/blue/send.svg'"
+                        alt="status"
+                    />
                 </ng-container>
-                <span class="status-transaction-text">{{ (isIncome(subtransfer, transaction) ? 'HISTORY.RECEIVED' : 'HISTORY.SEND') | translate }}</span>
+                <span class="status-transaction-text">{{
+                    (isIncome(subtransfer, transaction) ? 'HISTORY.RECEIVED' : 'HISTORY.SEND') | translate
+                }}</span>
 
                 <!-- Lock time -->
                 <ng-container *ngIf="transaction.unlock_time !== 0 && transaction.tx_type !== 6">

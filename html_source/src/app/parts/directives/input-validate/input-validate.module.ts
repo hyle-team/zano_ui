@@ -5,6 +5,6 @@ import { InputValidateDirective } from '@parts/directives/input-validate/input-v
 @NgModule({
     declarations: [InputValidateDirective],
     exports: [InputValidateDirective],
-    imports: [CommonModule],
+    imports: [CommonModule]
 })
 export class InputValidateModule {}

@@ -29,20 +29,20 @@ import { SwapDetailsComponent } from '../../modals/swap-details/swap-details.com
         TranslateModule,
         ReactiveFormsModule,
         IntToMoneyPipeModule,
-        GetAssetInfoPipe,
+        GetAssetInfoPipe
     ],
     templateUrl: './confirm-swap.component.html',
-    styleUrls: ['./confirm-swap.component.scss'],
+    styleUrls: ['./confirm-swap.component.scss']
 })
 export class ConfirmSwapComponent implements OnInit, OnDestroy {
     breadcrumbItems: BreadcrumbItems = [
         {
             routerLink: '/wallet/swap',
-            title: 'CONFIRM_SWAP.BREADCRUMBS.ITEM1',
+            title: 'CONFIRM_SWAP.BREADCRUMBS.ITEM1'
         },
         {
-            title: 'CONFIRM_SWAP.BREADCRUMBS.ITEM2',
-        },
+            title: 'CONFIRM_SWAP.BREADCRUMBS.ITEM2'
+        }
     ];
 
     errorRpc: { code: number; message: string } | undefined;
@@ -52,7 +52,7 @@ export class ConfirmSwapComponent implements OnInit, OnDestroy {
     fb = inject(NonNullableFormBuilder);
 
     form = this.fb.group({
-        hex_raw_proposal: this.fb.control<string>('', [Validators.required]),
+        hex_raw_proposal: this.fb.control<string>('', [Validators.required])
     });
 
     proposalDetails: ProposalDetails | undefined;
@@ -76,7 +76,7 @@ export class ConfirmSwapComponent implements OnInit, OnDestroy {
                 next: (hex_raw_proposal: string) => {
                     this.hex_raw_proposal = hex_raw_proposal;
                     this.getProposalDetails(hex_raw_proposal);
-                },
+                }
             });
     }
 
@@ -89,16 +89,16 @@ export class ConfirmSwapComponent implements OnInit, OnDestroy {
         const proposalDetails = this.proposalDetails;
         const config: MatDialogConfig = {
             data: {
-                proposalDetails,
+                proposalDetails
             },
-            disableClose: true,
+            disableClose: true
         };
         this._matDialog
             .open(SwapConfirmMasterPasswordComponent, config)
             .afterClosed()
             .pipe(filter(Boolean), take(1))
             .subscribe({
-                next: () => this.acceptProposal(),
+                next: () => this.acceptProposal()
             });
     }
 
@@ -106,42 +106,42 @@ export class ConfirmSwapComponent implements OnInit, OnDestroy {
         if (!this.hex_raw_proposal) {
             return;
         }
-        const { wallet_id } = this.variablesService.currentWallet;
+        const { wallet_id } = this.variablesService.current_wallet;
         const hex_raw_proposal = this.hex_raw_proposal;
 
         const params: ParamsCallRpc = {
             jsonrpc: '2.0',
             id: 0,
             method: 'ionic_swap_accept_proposal',
-            params: { hex_raw_proposal },
+            params: { hex_raw_proposal }
         };
         this.backendService.call_wallet_rpc([wallet_id, params], (status, response) => {
             this.ngZone.run(() => {
                 const config: MatDialogConfig = {
                     data: {
-                        response,
+                        response
                     },
-                    disableClose: true,
+                    disableClose: true
                 };
                 this._matDialog
                     .open(SwapDetailsComponent, config)
                     .afterClosed()
                     .pipe(filter(Boolean), take(1))
                     .subscribe({
-                        next: () => this.router.navigate(['/wallet/history']),
+                        next: () => this.router.navigate(['/wallet/history'])
                     });
             });
         });
     }
 
     private getProposalDetails(hex_raw_proposal: string): void {
-        const { wallet_id } = this.variablesService.currentWallet;
+        const { wallet_id } = this.variablesService.current_wallet;
 
         const params: ParamsCallRpc = {
             jsonrpc: '2.0',
             id: 0,
             method: 'ionic_swap_get_proposal_info',
-            params: { hex_raw_proposal },
+            params: { hex_raw_proposal }
         };
 
         this.backendService.call_wallet_rpc([wallet_id, params], (status, response_data) => {

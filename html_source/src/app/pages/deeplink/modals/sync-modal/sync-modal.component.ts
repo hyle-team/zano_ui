@@ -11,7 +11,7 @@ import { VariablesService } from '@parts/services/variables.service';
             </div>
         </div>
     `,
-    styleUrls: ['./sync-modal.component.scss'],
+    styleUrls: ['./sync-modal.component.scss']
 })
 export class SyncModalComponent implements OnInit, OnDestroy {
     @HostBinding('class.modal-overlay') modalOverlay = true;

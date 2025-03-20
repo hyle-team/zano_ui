@@ -10,7 +10,7 @@ import BigNumber from 'bignumber.js';
 import { Subject } from 'rxjs';
 import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { takeUntil } from 'rxjs/operators';
-import { regExpRegisterAliasName } from '@parts/utils/zano-validators';
+import { REG_EXP_REGISTER_ALIAS_NAME } from '@parts/utils/zano-validators';
 import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
 
 @Component({
@@ -23,20 +23,20 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                 height: 100%;
                 overflow: hidden;
             }
-        `,
-    ],
+        `
+    ]
 })
 export class AssignAliasComponent implements OnInit, OnDestroy {
-    public wallet: Wallet = this.variablesService.currentWallet;
+    public wallet: Wallet = this.variablesService.current_wallet;
 
     public readonly breadcrumbItems: BreadcrumbItems = [
         {
             routerLink: '/wallet/history',
-            title: this.variablesService.currentWallet.name,
+            title: this.variablesService.current_wallet.name
         },
         {
-            title: 'BREADCRUMBS.ASSIGN_ALIAS',
-        },
+            title: 'BREADCRUMBS.ASSIGN_ALIAS'
+        }
     ];
 
     private readonly _fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
@@ -48,10 +48,10 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
                 Validators.required,
                 Validators.minLength(6),
                 Validators.maxLength(25),
-                Validators.pattern(regExpRegisterAliasName),
+                Validators.pattern(REG_EXP_REGISTER_ALIAS_NAME)
             ])
         ),
-        comment: this._fb.control('', Validators.compose([Validators.maxLength(this.variablesService.maxCommentLength)])),
+        comment: this._fb.control('', Validators.compose([Validators.maxLength(this.variablesService.maxCommentLength)]))
     });
 
     public alias = {
@@ -61,7 +61,7 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
         reward: '0',
         rewardOriginal: '0',
         comment: '',
-        exists: false,
+        exists: false
     };
 
     public canRegister: boolean = false;
@@ -119,7 +119,7 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
                 this.alias.fee,
                 this.alias.comment,
                 this.alias.rewardOriginal,
-                async (status) => {
+                async status => {
                     if (status) {
                         this.wallet.wakeAlias = true;
                         this._modalService.prepareModal('info', 'ASSIGN_ALIAS.REQUEST_ADD_REG');
@@ -134,7 +134,7 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
 
     private _subscribeToNameValueChanges(): void {
         const {
-            controls: { name: control },
+            controls: { name: control }
         } = this.form;
 
         control.valueChanges.pipe(takeUntil(this._destroy$)).subscribe({
@@ -173,7 +173,7 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
                     this.alias.rewardOriginal = '0';
                 }
                 this.alias.name = newName;
-            },
+            }
         });
     }
 }

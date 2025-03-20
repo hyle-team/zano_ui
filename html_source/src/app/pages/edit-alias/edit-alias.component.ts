@@ -94,8 +94,8 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                 height: 100%;
                 overflow: hidden;
             }
-        `,
-    ],
+        `
+    ]
 })
 export class EditAliasComponent implements OnInit {
     wallet: Wallet;
@@ -105,11 +105,11 @@ export class EditAliasComponent implements OnInit {
     breadcrumbItems: BreadcrumbItems = [
         {
             routerLink: '/wallet/history',
-            title: this.variablesService.currentWallet.name,
+            title: this.variablesService.current_wallet.name
         },
         {
-            title: 'BREADCRUMBS.EDIT_ALIAS',
-        },
+            title: 'BREADCRUMBS.EDIT_ALIAS'
+        }
     ];
 
     oldAliasComment: string;
@@ -127,12 +127,12 @@ export class EditAliasComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.wallet = this.variablesService.currentWallet;
+        this.wallet = this.variablesService.current_wallet;
         const alias = this.backend.getWalletAlias(this.wallet.address);
         this.alias = {
             name: alias.name,
             address: alias.address,
-            comment: alias.comment,
+            comment: alias.comment
         };
         this.oldAliasComment = alias.comment;
         const balance = new BigNumber(this.wallet.getBalanceByTicker('ZANO')?.unlocked || 0);

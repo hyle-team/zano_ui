@@ -14,11 +14,11 @@ type TDataLoaders = {
 };
 
 @Injectable({
-    providedIn: 'root',
+    providedIn: 'root'
 })
 export class ZanoLoadersService {
     private _loaders$ = new BehaviorSubject<TDataLoaders>({
-        fullScreen: { state: false, message: 'Loading' },
+        fullScreen: { state: false, message: 'Loading' }
     });
 
     getState(id: TLoaderId): Observable<boolean> {
@@ -34,8 +34,8 @@ export class ZanoLoadersService {
             ...this._loaders$.value,
             [id]: {
                 state: true,
-                message,
-            },
+                message
+            }
         });
     }
 
@@ -44,8 +44,8 @@ export class ZanoLoadersService {
             ...this._loaders$.value,
             [id]: {
                 ...this._loaders$.value[id],
-                state: false,
-            },
+                state: false
+            }
         });
     }
 }

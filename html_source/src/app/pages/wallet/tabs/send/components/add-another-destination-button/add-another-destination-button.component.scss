@@ -1,0 +1,16 @@
+:host {
+    width: fit-content;
+}
+
+.add-another-destination-button {
+    color: var(--azure-500);
+
+    & > mat-icon {
+        &:first-child {
+            margin-inline-end: 0.8rem;
+        }
+        &:last-child {
+            margin-inline-start: 0.8rem;
+        }
+    }
+}

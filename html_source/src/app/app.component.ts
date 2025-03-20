@@ -9,7 +9,7 @@ import { BigNumber } from 'bignumber.js';
 import { ModalService } from '@parts/services/modal.service';
 import { StateKeys, Store } from '@store/store';
 import { interval, Subject } from 'rxjs';
-import { retry, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { retry, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { paths, pathsChildrenAuth } from './pages/paths';
 import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { Dialog } from '@angular/cdk/dialog';
@@ -17,9 +17,9 @@ import { ZanoLoadersService } from '@parts/services/zano-loaders.service';
 import { ParamsCallRpc } from '@api/models/call_rpc.model';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { MatDialog } from '@angular/material/dialog';
-import { ApiZanoService } from '@api/services/api-zano.service';
+import { ApiService } from '@api/services/api.service';
 import { WalletsService } from '@parts/services/wallets.service';
-
+import { WrapInfo } from '@api/models/wrap-info';
 
 @Component({
     selector: 'app-root',
@@ -51,7 +51,7 @@ import { WalletsService } from '@parts/services/wallets.service';
         <app-register-context-templates></app-register-context-templates>
 
         <app-open-wallet-modal *ngIf="needOpenWallets.length" [wallets]="needOpenWallets"></app-open-wallet-modal>
-    `,
+    `
 })
 export class AppComponent implements OnInit, OnDestroy {
     intervalUpdateContractsState;
@@ -73,10 +73,10 @@ export class AppComponent implements OnInit, OnDestroy {
         [Breakpoints.Small, 'Small'],
         [Breakpoints.Medium, 'Medium'],
         [Breakpoints.Large, 'Large'],
-        [Breakpoints.XLarge, 'XLarge'],
+        [Breakpoints.XLarge, 'XLarge']
     ]);
 
-    private destroy$: Subject<void> = new Subject<void>();
+    private _destroy$: Subject<void> = new Subject<void>();
 
     constructor(
         public variablesService: VariablesService,
@@ -92,7 +92,7 @@ export class AppComponent implements OnInit, OnDestroy {
         private dialog: Dialog,
         private matDialog: MatDialog,
         public zanoLoadersService: ZanoLoadersService,
-        private _apiZanoService: ApiZanoService,
+        private _apiService: ApiService,
         private _walletsService: WalletsService,
         private _breakpointObserver: BreakpointObserver
     ) {
@@ -113,7 +113,7 @@ export class AppComponent implements OnInit, OnDestroy {
                 this.translate.instant('BACKEND_LOCALIZATION.IS_MINIMIZE'),
                 this.translate.instant('BACKEND_LOCALIZATION.RESTORE'),
                 this.translate.instant('BACKEND_LOCALIZATION.TRAY_MENU_SHOW'),
-                this.translate.instant('BACKEND_LOCALIZATION.TRAY_MENU_MINIMIZE'),
+                this.translate.instant('BACKEND_LOCALIZATION.TRAY_MENU_MINIMIZE')
             ];
             this.backendService.setBackendLocalization(stringsArray, this.variablesService.settings.language);
         } else {
@@ -594,7 +594,7 @@ export class AppComponent implements OnInit, OnDestroy {
                                         const newAlias = {
                                             name: '@' + data.events[i].details.alias,
                                             address: data.events[i].details.address,
-                                            comment: data.events[i].details.comment,
+                                            comment: data.events[i].details.comment
                                         };
                                         this.variablesService.aliases = this.variablesService.aliases.concat(newAlias);
                                         this.variablesService.changeAliases();
@@ -681,7 +681,7 @@ export class AppComponent implements OnInit, OnDestroy {
                                 }
                             });
                         });
-                    },
+                    }
                 });
 
                 this.backendService.getAppData((status, data) => {
@@ -725,7 +725,7 @@ export class AppComponent implements OnInit, OnDestroy {
                             if (statusPass) {
                                 this.ngZone.run(() => {
                                     this.router.navigate(['/login'], {
-                                        queryParams: { type: 'auth' },
+                                        queryParams: { type: 'auth' }
                                     });
                                 });
                             } else {
@@ -738,7 +738,7 @@ export class AppComponent implements OnInit, OnDestroy {
                                 } else {
                                     this.ngZone.run(() => {
                                         this.router.navigate(['/login'], {
-                                            queryParams: { type: 'reg' },
+                                            queryParams: { type: 'reg' }
                                         });
                                     });
                                 }
@@ -755,6 +755,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
                 this.getInfo();
 
+                this._startWrapInfoPolling();
+
                 this.backendService.isRemnoteNodeModePreconfigured((is_remote_node: boolean) => {
                     this.variablesService.is_remote_node = is_remote_node;
                 });
@@ -766,27 +768,27 @@ export class AppComponent implements OnInit, OnDestroy {
             },
             error: error => {
                 console.log(error);
-            },
+            }
         });
 
         const updateTime = 10 * 60 * 1000; // 10 minutes
         interval(updateTime)
-            .pipe(takeUntil(this.destroy$))
+            .pipe(takeUntil(this._destroy$))
             .subscribe({
                 next: () => {
                     this.variablesService.loadCurrentPriceForAllAssets();
-                },
+                }
             });
 
-        this.variablesService.isDarkTheme$.pipe(takeUntil(this.destroy$)).subscribe({
+        this.variablesService.isDarkTheme$.pipe(takeUntil(this._destroy$)).subscribe({
             next: isDarkTheme => {
                 this.renderer.setAttribute(document.documentElement, 'class', isDarkTheme ? 'dark' : 'light');
-            },
+            }
         });
     }
 
     ngOnDestroy(): void {
-        this.destroy$.next();
+        this._destroy$.next();
         if (this.intervalUpdateContractsState) {
             clearInterval(this.intervalUpdateContractsState);
         }
@@ -815,7 +817,7 @@ export class AppComponent implements OnInit, OnDestroy {
                         const newAlias = {
                             name: '@' + alias.alias,
                             address: alias.address,
-                            comment: alias.comment,
+                            comment: alias.comment
                         };
                         this.variablesService.aliases.push(newAlias);
                     });
@@ -886,14 +888,14 @@ export class AppComponent implements OnInit, OnDestroy {
         interval(updateTime)
             .pipe(
                 startWith(0),
-                switchMap(() => this._apiZanoService.getVerifiedAssetInfoWhitelist(type).pipe(retry(5))),
-                takeUntil(this.destroy$)
+                switchMap(() => this._apiService.getVerifiedAssetInfoWhitelist(type).pipe(retry(5))),
+                takeUntil(this._destroy$)
             )
             .subscribe({
                 next: ({ assets }) => {
                     this.variablesService.verifiedAssetInfoWhitelist = assets;
                     this._walletsService.setVerifiedAssetInfoWhitelist(assets);
-                },
+                }
             });
     }
 
@@ -901,12 +903,12 @@ export class AppComponent implements OnInit, OnDestroy {
         const updateTime: number = 60 * 1000; // 1 minutes
 
         interval(updateTime)
-            .pipe(startWith(0), takeUntil(this.destroy$))
+            .pipe(startWith(0), takeUntil(this._destroy$))
             .subscribe({
                 next: () => {
                     const params = {
                         jsonrpc: '2.0',
-                        method: 'getinfo',
+                        method: 'getinfo'
                     };
 
                     this.backendService.call_rpc(params, (status, response_data) => {
@@ -914,7 +916,7 @@ export class AppComponent implements OnInit, OnDestroy {
                             this.variablesService.info$.next(response_data.result);
                         });
                     });
-                },
+                }
             });
     }
 
@@ -924,8 +926,8 @@ export class AppComponent implements OnInit, OnDestroy {
             id: 0,
             method: 'getinfo',
             params: {
-                flags: 1024,
-            },
+                flags: 1024
+            }
         };
 
         this.backendService.call_rpc(params, (status, response_data) => {
@@ -940,11 +942,11 @@ export class AppComponent implements OnInit, OnDestroy {
         this.translate.setDefaultLang('en');
         this.translate
             .use('en')
-            .pipe(takeUntil(this.destroy$))
+            .pipe(takeUntil(this._destroy$))
             .subscribe({
                 next: () => {
                     this.translateUsed = true;
-                },
+                }
             });
     }
 
@@ -955,9 +957,9 @@ export class AppComponent implements OnInit, OnDestroy {
                 Breakpoints.Small, // Small	(min-width: 600px) and (max-width: 959.98px)
                 Breakpoints.Medium, // Medium	(min-width: 960px) and (max-width: 1279.98px)
                 Breakpoints.Large, // Large	(min-width: 1280px) and (max-width: 1919.98px)
-                Breakpoints.XLarge, // XLarge	(min-width: 1920px)
+                Breakpoints.XLarge // XLarge	(min-width: 1920px)
             ])
-            .pipe(takeUntil(this.destroy$))
+            .pipe(takeUntil(this._destroy$))
             .subscribe(result => {
                 for (const query of Object.keys(result.breakpoints)) {
                     if (result.breakpoints[query]) {
@@ -966,6 +968,37 @@ export class AppComponent implements OnInit, OnDestroy {
                         document.body.classList.remove(...this.displayNameMap.values());
                         document.body.classList.add(this.currentScreenSize);
                     }
+                }
+            });
+    }
+
+    private _startWrapInfoPolling(): void {
+        const updateTime: number = 10 * 60 * 1000; // 10 minutes
+
+        interval(updateTime)
+            .pipe(
+                startWith(0),
+                switchMap(() =>
+                    this._apiService.getWrapInfo().pipe(
+                        tap(() => this.variablesService.loadingWrapInfo$.next(true)),
+                        retry(5),
+                        takeUntil(this._destroy$)
+                    )
+                ),
+                takeUntil(this._destroy$)
+            )
+            .subscribe({
+                next: (wrapInfo: WrapInfo) => {
+                    this.variablesService.is_wrap_info_service_inactive$.next(false);
+                    this.variablesService.wrap_info$.next(wrapInfo);
+                    this.variablesService.loadingWrapInfo$.next(false);
+                },
+                error: () => {
+                    this.variablesService.is_wrap_info_service_inactive$.next(true);
+                    this.variablesService.loadingWrapInfo$.next(false);
+                },
+                complete: () => {
+                    this.variablesService.loadingWrapInfo$.next(false);
                 }
             });
     }

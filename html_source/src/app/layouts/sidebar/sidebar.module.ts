@@ -13,6 +13,7 @@ import { StakingSwitchComponent } from '@parts/components/staking-switch.compone
 import { SynchronizationStatusComponent } from '@parts/components/synchronization-status.component';
 import { WalletCardComponent } from '@parts/components/wallet-card/wallet-card.component';
 import { MatIconModule } from '@angular/material/icon';
+import { ZanoLogoComponent } from '@parts/components/zano-logo/zano-logo.component';
 
 @NgModule({
     declarations: [SidebarComponent],
@@ -31,7 +32,8 @@ import { MatIconModule } from '@angular/material/icon';
         IntToMoneyPipeModule,
         WalletCardComponent,
         MatIconModule,
+        ZanoLogoComponent
     ],
-    exports: [SidebarComponent],
+    exports: [SidebarComponent]
 })
 export class SidebarModule {}

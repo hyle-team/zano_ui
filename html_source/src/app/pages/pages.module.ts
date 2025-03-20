@@ -32,7 +32,7 @@ import {
     IsAvailableAliasNamePipeModule,
     MoneyToIntPipeModule,
     SafeHtmlPipeModule,
-    ShortStringPipe,
+    ShortStringPipe
 } from '@parts/pipes';
 import { InputValidateModule } from '@parts/directives/input-validate';
 import { InputDisableSelectionModule } from '@parts/directives/input-disable-selection';
@@ -47,6 +47,7 @@ import { BreadcrumbsComponent } from '@parts/components/breadcrumbs/breadcrumbs.
 import { BackButtonComponent } from '@parts/components/back-button/back-button.component';
 import { MatIconModule } from '@angular/material/icon';
 import { IsVisibleControlErrorPipe } from '@parts/pipes/is-visible-control-error.pipe';
+import { ZanoLogoComponent } from '@parts/components/zano-logo/zano-logo.component';
 
 @NgModule({
     declarations: [
@@ -59,7 +60,7 @@ import { IsVisibleControlErrorPipe } from '@parts/pipes/is-visible-control-error
         SeedPhraseComponent,
         AssignAliasComponent,
         EditAliasComponent,
-        TransferAliasComponent,
+        TransferAliasComponent
     ],
     imports: [
         CommonModule,
@@ -100,6 +101,7 @@ import { IsVisibleControlErrorPipe } from '@parts/pipes/is-visible-control-error
         BackButtonComponent,
         MatIconModule,
         IsVisibleControlErrorPipe,
-    ],
+        ZanoLogoComponent
+    ]
 })
 export class PagesModule {}

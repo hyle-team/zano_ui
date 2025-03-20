@@ -4,13 +4,13 @@ import { NonNullableFormBuilder, ValidationErrors, Validators } from '@angular/f
 import { AssetInfo } from '@api/models/assets.model';
 import { BackendService } from '@api/services/backend.service';
 import { UpdateAssetParams } from '@api/models/custom-asstest.model';
-import { regExpHex } from '@parts/utils/zano-validators';
+import { REG_EXP_HEX } from '@parts/utils/zano-validators';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
     selector: 'app-update-custom-asset',
     templateUrl: './update-custom-asset.component.html',
-    styleUrls: ['./update-custom-asset.component.scss'],
+    styleUrls: ['./update-custom-asset.component.scss']
 })
 export class UpdateCustomAssetComponent {
     public readonly variablesService: VariablesService = inject(VariablesService);
@@ -24,7 +24,7 @@ export class UpdateCustomAssetComponent {
             Validators.required,
             (control): ValidationErrors | null => {
                 if (control.value.length === 64) {
-                    if (!regExpHex.test(control.value)) {
+                    if (!REG_EXP_HEX.test(control.value)) {
                         return { hex_not_valid: true };
                     } else {
                         return null;
@@ -50,19 +50,19 @@ export class UpdateCustomAssetComponent {
                 }
 
                 return null;
-            },
-        ]),
+            }
+        ])
     });
 
     public submit(): void {
-        const { wallet_id } = this.variablesService.currentWallet;
+        const { wallet_id } = this.variablesService.current_wallet;
         const { asset_id } = this.data.asset_info;
         const { owner } = this.form.getRawValue();
         const params: UpdateAssetParams = {
             asset_id,
             asset_descriptor: {
-                owner,
-            },
+                owner
+            }
         };
 
         this._backendService.asyncCall2a(
@@ -72,7 +72,7 @@ export class UpdateCustomAssetComponent {
                 jsonrpc: '2.0',
                 id: 0,
                 method: 'update_asset',
-                params,
+                params
             },
             async (job_id: number): Promise<void> => {
                 this._ngZone.run(() => {

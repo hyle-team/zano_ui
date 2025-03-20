@@ -9,14 +9,14 @@ import {
     OnInit,
     Output,
     Renderer2,
-    ViewChild,
+    ViewChild
 } from '@angular/core';
 import {
     AsyncCommandResults,
     BackendService,
     CurrentActionState,
     ResponseAsyncTransfer,
-    StatusCurrentActionState,
+    StatusCurrentActionState
 } from '@api/services/backend.service';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { VariablesService } from '@parts/services/variables.service';
@@ -31,7 +31,7 @@ const successfulStatuses: string[] = [
     StatusCurrentActionState.STATE_MAKING_TUNNEL_A,
     StatusCurrentActionState.STATE_MAKING_TUNNEL_B,
     StatusCurrentActionState.STATE_CREATING_STREAM,
-    StatusCurrentActionState.STATE_SUCCESS,
+    StatusCurrentActionState.STATE_SUCCESS
 ];
 
 const failedStatuses: string[] = [StatusCurrentActionState.STATE_SEND_FAILED, StatusCurrentActionState.STATE_FAILED];
@@ -40,14 +40,14 @@ const failedStatuses: string[] = [StatusCurrentActionState.STATE_SEND_FAILED, St
     selector: 'app-send-details-modal',
     templateUrl: './send-details-modal.component.html',
     styleUrls: ['./send-details-modal.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SendDetailsModalComponent implements OnInit, OnDestroy {
     @HostBinding('class.modal-overlay') modalOverlay = true;
 
     @Input() job_id: number;
 
-    @Output() eventClose = new EventEmitter<boolean>();
+    @Output() event_close = new EventEmitter<boolean>();
 
     @ViewChild('elDetailsList', { static: true }) elDetailsList: ElementRef;
 
@@ -88,8 +88,8 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.renderer.addClass(document.body, 'no-scroll');
         const {
-            currentWallet: { wallet_id },
-            settings: { appUseTor },
+            current_wallet: { wallet_id },
+            settings: { appUseTor }
         } = this.variablesService;
 
         if (appUseTor) {
@@ -97,12 +97,12 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
                 next: (currentActionState: CurrentActionState) => {
                     this.currentActionState$.next(currentActionState);
                     this.currentActionStates$.next([...this.currentActionStates, currentActionState]);
-                },
+                }
             });
         } else {
             const actionState: CurrentActionState = {
                 status: StatusCurrentActionState.STATE_INITIALIZING,
-                wallet_id,
+                wallet_id
             };
             this.currentActionState$.next(actionState);
             this.currentActionStates$.next([...this.currentActionStates, actionState]);
@@ -122,13 +122,13 @@ export class SendDetailsModalComponent implements OnInit, OnDestroy {
 
                     const actionState: CurrentActionState = {
                         status: success ? StatusCurrentActionState.STATE_SENT_SUCCESS : StatusCurrentActionState.STATE_SEND_FAILED,
-                        wallet_id,
+                        wallet_id
                     };
                     this.currentActionState$.next(actionState);
                     this.currentActionStates$.next([...this.currentActionStates, actionState]);
 
                     this.responseData$.next(response);
-                },
+                }
             });
     }
 

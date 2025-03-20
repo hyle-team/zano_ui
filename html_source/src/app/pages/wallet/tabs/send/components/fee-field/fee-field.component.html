@@ -1,0 +1,19 @@
+<div class="form__field fixed">
+    <label for="send-fee">
+        {{ 'SEND.FEE' | translate }}
+        <span class="color-red">*</span>
+    </label>
+    <input
+        (blur)="updateFeeErrorMessage()"
+        (contextmenu)="variables_service.onContextMenu($event)"
+        [placeholder]="'PLACEHOLDERS.FEE_PLACEHOLDER' | translate"
+        appInputValidate="money"
+        class="form__field--input"
+        [formControl]="control_ref"
+        id="send-fee"
+        type="text"
+    />
+    <div *ngIf="control_ref | isVisibleControlError" class="error">
+        {{ error_messages['fee'] | translate }}
+    </div>
+</div>

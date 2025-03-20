@@ -15,9 +15,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
     selector: 'app-sidebar',
     template: `
         <div class="sidebar-header mb-2">
-            <div class="logo">
-                <img [src]="zanoLogo" alt="zano-logo" />
-            </div>
+            <zano-zano-logo></zano-zano-logo>
         </div>
 
         <div class="sidebar-content">
@@ -29,7 +27,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
                     *ngFor="let wallet of variablesService.wallets"
                     [cdkDragData]="wallet"
                     [ngClass]="{
-                        active: wallet?.wallet_id === variablesService?.currentWallet?.wallet_id,
+                        active: wallet?.wallet_id === variablesService?.current_wallet?.wallet_id,
                         auditable: wallet.is_auditable && !wallet.is_watch_only,
                         'watch-only': wallet.is_watch_only,
                         'offset-testnet': variablesService.testnet,
@@ -96,7 +94,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
         <app-deeplink></app-deeplink>
     `,
-    styleUrls: ['./sidebar.component.scss'],
+    styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnDestroy {
     private destroy$ = new Subject<void>();
@@ -112,25 +110,9 @@ export class SidebarComponent implements OnDestroy {
         public zanoLoadersService: ZanoLoadersService
     ) {}
 
-    get zanoLogo(): string {
-        const {
-            settings: { isDarkTheme },
-        } = this.variablesService;
-        return isDarkTheme ? 'assets/icons/blue/zano-logo.svg' : 'assets/icons/blue/light-zano-logo.svg';
-    }
-
     ngOnDestroy(): void {
         this.destroy$.next();
         this.destroy$.complete();
-    }
-
-    toggleDarkTheme(): void {
-        const { settings, isDarkTheme$ } = this.variablesService;
-        const isDarkTheme: boolean = !settings.isDarkTheme;
-        this.variablesService.settings.isDarkTheme = isDarkTheme;
-        isDarkTheme$.next(isDarkTheme);
-
-        this.backend.storeAppData();
     }
 
     goMainPage(): void {
@@ -160,8 +142,8 @@ export class SidebarComponent implements OnDestroy {
         const config: MatDialogConfig<ConfirmModalData> = {
             data: {
                 title: 'WALLET.CONFIRM.MESSAGE',
-                message: 'WALLET.CONFIRM.TITLE',
-            },
+                message: 'WALLET.CONFIRM.TITLE'
+            }
         };
 
         this._matDialog
@@ -169,7 +151,7 @@ export class SidebarComponent implements OnDestroy {
             .afterClosed()
             .pipe(takeUntil(this.destroy$))
             .subscribe({
-                next: confirmed => confirmed && this.closeWallet(wallet_id),
+                next: confirmed => confirmed && this.closeWallet(wallet_id)
             });
     }
 

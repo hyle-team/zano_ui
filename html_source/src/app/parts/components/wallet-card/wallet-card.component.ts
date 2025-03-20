@@ -11,7 +11,7 @@ import { DisablePriceFetchModule, TooltipModule } from '@parts/directives';
 import { StakingSwitchComponent } from '@parts/components/staking-switch.component';
 import { VisibilityBalanceDirective } from '@parts/directives/visibility-balance.directive';
 import { MatIconModule } from '@angular/material/icon';
-import { zanoAssetInfo } from '@parts/data/assets';
+import { ZANO_ASSET_INFO } from '@parts/data/assets';
 
 @Component({
     selector: 'app-wallet-card',
@@ -25,8 +25,8 @@ import { zanoAssetInfo } from '@parts/data/assets';
         StakingSwitchComponent,
         DisablePriceFetchModule,
         VisibilityBalanceDirective,
-        MatIconModule,
-    ],
+        MatIconModule
+    ]
 })
 export class WalletCardComponent {
     @HostBinding('class') classAttr = 'wallet';
@@ -35,7 +35,7 @@ export class WalletCardComponent {
 
     @Output() eventClose = new EventEmitter<number>();
 
-    protected readonly zanoAssetInfo = zanoAssetInfo;
+    protected readonly zanoAssetInfo = ZANO_ASSET_INFO;
 
     constructor(
         public variablesService: VariablesService,

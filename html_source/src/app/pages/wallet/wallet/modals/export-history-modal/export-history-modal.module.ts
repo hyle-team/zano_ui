@@ -12,6 +12,6 @@ import { MatDialogModule } from '@angular/material/dialog';
 @NgModule({
     declarations: [ExportHistoryModalComponent],
     exports: [ExportHistoryModalComponent],
-    imports: [CommonModule, TranslateModule, FlexModule, SwitchComponent, CheckboxComponent, NgSelectModule, FormsModule, MatDialogModule],
+    imports: [CommonModule, TranslateModule, FlexModule, SwitchComponent, CheckboxComponent, NgSelectModule, FormsModule, MatDialogModule]
 })
 export class ExportHistoryModalModule {}

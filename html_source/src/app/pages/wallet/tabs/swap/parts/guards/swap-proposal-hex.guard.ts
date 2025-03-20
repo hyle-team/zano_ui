@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { IDeactivateComponent } from '@parts/interfaces/deactivete-component.interface';
 
 @Injectable({
-    providedIn: 'root',
+    providedIn: 'root'
 })
 export class SwapProposalHexGuard implements CanDeactivate<IDeactivateComponent> {
     canDeactivate(

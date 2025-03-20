@@ -7,7 +7,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 @Component({
     selector: 'app-export-history-modal',
     templateUrl: './export-history-modal.component.html',
-    styleUrls: ['./export-history-modal.component.scss'],
+    styleUrls: ['./export-history-modal.component.scss']
 })
 export class ExportHistoryModalComponent {
     posFilterIsOn: boolean = true;
@@ -16,22 +16,22 @@ export class ExportHistoryModalComponent {
         wallet_id: 0,
         include_pos_transactions: false,
         path: 'C:\\some_file.txt',
-        format: 'json',
+        format: 'json'
     };
 
     exportFormats = [
         {
             format: 'json',
-            formatName: 'JSON',
+            formatName: 'JSON'
         },
         {
             format: 'text',
-            formatName: 'Text',
+            formatName: 'Text'
         },
         {
             format: 'csv',
-            formatName: 'CSV',
-        },
+            formatName: 'CSV'
+        }
     ];
 
     currentFormat: string = this.exportFormats[0].format;
@@ -46,7 +46,7 @@ export class ExportHistoryModalComponent {
 
     confirmExport(): void {
         this.exportData.format = `${this.currentFormat}`;
-        this.exportData.wallet_id = this.variablesService.currentWallet.wallet_id;
+        this.exportData.wallet_id = this.variablesService.current_wallet.wallet_id;
         this.exportData.include_pos_transactions = this.posFilterIsOn;
 
         this.backend.saveFileDialog(

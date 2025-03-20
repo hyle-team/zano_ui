@@ -13,19 +13,19 @@ import {
     FormsModule,
     ReactiveFormsModule,
     ValidationErrors,
-    Validators,
+    Validators
 } from '@angular/forms';
 import { IntToMoneyPipeModule, MoneyToIntPipeModule, ShortStringPipe } from '@parts/pipes';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { VariablesService } from '@parts/services/variables.service';
 import { AssetBalance, AssetInfo } from '@api/models/assets.model';
-import { zanoAssetInfo } from '@parts/data/assets';
-import { regExpAliasName } from '@parts/utils/zano-validators';
+import { ZANO_ASSET_INFO } from '@parts/data/assets';
+import { REG_EXP_ALIAS_NAME } from '@parts/utils/zano-validators';
 import { BackendService } from '@api/services/backend.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { debounceTime, filter, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { BigNumber } from 'bignumber.js';
-import { assetHasNotBeenAddedToWallet, insuficcientFunds } from '@parts/utils/zano-errors';
+import { assetHasNotBeenAddedToWallet, insufficientFunds } from '@parts/utils/zano-errors';
 import { ParamsCallRpc } from '@api/models/call_rpc.model';
 import { LoaderComponent } from '@parts/components/loader.component';
 import { Wallet } from '@api/models/wallet.model';
@@ -36,6 +36,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { WalletsService } from '@parts/services/wallets.service';
 import { MatIconModule } from '@angular/material/icon';
 import { GetLogoByAssetInfoPipe } from '@parts/pipes/get-logo-by-asset-info.pipe';
+import { MAXIMUM_VALUE } from '@parts/data/constants';
 
 @Component({
     selector: 'app-create-swap',
@@ -58,20 +59,20 @@ import { GetLogoByAssetInfoPipe } from '@parts/pipes/get-logo-by-asset-info.pipe
         MatAutocompleteModule,
         MatOptionModule,
         MatIconModule,
-        GetLogoByAssetInfoPipe,
+        GetLogoByAssetInfoPipe
     ],
     templateUrl: './create-swap.component.html',
-    styleUrls: ['./create-swap.component.scss'],
+    styleUrls: ['./create-swap.component.scss']
 })
 export class CreateSwapComponent implements OnDestroy {
     breadcrumbItems: BreadcrumbItems = [
         {
             routerLink: '/wallet/swap',
-            title: 'CREATE_SWAP.BREADCRUMBS.ITEM1',
+            title: 'CREATE_SWAP.BREADCRUMBS.ITEM1'
         },
         {
-            title: 'CREATE_SWAP.BREADCRUMBS.ITEM2',
-        },
+            title: 'CREATE_SWAP.BREADCRUMBS.ITEM2'
+        }
     ];
 
     variablesService: VariablesService = inject(VariablesService);
@@ -86,7 +87,7 @@ export class CreateSwapComponent implements OnDestroy {
 
     errorRpc: { code: number; message: string } = null;
 
-    currentWallet: Wallet = this.variablesService.currentWallet;
+    currentWallet: Wallet = this.variablesService.current_wallet;
 
     sendingAssetsInfo$: Observable<AssetInfo[]>;
 
@@ -109,7 +110,7 @@ export class CreateSwapComponent implements OnDestroy {
     }>;
 
     errorMessages: { [key: string]: string | undefined } = {
-        receiverAddress: undefined,
+        receiverAddress: undefined
     };
 
     addressItems$: Observable<string[]>;
@@ -161,7 +162,7 @@ export class CreateSwapComponent implements OnDestroy {
 
         this.form.patchValue({
             sending: receiving,
-            receiving: sending,
+            receiving: sending
         });
         this.form.controls.sending.controls.amount.updateValueAndValidity();
         this.form.controls.receiving.controls.amount.updateValueAndValidity();
@@ -169,7 +170,7 @@ export class CreateSwapComponent implements OnDestroy {
 
     updateReceiverAddressErrorMessage(): void {
         const {
-            controls: { receiverAddress },
+            controls: { receiverAddress }
         } = this.form;
         let message: string | undefined;
 
@@ -197,7 +198,7 @@ export class CreateSwapComponent implements OnDestroy {
     pasteListenReceiverAddressField(event: ClipboardEvent): void {
         event.preventDefault();
         const {
-            controls: { receiverAddress },
+            controls: { receiverAddress }
         } = this.form;
         const { clipboardData } = event;
         let value: string = clipboardData.getData('Text') ?? '';
@@ -226,24 +227,24 @@ export class CreateSwapComponent implements OnDestroy {
     submit(): void {
         this.loading$.next(true);
         const { sending, receiving, receiverAddress } = this.form.getRawValue();
-        const { wallet_id } = this.variablesService.currentWallet;
+        const { wallet_id } = this.variablesService.current_wallet;
         const { default_fee_big } = this.variablesService;
 
-        const { currentWallet } = this.variablesService;
+        const { current_wallet } = this.variablesService;
 
-        const sendingAsset: AssetInfo | undefined = currentWallet.getAssetInfoByAssetId(sending.asset_id);
-        const receivingAsset: AssetInfo | undefined = currentWallet.getAssetInfoByAssetId(receiving.asset_id);
+        const sendingAsset: AssetInfo | undefined = current_wallet.getAssetInfoByAssetId(sending.asset_id);
+        const receivingAsset: AssetInfo | undefined = current_wallet.getAssetInfoByAssetId(receiving.asset_id);
 
         if (!sendingAsset) {
             this.form.controls.sending.controls.asset_id.setErrors({
-                alias_not_found: true,
+                alias_not_found: true
             });
             return;
         }
 
         if (!receivingAsset) {
             this.form.controls.receiving.controls.asset_id.setErrors({
-                alias_not_found: true,
+                alias_not_found: true
             });
             return;
         }
@@ -257,20 +258,20 @@ export class CreateSwapComponent implements OnDestroy {
                     to_finalizer: [
                         {
                             asset_id: sending.asset_id,
-                            amount: moneyToInt(sending.amount, sendingAsset.decimal_point),
-                        },
+                            amount: moneyToInt(sending.amount, sendingAsset.decimal_point)
+                        }
                     ],
                     to_initiator: [
                         {
                             asset_id: receiving.asset_id,
-                            amount: moneyToInt(receiving.amount, receivingAsset.decimal_point),
-                        },
+                            amount: moneyToInt(receiving.amount, receivingAsset.decimal_point)
+                        }
                     ],
                     mixins: 10,
                     fee_paid_by_a: default_fee_big,
-                    expiration_time: 0,
-                },
-            },
+                    expiration_time: 0
+                }
+            }
         };
 
         if (receiverAddress.indexOf('@') === 0) {
@@ -285,8 +286,8 @@ export class CreateSwapComponent implements OnDestroy {
                     this._router
                         .navigateByUrl('/wallet/swap-proposal-hex', {
                             state: {
-                                hex_raw_proposal: response_data.result['hex_raw_proposal'],
-                            },
+                                hex_raw_proposal: response_data.result['hex_raw_proposal']
+                            }
                         })
                         .then();
                 });
@@ -303,32 +304,36 @@ export class CreateSwapComponent implements OnDestroy {
         const { balances$ } = this.currentWallet;
         this.sendingAssetsInfo$ = this.form.controls.receiving.controls.asset_id.valueChanges.pipe(
             startWith(this.form.controls.receiving.controls.asset_id.value),
-            switchMap(asset_id => balances$.pipe(
-                map(balances => balances.filter(v => v.asset_info.asset_id !== asset_id)),
-                map(balances => balances.map(({ asset_info }) => asset_info))
-            ))
+            switchMap(asset_id =>
+                balances$.pipe(
+                    map(balances => balances.filter(v => v.asset_info.asset_id !== asset_id)),
+                    map(balances => balances.map(({ asset_info }) => asset_info))
+                )
+            )
         );
         this.receivingAssetsInfo$ = this.form.controls.sending.controls.asset_id.valueChanges.pipe(
             startWith(this.form.controls.sending.controls.asset_id.value),
-            switchMap(asset_id => balances$.pipe(
-                map(balances => balances.filter(v => v.asset_info.asset_id !== asset_id)),
-                map(balances => balances.map(({ asset_info }) => asset_info))
-            ))
+            switchMap(asset_id =>
+                balances$.pipe(
+                    map(balances => balances.filter(v => v.asset_info.asset_id !== asset_id)),
+                    map(balances => balances.map(({ asset_info }) => asset_info))
+                )
+            )
         );
 
-        const { currentWallet } = this.variablesService;
+        const { current_wallet } = this.variablesService;
 
         this.sendingDecimalPoint$ = this.form.controls.sending.controls.asset_id.valueChanges.pipe(
             startWith(this.form.controls.sending.controls.asset_id.value),
             map((asset_id: string) => {
-                return currentWallet.getBalanceByAssetId(asset_id)?.asset_info.decimal_point ?? 0;
+                return current_wallet.getBalanceByAssetId(asset_id)?.asset_info.decimal_point ?? 0;
             })
         );
 
         this.receivingDecimalPoint$ = this.form.controls.receiving.controls.asset_id.valueChanges.pipe(
             startWith(this.form.controls.receiving.controls.asset_id.value),
             map((asset_id: string) => {
-                return currentWallet.getBalanceByAssetId(asset_id)?.asset_info.decimal_point ?? 0;
+                return current_wallet.getBalanceByAssetId(asset_id)?.asset_info.decimal_point ?? 0;
             })
         );
 
@@ -371,10 +376,10 @@ export class CreateSwapComponent implements OnDestroy {
                                     }
 
                                     return null;
-                                },
-                            ],
+                                }
+                            ]
                         }),
-                        asset_id: this.fb.control(zanoAssetInfo.asset_id, [Validators.required]),
+                        asset_id: this.fb.control(ZANO_ASSET_INFO.asset_id, [Validators.required])
                     },
                     {
                         validators: [
@@ -383,31 +388,30 @@ export class CreateSwapComponent implements OnDestroy {
                                 const { value: amount } = form.get('amount');
                                 const preparedAmount = new BigNumber(amount);
 
-                                const { maximum_value } = this.variablesService;
                                 if (!asset_id) {
                                     return null;
                                 }
 
-                                const asset: AssetBalance | undefined = this.variablesService.currentWallet.balances?.find(
+                                const asset: AssetBalance | undefined = this.variablesService.current_wallet.balances?.find(
                                     v => v.asset_info.asset_id === asset_id
                                 );
                                 if (asset) {
                                     const {
                                         asset_info: { decimal_point },
-                                        unlocked,
+                                        unlocked
                                     } = asset;
-                                    const maximum_amount_by_decimal_point = intToMoney(maximum_value, decimal_point);
+                                    const maximum_amount_by_decimal_point = intToMoney(MAXIMUM_VALUE, decimal_point);
                                     if (preparedAmount.isGreaterThan(maximum_amount_by_decimal_point)) {
-                                        return { greater_than_maximum_amount: { max: maximum_amount_by_decimal_point } };
+                                        return { greater_max: { max: maximum_amount_by_decimal_point } };
                                     }
 
                                     const preparedUnlocked = intToMoney(unlocked, decimal_point);
-                                    return preparedAmount.isGreaterThan(preparedUnlocked) ? { insuficcientFunds } : null;
+                                    return preparedAmount.isGreaterThan(preparedUnlocked) ? { insufficientFunds } : null;
                                 } else {
                                     return { assetHasNotBeenAddedToWallet };
                                 }
-                            },
-                        ],
+                            }
+                        ]
                     }
                 ),
                 receiving: this.fb.group(
@@ -415,7 +419,7 @@ export class CreateSwapComponent implements OnDestroy {
                         amount: this.fb.control(
                             {
                                 value: null,
-                                disabled: this.currentWallet.balances.length === 1,
+                                disabled: this.currentWallet.balances.length === 1
                             },
                             [
                                 Validators.required,
@@ -428,18 +432,19 @@ export class CreateSwapComponent implements OnDestroy {
                                         return { zero: true };
                                     }
                                     return null;
-                                },
+                                }
                             ]
                         ),
                         asset_id: this.fb.control(
                             {
-                                value: this.currentWallet.balances.length <= 1
-                                    ? null
-                                    : this.currentWallet.balances[1]?.asset_info?.asset_id ?? zanoAssetInfo.asset_id,
-                                disabled: this.currentWallet.balances.length <= 1,
+                                value:
+                                    this.currentWallet.balances.length <= 1
+                                        ? null
+                                        : this.currentWallet.balances[1]?.asset_info?.asset_id ?? ZANO_ASSET_INFO.asset_id,
+                                disabled: this.currentWallet.balances.length <= 1
                             },
                             [Validators.required]
-                        ),
+                        )
                     },
                     {
                         validators: [
@@ -450,23 +455,23 @@ export class CreateSwapComponent implements OnDestroy {
                                     return null;
                                 }
 
-                                const asset: AssetBalance | undefined = this.variablesService.currentWallet.balances?.find(
+                                const asset: AssetBalance | undefined = this.variablesService.current_wallet.balances?.find(
                                     v => v.asset_info.asset_id === asset_id
                                 );
                                 if (asset) {
                                     const {
-                                        asset_info: { decimal_point },
+                                        asset_info: { decimal_point }
                                     } = asset;
-                                    const maximum_amount_by_decimal_point = intToMoney(this.variablesService.maximum_value, decimal_point);
+                                    const maximum_amount_by_decimal_point = intToMoney(MAXIMUM_VALUE, decimal_point);
                                     if (amount.isGreaterThan(maximum_amount_by_decimal_point)) {
-                                        return { greater_than_maximum_amount: { max: maximum_amount_by_decimal_point } };
+                                        return { greater_max: { max: maximum_amount_by_decimal_point } };
                                     }
                                     return null;
                                 } else {
                                     return { assetHasNotBeenAddedToWallet };
                                 }
-                            },
-                        ],
+                            }
+                        ]
                     }
                 ),
                 receiverAddress: this.fb.control('', [
@@ -493,7 +498,7 @@ export class CreateSwapComponent implements OnDestroy {
                                 });
                                 return control.hasError('address_not_valid') ? { address_not_valid: true } : null;
                             } else {
-                                if (!regExpAliasName.test(control.value)) {
+                                if (!REG_EXP_ALIAS_NAME.test(control.value)) {
                                     return { alias_not_valid: true };
                                 } else {
                                     this._backendService.getAliasInfoByName(control.value.replace('@', ''), (alias_status, alias_data) => {
@@ -518,8 +523,8 @@ export class CreateSwapComponent implements OnDestroy {
                             }
                         }
                         return null;
-                    },
-                ]),
+                    }
+                ])
             },
             {
                 validators: [
@@ -531,8 +536,8 @@ export class CreateSwapComponent implements OnDestroy {
                             control.get('receiving').get('asset_id').setErrors(null);
                         }
                         return null;
-                    },
-                ],
+                    }
+                ]
             }
         );
 
@@ -546,11 +551,11 @@ export class CreateSwapComponent implements OnDestroy {
         const history_asset: AssetBalance = state['asset'];
         if (history_asset) {
             const {
-                asset_info: { asset_id },
+                asset_info: { asset_id }
             } = history_asset;
             this.form.patchValue({
                 sending: {
-                    asset_id,
+                    asset_id
                 }
             });
 
@@ -559,7 +564,7 @@ export class CreateSwapComponent implements OnDestroy {
                     if (balance.asset_info.asset_id !== asset_id) {
                         this.form.patchValue({
                             receiving: {
-                                asset_id: balance.asset_info.asset_id,
+                                asset_id: balance.asset_info.asset_id
                             }
                         });
                         break;

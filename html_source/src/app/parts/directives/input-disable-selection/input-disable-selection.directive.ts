@@ -2,7 +2,7 @@ import { Directive, HostListener } from '@angular/core';
 
 @Directive({
     // eslint-disable-next-line
-    selector: 'input',
+    selector: 'input'
 })
 export class InputDisableSelectionDirective {
     @HostListener('mousedown', ['$event'])

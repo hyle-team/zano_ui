@@ -1,4 +1,8 @@
 {
+    "ADD_ANOTHER_DESTINATION": {
+        "TEXT1": "Add another destination",
+        "TEXT2": "You can add another address for sending"
+    },
     "ASSETS": {
         "DROP_DOWN_MENU": {
             "ASSET_DETAILS": "Detalhes do recurso",

@@ -5,6 +5,6 @@ import { DefaultImgDirective } from './default-img.directive';
 @NgModule({
     declarations: [DefaultImgDirective],
     exports: [DefaultImgDirective],
-    imports: [CommonModule],
+    imports: [CommonModule]
 })
 export class DefaultImgModule {}

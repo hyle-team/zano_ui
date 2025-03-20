@@ -89,10 +89,10 @@ import { TooltipModule } from '@parts/directives';
             table tbody tr td {
                 padding: 1rem 2rem;
             }
-        `,
+        `
     ],
     standalone: true,
-    imports: [CommonModule, TranslateModule, TooltipModule],
+    imports: [CommonModule, TranslateModule, TooltipModule]
 })
 export class TransactionDetailsComponent {
     @Input() transaction: Transaction;

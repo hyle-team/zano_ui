@@ -6,7 +6,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { regExpPassword, ZanoValidators } from '@parts/utils/zano-validators';
+import { REG_EXP_PASSWORD, ZanoValidators } from '@parts/utils/zano-validators';
 import { WalletsService } from '@parts/services/wallets.service';
 import { Wallet } from '@api/models/wallet.model';
 import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
@@ -79,10 +79,9 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                                     />
                                     <div
                                         *ngIf="
-                                                seedPhraseForm.controls.password.invalid &&
-                                                (seedPhraseForm.controls['password'].dirty ||
-                                                    seedPhraseForm.controls['password'].touched)
-                                            "
+                                            seedPhraseForm.controls.password.invalid &&
+                                            (seedPhraseForm.controls['password'].dirty || seedPhraseForm.controls['password'].touched)
+                                        "
                                         class="error"
                                     >
                                         <ng-container *ngIf="seedPhraseForm.controls['password'].hasError('pattern')">
@@ -204,8 +203,8 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                 height: 100%;
                 overflow: hidden;
             }
-        `,
-    ],
+        `
+    ]
 })
 export class SeedPhraseComponent implements OnInit, OnDestroy {
     seedPhrase = '';
@@ -213,11 +212,11 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
     breadcrumbItems: BreadcrumbItems = [
         {
             routerLink: '/add-wallet',
-            title: 'BREADCRUMBS.ADD_WALLET',
+            title: 'BREADCRUMBS.ADD_WALLET'
         },
         {
-            title: 'BREADCRUMBS.SAVE_PHRASE',
-        },
+            title: 'BREADCRUMBS.SAVE_PHRASE'
+        }
     ];
 
     showSeed = false;
@@ -234,16 +233,16 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
 
     detailsForm = this.fb.group({
         name: this.fb.nonNullable.control('', [ZanoValidators.duplicate(this.variablesService.walletNamesForComparisons)]),
-        path: this.fb.nonNullable.control(''),
+        path: this.fb.nonNullable.control('')
     });
 
     seedPhraseForm = this.fb.group(
         {
-            password: this.fb.nonNullable.control('', Validators.pattern(regExpPassword)),
-            confirmPassword: this.fb.nonNullable.control(''),
+            password: this.fb.nonNullable.control('', Validators.pattern(REG_EXP_PASSWORD)),
+            confirmPassword: this.fb.nonNullable.control('')
         },
         {
-            validators: [ZanoValidators.formMatch('password', 'confirmPassword')],
+            validators: [ZanoValidators.formMatch('password', 'confirmPassword')]
         }
     );
 
@@ -313,7 +312,7 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
                         this.setWalletInfoNamePath();
                     }
                 }
-            },
+            }
         });
     }
 }

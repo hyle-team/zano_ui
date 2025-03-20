@@ -95,7 +95,7 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
         </div>
 
         <ng-template #loaderTemp><zano-loader></zano-loader></ng-template>
-    `,
+    `
 })
 export class OpenWalletComponent implements OnInit, OnDestroy {
     loading$ = new BehaviorSubject(false);
@@ -105,21 +105,21 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
     breadcrumbItems: BreadcrumbItems = [
         {
             routerLink: '/add-wallet',
-            title: 'BREADCRUMBS.ADD_WALLET',
+            title: 'BREADCRUMBS.ADD_WALLET'
         },
         {
-            title: 'BREADCRUMBS.OPEN_WALLET',
-        },
+            title: 'BREADCRUMBS.OPEN_WALLET'
+        }
     ];
 
     openWalletForm = this.fb.group({
         name: this.fb.control('', [
             Validators.required,
             Validators.maxLength(this.variablesService.maxWalletNameLength),
-            ZanoValidators.duplicate(this.variablesService.walletNamesForComparisons),
+            ZanoValidators.duplicate(this.variablesService.walletNamesForComparisons)
         ]),
         password: this.fb.control(''),
-        filePath: this.fb.control('', Validators.required),
+        filePath: this.fb.control('', Validators.required)
     });
 
     private destroy$ = new Subject<void>();
@@ -158,7 +158,7 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
                 }
                 this.openWalletForm.controls.name.patchValue(filename);
                 this.openWalletForm.controls.name.markAsTouched();
-            },
+            }
         });
     }
 
@@ -183,7 +183,7 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
                     if (errorCode === 'WRONG_PASSWORD') {
                         this.ngZone.run(() => {
                             this.openWalletForm.controls.password.setErrors({
-                                wrongPassword,
+                                wrongPassword
                             });
                             this.loading$.next(false);
                         });
@@ -251,9 +251,7 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
                                 );
                                 new_wallet.totalPages > this.variablesService.maxPages
                                     ? (new_wallet.pages = new Array(5).fill(1).map((value, index) => value + index))
-                                    : (new_wallet.pages = new Array(new_wallet.totalPages)
-                                          .fill(1)
-                                          .map((value, index) => value + index));
+                                    : (new_wallet.pages = new Array(new_wallet.totalPages).fill(1).map((value, index) => value + index));
                                 new_wallet.prepareHistory(openData.recent_history.history);
                             } else {
                                 new_wallet.total_history_item = 0;
