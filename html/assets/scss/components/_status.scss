@@ -4,14 +4,15 @@ app-synchronization-status {
 
 .synchronization-status {
     display: flex;
-    align-items: center;
-    justify-content: flex-start;
+    flex-direction: column;
+    justify-content: center;
     color: var(--synchronization-status-color);
     width: 100%;
 
     .status-container {
         position: relative;
         width: 100%;
+        margin-bottom: 0.5rem;
 
         .offline,
         .online {

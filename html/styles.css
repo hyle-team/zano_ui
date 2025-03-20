@@ -1551,13 +1551,14 @@ body {
   width: 100%;
 }.synchronization-status {
   display: flex;
-  align-items: center;
-  justify-content: flex-start;
+  flex-direction: column;
+  justify-content: center;
   color: var(--synchronization-status-color);
   width: 100%;
 }.synchronization-status .status-container {
   position: relative;
   width: 100%;
+  margin-bottom: 0.5rem;
 }.synchronization-status .status-container .offline,
 .synchronization-status .status-container .online {
   display: flex;
@@ -2218,6 +2219,10 @@ table.rounded-corners > tfoot:not(:last-child) {
   background-color: var(--aqua-500);
 }.light .wallet.active .progress-bar .fill {
   background-color: var(--white-500);
+}.mat-tooltip {
+  color: var(--white-500);
+  font-size: 1.6rem;
+  background: var(--tooltip-background);
 }app-send-details-modal .status .image,
 app-success-sweep-bare-outs .status .image,
 app-transaction-details-for-custom-assets .status .image,
@@ -2293,7 +2298,8 @@ app-swap-details .details-list .item .image img {
   align-items: center;
   border-radius: 50%;
   overflow: hidden;
-}.assets-table .token-logo img, .assets-table .token-logo svg {
+}.assets-table .token-logo img,
+.assets-table .token-logo svg {
   width: 100%;
   height: 100%;
   object-fit: contain;
@@ -2365,24 +2371,6 @@ app-contracts .container .wrap-table table.contracts-table tbody tr .comment {
   border: var(--border);
 }.light app-receive .container .wrap-qr img {
   border: var(--border);
-}app-send .container .form .wrap {
-  border: var(--border);
-}app-send .container .form .wrap .title {
-  font-size: 100%;
-  margin-bottom: 1.5rem;
-  color: var(--azure-500);
-}app-send .container .form .wrap .title .icon {
-  width: 2rem;
-  height: 2rem;
-  float: right;
-}app-send .container .form .wrap .text-wrap {
-  margin: 1.5rem;
-  font-size: 1.5rem;
-}app-send .container .form .wrap table tr {
-  background-color: transparent;
-}app-send .container .form .wrap table tr td:first-child {
-  width: 22.5rem;
-  padding-left: 0;
 }app-staking .chart-header .selected-group {
   min-width: 19rem;
 }app-staking .chart-header .items .item {
@@ -2696,7 +2684,8 @@ app-contracts .container .wrap-table table.contracts-table tbody tr .comment {
   align-items: center;
   border-radius: 50%;
   overflow: hidden;
-}.token-logo img, .token-logo svg {
+}.token-logo img,
+.token-logo svg {
   width: 100%;
   height: 100%;
   object-fit: contain;
