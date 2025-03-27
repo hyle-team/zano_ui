@@ -69,9 +69,7 @@ import { AssetFieldComponent } from './tabs/send/components/asset-field/asset-fi
 import { CommentFieldComponent } from './tabs/send/components/comment-field/comment-field.component';
 import { AddressFieldComponent } from './tabs/send/components/address-field/address-field.component';
 import { AmountFieldComponent } from './tabs/send/components/amount-field/amount-field.component';
-import {
-  AddAnotherDestinationButtonComponent
-} from './tabs/send/components/add-another-destination-button/add-another-destination-button.component';
+import { AddAnotherDestinationButtonComponent } from './tabs/send/components/add-another-destination-button/add-another-destination-button.component';
 
 @NgModule({
     declarations: [

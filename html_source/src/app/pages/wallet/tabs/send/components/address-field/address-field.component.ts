@@ -49,7 +49,9 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
 
     private readonly _wallets_service: WalletsService = inject(WalletsService);
 
-    private readonly _opened_wallet_items: string[] = this._wallets_service.wallets.map(({ address, alias }: Wallet) => alias?.name ?? address);
+    private readonly _opened_wallet_items: string[] = this._wallets_service.wallets.map(
+        ({ address, alias }: Wallet) => alias?.name ?? address
+    );
 
     private readonly _alias_items: string[] = this.variables_service.aliases.map(({ name }) => name);
 
@@ -78,7 +80,12 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
             tap(() => this.loading_address_items$.next(false))
         );
 
-        merge(this.control_ref.controls.address.statusChanges, this.control_ref.controls.address.valueChanges, this.control_ref.statusChanges, this.control_ref.valueChanges)
+        merge(
+            this.control_ref.controls.address.statusChanges,
+            this.control_ref.controls.address.valueChanges,
+            this.control_ref.statusChanges,
+            this.control_ref.valueChanges
+        )
             .pipe(takeUntil(this._destroy$))
             .subscribe((): void => this.updateAddressErrorMessage());
     }

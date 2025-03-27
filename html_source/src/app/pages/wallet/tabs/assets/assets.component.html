@@ -37,6 +37,7 @@
                     "
                 >
                     <tr
+                        (click)="navigateToSend(balance)"
                         [delay]="100"
                         [placement]="'bottom'"
                         [timeDelay]="1500"
@@ -166,18 +167,11 @@
             </button>
         </li>
 
-        <ng-container
-            *ngIf="
-                variablesService.current_wallet.loaded &&
-                variablesService.daemon_state === 2 &&
-                !variablesService.current_wallet.is_auditable &&
-                !variablesService.current_wallet.is_watch_only
-            "
-        >
+        <ng-container *ngIf="isWalletReady()">
             <li class="item">
-                <button [state]="{ asset: currentAssetBalance }" class="w-100 px-2 py-1" routerLink="/wallet/send">
+                <button (click)="navigateToSend(currentAssetBalance)" class="w-100 px-2 py-1">
                     <mat-icon class="mr-1" svgIcon="zano-send"></mat-icon>
-                    <span>{{ 'Send' | translate }}</span>
+                    <span>{{ 'ASSETS.DROP_DOWN_MENU.SEND' | translate }}</span>
                 </button>
             </li>
 
@@ -185,7 +179,7 @@
                 <li class="item">
                     <button [state]="{ asset: currentAssetBalance }" class="w-100 px-2 py-1" routerLink="/wallet/create-swap">
                         <mat-icon class="mr-1" svgIcon="zano-swap"></mat-icon>
-                        <span>{{ 'Swap' | translate }}</span>
+                        <span>{{ 'ASSETS.DROP_DOWN_MENU.SWAP' | translate }}</span>
                     </button>
                 </li>
             </ng-container>

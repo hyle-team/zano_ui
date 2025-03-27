@@ -15,8 +15,7 @@
         type="text"
     />
 
-    <button (click)="toggleAmountUSD()" [disabled]="amount_input_params.reverseDisabled" class="btn-reverse"
-            type="button">
+    <button (click)="toggleAmountUSD()" [disabled]="amount_input_params.reverseDisabled" class="btn-reverse" type="button">
         <mat-icon class="small" svgIcon="zano-swap"></mat-icon>
     </button>
 
@@ -34,8 +33,7 @@
         </div>
     </div>
 
-
-    <ng-container *ngIf="(control_ref.controls.amount | isVisibleControlError); else error2Template">
+    <ng-container *ngIf="control_ref.controls.amount | isVisibleControlError; else error2Template">
         <ng-container [ngSwitch]="true">
             <ng-container *ngSwitchCase="control_ref.controls.amount.hasError('zero')">
                 <div class="error">
@@ -66,7 +64,7 @@
     </ng-container>
 
     <ng-template #error2Template>
-        <ng-container *ngIf="(control_ref | isVisibleControlError)">
+        <ng-container *ngIf="control_ref | isVisibleControlError">
             <ng-container [ngSwitch]="true">
                 <ng-container *ngSwitchCase="control_ref.hasError('insufficientFunds')">
                     <div class="error">
@@ -75,7 +73,7 @@
                 </ng-container>
                 <ng-container *ngSwitchCase="control_ref.hasError('greater_max')">
                     <div class="error">
-                        {{ 'ERRORS.MAX' | translate: { max: control_ref.errors['greater_max'].max } }}
+                        {{ 'ERRORS.MAX' | translate : { max: control_ref.errors['greater_max'].max } }}
                     </div>
                 </ng-container>
                 <ng-container *ngSwitchCase="control_ref.hasError('asset_not_found')">

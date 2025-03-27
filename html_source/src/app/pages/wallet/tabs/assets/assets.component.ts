@@ -15,6 +15,7 @@ import { IntToMoneyPipe } from '@parts/pipes';
 import { TranslateService } from '@ngx-translate/core';
 import { ZANO_ASSET_INFO } from '@parts/data/assets';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-assets',
@@ -48,6 +49,8 @@ export class AssetsComponent implements OnInit, OnDestroy {
     private readonly _translateService: TranslateService = inject(TranslateService);
 
     private readonly _ngZone: NgZone = inject(NgZone);
+
+    private readonly _router: Router = inject(Router);
 
     get isShowPagination(): boolean {
         const { current_wallet } = this.variablesService;
@@ -98,8 +101,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
         const { full_name } = this.currentAssetBalance.asset_info;
         const config: MatDialogConfig<ConfirmModalData> = {
             data: {
-                // TODO: Add in translates
-                title: `Do you want delete "${full_name}"`
+                title: this._translateService.instant('ASSETS.MODALS.CONFIRM_MODAL.TITLE', { full_name })
             }
         };
 
@@ -189,7 +191,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
         const {
             asset_info: { asset_id }
         } = this.currentAssetBalance;
-        /** You can't delete asset zano */
+        /** You can't delete zano */
         return ![ZANO_ASSET_INFO.asset_id].includes(asset_id);
     }
 
@@ -200,5 +202,20 @@ export class AssetsComponent implements OnInit, OnDestroy {
                 this.paginatePipeArgs.currentPage = 0;
             }
         });
+    }
+
+    isWalletReady(): boolean {
+        const { current_wallet, daemon_state } = this.variablesService;
+        const isWalletLoaded: boolean = current_wallet.loaded;
+        const isDaemonReady: boolean = daemon_state === 2;
+        const isWalletUsable: boolean = !current_wallet.is_auditable && !current_wallet.is_watch_only;
+
+        return isWalletLoaded && isDaemonReady && isWalletUsable;
+    }
+
+    navigateToSend(asset: AssetBalance): void {
+        if (this.isWalletReady()) {
+            this._router.navigate(['/wallet/send'], { state: { asset } }).then();
+        }
     }
 }
