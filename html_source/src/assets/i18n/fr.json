@@ -6,7 +6,9 @@
     "ASSETS": {
         "DROP_DOWN_MENU": {
             "ASSET_DETAILS": "Détails de l'actif",
-            "REMOVE_ASSET": "Supprimer l'actif"
+            "REMOVE_ASSET": "Supprimer l'actif",
+            "SEND": "Send",
+            "SWAP": "Swap"
         },
         "FORM": {
             "ERRORS": {
@@ -25,6 +27,9 @@
                     "TICKER": "Ticker"
                 },
                 "TITLE": "Asset Details"
+            },
+            "CONFIRM_MODAL": {
+                "TITLE": "Do you want delete {{ full_name }}"
             }
         },
         "TABLE": {

@@ -19,8 +19,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
         </div>
 
         <div class="sidebar-content">
-            <div (cdkDropListDropped)="drop($event)" cdkDropList cdkDropListLockAxis="y"
-                 class="sidebar-content-list scrolled-content mb-1">
+            <div (cdkDropListDropped)="drop($event)" cdkDropList cdkDropListLockAxis="y" class="sidebar-content-list scrolled-content mb-1">
                 <app-wallet-card
                     (click)="selectWallet(wallet.wallet_id)"
                     (eventClose)="beforeClose($event)"
@@ -79,8 +78,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
                 </ng-container>
 
                 <ng-template #masterPass>
-                    <button (click)="logOut()" class="outline small w-100 px-2" fxLayout="row inline wrap"
-                            fxLayoutAlign="start center">
+                    <button (click)="logOut()" class="outline small w-100 px-2" fxLayout="row inline wrap" fxLayoutAlign="start center">
                         <mat-icon class="mr-1" svgIcon="zano-logout"></mat-icon>
                         <span> {{ 'SIDEBAR.LOG_OUT' | translate }}</span>
                     </button>
