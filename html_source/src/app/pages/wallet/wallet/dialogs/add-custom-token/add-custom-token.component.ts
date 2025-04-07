@@ -85,7 +85,7 @@ export class AddCustomTokenComponent {
                 unlocked: 0
             };
 
-            this.walletsService.updateWalletInfo(wallet_id);
+            this.walletsService.updateWalletInfo(current_wallet);
             this.matDialogRef.close(asset);
         } else {
             this.backendService.addCustomAssetId(params, (status: boolean, { asset_descriptor }: ResponseAddCustomAssetId) => {
@@ -101,7 +101,7 @@ export class AddCustomTokenComponent {
                             total: 0,
                             unlocked: 0
                         };
-                        this.walletsService.updateWalletInfo(wallet_id);
+                        this.walletsService.updateWalletInfo(current_wallet);
                         this.matDialogRef.close(asset);
                     } else {
                         this.formGroup.controls.asset_id.setErrors({

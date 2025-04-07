@@ -1,13 +1,74 @@
 .alias {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.control-alias-wallet-container {
+    position: relative;
+    padding: 0.4rem 0.6rem;
+    overflow: hidden;
     display: flex;
     align-items: center;
-    &.available {
-        padding: 0.4rem 1.6rem;
-        min-height: 3.2rem;
-        background: var(--gradietAquaToBlue);
-        color: #ffffff;
+    flex-wrap: nowrap;
+    cursor: pointer;
+
+    .alias {
         border-radius: 0.8rem;
-        position: relative;
+        padding: 7px 12px 7px;
+        background: var(--control-alias-wallet-background);
+        color: var(--control-alias-wallet-text);
+        font-size: 1.8rem;
+
+        display: inline-flex;
+        align-items: center;
+
+        mat-icon {
+            margin-inline-start: 0.6rem;
+        }
+    }
+
+    .alias-history-count {
+        margin-inline-start: 1rem;
+        font-size: 1.8rem;
+        color: var(--control-alias-wallet-text);
+        opacity: 0.7;
+    }
+
+    &.available {
+        &:after {
+            display: block;
+            content: '';
+            width: 1.4rem;
+            height: 1.4rem;
+            overflow: hidden;
+            position: absolute;
+            left: 0;
+            top: 0;
+            background-image: url('~src/assets/icons/white/crown.svg');
+            background-repeat: no-repeat;
+            background-size: contain;
+        }
+    }
+}
+
+.alias-container {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+
+    &.available {
+        padding: 0.4rem 0.6rem;
+        .alias {
+            padding: 0.4rem 1.6rem;
+            min-height: 3.2rem;
+            background: var(--gradietAquaToBlue);
+            color: #ffffff;
+            border-radius: 0.8rem;
+            position: relative;
+        }
 
         &:after {
             display: block;
@@ -16,11 +77,22 @@
             height: 1.4rem;
             overflow: hidden;
             position: absolute;
-            right: -0.4rem;
-            top: -0.4rem;
+            left: 0;
+            top: 0;
             background-image: url('~src/assets/icons/white/crown.svg');
             background-repeat: no-repeat;
             background-size: contain;
         }
     }
+}
+
+.alias-history-count {
+    margin-inline-start: 1rem;
+    color: var(--alias-history-count-text);
+    font-size: 1.8rem;
+}
+
+.alias-history-list {
+    max-height: 8rem;
+    overflow: auto;
 }

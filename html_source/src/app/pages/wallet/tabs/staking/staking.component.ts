@@ -4,9 +4,9 @@ import { Chart } from 'angular-highcharts';
 import { BackendService } from '@api/services/backend.service';
 import { IntToMoneyPipe } from '@parts/pipes/int-to-money-pipe/int-to-money.pipe';
 import { BigNumber } from 'bignumber.js';
-import { combineLatest, skip, Subject } from 'rxjs';
+import { combineLatest, Subject } from 'rxjs';
 import * as Highcharts from 'highcharts';
-import { debounceTime, delay, filter, take, takeUntil, tap } from 'rxjs/operators';
+import { debounceTime, delay, take, takeUntil, tap } from 'rxjs/operators';
 import { NonNullableFormBuilder } from '@angular/forms';
 
 type TPeriod = '1 week' | '2 week' | '1 month' | '3 month' | '6 month' | '1 year' | 'All';

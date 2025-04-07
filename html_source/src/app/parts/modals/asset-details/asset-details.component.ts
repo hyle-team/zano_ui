@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { VariablesService } from '@parts/services/variables.service';
 import { AssetInfo } from '@api/models/assets.model';
-import { ZanoAssetInfo, ZANO_ASSET_INFO } from '@parts/data/assets';
+import { ZANO_ASSET_INFO, ZanoAssetInfo } from '@parts/data/assets';
 import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';

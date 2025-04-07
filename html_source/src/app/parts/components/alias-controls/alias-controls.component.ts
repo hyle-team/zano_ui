@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FlexModule } from '@angular/flex-layout';
 import { IsAvailableAliasNamePipeModule } from '@parts/pipes';
@@ -7,6 +7,8 @@ import { TooltipModule } from '@parts/directives';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterLink } from '@angular/router';
 import { VariablesService } from '@parts/services/variables.service';
+import { MatDialog } from '@angular/material/dialog';
+import { MyAliasesDialogComponent } from '../../../pages/wallet/wallet/dialogs/my-aliases-dialog/my-aliases-dialog.component';
 
 @Component({
     selector: 'zano-alias-controls',
@@ -15,46 +17,44 @@ import { VariablesService } from '@parts/services/variables.service';
     templateUrl: './alias-controls.component.html',
     styleUrls: ['./alias-controls.component.scss']
 })
-export class AliasControlsComponent implements OnInit {
+export class AliasControlsComponent {
     public readonly variablesService: VariablesService = inject(VariablesService);
 
-    get isShowRegisterAlias(): boolean {
-        const { current_wallet, daemon_state } = this.variablesService;
+    private readonly _matDialog: MatDialog = inject(MatDialog);
 
-        if (!current_wallet) {
+    get isShowAssignAlias(): boolean {
+        const { current_wallet, daemon_state, testnet } = this.variablesService;
+
+        if (!current_wallet || daemon_state !== 2) {
             return false;
         }
 
-        const { alias, loaded, alias_available } = current_wallet;
+        const { alias_info, loaded, alias_available, is_auditable, is_watch_only } = current_wallet;
 
-        return !alias.hasOwnProperty('name') && loaded && daemon_state === 2 && alias_available;
+        if (!loaded || !alias_available || is_auditable || is_watch_only) {
+            return false;
+        }
+
+        return testnet || !Boolean(alias_info);
     }
 
     get isShowAlias(): boolean {
         const { current_wallet, daemon_state } = this.variablesService;
 
-        if (!current_wallet) {
+        if (!current_wallet || daemon_state !== 2) {
             return false;
         }
 
-        const { alias, loaded } = current_wallet;
+        const { alias_info, loaded, alias_available } = current_wallet;
 
-        return alias.hasOwnProperty('name') && loaded && daemon_state === 2;
-    }
-
-    get isShowAliasButtons(): boolean {
-        const { current_wallet, daemon_state } = this.variablesService;
-
-        if (!current_wallet) {
+        if (!loaded || !alias_available) {
             return false;
         }
 
-        const { is_auditable, alias_available } = current_wallet;
-
-        return !is_auditable && alias_available;
+        return Boolean(alias_info);
     }
 
-    constructor() {}
-
-    ngOnInit(): void {}
+    openMyAliasesDialog(): void {
+        this._matDialog.open(MyAliasesDialogComponent, { width: '44rem' });
+    }
 }

@@ -3,9 +3,10 @@ import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { defaultAssetsInfoWhitelist, ResponseGetWalletInfo, Wallet } from '@api/models/wallet.model';
 import { Router } from '@angular/router';
-import { ParamsCallRpc } from '@api/models/call_rpc.model';
+import { ParamsCallRpc, ResponseCallRpc } from '@api/models/call_rpc.model';
 import { AssetsWhitelistGetResponseData, VerifiedAssetInfoWhitelist } from '@api/models/assets.model';
 import { TranslateService } from '@ngx-translate/core';
+import { ResultAliasByAddress } from '@api/models/rpc.models';
 
 @Injectable({
     providedIn: 'root'
@@ -36,14 +37,14 @@ export class WalletsService {
     ) {}
 
     addWallet(wallet: Wallet): void {
-        const { wallet_id, staking, address } = wallet;
+        const { staking, address } = wallet;
         const {
             verifiedAssetInfoWhitelist,
             settings: { localBlacklistsOfVerifiedAssetsByWallets }
         } = this._variablesService;
 
         if (staking) {
-            const message = this._translateService.instant('STAKING.WALLET_STAKING_ON', { value: wallet.alias?.name ?? wallet.name });
+            const message = this._translateService.instant('STAKING.WALLET_STAKING_ON', { value: wallet.alias_info?.alias ?? wallet.name });
             this._backendService.show_notification('Wallet staking on', message);
         }
 
@@ -52,18 +53,13 @@ export class WalletsService {
         }
 
         this._variablesService.wallets.push(wallet);
-        this.updateWalletInfo(wallet_id);
+        this.updateWalletInfo(wallet);
+        this.loadAliasInfoList(wallet);
         this.setVerifiedAssetInfoWhitelist(verifiedAssetInfoWhitelist);
     }
 
-    loadAssetsInfoWhitelist(wallet_id: number): void {
-        const wallet = this.getWalletById(wallet_id);
-
-        if (!wallet) {
-            console.warn(`You want update assetsWhiteList by wallet_id: (${wallet_id}). But this wallet not uploaded.`);
-            return;
-        }
-
+    loadAssetsInfoWhitelist(wallet: Wallet): void {
+        const { wallet_id } = wallet;
         const params: ParamsCallRpc = {
             jsonrpc: '2.0',
             id: 0,
@@ -81,6 +77,20 @@ export class WalletsService {
         });
     }
 
+    loadAliasInfoList(wallet: Wallet): void {
+        const params = {
+            id: 0,
+            jsonrpc: '2.0',
+            method: 'get_alias_by_address',
+            params: wallet.address
+        };
+        this._backendService.call_rpc(params, (status: boolean, response_data: ResponseCallRpc<ResultAliasByAddress>) => {
+            this._ngZone.run(() => {
+                wallet.alias_info_list = response_data?.result?.alias_info_list ?? [];
+            });
+        });
+    }
+
     setVerifiedAssetInfoWhitelist(assets: VerifiedAssetInfoWhitelist): void {
         for (const wallet of this.wallets) {
             wallet.verificationAssetsInfoWhitelist$.next(assets);
@@ -92,13 +102,14 @@ export class WalletsService {
         return wallets.find(w => w.wallet_id === wallet_id);
     }
 
-    updateWalletInfo(wallet_id: number): void {
-        const wallet = this.getWalletById(wallet_id);
+    getWalletByAddress(address: string): Wallet | undefined {
+        const { wallets } = this._variablesService;
+        return wallets.find(w => w.address === address);
+    }
 
-        if (!wallet) {
-            console.warn(`You want update walletInfo by wallet_id: (${wallet_id}). But this wallet not uploaded.`);
-            return;
-        }
+    updateWalletInfo(wallet: Wallet): void {
+        const { wallet_id } = wallet;
+
         const callback: (status: boolean, response_data: ResponseGetWalletInfo) => void = (status, response_data) => {
             this._ngZone.run(() => {
                 if (status) {
@@ -112,7 +123,7 @@ export class WalletsService {
 
         this._backendService.getWalletInfo(wallet_id, callback);
 
-        this.loadAssetsInfoWhitelist(wallet_id);
+        this.loadAssetsInfoWhitelist(wallet);
     }
 
     closeWallet(wallet_id: number): void {

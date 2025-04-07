@@ -511,6 +511,10 @@
         "OK": "OK",
         "SUCCESS": "Succès"
     },
+    "MY_ALIASES_DIALOG": {
+        "BUTTON1": "Close",
+        "TITLE": "My Aliases"
+    },
     "OPEN_WALLET": {
         "BUTTON": "Ouvrir un portefeuille",
         "FILE_NOT_FOUND1": "Fichier de portefeuille introuvable",

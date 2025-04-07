@@ -1,4 +1,4 @@
-import { AbstractControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { notFileZanoWallet, ZanoValidationErrors } from '@parts/utils/zano-errors';
 import { MIMETypes } from '@parts/utils/MIME-types';
 import { BigNumber } from 'bignumber.js';

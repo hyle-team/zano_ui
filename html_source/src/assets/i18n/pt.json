@@ -511,6 +511,10 @@
         "OK": "OK",
         "SUCCESS": "Sucesso"
     },
+    "MY_ALIASES_DIALOG": {
+        "BUTTON1": "Close",
+        "TITLE": "My Aliases"
+    },
     "OPEN_WALLET": {
         "BUTTON": "Abrir carteira",
         "FILE_NOT_FOUND1": "Ficheiro de carteira não encontrado",

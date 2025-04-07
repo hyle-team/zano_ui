@@ -6,7 +6,7 @@ import { Idle } from 'idlejs/dist';
 import { Router } from '@angular/router';
 import { ContextMenuComponent, ContextMenuService } from '@perfectmemory/ngx-contextmenu';
 import { BigNumber } from 'bignumber.js';
-import { Aliases } from '@api/models/alias.model';
+import { AliasInfoList } from '@api/models/alias.model';
 import { distinctUntilChanged, filter, map, takeUntil } from 'rxjs/operators';
 import { Dialog } from '@angular/cdk/dialog';
 import { MatDialog } from '@angular/material/dialog';
@@ -14,7 +14,7 @@ import { AssetBalance, AssetInfo, VerifiedAssetInfoWhitelist } from '@api/models
 import { CurrentPriceForAssets } from '@api/models/api-zano.models';
 import { ApiService } from '@api/services/api.service';
 import { WrapInfo } from '@api/models/wrap-info';
-import { MAXIMUM_VALUE } from '@parts/data/constants';
+import { MAX_COMMENT_LENGTH, MAX_WALLET_NAME_LENGTH } from '@parts/data/constants';
 
 @Injectable({
     providedIn: 'root'
@@ -102,6 +102,9 @@ export class VariablesService implements OnDestroy {
 
     default_fee_big: BigNumber = new BigNumber('10000000000');
 
+    // (0.1 + fee) = 0.11 ZANO
+    default_price_alias: BigNumber = BigNumber.sum('100000000000', this.default_fee_big);
+
     settings = {
         appLockTime: 15,
         appLog: 0,
@@ -142,15 +145,13 @@ export class VariablesService implements OnDestroy {
 
     currentPriceForAssets$: BehaviorSubject<CurrentPriceForAssets> = new BehaviorSubject({});
 
-    aliases: Aliases = [];
+    all_aliases: AliasInfoList = [];
 
-    aliasesChecked: any = {};
+    all_aliases_loaded: boolean = false;
 
-    enableAliasSearch: boolean = false;
+    maxWalletNameLength: number = MAX_WALLET_NAME_LENGTH;
 
-    maxWalletNameLength: number = 25;
-
-    maxCommentLength: number = 255;
+    maxCommentLength: number = MAX_COMMENT_LENGTH;
 
     dataIsLoaded: boolean = false;
 
@@ -169,8 +170,6 @@ export class VariablesService implements OnDestroy {
     getDownloadedAppEvent = new BehaviorSubject(null);
 
     getTotalEvent = new BehaviorSubject(null);
-
-    getAliasChangedEvent = new BehaviorSubject(null);
 
     currentWalletChangedEvent = new BehaviorSubject<Wallet>(null);
 
@@ -292,10 +291,6 @@ export class VariablesService implements OnDestroy {
             this.total = this.bytesToMb(bytes);
             this.getTotalEvent.next(bytes);
         }
-    }
-
-    changeAliases(): void {
-        this.getAliasChangedEvent.next(true);
     }
 
     setCurrentWallet(id): void {

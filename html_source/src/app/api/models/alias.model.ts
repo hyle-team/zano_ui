@@ -1,8 +1,9 @@
-export interface Alias {
-    name: string;
+
+export interface AliasInfo {
+    alias: string;
     address: string;
     comment: string;
     tracking_key?: string;
 }
 
-export type Aliases = Alias[];
+export type AliasInfoList = AliasInfo[];

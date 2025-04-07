@@ -137,7 +137,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
                         this._walletsService.currentWallet.transfer_form_value.asset_id = ZANO_ASSET_INFO.asset_id;
                     }
 
-                    this._walletsService.updateWalletInfo(wallet_id);
+                    this._walletsService.updateWalletInfo(current_wallet);
 
                     this.currentAssetBalance = undefined;
                 });

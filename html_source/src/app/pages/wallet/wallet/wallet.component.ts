@@ -4,10 +4,9 @@ import { BackendService, Commands } from '@api/services/backend.service';
 import { Observable, Subject, take } from 'rxjs';
 import { StateKeys, Store, Sync } from '@store/store';
 import { distinctUntilChanged, filter, map, takeUntil } from 'rxjs/operators';
-import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { ConfirmModalComponent, ConfirmModalData } from '@parts/modals/confirm-modal/confirm-modal.component';
-import { ExportHistoryModalComponent } from './modals/export-history-modal/export-history-modal.component';
-import { AddCustomTokenComponent } from './modals/add-custom-token/add-custom-token.component';
+import { ExportHistoryModalComponent } from './dialogs/export-history-modal/export-history-modal.component';
+import { AddCustomTokenComponent } from './dialogs/add-custom-token/add-custom-token.component';
 import { AssetBalance } from '@api/models/assets.model';
 import { AssetDetailsComponent } from '@parts/modals/asset-details/asset-details.component';
 import { WalletsService } from '@parts/services/wallets.service';
@@ -263,16 +262,6 @@ export class WalletComponent implements OnInit, OnDestroy {
                     }
                 }
             });
-        if (hasOwnProperty(this.variablesService.current_wallet.alias, 'name')) {
-            this.variablesService.current_wallet.wakeAlias = false;
-        }
-        this.variablesService.getAliasChangedEvent.pipe(takeUntil(this.destroy$)).subscribe({
-            next: () => {
-                if (hasOwnProperty(this.variablesService.current_wallet.alias, 'name')) {
-                    this.variablesService.current_wallet.wakeAlias = false;
-                }
-            }
-        });
         this.updateWalletStatus();
     }
 

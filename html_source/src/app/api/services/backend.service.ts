@@ -14,7 +14,7 @@ import {
     ResponseAddCustomAssetId,
     ResponseRemoveCustomAssetId
 } from '@api/models/assets.model';
-import { Alias } from '@api/models/alias.model';
+import { AliasInfo } from '@api/models/alias.model';
 import { TransferParams } from '@api/models/transfer.model';
 import { ParamsCallRpc } from '@api/models/call_rpc.model';
 
@@ -585,11 +585,11 @@ export class BackendService {
         this.runCommand(Commands.request_alias_registration, params, callback);
     }
 
-    updateAlias(wallet_id, alias, fee, callback): void {
+    updateAlias(wallet_id, alias: AliasInfo, fee, callback): void {
         const params = {
             wallet_id: wallet_id,
             alias: {
-                alias: alias.name.replace('@', ''),
+                alias: alias.alias.replace('@', ''),
                 address: alias.address,
                 tracking_key: '',
                 comment: alias.comment
@@ -607,7 +607,7 @@ export class BackendService {
         this.runCommand(Commands.get_alias_info_by_name, value, callback);
     }
 
-    getAliasByAddress(value, callback): void {
+    getAliasInfoByAddress(value, callback): void {
         this.runCommand(Commands.get_alias_info_by_address, value, callback);
     }
 
@@ -617,49 +617,6 @@ export class BackendService {
 
     resyncWallet(id): void {
         this.runCommand(Commands.resync_wallet, { wallet_id: id });
-    }
-
-    getWalletAlias(address): Partial<Alias> {
-        if (address !== null && this.variablesService.daemon_state === 2) {
-            if (this.variablesService.aliasesChecked[address] == null) {
-                this.variablesService.aliasesChecked[address] = {};
-                if (this.variablesService.aliases.length) {
-                    for (let i = 0, length = this.variablesService.aliases.length; i < length; i++) {
-                        if (i in this.variablesService.aliases && this.variablesService.aliases[i]['address'] === address) {
-                            this.variablesService.aliasesChecked[address]['name'] = this.variablesService.aliases[i].name;
-                            this.variablesService.aliasesChecked[address]['address'] = this.variablesService.aliases[i].address;
-                            this.variablesService.aliasesChecked[address]['comment'] = this.variablesService.aliases[i].comment;
-                            return this.variablesService.aliasesChecked[address];
-                        }
-                    }
-                }
-                this.getAliasByAddress(address, (status, data) => {
-                    if (status) {
-                        this.variablesService.aliasesChecked[data.address]['name'] = '@' + data.alias;
-                        this.variablesService.aliasesChecked[data.address]['address'] = data.address;
-                        this.variablesService.aliasesChecked[data.address]['comment'] = data.comment;
-                    }
-                });
-            }
-            return this.variablesService.aliasesChecked[address];
-        }
-        return {};
-    }
-
-    getContactAlias(): void {
-        if (this.variablesService.contacts.length > 0 && this.variablesService.daemon_state === 2) {
-            this.variablesService.contacts.map(contact => {
-                this.getAliasByAddress(contact.address, (status, data) => {
-                    if (status) {
-                        if (data.alias) {
-                            contact.alias = '@' + data.alias;
-                        }
-                    } else {
-                        contact.alias = null;
-                    }
-                });
-            });
-        }
     }
 
     getRecentTransfers(id, offset, count, exclude_mining_txs, callback): void {

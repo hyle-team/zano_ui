@@ -511,6 +511,10 @@
         "OK": "Ok",
         "SUCCESS": "Berhasil"
     },
+    "MY_ALIASES_DIALOG": {
+        "BUTTON1": "Close",
+        "TITLE": "My Aliases"
+    },
     "OPEN_WALLET": {
         "BUTTON": "Buka dompet",
         "FILE_NOT_FOUND1": "File Dompet tidak ditemukan",

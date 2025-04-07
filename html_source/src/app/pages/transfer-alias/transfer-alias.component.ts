@@ -7,6 +7,7 @@ import { Wallet } from '@api/models/wallet.model';
 import { hasOwnProperty } from '@parts/functions/has-own-property';
 import BigNumber from 'bignumber.js';
 import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
+import { AliasInfo } from '@api/models/alias.model';
 
 @Component({
     selector: 'app-transfer-alias',
@@ -30,7 +31,7 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                                 {{ 'TRANSFER_ALIAS.NAME.LABEL' | translate }}
                             </label>
                             <input
-                                [value]="alias.name"
+                                [value]="'@' + alias_info.alias"
                                 class="form__field--input"
                                 id="alias-name"
                                 name="alias-name"
@@ -45,7 +46,7 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                                 {{ 'TRANSFER_ALIAS.COMMENT.LABEL' | translate }}
                             </label>
                             <textarea
-                                [(ngModel)]="alias.comment"
+                                [(ngModel)]="alias_info.comment"
                                 id="alias-comment"
                                 name="alias-comment"
                                 placeholder="{{ 'EDIT_ALIAS.COMMENT.PLACEHOLDER' | translate }}"
@@ -132,7 +133,7 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
 export class TransferAliasComponent implements OnInit {
     wallet: Wallet;
 
-    alias: any;
+    alias_info: AliasInfo;
 
     breadcrumbItems: BreadcrumbItems = [
         {
@@ -156,23 +157,21 @@ export class TransferAliasComponent implements OnInit {
 
     requestProcessing = false;
 
+    historyState: { alias_info?: AliasInfo; navigationId?: number };
+
     constructor(
         public variablesService: VariablesService,
         private router: Router,
         private backend: BackendService,
         private modalService: ModalService,
         private ngZone: NgZone
-    ) {}
+    ) {
+        this.historyState = history.state || {};
+    }
 
     ngOnInit(): void {
         this.wallet = this.variablesService.current_wallet;
-        const alias = this.backend.getWalletAlias(this.wallet.address);
-        this.alias = {
-            name: alias.name,
-            address: alias.address,
-            comment: alias.comment,
-            tracking_key: alias.tracking_key
-        };
+        this.alias_info = { ...(this.historyState.alias_info ? this.historyState.alias_info : this.wallet.alias_info) };
         const unlocked_balance = new BigNumber(this.wallet.getBalanceByTicker('ZANO')?.unlocked || 0);
         this.notEnoughMoney = unlocked_balance.isLessThan(this.variablesService.default_fee_big);
     }
@@ -197,7 +196,7 @@ export class TransferAliasComponent implements OnInit {
     setStatus(statusSet): void {
         this.permissionSend = statusSet;
         if (statusSet) {
-            this.backend.getAliasByAddress(this.transferAddress, status => {
+            this.backend.getAliasInfoByAddress(this.transferAddress, status => {
                 this.ngZone.run(() => {
                     if (status) {
                         this.transferAddressAlias = true;
@@ -219,20 +218,19 @@ export class TransferAliasComponent implements OnInit {
             return;
         }
         this.requestProcessing = true;
-        const newAlias = {
-            name: this.alias.name,
-            address: this.transferAddress,
-            comment: this.alias.comment,
-            tracking_key: this.alias.tracking_key
-        };
-        this.backend.updateAlias(this.wallet.wallet_id, newAlias, this.variablesService.default_fee, (status, data) => {
-            if (status && hasOwnProperty(data, 'success') && data.success) {
-                this.modalService.prepareModal('info', 'TRANSFER_ALIAS.REQUEST_SEND_REG');
-                this.ngZone.run(() => {
-                    this.router.navigate(['/wallet/']);
-                });
+        this.backend.updateAlias(
+            this.wallet.wallet_id,
+            { ...this.alias_info, address: this.transferAddress },
+            this.variablesService.default_fee,
+            (status, data) => {
+                if (status && hasOwnProperty(data, 'success') && data.success) {
+                    this.modalService.prepareModal('info', 'TRANSFER_ALIAS.REQUEST_SEND_REG');
+                    this.ngZone.run(() => {
+                        this.router.navigate(['/wallet/']);
+                    });
+                }
+                this.requestProcessing = false;
             }
-            this.requestProcessing = false;
-        });
+        );
     }
 }

@@ -511,6 +511,10 @@
         "OK": "OK",
         "SUCCESS": "Erfolg"
     },
+    "MY_ALIASES_DIALOG": {
+        "BUTTON1": "Close",
+        "TITLE": "My Aliases"
+    },
     "OPEN_WALLET": {
         "BUTTON": "Wallet öffnen",
         "FILE_NOT_FOUND1": "Wallet-Datei nicht gefunden",

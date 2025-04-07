@@ -1,6 +1,7 @@
 import { inject, Pipe, PipeTransform } from '@angular/core';
 import { AssetInfo } from '@api/models/assets.model';
 import { WalletsService } from '@parts/services/wallets.service';
+
 @Pipe({
     name: 'getAssetInfo',
     standalone: true

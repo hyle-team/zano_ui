@@ -23,7 +23,7 @@ import { ZANO_ASSET_INFO } from '@parts/data/assets';
 import { REG_EXP_ALIAS_NAME } from '@parts/utils/zano-validators';
 import { BackendService } from '@api/services/backend.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { debounceTime, filter, map, startWith, switchMap, tap } from 'rxjs/operators';
+import { debounceTime, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { BigNumber } from 'bignumber.js';
 import { assetHasNotBeenAddedToWallet, insufficientFunds } from '@parts/utils/zano-errors';
 import { ParamsCallRpc } from '@api/models/call_rpc.model';
@@ -121,9 +121,11 @@ export class CreateSwapComponent implements OnDestroy {
 
     private _walletsService: WalletsService = inject(WalletsService);
 
-    private _openedWalletItems: string[] = this._walletsService.wallets.map(({ address, alias }) => alias?.name ?? address);
+    private _openedWalletItems: string[] = this._walletsService.wallets.map(({ address, alias_info }) =>
+        alias_info ? '@' + alias_info.alias : address
+    );
 
-    private _aliasItems: string[] = this.variablesService.aliases.map(({ name }) => name);
+    private _aliasItems: string[] = this.variablesService.all_aliases.map(alias_info => '@' + alias_info.alias);
 
     private _backendService: BackendService = inject(BackendService);
 
@@ -350,8 +352,8 @@ export class CreateSwapComponent implements OnDestroy {
                     return this._openedWalletItems;
                 }
                 if (value[0] === '@') {
-                    return this._aliasItems.filter(name => {
-                        return name.includes(value);
+                    return this._aliasItems.filter(alias => {
+                        return alias.includes(value);
                     });
                 }
                 return [];

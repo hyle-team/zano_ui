@@ -15,7 +15,7 @@
                     tooltip="{{ wallet.name }}"
                     tooltipClass="table-tooltip account-tooltip"
                 >
-                    {{ !wallet.alias['name'] ? wallet.name : wallet.alias['name'] }}
+                    {{ !wallet.alias_info?.alias ? wallet.name : ('@' + wallet.alias_info?.alias) }}
                 </span>
             </div>
         </div>
