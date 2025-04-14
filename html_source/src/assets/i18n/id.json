@@ -6,7 +6,9 @@
     "ASSETS": {
         "DROP_DOWN_MENU": {
             "ASSET_DETAILS": "Detail Aset",
-            "REMOVE_ASSET": "Hapus aset"
+            "REMOVE_ASSET": "Hapus aset",
+            "SEND": "Send",
+            "SWAP": "Swap"
         },
         "FORM": {
             "ERRORS": {
@@ -25,6 +27,9 @@
                     "TICKER": "Tiker"
                 },
                 "TITLE": "Asset Details"
+            },
+            "CONFIRM_MODAL": {
+                "TITLE": "Do you want delete {{ full_name }}"
             }
         },
         "TABLE": {

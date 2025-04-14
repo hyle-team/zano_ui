@@ -124,9 +124,9 @@ export class AmountFieldComponent implements OnInit, OnDestroy, OnChanges {
 
     ngOnChanges(changes: SimpleChanges) {
         setTimeout(() => {
-                if (changes.price_info) {
-                    this.price_info$.next(changes.price_info.currentValue);
-                }
+            if (changes.price_info) {
+                this.price_info$.next(changes.price_info.currentValue);
+            }
         }, 150);
     }
 

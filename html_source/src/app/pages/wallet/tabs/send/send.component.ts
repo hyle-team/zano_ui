@@ -242,6 +242,7 @@ export class SendComponent implements OnInit, OnDestroy {
             } = history_asset;
             init_transfer_form_value.asset_id = asset_id;
             init_transfer_form_value.destinations.forEach(destination => {
+                destination.asset_id = asset_id;
                 if (destination.amount) {
                     destination.amount = intToMoney(moneyToInt(destination.amount, decimal_point), decimal_point);
                 }
@@ -256,7 +257,7 @@ export class SendComponent implements OnInit, OnDestroy {
         );
 
         const asset_id_control = this._fb.control<string>(
-            { value: null, disabled: false },
+            { value: init_transfer_form_value.asset_id, disabled: false },
             {
                 validators: Validators.compose([Validators.required])
             }

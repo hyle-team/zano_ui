@@ -1,14 +1,13 @@
 <div class="send-modal-wrapper" fxLayout="row">
     <div class="wrapper">
-        <form (ngSubmit)="beforeSubmit()" [formGroup]="form" class="overflow-hidden" fxFlexFill
-              fxLayout="column">
+        <form (ngSubmit)="beforeSubmit()" [formGroup]="form" class="overflow-hidden" fxFlexFill fxLayout="column">
             <h3 class="title mb-2" fxFlex="0 0 auto">
                 {{ 'CONFIRM.TITLE' | translate }}
             </h3>
 
             <div class="content w-100 overflow-x-hidden overflow-y-auto" fxFlex="1 1 auto">
                 <div class="table-info mb-2">
-                    <ng-container *ngFor="let destination of transfer_params.destinations; let first = first;">
+                    <ng-container *ngFor="let destination of transfer_params.destinations; let first = first">
                         <ng-container *ngIf="!first">
                             <hr class="separator" />
                         </ng-container>
@@ -73,8 +72,7 @@
                         type="password"
                     />
                     <div *ngIf="form.touched && form.invalid" class="error">
-                        <div
-                            *ngIf="form.hasError('passwordNotMatch') && !form.controls.password.hasError('required')">
+                        <div *ngIf="form.hasError('passwordNotMatch') && !form.controls.password.hasError('required')">
                             {{ 'LOGIN.FORM_ERRORS.WRONG_PASSWORD' | translate }}
                         </div>
                         <div *ngIf="form.controls.password.hasError('required')">
