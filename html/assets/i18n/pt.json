@@ -6,7 +6,9 @@
     "ASSETS": {
         "DROP_DOWN_MENU": {
             "ASSET_DETAILS": "Detalhes do recurso",
-            "REMOVE_ASSET": "Remover recurso"
+            "REMOVE_ASSET": "Remover recurso",
+            "SEND": "Send",
+            "SWAP": "Swap"
         },
         "FORM": {
             "ERRORS": {
@@ -25,6 +27,9 @@
                     "TICKER": "TICKER"
                 },
                 "TITLE": "Asset Details"
+            },
+            "CONFIRM_MODAL": {
+                "TITLE": "Do you want delete {{ full_name }}"
             }
         },
         "TABLE": {
