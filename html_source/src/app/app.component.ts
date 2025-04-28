@@ -244,7 +244,6 @@ export class AppComponent implements OnInit, OnDestroy {
                     this.variablesService.setDownloadedBytes(data.downloaded_bytes);
                     this.variablesService.setTotalBytes(data.download_total_data_size);
 
-                    // this.backendService.getContactAlias();
                     this.ngZone.run(() => {
                         const daemon_state: number = data['daemon_network_state'];
                         this.variablesService.daemon_state = daemon_state;
@@ -787,24 +786,10 @@ export class AppComponent implements OnInit, OnDestroy {
             } else if (error === 'OVERFLOW') {
                 this.variablesService.all_aliases = [];
                 this.variablesService.all_aliases_loaded = false;
-                // this.variablesService.wallets.forEach(wallet => {
-                //     wallet.alias = this.backendService.getWalletAlias(wallet.address);
-                // });
             } else {
                 this.variablesService.all_aliases_loaded = true;
                 if (data.aliases && data.aliases.length) {
                     this.variablesService.all_aliases = [];
-                    // data.aliases.forEach(alias => {
-                    //     const newAlias = {
-                    //         alias,
-                    //         address: alias.address,
-                    //         comment: alias.comment
-                    //     };
-                    //     this.variablesService.all_aliases.push(newAlias);
-                    // });
-                    // this.variablesService.wallets.forEach(wallet => {
-                    //     wallet.alias = this.backendService.getWalletAlias(wallet.address);
-                    // });
                     this.variablesService.all_aliases = data.aliases.sort((a: AliasInfo, b: AliasInfo) => {
                         if (a.alias.length > b.alias.length) {
                             return 1;
@@ -820,7 +805,6 @@ export class AppComponent implements OnInit, OnDestroy {
                         }
                         return 0;
                     });
-                    // this.variablesService.changeAliases();
                 }
             }
         });
