@@ -3,6 +3,10 @@
     width: 100%;
     border-radius: 0.8rem;
 
+    .error {
+        color: var(--red-500);
+    }
+
     &__card {
         display: flex;
         flex-direction: column;

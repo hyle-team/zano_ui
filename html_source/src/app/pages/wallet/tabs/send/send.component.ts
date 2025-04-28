@@ -5,7 +5,7 @@ import { VariablesService } from '@parts/services/variables.service';
 import { debounceTime, filter, retry, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { AssetBalance, PriceInfo } from '@api/models/assets.model';
-import { REG_EXP_ALIAS_NAME, ZanoValidators } from '@parts/utils/zano-validators';
+import { REG_EXP_ALIAS_NAME, validateWrapInfo, ZanoValidators } from '@parts/utils/zano-validators';
 import { TransferDestinationsFormValue, TransferFormValue, TransferParams } from '@api/models/transfer.model';
 import { ZANO_ASSET_INFO } from '@parts/data/assets';
 import { ApiService } from '@api/services/api.service';
@@ -563,12 +563,16 @@ export class SendComponent implements OnInit, OnDestroy {
                                 error = { wrap_info_null: true };
                             }
 
-                            if (amount.isGreaterThan(intToMoney(new BigNumber(wrapInfo?.unwraped_coins_left)))) {
-                                error = { great_than_unwraped_coins: true };
-                            }
+                            if (!validateWrapInfo(wrapInfo)) {
+                                form.controls.is_visible_wrap_info.setErrors({ wrap_info_invalid: true });
+                            } else {
+                                if (amount.isGreaterThan(intToMoney(new BigNumber(wrapInfo?.unwraped_coins_left)))) {
+                                    error = { great_than_unwraped_coins: true };
+                                }
 
-                            if (amount.isLessThan(intToMoney(new BigNumber(wrapInfo?.tx_cost.zano_needed_for_erc20)))) {
-                                error = { less_than_zano_needed: true };
+                                if (amount.isLessThan(intToMoney(new BigNumber(wrapInfo?.tx_cost.zano_needed_for_erc20)))) {
+                                    error = { less_than_zano_needed: true };
+                                }
                             }
 
                             if (error) {

@@ -373,6 +373,7 @@
         "ASSET_NOT_FOUND": "Asset not found",
         "BAD_ARG": "Invalid argument",
         "CANNOT_BE_GREATER_THAN_TOTAL_MAX_SUPPLY": "Cannot be greater than Total max supply",
+        "CANT_ESTIMATE_WRAP_OPERATION_COST": "Can't estimate wrap operation cost, please try again later",
         "CORE_BUSY": "Internal error: core is busy",
         "DAEMON_BUSY": "Internal error: daemon is busy",
         "FILE_EXIST": "A file with that name already exists. Enter another name to save the file under",

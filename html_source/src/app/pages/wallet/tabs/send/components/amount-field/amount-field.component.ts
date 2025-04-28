@@ -11,6 +11,7 @@ import { VariablesService } from '@parts/services/variables.service';
 import { distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
 import { BigNumber } from 'bignumber.js';
 import { DestinationsForm } from '../../send.component';
+import { ZANO_ASSET_INFO } from '@parts/data/assets';
 
 interface AmountInputParams {
     decimalPoint: number;
@@ -50,11 +51,11 @@ export class AmountFieldComponent implements OnInit, OnDestroy, OnChanges {
     variables_service: VariablesService = inject(VariablesService);
 
     amount_input_params: AmountInputParams = {
-        decimalPoint: 0,
-        inputTicker: '',
+        decimalPoint: ZANO_ASSET_INFO.decimal_point,
+        inputTicker: ZANO_ASSET_INFO.ticker,
         hintTicker: '',
         hintAmount: '',
-        reverseDisabled: false
+        reverseDisabled: true
     };
 
     private readonly _destroy$: Subject<void> = new Subject<void>();
