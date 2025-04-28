@@ -10,7 +10,7 @@ import {
     VerifiedAssetInfoWhitelist
 } from './assets.model';
 import { BehaviorSubject, combineLatest } from 'rxjs';
-import { Alias } from '@api/models/alias.model';
+import { AliasInfo, AliasInfoList } from '@api/models/alias.model';
 import { TransferFormValue } from '@api/models/transfer.model';
 import { DEFAULT_ASSET_LOGO_SRC, ZANO_ASSET_INFO } from '@parts/data/assets';
 import { map } from 'rxjs/operators';
@@ -141,9 +141,11 @@ export class Wallet {
 
     has_bare_unspent_outputs = false;
 
-    alias?: Partial<Alias>;
+    get alias_info(): null | AliasInfo  {
+        return this.alias_info_list[this.alias_info_list.length - 1] ?? null;
+    }
 
-    wakeAlias?: boolean;
+    alias_info_list: AliasInfoList = [];
 
     staking?: boolean;
 
@@ -182,8 +184,6 @@ export class Wallet {
         this.balances = balances;
         this.mined_total = mined;
         this.tracking_hey = tracking;
-
-        this.alias = {};
         this.staking = false;
         this.new_messages = 0;
         this.new_contracts = 0;

@@ -13,3 +13,7 @@ export const ZARCANUM_MIGRATION = 'docs.zano.org/docs/use/zarcanum-migration/';
 
 export const BLOCK_EXPLORER_TX_URL_PREFIX = 'explorer.zano.org/transaction/';
 export const BLOCK_EXPLORER_TN_TX_URL_PREFIX = 'testnet-explorer.zano.org/transaction/';
+
+
+export const MAX_WALLET_NAME_LENGTH = 25;
+export const MAX_COMMENT_LENGTH = 255;

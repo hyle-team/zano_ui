@@ -7,7 +7,7 @@ import { BackendService } from '@api/services/backend.service';
 import { Subject } from 'rxjs';
 import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { collapseOnLeaveAnimation, expandOnEnterAnimation } from 'angular-animations';
-import { ZanoAssetInfo, ZANO_ASSET_INFO } from '@parts/data/assets';
+import { ZANO_ASSET_INFO, ZanoAssetInfo } from '@parts/data/assets';
 import { filter, takeUntil } from 'rxjs/operators';
 
 @Component({

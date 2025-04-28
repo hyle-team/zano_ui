@@ -1,8 +1,9 @@
-import { AbstractControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { notFileZanoWallet, ZanoValidationErrors } from '@parts/utils/zano-errors';
 import { MIMETypes } from '@parts/utils/MIME-types';
 import { BigNumber } from 'bignumber.js';
 import { intToMoney } from '@parts/functions/int-to-money';
+import { WrapInfo } from '@api/models/wrap-info';
 
 export const REG_EXP_HEX = /^[a-f0-9]{64}$/i;
 export const REG_EXP_ALIAS_NAME = /^@?[a-z\d.-]{2,25}$/;
@@ -86,3 +87,17 @@ export const filePathWalletValidator = (path: string): ZanoValidationErrors | nu
 
     return null;
 };
+
+export function validateWrapInfo(data: WrapInfo): boolean {
+    if (typeof data !== 'object' || data === null) { return false; }
+
+    if (typeof data.unwraped_coins_left !== 'string') { return false; }
+
+    if (typeof data.tx_cost !== 'object' || data.tx_cost === null) { return false; }
+
+    if (typeof data.tx_cost.usd_needed_for_erc20 !== 'string') { return false; }
+
+    if (typeof data.tx_cost.zano_needed_for_erc20 !== 'string') { return false; }
+
+    return true;
+}

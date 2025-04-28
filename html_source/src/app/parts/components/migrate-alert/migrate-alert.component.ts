@@ -7,7 +7,7 @@ import { ZARCANUM_MIGRATION } from '@parts/data/constants';
 import { ParamsCallRpc } from '@api/models/call_rpc.model';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { GetBareOutsStats } from '@api/models/rpc.models';
-import { MigrateWalletToZarcanumComponent } from '../../../pages/wallet/wallet/modals/migrate-wallet-to-zarcanum/migrate-wallet-to-zarcanum.component';
+import { MigrateWalletToZarcanumComponent } from '../../../pages/wallet/wallet/dialogs/migrate-wallet-to-zarcanum/migrate-wallet-to-zarcanum.component';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { ModalService } from '@parts/services/modal.service';

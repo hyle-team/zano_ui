@@ -8,7 +8,9 @@ import {
     OnDestroy,
     Output,
     Renderer2,
-    SecurityContext
+    SecurityContext,
+    TemplateRef,
+    ViewContainerRef
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -47,7 +49,12 @@ export class TooltipDirective implements OnDestroy {
 
     private leave: (event: MouseEvent) => void;
 
-    constructor(private el: ElementRef, private renderer: Renderer2, private sanitizer: DomSanitizer) {}
+    constructor(
+        private el: ElementRef,
+        private renderer: Renderer2,
+        private sanitizer: DomSanitizer,
+        private viewContainerRef: ViewContainerRef
+    ) {}
 
     @HostListener('mouseenter') onMouseEnter(): void {
         if (!this.tooltipInner) {
@@ -82,7 +89,9 @@ export class TooltipDirective implements OnDestroy {
     show(): void {
         this.create();
         this.placement = this.placement === null ? 'top' : this.placement;
-        this.setPosition(this.placement);
+        window.setTimeout(() => {
+            this.setPosition(this.placement);
+        }, 0);
     }
 
     hide(): void {
@@ -112,7 +121,10 @@ export class TooltipDirective implements OnDestroy {
         if (typeof this.tooltipInner === 'string') {
             innerBlock.innerHTML = this.sanitizer.sanitize(SecurityContext.HTML, this.tooltipInner);
         } else {
-            if (this.tooltipInner) {
+            if (this.tooltipInner instanceof TemplateRef) {
+                const view = this.viewContainerRef.createEmbeddedView(this.tooltipInner);
+                view.rootNodes.forEach(node => this.renderer.appendChild(innerBlock, node));
+            } else {
                 innerBlock = this.tooltipInner;
             }
         }

@@ -5,7 +5,7 @@ import { LoaderComponent } from '@parts/components/loader.component';
 import { LowerCaseDirective } from '@parts/directives';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatOptionModule } from '@angular/material/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { ShortStringPipe } from '@parts/pipes';
 import { TranslateModule } from '@ngx-translate/core';
 import { BehaviorSubject, merge, Observable, Subject } from 'rxjs';
@@ -49,11 +49,11 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
 
     private readonly _wallets_service: WalletsService = inject(WalletsService);
 
-    private readonly _opened_wallet_items: string[] = this._wallets_service.wallets.map(
-        ({ address, alias }: Wallet) => alias?.name ?? address
+    private readonly _opened_wallet_items: string[] = this._wallets_service.wallets.map(({ address, alias_info }: Wallet) =>
+        alias_info ? '@' + alias_info.alias : address
     );
 
-    private readonly _alias_items: string[] = this.variables_service.aliases.map(({ name }) => name);
+    private readonly _alias_items: string[] = this.variables_service.all_aliases.map(alias_info => '@' + alias_info.alias);
 
     private readonly _destroy$: Subject<void> = new Subject<void>();
 
@@ -71,8 +71,8 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
                     return this._opened_wallet_items;
                 }
                 if (value.startsWith('@')) {
-                    return this._alias_items.filter(name => {
-                        return name.includes(value);
+                    return this._alias_items.filter(alias => {
+                        return alias.includes(value);
                     });
                 }
                 return [];

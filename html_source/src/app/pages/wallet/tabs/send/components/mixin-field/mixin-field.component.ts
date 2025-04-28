@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IsVisibleControlErrorPipe } from '@parts/pipes/is-visible-control-error.pipe';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';

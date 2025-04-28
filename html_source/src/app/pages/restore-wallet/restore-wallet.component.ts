@@ -169,9 +169,6 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
                     wallet.is_watch_only = is_watch_only;
 
                     wallet.restore = true;
-
-                    wallet.alias = this._backend.getWalletAlias(wallet.address);
-
                     wallet.currentPage = 1;
                     wallet.pages = new Array(1).fill(1);
                     wallet.totalPages = 1;

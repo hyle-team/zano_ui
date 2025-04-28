@@ -14,7 +14,7 @@ import {
 } from '@parts/pipes';
 import { TranslateModule } from '@ngx-translate/core';
 import { ConfirmModalModule } from '@parts/modals/confirm-modal/confirm-modal.module';
-import { ExportHistoryModalModule } from './wallet/modals/export-history-modal/export-history-modal.module';
+import { ExportHistoryModalModule } from './wallet/dialogs/export-history-modal/export-history-modal.module';
 import { WalletDetailsComponent } from '../wallet-details/wallet-details.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OverlayModule } from '@angular/cdk/overlay';
@@ -36,8 +36,8 @@ import { BreadcrumbsComponent } from '@parts/components/breadcrumbs/breadcrumbs.
 import { BackButtonComponent } from '@parts/components/back-button/back-button.component';
 import { WalletModalsModule } from './tabs/send/modals/wallet-modals.module';
 import { GetAssetInfoPipe } from '@parts/pipes/get-asset-info.pipe';
-import { MigrateWalletToZarcanumComponent } from './wallet/modals/migrate-wallet-to-zarcanum/migrate-wallet-to-zarcanum.component';
-import { SuccessSweepBareOutsComponent } from './wallet/modals/success-sweep-bare-outs/success-sweep-bare-outs.component';
+import { MigrateWalletToZarcanumComponent } from './wallet/dialogs/migrate-wallet-to-zarcanum/migrate-wallet-to-zarcanum.component';
+import { SuccessSweepBareOutsComponent } from './wallet/dialogs/success-sweep-bare-outs/success-sweep-bare-outs.component';
 import { GetAmountItemsPipe } from '@parts/pipes/get-amount-items.pipe';
 import { TransactionStatusComponent } from '@parts/components/transaction-status/transaction-status.component';
 import { IsVisibleFeePipe } from '@parts/pipes/is-visible-fee.pipe';
@@ -70,6 +70,7 @@ import { CommentFieldComponent } from './tabs/send/components/comment-field/comm
 import { AddressFieldComponent } from './tabs/send/components/address-field/address-field.component';
 import { AmountFieldComponent } from './tabs/send/components/amount-field/amount-field.component';
 import { AddAnotherDestinationButtonComponent } from './tabs/send/components/add-another-destination-button/add-another-destination-button.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
     declarations: [
@@ -147,7 +148,8 @@ import { AddAnotherDestinationButtonComponent } from './tabs/send/components/add
         CommentFieldComponent,
         AddressFieldComponent,
         AmountFieldComponent,
-        AddAnotherDestinationButtonComponent
+        AddAnotherDestinationButtonComponent,
+        MatTooltipModule
     ]
 })
 export class WalletModule {}

@@ -1,4 +1,4 @@
-import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BackendService } from '@api/services/backend.service';
@@ -12,24 +12,23 @@ import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { takeUntil } from 'rxjs/operators';
 import { REG_EXP_REGISTER_ALIAS_NAME } from '@parts/utils/zano-validators';
 import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
+import { MAX_COMMENT_LENGTH } from '@parts/data/constants';
+
+const NameValidators = [
+    Validators.required,
+    Validators.minLength(6),
+    Validators.maxLength(25),
+    Validators.pattern(REG_EXP_REGISTER_ALIAS_NAME)
+];
+
+const CommentValidators = [Validators.maxLength(MAX_COMMENT_LENGTH)];
 
 @Component({
     selector: 'app-assign-alias',
-    templateUrl: './assign-alias.component.html',
-    styles: [
-        `
-            :host {
-                width: 100%;
-                height: 100%;
-                overflow: hidden;
-            }
-        `
-    ]
+    templateUrl: './assign-alias.component.html'
 })
 export class AssignAliasComponent implements OnInit, OnDestroy {
-    public wallet: Wallet = this.variablesService.current_wallet;
-
-    public readonly breadcrumbItems: BreadcrumbItems = [
+    readonly breadcrumbItems: BreadcrumbItems = [
         {
             routerLink: '/wallet/history',
             title: this.variablesService.current_wallet.name
@@ -39,39 +38,32 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
         }
     ];
 
-    private readonly _fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
+    wallet: Wallet = this.variablesService.current_wallet;
 
-    public readonly form = this._fb.group({
-        name: this._fb.control(
-            '',
-            Validators.compose([
-                Validators.required,
-                Validators.minLength(6),
-                Validators.maxLength(25),
-                Validators.pattern(REG_EXP_REGISTER_ALIAS_NAME)
-            ])
-        ),
-        comment: this._fb.control('', Validators.compose([Validators.maxLength(this.variablesService.maxCommentLength)]))
+    form = this._fb.group({
+        name: this._fb.control('', NameValidators),
+        comment: this._fb.control('', CommentValidators)
     });
 
-    public alias = {
+    alias = {
         name: '',
         fee: this.variablesService.default_fee,
-        price: new BigNumber(0),
+        price: this.variablesService.default_price_alias,
         reward: '0',
         rewardOriginal: '0',
         comment: '',
         exists: false
     };
 
-    public canRegister: boolean = false;
+    canRegister: boolean = false;
 
-    public notEnoughMoney: boolean = false;
+    notEnoughMoney: boolean = false;
 
     private _destroy$: Subject<void> = new Subject<void>();
 
     constructor(
-        public readonly variablesService: VariablesService,
+        readonly variablesService: VariablesService,
+        private readonly _fb: NonNullableFormBuilder,
         private readonly _ngZone: NgZone,
         private readonly _router: Router,
         private readonly _backendService: BackendService,
@@ -88,48 +80,42 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
         this._destroy$.complete();
     }
 
-    public beforeSubmit(): void {
-        if (!this.canRegister) {
-            return;
-        }
-
-        if (this.notEnoughMoney) {
-            return;
-        }
-
-        if (this.form.invalid) {
+    beforeSubmit(): void {
+        if (!this.canRegister || this.notEnoughMoney || this.form.invalid) {
             this.form.markAllAsTouched();
             this.form.updateValueAndValidity();
+            return;
+        }
+
+        const { testnet } = this.variablesService;
+        const alias = this.wallet.alias_info;
+
+        if (!testnet && hasOwnProperty(alias, 'name')) {
+            this._modalService.prepareModal('info', 'ASSIGN_ALIAS.ONE_ALIAS');
             return;
         }
 
         this.submit();
     }
 
-    public submit(): void {
-        const alias = this._backendService.getWalletAlias(this.wallet.address);
-        if (hasOwnProperty(alias, 'name')) {
-            this._modalService.prepareModal('info', 'ASSIGN_ALIAS.ONE_ALIAS');
-        } else {
-            this.alias.comment = this.form.controls.comment.value;
-            this._backendService.registerAlias(
-                this.wallet.wallet_id,
-                this.alias.name,
-                this.wallet.address,
-                this.alias.fee,
-                this.alias.comment,
-                this.alias.rewardOriginal,
-                async status => {
+    submit(): void {
+        this.alias.comment = this.form.controls.comment.value;
+        this._backendService.registerAlias(
+            this.wallet.wallet_id,
+            this.alias.name,
+            this.wallet.address,
+            this.alias.fee,
+            this.alias.comment,
+            this.alias.rewardOriginal,
+            (status) => {
+                this._ngZone.run(() => {
                     if (status) {
-                        this.wallet.wakeAlias = true;
                         this._modalService.prepareModal('info', 'ASSIGN_ALIAS.REQUEST_ADD_REG');
-                        await this._ngZone.run(async () => {
-                            await this._router.navigate(['/wallet/']);
-                        });
+                        this._router.navigate(['/wallet/']).then();
                     }
-                }
-            );
-        }
+                });
+            }
+        );
     }
 
     private _subscribeToNameValueChanges(): void {
@@ -148,7 +134,7 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
                             this.alias.exists = status;
                         });
                         if (!status) {
-                            this.alias.price = new BigNumber(0);
+                            this.alias.price = this.variablesService.default_price_alias;
                             this._backendService.getAliasCoast(newName, (statusPrice, dataPrice) => {
                                 this._ngZone.run(() => {
                                     if (statusPrice) {

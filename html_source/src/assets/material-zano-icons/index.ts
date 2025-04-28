@@ -41,5 +41,7 @@ export const materialZanoIcons = [
     'zano-swap',
     'zano-update',
     'zano-wallet-settings',
-    'zano-attention'
+    'zano-attention',
+    'zano-circle-arrow-right',
+    'zano-crown'
 ];

@@ -115,7 +115,6 @@ export class ExportImportComponent {
                                         }
                                     });
                                 }
-                                this.backend.getContactAlias();
                                 this.ngZone.run(() => {
                                     this.router.navigate(['/contacts']);
                                 });

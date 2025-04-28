@@ -373,6 +373,7 @@
         "ASSET_NOT_FOUND": "Asset not found",
         "BAD_ARG": "Argumento inválido",
         "CANNOT_BE_GREATER_THAN_TOTAL_MAX_SUPPLY": "Cannot be greater than Total max supply",
+        "CANT_ESTIMATE_WRAP_OPERATION_COST": "Can't estimate wrap operation cost, please try again later",
         "CORE_BUSY": "Erro interno: core está ocupado",
         "DAEMON_BUSY": "Erro interno: daemon está ocupado",
         "FILE_EXIST": "Já existe um ficheiro com esse nome. Insira outro nome para gravar o ficheiro sob",
@@ -510,6 +511,10 @@
         "INFO": "Informação",
         "OK": "OK",
         "SUCCESS": "Sucesso"
+    },
+    "MY_ALIASES_DIALOG": {
+        "BUTTON1": "Close",
+        "TITLE": "My Aliases"
     },
     "OPEN_WALLET": {
         "BUTTON": "Abrir carteira",

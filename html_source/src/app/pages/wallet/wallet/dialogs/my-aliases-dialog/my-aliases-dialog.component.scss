@@ -1,0 +1,42 @@
+.my-aliases-list {
+    max-height: 26.3rem;
+    overflow-y: auto;
+
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--border-radius);
+    border: var(--list-border);
+
+    &-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 1.4rem 2rem;
+        min-height: 5.4rem;
+        border-bottom: var(--list-border);
+
+        &:last-child {
+            border-bottom: none;
+        }
+
+        .alias {
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            .name {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            mat-icon {
+                min-width: 1.4rem;
+                margin-inline-start: 0.5rem;
+            }
+        }
+
+        .controls {
+            margin-inline-start: 1rem;
+            display: inline-flex;
+        }
+    }
+}
