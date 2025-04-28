@@ -204,6 +204,8 @@ strong {
   --shadow-black-300: 0 0 1rem var(--black-300);
   --chartOptionsBackgroundColor: #2b3644;
   --chartOptionsHoverColor: #556576;
+}:root {
+  --border-radius: 0.8rem;
 }.light {
   --main-background: #f0f6fb;
   --page-content-background: #fcfcfc;
@@ -219,6 +221,9 @@ strong {
   --synchronization-progress-bar-container-background: rgba(0, 0, 0, 0.1);
   --dialog-background: #ffffff;
   --block-sync: #505274;
+  --control-alias-wallet-background: #1F8FEB1A;
+  --control-alias-wallet-text: var(--main-text);
+  --alias-history-count-text: #1F8FEB;
   --auth-card-background: #fcfcfc;
   --auth-card-form-background: #ffffff;
   --auth-card-form-border: 1px solid #1f8feb33;
@@ -287,6 +292,9 @@ strong {
   --synchronization-progress-bar-container-background: var(--gray-900);
   --dialog-background: var(--blue-700);
   --block-sync: #a8abb5;
+  --control-alias-wallet-background: #FFFFFF1A;
+  --control-alias-wallet-text: var(--main-text);
+  --alias-history-count-text: #1F8FEB;
   --auth-card-background: var(--blue-700);
   --auth-card-form-background: var(--blue-500);
   --auth-card-form-border: 1px solid transparent;
@@ -513,27 +521,78 @@ body {
   border-radius: 0.8rem;
   background-color: var(--page-content-background);
 }.alias {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}.control-alias-wallet-container {
+  position: relative;
+  padding: 0.4rem 0.6rem;
+  overflow: hidden;
   display: flex;
   align-items: center;
-}.alias.available {
-  padding: 0.4rem 1.6rem;
-  min-height: 3.2rem;
-  background: var(--gradietAquaToBlue);
-  color: #ffffff;
+  flex-wrap: nowrap;
+  cursor: pointer;
+}.control-alias-wallet-container .alias {
   border-radius: 0.8rem;
-  position: relative;
-}.alias.available:after {
+  padding: 7px 12px 7px;
+  background: var(--control-alias-wallet-background);
+  color: var(--control-alias-wallet-text);
+  font-size: 1.8rem;
+  display: inline-flex;
+  align-items: center;
+}.control-alias-wallet-container .alias mat-icon {
+  margin-inline-start: 0.6rem;
+}.control-alias-wallet-container .alias-history-count {
+  margin-inline-start: 1rem;
+  font-size: 1.8rem;
+  color: var(--control-alias-wallet-text);
+  opacity: 0.7;
+}.control-alias-wallet-container.available:after {
   display: block;
   content: "";
   width: 1.4rem;
   height: 1.4rem;
   overflow: hidden;
   position: absolute;
-  right: -0.4rem;
-  top: -0.4rem;
+  left: 0;
+  top: 0;
   background-image: url('crown.svg');
   background-repeat: no-repeat;
   background-size: contain;
+}.alias-container {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+}.alias-container.available {
+  padding: 0.4rem 0.6rem;
+}.alias-container.available .alias {
+  padding: 0.4rem 1.6rem;
+  min-height: 3.2rem;
+  background: var(--gradietAquaToBlue);
+  color: #ffffff;
+  border-radius: 0.8rem;
+  position: relative;
+}.alias-container.available:after {
+  display: block;
+  content: "";
+  width: 1.4rem;
+  height: 1.4rem;
+  overflow: hidden;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-image: url('crown.svg');
+  background-repeat: no-repeat;
+  background-size: contain;
+}.alias-history-count {
+  margin-inline-start: 1rem;
+  color: var(--alias-history-count-text);
+  font-size: 1.8rem;
+}.alias-history-list {
+  max-height: 8rem;
+  overflow: auto;
 }button,
 .btn {
   display: inline-flex;
@@ -690,6 +749,8 @@ body {
   max-width: 50rem;
   width: 100%;
   border-radius: 0.8rem;
+}.form .error {
+  color: var(--red-500);
 }.form__card {
   display: flex;
   flex-direction: column;
@@ -1172,6 +1233,8 @@ body {
   top: 0.8rem;
   right: 0.8rem;
 }.zano-mat-dialog .mat-dialog-title {
+  font-size: 1.8rem;
+  line-height: 1.2;
   font-weight: 400;
 }.zano-mat-dialog .mat-dialog-container {
   padding: 2rem;
@@ -1833,7 +1896,7 @@ table.rounded-corners > tfoot:not(:last-child) {
   padding: 2rem;
   position: relative;
 }.table-tooltip {
-  z-index: 999;
+  z-index: 9999;
   padding: 1rem;
   border-radius: 0.8rem;
   background: var(--tooltip-background);
@@ -1994,7 +2057,7 @@ table.rounded-corners > tfoot:not(:last-child) {
 }.balance-tooltip.ng-tooltip-right {
   margin-left: 1rem;
 }.account-tooltip {
-  z-index: 999;
+  z-index: 9999;
   background-color: var(--tooltip-background);
 }.account-tooltip .tooltip-inner {
   word-break: break-word;
