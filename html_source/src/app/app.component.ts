@@ -21,6 +21,7 @@ import { ApiService } from '@api/services/api.service';
 import { WalletsService } from '@parts/services/wallets.service';
 import { WrapInfo } from '@api/models/wrap-info';
 import { AliasInfo } from '@api/models/alias.model';
+import JSONBigNumber from 'json-bignumber';
 
 @Component({
     selector: 'app-root',
@@ -944,7 +945,11 @@ export class AppComponent implements OnInit, OnDestroy {
                 startWith(0),
                 switchMap(() =>
                     this._apiService.getWrapInfo().pipe(
-                        tap(() => this.variablesService.loadingWrapInfo$.next(true)),
+                        tap(() => {
+                            this.variablesService.loadingWrapInfo$.next(true);
+
+                            this.backendService.printLog({ loadingWrapInfo: true });
+                        }),
                         retry(5),
                         takeUntil(this._destroy$)
                     )
@@ -956,13 +961,27 @@ export class AppComponent implements OnInit, OnDestroy {
                     this.variablesService.is_wrap_info_service_inactive$.next(false);
                     this.variablesService.wrap_info$.next(wrapInfo);
                     this.variablesService.loadingWrapInfo$.next(false);
+
+                    this.backendService.printLog({ is_wrap_info_service_inactive: false });
+
+                    this.backendService.printLog({ wrap_info: wrapInfo });
+
+                    this.backendService.printLog({ loadingWrapInfo: false });
                 },
-                error: () => {
+                error: (error) => {
                     this.variablesService.is_wrap_info_service_inactive$.next(true);
                     this.variablesService.loadingWrapInfo$.next(false);
+
+                    this.backendService.printLog({ is_wrap_info_service_inactive: true });
+
+                    this.backendService.printLog({ loadingWrapInfo: false });
+
+                    this.backendService.printLog({ wrap_info_error: error });
                 },
                 complete: () => {
                     this.variablesService.loadingWrapInfo$.next(false);
+
+                    this.backendService.printLog({ loadingWrapInfo: false });
                 }
             });
     }
