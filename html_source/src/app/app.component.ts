@@ -947,10 +947,7 @@ export class AppComponent implements OnInit, OnDestroy {
             .subscribe({
                 next: (wrap_info: WrapInfo) => {
                     this.variablesService.is_wrap_info_service_inactive$.next(false);
-                    // this.variablesService.wrap_info$.next(wrap_info);
-                    this.variablesService.wrap_info$.next({
-                        tx_cost: { usd_needed_for_erc20: '0.1', zano_needed_for_erc20: '0.1' },
-                    } as WrapInfo);
+                    this.variablesService.wrap_info$.next(wrap_info);
 
                     this.backendService.printLog({
                         is_wrap_info_service_inactive: false,
