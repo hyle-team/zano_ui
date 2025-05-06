@@ -53,7 +53,7 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
         alias_info ? '@' + alias_info.alias : address
     );
 
-    private readonly _alias_items: string[] = this.variables_service.all_aliases.map(alias_info => '@' + alias_info.alias);
+    private readonly _alias_items: string[] = this.variables_service.all_aliases.filter(Boolean).map(alias_info => '@' + alias_info.alias);
 
     private readonly _destroy$: Subject<void> = new Subject<void>();
 

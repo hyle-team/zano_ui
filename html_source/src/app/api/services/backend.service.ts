@@ -344,21 +344,21 @@ export class BackendService {
         });
     }
 
-    printLog(labelOrObj: string | object): void {
-        let message: string;
+    printLog(msgOrObj: string | object): void {
+        let msg: string;
 
-        if (typeof labelOrObj === 'string') {
-            message = labelOrObj;
+        if (typeof msgOrObj === 'string') {
+            msg = msgOrObj;
         } else {
             try {
-                message = JSON.stringify(labelOrObj);
+                msg = JSON.stringify(msgOrObj);
             } catch (e) {
-                message = 'Error stringifying log object';
+                msg = 'Error stringifying log object';
                 console.error(e);
             }
         }
 
-        this.runCommand(Commands.print_log, message);
+        this.runCommand(Commands.print_log, { msg, log_level: (this.variablesService.settings.appLog ?? 0) });
     }
 
     dropSecureAppData(callback?): void {

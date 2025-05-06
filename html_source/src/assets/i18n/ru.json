@@ -691,7 +691,7 @@
             "LESS_THAN_ZANO_NEEDED": "Too small amount to cover ERC20 fee",
             "MAX_LENGTH": "Maximum comment length reached",
             "MUST_BE_GREATER_THAN_ZERO": "Must be greater than zero",
-            "WRAP_INFO_NULL": "failed to request wrap state"
+            "WRAP_INFO_NULL": "Failed to request wrap state"
         },
         "HIDE": "Show address to receiver",
         "INCLUDE_SENDER_ADDRESS": "Include sender address",

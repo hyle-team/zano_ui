@@ -7,15 +7,16 @@
     <input
         (contextmenu)="variables_service.onContextMenu($event)"
         [decimalPoint]="amount_input_params.decimalPoint"
+        [formControl]="control_ref.controls.amount"
         [placeholder]="control_ref.value.is_amount_usd ? '0.00' : '0'"
         appInputValidate="money"
         class="form__field--input"
-        [formControl]="control_ref.controls.amount"
         id="send-amount"
         type="text"
     />
 
-    <button (click)="toggleAmountUSD()" [disabled]="amount_input_params.reverseDisabled" class="btn-reverse" type="button">
+    <button (click)="toggleAmountUSD()" [disabled]="amount_input_params.reverseDisabled" class="btn-reverse"
+            type="button">
         <mat-icon class="small" svgIcon="zano-swap"></mat-icon>
     </button>
 
@@ -33,59 +34,74 @@
         </div>
     </div>
 
-    <ng-container *ngIf="control_ref.controls.amount | isVisibleControlError; else error2Template">
-        <ng-container [ngSwitch]="true">
-            <ng-container *ngSwitchCase="control_ref.controls.amount.hasError('zero')">
-                <div class="error">
-                    {{ 'SEND.FORM_ERRORS.AMOUNT_ZERO' | translate }}
-                </div>
-            </ng-container>
-            <ng-container *ngSwitchCase="control_ref.controls.amount.hasError('great_than_unwraped_coins')">
-                <div class="error">
-                    {{ 'SEND.FORM_ERRORS.GREAT_THAN_UNWRAPPED_COINS' | translate }}
-                </div>
-            </ng-container>
-            <ng-container *ngSwitchCase="control_ref.controls.amount.hasError('less_than_zano_needed')">
-                <div class="error">
-                    {{ 'SEND.FORM_ERRORS.LESS_THAN_ZANO_NEEDED' | translate }}
-                </div>
-            </ng-container>
-            <ng-container *ngSwitchCase="control_ref.controls.amount.hasError('wrap_info_null')">
-                <div class="error">
-                    {{ 'SEND.FORM_ERRORS.WRAP_INFO_NULL' | translate }}
-                </div>
-            </ng-container>
-            <ng-container *ngSwitchCase="control_ref.controls.amount.hasError('required')">
+    <ng-container *ngIf="control_ref.controls.amount | isVisibleControlError; else errorList2Template">
+        <ng-container *ngIf="control_ref.controls.amount.hasError('zero'); else error2Template">
+            <div class="error">
+                {{ 'SEND.FORM_ERRORS.AMOUNT_ZERO' | translate }}
+            </div>
+        </ng-container>
+
+        <ng-template #error2Template>
+            <ng-container *ngIf="control_ref.controls.amount.hasError('required')">
                 <div class="error">
                     {{ 'ERRORS.REQUIRED' | translate }}
                 </div>
             </ng-container>
-        </ng-container>
+        </ng-template>
     </ng-container>
 
-    <ng-template #error2Template>
+    <ng-template #errorList2Template>
         <ng-container *ngIf="control_ref | isVisibleControlError">
-            <ng-container [ngSwitch]="true">
-                <ng-container *ngSwitchCase="control_ref.hasError('insufficientFunds')">
+            <ng-container *ngIf="control_ref.hasError('greater_max'); else error3Template">
+                <div class="error">
+                    {{ 'ERRORS.MAX' | translate : { max: control_ref.errors['greater_max'].max } }}
+                </div>
+            </ng-container>
+
+            <ng-template #error3Template>
+                <ng-container *ngIf="control_ref.hasError('insufficientFunds'); else error4Template">
                     <div class="error">
                         {{ this.control_ref.errors['insufficientFunds'].errorText | translate }}
                     </div>
                 </ng-container>
-                <ng-container *ngSwitchCase="control_ref.hasError('greater_max')">
+            </ng-template>
+
+            <ng-template #error4Template>
+                <ng-container *ngIf="control_ref.hasError('great_than_unwraped_coins'); else error5Template">
                     <div class="error">
-                        {{ 'ERRORS.MAX' | translate : { max: control_ref.errors['greater_max'].max } }}
+                        {{ 'SEND.FORM_ERRORS.GREAT_THAN_UNWRAPPED_COINS' | translate }}
                     </div>
                 </ng-container>
-                <ng-container *ngSwitchCase="control_ref.hasError('asset_not_found')">
+            </ng-template>
+
+            <ng-template #error5Template>
+                <ng-container *ngIf="control_ref.hasError('less_than_zano_needed'); else error6Template">
+                    <div class="error">
+                        {{ 'SEND.FORM_ERRORS.LESS_THAN_ZANO_NEEDED' | translate }}
+                    </div>
+                </ng-container>
+            </ng-template>
+
+            <ng-template #error6Template>
+                <ng-container *ngIf="control_ref.hasError('wrap_info_null'); else error7Template">
+                    <div class="error">
+                        {{ 'SEND.FORM_ERRORS.WRAP_INFO_NULL' | translate }}
+                    </div>
+                </ng-container>
+            </ng-template>
+
+            <ng-template #error7Template>
+                <ng-container *ngIf="control_ref.hasError('asset_not_found')">
                     <div class="error">
                         {{ 'ERRORS.ASSET_NOT_FOUND' | translate }}
                     </div>
                 </ng-container>
-            </ng-container>
+            </ng-template>
         </ng-container>
     </ng-template>
 
-    <ng-container *ngIf="!((control_ref.controls.amount | isVisibleControlError) || (control_ref | isVisibleControlError))">
+    <ng-container
+        *ngIf="!((control_ref.controls.amount | isVisibleControlError) || (control_ref | isVisibleControlError))">
         <div class="hint text-ellipsis">
             {{ amount_input_params.hintAmount }}
             {{ amount_input_params.hintTicker }}
