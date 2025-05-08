@@ -210,8 +210,6 @@ export class VariablesService implements OnDestroy {
 
     wrap_info$: BehaviorSubject<WrapInfo | null> = new BehaviorSubject<WrapInfo | null>(null);
 
-    loadingWrapInfo$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
-
     is_wrap_info_service_inactive$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
     private _destroy$: Subject<void> = new Subject<void>();

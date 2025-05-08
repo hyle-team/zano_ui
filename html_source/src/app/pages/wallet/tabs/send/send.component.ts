@@ -1,4 +1,4 @@
-import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, NgZone, OnDestroy } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, NonNullableFormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
@@ -67,7 +67,7 @@ export type TransferForm = FormGroup<{
     templateUrl: 'send.component.html',
     styleUrls: ['./send.component.scss']
 })
-export class SendComponent implements OnInit, OnDestroy {
+export class SendComponent implements OnDestroy {
     private readonly _backend_service: BackendService = inject(BackendService);
 
     private readonly _ng_zone: NgZone = inject(NgZone);
@@ -111,18 +111,14 @@ export class SendComponent implements OnInit, OnDestroy {
 
     get is_submit_disabled(): boolean {
         const {
-            is_wrap_info_service_inactive$: { value: is_wrap_info_service_inactive },
             current_wallet: { loaded: is_current_wallet_loaded }
         } = this.variables_service;
 
         const condition1: boolean = this.form?.invalid ?? true;
         const condition2: boolean = !is_current_wallet_loaded;
-        const condition3: boolean = !this.variables_service.wrap_info$.value || is_wrap_info_service_inactive;
 
-        return condition1 || condition2 || condition3;
+        return condition1 || condition2;
     }
-
-    ngOnInit(): void {}
 
     ngOnDestroy(): void {
         this._destroy$.next();
@@ -536,54 +532,19 @@ export class SendComponent implements OnInit, OnDestroy {
             {
                 validators: [
                     (form: FormGroup): ValidationErrors | null => {
-                        const asset_id = form.controls.asset_id.value;
-                        const is_amount_usd = form.controls.is_amount_usd.value;
-                        const is_visible_wrap_info = form.controls.is_visible_wrap_info.value;
-
-                        const convertedAmountUSD = (): BigNumber => {
-                            let usd = 0;
-                            const priceInfo = this.price_info;
-                            if (typeof priceInfo.data === 'object') {
-                                const { data } = priceInfo;
-                                usd = data.usd;
-                            }
-                            return new BigNumber(form.controls.amount.value).dividedBy(usd);
-                        };
-
-                        const amount: BigNumber = is_amount_usd ? convertedAmountUSD() : new BigNumber(form.controls.amount.value);
+                        const { asset_id, is_amount_usd, is_visible_wrap_info, amount } = form.getRawValue();
+                        const errors: ValidationErrors = {};
 
                         const assetBalance: AssetBalance | undefined = this.variables_service.current_wallet.getBalanceByAssetId(asset_id);
+                        const wrapInfo = this.variables_service.wrap_info$.value;
+                        const priceInfo = this.price_info;
 
-                        const { value: wrapInfo } = this.variables_service.wrap_info$;
+                        const usd = typeof priceInfo.data === 'object' ? priceInfo.data.usd : 0;
+                        const amountBigNumber = new BigNumber(is_amount_usd ? new BigNumber(amount).dividedBy(usd) : amount);
 
-                        if (is_visible_wrap_info) {
-                            let error = null;
-
-                            if (!wrapInfo) {
-                                error = { wrap_info_null: true };
-                            }
-
-                            if (!validateWrapInfo(wrapInfo)) {
-                                form.controls.is_visible_wrap_info.setErrors({ wrap_info_invalid: true });
-                            } else {
-                                if (amount.isGreaterThan(intToMoney(new BigNumber(wrapInfo?.unwraped_coins_left)))) {
-                                    error = { great_than_unwraped_coins: true };
-                                }
-
-                                if (amount.isLessThan(intToMoney(new BigNumber(wrapInfo?.tx_cost.zano_needed_for_erc20)))) {
-                                    error = { less_than_zano_needed: true };
-                                }
-                            }
-
-                            if (error) {
-                                form.controls.amount.setErrors(error);
-                            }
-                        }
-
+                        // 1. Balance not found
                         if (!assetBalance) {
-                            return {
-                                asset_not_found: true
-                            };
+                            return { asset_not_found: true };
                         }
 
                         const {
@@ -591,22 +552,43 @@ export class SendComponent implements OnInit, OnDestroy {
                             asset_info: { decimal_point }
                         } = assetBalance;
 
-                        const maximum_amount_by_decimal_point = intToMoney(MAXIMUM_VALUE, decimal_point);
-                        if (amount.isGreaterThan(maximum_amount_by_decimal_point)) {
-                            return { greater_max: { max: maximum_amount_by_decimal_point } };
-                        }
-
+                        const maxAllowed = intToMoney(MAXIMUM_VALUE, decimal_point);
                         const preparedUnlocked = intToMoney(unlocked, decimal_point);
 
-                        if (this.total_destinations_amount_and_fee.isGreaterThan(preparedUnlocked)) {
-                            return { insufficientFunds };
+                        // 2. Greater than maxAllow
+                        if (amountBigNumber.isGreaterThan(maxAllowed)) {
+                            errors.greater_max = { max: maxAllowed };
                         }
 
-                        if (amount.isGreaterThan(preparedUnlocked)) {
-                            return { insufficientFunds };
+                        // 3. Insufficient Funds
+                        if (
+                            this.total_destinations_amount_and_fee.isGreaterThan(preparedUnlocked) ||
+                            amountBigNumber.isGreaterThan(preparedUnlocked)
+                        ) {
+                            errors.insufficientFunds = insufficientFunds;
                         }
 
-                        return null;
+                        // 4. Validate wrapInfo if needed
+                        if (is_visible_wrap_info) {
+                            if (!wrapInfo) {
+                                errors.wrap_info_null = true;
+                            } else if (!validateWrapInfo(wrapInfo)) {
+                                errors.wrap_info_invalid = true;
+                            } else {
+                                const unwraped = intToMoney(new BigNumber(wrapInfo.unwraped_coins_left));
+                                const needed = intToMoney(new BigNumber(wrapInfo.tx_cost.zano_needed_for_erc20));
+
+                                if (amountBigNumber.isGreaterThan(unwraped)) {
+                                    errors.great_than_unwraped_coins = true;
+                                }
+
+                                if (amountBigNumber.isLessThan(needed)) {
+                                    errors.less_than_zano_needed = true;
+                                }
+                            }
+                        }
+
+                        return Object.keys(errors).length > 0 ? errors : null;
                     }
                 ]
             }

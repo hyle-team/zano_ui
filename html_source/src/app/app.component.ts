@@ -9,7 +9,7 @@ import { BigNumber } from 'bignumber.js';
 import { ModalService } from '@parts/services/modal.service';
 import { StateKeys, Store } from '@store/store';
 import { interval, Subject } from 'rxjs';
-import { retry, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { retry, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { paths, pathsChildrenAuth } from './pages/paths';
 import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { Dialog } from '@angular/cdk/dialog';
@@ -937,32 +937,30 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     private _startWrapInfoPolling(): void {
-        const updateTime: number = 10 * 60 * 1000; // 10 minutes
-
-        interval(updateTime)
+        // 10 minutes
+        interval(10 * 60 * 1000)
             .pipe(
                 startWith(0),
-                switchMap(() =>
-                    this._apiService.getWrapInfo().pipe(
-                        tap(() => this.variablesService.loadingWrapInfo$.next(true)),
-                        retry(5),
-                        takeUntil(this._destroy$)
-                    )
-                ),
+                switchMap(() => this._apiService.getWrapInfo().pipe(retry(5))),
                 takeUntil(this._destroy$)
             )
             .subscribe({
-                next: (wrapInfo: WrapInfo) => {
+                next: (wrap_info: WrapInfo) => {
                     this.variablesService.is_wrap_info_service_inactive$.next(false);
-                    this.variablesService.wrap_info$.next(wrapInfo);
-                    this.variablesService.loadingWrapInfo$.next(false);
+                    this.variablesService.wrap_info$.next(wrap_info);
+
+                    this.backendService.printLog({
+                        is_wrap_info_service_inactive: false,
+                        wrap_info
+                    });
                 },
-                error: () => {
+                error: error => {
                     this.variablesService.is_wrap_info_service_inactive$.next(true);
-                    this.variablesService.loadingWrapInfo$.next(false);
-                },
-                complete: () => {
-                    this.variablesService.loadingWrapInfo$.next(false);
+
+                    this.backendService.printLog({
+                        is_wrap_info_service_inactive: true,
+                        wrap_info_error: error
+                    });
                 }
             });
     }

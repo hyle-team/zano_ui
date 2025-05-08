@@ -92,6 +92,7 @@ export interface CurrentActionState {
 }
 
 export enum Commands {
+    print_log = 'print_log',
     money_transfer_cancel = 'money_transfer_cancel',
     handle_deeplink_click = 'handle_deeplink_click',
     money_transfer = 'money_transfer',
@@ -341,6 +342,23 @@ export class BackendService {
         this.backendObject[Commands.store_secure_app_data](JSON.stringify(data), this.variablesService.appPass, dataStore => {
             this.backendCallback(dataStore, {}, callback, Commands.store_secure_app_data);
         });
+    }
+
+    printLog(msgOrObj: string | object): void {
+        let msg: string;
+
+        if (typeof msgOrObj === 'string') {
+            msg = msgOrObj;
+        } else {
+            try {
+                msg = JSON.stringify(msgOrObj);
+            } catch (e) {
+                msg = 'Error stringifying log object';
+                console.error(e);
+            }
+        }
+
+        this.runCommand(Commands.print_log, { msg, log_level: (this.variablesService.settings.appLog ?? 0) });
     }
 
     dropSecureAppData(callback?): void {
