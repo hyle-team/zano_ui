@@ -91,6 +91,12 @@ export class WalletsService {
         });
     }
 
+    loadAliasInfoListForWallets(): void {
+        this.wallets.forEach((wallet: Wallet) => {
+            this.loadAliasInfoList(wallet);
+        });
+    }
+
     setVerifiedAssetInfoWhitelist(assets: VerifiedAssetInfoWhitelist): void {
         for (const wallet of this.wallets) {
             wallet.verificationAssetsInfoWhitelist$.next(assets);

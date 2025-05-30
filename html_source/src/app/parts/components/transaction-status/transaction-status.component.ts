@@ -39,15 +39,16 @@ export class TransactionStatusComponent {
         const { amount, asset_id, is_income } = subtransfer;
         const { fee } = transaction;
 
-        // Case: When the amount is less than the fee
-        const condition1 = asset_id === ZANO_ASSET_INFO.asset_id;
-        const condition2 = amount.isLessThan(fee);
-        const condition3 = !is_income;
-
-        if (condition1 && condition2 && condition3) {
-            return true;
+        if (isInitiator(transaction)) {
+            // Case: When the amount is less than the fee
+            const condition1 = asset_id === ZANO_ASSET_INFO.asset_id;
+            const condition2 = amount.isLessThan(fee);
+            const condition3 = !is_income;
+            if (condition1 && condition2 && condition3) {
+                return true;
+            }
+            // ---------------------------------------------
         }
-        // ---------------------------------------------
 
         return is_income;
     }

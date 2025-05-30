@@ -125,15 +125,15 @@ export class WalletComponent implements OnInit, OnDestroy {
     private readonly _matDialog: MatDialog = inject(MatDialog);
 
     get isShowMigrateAlert(): boolean {
-        const { current_wallet } = this.variablesService;
+        const { current_wallet, daemon_state } = this.variablesService;
 
         if (!current_wallet) {
             return false;
         }
 
-        const { is_auditable, is_watch_only, has_bare_unspent_outputs } = current_wallet;
+        const { is_auditable, is_watch_only, has_bare_unspent_outputs, loaded } = current_wallet;
 
-        return !is_auditable && !is_watch_only && has_bare_unspent_outputs;
+        return !is_auditable && !is_watch_only && loaded && daemon_state === 2 && has_bare_unspent_outputs;
     }
 
     constructor(

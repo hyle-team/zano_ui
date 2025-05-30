@@ -290,6 +290,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
                     if (!this.firstOnlineState && data['daemon_network_state'] === 2) {
                         this.getAllAliases();
+                        this._walletsService.loadAliasInfoListForWallets();
                         this.backendService.getDefaultFee((status_fee, data_fee) => {
                             this.variablesService.default_fee_big = new BigNumber(data_fee);
                             this.variablesService.default_fee = this.intToMoneyPipe.transform(data_fee);
