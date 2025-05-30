@@ -7,10 +7,10 @@
 
     & > mat-icon {
         &:first-child {
-            margin-inline-end: 0.8rem;
+            margin-right: 0.8rem;
         }
         &:last-child {
-            margin-inline-start: 0.8rem;
+            margin-left: 0.8rem;
         }
     }
 }
