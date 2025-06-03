@@ -8,8 +8,8 @@ import { IntToMoneyPipe } from '@parts/pipes';
 import { BigNumber } from 'bignumber.js';
 import { ModalService } from '@parts/services/modal.service';
 import { StateKeys, Store } from '@store/store';
-import { interval, Subject } from 'rxjs';
-import { retry, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { interval, of, Subject } from 'rxjs';
+import { catchError, retry, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { paths, pathsChildrenAuth } from './pages/paths';
 import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { Dialog } from '@angular/cdk/dialog';
@@ -853,7 +853,7 @@ export class AppComponent implements OnInit, OnDestroy {
         interval(updateTime)
             .pipe(
                 startWith(0),
-                switchMap(() => this._apiService.getVerifiedAssetInfoWhitelist(type).pipe(retry(5))),
+                switchMap(() => this._apiService.getVerifiedAssetInfoWhitelist(type).pipe(retry(2))),
                 takeUntil(this._destroy$)
             )
             .subscribe({
@@ -938,29 +938,32 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     private _startWrapInfoPolling(): void {
-        // 10 minutes
-        interval(10 * 60 * 1000)
+        interval(3 * 60 * 1000)
             .pipe(
                 startWith(0),
-                switchMap(() => this._apiService.getWrapInfo().pipe(retry(5))),
+                switchMap(() =>
+                    this._apiService.getWrapInfo().pipe(
+                        retry(2),
+                        catchError(error => {
+                            this.variablesService.is_wrap_info_service_inactive$.next(true);
+                            this.backendService.printLog({
+                                is_wrap_info_service_inactive: true,
+                                wrap_info_error: error
+                            });
+                            return of(null);
+                        })
+                    )
+                ),
                 takeUntil(this._destroy$)
             )
-            .subscribe({
-                next: (wrap_info: WrapInfo) => {
+            .subscribe((wrap_info: WrapInfo | null) => {
+                if (wrap_info) {
                     this.variablesService.is_wrap_info_service_inactive$.next(false);
                     this.variablesService.wrap_info$.next(wrap_info);
 
                     this.backendService.printLog({
                         is_wrap_info_service_inactive: false,
                         wrap_info
-                    });
-                },
-                error: error => {
-                    this.variablesService.is_wrap_info_service_inactive$.next(true);
-
-                    this.backendService.printLog({
-                        is_wrap_info_service_inactive: true,
-                        wrap_info_error: error
                     });
                 }
             });

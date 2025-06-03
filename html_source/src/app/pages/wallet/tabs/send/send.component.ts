@@ -110,19 +110,35 @@ export class SendComponent implements OnDestroy {
     }
 
     get is_submit_disabled(): boolean {
+        if (!this.form) { return true; }
+
         const {
-            current_wallet: { loaded: is_current_wallet_loaded }
+            current_wallet: { loaded: is_current_wallet_loaded },
+            is_wrap_info_service_inactive$: { value: is_wrap_info_service_inactive }
         } = this.variables_service;
+
+        const { destinations } = this.form.getRawValue();
 
         const condition1: boolean = this.form?.invalid ?? true;
         const condition2: boolean = !is_current_wallet_loaded;
+        const condition3: boolean =
+            destinations.map(({ is_visible_wrap_info }) => is_visible_wrap_info).some(Boolean)
+            && is_wrap_info_service_inactive;
 
-        return condition1 || condition2;
+        return condition1 || condition2 || condition3;
     }
 
     ngOnDestroy(): void {
         this._destroy$.next();
         this._destroy$.complete();
+    }
+
+    private _subscribeToIsWrapInfoServiceInactive(): void {
+        this.variables_service.is_wrap_info_service_inactive$.pipe(takeUntil(this._destroy$)).subscribe({
+            next: () => {
+                this.form.controls.destinations.updateValueAndValidity();
+            }
+        });
     }
 
     beforeSubmit(): void {
@@ -325,6 +341,8 @@ export class SendComponent implements OnDestroy {
             this.form.markAllAsTouched();
             this.form.updateValueAndValidity();
         }
+
+        this._subscribeToIsWrapInfoServiceInactive();
     }
 
     private _validateAddress(control: AbstractControl): ValidationErrors | null {
@@ -449,7 +467,7 @@ export class SendComponent implements OnDestroy {
         this.form.controls.asset_id.valueChanges
             .pipe(
                 startWith(this.form.controls.asset_id.value),
-                switchMap(assetId => this._api_service.getCurrentPriceForAsset(assetId).pipe(retry(5))),
+                switchMap(assetId => this._api_service.getCurrentPriceForAsset(assetId).pipe(retry(2))),
                 takeUntil(this._destroy$)
             )
             .subscribe({
