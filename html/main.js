@@ -2161,7 +2161,7 @@ class AppComponent {
 
         if (data.aliases && data.aliases.length) {
           this.variablesService.all_aliases = [];
-          this.variablesService.all_aliases = data.aliases.sort((a, b) => {
+          this.variablesService.all_aliases = data.aliases.filter(Boolean).sort((a, b) => {
             if (a.alias.length > b.alias.length) {
               return 1;
             }
@@ -17445,7 +17445,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! @angular/common */ 36362);
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @angular/router */ 52816);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @angular/router */ 52816);
 /* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! @ngx-translate/core */ 87514);
 /* harmony import */ var _parts_components_breadcrumbs_breadcrumbs_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @parts/components/breadcrumbs/breadcrumbs.component */ 71080);
 /* harmony import */ var _parts_directives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @parts/directives */ 21443);
@@ -17456,7 +17456,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _parts_data_assets__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @parts/data/assets */ 62400);
 /* harmony import */ var _parts_utils_zano_validators__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @parts/utils/zano-validators */ 70721);
 /* harmony import */ var _api_services_backend_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @api/services/backend.service */ 10122);
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! rxjs */ 76317);
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! rxjs */ 76317);
 /* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! rxjs */ 80228);
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! rxjs/operators */ 44874);
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! rxjs/operators */ 32673);
@@ -18012,27 +18012,28 @@ class CreateSwapComponent {
       title: 'CREATE_SWAP.BREADCRUMBS.ITEM2'
     }];
     this.variablesService = (0,_angular_core__WEBPACK_IMPORTED_MODULE_16__.inject)(_parts_services_variables_service__WEBPACK_IMPORTED_MODULE_3__.VariablesService);
-    this.fb = (0,_angular_core__WEBPACK_IMPORTED_MODULE_16__.inject)(_angular_forms__WEBPACK_IMPORTED_MODULE_17__.FormBuilder);
-    this.loading$ = new rxjs__WEBPACK_IMPORTED_MODULE_18__.BehaviorSubject(false);
-    this.lowerCaseDisabled$ = new rxjs__WEBPACK_IMPORTED_MODULE_18__.BehaviorSubject(true);
-    this.errorRpc = null;
+    this._fb = (0,_angular_core__WEBPACK_IMPORTED_MODULE_16__.inject)(_angular_forms__WEBPACK_IMPORTED_MODULE_17__.FormBuilder);
+    this._backendService = (0,_angular_core__WEBPACK_IMPORTED_MODULE_16__.inject)(_api_services_backend_service__WEBPACK_IMPORTED_MODULE_6__.BackendService);
+    this._ngZone = (0,_angular_core__WEBPACK_IMPORTED_MODULE_16__.inject)(_angular_core__WEBPACK_IMPORTED_MODULE_16__.NgZone);
+    this._router = (0,_angular_core__WEBPACK_IMPORTED_MODULE_16__.inject)(_angular_router__WEBPACK_IMPORTED_MODULE_18__.Router);
+    this._cdr = (0,_angular_core__WEBPACK_IMPORTED_MODULE_16__.inject)(_angular_core__WEBPACK_IMPORTED_MODULE_16__.ChangeDetectorRef);
+    this._walletsService = (0,_angular_core__WEBPACK_IMPORTED_MODULE_16__.inject)(_parts_services_wallets_service__WEBPACK_IMPORTED_MODULE_12__.WalletsService);
+    this.loading$ = new rxjs__WEBPACK_IMPORTED_MODULE_19__.BehaviorSubject(false);
+    this.lowerCaseDisabled$ = new rxjs__WEBPACK_IMPORTED_MODULE_19__.BehaviorSubject(true);
     this.currentWallet = this.variablesService.current_wallet;
+    this.loadingAddressItems$ = new rxjs__WEBPACK_IMPORTED_MODULE_19__.BehaviorSubject(true);
     this.errorMessages = {
       receiverAddress: undefined
     };
-    this.loadingAddressItems$ = new rxjs__WEBPACK_IMPORTED_MODULE_18__.BehaviorSubject(true);
-    this._cdr = (0,_angular_core__WEBPACK_IMPORTED_MODULE_16__.inject)(_angular_core__WEBPACK_IMPORTED_MODULE_16__.ChangeDetectorRef);
-    this._walletsService = (0,_angular_core__WEBPACK_IMPORTED_MODULE_16__.inject)(_parts_services_wallets_service__WEBPACK_IMPORTED_MODULE_12__.WalletsService);
     this._openedWalletItems = this._walletsService.wallets.map(({
       address,
       alias_info
     }) => alias_info ? '@' + alias_info.alias : address);
-    this._aliasItems = this.variablesService.all_aliases.map(alias_info => '@' + alias_info.alias);
-    this._backendService = (0,_angular_core__WEBPACK_IMPORTED_MODULE_16__.inject)(_api_services_backend_service__WEBPACK_IMPORTED_MODULE_6__.BackendService);
-    this._ngZone = (0,_angular_core__WEBPACK_IMPORTED_MODULE_16__.inject)(_angular_core__WEBPACK_IMPORTED_MODULE_16__.NgZone);
-    this._router = (0,_angular_core__WEBPACK_IMPORTED_MODULE_16__.inject)(_angular_router__WEBPACK_IMPORTED_MODULE_19__.Router);
+    this._aliasItems = this.variablesService.all_aliases.filter(Boolean).map(alias_info => alias_info.alias ? '@' + alias_info.alias : alias_info.address);
     this._destroy$ = new rxjs__WEBPACK_IMPORTED_MODULE_20__.Subject();
+  }
 
+  ngOnInit() {
     this._createForm();
   }
 
@@ -18266,9 +18267,9 @@ class CreateSwapComponent {
   _createForm() {
     var _a, _b, _c;
 
-    this.form = this.fb.group({
-      sending: this.fb.group({
-        amount: this.fb.control(null, {
+    this.form = this._fb.group({
+      sending: this._fb.group({
+        amount: this._fb.control(null, {
           validators: [_angular_forms__WEBPACK_IMPORTED_MODULE_17__.Validators.required, ({
             value
           }) => {
@@ -18283,7 +18284,7 @@ class CreateSwapComponent {
             return null;
           }]
         }),
-        asset_id: this.fb.control(_parts_data_assets__WEBPACK_IMPORTED_MODULE_4__.ZANO_ASSET_INFO.asset_id, [_angular_forms__WEBPACK_IMPORTED_MODULE_17__.Validators.required])
+        asset_id: this._fb.control(_parts_data_assets__WEBPACK_IMPORTED_MODULE_4__.ZANO_ASSET_INFO.asset_id, [_angular_forms__WEBPACK_IMPORTED_MODULE_17__.Validators.required])
       }, {
         validators: [form => {
           var _a;
@@ -18330,8 +18331,8 @@ class CreateSwapComponent {
           }
         }]
       }),
-      receiving: this.fb.group({
-        amount: this.fb.control({
+      receiving: this._fb.group({
+        amount: this._fb.control({
           value: null,
           disabled: this.currentWallet.balances.length === 1
         }, [_angular_forms__WEBPACK_IMPORTED_MODULE_17__.Validators.required, control => {
@@ -18347,7 +18348,7 @@ class CreateSwapComponent {
 
           return null;
         }]),
-        asset_id: this.fb.control({
+        asset_id: this._fb.control({
           value: this.currentWallet.balances.length <= 1 ? null : (_c = (_b = (_a = this.currentWallet.balances[1]) === null || _a === void 0 ? void 0 : _a.asset_info) === null || _b === void 0 ? void 0 : _b.asset_id) !== null && _c !== void 0 ? _c : _parts_data_assets__WEBPACK_IMPORTED_MODULE_4__.ZANO_ASSET_INFO.asset_id,
           disabled: this.currentWallet.balances.length <= 1
         }, [_angular_forms__WEBPACK_IMPORTED_MODULE_17__.Validators.required])
@@ -18388,7 +18389,7 @@ class CreateSwapComponent {
           }
         }]
       }),
-      receiverAddress: this.fb.control('', [_angular_forms__WEBPACK_IMPORTED_MODULE_17__.Validators.required, control => {
+      receiverAddress: this._fb.control('', [_angular_forms__WEBPACK_IMPORTED_MODULE_17__.Validators.required, control => {
         this.aliasAddress = '';
 
         if (control.value) {
@@ -18636,7 +18637,7 @@ CreateSwapComponent.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_
       _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵproperty"]("ngIf", ctx.errorRpc);
     }
   },
-  dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_26__.CommonModule, _angular_common__WEBPACK_IMPORTED_MODULE_26__.NgClass, _angular_common__WEBPACK_IMPORTED_MODULE_26__.NgForOf, _angular_common__WEBPACK_IMPORTED_MODULE_26__.NgIf, _angular_common__WEBPACK_IMPORTED_MODULE_26__.NgSwitch, _angular_common__WEBPACK_IMPORTED_MODULE_26__.NgSwitchCase, _angular_common__WEBPACK_IMPORTED_MODULE_26__.AsyncPipe, _angular_router__WEBPACK_IMPORTED_MODULE_19__.RouterLinkWithHref, _ngx_translate_core__WEBPACK_IMPORTED_MODULE_27__.TranslateModule, _ngx_translate_core__WEBPACK_IMPORTED_MODULE_27__.TranslatePipe, _parts_components_breadcrumbs_breadcrumbs_component__WEBPACK_IMPORTED_MODULE_0__.BreadcrumbsComponent, _parts_directives__WEBPACK_IMPORTED_MODULE_1__.InputValidateModule, _parts_directives_input_validate_input_validate_directive__WEBPACK_IMPORTED_MODULE_15__.InputValidateDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_17__.ReactiveFormsModule, _angular_forms__WEBPACK_IMPORTED_MODULE_17__["ɵNgNoValidate"], _angular_forms__WEBPACK_IMPORTED_MODULE_17__.DefaultValueAccessor, _angular_forms__WEBPACK_IMPORTED_MODULE_17__.NgControlStatus, _angular_forms__WEBPACK_IMPORTED_MODULE_17__.NgControlStatusGroup, _angular_forms__WEBPACK_IMPORTED_MODULE_17__.FormGroupDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_17__.FormControlName, _angular_forms__WEBPACK_IMPORTED_MODULE_17__.FormGroupName, _parts_directives__WEBPACK_IMPORTED_MODULE_1__.DefaultImgModule, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_28__.NgSelectModule, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_28__.NgSelectComponent, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_28__.NgOptionTemplateDirective, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_28__.NgLabelTemplateDirective, _parts_directives__WEBPACK_IMPORTED_MODULE_1__.LowerCaseDirective, _parts_pipes__WEBPACK_IMPORTED_MODULE_2__.ShortStringPipe, _angular_forms__WEBPACK_IMPORTED_MODULE_17__.FormsModule, _parts_pipes__WEBPACK_IMPORTED_MODULE_2__.IntToMoneyPipeModule, _parts_pipes__WEBPACK_IMPORTED_MODULE_2__.MoneyToIntPipeModule, _parts_components_loader_component__WEBPACK_IMPORTED_MODULE_9__.LoaderComponent, _angular_material_autocomplete__WEBPACK_IMPORTED_MODULE_29__.MatAutocompleteModule, _angular_material_autocomplete__WEBPACK_IMPORTED_MODULE_29__.MatAutocomplete, _angular_material_autocomplete__WEBPACK_IMPORTED_MODULE_29__.MatAutocompleteTrigger, _angular_material_core__WEBPACK_IMPORTED_MODULE_30__.MatOption, _angular_material_core__WEBPACK_IMPORTED_MODULE_30__.MatOptionModule, _angular_material_icon__WEBPACK_IMPORTED_MODULE_31__.MatIconModule, _angular_material_icon__WEBPACK_IMPORTED_MODULE_31__.MatIcon, _parts_pipes_get_logo_by_asset_info_pipe__WEBPACK_IMPORTED_MODULE_13__.GetLogoByAssetInfoPipe],
+  dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_26__.CommonModule, _angular_common__WEBPACK_IMPORTED_MODULE_26__.NgClass, _angular_common__WEBPACK_IMPORTED_MODULE_26__.NgForOf, _angular_common__WEBPACK_IMPORTED_MODULE_26__.NgIf, _angular_common__WEBPACK_IMPORTED_MODULE_26__.NgSwitch, _angular_common__WEBPACK_IMPORTED_MODULE_26__.NgSwitchCase, _angular_common__WEBPACK_IMPORTED_MODULE_26__.AsyncPipe, _angular_router__WEBPACK_IMPORTED_MODULE_18__.RouterLinkWithHref, _ngx_translate_core__WEBPACK_IMPORTED_MODULE_27__.TranslateModule, _ngx_translate_core__WEBPACK_IMPORTED_MODULE_27__.TranslatePipe, _parts_components_breadcrumbs_breadcrumbs_component__WEBPACK_IMPORTED_MODULE_0__.BreadcrumbsComponent, _parts_directives__WEBPACK_IMPORTED_MODULE_1__.InputValidateModule, _parts_directives_input_validate_input_validate_directive__WEBPACK_IMPORTED_MODULE_15__.InputValidateDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_17__.ReactiveFormsModule, _angular_forms__WEBPACK_IMPORTED_MODULE_17__["ɵNgNoValidate"], _angular_forms__WEBPACK_IMPORTED_MODULE_17__.DefaultValueAccessor, _angular_forms__WEBPACK_IMPORTED_MODULE_17__.NgControlStatus, _angular_forms__WEBPACK_IMPORTED_MODULE_17__.NgControlStatusGroup, _angular_forms__WEBPACK_IMPORTED_MODULE_17__.FormGroupDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_17__.FormControlName, _angular_forms__WEBPACK_IMPORTED_MODULE_17__.FormGroupName, _parts_directives__WEBPACK_IMPORTED_MODULE_1__.DefaultImgModule, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_28__.NgSelectModule, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_28__.NgSelectComponent, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_28__.NgOptionTemplateDirective, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_28__.NgLabelTemplateDirective, _parts_directives__WEBPACK_IMPORTED_MODULE_1__.LowerCaseDirective, _parts_pipes__WEBPACK_IMPORTED_MODULE_2__.ShortStringPipe, _angular_forms__WEBPACK_IMPORTED_MODULE_17__.FormsModule, _parts_pipes__WEBPACK_IMPORTED_MODULE_2__.IntToMoneyPipeModule, _parts_pipes__WEBPACK_IMPORTED_MODULE_2__.MoneyToIntPipeModule, _parts_components_loader_component__WEBPACK_IMPORTED_MODULE_9__.LoaderComponent, _angular_material_autocomplete__WEBPACK_IMPORTED_MODULE_29__.MatAutocompleteModule, _angular_material_autocomplete__WEBPACK_IMPORTED_MODULE_29__.MatAutocomplete, _angular_material_autocomplete__WEBPACK_IMPORTED_MODULE_29__.MatAutocompleteTrigger, _angular_material_core__WEBPACK_IMPORTED_MODULE_30__.MatOption, _angular_material_core__WEBPACK_IMPORTED_MODULE_30__.MatOptionModule, _angular_material_icon__WEBPACK_IMPORTED_MODULE_31__.MatIconModule, _angular_material_icon__WEBPACK_IMPORTED_MODULE_31__.MatIcon, _parts_pipes_get_logo_by_asset_info_pipe__WEBPACK_IMPORTED_MODULE_13__.GetLogoByAssetInfoPipe],
   styles: ["[_nghost-%COMP%] {\n  width: 100%;\n  display: flex;\n  flex-direction: row;\n}\n\n.error[_ngcontent-%COMP%] {\n  color: var(--red-500);\n}\n\n.container[_ngcontent-%COMP%] {\n  display: flex;\n  flex-direction: column;\n  flex: 1 1 auto;\n}\n\n.actions[_ngcontent-%COMP%] {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  grid-gap: 1rem;\n  width: 100%;\n}\n\n.wrapper-reverse[_ngcontent-%COMP%] {\n  width: 100%;\n  margin-bottom: 1rem;\n  display: flex;\n  justify-content: center;\n}\n\n.wrapper-reverse[_ngcontent-%COMP%]   .revers[_ngcontent-%COMP%] {\n  background: var(--btn-icon-background);\n  width: 36px;\n  height: 36px;\n  border-radius: 999px;\n  display: inline-flex;\n  justify-content: center;\n  align-items: center;\n}\n\n.wrapper-reverse[_ngcontent-%COMP%]   .revers[_ngcontent-%COMP%]:hover {\n  background: var(--btn-icon-hover-background);\n}\n\n.wrapper-reverse[_ngcontent-%COMP%]   .revers[_ngcontent-%COMP%]   .icon[_ngcontent-%COMP%] {\n  transform: rotate(90deg);\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImNyZWF0ZS1zd2FwLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0ksV0FBQTtFQUNBLGFBQUE7RUFDQSxtQkFBQTtBQUNKOztBQUVBO0VBQ0kscUJBQUE7QUFDSjs7QUFFQTtFQUNJLGFBQUE7RUFDQSxzQkFBQTtFQUNBLGNBQUE7QUFDSjs7QUFFQTtFQUNJLGFBQUE7RUFDQSxxQ0FBQTtFQUNBLGNBQUE7RUFDQSxXQUFBO0FBQ0o7O0FBRUE7RUFDSSxXQUFBO0VBQ0EsbUJBQUE7RUFDQSxhQUFBO0VBQ0EsdUJBQUE7QUFDSjs7QUFDSTtFQUNJLHNDQUFBO0VBQ0EsV0FBQTtFQUNBLFlBQUE7RUFDQSxvQkFBQTtFQU1BLG9CQUFBO0VBQ0EsdUJBQUE7RUFDQSxtQkFBQTtBQUpSOztBQUZRO0VBQ0ksNENBQUE7QUFJWjs7QUFHUTtFQUNJLHdCQUFBO0FBRFoiLCJmaWxlIjoiY3JlYXRlLXN3YXAuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyI6aG9zdCB7XG4gICAgd2lkdGg6IDEwMCU7XG4gICAgZGlzcGxheTogZmxleDtcbiAgICBmbGV4LWRpcmVjdGlvbjogcm93O1xufVxuXG4uZXJyb3Ige1xuICAgIGNvbG9yOiB2YXIoLS1yZWQtNTAwKTtcbn1cblxuLmNvbnRhaW5lciB7XG4gICAgZGlzcGxheTogZmxleDtcbiAgICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xuICAgIGZsZXg6IDEgMSBhdXRvO1xufVxuXG4uYWN0aW9ucyB7XG4gICAgZGlzcGxheTogZ3JpZDtcbiAgICBncmlkLXRlbXBsYXRlLWNvbHVtbnM6IHJlcGVhdCgyLCAxZnIpO1xuICAgIGdyaWQtZ2FwOiAxcmVtO1xuICAgIHdpZHRoOiAxMDAlO1xufVxuXG4ud3JhcHBlci1yZXZlcnNlIHtcbiAgICB3aWR0aDogMTAwJTtcbiAgICBtYXJnaW4tYm90dG9tOiAxcmVtO1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG5cbiAgICAucmV2ZXJzIHtcbiAgICAgICAgYmFja2dyb3VuZDogdmFyKC0tYnRuLWljb24tYmFja2dyb3VuZCk7XG4gICAgICAgIHdpZHRoOiAzNnB4O1xuICAgICAgICBoZWlnaHQ6IDM2cHg7XG4gICAgICAgIGJvcmRlci1yYWRpdXM6IDk5OXB4O1xuXG4gICAgICAgICY6aG92ZXIge1xuICAgICAgICAgICAgYmFja2dyb3VuZDogdmFyKC0tYnRuLWljb24taG92ZXItYmFja2dyb3VuZCk7XG4gICAgICAgIH1cblxuICAgICAgICBkaXNwbGF5OiBpbmxpbmUtZmxleDtcbiAgICAgICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gICAgICAgIGFsaWduLWl0ZW1zOiBjZW50ZXI7XG5cbiAgICAgICAgLmljb24ge1xuICAgICAgICAgICAgdHJhbnNmb3JtOiByb3RhdGUoOTBkZWcpO1xuICAgICAgICB9XG4gICAgfVxufVxuIl19 */"]
 });
 
