@@ -790,7 +790,7 @@ export class AppComponent implements OnInit, OnDestroy {
                 this.variablesService.all_aliases_loaded = true;
                 if (data.aliases && data.aliases.length) {
                     this.variablesService.all_aliases = [];
-                    this.variablesService.all_aliases = data.aliases.sort((a: AliasInfo, b: AliasInfo) => {
+                    this.variablesService.all_aliases = data.aliases.filter(Boolean).sort((a: AliasInfo, b: AliasInfo) => {
                         if (a.alias.length > b.alias.length) {
                             return 1;
                         }
