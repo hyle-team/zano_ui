@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, NgZone, OnDestroy } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLinkWithHref } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -64,8 +64,8 @@ import { MAXIMUM_VALUE } from '@parts/data/constants';
     templateUrl: './create-swap.component.html',
     styleUrls: ['./create-swap.component.scss']
 })
-export class CreateSwapComponent implements OnDestroy {
-    breadcrumbItems: BreadcrumbItems = [
+export class CreateSwapComponent implements OnInit, OnDestroy {
+    readonly breadcrumbItems: BreadcrumbItems = [
         {
             routerLink: '/wallet/swap',
             title: 'CREATE_SWAP.BREADCRUMBS.ITEM1'
@@ -75,9 +75,19 @@ export class CreateSwapComponent implements OnDestroy {
         }
     ];
 
-    variablesService: VariablesService = inject(VariablesService);
+    readonly variablesService: VariablesService = inject(VariablesService);
 
-    fb: FormBuilder = inject(FormBuilder);
+    private readonly _fb: FormBuilder = inject(FormBuilder);
+
+    private readonly _backendService: BackendService = inject(BackendService);
+
+    private readonly _ngZone: NgZone = inject(NgZone);
+
+    private readonly _router: Router = inject(Router);
+
+    private readonly _cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
+
+    private readonly _walletsService: WalletsService = inject(WalletsService);
 
     aliasAddress: string;
 
@@ -85,7 +95,7 @@ export class CreateSwapComponent implements OnDestroy {
 
     lowerCaseDisabled$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
-    errorRpc: { code: number; message: string } = null;
+    errorRpc: { code: number; message: string } | undefined;
 
     currentWallet: Wallet = this.variablesService.current_wallet;
 
@@ -96,6 +106,10 @@ export class CreateSwapComponent implements OnDestroy {
     receivingAssetsInfo$: Observable<AssetInfo[]>;
 
     receivingDecimalPoint$: Observable<number>;
+
+    addressItems$: Observable<string[]>;
+
+    loadingAddressItems$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
     form: FormGroup<{
         sending: FormGroup<{
@@ -113,29 +127,15 @@ export class CreateSwapComponent implements OnDestroy {
         receiverAddress: undefined
     };
 
-    addressItems$: Observable<string[]>;
-
-    loadingAddressItems$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
-
-    private _cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
-
-    private _walletsService: WalletsService = inject(WalletsService);
-
     private _openedWalletItems: string[] = this._walletsService.wallets.map(({ address, alias_info }) =>
         alias_info ? '@' + alias_info.alias : address
     );
 
-    private _aliasItems: string[] = this.variablesService.all_aliases.map(alias_info => '@' + alias_info.alias);
-
-    private _backendService: BackendService = inject(BackendService);
-
-    private _ngZone: NgZone = inject(NgZone);
-
-    private _router = inject(Router);
+    private _aliasItems: string[] = this.variablesService.all_aliases.filter(Boolean).map(alias_info => alias_info.alias ? '@' + alias_info.alias : alias_info.address);
 
     private _destroy$ = new Subject<void>();
 
-    constructor() {
+    ngOnInit() {
         this._createForm();
     }
 
@@ -363,11 +363,11 @@ export class CreateSwapComponent implements OnDestroy {
     }
 
     private _createForm(): void {
-        this.form = this.fb.group(
+        this.form = this._fb.group(
             {
-                sending: this.fb.group(
+                sending: this._fb.group(
                     {
-                        amount: this.fb.control(null, {
+                        amount: this._fb.control(null, {
                             validators: [
                                 Validators.required,
                                 ({ value }: FormControl): ValidationErrors | null => {
@@ -381,7 +381,7 @@ export class CreateSwapComponent implements OnDestroy {
                                 }
                             ]
                         }),
-                        asset_id: this.fb.control(ZANO_ASSET_INFO.asset_id, [Validators.required])
+                        asset_id: this._fb.control(ZANO_ASSET_INFO.asset_id, [Validators.required])
                     },
                     {
                         validators: [
@@ -416,9 +416,9 @@ export class CreateSwapComponent implements OnDestroy {
                         ]
                     }
                 ),
-                receiving: this.fb.group(
+                receiving: this._fb.group(
                     {
-                        amount: this.fb.control(
+                        amount: this._fb.control(
                             {
                                 value: null,
                                 disabled: this.currentWallet.balances.length === 1
@@ -437,7 +437,7 @@ export class CreateSwapComponent implements OnDestroy {
                                 }
                             ]
                         ),
-                        asset_id: this.fb.control(
+                        asset_id: this._fb.control(
                             {
                                 value:
                                     this.currentWallet.balances.length <= 1
@@ -476,7 +476,7 @@ export class CreateSwapComponent implements OnDestroy {
                         ]
                     }
                 ),
-                receiverAddress: this.fb.control('', [
+                receiverAddress: this._fb.control('', [
                     Validators.required,
                     (control: FormControl): ValidationErrors | null => {
                         this.aliasAddress = '';
