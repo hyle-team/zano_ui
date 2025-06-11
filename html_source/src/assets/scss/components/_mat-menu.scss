@@ -1,0 +1,18 @@
+.zano-mat-menu {
+    &.mat-menu-panel {
+        background-color: var(--list-background);
+        border: var(--list-border);
+        border-radius: var(--border-radius);
+        min-height: 5.7rem;
+    }
+
+    .mat-menu-item {
+        height: 4.1rem;
+        line-height: 4.1rem;
+
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+}
+

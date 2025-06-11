@@ -127,9 +127,7 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
         receiverAddress: undefined
     };
 
-    private _openedWalletItems: string[] = this._walletsService.wallets.map(({ address, alias_info }) =>
-        alias_info ? '@' + alias_info.alias : address
-    );
+    private _openedWalletItems: string[] = this._walletsService.opened_wallet_items;
 
     private _aliasItems: string[] = this.variablesService.all_aliases.filter(Boolean).map(alias_info => alias_info.alias ? '@' + alias_info.alias : alias_info.address);
 

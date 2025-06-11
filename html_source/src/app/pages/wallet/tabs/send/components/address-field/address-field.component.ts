@@ -49,9 +49,7 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
 
     private readonly _wallets_service: WalletsService = inject(WalletsService);
 
-    private readonly _opened_wallet_items: string[] = this._wallets_service.wallets.map(({ address, alias_info }: Wallet) =>
-        alias_info ? '@' + alias_info.alias : address
-    );
+    private readonly _opened_wallet_items: string[] = this._wallets_service.opened_wallet_items;
 
     private readonly _alias_items: string[] = this.variables_service.all_aliases.filter(Boolean).map(alias_info => '@' + alias_info.alias);
 

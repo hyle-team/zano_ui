@@ -170,10 +170,6 @@ export class WalletComponent implements OnInit, OnDestroy {
                 this.setHiddenTabs(['swap'], hidden);
             }
         });
-
-        this.router.events.pipe(takeUntil(this.destroy$)).subscribe((e: RouterEvent) => {
-            this.navigationInterceptor(e);
-        });
     }
 
     navigationInterceptor(event: RouterEvent): void {
@@ -263,6 +259,11 @@ export class WalletComponent implements OnInit, OnDestroy {
                 }
             });
         this.updateWalletStatus();
+
+        this.loader = false;
+        this.router.events.pipe(takeUntil(this.destroy$)).subscribe((e: RouterEvent) => {
+            this.navigationInterceptor(e);
+        });
     }
 
     toggleMenuDropdown(): void {

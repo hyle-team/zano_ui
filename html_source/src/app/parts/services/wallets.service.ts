@@ -28,6 +28,28 @@ export class WalletsService {
         this._variablesService.current_wallet = value;
     }
 
+    get opened_wallet_items(): string[] {
+        const items = new Set([]);
+
+        this.wallets.forEach(({ address, alias_info_list }: Wallet) => {
+            if (alias_info_list?.length > 0) {
+                alias_info_list.filter(Boolean).forEach(alias_info => {
+                    if (alias_info.alias) {
+                        items.add('@' + alias_info.alias);
+                    } else if (alias_info.address) {
+                        items.add(alias_info.address);
+                    } else {
+                        items.add(address);
+                    }
+                });
+            } else {
+                items.add(address);
+            }
+        });
+
+        return [...items];
+    }
+
     constructor(
         private _backendService: BackendService,
         private _variablesService: VariablesService,
