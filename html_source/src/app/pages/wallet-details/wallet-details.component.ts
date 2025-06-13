@@ -74,7 +74,7 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                         </form>
 
                         <ng-container
-                            *ngIf="!variablesService.current_wallet?.is_auditable && !variablesService.current_wallet?.is_watch_only"
+                            *ngIf="!variablesService.current_wallet?.is_auditable || !variablesService.current_wallet?.is_watch_only"
                         >
                             <ng-container *ngIf="!showSeed; else seedPhraseContent">
                                 <form
