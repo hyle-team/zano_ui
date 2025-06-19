@@ -60,7 +60,8 @@
                                              class="mb-2"></zano-add-another-destination-button>
 
         <!-- Comment -->
-        <zano-comment-field [control_ref]="form.controls.comment"></zano-comment-field>
+        <zano-comment-field *ngIf="!form.controls.comment.disabled"
+                            [control_ref]="form.controls.comment"></zano-comment-field>
 
         <!-- Details -->
         <div class="details mb-2">
