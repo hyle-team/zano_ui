@@ -431,10 +431,24 @@ export class SendComponent implements OnDestroy {
 
     private _formListeners(): void {
         this._subscribeToAssetIdChanges();
-        this._subscribeToDestinationsChanges();
+        this._subscribeToFormChanges();
+        this._subscribeToDescriptionsChanges();
     }
 
-    private _subscribeToDestinationsChanges(): void {
+    private _subscribeToDescriptionsChanges(): void {
+        this.form.controls.destinations.valueChanges.pipe(startWith(this.form.controls.destinations.value), takeUntil(this._destroy$)).subscribe({
+            next: (destinations) => {
+                if (destinations.length > 1) {
+                    this.form.controls.comment.reset('');
+                    this.form.controls.comment.disable();
+                } else {
+                    this.form.controls.comment.enable();
+                }
+            }
+        });
+    }
+
+    private _subscribeToFormChanges(): void {
         this.form.valueChanges.pipe(takeUntil(this._destroy$)).subscribe({
             next: () => {
                 let total_destinations_amount_and_fee = new BigNumber(0);
