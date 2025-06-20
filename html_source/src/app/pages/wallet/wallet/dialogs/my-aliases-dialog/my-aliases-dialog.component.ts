@@ -24,8 +24,8 @@ export class MyAliasesDialogComponent {
             return false;
         }
 
-        const { is_auditable, is_watch_only, alias_available } = current_wallet;
+        const { is_watch_only, alias_available } = current_wallet;
 
-        return !is_auditable && !is_watch_only && alias_available;
+        return !is_watch_only && alias_available;
     }
 }

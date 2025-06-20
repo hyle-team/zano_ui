@@ -29,9 +29,9 @@ export class AliasControlsComponent {
             return false;
         }
 
-        const { alias_info, loaded, alias_available, is_auditable, is_watch_only } = current_wallet;
+        const { alias_info, loaded, alias_available, is_watch_only } = current_wallet;
 
-        if (!loaded || !alias_available || is_auditable || is_watch_only) {
+        if (!loaded || !alias_available || is_watch_only) {
             return false;
         }
 
