@@ -112,8 +112,6 @@ export class WalletComponent implements OnInit, OnDestroy {
 
     walletLoaded = false;
 
-    openDropdown: boolean;
-
     walletSyncVisible = false;
 
     tabs: Tab[] = [];
@@ -215,16 +213,12 @@ export class WalletComponent implements OnInit, OnDestroy {
 
     @HostListener('document:keydown.shift', ['$event.key'])
     onKeyPressed(): void {
-        if (!this.openDropdown) {
-            this.walletSyncVisible = true;
-        }
+        this.walletSyncVisible = true;
     }
 
     @HostListener('document:keyup.shift', ['$event.key'])
     onKeyUpPressed(): void {
-        if (!this.openDropdown) {
-            this.walletSyncVisible = false;
-        }
+        this.walletSyncVisible = false;
     }
 
     ngOnInit(): void {
@@ -264,15 +258,6 @@ export class WalletComponent implements OnInit, OnDestroy {
         this.router.events.pipe(takeUntil(this.destroy$)).subscribe((e: RouterEvent) => {
             this.navigationInterceptor(e);
         });
-    }
-
-    toggleMenuDropdown(): void {
-        if (!this.openDropdown) {
-            this.openDropdown = true;
-        } else {
-            this.openDropdown = false;
-            this.walletSyncVisible = false;
-        }
     }
 
     resyncCurrentWallet(wallet_id: number): void {

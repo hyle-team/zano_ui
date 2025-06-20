@@ -21,6 +21,10 @@
     --control-alias-wallet-text: var(--main-text);
     --alias-history-count-text: #1F8FEB;
 
+    // sidebar
+    --gradient-sidebar-content-wallet-list-top: linear-gradient(0deg, rgba(252, 252, 252, 0) 0%, #FCFCFC 100%);
+    --gradient-sidebar-content-wallet-list-bottom: linear-gradient(180deg, rgba(252, 252, 252, 0) 0%, #FCFCFC 100%);
+
     // auth
     --auth-card-background: #fcfcfc;
     --auth-card-form-background: #ffffff;
@@ -119,6 +123,10 @@
     --control-alias-wallet-background: #FFFFFF1A;
     --control-alias-wallet-text: var(--main-text);
     --alias-history-count-text: #1F8FEB;
+
+    // sidebar
+    --gradient-sidebar-content-wallet-list-top: linear-gradient(0deg, rgba(15, 32, 85, 0) 0%, #0F2055 100%);
+    --gradient-sidebar-content-wallet-list-bottom: linear-gradient(180deg, rgba(15, 32, 85, 0) 0%, #0F2055 100%);
 
     // auth
     --auth-card-background: var(--blue-700);
