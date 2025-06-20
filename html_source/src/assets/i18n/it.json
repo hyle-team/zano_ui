@@ -941,7 +941,9 @@
         "TOOLTIPS": {
             "CLOSE": "Chiudi portafoglio",
             "EDIT_ALIAS": "Modifica alias",
+            "HIDE_BALANCE": "Hide balance",
             "SETTINGS": "Impostazioni",
+            "SHOW_BALANCE": "Show balance",
             "TRANSFER_ALIAS": "Alias di trasferimento",
             "WHITELIST_ASSET": "Aggiungi token personalizzato"
         }
