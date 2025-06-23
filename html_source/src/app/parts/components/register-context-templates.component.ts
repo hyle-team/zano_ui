@@ -22,7 +22,7 @@ import { TranslateModule } from '@ngx-translate/core';
         </context-menu>`,
     standalone: true,
     imports: [CommonModule, ContextMenuModule, TranslateModule],
-    providers: [ContextMenuService]
+    providers: [ContextMenuService],
 })
 export class RegisterContextTemplatesComponent implements OnInit {
     @ViewChild('allContextMenu', { static: true })

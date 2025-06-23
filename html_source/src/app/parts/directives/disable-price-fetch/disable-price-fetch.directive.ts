@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 @Directive({
-    selector: '[appDisablePriceFetch]'
+    selector: '[appDisablePriceFetch]',
 })
 export class DisablePriceFetchDirective implements OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();
@@ -20,7 +20,7 @@ export class DisablePriceFetchDirective implements OnDestroy {
                 if (!disable_price_fetch) {
                     this._viewContainer.createEmbeddedView(this._templateRef);
                 }
-            }
+            },
         });
     }
 

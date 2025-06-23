@@ -6,13 +6,13 @@ import { VariablesService } from '../services/variables.service';
 @Component({
     selector: 'app-hidden',
     template: `******`,
-    standalone: true
+    standalone: true,
 })
 class HiddenComponent {}
 
 @Directive({
     selector: '[appVisibilityBalance]',
-    standalone: true
+    standalone: true,
 })
 export class VisibilityBalanceDirective implements OnInit, OnDestroy {
     private _variablesService: VariablesService = inject(VariablesService);
@@ -29,7 +29,7 @@ export class VisibilityBalanceDirective implements OnInit, OnDestroy {
                 } else {
                     this._viewContainer.createComponent(HiddenComponent);
                 }
-            }
+            },
         });
     }
 

@@ -10,7 +10,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 @Component({
     selector: 'app-update-custom-asset',
     templateUrl: './update-custom-asset.component.html',
-    styleUrls: ['./update-custom-asset.component.scss']
+    styleUrls: ['./update-custom-asset.component.scss'],
 })
 export class UpdateCustomAssetComponent {
     public readonly variablesService: VariablesService = inject(VariablesService);
@@ -32,7 +32,7 @@ export class UpdateCustomAssetComponent {
                 }
 
                 if (control.value) {
-                    this._backendService.validateAddress(control.value, (status, data) => {
+                    this._backendService.validateAddress(control.value, (status) => {
                         this._ngZone.run(() => {
                             if (status === false) {
                                 control.setErrors(Object.assign({ address_not_valid: true }, control.errors));
@@ -50,8 +50,8 @@ export class UpdateCustomAssetComponent {
                 }
 
                 return null;
-            }
-        ])
+            },
+        ]),
     });
 
     public submit(): void {
@@ -61,8 +61,8 @@ export class UpdateCustomAssetComponent {
         const params: UpdateAssetParams = {
             asset_id,
             asset_descriptor: {
-                owner
-            }
+                owner,
+            },
         };
 
         this._backendService.asyncCall2a(
@@ -72,9 +72,9 @@ export class UpdateCustomAssetComponent {
                 jsonrpc: '2.0',
                 id: 0,
                 method: 'update_asset',
-                params
+                params,
             },
-            async (job_id: number): Promise<void> => {
+            (job_id: number) => {
                 this._ngZone.run(() => {
                     this.matDialogRef.close(job_id);
                 });

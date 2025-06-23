@@ -7,6 +7,6 @@ import { RouterOutlet } from '@angular/router';
 @NgModule({
     declarations: [FullLayoutComponent],
     imports: [CommonModule, RouterOutlet, FlexLayoutModule],
-    exports: [FullLayoutComponent]
+    exports: [FullLayoutComponent],
 })
 export class FullLayoutModule {}

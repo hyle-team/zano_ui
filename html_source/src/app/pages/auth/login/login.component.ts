@@ -13,7 +13,7 @@ import { WalletsService } from '@parts/services/wallets.service';
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
-    styleUrls: ['./login.component.scss']
+    styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
     submitLoading$ = new BehaviorSubject(false);
@@ -25,15 +25,15 @@ export class LoginComponent implements OnInit, OnDestroy {
     regForm = this.fb.group(
         {
             password: this.fb.nonNullable.control('', Validators.pattern(REG_EXP_PASSWORD)),
-            confirmation: this.fb.nonNullable.control('')
+            confirmation: this.fb.nonNullable.control(''),
         },
         {
-            validators: [ZanoValidators.formMatch('password', 'confirmation')]
+            validators: [ZanoValidators.formMatch('password', 'confirmation')],
         }
     );
 
     authForm = this.fb.group({
-        password: this.fb.nonNullable.control('')
+        password: this.fb.nonNullable.control(''),
     });
 
     type = 'reg';
@@ -51,11 +51,11 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe({
-            next: params => {
+            next: (params) => {
                 if (params.type) {
                     this.type = params.type;
                 }
-            }
+            },
         });
     }
 
@@ -71,7 +71,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             this.backend.setMasterPassword({ pass: this.variablesService.appPass }, (status, data) => {
                 if (status) {
                     this.backend.storeSecureAppData({
-                        pass: this.variablesService.appPass
+                        pass: this.variablesService.appPass,
                     });
                     this.variablesService.appLogin = true;
                     this.variablesService.dataIsLoaded = true;
@@ -140,7 +140,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         if (this.authForm.valid) {
             this.variablesService.appPass = this.authForm.get('password').value;
             if (this.variablesService.dataIsLoaded) {
-                this.backend.checkMasterPassword({ pass: this.variablesService.appPass }, status => {
+                this.backend.checkMasterPassword({ pass: this.variablesService.appPass }, (status) => {
                     if (status) {
                         this.variablesService.appLogin = true;
                         if (this.variablesService.settings.appLockTime) {
@@ -149,7 +149,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                         this.ngZone.run(() => {
                             this.submitLoading$.next(false);
                             this.router.navigate(['/'], {
-                                queryParams: { prevUrl: 'login' }
+                                queryParams: { prevUrl: 'login' },
                             });
                         });
                     } else {
@@ -188,7 +188,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                 }
                 if (hasOwnProperty(data, 'contracts')) {
                     if (Object.keys(data['contacts']).length !== 0) {
-                        data['contacts'].map(contact => {
+                        data['contacts'].map((contact) => {
                             this.variablesService.contacts.push(contact);
                         });
                     }
@@ -274,7 +274,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                             this.router.navigate(['/wallet/']);
                         }
                     });
-                    this.backend.runWallet(open_data.wallet_id, run_status => {
+                    this.backend.runWallet(open_data.wallet_id, (run_status) => {
                         if (run_status) {
                             runWallets++;
                         } else {

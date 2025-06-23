@@ -940,8 +940,10 @@
         },
         "TOOLTIPS": {
             "EDIT_ALIAS": "Edit alias",
+            "HIDE_BALANCE": "Hide balance",
             "REMOVE": "Remove wallet",
             "SETTINGS": "Settings",
+            "SHOW_BALANCE": "Show balance",
             "TRANSFER_ALIAS": "Transfer alias",
             "WHITELIST_ASSET": "Whitelist asset"
         }

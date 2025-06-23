@@ -8,7 +8,7 @@ describe('AmountFieldComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [AmountFieldComponent]
+            imports: [AmountFieldComponent],
         }).compileComponents();
 
         fixture = TestBed.createComponent(AmountFieldComponent);

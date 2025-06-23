@@ -2,7 +2,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { AliasInfo } from '@api/models/alias.model';
 
 @Pipe({
-    name: 'isAvailableAliasName'
+    name: 'isAvailableAliasName',
 })
 export class IsAvailableAliasNamePipe implements PipeTransform {
     transform(alias: AliasInfo | null | undefined): boolean {

@@ -17,15 +17,15 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
     standalone: true,
     templateUrl: './add-custom-token.component.html',
     styleUrls: ['./add-custom-token.component.scss'],
-    imports: [CommonModule, FlexModule, TranslateModule, ReactiveFormsModule, LoaderComponent, MatDialogModule]
+    imports: [CommonModule, FlexModule, TranslateModule, ReactiveFormsModule, LoaderComponent, MatDialogModule],
 })
 export class AddCustomTokenComponent {
-    loading: boolean = false;
+    loading = false;
 
     private fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
 
     formGroup = this.fb.group<{ asset_id: FormControl<string> }>({
-        asset_id: this.fb.control('', Validators.compose([Validators.required, ZanoValidators.hash, Validators.maxLength(64)]))
+        asset_id: this.fb.control('', Validators.compose([Validators.required, ZanoValidators.hash, Validators.maxLength(64)])),
     });
 
     public variablesService: VariablesService = inject(VariablesService);
@@ -54,11 +54,11 @@ export class AddCustomTokenComponent {
         const { current_wallet, verifiedAssetIdWhitelist } = this.variablesService;
         const {
             wallet_id,
-            verificationAssetsInfoWhitelist$: { value: verificationAssetsInfoWhitelist }
+            verificationAssetsInfoWhitelist$: { value: verificationAssetsInfoWhitelist },
         } = current_wallet;
         const params: ParamsAddCustomAssetId = {
             asset_id,
-            wallet_id
+            wallet_id,
         };
 
         const isVerifiedAsset: boolean = verifiedAssetIdWhitelist.includes(asset_id);
@@ -77,12 +77,12 @@ export class AddCustomTokenComponent {
             const asset: AssetBalance = {
                 asset_info: {
                     ...assetInfo,
-                    asset_id
+                    asset_id,
                 },
                 awaiting_in: 0,
                 awaiting_out: 0,
                 total: 0,
-                unlocked: 0
+                unlocked: 0,
             };
 
             this.walletsService.updateWalletInfo(current_wallet);
@@ -94,18 +94,18 @@ export class AddCustomTokenComponent {
                         const asset: AssetBalance = {
                             asset_info: {
                                 ...asset_descriptor,
-                                asset_id
+                                asset_id,
                             },
                             awaiting_in: 0,
                             awaiting_out: 0,
                             total: 0,
-                            unlocked: 0
+                            unlocked: 0,
                         };
                         this.walletsService.updateWalletInfo(current_wallet);
                         this.matDialogRef.close(asset);
                     } else {
                         this.formGroup.controls.asset_id.setErrors({
-                            wrongAssetId
+                            wrongAssetId,
                         });
                         this.loading = false;
                     }

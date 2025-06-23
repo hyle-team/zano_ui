@@ -3,7 +3,7 @@ import { ZANO_ASSET_INFO } from '@parts/data/assets';
 
 export const isInitiator = (transaction: Transaction): boolean => {
     const {
-        employed_entries: { spent = [] }
+        employed_entries: { spent = [] },
     } = transaction;
     return Boolean(
         spent?.find(({ index }) => {
@@ -21,7 +21,7 @@ export const isSelfTransaction = (transaction: Transaction, address: string): bo
         remote_addresses,
         employed_entries: { receive, spent },
         subtransfers,
-        fee
+        fee,
     } = transaction;
 
     const condition1 = remote_addresses?.includes(address);
@@ -35,7 +35,7 @@ export const isSelfTransaction = (transaction: Transaction, address: string): bo
 export const isSwapTransaction = (transaction: Transaction): boolean => {
     const { subtransfers } = transaction;
     const arr = subtransfers.map(({ is_income }) => is_income);
-    const condition1 = arr.some(value => value);
-    const condition2 = arr.some(value => !value);
+    const condition1 = arr.some((value) => value);
+    const condition2 = arr.some((value) => !value);
     return condition1 && condition2;
 };

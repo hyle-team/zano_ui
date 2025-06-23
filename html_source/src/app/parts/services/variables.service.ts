@@ -17,7 +17,7 @@ import { WrapInfo } from '@api/models/wrap-info';
 import { MAX_COMMENT_LENGTH, MAX_WALLET_NAME_LENGTH } from '@parts/data/constants';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class VariablesService implements OnDestroy {
     disable_price_fetch$ = new BehaviorSubject<boolean>(false);
@@ -35,7 +35,7 @@ export class VariablesService implements OnDestroy {
     info$: BehaviorSubject<any> = new BehaviorSubject<any>({});
 
     is_hardfok_active$: Observable<boolean> = this.info$.pipe(
-        map(info => {
+        map((info) => {
             return Boolean(info?.['is_hardfok_active']?.[4]);
         }),
         distinctUntilChanged()
@@ -43,35 +43,35 @@ export class VariablesService implements OnDestroy {
 
     stop_paginate = {};
 
-    sync_started: boolean = false;
+    sync_started = false;
 
-    decimal_point: number = 12;
+    decimal_point = 12;
 
-    appPass: string = '';
+    appPass = '';
 
-    appLogin: boolean = false;
+    appLogin = false;
 
-    defaultTicker: 'ZANO' = 'ZANO';
+    readonly defaultTicker = 'ZANO';
 
     opening_wallet: Wallet;
 
-    exp_med_ts: number = 0;
+    exp_med_ts = 0;
 
-    net_time_delta_median: number = 0;
+    net_time_delta_median = 0;
 
-    height_app: number = 0;
+    height_app = 0;
 
-    height_max: number = 0;
+    height_max = 0;
 
-    downloaded: number = 0;
+    downloaded = 0;
 
-    total: number = 0;
+    total = 0;
 
-    last_build_available: string = '';
+    last_build_available = '';
 
-    last_build_displaymode: number = 0;
+    last_build_displaymode = 0;
 
-    daemon_state: number = 3;
+    daemon_state = 3;
 
     daemon_state$: BehaviorSubject<number> = new BehaviorSubject<number>(this.daemon_state);
 
@@ -84,21 +84,21 @@ export class VariablesService implements OnDestroy {
         progress_value_text: '0',
         blocks: {
             current: 0,
-            max: 0
-        }
+            max: 0,
+        },
     };
 
     public sync_wallets: { [wallet_id: number]: boolean } = {};
 
     download = {
         progress_value: 0,
-        progress_value_text: '0'
+        progress_value_text: '0',
     };
 
     // Avoid of execute function before callback complete
-    get_recent_transfers: boolean = false;
+    get_recent_transfers = false;
 
-    default_fee: string = '0.01';
+    default_fee = '0.01';
 
     default_fee_big: BigNumber = new BigNumber('10000000000');
 
@@ -117,23 +117,23 @@ export class VariablesService implements OnDestroy {
         notViewedContracts: [],
         zanoCompanionForm: {
             zanoCompation: false,
-            secret: ''
+            secret: '',
         },
         wallets: [],
         isDarkTheme: true,
         filters: {
-            stakingFilters: null
+            stakingFilters: null,
         },
-        localBlacklistsOfVerifiedAssetsByWallets: {}
+        localBlacklistsOfVerifiedAssetsByWallets: {},
     };
 
     isDarkTheme$ = new BehaviorSubject(true);
 
-    count: number = 40;
+    count = 40;
 
-    maxPages: number = 5;
+    maxPages = 5;
 
-    testnet: boolean = false;
+    testnet = false;
 
     networkType: 'mainnet' | 'testnet' = 'mainnet';
 
@@ -147,17 +147,17 @@ export class VariablesService implements OnDestroy {
 
     all_aliases: AliasInfoList = [];
 
-    all_aliases_loaded: boolean = false;
+    all_aliases_loaded = false;
 
     maxWalletNameLength: number = MAX_WALLET_NAME_LENGTH;
 
     maxCommentLength: number = MAX_COMMENT_LENGTH;
 
-    dataIsLoaded: boolean = false;
+    dataIsLoaded = false;
 
     contacts: Array<Contact> = [];
 
-    pattern: string = '^[a-zA-Z0-9_.\\]*|~!?@#$%^&+{}()<>:;"\'-=/,[\\\\]*$';
+    pattern = '^[a-zA-Z0-9_.\\]*|~!?@#$%^&+{}()<>:;"\'-=/,[\\\\]*$';
 
     after_sync_request: any = {};
 
@@ -196,7 +196,7 @@ export class VariablesService implements OnDestroy {
                 this._dialog.closeAll();
                 this._matDialog.closeAll();
                 await this.router.navigate(['/login'], {
-                    queryParams: { type: 'auth' }
+                    queryParams: { type: 'auth' },
                 });
             });
         }
@@ -221,9 +221,9 @@ export class VariablesService implements OnDestroy {
         private contextMenuService: ContextMenuService<any>
     ) {
         this.visibilityBalance$.pipe(takeUntil(this._destroy$)).subscribe({
-            next: visibilityBalance => {
+            next: (visibilityBalance) => {
                 this.settings.visibilityBalance = visibilityBalance;
-            }
+            },
         });
     }
 
@@ -292,7 +292,7 @@ export class VariablesService implements OnDestroy {
     }
 
     setCurrentWallet(id): void {
-        this.wallets.forEach(wallet => {
+        this.wallets.forEach((wallet) => {
             if (wallet.wallet_id === id) {
                 this.current_wallet = wallet;
                 this.currentWalletChangedEvent.next(wallet);
@@ -349,7 +349,7 @@ export class VariablesService implements OnDestroy {
             this.contextMenuService.show(this.allContextMenu, {
                 x: $event.x,
                 y: $event.y,
-                value: $event.target
+                value: $event.target,
             });
             $event.preventDefault();
             $event.stopPropagation();
@@ -362,7 +362,7 @@ export class VariablesService implements OnDestroy {
         this.contextMenuService.show(this.onlyCopyContextMenu, {
             value: copyText,
             x: $event.x,
-            y: $event.y
+            y: $event.y,
         });
     }
 
@@ -381,7 +381,7 @@ export class VariablesService implements OnDestroy {
             this.contextMenuService.show(this.pasteSelectContextMenu, {
                 x: $event.x,
                 y: $event.y,
-                value: $event.target
+                value: $event.target,
             });
             $event.preventDefault();
             $event.stopPropagation();
@@ -408,7 +408,7 @@ export class VariablesService implements OnDestroy {
 
         from(observables)
             .pipe(
-                concatMap(observable => observable),
+                concatMap((observable) => observable),
                 filter(({ success }) => success),
                 scan((acc, value) => {
                     const { asset_id, data, success } = value;
@@ -431,7 +431,7 @@ export class VariablesService implements OnDestroy {
 
                     this.currentPriceForAssets = newCurrentPriceForAssets;
                     this.currentPriceForAssets$.next(newCurrentPriceForAssets);
-                }
+                },
             });
     }
 }

@@ -52,7 +52,7 @@ import { AliasInfo } from '@api/models/alias.model';
         <app-register-context-templates></app-register-context-templates>
 
         <app-open-wallet-modal *ngIf="needOpenWallets.length" [wallets]="needOpenWallets"></app-open-wallet-modal>
-    `
+    `,
 })
 export class AppComponent implements OnInit, OnDestroy {
     intervalUpdateContractsState;
@@ -74,7 +74,7 @@ export class AppComponent implements OnInit, OnDestroy {
         [Breakpoints.Small, 'Small'],
         [Breakpoints.Medium, 'Medium'],
         [Breakpoints.Large, 'Large'],
-        [Breakpoints.XLarge, 'XLarge']
+        [Breakpoints.XLarge, 'XLarge'],
     ]);
 
     private _destroy$: Subject<void> = new Subject<void>();
@@ -114,7 +114,7 @@ export class AppComponent implements OnInit, OnDestroy {
                 this.translate.instant('BACKEND_LOCALIZATION.IS_MINIMIZE'),
                 this.translate.instant('BACKEND_LOCALIZATION.RESTORE'),
                 this.translate.instant('BACKEND_LOCALIZATION.TRAY_MENU_SHOW'),
-                this.translate.instant('BACKEND_LOCALIZATION.TRAY_MENU_MINIMIZE')
+                this.translate.instant('BACKEND_LOCALIZATION.TRAY_MENU_MINIMIZE'),
             ];
             this.backendService.setBackendLocalization(stringsArray, this.variablesService.settings.language);
         } else {
@@ -127,7 +127,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.backendService.initService().subscribe({
-            next: initMessage => {
+            next: (initMessage) => {
                 console.log('Init message: ', initMessage);
                 this.backendService.webkitLaunchedScript();
 
@@ -135,13 +135,13 @@ export class AppComponent implements OnInit, OnDestroy {
                     console.log(st2, dd2);
                 });
 
-                this.backendService.eventSubscribe(Commands.quit_requested, async () => {
+                this.backendService.eventSubscribe(Commands.quit_requested, () => {
                     if (this.onQuitRequest) {
                         return;
                     }
 
-                    // await this.ngZone.run(async () => {
-                    //     await this.router.navigate(['/']);
+                    // this.ngZone.run(async () => {
+                    //     this.router.navigate(['/']);
                     // });
 
                     this.dialog.closeAll();
@@ -177,7 +177,7 @@ export class AppComponent implements OnInit, OnDestroy {
                     this.onQuitRequest = true;
                 });
 
-                this.backendService.eventSubscribe(Commands.update_wallet_status, data => {
+                this.backendService.eventSubscribe(Commands.update_wallet_status, (data) => {
                     console.log('----------------- update_wallet_status -----------------');
                     console.log(data);
 
@@ -205,7 +205,7 @@ export class AppComponent implements OnInit, OnDestroy {
                     }
                 });
 
-                this.backendService.eventSubscribe(Commands.wallet_sync_progress, data => {
+                this.backendService.eventSubscribe(Commands.wallet_sync_progress, (data) => {
                     console.log('----------------- wallet_sync_progress -----------------');
                     console.log(data);
                     const wallet = this.variablesService.getWallet(data.wallet_id);
@@ -229,7 +229,7 @@ export class AppComponent implements OnInit, OnDestroy {
                     }
                 });
 
-                this.backendService.eventSubscribe(Commands.update_daemon_state, data => {
+                this.backendService.eventSubscribe(Commands.update_daemon_state, (data) => {
                     console.log('----------------- update_daemon_state -----------------');
                     console.log('DAEMON:' + data.daemon_network_state);
                     console.log(data);
@@ -299,7 +299,7 @@ export class AppComponent implements OnInit, OnDestroy {
                     }
                 });
 
-                this.backendService.eventSubscribe(Commands.money_transfer, data => {
+                this.backendService.eventSubscribe(Commands.money_transfer, (data) => {
                     console.log('----------------- money_transfer -----------------');
                     console.log(data);
 
@@ -322,8 +322,8 @@ export class AppComponent implements OnInit, OnDestroy {
                                 this.variablesService.refreshStakingEvent$.next();
                             }
 
-                            let tr_exists = wallet.excluded_history.some(elem => elem.tx_hash === tr_info.tx_hash);
-                            tr_exists = !tr_exists ? wallet.history.some(elem => elem.tx_hash === tr_info.tx_hash) : tr_exists;
+                            let tr_exists = wallet.excluded_history.some((elem) => elem.tx_hash === tr_info.tx_hash);
+                            tr_exists = !tr_exists ? wallet.history.some((elem) => elem.tx_hash === tr_info.tx_hash) : tr_exists;
 
                             if (wallet.currentPage === 1) {
                                 wallet.prepareHistory([tr_info]);
@@ -363,7 +363,7 @@ export class AppComponent implements OnInit, OnDestroy {
                                     contract.state = 130;
                                 } else if (contract.state === 1) {
                                     const searchResult2 = this.variablesService.settings.notViewedContracts.find(
-                                        elem =>
+                                        (elem) =>
                                             elem.state === 110 && elem.is_a === contract.is_a && elem.contract_id === contract.contract_id
                                     );
                                     if (searchResult2) {
@@ -396,7 +396,7 @@ export class AppComponent implements OnInit, OnDestroy {
                                     contract.state = 201;
                                 } else if (contract.state === 2) {
                                     const searchResult3 = this.variablesService.settings.viewedContracts.some(
-                                        elem =>
+                                        (elem) =>
                                             elem.state === 120 && elem.is_a === contract.is_a && elem.contract_id === contract.contract_id
                                     );
                                     if (searchResult3) {
@@ -404,7 +404,7 @@ export class AppComponent implements OnInit, OnDestroy {
                                     }
                                 } else if (contract.state === 5) {
                                     const searchResult4 = this.variablesService.settings.notViewedContracts.find(
-                                        elem =>
+                                        (elem) =>
                                             elem.state === 130 && elem.is_a === contract.is_a && elem.contract_id === contract.contract_id
                                     );
                                     if (searchResult4) {
@@ -438,7 +438,7 @@ export class AppComponent implements OnInit, OnDestroy {
                                 }
 
                                 const searchResult = this.variablesService.settings.viewedContracts.some(
-                                    elem =>
+                                    (elem) =>
                                         elem.state === contract.state &&
                                         elem.is_a === contract.is_a &&
                                         elem.contract_id === contract.contract_id
@@ -469,7 +469,7 @@ export class AppComponent implements OnInit, OnDestroy {
                     }
                 });
 
-                this.backendService.backendObject[Commands.handle_deeplink_click].connect(data => {
+                this.backendService.backendObject[Commands.handle_deeplink_click].connect((data) => {
                     console.log('----------------- handle_deeplink_click -----------------');
                     console.log(data);
                     this.ngZone.run(() => {
@@ -479,7 +479,7 @@ export class AppComponent implements OnInit, OnDestroy {
                     });
                 });
 
-                this.backendService.eventSubscribe(Commands.money_transfer_cancel, data => {
+                this.backendService.eventSubscribe(Commands.money_transfer_cancel, (data) => {
                     console.log('----------------- money_transfer_cancel -----------------');
                     console.log(data);
 
@@ -571,7 +571,7 @@ export class AppComponent implements OnInit, OnDestroy {
                     }
                 });
 
-                this.backendService.eventSubscribe(Commands.on_core_event, data => {
+                this.backendService.eventSubscribe(Commands.on_core_event, (data) => {
                     console.log('----------------- on_core_event -----------------');
                     console.log(data);
 
@@ -623,8 +623,8 @@ export class AppComponent implements OnInit, OnDestroy {
                 });
 
                 this.intervalUpdateContractsState = setInterval(() => {
-                    this.variablesService.wallets.forEach(wallet => {
-                        wallet.contracts.forEach(contract => {
+                    this.variablesService.wallets.forEach((wallet) => {
+                        wallet.contracts.forEach((contract) => {
                             if (
                                 contract.state === 201 &&
                                 contract.height !== 0 &&
@@ -647,8 +647,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
                 this.expMedTsEvent = this.variablesService.getExpMedTsEvent.subscribe({
                     next: (newTimestamp: number) => {
-                        this.variablesService.wallets.forEach(wallet => {
-                            wallet.contracts.forEach(contract => {
+                        this.variablesService.wallets.forEach((wallet) => {
+                            wallet.contracts.forEach((contract) => {
                                 if (contract.state === 1 && contract.expiration_time <= newTimestamp) {
                                     contract.state = 110;
                                     contract.is_new = true;
@@ -658,7 +658,7 @@ export class AppComponent implements OnInit, OnDestroy {
                                 }
                             });
                         });
-                    }
+                    },
                 });
 
                 this.backendService.getAppData((status, data) => {
@@ -697,12 +697,12 @@ export class AppComponent implements OnInit, OnDestroy {
                     }
 
                     if (this.router.url !== '/login') {
-                        this.backendService.haveSecureAppData(statusPass => {
+                        this.backendService.haveSecureAppData((statusPass) => {
                             console.log('--------- haveSecureAppData ----------', statusPass);
                             if (statusPass) {
                                 this.ngZone.run(() => {
                                     this.router.navigate(['/login'], {
-                                        queryParams: { type: 'auth' }
+                                        queryParams: { type: 'auth' },
                                     });
                                 });
                             } else {
@@ -715,7 +715,7 @@ export class AppComponent implements OnInit, OnDestroy {
                                 } else {
                                     this.ngZone.run(() => {
                                         this.router.navigate(['/login'], {
-                                            queryParams: { type: 'reg' }
+                                            queryParams: { type: 'reg' },
                                         });
                                     });
                                 }
@@ -743,9 +743,9 @@ export class AppComponent implements OnInit, OnDestroy {
                     this._getZanoCurrentSupply();
                 }, 10 * 1000);
             },
-            error: error => {
+            error: (error) => {
                 console.log(error);
-            }
+            },
         });
 
         const updateTime = 10 * 60 * 1000; // 10 minutes
@@ -754,13 +754,13 @@ export class AppComponent implements OnInit, OnDestroy {
             .subscribe({
                 next: () => {
                     this.variablesService.loadCurrentPriceForAllAssets();
-                }
+                },
             });
 
         this.variablesService.isDarkTheme$.pipe(takeUntil(this._destroy$)).subscribe({
-            next: isDarkTheme => {
+            next: (isDarkTheme) => {
                 this.renderer.setAttribute(document.documentElement, 'class', isDarkTheme ? 'dark' : 'light');
-            }
+            },
         });
     }
 
@@ -813,9 +813,9 @@ export class AppComponent implements OnInit, OnDestroy {
     addToStore(wallet, boolean): void {
         const value = this.store.state.sync;
         if (value && value.length > 0) {
-            const sync = value.filter(item => item.wallet_id === wallet.wallet_id);
+            const sync = value.filter((item) => item.wallet_id === wallet.wallet_id);
             if (sync && sync.length > 0) {
-                const result = value.map(item => {
+                const result = value.map((item) => {
                     if (item.wallet_id === wallet.wallet_id) {
                         return { sync: boolean, wallet_id: wallet.wallet_id };
                     } else {
@@ -860,7 +860,7 @@ export class AppComponent implements OnInit, OnDestroy {
                 next: ({ assets }) => {
                     this.variablesService.verifiedAssetInfoWhitelist = assets;
                     this._walletsService.setVerifiedAssetInfoWhitelist(assets);
-                }
+                },
             });
     }
 
@@ -873,7 +873,7 @@ export class AppComponent implements OnInit, OnDestroy {
                 next: () => {
                     const params = {
                         jsonrpc: '2.0',
-                        method: 'getinfo'
+                        method: 'getinfo',
                     };
 
                     this.backendService.call_rpc(params, (status, response_data) => {
@@ -881,7 +881,7 @@ export class AppComponent implements OnInit, OnDestroy {
                             this.variablesService.info$.next(response_data.result);
                         });
                     });
-                }
+                },
             });
     }
 
@@ -891,8 +891,8 @@ export class AppComponent implements OnInit, OnDestroy {
             id: 0,
             method: 'getinfo',
             params: {
-                flags: 1024
-            }
+                flags: 1024,
+            },
         };
 
         this.backendService.call_rpc(params, (status, response_data) => {
@@ -911,7 +911,7 @@ export class AppComponent implements OnInit, OnDestroy {
             .subscribe({
                 next: () => {
                     this.translateUsed = true;
-                }
+                },
             });
     }
 
@@ -922,10 +922,10 @@ export class AppComponent implements OnInit, OnDestroy {
                 Breakpoints.Small, // Small	(min-width: 600px) and (max-width: 959.98px)
                 Breakpoints.Medium, // Medium	(min-width: 960px) and (max-width: 1279.98px)
                 Breakpoints.Large, // Large	(min-width: 1280px) and (max-width: 1919.98px)
-                Breakpoints.XLarge // XLarge	(min-width: 1920px)
+                Breakpoints.XLarge, // XLarge	(min-width: 1920px)
             ])
             .pipe(takeUntil(this._destroy$))
-            .subscribe(result => {
+            .subscribe((result) => {
                 for (const query of Object.keys(result.breakpoints)) {
                     if (result.breakpoints[query]) {
                         this.currentScreenSize = this.displayNameMap.get(query) ?? 'Unknown';
@@ -944,11 +944,11 @@ export class AppComponent implements OnInit, OnDestroy {
                 switchMap(() =>
                     this._apiService.getWrapInfo().pipe(
                         retry(2),
-                        catchError(error => {
+                        catchError((error) => {
                             this.variablesService.is_wrap_info_service_inactive$.next(true);
                             this.backendService.printLog({
                                 is_wrap_info_service_inactive: true,
-                                wrap_info_error: error
+                                wrap_info_error: error,
                             });
                             return of(null);
                         })
@@ -963,7 +963,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
                     this.backendService.printLog({
                         is_wrap_info_service_inactive: false,
-                        wrap_info
+                        wrap_info,
                     });
                 }
             });

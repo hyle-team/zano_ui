@@ -8,6 +8,6 @@ import { RouterOutlet } from '@angular/router';
 @NgModule({
     declarations: [WithSidebarLayoutComponent],
     imports: [CommonModule, RouterOutlet, FlexLayoutModule, SidebarModule],
-    exports: [WithSidebarLayoutComponent]
+    exports: [WithSidebarLayoutComponent],
 })
 export class WithSidebarLayoutModule {}

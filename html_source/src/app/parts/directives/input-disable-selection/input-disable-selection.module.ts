@@ -5,6 +5,6 @@ import { InputDisableSelectionDirective } from '@parts/directives/input-disable-
 @NgModule({
     declarations: [InputDisableSelectionDirective],
     exports: [InputDisableSelectionDirective],
-    imports: [CommonModule]
+    imports: [CommonModule],
 })
 export class InputDisableSelectionModule {}

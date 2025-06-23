@@ -24,9 +24,9 @@ const routes: Routes = [
         children: [
             {
                 path: '',
-                component: AddWalletComponent
-            }
-        ]
+                component: AddWalletComponent,
+            },
+        ],
     },
     {
         path: paths.details,
@@ -34,9 +34,9 @@ const routes: Routes = [
         children: [
             {
                 path: '',
-                component: WalletDetailsComponent
-            }
-        ]
+                component: WalletDetailsComponent,
+            },
+        ],
     },
     {
         path: paths.login,
@@ -44,9 +44,9 @@ const routes: Routes = [
         children: [
             {
                 path: '',
-                component: LoginComponent
-            }
-        ]
+                component: LoginComponent,
+            },
+        ],
     },
     {
         path: paths.create,
@@ -54,9 +54,9 @@ const routes: Routes = [
         children: [
             {
                 path: '',
-                component: CreateWalletComponent
-            }
-        ]
+                component: CreateWalletComponent,
+            },
+        ],
     },
     {
         path: paths.open,
@@ -64,9 +64,9 @@ const routes: Routes = [
         children: [
             {
                 path: '',
-                component: OpenWalletComponent
-            }
-        ]
+                component: OpenWalletComponent,
+            },
+        ],
     },
     {
         path: paths.restore,
@@ -74,9 +74,9 @@ const routes: Routes = [
         children: [
             {
                 path: '',
-                component: RestoreWalletComponent
-            }
-        ]
+                component: RestoreWalletComponent,
+            },
+        ],
     },
     {
         path: paths.seedPhrase,
@@ -84,9 +84,9 @@ const routes: Routes = [
         children: [
             {
                 path: '',
-                component: SeedPhraseComponent
-            }
-        ]
+                component: SeedPhraseComponent,
+            },
+        ],
     },
     {
         path: paths.assignAlias,
@@ -94,9 +94,9 @@ const routes: Routes = [
         children: [
             {
                 path: '',
-                component: AssignAliasComponent
-            }
-        ]
+                component: AssignAliasComponent,
+            },
+        ],
     },
     {
         path: paths.editAlias,
@@ -104,9 +104,9 @@ const routes: Routes = [
         children: [
             {
                 path: '',
-                component: EditAliasComponent
-            }
-        ]
+                component: EditAliasComponent,
+            },
+        ],
     },
     {
         path: paths.transferAlias,
@@ -114,9 +114,9 @@ const routes: Routes = [
         children: [
             {
                 path: '',
-                component: TransferAliasComponent
-            }
-        ]
+                component: TransferAliasComponent,
+            },
+        ],
     },
     {
         path: paths.settings,
@@ -124,9 +124,9 @@ const routes: Routes = [
         children: [
             {
                 path: '',
-                component: SettingsComponent
-            }
-        ]
+                component: SettingsComponent,
+            },
+        ],
     },
     {
         path: paths.import,
@@ -134,9 +134,9 @@ const routes: Routes = [
         children: [
             {
                 path: '',
-                component: ExportImportComponent
-            }
-        ]
+                component: ExportImportComponent,
+            },
+        ],
     },
     {
         path: paths.deeplink,
@@ -144,19 +144,19 @@ const routes: Routes = [
         children: [
             {
                 path: '',
-                component: DeeplinkComponent
-            }
-        ]
+                component: DeeplinkComponent,
+            },
+        ],
     },
     {
         path: '',
         redirectTo: paths.addWallet,
-        pathMatch: 'full'
-    }
+        pathMatch: 'full',
+    },
 ];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+    exports: [RouterModule],
 })
 export class PagesRoutingModule {}

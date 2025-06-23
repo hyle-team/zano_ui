@@ -4,7 +4,7 @@ import { WalletsService } from '@parts/services/wallets.service';
 
 @Pipe({
     name: 'getAssetInfo',
-    standalone: true
+    standalone: true,
 })
 export class GetAssetInfoPipe implements PipeTransform {
     private walletsService: WalletsService = inject(WalletsService);

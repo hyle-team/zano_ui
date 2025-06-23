@@ -10,5 +10,3 @@ export interface ResponseCallRpc<T = any> {
     id: number;
     result: T;
 }
-
-

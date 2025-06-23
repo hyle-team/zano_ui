@@ -27,17 +27,17 @@ type CreateNewAssetFrom = FormGroup<{
 @Component({
     selector: 'app-create-new-asset',
     templateUrl: './create-new-asset.component.html',
-    styleUrls: ['./create-new-asset.component.scss']
+    styleUrls: ['./create-new-asset.component.scss'],
 })
 export class CreateNewAssetComponent {
     public readonly breadcrumbItems: BreadcrumbItems = [
         {
             routerLink: '/custom-assets',
-            title: 'CREATE_NEW_ASSETS.BREADCRUMBS.BREADCRUMB1'
+            title: 'CREATE_NEW_ASSETS.BREADCRUMBS.BREADCRUMB1',
         },
         {
-            title: 'CREATE_NEW_ASSETS.BREADCRUMBS.BREADCRUMB2'
-        }
+            title: 'CREATE_NEW_ASSETS.BREADCRUMBS.BREADCRUMB2',
+        },
     ];
 
     public readonly variablesService: VariablesService = inject(VariablesService);
@@ -52,24 +52,24 @@ export class CreateNewAssetComponent {
                 Validators.required,
                 Validators.pattern(/^[A-Za-z0-9]+$/),
                 Validators.minLength(1),
-                Validators.maxLength(14)
+                Validators.maxLength(14),
             ]),
             full_name: this._fb.control<string>('', [
                 Validators.pattern(/^[A-Za-z0-9.,:!\-() ]+$/),
                 Validators.minLength(0),
-                Validators.maxLength(400)
+                Validators.maxLength(400),
             ]),
             total_max_supply: this._fb.control<string>(undefined, [Validators.required]),
             current_supply: this._fb.control<string>(undefined, [Validators.required]),
             decimal_point: this._fb.control<string>('12', [Validators.required, Validators.min(0), Validators.max(18)]),
             meta_info: this._fb.control<string>('', [Validators.maxLength(255)]),
-            hidden_supply: this._fb.control<boolean>(false)
+            hidden_supply: this._fb.control<boolean>(false),
         },
         {
             validators: [
-                (control: AbstractControl) => {
+                (control: AbstractControl): ValidationErrors => {
                     const error = {
-                        current_supply: 'ERRORS.CANNOT_BE_GREATER_THAN_TOTAL_MAX_SUPPLY'
+                        current_supply: 'ERRORS.CANNOT_BE_GREATER_THAN_TOTAL_MAX_SUPPLY',
                     };
                     const total_max_supply = new BigNumber(control.get('total_max_supply').value);
                     const current_supply = new BigNumber(control.get('current_supply').value);
@@ -93,8 +93,8 @@ export class CreateNewAssetComponent {
                     }
 
                     return null;
-                }
-            ]
+                },
+            ],
         }
     );
 
@@ -107,9 +107,9 @@ export class CreateNewAssetComponent {
     details(job_id: number): void {
         const config: MatDialogConfig = {
             data: {
-                job_id
+                job_id,
             },
-            disableClose: true
+            disableClose: true,
         };
         this._matDialog
             .open(TransactionDetailsForCustomAssetsComponent, config)
@@ -120,7 +120,7 @@ export class CreateNewAssetComponent {
                     await this._ngZone.run(async () => {
                         await this._router.navigate(['/wallet/custom-assets']);
                     });
-                }
+                },
             });
     }
 
@@ -146,7 +146,7 @@ export class CreateNewAssetComponent {
             meta_info,
             hidden_supply,
             decimal_point: new BigNumber(decimal_point).toNumber(),
-            total_max_supply: moneyToInt(total_max_supply, decimal_point).toString()
+            total_max_supply: moneyToInt(total_max_supply, decimal_point).toString(),
         };
         const destinations: Destinations = [];
 
@@ -154,13 +154,13 @@ export class CreateNewAssetComponent {
             destinations.push({
                 address,
                 amount: destinationAmount,
-                asset_id: '0000000000000000000000000000000000000000000000000000000000000000'
+                asset_id: '0000000000000000000000000000000000000000000000000000000000000000',
             });
         }
 
         const params: DeployAssetParams = {
             asset_descriptor,
-            destinations
+            destinations,
         };
 
         const config: MatDialogConfig = {
@@ -168,9 +168,9 @@ export class CreateNewAssetComponent {
             data: {
                 asset_descriptor: {
                     ...asset_descriptor,
-                    current_supply: moneyToInt(current_supply, decimal_point).toString()
-                }
-            }
+                    current_supply: moneyToInt(current_supply, decimal_point).toString(),
+                },
+            },
         };
         this._matDialog
             .open(ConfirmCreateCustomAssetComponent, config)
@@ -185,13 +185,13 @@ export class CreateNewAssetComponent {
                             jsonrpc: '2.0',
                             id: 0,
                             method: 'deploy_asset',
-                            params
+                            params,
                         },
-                        async (job_id: number): Promise<void> => {
+                        (job_id: number) => {
                             this._ngZone.run(() => this.details(job_id));
                         }
                     );
-                }
+                },
             });
     }
 }

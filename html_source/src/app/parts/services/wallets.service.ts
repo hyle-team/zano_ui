@@ -9,7 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ResultAliasByAddress } from '@api/models/rpc.models';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class WalletsService {
     get wallets(): Wallet[] {
@@ -28,6 +28,28 @@ export class WalletsService {
         this._variablesService.current_wallet = value;
     }
 
+    get opened_wallet_items(): string[] {
+        const items = new Set([]);
+
+        this.wallets.forEach(({ address, alias_info_list }: Wallet) => {
+            if (alias_info_list?.length > 0) {
+                alias_info_list.filter(Boolean).forEach((alias_info) => {
+                    if (alias_info.alias) {
+                        items.add('@' + alias_info.alias);
+                    } else if (alias_info.address) {
+                        items.add(alias_info.address);
+                    } else {
+                        items.add(address);
+                    }
+                });
+            } else {
+                items.add(address);
+            }
+        });
+
+        return [...items];
+    }
+
     constructor(
         private _backendService: BackendService,
         private _variablesService: VariablesService,
@@ -40,7 +62,7 @@ export class WalletsService {
         const { staking, address } = wallet;
         const {
             verifiedAssetInfoWhitelist,
-            settings: { localBlacklistsOfVerifiedAssetsByWallets }
+            settings: { localBlacklistsOfVerifiedAssetsByWallets },
         } = this._variablesService;
 
         if (staking) {
@@ -64,7 +86,7 @@ export class WalletsService {
             jsonrpc: '2.0',
             id: 0,
             method: 'assets_whitelist_get',
-            params: {}
+            params: {},
         };
         this._backendService.call_wallet_rpc([wallet_id, params], (status, response_data: AssetsWhitelistGetResponseData) => {
             this._ngZone.run(() => {
@@ -82,7 +104,7 @@ export class WalletsService {
             id: 0,
             jsonrpc: '2.0',
             method: 'get_alias_by_address',
-            params: wallet.address
+            params: wallet.address,
         };
         this._backendService.call_rpc(params, (status: boolean, response_data: ResponseCallRpc<ResultAliasByAddress>) => {
             this._ngZone.run(() => {
@@ -105,12 +127,12 @@ export class WalletsService {
 
     getWalletById(wallet_id: number): Wallet | undefined {
         const { wallets } = this._variablesService;
-        return wallets.find(w => w.wallet_id === wallet_id);
+        return wallets.find((w) => w.wallet_id === wallet_id);
     }
 
     getWalletByAddress(address: string): Wallet | undefined {
         const { wallets } = this._variablesService;
-        return wallets.find(w => w.address === address);
+        return wallets.find((w) => w.address === address);
     }
 
     updateWalletInfo(wallet: Wallet): void {
@@ -134,7 +156,7 @@ export class WalletsService {
 
     closeWallet(wallet_id: number): void {
         const callback = async (): Promise<void> => {
-            this.wallets = this.wallets.filter(w => w.wallet_id !== wallet_id);
+            this.wallets = this.wallets.filter((w) => w.wallet_id !== wallet_id);
 
             await this._ngZone.run(async () => {
                 let url = '/';

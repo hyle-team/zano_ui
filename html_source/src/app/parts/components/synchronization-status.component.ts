@@ -55,7 +55,7 @@ import { MatIconModule } from '@angular/material/icon';
                     <p class="blocks">
                         <mat-icon
                             class="mr-0_5"
-                            style="width: 14px; height: 14px; color: var(--block-sync)"
+                            style="width: 1.2rem; height: 1.2rem; font-size: 1.2rem; color: var(--block-sync)"
                             svgIcon="zano-block-sync"
                         ></mat-icon>
                         <span>{{ variablesService.sync.blocks.current }}</span>
@@ -140,7 +140,7 @@ import { MatIconModule } from '@angular/material/icon';
     `,
     styles: [],
     standalone: true,
-    imports: [CommonModule, TranslateModule, TooltipModule, MatIconModule]
+    imports: [CommonModule, TranslateModule, TooltipModule, MatIconModule],
 })
 export class SynchronizationStatusComponent {
     constructor(public variablesService: VariablesService, private backend: BackendService) {}

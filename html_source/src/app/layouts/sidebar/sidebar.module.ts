@@ -32,8 +32,8 @@ import { ZanoLogoComponent } from '@parts/components/zano-logo/zano-logo.compone
         IntToMoneyPipeModule,
         WalletCardComponent,
         MatIconModule,
-        ZanoLogoComponent
+        ZanoLogoComponent,
     ],
-    exports: [SidebarComponent]
+    exports: [SidebarComponent],
 })
 export class SidebarModule {}

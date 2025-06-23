@@ -15,8 +15,7 @@
         type="text"
     />
 
-    <button (click)="toggleAmountUSD()" [disabled]="amount_input_params.reverseDisabled" class="btn-reverse"
-            type="button">
+    <button (click)="toggleAmountUSD()" [disabled]="amount_input_params.reverseDisabled" class="btn-reverse" type="button">
         <mat-icon class="small" svgIcon="zano-swap"></mat-icon>
     </button>
 
@@ -100,8 +99,7 @@
         </ng-container>
     </ng-template>
 
-    <ng-container
-        *ngIf="!((control_ref.controls.amount | isVisibleControlError) || (control_ref | isVisibleControlError))">
+    <ng-container *ngIf="!((control_ref.controls.amount | isVisibleControlError) || (control_ref | isVisibleControlError))">
         <div class="hint text-ellipsis">
             {{ amount_input_params.hintAmount }}
             {{ amount_input_params.hintTicker }}

@@ -4,7 +4,7 @@ import { AbstractControl } from '@angular/forms';
 @Pipe({
     name: 'isVisibleControlError',
     standalone: true,
-    pure: false
+    pure: false,
 })
 export class IsVisibleControlErrorPipe implements PipeTransform {
     transform(control: AbstractControl | null): boolean {

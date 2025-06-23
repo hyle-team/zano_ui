@@ -12,7 +12,7 @@ import { IntToMoneyPipeModule } from '@parts/pipes';
     templateUrl: './asset-details.component.html',
     styleUrls: ['./asset-details.component.scss'],
     standalone: true,
-    imports: [CommonModule, TranslateModule, IntToMoneyPipeModule, MatDialogModule]
+    imports: [CommonModule, TranslateModule, IntToMoneyPipeModule, MatDialogModule],
 })
 export class AssetDetailsComponent {
     public readonly zanoAssetInfo: ZanoAssetInfo = ZANO_ASSET_INFO;

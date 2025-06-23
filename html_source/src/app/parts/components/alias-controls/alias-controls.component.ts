@@ -15,7 +15,7 @@ import { MyAliasesDialogComponent } from '../../../pages/wallet/wallet/dialogs/m
     standalone: true,
     imports: [CommonModule, FlexModule, IsAvailableAliasNamePipeModule, MatIconModule, TooltipModule, TranslateModule, RouterLink],
     templateUrl: './alias-controls.component.html',
-    styleUrls: ['./alias-controls.component.scss']
+    styleUrls: ['./alias-controls.component.scss'],
 })
 export class AliasControlsComponent {
     public readonly variablesService: VariablesService = inject(VariablesService);
@@ -29,9 +29,9 @@ export class AliasControlsComponent {
             return false;
         }
 
-        const { alias_info, loaded, alias_available, is_auditable, is_watch_only } = current_wallet;
+        const { alias_info, loaded, alias_available, is_watch_only } = current_wallet;
 
-        if (!loaded || !alias_available || is_auditable || is_watch_only) {
+        if (!loaded || !alias_available || is_watch_only) {
             return false;
         }
 

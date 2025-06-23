@@ -1,4 +1,4 @@
-export const generateRandomString = (length: number = 40): string => {
+export const generateRandomString = (length = 40): string => {
     const array: Uint8Array = new Uint8Array(length);
     window.crypto.getRandomValues(array);
 

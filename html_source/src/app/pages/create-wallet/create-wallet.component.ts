@@ -135,8 +135,8 @@ import { BehaviorSubject } from 'rxjs';
                 height: 100%;
                 overflow: hidden;
             }
-        `
-    ]
+        `,
+    ],
 })
 export class CreateWalletComponent {
     variablesService = inject(VariablesService);
@@ -146,11 +146,11 @@ export class CreateWalletComponent {
     breadcrumbItems: BreadcrumbItems = [
         {
             routerLink: '/add-wallet',
-            title: 'BREADCRUMBS.ADD_WALLET'
+            title: 'BREADCRUMBS.ADD_WALLET',
         },
         {
-            title: 'BREADCRUMBS.CREATE_WALLET'
-        }
+            title: 'BREADCRUMBS.CREATE_WALLET',
+        },
     ];
 
     walletsService = inject(WalletsService);
@@ -162,10 +162,10 @@ export class CreateWalletComponent {
             name: this.fb.control('', [Validators.required, ZanoValidators.duplicate(this.variablesService.walletNamesForComparisons)]),
             password: this.fb.control('', Validators.pattern(REG_EXP_PASSWORD)),
             confirm: this.fb.control(''),
-            path: this.fb.control('', Validators.required)
+            path: this.fb.control('', Validators.required),
         },
         {
-            validators: [ZanoValidators.formMatch('password', 'confirm')]
+            validators: [ZanoValidators.formMatch('password', 'confirm')],
         }
     );
 
@@ -188,7 +188,7 @@ export class CreateWalletComponent {
         this.loading$.next(true);
 
         const { path: selectedPath, password, name } = this.createForm.getRawValue();
-        this.backend.generateWallet(selectedPath, password, async (generate_status, generate_data, errorCode) => {
+        this.backend.generateWallet(selectedPath, password, (generate_status, generate_data, errorCode) => {
             if (generate_status) {
                 const { wallet_id } = generate_data;
                 const { path, address, balance, unlocked_balance, mined_total, tracking_hey } = generate_data['wi'];
@@ -198,15 +198,15 @@ export class CreateWalletComponent {
                 wallet.totalPages = 1;
                 wallet.currentPage = 1;
                 this.walletsService.addWallet(wallet);
-                await this.backend.runWallet(wallet_id, async (run_status, run_data) => {
+                this.backend.runWallet(wallet_id, (run_status, run_data) => {
                     if (run_status) {
-                        await this.ngZone.run(async () => {
+                        this.ngZone.run(() => {
                             if (this.variablesService.appPass) {
                                 this.backend.storeSecureAppData();
                             }
                             this.variablesService.setCurrentWallet(wallet_id);
                             this.loading$.next(false);
-                            await this.router.navigate(['/seed-phrase'], { queryParams: { wallet_id } });
+                            this.router.navigate(['/seed-phrase'], { queryParams: { wallet_id } });
                         });
                     } else {
                         console.log(run_data['error_code']);

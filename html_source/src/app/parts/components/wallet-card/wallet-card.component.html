@@ -15,7 +15,7 @@
                     tooltip="{{ wallet.name }}"
                     tooltipClass="table-tooltip account-tooltip"
                 >
-                    {{ !wallet.alias_info?.alias ? wallet.name : ('@' + wallet.alias_info?.alias) }}
+                    {{ !wallet.alias_info?.alias ? wallet.name : '@' + wallet.alias_info?.alias }}
                 </span>
             </div>
         </div>
@@ -35,7 +35,7 @@
         </div>
     </div>
 
-    <h4>
+    <h4 class="text-ellipsis overflow-hidden">
         <ng-container *appVisibilityBalance>
             <span
                 *appDisablePriceFetch

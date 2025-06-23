@@ -941,7 +941,9 @@
         "TOOLTIPS": {
             "CLOSE": "Brieftasche schließen",
             "EDIT_ALIAS": "Alias bearbeiten",
+            "HIDE_BALANCE": "Hide balance",
             "SETTINGS": "Einstellungen",
+            "SHOW_BALANCE": "Show balance",
             "TRANSFER_ALIAS": "Alias übertragen",
             "WHITELIST_ASSET": "Benutzerdefiniertes Token hinzufügen"
         }

@@ -9,7 +9,7 @@ import {
     OnDestroy,
     OnInit,
     Output,
-    Renderer2
+    Renderer2,
 } from '@angular/core';
 import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { TransferParams } from '@api/models/transfer.model';
@@ -21,7 +21,7 @@ import { PriceInfo } from '@api/models/assets.model';
     selector: 'app-send-modal',
     templateUrl: './send-modal.component.html',
     styleUrls: ['./send-modal.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SendModalComponent implements OnInit, OnDestroy {
     @HostBinding('class.modal-overlay') modalOverlay = true;
@@ -38,7 +38,7 @@ export class SendModalComponent implements OnInit, OnDestroy {
 
     form = this.fb.group({
         password: this.fb.control(''),
-        appPass: this.fb.control('')
+        appPass: this.fb.control(''),
     });
 
     constructor(public variablesService: VariablesService, private renderer: Renderer2) {}
@@ -48,7 +48,7 @@ export class SendModalComponent implements OnInit, OnDestroy {
         const { appPass } = this.variablesService;
         if (appPass) {
             this.form.controls.appPass.patchValue(appPass, {
-                emitEvent: false
+                emitEvent: false,
             });
             this.form.setValidators([ZanoValidators.formMatch('password', 'appPass', 'passwordNotMatch')]);
             this.form.controls.password.setValidators([Validators.required]);

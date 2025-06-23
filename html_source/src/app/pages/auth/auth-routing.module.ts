@@ -11,14 +11,14 @@ const routes: Routes = [
         children: [
             {
                 path: pathsChildrenAuth.noWallet,
-                component: NoWalletComponent
-            }
-        ]
-    }
+                component: NoWalletComponent,
+            },
+        ],
+    },
 ];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+    exports: [RouterModule],
 })
 export class AuthRoutingModule {}

@@ -1,3 +1,10 @@
-<button class="btn-icon circle big" (click)="toggle()">
-    <mat-icon [svgIcon]="(variablesService.visibilityBalance$ | async) ? 'zano-hide-balance' : 'zano-show-balance'"></mat-icon>
+<button
+    (click)="variablesService.visibilityBalance$.next(!variablesService.visibilityBalance$.value)"
+    [matTooltipShowDelay]="800"
+    [matTooltip]="
+        ((variablesService.visibilityBalance$ | async) ? 'WALLET.TOOLTIPS.HIDE_BALANCE' : 'WALLET.TOOLTIPS.SHOW_BALANCE') | translate
+    "
+    class="btn-icon circle big"
+>
+    <mat-icon [svgIcon]="(variablesService.visibilityBalance$ | async) ? 'zano-hide-balance' : 'zano-show-balance'"> </mat-icon>
 </button>

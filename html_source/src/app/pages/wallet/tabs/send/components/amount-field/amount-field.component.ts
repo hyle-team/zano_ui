@@ -32,10 +32,10 @@ interface AmountInputParams {
         MatIconModule,
         ReactiveFormsModule,
         TranslateModule,
-        TooltipModule
+        TooltipModule,
     ],
     templateUrl: './amount-field.component.html',
-    styleUrls: ['./amount-field.component.scss']
+    styleUrls: ['./amount-field.component.scss'],
 })
 export class AmountFieldComponent implements OnInit, OnDestroy, OnChanges {
     @Input() control_ref: DestinationsForm;
@@ -43,7 +43,7 @@ export class AmountFieldComponent implements OnInit, OnDestroy, OnChanges {
     @Input()
     price_info: PriceInfo = {
         success: false,
-        data: 'Asset not found'
+        data: 'Asset not found',
     };
 
     price_info$: Subject<PriceInfo> = new Subject<PriceInfo>();
@@ -55,12 +55,10 @@ export class AmountFieldComponent implements OnInit, OnDestroy, OnChanges {
         inputTicker: ZANO_ASSET_INFO.ticker,
         hintTicker: '',
         hintAmount: '',
-        reverseDisabled: true
+        reverseDisabled: true,
     };
 
     private readonly _destroy$: Subject<void> = new Subject<void>();
-
-    constructor() {}
 
     ngOnInit(): void {
         const { current_wallet } = this.variables_service;
@@ -70,7 +68,7 @@ export class AmountFieldComponent implements OnInit, OnDestroy, OnChanges {
             controls.asset_id.valueChanges.pipe(startWith(controls.asset_id.value)),
             controls.is_amount_usd.valueChanges.pipe(startWith(controls.is_amount_usd.value), distinctUntilChanged()),
             controls.amount.valueChanges.pipe(startWith(controls.amount.value)),
-            this.price_info$
+            this.price_info$,
         ])
             .pipe(
                 map(([asset_id, is_amount_usd, amount, priceInfo]) => {
@@ -81,7 +79,7 @@ export class AmountFieldComponent implements OnInit, OnDestroy, OnChanges {
                         inputTicker: ticker,
                         hintTicker: 'USD',
                         hintAmount: '0',
-                        reverseDisabled: false
+                        reverseDisabled: false,
                     };
 
                     const { success } = priceInfo;
@@ -99,12 +97,18 @@ export class AmountFieldComponent implements OnInit, OnDestroy, OnChanges {
                             params.decimalPoint = 2;
                             params.inputTicker = 'USD';
                             params.hintTicker = ticker;
-                            params.hintAmount = `~ ${new BigNumber(+amount || 0).dividedBy(usd || 0).decimalPlaces(decimal_point)}`;
+                            params.hintAmount = `~ ${new BigNumber(+amount || 0)
+                                .dividedBy(usd || 0)
+                                .decimalPlaces(decimal_point)
+                                .toString()}`;
                         } else {
                             params.decimalPoint = decimal_point;
                             params.inputTicker = ticker;
                             params.hintTicker = 'USD';
-                            params.hintAmount = `~ ${new BigNumber(usd || 0).multipliedBy(+amount || 0).decimalPlaces(2)}`;
+                            params.hintAmount = `~ ${new BigNumber(usd || 0)
+                                .multipliedBy(+amount || 0)
+                                .decimalPlaces(2)
+                                .toString()}`;
                         }
                     } else {
                         params.reverseDisabled = true;
@@ -116,14 +120,14 @@ export class AmountFieldComponent implements OnInit, OnDestroy, OnChanges {
             )
             .pipe(takeUntil(this._destroy$))
             .subscribe({
-                next: params => {
+                next: (params) => {
                     this.amount_input_params = params;
                     this.control_ref.updateValueAndValidity();
-                }
+                },
             });
     }
 
-    ngOnChanges(changes: SimpleChanges) {
+    ngOnChanges(changes: SimpleChanges): void {
         setTimeout(() => {
             if (changes.price_info) {
                 this.price_info$.next(changes.price_info.currentValue);

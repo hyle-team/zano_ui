@@ -32,7 +32,7 @@ import {
     IsAvailableAliasNamePipeModule,
     MoneyToIntPipeModule,
     SafeHtmlPipeModule,
-    ShortStringPipe
+    ShortStringPipe,
 } from '@parts/pipes';
 import { InputValidateModule } from '@parts/directives/input-validate';
 import { InputDisableSelectionModule } from '@parts/directives/input-disable-selection';
@@ -60,7 +60,7 @@ import { ZanoLogoComponent } from '@parts/components/zano-logo/zano-logo.compone
         SeedPhraseComponent,
         AssignAliasComponent,
         EditAliasComponent,
-        TransferAliasComponent
+        TransferAliasComponent,
     ],
     imports: [
         CommonModule,
@@ -101,7 +101,7 @@ import { ZanoLogoComponent } from '@parts/components/zano-logo/zano-logo.compone
         BackButtonComponent,
         MatIconModule,
         IsVisibleControlErrorPipe,
-        ZanoLogoComponent
-    ]
+        ZanoLogoComponent,
+    ],
 })
 export class PagesModule {}

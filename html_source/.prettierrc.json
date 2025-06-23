@@ -4,8 +4,8 @@
     "singleQuote": true,
     "semi": true,
     "bracketSpacing": true,
-    "arrowParens": "avoid",
-    "trailingComma": "none",
+    "arrowParens": "always",
+    "trailingComma": "es5",
     "singleAttributePerLine": false,
     "printWidth": 140,
     "endOfLine": "auto"

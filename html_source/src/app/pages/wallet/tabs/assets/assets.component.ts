@@ -4,7 +4,6 @@ import { Subject } from 'rxjs';
 import { AssetBalance, ParamsRemoveCustomAssetId } from '@api/models/assets.model';
 import { PaginatePipeArgs } from 'ngx-pagination';
 import { takeUntil } from 'rxjs/operators';
-import { CdkOverlayOrigin } from '@angular/cdk/overlay';
 import { AssetDetailsComponent } from '@parts/modals/asset-details/asset-details.component';
 import { BackendService } from '@api/services/backend.service';
 import { ConfirmModalComponent, ConfirmModalData } from '@parts/modals/confirm-modal/confirm-modal.component';
@@ -19,20 +18,14 @@ import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-assets',
-    templateUrl: `./assets.component.html`
+    templateUrl: `./assets.component.html`,
 })
 export class AssetsComponent implements OnInit, OnDestroy {
     paginatePipeArgs: PaginatePipeArgs = {
         id: 'pagination-assets-id',
         itemsPerPage: 10,
-        currentPage: 1
+        currentPage: 1,
     };
-
-    triggerOrigin!: CdkOverlayOrigin;
-
-    currentAssetBalance!: AssetBalance;
-
-    isOpenDropDownMenu = false;
 
     private readonly _destroy$ = new Subject<void>();
 
@@ -70,12 +63,6 @@ export class AssetsComponent implements OnInit, OnDestroy {
         this._destroy$.complete();
     }
 
-    toggleDropDownMenu(trigger: CdkOverlayOrigin, assetBalance: AssetBalance): void {
-        this.isOpenDropDownMenu = !this.isOpenDropDownMenu;
-        this.triggerOrigin = trigger;
-        this.currentAssetBalance = assetBalance;
-    }
-
     trackByAssets(index: number, { asset_info: { asset_id } }: AssetBalance): number | string {
         return asset_id || index;
     }
@@ -84,25 +71,22 @@ export class AssetsComponent implements OnInit, OnDestroy {
         return index;
     }
 
-    assetDetails(): void {
-        const { asset_info } = this.currentAssetBalance;
+    assetDetails(balance: AssetBalance): void {
+        const { asset_info } = balance;
         const config: MatDialogConfig = {
             data: {
-                asset_info
-            }
+                asset_info,
+            },
         };
         this._matDialog.open(AssetDetailsComponent, config);
     }
 
-    beforeRemoveAsset(): void {
-        if (!this.currentAssetBalance) {
-            return;
-        }
-        const { full_name } = this.currentAssetBalance.asset_info;
+    beforeRemoveAsset(balance: AssetBalance): void {
+        const { full_name } = balance.asset_info;
         const config: MatDialogConfig<ConfirmModalData> = {
             data: {
-                title: this._translateService.instant('ASSETS.MODALS.CONFIRM_MODAL.TITLE', { full_name })
-            }
+                title: this._translateService.instant('ASSETS.MODALS.CONFIRM_MODAL.TITLE', { full_name }),
+            },
         };
 
         this._matDialog
@@ -110,16 +94,16 @@ export class AssetsComponent implements OnInit, OnDestroy {
             .afterClosed()
             .pipe(takeUntil(this._destroy$))
             .subscribe({
-                next: confirmed => confirmed && this._removeAsset()
+                next: (confirmed) => confirmed && this._removeAsset(balance),
             });
     }
 
-    private _removeAsset(): void {
+    private _removeAsset(balance: AssetBalance): void {
         const { current_wallet, verifiedAssetIdWhitelist } = this.variablesService;
         const { wallet_id, transfer_form_value } = current_wallet;
         const {
-            asset_info: { asset_id }
-        } = this.currentAssetBalance;
+            asset_info: { asset_id },
+        } = balance;
 
         const isVerifiedAsset: boolean = verifiedAssetIdWhitelist.includes(asset_id);
 
@@ -128,7 +112,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
         } else {
             const params: ParamsRemoveCustomAssetId = {
                 wallet_id,
-                asset_id
+                asset_id,
             };
 
             this._backendService.removeCustomAssetId(params, () => {
@@ -138,8 +122,6 @@ export class AssetsComponent implements OnInit, OnDestroy {
                     }
 
                     this._walletsService.updateWalletInfo(current_wallet);
-
-                    this.currentAssetBalance = undefined;
                 });
             });
         }
@@ -187,10 +169,10 @@ export class AssetsComponent implements OnInit, OnDestroy {
         return tooltip;
     }
 
-    isShowDeleteAsset(): boolean {
+    isShowDeleteAsset(balance: AssetBalance): boolean {
         const {
-            asset_info: { asset_id }
-        } = this.currentAssetBalance;
+            asset_info: { asset_id },
+        } = balance;
         /** You can't delete zano */
         return ![ZANO_ASSET_INFO.asset_id].includes(asset_id);
     }
@@ -200,7 +182,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
         currentWalletChangedEvent.pipe(takeUntil(this._destroy$)).subscribe({
             next: () => {
                 this.paginatePipeArgs.currentPage = 0;
-            }
+            },
         });
     }
 
@@ -208,7 +190,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
         const { current_wallet, daemon_state } = this.variablesService;
         const isWalletLoaded: boolean = current_wallet.loaded;
         const isDaemonReady: boolean = daemon_state === 2;
-        const isWalletUsable: boolean = !current_wallet.is_auditable && !current_wallet.is_watch_only;
+        const isWalletUsable = !current_wallet.is_watch_only;
 
         return isWalletLoaded && isDaemonReady && isWalletUsable;
     }

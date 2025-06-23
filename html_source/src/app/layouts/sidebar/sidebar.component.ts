@@ -14,27 +14,29 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 @Component({
     selector: 'app-sidebar',
     template: `
-        <div class="sidebar-header mb-2">
+        <div class="sidebar-header mb-1">
             <zano-zano-logo></zano-zano-logo>
         </div>
 
         <div class="sidebar-content">
-            <div (cdkDropListDropped)="drop($event)" cdkDropList cdkDropListLockAxis="y" class="sidebar-content-list scrolled-content mb-1">
-                <app-wallet-card
-                    (click)="selectWallet(wallet.wallet_id)"
-                    (eventClose)="beforeClose($event)"
-                    *ngFor="let wallet of variablesService.wallets"
-                    [cdkDragData]="wallet"
-                    [ngClass]="{
-                        active: wallet?.wallet_id === variablesService?.current_wallet?.wallet_id,
-                        auditable: wallet.is_auditable && !wallet.is_watch_only,
-                        'watch-only': wallet.is_watch_only,
-                        'offset-testnet': variablesService.testnet,
-                        'mb-1': !variablesService.testnet
-                    }"
-                    [wallet]="wallet"
-                    cdkDrag
-                ></app-wallet-card>
+            <div class="sidebar-content-wallet-list mb-1">
+                <div (cdkDropListDropped)="drop($event)" cdkDropList cdkDropListLockAxis="y" class="scrolled-content">
+                    <app-wallet-card
+                        (click)="selectWallet(wallet.wallet_id)"
+                        (eventClose)="beforeClose($event)"
+                        *ngFor="let wallet of variablesService.wallets"
+                        [cdkDragData]="wallet"
+                        [ngClass]="{
+                            active: wallet?.wallet_id === variablesService?.current_wallet?.wallet_id,
+                            auditable: wallet.is_auditable && !wallet.is_watch_only,
+                            'watch-only': wallet.is_watch_only,
+                            'offset-testnet': variablesService.testnet,
+                            'mb-1': !variablesService.testnet
+                        }"
+                        [wallet]="wallet"
+                        cdkDrag
+                    ></app-wallet-card>
+                </div>
             </div>
 
             <div class="sidebar-nav scrolled-content">
@@ -92,7 +94,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
         <app-deeplink></app-deeplink>
     `,
-    styleUrls: ['./sidebar.component.scss']
+    styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnDestroy {
     private destroy$ = new Subject<void>();
@@ -140,8 +142,8 @@ export class SidebarComponent implements OnDestroy {
         const config: MatDialogConfig<ConfirmModalData> = {
             data: {
                 title: 'WALLET.CONFIRM.MESSAGE',
-                message: 'WALLET.CONFIRM.TITLE'
-            }
+                message: 'WALLET.CONFIRM.TITLE',
+            },
         };
 
         this._matDialog
@@ -149,7 +151,7 @@ export class SidebarComponent implements OnDestroy {
             .afterClosed()
             .pipe(takeUntil(this.destroy$))
             .subscribe({
-                next: confirmed => confirmed && this.closeWallet(wallet_id)
+                next: (confirmed) => confirmed && this.closeWallet(wallet_id),
             });
     }
 

@@ -12,6 +12,6 @@ import { MatIconModule } from '@angular/material/icon';
 @NgModule({
     declarations: [SendModalComponent, SendDetailsModalComponent],
     imports: [CommonModule, TranslateModule, FlexLayoutModule, ReactiveFormsModule, GetAssetInfoPipe, CopyButtonComponent, MatIconModule],
-    exports: [SendModalComponent, SendDetailsModalComponent]
+    exports: [SendModalComponent, SendDetailsModalComponent],
 })
 export class WalletModalsModule {}

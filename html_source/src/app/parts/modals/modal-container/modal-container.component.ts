@@ -10,7 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
     templateUrl: './modal-container.component.html',
     styleUrls: ['./modal-container.component.scss'],
     standalone: true,
-    imports: [CommonModule, MatDialogModule, TranslateModule, FlexModule, MatIconModule]
+    imports: [CommonModule, MatDialogModule, TranslateModule, FlexModule, MatIconModule],
 })
 export class ModalContainerComponent {
     public readonly data: { type: 'error' | 'info' | 'success'; message: any } = inject(MAT_DIALOG_DATA);

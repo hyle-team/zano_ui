@@ -25,8 +25,8 @@ import { ZANO_ASSET_INFO } from '@parts/data/assets';
         StakingSwitchComponent,
         DisablePriceFetchModule,
         VisibilityBalanceDirective,
-        MatIconModule
-    ]
+        MatIconModule,
+    ],
 })
 export class WalletCardComponent {
     @HostBinding('class') classAttr = 'wallet';

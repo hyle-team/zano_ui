@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GetLogoByAssetInfoPipe } from '@parts/pipes/get-logo-by-asset-info.pipe';
@@ -22,10 +22,10 @@ import { ZANO_ASSET_INFO } from '@parts/data/assets';
         NgSelectModule,
         ReactiveFormsModule,
         TranslateModule,
-        VisibilityBalanceDirective
+        VisibilityBalanceDirective,
     ],
     templateUrl: './asset-field.component.html',
-    styleUrls: ['./asset-field.component.scss']
+    styleUrls: ['./asset-field.component.scss'],
 })
 export class AssetFieldComponent implements OnChanges {
     @Input()
@@ -35,19 +35,19 @@ export class AssetFieldComponent implements OnChanges {
     balances: AssetBalance[] = [];
 
     @Input()
-    is_visible_wrap_info: boolean = false;
+    is_visible_wrap_info = false;
 
     items: (AssetBalance & { disabled: boolean })[] = [];
 
-    ngOnChanges(changes: SimpleChanges) {
+    ngOnChanges(): void {
         const disabled = this.is_visible_wrap_info;
         this.items = this.balances.map((balance: AssetBalance) => prepareAssetBalanceToItem(balance, disabled));
     }
 }
 
-const prepareAssetBalanceToItem = (balance: AssetBalance, disabled: boolean) => {
+const prepareAssetBalanceToItem = (balance: AssetBalance, disabled: boolean): AssetBalance & { disabled: boolean } => {
     const {
-        asset_info: { asset_id }
+        asset_info: { asset_id },
     } = balance;
 
     if (asset_id === ZANO_ASSET_INFO.asset_id) {

@@ -10,6 +10,6 @@ import { ConfirmModalComponent } from '@parts/modals/confirm-modal/confirm-modal
 @NgModule({
     declarations: [ConfirmModalComponent],
     imports: [CommonModule, TranslateModule, FlexLayoutModule, MatIconModule, MatDialogModule, AutoFocusDirective],
-    exports: [ConfirmModalComponent]
+    exports: [ConfirmModalComponent],
 })
 export class ConfirmModalModule {}

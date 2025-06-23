@@ -16,7 +16,7 @@ import { MAXIMUM_VALUE } from '@parts/data/constants';
     standalone: true,
     imports: [CommonModule, FormsModule, InputValidateModule, IsVisibleControlErrorPipe, ReactiveFormsModule, TranslateModule],
     templateUrl: './fee-field.component.html',
-    styleUrls: ['./fee-field.component.scss']
+    styleUrls: ['./fee-field.component.scss'],
 })
 export class FeeFieldComponent implements OnInit, OnDestroy {
     @Input() control_ref: FormControl<string>;
@@ -28,10 +28,8 @@ export class FeeFieldComponent implements OnInit, OnDestroy {
     private readonly _translate_service: TranslateService = inject(TranslateService);
 
     error_messages: { [key: string]: string | undefined } = {
-        fee: undefined
+        fee: undefined,
     };
-
-    constructor() {}
 
     ngOnInit(): void {
         merge(this.control_ref.statusChanges, this.control_ref.valueChanges)
@@ -39,7 +37,7 @@ export class FeeFieldComponent implements OnInit, OnDestroy {
             .subscribe((): void => this.updateFeeErrorMessage());
     }
 
-    ngOnDestroy() {
+    ngOnDestroy(): void {
         this._destroy$.next();
         this._destroy$.complete();
     }

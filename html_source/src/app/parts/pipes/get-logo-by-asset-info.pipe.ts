@@ -5,7 +5,7 @@ import { getLogoTemplateByAssetInfo } from '@parts/functions/get-logo-template-b
 
 @Pipe({
     name: 'getLogoByAssetInfo',
-    standalone: true
+    standalone: true,
 })
 export class GetLogoByAssetInfoPipe implements PipeTransform {
     private _sanitizer: DomSanitizer = inject(DomSanitizer);

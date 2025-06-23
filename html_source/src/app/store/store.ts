@@ -10,7 +10,7 @@ export interface Sync {
 
 export enum StateKeys {
     wallets = 'wallets',
-    sync = 'sync'
+    sync = 'sync',
 }
 
 export interface State {
@@ -20,11 +20,11 @@ export interface State {
 
 const initialState: State = {
     wallets: undefined,
-    sync: undefined
+    sync: undefined,
 };
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class Store {
     private subject = new BehaviorSubject<State>(initialState);
@@ -35,7 +35,7 @@ export class Store {
     }
 
     select<T>(name: StateKeys): Observable<T> {
-        return this.store.pipe(map(state => state[name])) as unknown as Observable<T>;
+        return this.store.pipe(map((state) => state[name])) as unknown as Observable<T>;
     }
 
     set(name: StateKeys, value: any): void {

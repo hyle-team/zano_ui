@@ -941,7 +941,9 @@
         "TOOLTIPS": {
             "CLOSE": "Fechar carteira",
             "EDIT_ALIAS": "Editar alias",
+            "HIDE_BALANCE": "Hide balance",
             "SETTINGS": "Configurações",
+            "SHOW_BALANCE": "Show balance",
             "TRANSFER_ALIAS": "Alias de transferência",
             "WHITELIST_ASSET": "Adicionar token personalizado"
         }

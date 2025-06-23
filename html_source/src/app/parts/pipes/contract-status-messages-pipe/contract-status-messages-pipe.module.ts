@@ -6,6 +6,6 @@ import { ContractStatusMessagesPipe } from '@parts/pipes/contract-status-message
     declarations: [ContractStatusMessagesPipe],
     exports: [ContractStatusMessagesPipe],
     providers: [ContractStatusMessagesPipe],
-    imports: [CommonModule]
+    imports: [CommonModule],
 })
 export class ContractStatusMessagesPipeModule {}

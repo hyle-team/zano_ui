@@ -8,7 +8,7 @@ describe('WrapInformationComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [WrapInformationComponent]
+            imports: [WrapInformationComponent],
         }).compileComponents();
 
         fixture = TestBed.createComponent(WrapInformationComponent);

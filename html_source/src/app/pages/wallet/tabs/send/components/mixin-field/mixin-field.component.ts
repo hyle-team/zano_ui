@@ -11,7 +11,7 @@ import { VariablesService } from '@parts/services/variables.service';
     standalone: true,
     imports: [CommonModule, IsVisibleControlErrorPipe, ReactiveFormsModule, InputValidateModule, TranslateModule],
     templateUrl: './mixin-field.component.html',
-    styleUrls: ['./mixin-field.component.scss']
+    styleUrls: ['./mixin-field.component.scss'],
 })
 export class MixinFieldComponent {
     @Input()

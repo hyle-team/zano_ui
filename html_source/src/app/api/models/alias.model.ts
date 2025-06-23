@@ -1,4 +1,3 @@
-
 export interface AliasInfo {
     alias: string;
     address: string;

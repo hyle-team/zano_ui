@@ -10,7 +10,7 @@ import {
     HistoryTypeMessagesPipeModule,
     IntToMoneyPipeModule,
     IsAvailableAliasNamePipeModule,
-    ShortStringPipe
+    ShortStringPipe,
 } from '@parts/pipes';
 import { TranslateModule } from '@ngx-translate/core';
 import { ConfirmModalModule } from '@parts/modals/confirm-modal/confirm-modal.module';
@@ -71,6 +71,7 @@ import { AddressFieldComponent } from './tabs/send/components/address-field/addr
 import { AmountFieldComponent } from './tabs/send/components/amount-field/amount-field.component';
 import { AddAnotherDestinationButtonComponent } from './tabs/send/components/add-another-destination-button/add-another-destination-button.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
     declarations: [
@@ -90,7 +91,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         UpdateCustomAssetComponent,
         EmitCustomAssetComponent,
         BurnCustomAssetComponent,
-        TransactionDetailsForCustomAssetsComponent
+        TransactionDetailsForCustomAssetsComponent,
     ],
     imports: [
         CommonModule,
@@ -149,7 +150,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         AddressFieldComponent,
         AmountFieldComponent,
         AddAnotherDestinationButtonComponent,
-        MatTooltipModule
-    ]
+        MatTooltipModule,
+        MatMenuModule,
+    ],
 })
 export class WalletModule {}

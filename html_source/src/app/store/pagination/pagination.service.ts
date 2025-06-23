@@ -4,7 +4,7 @@ import { PaginationStore } from './pagination.store';
 import * as _ from 'lodash';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class PaginationService {
     constructor(private variables: VariablesService, private ngZone: NgZone, private paginationStore: PaginationStore) {}
@@ -36,7 +36,7 @@ export class PaginationService {
             }
         }
         this.ngZone.run(() => {
-            this.variables.current_wallet.pages = Array.from(Array(endPage + 1 - startPage).keys()).map(i => startPage + i);
+            this.variables.current_wallet.pages = Array.from(Array(endPage + 1 - startPage).keys()).map((i) => startPage + i);
         });
     }
 
@@ -48,14 +48,14 @@ export class PaginationService {
             return offset || 0;
         }
         const value = this.paginationStore.value;
-        const pages = value.filter(item => item.walletID === walletID);
+        const pages = value.filter((item) => item.walletID === walletID);
         if (pages && pages.length > 0) {
             const max = _.maxBy(pages, 'page');
             const isForward = this.paginationStore.isForward(pages, currentPage);
             if (isForward) {
                 offset = max.offset || 0;
             } else {
-                const index = pages.findIndex(item => item.page === currentPage);
+                const index = pages.findIndex((item) => item.page === currentPage);
                 offset = pages[index].offset || 0;
             }
         }

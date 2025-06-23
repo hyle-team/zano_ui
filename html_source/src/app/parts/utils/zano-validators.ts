@@ -89,15 +89,25 @@ export const filePathWalletValidator = (path: string): ZanoValidationErrors | nu
 };
 
 export function validateWrapInfo(data: WrapInfo): boolean {
-    if (typeof data !== 'object' || data === null) { return false; }
+    if (typeof data !== 'object' || data === null) {
+        return false;
+    }
 
-    if (typeof data.unwraped_coins_left !== 'string') { return false; }
+    if (typeof data.unwraped_coins_left !== 'string') {
+        return false;
+    }
 
-    if (typeof data.tx_cost !== 'object' || data.tx_cost === null) { return false; }
+    if (typeof data.tx_cost !== 'object' || data.tx_cost === null) {
+        return false;
+    }
 
-    if (typeof data.tx_cost.usd_needed_for_erc20 !== 'string') { return false; }
+    if (typeof data.tx_cost.usd_needed_for_erc20 !== 'string') {
+        return false;
+    }
 
-    if (typeof data.tx_cost.zano_needed_for_erc20 !== 'string') { return false; }
+    if (typeof data.tx_cost.zano_needed_for_erc20 !== 'string') {
+        return false;
+    }
 
     return true;
 }

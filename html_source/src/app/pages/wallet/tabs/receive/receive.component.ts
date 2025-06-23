@@ -35,8 +35,8 @@ import { RCV_ADDR_QR_SCALE } from '@parts/data/constants';
             :host {
                 width: 100%;
             }
-        `
-    ]
+        `,
+    ],
 })
 export class ReceiveComponent implements OnInit {
     qrImageSrc: string;
@@ -46,12 +46,12 @@ export class ReceiveComponent implements OnInit {
     ngOnInit(): void {
         QRCode.toDataURL(this.variablesService.current_wallet.address, {
             width: 200 * RCV_ADDR_QR_SCALE,
-            height: 200 * RCV_ADDR_QR_SCALE
+            height: 200 * RCV_ADDR_QR_SCALE,
         })
-            .then(url => {
+            .then((url) => {
                 this.qrImageSrc = url;
             })
-            .catch(err => {
+            .catch((err) => {
                 console.error(err);
             });
     }

@@ -13,7 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
     `,
     styles: [],
     standalone: true,
-    imports: [CommonModule, MatIconModule]
+    imports: [CommonModule, MatIconModule],
 })
 export class CopyButtonComponent {
     @Input() value: string;

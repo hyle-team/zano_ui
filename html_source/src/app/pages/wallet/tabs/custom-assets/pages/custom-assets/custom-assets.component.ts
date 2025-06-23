@@ -16,16 +16,16 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 @Component({
     selector: 'app-custom-assets',
     templateUrl: './custom-assets.component.html',
-    styleUrls: ['./custom-assets.component.scss']
+    styleUrls: ['./custom-assets.component.scss'],
 })
 export class CustomAssetsComponent implements OnInit {
-    paginationId: string = 'pagination-custom-assets-id';
+    paginationId = 'pagination-custom-assets-id';
 
     triggerOrigin: CdkOverlayOrigin | undefined;
 
     currentAssetInfo: AssetInfo | undefined;
 
-    isOpenDropDownMenu: boolean = false;
+    isOpenDropDownMenu = false;
 
     connectedOverlayPositions: ConnectedPosition[] = [
         {
@@ -33,13 +33,13 @@ export class CustomAssetsComponent implements OnInit {
             originY: 'top',
             overlayX: 'end',
             overlayY: 'top',
-            offsetY: 30
-        }
+            offsetY: 30,
+        },
     ];
     paginateArgs: PaginatePipeArgs = {
         id: this.paginationId,
         itemsPerPage: 10,
-        currentPage: 1
+        currentPage: 1,
     };
 
     public variablesService: VariablesService = inject(VariablesService);
@@ -58,7 +58,7 @@ export class CustomAssetsComponent implements OnInit {
             return false;
         }
         const {
-            assetsInfoWhitelist: { own_assets }
+            assetsInfoWhitelist: { own_assets },
         } = current_wallet;
         return own_assets?.length > this.paginateArgs.itemsPerPage;
     }
@@ -88,8 +88,8 @@ export class CustomAssetsComponent implements OnInit {
     openDialog(type: 'assetDetails' | 'emit' | 'burn' | 'update'): void {
         const config: MatDialogConfig = {
             data: {
-                asset_info: this.currentAssetInfo
-            }
+                asset_info: this.currentAssetInfo,
+            },
         };
 
         let closed: Observable<number | undefined>;
@@ -121,12 +121,12 @@ export class CustomAssetsComponent implements OnInit {
 
         closed
             .pipe(
-                filter(job_id => typeof job_id === 'number'),
-                switchMap(job_id => {
+                filter((job_id) => typeof job_id === 'number'),
+                switchMap((job_id) => {
                     const config2: MatDialogConfig = {
                         data: {
-                            job_id
-                        }
+                            job_id,
+                        },
                     };
                     return this._matDialog
                         .open<TransactionDetailsForCustomAssetsComponent, any, boolean>(TransactionDetailsForCustomAssetsComponent, config2)
@@ -136,7 +136,7 @@ export class CustomAssetsComponent implements OnInit {
                 take(1)
             )
             .subscribe({
-                next: () => this._loadAssets()
+                next: () => this._loadAssets(),
             });
     }
 

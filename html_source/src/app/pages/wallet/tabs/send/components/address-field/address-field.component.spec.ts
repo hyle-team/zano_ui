@@ -8,7 +8,7 @@ describe('AddressFieldComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [AddressFieldComponent]
+            imports: [AddressFieldComponent],
         }).compileComponents();
 
         fixture = TestBed.createComponent(AddressFieldComponent);

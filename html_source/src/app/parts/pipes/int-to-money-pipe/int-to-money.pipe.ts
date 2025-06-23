@@ -4,7 +4,7 @@ import { intToMoney } from '@parts/functions/int-to-money';
 import { BigNumber } from 'bignumber.js';
 
 @Pipe({
-    name: 'intToMoney'
+    name: 'intToMoney',
 })
 export class IntToMoneyPipe implements PipeTransform {
     constructor(private variablesService: VariablesService) {}

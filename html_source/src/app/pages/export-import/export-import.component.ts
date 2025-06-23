@@ -38,30 +38,8 @@ import { Router } from '@angular/router';
             :host {
                 width: 100%;
             }
-
-            .head {
-                justify-content: flex-end;
-            }
-
-            .contacts-title {
-                font-size: 1.7rem;
-                margin-bottom: 1rem;
-            }
-
-            .btn-wrapper {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                margin: 0 -0.5rem;
-                padding: 1.5rem 0;
-            }
-
-            .btn-wrapper button {
-                flex: 1 0 auto;
-                margin: 0 0.5rem;
-            }
-        `
-    ]
+        `,
+    ],
 })
 export class ExportImportComponent {
     constructor(
@@ -84,22 +62,22 @@ export class ExportImportComponent {
                             this.modalService.prepareModal('error', 'CONTACTS.ERROR_IMPORT_EMPTY');
                         } else {
                             const options = {
-                                header: true
+                                header: true,
                             };
                             const elements = this.papa.parse(data, options);
                             const isArray = Array.isArray(elements.data);
                             if (isArray && elements.data.length !== 0 && elements.errors.length === 0) {
                                 if (this.variablesService.contacts.length === 0) {
-                                    elements.data.forEach(element => {
+                                    elements.data.forEach((element) => {
                                         this.variablesService.contacts.push(element);
                                     });
                                 } else {
-                                    elements.data.forEach(element => {
+                                    elements.data.forEach((element) => {
                                         const indexName = this.variablesService.contacts.findIndex(
-                                            contact => contact.name === element.name
+                                            (contact) => contact.name === element.name
                                         );
                                         const indexAddress = this.variablesService.contacts.findIndex(
-                                            contact => contact.address === element.address
+                                            (contact) => contact.address === element.address
                                         );
                                         if (indexAddress === -1 && indexName === -1) {
                                             this.variablesService.contacts.push(element);
@@ -110,7 +88,7 @@ export class ExportImportComponent {
                                                     this.translate.instant('CONTACTS.COPY') as string
                                                 }`,
                                                 address: element.address,
-                                                notes: element.notes
+                                                notes: element.notes,
                                             });
                                         }
                                     });
@@ -134,7 +112,7 @@ export class ExportImportComponent {
 
     export(): void {
         const contacts: Array<Contact> = [];
-        this.variablesService.contacts.forEach(contact => {
+        this.variablesService.contacts.forEach((contact) => {
             delete contact.alias;
             contacts.push(contact);
         });

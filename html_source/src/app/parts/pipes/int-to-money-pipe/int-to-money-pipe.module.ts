@@ -6,6 +6,6 @@ import { IntToMoneyPipe } from '@parts/pipes/int-to-money-pipe/int-to-money.pipe
     declarations: [IntToMoneyPipe],
     exports: [IntToMoneyPipe],
     providers: [IntToMoneyPipe],
-    imports: [CommonModule]
+    imports: [CommonModule],
 })
 export class IntToMoneyPipeModule {}

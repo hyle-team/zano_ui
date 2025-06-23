@@ -4,7 +4,7 @@ import { Transaction } from '@api/models/transaction.model';
 
 @Pipe({
     name: 'isVisibleFee',
-    standalone: true
+    standalone: true,
 })
 export class IsVisibleFeePipe implements PipeTransform {
     transform(transaction: Transaction): boolean {

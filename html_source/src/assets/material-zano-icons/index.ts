@@ -43,5 +43,5 @@ export const materialZanoIcons = [
     'zano-wallet-settings',
     'zano-attention',
     'zano-circle-arrow-right',
-    'zano-crown'
+    'zano-crown',
 ];
