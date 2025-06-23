@@ -941,7 +941,9 @@
         "TOOLTIPS": {
             "CLOSE": "Fermer le portefeuille",
             "EDIT_ALIAS": "Modifier l'alias",
+            "HIDE_BALANCE": "Hide balance",
             "SETTINGS": "Paramètres",
+            "SHOW_BALANCE": "Show balance",
             "TRANSFER_ALIAS": "Alias de transfert",
             "WHITELIST_ASSET": "Ajouter un jeton personnalisé"
         }

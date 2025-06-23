@@ -941,7 +941,9 @@
         "TOOLTIPS": {
             "CLOSE": "Tutup dompet",
             "EDIT_ALIAS": "Ubah alias",
+            "HIDE_BALANCE": "Hide balance",
             "SETTINGS": "Pengaturan",
+            "SHOW_BALANCE": "Show balance",
             "TRANSFER_ALIAS": "Alias transfer",
             "WHITELIST_ASSET": "Tambahkan Token Khusus"
         }
