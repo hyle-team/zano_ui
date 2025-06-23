@@ -3,7 +3,7 @@ import { VariablesService } from '../../services/variables.service';
 import { TranslateService } from '@ngx-translate/core';
 
 @Pipe({
-    name: 'contractTimeLeft'
+    name: 'contractTimeLeft',
 })
 export class ContractTimeLeftPipe implements PipeTransform {
     constructor(private service: VariablesService, private translate: TranslateService) {}
@@ -18,11 +18,11 @@ export class ContractTimeLeftPipe implements PipeTransform {
             if (type === 0) {
                 if (time === 1) {
                     return this.translate.instant('CONTRACTS.TIME_LEFT.REMAINING_ONE', {
-                        time: time
+                        time: time,
                     });
                 } else {
                     return this.translate.instant('CONTRACTS.TIME_LEFT.REMAINING_MANY', {
-                        time: time
+                        time: time,
                     });
                 }
             } else if (type === 1) {
@@ -43,11 +43,11 @@ export class ContractTimeLeftPipe implements PipeTransform {
             if (type === 0) {
                 if ((time > 20 && rest === 1) || time === 1) {
                     return this.translate.instant('CONTRACTS.TIME_LEFT.REMAINING_ONE', {
-                        time: time
+                        time: time,
                     });
                 } else if ((time > 1 && time < 5) || (time > 20 && (rest === 2 || rest === 3 || rest === 4))) {
                     return this.translate.instant('CONTRACTS.TIME_LEFT.REMAINING_MANY', {
-                        time: time
+                        time: time,
                     });
                 } else {
                     return this.translate.instant('CONTRACTS.TIME_LEFT.REMAINING_MANY_ALT', { time: time });

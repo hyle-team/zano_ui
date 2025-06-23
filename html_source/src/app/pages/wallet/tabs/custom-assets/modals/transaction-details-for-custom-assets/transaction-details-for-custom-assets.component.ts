@@ -9,7 +9,7 @@ import { VariablesService } from '@parts/services/variables.service';
 @Component({
     selector: 'app-transaction-details-for-custom-assets',
     templateUrl: './transaction-details-for-custom-assets.component.html',
-    styleUrls: ['./transaction-details-for-custom-assets.component.scss']
+    styleUrls: ['./transaction-details-for-custom-assets.component.scss'],
 })
 export class TransactionDetailsForCustomAssetsComponent implements OnInit, OnDestroy {
     public status: 'loading' | 'success' | 'error' = 'loading';
@@ -22,7 +22,7 @@ export class TransactionDetailsForCustomAssetsComponent implements OnInit, OnDes
 
     @ViewChild('elDetailsList', { static: true }) elDetailsList: ElementRef;
 
-    public isShowDetailsState: boolean = false;
+    public isShowDetailsState = false;
 
     public variablesService: VariablesService = inject(VariablesService);
 
@@ -46,7 +46,7 @@ export class TransactionDetailsForCustomAssetsComponent implements OnInit, OnDes
                         this.status = 'success';
                         this.details = response.result;
                     }
-                }
+                },
             });
     }
 

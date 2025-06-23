@@ -220,17 +220,17 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                 </div>
             </div>
         </div>
-    `
+    `,
 })
 export class WalletDetailsComponent {
     breadcrumbItems: BreadcrumbItems = [
         {
             routerLink: '/wallet/history',
-            title: this.variablesService.current_wallet.name
+            title: this.variablesService.current_wallet.name,
         },
         {
-            title: 'BREADCRUMBS.WALLET_DETAILS'
-        }
+            title: 'BREADCRUMBS.WALLET_DETAILS',
+        },
     ];
 
     seedPhrase = '';
@@ -245,16 +245,16 @@ export class WalletDetailsComponent {
 
     detailsForm = this.fb.group({
         name: this.fb.control('', [Validators.required, ZanoValidators.duplicate(this.variablesService.walletNamesForComparisons)]),
-        path: this.fb.control('')
+        path: this.fb.control(''),
     });
 
     passwordSeedPhraseForm = this.fb.group(
         {
             password: this.fb.control('', Validators.pattern(REG_EXP_PASSWORD)),
-            confirmPassword: this.fb.control('')
+            confirmPassword: this.fb.control(''),
         },
         {
-            validators: [ZanoValidators.formMatch('password', 'confirmPassword')]
+            validators: [ZanoValidators.formMatch('password', 'confirmPassword')],
         }
     );
 
@@ -269,10 +269,10 @@ export class WalletDetailsComponent {
         this.detailsForm.patchValue(
             {
                 name,
-                path
+                path,
             },
             {
-                emitEvent: false
+                emitEvent: false,
             }
         );
     }

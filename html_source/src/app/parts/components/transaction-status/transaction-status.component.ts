@@ -13,7 +13,7 @@ import { FlexModule } from '@angular/flex-layout';
     standalone: true,
     imports: [CommonModule, TooltipModule, TranslateModule, FlexModule],
     templateUrl: './transaction-status.component.html',
-    styleUrls: ['./transaction-status.component.scss']
+    styleUrls: ['./transaction-status.component.scss'],
 })
 export class TransactionStatusComponent {
     @Input() transaction: Transaction;

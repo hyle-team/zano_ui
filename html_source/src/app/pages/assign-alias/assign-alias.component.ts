@@ -18,31 +18,31 @@ const NameValidators = [
     Validators.required,
     Validators.minLength(6),
     Validators.maxLength(25),
-    Validators.pattern(REG_EXP_REGISTER_ALIAS_NAME)
+    Validators.pattern(REG_EXP_REGISTER_ALIAS_NAME),
 ];
 
 const CommentValidators = [Validators.maxLength(MAX_COMMENT_LENGTH)];
 
 @Component({
     selector: 'app-assign-alias',
-    templateUrl: './assign-alias.component.html'
+    templateUrl: './assign-alias.component.html',
 })
 export class AssignAliasComponent implements OnInit, OnDestroy {
     readonly breadcrumbItems: BreadcrumbItems = [
         {
             routerLink: '/wallet/history',
-            title: this.variablesService.current_wallet.name
+            title: this.variablesService.current_wallet.name,
         },
         {
-            title: 'BREADCRUMBS.ASSIGN_ALIAS'
-        }
+            title: 'BREADCRUMBS.ASSIGN_ALIAS',
+        },
     ];
 
     wallet: Wallet = this.variablesService.current_wallet;
 
     form = this._fb.group({
         name: this._fb.control('', NameValidators),
-        comment: this._fb.control('', CommentValidators)
+        comment: this._fb.control('', CommentValidators),
     });
 
     alias = {
@@ -52,12 +52,12 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
         reward: '0',
         rewardOriginal: '0',
         comment: '',
-        exists: false
+        exists: false,
     };
 
-    canRegister: boolean = false;
+    canRegister = false;
 
-    notEnoughMoney: boolean = false;
+    notEnoughMoney = false;
 
     private _destroy$: Subject<void> = new Subject<void>();
 
@@ -120,16 +120,16 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
 
     private _subscribeToNameValueChanges(): void {
         const {
-            controls: { name: control }
+            controls: { name: control },
         } = this.form;
 
         control.valueChanges.pipe(takeUntil(this._destroy$)).subscribe({
-            next: value => {
+            next: (value) => {
                 this.canRegister = false;
                 this.alias.exists = false;
                 const newName = value.toLowerCase().replace('@', '');
                 if (!(control.errors && control.hasError('pattern')) && newName.length >= 6 && newName.length <= 25) {
-                    this._backendService.getAliasInfoByName(newName, status => {
+                    this._backendService.getAliasInfoByName(newName, (status) => {
                         this._ngZone.run(() => {
                             this.alias.exists = status;
                         });
@@ -159,7 +159,7 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
                     this.alias.rewardOriginal = '0';
                 }
                 this.alias.name = newName;
-            }
+            },
         });
     }
 }

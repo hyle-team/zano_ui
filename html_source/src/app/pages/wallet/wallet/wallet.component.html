@@ -1,6 +1,5 @@
 <div class="header mb-2" fxFlex="0 0 auto" fxLayout="row nowrap" fxLayoutAlign="space-between start" fxLayoutGap="1rem">
-    <div class="left overflow-hidden" fxFlex="1 1 auto" fxLayout="row nowrap" fxLayoutAlign="start center"
-         fxLayoutGap="3rem">
+    <div class="left overflow-hidden" fxFlex="1 1 auto" fxLayout="row nowrap" fxLayoutAlign="start center" fxLayoutGap="3rem">
         <div class="wallet-wrapper" fxLayout="column" fxLayoutAlign="start start">
             <div class="title" fxLayout="row nowrap" fxLayoutAlign="start center" fxLayoutGap="1rem">
                 <h1 class="text-ellipsis">
@@ -22,8 +21,7 @@
         </div>
 
         <ng-container *ngIf="isShowMigrateAlert">
-            <hr fxFlex="0 0 1px"
-                style="height: 3.6rem; border: none; border-right: var(--table-rounded-corners-border)" />
+            <hr fxFlex="0 0 1px" style="height: 3.6rem; border: none; border-right: var(--table-rounded-corners-border)" />
             <zano-migrate-alert></zano-migrate-alert>
         </ng-container>
     </div>
@@ -79,8 +77,7 @@
             <button
                 (click)="exportHistory()"
                 [delay]="500"
-                [disabled]="variablesService.current_wallet.history.length <= 0 ||
-                !variablesService.current_wallet.loaded"
+                [disabled]="variablesService.current_wallet.history.length <= 0 || !variablesService.current_wallet.loaded"
                 [timeDelay]="500"
                 mat-menu-item
                 placement="left"
@@ -127,19 +124,16 @@
     <div class="tabs-header">
         <ng-container *ngFor="let tab of tabs">
             <ng-container *ngIf="!tab.hidden">
-                <button [disabled]="tab.disabled" [routerLink]="['/wallet' + tab.link]" class="tab-header"
-                        routerLinkActive="active">
+                <button [disabled]="tab.disabled" [routerLink]="['/wallet' + tab.link]" class="tab-header" routerLinkActive="active">
                     <mat-icon [svgIcon]="tab.icon"></mat-icon>
                     <span *ngIf="isViewTabName$ | async" class="ml-1">{{ tab.title | translate }}</span>
-                    <span *ngIf="tab.indicator"
-                          class="indicator">{{ variablesService.current_wallet.new_contracts }}</span>
+                    <span *ngIf="tab.indicator" class="indicator">{{ variablesService.current_wallet.new_contracts }}</span>
                 </button>
             </ng-container>
         </ng-container>
     </div>
     <div class="tabs-content">
-        <router-outlet>
-        </router-outlet>
+        <router-outlet> </router-outlet>
 
         <div *ngIf="loader" class="wrapper-tab-preloader">
             <div class="preloader">

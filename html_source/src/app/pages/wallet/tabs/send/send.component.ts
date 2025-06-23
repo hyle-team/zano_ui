@@ -25,20 +25,20 @@ const DEFAULT_SEND_MONEY_PARAMS: Omit<TransferFormValue, 'wallet_id'> = {
             is_amount_usd: false,
             asset_id: ZANO_ASSET_INFO.asset_id,
             is_visible_wrap_info: false,
-            alias_address: ''
-        }
+            alias_address: '',
+        },
     ],
     comment: '',
     mixin: 0,
     fee: '0.01',
     lock_time: 0,
     push_payer: true,
-    hide_receiver: false
+    hide_receiver: false,
 };
 
 const DEFAULT_PRICE_INFO: PriceInfo = {
     success: false,
-    data: 'Asset not found'
+    data: 'Asset not found',
 };
 
 export type DestinationsForm = FormGroup<{
@@ -65,7 +65,7 @@ export type TransferForm = FormGroup<{
 @Component({
     selector: 'app-send',
     templateUrl: 'send.component.html',
-    styleUrls: ['./send.component.scss']
+    styleUrls: ['./send.component.scss'],
 })
 export class SendComponent implements OnDestroy {
     private readonly _backend_service: BackendService = inject(BackendService);
@@ -80,11 +80,11 @@ export class SendComponent implements OnDestroy {
 
     job_id: number;
 
-    is_send_modal_state: boolean = false;
+    is_send_modal_state = false;
 
-    is_send_details_modal_state: boolean = false;
+    is_send_details_modal_state = false;
 
-    is_visible_additional_options_state: boolean = false;
+    is_visible_additional_options_state = false;
 
     form: TransferForm;
 
@@ -110,20 +110,21 @@ export class SendComponent implements OnDestroy {
     }
 
     get is_submit_disabled(): boolean {
-        if (!this.form) { return true; }
+        if (!this.form) {
+            return true;
+        }
 
         const {
             current_wallet: { loaded: is_current_wallet_loaded },
-            is_wrap_info_service_inactive$: { value: is_wrap_info_service_inactive }
+            is_wrap_info_service_inactive$: { value: is_wrap_info_service_inactive },
         } = this.variables_service;
 
         const { destinations } = this.form.getRawValue();
 
         const condition1: boolean = this.form?.invalid ?? true;
-        const condition2: boolean = !is_current_wallet_loaded;
+        const condition2 = !is_current_wallet_loaded;
         const condition3: boolean =
-            destinations.map(({ is_visible_wrap_info }) => is_visible_wrap_info).some(Boolean)
-            && is_wrap_info_service_inactive;
+            destinations.map(({ is_visible_wrap_info }) => is_visible_wrap_info).some(Boolean) && is_wrap_info_service_inactive;
 
         return condition1 || condition2 || condition3;
     }
@@ -137,7 +138,7 @@ export class SendComponent implements OnDestroy {
         this.variables_service.is_wrap_info_service_inactive$.pipe(takeUntil(this._destroy$)).subscribe({
             next: () => {
                 this.form.controls.destinations.updateValueAndValidity();
-            }
+            },
         });
     }
 
@@ -175,16 +176,16 @@ export class SendComponent implements OnDestroy {
 
         return {
             wallet_id: transfer_form_value.wallet_id,
-            destinations: transfer_form_value.destinations.map(v => ({
+            destinations: transfer_form_value.destinations.map((v) => ({
                 ...prepareTransferDestinationsFormValueToTransferDestination(v),
-                amount: v.is_amount_usd ? this.convertedAmountUSD(v.amount, asset) : v.amount
+                amount: v.is_amount_usd ? this.convertedAmountUSD(v.amount, asset) : v.amount,
             })),
             mixin: transfer_form_value.mixin,
             lock_time: transfer_form_value.lock_time,
             fee: moneyToInt(transfer_form_value.fee, ZANO_ASSET_INFO.decimal_point).toString(),
             comment: transfer_form_value.comment,
             push_payer: transfer_form_value.push_payer,
-            hide_receiver: !hide_receiver
+            hide_receiver: !hide_receiver,
         };
     }
 
@@ -211,14 +212,14 @@ export class SendComponent implements OnDestroy {
 
     addDestination(): void {
         const {
-            controls: { asset_id, destinations }
+            controls: { asset_id, destinations },
         } = this.form;
         destinations.push(this._createDestinationFromGroup(asset_id));
     }
 
     removeDestination(index: number): void {
         const {
-            controls: { destinations }
+            controls: { destinations },
         } = this.form;
         destinations.removeAt(index);
     }
@@ -233,7 +234,7 @@ export class SendComponent implements OnDestroy {
             init_transfer_form_value = {
                 ...DEFAULT_SEND_MONEY_PARAMS,
                 wallet_id: current_wallet.wallet_id,
-                fee: default_fee
+                fee: default_fee,
             };
         }
 
@@ -250,10 +251,10 @@ export class SendComponent implements OnDestroy {
 
         if (history_asset) {
             const {
-                asset_info: { asset_id, decimal_point }
+                asset_info: { asset_id, decimal_point },
             } = history_asset;
             init_transfer_form_value.asset_id = asset_id;
-            init_transfer_form_value.destinations.forEach(destination => {
+            init_transfer_form_value.destinations.forEach((destination) => {
                 destination.asset_id = asset_id;
                 if (destination.amount) {
                     destination.amount = intToMoney(moneyToInt(destination.amount, decimal_point), decimal_point);
@@ -264,14 +265,14 @@ export class SendComponent implements OnDestroy {
         const wallet_id_control = this._fb.control<number>(
             { value: current_wallet.wallet_id, disabled: false },
             {
-                validators: Validators.compose([Validators.required])
+                validators: Validators.compose([Validators.required]),
             }
         );
 
         const asset_id_control = this._fb.control<string>(
             { value: init_transfer_form_value.asset_id, disabled: false },
             {
-                validators: Validators.compose([Validators.required])
+                validators: Validators.compose([Validators.required]),
             }
         );
 
@@ -286,14 +287,14 @@ export class SendComponent implements OnDestroy {
         const comment_control = this._fb.control<string>(
             { value: '', disabled: false },
             {
-                validators: Validators.compose([Validators.maxLength(maxCommentLength)])
+                validators: Validators.compose([Validators.maxLength(maxCommentLength)]),
             }
         );
 
         const mixin_control = this._fb.control<number>(
             { value: 0, disabled: current_wallet.is_auditable },
             {
-                validators: Validators.compose([Validators.required, Validators.min(0), Validators.max(1000)])
+                validators: Validators.compose([Validators.required, Validators.min(0), Validators.max(1000)]),
             }
         );
 
@@ -305,8 +306,8 @@ export class SendComponent implements OnDestroy {
                 validators: Validators.compose([
                     Validators.required,
                     ZanoValidators.greaterMax(MAXIMUM_VALUE, ZANO_ASSET_INFO.decimal_point),
-                    ZanoValidators.lessMin(default_fee)
-                ])
+                    ZanoValidators.lessMin(default_fee),
+                ]),
             }
         );
 
@@ -314,7 +315,7 @@ export class SendComponent implements OnDestroy {
 
         const hide_receiver_control = this._fb.control<boolean>({
             value: false,
-            disabled: current_wallet.is_auditable && !current_wallet.is_watch_only
+            disabled: current_wallet.is_auditable && !current_wallet.is_watch_only,
         });
 
         this.form = this._fb.group({
@@ -326,7 +327,7 @@ export class SendComponent implements OnDestroy {
             lock_time: lock_time_control,
             fee: fee_control,
             push_payer: push_payer_control,
-            hide_receiver: hide_receiver_control
+            hide_receiver: hide_receiver_control,
         });
 
         this.form.patchValue(init_transfer_form_value);
@@ -395,12 +396,12 @@ export class SendComponent implements OnDestroy {
         return control.hasError('alias_not_found') ? { alias_not_found: true } : null;
     }
 
-    private _setError(control: AbstractControl, errorKey: string) {
+    private _setError(control: AbstractControl, errorKey: string): void {
         const errors = { ...control.errors, [errorKey]: true };
         control.setErrors(errors);
     }
 
-    private _clearError(control: AbstractControl, errorKey: string) {
+    private _clearError(control: AbstractControl, errorKey: string): void {
         if (control.hasError(errorKey)) {
             const errors = { ...control.errors };
             delete errors[errorKey];
@@ -436,16 +437,18 @@ export class SendComponent implements OnDestroy {
     }
 
     private _subscribeToDescriptionsChanges(): void {
-        this.form.controls.destinations.valueChanges.pipe(startWith(this.form.controls.destinations.value), takeUntil(this._destroy$)).subscribe({
-            next: (destinations) => {
-                if (destinations.length > 1) {
-                    this.form.controls.comment.reset('');
-                    this.form.controls.comment.disable();
-                } else {
-                    this.form.controls.comment.enable();
-                }
-            }
-        });
+        this.form.controls.destinations.valueChanges
+            .pipe(startWith(this.form.controls.destinations.value), takeUntil(this._destroy$))
+            .subscribe({
+                next: (destinations) => {
+                    if (destinations.length > 1) {
+                        this.form.controls.comment.reset('');
+                        this.form.controls.comment.disable();
+                    } else {
+                        this.form.controls.comment.enable();
+                    }
+                },
+            });
     }
 
     private _subscribeToFormChanges(): void {
@@ -455,7 +458,7 @@ export class SendComponent implements OnDestroy {
 
                 const { current_wallet } = this.variables_service;
 
-                this.form.controls.destinations.controls.forEach(control => {
+                this.form.controls.destinations.controls.forEach((control) => {
                     const asset = current_wallet.getBalanceByAssetId(control.controls.asset_id.value);
 
                     const amount = control.controls.is_amount_usd.value
@@ -470,10 +473,10 @@ export class SendComponent implements OnDestroy {
 
                 this.total_destinations_amount_and_fee = total_destinations_amount_and_fee;
 
-                this.form.controls.destinations.controls.forEach(control => {
+                this.form.controls.destinations.controls.forEach((control) => {
                     control.updateValueAndValidity({ emitEvent: false });
                 });
-            }
+            },
         });
     }
 
@@ -481,14 +484,14 @@ export class SendComponent implements OnDestroy {
         this.form.controls.asset_id.valueChanges
             .pipe(
                 startWith(this.form.controls.asset_id.value),
-                switchMap(assetId => this._api_service.getCurrentPriceForAsset(assetId).pipe(retry(2))),
+                switchMap((assetId) => this._api_service.getCurrentPriceForAsset(assetId).pipe(retry(2))),
                 takeUntil(this._destroy$)
             )
             .subscribe({
                 next: (priceInfo: PriceInfo) => {
                     this.price_info = priceInfo;
                     this.price_info$.next(priceInfo);
-                }
+                },
             });
     }
 
@@ -497,14 +500,14 @@ export class SendComponent implements OnDestroy {
         this.form.valueChanges.pipe(debounceTime(800), takeUntil(this._destroy$)).subscribe({
             next: (): void => {
                 current_wallet.transfer_form_value = this.form.getRawValue();
-            }
+            },
         });
     }
 
     private _listenSendActionData(): void {
         this.variables_service.sendActionData$
             .pipe(
-                filter(value => value?.action === 'send'),
+                filter((value) => value?.action === 'send'),
                 takeUntil(this._destroy$)
             )
             .subscribe({
@@ -517,17 +520,17 @@ export class SendComponent implements OnDestroy {
                             {
                                 address: address || '',
                                 asset_id: ZANO_ASSET_INFO.asset_id,
-                                amount: amount || ''
-                            }
+                                amount: amount || '',
+                            },
                         ],
                         comment: comment || comments || '',
                         asset_id: ZANO_ASSET_INFO.asset_id,
                         fee: fee || this.variables_service.default_fee,
                         push_payer: hide_sender === 'false',
-                        hide_receiver: hide_receiver === 'false'
+                        hide_receiver: hide_receiver === 'false',
                     });
                     this.variables_service.sendActionData$.next({});
-                }
+                },
             });
     }
 
@@ -535,14 +538,14 @@ export class SendComponent implements OnDestroy {
         const address_control = this._fb.control<string>(
             { value: '', disabled: false },
             {
-                validators: Validators.compose([Validators.required, this._validateAddressOrAlias.bind(this)])
+                validators: Validators.compose([Validators.required, this._validateAddressOrAlias.bind(this)]),
             }
         );
 
         const amount_control = this._fb.control<string>(
             { value: '', disabled: false },
             {
-                validators: Validators.compose([Validators.required, ZanoValidators.zeroValue])
+                validators: Validators.compose([Validators.required, ZanoValidators.zeroValue]),
             }
         );
 
@@ -559,7 +562,7 @@ export class SendComponent implements OnDestroy {
                 is_amount_usd: is_amount_usd_control,
                 alias_address: alias_address_control,
                 is_visible_wrap_info: is_visible_wrap_info_control,
-                asset_id: asset_id_control
+                asset_id: asset_id_control,
             },
             {
                 validators: [
@@ -581,7 +584,7 @@ export class SendComponent implements OnDestroy {
 
                         const {
                             unlocked,
-                            asset_info: { decimal_point }
+                            asset_info: { decimal_point },
                         } = assetBalance;
 
                         const maxAllowed = intToMoney(MAXIMUM_VALUE, decimal_point);
@@ -621,23 +624,23 @@ export class SendComponent implements OnDestroy {
                         }
 
                         return Object.keys(errors).length > 0 ? errors : null;
-                    }
-                ]
+                    },
+                ],
             }
         );
     }
 }
 
-const isVisibleWrapInfoByDestinations = (destinations: TransferDestinationsFormValue[]) =>
+const isVisibleWrapInfoByDestinations = (destinations: TransferDestinationsFormValue[]): boolean =>
     destinations.map(({ is_visible_wrap_info }: TransferDestinationsFormValue) => is_visible_wrap_info).some(Boolean);
 
 const prepareTransferDestinationsFormValueToTransferDestination = ({
     address,
     amount,
     alias_address,
-    asset_id
-}: TransferDestinationsFormValue) => ({
+    asset_id,
+}: TransferDestinationsFormValue): { address: string; asset_id: string; amount: any } => ({
     address: address.startsWith('@') ? alias_address : address,
     asset_id,
-    amount
+    amount,
 });

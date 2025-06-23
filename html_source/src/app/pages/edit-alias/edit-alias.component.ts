@@ -95,8 +95,8 @@ import { AliasInfo } from '@api/models/alias.model';
                 height: 100%;
                 overflow: hidden;
             }
-        `
-    ]
+        `,
+    ],
 })
 export class EditAliasComponent implements OnInit {
     wallet: Wallet;
@@ -106,11 +106,11 @@ export class EditAliasComponent implements OnInit {
     breadcrumbItems: BreadcrumbItems = [
         {
             routerLink: '/wallet/history',
-            title: this.variablesService.current_wallet.name
+            title: this.variablesService.current_wallet.name,
         },
         {
-            title: 'BREADCRUMBS.EDIT_ALIAS'
-        }
+            title: 'BREADCRUMBS.EDIT_ALIAS',
+        },
     ];
 
     oldAliasComment: string;
@@ -149,7 +149,7 @@ export class EditAliasComponent implements OnInit {
             return;
         }
         this.requestProcessing = true;
-        this.backend.updateAlias(this.wallet.wallet_id, this.alias_info, this.variablesService.default_fee, status => {
+        this.backend.updateAlias(this.wallet.wallet_id, this.alias_info, this.variablesService.default_fee, (status) => {
             if (status) {
                 this.modalService.prepareModal('success', '');
                 this.wallet.alias_info['comment'] = this.alias_info.comment;

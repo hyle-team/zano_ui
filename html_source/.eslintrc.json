@@ -1,32 +1,51 @@
 {
     "root": true,
-    "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": { "project": ["./tsconfig.json"] },
-    "plugins": ["@typescript-eslint"],
     "ignorePatterns": ["src/**/*.spec.ts"],
+    "plugins": ["@typescript-eslint"],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "project": ["./tsconfig.json"],
+        "createDefaultProgram": true
+    },
     "overrides": [
         {
             "files": ["*.ts"],
             "parserOptions": {
-                "project": ["tsconfig.json", "e2e/tsconfig.json"],
-                "createDefaultProgram": true
+                "project": ["tsconfig.json", "e2e/tsconfig.json"]
             },
             "extends": [
                 "plugin:@angular-eslint/recommended",
-                "eslint:recommended",
+                "plugin:@angular-eslint/template/process-inline-templates",
                 "plugin:@typescript-eslint/recommended",
                 "plugin:@typescript-eslint/recommended-requiring-type-checking",
-                "plugin:@angular-eslint/template/process-inline-templates",
                 "plugin:prettier/recommended"
             ],
             "rules": {
-                "@typescript-eslint/unbound-method": [
+                "@angular-eslint/component-selector": [
                     "error",
                     {
-                        "ignoreStatic": true
+                        "prefix": ["app", "zano"],
+                        "style": "kebab-case",
+                        "type": "element"
                     }
                 ],
+                "@angular-eslint/directive-selector": [
+                    "error",
+                    {
+                        "prefix": ["app", "zano"],
+                        "style": "camelCase",
+                        "type": "attribute"
+                    }
+                ],
+
+                "@typescript-eslint/unbound-method": ["error", { "ignoreStatic": true }],
+                "@typescript-eslint/explicit-function-return-type": [
+                    "error",
+                    {
+                        "allowedNames": ["ignoredFunctionName", "ignoredMethodName"]
+                    }
+                ],
+
                 "@typescript-eslint/no-explicit-any": "off",
                 "@typescript-eslint/no-floating-promises": "off",
                 "@typescript-eslint/no-misused-promises": "off",
@@ -37,32 +56,18 @@
                 "@typescript-eslint/no-unsafe-member-access": "off",
                 "@typescript-eslint/no-unsafe-return": "off",
                 "@typescript-eslint/restrict-plus-operands": "off",
-                "@typescript-eslint/explicit-function-return-type": [
+
+                "prettier/prettier": ["error", { "endOfLine": "auto" }],
+
+                "@angular-eslint/component-selector": "off",
+                "@angular-eslint/directive-selector": "off",
+                "@typescript-eslint/restrict-template-expressions": [
                     "error",
                     {
-                        "allowedNames": ["ignoredFunctionName", "ignoredMethodName"]
-                    }
-                ],
-                "@angular-eslint/component-selector": [
-                    "error",
-                    {
-                        "prefix": "app",
-                        "style": "kebab-case",
-                        "type": "element"
-                    }
-                ],
-                "@angular-eslint/directive-selector": [
-                    "error",
-                    {
-                        "prefix": "app",
-                        "style": "camelCase",
-                        "type": "attribute"
-                    }
-                ],
-                "prettier/prettier": [
-                    "error",
-                    {
-                        "endOfLine": "auto"
+                        "allowAny": true,
+                        "allowNumber": true,
+                        "allowBoolean": true,
+                        "allowNullish": true
                     }
                 ]
             }

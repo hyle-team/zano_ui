@@ -203,8 +203,8 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
                 height: 100%;
                 overflow: hidden;
             }
-        `
-    ]
+        `,
+    ],
 })
 export class SeedPhraseComponent implements OnInit, OnDestroy {
     seedPhrase = '';
@@ -212,11 +212,11 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
     breadcrumbItems: BreadcrumbItems = [
         {
             routerLink: '/add-wallet',
-            title: 'BREADCRUMBS.ADD_WALLET'
+            title: 'BREADCRUMBS.ADD_WALLET',
         },
         {
-            title: 'BREADCRUMBS.SAVE_PHRASE'
-        }
+            title: 'BREADCRUMBS.SAVE_PHRASE',
+        },
     ];
 
     showSeed = false;
@@ -233,16 +233,16 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
 
     detailsForm = this.fb.group({
         name: this.fb.nonNullable.control('', [ZanoValidators.duplicate(this.variablesService.walletNamesForComparisons)]),
-        path: this.fb.nonNullable.control('')
+        path: this.fb.nonNullable.control(''),
     });
 
     seedPhraseForm = this.fb.group(
         {
             password: this.fb.nonNullable.control('', Validators.pattern(REG_EXP_PASSWORD)),
-            confirmPassword: this.fb.nonNullable.control('')
+            confirmPassword: this.fb.nonNullable.control(''),
         },
         {
-            validators: [ZanoValidators.formMatch('password', 'confirmPassword')]
+            validators: [ZanoValidators.formMatch('password', 'confirmPassword')],
         }
     );
 
@@ -304,7 +304,7 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
 
     private getWallet(): void {
         this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe({
-            next: params => {
+            next: (params) => {
                 if (params.wallet_id) {
                     this.wallet_id = +params.wallet_id;
                     this.wallet = this.walletsService.getWalletById(this.wallet_id);
@@ -312,7 +312,7 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
                         this.setWalletInfoNamePath();
                     }
                 }
-            }
+            },
         });
     }
 }

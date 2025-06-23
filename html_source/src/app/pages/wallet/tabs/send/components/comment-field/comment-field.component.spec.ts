@@ -8,7 +8,7 @@ describe('CommentFieldComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [CommentFieldComponent]
+            imports: [CommentFieldComponent],
         }).compileComponents();
 
         fixture = TestBed.createComponent(CommentFieldComponent);

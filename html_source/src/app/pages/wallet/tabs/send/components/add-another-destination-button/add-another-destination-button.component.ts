@@ -9,8 +9,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     standalone: true,
     imports: [CommonModule, MatIconModule, TranslateModule, MatTooltipModule],
     templateUrl: './add-another-destination-button.component.html',
-    styleUrls: ['./add-another-destination-button.component.scss']
+    styleUrls: ['./add-another-destination-button.component.scss'],
 })
 export class AddAnotherDestinationButtonComponent {
-    @Input() disabled: boolean = false;
+    @Input() disabled = false;
 }

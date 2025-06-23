@@ -10,7 +10,7 @@ import { TranslateModule } from '@ngx-translate/core';
     standalone: true,
     imports: [CommonModule, MatIconModule, MatTooltipModule, TranslateModule],
     templateUrl: './visibility-balance-button.component.html',
-    styleUrls: ['./visibility-balance-button.component.scss']
+    styleUrls: ['./visibility-balance-button.component.scss'],
 })
 export class VisibilityBalanceButtonComponent {
     public readonly variablesService: VariablesService = inject(VariablesService);

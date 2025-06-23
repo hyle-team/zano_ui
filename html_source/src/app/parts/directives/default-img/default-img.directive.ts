@@ -1,7 +1,7 @@
 import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 
 @Directive({
-    selector: '[appDefaultImg]'
+    selector: '[appDefaultImg]',
 })
 export class DefaultImgDirective {
     @Input() defaultImgSrc!: string | null | undefined;

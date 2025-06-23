@@ -28,7 +28,7 @@ import { takeUntil } from 'rxjs/operators';
                             <ng-template let-item="item" ng-label-tmp>
                                 {{ item.name }}
                             </ng-template>
-                            <ng-template let-index="index" let-item="item" ng-option-tmp>
+                            <ng-template let-item="item" ng-option-tmp>
                                 {{ item.name }}
                             </ng-template>
                         </ng-select>
@@ -129,7 +129,7 @@ import { takeUntil } from 'rxjs/operators';
                                 {{ 'Transaction fee' | translate }}
                             </div>
                             <div class="text">
-                                {{ actionData.price * (actionData.fee || this.variablesService.default_fee) }}
+                                {{ $any(actionData.price) * $any(actionData.fee || this.variablesService.default_fee) }}
                                 {{ this.variablesService.defaultTicker }}
                             </div>
                         </div>
@@ -184,7 +184,7 @@ import { takeUntil } from 'rxjs/operators';
             </ng-container>
         </div>
     `,
-    styleUrls: ['./deeplink-modal.component.scss']
+    styleUrls: ['./deeplink-modal.component.scss'],
 })
 export class DeeplinkModalComponent implements OnInit, OnDestroy {
     @HostBinding('class.modal-overlay') modalOverlay = true;
@@ -216,14 +216,16 @@ export class DeeplinkModalComponent implements OnInit, OnDestroy {
         private ngZone: NgZone,
         private renderer: Renderer2
     ) {
-        this.walletsToPay = this.variablesService.wallets.filter(wallet => !wallet.is_watch_only || !wallet.is_auditable || wallet.loaded);
+        this.walletsToPay = this.variablesService.wallets.filter(
+            (wallet) => !wallet.is_watch_only || !wallet.is_auditable || wallet.loaded
+        );
     }
 
     ngOnInit(): void {
         this.renderer.addClass(document.body, 'no-scroll');
 
         this.variablesService.deeplink$.pipe(takeUntil(this.destroy$)).subscribe({
-            next: deeplink => {
+            next: (deeplink) => {
                 this.actionData = {};
 
                 if (deeplink) {
@@ -248,7 +250,7 @@ export class DeeplinkModalComponent implements OnInit, OnDestroy {
                         }
                     }
                 }
-            }
+            },
         });
     }
 
@@ -264,7 +266,7 @@ export class DeeplinkModalComponent implements OnInit, OnDestroy {
         const newObj = {};
 
         const newString = deeplink.substr(5); // delete zano:;
-        newString.split('&').forEach(str => {
+        newString.split('&').forEach((str) => {
             const [key, value] = str.split('=');
             newObj[key] = value.replace(quotesRex, '').replace(spaceSymbolRex, ' ').trim();
         });
@@ -295,8 +297,8 @@ export class DeeplinkModalComponent implements OnInit, OnDestroy {
                 ot: 1,
                 pt: 'Credit cards, BTC, ZANO, ETH',
                 t: this.actionData.title || '',
-                url: this.actionData.url || this.actionData.img_url || ''
-            }
+                url: this.actionData.url || this.actionData.img_url || '',
+            },
         };
         this.backend.push_offer(offerObject, (status, data) => {
             this.ngZone.run(() => {

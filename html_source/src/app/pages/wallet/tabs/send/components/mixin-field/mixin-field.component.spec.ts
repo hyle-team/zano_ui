@@ -8,7 +8,7 @@ describe('MixinFieldComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [MixinFieldComponent]
+            imports: [MixinFieldComponent],
         }).compileComponents();
 
         fixture = TestBed.createComponent(MixinFieldComponent);

@@ -8,7 +8,7 @@ import { VariablesService } from '@parts/services/variables.service';
     standalone: true,
     imports: [CommonModule, FlexModule],
     templateUrl: './zano-logo.component.html',
-    styleUrls: ['./zano-logo.component.scss']
+    styleUrls: ['./zano-logo.component.scss'],
 })
 export class ZanoLogoComponent {
     constructor(public variablesService: VariablesService) {}

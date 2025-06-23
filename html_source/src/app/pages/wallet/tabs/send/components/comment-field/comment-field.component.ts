@@ -10,7 +10,7 @@ import { VariablesService } from '@parts/services/variables.service';
     standalone: true,
     imports: [CommonModule, FormsModule, IsVisibleControlErrorPipe, ReactiveFormsModule, TranslateModule],
     templateUrl: './comment-field.component.html',
-    styleUrls: ['./comment-field.component.scss']
+    styleUrls: ['./comment-field.component.scss'],
 })
 export class CommentFieldComponent {
     @Input() control_ref: FormControl<string>;

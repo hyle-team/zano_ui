@@ -11,7 +11,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogConfig, MatDialogRef } from '@angu
 @Component({
     selector: 'app-migrate-wallet-to-zarcanum',
     templateUrl: './migrate-wallet-to-zarcanum.component.html',
-    styleUrls: ['./migrate-wallet-to-zarcanum.component.scss']
+    styleUrls: ['./migrate-wallet-to-zarcanum.component.scss'],
 })
 export class MigrateWalletToZarcanumComponent {
     readonly data: GetBareOutsStats = inject<GetBareOutsStats>(MAT_DIALOG_DATA);
@@ -30,7 +30,7 @@ export class MigrateWalletToZarcanumComponent {
 
     migrate(): void {
         const {
-            current_wallet: { wallet_id }
+            current_wallet: { wallet_id },
         } = this._variableService;
 
         const params: ParamsCallRpc = { id: 0, jsonrpc: '2.0', method: 'sweep_bare_outs', params: {} };
@@ -40,7 +40,7 @@ export class MigrateWalletToZarcanumComponent {
                     const data = response_data.result;
 
                     const config: MatDialogConfig<SweepBareOuts> = {
-                        data
+                        data,
                     };
 
                     this._matDialog.open(SuccessSweepBareOutsComponent, config);

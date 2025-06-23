@@ -15,7 +15,7 @@ import { MyAliasesDialogComponent } from '../../../pages/wallet/wallet/dialogs/m
     standalone: true,
     imports: [CommonModule, FlexModule, IsAvailableAliasNamePipeModule, MatIconModule, TooltipModule, TranslateModule, RouterLink],
     templateUrl: './alias-controls.component.html',
-    styleUrls: ['./alias-controls.component.scss']
+    styleUrls: ['./alias-controls.component.scss'],
 })
 export class AliasControlsComponent {
     public readonly variablesService: VariablesService = inject(VariablesService);

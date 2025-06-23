@@ -20,20 +20,19 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
         <div class="sidebar-content">
             <div class="sidebar-content-wallet-list mb-1">
-                <div (cdkDropListDropped)="drop($event)" cdkDropList cdkDropListLockAxis="y"
-                     class="scrolled-content">
+                <div (cdkDropListDropped)="drop($event)" cdkDropList cdkDropListLockAxis="y" class="scrolled-content">
                     <app-wallet-card
                         (click)="selectWallet(wallet.wallet_id)"
                         (eventClose)="beforeClose($event)"
                         *ngFor="let wallet of variablesService.wallets"
                         [cdkDragData]="wallet"
                         [ngClass]="{
-                        active: wallet?.wallet_id === variablesService?.current_wallet?.wallet_id,
-                        auditable: wallet.is_auditable && !wallet.is_watch_only,
-                        'watch-only': wallet.is_watch_only,
-                        'offset-testnet': variablesService.testnet,
-                        'mb-1': !variablesService.testnet
-                    }"
+                            active: wallet?.wallet_id === variablesService?.current_wallet?.wallet_id,
+                            auditable: wallet.is_auditable && !wallet.is_watch_only,
+                            'watch-only': wallet.is_watch_only,
+                            'offset-testnet': variablesService.testnet,
+                            'mb-1': !variablesService.testnet
+                        }"
                         [wallet]="wallet"
                         cdkDrag
                     ></app-wallet-card>
@@ -81,8 +80,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
                 </ng-container>
 
                 <ng-template #masterPass>
-                    <button (click)="logOut()" class="outline small w-100 px-2" fxLayout="row inline wrap"
-                            fxLayoutAlign="start center">
+                    <button (click)="logOut()" class="outline small w-100 px-2" fxLayout="row inline wrap" fxLayoutAlign="start center">
                         <mat-icon class="mr-1" svgIcon="zano-logout"></mat-icon>
                         <span> {{ 'SIDEBAR.LOG_OUT' | translate }}</span>
                     </button>
@@ -96,7 +94,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
         <app-deeplink></app-deeplink>
     `,
-    styleUrls: ['./sidebar.component.scss']
+    styleUrls: ['./sidebar.component.scss'],
 })
 export class SidebarComponent implements OnDestroy {
     private destroy$ = new Subject<void>();
@@ -144,8 +142,8 @@ export class SidebarComponent implements OnDestroy {
         const config: MatDialogConfig<ConfirmModalData> = {
             data: {
                 title: 'WALLET.CONFIRM.MESSAGE',
-                message: 'WALLET.CONFIRM.TITLE'
-            }
+                message: 'WALLET.CONFIRM.TITLE',
+            },
         };
 
         this._matDialog
@@ -153,7 +151,7 @@ export class SidebarComponent implements OnDestroy {
             .afterClosed()
             .pipe(takeUntil(this.destroy$))
             .subscribe({
-                next: confirmed => confirmed && this.closeWallet(wallet_id)
+                next: (confirmed) => confirmed && this.closeWallet(wallet_id),
             });
     }
 

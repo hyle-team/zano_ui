@@ -29,7 +29,7 @@ export const getAmountItems = (transaction: Transaction, wallet: Wallet): Amount
 
     subtransfers.forEach((subtransfer: Subtransfer) => {
         const { asset_id, amount, is_income } = subtransfer;
-        const asset_info: AssetInfo | undefined = wallet.allAssetsInfo.find(v => asset_id === v.asset_id);
+        const asset_info: AssetInfo | undefined = wallet.allAssetsInfo.find((v) => asset_id === v.asset_id);
 
         if (!asset_info) {
             if (amount.toNumber() === 0) {

@@ -7,7 +7,7 @@ import {
     AssetInfo,
     AssetsInfoWhitelist,
     LocalBlacklistVerifiedAssets,
-    VerifiedAssetInfoWhitelist
+    VerifiedAssetInfoWhitelist,
 } from './assets.model';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { AliasInfo, AliasInfoList } from '@api/models/alias.model';
@@ -42,11 +42,11 @@ const prepareBalances = (
     const ensureLogoAndPriceUrl = (asset_info: AssetInfo): AssetInfo => ({
         ...asset_info,
         logo: asset_info.logo || (asset_info.asset_id === ZANO_ASSET_INFO.asset_id ? ZANO_ASSET_INFO.logo : DEFAULT_ASSET_LOGO_SRC),
-        price_url: asset_info.price_url || (asset_info.asset_id === ZANO_ASSET_INFO.asset_id ? ZANO_ASSET_INFO.price_url : '')
+        price_url: asset_info.price_url || (asset_info.asset_id === ZANO_ASSET_INFO.asset_id ? ZANO_ASSET_INFO.price_url : ''),
     });
 
     for (const asset_info of verifiedAssetInfoWhitelist) {
-        const assetBalance = items.find(i => i.asset_info.asset_id === asset_info.asset_id);
+        const assetBalance = items.find((i) => i.asset_info.asset_id === asset_info.asset_id);
 
         if (assetBalance) {
             assetBalance.asset_info = { ...assetBalance.asset_info, ...ensureLogoAndPriceUrl(asset_info) };
@@ -56,7 +56,7 @@ const prepareBalances = (
                 awaiting_in: 0,
                 awaiting_out: 0,
                 total: 0,
-                unlocked: 0
+                unlocked: 0,
             });
         }
     }
@@ -65,7 +65,7 @@ const prepareBalances = (
     const allWhitelistedAssets = [...global_whitelist, ...local_whitelist, ...own_assets];
 
     for (const asset_info of allWhitelistedAssets) {
-        const assetBalance = items.find(i => i.asset_info.asset_id === asset_info.asset_id);
+        const assetBalance = items.find((i) => i.asset_info.asset_id === asset_info.asset_id);
 
         if (assetBalance) {
             assetBalance.asset_info = { ...ensureLogoAndPriceUrl(asset_info), ...assetBalance.asset_info };
@@ -141,7 +141,7 @@ export class Wallet {
 
     has_bare_unspent_outputs = false;
 
-    get alias_info(): null | AliasInfo  {
+    get alias_info(): null | AliasInfo {
         return this.alias_info_list[this.alias_info_list.length - 1] ?? null;
     }
 
@@ -198,13 +198,13 @@ export class Wallet {
             this.originalBalances$.pipe(map(sortBalances)),
             this.assetsInfoWhitelist$,
             this.verificationAssetsInfoWhitelist$,
-            this.localBlacklistVerifiedAssets$
+            this.localBlacklistVerifiedAssets$,
         ])
             .pipe(map(prepareBalances))
             .subscribe({
-                next: value => {
+                next: (value) => {
                     this.balances$.next(value);
-                }
+                },
             });
     }
 
@@ -281,7 +281,7 @@ export class Wallet {
     }
 
     removeAssetFromLocalBlacklistVerifiedAssets(asset_id: string): void {
-        const blackList: LocalBlacklistVerifiedAssets = this.localBlacklistVerifiedAssets$.value.filter(v => v !== asset_id);
+        const blackList: LocalBlacklistVerifiedAssets = this.localBlacklistVerifiedAssets$.value.filter((v) => v !== asset_id);
         this.localBlacklistVerifiedAssets$.next(blackList);
     }
 }

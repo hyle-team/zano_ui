@@ -14,16 +14,16 @@ import { filter, takeUntil } from 'rxjs/operators';
     selector: 'app-history',
     templateUrl: './history.component.html',
     styleUrls: ['./history.component.scss'],
-    animations: [expandOnEnterAnimation(), collapseOnLeaveAnimation()]
+    animations: [expandOnEnterAnimation(), collapseOnLeaveAnimation()],
 })
 export class HistoryComponent implements OnInit, OnDestroy {
     public zanoAssetInfo: ZanoAssetInfo = ZANO_ASSET_INFO;
 
     public opened_transaction_details: string | undefined;
 
-    public stop_paginate: boolean = false;
+    public stop_paginate = false;
 
-    public mining: boolean = false;
+    public mining = false;
 
     public wallet: Wallet;
 
@@ -48,7 +48,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
             next: (wallet: Wallet) => {
                 this.getRecentTransfers();
                 this.mining = wallet.exclude_mining_txs;
-            }
+            },
         });
     }
 
@@ -137,7 +137,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
             if (!value) {
                 this._paginationStore.setPage(1, 0, this.variablesService.current_wallet.wallet_id); // add back page for the first page
             } else {
-                const pages = value.filter(item => item.walletID === this.variablesService.current_wallet.wallet_id);
+                const pages = value.filter((item) => item.walletID === this.variablesService.current_wallet.wallet_id);
                 if (pages.length === 0) {
                     this._paginationStore.setPage(1, 0, this.variablesService.current_wallet.wallet_id); // add back page for the first page
                 }
@@ -151,7 +151,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
     getRecentTransfers(): void {
         const offset = this._pagination.getOffset(this.variablesService.current_wallet.wallet_id);
         const value = this._paginationStore.value;
-        const pages = value ? value.filter(item => item.walletID === this.variablesService.current_wallet.wallet_id) : [];
+        const pages = value ? value.filter((item) => item.walletID === this.variablesService.current_wallet.wallet_id) : [];
         this._backendService.getRecentTransfers(
             this.variablesService.current_wallet.wallet_id,
             offset,

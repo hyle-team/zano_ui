@@ -10,7 +10,7 @@ import { BehaviorSubject } from 'rxjs';
 @Component({
     selector: 'app-open-wallet-modal',
     templateUrl: './open-wallet-modal.component.html',
-    styleUrls: ['./open-wallet-modal.component.scss']
+    styleUrls: ['./open-wallet-modal.component.scss'],
 })
 export class OpenWalletModalComponent implements OnInit, OnDestroy {
     @HostBinding('class.modal-overlay') modalOverlay = true;
@@ -24,7 +24,7 @@ export class OpenWalletModalComponent implements OnInit, OnDestroy {
         path: '',
         pass: '',
         notFound: false,
-        emptyPass: false
+        emptyPass: false,
     };
 
     constructor(
@@ -104,7 +104,7 @@ export class OpenWalletModalComponent implements OnInit, OnDestroy {
     }
 
     handleSuccessfulWalletOpen(open_data): void {
-        const walletExists = this.variablesService.wallets.some(wallet => wallet.address === open_data['wi'].address);
+        const walletExists = this.variablesService.wallets.some((wallet) => wallet.address === open_data['wi'].address);
 
         if (walletExists) {
             this._modalService.prepareModal('error', 'OPEN_WALLET.WITH_ADDRESS_ALREADY_OPEN');

@@ -10,7 +10,7 @@ import { ModalService } from '@parts/services/modal.service';
 @Component({
     selector: 'app-add-wallet',
     templateUrl: './add-wallet.component.html',
-    styleUrls: ['./add-wallet.component.scss']
+    styleUrls: ['./add-wallet.component.scss'],
 })
 export class AddWalletComponent {
     private translateService = inject(TranslateService);
@@ -46,7 +46,7 @@ export class AddWalletComponent {
             this.variablesService.settings.default_path = new_default_path;
             await this.ngZone.run(async () => {
                 await this.router.navigate(['/open'], {
-                    queryParams: { path: file_data.path }
+                    queryParams: { path: file_data.path },
                 });
             });
         });

@@ -3,6 +3,6 @@ import { NgModule } from '@angular/core';
 
 @NgModule({
     imports: [RouterModule.forRoot([])],
-    exports: [RouterModule]
+    exports: [RouterModule],
 })
 export class AppRoutingModule {}

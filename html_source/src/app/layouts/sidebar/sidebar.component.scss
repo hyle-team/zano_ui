@@ -38,7 +38,7 @@
                 }
 
                 &::before {
-                    content: "";
+                    content: '';
                     background: var(--gradient-sidebar-content-wallet-list-top);
                     display: block;
                     position: absolute;
@@ -50,7 +50,7 @@
                 }
 
                 &::after {
-                    content: "";
+                    content: '';
                     background: var(--gradient-sidebar-content-wallet-list-bottom);
                     display: block;
                     position: absolute;

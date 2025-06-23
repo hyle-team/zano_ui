@@ -7,9 +7,7 @@
         <ng-container *ngFor="let alias_info of variablesService.current_wallet.alias_info_list">
             <div class="my-aliases-list-item">
                 <div class="alias">
-                    <div class="name">
-                        @{{ alias_info.alias }}
-                    </div>
+                    <div class="name">@{{ alias_info.alias }}</div>
                     <ng-container *ngIf="alias_info.alias.length >= 1 && alias_info.alias.length <= 5">
                         <mat-icon svgIcon="zano-crown"></mat-icon>
                     </ng-container>

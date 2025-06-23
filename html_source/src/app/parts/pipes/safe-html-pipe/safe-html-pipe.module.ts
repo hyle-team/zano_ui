@@ -6,6 +6,6 @@ import { SafeHTMLPipe } from '@parts/pipes/safe-html-pipe/safe-html.pipe';
     declarations: [SafeHTMLPipe],
     exports: [SafeHTMLPipe],
     providers: [SafeHTMLPipe],
-    imports: [CommonModule]
+    imports: [CommonModule],
 })
 export class SafeHtmlPipeModule {}

@@ -6,6 +6,6 @@ import { ContractTimeLeftPipe } from '@parts/pipes/contract-time-left-pipe/contr
     declarations: [ContractTimeLeftPipe],
     exports: [ContractTimeLeftPipe],
     providers: [ContractTimeLeftPipe],
-    imports: [CommonModule]
+    imports: [CommonModule],
 })
 export class ContractTimeLeftPipeModule {}

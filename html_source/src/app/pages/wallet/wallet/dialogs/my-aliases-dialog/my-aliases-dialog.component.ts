@@ -12,7 +12,7 @@ import { VariablesService } from '@parts/services/variables.service';
     standalone: true,
     imports: [CommonModule, TranslateModule, MatDialogModule, MatIconModule, TooltipModule, RouterLink],
     templateUrl: './my-aliases-dialog.component.html',
-    styleUrls: ['./my-aliases-dialog.component.scss']
+    styleUrls: ['./my-aliases-dialog.component.scss'],
 })
 export class MyAliasesDialogComponent {
     variablesService: VariablesService = inject(VariablesService);

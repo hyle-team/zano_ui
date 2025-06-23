@@ -1,5 +1,5 @@
 :root {
---border-radius: 0.8rem;
+    --border-radius: 0.8rem;
 }
 
 .light {
@@ -17,13 +17,13 @@
     --synchronization-progress-bar-container-background: rgba(0, 0, 0, 0.1);
     --dialog-background: #ffffff;
     --block-sync: #505274;
-    --control-alias-wallet-background: #1F8FEB1A;
+    --control-alias-wallet-background: #1f8feb1a;
     --control-alias-wallet-text: var(--main-text);
-    --alias-history-count-text: #1F8FEB;
+    --alias-history-count-text: #1f8feb;
 
     // sidebar
-    --gradient-sidebar-content-wallet-list-top: linear-gradient(0deg, rgba(252, 252, 252, 0) 0%, #FCFCFC 100%);
-    --gradient-sidebar-content-wallet-list-bottom: linear-gradient(180deg, rgba(252, 252, 252, 0) 0%, #FCFCFC 100%);
+    --gradient-sidebar-content-wallet-list-top: linear-gradient(0deg, rgba(252, 252, 252, 0) 0%, #fcfcfc 100%);
+    --gradient-sidebar-content-wallet-list-bottom: linear-gradient(180deg, rgba(252, 252, 252, 0) 0%, #fcfcfc 100%);
 
     // auth
     --auth-card-background: #fcfcfc;
@@ -120,13 +120,13 @@
     --synchronization-progress-bar-container-background: var(--gray-900);
     --dialog-background: var(--blue-700);
     --block-sync: #a8abb5;
-    --control-alias-wallet-background: #FFFFFF1A;
+    --control-alias-wallet-background: #ffffff1a;
     --control-alias-wallet-text: var(--main-text);
-    --alias-history-count-text: #1F8FEB;
+    --alias-history-count-text: #1f8feb;
 
     // sidebar
-    --gradient-sidebar-content-wallet-list-top: linear-gradient(0deg, rgba(15, 32, 85, 0) 0%, #0F2055 100%);
-    --gradient-sidebar-content-wallet-list-bottom: linear-gradient(180deg, rgba(15, 32, 85, 0) 0%, #0F2055 100%);
+    --gradient-sidebar-content-wallet-list-top: linear-gradient(0deg, rgba(15, 32, 85, 0) 0%, #0f2055 100%);
+    --gradient-sidebar-content-wallet-list-bottom: linear-gradient(180deg, rgba(15, 32, 85, 0) 0%, #0f2055 100%);
 
     // auth
     --auth-card-background: var(--blue-700);

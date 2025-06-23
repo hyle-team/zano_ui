@@ -5,6 +5,6 @@ import { BackButtonDirective } from './back-button.directive';
 @NgModule({
     declarations: [BackButtonDirective],
     exports: [BackButtonDirective],
-    imports: [CommonModule]
+    imports: [CommonModule],
 })
 export class BackButtonModule {}

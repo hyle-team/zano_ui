@@ -8,7 +8,7 @@ describe('VisibilityBalanceButtonComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [VisibilityBalanceButtonComponent]
+            imports: [VisibilityBalanceButtonComponent],
         }).compileComponents();
 
         fixture = TestBed.createComponent(VisibilityBalanceButtonComponent);

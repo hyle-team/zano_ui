@@ -13,6 +13,23 @@
         display: flex;
         align-items: center;
         justify-content: flex-start;
+
+        color: var(--main-text);
+    }
+
+    .mat-menu-item .mat-icon-no-color,
+    .mat-menu-submenu-icon {
+        color: var(--main-text);
     }
 }
 
+.light {
+    .zano-mat-menu {
+        .mat-menu-item:hover:not([disabled]),
+        .mat-menu-item.cdk-program-focused:not([disabled]),
+        .mat-menu-item.cdk-keyboard-focused:not([disabled]),
+        .mat-menu-item-highlighted:not([disabled]) {
+            background-color: rgba(0, 0, 0, 0.04);
+        }
+    }
+}

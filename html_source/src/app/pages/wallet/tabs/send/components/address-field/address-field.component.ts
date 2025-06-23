@@ -13,7 +13,6 @@ import { debounceTime, map, startWith, takeUntil, tap } from 'rxjs/operators';
 import { WalletsService } from '@parts/services/wallets.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { DestinationsForm } from '../../send.component';
-import { Wallet } from '@api/models/wallet.model';
 
 @Component({
     selector: 'zano-address-field',
@@ -27,10 +26,10 @@ import { Wallet } from '@api/models/wallet.model';
         MatOptionModule,
         ReactiveFormsModule,
         ShortStringPipe,
-        TranslateModule
+        TranslateModule,
     ],
     templateUrl: './address-field.component.html',
-    styleUrls: ['./address-field.component.scss']
+    styleUrls: ['./address-field.component.scss'],
 })
 export class AddressFieldComponent implements OnInit, OnDestroy {
     @Input() control_ref: DestinationsForm;
@@ -44,32 +43,34 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
     lower_case_disabled$: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
     error_messages: { [key: string]: string } = {
-        address: ''
+        address: '',
     };
 
     private readonly _wallets_service: WalletsService = inject(WalletsService);
 
     private readonly _opened_wallet_items: string[] = this._wallets_service.opened_wallet_items;
 
-    private readonly _alias_items: string[] = this.variables_service.all_aliases.filter(Boolean).map(alias_info => '@' + alias_info.alias);
+    private readonly _alias_items: string[] = this.variables_service.all_aliases
+        .filter(Boolean)
+        .map((alias_info) => '@' + alias_info.alias);
 
     private readonly _destroy$: Subject<void> = new Subject<void>();
 
     ngOnInit(): void {
         this.address_items$ = this.control_ref.controls.address.valueChanges.pipe(
             startWith(this.control_ref.controls.address.value),
-            tap(value => {
+            tap((value) => {
                 const condition = value.startsWith('@');
                 this.lower_case_disabled$.next(!condition);
                 this.loading_address_items$.next(condition);
             }),
             debounceTime(800),
-            map(value => {
+            map((value) => {
                 if (!value?.length) {
                     return this._opened_wallet_items;
                 }
                 if (value.startsWith('@')) {
-                    return this._alias_items.filter(alias => {
+                    return this._alias_items.filter((alias) => {
                         return alias.includes(value);
                     });
                 }
@@ -113,7 +114,7 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
 
     updateAddressErrorMessage(): void {
         const address = this.control_ref.controls.address;
-        let message: string = '';
+        let message = '';
 
         switch (true) {
             case address.hasError('address_not_valid'): {

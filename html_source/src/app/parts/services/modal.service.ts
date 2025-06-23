@@ -4,10 +4,10 @@ import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dial
 import { take } from 'rxjs';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class ModalService {
-    private _count: number = 0;
+    private _count = 0;
 
     private readonly _matDialog: MatDialog = inject(MatDialog);
 
@@ -17,9 +17,9 @@ export class ModalService {
         const config: MatDialogConfig = {
             data: {
                 type,
-                message
+                message,
             },
-            width: '34rem'
+            width: '34rem',
         };
 
         this._ngZone.run(() => {

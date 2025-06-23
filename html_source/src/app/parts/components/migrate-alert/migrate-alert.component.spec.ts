@@ -8,7 +8,7 @@ describe('MigrateAlertComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [MigrateAlertComponent]
+            imports: [MigrateAlertComponent],
         }).compileComponents();
 
         fixture = TestBed.createComponent(MigrateAlertComponent);

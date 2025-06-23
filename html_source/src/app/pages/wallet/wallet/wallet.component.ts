@@ -34,7 +34,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
         icon: 'zano-balance',
         link: '/assets',
         disabled: false,
-        hidden: false
+        hidden: false,
     },
     history: {
         id: 'history',
@@ -42,7 +42,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
         icon: 'zano-history',
         link: '/history',
         disabled: false,
-        hidden: false
+        hidden: false,
     },
     send: {
         id: 'send',
@@ -50,7 +50,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
         icon: 'zano-send',
         link: '/send',
         disabled: false,
-        hidden: false
+        hidden: false,
     },
     receive: {
         id: 'receive',
@@ -58,7 +58,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
         icon: 'zano-receive',
         link: '/receive',
         disabled: false,
-        hidden: false
+        hidden: false,
     },
     swap: {
         id: 'swap',
@@ -66,7 +66,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
         icon: 'zano-swap',
         link: '/swap',
         disabled: false,
-        hidden: true
+        hidden: true,
     },
     // TODO: https://github.com/hyle-team/zano/issues/374
     // contract: {
@@ -83,7 +83,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
         link: '/staking',
         indicator: false,
         disabled: false,
-        hidden: false
+        hidden: false,
     },
     'custom-assets': {
         id: 'custom-assets',
@@ -92,14 +92,14 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
         link: '/custom-assets',
         indicator: false,
         disabled: false,
-        hidden: false
-    }
+        hidden: false,
+    },
 };
 
 @Component({
     selector: 'app-wallet',
     templateUrl: './wallet.component.html',
-    styleUrls: ['./wallet.component.scss']
+    styleUrls: ['./wallet.component.scss'],
 })
 export class WalletComponent implements OnInit, OnDestroy {
     settingsButtonInterval;
@@ -154,19 +154,19 @@ export class WalletComponent implements OnInit, OnDestroy {
                 this.setDisabledTabs(['send', 'swap', 'staking', 'custom-assets'], disabled);
 
                 this.variablesService.is_hardfok_active$.pipe(take(1)).subscribe({
-                    next: value => {
+                    next: (value) => {
                         const hidden = !value;
                         this.setHiddenTabs(['swap'], hidden);
-                    }
+                    },
                 });
-            }
+            },
         });
 
         this.variablesService.is_hardfok_active$.pipe(takeUntil(this.destroy$)).subscribe({
-            next: value => {
+            next: (value) => {
                 const hidden = !value;
                 this.setHiddenTabs(['swap'], hidden);
-            }
+            },
         });
     }
 
@@ -223,7 +223,6 @@ export class WalletComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.settingsButtonInterval = setInterval(() => {
-            // tslint:disable-next-line:triple-equals
             if (this.variablesService.daemon_state == 2 || this.walletLoaded) {
                 this.settingsButtonDisabled = false;
                 clearInterval(this.settingsButtonInterval);
@@ -239,7 +238,7 @@ export class WalletComponent implements OnInit, OnDestroy {
                         let in_progress;
                         const values = this.store.state.sync;
                         if (values && values.length > 0) {
-                            in_progress = values.filter(item => item.sync);
+                            in_progress = values.filter((item) => item.sync);
                             this.variablesService.sync_started = !!(in_progress && in_progress.length);
                             if (!in_progress) {
                                 this.variablesService.sync_started = false;
@@ -250,7 +249,7 @@ export class WalletComponent implements OnInit, OnDestroy {
                             this.variablesService.sync_wallets[data.wallet_id] = false;
                         }
                     }
-                }
+                },
             });
         this.updateWalletStatus();
 
@@ -268,8 +267,8 @@ export class WalletComponent implements OnInit, OnDestroy {
         const config: MatDialogConfig<ConfirmModalData> = {
             data: {
                 title: 'WALLET.CONFIRM.MESSAGE',
-                message: 'WALLET.CONFIRM.TITLE'
-            }
+                message: 'WALLET.CONFIRM.TITLE',
+            },
         };
 
         this._matDialog
@@ -279,7 +278,7 @@ export class WalletComponent implements OnInit, OnDestroy {
             .subscribe({
                 next: () => {
                     this.walletsService.closeWallet(wallet_id);
-                }
+                },
             });
     }
 
@@ -288,21 +287,21 @@ export class WalletComponent implements OnInit, OnDestroy {
             .open<AddCustomTokenComponent, void, AssetBalance | undefined>(AddCustomTokenComponent)
             .afterClosed()
             .pipe(
-                filter(response_data => Boolean(response_data)),
+                filter((response_data) => Boolean(response_data)),
                 takeUntil(this.destroy$)
             )
             .subscribe({
-                next: asset => {
+                next: (asset) => {
                     const config: MatDialogConfig = {
                         data: {
                             asset_info: asset.asset_info,
-                            title: 'You added new asset'
-                        }
+                            title: 'You added new asset',
+                        },
                     };
                     this.ngZone.run(() => {
                         this._matDialog.open(AssetDetailsComponent, config);
                     });
-                }
+                },
             });
     }
 
@@ -316,7 +315,7 @@ export class WalletComponent implements OnInit, OnDestroy {
     }
 
     updateWalletStatus(): void {
-        this.backend.eventSubscribe(Commands.wallet_sync_progress, data => {
+        this.backend.eventSubscribe(Commands.wallet_sync_progress, (data) => {
             const wallet_id = data.wallet_id;
             if (wallet_id === this.variablesService.current_wallet.wallet_id) {
                 this.ngZone.run(() => {
@@ -324,7 +323,7 @@ export class WalletComponent implements OnInit, OnDestroy {
                 });
             }
         });
-        this.backend.eventSubscribe(Commands.update_wallet_status, data => {
+        this.backend.eventSubscribe(Commands.update_wallet_status, (data) => {
             const wallet_state = data.wallet_state;
             const wallet_id = data.wallet_id;
             this.ngZone.run(() => {
@@ -344,7 +343,7 @@ export class WalletComponent implements OnInit, OnDestroy {
     }
 
     setHiddenTabs(ids: string[], hidden: boolean): void {
-        this.tabs.forEach(tab => {
+        this.tabs.forEach((tab) => {
             if (ids.includes(tab.id)) {
                 tab.hidden = hidden;
             }
@@ -352,7 +351,7 @@ export class WalletComponent implements OnInit, OnDestroy {
     }
 
     setDisabledTabs(ids: string[], disabled: boolean): void {
-        this.tabs.forEach(tab => {
+        this.tabs.forEach((tab) => {
             if (ids.includes(tab.id)) {
                 tab.disabled = disabled;
             }

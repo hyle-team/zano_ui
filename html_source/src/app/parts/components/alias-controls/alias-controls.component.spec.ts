@@ -8,7 +8,7 @@ describe('AliasControlsComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [AliasControlsComponent]
+            imports: [AliasControlsComponent],
         }).compileComponents();
 
         fixture = TestBed.createComponent(AliasControlsComponent);

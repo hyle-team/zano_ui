@@ -12,7 +12,7 @@ import { VariablesService } from '@parts/services/variables.service';
             <app-sync-modal *ngIf="variablesService?.daemon_state !== 2 || variablesService?.sync_started"> </app-sync-modal>
         </ng-container>
     `,
-    styles: []
+    styles: [],
 })
 export class DeeplinkComponent implements OnInit, OnDestroy {
     deeplink$ = new BehaviorSubject<string | null>(null);
@@ -23,9 +23,9 @@ export class DeeplinkComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.variablesService.deeplink$.pipe(delay(200), takeUntil(this.destroy$)).subscribe({
-            next: data => {
+            next: (data) => {
                 this.deeplink$.next(data);
-            }
+            },
         });
     }
 

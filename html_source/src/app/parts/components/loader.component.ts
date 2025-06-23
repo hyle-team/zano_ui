@@ -824,9 +824,9 @@ type LoaderType = 'circle' | 'circle-2' | 'circle-3' | 'dots' | 'dots-2' | 'puls
                     opacity: 0;
                 }
             }
-        `
+        `,
     ],
-    imports: [NgSwitch, NgSwitchCase, NgSwitchDefault]
+    imports: [NgSwitch, NgSwitchCase, NgSwitchDefault],
 })
 export class LoaderComponent {
     @Input()

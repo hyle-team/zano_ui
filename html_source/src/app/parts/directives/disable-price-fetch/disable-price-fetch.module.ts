@@ -5,6 +5,6 @@ import { DisablePriceFetchDirective } from './disable-price-fetch.directive';
 @NgModule({
     declarations: [DisablePriceFetchDirective],
     imports: [CommonModule],
-    exports: [DisablePriceFetchDirective]
+    exports: [DisablePriceFetchDirective],
 })
 export class DisablePriceFetchModule {}

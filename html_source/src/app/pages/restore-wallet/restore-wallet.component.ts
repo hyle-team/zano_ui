@@ -30,18 +30,18 @@ interface SeedPhraseInfo {
                 height: 100%;
                 overflow: hidden;
             }
-        `
-    ]
+        `,
+    ],
 })
 export class RestoreWalletComponent implements OnInit, OnDestroy {
     public readonly breadcrumbItems: BreadcrumbItems = [
         {
             routerLink: '/add-wallet',
-            title: 'BREADCRUMBS.ADD_WALLET'
+            title: 'BREADCRUMBS.ADD_WALLET',
         },
         {
-            title: 'BREADCRUMBS.RESTORE_WALLET'
-        }
+            title: 'BREADCRUMBS.RESTORE_WALLET',
+        },
     ];
 
     public selectedLocationWalletName: string;
@@ -61,15 +61,15 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
             name: this._fb.control('', [
                 Validators.required,
                 Validators.maxLength(this.variablesService.maxWalletNameLength),
-                ZanoValidators.duplicate(this.variablesService.walletNamesForComparisons)
+                ZanoValidators.duplicate(this.variablesService.walletNamesForComparisons),
             ]),
             seedPhrase: this._fb.control('', Validators.required),
             password: this._fb.control('', Validators.pattern(REG_EXP_PASSWORD)),
             confirm: this._fb.control(''),
-            seedPassword: this._fb.control('')
+            seedPassword: this._fb.control(''),
         },
         {
-            validators: [ZanoValidators.formMatch('password', 'confirm')]
+            validators: [ZanoValidators.formMatch('password', 'confirm')],
         }
     );
 
@@ -85,7 +85,7 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
 
     private readonly _translate: TranslateService = inject(TranslateService);
 
-    private submitting: boolean = false;
+    private submitting = false;
 
     get isDisabledCreatedWallet(): boolean {
         return this.form.invalid || !this.selectedLocationWalletPath || this.submitting;
@@ -102,7 +102,7 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         const {
-            controls: { seedPassword, seedPhrase }
+            controls: { seedPassword, seedPhrase },
         } = this.form;
 
         const obs1 = seedPhrase.valueChanges;
@@ -135,7 +135,7 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
                             }
                         });
                     });
-                }
+                },
             });
     }
 
@@ -197,7 +197,7 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
         const caption = this._translate.instant('RESTORE_WALLET.CHOOSE_PATH');
         const fileMask = '*';
         const {
-            settings: { default_path }
+            settings: { default_path },
         } = this.variablesService;
 
         this._backend.saveFileDialog(caption, fileMask, default_path, (status, data) => {

@@ -2,34 +2,34 @@ import { Directive, HostListener, Input } from '@angular/core';
 
 @Directive({
     selector: 'input[lowerCase]:not([upperCase]),textarea[lowerCase]:not([upperCase])',
-    standalone: true
+    standalone: true,
 })
 export class LowerCaseDirective {
     @Input() lowerCaseValue: string;
 
     @Input() lowerCaseDisabled = false;
 
-    private getCaret(el) {
+    private getCaret(el): { start: any; end: any } {
         return {
             start: el.selectionStart,
-            end: el.selectionEnd
+            end: el.selectionEnd,
         };
     }
 
-    private setCaret(el, start, end) {
+    private setCaret(el, start, end): void {
         el.selectionStart = start;
         el.selectionEnd = end;
 
         el.focus();
     }
 
-    private dispatchEvent(el, eventType) {
+    private dispatchEvent(el, eventType): void {
         const event = document.createEvent('Event');
         event.initEvent(eventType, false, false);
         el.dispatchEvent(event);
     }
 
-    private convertValue(el, value) {
+    private convertValue(el, value): void {
         el.value = value.toLowerCase();
 
         this.dispatchEvent(el, 'input');

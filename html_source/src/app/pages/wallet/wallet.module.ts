@@ -10,7 +10,7 @@ import {
     HistoryTypeMessagesPipeModule,
     IntToMoneyPipeModule,
     IsAvailableAliasNamePipeModule,
-    ShortStringPipe
+    ShortStringPipe,
 } from '@parts/pipes';
 import { TranslateModule } from '@ngx-translate/core';
 import { ConfirmModalModule } from '@parts/modals/confirm-modal/confirm-modal.module';
@@ -91,7 +91,7 @@ import { MatMenuModule } from '@angular/material/menu';
         UpdateCustomAssetComponent,
         EmitCustomAssetComponent,
         BurnCustomAssetComponent,
-        TransactionDetailsForCustomAssetsComponent
+        TransactionDetailsForCustomAssetsComponent,
     ],
     imports: [
         CommonModule,
@@ -151,7 +151,7 @@ import { MatMenuModule } from '@angular/material/menu';
         AmountFieldComponent,
         AddAnotherDestinationButtonComponent,
         MatTooltipModule,
-        MatMenuModule
-    ]
+        MatMenuModule,
+    ],
 })
 export class WalletModule {}

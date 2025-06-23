@@ -8,7 +8,7 @@ describe('ZanoLogoComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [ZanoLogoComponent]
+            imports: [ZanoLogoComponent],
         }).compileComponents();
 
         fixture = TestBed.createComponent(ZanoLogoComponent);

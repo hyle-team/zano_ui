@@ -12,9 +12,7 @@
             class="control-alias-wallet-container"
         >
             <div class="alias">
-                @{{
-                    variablesService.current_wallet.alias_info?.alias
-                }}
+                @{{ variablesService.current_wallet.alias_info?.alias }}
                 <mat-icon svgIcon="zano-circle-arrow-right"></mat-icon>
             </div>
             <ng-container *ngIf="variablesService.current_wallet.alias_info_list.length > 1">
@@ -31,8 +29,7 @@
 
                 <ng-template #aliasHistoryTemplate>
                     <div class="alias-history-list">
-                        <ng-container
-                            *ngFor="let alias_info of variablesService.current_wallet.alias_info_list; let last = last">
+                        <ng-container *ngFor="let alias_info of variablesService.current_wallet.alias_info_list; let last = last">
                             <ng-container *ngIf="!last">
                                 <p>
                                     {{ alias_info.alias }}

@@ -15,7 +15,7 @@ import { VariablesService } from '@parts/services/variables.service';
     standalone: true,
     imports: [CommonModule, IntToMoneyPipeModule, MatIconModule, TranslateModule],
     templateUrl: './wrap-information.component.html',
-    styleUrls: ['./wrap-information.component.scss']
+    styleUrls: ['./wrap-information.component.scss'],
 })
 export class WrapInformationComponent {
     @Input()
@@ -65,7 +65,7 @@ export class WrapInformationComponent {
         const prepared_amount: BigNumber = moneyToInt(this.is_amount_usd ? convertedAmountUSD() : this.amount || '0');
 
         const {
-            tx_cost: { zano_needed_for_erc20 }
+            tx_cost: { zano_needed_for_erc20 },
         } = this.wrap_info;
         const needed: BigNumber = new BigNumber(zano_needed_for_erc20);
 

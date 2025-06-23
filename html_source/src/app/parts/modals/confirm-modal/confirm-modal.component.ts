@@ -13,7 +13,7 @@ export interface ConfirmModalData {
 @Component({
     selector: 'app-confirm-modal',
     templateUrl: './confirm-modal.component.html',
-    styleUrls: ['./confirm-modal.component.scss']
+    styleUrls: ['./confirm-modal.component.scss'],
 })
 export class ConfirmModalComponent {
     data: ConfirmModalData = inject(MAT_DIALOG_DATA);

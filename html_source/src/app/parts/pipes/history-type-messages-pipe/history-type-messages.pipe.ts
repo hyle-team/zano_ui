@@ -3,7 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { hasOwnProperty } from '../../functions/has-own-property';
 
 @Pipe({
-    name: 'historyTypeMessages'
+    name: 'historyTypeMessages',
 })
 export class HistoryTypeMessagesPipe implements PipeTransform {
     constructor(private translate: TranslateService) {}

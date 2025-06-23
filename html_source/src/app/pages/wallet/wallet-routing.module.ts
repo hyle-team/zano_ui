@@ -27,62 +27,62 @@ const routes: Routes = [
                 children: [
                     {
                         path: pathsChildrenWallet.assets,
-                        component: AssetsComponent
+                        component: AssetsComponent,
                     },
                     {
                         path: pathsChildrenWallet.send,
-                        component: SendComponent
+                        component: SendComponent,
                     },
                     {
                         path: pathsChildrenWallet.receive,
-                        component: ReceiveComponent
+                        component: ReceiveComponent,
                     },
                     {
                         path: pathsChildrenWallet.history,
-                        component: HistoryComponent
+                        component: HistoryComponent,
                     },
                     {
                         path: pathsChildrenWallet.staking,
-                        component: StakingComponent
+                        component: StakingComponent,
                     },
                     {
                         path: 'swap',
-                        component: SwapComponent
+                        component: SwapComponent,
                     },
                     {
                         path: 'create-swap',
-                        component: CreateSwapComponent
+                        component: CreateSwapComponent,
                     },
                     {
                         path: 'swap-proposal-hex',
                         component: SwapProposalHexComponent,
-                        canDeactivate: [SwapProposalHexGuard]
+                        canDeactivate: [SwapProposalHexGuard],
                     },
                     {
                         path: 'confirm-swap',
-                        component: ConfirmSwapComponent
+                        component: ConfirmSwapComponent,
                     },
                     {
                         path: 'custom-assets',
-                        component: CustomAssetsComponent
+                        component: CustomAssetsComponent,
                     },
                     {
                         path: 'create-new-asset',
-                        component: CreateNewAssetComponent
+                        component: CreateNewAssetComponent,
                     },
                     {
                         path: '',
                         redirectTo: pathsChildrenWallet.assets,
-                        pathMatch: 'full'
-                    }
-                ]
-            }
-        ]
-    }
+                        pathMatch: 'full',
+                    },
+                ],
+            },
+        ],
+    },
 ];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
-    exports: [RouterModule]
+    exports: [RouterModule],
 })
 export class WalletRoutingModule {}

@@ -10,13 +10,13 @@ import {
     Renderer2,
     SecurityContext,
     TemplateRef,
-    ViewContainerRef
+    ViewContainerRef,
 } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
 @Directive({
     // eslint-disable-next-line
-    selector: '[tooltip]'
+    selector: '[tooltip]',
 })
 export class TooltipDirective implements OnDestroy {
     @HostBinding('style.cursor') cursor;
@@ -123,7 +123,7 @@ export class TooltipDirective implements OnDestroy {
         } else {
             if (this.tooltipInner instanceof TemplateRef) {
                 const view = this.viewContainerRef.createEmbeddedView(this.tooltipInner);
-                view.rootNodes.forEach(node => this.renderer.appendChild(innerBlock, node));
+                view.rootNodes.forEach((node) => this.renderer.appendChild(innerBlock, node));
             } else {
                 innerBlock = this.tooltipInner;
             }

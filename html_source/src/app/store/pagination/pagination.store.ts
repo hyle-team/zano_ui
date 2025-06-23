@@ -9,7 +9,7 @@ export interface Pages {
 }
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class PaginationStore {
     private subject = new BehaviorSubject<Pages[] | null>(null);

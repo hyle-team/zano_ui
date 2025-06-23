@@ -140,7 +140,7 @@ import { MatIconModule } from '@angular/material/icon';
     `,
     styles: [],
     standalone: true,
-    imports: [CommonModule, TranslateModule, TooltipModule, MatIconModule]
+    imports: [CommonModule, TranslateModule, TooltipModule, MatIconModule],
 })
 export class SynchronizationStatusComponent {
     constructor(public variablesService: VariablesService, private backend: BackendService) {}

@@ -7,7 +7,7 @@ import { CurrentPriceForAsset } from '@api/models/api-zano.models';
 import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
-    providedIn: 'root'
+    providedIn: 'root',
 })
 export class ApiService {
     private _httpClient = inject(HttpClient);
@@ -28,11 +28,16 @@ export class ApiService {
         }
 
         return this._httpClient.get<{ assets: VerifiedAssetInfoWhitelist; signature: string }>(url, {
-            headers: { 'Cache-Control': 'no-cache' }
+            headers: { 'Cache-Control': 'no-cache' },
         });
     }
 
-    getCurrentPriceForAsset(asset_id: string) {
+    getCurrentPriceForAsset(
+        asset_id: string
+    ): Observable<
+        | { asset_id: string; success: boolean; data: { name: string; usd: number; usd_24h_change: number } }
+        | { success: boolean; data: string; asset_id: string }
+    > {
         return this._httpClient
             .get<
                 CurrentPriceForAsset & {
@@ -40,12 +45,12 @@ export class ApiService {
                 }
             >(`https://explorer.zano.org/api/price?asset_id=${asset_id}`)
             .pipe(
-                map(response => ({ ...response, asset_id })),
+                map((response) => ({ ...response, asset_id })),
                 catchError(() =>
                     of({
                         success: false,
                         data: 'Asset not found',
-                        asset_id
+                        asset_id,
                     })
                 )
             );

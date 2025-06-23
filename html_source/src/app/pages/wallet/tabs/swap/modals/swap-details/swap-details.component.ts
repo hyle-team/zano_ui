@@ -15,7 +15,7 @@ import { CopyButtonComponent } from '@parts/components/copy-button.component';
     templateUrl: './swap-details.component.html',
     styleUrls: ['./swap-details.component.scss'],
     standalone: true,
-    imports: [CommonModule, MatDialogModule, TranslateModule, FlexModule, MatIconModule, FlexLayoutModule, CopyButtonComponent]
+    imports: [CommonModule, MatDialogModule, TranslateModule, FlexModule, MatIconModule, FlexLayoutModule, CopyButtonComponent],
 })
 export class SwapDetailsComponent implements OnInit, OnDestroy {
     public status: 'loading' | 'success' | 'error' = 'loading';
@@ -30,7 +30,7 @@ export class SwapDetailsComponent implements OnInit, OnDestroy {
 
     @ViewChild('elDetailsList', { static: true }) elDetailsList: ElementRef;
 
-    public isShowDetailsState: boolean = false;
+    public isShowDetailsState = false;
 
     public variablesService: VariablesService = inject(VariablesService);
 

@@ -13,7 +13,7 @@ import { MAXIMUM_VALUE } from '@parts/data/constants';
 @Component({
     selector: 'app-burn-custom-asset',
     templateUrl: './burn-custom-asset.component.html',
-    styleUrls: ['./burn-custom-asset.component.scss']
+    styleUrls: ['./burn-custom-asset.component.scss'],
 })
 export class BurnCustomAssetComponent {
     public readonly variablesService: VariablesService = inject(VariablesService);
@@ -30,7 +30,7 @@ export class BurnCustomAssetComponent {
             (control): ValidationErrors | null => {
                 const { value: amount } = control;
                 const {
-                    asset_info: { asset_id }
+                    asset_info: { asset_id },
                 } = this.data;
                 const { current_wallet } = this.variablesService;
                 const prepared_amount = new BigNumber(amount);
@@ -38,13 +38,13 @@ export class BurnCustomAssetComponent {
 
                 if (!assetBalance) {
                     return {
-                        asset_not_found: true
+                        asset_not_found: true,
                     };
                 }
 
                 const {
                     unlocked,
-                    asset_info: { decimal_point }
+                    asset_info: { decimal_point },
                 } = assetBalance;
 
                 const maximum_amount_by_decimal_point = intToMoney(MAXIMUM_VALUE, decimal_point);
@@ -54,8 +54,8 @@ export class BurnCustomAssetComponent {
 
                 const preparedUnlocked = intToMoney(unlocked, decimal_point);
                 return prepared_amount.isGreaterThan(preparedUnlocked) ? { insufficientFunds } : null;
-            }
-        ])
+            },
+        ]),
     });
 
     private readonly _backendService: BackendService = inject(BackendService);
@@ -65,15 +65,15 @@ export class BurnCustomAssetComponent {
     public submit(): void {
         const { amount } = this.form.getRawValue();
         const {
-            current_wallet: { wallet_id }
+            current_wallet: { wallet_id },
         } = this.variablesService;
         const {
-            asset_info: { asset_id, decimal_point }
+            asset_info: { asset_id, decimal_point },
         } = this.data;
 
         const params = {
             burn_amount: moneyToInt(amount, decimal_point).toString(),
-            asset_id
+            asset_id,
         };
 
         this._backendService.asyncCall2a(
@@ -83,7 +83,7 @@ export class BurnCustomAssetComponent {
                 jsonrpc: '2.0',
                 id: 0,
                 method: 'burn_asset',
-                params
+                params,
             },
             (job_id: number): void => {
                 this._ngZone.run(() => {

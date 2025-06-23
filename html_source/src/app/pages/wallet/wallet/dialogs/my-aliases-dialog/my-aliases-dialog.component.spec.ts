@@ -8,7 +8,7 @@ describe('MyAliasesModalComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [MyAliasesDialogComponent]
+            imports: [MyAliasesDialogComponent],
         }).compileComponents();
 
         fixture = TestBed.createComponent(MyAliasesDialogComponent);

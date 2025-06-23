@@ -127,8 +127,8 @@ import { AliasInfo } from '@api/models/alias.model';
                 height: 100%;
                 overflow: hidden;
             }
-        `
-    ]
+        `,
+    ],
 })
 export class TransferAliasComponent implements OnInit {
     wallet: Wallet;
@@ -138,11 +138,11 @@ export class TransferAliasComponent implements OnInit {
     breadcrumbItems: BreadcrumbItems = [
         {
             routerLink: '/wallet/history',
-            title: this.variablesService.current_wallet.name
+            title: this.variablesService.current_wallet.name,
         },
         {
-            title: 'BREADCRUMBS.TRANSFER_ALIAS'
-        }
+            title: 'BREADCRUMBS.TRANSFER_ALIAS',
+        },
     ];
 
     transferAddress = '';
@@ -177,12 +177,12 @@ export class TransferAliasComponent implements OnInit {
     }
 
     changeAddress(): void {
-        this.backend.validateAddress(this.transferAddress, status => {
+        this.backend.validateAddress(this.transferAddress, (status) => {
             this.transferAddressValid = status;
             if (status) {
                 this.backend.getPoolInfo((statusPool, dataPool) => {
                     if (hasOwnProperty(dataPool, 'aliases_que') && dataPool.aliases_que.length) {
-                        this.setStatus(!dataPool.aliases_que.some(el => el.address === this.transferAddress));
+                        this.setStatus(!dataPool.aliases_que.some((el) => el.address === this.transferAddress));
                     } else {
                         this.setStatus(status);
                     }
@@ -196,7 +196,7 @@ export class TransferAliasComponent implements OnInit {
     setStatus(statusSet): void {
         this.permissionSend = statusSet;
         if (statusSet) {
-            this.backend.getAliasInfoByAddress(this.transferAddress, status => {
+            this.backend.getAliasInfoByAddress(this.transferAddress, (status) => {
                 this.ngZone.run(() => {
                     if (status) {
                         this.transferAddressAlias = true;

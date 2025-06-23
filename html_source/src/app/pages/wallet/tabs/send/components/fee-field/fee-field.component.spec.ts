@@ -8,7 +8,7 @@ describe('FeeFieldComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [FeeFieldComponent]
+            imports: [FeeFieldComponent],
         }).compileComponents();
 
         fixture = TestBed.createComponent(FeeFieldComponent);

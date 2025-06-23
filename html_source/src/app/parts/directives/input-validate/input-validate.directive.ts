@@ -3,7 +3,7 @@ import { VariablesService } from '../../services/variables.service';
 import { BigNumber } from 'bignumber.js';
 
 @Directive({
-    selector: '[appInputValidate]'
+    selector: '[appInputValidate]',
 })
 export class InputValidateDirective {
     constructor(private el: ElementRef, private variablesService: VariablesService) {}
@@ -13,7 +13,7 @@ export class InputValidateDirective {
 
     private _decimalPoint: number = this.variablesService.decimal_point;
 
-    @Input('decimalPoint')
+    @Input()
     public set decimalPoint(value: number) {
         this._decimalPoint = value;
         this._formatValue();
