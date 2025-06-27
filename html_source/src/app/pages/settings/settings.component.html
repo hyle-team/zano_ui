@@ -89,6 +89,21 @@
                 </div>
 
                 <div class="form__field">
+                    <label>{{ 'Currency' | translate }}</label>
+                    <ng-select
+                        (change)="onCurrencyChange()"
+                        [(ngModel)]="variablesService.settings.currency"
+                        [clearable]="false"
+                        [items]="currenciesItems"
+                        [searchable]="false"
+                        bindLabel="label"
+                        bindValue="id"
+                        class="with-circle"
+                    >
+                    </ng-select>
+                </div>
+
+                <div class="form__field">
                     <label>{{ 'SETTINGS.NOTIFICATIONS' | translate }}</label>
                     <app-switch (emitChange)="toggleNotifications()" [value]="currentNotificationsState"></app-switch>
                 </div>

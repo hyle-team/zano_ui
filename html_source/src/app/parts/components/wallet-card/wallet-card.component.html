@@ -36,29 +36,24 @@
     </div>
 
     <h4 class="text-ellipsis overflow-hidden">
-        <ng-container *appVisibilityBalance>
-            <span
-                *appDisablePriceFetch
-                [delay]="500"
-                [placement]="'bottom'"
-                [timeDelay]="1000"
-                [tooltipClass]="'balance-tooltip'"
-                [tooltip]="getBalancesTooltip()"
-                class="price"
-            >
-                {{
-                    wallet.getMoneyEquivalentForZano(variablesService.currentPriceForAssets[zanoAssetInfo.asset_id]?.data?.usd ?? 0)
-                        | intToMoney
-                        | currency : 'USD' || '---'
-                }}
+        <ng-container *ngIf="wallet.getBalanceByTicker('ZANO') as balance">
+            <ng-container *appVisibilityBalance>
                 <span
-                    [class.red]="(variablesService.currentPriceForAssets[zanoAssetInfo.asset_id]?.data?.usd_24h_change ?? 0) < 0"
-                    class="percent"
+                    *appDisablePriceFetch
+                    [delay]="500"
+                    [placement]="'bottom'"
+                    [timeDelay]="1000"
+                    [tooltipClass]="'balance-tooltip'"
+                    [tooltip]="getBalancesTooltip()"
+                    class="price"
                 >
-                    {{ variablesService.currentPriceForAssets[zanoAssetInfo.asset_id]?.data?.usd_24h_change ?? 0 | number : '1.2-2' }}
-                    %
+                    <ng-container *ngIf="getFiatPrice(balance) as price">
+                        <div class="text-ellipsis overflow-hidden">{{ price.value }}</div>
+                        <span class="currency ml-0_5">{{ price.currency.toUpperCase() }}</span>
+                        <span *ngIf="price.showChange" [ngClass]="price.changeClass" class="percent ml-0_5"> {{ price.change }} % </span>
+                    </ng-container>
                 </span>
-            </span>
+            </ng-container>
         </ng-container>
     </h4>
 

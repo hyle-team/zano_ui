@@ -15,6 +15,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ZANO_ASSET_INFO } from '@parts/data/assets';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { intToMoney } from '@parts/functions/int-to-money';
 
 @Component({
     selector: 'app-assets',
@@ -61,6 +62,55 @@ export class AssetsComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this._destroy$.next();
         this._destroy$.complete();
+    }
+
+    getFiatValue(balance: AssetBalance): string | undefined {
+        const priceData = this.variablesService.currentPriceForAssets[balance.asset_info.asset_id]?.data;
+        if (!priceData || typeof priceData === 'string') return;
+
+        const currency = this.variablesService.settings.currency;
+        const fiatPrice = priceData.fiat_prices?.[currency];
+
+        if (!fiatPrice) return;
+
+        const amount = intToMoney(balance.total, balance.asset_info.decimal_point);
+        const fiatValue = BigNumber(amount).multipliedBy(fiatPrice).toFixed(BigNumber(fiatPrice).decimalPlaces() ?? 10);
+
+        return `${fiatValue} ${currency.toUpperCase()}`;
+    }
+
+
+    getFiatPrice(balance: AssetBalance): {
+        value: string | number;
+        currency: string;
+        change?: string;
+        changeClass?: string;
+        showChange?: boolean;
+    } | null {
+        const currentPrice = this.variablesService.currentPriceForAssets[balance.asset_info.asset_id];
+
+        if (!currentPrice || typeof currentPrice.data === 'string') return null;
+
+        const currency = this.variablesService.settings.currency;
+        const fiatPrice = currentPrice.data.fiat_prices[currency] ?? 0;
+
+        const result = {
+            value: fiatPrice,
+            currency: currency.toUpperCase(),
+            showChange: false,
+        };
+
+        if (currency === 'usd') {
+            const change = currentPrice.data.usd_24h_change ?? 0;
+            return {
+                ...result,
+                showChange: change > 0 || change < 0,
+                change: change.toFixed(2),
+                changeClass: change > 0 ? 'color-aqua' : change < 0 ? 'color-red' : '',
+            };
+        }
+
+        return result;
     }
 
     trackByAssets(index: number, { asset_info: { asset_id } }: AssetBalance): number | string {

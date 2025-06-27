@@ -73,6 +73,7 @@ export class AmountFieldComponent implements OnInit, OnDestroy, OnChanges {
             .pipe(
                 map(([asset_id, is_amount_usd, amount, priceInfo]) => {
                     const { decimal_point, ticker } = current_wallet.getBalanceByAssetId(asset_id)?.asset_info ?? {};
+                    const { currency } = this.variables_service.settings;
 
                     const params: AmountInputParams = {
                         decimalPoint: decimal_point,

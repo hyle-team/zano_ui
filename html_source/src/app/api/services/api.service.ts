@@ -32,12 +32,7 @@ export class ApiService {
         });
     }
 
-    getCurrentPriceForAsset(
-        asset_id: string
-    ): Observable<
-        | { asset_id: string; success: boolean; data: { name: string; usd: number; usd_24h_change: number } }
-        | { success: boolean; data: string; asset_id: string }
-    > {
+    getCurrentPriceForAsset(asset_id: string): Observable<CurrentPriceForAsset & { asset_id: string }> {
         return this._httpClient
             .get<
                 CurrentPriceForAsset & {

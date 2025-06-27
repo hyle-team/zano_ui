@@ -61,36 +61,17 @@
 
                         <td>
                             <div class="text-ellipsis">
-                                <ng-container
-                                    *ngIf="variablesService.currentPriceForAssets[balance.asset_info.asset_id] as currentPriceForAsset"
-                                >
-                                    <b *appVisibilityBalance>
-                                        {{
-                                            (balance.total | intToMoney : balance.asset_info.decimal_point) *
-                                                (currentPriceForAsset.data.usd ?? 0) | currency : 'USD'
-                                        }}
-                                    </b>
-                                </ng-container>
+                                <b *appVisibilityBalance>
+                                    {{ getFiatValue(balance) }}
+                                </b>
                             </div>
                         </td>
 
                         <td>
                             <div class="text-ellipsis">
-                                <ng-container
-                                    *ngIf="variablesService.currentPriceForAssets[balance.asset_info.asset_id] as currentPriceForAsset"
-                                >
-                                    <ng-container *ngIf="currentPriceForAsset.data.usd !== null">
-                                        <b class="mr-0_5">{{ currentPriceForAsset.data.usd | currency : 'USD' }}</b>
-                                    </ng-container>
-
-                                    <ng-container *ngIf="currentPriceForAsset.data.usd_24h_change !== null">
-                                        <span
-                                            [class.color-aqua]="currentPriceForAsset.data.usd_24h_change > 0"
-                                            [class.color-red]="currentPriceForAsset.data.usd_24h_change < 0"
-                                        >
-                                            {{ currentPriceForAsset.data.usd_24h_change | number : '1.2-2' }} %
-                                        </span>
-                                    </ng-container>
+                                <ng-container *ngIf="getFiatPrice(balance) as price">
+                                    <b class="mr-1">{{ price.value }} {{ price.currency }}</b>
+                                    <span *ngIf="price.showChange" [ngClass]="price.changeClass"> {{ price.change }} % </span>
                                 </ng-container>
                             </div>
                         </td>
@@ -100,7 +81,6 @@
                                 (click)="$event.stopPropagation()"
                                 [matMenuTriggerFor]="menu"
                                 class="btn-icon circle row-options small"
-                                mat-icon-button
                                 type="button"
                             >
                                 <mat-icon class="small" svgIcon="zano-row-options"></mat-icon>
