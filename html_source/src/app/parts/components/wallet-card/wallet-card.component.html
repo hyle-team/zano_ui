@@ -50,7 +50,7 @@
                     <ng-container *ngIf="getFiatPrice(balance) as price">
                         <div class="text-ellipsis overflow-hidden">{{ price.value }}</div>
                         <span class="currency ml-0_5">{{ price.currency.toUpperCase() }}</span>
-                        <span *ngIf="price.showChange" [ngClass]="price.changeClass" class="percent ml-0_5"> {{ price.change }} % </span>
+                        <!--<span *ngIf="price.showChange" [ngClass]="price.changeClass" class="percent ml-0_5"> {{ price.change }} % </span>-->
                     </ng-container>
                 </span>
             </ng-container>

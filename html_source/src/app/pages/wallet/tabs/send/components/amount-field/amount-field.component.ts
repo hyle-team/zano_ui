@@ -13,13 +13,18 @@ import { BigNumber } from 'bignumber.js';
 import { DestinationsForm } from '../../send.component';
 import { ZANO_ASSET_INFO } from '@parts/data/assets';
 
-interface AmountInputParams {
+interface  AmountInputParams {
     decimalPoint: number;
     inputTicker: string;
     hintTicker: string;
     hintAmount: string;
-    reverseDisabled: boolean;
+    toggleInputModeDisabled: boolean;
 }
+
+const default_price_info: PriceInfo = {
+    success: false,
+    data: 'Asset not found',
+};
 
 @Component({
     selector: 'zano-amount-field',
@@ -41,99 +46,49 @@ export class AmountFieldComponent implements OnInit, OnDestroy, OnChanges {
     @Input() control_ref: DestinationsForm;
 
     @Input()
-    price_info: PriceInfo = {
-        success: false,
-        data: 'Asset not found',
-    };
+    price_info: PriceInfo = default_price_info;
 
-    price_info$: Subject<PriceInfo> = new Subject<PriceInfo>();
+    price_info$ = new Subject<PriceInfo>();
 
-    variables_service: VariablesService = inject(VariablesService);
+    variables_service = inject(VariablesService);
 
     amount_input_params: AmountInputParams = {
         decimalPoint: ZANO_ASSET_INFO.decimal_point,
         inputTicker: ZANO_ASSET_INFO.ticker,
         hintTicker: '',
         hintAmount: '',
-        reverseDisabled: true,
+        toggleInputModeDisabled: true,
     };
 
-    private readonly _destroy$: Subject<void> = new Subject<void>();
+    private readonly _destroy$ = new Subject<void>();
 
     ngOnInit(): void {
-        const { current_wallet } = this.variables_service;
         const { controls } = this.control_ref;
 
         combineLatest([
             controls.asset_id.valueChanges.pipe(startWith(controls.asset_id.value)),
-            controls.is_amount_usd.valueChanges.pipe(startWith(controls.is_amount_usd.value), distinctUntilChanged()),
+            controls.is_currency_input_mode.valueChanges.pipe(startWith(controls.is_currency_input_mode.value), distinctUntilChanged()),
             controls.amount.valueChanges.pipe(startWith(controls.amount.value)),
             this.price_info$,
         ])
             .pipe(
-                map(([asset_id, is_amount_usd, amount, priceInfo]) => {
-                    const { decimal_point, ticker } = current_wallet.getBalanceByAssetId(asset_id)?.asset_info ?? {};
-                    const { currency } = this.variables_service.settings;
-
-                    const params: AmountInputParams = {
-                        decimalPoint: decimal_point,
-                        inputTicker: ticker,
-                        hintTicker: 'USD',
-                        hintAmount: '0',
-                        reverseDisabled: false,
-                    };
-
-                    const { success } = priceInfo;
-
-                    if (success) {
-                        const { data } = priceInfo;
-
-                        let usd = 0;
-
-                        if (typeof data === 'object') {
-                            usd = data.usd;
-                        }
-
-                        if (is_amount_usd) {
-                            params.decimalPoint = 2;
-                            params.inputTicker = 'USD';
-                            params.hintTicker = ticker;
-                            params.hintAmount = `~ ${new BigNumber(+amount || 0)
-                                .dividedBy(usd || 0)
-                                .decimalPlaces(decimal_point)
-                                .toString()}`;
-                        } else {
-                            params.decimalPoint = decimal_point;
-                            params.inputTicker = ticker;
-                            params.hintTicker = 'USD';
-                            params.hintAmount = `~ ${new BigNumber(usd || 0)
-                                .multipliedBy(+amount || 0)
-                                .decimalPlaces(2)
-                                .toString()}`;
-                        }
-                    } else {
-                        params.reverseDisabled = true;
-                        controls.is_amount_usd.patchValue(false);
-                    }
-
-                    return params;
-                })
+                map(([asset_id, is_currency_input_mode, amount, priceInfo]) =>
+                    this._buildAmountInputParams(asset_id, is_currency_input_mode, amount, priceInfo)
+                ),
+                takeUntil(this._destroy$)
             )
-            .pipe(takeUntil(this._destroy$))
-            .subscribe({
-                next: (params) => {
-                    this.amount_input_params = params;
-                    this.control_ref.updateValueAndValidity();
-                },
+            .subscribe((params) => {
+                this.amount_input_params = params;
+                this.control_ref.updateValueAndValidity();
             });
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        setTimeout(() => {
-            if (changes.price_info) {
+        if (changes.price_info) {
+            setTimeout(() => {
                 this.price_info$.next(changes.price_info.currentValue);
-            }
-        }, 150);
+            }, 150);
+        }
     }
 
     ngOnDestroy(): void {
@@ -141,8 +96,67 @@ export class AmountFieldComponent implements OnInit, OnDestroy, OnChanges {
         this._destroy$.complete();
     }
 
-    toggleAmountUSD(): void {
-        const { is_amount_usd } = this.control_ref.getRawValue();
-        this.control_ref.controls.is_amount_usd.patchValue(!is_amount_usd);
+    toggleInputMode(): void {
+        const { is_currency_input_mode } = this.control_ref.getRawValue();
+        this.control_ref.controls.is_currency_input_mode.patchValue(!is_currency_input_mode);
+    }
+
+    private _buildAmountInputParams(
+        asset_id: string,
+        is_currency_input_mode: boolean,
+        amount: number | string,
+        priceInfo: PriceInfo
+    ): AmountInputParams {
+        const { current_wallet, settings } = this.variables_service;
+        const asset = current_wallet.getBalanceByAssetId(asset_id)?.asset_info;
+        const decimalPoint = asset?.decimal_point ?? ZANO_ASSET_INFO.decimal_point;
+        const assetTicker = asset?.ticker ?? ZANO_ASSET_INFO.ticker;
+        const currencyTicker = settings.currency.toUpperCase();
+
+        const params: AmountInputParams = {
+            decimalPoint,
+            inputTicker: assetTicker,
+            hintTicker: currencyTicker,
+            hintAmount: '0',
+            toggleInputModeDisabled: false,
+        };
+
+        if (!priceInfo.success) {
+            params.toggleInputModeDisabled = true;
+            this.control_ref.controls.is_currency_input_mode.patchValue(false);
+            return params;
+        }
+
+        const currency_price =
+            typeof priceInfo.data === 'object' && priceInfo.data !== null
+                ? priceInfo.data.fiat_prices?.[settings.currency] ?? 0
+                : 0;
+
+        const fiatDecimalPlaces = BigNumber(currency_price).decimalPlaces() ?? 3;
+        if (is_currency_input_mode) {
+
+            const converted = BigNumber(+amount || 0).dividedBy(currency_price).decimalPlaces(decimalPoint);
+
+            return {
+                ...params,
+                decimalPoint: fiatDecimalPlaces,
+                inputTicker: currencyTicker,
+                hintTicker: assetTicker,
+                hintAmount: `~ ${converted.toString()}`,
+            };
+        } else {
+            const hintValue = BigNumber(currency_price)
+                .multipliedBy(+amount || 0)
+                .decimalPlaces(fiatDecimalPlaces)
+                .toString();
+
+            return {
+                ...params,
+                decimalPoint,
+                inputTicker: assetTicker,
+                hintTicker: currencyTicker,
+                hintAmount: `~ ${hintValue}`,
+            };
+        }
     }
 }

@@ -76,7 +76,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
         const amount = intToMoney(balance.total, balance.asset_info.decimal_point);
         const fiatValue = BigNumber(amount).multipliedBy(fiatPrice).toFixed(BigNumber(fiatPrice).decimalPlaces() ?? 10);
 
-        return `${fiatValue} ${currency.toUpperCase()}`;
+        return `${fiatValue}`;
     }
 
 

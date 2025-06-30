@@ -62,7 +62,9 @@
                         <td>
                             <div class="text-ellipsis">
                                 <b *appVisibilityBalance>
-                                    {{ getFiatValue(balance) }}
+                                    <ng-container *ngIf="!!getFiatValue(balance)">
+                                        {{ getFiatValue(balance) }} {{ variablesService.settings.currency.toUpperCase() }}
+                                    </ng-container>
                                 </b>
                             </div>
                         </td>
