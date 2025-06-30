@@ -8,14 +8,14 @@
         (contextmenu)="variables_service.onContextMenu($event)"
         [decimalPoint]="amount_input_params.decimalPoint"
         [formControl]="control_ref.controls.amount"
-        [placeholder]="control_ref.value.is_amount_usd ? '0.00' : '0'"
+        [placeholder]="'0'"
         appInputValidate="money"
         class="form__field--input"
         id="send-amount"
         type="text"
     />
 
-    <button (click)="toggleAmountUSD()" [disabled]="amount_input_params.reverseDisabled" class="btn-reverse" type="button">
+    <button (click)="toggleInputMode()" [disabled]="amount_input_params.toggleInputModeDisabled" class="btn-reverse" type="button">
         <mat-icon class="small" svgIcon="zano-swap"></mat-icon>
     </button>
 

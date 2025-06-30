@@ -12,6 +12,8 @@ import { StakingSwitchComponent } from '@parts/components/staking-switch.compone
 import { VisibilityBalanceDirective } from '@parts/directives/visibility-balance.directive';
 import { MatIconModule } from '@angular/material/icon';
 import { ZANO_ASSET_INFO } from '@parts/data/assets';
+import { AssetBalance } from '@api/models/assets.model';
+import { intToMoney } from '@parts/functions/int-to-money';
 
 @Component({
     selector: 'app-wallet-card',
@@ -79,5 +81,52 @@ export class WalletCardComponent {
         });
         tooltip.appendChild(link);
         return tooltip;
+    }
+
+    getFiatValue(balance: AssetBalance): string | undefined {
+        const priceData = this.variablesService.currentPriceForAssets[balance.asset_info.asset_id]?.data;
+        if (!priceData || typeof priceData === 'string') return;
+
+        const { settings: { currency } } = this.variablesService;
+        const fiatPrice = priceData.fiat_prices?.[currency];
+
+        if (!fiatPrice) return;
+
+        const amount = intToMoney(balance.total, balance.asset_info.decimal_point);
+        const fiatValue = BigNumber(amount).multipliedBy(fiatPrice).toFixed(BigNumber(fiatPrice).decimalPlaces() ?? 10);
+
+        return `${fiatValue}`;
+    }
+
+    getFiatPrice(balance: AssetBalance): {
+        value: string | number;
+        currency: string;
+        change?: string;
+        changeClass?: string;
+        showChange?: boolean;
+    } | null {
+        const currentPrice = this.variablesService.currentPriceForAssets[balance.asset_info.asset_id];
+
+        if (!currentPrice || typeof currentPrice.data === 'string') return null;
+
+        const { settings: { currency } } = this.variablesService;
+
+        const result = {
+            value: this.getFiatValue(balance),
+            currency: currency.toUpperCase(),
+            showChange: false,
+        };
+
+        if (currency === 'usd') {
+            const change = currentPrice.data.usd_24h_change ?? 0;
+            return {
+                ...result,
+                showChange: change > 0 || change < 0,
+                change: change.toFixed(2),
+                changeClass: change > 0 ? 'color-aqua' : change < 0 ? 'color-red' : '',
+            };
+        }
+
+        return result;
     }
 }

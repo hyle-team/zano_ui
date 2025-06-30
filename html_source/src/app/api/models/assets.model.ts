@@ -6,6 +6,7 @@ export interface PriceInfo {
               name: string;
               usd: number;
               usd_24h_change: number;
+              fiat_prices: { [key: string]: number };
           };
 }
 

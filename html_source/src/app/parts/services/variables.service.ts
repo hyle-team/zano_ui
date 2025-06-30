@@ -106,6 +106,7 @@ export class VariablesService implements OnDestroy {
     default_price_alias: BigNumber = BigNumber.sum('100000000000', this.default_fee_big);
 
     settings = {
+        currency: 'usd',
         appLockTime: 15,
         appLog: 0,
         scale: '10px',

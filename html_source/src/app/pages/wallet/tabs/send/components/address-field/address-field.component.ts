@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IsVisibleControlErrorPipe } from '@parts/pipes/is-visible-control-error.pipe';
 import { LoaderComponent } from '@parts/components/loader.component';
@@ -13,6 +13,7 @@ import { debounceTime, map, startWith, takeUntil, tap } from 'rxjs/operators';
 import { WalletsService } from '@parts/services/wallets.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { DestinationsForm } from '../../send.component';
+import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 
 @Component({
     selector: 'zano-address-field',
@@ -27,11 +28,15 @@ import { DestinationsForm } from '../../send.component';
         ReactiveFormsModule,
         ShortStringPipe,
         TranslateModule,
+        ScrollingModule,
     ],
     templateUrl: './address-field.component.html',
     styleUrls: ['./address-field.component.scss'],
 })
 export class AddressFieldComponent implements OnInit, OnDestroy {
+    @ViewChild(CdkVirtualScrollViewport)
+    cdkVirtualScrollViewPort: CdkVirtualScrollViewport;
+
     @Input() control_ref: DestinationsForm;
 
     variables_service: VariablesService = inject(VariablesService);
@@ -135,5 +140,10 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
             }
         }
         this.error_messages['address'] = message;
+    }
+
+    openAutocomplete() {
+        this.cdkVirtualScrollViewPort?.scrollToIndex(0);
+        this.cdkVirtualScrollViewPort?.checkViewportSize();
     }
 }
