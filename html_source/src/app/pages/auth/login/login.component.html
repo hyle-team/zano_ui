@@ -1,4 +1,4 @@
-<div class="auth" cdkTrapFocus>
+<div cdkTrapFocus class="auth">
     <div aria-labelledby="auth-form-title" class="auth-card">
         <h1 class="sr-only" id="auth-form-title">Authentication Card With Form</h1>
 
@@ -24,8 +24,8 @@
                         (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
                         [placeholder]="'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate"
                         appAutofocus
-                        aria-label="Enter a master password here"
                         aria-describedby="master-pass-error"
+                        aria-label="Enter a master password here"
                         autocomplete="new-password"
                         class="form__field--input"
                         formControlName="password"
@@ -34,10 +34,11 @@
                     />
                     <div
                         *ngIf="regForm.controls.password.dirty && regForm.controls.password.errors"
-                        id="master-pass-error"
-                        role="alert"
                         aria-live="assertive"
                         class="error"
+                        id="master-pass-error"
+                        role="alert"
+                        tabindex="0"
                     >
                         <div *ngIf="regForm.controls.password.hasError('pattern')">
                             {{ 'ERRORS.REGEXP_INVALID_PASSWORD' | translate }}
@@ -50,20 +51,21 @@
                     <label for="confirm-pass">{{ 'LOGIN.SETUP_CONFIRM_PASS' | translate }}</label>
                     <input
                         (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
+                        aria-describedby="confirm-pass-error"
+                        aria-label="Confirm new password here"
                         class="form__field--input"
                         formControlName="confirmation"
-                        aria-label="Confirm new password here"
-                        aria-describedby="confirm-pass-error"
                         id="confirm-pass"
                         placeholder="{{ 'PLACEHOLDERS.PLACEHOLDER_CONFIRM' | translate }}"
                         type="password"
                     />
                     <div
                         *ngIf="regForm.controls.password.dirty && regForm.controls.confirmation.dirty && regForm.errors"
-                        id="confirm-pass-error"
-                        role="alert"
                         aria-live="assertive"
                         class="error"
+                        id="confirm-pass-error"
+                        role="alert"
+                        tabindex="0"
                     >
                         <div *ngIf="regForm.errors['mismatch']">
                             {{ 'LOGIN.FORM_ERRORS.MISMATCH' | translate }}
@@ -113,8 +115,8 @@
                         (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
                         [placeholder]="'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate"
                         appAutofocus
-                        aria-label="Enter a master password here"
                         aria-describedby="master-pass-login-error"
+                        aria-label="Enter a master password here"
                         autocomplete="current-password"
                         class="form__field--input"
                         formControlName="password"
@@ -127,17 +129,22 @@
                             loginForm.controls.password.invalid &&
                             (loginForm.controls.password.dirty || loginForm.controls.password.touched)
                         "
-                        id="master-pass-login-error"
-                        role="alert"
                         aria-live="assertive"
                         class="error"
+                        id="master-pass-login-error"
+                        role="alert"
+                        tabindex="0"
                     >
-                        <span
-                            *ngIf="loginForm.controls.password.hasError('wrong_password')"
-                        >
+                        <span *ngIf="loginForm.controls.password.hasError('wrong_password')">
                             {{ 'LOGIN.FORM_ERRORS.INVALID_PASS' | translate }}
                         </span>
                     </div>
+                </div>
+
+                <div aria-live="polite" class="sr-only" role="alert" aria-atomic="true">
+                    <span *ngIf="loginForm.controls.password.hasError('wrong_password')">
+                        {{ 'LOGIN.FORM_ERRORS.INVALID_PASS' | translate }}
+                    </span>
                 </div>
             </div>
 
