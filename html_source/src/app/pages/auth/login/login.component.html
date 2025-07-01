@@ -124,11 +124,8 @@
 
                     <div
                         *ngIf="
-                            !(
-                                loginForm.controls.password.invalid &&
-                                (loginForm.controls.password.dirty || loginForm.controls.password.touched) &&
-                                loginForm.controls.password.hasError('wrong_password')
-                            )
+                            loginForm.controls.password.invalid &&
+                            (loginForm.controls.password.dirty || loginForm.controls.password.touched)
                         "
                         id="master-pass-login-error"
                         role="alert"
@@ -136,11 +133,7 @@
                         class="error"
                     >
                         <span
-                            *ngIf="
-                                loginForm.controls.password.invalid &&
-                                (loginForm.controls.password.dirty || loginForm.controls.password.touched) &&
-                                loginForm.controls.password.hasError('wrong_password')
-                            "
+                            *ngIf="loginForm.controls.password.hasError('wrong_password')"
                         >
                             {{ 'LOGIN.FORM_ERRORS.INVALID_PASS' | translate }}
                         </span>
