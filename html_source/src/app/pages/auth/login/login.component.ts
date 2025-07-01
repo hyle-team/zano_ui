@@ -1,11 +1,11 @@
-import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, ValidationErrors, Validators } from '@angular/forms';
+import { Component, ElementRef, inject, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { NonNullableFormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { Wallet } from '@api/models/wallet.model';
 import { hasOwnProperty } from '@parts/functions/has-own-property';
-import { BehaviorSubject, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { REG_EXP_PASSWORD, ZanoValidators } from '@parts/utils/zano-validators';
 import { WalletsService } from '@parts/services/wallets.service';
@@ -16,29 +16,31 @@ import { WalletsService } from '@parts/services/wallets.service';
     styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
-    submitLoading$ = new BehaviorSubject(false);
+    @ViewChild('errorsSection', { static: true }) errorsSection: ElementRef;
 
-    resetLoading$ = new BehaviorSubject(false);
+    private readonly _fb = inject(NonNullableFormBuilder);
 
-    fb = inject(FormBuilder);
+    submitLoading = false;
 
-    regForm = this.fb.group(
+    resetLoading = false;
+
+    regForm = this._fb.group(
         {
-            password: this.fb.nonNullable.control('', Validators.pattern(REG_EXP_PASSWORD)),
-            confirmation: this.fb.nonNullable.control(''),
+            password: this._fb.control('', Validators.pattern(REG_EXP_PASSWORD)),
+            confirmation: this._fb.control(''),
         },
         {
             validators: [ZanoValidators.formMatch('password', 'confirmation')],
         }
     );
 
-    authForm = this.fb.group({
-        password: this.fb.nonNullable.control(''),
+    loginForm = this._fb.group({
+        password: this._fb.control(''),
     });
 
     type = 'reg';
 
-    private destroy$ = new Subject<void>();
+    private readonly _destroy$ = new Subject<void>();
 
     constructor(
         public variablesService: VariablesService,
@@ -50,7 +52,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit(): void {
-        this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe({
+        this.route.queryParams.pipe(takeUntil(this._destroy$)).subscribe({
             next: (params) => {
                 if (params.type) {
                     this.type = params.type;
@@ -60,8 +62,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
+        this._destroy$.next();
+        this._destroy$.complete();
     }
 
     onSubmitCreatePass(): void {
@@ -101,8 +103,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     dropSecureAppData(): void {
-        this.resetLoading$.next(true);
-
+        this.resetLoading = true;
         this.resetJwtWalletRpc(() => {
             this.variablesService.wallets.forEach(({ wallet_id }) => {
                 this.backend.closeWallet(wallet_id, () => {
@@ -112,7 +113,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                             if (this.variablesService.wallets.length === 0) {
                                 this.backend.dropSecureAppData(() => {
                                     this.ngZone.run(() => {
-                                        this.resetLoading$.next(false);
+                                        this.resetLoading = false;
                                         this.onSkipCreatePass();
                                     });
                                 });
@@ -125,7 +126,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             if (this.variablesService.wallets.length === 0) {
                 this.backend.dropSecureAppData(() => {
                     this.ngZone.run(() => {
-                        this.resetLoading$.next(false);
+                        this.resetLoading = false;
                         this.onSkipCreatePass();
                     });
                 });
@@ -135,10 +136,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     onSubmitAuthPass(): void {
-        this.submitLoading$.next(true);
+        this.submitLoading = true;
 
-        if (this.authForm.valid) {
-            this.variablesService.appPass = this.authForm.get('password').value;
+        if (this.loginForm.valid) {
+            this.variablesService.appPass = this.loginForm.get('password').value;
             if (this.variablesService.dataIsLoaded) {
                 this.backend.checkMasterPassword({ pass: this.variablesService.appPass }, (status) => {
                     if (status) {
@@ -147,14 +148,14 @@ export class LoginComponent implements OnInit, OnDestroy {
                             this.variablesService.startCountdown();
                         }
                         this.ngZone.run(() => {
-                            this.submitLoading$.next(false);
+                            this.submitLoading = false;
                             this.router.navigate(['/'], {
                                 queryParams: { prevUrl: 'login' },
                             });
                         });
                     } else {
                         this.ngZone.run(() => {
-                            this.submitLoading$.next(false);
+                            this.submitLoading = false;
                             this.setAuthPassError({ wrong_password: true });
                         });
                     }
@@ -163,7 +164,10 @@ export class LoginComponent implements OnInit, OnDestroy {
                 this.getData(this.variablesService.appPass);
             }
         } else {
-            this.submitLoading$.next(false);
+            this.submitLoading = false;
+            setTimeout(() => {
+                this.errorsSection?.nativeElement?.focus();
+            }, 150);
         }
     }
 
@@ -181,7 +185,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
                 if (this.variablesService.wallets.length > 0) {
                     this.ngZone.run(() => {
-                        this.submitLoading$.next(false);
+                        this.submitLoading = false;
                         this.router.navigate(['/wallet/']);
                     });
                     return;
@@ -198,7 +202,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                         this.getWalletData(data['wallets']);
                     } else {
                         this.ngZone.run(() => {
-                            this.submitLoading$.next(false);
+                            this.submitLoading = false;
                             this.router.navigate(['/']);
                         });
                     }
@@ -208,7 +212,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                         this.getWalletData(data);
                     } else {
                         this.ngZone.run(() => {
-                            this.submitLoading$.next(false);
+                            this.submitLoading = false;
                             this.router.navigate(['/']);
                         });
                     }
@@ -221,7 +225,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
             if (data.error_code === 'WRONG_PASSWORD') {
                 this.ngZone.run(() => {
-                    this.submitLoading$.next(false);
+                    this.submitLoading = false;
                     this.setAuthPassError({ wrong_password: true });
                 });
             }
@@ -294,10 +298,10 @@ export class LoginComponent implements OnInit, OnDestroy {
                 }
             });
         });
-        this.submitLoading$.next(false);
+        this.submitLoading = false;
     }
 
     private setAuthPassError(errors: ValidationErrors | null): void {
-        this.authForm.controls['password'].setErrors(errors);
+        this.loginForm.controls['password'].setErrors(errors);
     }
 }

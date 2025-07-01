@@ -15,7 +15,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
     selector: 'app-sidebar',
     template: `
         <div class="sidebar-header mb-1">
-            <zano-zano-logo></zano-zano-logo>
+            <zano-logo></zano-logo>
         </div>
 
         <div class="sidebar-content">

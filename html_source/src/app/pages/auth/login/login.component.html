@@ -1,41 +1,68 @@
-<div class="auth" fxFlexFill fxLayout="row" fxLayoutAlign="center center">
-    <div class="auth-card">
-        <div class="mb-2">
-            <zano-zano-logo></zano-zano-logo>
+<div class="auth" cdkTrapFocus>
+    <div aria-labelledby="auth-form-title" class="auth-card">
+        <h1 class="sr-only" id="auth-form-title">Authentication Card With Form</h1>
+
+        <div aria-hidden="true" class="mb-2">
+            <zano-logo></zano-logo>
         </div>
 
-        <form (ngSubmit)="onSubmitCreatePass()" *ngIf="type === 'reg'" [formGroup]="regForm" class="form">
+        <!-- Registration master password -->
+        <form
+            (ngSubmit)="onSubmitCreatePass()"
+            *ngIf="type === 'reg'"
+            [formGroup]="regForm"
+            aria-labelledby="setup-pass-title"
+            class="form"
+        >
+            <h2 class="sr-only" id="setup-pass-title">Setup Master Password Form</h2>
+
             <div class="auth-card-form">
+                <!-- Master Password -->
                 <div class="form__field mb-2">
                     <label for="master-pass">{{ 'LOGIN.SETUP_MASTER_PASS' | translate }}</label>
                     <input
                         (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
+                        [placeholder]="'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate"
                         appAutofocus
+                        aria-label="Enter a master password here"
+                        aria-describedby="master-pass-error"
+                        autocomplete="new-password"
                         class="form__field--input"
                         formControlName="password"
                         id="master-pass"
-                        placeholder="{{ 'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate }}"
                         type="password"
                     />
-                    <div *ngIf="regForm.controls['password'].dirty && regForm.controls['password'].errors" class="error">
-                        <div *ngIf="regForm.controls['password'].errors.pattern">
+                    <div
+                        *ngIf="regForm.controls.password.dirty && regForm.controls.password.errors"
+                        id="master-pass-error"
+                        role="alert"
+                        aria-live="assertive"
+                        class="error"
+                    >
+                        <div *ngIf="regForm.controls.password.hasError('pattern')">
                             {{ 'ERRORS.REGEXP_INVALID_PASSWORD' | translate }}
                         </div>
                     </div>
                 </div>
 
+                <!-- Confirm Password -->
                 <div class="form__field fixed">
                     <label for="confirm-pass">{{ 'LOGIN.SETUP_CONFIRM_PASS' | translate }}</label>
                     <input
                         (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
                         class="form__field--input"
                         formControlName="confirmation"
+                        aria-label="Confirm new password here"
+                        aria-describedby="confirm-pass-error"
                         id="confirm-pass"
                         placeholder="{{ 'PLACEHOLDERS.PLACEHOLDER_CONFIRM' | translate }}"
                         type="password"
                     />
                     <div
-                        *ngIf="regForm.controls['password'].dirty && regForm.controls['confirmation'].dirty && regForm.errors"
+                        *ngIf="regForm.controls.password.dirty && regForm.controls.confirmation.dirty && regForm.errors"
+                        id="confirm-pass-error"
+                        role="alert"
+                        aria-live="assertive"
                         class="error"
                     >
                         <div *ngIf="regForm.errors['mismatch']">
@@ -45,22 +72,26 @@
                 </div>
             </div>
 
+            <!-- Next -->
             <button
                 [disabled]="
-                    !regForm.controls['password'].value.length ||
-                    !regForm.controls['confirmation'].value.length ||
-                    (regForm.errors && regForm.errors['mismatch']) ||
-                    regForm.controls['password'].errors
+                    !regForm.controls.password.value.length ||
+                    !regForm.controls.confirmation.value.length ||
+                    (regForm.errors && regForm.hasError('mismatch')) ||
+                    regForm.controls.password.errors
                 "
+                aria-label="Submit master password"
                 class="primary big w-100 mb-1"
                 type="submit"
             >
                 {{ 'LOGIN.BUTTON_NEXT' | translate }}
             </button>
 
+            <!-- Skip -->
             <button
                 (click)="onSkipCreatePass()"
-                [disabled]="regForm.controls['password'].value.length || regForm.controls['confirmation'].value.length"
+                [disabled]="regForm.controls.password.value.length || regForm.controls.confirmation.value.length"
+                aria-label="Skip password creation"
                 class="primary big w-100"
                 type="button"
             >
@@ -68,42 +99,65 @@
             </button>
         </form>
 
-        <form (ngSubmit)="onSubmitAuthPass()" *ngIf="type !== 'reg'" [formGroup]="authForm" class="form">
+        <!-- Login -->
+        <form (ngSubmit)="onSubmitAuthPass()" *ngIf="type !== 'reg'" [formGroup]="loginForm" aria-labelledby="login-title" class="form">
+            <h2 class="sr-only" id="login-title">Login with Master Password</h2>
+
             <div class="auth-card-form">
                 <div class="form__field fixed">
-                    <label for="master-pass-login">{{ 'LOGIN.MASTER_PASS' | translate }}</label>
+                    <label for="master-pass-login">
+                        {{ 'LOGIN.MASTER_PASS' | translate }}
+                    </label>
+
                     <input
                         (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
                         [placeholder]="'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate"
                         appAutofocus
-                        autofocus
+                        aria-label="Enter a master password here"
+                        aria-describedby="master-pass-login-error"
+                        autocomplete="current-password"
                         class="form__field--input"
                         formControlName="password"
                         id="master-pass-login"
                         type="password"
                     />
+
                     <div
                         *ngIf="
-                            authForm.controls['password'].invalid &&
-                            (authForm.controls['password'].dirty || authForm.controls['password'].touched)
+                            !(
+                                loginForm.controls.password.invalid &&
+                                (loginForm.controls.password.dirty || loginForm.controls.password.touched) &&
+                                loginForm.controls.password.hasError('wrong_password')
+                            )
                         "
+                        id="master-pass-login-error"
+                        role="alert"
+                        aria-live="assertive"
                         class="error"
                     >
-                        <div *ngIf="authForm.controls['password'].hasError('wrong_password')">
+                        <span
+                            *ngIf="
+                                loginForm.controls.password.invalid &&
+                                (loginForm.controls.password.dirty || loginForm.controls.password.touched) &&
+                                loginForm.controls.password.hasError('wrong_password')
+                            "
+                        >
                             {{ 'LOGIN.FORM_ERRORS.INVALID_PASS' | translate }}
-                        </div>
+                        </span>
                     </div>
                 </div>
             </div>
 
-            <button class="primary big w-100 mb-1" type="submit">
+            <!-- Login Submit -->
+            <button aria-label="Log in with password" class="primary big w-100 mb-1" type="submit">
                 {{ 'LOGIN.BUTTON_NEXT' | translate }}
-                <span *ngIf="submitLoading$ | async" [ngTemplateOutlet]="loaderTemp" class="ml-1"></span>
+                <span *ngIf="submitLoading" [ngTemplateOutlet]="loaderTemp" class="ml-1"></span>
             </button>
 
-            <button (click)="dropSecureAppData()" class="outline big w-100" type="button">
+            <!-- Reset -->
+            <button (click)="dropSecureAppData()" aria-label="Reset application" class="outline big w-100" type="button">
                 {{ 'LOGIN.BUTTON_RESET' | translate }}
-                <span *ngIf="resetLoading$ | async" [ngTemplateOutlet]="loaderTemp" class="ml-1"></span>
+                <span *ngIf="resetLoading" [ngTemplateOutlet]="loaderTemp" class="ml-1"></span>
             </button>
         </form>
     </div>
@@ -112,5 +166,5 @@
 </div>
 
 <ng-template #loaderTemp>
-    <zano-loader></zano-loader>
+    <zano-loader aria-label="Loading" aria-live="polite" role="status"></zano-loader>
 </ng-template>

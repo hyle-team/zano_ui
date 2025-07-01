@@ -48,6 +48,7 @@ import { BackButtonComponent } from '@parts/components/back-button/back-button.c
 import { MatIconModule } from '@angular/material/icon';
 import { IsVisibleControlErrorPipe } from '@parts/pipes/is-visible-control-error.pipe';
 import { ZanoLogoComponent } from '@parts/components/zano-logo/zano-logo.component';
+import { A11yModule } from '@angular/cdk/a11y';
 
 @NgModule({
     declarations: [
@@ -102,6 +103,7 @@ import { ZanoLogoComponent } from '@parts/components/zano-logo/zano-logo.compone
         MatIconModule,
         IsVisibleControlErrorPipe,
         ZanoLogoComponent,
+        A11yModule,
     ],
 })
 export class PagesModule {}
