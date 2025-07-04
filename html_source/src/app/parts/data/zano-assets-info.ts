@@ -14,5 +14,3 @@ export const ZANO_ASSET_INFO: ZanoAssetInfo = {
     ticker: 'ZANO',
     total_max_supply: 0,
 };
-
-export const DEFAULT_ASSET_LOGO_SRC = 'assets/currency-icons/custom_token.svg';

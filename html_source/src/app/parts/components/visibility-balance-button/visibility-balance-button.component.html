@@ -5,6 +5,8 @@
         ((variablesService.visibilityBalance$ | async) ? 'WALLET.TOOLTIPS.HIDE_BALANCE' : 'WALLET.TOOLTIPS.SHOW_BALANCE') | translate
     "
     class="btn-icon circle big"
+    type="button"
 >
-    <mat-icon [svgIcon]="(variablesService.visibilityBalance$ | async) ? 'zano-hide-balance' : 'zano-show-balance'"> </mat-icon>
+    <mat-icon aria-hidden="true" [svgIcon]="(variablesService.visibilityBalance$ | async) ? 'zano-hide-balance' : 'zano-show-balance'">
+    </mat-icon>
 </button>

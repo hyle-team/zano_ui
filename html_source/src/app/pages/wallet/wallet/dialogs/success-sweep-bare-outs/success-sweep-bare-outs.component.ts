@@ -12,7 +12,9 @@ export class SuccessSweepBareOutsComponent {
 
     stateDetails = false;
 
-    toggleDetails(): void {
+    toggleDetails(event: Event): void {
+        event.preventDefault();
+        event.stopPropagation();
         this.stateDetails = !this.stateDetails;
     }
 }

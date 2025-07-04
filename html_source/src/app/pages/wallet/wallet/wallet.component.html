@@ -7,12 +7,11 @@
                 </h1>
 
                 <app-copy-button
-                    [delay]="150"
-                    [placement]="'bottom'"
-                    [timeout]="0"
-                    [tooltipClass]="'table-tooltip'"
-                    [tooltip]="variablesService.current_wallet.address"
                     [value]="variablesService.current_wallet.address"
+                    [matTooltip]="variablesService.current_wallet.address"
+                    [matTooltipShowDelay]="800"
+                    matTooltipClass="mat-tooltip-address"
+                    matTooltipPosition="below"
                 >
                 </app-copy-button>
 
@@ -21,7 +20,11 @@
         </div>
 
         <ng-container *ngIf="isShowMigrateAlert">
-            <hr fxFlex="0 0 1px" style="height: 3.6rem; border: none; border-right: var(--table-rounded-corners-border)" />
+            <hr
+                aria-hidden="true"
+                fxFlex="0 0 1px"
+                style="height: 3.6rem; border: none; border-right: var(--table-rounded-corners-border)"
+            />
             <zano-migrate-alert></zano-migrate-alert>
         </ng-container>
     </div>
@@ -36,7 +39,6 @@
             [disabled]="settingsButtonDisabled && !variablesService.current_wallet.loaded"
             [matMenuTriggerFor]="menu"
             class="btn-icon circle big"
-            mat-icon-button
             type="button"
         >
             <mat-icon svgIcon="zano-wallet-settings"></mat-icon>
@@ -44,15 +46,13 @@
 
         <mat-menu #menu="matMenu" class="zano-mat-menu">
             <button
-                [delay]="500"
                 [disabled]="!variablesService.current_wallet.loaded"
                 [routerLink]="['/details']"
-                [timeDelay]="500"
                 mat-menu-item
-                placement="left"
                 routerLinkActive="active"
-                tooltip="{{ 'WALLET.TOOLTIPS.SETTINGS' | translate }}"
-                tooltipClass="table-tooltip account-tooltip"
+                [matTooltip]="'WALLET.TOOLTIPS.SETTINGS' | translate"
+                [matTooltipShowDelay]="800"
+                matTooltipPosition="left"
             >
                 <mat-icon svgIcon="zano-settings"></mat-icon>
                 <span>{{ 'WALLET_DETAILS.WALLET_OPTIONS' | translate }}</span>
@@ -61,13 +61,11 @@
             <ng-container *ngIf="variablesService.is_hardfok_active$ | async">
                 <button
                     (click)="addCustomToken()"
-                    [delay]="500"
                     [disabled]="!variablesService.current_wallet.loaded"
-                    [timeDelay]="500"
                     mat-menu-item
-                    placement="left"
-                    tooltip="{{ 'WALLET.TOOLTIPS.WHITELIST_ASSET' | translate }}"
-                    tooltipClass="table-tooltip account-tooltip"
+                    [matTooltip]="'WALLET.TOOLTIPS.WHITELIST_ASSET' | translate"
+                    [matTooltipShowDelay]="800"
+                    matTooltipPosition="left"
                 >
                     <mat-icon svgIcon="zano-plus"></mat-icon>
                     <span>{{ 'WALLET_DETAILS.WHITELIST_ASSET' | translate }}</span>
@@ -76,13 +74,11 @@
 
             <button
                 (click)="exportHistory()"
-                [delay]="500"
                 [disabled]="variablesService.current_wallet.history.length <= 0 || !variablesService.current_wallet.loaded"
-                [timeDelay]="500"
                 mat-menu-item
-                placement="left"
-                tooltip="{{ 'EXPORT_HISTORY.TOOLTIP' | translate }}"
-                tooltipClass="table-tooltip account-tooltip"
+                [matTooltip]="'EXPORT_HISTORY.TOOLTIP' | translate"
+                [matTooltipShowDelay]="800"
+                matTooltipPosition="left"
             >
                 <mat-icon svgIcon="zano-export"></mat-icon>
                 <span>{{ 'EXPORT_HISTORY.EXPORT_BUTTON' | translate }}</span>
@@ -91,13 +87,11 @@
             <ng-container *ngIf="walletSyncVisible">
                 <button
                     (click)="resyncCurrentWallet(variablesService.current_wallet.wallet_id)"
-                    [delay]="500"
                     [disabled]="!variablesService.current_wallet.loaded"
-                    [timeDelay]="500"
                     mat-menu-item
-                    placement="left"
-                    tooltip="{{ 'WALLET_DETAILS.RESYNC_WALLET' | translate }}"
-                    tooltipClass="table-tooltip account-tooltip"
+                    [matTooltip]="'WALLET_DETAILS.RESYNC_WALLET' | translate"
+                    [matTooltipShowDelay]="800"
+                    matTooltipPosition="left"
                 >
                     <mat-icon svgIcon="zano-update"></mat-icon>
                     <span>{{ 'WALLET_DETAILS.RESYNC_WALLET_BUTTON' | translate }}</span>
@@ -106,12 +100,10 @@
 
             <button
                 (click)="close(variablesService.current_wallet.wallet_id)"
-                [delay]="500"
-                [timeDelay]="500"
                 mat-menu-item
-                placement="left"
-                tooltip="{{ 'WALLET.TOOLTIPS.REMOVE' | translate }}"
-                tooltipClass="table-tooltip account-tooltip"
+                [matTooltip]="'WALLET.TOOLTIPS.REMOVE' | translate"
+                [matTooltipShowDelay]="800"
+                matTooltipPosition="left"
             >
                 <mat-icon svgIcon="zano-close-v2"></mat-icon>
                 <span>{{ 'WALLET_DETAILS.BUTTON_REMOVE' | translate }}</span>
@@ -124,7 +116,14 @@
     <div class="tabs-header">
         <ng-container *ngFor="let tab of tabs">
             <ng-container *ngIf="!tab.hidden">
-                <button [disabled]="tab.disabled" [routerLink]="['/wallet' + tab.link]" class="tab-header" routerLinkActive="active">
+                <button
+                    role="link"
+                    [disabled]="tab.disabled"
+                    [routerLink]="['/wallet' + tab.link]"
+                    [attr.aria-label]="tab.title | translate"
+                    class="tab-header"
+                    routerLinkActive="active"
+                >
                     <mat-icon [svgIcon]="tab.icon"></mat-icon>
                     <span *ngIf="isViewTabName$ | async" class="ml-1">{{ tab.title | translate }}</span>
                     <span *ngIf="tab.indicator" class="indicator">{{ variablesService.current_wallet.new_contracts }}</span>
@@ -133,12 +132,12 @@
         </ng-container>
     </div>
     <div class="tabs-content">
-        <router-outlet> </router-outlet>
+        <router-outlet></router-outlet>
 
-        <div *ngIf="loader" class="wrapper-tab-preloader">
+        <div *ngIf="loader" role="status" aria-live="polite" class="wrapper-tab-preloader">
             <div class="preloader">
                 <p class="mb-2">
-                    {{ 'Loading...' | translate }}
+                    {{ 'COMMON.LOADING' | translate }}
                 </p>
                 <div class="loading-bar"></div>
             </div>

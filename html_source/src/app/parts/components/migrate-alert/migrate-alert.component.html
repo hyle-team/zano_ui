@@ -1,12 +1,28 @@
-<div class="migrate-alert" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2rem">
+<div
+    role="region"
+    [attr.aria-label]="'WALLET.MIGRATE.TEXT1' | translate"
+    class="migrate-alert"
+    fxLayout="row"
+    fxLayoutAlign="start center"
+    fxLayoutGap="2rem"
+>
     <button class="btn-migrate" type="button" (click)="openMigrateWalletToZarcanum()">
         {{ 'WALLET.MIGRATE.BUTTON2' | translate }}
     </button>
 
     <div class="migration-details">
         <p class="text-wrap">{{ 'WALLET.MIGRATE.TEXT1' | translate }}</p>
-        <p class="text-align-center cursor-pointer" fxLayout="row" fxLayoutAlign="start center" (click)="openZarcanumMigration()">
-            <mat-icon svgIcon="zano-info" class="mr-0_5"></mat-icon>
+        <p
+            class="text-align-center cursor-pointer"
+            fxLayout="row"
+            fxLayoutAlign="start center"
+            tabindex="0"
+            role="link"
+            (click)="openZarcanumMigration($event)"
+            (keydown.enter)="openZarcanumMigration($event)"
+            (keydown.space)="openZarcanumMigration($event)"
+        >
+            <mat-icon aria-hidden="true" svgIcon="zano-info" class="mr-0_5"></mat-icon>
             <span class="color-primary">{{ 'WALLET.MIGRATE.BUTTON1' | translate }}</span>
         </p>
     </div>

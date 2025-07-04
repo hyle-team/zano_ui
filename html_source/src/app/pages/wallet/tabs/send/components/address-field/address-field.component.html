@@ -5,7 +5,7 @@
         lowerCaseDisabled: lower_case_disabled$ | async
     } as vm"
 >
-    <div class="form__field">
+    <fieldset class="form__field">
         <label for="address">
             {{ 'SEND.ADDRESS' | translate }}
             <span class="color-red">*</span>
@@ -19,6 +19,7 @@
             [lowerCaseDisabled]="vm.lowerCaseDisabled"
             [matAutocomplete]="auto"
             [placeholder]="'PLACEHOLDERS.ADDRESS_PLACEHOLDER' | translate"
+            aria-describedby="address-error wrap-service-is-inactive"
             class="form__field--input"
             id="address"
             lowerCase
@@ -27,16 +28,12 @@
         />
 
         <mat-autocomplete (opened)="openAutocomplete()" #auto="matAutocomplete" class="zano-autocomplete-panel">
-
             <ng-container *ngIf="!variables_service.is_remote_node">
                 <mat-option *ngIf="vm.loading" class="loading" disabled>
                     <zano-loader class="mx-auto" style="display: block; width: fit-content"></zano-loader>
                 </mat-option>
 
-                <mat-option
-                    *ngIf="control_ref.controls.address.value.startsWith('@') && vm.items?.length === 0 && !vm.loading"
-                    disabled
-                >
+                <mat-option *ngIf="control_ref.controls.address.value.startsWith('@') && vm.items?.length === 0 && !vm.loading" disabled>
                     <span class="pl-1"> Not found aliases </span>
                 </mat-option>
             </ng-container>
@@ -68,13 +65,13 @@
             </ng-container>
         </mat-autocomplete>
 
-        <div *ngIf="control_ref.controls.address | isVisibleControlError" class="error">
+        <div *ngIf="control_ref.controls.address | isVisibleControlError" aria-live="assertive" id="address-error" class="error">
             {{ error_messages['address'] | translate }}
         </div>
 
         <ng-container *ngIf="control_ref.controls.is_visible_wrap_info.value">
             <ng-container *ngIf="variables_service.is_wrap_info_service_inactive$ | async">
-                <div class="error">
+                <div class="error" aria-live="assertive" id="wrap-service-is-inactive">
                     {{ 'ERRORS.WRAP_SERVICE_IS_INACTIVE' | translate }}
                 </div>
             </ng-container>
@@ -83,5 +80,5 @@
         <div *ngIf="control_ref.controls.alias_address.value" class="info text-ellipsis">
             <span>{{ control_ref.controls.alias_address.value | zanoShortString }}</span>
         </div>
-    </div>
+    </fieldset>
 </ng-container>

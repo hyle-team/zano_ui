@@ -9,37 +9,37 @@ type LoaderType = 'circle' | 'circle-2' | 'circle-3' | 'dots' | 'dots-2' | 'puls
     template: `
         <ng-container [ngSwitch]="[type]">
             <!-- Loader 1-->
-            <div *ngSwitchCase="'circle'" class="loader-1">
+            <div *ngSwitchCase="'circle'" class="loader-1" role="status" aria-live="polite" aria-label="Loading">
                 <span></span>
             </div>
 
             <!-- Loader 2 -->
-            <div *ngSwitchCase="'circle-2'" class="loader-2">
+            <div *ngSwitchCase="'circle-2'" class="loader-2" role="status" aria-live="polite" aria-label="Loading">
                 <span></span>
             </div>
 
             <!-- Loader 3 -->
-            <div *ngSwitchCase="'circle-3'" class="loader-3">
+            <div *ngSwitchCase="'circle-3'" class="loader-3" role="status" aria-live="polite" aria-label="Loading">
                 <span></span>
             </div>
 
             <!-- Loader 4 -->
-            <div *ngSwitchCase="'dots'" class="loader-4">
+            <div *ngSwitchCase="'dots'" class="loader-4" role="status" aria-live="polite" aria-label="Loading">
                 <span></span>
             </div>
 
             <!-- Loader 5 -->
-            <div *ngSwitchCase="'dots-2'" class="loader-5">
+            <div *ngSwitchCase="'dots-2'" class="loader-5" role="status" aria-live="polite" aria-label="Loading">
                 <span></span>
             </div>
 
             <!-- Loader 6 -->
-            <div *ngSwitchCase="'pulse'" class="loader-6">
+            <div *ngSwitchCase="'pulse'" class="loader-6" role="status" aria-live="polite" aria-label="Loading">
                 <span></span>
             </div>
 
             <!-- Default-->
-            <div *ngSwitchDefault class="loader-1">
+            <div *ngSwitchDefault class="loader-1" role="status" aria-live="polite" aria-label="Loading">
                 <span></span>
             </div>
         </ng-container>

@@ -1,0 +1,70 @@
+<div aria-hidden="true" class="sidebar-header mb-1">
+    <zano-logo></zano-logo>
+</div>
+
+<div class="sidebar-content">
+    <section class="sidebar-content-wallet-list mb-1">
+        <div (cdkDropListDropped)="drop($event)" cdkDropList cdkDropListLockAxis="y" class="scrolled-content">
+            <app-wallet-card
+                (click)="selectWallet($event, wallet.wallet_id)"
+                (eventClose)="beforeClose($event)"
+                (keydown.enter)="selectWallet($event, wallet.wallet_id)"
+                (keydown.space)="selectWallet($event, wallet.wallet_id)"
+                *ngFor="let wallet of variablesService.wallets"
+                [attr.aria-selected]="wallet?.wallet_id === variablesService?.current_wallet?.wallet_id"
+                [cdkDragData]="wallet"
+                [ngClass]="{
+                    active: wallet?.wallet_id === variablesService?.current_wallet?.wallet_id,
+                    auditable: wallet.is_auditable && !wallet.is_watch_only,
+                    'watch-only': wallet.is_watch_only,
+                    'offset-testnet': variablesService.testnet,
+                    'mb-1': !variablesService.testnet
+                }"
+                [wallet]="wallet"
+                cdkDrag
+                role="option"
+                tabindex="0"
+            ></app-wallet-card>
+        </div>
+    </section>
+
+    <section class="sidebar-nav scrolled-content">
+        <button (click)="goMainPage()" class="outline small" role="link" type="button">
+            <mat-icon class="mr-1" svgIcon="zano-plus"></mat-icon>
+            <span>{{ 'SIDEBAR.ADD_NEW' | translate }}</span>
+        </button>
+
+        <button [routerLink]="['/settings']" class="outline small" role="link" routerLinkActive="active" type="button">
+            <mat-icon class="mr-1" svgIcon="zano-settings"></mat-icon>
+            <span>{{ 'SIDEBAR.SETTINGS' | translate }}</span>
+        </button>
+
+        <ng-container *ngIf="variablesService.appPass === ''; else masterPass">
+            <button
+                (click)="logOut()"
+                [disabled]="variablesService.appPass === ''"
+                [matTooltip]="'SIDEBAR.LOG_OUT_TOOLTIP' | translate"
+                matTooltipShowDelay="800"
+                class="outline small"
+                role="link"
+                type="button"
+            >
+                <mat-icon class="mr-1" svgIcon="zano-logout"></mat-icon>
+                <span>{{ 'SIDEBAR.LOG_OUT' | translate }}</span>
+            </button>
+        </ng-container>
+
+        <ng-template #masterPass>
+            <button (click)="logOut()" class="outline small" role="link" type="button">
+                <mat-icon class="mr-1" svgIcon="zano-logout"></mat-icon>
+                <span> {{ 'SIDEBAR.LOG_OUT' | translate }}</span>
+            </button>
+        </ng-template>
+    </section>
+</div>
+
+<div class="sidebar-footer">
+    <app-synchronization-status></app-synchronization-status>
+</div>
+
+<app-deeplink></app-deeplink>

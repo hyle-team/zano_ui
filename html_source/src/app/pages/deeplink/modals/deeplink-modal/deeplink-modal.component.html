@@ -1,0 +1,177 @@
+<div cdkTrapFocus class="modal deeplink-modal-wrapper" fxFlex="0 1 54rem" fxLayout="column">
+    <ng-container *ngIf="walletsToPay.length > 1 && !secondStep">
+        <div class="content mb-2" fxFlex="0 0 auto" fxLayout="column">
+            <div class="form__field" fxFlex="0 0 auto">
+                <label for="walletToPayId">{{ 'DEEPLINK.LABELS.LABEL1' | translate }}</label>
+                <ng-select
+                    [(ngModel)]="walletToPayId"
+                    [clearable]="false"
+                    [items]="walletsToPay"
+                    [searchable]="false"
+                    autofocus
+                    appAutofocus
+                    appendTo="body"
+                    bindLabel="name"
+                    bindValue="wallet_id"
+                    id="walletToPayId"
+                >
+                    <ng-template let-item="item" ng-label-tmp>
+                        {{ item.name }}
+                    </ng-template>
+                    <ng-template let-item="item" ng-option-tmp>
+                        {{ item.name }}
+                    </ng-template>
+                </ng-select>
+            </div>
+        </div>
+
+        <div class="controls" fxFlex="0 0 auto" fxLayout="row nowrap" fxLayoutAlign="space-between center" fxLayoutGap="1rem">
+            <button (click)="canselAction()" class="outline big w-100" type="button">
+                {{ 'EXPORT_HISTORY.CANCEL' | translate }}
+            </button>
+            <button (click)="nextStep()" class="primary big w-100" type="submit">
+                {{ 'DEEPLINK.BUTTONS.BUTTON1' | translate }}
+            </button>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="secondStep && marketplaceModalShow && actionData.action === 'marketplace_offer_create'">
+        <h4 class="mb-2" fxFlex="0 0 auto">Creating a marketplace offer</h4>
+        <div class="content scrolled-content mb-2" fxFlex="1 1 auto" fxLayout="column">
+            <div class="table-info" fxFlex="0 0 auto">
+                <div class="row">
+                    <div class="label max-w-19-rem w-100">
+                        {{ 'DEEPLINK.LABELS.LABEL2' | translate }}
+                    </div>
+                    <div class="text">{{ actionData.title }}</div>
+                </div>
+
+                <hr class="separator" />
+
+                <div class="row">
+                    <div class="label max-w-19-rem w-100">
+                        {{ 'DEEPLINK.LABELS.LABEL3' | translate }}
+                    </div>
+                    <div class="text">{{ actionData.description }}</div>
+                </div>
+
+                <hr class="separator" />
+
+                <div class="row">
+                    <div class="label max-w-19-rem w-100">
+                        {{ 'DEEPLINK.LABELS.LABEL4' | translate }}
+                    </div>
+                    <div class="text">{{ actionData.category }}</div>
+                </div>
+
+                <hr class="separator" />
+
+                <div class="row">
+                    <div class="label max-w-19-rem w-100">
+                        {{ 'DEEPLINK.LABELS.LABEL5' | translate }}
+                    </div>
+                    <div class="text">
+                        {{ actionData.price }}
+                        {{ variablesService.defaultTicker }}
+                    </div>
+                </div>
+
+                <hr class="separator" />
+
+                <div class="row">
+                    <div class="label max-w-19-rem w-100">
+                        {{ 'DEEPLINK.LABELS.LABEL6' | translate }}
+                    </div>
+                    <div class="text">{{ actionData.url || actionData.img_url }}</div>
+                </div>
+
+                <hr class="separator" />
+
+                <div class="row">
+                    <div class="label max-w-19-rem w-100">
+                        {{ 'DEEPLINK.LABELS.LABEL7' | translate }}
+                    </div>
+                    <div class="text">{{ actionData.contact }}</div>
+                </div>
+
+                <hr class="separator" />
+
+                <div class="row">
+                    <div class="label max-w-19-rem w-100">
+                        {{ 'DEEPLINK.LABELS.LABEL8' | translate }}
+                    </div>
+                    <div class="text">
+                        {{ actionData.comment || actionData.comments }}
+                    </div>
+                </div>
+
+                <hr class="separator" />
+
+                <!--<div class="row">-->
+                <!--    <div class="label max-w-19-rem w-100">-->
+                <!--        {{ 'Mixins' | translate }}-->
+                <!--    </div>-->
+                <!--    <div class="text">{{ actionData.mixins || defaultMixin }}</div>-->
+                <!--</div>-->
+
+                <!--<hr class="separator" />-->
+
+                <div class="row">
+                    <div class="label max-w-19-rem w-100">
+                        {{ 'DEEPLINK.LABELS.LABEL9' | translate }}
+                    </div>
+                    <div class="text">
+                        {{ $any(actionData.price) * $any(actionData.fee || variablesService.default_fee) }}
+                        {{ variablesService.defaultTicker }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls" fxFlex="0 0 auto" fxLayout="row nowrap" fxLayoutAlign="space-between center" fxLayoutGap="1rem">
+            <button (click)="canselAction()" class="outline big w-100" type="button">
+                {{ 'EXPORT_HISTORY.CANCEL' | translate }}
+            </button>
+            <button (click)="marketplaceSend()" class="primary big w-100" type="submit">
+                {{ 'DEEPLINK.BUTTONS.BUTTON2' | translate }}
+            </button>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="marketplaceConfirmHash">
+        <h4 class="mb-2" fxFlex="0 0 auto">{{ 'DEEPLINK.LABELS.LABEL10' | translate }}</h4>
+
+        <div class="content scrolled-content mb-2" fxFlex="1 1 auto" fxLayout="column">
+            <div class="table-info" fxFlex="0 0 auto">
+                <div class="row">
+                    <div class="label max-w-19-rem w-100">
+                        {{ 'DEEPLINK.LABELS.LABEL11' | translate }}
+                    </div>
+                    <div
+                        (contextmenu)="variablesService.onContextMenuOnlyCopy($event, marketplaceConfirmHash)"
+                        class="text"
+                        fxLayout="row"
+                        fxLayoutAlign="start center"
+                    >
+                        {{ marketplaceConfirmHash }}
+                        <mat-icon (click)="copyHash()" [svgIcon]="copyAnimation ? 'zano-check' : 'zano-copy'" class="ml-1"></mat-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls" fxFlex="0 0 auto" fxLayout="row" fxLayoutAlign="space-between center">
+            <button (click)="canselAction()" class="primary big w-100" type="button">{{ 'DEEPLINK.BUTTONS.BUTTON3' | translate }}</button>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="!walletsToPay.length">
+        <h4 class="mb-2" fxFlex="0 0 auto">{{ 'DEEPLINK.LABELS.LABEL12' | translate }}</h4>
+
+        <div class="controls" fxFlex="0 0 auto" fxLayout="row" fxLayoutAlign="space-between center">
+            <button cdkFocusInitial (click)="canselAction()" class="primary big w-100" type="button">
+                {{ 'DEEPLINK.BUTTONS.BUTTON4' | translate }}
+            </button>
+        </div>
+    </ng-container>
+</div>

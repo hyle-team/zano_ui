@@ -16,3 +16,5 @@ export const BLOCK_EXPLORER_TN_TX_URL_PREFIX = 'testnet-explorer.zano.org/transa
 
 export const MAX_WALLET_NAME_LENGTH = 25;
 export const MAX_COMMENT_LENGTH = 255;
+
+export const DEFAULT_ASSET_LOGO_SRC = 'assets/currency-icons/custom_token.svg';

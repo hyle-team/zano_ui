@@ -48,7 +48,9 @@ export class NoWalletComponent {
         );
     }
 
-    openInBrowser(): void {
+    openInBrowser(event: Event): void {
+        event.preventDefault();
+        event.stopPropagation();
         this.backend.openUrlInBrowser(CREATE_NEW_WALLET_HELP_PAGE);
     }
 }

@@ -6,19 +6,24 @@ import { BLOCK_EXPLORER_TN_TX_URL_PREFIX, BLOCK_EXPLORER_TX_URL_PREFIX } from '.
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { TooltipModule } from '@parts/directives';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
     selector: 'app-transaction-details',
     template: `
-        <table class="zano-table">
+        <table role="table" class="zano-table">
             <tbody>
-                <tr>
+                <tr role="row">
                     <td>{{ 'HISTORY.DETAILS.ID' | translate }}</td>
                     <td
                         colspan="2"
-                        (click)="openInBrowser(transaction.tx_hash)"
+                        (click)="openInBrowser($event, transaction.tx_hash)"
+                        (keydown.space)="openInBrowser($event, transaction.tx_hash)"
+                        (keydown.enter)="openInBrowser($event, transaction.tx_hash)"
                         (contextmenu)="variablesService.onContextMenuOnlyCopy($event, transaction.tx_hash)"
                         class="color-primary cursor-pointer"
+                        tabindex="0"
+                        role="button"
                     >
                         {{ transaction.tx_hash }}
                     </td>
@@ -27,7 +32,7 @@ import { TooltipModule } from '@parts/directives';
                         {{ 'HISTORY.DETAILS.SIZE_VALUE' | translate : { value: transaction.tx_blob_size } }}
                     </td>
                 </tr>
-                <tr>
+                <tr role="row">
                     <td>{{ 'Asset ID' | translate }}</td>
                     <td colspan="2" class="color-primary cursor-pointer">
                         <ng-container *ngFor="let asset_id of getAllUniqAssetId(transaction)">
@@ -41,34 +46,28 @@ import { TooltipModule } from '@parts/directives';
                         {{ transaction.height === 0 ? 0 : variablesService.height_app - transaction.height }}
                     </td>
                 </tr>
-                <tr>
+                <tr role="row">
                     <td>{{ 'HISTORY.DETAILS.HEIGHT' | translate }}</td>
                     <td colspan="2">{{ transaction.height }}</td>
                     <td colspan="2"></td>
                 </tr>
-                <tr>
+                <tr role="row">
                     <td>{{ 'HISTORY.DETAILS.PAYMENT_ID' | translate }}</td>
-                    <td
-                        colspan="4"
-                        [delay]="500"
-                        [showWhenNoOverflow]="false"
-                        placement="top"
-                        tooltip="{{ transaction.payment_id }}"
-                        tooltipClass="table-tooltip comment-tooltip"
-                    >
+                    <td colspan="4" [matTooltip]="transaction.payment_id" matTooltipShowDelay="1500" matTooltipPosition="above">
                         {{ transaction.payment_id }}
                     </td>
                 </tr>
-                <tr>
+                <tr role="row">
                     <td>{{ 'HISTORY.DETAILS.COMMENT' | translate }}</td>
                     <td
                         colspan="4"
+                        tabindex="0"
+                        role="textbox"
+                        aria-readonly="true"
                         (contextmenu)="variablesService.onContextMenuOnlyCopy($event, transaction.comment)"
-                        [delay]="500"
-                        [showWhenNoOverflow]="false"
-                        placement="top"
-                        tooltip="{{ transaction.comment }}"
-                        tooltipClass="table-tooltip comment-tooltip"
+                        [matTooltip]="transaction.comment"
+                        matTooltipShowDelay="1500"
+                        matTooltipPosition="above"
                     >
                         {{ transaction.comment }}
                     </td>
@@ -92,7 +91,7 @@ import { TooltipModule } from '@parts/directives';
         `,
     ],
     standalone: true,
-    imports: [CommonModule, TranslateModule, TooltipModule],
+    imports: [CommonModule, TranslateModule, TooltipModule, MatTooltipModule],
 })
 export class TransactionDetailsComponent {
     @Input() transaction: Transaction;
@@ -105,7 +104,9 @@ export class TransactionDetailsComponent {
         return new Set([...receive, ...spent].map(({ asset_id }) => asset_id));
     }
 
-    openInBrowser(hash: string): void {
+    openInBrowser(event: Event, hash: string): void {
+        event.preventDefault();
+        event.stopPropagation();
         this.backendService.openUrlInBrowser(
             (this.variablesService.testnet ? BLOCK_EXPLORER_TN_TX_URL_PREFIX : BLOCK_EXPLORER_TX_URL_PREFIX) + hash
         );

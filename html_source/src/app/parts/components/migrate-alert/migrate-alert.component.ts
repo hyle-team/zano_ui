@@ -26,7 +26,9 @@ export class MigrateAlertComponent {
     private readonly _matDialog: MatDialog = inject(MatDialog);
     private readonly _modalService: ModalService = inject(ModalService);
 
-    openZarcanumMigration(): void {
+    openZarcanumMigration(event: Event): void {
+        event.preventDefault();
+        event.stopPropagation();
         this._backend.openUrlInBrowser(ZARCANUM_MIGRATION);
     }
 

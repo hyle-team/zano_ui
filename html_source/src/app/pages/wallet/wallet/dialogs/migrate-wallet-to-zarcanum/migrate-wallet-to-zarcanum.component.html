@@ -1,4 +1,4 @@
-<h3 mat-dialog-title>
+<h3 aria-live="assertive" mat-dialog-title>
     {{ 'MIGRATE_WALLET_TO_ZARCANUM.TITLE' | translate }}
 </h3>
 
@@ -14,11 +14,21 @@
                           }
             }}
         </p>
-        <p (click)="openZarcanumMigration()" class="text-align-center cursor-pointer mb-2" fxLayout="row" fxLayoutAlign="start center">
+        <p
+            (click)="openZarcanumMigration($event)"
+            (keydown.enter)="openZarcanumMigration($event)"
+            (keydown.space)="openZarcanumMigration($event)"
+            class="text-align-center cursor-pointer mb-2"
+            fxLayout="row"
+            fxLayoutAlign="start center"
+            role="link"
+            tabindex="0"
+            [attr.aria-label]="'MIGRATE_WALLET_TO_ZARCANUM.LINK1' | translate"
+        >
             <mat-icon class="mr-0_5" svgIcon="zano-question"></mat-icon>
             <span class="color-primary">{{ 'MIGRATE_WALLET_TO_ZARCANUM.LINK1' | translate }}</span>
         </p>
-        <hr class="mb-2" />
+        <hr aria-hidden="true" class="mb-2" />
         <p class="mb-2">
             {{
                 'MIGRATE_WALLET_TO_ZARCANUM.TEXT2'

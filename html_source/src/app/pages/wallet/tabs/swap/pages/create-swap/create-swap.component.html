@@ -1,10 +1,10 @@
 <div class="container scrolled-content">
     <app-breadcrumbs [items]="breadcrumbItems" class="mb-2"></app-breadcrumbs>
 
-    <form (ngSubmit)="beforeSubmit()" [formGroup]="form" class="form">
+    <form role="form" (ngSubmit)="beforeSubmit()" [formGroup]="form" class="form">
         <!-- Sending -->
         <div class="form__row" formGroupName="sending">
-            <div class="form__field fixed">
+            <fieldset class="form__field fixed">
                 <label for="sending-amount">
                     {{ 'CREATE_SWAP.FORM.LABELS.LABEL1' | translate }}
                 </label>
@@ -16,10 +16,13 @@
                     class="form__field--input"
                     formControlName="amount"
                     id="sending-amount"
+                    aria-describedby="sending-amount-error"
                     type="text"
                 />
                 <div
                     *ngIf="isVisibleErrorByControl(form.controls.sending.controls.amount) || isVisibleErrorByForm(form.controls.sending)"
+                    aria-live="assertive"
+                    id="sending-amount-error"
                     class="error"
                 >
                     <ng-container [ngSwitch]="true">
@@ -45,10 +48,12 @@
                         </ng-container>
                     </ng-container>
                 </div>
-            </div>
+            </fieldset>
 
-            <div class="form__field fixed">
-                <label> &nbsp; </label>
+            <fieldset class="form__field fixed">
+                <label for="select-sending-asset-id" [attr.aria-label]="'ACCESSIBILITY.CREATE_SWAP.LABELS.LABEL1' | translate">
+                    &nbsp;
+                </label>
                 <ng-select
                     (change)="form.controls.sending.controls.amount.updateValueAndValidity()"
                     [bindValue]="'asset_id'"
@@ -57,25 +62,32 @@
                     [searchable]="false"
                     class="custom-select with-circle"
                     formControlName="asset_id"
+                    id="select-sending-asset-id"
                 >
                     <ng-template let-item="item" ng-label-tmp ng-option-tmp>
                         <div [innerHTML]="item | getLogoByAssetInfo" class="token-logo"></div>
                         {{ item.full_name || '---' }}
                     </ng-template>
                 </ng-select>
-            </div>
+            </fieldset>
         </div>
         <!-- /Sending -->
 
         <div class="wrapper-reverse">
-            <button (click)="reverse()" [disabled]="currentWallet.balances.length === 1" class="revers" type="button">
+            <button
+                [attr.aria-label]="'ACCESSIBILITY.CREATE_SWAP.LABELS.LABEL2' | translate"
+                (click)="reverse()"
+                [disabled]="currentWallet.balances.length === 1"
+                class="revers"
+                type="button"
+            >
                 <mat-icon class="rotate-90" svgIcon="zano-swap"></mat-icon>
             </button>
         </div>
 
         <!-- Receiving -->
         <div class="form__row" formGroupName="receiving">
-            <div class="form__field fixed">
+            <fieldset class="form__field fixed">
                 <label for="receiving-amount">
                     {{ 'CREATE_SWAP.FORM.LABELS.LABEL2' | translate }}
                 </label>
@@ -87,11 +99,14 @@
                     formControlName="amount"
                     id="receiving-amount"
                     type="text"
+                    aria-describedby="receiving-amount-error"
                 />
                 <div
                     *ngIf="
                         isVisibleErrorByControl(form.controls.receiving.controls.amount) || isVisibleErrorByForm(form.controls.receiving)
                     "
+                    aria-live="assertive"
+                    id="receiving-amount-error"
                     class="error"
                 >
                     <ng-container [ngSwitch]="true">
@@ -114,10 +129,12 @@
                         </ng-container>
                     </ng-container>
                 </div>
-            </div>
+            </fieldset>
 
-            <div class="form__field fixed">
-                <label> &nbsp; </label>
+            <fieldset class="form__field fixed">
+                <label for="select-receive-asset-id" [attr.aria-label]="'ACCESSIBILITY.CREATE_SWAP.LABELS.LABEL1' | translate">
+                    &nbsp;
+                </label>
                 <ng-select
                     [bindValue]="'asset_id'"
                     [clearable]="false"
@@ -125,6 +142,8 @@
                     [searchable]="false"
                     class="custom-select with-circle"
                     formControlName="asset_id"
+                    id="select-receive-asset-id"
+                    aria-describedby="select-receive-asset-id-error"
                 >
                     <ng-template let-item="item" ng-label-tmp ng-option-tmp>
                         <div [innerHTML]="item | getLogoByAssetInfo" class="token-logo"></div>
@@ -139,12 +158,14 @@
                             form.touched)
                     "
                     class="error"
+                    aria-live="assertive"
+                    id="select-receive-asset-id-error"
                 >
                     <ng-container *ngIf="form.controls.receiving.controls.asset_id.hasError('sameAssetsId')">
                         {{ 'CREATE_SWAP.FORM.ERRORS.ERROR1' | translate }}
                     </ng-container>
                 </div>
-            </div>
+            </fieldset>
         </div>
         <!-- /Receiving -->
 
@@ -172,6 +193,7 @@
                 class="form__field--input"
                 formControlName="receiverAddress"
                 id="address"
+                aria-describedby="address-error"
                 lowerCase
                 matAutocompletePosition="auto"
                 type="text"
@@ -183,9 +205,7 @@
                         <zano-loader class="mx-auto" style="display: block; width: fit-content"></zano-loader>
                     </mat-option>
 
-                    <mat-option
-                        *ngIf="form.controls.receiverAddress.value[0] === '@' && vm.items?.length === 0 && !vm.loading"
-                        disabled>
+                    <mat-option *ngIf="form.controls.receiverAddress.value[0] === '@' && vm.items?.length === 0 && !vm.loading" disabled>
                         <span class="pl-1"> Not found aliases </span>
                     </mat-option>
                 </ng-container>
@@ -197,9 +217,9 @@
                             <ng-container *ngIf="item.startsWith('@'); else itemAddressTemplate">
                                 <div
                                     [ngClass]="{
-                                    available: item.length >= 1 && item.length <= 6,
-                                    'pl-1': item.length > 6
-                                }"
+                                        available: item.length >= 1 && item.length <= 6,
+                                        'pl-1': item.length > 6
+                                    }"
                                     class="alias-container"
                                 >
                                     <div class="alias">
@@ -217,7 +237,7 @@
                 </ng-container>
             </mat-autocomplete>
 
-            <div *ngIf="isVisibleErrorByControl(form.controls.receiverAddress)" class="error">
+            <div *ngIf="isVisibleErrorByControl(form.controls.receiverAddress)" aria-live="assertive" id="address-error" class="error">
                 {{ errorMessages['receiverAddress'] | translate }}
             </div>
 
@@ -229,15 +249,13 @@
 
         <div class="actions">
             <button [disabled]="form.invalid || (loading$ | async)" class="btn primary big w-100" type="submit">
-                <ng-container *ngIf="!(loading$ | async)">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON1' | translate }}
-                </ng-container>
+                <ng-container *ngIf="!(loading$ | async)">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON1' | translate }} </ng-container>
                 <zano-loader *ngIf="loading$ | async" [type]="'circle'"></zano-loader>
             </button>
-            <a class="btn outline big w-100"
-               routerLink="/wallet/swap">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON2' | translate }}</a>
+            <a class="btn outline big w-100" routerLink="/wallet/swap">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON2' | translate }}</a>
         </div>
 
-        <div *ngIf="errorRpc" class="error mt-2">
+        <div *ngIf="errorRpc" aria-live="assertive" class="error mt-2">
             {{ 'ERRORS.INVALID_PROPOSAL' | translate }}
         </div>
     </form>

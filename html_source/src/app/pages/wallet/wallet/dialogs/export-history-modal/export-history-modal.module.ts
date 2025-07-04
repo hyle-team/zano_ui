@@ -8,10 +8,21 @@ import { FormsModule } from '@angular/forms';
 import { CheckboxComponent } from '@parts/components/checkbox.component';
 import { SwitchComponent } from '@parts/components/switch.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { AutoFocusDirective } from '@parts/directives/autofocus.directive';
 
 @NgModule({
     declarations: [ExportHistoryModalComponent],
     exports: [ExportHistoryModalComponent],
-    imports: [CommonModule, TranslateModule, FlexModule, SwitchComponent, CheckboxComponent, NgSelectModule, FormsModule, MatDialogModule],
+    imports: [
+        CommonModule,
+        TranslateModule,
+        FlexModule,
+        SwitchComponent,
+        CheckboxComponent,
+        NgSelectModule,
+        FormsModule,
+        MatDialogModule,
+        AutoFocusDirective,
+    ],
 })
 export class ExportHistoryModalModule {}

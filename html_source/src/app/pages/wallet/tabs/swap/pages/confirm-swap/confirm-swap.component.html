@@ -1,17 +1,18 @@
 <div class="container scrolled-content">
     <app-breadcrumbs [items]="breadcrumbItems" class="mb-2"></app-breadcrumbs>
 
-    <form [formGroup]="form" class="form">
-        <div class="form__field textarea mb-2">
+    <form role="form" [formGroup]="form" class="form">
+        <fieldset class="form__field textarea mb-2">
             <label for="swap-proposal-hex">
                 {{ 'CONFIRM_SWAP.FORM.LABELS.LABEL1' | translate }}
             </label>
             <textarea
                 [placeholder]="'CONFIRM_SWAP.FORM.PLACEHOLDERS.PLACEHOLDER1' | translate"
+                aria-required="true"
                 formControlName="hex_raw_proposal"
                 id="swap-proposal-hex"
             ></textarea>
-        </div>
+        </fieldset>
 
         <div *ngIf="proposalDetails" class="form__field mb-2">
             <label for="swap-proposal-hex">
@@ -31,7 +32,7 @@
                     </div>
                 </div>
 
-                <hr class="separator" />
+                <hr aria-hidden="true" class="separator" />
 
                 <div class="row">
                     <div class="label max-w-19-rem w-100">
@@ -52,12 +53,12 @@
                 {{ 'CONFIRM_SWAP.FORM.BUTTONS.BUTTON1' | translate }}
             </button>
 
-            <a class="btn outline big w-100" routerLink="/wallet/swap">
+            <a class="btn outline big w-100" role="link" routerLink="/wallet/swap">
                 {{ 'CONFIRM_SWAP.FORM.BUTTONS.BUTTON2' | translate }}
             </a>
         </div>
 
-        <div *ngIf="errorRpc" class="error mt-2">
+        <div *ngIf="errorRpc" aria-live="assertive" class="error mt-2">
             {{ 'ERRORS.INVALID_PROPOSAL' | translate }}
         </div>
     </form>

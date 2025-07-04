@@ -11,13 +11,14 @@ import { FlexModule } from '@angular/flex-layout';
 import { TranslateModule } from '@ngx-translate/core';
 import { LoaderComponent } from '@parts/components/loader.component';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { AutoFocusDirective } from '@parts/directives/autofocus.directive';
 
 @Component({
     selector: 'app-add-custom-token',
     standalone: true,
     templateUrl: './add-custom-token.component.html',
     styleUrls: ['./add-custom-token.component.scss'],
-    imports: [CommonModule, FlexModule, TranslateModule, ReactiveFormsModule, LoaderComponent, MatDialogModule],
+    imports: [CommonModule, FlexModule, TranslateModule, ReactiveFormsModule, LoaderComponent, MatDialogModule, AutoFocusDirective],
 })
 export class AddCustomTokenComponent {
     loading = false;

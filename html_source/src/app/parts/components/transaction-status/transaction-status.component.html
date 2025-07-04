@@ -1,12 +1,36 @@
 <ng-container *ngIf="isInitiator(transaction) && !hasZano(transaction.subtransfers)">
-    <div [ngClass]="'received'" class="status text-ellipsis" fxLayout="row" fxLayoutAlign=" center">
-        <img alt="" class="status-transaction mr-1" src="assets/icons/aqua/receive.svg" />
+    <div
+        role="status"
+        [attr.aria-label]="'HISTORY.RECEIVED' | translate"
+        [ngClass]="'received'"
+        class="status text-ellipsis"
+        fxLayout="row"
+        fxLayoutAlign=" center"
+        tabindex="0"
+    >
+        <img alt="image transaction received" class="status-transaction mr-1" src="assets/icons/aqua/receive.svg" />
 
         <span class="status-transaction-text">{{ 'HISTORY.RECEIVED' | translate }}</span>
     </div>
 </ng-container>
 
-<ng-container *ngIf="transaction.subtransfers; else noSubtransfersStatusTemplate">
+<ng-template #noSubtransfersStatus>
+    <div
+        [ngClass]="'received'"
+        class="status text-ellipsis"
+        fxLayout="row"
+        fxLayoutAlign=" center"
+        role="status"
+        [attr.aria-label]="'HISTORY.RECEIVED' | translate"
+        tabindex="0"
+    >
+        <img alt="" class="status-transaction mr-1" src="assets/icons/aqua/receive.svg" />
+
+        <span class="status-transaction-text">{{ 'HISTORY.RECEIVED' | translate }}</span>
+    </div>
+</ng-template>
+
+<ng-container *ngIf="transaction.subtransfers; else noSubtransfersStatus">
     <ng-container *ngFor="let subtransfer of transaction.subtransfers">
         <ng-container *ngIf="isVisibleStatusBySubtransfer(subtransfer, transaction)">
             <div
@@ -14,16 +38,17 @@
                 class="status text-ellipsis"
                 fxLayout="row"
                 fxLayoutAlign=" center"
+                role="status"
+                [attr.aria-label]="(isIncome(subtransfer, transaction) ? 'HISTORY.RECEIVED' : 'HISTORY.SEND') | translate"
             >
                 <!-- Progress -->
                 <ng-container *ngIf="getHeight(transaction) < 10">
                     <svg
-                        [delay]="500"
                         class="confirmation mr-1"
-                        placement="bottom-left"
                         style="transform: rotateZ(-90deg)"
-                        tooltip="{{ 'HISTORY.STATUS_TOOLTIP' | translate : { current: getHeight(transaction), total: 10 } }}"
-                        tooltipClass="table-tooltip"
+                        [matTooltip]="'HISTORY.STATUS_TOOLTIP' | translate : { current: getHeight(transaction), total: 10 }"
+                        matTooltipShowDelay="800"
+                        matTooltipPosition="below"
                     >
                         <circle
                             cx="50%"
@@ -54,6 +79,7 @@
                 <!-- Status -->
                 <ng-container *ngIf="getHeight(transaction) === 10">
                     <img
+                        tabindex="0"
                         class="status-transaction mr-1"
                         [src]="isIncome(subtransfer, transaction) ? 'assets/icons/aqua/receive.svg' : 'assets/icons/blue/send.svg'"
                         alt="status"
@@ -72,11 +98,11 @@
                                     variablesService.height_app - transaction.height < 10 ||
                                     (transaction.height === 0 && transaction.timestamp > 0)
                                 "
-                                [delay]="500"
+                                tabindex="0"
                                 class="icon lock-transaction mr-1"
-                                placement="bottom-left"
-                                tooltip="{{ 'HISTORY.LOCK_TOOLTIP' | translate : { date: time(transaction) | date : 'MM.dd.yy' } }}"
-                                tooltipClass="table-tooltip"
+                                [attr.aria-label]="'HISTORY.LOCK_TOOLTIP' | translate : { date: time(transaction) | date : 'MM.dd.yy' }"
+                                [matTooltip]="'HISTORY.LOCK_TOOLTIP' | translate : { date: time(transaction) | date : 'MM.dd.yy' }"
+                                matTooltipShowDelay="800"
                             ></i>
                         </ng-container>
                         <ng-container *ngIf="transaction.unlock_time > 500000000">
@@ -85,17 +111,15 @@
                                     variablesService.height_app - transaction.height < 10 ||
                                     (transaction.height === 0 && transaction.timestamp > 0)
                                 "
-                                [delay]="500"
                                 class="icon lock-transaction mr-1"
-                                placement="bottom-left"
-                                tooltip="{{
-                                    'HISTORY.LOCK_TOOLTIP'
-                                        | translate
-                                            : {
-                                                  date: transaction.unlock_time * 1000 | date : 'MM.dd.yy'
-                                              }
-                                }}"
-                                tooltipClass="table-tooltip"
+                                [attr.aria-label]="
+                                    'HISTORY.LOCK_TOOLTIP' | translate : { date: transaction.unlock_time * 1000 | date : 'MM.dd.yy' }
+                                "
+                                [matTooltip]="
+                                    'HISTORY.LOCK_TOOLTIP' | translate : { date: transaction.unlock_time * 1000 | date : 'MM.dd.yy' }
+                                "
+                                matTooltipShowDelay="800"
+                                matTooltipPosition="below"
                             ></i>
                         </ng-container>
                     </ng-container>
@@ -105,6 +129,8 @@
                                 variablesService.height_app - transaction.height < 10 ||
                                 (transaction.height === 0 && transaction.timestamp > 0)
                             "
+                            tabindex="0"
+                            aria-label="Unlock transaction"
                             class="icon unlock-transaction mr-1"
                         ></i>
                     </ng-template>
@@ -113,11 +139,3 @@
         </ng-container>
     </ng-container>
 </ng-container>
-
-<ng-template #noSubtransfersStatusTemplate>
-    <div [ngClass]="'received'" class="status text-ellipsis" fxLayout="row" fxLayoutAlign=" center">
-        <img alt="" class="status-transaction mr-1" src="assets/icons/aqua/receive.svg" />
-
-        <span class="status-transaction-text">{{ 'HISTORY.RECEIVED' | translate }}</span>
-    </div>
-</ng-template>

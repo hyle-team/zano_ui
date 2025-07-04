@@ -3,14 +3,7 @@ import { VariablesService } from '@parts/services/variables.service';
 
 @Component({
     selector: 'app-sync-modal',
-    template: `
-        <div class="modal sync-modal-wrapper">
-            <div class="content" fxLayout="column" fxLayoutAlign="center center">
-                <h3 class="mb-2">This action is not available during synchronization...</h3>
-                <button (click)="canselAction()" class="primary big max-w-19-rem w-100" type="button">OK</button>
-            </div>
-        </div>
-    `,
+    templateUrl: './sync-modal.component.html',
     styleUrls: ['./sync-modal.component.scss'],
 })
 export class SyncModalComponent implements OnInit, OnDestroy {

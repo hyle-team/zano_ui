@@ -1,30 +1,33 @@
-<form (ngSubmit)="beforeSubmit()" [formGroup]="formGroup">
-    <h3 mat-dialog-title>
+<form role="form" (ngSubmit)="beforeSubmit()" [formGroup]="formGroup" role="form">
+    <h3 aria-live="assertive" mat-dialog-title>
         {{ 'WALLET.MODAL_WHITELIST_ASSET.TITLE' | translate }}
     </h3>
 
     <mat-dialog-content>
-        <div class="form__field mb-0">
+        <fieldset class="form__field mb-0">
             <label for="asset_id">{{ 'WALLET.MODAL_WHITELIST_ASSET.FIELD_TITLE' | translate }}</label>
             <input
                 (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
+                aria-describedby="asset-id-error1 asset-id-error2"
                 class="form__field--input"
                 formControlName="asset_id"
                 id="asset_id"
+                autofocus
+                appAutofocus
                 maxlength="64"
                 name="asset_id"
                 placeholder="Enter Asset ID"
                 type="text"
             />
             <ng-container *ngIf="formGroup.get('asset_id').touched">
-                <div *ngIf="formGroup.get('asset_id').hasError('invalidHash')" class="error">
+                <div *ngIf="formGroup.get('asset_id').hasError('invalidHash')" aria-live="assertive" class="error" id="asset-id-error1">
                     {{ 'WALLET.MODAL_WHITELIST_ASSET.FORM_ERRORS.ERROR1' | translate }}
                 </div>
-                <div *ngIf="formGroup.get('asset_id').hasError('wrongAssetId')" class="error">
+                <div *ngIf="formGroup.get('asset_id').hasError('wrongAssetId')" aria-live="assertive" class="error" id="asset-id-error2">
                     {{ formGroup.get('asset_id').errors['wrongAssetId'].errorText | translate }}
                 </div>
             </ng-container>
-        </div>
+        </fieldset>
     </mat-dialog-content>
 
     <mat-dialog-actions>
@@ -32,7 +35,12 @@
             <button class="outline big w-100" mat-dialog-close type="button">
                 {{ 'MODALS.CANCEL' | translate }}
             </button>
-            <button [disabled]="formGroup.invalid || loading" class="primary big w-100" type="submit">
+            <button
+                [attr.aria-label]="'MODALS.ADD_TOKEN' | translate"
+                [disabled]="formGroup.invalid || loading"
+                class="primary big w-100"
+                type="submit"
+            >
                 <ng-container *ngIf="!loading; else loadingTemplate">
                     {{ 'MODALS.ADD_TOKEN' | translate }}
                 </ng-container>

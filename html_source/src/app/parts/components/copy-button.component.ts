@@ -3,17 +3,18 @@ import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '../services/variables.service';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-copy-button',
     template: `
-        <button (click)="copy()" [classList]="'btn-icon circle' + ' ' + size">
+        <button (click)="copy()" [classList]="'btn-icon circle' + ' ' + size" type="button" [attr.aria-label]="'COMMON.COPY' | translate">
             <mat-icon [class]="size" [svgIcon]="copyAnimation ? 'zano-check' : 'zano-copy'"></mat-icon>
         </button>
     `,
     styles: [],
     standalone: true,
-    imports: [CommonModule, MatIconModule],
+    imports: [CommonModule, MatIconModule, TranslateModule],
 })
 export class CopyButtonComponent {
     @Input() value: string;

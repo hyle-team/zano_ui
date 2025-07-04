@@ -49,6 +49,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { IsVisibleControlErrorPipe } from '@parts/pipes/is-visible-control-error.pipe';
 import { ZanoLogoComponent } from '@parts/components/zano-logo/zano-logo.component';
 import { A11yModule } from '@angular/cdk/a11y';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
     declarations: [
@@ -104,6 +105,8 @@ import { A11yModule } from '@angular/cdk/a11y';
         IsVisibleControlErrorPipe,
         ZanoLogoComponent,
         A11yModule,
+        TranslateModule,
+        MatTooltipModule,
     ],
 })
 export class PagesModule {}

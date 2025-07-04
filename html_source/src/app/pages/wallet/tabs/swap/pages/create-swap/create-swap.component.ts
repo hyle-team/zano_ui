@@ -19,7 +19,7 @@ import { IntToMoneyPipeModule, MoneyToIntPipeModule, ShortStringPipe } from '@pa
 import { NgSelectModule } from '@ng-select/ng-select';
 import { VariablesService } from '@parts/services/variables.service';
 import { AssetBalance, AssetInfo } from '@api/models/assets.model';
-import { ZANO_ASSET_INFO } from '@parts/data/assets';
+import { ZANO_ASSET_INFO } from '@parts/data/zano-assets-info';
 import { REG_EXP_ALIAS_NAME } from '@parts/utils/zano-validators';
 import { BackendService } from '@api/services/backend.service';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
@@ -581,7 +581,7 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
         }
     }
 
-    openAutocomplete() {
+    openAutocomplete(): void {
         this.cdkVirtualScrollViewPort?.scrollToIndex(0);
         this.cdkVirtualScrollViewPort?.checkViewportSize();
     }

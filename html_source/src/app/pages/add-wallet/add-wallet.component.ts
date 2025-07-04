@@ -52,7 +52,9 @@ export class AddWalletComponent {
         });
     }
 
-    openInBrowser(): void {
+    openInBrowser(event: Event): void {
+        event.preventDefault();
+        event.stopPropagation();
         this.backendService.openUrlInBrowser(CREATE_NEW_WALLET_HELP_PAGE);
     }
 }

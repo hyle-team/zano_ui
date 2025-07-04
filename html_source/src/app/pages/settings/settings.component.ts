@@ -3,10 +3,10 @@ import { VariablesService } from '@parts/services/variables.service';
 import { BackendService } from '@api/services/backend.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
-import { scaleItems } from '@parts/data/scale-items';
 import { REG_EXP_PASSWORD, ZanoValidators } from '@parts/utils/zano-validators';
 import { generateRandomString } from '@parts/utils/generate-random-string';
 import { debounceTime } from 'rxjs/operators';
+import { ScaleItems } from '@api/models/scale.model';
 
 @Component({
     selector: 'app-settings',
@@ -18,11 +18,11 @@ export class SettingsComponent implements OnInit {
 
     isSecretWasCopied = false;
 
-    secretWasCopiedTimeout;
+    secretWasCopiedTimeout: any;
 
     isBuildVersionWasCopied = false;
 
-    buildVersionWasCopiedTimeout;
+    buildVersionWasCopiedTimeout: any;
 
     scale: string;
 
@@ -97,7 +97,7 @@ export class SettingsComponent implements OnInit {
         { label: 'XAG', id: 'xag' },
         { label: 'XAU', id: 'xau' },
         { label: 'BITS', id: 'bits' },
-        { label: 'SATS', id: 'sats' }
+        { label: 'SATS', id: 'sats' },
     ];
 
     zanoCompanionForm: FormGroup<{
@@ -161,7 +161,24 @@ export class SettingsComponent implements OnInit {
         },
     ];
 
-    appScaleOptions = scaleItems;
+    appScaleOptions: ScaleItems = [
+        {
+            value: '8px',
+            name: 'SETTINGS.SCALE.75',
+        },
+        {
+            value: '10px',
+            name: 'SETTINGS.SCALE.100',
+        },
+        {
+            value: '12px',
+            name: 'SETTINGS.SCALE.125',
+        },
+        {
+            value: '14px',
+            name: 'SETTINGS.SCALE.150',
+        },
+    ];
 
     appLogOptions = [
         {

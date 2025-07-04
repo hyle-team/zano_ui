@@ -1,6 +1,6 @@
 export interface BreadcrumbItem {
     routerLink?: string;
-    title: string | Array<string>;
+    title: string;
 }
 
 export type BreadcrumbItems = Array<BreadcrumbItem>;

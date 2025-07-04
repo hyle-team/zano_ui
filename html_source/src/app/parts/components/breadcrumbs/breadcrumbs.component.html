@@ -1,11 +1,17 @@
-<div class="breadcrumbs">
-    <div *ngFor="let item of items" class="breadcrumb">
-        <ng-container *ngIf="item.routerLink; else templateTitle">
-            <span class="link" [routerLink]="item.routerLink">{{ item.title | translate }}</span>
-        </ng-container>
+<nav aria-label="Breadcrumb">
+    <ol class="breadcrumbs">
+        <li *ngFor="let item of items; let last = last" class="breadcrumb">
+            <ng-container *ngIf="item.routerLink && !last; else templateTitle">
+                <button tabindex="0" role="link" type="button" class="link" [routerLink]="item.routerLink">
+                    {{ item.title | translate }}
+                </button>
+            </ng-container>
 
-        <ng-template #templateTitle>
-            <span>{{ item.title | translate }}</span>
-        </ng-template>
-    </div>
-</div>
+            <ng-template #templateTitle>
+                <span tabindex="0" [attr.aria-current]="last ? 'page' : null">
+                    {{ item.title | translate }}
+                </span>
+            </ng-template>
+        </li>
+    </ol>
+</nav>

@@ -72,6 +72,7 @@ import { AmountFieldComponent } from './tabs/send/components/amount-field/amount
 import { AddAnotherDestinationButtonComponent } from './tabs/send/components/add-another-destination-button/add-another-destination-button.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
+import { AutoFocusDirective } from '@parts/directives/autofocus.directive';
 
 @NgModule({
     declarations: [
@@ -152,6 +153,7 @@ import { MatMenuModule } from '@angular/material/menu';
         AddAnotherDestinationButtonComponent,
         MatTooltipModule,
         MatMenuModule,
+        AutoFocusDirective,
     ],
 })
 export class WalletModule {}

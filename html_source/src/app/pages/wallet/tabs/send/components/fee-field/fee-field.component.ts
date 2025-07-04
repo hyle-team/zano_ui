@@ -6,7 +6,7 @@ import { IsVisibleControlErrorPipe } from '@parts/pipes/is-visible-control-error
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { intToMoney } from '@parts/functions/int-to-money';
 import { VariablesService } from '@parts/services/variables.service';
-import { ZANO_ASSET_INFO } from '@parts/data/assets';
+import { ZANO_ASSET_INFO } from '@parts/data/zano-assets-info';
 import { merge, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MAXIMUM_VALUE } from '@parts/data/constants';

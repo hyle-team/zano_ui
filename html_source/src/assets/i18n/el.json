@@ -1,4 +1,105 @@
 {
+    "ACCESSIBILITY": {
+        "ADD_WALLET": {
+            "DESCRIPTIONS": {
+                "DESCRIPTION1": "A page where you can go to create a new wallet, open an existing wallet, or restore a wallet."
+            }
+        },
+        "ASSETS": {
+            "LABELS": {
+                "LABEL1": "Assets table",
+                "LABEL2": "Pagination",
+                "LABEL3": "Previous",
+                "LABEL4": "Next",
+                "LABEL5": "Menu for asset: {{ full_name }}",
+                "LABEL6": "Asset Row: {{ full_name }}"
+            }
+        },
+        "ASSIGN_ALIAS": {
+            "DESCRIPTIONS": {
+                "DESCRIPTION1": "Adding an alias for your wallet. You can create your own unique name for your wallet, and a comment. Other users can send funds to this name."
+            }
+        },
+        "AUTH": {
+            "LOGIN": {
+                "ARIAL_LABEL1": "Login card with form",
+                "ARIAL_LABEL2": "Setup Master Password Form",
+                "ARIAL_LABEL3": "Enter a master password here",
+                "ARIAL_LABEL4": "Confirm new password here",
+                "ARIAL_LABEL5": "Submit master password",
+                "ARIAL_LABEL6": "Skip password creation",
+                "ARIAL_LABEL7": "Login with Master Password",
+                "ARIAL_LABEL8": "Login with password",
+                "ARIAL_LABEL9": "Reset application"
+            }
+        },
+        "BACK_BUTTON": {
+            "ARIA_LABEL1": "Back"
+        },
+        "CREATE_SWAP": {
+            "LABELS": {
+                "LABEL1": "Select asset",
+                "LABEL2": "Reverse"
+            }
+        },
+        "CREATE_WALLET": {
+            "DESCRIPTIONS": {
+                "DESCRIPTION1": "On this page you can create a wallet"
+            }
+        },
+        "EDIT_ALIAS": {
+            "DESCRIPTIONS": {
+                "DESCRIPTION1": "Page for editing alias. You can only change the comment."
+            }
+        },
+        "HISTORY": {
+            "LABELS": {
+                "LABEL1": "History table"
+            }
+        },
+        "MY_ALIASES_DIALOG": {
+            "LABELS": {
+                "LABEL1": "Edit",
+                "LABEL2": "Send"
+            }
+        },
+        "PAGINATION": {
+            "LABELS": {
+                "LABEL1": "Pagination",
+                "LABEL2": "Previous",
+                "LABEL3": "Next"
+            }
+        },
+        "RESTORE_WALLET": {
+            "DESCRIPRIONS": {
+                "DESCRIPTION1": "Wallet recovery page. Fill in all fields and enter the seed phrase."
+            }
+        },
+        "SEND": {
+            "LABELS": {
+                "LABEL1": "Remove destinastions row",
+                "LABEL2": "Toggle input mode"
+            }
+        },
+        "SETTINGS": {
+            "ARIA_LABEL1": "Copy Build Version",
+            "ARIA_LABEL2": "Copy secret",
+            "ARIA_LABEL3": "Regenerate"
+        },
+        "STAKING": {
+            "LABELS": {
+                "LABEL1": "Selected period:"
+            }
+        },
+        "TRANSFER_ALIAS": {
+            "DESCRIPTIONS": {
+                "DESCRIPTION1": "Transfer page alias send to another wallet"
+            }
+        },
+        "WALLET_CARD": {
+            "ARIA_LABEL1": "Wallet synchronization progress"
+        }
+    },
     "ADD_ANOTHER_DESTINATION": {
         "TEXT1": "Add another destination",
         "TEXT2": "You can add another address for sending"
@@ -92,8 +193,20 @@
         "TRANSFER_ALIAS": "Transfer alias",
         "WALLET_DETAILS": "Wallet details"
     },
+    "BURN_CUSTOM_ASSET": {
+        "BUTTONS": {
+            "BUTTON1": "Cancel",
+            "BUTTON2": "Confirm"
+        },
+        "LABELS": {
+            "LABEL1": "Burn",
+            "LABEL2": "Amount"
+        }
+    },
     "COMMON": {
-        "BACK": "Go back"
+        "BACK": "Go back",
+        "COPY": "",
+        "LOADING": "Loading..."
     },
     "CONFIRM": {
         "BUTTON_CANCEL": "Cancel",
@@ -349,6 +462,28 @@
             "EMPTY": "No custom assets"
         }
     },
+    "DEEPLINK": {
+        "BUTTONS": {
+            "BUTTON1": "Next...",
+            "BUTTON2": "Sign & Send...",
+            "BUTTON3": "Close",
+            "BUTTON4": "Ok"
+        },
+        "LABELS": {
+            "LABEL1": "Select wallet for action:",
+            "LABEL10": "Operation successful",
+            "LABEL11": "Operation hash",
+            "LABEL12": "Your wallets have not loaded yet. Try this action a little later.",
+            "LABEL2": "Offer title",
+            "LABEL3": "Description",
+            "LABEL4": "Category",
+            "LABEL5": "Price",
+            "LABEL6": "Preview url",
+            "LABEL7": "Contacts",
+            "LABEL8": "Comments",
+            "LABEL9": "Transaction fee"
+        }
+    },
     "EDIT_ALIAS": {
         "BUTTON_EDIT": "Edit",
         "COMMENT": {
@@ -363,6 +498,16 @@
         "NAME": {
             "LABEL": "Alias",
             "PLACEHOLDER": "@ Enter alias"
+        }
+    },
+    "EMIT_CUSTOM_ASSET": {
+        "BUTTONS": {
+            "BUTTON1": "Cancel",
+            "BUTTON2": "Confirm"
+        },
+        "LABELS": {
+            "LABEL1": "Emit",
+            "LABEL2": "Amount"
         }
     },
     "ERRORS": {
@@ -396,6 +541,7 @@
         "NOT_FILE_ZANO_WALLET": "This file is not recognized as a Zano wallet..",
         "NO_MONEY": "Not enough funds for this transaction",
         "NO_MONEY_REMOVE_OFFER": "There is no fee for deleting an offer, but in order to protect the network against flood transactions you need to have at least {{fee}} {{currency}} in your wallet",
+        "OPS_UNKNOWN": "Ops... Unknown error...",
         "REGEXP_INVALID_PASSWORD": "Invalid password. Use only letters (a–z), numbers (0–9), and special characters !@#$%^&*()_+-={}[]|:;\"'<>,.?/~. Maximum length: 40 characters.",
         "REQUIRED": "Required field",
         "TO_BIG_TOTAL_SUPPLY": "To big total supply, reduce it or make decimal point smaller",
@@ -693,8 +839,8 @@
             "MUST_BE_GREATER_THAN_ZERO": "Must be greater than zero",
             "WRAP_INFO_NULL": "Failed to request wrap state"
         },
-        "HIDE": "Show address to receiver",
-        "INCLUDE_SENDER_ADDRESS": "Include sender address",
+        "HIDE": "Save receiver's address to my history.",
+        "INCLUDE_SENDER_ADDRESS": "Show my address to receiver.",
         "MIXIN": "Mixin",
         "SUCCESS_SENT": "Transaction sent",
         "WRAP": {
@@ -720,6 +866,7 @@
             "TITLE": "Lock app after:"
         },
         "APP_LOG_TITLE": "Log level:",
+        "CURRENCY_TITLE": "Currency",
         "DARK_THEME": "Dark theme",
         "FORM": {
             "ZANO_COMPANION": {
@@ -870,6 +1017,14 @@
             }
         }
     },
+    "SYNC_MODAL": {
+        "BUTTONS": {
+            "BUTTON1": "OK"
+        },
+        "LABELS": {
+            "LABEL1": "This action is not available during synchronization..."
+        }
+    },
     "TOR_LIB_STATE": {
         "STATE_CREATING_STREAM": "Creating stream",
         "STATE_DOWNLOADING_CONSENSUS": "Downloading consensus",
@@ -905,6 +1060,16 @@
         },
         "REQUEST_SEND_REG": "The alias will be transferred within 10 minutes"
     },
+    "UPDATE_CUSTOM_ASSET": {
+        "BUTTONS": {
+            "BUTTON1": "Cancel",
+            "BUTTON2": "Confirm"
+        },
+        "LABELS": {
+            "LABEL1": "Update asset",
+            "LABEL2": "Owner"
+        }
+    },
     "WALLET": {
         "AVAILABLE_BALANCE": "Available",
         "CONFIRM": {
@@ -939,6 +1104,7 @@
             "STAKING": "Staking"
         },
         "TOOLTIPS": {
+            "CLOSE": "Close",
             "EDIT_ALIAS": "Edit alias",
             "HIDE_BALANCE": "Hide balance",
             "REMOVE": "Remove wallet",

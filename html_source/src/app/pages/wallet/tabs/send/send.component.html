@@ -1,5 +1,13 @@
 <div class="container scrolled-content" fxFlex="1 1 auto">
-    <form (ngSubmit)="beforeSubmit()" [formGroup]="form" class="form" fxFlex="0 1 50rem" fxLayout="column" fxLayoutAlign="start stretch">
+    <form
+        role="form"
+        (ngSubmit)="beforeSubmit()"
+        [formGroup]="form"
+        class="form"
+        fxFlex="0 1 50rem"
+        fxLayout="column"
+        fxLayoutAlign="start stretch"
+    >
         <!-- Asset -->
         <zano-asset-field
             [balances]="variables_service.current_wallet.balances$ | async"
@@ -22,7 +30,16 @@
                     <zano-amount-field [control_ref]="destinationControl" [price_info]="price_info$ | async"></zano-amount-field>
 
                     <ng-container *ngIf="!first">
-                        <mat-icon (click)="removeDestination(index)" class="remove" svgIcon="zano-close"></mat-icon>
+                        <mat-icon
+                            tabindex="0"
+                            role="button"
+                            (click)="removeDestination($event, index)"
+                            (keydown.enter)="removeDestination($event, index)"
+                            (keydown.space)="removeDestination($event, index)"
+                            [attr.aria-label]="'ACCESSIBILITY.SEND.LABELS.LABEL1' | translate"
+                            class="remove"
+                            svgIcon="zano-close"
+                        ></mat-icon>
                     </ng-container>
                 </div>
             </div>

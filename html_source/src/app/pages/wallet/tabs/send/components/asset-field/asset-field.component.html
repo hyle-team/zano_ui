@@ -1,15 +1,18 @@
-<div class="form__field fixed">
-    <label>
+<fieldset class="form__field fixed">
+    <label for="asset-select">
         {{ 'SEND.ASSET' | translate }}
         <span class="color-red">*</span>
     </label>
+
     <ng-select
         [bindValue]="'asset_info.asset_id'"
         [clearable]="false"
         [items]="items"
         [searchable]="false"
+        aria-describedby="asset-select-error"
         class="custom-select with-circle"
         [formControl]="control_ref"
+        id="asset-select"
     >
         <ng-template let-asset="item" ng-label-tmp ng-option-tmp>
             <div [innerHTML]="asset.asset_info | getLogoByAssetInfo" class="token-logo"></div>
@@ -20,9 +23,10 @@
             </ng-container>
         </ng-template>
     </ng-select>
-    <div *ngIf="control_ref | isVisibleControlError" class="error">
+
+    <div *ngIf="control_ref | isVisibleControlError" aria-live="assertive" id="asset-select-error" class="error">
         <div *ngIf="control_ref.hasError('required')">
             {{ 'ERRORS.REQUIRED' | translate }}
         </div>
     </div>
-</div>
+</fieldset>

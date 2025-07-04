@@ -2,11 +2,7 @@ import { Component } from '@angular/core';
 
 @Component({
     selector: 'app-full-layout',
-    template: `
-        <div class="overflow-auto p-2" fxFlex="100" fxFlexFill>
-            <router-outlet></router-outlet>
-        </div>
-    `,
+    templateUrl: './full-layout.component.html',
     styles: [
         `
             :host {

@@ -1,10 +1,18 @@
 <div class="scrolled-content" fxFlex="1 1 auto" fxLayout="column">
     <app-breadcrumbs [items]="breadcrumbItems" class="mb-2"></app-breadcrumbs>
 
-    <form (ngSubmit)="submit()" [formGroup]="form" class="form" fxFlex="0 1 50rem" fxLayout="column" fxLayoutAlign="start stretch">
+    <form
+        role="form"
+        (ngSubmit)="submit()"
+        [formGroup]="form"
+        class="form"
+        fxFlex="0 1 50rem"
+        fxLayout="column"
+        fxLayoutAlign="start stretch"
+    >
         <!-- ticker -->
         <div class="form__field--row">
-            <div class="form__field">
+            <fieldset class="form__field">
                 <label for="ticker">
                     {{ 'CREATE_NEW_ASSETS.FORM.LABELS.LABEL1' | translate }}
                     <span class="color-red">*</span>
@@ -12,12 +20,20 @@
                 <input
                     (contextmenu)="variablesService.onContextMenu($event)"
                     [placeholder]="'CT' | translate"
+                    aria-describedby="ticker-error"
+                    autofocus
+                    appAutofocus
                     class="form__field--input"
                     formControlName="ticker"
                     id="ticker"
                     type="text"
                 />
-                <div *ngIf="form.controls.ticker.invalid && (form.controls.ticker.dirty || form.controls.ticker.touched)" class="error">
+                <div
+                    *ngIf="form.controls.ticker.invalid && (form.controls.ticker.dirty || form.controls.ticker.touched)"
+                    aria-live="assertive"
+                    id="ticker-error"
+                    class="error"
+                >
                     <div *ngIf="form.controls.ticker.errors['required']">
                         {{ 'ERRORS.REQUIRED' | translate }}
                     </div>
@@ -30,28 +46,33 @@
                         {{ 'ERRORS.MAX_LENGTH' | translate : { requiredLength: err.requiredLength } }}
                     </div>
 
-                    <div *ngIf="form.controls.ticker.errors['pattern'] as err">
+                    <div *ngIf="form.controls.ticker.errors['pattern']">
                         {{ 'ERRORS.INVALID_TICKER_PATTERN' | translate }}
                     </div>
                 </div>
-            </div>
+            </fieldset>
 
-            <div class="form__field">
+            <fieldset class="form__field">
                 <label for="full_name">
                     {{ 'CREATE_NEW_ASSETS.FORM.LABELS.LABEL2' | translate }}
                     <span class="color-red">*</span>
                 </label>
+
                 <input
                     (contextmenu)="variablesService.onContextMenu($event)"
                     [placeholder]="'CREATE_NEW_ASSETS.FORM.PLACEHOLDERS.PLACEHOLDER1' | translate"
+                    aria-describedby="full_name_error"
                     class="form__field--input"
                     formControlName="full_name"
                     id="full_name"
                     type="text"
                 />
+
                 <div
                     *ngIf="form.controls.full_name.invalid && (form.controls.full_name.dirty || form.controls.full_name.touched)"
                     class="error"
+                    aria-live="assertive"
+                    id="full_name_error"
                 >
                     <div *ngIf="form.controls.full_name.errors['required']">
                         {{ 'ERRORS.REQUIRED' | translate }}
@@ -65,16 +86,16 @@
                         {{ 'ERRORS.MAX_LENGTH' | translate : { requiredLength: err.requiredLength } }}
                     </div>
 
-                    <div *ngIf="form.controls.full_name.errors['pattern'] as err">
+                    <div *ngIf="form.controls.full_name.errors['pattern']">
                         {{ 'ERRORS.INVALID_FULL_NAME_ASSET_PATTERN' | translate }}
                     </div>
                 </div>
-            </div>
+            </fieldset>
         </div>
 
         <!-- total_max_supply -->
         <div class="form__field--row">
-            <div class="form__field">
+            <fieldset class="form__field">
                 <label for="total_max_supply">
                     {{ 'CREATE_NEW_ASSETS.FORM.LABELS.LABEL3' | translate }}
                     <!--<span class="color-red">*</span>-->
@@ -83,6 +104,7 @@
                     (contextmenu)="variablesService.onContextMenu($event)"
                     [placeholder]="'1000000000' | translate"
                     appInputValidate="money"
+                    aria-describedby="total_max_supply_error1 total_max_supply_error2"
                     [decimalPoint]="+form.controls.decimal_point.value"
                     class="form__field--input"
                     formControlName="total_max_supply"
@@ -94,6 +116,8 @@
                         form.controls.total_max_supply.invalid &&
                         (form.controls.total_max_supply.dirty || form.controls.total_max_supply.touched)
                     "
+                    aria-live="assertive"
+                    id="total_max_supply_error1"
                     class="error"
                 >
                     <span *ngIf="form.controls.total_max_supply.errors['required']">
@@ -101,25 +125,31 @@
                     </span>
                 </div>
 
-                <div *ngIf="form.hasError('greater_than_max') && (form.dirty || form.touched)" class="error">
+                <div
+                    *ngIf="form.hasError('greater_than_max') && (form.dirty || form.touched)"
+                    class="error"
+                    aria-live="assertive"
+                    id="total_max_supply_error2"
+                >
                     {{ 'ERRORS.TO_BIG_TOTAL_SUPPLY' | translate }}
                     {{ 'ERRORS.MAX' | translate : { max: form.errors['greater_than_max'].max } }}
                 </div>
-            </div>
+            </fieldset>
 
             <!-- current_supply -->
-            <div class="form__field">
+            <fieldset class="form__field">
                 <label for="current_supply">
                     {{ 'CREATE_NEW_ASSETS.FORM.LABELS.LABEL4' | translate }}
                     <span class="color-red">*</span>
                 </label>
                 <input
                     (contextmenu)="variablesService.onContextMenu($event)"
-                    [placeholder]="'1000000000' | translate"
+                    [placeholder]="'1000000000'"
                     appInputValidate="money"
                     [decimalPoint]="+form.controls.decimal_point.value"
                     class="form__field--input"
                     formControlName="current_supply"
+                    aria-describedby="current_supply_error1 current_supply_error2"
                     id="current_supply"
                     type="text"
                 />
@@ -127,20 +157,27 @@
                     *ngIf="
                         form.controls.current_supply.invalid && (form.controls.current_supply.dirty || form.controls.current_supply.touched)
                     "
+                    aria-live="assertive"
+                    id="current_supply_error1"
                     class="error"
                 >
                     <div *ngIf="form.controls.current_supply.errors['required']">
                         {{ 'ERRORS.REQUIRED' | translate }}
                     </div>
                 </div>
-                <div *ngIf="form.hasError('current_supply') && (form.dirty || form.touched)" class="error">
+                <div
+                    *ngIf="form.hasError('current_supply') && (form.dirty || form.touched)"
+                    aria-live="assertive"
+                    id="current_supply_error2"
+                    class="error"
+                >
                     {{ form.errors['current_supply'] | translate }}
                 </div>
-            </div>
+            </fieldset>
         </div>
 
         <!-- decimal_point -->
-        <div class="form__field">
+        <fieldset class="form__field">
             <label for="decimal_point">
                 {{ 'CREATE_NEW_ASSETS.FORM.LABELS.LABEL5' | translate }}
                 <span class="color-red">*</span>
@@ -153,10 +190,13 @@
                 formControlName="decimal_point"
                 id="decimal_point"
                 type="text"
+                aria-describedby="decimal_point_error"
             />
             <div
                 *ngIf="form.controls.decimal_point.invalid && (form.controls.decimal_point.dirty || form.controls.decimal_point.touched)"
                 class="error"
+                id="decimal_point_error"
+                aria-live="assertive"
             >
                 <div *ngIf="form.controls.decimal_point.errors['required']">
                     {{ 'ERRORS.REQUIRED' | translate }}
@@ -170,10 +210,10 @@
                     {{ 'ERRORS.MAX' | translate : { max: error.max } }}
                 </div>
             </div>
-        </div>
+        </fieldset>
 
         <!-- meta_info -->
-        <div class="form__field textarea">
+        <fieldset class="form__field textarea">
             <label for="meta_info">
                 {{ 'CREATE_NEW_ASSETS.FORM.LABELS.LABEL6' | translate }}
             </label>
@@ -181,17 +221,20 @@
                 [placeholder]="'CREATE_NEW_ASSETS.FORM.PLACEHOLDERS.PLACEHOLDER2' | translate"
                 formControlName="meta_info"
                 id="meta_info"
+                aria-describedby="meta_info_error"
             ></textarea>
 
             <div
                 *ngIf="form.controls.meta_info.invalid && (form.controls.meta_info.dirty || form.controls.meta_info.touched)"
                 class="error"
+                id="meta_info_error"
+                aria-live="assertive"
             >
                 <div *ngIf="form.controls.meta_info.errors['maxlength'] as err">
                     {{ 'ERRORS.MAX_LENGTH' | translate : { requiredLength: err.requiredLength } }}
                 </div>
             </div>
-        </div>
+        </fieldset>
 
         <button [disabled]="form.invalid" class="primary big max-w-19-rem w-100" type="submit">
             {{ 'CREATE_NEW_ASSETS.FORM.BUTTONS.BUTTON1' | translate }}

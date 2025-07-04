@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { IntToMoneyPipeModule } from '@parts/pipes';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
-import { ZANO_ASSET_INFO } from '@parts/data/assets';
+import { ZANO_ASSET_INFO } from '@parts/data/zano-assets-info';
 import { WrapInfo } from '@api/models/wrap-info';
 import { BigNumber } from 'bignumber.js';
 import { AssetBalance, PriceInfo } from '@api/models/assets.model';
@@ -43,7 +43,9 @@ export class WrapInformationComponent {
     getReceivedValue(): number | BigNumber {
         const convertedAmount = (): string => {
             let currency_price = 0;
-            const { settings: { currency } } = this._variables_service;
+            const {
+                settings: { currency },
+            } = this._variables_service;
             if (typeof this.price_info.data === 'object') {
                 const { data } = this.price_info;
                 currency_price = data.fiat_prices[currency] ?? 0;
@@ -58,7 +60,9 @@ export class WrapInformationComponent {
                 decimal_point = asset_info.decimal_point;
             }
 
-            const convertedAmount = BigNumber(this.amount || 0).dividedBy(currency_price).decimalPlaces(decimal_point);
+            const convertedAmount = BigNumber(this.amount || 0)
+                .dividedBy(currency_price)
+                .decimalPlaces(decimal_point);
 
             return convertedAmount.toString();
         };

@@ -1,5 +1,5 @@
 import { Transaction } from '@api/models/transaction.model';
-import { ZANO_ASSET_INFO } from '@parts/data/assets';
+import { ZANO_ASSET_INFO } from '@parts/data/zano-assets-info';
 
 export const isInitiator = (transaction: Transaction): boolean => {
     const {

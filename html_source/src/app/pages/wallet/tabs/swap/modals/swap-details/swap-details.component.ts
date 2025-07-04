@@ -72,7 +72,9 @@ export class SwapDetailsComponent implements OnInit, OnDestroy {
         this._destroy$.complete();
     }
 
-    toggleDetails(): void {
+    toggleDetails(event: Event): void {
+        event.preventDefault();
+        event.stopPropagation();
         this.isShowDetailsState = !this.isShowDetailsState;
         setTimeout(() => this.scrollToBottomDetailsList(), 100);
     }

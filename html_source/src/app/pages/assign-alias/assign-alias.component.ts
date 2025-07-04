@@ -61,6 +61,8 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
 
     private _destroy$: Subject<void> = new Subject<void>();
 
+    loading = false;
+
     constructor(
         readonly variablesService: VariablesService,
         private readonly _fb: NonNullableFormBuilder,
@@ -99,7 +101,9 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
     }
 
     submit(): void {
+        this.loading = true;
         this.alias.comment = this.form.controls.comment.value;
+
         this._backendService.registerAlias(
             this.wallet.wallet_id,
             this.alias.name,
@@ -109,6 +113,7 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
             this.alias.rewardOriginal,
             (status) => {
                 this._ngZone.run(() => {
+                    this.loading = false;
                     if (status) {
                         this._modalService.prepareModal('info', 'ASSIGN_ALIAS.REQUEST_ADD_REG');
                         this._router.navigate(['/wallet/']).then();

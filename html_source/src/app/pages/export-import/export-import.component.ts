@@ -9,30 +9,7 @@ import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-export-import',
-    template: `
-        <div class="page-container">
-            <div class="toolbar mb-2">
-                <div class="left">
-                    <app-back-button></app-back-button>
-                    <h1 class="ml-2">{{ 'CONTACTS.IMPORT_EXPORT' | translate }}</h1>
-                </div>
-                <div class="right"></div>
-            </div>
-
-            <div class="page-content">
-                <div class="scrolled-content">
-                    <div class="controls flex">
-                        <button (click)="import()" class="primary big max-w-19-rem w-100 mr-1" type="button">
-                            {{ 'CONTACTS.IMPORT' | translate }}
-                        </button>
-                        <button (click)="export()" class="primary big max-w-19-rem w-100" type="button">
-                            {{ 'CONTACTS.EXPORT' | translate }}
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    `,
+    templateUrl: './export-import.component.html',
     styles: [
         `
             :host {

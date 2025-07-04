@@ -2,7 +2,7 @@ import { Subtransfer, Transaction } from '@api/models/transaction.model';
 import { Wallet } from '@api/models/wallet.model';
 import { intToMoney } from '@parts/functions/int-to-money';
 import { AssetInfo } from '@api/models/assets.model';
-import { ZANO_ASSET_INFO } from '@parts/data/assets';
+import { ZANO_ASSET_INFO } from '@parts/data/zano-assets-info';
 import { isFinalizator, isInitiator, isSelfTransaction, isSwapTransaction } from '@parts/functions/identify-transaction';
 
 export interface AmountItem {

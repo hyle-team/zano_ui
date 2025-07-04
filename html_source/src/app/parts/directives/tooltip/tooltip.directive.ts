@@ -17,6 +17,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 @Directive({
     // eslint-disable-next-line
     selector: '[tooltip]',
+    exportAs: 'tooltip',
 })
 export class TooltipDirective implements OnDestroy {
     @HostBinding('style.cursor') cursor;
@@ -49,6 +50,8 @@ export class TooltipDirective implements OnDestroy {
 
     private leave: (event: MouseEvent) => void;
 
+    private destroyed = false;
+
     constructor(
         private el: ElementRef,
         private renderer: Renderer2,
@@ -56,19 +59,23 @@ export class TooltipDirective implements OnDestroy {
         private viewContainerRef: ViewContainerRef
     ) {}
 
-    @HostListener('mouseenter') onMouseEnter(): void {
-        if (!this.tooltipInner) {
-            return;
-        }
-        if (
-            this.showWhenNoOverflow ||
-            (!this.showWhenNoOverflow && this.el.nativeElement.offsetWidth < this.el.nativeElement.scrollWidth)
-        ) {
+    @HostListener('mouseenter')
+    @HostListener('focusin')
+    onMouseEnter(): void {
+        if (!this.tooltipInner || this.destroyed) return;
+
+        const isOverflowing = this.el.nativeElement.offsetWidth < this.el.nativeElement.scrollWidth;
+        const shouldShow = this.showWhenNoOverflow || (!this.showWhenNoOverflow && isOverflowing);
+
+        if (shouldShow) {
             this.cursor = 'pointer';
+
             if (!this.tooltip) {
                 if (this.timeDelay !== 0) {
                     this.removeTooltipTimeDelay = setTimeout(() => {
-                        this.show();
+                        if (!this.destroyed) {
+                            this.show();
+                        }
                     }, this.timeDelay);
                 } else {
                     this.show();
@@ -79,7 +86,9 @@ export class TooltipDirective implements OnDestroy {
         }
     }
 
-    @HostListener('mouseleave') onMouseLeave(): void {
+    @HostListener('mouseleave')
+    @HostListener('focusout')
+    onMouseLeave(): void {
         clearTimeout(this.removeTooltipTimeDelay);
         if (this.tooltip) {
             this.hide();
@@ -89,9 +98,7 @@ export class TooltipDirective implements OnDestroy {
     show(): void {
         this.create();
         this.placement = this.placement === null ? 'top' : this.placement;
-        window.setTimeout(() => {
-            this.setPosition(this.placement);
-        }, 0);
+        this.setPosition(this.placement);
     }
 
     hide(): void {
@@ -291,9 +298,12 @@ export class TooltipDirective implements OnDestroy {
     }
 
     ngOnDestroy(): void {
+        this.destroyed = true;
+
         clearTimeout(this.removeTooltipTimeout);
         clearTimeout(this.removeTooltipTimeoutInner);
         clearTimeout(this.removeTooltipTimeDelay);
+
         if (this.tooltip) {
             this.renderer.removeChild(document.body, this.tooltip);
             this.tooltip = null;

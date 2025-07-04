@@ -1,33 +1,36 @@
-<div class="page-container">
-    <div class="toolbar mb-2">
+<main class="page-container" aria-describedby="assign-alias-description">
+    <p class="sr-only" id="assign-alias-description">
+        {{ 'ACCESSIBILITY.ASSIGN_ALIAS.DESCRIPTIONS.DESCRIPTION1' | translate }}
+    </p>
+
+    <section class="toolbar mb-2">
         <div class="left">
             <app-back-button></app-back-button>
-            <h1 class="ml-2">{{ 'BREADCRUMBS.ASSIGN_ALIAS' | translate }}</h1>
+            <h1 class="ml-2" aria-live="assertive">{{ 'BREADCRUMBS.ASSIGN_ALIAS' | translate }}</h1>
         </div>
 
         <div class="right"></div>
-    </div>
+    </section>
 
     <div class="page-content">
         <app-breadcrumbs [items]="breadcrumbItems" class="mb-2"></app-breadcrumbs>
 
-        <div class="scrolled-content">
-            <form (ngSubmit)="beforeSubmit()" [formGroup]="form" class="form">
+        <section class="scrolled-content">
+            <form role="form" (ngSubmit)="beforeSubmit()" [formGroup]="form" class="form" [attr.aria-busy]="loading ? 'true' : null">
                 <!--Name-->
-                <div class="form__field">
-                    <label
-                        [delay]="50"
-                        [tooltip]="'ASSIGN_ALIAS.NAME.TOOLTIP' | translate"
-                        for="alias-name"
-                        placement="bottom-left"
-                        tooltipClass="table-tooltip assign-alias-tooltip"
-                    >
+                <fieldset class="form__field">
+                    <label [matTooltip]="'ASSIGN_ALIAS.NAME.TOOLTIP' | translate" matTooltipShowDelay="800" for="alias-name">
                         {{ 'ASSIGN_ALIAS.NAME.LABEL' | translate }}
                     </label>
                     <div class="has-no-edit-symbol">
                         <input
                             (contextmenu)="variablesService.onContextMenu($event)"
+                            [attr.aria-describedby]="'alias-name-error1 alias-name-error2 alias-name-error3'"
+                            [attr.aria-invalid]="form.controls.name.invalid || null"
                             [placeholder]="'ASSIGN_ALIAS.NAME.PLACEHOLDER' | translate"
+                            appAutofocus
+                            autofocus
+                            autocomplete="off"
                             class="form__field--input"
                             formControlName="name"
                             id="alias-name"
@@ -35,7 +38,7 @@
                         />
                     </div>
                     <ng-container *ngIf="form.controls.name | isVisibleControlError">
-                        <div class="error">
+                        <div class="error" [attr.aria-live]="'assertive'" id="alias-name-error1">
                             <ng-container *ngIf="form.controls.name.hasError('pattern'); else nameMinLengthErrorTemplate">
                                 {{ 'ASSIGN_ALIAS.FORM_ERRORS.NAME_WRONG' | translate }}
                             </ng-container>
@@ -61,29 +64,23 @@
                     </ng-container>
 
                     <ng-container *ngIf="alias.exists; else notEnoughMoneyErrorTemplate">
-                        <div class="error">
+                        <div class="error" [attr.aria-live]="'assertive'" id="alias-name-error2">
                             {{ 'ASSIGN_ALIAS.FORM_ERRORS.NAME_EXISTS' | translate }}
                         </div>
                     </ng-container>
 
                     <ng-template #notEnoughMoneyErrorTemplate>
                         <ng-container *ngIf="notEnoughMoney">
-                            <div class="error">
+                            <div class="error" [attr.aria-live]="'assertive'" id="alias-name-error3">
                                 {{ 'ASSIGN_ALIAS.FORM_ERRORS.NO_MONEY' | translate }}
                             </div>
                         </ng-container>
                     </ng-template>
-                </div>
+                </fieldset>
 
                 <!--Comment-->
-                <div class="form__field textarea">
-                    <label
-                        [delay]="50"
-                        [tooltip]="'ASSIGN_ALIAS.COMMENT.TOOLTIP' | translate"
-                        for="alias-comment"
-                        placement="bottom-left"
-                        tooltipClass="table-tooltip assign-alias-tooltip"
-                    >
+                <fieldset class="form__field textarea">
+                    <label [matTooltip]="'ASSIGN_ALIAS.COMMENT.TOOLTIP' | translate" matTooltipShowDelay="800" for="alias-comment">
                         {{ 'ASSIGN_ALIAS.COMMENT.LABEL' | translate }}
                     </label>
                     <textarea
@@ -92,15 +89,17 @@
                         class="scrolled-content"
                         formControlName="comment"
                         id="alias-comment"
+                        [attr.aria-describedby]="'alias-comment-error'"
+                        [attr.aria-invalid]="form.controls.comment.invalid || null"
                     ></textarea>
                     <ng-container *ngIf="form.controls.comment | isVisibleControlError">
-                        <div class="error">
+                        <div class="error" [attr.aria-live]="'assertive'" id="alias-comment-error">
                             <ng-container *ngIf="form.controls.comment.hasError('maxlength')">
                                 {{ 'ASSIGN_ALIAS.FORM_ERRORS.MAX_LENGTH' | translate }}
                             </ng-container>
                         </div>
                     </ng-container>
-                </div>
+                </fieldset>
 
                 <p class="mb-2">
                     {{
@@ -117,6 +116,6 @@
                     {{ 'ASSIGN_ALIAS.BUTTON_ASSIGN' | translate }}
                 </button>
             </form>
-        </div>
+        </section>
     </div>
-</div>
+</main>

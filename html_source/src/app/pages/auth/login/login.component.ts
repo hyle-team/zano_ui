@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     resetLoading = false;
 
-    regForm = this._fb.group(
+    regMasterPassForm = this._fb.group(
         {
             password: this._fb.control('', Validators.pattern(REG_EXP_PASSWORD)),
             confirmation: this._fb.control(''),
@@ -67,8 +67,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     onSubmitCreatePass(): void {
-        if (this.regForm.valid) {
-            this.variablesService.appPass = this.regForm.get('password').value; // the pass what was written in input of login form by user
+        if (this.regMasterPassForm.valid) {
+            this.variablesService.appPass = this.regMasterPassForm.get('password').value; // the pass what was written in input of login form by user
 
             this.backend.setMasterPassword({ pass: this.variablesService.appPass }, (status, data) => {
                 if (status) {

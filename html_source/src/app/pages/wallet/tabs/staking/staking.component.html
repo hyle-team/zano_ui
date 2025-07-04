@@ -81,7 +81,7 @@
                         class="selected-group max-w-19-rem w-100"
                     >
                         <ng-template let-item="item" ng-label-tmp> Sort by {{ (item.title | translate | lowercase) + 's' }} </ng-template>
-                        <ng-template let-index="index" let-item="item" ng-option-tmp>
+                        <ng-template let-item="item" ng-option-tmp>
                             {{ item.title | translate }}
                         </ng-template>
                     </ng-select>
@@ -99,7 +99,7 @@
             >
                 <div class="left"></div>
                 <div class="right" fxLayoutAlign="end center">
-                    <div *ngIf="pointDetails && pointDetails.date" class="selected overflow-hidden">
+                    <div *ngIf="pointDetails && pointDetails.date" aria-live="polite" class="selected overflow-hidden">
                         <div class="overflow-hidden" fxLayout="row">
                             <div class="text-ellipsis">
                                 {{ pointDetails.date | date : 'EEEE, MMMM d, y' }}
@@ -122,6 +122,8 @@
             <ng-container *ngFor="let item of periodItems; let last = last">
                 <button
                     (click)="filtersForm.controls.period.patchValue(item.value)"
+                    [attr.aria-pressed]="item.value === filtersForm.controls.period.value"
+                    [attr.aria-label]="('ACCESSIBILITY.STAKING.LABELS.LABEL1' | translate) + (item.title | translate)"
                     [class.active]="item.value === filtersForm.controls.period.value"
                     [class.mr-1]="!last"
                     [class.outline]="!last"

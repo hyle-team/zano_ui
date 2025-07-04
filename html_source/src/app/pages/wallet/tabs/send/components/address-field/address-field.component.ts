@@ -142,7 +142,7 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
         this.error_messages['address'] = message;
     }
 
-    openAutocomplete() {
+    openAutocomplete(): void {
         this.cdkVirtualScrollViewPort?.scrollToIndex(0);
         this.cdkVirtualScrollViewPort?.checkViewportSize();
     }

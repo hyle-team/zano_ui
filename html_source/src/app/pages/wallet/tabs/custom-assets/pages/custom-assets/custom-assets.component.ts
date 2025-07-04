@@ -1,6 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { PaginatePipeArgs } from 'ngx-pagination';
-import { CdkOverlayOrigin, ConnectedPosition } from '@angular/cdk/overlay';
 import { AssetInfo } from '@api/models/assets.model';
 import { VariablesService } from '@parts/services/variables.service';
 import { WalletsService } from '@parts/services/wallets.service';
@@ -21,21 +20,6 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 export class CustomAssetsComponent implements OnInit {
     paginationId = 'pagination-custom-assets-id';
 
-    triggerOrigin: CdkOverlayOrigin | undefined;
-
-    currentAssetInfo: AssetInfo | undefined;
-
-    isOpenDropDownMenu = false;
-
-    connectedOverlayPositions: ConnectedPosition[] = [
-        {
-            originX: 'end',
-            originY: 'top',
-            overlayX: 'end',
-            overlayY: 'top',
-            offsetY: 30,
-        },
-    ];
     paginateArgs: PaginatePipeArgs = {
         id: this.paginationId,
         itemsPerPage: 10,
@@ -48,7 +32,7 @@ export class CustomAssetsComponent implements OnInit {
 
     private readonly _walletsService: WalletsService = inject(WalletsService);
 
-    get assets(): AssetInfo[] {
+    get assetInfoItems(): AssetInfo[] {
         return this._walletsService.currentWallet?.assetsInfoWhitelist?.own_assets ?? [];
     }
 
@@ -67,16 +51,6 @@ export class CustomAssetsComponent implements OnInit {
         this._loadAssets();
     }
 
-    toggleDropDownMenu(trigger: CdkOverlayOrigin, asset: AssetInfo): void {
-        this.isOpenDropDownMenu = !this.isOpenDropDownMenu;
-        this.triggerOrigin = trigger;
-        this.currentAssetInfo = asset;
-    }
-
-    closeDropDownMenu(): void {
-        this.isOpenDropDownMenu = false;
-    }
-
     trackByAssets(index: number): number | string {
         return index;
     }
@@ -85,10 +59,10 @@ export class CustomAssetsComponent implements OnInit {
         return index;
     }
 
-    openDialog(type: 'assetDetails' | 'emit' | 'burn' | 'update'): void {
+    openDialog(type: 'assetDetails' | 'emit' | 'burn' | 'update', asset_info: AssetInfo): void {
         const config: MatDialogConfig = {
             data: {
-                asset_info: this.currentAssetInfo,
+                asset_info,
             },
         };
 

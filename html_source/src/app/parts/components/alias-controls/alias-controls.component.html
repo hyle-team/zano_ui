@@ -1,20 +1,24 @@
 <div class="controls" fxFlex="0 0 auto" fxLayout="row" fxLayoutAlign="start center">
     <ng-container *ngIf="isShowAssignAlias">
-        <button [routerLink]="['/assign-alias']" class="px-1 py-0_8 btn-light-background">
+        <button [routerLink]="['/assign-alias']" class="px-1 py-0_8 btn-light-background" role="link" type="button">
             {{ 'WALLET.REGISTER_ALIAS' | translate }}
         </button>
     </ng-container>
 
     <ng-container *ngIf="isShowAlias">
-        <div
+        <button
             (click)="openMyAliasesDialog()"
             [class.available]="variablesService.current_wallet.alias_info | isAvailableAliasName"
             class="control-alias-wallet-container"
+            type="button"
+            aria-haspopup="true"
+            [attr.aria-label]="'@' + variablesService.current_wallet.alias_info?.alias"
         >
             <div class="alias">
                 @{{ variablesService.current_wallet.alias_info?.alias }}
                 <mat-icon svgIcon="zano-circle-arrow-right"></mat-icon>
             </div>
+
             <ng-container *ngIf="variablesService.current_wallet.alias_info_list.length > 1">
                 <div
                     [delay]="150"
@@ -39,6 +43,6 @@
                     </div>
                 </ng-template>
             </ng-container>
-        </div>
+        </button>
     </ng-container>
 </div>
