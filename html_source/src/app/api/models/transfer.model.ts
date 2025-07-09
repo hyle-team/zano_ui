@@ -18,7 +18,7 @@ export interface TransferParams {
 export interface TransferDestinationsFormValue {
     address: string;
     amount: string;
-    is_amount_usd: boolean;
+    is_currency_input_mode: boolean;
     asset_id: string;
     is_visible_wrap_info: boolean;
     alias_address: string;

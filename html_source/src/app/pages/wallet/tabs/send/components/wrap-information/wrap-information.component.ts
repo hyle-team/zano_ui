@@ -31,7 +31,7 @@ export class WrapInformationComponent {
     amount: any;
 
     @Input()
-    is_amount_usd: boolean;
+    is_currency_input_mode: boolean;
 
     @Input()
     asset_id: string;
@@ -41,12 +41,12 @@ export class WrapInformationComponent {
     readonly zano_asset_info = ZANO_ASSET_INFO;
 
     getReceivedValue(): number | BigNumber {
-        const convertedAmountUSD = (): string => {
-            let usd = 0;
-
+        const convertedAmount = (): string => {
+            let currency_price = 0;
+            const { settings: { currency } } = this._variables_service;
             if (typeof this.price_info.data === 'object') {
                 const { data } = this.price_info;
-                usd = data.usd;
+                currency_price = data.fiat_prices[currency] ?? 0;
             }
 
             let decimal_point = 0;
@@ -58,11 +58,11 @@ export class WrapInformationComponent {
                 decimal_point = asset_info.decimal_point;
             }
 
-            const convertedAmount = new BigNumber(this.amount || 0).dividedBy(usd || 0).decimalPlaces(decimal_point);
+            const convertedAmount = BigNumber(this.amount || 0).dividedBy(currency_price).decimalPlaces(decimal_point);
 
             return convertedAmount.toString();
         };
-        const prepared_amount: BigNumber = moneyToInt(this.is_amount_usd ? convertedAmountUSD() : this.amount || '0');
+        const prepared_amount: BigNumber = moneyToInt(this.is_currency_input_mode ? convertedAmount() : this.amount || '0');
 
         const {
             tx_cost: { zano_needed_for_erc20 },

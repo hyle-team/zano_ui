@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLinkWithHref } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
@@ -37,6 +37,7 @@ import { WalletsService } from '@parts/services/wallets.service';
 import { MatIconModule } from '@angular/material/icon';
 import { GetLogoByAssetInfoPipe } from '@parts/pipes/get-logo-by-asset-info.pipe';
 import { MAXIMUM_VALUE } from '@parts/data/constants';
+import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 
 @Component({
     selector: 'app-create-swap',
@@ -60,11 +61,15 @@ import { MAXIMUM_VALUE } from '@parts/data/constants';
         MatOptionModule,
         MatIconModule,
         GetLogoByAssetInfoPipe,
+        ScrollingModule,
     ],
     templateUrl: './create-swap.component.html',
     styleUrls: ['./create-swap.component.scss'],
 })
 export class CreateSwapComponent implements OnInit, OnDestroy {
+    @ViewChild(CdkVirtualScrollViewport)
+    cdkVirtualScrollViewPort: CdkVirtualScrollViewport;
+
     readonly breadcrumbItems: BreadcrumbItems = [
         {
             routerLink: '/wallet/swap',
@@ -574,5 +579,10 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
                 }
             }
         }
+    }
+
+    openAutocomplete() {
+        this.cdkVirtualScrollViewPort?.scrollToIndex(0);
+        this.cdkVirtualScrollViewPort?.checkViewportSize();
     }
 }

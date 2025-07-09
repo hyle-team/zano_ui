@@ -22,7 +22,7 @@ const DEFAULT_SEND_MONEY_PARAMS: Omit<TransferFormValue, 'wallet_id'> = {
         {
             address: '',
             amount: '',
-            is_amount_usd: false,
+            is_currency_input_mode: false,
             asset_id: ZANO_ASSET_INFO.asset_id,
             is_visible_wrap_info: false,
             alias_address: '',
@@ -44,7 +44,7 @@ const DEFAULT_PRICE_INFO: PriceInfo = {
 export type DestinationsForm = FormGroup<{
     address: FormControl<string>;
     amount: FormControl<string>;
-    is_amount_usd: FormControl<boolean>;
+    is_currency_input_mode: FormControl<boolean>;
     asset_id: FormControl<string>;
     is_visible_wrap_info: FormControl<boolean>;
     alias_address: FormControl<string>;
@@ -156,13 +156,14 @@ export class SendComponent implements OnDestroy {
         });
     }
 
-    private convertedAmountUSD(amount: any, asset: AssetBalance): string {
+    private convertToCurrencyAmount(amount: any, asset: AssetBalance): string {
         const price_info = this.price_info;
-        const usd = typeof price_info.data === 'object' ? price_info.data.usd || 0 : 0;
+        const { settings: { currency } } = this.variables_service;
+        const currency_price = typeof price_info.data === 'object' ? price_info.data.fiat_prices[currency] ?? 0 : 0;
 
         const decimal_point = asset?.asset_info?.decimal_point || 0;
         return new BigNumber(amount || 0)
-            .dividedBy(usd || 1)
+            .dividedBy(currency_price || 1)
             .decimalPlaces(decimal_point)
             .toString();
     }
@@ -178,7 +179,7 @@ export class SendComponent implements OnDestroy {
             wallet_id: transfer_form_value.wallet_id,
             destinations: transfer_form_value.destinations.map((v) => ({
                 ...prepareTransferDestinationsFormValueToTransferDestination(v),
-                amount: v.is_amount_usd ? this.convertedAmountUSD(v.amount, asset) : v.amount,
+                amount: v.is_currency_input_mode ? this.convertToCurrencyAmount(v.amount, asset) : v.amount,
             })),
             mixin: transfer_form_value.mixin,
             lock_time: transfer_form_value.lock_time,
@@ -461,8 +462,8 @@ export class SendComponent implements OnDestroy {
                 this.form.controls.destinations.controls.forEach((control) => {
                     const asset = current_wallet.getBalanceByAssetId(control.controls.asset_id.value);
 
-                    const amount = control.controls.is_amount_usd.value
-                        ? this.convertedAmountUSD(control.controls.amount.value, asset)
+                    const amount = control.controls.is_currency_input_mode.value
+                        ? this.convertToCurrencyAmount(control.controls.amount.value, asset)
                         : new BigNumber(control.controls.amount.value);
                     total_destinations_amount_and_fee = total_destinations_amount_and_fee.plus(new BigNumber(amount || 0));
                 });
@@ -549,7 +550,7 @@ export class SendComponent implements OnDestroy {
             }
         );
 
-        const is_amount_usd_control = this._fb.control<boolean>({ value: false, disabled: false });
+        const is_currency_input_mode_control = this._fb.control<boolean>({ value: false, disabled: false });
 
         const alias_address_control = this._fb.control<string>({ value: '', disabled: false });
 
@@ -559,7 +560,7 @@ export class SendComponent implements OnDestroy {
             {
                 address: address_control,
                 amount: amount_control,
-                is_amount_usd: is_amount_usd_control,
+                is_currency_input_mode: is_currency_input_mode_control,
                 alias_address: alias_address_control,
                 is_visible_wrap_info: is_visible_wrap_info_control,
                 asset_id: asset_id_control,
@@ -567,15 +568,16 @@ export class SendComponent implements OnDestroy {
             {
                 validators: [
                     (form: FormGroup): ValidationErrors | null => {
-                        const { asset_id, is_amount_usd, is_visible_wrap_info, amount } = form.getRawValue();
+                        const { asset_id, is_currency_input_mode, is_visible_wrap_info, amount } = form.getRawValue();
                         const errors: ValidationErrors = {};
 
                         const assetBalance: AssetBalance | undefined = this.variables_service.current_wallet.getBalanceByAssetId(asset_id);
                         const wrapInfo = this.variables_service.wrap_info$.value;
+                        const { settings: { currency } } = this.variables_service;
                         const priceInfo = this.price_info;
 
-                        const usd = typeof priceInfo.data === 'object' ? priceInfo.data.usd : 0;
-                        const amountBigNumber = new BigNumber(is_amount_usd ? new BigNumber(amount).dividedBy(usd) : amount);
+                        const currency_price = typeof priceInfo.data === 'object' ? priceInfo.data.fiat_prices[currency] ?? 0 : 0;
+                        const amountBigNumber = new BigNumber(is_currency_input_mode ? new BigNumber(amount).dividedBy(currency_price) : amount);
 
                         // 1. Balance not found
                         if (!assetBalance) {
