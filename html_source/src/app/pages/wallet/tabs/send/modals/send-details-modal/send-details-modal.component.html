@@ -1,6 +1,6 @@
-<div class="send-details-modal-wrapper" fxFlex="0 1 54rem">
+<div role="dialog" aria-modal="true" aria-labelledby="send-details-title" class="send-details-modal-wrapper" fxFlex="0 1 54rem">
     <div class="wrapper w-100" fxFlex fxLayout="column">
-        <h3 class="title mb-2" fxFlex="0 0 auto">
+        <h3 class="title mb-2" fxFlex="0 0 auto" id="send-details-title">
             {{ 'SEND_DETAILS_MODAL.TITLE1' | translate }}
         </h3>
 
@@ -42,6 +42,8 @@
                     class="header overflow-hidden py-1 px-2 w-100 cursor-pointer"
                     fxLayout="row"
                     fxLayoutAlign="space-between center"
+                    [attr.aria-expanded]="stateDetails$ | async"
+                    [attr.aria-controls]="'details-list'"
                 >
                     <p class="title text-ellipsis mr-2">
                         {{ 'SEND_DETAILS_MODAL.TITLE2' | translate }}
@@ -49,6 +51,7 @@
                     <button *ngIf="isDetailsNotEmpty" fxLayout="row" fxLayoutAlign="center center">
                         <mat-icon
                             svgIcon="zano-dropdown-arrow-down"
+                            aria-hidden="true"
                             [ngClass]="{
                                 'rotate-180': stateDetails$ | async
                             }"
@@ -63,7 +66,7 @@
                     fxFlex="1 1 auto"
                     fxLayout="row"
                 >
-                    <ul #elDetailsList class="details-list scrolled-content">
+                    <ul role="list" #elDetailsList id="details-list" class="details-list scrolled-content">
                         <li
                             *ngFor="let action of currentActionStates$ | async; let last = last; trackBy: trackBy"
                             class="item mb-1 color-primary"

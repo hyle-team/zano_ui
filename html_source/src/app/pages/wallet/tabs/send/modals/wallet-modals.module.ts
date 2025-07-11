@@ -8,10 +8,20 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { GetAssetInfoPipe } from '@parts/pipes';
 import { CopyButtonComponent } from '@parts/components/copy-button.component';
 import { MatIconModule } from '@angular/material/icon';
+import { AutoFocusDirective } from '@parts/directives/autofocus.directive';
 
 @NgModule({
     declarations: [SendModalComponent, SendDetailsModalComponent],
-    imports: [CommonModule, TranslateModule, FlexLayoutModule, ReactiveFormsModule, GetAssetInfoPipe, CopyButtonComponent, MatIconModule],
+    imports: [
+        CommonModule,
+        TranslateModule,
+        FlexLayoutModule,
+        ReactiveFormsModule,
+        GetAssetInfoPipe,
+        CopyButtonComponent,
+        MatIconModule,
+        AutoFocusDirective,
+    ],
     exports: [SendModalComponent, SendDetailsModalComponent],
 })
 export class WalletModalsModule {}

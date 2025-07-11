@@ -8,7 +8,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import { VisibilityBalanceDirective } from '@parts/directives/visibility-balance.directive';
 import { AssetBalance } from '@api/models/assets.model';
-import { ZANO_ASSET_INFO } from '@parts/data/assets';
+import { ZANO_ASSET_INFO } from '@parts/data/zano-assets-info';
 
 @Component({
     selector: 'zano-asset-field',

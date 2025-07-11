@@ -59,8 +59,7 @@
 
                 "prettier/prettier": ["error", { "endOfLine": "auto" }],
 
-                "@angular-eslint/component-selector": "off",
-                "@angular-eslint/directive-selector": "off",
+                "@angular-eslint/no-host-metadata-property": "off",
                 "@typescript-eslint/restrict-template-expressions": [
                     "error",
                     {

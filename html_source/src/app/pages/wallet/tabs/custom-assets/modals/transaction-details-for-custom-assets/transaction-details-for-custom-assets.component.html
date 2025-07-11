@@ -3,7 +3,7 @@
 </h3>
 
 <mat-dialog-content fxLayout="column">
-    <div class="status mb-2" fxFlex="0 0 auto" fxLayout="column" fxLayoutAlign=" center">
+    <div class="status mb-2" fxFlex="0 0 auto" fxLayout="column" fxLayoutAlign=" center" role="status" aria-live="polite">
         <div *ngIf="status === 'success'" class="image">
             <img alt="success" src="assets/icons/aqua/transaction_success.svg" />
         </div>
@@ -12,14 +12,14 @@
             <img alt="failed" class="image" src="assets/icons/red/transaction_failed.svg" />
         </div>
 
-        <div *ngIf="status === 'loading'" class="loader"></div>
+        <div *ngIf="status === 'loading'" [attr.aria-label]="'COMMON.LOADING' | translate" class="loader"></div>
 
         <p class="color-primary mt-2">
             {{
                 {
                     success: 'TOR_LIB_STATE.STATE_SENT_SUCCESS',
                     error: 'TOR_LIB_STATE.STATE_SEND_FAILED',
-                    loading: 'Loading...'
+                    loading: 'COMMON.LOADING'
                 }[status] | translate
             }}
         </p>
@@ -29,6 +29,10 @@
         <div
             (click)="toggleDetails()"
             class="header overflow-hidden py-1 px-2 w-100 cursor-pointer"
+            tabindex="0"
+            [attr.aria-expanded]="isShowDetailsState"
+            [attr.aria-label]="'SEND_DETAILS_MODAL.TITLE2' | translate"
+            role="button"
             fxLayout="row"
             fxLayoutAlign="space-between center"
         >
@@ -58,7 +62,7 @@
                     <ng-container *ngIf="details.new_asset_id as new_asset_id">
                         <li class="item mb-1 color-primary" fxLayout="row nowrap" fxLayoutAlign="start center">
                             <span class="text word-break-break-all"> New asset id: {{ new_asset_id || '---' }} </span>
-                            <app-copy-button [value]="new_asset_id" class="ml-1"> </app-copy-button>
+                            <app-copy-button [value]="new_asset_id" class="ml-1"></app-copy-button>
                         </li>
                     </ng-container>
                     <ng-container *ngIf="details.result_tx as result_tx">
@@ -66,14 +70,14 @@
                             <span (click)="openInBrowser(result_tx)" class="text word-break-break-all cursor-pointer">
                                 Result tx: {{ result_tx }}
                             </span>
-                            <app-copy-button [value]="result_tx" class="ml-1"> </app-copy-button>
+                            <app-copy-button [value]="result_tx" class="ml-1"></app-copy-button>
                         </li>
                     </ng-container>
                 </ng-container>
                 <ng-container *ngIf="error">
                     <li class="item mb-1 color-red" fxLayout="row nowrap" fxLayoutAlign="start center">
                         <span class="text word-break-break-all">
-                            Error: {{ error.message ? ('ERRORS' + '.' + error.message | translate) : 'Ops... Unknown error...' }}
+                            Error: {{ error.message ? ('ERRORS' + '.' + error.message | translate) : ('ERRORS.OPS_UNKNOWN' | translate) }}
                         </span>
                     </li>
                 </ng-container>

@@ -87,6 +87,7 @@ const providerMatDialog: Provider = {
         FormsModule,
         MatDialogModule,
         RegisterContextTemplatesComponent,
+        TranslateModule,
     ],
     providers: [provideHighchartsFactory, provideDialog, providerMatDialog],
     bootstrap: [AppComponent],

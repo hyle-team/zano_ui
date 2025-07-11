@@ -80,7 +80,8 @@
         flex-wrap: nowrap;
         align-items: baseline;
 
-        .percent, .currency {
+        .percent,
+        .currency {
             font-size: 1.4rem;
             font-weight: 400;
         }
@@ -172,6 +173,11 @@
 
     &:focus {
         outline: none;
+    }
+
+    &:focus-visible {
+        outline: 2px solid;
+        outline-offset: 4px;
     }
 
     .progress-bar {

@@ -1,6 +1,7 @@
 import { Directive, HostListener, Input } from '@angular/core';
 
 @Directive({
+    // eslint-disable-next-line
     selector: 'input[lowerCase]:not([upperCase]),textarea[lowerCase]:not([upperCase])',
     standalone: true,
 })

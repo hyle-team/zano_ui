@@ -14,6 +14,8 @@ import { SynchronizationStatusComponent } from '@parts/components/synchronizatio
 import { WalletCardComponent } from '@parts/components/wallet-card/wallet-card.component';
 import { MatIconModule } from '@angular/material/icon';
 import { ZanoLogoComponent } from '@parts/components/zano-logo/zano-logo.component';
+import { AutoFocusDirective } from '@parts/directives/autofocus.directive';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
     declarations: [SidebarComponent],
@@ -33,6 +35,8 @@ import { ZanoLogoComponent } from '@parts/components/zano-logo/zano-logo.compone
         WalletCardComponent,
         MatIconModule,
         ZanoLogoComponent,
+        AutoFocusDirective,
+        MatTooltipModule,
     ],
     exports: [SidebarComponent],
 })

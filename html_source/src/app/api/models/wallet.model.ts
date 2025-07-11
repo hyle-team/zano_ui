@@ -12,8 +12,9 @@ import {
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { AliasInfo, AliasInfoList } from '@api/models/alias.model';
 import { TransferFormValue } from '@api/models/transfer.model';
-import { DEFAULT_ASSET_LOGO_SRC, ZANO_ASSET_INFO } from '@parts/data/assets';
+import { ZANO_ASSET_INFO } from '@parts/data/zano-assets-info';
 import { map } from 'rxjs/operators';
+import { DEFAULT_ASSET_LOGO_SRC } from '@parts/data/constants';
 
 export const defaultAssetsInfoWhitelist = { global_whitelist: [], local_whitelist: [], own_assets: [] };
 

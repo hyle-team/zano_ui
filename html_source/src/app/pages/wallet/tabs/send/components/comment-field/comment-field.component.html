@@ -1,5 +1,6 @@
-<div class="form__field fixed">
+<fieldset class="form__field fixed">
     <label for="send-comment">{{ 'SEND.COMMENT' | translate }}</label>
+
     <input
         (contextmenu)="variables_service.onContextMenu($event)"
         [formControl]="control_ref"
@@ -7,11 +8,13 @@
         [placeholder]="'PLACEHOLDERS.COMMENT_PLACEHOLDER' | translate"
         class="form__field--input"
         id="send-comment"
+        aria-describedby="send-comment-error"
         type="text"
     />
-    <div *ngIf="control_ref | isVisibleControlError" class="error">
+
+    <div *ngIf="control_ref | isVisibleControlError" id="send-comment-error" aria-live="assertive" class="error">
         <div *ngIf="control_ref.hasError('maxLength')">
             {{ 'SEND.FORM_ERRORS.MAX_LENGTH' | translate }}
         </div>
     </div>
-</div>
+</fieldset>

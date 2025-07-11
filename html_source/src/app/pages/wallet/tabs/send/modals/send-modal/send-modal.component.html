@@ -1,7 +1,7 @@
-<div class="send-modal-wrapper" fxLayout="row">
+<div class="send-modal-wrapper" fxLayout="row" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
     <div class="wrapper">
-        <form (ngSubmit)="beforeSubmit()" [formGroup]="form" class="overflow-hidden" fxFlexFill fxLayout="column">
-            <h3 class="title mb-2" fxFlex="0 0 auto">
+        <form role="form" (ngSubmit)="beforeSubmit()" [formGroup]="form" class="overflow-hidden" fxFlexFill fxLayout="column">
+            <h3 class="title mb-2" fxFlex="0 0 auto" id="confirm-title">
                 {{ 'CONFIRM.TITLE' | translate }}
             </h3>
 
@@ -65,13 +65,15 @@
                         [class.invalid]="form.touched && form.invalid"
                         [placeholder]="'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate"
                         autofocus
+                        appAutofocus
                         class="form__field--input"
                         formControlName="password"
+                        aria-describedby="password-error"
                         id="password"
                         name="password"
                         type="password"
                     />
-                    <div *ngIf="form.touched && form.invalid" class="error">
+                    <div *ngIf="form.touched && form.invalid" aria-live="assertive" id="password-error" class="error">
                         <div *ngIf="form.hasError('passwordNotMatch') && !form.controls.password.hasError('required')">
                             {{ 'LOGIN.FORM_ERRORS.WRONG_PASSWORD' | translate }}
                         </div>

@@ -1,11 +1,11 @@
-<form [formGroup]="confirmForm">
+<form role="form" [formGroup]="confirmForm">
     <h3 mat-dialog-title>
         {{ 'CONFIRM_CREATE_CUSTOM_ASSET.TITLE' | translate }}
     </h3>
 
     <mat-dialog-content>
-        <div class="table-info mb-2">
-            <div class="row">
+        <div class="table-info mb-2" role="table">
+            <div class="row" role="row">
                 <div class="label max-w-19-rem w-100">
                     {{ 'CONFIRM_CREATE_CUSTOM_ASSET.TABLE.LABEL1' | translate }}
                 </div>
@@ -14,9 +14,9 @@
                 </div>
             </div>
 
-            <hr class="separator" />
+            <hr class="separator" aria-hidden="true" />
 
-            <div class="row">
+            <div class="row" role="row">
                 <div class="label max-w-19-rem w-100">
                     {{ 'CONFIRM_CREATE_CUSTOM_ASSET.TABLE.LABEL2' | translate }}
                 </div>
@@ -25,9 +25,9 @@
                 </div>
             </div>
 
-            <hr class="separator" />
+            <hr class="separator" aria-hidden="true" />
 
-            <div class="row">
+            <div class="row" role="row">
                 <div class="label max-w-19-rem w-100">
                     {{ 'CONFIRM_CREATE_CUSTOM_ASSET.TABLE.LABEL3' | translate }}
                 </div>
@@ -36,9 +36,9 @@
                 </div>
             </div>
 
-            <hr class="separator" />
+            <hr class="separator" aria-hidden="true" />
 
-            <div class="row">
+            <div class="row" role="row">
                 <div class="label max-w-19-rem w-100">
                     {{ 'CONFIRM_CREATE_CUSTOM_ASSET.TABLE.LABEL4' | translate }}
                 </div>
@@ -47,9 +47,9 @@
                 </div>
             </div>
 
-            <hr class="separator" />
+            <hr class="separator" aria-hidden="true" />
 
-            <div class="row">
+            <div class="row" role="row">
                 <div class="label max-w-19-rem w-100">
                     {{ 'CONFIRM_CREATE_CUSTOM_ASSET.TABLE.LABEL5' | translate }}
                 </div>
@@ -58,9 +58,9 @@
                 </div>
             </div>
 
-            <hr class="separator" />
+            <hr class="separator" aria-hidden="true" />
 
-            <div class="row">
+            <div class="row" role="row">
                 <div class="label max-w-19-rem w-100">
                     {{ 'CONFIRM_CREATE_CUSTOM_ASSET.TABLE.LABEL6' | translate }}
                 </div>
@@ -70,15 +70,17 @@
             </div>
         </div>
 
-        <div *ngIf="variablesService.appPass" class="form__field mb-0">
+        <fieldset *ngIf="variablesService.appPass" class="form__field mb-0">
             <label for="password">
                 {{ 'LOGIN.MASTER_PASS' | translate }}
                 <span class="color-red">*</span>
             </label>
+
             <input
                 (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
                 [class.invalid]="confirmForm.touched && confirmForm.invalid"
                 [placeholder]="'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate"
+                [attr.aria-describedby]="'password-error'"
                 autofocus
                 class="form__field--input"
                 formControlName="password"
@@ -86,7 +88,8 @@
                 name="password"
                 type="password"
             />
-            <div *ngIf="confirmForm.touched && confirmForm.invalid" class="error">
+
+            <div *ngIf="confirmForm.touched && confirmForm.invalid" aria-live="assertive" id="password-error" class="error">
                 <div *ngIf="confirmForm.hasError('passwordNotMatch')">
                     {{ 'LOGIN.FORM_ERRORS.WRONG_PASSWORD' | translate }}
                 </div>
@@ -94,7 +97,7 @@
                     {{ 'LOGIN.FORM_ERRORS.PASS_REQUIRED' | translate }}
                 </div>
             </div>
-        </div>
+        </fieldset>
     </mat-dialog-content>
 
     <mat-dialog-actions>

@@ -1,8 +1,9 @@
-<div class="form__field fixed">
+<fieldset class="form__field fixed">
     <label for="send-mixin">
         {{ 'SEND.MIXIN' | translate }}
         <span class="color-red">*</span>
     </label>
+
     <input
         (contextmenu)="variablesService.onContextMenu($event)"
         [placeholder]="'PLACEHOLDERS.AMOUNT_PLACEHOLDER' | translate"
@@ -10,14 +11,16 @@
         class="form__field--input"
         [formControl]="control_ref"
         id="send-mixin"
+        aria-describedby="send-mixin-error"
         maxlength="3"
         type="text"
     />
-    <div *ngIf="control_ref | isVisibleControlError" class="error">
+
+    <div *ngIf="control_ref | isVisibleControlError" aria-live="assertive" id="send-mixin-error" class="error">
         <div *ngIf="control_ref.hasError('required')">
             {{ 'ERRORS.REQUIRED' | translate }}
         </div>
         <div *ngIf="control_ref.hasError('min')">{{ 'Min' }} {{ control_ref.getError('min')['min'] }}</div>
         <div *ngIf="control_ref.hasError('max')">{{ 'Max' }} {{ control_ref.getError('max')['max'] }}</div>
     </div>
-</div>
+</fieldset>

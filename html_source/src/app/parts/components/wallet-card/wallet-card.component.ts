@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostBinding, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Wallet } from '@api/models/wallet.model';
 import { VariablesService } from '@parts/services/variables.service';
 import { BigNumber } from 'bignumber.js';
@@ -11,9 +11,9 @@ import { DisablePriceFetchModule, TooltipModule } from '@parts/directives';
 import { StakingSwitchComponent } from '@parts/components/staking-switch.component';
 import { VisibilityBalanceDirective } from '@parts/directives/visibility-balance.directive';
 import { MatIconModule } from '@angular/material/icon';
-import { ZANO_ASSET_INFO } from '@parts/data/assets';
 import { AssetBalance } from '@api/models/assets.model';
 import { intToMoney } from '@parts/functions/int-to-money';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
     selector: 'app-wallet-card',
@@ -28,16 +28,16 @@ import { intToMoney } from '@parts/functions/int-to-money';
         DisablePriceFetchModule,
         VisibilityBalanceDirective,
         MatIconModule,
+        MatTooltipModule,
     ],
+    host: {
+        class: 'wallet',
+    },
 })
 export class WalletCardComponent {
-    @HostBinding('class') classAttr = 'wallet';
-
     @Input() wallet: Wallet;
 
     @Output() eventClose = new EventEmitter<number>();
-
-    protected readonly zanoAssetInfo = ZANO_ASSET_INFO;
 
     constructor(
         public variablesService: VariablesService,
@@ -87,13 +87,17 @@ export class WalletCardComponent {
         const priceData = this.variablesService.currentPriceForAssets[balance.asset_info.asset_id]?.data;
         if (!priceData || typeof priceData === 'string') return;
 
-        const { settings: { currency } } = this.variablesService;
+        const {
+            settings: { currency },
+        } = this.variablesService;
         const fiatPrice = priceData.fiat_prices?.[currency];
 
         if (!fiatPrice) return;
 
         const amount = intToMoney(balance.total, balance.asset_info.decimal_point);
-        const fiatValue = BigNumber(amount).multipliedBy(fiatPrice).toFixed(BigNumber(fiatPrice).decimalPlaces() ?? 10);
+        const fiatValue = BigNumber(amount)
+            .multipliedBy(fiatPrice)
+            .toFixed(BigNumber(fiatPrice).decimalPlaces() ?? 10);
 
         return `${fiatValue}`;
     }
@@ -109,7 +113,9 @@ export class WalletCardComponent {
 
         if (!currentPrice || typeof currentPrice.data === 'string') return null;
 
-        const { settings: { currency } } = this.variablesService;
+        const {
+            settings: { currency },
+        } = this.variablesService;
 
         const result = {
             value: this.getFiatValue(balance),

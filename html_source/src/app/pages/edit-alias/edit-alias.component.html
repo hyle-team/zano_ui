@@ -1,0 +1,92 @@
+<main class="page-container" aria-describedby="edit-alias-description">
+    <p class="sr-only" id="edit-alias-description">{{ 'ACCESSIBILITY.EDIT_ALIAS.DESCRIPTIONS.DESCRIPTION1' | translate }}</p>
+
+    <section class="toolbar mb-2">
+        <div class="left">
+            <app-back-button></app-back-button>
+            <h1 class="ml-2" aria-live="assertive">{{ 'BREADCRUMBS.EDIT_ALIAS' | translate }}</h1>
+        </div>
+        <div class="right"></div>
+    </section>
+
+    <div class="page-content">
+        <app-breadcrumbs [items]="breadcrumbItems" class="mb-2"></app-breadcrumbs>
+
+        <div class="scrolled-content">
+            <form class="form" role="form">
+                <fieldset class="form__field">
+                    <label for="alias-name">
+                        {{ 'EDIT_ALIAS.NAME.LABEL' | translate }}
+                    </label>
+                    <input
+                        [value]="'@' + alias_info.alias"
+                        class="form__field--input"
+                        id="alias-name"
+                        placeholder="{{ 'EDIT_ALIAS.NAME.PLACEHOLDER' | translate }}"
+                        readonly
+                        type="text"
+                    />
+                </fieldset>
+
+                <fieldset class="form__field textarea">
+                    <label for="alias-comment">
+                        {{ 'EDIT_ALIAS.COMMENT.LABEL' | translate }}
+                    </label>
+                    <textarea
+                        (contextmenu)="variablesService.onContextMenu($event)"
+                        [(ngModel)]="alias_info.comment"
+                        [attr.aria-describedby]="'alias-comment-error1 alias-comment-error2'"
+                        [maxlength]="variablesService.maxCommentLength + ''"
+                        [ngModelOptions]="{ standalone: true }"
+                        [placeholder]="'EDIT_ALIAS.COMMENT.PLACEHOLDER' | translate"
+                        appAutofocus
+                        autofocus
+                        id="alias-comment"
+                    >
+                    </textarea>
+
+                    <div
+                        *ngIf="alias_info.comment.length > 0 && notEnoughMoney"
+                        aria-live="assertive"
+                        class="error"
+                        id="alias-comment-error1"
+                    >
+                        {{ 'EDIT_ALIAS.FORM_ERRORS.NO_MONEY' | translate }}
+                    </div>
+                    <div
+                        *ngIf="alias_info.comment.length >= variablesService.maxCommentLength"
+                        aria-live="assertive"
+                        class="error"
+                        id="alias-comment-error2"
+                    >
+                        {{ 'EDIT_ALIAS.FORM_ERRORS.MAX_LENGTH' | translate }}
+                    </div>
+                </fieldset>
+
+                <div class="alias-cost mb-2">
+                    {{
+                        'EDIT_ALIAS.COST'
+                            | translate
+                                : {
+                                      value: variablesService.default_fee,
+                                      currency: variablesService.defaultTicker
+                                  }
+                    }}
+                </div>
+
+                <button
+                    (click)="updateAlias()"
+                    [disabled]="
+                        notEnoughMoney ||
+                        oldAliasComment === alias_info.comment ||
+                        alias_info.comment.length > variablesService.maxCommentLength
+                    "
+                    class="primary big w-100"
+                    type="button"
+                >
+                    {{ 'EDIT_ALIAS.BUTTON_EDIT' | translate }}
+                </button>
+            </form>
+        </div>
+    </div>
+</main>

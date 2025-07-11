@@ -1,21 +1,21 @@
 <div class="history-wrap" fxFlexFill fxLayout="column">
     <div class="wrap-table scrolled-content mb-2" fxFlex="1 1 auto">
-        <table class="zano-table history-table">
+        <table class="zano-table history-table" [attr.aria-label]="'ACCESSIBILITY.HISTORY.LABELS.LABEL1' | translate">
             <thead>
                 <tr>
-                    <th>
+                    <th scope="col">
                         <div class="bg title">{{ 'HISTORY.STATUS' | translate }}</div>
                     </th>
-                    <th>
+                    <th scope="col">
                         <div class="bg title">{{ 'HISTORY.AMOUNT' | translate }}</div>
                     </th>
-                    <th>
+                    <th scope="col">
                         <div class="bg title">{{ 'HISTORY.FEE' | translate }}</div>
                     </th>
-                    <th>
+                    <th scope="col">
                         <div class="bg title">{{ 'HISTORY.ADDRESS' | translate }}</div>
                     </th>
-                    <th>
+                    <th scope="col">
                         <div class="bg title">{{ 'HISTORY.DATE' | translate }}</div>
                     </th>
                 </tr>
@@ -24,8 +24,11 @@
             <tbody>
                 <ng-container *ngFor="let transaction of variablesService.current_wallet.history">
                     <tr
-                        (click)="toggleTransactionDetails(transaction.tx_hash)"
+                        (click)="toggleTransactionDetails($event, transaction.tx_hash)"
+                        (keydown.enter)="toggleTransactionDetails($event, transaction.tx_hash)"
+                        (keydown.space)="toggleTransactionDetails($event, transaction.tx_hash)"
                         [class.locked-transaction]="!transaction.is_mining && transaction.unlock_time > 0"
+                        tabindex="0"
                     >
                         <!-- Status -->
                         <td>
@@ -35,7 +38,7 @@
                         <!-- Amount -->
                         <td>
                             <ng-container *ngFor="let item of transaction | getAmountItems : currentWallet">
-                                <div *appVisibilityBalance class="cell-amount">
+                                <div *appVisibilityBalance class="cell-amount" [attr.aria-label]="item.amount + ' ' + item.ticker">
                                     <div class="amount">{{ item.amount }}</div>
                                     <span class="ticker">{{ item.ticker }}</span>
                                 </div>
@@ -155,7 +158,7 @@
                         </td>
                     </tr>
 
-                    <div class="row-divider"></div>
+                    <div class="row-divider" aria-hidden="true"></div>
 
                     <tr>
                         <td [ngStyle]="{ padding: '0', 'border-radius': '0.8rem' }" colspan="5">
@@ -176,6 +179,7 @@
                         }"
                         [@expandOnEnter]="{ value: state, params: { duration: 150 } }"
                         class="row-divider"
+                        aria-hidden="true"
                     ></tr>
                 </ng-container>
             </tbody>
@@ -184,8 +188,16 @@
 
     <div class="pagination-wrapper">
         <div class="pagination" fxLayout="row" fxLayoutAlign="space-between center">
-            <div class="left" fxLayout="row" fxLayoutAlign=" center">
+            <div
+                class="left"
+                fxLayout="row"
+                fxLayoutAlign=" center"
+                [attr.aria-label]="'ACCESSIBILITY.PAGINATION.LABELS.LABEL1' | translate"
+                tabindex="0"
+            >
                 <button
+                    [attr.aria-label]="'ACCESSIBILITY.PAGINATION.LABELS.LABEL2' | translate"
+                    tabindex="0"
                     (click)="setPage(variablesService.current_wallet.currentPage - 1)"
                     [disabled]="
                         variablesService.current_wallet.currentPage === 1 ||
@@ -193,6 +205,7 @@
                         !variablesService.isCurrentWalletLoaded
                     "
                     class="btn-icon circle small mr-1"
+                    type="button"
                 >
                     <mat-icon svgIcon="zano-arrow-left"></mat-icon>
                 </button>
@@ -204,6 +217,8 @@
                         [class.color-primary]="variablesService.current_wallet.currentPage === page"
                         [disabled]="variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded"
                         class="mr-0_5"
+                        tabindex="0"
+                        type="button"
                     >
                         {{ page }}
                     </button>
@@ -218,6 +233,8 @@
                             disabled: variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded
                         }"
                         class="mr-0_5"
+                        tabindex="0"
+                        type="button"
                     >
                         {{ variablesService.current_wallet.currentPage }}
                     </button>
@@ -227,6 +244,9 @@
                     (click)="setPage(variablesService.current_wallet.currentPage + 1)"
                     [disabled]="stop_paginate || variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded"
                     class="btn-icon circle small ml-0_5"
+                    tabindex="0"
+                    [attr.aria-label]="'ACCESSIBILITY.PAGINATION.LABELS.LABEL3' | translate"
+                    type="button"
                 >
                     <mat-icon svgIcon="zano-arrow-right"></mat-icon>
                 </button>

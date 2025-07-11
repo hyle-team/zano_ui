@@ -6,7 +6,18 @@ import { CommonModule } from '@angular/common';
 @Component({
     selector: 'app-staking-switch',
     template: `
-        <div (click)="toggleStaking(); $event.stopPropagation()" [class.off]="!staking" [class.on]="staking" class="switch">
+        <div
+            (keydown.space)="toggleStaking($event)"
+            (keydown.enter)="toggleStaking($event)"
+            (click)="toggleStaking($event)"
+            [attr.aria-checked]="staking"
+            [class.off]="!staking"
+            [class.on]="staking"
+            [class.disabled]="isDisabled"
+            class="switch"
+            role="switch"
+            tabindex="0"
+        >
             <span class="circle"></span>
         </div>
     `,
@@ -21,9 +32,15 @@ export class StakingSwitchComponent {
 
     @Output() stakingChange = new EventEmitter<boolean>();
 
+    get isDisabled(): boolean {
+        return !this.variablesService.getWallet(this.wallet_id)?.loaded;
+    }
+
     constructor(private backendService: BackendService, private variablesService: VariablesService) {}
 
-    toggleStaking(): void {
+    toggleStaking(event: Event): void {
+        event.preventDefault();
+        event.stopPropagation();
         const wallet = this.variablesService.getWallet(this.wallet_id);
         if (wallet && wallet.loaded) {
             this.stakingChange.emit(!this.staking);

@@ -5,7 +5,7 @@
         <div class="word-break-break-all mb-2">{{ wallet.name }}</div>
         <div class="word-break-break-all mb-2">{{ wallet.path }}</div>
 
-        <form (ngSubmit)="openWallet()" class="form" fxLayout="column">
+        <form role="form" (ngSubmit)="openWallet()" class="form" fxLayout="column">
             <div *ngIf="!wallet.notFound" class="form__field">
                 <label for="password">{{ 'OPEN_WALLET.MODAL.LABEL' | translate }}</label>
                 <input

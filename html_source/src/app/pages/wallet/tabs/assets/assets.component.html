@@ -1,33 +1,33 @@
-<div fxFlexFill fxLayout="column">
+<section fxFlexFill fxLayout="column">
     <div [class.mb-2]="isShowPagination" class="scrolled-content" fxFlex="1 1 auto">
-        <table class="zano-table assets-table">
+        <table class="zano-table assets-table" [attr.aria-label]="'ACCESSIBILITY.ASSETS.LABELS.LABEL1' | translate">
             <thead>
                 <tr>
-                    <th>
+                    <th scope="col">
                         <div class="bg title">
                             {{ 'ASSETS.TABLE.LABELS.NAME' | translate }}
                         </div>
                     </th>
-                    <th>
+                    <th scope="col">
                         <div class="bg title">
                             {{ 'ASSETS.TABLE.LABELS.BALANCE' | translate }}
                         </div>
                     </th>
-                    <th>
+                    <th scope="col">
                         <div class="bg title">
                             {{ 'ASSETS.TABLE.LABELS.VALUE' | translate }}
                         </div>
                     </th>
-                    <th>
+                    <th scope="col">
                         <div class="bg title">
                             {{ 'ASSETS.TABLE.LABELS.PRICE' | translate }}
                         </div>
                     </th>
-                    <th>
+                    <th scope="col">
                         <div class="bg title">&nbsp;</div>
                     </th>
                 </tr>
-                <div class="row-divider"></div>
+                <div aria-hidden="true" class="row-divider"></div>
             </thead>
             <tbody>
                 <ng-container
@@ -37,16 +37,27 @@
                     "
                 >
                     <tr
-                        (click)="navigateToSend(balance)"
-                        [delay]="100"
+                        (click)="navigateToSend($event, balance)"
+                        (keydown.enter)="navigateToSend($event, balance)"
+                        (keydown.space)="navigateToSend($event, balance)"
+                        [attr.aria-label]="
+                            'ACCESSIBILITY.ASSETS.LABELS.LABEL6'
+                                | translate
+                                    : {
+                                          full_name: balance.asset_info.full_name
+                                      }
+                        "
+                        [delay]="250"
                         [placement]="'bottom'"
-                        [timeDelay]="1500"
+                        [timeDelay]="2500"
                         [tooltipClass]="'balance-tooltip'"
                         [tooltip]="getBalanceTooltip(balance)"
+                        role="button"
+                        tabindex="0"
                     >
                         <td>
                             <div class="text-ellipsis" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2rem">
-                                <div [innerHTML]="balance.asset_info | getLogoByAssetInfo" class="token-logo mr-1"></div>
+                                <div [innerHTML]="balance.asset_info | getLogoByAssetInfo" aria-hidden="true" class="token-logo mr-1"></div>
                                 <b class="text-ellipsis">{{ balance.asset_info.full_name }}</b>
                             </div>
                         </td>
@@ -58,7 +69,6 @@
                                 </b>
                             </div>
                         </td>
-
                         <td>
                             <div class="text-ellipsis">
                                 <b *appVisibilityBalance>
@@ -68,7 +78,6 @@
                                 </b>
                             </div>
                         </td>
-
                         <td>
                             <div class="text-ellipsis">
                                 <ng-container *ngIf="getFiatPrice(balance) as price">
@@ -77,11 +86,16 @@
                                 </ng-container>
                             </div>
                         </td>
-
                         <td class="text-align-end">
                             <button
                                 (click)="$event.stopPropagation()"
+                                (keydown.enter)="$event.stopPropagation()"
+                                (keydown.space)="$event.stopPropagation()"
+                                [attr.aria-label]="
+                                    'ACCESSIBILITY.ASSETS.LABELS.LABEL5' | translate : { full_name: balance.asset_info.full_name }
+                                "
                                 [matMenuTriggerFor]="menu"
+                                aria-haspopup="menu"
                                 class="btn-icon circle row-options small"
                                 type="button"
                             >
@@ -89,25 +103,25 @@
                             </button>
 
                             <mat-menu #menu="matMenu" class="zano-mat-menu">
-                                <button (click)="assetDetails(balance)" mat-menu-item>
+                                <button (click)="assetDetails(balance)" mat-menu-item type="button">
                                     <mat-icon svgIcon="zano-info-v2"></mat-icon>
                                     <span>{{ 'ASSETS.DROP_DOWN_MENU.ASSET_DETAILS' | translate }}</span>
                                 </button>
                                 <ng-container *ngIf="isWalletReady()">
-                                    <button (click)="navigateToSend(balance)" mat-menu-item>
+                                    <button (click)="navigateToSend($event, balance)" mat-menu-item type="button">
                                         <mat-icon svgIcon="zano-send"></mat-icon>
                                         <span>{{ 'ASSETS.DROP_DOWN_MENU.SEND' | translate }}</span>
                                     </button>
 
                                     <ng-container *ngIf="variablesService.is_hardfok_active$ | async">
-                                        <button [state]="{ asset: balance }" mat-menu-item routerLink="/wallet/create-swap">
+                                        <button [state]="{ asset: balance }" mat-menu-item routerLink="/wallet/create-swap" type="button">
                                             <mat-icon svgIcon="zano-swap"></mat-icon>
                                             <span>{{ 'ASSETS.DROP_DOWN_MENU.SWAP' | translate }}</span>
                                         </button>
                                     </ng-container>
 
                                     <ng-container *ngIf="isShowDeleteAsset(balance)">
-                                        <button (click)="beforeRemoveAsset(balance)" mat-menu-item>
+                                        <button (click)="beforeRemoveAsset(balance)" mat-menu-item type="button">
                                             <mat-icon svgIcon="zano-delete"></mat-icon>
                                             <span>{{ 'ASSETS.DROP_DOWN_MENU.REMOVE_ASSET' | translate }}</span>
                                         </button>
@@ -116,7 +130,7 @@
                             </mat-menu>
                         </td>
                     </tr>
-                    <tr class="row-divider"></tr>
+                    <tr aria-hidden="true" class="row-divider"></tr>
                 </ng-container>
             </tbody>
         </table>
@@ -127,23 +141,37 @@
         (pageChange)="paginatePipeArgs.currentPage = $event"
         *ngIf="isShowPagination"
         [id]="paginatePipeArgs.id"
+        [attr.aria-label]="'ACCESSIBILITY.PAGINATION.LABELS.LABEL1' | translate"
         class="ngx-pagination custom-pagination"
+        tabindex="0"
     >
-        <button (click)="p.previous()" [disabled]="p.isFirstPage()" class="pagination-previous btn-icon circle small mr-0_5">
+        <button
+            (click)="p.previous()"
+            [disabled]="p.isFirstPage()"
+            [attr.aria-label]="'ACCESSIBILITY.PAGINATION.LABELS.LABEL2' | translate"
+            class="pagination-previous btn-icon circle small mr-0_5"
+            tabindex="0"
+        >
             <mat-icon svgIcon="zano-arrow-left"></mat-icon>
         </button>
 
         <div *ngFor="let page of p.pages; trackBy: trackByPages" [class.current]="p.getCurrent() === page.value" class="mr-0_5">
-            <a (click)="p.setCurrent(page.value)" *ngIf="p.getCurrent() !== page.value">
+            <a tabindex="0" (click)="p.setCurrent(page.value)" *ngIf="p.getCurrent() !== page.value" role="button">
                 <span>{{ page.label }}</span>
             </a>
-            <div *ngIf="p.getCurrent() === page.value">
+            <div tabindex="0" *ngIf="p.getCurrent() === page.value">
                 <span>{{ page.label }}</span>
             </div>
         </div>
 
-        <button (click)="p.next()" [disabled]="p.isLastPage()" class="pagination-next btn-icon circle small">
+        <button
+            tabindex="0"
+            (click)="p.next()"
+            [disabled]="p.isLastPage()"
+            [attr.aria-label]="'ACCESSIBILITY.PAGINATION.LABELS.LABEL3' | translate"
+            class="pagination-next btn-icon circle small"
+        >
             <mat-icon svgIcon="zano-arrow-right"></mat-icon>
         </button>
     </pagination-template>
-</div>
+</section>

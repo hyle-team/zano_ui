@@ -11,9 +11,10 @@ import { VariablesService } from '@parts/services/variables.service';
 import { distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
 import { BigNumber } from 'bignumber.js';
 import { DestinationsForm } from '../../send.component';
-import { ZANO_ASSET_INFO } from '@parts/data/assets';
+import { ZANO_ASSET_INFO } from '@parts/data/zano-assets-info';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
-interface  AmountInputParams {
+interface AmountInputParams {
     decimalPoint: number;
     inputTicker: string;
     hintTicker: string;
@@ -38,6 +39,7 @@ const default_price_info: PriceInfo = {
         ReactiveFormsModule,
         TranslateModule,
         TooltipModule,
+        MatTooltipModule,
     ],
     templateUrl: './amount-field.component.html',
     styleUrls: ['./amount-field.component.scss'],
@@ -128,14 +130,13 @@ export class AmountFieldComponent implements OnInit, OnDestroy, OnChanges {
         }
 
         const currency_price =
-            typeof priceInfo.data === 'object' && priceInfo.data !== null
-                ? priceInfo.data.fiat_prices?.[settings.currency] ?? 0
-                : 0;
+            typeof priceInfo.data === 'object' && priceInfo.data !== null ? priceInfo.data.fiat_prices?.[settings.currency] ?? 0 : 0;
 
         const fiatDecimalPlaces = BigNumber(currency_price).decimalPlaces() ?? 3;
         if (is_currency_input_mode) {
-
-            const converted = BigNumber(+amount || 0).dividedBy(currency_price).decimalPlaces(decimalPoint);
+            const converted = BigNumber(+amount || 0)
+                .dividedBy(currency_price)
+                .decimalPlaces(decimalPoint);
 
             return {
                 ...params,

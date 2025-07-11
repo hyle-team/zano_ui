@@ -1,4 +1,4 @@
-<h3 mat-dialog-title>
+<h3 aria-live="assertive" mat-dialog-title>
     {{ 'MY_ALIASES_DIALOG.TITLE' | translate }}
 </h3>
 
@@ -6,7 +6,7 @@
     <div class="my-aliases-list">
         <ng-container *ngFor="let alias_info of variablesService.current_wallet.alias_info_list">
             <div class="my-aliases-list-item">
-                <div class="alias">
+                <div class="alias" [attr.aria-label]="'@' + alias_info.alias">
                     <div class="name">@{{ alias_info.alias }}</div>
                     <ng-container *ngIf="alias_info.alias.length >= 1 && alias_info.alias.length <= 5">
                         <mat-icon svgIcon="zano-crown"></mat-icon>
@@ -16,29 +16,29 @@
                 <ng-container *ngIf="isShowAliasButtons">
                     <div class="controls">
                         <button
-                            [delay]="500"
                             [routerLink]="['/edit-alias']"
                             [state]="{ alias_info: alias_info }"
-                            [timeDelay]="500"
+                            role="link"
                             class="btn-icon circle small mr-1"
                             matDialogClose
-                            placement="bottom-right"
-                            tooltip="{{ 'WALLET.TOOLTIPS.EDIT_ALIAS' | translate }}"
-                            tooltipClass="table-tooltip account-tooltip"
+                            [matTooltip]="'WALLET.TOOLTIPS.EDIT_ALIAS' | translate"
+                            matTooltipShowDelay="800"
+                            type="button"
+                            [attr.aria-label]="'ACCESSIBILITY.MY_ALIASES_DIALOG.LABELS.LABEL1' | translate"
                         >
                             <mat-icon svgIcon="zano-edit"></mat-icon>
                         </button>
 
                         <button
-                            [delay]="500"
                             [routerLink]="['/transfer-alias']"
                             [state]="{ alias_info: alias_info }"
-                            [timeDelay]="500"
                             class="btn-icon circle small"
                             matDialogClose
-                            placement="right"
-                            tooltip="{{ 'WALLET.TOOLTIPS.TRANSFER_ALIAS' | translate }}"
-                            tooltipClass="table-tooltip account-tooltip"
+                            role="link"
+                            [matTooltip]="'WALLET.TOOLTIPS.TRANSFER_ALIAS' | translate"
+                            matTooltipShowDelay="800"
+                            type="button"
+                            [attr.aria-label]="'ACCESSIBILITY.MY_ALIASES_DIALOG.LABELS.LABEL2' | translate"
                         >
                             <mat-icon svgIcon="zano-send"></mat-icon>
                         </button>
@@ -50,7 +50,7 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-    <button class="outline big w-100" matDialogClose>
+    <button class="outline big w-100" matDialogClose cdkFocusInitial appAutofocus>
         {{ 'MY_ALIASES_DIALOG.BUTTON1' | translate }}
     </button>
 </mat-dialog-actions>

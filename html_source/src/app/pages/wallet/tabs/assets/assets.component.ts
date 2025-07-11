@@ -12,7 +12,7 @@ import { BigNumber } from 'bignumber.js';
 import { LOCKED_BALANCE_HELP_PAGE } from '@parts/data/constants';
 import { IntToMoneyPipe } from '@parts/pipes';
 import { TranslateService } from '@ngx-translate/core';
-import { ZANO_ASSET_INFO } from '@parts/data/assets';
+import { ZANO_ASSET_INFO } from '@parts/data/zano-assets-info';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { intToMoney } from '@parts/functions/int-to-money';
@@ -74,11 +74,12 @@ export class AssetsComponent implements OnInit, OnDestroy {
         if (!fiatPrice) return;
 
         const amount = intToMoney(balance.total, balance.asset_info.decimal_point);
-        const fiatValue = BigNumber(amount).multipliedBy(fiatPrice).toFixed(BigNumber(fiatPrice).decimalPlaces() ?? 10);
+        const fiatValue = BigNumber(amount)
+            .multipliedBy(fiatPrice)
+            .toFixed(BigNumber(fiatPrice).decimalPlaces() ?? 10);
 
         return `${fiatValue}`;
     }
-
 
     getFiatPrice(balance: AssetBalance): {
         value: string | number;
@@ -245,7 +246,9 @@ export class AssetsComponent implements OnInit, OnDestroy {
         return isWalletLoaded && isDaemonReady && isWalletUsable;
     }
 
-    navigateToSend(asset: AssetBalance): void {
+    navigateToSend(event: Event, asset: AssetBalance): void {
+        event.preventDefault();
+        event.stopPropagation();
         if (this.isWalletReady()) {
             this._router.navigate(['/wallet/send'], { state: { asset } }).then();
         }

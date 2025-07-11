@@ -7,7 +7,7 @@ import { BackendService } from '@api/services/backend.service';
 import { Subject } from 'rxjs';
 import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { collapseOnLeaveAnimation, expandOnEnterAnimation } from 'angular-animations';
-import { ZANO_ASSET_INFO, ZanoAssetInfo } from '@parts/data/assets';
+import { ZANO_ASSET_INFO, ZanoAssetInfo } from '@parts/data/zano-assets-info';
 import { filter, takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -198,7 +198,9 @@ export class HistoryComponent implements OnInit, OnDestroy {
         }, 1000);
     }
 
-    toggleTransactionDetails(tx_hash: string): void {
+    toggleTransactionDetails($event: Event, tx_hash: string): void {
+        $event.preventDefault();
+        $event.stopPropagation();
         if (tx_hash === this.opened_transaction_details) {
             this.opened_transaction_details = undefined;
         } else {

@@ -7,7 +7,7 @@ import { BehaviorSubject, Subject } from 'rxjs';
 import { AssetBalance, PriceInfo } from '@api/models/assets.model';
 import { REG_EXP_ALIAS_NAME, validateWrapInfo, ZanoValidators } from '@parts/utils/zano-validators';
 import { TransferDestinationsFormValue, TransferFormValue, TransferParams } from '@api/models/transfer.model';
-import { ZANO_ASSET_INFO } from '@parts/data/assets';
+import { ZANO_ASSET_INFO } from '@parts/data/zano-assets-info';
 import { ApiService } from '@api/services/api.service';
 import { BigNumber } from 'bignumber.js';
 import { intToMoney } from '@parts/functions/int-to-money';
@@ -158,7 +158,9 @@ export class SendComponent implements OnDestroy {
 
     private convertToCurrencyAmount(amount: any, asset: AssetBalance): string {
         const price_info = this.price_info;
-        const { settings: { currency } } = this.variables_service;
+        const {
+            settings: { currency },
+        } = this.variables_service;
         const currency_price = typeof price_info.data === 'object' ? price_info.data.fiat_prices[currency] ?? 0 : 0;
 
         const decimal_point = asset?.asset_info?.decimal_point || 0;
@@ -218,7 +220,9 @@ export class SendComponent implements OnDestroy {
         destinations.push(this._createDestinationFromGroup(asset_id));
     }
 
-    removeDestination(index: number): void {
+    removeDestination(event: Event, index: number): void {
+        event.preventDefault();
+        event.stopPropagation();
         const {
             controls: { destinations },
         } = this.form;
@@ -573,11 +577,15 @@ export class SendComponent implements OnDestroy {
 
                         const assetBalance: AssetBalance | undefined = this.variables_service.current_wallet.getBalanceByAssetId(asset_id);
                         const wrapInfo = this.variables_service.wrap_info$.value;
-                        const { settings: { currency } } = this.variables_service;
+                        const {
+                            settings: { currency },
+                        } = this.variables_service;
                         const priceInfo = this.price_info;
 
                         const currency_price = typeof priceInfo.data === 'object' ? priceInfo.data.fiat_prices[currency] ?? 0 : 0;
-                        const amountBigNumber = new BigNumber(is_currency_input_mode ? new BigNumber(amount).dividedBy(currency_price) : amount);
+                        const amountBigNumber = new BigNumber(
+                            is_currency_input_mode ? new BigNumber(amount).dividedBy(currency_price) : amount
+                        );
 
                         // 1. Balance not found
                         if (!assetBalance) {

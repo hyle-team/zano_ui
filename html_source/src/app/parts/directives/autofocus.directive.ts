@@ -8,6 +8,6 @@ export class AutoFocusDirective implements AfterViewInit {
     constructor(private elementRef: ElementRef) {}
 
     ngAfterViewInit(): void {
-        setTimeout(() => this.elementRef.nativeElement.focus());
+        setTimeout(() => this.elementRef.nativeElement.focus(), 150);
     }
 }

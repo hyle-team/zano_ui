@@ -1,33 +1,32 @@
-<div *ngIf="variablesService.testnet" class="testnet">Testnet</div>
+<span *ngIf="variablesService.testnet" class="testnet">Testnet</span>
+
 <div class="content">
     <div class="header">
         <div class="left">
-            <div class="name text-ellipsis">
-                <span *ngIf="wallet.new_contracts" class="indicator">
+            <div
+                [attr.aria-label]="!wallet.alias_info?.alias ? wallet.name : '@' + wallet.alias_info?.alias"
+                class="name text-ellipsis"
+                tabindex="0"
+                [matTooltip]="!wallet.alias_info?.alias ? wallet.name : '@' + wallet.alias_info?.alias"
+                matTooltipShowDelay="2500"
+                matTooltipPosition="above"
+            >
+                <span *ngIf="wallet.new_contracts" class="indicator" role="status" tabindex="0">
                     {{ wallet.new_contracts }}
                 </span>
 
-                <span
-                    [delay]="500"
-                    [showWhenNoOverflow]="false"
-                    class="name"
-                    placement="top-left"
-                    tooltip="{{ wallet.name }}"
-                    tooltipClass="table-tooltip account-tooltip"
-                >
-                    {{ !wallet.alias_info?.alias ? wallet.name : '@' + wallet.alias_info?.alias }}
-                </span>
+                {{ !wallet.alias_info?.alias ? wallet.name : '@' + wallet.alias_info?.alias }}
             </div>
         </div>
         <div class="right">
             <button
                 (click)="eventClose.emit(wallet.wallet_id)"
-                [delay]="500"
-                [timeDelay]="500"
+                (keydown.enter)="$event.preventDefault(); eventClose.emit(wallet.wallet_id)"
+                (keydown.space)="$event.preventDefault(); eventClose.emit(wallet.wallet_id)"
+                [attr.aria-label]="'WALLET.TOOLTIPS.REMOVE' | translate"
                 class="close"
-                placement="top"
-                tooltip="{{ 'WALLET.TOOLTIPS.REMOVE' | translate }}"
-                tooltipClass="table-tooltip account-tooltip"
+                [matTooltip]="'WALLET.TOOLTIPS.REMOVE' | translate"
+                matTooltipShowDelay="800"
                 type="button"
             >
                 <mat-icon svgIcon="zano-close"></mat-icon>
@@ -35,36 +34,48 @@
         </div>
     </div>
 
-    <h4 class="text-ellipsis overflow-hidden">
-        <ng-container *ngIf="wallet.getBalanceByTicker('ZANO') as balance">
-            <ng-container *appVisibilityBalance>
-                <span
-                    *appDisablePriceFetch
-                    [delay]="500"
-                    [placement]="'bottom'"
-                    [timeDelay]="1000"
-                    [tooltipClass]="'balance-tooltip'"
-                    [tooltip]="getBalancesTooltip()"
-                    class="price"
-                >
-                    <ng-container *ngIf="getFiatPrice(balance) as price">
-                        <div class="text-ellipsis overflow-hidden">{{ price.value }}</div>
-                        <span class="currency ml-0_5">{{ price.currency.toUpperCase() }}</span>
-                        <!--<span *ngIf="price.showChange" [ngClass]="price.changeClass" class="percent ml-0_5"> {{ price.change }} % </span>-->
-                    </ng-container>
-                </span>
-            </ng-container>
+    <div class="text-ellipsis overflow-hidden" *ngIf="wallet.getBalanceByTicker('ZANO') as balance">
+        <ng-container *appVisibilityBalance>
+            <div
+                *appDisablePriceFetch
+                [delay]="250"
+                [placement]="'bottom'"
+                [timeDelay]="2500"
+                [tooltipClass]="'balance-tooltip'"
+                [tooltip]="getBalancesTooltip()"
+                class="price"
+                tabindex="0"
+            >
+                <ng-container *ngIf="getFiatPrice(balance) as price">
+                    <div class="text-ellipsis overflow-hidden">{{ price.value }}</div>
+                    <span class="currency ml-0_5">{{ price.currency.toUpperCase() }}</span>
+                    <!--<span *ngIf="price.showChange" [ngClass]="price.changeClass" class="percent ml-0_5"> {{ price.change }} % </span>-->
+                </ng-container>
+            </div>
         </ng-container>
-    </h4>
+    </div>
 
     <ng-container *ngIf="(!wallet.is_auditable && !wallet.is_watch_only) || (wallet.is_auditable && !wallet.is_watch_only)">
         <div *ngIf="!(!wallet.loaded && variablesService.daemon_state === 2)" class="staking">
-            <span class="text">{{ 'SIDEBAR.ACCOUNT.STAKING' | translate }}</span>
-            <app-staking-switch [(staking)]="wallet.staking" [wallet_id]="wallet.wallet_id"></app-staking-switch>
+            <label class="text" for="staking-switch">{{ 'SIDEBAR.ACCOUNT.STAKING' | translate }}</label>
+            <app-staking-switch
+                [attr.aria-label]="'SIDEBAR.ACCOUNT.STAKING' | translate"
+                [(staking)]="wallet.staking"
+                [wallet_id]="wallet.wallet_id"
+                id="staking-switch"
+            ></app-staking-switch>
         </div>
     </ng-container>
 
-    <div *ngIf="!wallet.loaded && variablesService.daemon_state === 2" class="account-synchronization">
+    <div
+        *ngIf="!wallet.loaded && variablesService.daemon_state === 2"
+        [attr.aria-label]="'ACCESSIBILITY.WALLET_CARD.ARIA_LABEL1' | translate"
+        [attr.aria-valuenow]="wallet.progress"
+        aria-valuemax="100"
+        aria-valuemin="0"
+        class="account-synchronization"
+        role="progressbar"
+    >
         <div class="progress-bar">
             <div [style.width]="wallet.progress + '%'" class="fill"></div>
         </div>

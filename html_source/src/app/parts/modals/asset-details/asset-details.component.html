@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>{{ data?.title ?? 'ASSETS.MODALS.ASSET_DETAILS.TITLE' | translate }}</h2>
+<h2 aria-live="assertive" mat-dialog-title>{{ data?.title ?? 'ASSETS.MODALS.ASSET_DETAILS.TITLE' | translate }}</h2>
 
 <mat-dialog-content>
     <ng-container *ngIf="data.asset_info as asset_info; else templateEmpty">
@@ -59,7 +59,7 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-    <button class="outline big w-100" mat-dialog-close type="button">
+    <button class="outline big w-100" mat-dialog-close type="button" appAutofocus cdkFocusInitial>
         {{ 'MODALS.OK' | translate }}
     </button>
 </mat-dialog-actions>

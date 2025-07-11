@@ -3,5 +3,6 @@
   <component name="ProjectSettingsService">
     <option name="localesDirectory" value="$PROJECT_DIR$/html_source/src/assets/i18n" />
     <option name="defaultNamespace" value="" />
+    <option name="assistance" value="false" />
   </component>
 </project>

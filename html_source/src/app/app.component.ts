@@ -1,5 +1,4 @@
 import { Component, NgZone, OnDestroy, OnInit, Renderer2 } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@ngx-translate/core';
 import { BackendService, Commands } from '@api/services/backend.service';
 import { Router } from '@angular/router';
@@ -24,35 +23,7 @@ import { AliasInfo } from '@api/models/alias.model';
 
 @Component({
     selector: 'app-root',
-    template: `
-        <router-outlet
-            *ngIf="[0, 1, 2, 6].indexOf(variablesService.daemon_state) !== -1 && !(zanoLoadersService.getState('fullScreen') | async)"
-        ></router-outlet>
-
-        <div *ngIf="[3, 4, 5].indexOf(variablesService.daemon_state) !== -1" class="preloader">
-            <p *ngIf="variablesService.daemon_state === 3" class="mb-2">
-                {{ 'SIDEBAR.SYNCHRONIZATION.LOADING' | translate }}
-            </p>
-            <p *ngIf="variablesService.daemon_state === 4" class="mb-2">
-                {{ 'SIDEBAR.SYNCHRONIZATION.ERROR' | translate }}
-            </p>
-            <p *ngIf="variablesService.daemon_state === 5" class="mb-2">
-                {{ 'SIDEBAR.SYNCHRONIZATION.COMPLETE' | translate }}
-            </p>
-            <div class="loading-bar"></div>
-        </div>
-
-        <div class="preloader" *ngIf="zanoLoadersService.getState('fullScreen') | async">
-            <p class="mb-2">
-                {{ zanoLoadersService.getMessage('fullScreen') | async | translate }}
-            </p>
-            <div class="loading-bar"></div>
-        </div>
-
-        <app-register-context-templates></app-register-context-templates>
-
-        <app-open-wallet-modal *ngIf="needOpenWallets.length" [wallets]="needOpenWallets"></app-open-wallet-modal>
-    `,
+    templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit, OnDestroy {
     intervalUpdateContractsState;
@@ -82,7 +53,6 @@ export class AppComponent implements OnInit, OnDestroy {
     constructor(
         public variablesService: VariablesService,
         public translate: TranslateService,
-        private http: HttpClient,
         private renderer: Renderer2,
         private backendService: BackendService,
         private router: Router,
@@ -118,7 +88,7 @@ export class AppComponent implements OnInit, OnDestroy {
             ];
             this.backendService.setBackendLocalization(stringsArray, this.variablesService.settings.language);
         } else {
-            console.warn('wait translate use');
+            console.warn('Wait Translate Use');
             setTimeout(() => {
                 this.setBackendLocalization();
             }, 10000);

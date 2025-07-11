@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 @Component({
     selector: 'app-checkbox',
     template: `
-        <div class="checkbox">
+        <label [for]="id" class="checkbox">
             <input
                 (change)="handlerChange($event)"
                 [checked]="value"
@@ -13,9 +13,10 @@ import { CommonModule } from '@angular/common';
                 [id]="id"
                 [readonly]="readonly"
                 type="checkbox"
+                tabindex="0"
             />
-            <label [for]="id">{{ label }}</label>
-        </div>
+            <span>{{ label }}</span>
+        </label>
     `,
     styles: [
         `

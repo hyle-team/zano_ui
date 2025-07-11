@@ -6,11 +6,16 @@ import { CommonModule } from '@angular/common';
     selector: 'app-switch',
     template: `
         <div
-            (click)="toggle(); $event.stopPropagation()"
+            role="switch"
+            tabindex="0"
+            (keydown.space)="toggle($event)"
+            (keydown.enter)="toggle($event)"
+            (click)="toggle($event)"
             [class.disabled]="disabled"
             [class.off]="!value"
             [class.on]="value"
             class="switch"
+            [attr.aria-checked]="value"
         >
             <span class="circle"></span>
         </div>
@@ -43,7 +48,9 @@ export class SwitchComponent implements ControlValueAccessor {
 
     onChange!: (value: boolean) => void;
 
-    toggle(): void {
+    toggle(event: Event): void {
+        event.preventDefault();
+        event.stopPropagation();
         if (!this.disabled) {
             this.value = !this.value;
             this.emitChange.emit(this.value);

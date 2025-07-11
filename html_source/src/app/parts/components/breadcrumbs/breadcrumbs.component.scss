@@ -3,7 +3,7 @@
     align-items: center;
     flex-wrap: wrap;
     width: 100%;
-    flex: 0 0 auto;
+    flex-shrink: 0;
 
     &.scrolled {
         flex-wrap: nowrap;
@@ -11,46 +11,44 @@
     }
 
     .breadcrumb {
-        flex: 0 0 auto;
+        flex-shrink: 0;
         overflow: hidden;
         text-overflow: ellipsis;
+        position: relative;
+        padding-right: 3.5rem;
 
         > span,
         .link {
             white-space: nowrap;
-            outline-style: none;
-            transition: opacity 0.2s ease-in-out;
             opacity: 0.75;
+            transition: opacity 0.2s ease-in-out;
         }
 
         .link {
             cursor: pointer;
         }
 
-        &:last-child,
-        &:hover {
-            > span,
-            .link {
-                opacity: 1;
-            }
+        &:hover > span,
+        &:hover .link,
+        &:last-child > span,
+        &:last-child .link {
+            opacity: 1;
         }
 
-        &:not(:last-child) {
-            position: relative;
-            padding-right: 3.5rem;
+        &:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 0.6rem;
+            right: 1.4rem;
+            width: 0.8rem;
+            height: 0.8rem;
+            border-top: 1px solid;
+            border-right: 1px solid;
+            transform: rotate(45deg);
+        }
 
-            &:after {
-                content: '';
-                display: block;
-                position: absolute;
-                top: 0.6rem;
-                right: 1.4rem;
-                width: 0.8rem;
-                height: 0.8rem;
-                border-right: 1px solid;
-                border-top: 1px solid;
-                transform: rotate(45deg);
-            }
+        &:last-child {
+            padding-right: 0;
         }
     }
 }

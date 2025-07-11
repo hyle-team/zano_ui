@@ -54,7 +54,9 @@ export class MigrateWalletToZarcanumComponent {
         });
     }
 
-    openZarcanumMigration(): void {
+    openZarcanumMigration(event: Event): void {
+        event.preventDefault();
+        event.stopPropagation();
         this._backendService.openUrlInBrowser(ZARCANUM_MIGRATION);
     }
 }

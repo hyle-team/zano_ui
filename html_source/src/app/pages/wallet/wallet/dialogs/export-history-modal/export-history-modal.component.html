@@ -1,11 +1,13 @@
-<form>
-    <h4 mat-dialog-title>
+<form role="form">
+    <h4 aria-live="assertive" mat-dialog-title>
         {{ 'EXPORT_HISTORY.TITLE' | translate }}
     </h4>
 
     <mat-dialog-content style="overflow: visible">
-        <div class="form__field">
-            <label>Format:</label>
+        <fieldset class="form__field">
+            <label for="select-format">
+                {{ 'EXPORT_HISTORY.FORMAT' | translate }}
+            </label>
             <ng-select
                 [(ngModel)]="currentFormat"
                 [clearable]="false"
@@ -14,6 +16,9 @@
                 bindLabel="formatName"
                 bindValue="format"
                 name="format"
+                autofocus="true"
+                appAutofocus
+                id="select-format"
             >
                 <ng-template let-item="item" ng-label-tmp>
                     {{ item.formatName }}
@@ -22,7 +27,7 @@
                     {{ item.formatName }}
                 </ng-template>
             </ng-select>
-        </div>
+        </fieldset>
 
         <div fxLayout="row" fxLayoutAlign="start center">
             <span class="color-primary mr-1">{{ 'EXPORT_HISTORY.FILTER' | translate }}</span>
@@ -32,10 +37,10 @@
 
     <mat-dialog-actions>
         <div fxFlex="1 1 auto" fxLayout="row nowrap" fxLayoutGap="1rem">
-            <button (click)="confirmExport()" class="primary big w-100" type="submit">
+            <button (click)="confirmExport()" class="primary big w-100" type="button">
                 {{ 'EXPORT_HISTORY.EXPORT' | translate }}
             </button>
-            <button class="outline big w-100" mat-dialog-close type="button">
+            <button class="outline big w-100" mat-dialog-close type="button" appAutofocus cdkFocusInitial>
                 {{ 'EXPORT_HISTORY.CANCEL' | translate }}
             </button>
         </div>

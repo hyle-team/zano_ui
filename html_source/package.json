@@ -7,6 +7,7 @@
         "build": "ng build",
         "build --watch": "ng build --output-path \"/Applications/Zano.app/Contents/MacOS/html\" --watch",
         "build --watch2": "ng build --output-path \"/Applications/Zano 2.app/Contents/MacOS/html\" --watch",
+        "build --watch3": "ng build --output-path \"/work/nazar/Zano/html/\" --watch",
         "build --html": "node update-build-time.js && ng build --output-path \"../html/\"",
         "test": "ng test",
         "lint": "ng lint",

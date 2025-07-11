@@ -1,30 +1,37 @@
-<div class="page-container">
-    <div class="toolbar mb-2">
+<main class="page-container" aria-describedby="restore-wallet-description">
+    <p class="sr-only" id="restore-wallet-description">
+        {{ 'ACCESSIBILITY.RESTORE_WALLET.DESCRIPRIONS.DESCRIPTION1' | translate }}
+    </p>
+
+    <section class="toolbar mb-2">
         <div class="left">
             <app-back-button></app-back-button>
-            <h1 class="ml-2">{{ 'BREADCRUMBS.ADD_WALLET' | translate }}</h1>
+            <h1 class="ml-2" aria-live="assertive">{{ 'BREADCRUMBS.ADD_WALLET' | translate }}</h1>
         </div>
         <div class="right"></div>
-    </div>
+    </section>
 
-    <div class="page-content">
-        <app-breadcrumbs class="mb-2" [items]="breadcrumbItems"></app-breadcrumbs>
+    <section class="page-content">
+        <app-breadcrumbs [items]="breadcrumbItems" class="mb-2"></app-breadcrumbs>
 
         <div class="scrolled-content">
-            <form [formGroup]="form" class="form" (ngSubmit)="restore()">
+            <form role="form" (ngSubmit)="restore()" [formGroup]="form" class="form">
                 <!-- Name -->
-                <div class="form__field fixed">
+                <fieldset class="form__field fixed">
                     <label for="name">{{ 'RESTORE_WALLET.LABEL_NAME' | translate }}</label>
                     <input
                         (contextmenu)="variablesService.onContextMenu($event)"
+                        [attr.aria-describedby]="'name-error'"
                         [placeholder]="'PLACEHOLDERS.WALLET_NAME_PLACEHOLDER' | translate"
+                        appAutofocus
+                        autofocus
                         class="form__field--input"
                         formControlName="name"
                         id="name"
                         type="text"
                     />
                     <ng-container *ngIf="form.get('name') as control">
-                        <div *ngIf="control | isVisibleControlError" class="error">
+                        <div *ngIf="control | isVisibleControlError" aria-live="assertive" class="error" id="name-error">
                             <div *ngIf="control.hasError('duplicate')">
                                 {{ 'RESTORE_WALLET.FORM_ERRORS.NAME_DUPLICATE' | translate }}
                             </div>
@@ -36,49 +43,52 @@
                             </div>
                         </div>
                     </ng-container>
-                </div>
+                </fieldset>
 
                 <!-- Password -->
-                <div class="form__field">
+                <fieldset class="form__field">
                     <label for="password">{{ 'RESTORE_WALLET.PASS' | translate }}</label>
                     <input
                         (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
+                        [attr.aria-describedby]="'password-error'"
+                        [placeholder]="'PLACEHOLDERS.WALET_PASSWORD_PLACEHOLDER' | translate"
                         class="form__field--input"
                         formControlName="password"
                         id="password"
-                        [placeholder]="'PLACEHOLDERS.WALET_PASSWORD_PLACEHOLDER' | translate"
                         type="password"
                     />
                     <ng-container *ngIf="form.controls.password as control">
-                        <div *ngIf="control | isVisibleControlError" class="error">
+                        <div *ngIf="control | isVisibleControlError" aria-live="assertive" class="error" id="password-error">
                             <div *ngIf="control.hasError('pattern')">
                                 {{ 'ERRORS.REGEXP_INVALID_PASSWORD' | translate }}
                             </div>
                         </div>
                     </ng-container>
-                </div>
+                </fieldset>
 
                 <!-- Confirm Password -->
-                <div class="form__field fixed">
+                <fieldset class="form__field fixed">
                     <label for="confirm">{{ 'RESTORE_WALLET.CONFIRM' | translate }}</label>
                     <input
                         (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
+                        [attr.aria-describedby]="'confirm-error'"
+                        [placeholder]="'PLACEHOLDERS.CONFIRM_WALET_PASSWORD_PLACEHOLDER' | translate"
                         class="form__field--input"
                         formControlName="confirm"
                         id="confirm"
-                        [placeholder]="'PLACEHOLDERS.CONFIRM_WALET_PASSWORD_PLACEHOLDER' | translate"
                         type="password"
                     />
-                    <div *ngIf="form.hasError('mismatch')" class="error">
+                    <div *ngIf="form.hasError('mismatch')" aria-live="assertive" class="error" id="confirm-error">
                         {{ 'RESTORE_WALLET.FORM_ERRORS.CONFIRM_NOT_MATCH' | translate }}
                     </div>
-                </div>
+                </fieldset>
 
                 <!-- Seed phrase -->
-                <div class="form__field fixed">
+                <fieldset class="form__field fixed">
                     <label for="seed-phrase">{{ 'RESTORE_WALLET.LABEL_PHRASE_KEY' | translate }}</label>
                     <input
                         (contextmenu)="variablesService.onContextMenu($event)"
+                        [attr.aria-describedby]="'seed-phrase-error'"
                         [placeholder]="'PLACEHOLDERS.SEED_PHRASE_PLACEHOLDER' | translate"
                         class="form__field--input"
                         formControlName="seedPhrase"
@@ -88,18 +98,20 @@
                     <ng-container *ngIf="form.get('seedPhrase') as control">
                         <div
                             *ngIf="(control.invalid || !this.seedPhraseInfo?.syntax_correct) && (control.dirty || control.touched)"
+                            aria-live="assertive"
                             class="error"
+                            id="seed-phrase-error"
                         >
                             <div
                                 *ngIf="
                                     control.hasError('required') &&
                                     !control.hasError('password_seed_phrase_not_valid') &&
-                                    seedPhraseInfo.require_password
+                                    seedPhraseInfo?.require_password
                                 "
                             >
                                 {{ 'RESTORE_WALLET.FORM_ERRORS.KEY_REQUIRED' | translate }}
                             </div>
-                            <div *ngIf="control.hasError('password_seed_phrase_not_valid') && seedPhraseInfo.require_password">
+                            <div *ngIf="control.hasError('password_seed_phrase_not_valid') && seedPhraseInfo?.require_password">
                                 {{ 'RESTORE_WALLET.FORM_ERRORS.PASSWORD_SEED_PHRASE_INCORRECT' | translate }}
                             </div>
                             <div *ngIf="!this.seedPhraseInfo?.syntax_correct">
@@ -107,32 +119,38 @@
                             </div>
                         </div>
                     </ng-container>
-                </div>
+                </fieldset>
 
                 <!-- Seed password -->
                 <ng-container *ngIf="seedPhraseInfo">
-                    <ng-container *ngIf="seedPhraseInfo.syntax_correct && seedPhraseInfo.require_password">
-                        <div class="form__field fixed">
+                    <ng-container *ngIf="seedPhraseInfo?.syntax_correct && seedPhraseInfo?.require_password">
+                        <fieldset class="form__field fixed">
                             <label for="seed-password">{{ 'RESTORE_WALLET.SEED_PASSWORD' | translate }}</label>
                             <input
+                                [attr.aria-describedby]="'seed-password-error'"
+                                [ngClass]="{
+                                    invalid: !seedPhraseInfo?.hash_sum_matched
+                                }"
+                                [placeholder]="'PLACEHOLDERS.SEED_PHRASE_PLACEHOLDER' | translate"
                                 class="form__field--input"
                                 formControlName="seedPassword"
-                                [ngClass]="{
-                                    invalid: !seedPhraseInfo.hash_sum_matched
-                                }"
                                 id="seed-password"
-                                [placeholder]="'PLACEHOLDERS.SEED_PHRASE_PLACEHOLDER' | translate"
                                 type="password"
                             />
                             <ng-container *ngIf="form.get('seedPassword') as control">
-                                <div *ngIf="(control.dirty || control.touched) && !seedPhraseInfo.hash_sum_matched" class="error">
+                                <div
+                                    *ngIf="(control.dirty || control.touched) && !seedPhraseInfo?.hash_sum_matched"
+                                    aria-live="assertive"
+                                    class="error"
+                                    id="seed-password-error"
+                                >
                                     <span>{{ 'RESTORE_WALLET.FORM_ERRORS.INCORRECT_PASSWORD' | translate }}</span>
                                 </div>
                             </ng-container>
-                            <div *ngIf="seedPhraseInfo.hash_sum_matched" class="success">
+                            <div *ngIf="seedPhraseInfo?.hash_sum_matched" aria-live="assertive" class="success">
                                 <span>{{ 'RESTORE_WALLET.OK' | translate }}</span>
                             </div>
-                        </div>
+                        </fieldset>
                     </ng-container>
                 </ng-container>
 
@@ -140,10 +158,10 @@
                     {{ selectedLocationWalletName ?? 'RESTORE_WALLET.BUTTON_SELECT' | translate }}
                 </button>
 
-                <button type="submit" [disabled]="isDisabledCreatedWallet" class="primary big w-100 mb-2">
+                <button [disabled]="isDisabledCreatedWallet" class="primary big w-100 mb-2" type="submit">
                     {{ 'RESTORE_WALLET.BUTTON_CREATE' | translate }}
                 </button>
             </form>
         </div>
-    </div>
-</div>
+    </section>
+</main>

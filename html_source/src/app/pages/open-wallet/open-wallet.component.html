@@ -1,0 +1,88 @@
+<main class="page-container">
+    <section class="toolbar mb-2">
+        <div class="left">
+            <app-back-button></app-back-button>
+            <h1 class="ml-2" aria-live="assertive">{{ 'BREADCRUMBS.OPEN_WALLET' | translate }}</h1>
+        </div>
+        <div class="right"></div>
+    </section>
+
+    <div class="page-content">
+        <app-breadcrumbs [items]="breadcrumbItems" class="mb-2"></app-breadcrumbs>
+
+        <div class="scrolled-content">
+            <form role="form" (ngSubmit)="openWallet()" [formGroup]="openWalletForm" class="form">
+                <fieldset class="form__field">
+                    <label for="wallet-name">
+                        {{ 'OPEN_WALLET.NAME' | translate }}
+                        <span class="color-red">*</span>
+                    </label>
+                    <input
+                        (contextmenu)="variablesService.onContextMenu($event)"
+                        [attr.aria-describedby]="'wallet-name-error'"
+                        [maxLength]="variablesService.maxWalletNameLength"
+                        [placeholder]="'PLACEHOLDERS.WALLET_NAME_PLACEHOLDER' | translate"
+                        class="form__field--input"
+                        formControlName="name"
+                        id="wallet-name"
+                        type="text"
+                    />
+                    <div
+                        *ngIf="
+                            openWalletForm.controls.name.invalid &&
+                            (openWalletForm.controls.name.dirty || openWalletForm.controls.name.touched)
+                        "
+                        aria-live="assertive"
+                        class="error"
+                        id="wallet-name-error"
+                    >
+                        <div *ngIf="openWalletForm.controls.name.errors['duplicate']">
+                            {{ 'OPEN_WALLET.FORM_ERRORS.NAME_DUPLICATE' | translate }}
+                        </div>
+                        <div *ngIf="openWalletForm.controls.name.errors['required']">
+                            {{ 'OPEN_WALLET.FORM_ERRORS.NAME_REQUIRED' | translate }}
+                        </div>
+                        <div *ngIf="openWalletForm.controls.name.errors['maxLength']">
+                            {{ 'OPEN_WALLET.FORM_ERRORS.MAX_LENGTH' | translate }}
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset class="form__field">
+                    <label for="wallet-password">{{ 'OPEN_WALLET.PASS' | translate }}</label>
+                    <input
+                        (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
+                        [attr.aria-describedby]="'wallet-password-error'"
+                        class="form__field--input"
+                        formControlName="password"
+                        id="wallet-password"
+                        [placeholder]="'PLACEHOLDERS.PASS_PLACEHOLDER' | translate"
+                        type="password"
+                    />
+                    <div
+                        *ngIf="
+                            openWalletForm.controls.password.invalid &&
+                            (openWalletForm.controls.password.dirty || openWalletForm.controls.password.touched)
+                        "
+                        aria-live="assertive"
+                        class="error"
+                        id="wallet-password-error"
+                    >
+                        <div *ngIf="openWalletForm.controls.password.hasError('wrongPassword')">
+                            {{ openWalletForm.controls.password.errors['wrongPassword'].errorText | translate }}
+                        </div>
+                    </div>
+                </fieldset>
+
+                <button [disabled]="openWalletForm.invalid" class="primary big max-w-19-rem w-100" type="submit">
+                    {{ 'OPEN_WALLET.BUTTON' | translate }}
+                    <span *ngIf="loading$ | async" [ngTemplateOutlet]="loaderTemp" class="ml-1"></span>
+                </button>
+            </form>
+        </div>
+    </div>
+</main>
+
+<ng-template #loaderTemp>
+    <zano-loader></zano-loader>
+</ng-template>

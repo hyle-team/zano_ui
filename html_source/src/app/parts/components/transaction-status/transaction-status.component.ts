@@ -1,17 +1,18 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subtransfer, Subtransfers, Transaction } from '@api/models/transaction.model';
-import { ZANO_ASSET_INFO } from '@parts/data/assets';
+import { ZANO_ASSET_INFO } from '@parts/data/zano-assets-info';
 import { isFinalizator, isInitiator, isSwapTransaction } from '@parts/functions/identify-transaction';
 import { VariablesService } from '@parts/services/variables.service';
 import { TooltipModule } from '@parts/directives';
 import { TranslateModule } from '@ngx-translate/core';
 import { FlexModule } from '@angular/flex-layout';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
     selector: 'app-transaction-status',
     standalone: true,
-    imports: [CommonModule, TooltipModule, TranslateModule, FlexModule],
+    imports: [CommonModule, TooltipModule, TranslateModule, FlexModule, MatTooltipModule],
     templateUrl: './transaction-status.component.html',
     styleUrls: ['./transaction-status.component.scss'],
 })

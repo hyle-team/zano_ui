@@ -6,11 +6,22 @@ import { MatIconModule } from '@angular/material/icon';
 import { TooltipModule } from '@parts/directives';
 import { RouterLink } from '@angular/router';
 import { VariablesService } from '@parts/services/variables.service';
+import { AutoFocusDirective } from '@parts/directives/autofocus.directive';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
     selector: 'zano-my-aliases-dialog',
     standalone: true,
-    imports: [CommonModule, TranslateModule, MatDialogModule, MatIconModule, TooltipModule, RouterLink],
+    imports: [
+        CommonModule,
+        TranslateModule,
+        MatDialogModule,
+        MatIconModule,
+        TooltipModule,
+        RouterLink,
+        AutoFocusDirective,
+        MatTooltipModule,
+    ],
     templateUrl: './my-aliases-dialog.component.html',
     styleUrls: ['./my-aliases-dialog.component.scss'],
 })

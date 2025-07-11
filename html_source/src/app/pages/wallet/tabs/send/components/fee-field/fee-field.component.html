@@ -1,4 +1,4 @@
-<div class="form__field fixed">
+<fieldset class="form__field fixed">
     <label for="send-fee">
         {{ 'SEND.FEE' | translate }}
         <span class="color-red">*</span>
@@ -9,11 +9,12 @@
         [placeholder]="'PLACEHOLDERS.FEE_PLACEHOLDER' | translate"
         appInputValidate="money"
         class="form__field--input"
+        aria-describedby="fee-error"
         [formControl]="control_ref"
         id="send-fee"
         type="text"
     />
-    <div *ngIf="control_ref | isVisibleControlError" class="error">
+    <div *ngIf="control_ref | isVisibleControlError" aria-live="assertive" id="fee-error" class="error">
         {{ error_messages['fee'] | translate }}
     </div>
-</div>
+</fieldset>

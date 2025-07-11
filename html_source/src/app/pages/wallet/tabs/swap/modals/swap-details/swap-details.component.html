@@ -5,21 +5,21 @@
 <mat-dialog-content fxLayout="column">
     <div class="status mb-2" fxFlex="0 0 auto" fxLayout="column" fxLayoutAlign=" center">
         <div *ngIf="status === 'success'" class="image">
-            <img alt="success" src="assets/icons/aqua/transaction_success.svg" />
+            <img alt="Transaction Success" src="assets/icons/aqua/transaction_success.svg" />
         </div>
 
         <div *ngIf="status === 'error'" class="image">
-            <img alt="failed" class="image" src="assets/icons/red/transaction_failed.svg" />
+            <img alt="Transaction Failed" class="image" src="assets/icons/red/transaction_failed.svg" />
         </div>
 
-        <div *ngIf="status === 'loading'" class="loader"></div>
+        <div [attr.aria-label]="'COMMON.LOADING' | translate" role="status" *ngIf="status === 'loading'" class="loader"></div>
 
         <p class="color-primary mt-2">
             {{
                 {
                     success: 'TOR_LIB_STATE.STATE_SENT_SUCCESS',
                     error: 'TOR_LIB_STATE.STATE_SEND_FAILED',
-                    loading: 'Loading...'
+                    loading: 'COMMON.LOADING'
                 }[status] | translate
             }}
         </p>
@@ -27,15 +27,18 @@
 
     <div *ngIf="details || error" class="details border-radius-0_8-rem overflow-hidden" fxFlex="0 0 auto" fxLayout="column">
         <div
-            (click)="toggleDetails()"
+            (click)="toggleDetails($event)"
+            (keydown.space)="toggleDetails($event)"
+            (keydown.enter)="toggleDetails($event)"
             class="header overflow-hidden py-1 px-2 w-100 cursor-pointer"
             fxLayout="row"
             fxLayoutAlign="space-between center"
+            role="button"
         >
             <p class="title text-ellipsis mr-2">
                 {{ 'SEND_DETAILS_MODAL.TITLE2' | translate }}
             </p>
-            <button fxLayout="row" fxLayoutAlign="center center">
+            <button aria-hidden="true" fxLayout="row" fxLayoutAlign="center center">
                 <mat-icon
                     class="ml-1"
                     svgIcon="zano-dropdown-arrow-down"
@@ -53,7 +56,7 @@
             fxFlex="1 1 auto"
             fxLayout="row"
         >
-            <ul #elDetailsList class="details-list scrolled-content">
+            <ul #elDetailsList role="list" class="details-list scrolled-content">
                 <ng-container *ngIf="details">
                     <ng-container *ngIf="details.result_tx_id as result_tx_id">
                         <li class="item mb-1 color-primary" fxLayout="row nowrap" fxLayoutAlign="start center">
@@ -65,8 +68,8 @@
                     </ng-container>
                 </ng-container>
                 <ng-container *ngIf="error">
-                    <li class="item mb-1 color-red" fxLayout="row nowrap" fxLayoutAlign="start center">
-                        <span class="text word-break-break-all"> Error: {{ error.message || 'Ops... Unknown error...' }} </span>
+                    <li aria-live="assertive" class="item mb-1 color-red" fxLayout="row nowrap" fxLayoutAlign="start center">
+                        <span class="text word-break-break-all"> Error: {{ error.message || ('ERRORS.OPS_UNKNOWN' | translate) }} </span>
                     </li>
                 </ng-container>
             </ul>

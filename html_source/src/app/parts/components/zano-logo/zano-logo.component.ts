@@ -4,7 +4,7 @@ import { FlexModule } from '@angular/flex-layout';
 import { VariablesService } from '@parts/services/variables.service';
 
 @Component({
-    selector: 'zano-zano-logo',
+    selector: 'zano-logo',
     standalone: true,
     imports: [CommonModule, FlexModule],
     templateUrl: './zano-logo.component.html',
