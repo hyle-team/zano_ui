@@ -1,0 +1,20 @@
+:focus {
+    outline: none;
+}
+
+.user-is-tabbing :focus {
+    outline: 2px solid;
+    outline-offset: -2px;
+    transition: outline 0.1s ease-in;
+}
+
+.light {
+    .user-is-tabbing :focus {
+        outline-color: black;
+    }
+}
+.dark {
+    .user-is-tabbing :focus {
+        outline-color: white;
+    }
+}

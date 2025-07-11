@@ -30,7 +30,7 @@
         flex: 0 0 auto;
         flex-direction: column;
         align-items: flex-start;
-        margin-bottom: 2rem;
+        padding-bottom: 2rem;
         width: 100%;
 
         &--input {
@@ -53,7 +53,8 @@
             }
         }
 
-        label {
+        label,
+        .label {
             margin-bottom: 0.8rem;
             color: var(--azure-500);
         }
@@ -62,7 +63,8 @@
             display: flex;
             flex: 0 0 auto;
 
-            > div {
+            > div,
+            > fieldset {
                 max-width: calc(50% - 1rem);
                 width: 100%;
 
@@ -121,6 +123,12 @@
             }
 
             &:not(:disabled):not(:read-only) {
+                &:placeholder-shown {
+                    &:focus {
+                        border: var(--border-not-empty);
+                    }
+                }
+
                 &:hover {
                     border: var(--border-not-empty);
 
@@ -215,13 +223,15 @@
         }
 
         &.fixed {
-            margin-bottom: 2.6rem;
+            padding-bottom: 2.6rem;
+
             .error,
             .success,
             .info {
                 margin-top: 0;
                 position: absolute;
-                bottom: -2.2rem;
+                bottom: 0.2rem;
+
                 & > * {
                     font-size: 1.6rem;
                 }
@@ -230,7 +240,7 @@
             .hint {
                 margin-top: 0;
                 position: absolute;
-                bottom: -2.2rem;
+                bottom: 0.2rem;
             }
         }
 
@@ -286,8 +296,9 @@
     align-items: center;
     min-height: 2.4rem;
     overflow: hidden;
+    position: relative;
 
-    label {
+    span {
         display: inline-block;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -302,28 +313,31 @@
     }
 
     input[readonly] {
-        & + label {
+        & + span {
             pointer-events: none;
         }
 
-        & + label:before {
+        & + span:before {
             pointer-events: none;
         }
     }
 
     input[type='checkbox'] {
         position: absolute;
-        top: 50%;
+        top: 0;
         left: 0;
-        transform: translateY(-50%);
-        visibility: hidden;
+        visibility: visible;
+        width: 2.4rem;
+        height: 2.4rem;
+        opacity: 0;
+        overflow: hidden;
 
-        & + label {
+        & + span {
             position: relative;
         }
 
-        & + label:before,
-        & + label:after {
+        & + span:before,
+        & + span:after {
             content: '';
             position: absolute;
             top: 50%;
@@ -331,7 +345,7 @@
             transition: all 0.2s ease-in-out;
         }
 
-        & + label:before {
+        & + span:before {
             left: 0;
             width: 2.4rem;
             height: 2.4rem;
@@ -339,17 +353,21 @@
             border-radius: 0.4rem;
         }
 
-        &:not(:disabled) + label:hover:before {
+        &:not(:disabled) + span:hover:before {
             border: var(--checkbox-hover-border);
         }
 
+        &:focus + span:before {
+            border: var(--checkbox-active-border);
+        }
+
         &:checked {
-            & + label:before,
-            & + label:hover:before {
+            & + span:before,
+            & + span:hover:before {
                 border: var(--checkbox-active-border);
             }
 
-            & + label:after {
+            & + span:after {
                 left: 0.4rem;
                 width: 1.6rem;
                 height: 1.6rem;
@@ -359,11 +377,11 @@
         }
 
         &:disabled {
-            & + label {
+            & + span {
                 cursor: not-allowed;
             }
 
-            & + label:before {
+            & + span:before {
                 cursor: not-allowed;
             }
         }
@@ -379,6 +397,7 @@
     width: 3.6rem;
     height: 2.2rem;
     transition: all 0.2s ease-in-out;
+    outline: none;
 
     &.disabled {
         opacity: 0.5;
@@ -445,7 +464,8 @@
             &--row {
                 flex-direction: column;
 
-                > div {
+                > div,
+                > fieldset {
                     max-width: 100%;
 
                     &:first-child {

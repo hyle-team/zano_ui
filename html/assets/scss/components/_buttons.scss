@@ -26,9 +26,11 @@ button,
         cursor: not-allowed;
     }
 
-    // button size for (primary, outline)
     &.primary,
     &.outline {
+        width: 100%;
+        padding: 0 2rem 0 2rem;
+
         &.small {
             min-height: 4.5rem;
         }
@@ -63,7 +65,6 @@ button,
         }
     }
 
-    // button size for circle
     &.btn-icon {
         min-width: 2rem;
         min-height: 2rem;
@@ -90,7 +91,8 @@ button,
         .row-options {
         }
 
-        &:hover {
+        &:hover,
+        &:focus {
             background-color: var(--btn-icon-hover-background);
         }
     }
