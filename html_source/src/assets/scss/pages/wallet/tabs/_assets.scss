@@ -1,4 +1,6 @@
 .assets-table {
+    table-layout: auto !important;
+
     .token-logo {
         background: var(--blue-300);
         min-width: 5.5rem;

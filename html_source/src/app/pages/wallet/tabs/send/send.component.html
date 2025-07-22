@@ -71,8 +71,9 @@
 
         <zano-add-another-destination-button (click)="addDestination()" class="mb-2"></zano-add-another-destination-button>
 
+        <!--TODO: Do not delete, may return later-->
         <!-- Comment -->
-        <zano-comment-field *ngIf="!form.controls.comment.disabled" [control_ref]="form.controls.comment"></zano-comment-field>
+        <!--<zano-comment-field *ngIf="!form.controls.comment.disabled" [control_ref]="form.controls.comment"></zano-comment-field>-->
 
         <!-- Details -->
         <div class="details mb-2">
@@ -93,7 +94,7 @@
             </button>
 
             <div *ngIf="is_visible_additional_options_state" class="content">
-                <!--<div class="form__field&#45;&#45;row">-->
+                <!--TODO: Do not delete, may return later-->
                 <!-- MIXIN -->
                 <!--<zano-mixin-field [control_ref]="form.controls.mixin"></zano-mixin-field>-->
 
@@ -101,11 +102,13 @@
                 <zano-fee-field [control_ref]="form.controls.fee"></zano-fee-field>
                 <!--</div>-->
 
+                <!--TODO: Do not delete, may return later-->
                 <!-- PUSH -->
-                <app-checkbox [label]="'SEND.INCLUDE_SENDER_ADDRESS' | translate" class="mt-1" formControlName="push_payer"></app-checkbox>
+                <!--<app-checkbox [label]="'SEND.INCLUDE_SENDER_ADDRESS' | translate" class="mt-1" formControlName="push_payer"></app-checkbox>-->
 
+                <!--TODO: Do not delete, may return later-->
                 <!-- HIDE -->
-                <app-checkbox [label]="'SEND.HIDE' | translate" class="mt-1" formControlName="hide_receiver"></app-checkbox>
+                <!--<app-checkbox [label]="'SEND.HIDE' | translate" class="mt-1" formControlName="hide_receiver"></app-checkbox>-->
             </div>
         </div>
 

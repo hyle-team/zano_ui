@@ -55,20 +55,18 @@
                         role="button"
                         tabindex="0"
                     >
+                        <!--Name-->
                         <td>
                             <div class="text-ellipsis" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2rem">
                                 <div [innerHTML]="balance.asset_info | getLogoByAssetInfo" aria-hidden="true" class="token-logo mr-1"></div>
                                 <b class="text-ellipsis">{{ balance.asset_info.full_name }}</b>
                             </div>
                         </td>
+                        <!--Balance-->
                         <td>
-                            <div class="text-ellipsis">
-                                <b *appVisibilityBalance>
-                                    {{ balance.total | intToMoney : balance.asset_info.decimal_point }}
-                                    {{ balance.asset_info.ticker }}
-                                </b>
-                            </div>
+                            <zano-cell-asset-balance [balance]="balance"></zano-cell-asset-balance>
                         </td>
+                        <!--Value-->
                         <td>
                             <div class="text-ellipsis">
                                 <b *appVisibilityBalance>
@@ -78,6 +76,7 @@
                                 </b>
                             </div>
                         </td>
+                        <!--Price-->
                         <td>
                             <div class="text-ellipsis">
                                 <ng-container *ngIf="getFiatPrice(balance) as price">
@@ -86,6 +85,7 @@
                                 </ng-container>
                             </div>
                         </td>
+                        <!--Actions-->
                         <td class="text-align-end">
                             <button
                                 (click)="$event.stopPropagation()"

@@ -1,0 +1,37 @@
+<ng-container *appVisibilityBalance>
+    <ng-container *ngIf="isEqualUnlockedAndTotal()">
+        <div class="text-ellipsis">
+            <b> {{ getUnlockedAmount() }} {{ getTicker() }} </b>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="!isEqualUnlockedAndTotal()">
+        <table class="balance-table">
+            <tr>
+                <th>{{ 'CELL_ASSET_BALANCE.LABELS.LABEL1' | translate }}</th>
+                <th>
+                    {{ 'CELL_ASSET_BALANCE.LABELS.LABEL2' | translate }}
+                    <mat-icon
+                        [matTooltipShowDelay]="800"
+                        [matTooltip]="
+                            'CELL_ASSET_BALANCE.TOOLTIPS.TOOLTIP1' | translate
+                        "
+                        [svgIcon]="'zano-info'"
+                        class="info-icon"
+                    ></mat-icon>
+                </th>
+            </tr>
+            <tr>
+                <td>
+                    {{ getUnlockedAmount() }}
+                    {{ getTicker() }}
+                </td>
+                <td>
+                    <mat-icon class="locked-icon" svgIcon="zano-lock"></mat-icon>
+                    {{ getLockedAmount() }}
+                    {{ getTicker() }}
+                </td>
+            </tr>
+        </table>
+    </ng-container>
+</ng-container>

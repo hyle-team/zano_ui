@@ -10,9 +10,12 @@ export interface TransferParams {
     mixin: number;
     lock_time: number;
     fee: string;
-    comment: string;
-    push_payer: boolean;
-    hide_receiver: boolean;
+    // TODO: Do not delete, may return later
+    // comment: string;
+    // TODO: Do not delete, may return later
+    // push_payer: boolean;
+    // TODO: Do not delete, may return later
+    // hide_receiver: boolean;
 }
 
 export interface TransferDestinationsFormValue {
