@@ -13,13 +13,13 @@ table.zano-table {
         }
     }
 
-    thead {
+    & > thead {
         text-align: left;
         border-radius: 0.8rem;
         overflow: auto;
 
-        tr {
-            th {
+        & > tr {
+            & > th {
                 background-color: var(--tab-content-background);
                 z-index: 5;
                 max-width: 10rem;
@@ -38,13 +38,13 @@ table.zano-table {
                     white-space: nowrap;
                 }
 
-                &:first-child {
+                & > &:first-child {
                     .title {
                         border-radius: 0.8rem 0 0 0.8rem;
                     }
                 }
 
-                &:last-child {
+                & > &:last-child {
                     .title {
                         border-radius: 0 0.8rem 0.8rem 0;
                     }
@@ -52,41 +52,41 @@ table.zano-table {
             }
 
             /** Sticky header */
-            th {
+            & > th {
                 position: sticky;
                 top: 0;
             }
         }
     }
 
-    tbody {
+    & > tbody {
         text-align: left;
 
-        tr {
+        & > tr {
             background-color: var(--table-row-bg);
             -webkit-transition: 0.5s height linear, 0s font-size;
             transition: 0.5s height linear, 0s font-size;
             transition-delay: 0s, 0.5s;
             height: auto;
 
-            td {
+            & > td {
                 padding: 2rem;
                 vertical-align: middle;
                 white-space: nowrap;
-                max-width: 10rem;
+                max-width: 30rem;
                 overflow: hidden;
                 text-overflow: ellipsis;
 
-                &:first-child {
+                & > &:first-child {
                     border-radius: 0.8rem 0 0 0.8rem;
                 }
 
-                &:last-child {
+                & > &:last-child {
                     border-radius: 0 0.8rem 0.8rem 0;
                 }
             }
 
-            &:not(.details) {
+            & > &:not(.details) {
                 cursor: pointer;
             }
         }

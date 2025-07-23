@@ -496,7 +496,7 @@ body {
   overflow: hidden;
   overscroll-behavior: none;
   width: 100%;
-  min-width: 1000px;
+  min-width: 1200px;
   max-width: 100vw;
   height: 100vh;
   min-height: 700px;
@@ -1078,10 +1078,12 @@ body {
   margin-left: 0;
 }body .mat-icon {
   width: 1.8rem;
+  min-width: 1.8rem;
   height: 1.8rem;
   font-size: 1.8rem;
 }body .mat-icon.small {
   width: 1.6rem;
+  min-width: 1.6rem;
   height: 1.6rem;
   font-size: 1.6rem;
 }i {
@@ -1781,52 +1783,52 @@ body {
   transition-delay: 0s, 0.2s;
 }table.zano-table .row-divider.hide {
   height: 0;
-}table.zano-table thead {
+}table.zano-table > thead {
   text-align: left;
   border-radius: 0.8rem;
   overflow: auto;
-}table.zano-table thead tr {
+}table.zano-table > thead > tr {
   /** Sticky header */
-}table.zano-table thead tr th {
+}table.zano-table > thead > tr > th {
   background-color: var(--tab-content-background);
   z-index: 5;
   max-width: 10rem;
   overflow: hidden;
   text-overflow: ellipsis;
-}table.zano-table thead tr th .bg {
+}table.zano-table > thead > tr > th .bg {
   background-color: var(--table-thead-bg);
-}table.zano-table thead tr th .title {
+}table.zano-table > thead > tr > th .title {
   overflow: hidden;
   text-overflow: ellipsis;
   padding: 2rem;
   width: 100%;
   white-space: nowrap;
-}table.zano-table thead tr th:first-child .title {
+}table.zano-table > thead > tr > th > table.zano-table > thead > tr > th:first-child .title {
   border-radius: 0.8rem 0 0 0.8rem;
-}table.zano-table thead tr th:last-child .title {
+}table.zano-table > thead > tr > th > table.zano-table > thead > tr > th:last-child .title {
   border-radius: 0 0.8rem 0.8rem 0;
-}table.zano-table thead tr th {
+}table.zano-table > thead > tr > th {
   position: sticky;
   top: 0;
-}table.zano-table tbody {
+}table.zano-table > tbody {
   text-align: left;
-}table.zano-table tbody tr {
+}table.zano-table > tbody > tr {
   background-color: var(--table-row-bg);
   transition: 0.5s height linear, 0s font-size;
   transition-delay: 0s, 0.5s;
   height: auto;
-}table.zano-table tbody tr td {
+}table.zano-table > tbody > tr > td {
   padding: 2rem;
   vertical-align: middle;
   white-space: nowrap;
-  max-width: 10rem;
+  max-width: 30rem;
   overflow: hidden;
   text-overflow: ellipsis;
-}table.zano-table tbody tr td:first-child {
+}table.zano-table > tbody > tr > td > table.zano-table > tbody > tr > td:first-child {
   border-radius: 0.8rem 0 0 0.8rem;
-}table.zano-table tbody tr td:last-child {
+}table.zano-table > tbody > tr > td > table.zano-table > tbody > tr > td:last-child {
   border-radius: 0 0.8rem 0.8rem 0;
-}table.zano-table tbody tr:not(.details) {
+}table.zano-table > tbody > tr > table.zano-table > tbody > tr:not(.details) {
   cursor: pointer;
 }.table-info {
   display: flex;
@@ -2410,6 +2412,8 @@ app-swap-details .details-list .item .image img {
   top: 50%;
   left: 1rem;
   transform: translateY(-50%);
+}.assets-table {
+  table-layout: auto !important;
 }.assets-table .token-logo {
   background: var(--blue-300);
   min-width: 5.5rem;
