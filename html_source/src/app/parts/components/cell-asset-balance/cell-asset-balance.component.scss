@@ -1,0 +1,65 @@
+.balance-table {
+    table-layout: fixed;
+    width: 100%;
+    max-width: 30rem;
+    border-collapse: collapse;
+    overflow: hidden;
+}
+
+.balance-table th,
+.balance-table td {
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    padding-right: 3rem;
+    text-align: left;
+    vertical-align: middle;
+
+    &:last-child {
+        padding-right: 0;
+    }
+}
+
+.balance-table th {
+    font-size: 1.2rem;
+    line-height: 1.6rem;
+    font-weight: 500;
+}
+
+.balance-table td {
+    color: var(--main-text);
+    padding-top: 0.5rem;
+    font-weight: 600;
+    font-size: 1.8rem;
+    line-height: 2.1rem;
+}
+
+.info-icon {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+    margin-left: 4px;
+}
+
+.locked-icon {
+    margin-right: 4px;
+    vertical-align: middle;
+}
+
+::ng-deep {
+    .light {
+        .balance-table th {
+            color: #3F446A;
+        }
+    }
+
+    .dark {
+        .balance-table th {
+            color: #c2c4d0;
+        }
+    }
+
+    .XLarge .balance-table {
+        max-width: 60rem;
+    }
+}

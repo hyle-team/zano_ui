@@ -73,6 +73,7 @@ import { AddAnotherDestinationButtonComponent } from './tabs/send/components/add
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
 import { AutoFocusDirective } from '@parts/directives/autofocus.directive';
+import { CellAssetBalanceComponent } from '@parts/components/cell-asset-balance/cell-asset-balance.component';
 
 @NgModule({
     declarations: [
@@ -154,6 +155,7 @@ import { AutoFocusDirective } from '@parts/directives/autofocus.directive';
         MatTooltipModule,
         MatMenuModule,
         AutoFocusDirective,
+        CellAssetBalanceComponent,
     ],
 })
 export class WalletModule {}

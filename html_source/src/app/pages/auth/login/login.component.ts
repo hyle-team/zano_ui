@@ -6,9 +6,11 @@ import { VariablesService } from '@parts/services/variables.service';
 import { Wallet } from '@api/models/wallet.model';
 import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 import { REG_EXP_PASSWORD, ZanoValidators } from '@parts/utils/zano-validators';
 import { WalletsService } from '@parts/services/wallets.service';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ConfirmModalComponent, ConfirmModalData } from '@parts/modals/confirm-modal/confirm-modal.component';
 
 @Component({
     selector: 'app-login',
@@ -48,7 +50,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private router: Router,
         private backend: BackendService,
-        private ngZone: NgZone
+        private ngZone: NgZone,
+        private matDialog: MatDialog
     ) {}
 
     ngOnInit(): void {
@@ -100,6 +103,25 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     resetJwtWalletRpc(callback?: () => void): void {
         this.backend.setupJwtWalletRpc({ secret: '', zanoCompation: false }, callback);
+    }
+
+    beforeDropSecureAppData(): void {
+        const config: MatDialogConfig<ConfirmModalData> = {
+            disableClose: true,
+            data: {
+                title: 'LOGIN.DIALOGS.CONFIRMATION.RESET.TITLE',
+                message: 'LOGIN.DIALOGS.CONFIRMATION.RESET.MESSAGE',
+            },
+        };
+        this.matDialog
+            .open(ConfirmModalComponent, config)
+            .afterClosed()
+            .pipe(filter(Boolean))
+            .subscribe({
+                next: () => {
+                    this.dropSecureAppData();
+                },
+            });
     }
 
     dropSecureAppData(): void {

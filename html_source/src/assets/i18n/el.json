@@ -203,6 +203,15 @@
             "LABEL2": "Amount"
         }
     },
+    "CELL_ASSET_BALANCE": {
+        "LABELS": {
+            "LABEL1": "Available balance",
+            "LABEL2": "Unconfirmed balance"
+        },
+        "TOOLTIPS": {
+            "TOOLTIP1": "Architecture demands 10 confirmations for this change transaction and that amount gets locked in the wallet. Therefore, lock time is 10 blocks behind or approximately 10 minutes."
+        }
+    },
     "COMMON": {
         "BACK": "Go back",
         "COPY": "",
@@ -617,6 +626,14 @@
         "BUTTON_NEXT": "Next",
         "BUTTON_RESET": "Reset",
         "BUTTON_SKIP": "Skip",
+        "DIALOGS": {
+            "CONFIRMATION": {
+                "RESET": {
+                    "MESSAGE": "This will permanently delete all your secret data and reset the app to its default state. This action cannot be undone. Are you sure you want to proceed?",
+                    "TITLE": "Reset App Data?"
+                }
+            }
+        },
         "FORM_ERRORS": {
             "CONFIRM_REQUIRED": "Confirmation is required",
             "INVALID_PASS": "Invalid Password",
@@ -819,7 +836,7 @@
         "ASSET": "Asset",
         "BUTTON": "Send",
         "COMMENT": "Comment",
-        "DETAILS": "Additional details",
+        "DETAILS": "Advanced option",
         "ERROR_CODES": {
             "NOT_ENOUGH_MONEY": "Not enough funds for this transaction"
         },
@@ -839,8 +856,8 @@
             "MUST_BE_GREATER_THAN_ZERO": "Must be greater than zero",
             "WRAP_INFO_NULL": "Failed to request wrap state"
         },
-        "HIDE": "Save receiver's address to my history.",
-        "INCLUDE_SENDER_ADDRESS": "Show my address to receiver.",
+        "HIDE": "Retain receiver address",
+        "INCLUDE_SENDER_ADDRESS": "Show my address to the receiver",
         "MIXIN": "Mixin",
         "SUCCESS_SENT": "Transaction sent",
         "WRAP": {

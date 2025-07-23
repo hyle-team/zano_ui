@@ -172,7 +172,7 @@ export class SendComponent implements OnDestroy {
 
     getTransferParams(): TransferParams {
         const transfer_form_value: TransferFormValue = this.form.getRawValue();
-        const { asset_id, hide_receiver } = transfer_form_value;
+        const { asset_id } = transfer_form_value;
         const { current_wallet } = this.variables_service;
 
         const asset = current_wallet.getBalanceByAssetId(asset_id);
@@ -186,9 +186,12 @@ export class SendComponent implements OnDestroy {
             mixin: transfer_form_value.mixin,
             lock_time: transfer_form_value.lock_time,
             fee: moneyToInt(transfer_form_value.fee, ZANO_ASSET_INFO.decimal_point).toString(),
-            comment: transfer_form_value.comment,
-            push_payer: transfer_form_value.push_payer,
-            hide_receiver: !hide_receiver,
+            // TODO: Do not delete, may return later
+            // comment: transfer_form_value.comment,
+            // TODO: Do not delete, may return later
+            // push_payer: transfer_form_value.push_payer,
+            // TODO: Do not delete, may return later
+            // hide_receiver: !transfer_form_value.hide_receiver,
         };
     }
 

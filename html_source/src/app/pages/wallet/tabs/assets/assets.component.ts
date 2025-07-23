@@ -20,6 +20,7 @@ import { intToMoney } from '@parts/functions/int-to-money';
 @Component({
     selector: 'app-assets',
     templateUrl: `./assets.component.html`,
+    styleUrls: ['./assets.component.scss']
 })
 export class AssetsComponent implements OnInit, OnDestroy {
     paginatePipeArgs: PaginatePipeArgs = {
