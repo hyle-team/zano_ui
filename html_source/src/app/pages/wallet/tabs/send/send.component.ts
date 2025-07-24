@@ -186,8 +186,7 @@ export class SendComponent implements OnDestroy {
             mixin: transfer_form_value.mixin,
             lock_time: transfer_form_value.lock_time,
             fee: moneyToInt(transfer_form_value.fee, ZANO_ASSET_INFO.decimal_point).toString(),
-            // TODO: Do not delete, may return later
-            // comment: transfer_form_value.comment,
+            comment: transfer_form_value.comment,
             // TODO: Do not delete, may return later
             // push_payer: transfer_form_value.push_payer,
             // TODO: Do not delete, may return later

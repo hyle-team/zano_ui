@@ -10,8 +10,7 @@ export interface TransferParams {
     mixin: number;
     lock_time: number;
     fee: string;
-    // TODO: Do not delete, may return later
-    // comment: string;
+    comment: string;
     // TODO: Do not delete, may return later
     // push_payer: boolean;
     // TODO: Do not delete, may return later
