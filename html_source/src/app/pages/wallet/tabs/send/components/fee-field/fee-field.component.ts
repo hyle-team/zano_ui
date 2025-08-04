@@ -62,6 +62,10 @@ export class FeeFieldComponent implements OnInit, OnDestroy {
                 message = this._translate_service.instant('ERRORS.MAX', { max });
                 break;
             }
+            case fee.hasError('insufficientFundsForFee'): {
+                message = 'ERRORS.INSUFFICIENT_FUNDS';
+                break;
+            }
         }
 
         this.error_messages['fee'] = message;

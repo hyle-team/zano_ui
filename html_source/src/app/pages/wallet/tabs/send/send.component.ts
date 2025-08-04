@@ -88,7 +88,7 @@ export class SendComponent implements OnDestroy {
 
     form: TransferForm;
 
-    total_destinations_amount_and_fee = new BigNumber(0);
+    total_destinations_amount = new BigNumber(0);
 
     price_info: PriceInfo = DEFAULT_PRICE_INFO;
 
@@ -325,17 +325,54 @@ export class SendComponent implements OnDestroy {
             disabled: current_wallet.is_auditable && !current_wallet.is_watch_only,
         });
 
-        this.form = this._fb.group({
-            wallet_id: wallet_id_control,
-            destinations: destinations_control,
-            comment: comment_control,
-            asset_id: asset_id_control,
-            mixin: mixin_control,
-            lock_time: lock_time_control,
-            fee: fee_control,
-            push_payer: push_payer_control,
-            hide_receiver: hide_receiver_control,
-        });
+        this.form = this._fb.group(
+            {
+                wallet_id: wallet_id_control,
+                destinations: destinations_control,
+                comment: comment_control,
+                asset_id: asset_id_control,
+                mixin: mixin_control,
+                lock_time: lock_time_control,
+                fee: fee_control,
+                push_payer: push_payer_control,
+                hide_receiver: hide_receiver_control,
+            },
+            {
+                validators: [
+                    (formGroup) => {
+                        const { asset_id, fee } = formGroup.getRawValue();
+
+                        const feeControl = formGroup.get('fee');
+                        if (!feeControl) return null;
+
+                        const zanoBalance = this.variables_service.current_wallet.getBalanceByAssetId(ZANO_ASSET_INFO.asset_id);
+                        if (!zanoBalance) return null;
+
+                        const { unlocked, asset_info: { decimal_point } } = zanoBalance;
+
+                        const availableZanoBalance = new BigNumber(intToMoney(unlocked, decimal_point));
+                        const feeValue = new BigNumber(fee ?? 0);
+
+                        const totalZanoAmount = asset_id === ZANO_ASSET_INFO.asset_id
+                            ? this.total_destinations_amount
+                            : 0;
+
+                        const totalRequired = feeValue.plus(totalZanoAmount);
+                        const hasInsufficientFunds = totalRequired.isGreaterThan(availableZanoBalance);
+
+                        if (hasInsufficientFunds) {
+                            feeControl.markAsTouched();
+                            this._setError(feeControl, 'insufficientFundsForFee');
+                            this.is_visible_additional_options_state = true;
+                        } else {
+                            this._clearError(feeControl, 'insufficientFundsForFee');
+                        }
+
+                        return null;
+                    }
+                ],
+            }
+        );
 
         this.form.patchValue(init_transfer_form_value);
 
@@ -461,7 +498,7 @@ export class SendComponent implements OnDestroy {
     private _subscribeToFormChanges(): void {
         this.form.valueChanges.pipe(takeUntil(this._destroy$)).subscribe({
             next: () => {
-                let total_destinations_amount_and_fee = new BigNumber(0);
+                let total_destinations_amount = new BigNumber(0);
 
                 const { current_wallet } = this.variables_service;
 
@@ -471,14 +508,10 @@ export class SendComponent implements OnDestroy {
                     const amount = control.controls.is_currency_input_mode.value
                         ? this.convertToCurrencyAmount(control.controls.amount.value, asset)
                         : new BigNumber(control.controls.amount.value);
-                    total_destinations_amount_and_fee = total_destinations_amount_and_fee.plus(new BigNumber(amount || 0));
+                    total_destinations_amount = total_destinations_amount.plus(new BigNumber(amount || 0));
                 });
 
-                total_destinations_amount_and_fee = total_destinations_amount_and_fee.plus(
-                    new BigNumber(this.form.controls.fee.value || 0)
-                );
-
-                this.total_destinations_amount_and_fee = total_destinations_amount_and_fee;
+                this.total_destinations_amount = total_destinations_amount;
 
                 this.form.controls.destinations.controls.forEach((control) => {
                     control.updateValueAndValidity({ emitEvent: false });
@@ -609,7 +642,7 @@ export class SendComponent implements OnDestroy {
 
                         // 3. Insufficient Funds
                         if (
-                            this.total_destinations_amount_and_fee.isGreaterThan(preparedUnlocked) ||
+                            this.total_destinations_amount.isGreaterThan(preparedUnlocked) ||
                             amountBigNumber.isGreaterThan(preparedUnlocked)
                         ) {
                             errors.insufficientFunds = insufficientFunds;
@@ -651,7 +684,11 @@ const prepareTransferDestinationsFormValueToTransferDestination = ({
     amount,
     alias_address,
     asset_id,
-}: TransferDestinationsFormValue): { address: string; asset_id: string; amount: any } => ({
+}: TransferDestinationsFormValue): {
+    address: string;
+    asset_id: string;
+    amount: any;
+} => ({
     address: address.startsWith('@') ? alias_address : address,
     asset_id,
     amount,
