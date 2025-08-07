@@ -14209,6 +14209,10 @@ class FeeFieldComponent {
                 message = this._translate_service.instant('ERRORS.MAX', { max });
                 break;
             }
+            case fee.hasError('insufficientFundsForFee'): {
+                message = 'ERRORS.INSUFFICIENT_FUNDS';
+                break;
+            }
         }
         this.error_messages['fee'] = message;
     }
@@ -15655,7 +15659,7 @@ class SendComponent {
     this.is_send_modal_state = false;
     this.is_send_details_modal_state = false;
     this.is_visible_additional_options_state = false;
-    this.total_destinations_amount_and_fee = new bignumber_js__WEBPACK_IMPORTED_MODULE_5__.BigNumber(0);
+    this.total_destinations_amount = new bignumber_js__WEBPACK_IMPORTED_MODULE_5__.BigNumber(0);
     this.price_info = DEFAULT_PRICE_INFO;
     this.price_info$ = new rxjs__WEBPACK_IMPORTED_MODULE_12__.BehaviorSubject(DEFAULT_PRICE_INFO);
     this._destroy$ = new rxjs__WEBPACK_IMPORTED_MODULE_13__.Subject();
@@ -15933,6 +15937,40 @@ class SendComponent {
       fee: fee_control,
       push_payer: push_payer_control,
       hide_receiver: hide_receiver_control
+    }, {
+      validators: [formGroup => {
+        const {
+          asset_id,
+          fee
+        } = formGroup.getRawValue();
+        const feeControl = formGroup.get('fee');
+        if (!feeControl) return null;
+        const zanoBalance = this.variables_service.current_wallet.getBalanceByAssetId(_parts_data_zano_assets_info__WEBPACK_IMPORTED_MODULE_3__.ZANO_ASSET_INFO.asset_id);
+        if (!zanoBalance) return null;
+        const {
+          unlocked,
+          asset_info: {
+            decimal_point
+          }
+        } = zanoBalance;
+        const availableZanoBalance = new bignumber_js__WEBPACK_IMPORTED_MODULE_5__.BigNumber((0,_parts_functions_int_to_money__WEBPACK_IMPORTED_MODULE_6__.intToMoney)(unlocked, decimal_point));
+        const feeValue = new bignumber_js__WEBPACK_IMPORTED_MODULE_5__.BigNumber(fee !== null && fee !== void 0 ? fee : 0);
+        const totalZanoAmount = asset_id === _parts_data_zano_assets_info__WEBPACK_IMPORTED_MODULE_3__.ZANO_ASSET_INFO.asset_id ? this.total_destinations_amount : 0;
+        const totalRequired = feeValue.plus(totalZanoAmount);
+        const hasInsufficientFunds = totalRequired.isGreaterThan(availableZanoBalance);
+
+        if (hasInsufficientFunds) {
+          feeControl.markAsTouched();
+
+          this._setError(feeControl, 'insufficientFundsForFee');
+
+          this.is_visible_additional_options_state = true;
+        } else {
+          this._clearError(feeControl, 'insufficientFundsForFee');
+        }
+
+        return null;
+      }]
     });
     this.form.patchValue(init_transfer_form_value);
 
@@ -16075,17 +16113,16 @@ class SendComponent {
   _subscribeToFormChanges() {
     this.form.valueChanges.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_14__.takeUntil)(this._destroy$)).subscribe({
       next: () => {
-        let total_destinations_amount_and_fee = new bignumber_js__WEBPACK_IMPORTED_MODULE_5__.BigNumber(0);
+        let total_destinations_amount = new bignumber_js__WEBPACK_IMPORTED_MODULE_5__.BigNumber(0);
         const {
           current_wallet
         } = this.variables_service;
         this.form.controls.destinations.controls.forEach(control => {
           const asset = current_wallet.getBalanceByAssetId(control.controls.asset_id.value);
           const amount = control.controls.is_currency_input_mode.value ? this.convertToCurrencyAmount(control.controls.amount.value, asset) : new bignumber_js__WEBPACK_IMPORTED_MODULE_5__.BigNumber(control.controls.amount.value);
-          total_destinations_amount_and_fee = total_destinations_amount_and_fee.plus(new bignumber_js__WEBPACK_IMPORTED_MODULE_5__.BigNumber(amount || 0));
+          total_destinations_amount = total_destinations_amount.plus(new bignumber_js__WEBPACK_IMPORTED_MODULE_5__.BigNumber(amount || 0));
         });
-        total_destinations_amount_and_fee = total_destinations_amount_and_fee.plus(new bignumber_js__WEBPACK_IMPORTED_MODULE_5__.BigNumber(this.form.controls.fee.value || 0));
-        this.total_destinations_amount_and_fee = total_destinations_amount_and_fee;
+        this.total_destinations_amount = total_destinations_amount;
         this.form.controls.destinations.controls.forEach(control => {
           control.updateValueAndValidity({
             emitEvent: false
@@ -16227,7 +16264,7 @@ class SendComponent {
         } // 3. Insufficient Funds
 
 
-        if (this.total_destinations_amount_and_fee.isGreaterThan(preparedUnlocked) || amountBigNumber.isGreaterThan(preparedUnlocked)) {
+        if (this.total_destinations_amount.isGreaterThan(preparedUnlocked) || amountBigNumber.isGreaterThan(preparedUnlocked)) {
           errors.insufficientFunds = _parts_utils_zano_errors__WEBPACK_IMPORTED_MODULE_7__.insufficientFunds;
         } // 4. Validate wrapInfo if needed
 
@@ -23873,6 +23910,7 @@ class TooltipDirective {
     cancelHide() {
         clearTimeout(this.removeTooltipTimeout);
         clearTimeout(this.removeTooltipTimeoutInner);
+        clearTimeout(this.removeTooltipTimeDelay);
         if (this.tooltip) {
             this.renderer.setStyle(this.tooltip, 'opacity', '1');
         }
