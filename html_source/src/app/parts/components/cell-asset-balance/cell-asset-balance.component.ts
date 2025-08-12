@@ -28,7 +28,7 @@ export class CellAssetBalanceComponent {
     }
 
     getLockedAmount() {
-        return intToMoney(BigNumber(this.balance.total).minus(this.balance.unlocked));
+        return intToMoney(BigNumber(this.balance.total).minus(this.balance.unlocked), this.balance.asset_info.decimal_point);
     }
 
     getTicker() {
