@@ -60,7 +60,7 @@ export class TooltipDirective implements OnDestroy {
     ) {}
 
     @HostListener('mouseenter')
-    @HostListener('focusin')
+    // @HostListener('focusin')
     onMouseEnter(): void {
         if (!this.tooltipInner || this.destroyed) return;
 
@@ -87,7 +87,7 @@ export class TooltipDirective implements OnDestroy {
     }
 
     @HostListener('mouseleave')
-    @HostListener('focusout')
+    // @HostListener('focusout')
     onMouseLeave(): void {
         clearTimeout(this.removeTooltipTimeDelay);
         if (this.tooltip) {

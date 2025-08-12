@@ -80,7 +80,10 @@
                         <td>
                             <div class="text-ellipsis">
                                 <ng-container *ngIf="getFiatPrice(balance) as price">
-                                    <b class="mr-1">{{ price.value }} {{ price.currency }}</b>
+                                    <b class="mr-1" [matTooltip]="price.tooltipValue"
+                                       matTooltipShowDelay="800">{{ price.value
+                                        }}
+                                        {{ price.currency }}</b>
                                     <span *ngIf="price.showChange" [ngClass]="price.changeClass"> {{ price.change }} % </span>
                                 </ng-container>
                             </div>

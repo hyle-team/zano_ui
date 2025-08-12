@@ -1,4 +1,4 @@
-<main class="page-container" aria-describedby="add-wallet-description">
+<main aria-describedby="add-wallet-description" class="page-container">
     <p class="sr-only" id="add-wallet-description">
         {{ 'ACCESSIBILITY.ADD_WALLET.DESCRIPTIONS.DESCRIPTION1' | translate }}
     </p>
@@ -6,7 +6,7 @@
     <section class="toolbar mb-2">
         <div class="left">
             <app-back-button></app-back-button>
-            <h1 class="ml-2" aria-live="assertive">{{ 'BREADCRUMBS.ADD_WALLET' | translate }}</h1>
+            <h1 aria-live="assertive" class="ml-2">{{ 'BREADCRUMBS.ADD_WALLET' | translate }}</h1>
         </div>
         <div class="right"></div>
     </section>
@@ -17,17 +17,37 @@
                 <div class="wrap-controls text-align-center max-w-38-rem">
                     <h4 class="mb-2">{{ 'MAIN.TITLE' | translate }}</h4>
 
-                    <button [routerLink]="['/create']" appAutofocus class="primary big w-100 mb-1" role="link" type="button">
+                    <button *ngIf="variablesService.daemon_state === 2" [routerLink]="['/create']" appAutofocus
+                            class="primary big w-100 mb-1"
+                            role="link"
+                            type="button">
                         {{ 'MAIN.BUTTON_NEW_WALLET' | translate }}
                     </button>
+
+                    <div *ngIf="variablesService.daemon_state !== 2" [matTooltip]="'Wallet syncing...'" class="mb-1">
+                        <button [disabled]="true"
+                                class="primary big w-100"
+                                type="button">
+                            {{ 'MAIN.BUTTON_NEW_WALLET' | translate }}
+                        </button>
+                    </div>
 
                     <button (click)="openWallet()" class="primary big w-100 mb-1" type="button">
                         {{ 'MAIN.BUTTON_OPEN_WALLET' | translate }}
                     </button>
 
-                    <button [routerLink]="['/restore']" class="outline big w-100 mb-2" role="link" type="button">
+                    <button *ngIf="variablesService.daemon_state === 2" [routerLink]="['/restore']"
+                            class="outline big w-100 mb-2" role="link" type="button">
                         {{ 'MAIN.BUTTON_RESTORE_BACKUP' | translate }}
                     </button>
+
+                    <div [matTooltip]="'Wallet syncing...'" class="mb-2">
+                        <button *ngIf="variablesService.daemon_state !== 2"
+                                [disabled]="true" class="outline big w-100"
+                                type="button">
+                            {{ 'MAIN.BUTTON_RESTORE_BACKUP' | translate }}
+                        </button>
+                    </div>
 
                     <button
                         (click)="openInBrowser($event)"
@@ -37,8 +57,8 @@
                         class="text-align-center cursor-pointer how-to-create mx-auto"
                         fxLayout="row"
                         fxLayoutAlign="center center"
-                        type="button"
                         role="link"
+                        type="button"
                     >
                         <mat-icon class="mr-1" svgIcon="zano-question"></mat-icon>
                         <span class="color-primary">{{ 'MAIN.HELP' | translate }}</span>

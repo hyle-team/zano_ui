@@ -84,6 +84,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
 
     getFiatPrice(balance: AssetBalance): {
         value: string | number;
+        tooltipValue: string;
         currency: string;
         change?: string;
         changeClass?: string;
@@ -97,7 +98,8 @@ export class AssetsComponent implements OnInit, OnDestroy {
         const fiatPrice = currentPrice.data.fiat_prices[currency] ?? 0;
 
         const result = {
-            value: fiatPrice,
+            value: fiatPrice.toFixed(3),
+            tooltipValue: `${fiatPrice}`,
             currency: currency.toUpperCase(),
             showChange: false,
         };
