@@ -134,6 +134,8 @@ export class VariablesService implements OnDestroy {
 
     maxPages = 5;
 
+    buildVersion: string | null = null;
+
     testnet = false;
 
     networkType: 'mainnet' | 'testnet' = 'mainnet';

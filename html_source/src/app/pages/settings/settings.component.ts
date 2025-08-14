@@ -220,22 +220,6 @@ export class SettingsComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.backend.getVersion((version, type, error) => {
-            this.ngZone.run(() => {
-                if (!error) {
-                    this.currentBuild = version;
-                    this.variablesService.testnet = false;
-                    if (type === 'testnet') {
-                        this.currentBuild += ' TESTNET';
-                        this.variablesService.testnet = true;
-                    }
-                    this.variablesService.networkType = type;
-                } else {
-                    this.currentBuild = 'There was an error getting the build version';
-                }
-            });
-        });
-
         this.backend.getIsDisabledNotifications((state) => {
             this.currentNotificationsState = !state;
         });
@@ -276,7 +260,7 @@ export class SettingsComponent implements OnInit {
     }
 
     copyBuildVersion(): void {
-        this.backend.setClipboard(`Build version: ${this.currentBuild}`);
+        this.backend.setClipboard(`Build version: ${this.variablesService.buildVersion}`);
 
         this.isBuildVersionWasCopied = true;
         this.buildVersionWasCopiedTimeout = setTimeout(() => {

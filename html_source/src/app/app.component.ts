@@ -698,7 +698,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
                 this.backendService.handleCurrentActionState();
 
-                this.getVersion();
+                this._getVersion();
 
                 this.getInfo();
 
@@ -802,23 +802,32 @@ export class AppComponent implements OnInit, OnDestroy {
         }
     }
 
-    getVersion(): void {
+    private _getVersion(): void {
         this.backendService.getVersion((version, type, error) => {
             this.ngZone.run(() => {
-                if (!error) {
-                    console.log('----------------- version -----------------', version);
-                    console.log('----------------- type -----------------', type);
-                    this.variablesService.testnet = type === 'testnet';
+                console.group('----------------- Build info -----------------');
+                if (error) {
+                    console.error(error);
+                } else {
+                    const isTestnet: boolean = type === 'testnet';
+                    const buildVersion = isTestnet ? `${version} TESTNET` : version;
+
+                    console.log('Version:', buildVersion);
+                    console.log('Type:', type);
+
+                    this.variablesService.buildVersion = buildVersion;
+                    this.variablesService.testnet = isTestnet;
                     this.variablesService.networkType = type;
 
                     this._loadVerifiedAssetInfoWhitelist(type);
                 }
+                console.groupEnd();
             });
         });
     }
 
     private _loadVerifiedAssetInfoWhitelist(type: 'mainnet' | 'testnet'): void {
-        const updateTime: number = 10 * 60 * 1000; // 10 minutes
+        const updateTime: number = 10 * 60 * 1000;
 
         interval(updateTime)
             .pipe(
@@ -835,7 +844,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     getInfo(): void {
-        const updateTime: number = 60 * 1000; // 1 minutes
+        const updateTime: number = 60 * 1000;
 
         interval(updateTime)
             .pipe(startWith(0), takeUntil(this._destroy$))
