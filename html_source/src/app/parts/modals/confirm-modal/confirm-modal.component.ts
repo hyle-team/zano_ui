@@ -5,8 +5,14 @@ export interface ConfirmModalData {
     title: string;
     message?: string;
     buttons?: Partial<{
-        close: string;
-        submit: string;
+        close: Partial<{
+            text: string;
+            style: 'primary' | 'outline';
+        }>;
+        submit: Partial<{
+            text: string;
+            style: 'primary' | 'outline';
+        }>;
     }>;
 }
 

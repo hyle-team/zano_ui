@@ -20,26 +20,12 @@
 
 <ng-template #walletList>
     <div class="sidebar-content-wallet-list">
-        <nav (cdkDropListDropped)="drop($event)" cdkDropList cdkDropListLockAxis="y" class="scrolled-content">
+        <nav (cdkDropListDropped)="handlerDrop($event)" cdkDropList cdkDropListLockAxis="y" class="scrolled-content">
             <app-wallet-card
-                (click)="selectWallet($event, wallet.wallet_id)"
-                (eventClose)="beforeClose($event)"
-                (keydown.enter)="selectWallet($event, wallet.wallet_id)"
-                (keydown.space)="selectWallet($event, wallet.wallet_id)"
                 *ngFor="let wallet of variablesService.wallets"
-                [attr.aria-selected]="wallet?.wallet_id === variablesService?.current_wallet?.wallet_id"
                 [cdkDragData]="wallet"
-                [ngClass]="{
-                    active: wallet?.wallet_id === variablesService?.current_wallet?.wallet_id,
-                    auditable: wallet.is_auditable && !wallet.is_watch_only,
-                    'watch-only': wallet.is_watch_only,
-                    'offset-testnet': variablesService.testnet,
-                    'mb-1': !variablesService.testnet
-                }"
                 [wallet]="wallet"
                 cdkDrag
-                role="option"
-                tabindex="0"
             ></app-wallet-card>
         </nav>
     </div>
@@ -55,18 +41,18 @@
         </li>
 
         <li>
-            <button [routerLink]="['/settings']" class="outline small" role="link" routerLinkActive="active"
-                    type="button">
+            <button [routerLink]="['/settings']" class="outline small" role="link" routerLinkActive="active" type="button">
                 <mat-icon class="mr-1" svgIcon="zano-settings"></mat-icon>
                 <span>{{ 'SIDEBAR.SETTINGS' | translate }}</span>
             </button>
         </li>
 
-        <li [matTooltipDisabled]="variablesService.appPass !== ''"
+        <li
+            [matTooltipDisabled]="variablesService.appPass !== ''"
             [matTooltip]="'SIDEBAR.LOG_OUT_TOOLTIP' | translate"
-            matTooltipShowDelay="800">
-            <button (click)="logOut()" [disabled]="variablesService.appPass === ''" class="outline small"
-                    role="link" type="button">
+            matTooltipShowDelay="800"
+        >
+            <button (click)="logout()" [disabled]="variablesService.appPass === ''" class="outline small" role="link" type="button">
                 <mat-icon class="mr-1" svgIcon="zano-logout"></mat-icon>
                 <span> {{ 'SIDEBAR.LOG_OUT' | translate }}</span>
             </button>
@@ -75,8 +61,10 @@
 </ng-template>
 
 <ng-template #buildVersion>
-    <p (contextmenu)="variablesService.onContextMenuOnlyCopy($event, 'Build version: ' + variablesService.buildVersion)"
-       class="build-version">
+    <p
+        (contextmenu)="variablesService.onContextMenuOnlyCopy($event, 'Build version: ' + variablesService.buildVersion)"
+        class="build-version"
+    >
         Build version: {{ variablesService.buildVersion }}
     </p>
 </ng-template>

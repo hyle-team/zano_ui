@@ -1,0 +1,14 @@
+<div
+    *ngIf="!wallet.loaded && variablesService.daemon_state === 2"
+    [attr.aria-label]="'ACCESSIBILITY.WALLET_CARD.ARIA_LABEL1' | translate"
+    [attr.aria-valuenow]="wallet.progress"
+    aria-valuemax="100"
+    aria-valuemin="0"
+    class="wallet-synchronization"
+    role="progressbar"
+>
+    <div class="progress-bar">
+        <div [style.width]="wallet.progress + '%'" class="fill"></div>
+    </div>
+    <div class="progress-percent">{{ wallet.progress }}%</div>
+</div>

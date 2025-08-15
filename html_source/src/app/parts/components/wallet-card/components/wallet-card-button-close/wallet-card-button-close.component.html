@@ -1,0 +1,12 @@
+<button
+    (click)="beforeClose($event, wallet.wallet_id)"
+    (keydown.enter)="beforeClose($event, wallet.wallet_id)"
+    (keydown.space)="beforeClose($event, wallet.wallet_id)"
+    [attr.aria-label]="'WALLET.TOOLTIPS.REMOVE' | translate"
+    [matTooltip]="'WALLET.TOOLTIPS.REMOVE' | translate"
+    class="close"
+    matTooltipShowDelay="800"
+    type="button"
+>
+    <mat-icon svgIcon="zano-close"></mat-icon>
+</button>

@@ -64,7 +64,7 @@ export class AssignAliasComponent implements OnInit, OnDestroy {
     loading = false;
 
     constructor(
-        readonly variablesService: VariablesService,
+        public readonly variablesService: VariablesService,
         private readonly _fb: NonNullableFormBuilder,
         private readonly _ngZone: NgZone,
         private readonly _router: Router,

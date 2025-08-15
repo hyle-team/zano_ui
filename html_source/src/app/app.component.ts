@@ -20,6 +20,7 @@ import { ApiService } from '@api/services/api.service';
 import { WalletsService } from '@parts/services/wallets.service';
 import { WrapInfo } from '@api/models/wrap-info';
 import { AliasInfo } from '@api/models/alias.model';
+import { environment } from '../environments/environment';
 
 @Component({
     selector: 'app-root',
@@ -69,6 +70,7 @@ export class AppComponent implements OnInit, OnDestroy {
     ) {
         this._setTranslate();
         this._setResponseClasses();
+        console.log('---------------- environment ----------------', environment.production);
     }
 
     setBackendLocalization(): void {

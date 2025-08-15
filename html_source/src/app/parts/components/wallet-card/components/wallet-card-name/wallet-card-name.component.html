@@ -1,0 +1,14 @@
+<div
+    class="name text-ellipsis"
+    [attr.aria-label]="wallet.name"
+    [matTooltip]="wallet.name"
+    matTooltipPosition="above"
+    matTooltipShowDelay="2500"
+    tabindex="0"
+>
+    <span *ngIf="wallet.new_contracts" class="indicator" role="status" tabindex="0">
+        {{ wallet.new_contracts }}
+    </span>
+
+    {{ wallet.name }}
+</div>

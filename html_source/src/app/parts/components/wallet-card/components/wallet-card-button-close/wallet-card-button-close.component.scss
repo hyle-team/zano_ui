@@ -1,0 +1,25 @@
+.close {
+    opacity: 0.7;
+}
+
+::ng-deep {
+    .light {
+        .wallet {
+            &.active {
+                header {
+                    .close {
+                        color: #ffffff;
+                    }
+                }
+
+                &.watch-only {
+                    header {
+                        .close {
+                            color: var(--wallet-watch-only-text);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

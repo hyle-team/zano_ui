@@ -46,6 +46,8 @@ export class TooltipDirective implements OnDestroy {
 
     removeTooltipTimeDelay;
 
+    showTimeout;
+
     private enter: (event: MouseEvent) => void;
 
     private leave: (event: MouseEvent) => void;
@@ -90,6 +92,7 @@ export class TooltipDirective implements OnDestroy {
     // @HostListener('focusout')
     onMouseLeave(): void {
         clearTimeout(this.removeTooltipTimeDelay);
+        clearTimeout(this.showTimeout);
         if (this.tooltip) {
             this.hide();
         }
@@ -98,7 +101,9 @@ export class TooltipDirective implements OnDestroy {
     show(): void {
         this.create();
         this.placement = this.placement === null ? 'top' : this.placement;
-        this.setPosition(this.placement);
+        this.showTimeout = setTimeout(() => {
+            this.setPosition(this.placement);
+        }, 50);
     }
 
     hide(): void {
@@ -275,7 +280,7 @@ export class TooltipDirective implements OnDestroy {
                 this.renderer.setStyle(
                     this.tooltip,
                     'top',
-                    hostPos.top + (hostPos.bottom - hostPos.top) / 2 - this.tooltip.getBoundingClientRect().height / 2 + 'px'
+                    ((hostPos.top + (hostPos.bottom - hostPos.top) / 2) - (this.tooltip.getBoundingClientRect().height / 2)) + 'px'
                 );
                 break;
             case 'right-top':
@@ -304,6 +309,7 @@ export class TooltipDirective implements OnDestroy {
         clearTimeout(this.removeTooltipTimeout);
         clearTimeout(this.removeTooltipTimeoutInner);
         clearTimeout(this.removeTooltipTimeDelay);
+        clearTimeout(this.showTimeout);
 
         if (this.tooltip) {
             this.renderer.removeChild(document.body, this.tooltip);

@@ -25,12 +25,15 @@
                 height: 100%;
             }
 
-            .wallet {
-                &:first-child {
-                    margin-top: 3rem;
-                }
-                &:last-child {
-                    margin-bottom: 3rem;
+            ::ng-deep {
+                app-wallet-card {
+                    &:first-child .wallet {
+                        margin-top: 3rem;
+                    }
+
+                    &:last-child .wallet {
+                        margin-bottom: 3rem;
+                    }
                 }
             }
 
