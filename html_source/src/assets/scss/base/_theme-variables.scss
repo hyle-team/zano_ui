@@ -52,7 +52,7 @@
 
     // field amount
     --amount-ticker-text: #0c0c3a99;
-    --amount-btn-revers-background: #1f8feb1a;
+    --amount-btn-revers-background: #1F8FEB33;
 
     // checkbox
     --checkbox-border: 1px solid #1f8feb66;
@@ -66,14 +66,14 @@
     --switch-circle-background: var(--white-500);
 
     //wallet
-    --wallet-background: #1f8feb26;
+    --wallet-background: #dbebf9;
     --wallet-active-background: var(--gradietAquaToBlue);
     --wallet-border: 1px solid #1f8feb00;
     --wallet-border-color-hover: #1f8feb;
     --wallet-auditable-watch-only-background: radial-gradient(
         100% 246.57% at 0% 0%,
-        rgba(163, 102, 255, 0.75) 0%,
-        rgba(96, 31, 255, 0.75) 100%
+            #af80fe 0%,
+            #8756fe 100%
     );
     --wallet-auditable-active-background: var(--gradietAmethystToPurpurle);
     --wallet-watch-only-active-background: var(--gradietAmethystToPurpurle);
@@ -155,7 +155,7 @@
 
     // field amount
     --amount-ticker-text: #ffffff60;
-    --amount-btn-revers-background: #ffffff1a;
+    --amount-btn-revers-background: #1F8FEB33;
 
     // checkbox
     --checkbox-border: 1px solid #ffffff33;

@@ -1,0 +1,12 @@
+<ng-container
+    *ngIf="(!wallet.is_auditable && !wallet.is_watch_only) || (wallet.is_auditable && !wallet.is_watch_only)">
+    <div *ngIf="!(!wallet.loaded && variablesService.daemon_state === 2)" class="staking">
+        <label class="text" for="staking-switch">{{ 'SIDEBAR.ACCOUNT.STAKING' | translate }}</label>
+        <app-staking-switch
+            [(staking)]="wallet.staking"
+            [attr.aria-label]="'SIDEBAR.ACCOUNT.STAKING' | translate"
+            [wallet_id]="wallet.wallet_id"
+            id="staking-switch"
+        ></app-staking-switch>
+    </div>
+</ng-container>

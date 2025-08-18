@@ -85,6 +85,10 @@ const prepareBalances = (
 };
 
 export class Wallet {
+    settings: { balanceDisplayMode: 'zano' | 'fiat'} = {
+        balanceDisplayMode: 'fiat',
+    };
+
     open_from_exist: boolean;
 
     updated = false;

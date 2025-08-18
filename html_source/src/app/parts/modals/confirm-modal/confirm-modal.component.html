@@ -11,11 +11,13 @@
 
 <mat-dialog-actions>
     <div fxFlex="1 1 auto" fxLayout="row nowrap" fxLayoutGap="1rem">
-        <button [mat-dialog-close]="false" class="outline big w-100" type="button">
-            {{ data?.buttons?.close ?? 'MODALS.CANCEL' | translate }}
+        <button [mat-dialog-close]="false" class="{{ (data?.buttons?.close?.style ?? 'outline') }} big w-100"
+                type="button">
+            {{ data?.buttons?.close?.text ?? 'MODALS.CANCEL' | translate }}
         </button>
-        <button appAutofocus (click)="submit()" class="primary big w-100" type="button">
-            {{ data?.buttons?.submit ?? 'MODALS.OK' | translate }}
+        <button appAutofocus (click)="submit()" class="{{ (data?.buttons?.submit?.style ?? 'primary') }} big w-100"
+                type="button">
+            {{ data?.buttons?.submit?.text ?? 'MODALS.OK' | translate }}
         </button>
     </div>
 </mat-dialog-actions>

@@ -1,119 +1,97 @@
-:host {
+.sidebar {
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    padding: 2rem 2rem 1rem 2rem;
-    max-width: 23rem;
-    width: 100%;
+    padding: 2rem;
+    width: 23rem;
     height: 100%;
     background-color: var(--sidebar-background);
-}
 
-::ng-deep {
-    .sidebar {
-        &-content {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
+    &-header {
+        margin-bottom: 1rem;
+    }
+
+    &-content {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+
+        &-wallet-list {
+            position: relative;
             height: 100%;
+            overflow: hidden;
+            margin-bottom: 1rem;
 
-            &-wallet-list {
-                position: relative;
+            .scrolled-content {
                 height: 100%;
-                overflow: hidden;
+            }
 
-                .scrolled-content {
-                    height: 100%;
-                }
-
-                .wallet {
-                    &:first-child {
+            ::ng-deep {
+                app-wallet-card {
+                    &:first-child .wallet {
                         margin-top: 3rem;
                     }
 
-                    &:last-child {
+                    &:last-child .wallet {
                         margin-bottom: 3rem;
                     }
                 }
-
-                &::before {
-                    content: '';
-                    background: var(--gradient-sidebar-content-wallet-list-top);
-                    display: block;
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                    right: 0;
-                    height: 3rem;
-                    z-index: 999;
-                }
-
-                &::after {
-                    content: '';
-                    background: var(--gradient-sidebar-content-wallet-list-bottom);
-                    display: block;
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
-                    right: 0;
-                    height: 3rem;
-                    z-index: 999;
-                }
             }
-        }
 
-        &-nav {
-            min-height: 21rem;
-            max-height: 25rem;
-
-            & > button {
-                margin-bottom: 1rem;
+            &::before,
+            &::after {
+                content: '';
+                position: absolute;
+                left: 0;
+                right: 0;
+                height: 3rem;
+                z-index: 999;
+                display: block;
             }
-        }
 
-        &-footer {
-            display: flex;
-            justify-items: center;
-            align-items: center;
-            width: 100%;
-            min-height: 6rem;
-            overflow: hidden;
+            &::before {
+                background: var(--gradient-sidebar-content-wallet-list-top);
+                top: -2px;
+            }
 
-            // centered status Online, Offline
-            .synchronization-status {
-                .status-container {
-                    .offline,
-                    .online {
-                        justify-content: center;
-                    }
-                }
+            &::after {
+                background: var(--gradient-sidebar-content-wallet-list-bottom);
+                bottom: -2px;
             }
         }
     }
 
-    .cdk-drag-placeholder {
-        opacity: 0.3;
-    }
+    &-nav {
+        min-height: 17rem;
+        max-height: 25rem;
+        margin-bottom: 1rem;
 
-    .cdk-drag-animating {
-        transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
-    }
+        > li {
+            margin-bottom: 1rem;
 
-    .cdk-drag-preview {
-        &.wallet {
-            color: var(--white-500);
-            background: var(--blue-500);
-
-            &.price {
-                color: var(--gray-800);
-
-                .percent {
-                    color: var(--gray-800);
-                }
+            &:last-child {
+                margin-bottom: 0;
             }
         }
     }
+
+    &-footer {
+        ::ng-deep .synchronization-status .status-container {
+            .offline,
+            .online {
+                justify-content: center;
+            }
+        }
+    }
+
+    nav {
+        list-style: none;
+    }
+}
+
+.build-version {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    font-weight: 400;
+    color: var(--gray-500);
+    text-align: center;
 }

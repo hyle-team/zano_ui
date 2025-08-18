@@ -1,0 +1,20 @@
+.wallet-card-alias-wrapper {
+    margin-top: 0.8rem;
+
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+
+    font-weight: 600;
+}
+
+.alias-name {
+    font-size: 1.6rem;
+    line-height: 1.2;
+}
+
+.alias-count {
+    font-size: 1.2rem;
+    line-height: 1.2;
+    opacity: 0.7;
+}

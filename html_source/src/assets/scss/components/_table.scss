@@ -38,13 +38,13 @@ table.zano-table {
                     white-space: nowrap;
                 }
 
-                & > &:first-child {
+                 &:first-child {
                     .title {
                         border-radius: 0.8rem 0 0 0.8rem;
                     }
                 }
 
-                & > &:last-child {
+                 &:last-child {
                     .title {
                         border-radius: 0 0.8rem 0.8rem 0;
                     }
@@ -77,11 +77,11 @@ table.zano-table {
                 overflow: hidden;
                 text-overflow: ellipsis;
 
-                & > &:first-child {
+                &:first-child {
                     border-radius: 0.8rem 0 0 0.8rem;
                 }
 
-                & > &:last-child {
+                &:last-child {
                     border-radius: 0 0.8rem 0.8rem 0;
                 }
             }
@@ -112,13 +112,13 @@ table.zano-table {
         width: 100%;
         min-height: 6rem;
 
-        .label,
+        .title,
         .text {
             overflow: hidden;
             padding: 2rem;
         }
 
-        .label {
+        .title {
             color: var(--azure-500);
             background: var(--table-info-label-background);
             overflow: hidden;
@@ -128,6 +128,17 @@ table.zano-table {
         .text {
             width: 100%;
             word-break: break-word;
+        }
+
+        &:first-child {
+            .title {
+                border-radius: 0.8rem 0 0 0;
+            }
+        }
+        &:last-child {
+            .title {
+                border-radius: 0 0 0 0.8rem;
+            }
         }
     }
 }

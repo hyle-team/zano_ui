@@ -74,8 +74,8 @@ export class SwapProposalHexComponent implements OnInit, IDeactivateComponent {
                 title: 'SWAP_PROPOSAL_HEX.MODALS.CONFIRM_MODAL.TITLE',
                 message: 'SWAP_PROPOSAL_HEX.MODALS.CONFIRM_MODAL.MESSAGE',
                 buttons: {
-                    submit: 'SWAP_PROPOSAL_HEX.MODALS.CONFIRM_MODAL.BUTTONS.SUBMIT',
-                    close: 'SWAP_PROPOSAL_HEX.MODALS.CONFIRM_MODAL.BUTTONS.CLOSE',
+                    close: { text: 'SWAP_PROPOSAL_HEX.MODALS.CONFIRM_MODAL.BUTTONS.CLOSE', style: 'primary'},
+                    submit: { text: 'SWAP_PROPOSAL_HEX.MODALS.CONFIRM_MODAL.BUTTONS.SUBMIT', style: 'outline' },
                 },
             },
         };

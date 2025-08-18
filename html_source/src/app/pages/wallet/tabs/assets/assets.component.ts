@@ -20,7 +20,7 @@ import { intToMoney } from '@parts/functions/int-to-money';
 @Component({
     selector: 'app-assets',
     templateUrl: `./assets.component.html`,
-    styleUrls: ['./assets.component.scss']
+    styleUrls: ['./assets.component.scss'],
 })
 export class AssetsComponent implements OnInit, OnDestroy {
     paginatePipeArgs: PaginatePipeArgs = {
@@ -70,14 +70,16 @@ export class AssetsComponent implements OnInit, OnDestroy {
         if (!priceData || typeof priceData === 'string') return;
 
         const currency = this.variablesService.settings.currency;
+        const isFiatCurrency = this.variablesService.isFiatCurrency(currency);
         const fiatPrice = priceData.fiat_prices?.[currency];
 
         if (!fiatPrice) return;
 
         const amount = intToMoney(balance.total, balance.asset_info.decimal_point);
+
         const fiatValue = BigNumber(amount)
             .multipliedBy(fiatPrice)
-            .toFixed(BigNumber(fiatPrice).decimalPlaces() ?? 10);
+            .toFixed((isFiatCurrency ? 2 : (BigNumber(amount).isZero() ? 0 : BigNumber(fiatPrice).decimalPlaces())) ?? 10);
 
         return `${fiatValue}`;
     }
@@ -95,10 +97,11 @@ export class AssetsComponent implements OnInit, OnDestroy {
         if (!currentPrice || typeof currentPrice.data === 'string') return null;
 
         const currency = this.variablesService.settings.currency;
+        const isFiatCurrency = this.variablesService.isFiatCurrency(currency);
         const fiatPrice = currentPrice.data.fiat_prices[currency] ?? 0;
 
         const result = {
-            value: fiatPrice.toFixed(3),
+            value: isFiatCurrency ? fiatPrice.toFixed(2) : fiatPrice,
             tooltipValue: `${fiatPrice}`,
             currency: currency.toUpperCase(),
             showChange: false,

@@ -100,7 +100,7 @@
                         (change)="onCurrencyChange()"
                         [(ngModel)]="variablesService.settings.currency"
                         [clearable]="false"
-                        [items]="currenciesItems"
+                        [items]="variablesService.currenciesItems"
                         [searchable]="false"
                         bindLabel="label"
                         bindValue="id"
@@ -350,7 +350,7 @@
                 </form>
 
                 <p *ngIf="!isBuildVersionWasCopied" class="mt-2">
-                    Build version: {{ currentBuild }}
+                    Build version: {{ variablesService.buildVersion ?? 'There was an error getting the build version' }}
                     <button
                         (click)="copyBuildVersion()"
                         [attr.aria-label]="'ACCESSIBILITY.SETTINGS.ARIA_LABEL1' | translate"
