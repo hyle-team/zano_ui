@@ -6,7 +6,7 @@ import { environment } from './environments/environment';
 import 'lodash';
 import { setupFocusVisibleFallback } from '@parts/utils/focus-visible-fallback';
 
-export const buildTime = '2024-11-29T13:48:44.519Z';
+export const buildTime = '2025-08-15T07:06:22.677Z';
 
 if (environment.production) {
     enableProdMode();

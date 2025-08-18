@@ -45,61 +45,6 @@ export class SettingsComponent implements OnInit {
         }
     );
 
-    readonly currenciesItems = [
-        { label: 'SOL', id: 'sol' },
-        { label: 'USD', id: 'usd' },
-        { label: 'AED', id: 'aed' },
-        { label: 'ARS', id: 'ars' },
-        { label: 'AUD', id: 'aud' },
-        { label: 'BDT', id: 'bdt' },
-        { label: 'BHD', id: 'bhd' },
-        { label: 'BMD', id: 'bmd' },
-        { label: 'BRL', id: 'brl' },
-        { label: 'CAD', id: 'cad' },
-        { label: 'CHF', id: 'chf' },
-        { label: 'CLP', id: 'clp' },
-        { label: 'CNY', id: 'cny' },
-        { label: 'CZK', id: 'czk' },
-        { label: 'DKK', id: 'dkk' },
-        { label: 'EUR', id: 'eur' },
-        { label: 'GBP', id: 'gbp' },
-        { label: 'GEL', id: 'gel' },
-        { label: 'HKD', id: 'hkd' },
-        { label: 'HUF', id: 'huf' },
-        { label: 'IDR', id: 'idr' },
-        { label: 'ILS', id: 'ils' },
-        { label: 'INR', id: 'inr' },
-        { label: 'JPY', id: 'jpy' },
-        { label: 'KRW', id: 'krw' },
-        { label: 'KWD', id: 'kwd' },
-        { label: 'LKR', id: 'lkr' },
-        { label: 'MMK', id: 'mmk' },
-        { label: 'MXN', id: 'mxn' },
-        { label: 'MYR', id: 'myr' },
-        { label: 'NGN', id: 'ngn' },
-        { label: 'NOK', id: 'nok' },
-        { label: 'NZD', id: 'nzd' },
-        { label: 'PHP', id: 'php' },
-        { label: 'PKR', id: 'pkr' },
-        { label: 'PLN', id: 'pln' },
-        { label: 'RUB', id: 'rub' },
-        { label: 'SAR', id: 'sar' },
-        { label: 'SEK', id: 'sek' },
-        { label: 'SGD', id: 'sgd' },
-        { label: 'THB', id: 'thb' },
-        { label: 'TRY', id: 'try' },
-        { label: 'TWD', id: 'twd' },
-        { label: 'UAH', id: 'uah' },
-        { label: 'VEF', id: 'vef' },
-        { label: 'VND', id: 'vnd' },
-        { label: 'ZAR', id: 'zar' },
-        { label: 'XDR', id: 'xdr' },
-        { label: 'XAG', id: 'xag' },
-        { label: 'XAU', id: 'xau' },
-        { label: 'BITS', id: 'bits' },
-        { label: 'SATS', id: 'sats' },
-    ];
-
     zanoCompanionForm: FormGroup<{
         zanoCompation: FormControl<boolean>;
         secret: FormControl<string>;
@@ -200,8 +145,6 @@ export class SettingsComponent implements OnInit {
             id: 4,
         },
     ];
-
-    currentBuild = '';
 
     appPass: any;
 

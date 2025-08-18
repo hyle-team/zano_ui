@@ -45,4 +45,5 @@ export const materialZanoIcons = [
     'zano-circle-arrow-right',
     'zano-crown',
     'zano-lock',
+    'zano-swap-2',
 ];

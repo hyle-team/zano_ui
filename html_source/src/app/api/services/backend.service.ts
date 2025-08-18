@@ -286,6 +286,7 @@ export class BackendService {
                 this.variablesService.settings.wallets.push({
                     name: wallet.name,
                     path: wallet.path,
+                    settings: wallet.settings,
                 });
             });
 

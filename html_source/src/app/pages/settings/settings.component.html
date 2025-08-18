@@ -100,7 +100,7 @@
                         (change)="onCurrencyChange()"
                         [(ngModel)]="variablesService.settings.currency"
                         [clearable]="false"
-                        [items]="currenciesItems"
+                        [items]="variablesService.currenciesItems"
                         [searchable]="false"
                         bindLabel="label"
                         bindValue="id"

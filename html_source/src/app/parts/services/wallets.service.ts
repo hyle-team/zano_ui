@@ -59,7 +59,7 @@ export class WalletsService {
     ) {}
 
     addWallet(wallet: Wallet): void {
-        const { staking, address } = wallet;
+        const { staking, address, name } = wallet;
         const {
             verifiedAssetInfoWhitelist,
             settings: { localBlacklistsOfVerifiedAssetsByWallets },
@@ -72,6 +72,11 @@ export class WalletsService {
 
         if (localBlacklistsOfVerifiedAssetsByWallets[address]) {
             wallet.localBlacklistVerifiedAssets$.next(localBlacklistsOfVerifiedAssetsByWallets[address]);
+        }
+
+        const walletSetting = this._variablesService.settings.wallets.find((w) => w.name === name)?.settings;
+        if (walletSetting) {
+            wallet.settings = walletSetting;
         }
 
         this._variablesService.wallets.push(wallet);

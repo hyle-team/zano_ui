@@ -11,3 +11,14 @@
 .currency {
     opacity: 0.7;
 }
+
+.wallet-card-balance-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.wallet-card-balance-swap {
+    min-width: 1.8rem;
+    margin-left: 1rem;
+}
