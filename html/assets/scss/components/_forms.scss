@@ -454,6 +454,10 @@
         justify-items: center;
         align-items: center;
         background: var(--amount-btn-revers-background);
+
+        mat-icon {
+            color: var(--azure-500);
+        }
     }
 }
 
