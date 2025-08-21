@@ -12576,7 +12576,7 @@ function HistoryComponent_ng_container_28_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵadvance"](1);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵproperty"]("ngSwitchCase", !((transaction_r3.remote_addresses == null ? null : transaction_r3.remote_addresses.length) || (transaction_r3.remote_aliases == null ? null : transaction_r3.remote_aliases.length)) && transaction_r3.tx_type === 0);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵadvance"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵpipeBind2"](18, 18, transaction_r3.timestamp * 1000, "dd-MM-yyyy HH:mm"), " ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵpipeBind2"](18, 18, transaction_r3.timestamp * 1000, "dd.MM.yyyy HH:mm"), " ");
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵadvance"](4);
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵproperty"]("ngStyle", _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵpureFunction0"](21, _c3));
     _angular_core__WEBPACK_IMPORTED_MODULE_16__["ɵɵadvance"](1);
@@ -20483,7 +20483,7 @@ const objTabs = {
   },
   swap: {
     id: 'swap',
-    title: 'Swap',
+    title: 'WALLET.TABS.P2P_SWAP',
     icon: 'zano-swap',
     link: '/swap',
     disabled: false,
@@ -21242,7 +21242,7 @@ function CellAssetBalanceComponent_ng_container_0_ng_container_2_Template(rf, ct
     _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](2);
     _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵproperty"]("matTooltipShowDelay", 800)("matTooltip", _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵpipeBind1"](10, 13, "CELL_ASSET_BALANCE.TOOLTIPS.TOOLTIP1"))("svgIcon", "zano-info");
     _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](4);
-    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtextInterpolate2"](" ", ctx_r2.getUnlockedAmount(), " ", ctx_r2.getTicker(), " ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtextInterpolate2"](" ", ctx_r2.getTotalAmount(), " ", ctx_r2.getTicker(), " ");
     _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵadvance"](3);
     _angular_core__WEBPACK_IMPORTED_MODULE_4__["ɵɵtextInterpolate2"](" ", ctx_r2.getLockedAmount(), " ", ctx_r2.getTicker(), " ");
 } }
@@ -21261,6 +21261,9 @@ function CellAssetBalanceComponent_ng_container_0_Template(rf, ctx) { if (rf & 1
 class CellAssetBalanceComponent {
     isEqualUnlockedAndTotal() {
         return (0,bignumber_js__WEBPACK_IMPORTED_MODULE_3__.BigNumber)(this.balance.unlocked).eq(this.balance.total);
+    }
+    getTotalAmount() {
+        return (0,_parts_functions_int_to_money__WEBPACK_IMPORTED_MODULE_2__.intToMoney)(this.balance.total, this.balance.asset_info.decimal_point);
     }
     getUnlockedAmount() {
         return (0,_parts_functions_int_to_money__WEBPACK_IMPORTED_MODULE_2__.intToMoney)(this.balance.unlocked, this.balance.asset_info.decimal_point);

@@ -1111,11 +1111,12 @@
         },
         "REGISTER_ALIAS": "Registar um alias",
         "TABS": {
-            "ASSETS": "Bens",
+            "ASSETS": "Meus ativos",
             "CONTRACTS": "Contratos",
             "CONTROL_ASSETS": "Control assets",
             "HISTORY": "Histórico",
             "MESSAGES": "Mensagens",
+            "P2P_SWAP": "Troca P2P",
             "RECEIVE": "Receber",
             "SEND": "Enviar",
             "STAKING": "Estacando"
