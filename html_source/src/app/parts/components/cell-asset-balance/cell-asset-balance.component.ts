@@ -23,6 +23,10 @@ export class CellAssetBalanceComponent {
         return BigNumber(this.balance.unlocked).eq(this.balance.total);
     }
 
+    getTotalAmount() {
+        return intToMoney(this.balance.total, this.balance.asset_info.decimal_point);
+    }
+
     getUnlockedAmount() {
         return intToMoney(this.balance.unlocked, this.balance.asset_info.decimal_point);
     }

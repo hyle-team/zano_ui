@@ -62,7 +62,7 @@ const objTabs: { [key in TabNameKeys]: Tab } = {
     },
     swap: {
         id: 'swap',
-        title: 'Swap',
+        title: 'WALLET.TABS.P2P_SWAP',
         icon: 'zano-swap',
         link: '/swap',
         disabled: false,
