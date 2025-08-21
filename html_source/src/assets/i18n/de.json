@@ -1111,11 +1111,12 @@
         },
         "REGISTER_ALIAS": "Alias registrieren",
         "TABS": {
-            "ASSETS": "Vermögenswerte",
+            "ASSETS": "Meine Vermögenswerte",
             "CONTRACTS": "Verträge",
             "CONTROL_ASSETS": "Control assets",
             "HISTORY": "Verlauf",
             "MESSAGES": "Nachrichten",
+            "P2P_SWAP": "P2P-Tausch",
             "RECEIVE": "Empfangen",
             "SEND": "Senden",
             "STAKING": "Abstecken"

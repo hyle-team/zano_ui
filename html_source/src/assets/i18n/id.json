@@ -1111,11 +1111,12 @@
         },
         "REGISTER_ALIAS": "Daftarkan alias",
         "TABS": {
-            "ASSETS": "Aktiva",
+            "ASSETS": "Aset Saya",
             "CONTRACTS": "Kontrak",
             "CONTROL_ASSETS": "Control assets",
             "HISTORY": "Riwayat",
             "MESSAGES": "Pesan",
+            "P2P_SWAP": "Tukar P2P",
             "RECEIVE": "Terima",
             "SEND": "Kirim",
             "STAKING": "Mempertaruhkan"
