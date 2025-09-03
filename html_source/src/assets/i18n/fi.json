@@ -205,7 +205,7 @@
     },
     "CELL_ASSET_BALANCE": {
         "LABELS": {
-            "LABEL1": "Available balance",
+            "LABEL1": "Total balance",
             "LABEL2": "Unconfirmed balance"
         },
         "TOOLTIPS": {
