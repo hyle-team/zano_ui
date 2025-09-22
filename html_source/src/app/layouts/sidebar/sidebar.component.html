@@ -41,7 +41,8 @@
         </li>
 
         <li>
-            <button [routerLink]="['/settings']" class="outline small" role="link" routerLinkActive="active" type="button">
+            <button [routerLink]="['/settings']" class="outline small" role="link" routerLinkActive="active"
+                    type="button">
                 <mat-icon class="mr-1" svgIcon="zano-settings"></mat-icon>
                 <span>{{ 'SIDEBAR.SETTINGS' | translate }}</span>
             </button>
@@ -52,7 +53,8 @@
             [matTooltip]="'SIDEBAR.LOG_OUT_TOOLTIP' | translate"
             matTooltipShowDelay="800"
         >
-            <button (click)="logout()" [disabled]="variablesService.appPass === ''" class="outline small" role="link" type="button">
+            <button (click)="logout()" [disabled]="variablesService.appPass === ''" class="outline small" role="link"
+                    type="button">
                 <mat-icon class="mr-1" svgIcon="zano-logout"></mat-icon>
                 <span> {{ 'SIDEBAR.LOG_OUT' | translate }}</span>
             </button>
@@ -62,9 +64,11 @@
 
 <ng-template #buildVersion>
     <p
-        (contextmenu)="variablesService.onContextMenuOnlyCopy($event, 'Build version: ' + variablesService.buildVersion)"
+        (contextmenu)="variablesService.onContextMenuOnlyCopy($event,
+        ((translateService.instant('COMMON.BUILD_VERSION') ?? 'Build version') + ': ') +
+        variablesService.buildVersion)"
         class="build-version"
     >
-        Build version: {{ variablesService.buildVersion }}
+        {{ 'COMMON.BUILD_VERSION' | translate }}: {{ variablesService.buildVersion }}
     </p>
 </ng-template>

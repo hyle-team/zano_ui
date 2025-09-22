@@ -214,6 +214,7 @@
     },
     "COMMON": {
         "BACK": "Voltar",
+        "BUILD_VERSION": "Build version",
         "COPY": "Copy",
         "LOADING": "Loading..."
     },
