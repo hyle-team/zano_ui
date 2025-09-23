@@ -884,7 +884,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     private _setTranslate(): void {
-        this.translate.addLangs(['en', 'fr', 'de', 'it', 'pt']);
+        this.translate.addLangs(['en', 'fr', 'de', 'it', 'id', 'pt']);
         this.translate.setDefaultLang('en');
         this.translate
             .use('en')
