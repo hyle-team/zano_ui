@@ -15,7 +15,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { ZANO_ASSET_INFO } from '@parts/data/zano-assets-info';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { intToMoney } from '@parts/functions/int-to-money';
+import { isFiatCurrency } from '@parts/data/currencies';
+import { getFiatValue } from '@parts/functions/get-fiat-value';
 
 @Component({
     selector: 'app-assets',
@@ -65,26 +66,25 @@ export class AssetsComponent implements OnInit, OnDestroy {
         this._destroy$.complete();
     }
 
-    getFiatValue(balance: AssetBalance): string | undefined {
-        const priceData = this.variablesService.currentPriceForAssets[balance.asset_info.asset_id]?.data;
-        if (!priceData || typeof priceData === 'string') return;
+    getViewBalanceData(balance: AssetBalance): {
+        value: string | number;
+        currency: string;
+    } | null {
+        const {
+            currentPriceForAssets,
+            settings: { currency },
+        } = this.variablesService;
+        const value = getFiatValue(balance, currentPriceForAssets, currency);
 
-        const currency = this.variablesService.settings.currency;
-        const isFiatCurrency = this.variablesService.isFiatCurrency(currency);
-        const fiatPrice = priceData.fiat_prices?.[currency];
+        if (!value) return null;
 
-        if (!fiatPrice) return;
-
-        const amount = intToMoney(balance.total, balance.asset_info.decimal_point);
-
-        const fiatValue = BigNumber(amount)
-            .multipliedBy(fiatPrice)
-            .toFixed((isFiatCurrency ? 2 : (BigNumber(amount).isZero() ? 0 : BigNumber(fiatPrice).decimalPlaces())) ?? 10);
-
-        return `${fiatValue}`;
+        return {
+            value,
+            currency: currency.toUpperCase(),
+        };
     }
 
-    getFiatPrice(balance: AssetBalance): {
+    getFiatPriceData(balance: AssetBalance): {
         value: string | number;
         tooltipValue: string;
         currency: string;
@@ -97,11 +97,10 @@ export class AssetsComponent implements OnInit, OnDestroy {
         if (!currentPrice || typeof currentPrice.data === 'string') return null;
 
         const currency = this.variablesService.settings.currency;
-        const isFiatCurrency = this.variablesService.isFiatCurrency(currency);
         const fiatPrice = currentPrice.data.fiat_prices[currency] ?? 0;
 
         const result = {
-            value: isFiatCurrency ? fiatPrice.toFixed(2) : fiatPrice,
+            value: isFiatCurrency(currency) ? fiatPrice.toFixed(2) : fiatPrice,
             tooltipValue: `${fiatPrice}`,
             currency: currency.toUpperCase(),
             showChange: false,

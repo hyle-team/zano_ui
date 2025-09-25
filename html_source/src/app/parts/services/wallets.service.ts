@@ -56,7 +56,13 @@ export class WalletsService {
         private _translateService: TranslateService,
         private _router: Router,
         private _ngZone: NgZone
-    ) {}
+    ) {
+        this._variablesService.currentPriceForAssets$.subscribe((value) => {
+            this.wallets.forEach((wallet: Wallet) => {
+                wallet.currentPriceForAssets$.next(value);
+            });
+        });
+    }
 
     addWallet(wallet: Wallet): void {
         const { staking, address, name } = wallet;
@@ -149,7 +155,7 @@ export class WalletsService {
                     const { balances } = response_data;
                     wallet.balances = balances;
 
-                    this._variablesService.loadCurrentPriceForAssets(wallet.balances);
+                    this._variablesService.loadCurrentPriceForAssetIds(wallet.balances.map(({ asset_info: { asset_id } }) => asset_id));
                 }
             });
         };

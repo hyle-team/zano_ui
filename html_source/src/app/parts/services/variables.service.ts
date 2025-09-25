@@ -1,13 +1,13 @@
 import { inject, Injectable, NgZone, OnDestroy } from '@angular/core';
 import { DeeplinkParams, Wallet } from '@api/models/wallet.model';
 import { Contact } from '@api/models/contact.model';
-import { BehaviorSubject, concatMap, from, Observable, scan, Subject } from 'rxjs';
+import { BehaviorSubject, EMPTY, from, mergeMap, Observable, Subject, take, toArray } from 'rxjs';
 import { Idle } from 'idlejs/dist';
 import { Router } from '@angular/router';
 import { ContextMenuComponent, ContextMenuService } from '@perfectmemory/ngx-contextmenu';
 import { BigNumber } from 'bignumber.js';
 import { AliasInfoList } from '@api/models/alias.model';
-import { distinctUntilChanged, filter, map, takeUntil } from 'rxjs/operators';
+import { catchError, distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
 import { Dialog } from '@angular/cdk/dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { AssetBalance, AssetInfo, VerifiedAssetInfoWhitelist } from '@api/models/assets.model';
@@ -20,74 +20,6 @@ import { MAX_COMMENT_LENGTH, MAX_WALLET_NAME_LENGTH } from '@parts/data/constant
     providedIn: 'root',
 })
 export class VariablesService implements OnDestroy {
-    readonly currenciesItems = [
-        { label: 'SOL', id: 'sol' },
-        { label: 'USD', id: 'usd' },
-        { label: 'AED', id: 'aed' },
-        { label: 'ARS', id: 'ars' },
-        { label: 'AUD', id: 'aud' },
-        { label: 'BDT', id: 'bdt' },
-        { label: 'BHD', id: 'bhd' },
-        { label: 'BMD', id: 'bmd' },
-        { label: 'BRL', id: 'brl' },
-        { label: 'CAD', id: 'cad' },
-        { label: 'CHF', id: 'chf' },
-        { label: 'CLP', id: 'clp' },
-        { label: 'CNY', id: 'cny' },
-        { label: 'CZK', id: 'czk' },
-        { label: 'DKK', id: 'dkk' },
-        { label: 'EUR', id: 'eur' },
-        { label: 'GBP', id: 'gbp' },
-        { label: 'GEL', id: 'gel' },
-        { label: 'HKD', id: 'hkd' },
-        { label: 'HUF', id: 'huf' },
-        { label: 'IDR', id: 'idr' },
-        { label: 'ILS', id: 'ils' },
-        { label: 'INR', id: 'inr' },
-        { label: 'JPY', id: 'jpy' },
-        { label: 'KRW', id: 'krw' },
-        { label: 'KWD', id: 'kwd' },
-        { label: 'LKR', id: 'lkr' },
-        { label: 'MMK', id: 'mmk' },
-        { label: 'MXN', id: 'mxn' },
-        { label: 'MYR', id: 'myr' },
-        { label: 'NGN', id: 'ngn' },
-        { label: 'NOK', id: 'nok' },
-        { label: 'NZD', id: 'nzd' },
-        { label: 'PHP', id: 'php' },
-        { label: 'PKR', id: 'pkr' },
-        { label: 'PLN', id: 'pln' },
-        { label: 'RUB', id: 'rub' },
-        { label: 'SAR', id: 'sar' },
-        { label: 'SEK', id: 'sek' },
-        { label: 'SGD', id: 'sgd' },
-        { label: 'THB', id: 'thb' },
-        { label: 'TRY', id: 'try' },
-        { label: 'TWD', id: 'twd' },
-        { label: 'UAH', id: 'uah' },
-        { label: 'VEF', id: 'vef' },
-        { label: 'VND', id: 'vnd' },
-        { label: 'ZAR', id: 'zar' },
-        { label: 'XDR', id: 'xdr' },
-        { label: 'XAG', id: 'xag' },
-        { label: 'XAU', id: 'xau' },
-        { label: 'BITS', id: 'bits' },
-        { label: 'SATS', id: 'sats' },
-    ];
-
-    readonly fiatCurrencyIds = new Set([
-        'usd','aed','ars','aud','bdt','bhd','bmd','brl','cad','chf','clp','cny','czk',
-        'dkk','eur','gbp','gel','hkd','huf','idr','ils','inr','jpy','krw','kwd','lkr',
-        'mmk','mxn','myr','ngn','nok','nzd','php','pkr','pln','rub','sar','sek','sgd',
-        'thb','try','twd','uah','vef','vnd','zar','xdr'
-    ]);
-
-    readonly fiatCurrencies = this.currenciesItems.filter(c => this.fiatCurrencyIds.has(c.id));
-
-    readonly nonFiatCurrencies = this.currenciesItems.filter(c => !this.fiatCurrencyIds.has(c.id));
-
-    isFiatCurrency = (currency: string) => this.fiatCurrencyIds.has(currency);
-
     disable_price_fetch$ = new BehaviorSubject<boolean>(false);
 
     visibilityBalance$ = new BehaviorSubject<boolean>(true);
@@ -466,42 +398,68 @@ export class VariablesService implements OnDestroy {
             return;
         }
 
+        const ids = new Set<string>([]);
         wallets.forEach((wallet: Wallet) => {
             const { balances } = wallet;
-            this.loadCurrentPriceForAssets(balances);
+            balances.forEach((balance: AssetBalance) => {
+                const {
+                    asset_info: { asset_id },
+                } = balance;
+                ids.add(asset_id);
+            });
         });
+
+        this.loadCurrentPriceForAssetIds(Array.from(ids));
     }
 
-    loadCurrentPriceForAssets(balances: AssetBalance[]): void {
-        const observables = balances.map(({ asset_info: { asset_id } }: AssetBalance) =>
-            this._apiZanoService.getCurrentPriceForAsset(asset_id)
-        );
+    loadCurrentPriceForAssetIds(ids: string[]): void {
+        if (!Array.isArray(ids) || ids.length === 0) {
+            return;
+        }
 
-        from(observables)
+        const concurrency = 6;
+
+        from(ids)
             .pipe(
-                concatMap((observable) => observable),
-                filter(({ success }) => success),
-                scan((acc, value) => {
-                    const { asset_id, data, success } = value;
+                mergeMap(
+                    (asset_id: string) =>
+                        this._apiZanoService.getCurrentPriceForAsset(asset_id).pipe(
+                            map((resp) => ({ ...resp, asset_id })),
+                            catchError(() => EMPTY)
+                        ),
+                    concurrency
+                ),
+                toArray(),
+                map((results) => {
+                    const acc: CurrentPriceForAssets = {};
+                    for (const item of results) {
+                        if (!item) continue;
+                        const { asset_id, data, success } = item as { asset_id: string; data: any; success: boolean };
 
-                    if (!success) {
-                        return acc;
+                        if (!success) continue;
+                        if (!data || typeof data !== 'object') continue;
+
+                        const hasUsd = (data as any)?.usd !== undefined;
+                        const hasUsd24h = (data as any)?.usd_24h_change !== undefined;
+                        if (!hasUsd && !hasUsd24h) continue;
+
+                        if (asset_id) {
+                            acc[asset_id] = { data, success };
+                        }
                     }
-
-                    if (typeof data === 'object' && data.usd === undefined && data.usd_24h_change === undefined) {
-                        return acc;
-                    }
-
-                    return { ...acc, [asset_id]: { data, success } };
-                }, <CurrentPriceForAssets>{})
+                    return acc;
+                }),
+                take(1),
+                takeUntil(this._destroy$)
             )
             .subscribe({
-                next: (currentPriceForAssets: CurrentPriceForAssets) => {
-                    const prevCurrentPriceForAssets: CurrentPriceForAssets = this.currentPriceForAssets;
-                    const newCurrentPriceForAssets = { ...prevCurrentPriceForAssets, ...currentPriceForAssets };
-
-                    this.currentPriceForAssets = newCurrentPriceForAssets;
-                    this.currentPriceForAssets$.next(newCurrentPriceForAssets);
+                next: (data: CurrentPriceForAssets) => {
+                    if (!data || Object.keys(data).length === 0) {
+                        return;
+                    }
+                    const merged: CurrentPriceForAssets = { ...this.currentPriceForAssets, ...data };
+                    this.currentPriceForAssets = merged;
+                    this.currentPriceForAssets$.next(merged);
                 },
             });
     }

@@ -9,9 +9,9 @@ import { IntToMoneyPipe, IntToMoneyPipeModule } from '@parts/pipes';
 import { TranslateService } from '@ngx-translate/core';
 import { BackendService } from '@api/services/backend.service';
 import { AssetBalance } from '@api/models/assets.model';
-import { intToMoney } from '@parts/functions/int-to-money';
 import { VariablesService } from '@parts/services/variables.service';
 import { MatIconModule } from '@angular/material/icon';
+import { getFiatValue } from '@parts/functions/get-fiat-value';
 
 @Component({
     selector: 'zano-wallet-card-balance',
@@ -67,36 +67,20 @@ export class WalletCardBalanceComponent {
         return tooltip;
     }
 
-    getFiatValue(balance: AssetBalance): string | undefined {
-        const priceData = this.variablesService.currentPriceForAssets[balance.asset_info.asset_id]?.data;
-        if (!priceData || typeof priceData === 'string') return;
-
-        const currency = this.variablesService.settings.currency;
-        const isFiatCurrency = this.variablesService.isFiatCurrency(currency);
-        const fiatPrice = priceData.fiat_prices?.[currency];
-
-        if (!fiatPrice) return;
-
-        const amount = intToMoney(balance.total, balance.asset_info.decimal_point);
-        const fiatValue = BigNumber(amount)
-            .multipliedBy(fiatPrice)
-            .toFixed((isFiatCurrency ? 2 : (BigNumber(amount).isZero() ? 0 : BigNumber(fiatPrice).decimalPlaces())) ?? 10);
-
-        return `${fiatValue}`;
-    }
-
-    getFiatPrice(balance: AssetBalance): {
+    getViewBalanceData(balance: AssetBalance): {
         value: string | number;
         currency: string;
     } | null {
-        const currentPrice = this.variablesService.currentPriceForAssets[balance.asset_info.asset_id];
+        const {
+            currentPriceForAssets,
+            settings: { currency },
+        } = this.variablesService;
+        const value = getFiatValue(balance, currentPriceForAssets, currency);
 
-        if (!currentPrice || typeof currentPrice.data === 'string') return null;
-
-        const currency = this.variablesService.settings.currency;
+        if (!value) return null;
 
         return {
-            value: this.getFiatValue(balance),
+            value,
             currency: currency.toUpperCase(),
         };
     }

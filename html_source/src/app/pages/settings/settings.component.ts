@@ -7,6 +7,7 @@ import { REG_EXP_PASSWORD, ZanoValidators } from '@parts/utils/zano-validators';
 import { generateRandomString } from '@parts/utils/generate-random-string';
 import { debounceTime } from 'rxjs/operators';
 import { ScaleItems } from '@api/models/scale.model';
+import { currenciesItems } from '@parts/data/currencies';
 
 @Component({
     selector: 'app-settings',
@@ -308,4 +309,6 @@ export class SettingsComponent implements OnInit {
 
         this.backend.storeAppData();
     }
+
+    protected readonly currenciesItems = currenciesItems;
 }

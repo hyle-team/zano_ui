@@ -15,16 +15,10 @@
                         <div class="text-ellipsis overflow-hidden">{{ balance.total | intToMoney }}</div>
                         <span class="currency ml-0_5">{{ balance.asset_info.ticker }}</span>
                     </ng-container>
-                    <ng-container *ngSwitchCase="'fiat'">
-                        <ng-container *ngIf="getFiatPrice(balance) as price">
-                            <div class="text-ellipsis overflow-hidden">{{ price.value }}</div>
-                            <span class="currency ml-0_5">{{ price.currency.toUpperCase() }}</span>
-                        </ng-container>
-                    </ng-container>
                     <ng-container *ngSwitchDefault>
-                        <ng-container *ngIf="getFiatPrice(balance) as price">
-                            <div class="text-ellipsis overflow-hidden">{{ price.value }}</div>
-                            <span class="currency ml-0_5">{{ price.currency.toUpperCase() }}</span>
+                        <ng-container *ngIf="getViewBalanceData(balance) as viewBalanceData">
+                            <div class="text-ellipsis overflow-hidden">{{ viewBalanceData.value }}</div>
+                            <span class="currency ml-0_5">{{ viewBalanceData.currency.toUpperCase() }}</span>
                         </ng-container>
                     </ng-container>
                 </ng-container>

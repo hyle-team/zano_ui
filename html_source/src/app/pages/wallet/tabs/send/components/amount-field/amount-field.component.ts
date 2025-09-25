@@ -13,6 +13,7 @@ import { BigNumber } from 'bignumber.js';
 import { DestinationsForm } from '../../send.component';
 import { ZANO_ASSET_INFO } from '@parts/data/zano-assets-info';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { isFiatCurrency } from '@parts/data/currencies';
 
 interface AmountInputParams {
     decimalPoint: number;
@@ -132,7 +133,7 @@ export class AmountFieldComponent implements OnInit, OnDestroy, OnChanges {
         const currency_price =
             typeof priceInfo.data === 'object' && priceInfo.data !== null ? priceInfo.data.fiat_prices?.[settings.currency] ?? 0 : 0;
 
-        const fiatDecimalPlaces = (this.variables_service.isFiatCurrency(settings.currency) ? 2 : BigNumber(currency_price).decimalPlaces()) ?? 2;
+        const fiatDecimalPlaces = (isFiatCurrency(settings.currency) ? 2 : BigNumber(currency_price).decimalPlaces()) ?? 2;
         if (is_currency_input_mode) {
             const converted = BigNumber(+amount || 0)
                 .dividedBy(currency_price)
