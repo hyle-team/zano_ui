@@ -5,6 +5,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Wallet } from '@api/models/wallet.model';
 import { Subject } from 'rxjs';
 import { ZanoLoadersService } from '@parts/services/zano-loaders.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-sidebar',
@@ -16,6 +17,7 @@ export class SidebarComponent implements OnDestroy {
 
     constructor(
         public variablesService: VariablesService,
+        public translateService: TranslateService,
         private route: ActivatedRoute,
         private router: Router,
         private ngZone: NgZone,

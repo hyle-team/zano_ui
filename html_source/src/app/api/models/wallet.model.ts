@@ -15,28 +15,55 @@ import { TransferFormValue } from '@api/models/transfer.model';
 import { ZANO_ASSET_INFO } from '@parts/data/zano-assets-info';
 import { map } from 'rxjs/operators';
 import { DEFAULT_ASSET_LOGO_SRC } from '@parts/data/constants';
+import { CurrentPriceForAssets } from '@api/models/api-zano.models';
+import { getFiatValue } from '@parts/functions/get-fiat-value';
 
 export const defaultAssetsInfoWhitelist = { global_whitelist: [], local_whitelist: [], own_assets: [] };
 
-const sortBalances = (value: AssetBalances | null | undefined): AssetBalances => {
+const sortBalances = (
+    value: AssetBalances | null | undefined,
+    currentPriceForAssets: CurrentPriceForAssets,
+    currency: string = 'usd'
+): AssetBalances => {
+    if (!value || value.length === 0) return [];
+
+    // Copy of the array to avoid mutating the input data
+    const assets = [...value];
+
+    // We take out ZANO (if there is one) and fix it first
     const sortedBalances: AssetBalances = [];
-    if (value) {
-        const assets = [...value];
-        const indexZano = assets.findIndex(({ asset_info: { ticker } }) => ticker === 'ZANO');
-        if (indexZano >= 0) {
-            const assetZano = assets.splice(indexZano, 1)[0];
-            sortedBalances.push(assetZano);
-        }
-        const sortedAssetsByBalance = assets.sort((a, b) => new BigNumber(b.total).minus(new BigNumber(a.total)).toNumber());
-        sortedBalances.push(...sortedAssetsByBalance);
+    const zanoIndex = assets.findIndex(({ asset_info: { ticker } }) => ticker === 'ZANO');
+    if (zanoIndex >= 0) {
+        const zano = assets.splice(zanoIndex, 1)[0];
+        sortedBalances.push(zano);
     }
+
+    // Pre-calculated fiat value for each asset (with safe null/NaN handling)
+    const withFiat = assets.map((balance) => {
+        const val = getFiatValue(balance, currentPriceForAssets, currency);
+        const bn = val === null ? new BigNumber(0) : new BigNumber(val);
+        const safeBn = bn.isFinite() && !bn.isNaN() ? bn : new BigNumber(0);
+        return { balance, fiat: safeBn };
+    });
+
+    // Sort by fiat value descending, then by ticker (stable tiebreaker)
+    withFiat.sort((a, b) => {
+        const byFiat = b.fiat.comparedTo(a.fiat);
+        if (byFiat !== 0) return byFiat;
+        const ta = a.balance.asset_info?.ticker ?? '';
+        const tb = b.balance.asset_info?.ticker ?? '';
+        return ta.localeCompare(tb);
+    });
+
+    sortedBalances.push(...withFiat.map(({ balance }) => balance));
     return sortedBalances;
 };
 
+
 const prepareBalances = (
-    value: [AssetBalances, AssetsInfoWhitelist, VerifiedAssetInfoWhitelist, LocalBlacklistVerifiedAssets]
+    value: [AssetBalances, AssetsInfoWhitelist, VerifiedAssetInfoWhitelist, LocalBlacklistVerifiedAssets, CurrentPriceForAssets]
 ): AssetBalances => {
-    const [assetBalances, assetInfoWhitelist, verifiedAssetInfoWhitelist, localBlacklistVerifiedAssets] = value;
+    const [assetBalances, assetInfoWhitelist, verifiedAssetInfoWhitelist, localBlacklistVerifiedAssets, currentPriceForAssets] = value;
 
     let items: AssetBalances = [...assetBalances];
 
@@ -81,11 +108,11 @@ const prepareBalances = (
         items = items.filter(({ asset_info: { asset_id } }: AssetBalance): boolean => !localBlacklistVerifiedAssets.includes(asset_id));
     }
 
-    return items;
+    return sortBalances(items, currentPriceForAssets);
 };
 
 export class Wallet {
-    settings: { balanceDisplayMode: 'zano' | 'fiat'} = {
+    settings: { balanceDisplayMode: 'zano' | 'fiat' } = {
         balanceDisplayMode: 'fiat',
     };
 
@@ -121,6 +148,8 @@ export class Wallet {
     verificationAssetsInfoWhitelist$: BehaviorSubject<VerifiedAssetInfoWhitelist> = new BehaviorSubject<VerifiedAssetInfoWhitelist>([]);
 
     localBlacklistVerifiedAssets$: BehaviorSubject<LocalBlacklistVerifiedAssets> = new BehaviorSubject<LocalBlacklistVerifiedAssets>([]);
+
+    currentPriceForAssets$: BehaviorSubject<CurrentPriceForAssets> = new BehaviorSubject({});
 
     balances$: BehaviorSubject<AssetBalances> = new BehaviorSubject([]);
 
@@ -200,10 +229,11 @@ export class Wallet {
         this.loaded = false;
 
         combineLatest([
-            this.originalBalances$.pipe(map(sortBalances)),
+            this.originalBalances$,
             this.assetsInfoWhitelist$,
             this.verificationAssetsInfoWhitelist$,
             this.localBlacklistVerifiedAssets$,
+            this.currentPriceForAssets$,
         ])
             .pipe(map(prepareBalances))
             .subscribe({

@@ -2,135 +2,135 @@
     "ACCESSIBILITY": {
         "ADD_WALLET": {
             "DESCRIPTIONS": {
-                "DESCRIPTION1": "A page where you can go to create a new wallet, open an existing wallet, or restore a wallet."
+                "DESCRIPTION1": "Une page où vous pouvez créer un nouveau portefeuille, ouvrir un portefeuille existant ou restaurer un portefeuille."
             }
         },
         "ASSETS": {
             "LABELS": {
-                "LABEL1": "Assets table",
+                "LABEL1": "Tableau des actifs",
                 "LABEL2": "Pagination",
-                "LABEL3": "Previous",
-                "LABEL4": "Next",
-                "LABEL5": "Menu for asset: {{ full_name }}",
-                "LABEL6": "Asset Row: {{ full_name }}"
+                "LABEL3": "Précédent",
+                "LABEL4": "Suivant",
+                "LABEL5": "Menu pour l'actif : {{ full_name }}",
+                "LABEL6": "Ligne d'actif : {{ full_name }}"
             }
         },
         "ASSIGN_ALIAS": {
             "DESCRIPTIONS": {
-                "DESCRIPTION1": "Adding an alias for your wallet. You can create your own unique name for your wallet, and a comment. Other users can send funds to this name."
+                "DESCRIPTION1": "Ajouter un alias pour votre portefeuille. Vous pouvez créer votre propre nom unique pour votre portefeuille, ainsi qu'un commentaire. D'autres utilisateurs peuvent envoyer des fonds à ce nom."
             }
         },
         "AUTH": {
             "LOGIN": {
-                "ARIAL_LABEL1": "Login card with form",
-                "ARIAL_LABEL2": "Setup Master Password Form",
-                "ARIAL_LABEL3": "Enter a master password here",
-                "ARIAL_LABEL4": "Confirm new password here",
-                "ARIAL_LABEL5": "Submit master password",
-                "ARIAL_LABEL6": "Skip password creation",
-                "ARIAL_LABEL7": "Login with Master Password",
-                "ARIAL_LABEL8": "Login with password",
-                "ARIAL_LABEL9": "Reset application"
+                "ARIAL_LABEL1": "Carte de connexion avec formulaire",
+                "ARIAL_LABEL2": "Formulaire de configuration du mot de passe maître",
+                "ARIAL_LABEL3": "Entrez un mot de passe maître ici",
+                "ARIAL_LABEL4": "Confirmez le nouveau mot de passe ici",
+                "ARIAL_LABEL5": "Soumettre le mot de passe maître",
+                "ARIAL_LABEL6": "Passer la création du mot de passe",
+                "ARIAL_LABEL7": "Se connecter avec le mot de passe maître",
+                "ARIAL_LABEL8": "Se connecter avec un mot de passe",
+                "ARIAL_LABEL9": "Réinitialiser l'application"
             }
         },
         "BACK_BUTTON": {
-            "ARIA_LABEL1": "Back"
+            "ARIA_LABEL1": "Retour"
         },
         "CREATE_SWAP": {
             "LABELS": {
-                "LABEL1": "Select asset",
-                "LABEL2": "Reverse"
+                "LABEL1": "Sélectionner un actif",
+                "LABEL2": "Inverser"
             }
         },
         "CREATE_WALLET": {
             "DESCRIPTIONS": {
-                "DESCRIPTION1": "On this page you can create a wallet"
+                "DESCRIPTION1": "Sur cette page, vous pouvez créer un portefeuille"
             }
         },
         "EDIT_ALIAS": {
             "DESCRIPTIONS": {
-                "DESCRIPTION1": "Page for editing alias. You can only change the comment."
+                "DESCRIPTION1": "Page pour l'édition de l'alias. Vous ne pouvez modifier que le commentaire."
             }
         },
         "HISTORY": {
             "LABELS": {
-                "LABEL1": "History table"
+                "LABEL1": "Tableau de l'historique"
             }
         },
         "MY_ALIASES_DIALOG": {
             "LABELS": {
-                "LABEL1": "Edit",
-                "LABEL2": "Send"
+                "LABEL1": "Modifier",
+                "LABEL2": "Envoyer"
             }
         },
         "PAGINATION": {
             "LABELS": {
                 "LABEL1": "Pagination",
-                "LABEL2": "Previous",
-                "LABEL3": "Next"
+                "LABEL2": "Précédent",
+                "LABEL3": "Suivant"
             }
         },
         "RESTORE_WALLET": {
             "DESCRIPRIONS": {
-                "DESCRIPTION1": "Wallet recovery page. Fill in all fields and enter the seed phrase."
+                "DESCRIPTION1": "Страница восстановления кошелька. Заполните все поля и введите начальную фразу."
             }
         },
         "SEND": {
             "LABELS": {
-                "LABEL1": "Remove destinastions row",
-                "LABEL2": "Toggle input mode"
+                "LABEL1": "Удалить строку назначения",
+                "LABEL2": "Переключить режим ввода"
             }
         },
         "SETTINGS": {
-            "ARIA_LABEL1": "Copy Build Version",
-            "ARIA_LABEL2": "Copy secret",
-            "ARIA_LABEL3": "Regenerate"
+            "ARIA_LABEL1": "Copier la version de la version",
+            "ARIA_LABEL2": "Copier le secret",
+            "ARIA_LABEL3": "Regénérer"
         },
         "STAKING": {
             "LABELS": {
-                "LABEL1": "Selected period:"
+                "LABEL1": "Période sélectionnée :"
             }
         },
         "TRANSFER_ALIAS": {
             "DESCRIPTIONS": {
-                "DESCRIPTION1": "Transfer page alias send to another wallet"
+                "DESCRIPTION1": "Страница для отправки алиаса на другой кошелек"
             }
         },
         "WALLET_CARD": {
-            "ARIA_LABEL1": "Wallet synchronization progress"
+            "ARIA_LABEL1": "Progression de la synchronisation du portefeuille"
         }
     },
     "ADD_ANOTHER_DESTINATION": {
-        "TEXT1": "Add another destination",
-        "TEXT2": "You can add another address for sending"
+        "TEXT1": "Ajouter une autre destination",
+        "TEXT2": "Vous pouvez ajouter une autre adresse pour l'envoi"
     },
     "ASSETS": {
         "DROP_DOWN_MENU": {
             "ASSET_DETAILS": "Détails de l'actif",
-            "REMOVE_ASSET": "Supprimer l'actif",
-            "SEND": "Send",
-            "SWAP": "Swap"
+            "REMOVE_ASSET": "Retirer l'actif",
+            "SEND": "Envoyer",
+            "SWAP": "Échanger"
         },
         "FORM": {
             "ERRORS": {
-                "INSUFICCIENT_FUNDS": "Insuficcient funds",
-                "WRONG_ASSET_ID": "Wrong asset id"
+                "INSUFICCIENT_FUNDS": "Fonds insuffisants",
+                "WRONG_ASSET_ID": "ID d'actif incorrect"
             }
         },
         "MODALS": {
             "ASSET_DETAILS": {
                 "LABELS": {
-                    "CURRENT_SUPPLY": "Approvisionnement actuel",
-                    "ID": "Identifiant de l'actif",
-                    "MAX_SUPPLE": "Approvisionnement max",
+                    "CURRENT_SUPPLY": "Offre actuelle",
+                    "ID": "ID de l'actif",
+                    "MAX_SUPPLE": "Offre maximale",
                     "NAME": "Nom de l'actif",
-                    "OWNER": "Owner",
-                    "TICKER": "Ticker"
+                    "OWNER": "Propriétaire",
+                    "TICKER": "Symbole"
                 },
-                "TITLE": "Asset Details"
+                "TITLE": "Détails de l'actif"
             },
             "CONFIRM_MODAL": {
-                "TITLE": "Do you want delete {{ full_name }}"
+                "TITLE": "Voulez-vous supprimer {{ full_name }}"
             }
         },
         "TABLE": {
@@ -143,79 +143,81 @@
         }
     },
     "ASSIGN_ALIAS": {
-        "BUTTON_ASSIGN": "Assigner",
+        "BUTTON_ASSIGN": "Attribuer",
         "COMMENT": {
             "LABEL": "Commentaire",
-            "PLACEHOLDER": "",
-            "TOOLTIP": "Le commentaire sera visible à quiconque souhaite effectuer un paiement à votre alias. Vous pouvez fournir des détails sur votre entreprise, vos informations de contact ou inclure tout texte. Les commentaires peuvent être modifiés plus tard."
+            "PLACEHOLDER": "Entrez votre commentaire ici",
+            "TOOLTIP": "Le commentaire sera visible par quiconque souhaite effectuer un paiement à votre alias. Vous pouvez fournir des détails sur votre entreprise, vos contacts ou inclure tout autre texte. Les commentaires peuvent être modifiés ultérieurement."
         },
         "COST": "Frais d'alias {{value}} {{currency}}",
         "FORM_ERRORS": {
             "MAX_LENGTH": "Longueur maximale du commentaire atteinte",
-            "NAME_EXISTS": "Alias déjà existant",
-            "NAME_LENGTH": "L'alias doit contenir 6-25 caractères",
+            "NAME_EXISTS": "Le nom de l'alias existe déjà",
+            "NAME_LENGTH": "Veuillez entrer un nom d'alias entre 6 et 25 caractères. Ce champ est requis.",
             "NAME_REQUIRED": "Le nom est requis",
-            "NAME_WRONG": "Invalid name. Use only letters (a–z), numbers (0–9), and special characters (-.)",
-            "NO_MONEY": "Vous n'avez pas assez de fonds pour assigner cet alias"
+            "NAME_WRONG": "Nom invalide. Utilisez uniquement des lettres (a–z), des chiffres (0–9) et des caractères spéciaux (-.)",
+            "NO_MONEY": "Fonds insuffisants pour attribuer l'alias"
         },
         "NAME": {
             "LABEL": "Alias",
-            "PLACEHOLDER": " Entrer l'alias",
-            "TOOLTIP": "Un alias est une forme abréviée pour votre compte. Un alias ne peut inclure que des lettres, des chiffres et des caractères latins « » et « - ». Il doit commencer par « @ »."
+            "PLACEHOLDER": "Entrer l'alias",
+            "TOOLTIP": "Un alias est une forme abrégée de votre compte. Un alias ne peut inclure que des lettres latines, des chiffres et les caractères «.» et «-». Il doit commencer par «@»."
         },
-        "ONE_ALIAS": "Vous pouvez créer un seul alias par portefeuille",
-        "REQUEST_ADD_REG": "L'alias sera assigné dans les 10 prochaines minutes"
+        "ONE_ALIAS": "Vous ne pouvez créer qu'un seul alias par portefeuille",
+        "REQUEST_ADD_REG": "L'alias sera attribué dans les 10 minutes"
     },
     "BACKEND_LOCALIZATION": {
         "INCOME_TRANSFER_CONFIRMED": "Paiement reçu",
         "INCOME_TRANSFER_UNCONFIRMED": "Paiement entrant (non confirmé)",
-        "IS_CONFIRMED": "",
-        "IS_MINIMIZE": "L'application Zano est minimisée dans la barre d'état",
-        "IS_RECEIVED": "",
+        "IS_CONFIRMED": " ",
+        "IS_MINIMIZE": "L'application Zano est minimisée dans la barre d'état système",
+        "IS_RECEIVED": " ",
         "LOCKED": "Bloqué",
         "MINED": "Miné",
         "QUIT": "Quitter",
         "RESTORE": "Vous pouvez le récupérer en cliquant ou en utilisant le menu contextuel",
-        "TRAY_MENU_MINIMIZE": "Réduire",
+        "TRAY_MENU_MINIMIZE": "Minimiser",
         "TRAY_MENU_SHOW": "Redimensionner"
     },
     "BREADCRUMBS": {
         "ADD_WALLET": "Ajouter un portefeuille",
-        "ASSIGN_ALIAS": "Assigner un alias",
+        "ASSIGN_ALIAS": "Attribuer un alias",
         "CONTRACTS": "Contrats",
         "CREATE_WALLET": "Créer un nouveau portefeuille",
         "EDIT_ALIAS": "Modifier l'alias",
         "NEW_PURCHASE": "Nouvel achat",
         "OLD_PURCHASE": "Achat",
         "OPEN_WALLET": "Ouvrir un portefeuille existant",
-        "RESTORE_WALLET": "Restaurer depuis une sauvegarde",
-        "SAVE_PHRASE": "Enregistrer votre phrase de sécurité",
+        "RESTORE_WALLET": "Restaurer à partir d'une sauvegarde",
+        "SAVE_PHRASE": "Sauvegardez votre phrase de départ",
         "TRANSFER_ALIAS": "Transférer l'alias",
         "WALLET_DETAILS": "Détails du portefeuille"
     },
     "BURN_CUSTOM_ASSET": {
         "BUTTONS": {
-            "BUTTON1": "Cancel",
-            "BUTTON2": "Confirm"
+            "BUTTON1": "Annuler",
+            "BUTTON2": "Confirmer"
         },
         "LABELS": {
-            "LABEL1": "Burn",
-            "LABEL2": "Amount"
+            "LABEL1": "Brûler",
+            "LABEL2": "Montant"
         }
     },
     "CELL_ASSET_BALANCE": {
         "LABELS": {
-            "LABEL1": "Total balance",
-            "LABEL2": "Unconfirmed balance"
+            "LABEL1": "Solde total",
+            "LABEL2": "Solde non confirmé"
         },
         "TOOLTIPS": {
-            "TOOLTIP1": "Architecture demands 10 confirmations for this change transaction and that amount gets locked in the wallet. Therefore, lock time is 10 blocks behind or approximately 10 minutes."
+            "TOOLTIP1": "L'architecture exige 10 confirmations pour cette transaction de modification et ce montant est bloqué dans le portefeuille. Par conséquent, le temps de verrouillage est de 10 blocs derrière ou environ 10 minutes."
         }
     },
     "COMMON": {
-        "BACK": "Retour",
-        "COPY": "Copy",
-        "LOADING": "Loading..."
+        "BACK": "Retourner",
+        "BUILD_VERSION": "Version de la version",
+        "BUILD_VERSION_COPIED": "La version de build a été copiée",
+        "COPY": "Copier",
+        "LOADING": "Chargement..."
     },
     "CONFIRM": {
         "BUTTON_CANCEL": "Annuler",
@@ -226,55 +228,55 @@
             "SEND": "Envoyer",
             "TO": "À"
         },
-        "TITLE": "Confirmer la transaction"
+        "TITLE": "Transaction"
     },
     "CONFIRM_CREATE_CUSTOM_ASSET": {
         "BUTTONS": {
-            "BUTTON1": "Cancel",
-            "BUTTON2": "Confirm"
+            "BUTTON1": "Annuler",
+            "BUTTON2": "Confirmer"
         },
         "TABLE": {
-            "LABEL1": "Ticker",
-            "LABEL2": "Full Name",
-            "LABEL3": "Total Max Supply",
-            "LABEL4": "Current Supply",
-            "LABEL5": "Decimal Point",
-            "LABEL6": "Meta Info"
+            "LABEL1": "Symbole",
+            "LABEL2": "Nom complet",
+            "LABEL3": "Offre totale maximale",
+            "LABEL4": "Offre actuelle",
+            "LABEL5": "Point décimal",
+            "LABEL6": "Meta info"
         },
-        "TITLE": "Confirm"
+        "TITLE": "Confirmer"
     },
     "CONFIRM_SWAP": {
         "BREADCRUMBS": {
-            "ITEM1": "Swap",
-            "ITEM2": "Confirm swap"
+            "ITEM1": "Échanger",
+            "ITEM2": "Confirmer l'échange"
         },
         "FORM": {
             "BUTTONS": {
-                "BUTTON1": "Accept Proposal",
-                "BUTTON2": "Back"
+                "BUTTON1": "Accepter la proposition",
+                "BUTTON2": "Retour"
             },
             "LABELS": {
-                "LABEL1": "Swap proposal hex",
-                "LABEL2": "Proposal details"
+                "LABEL1": "Hex de proposition d'échange",
+                "LABEL2": "Détails de la proposition"
             },
             "PLACEHOLDERS": {
-                "PLACEHOLDER1": "Enter Swap proposal hex"
+                "PLACEHOLDER1": "Entrer l'hex de la proposition d'échange"
             },
             "TABLE": {
                 "LABELS": {
-                    "LABEL1": "Sending",
-                    "LABEL2": "Receiving",
-                    "LABEL3": "Expiration time"
+                    "LABEL1": "Envoi",
+                    "LABEL2": "Réception",
+                    "LABEL3": "Temps d'expiration"
                 }
             }
         }
     },
     "CONTACTS": {
         "ADD": "Ajouter/modifier un contact",
-        "ADD_CONTACT": "Ajouter le contact",
+        "ADD_CONTACT": "Ajouter un contact",
         "BUTTON": {
             "ADD": "Ajouter un contact",
-            "ADD_EDIT": "Ajouter/Enregistrer",
+            "ADD_EDIT": "Ajouter/Sauvegarder",
             "DELETE": "Supprimer",
             "EDIT": "Modifier",
             "GO_TO_WALLET": "Aller au portefeuille",
@@ -282,11 +284,11 @@
             "SEND": "Envoyer"
         },
         "COPY": "- Copier",
-        "ERROR_EMPTY_LIST": "Contact list is empty",
-        "ERROR_EXPORT": "Invalid file type. Save file as .csv",
-        "ERROR_IMPORT": "Erreur lors de la lecture du fichier !",
-        "ERROR_IMPORT_EMPTY": "File is empty",
-        "ERROR_TYPE_FILE": "Please import valid .csv file",
+        "ERROR_EMPTY_LIST": "La liste de contacts est vide",
+        "ERROR_EXPORT": "Type de fichier invalide. Sauvegardez le fichier en tant que .csv",
+        "ERROR_IMPORT": "Une erreur est survenue lors de la lecture du fichier!",
+        "ERROR_IMPORT_EMPTY": "Le fichier est vide",
+        "ERROR_TYPE_FILE": "Veuillez importer un fichier .csv valide",
         "EXPORT": "Exporter",
         "FORM": {
             "ADDRESS": "Adresse",
@@ -294,12 +296,12 @@
             "NOTES": "Notes"
         },
         "FORM_ERRORS": {
-            "ADDRESS_DUBLICATED": "L'addresse est dupliquée",
-            "ADDRESS_NOT_VALID": "Addresse invalide",
-            "ADDRESS_REQUIRED": "Adresse requise",
+            "ADDRESS_DUBLICATED": "L'adresse est dupliquée",
+            "ADDRESS_NOT_VALID": "Adresse non valide",
+            "ADDRESS_REQUIRED": "L'adresse est requise",
             "MAX_LENGTH": "Longueur maximale des notes atteinte",
-            "NAME_DUBLICATED": "Nom déjà utilisé",
-            "NAME_LENGTH": "Le nom doit contenir 4-25 caractères",
+            "NAME_DUBLICATED": "Le nom est dupliqué",
+            "NAME_LENGTH": "Le nom doit avoir entre 4 et 25 caractères",
             "NAME_REQUIRED": "Le nom est requis",
             "SET_MASTER_PASSWORD": "Définir le mot de passe maître"
         },
@@ -307,11 +309,11 @@
         "IMPORT_EXPORT": "Importer ou exporter des contacts",
         "OPEN_ADD_WALLET": "Ouvrir/Ajouter un portefeuille",
         "SEND": "Envoyer",
-        "SEND_FROM": "Envoyer de",
+        "SEND_FROM": "Envoyer depuis",
         "SEND_TO": "À",
-        "SUCCESS_EXPORT": "Contacts are exported",
-        "SUCCESS_IMPORT": "Contacts are imported",
-        "SUCCESS_SAVE": "Contact modifié",
+        "SUCCESS_EXPORT": "Les contacts sont exportés",
+        "SUCCESS_IMPORT": "Les contacts sont importés",
+        "SUCCESS_SAVE": "Le contact est modifié",
         "SUCCESS_SENT": "Contact ajouté",
         "TABLE": {
             "ADDRESS": "Adresse",
@@ -333,7 +335,7 @@
         "CONTRACTS": "Contrats",
         "DATE": "Date",
         "EMPTY": "Aucun contrat actif",
-        "LISTING_BUTTON": "Créer une offre",
+        "LISTING_BUTTON": "Créer une annonce",
         "PURCHASE": "Achat",
         "PURCHASE_BUTTON": "Nouvel achat",
         "SELL": "Vendre",
@@ -343,15 +345,15 @@
                 "ACCEPTED": "Le vendeur a accepté votre proposition de contrat",
                 "BEING_CANCELLED": "Annulation en cours",
                 "CANCELLED": "Contrat annulé",
-                "COMPLETED": "Contrat complété",
+                "COMPLETED": "Contrat terminé",
                 "EXPIRED": "La proposition de contrat a expiré",
                 "IGNORED": "Le vendeur a ignoré votre proposition de contrat",
-                "IGNORED_CANCEL": "Le vendeur a ignoré votre proposition d'annuler le contrat",
+                "IGNORED_CANCEL": "Le vendeur a ignoré votre proposition d'annulation du contrat",
                 "NOT_RECEIVED": "Échec de la livraison",
                 "NULLIFIED": "Tous les dépôts ont été brûlés",
-                "WAIT": "En attente de confirmation des dépôts",
-                "WAITING": "En attente d'une réponse",
-                "WAITING_CANCEL": "En attente d'annulation du contrat",
+                "WAIT": "En attente de la confirmation des dépôts",
+                "WAITING": "En attente de réponse",
+                "WAITING_CANCEL": "En attente d'annulation de contrat",
                 "WAITING_SELLER": "En attente de livraison"
             },
             "SELLER": {
@@ -365,67 +367,67 @@
                 "NEW_CONTRACT": "Nouvelle proposition de contrat",
                 "NOT_RECEIVED": "Échec de la livraison",
                 "NULLIFIED": "Tous les dépôts ont été brûlés",
-                "PROPOSAL_CANCEL": "Nouvelle proposition d'annulation de contrat et retour des dépôts",
-                "WAIT": "En attente de confirmation du contrat",
+                "PROPOSAL_CANCEL": "Nouvelle proposition pour annuler le contrat et restituer les dépôts",
+                "WAIT": "En attente de la confirmation du contrat",
                 "WAITING_BUYER": "En attente de livraison"
             }
         },
         "TIME_LEFT": {
             "REMAINING_LESS_ONE": "Moins d'une heure pour répondre",
-            "REMAINING_MANY": "{{time}} heures restantes",
-            "REMAINING_MANY_ALT": "{{time}} heures restantes",
-            "REMAINING_MANY_ALT_RESPONSE": "{{time}} heures restantes",
-            "REMAINING_MANY_ALT_WAITING": "En attente de {{time}} heures",
-            "REMAINING_MANY_RESPONSE": "{{time}} heures restantes",
-            "REMAINING_MANY_WAITING": "En attente de {{time}} heures",
-            "REMAINING_ONE": "{{time}} heure restante",
-            "REMAINING_ONE_RESPONSE": "{{time}} heure restante",
-            "REMAINING_ONE_WAITING": "En attente de {{time}}  heure"
+            "REMAINING_MANY": "Il reste {{time}} heures",
+            "REMAINING_MANY_ALT": "Il reste {{time}} heures",
+            "REMAINING_MANY_ALT_RESPONSE": "Il reste {{time}} heures",
+            "REMAINING_MANY_ALT_WAITING": "En attente pendant {{time}} heures",
+            "REMAINING_MANY_RESPONSE": "Il reste {{time}} heures",
+            "REMAINING_MANY_WAITING": "En attente pendant {{time}} heures",
+            "REMAINING_ONE": "Il reste {{time}} heure",
+            "REMAINING_ONE_RESPONSE": "Il reste {{time}} heure",
+            "REMAINING_ONE_WAITING": "En attente pendant {{time}} heure"
         }
     },
     "CREATE_NEW_ASSETS": {
         "BREADCRUMBS": {
-            "BREADCRUMB1": "Custom Assets",
-            "BREADCRUMB2": "Create new asset"
+            "BREADCRUMB1": "Actifs personnalisés",
+            "BREADCRUMB2": "Créer un nouvel actif"
         },
         "FORM": {
             "BUTTONS": {
-                "BUTTON1": "Create"
+                "BUTTON1": "Créer"
             },
             "LABELS": {
-                "LABEL1": "Ticker",
-                "LABEL2": "Full name",
-                "LABEL3": "Total Max Supply",
-                "LABEL4": "Current Supply",
-                "LABEL5": "Decimal Point",
+                "LABEL1": "Symbole",
+                "LABEL2": "Nom complet",
+                "LABEL3": "Offre totale maximale",
+                "LABEL4": "Offre actuelle",
+                "LABEL5": "Point décimal",
                 "LABEL6": "Meta info"
             },
             "PLACEHOLDERS": {
-                "PLACEHOLDER1": "Confidential token",
-                "PLACEHOLDER2": "Comment"
+                "PLACEHOLDER1": "Jeton confidentiel",
+                "PLACEHOLDER2": "Commentaire"
             }
         }
     },
     "CREATE_SWAP": {
         "BREADCRUMBS": {
-            "ITEM1": "Swap",
-            "ITEM2": "Create swap"
+            "ITEM1": "Échanger",
+            "ITEM2": "Créer un échange"
         },
         "FORM": {
             "BUTTONS": {
-                "BUTTON1": "Create proposal",
-                "BUTTON2": "Cancel"
+                "BUTTON1": "Créer une proposition",
+                "BUTTON2": "Annuler"
             },
             "ERRORS": {
-                "ERROR1": "Swap for the same asset is not allowed."
+                "ERROR1": "L'échange pour le même actif n'est pas autorisé."
             },
             "LABELS": {
-                "LABEL1": "Sending",
-                "LABEL2": "Receiving",
-                "LABEL3": "Receiver address"
+                "LABEL1": "Envoi",
+                "LABEL2": "Réception",
+                "LABEL3": "Adresse du destinataire"
             },
             "PLACEHOLDERS": {
-                "PLACEHOLDER1": "Please enter the amount"
+                "PLACEHOLDER1": "Veuillez entrer le montant"
             }
         }
     },
@@ -433,76 +435,76 @@
         "BUTTON_CREATE": "Créer un portefeuille",
         "BUTTON_SELECT": "Sélectionner l'emplacement du portefeuille",
         "CONFIRM": "Confirmer le mot de passe du portefeuille",
-        "ERROR_CANNOT_SAVE_SYSTEM": "Les fichiers de portefeuille ne peuvent pas être sauvegardés sur la partition du OS",
+        "ERROR_CANNOT_SAVE_SYSTEM": "Les fichiers de portefeuille ne peuvent pas être sauvegardés sur la partition du système d'exploitation",
         "ERROR_CANNOT_SAVE_TOP": "Les fichiers de portefeuille existants ne peuvent pas être remplacés ou écrasés",
         "FORM_ERRORS": {
-            "CONFIRM_NOT_MATCH": "Les mots de passe ne correspondent pas",
+            "CONFIRM_NOT_MATCH": "Les mots de passe saisis ne correspondent pas",
             "MAX_LENGTH": "Longueur maximale du nom atteinte",
-            "NAME_DUPLICATE": "Nom déjà utilisé",
-            "NAME_REQUIRED": "Le nom est requis"
+            "NAME_DUPLICATE": "Le nom est dupliqué",
+            "NAME_REQUIRED": "Ce champ est requis"
         },
         "NAME": "Nom du portefeuille",
         "PASS": "Définir le mot de passe du portefeuille",
-        "TITLE_SAVE": "Enregistrer le fichier du portefeuille."
+        "TITLE_SAVE": "Sauvegardez le fichier du portefeuille."
     },
     "CUSTOM_ASSETS": {
         "BUTTONS": {
-            "BUTTON1": "Create new assets"
+            "BUTTON1": "Créer de nouveaux actifs"
         },
         "DROP_MENU": {
             "LABELS": {
-                "LABEL1": "Asset Details",
-                "LABEL2": "Emit",
-                "LABEL3": "Update",
-                "LABEL4": "Burn"
+                "LABEL1": "Détails de l'actif",
+                "LABEL2": "Émettre",
+                "LABEL3": "Mettre à jour",
+                "LABEL4": "Brûler"
             }
         },
         "TABLE": {
             "LABELS": {
-                "LABEL1": "Asset ID",
-                "LABEL2": "Ticker",
-                "LABEL3": "Name",
-                "LABEL4": "Total max supply",
-                "LABEL5": "Current Supply",
-                "LABEL6": "Decimal point"
+                "LABEL1": "ID de l'actif",
+                "LABEL2": "Symbole",
+                "LABEL3": "Nom",
+                "LABEL4": "Offre totale maximale",
+                "LABEL5": "Offre actuelle",
+                "LABEL6": "Point décimal"
             }
         },
         "TEXT": {
-            "EMPTY": "No custom assets"
+            "EMPTY": "Aucun actif personnalisé"
         }
     },
     "DEEPLINK": {
         "BUTTONS": {
-            "BUTTON1": "Next...",
-            "BUTTON2": "Sign & Send...",
-            "BUTTON3": "Close",
+            "BUTTON1": "Suivant...",
+            "BUTTON2": "Signer et envoyer...",
+            "BUTTON3": "Fermer",
             "BUTTON4": "Ok"
         },
         "LABELS": {
-            "LABEL1": "Select wallet for action:",
-            "LABEL10": "Operation successful",
-            "LABEL11": "Operation hash",
-            "LABEL12": "Your wallets have not loaded yet. Try this action a little later.",
-            "LABEL2": "Offer title",
+            "LABEL1": "Sélectionner le portefeuille pour l'action :",
+            "LABEL10": "Opération réussie",
+            "LABEL11": "Hachage de l'opération",
+            "LABEL12": "Vos portefeuilles n'ont pas encore été chargés. Veuillez réessayer un peu plus tard.",
+            "LABEL2": "Titre de l'offre",
             "LABEL3": "Description",
-            "LABEL4": "Category",
-            "LABEL5": "Price",
-            "LABEL6": "Preview url",
+            "LABEL4": "Catégorie",
+            "LABEL5": "Prix",
+            "LABEL6": "URL d'aperçu",
             "LABEL7": "Contacts",
-            "LABEL8": "Comments",
-            "LABEL9": "Transaction fee"
+            "LABEL8": "Commentaires",
+            "LABEL9": "Frais de transaction"
         }
     },
     "EDIT_ALIAS": {
         "BUTTON_EDIT": "Modifier",
         "COMMENT": {
             "LABEL": "Commentaire",
-            "PLACEHOLDER": ""
+            "PLACEHOLDER": "Entrez votre commentaire ici"
         },
         "COST": "Frais {{value}} {{currency}}",
         "FORM_ERRORS": {
             "MAX_LENGTH": "Longueur maximale du commentaire atteinte",
-            "NO_MONEY": "Vous n'avez pas assez de fonds pour changer le commentaire de cet alias"
+            "NO_MONEY": "Vous n'avez pas assez de fonds pour modifier le commentaire de cet alias"
         },
         "NAME": {
             "LABEL": "Alias",
@@ -511,73 +513,73 @@
     },
     "EMIT_CUSTOM_ASSET": {
         "BUTTONS": {
-            "BUTTON1": "Cancel",
-            "BUTTON2": "Confirm"
+            "BUTTON1": "Annuler",
+            "BUTTON2": "Confirmer"
         },
         "LABELS": {
-            "LABEL1": "Emit",
-            "LABEL2": "Amount"
+            "LABEL1": "Émettre",
+            "LABEL2": "Montant"
         }
     },
     "ERRORS": {
         "ACCESS_DENIED": "Accès refusé",
-        "ADDRESS_NOT_VALID": "Address not valid",
-        "AMOUNT_GREATER_CURRENT_SUPPLY": "Amount greater current supply",
-        "ASSET_HAS_NOT_BEEN_ADDED_TO_WALLET": "Asset has not been added",
-        "ASSET_NOT_FOUND": "Asset not found",
+        "ADDRESS_NOT_VALID": "Adresse non valide",
+        "AMOUNT_GREATER_CURRENT_SUPPLY": "Montant supérieur à l'offre actuelle",
+        "ASSET_HAS_NOT_BEEN_ADDED_TO_WALLET": "L'actif n'a pas été ajouté",
+        "ASSET_NOT_FOUND": "Actif non trouvé",
         "BAD_ARG": "Argument invalide",
-        "CANNOT_BE_GREATER_THAN_TOTAL_MAX_SUPPLY": "Cannot be greater than Total max supply",
-        "CANT_ESTIMATE_WRAP_OPERATION_COST": "Can't estimate wrap operation cost, please try again later",
+        "CANNOT_BE_GREATER_THAN_TOTAL_MAX_SUPPLY": "Ne peut pas être supérieur à l'offre totale maximale",
+        "CANT_ESTIMATE_WRAP_OPERATION_COST": "Impossible d'estimer le coût de l'opération de 'wrap', veuillez réessayer plus tard",
         "CORE_BUSY": "Erreur interne : le noyau est occupé",
-        "DAEMON_BUSY": "Erreur interne : le daemon est occupé",
-        "FILE_EXIST": "Un fichier avec ce nom existe déjà. Entrez un autre nom pour enregistrer le fichier sous",
-        "FILE_NOT_FOUND": "Fichier introuvable",
-        "FILE_NOT_SAVED": "Vous ne pouvez pas enregistrer un fichier de portefeuille dans ce dossier. Veuillez choisir un autre dossier.",
-        "FILE_RESTORED": "Le fichier de portefeuille a été corrompu. Nous avons récupéré les clés et le portefeuille de la blockchain",
-        "GREATER_THAN_TOTAL_MAX_SUPPLY": "Greater than total max supply",
-        "HEX_NOT_VALID": "Hex not valid",
-        "INSUFFICIENT_FUNDS": "Insufficient funds",
-        "INVALID_FULL_NAME_ASSET_PATTERN": "Invalid asset name. Use only letters (A-Z, a–z), numbers (0–9), and special characters (\".,:!-()\" and space)",
-        "INVALID_PROPOSAL": "Invalid proposal",
-        "INVALID_TICKER_PATTERN": "Invalid ticker. Use only letters (A-Z, a–z), numbers (0–9)",
+        "DAEMON_BUSY": "Erreur interne : le démon est occupé",
+        "FILE_EXIST": "Un fichier avec ce nom existe déjà. Entrez un autre nom pour enregistrer le fichier",
+        "FILE_NOT_FOUND": "Fichier non trouvé",
+        "FILE_NOT_SAVED": "Vous ne pouvez pas sauvegarder un fichier de portefeuille dans ce dossier. Veuillez choisir un autre dossier.",
+        "FILE_RESTORED": "Le fichier de portefeuille était corrompu. Nous avons récupéré les clés et le portefeuille à partir de la blockchain",
+        "GREATER_THAN_TOTAL_MAX_SUPPLY": "Supérieur à l'offre totale maximale",
+        "HEX_NOT_VALID": "Hex non valide",
+        "INSUFFICIENT_FUNDS": "Fonds insuffisants",
+        "INVALID_FULL_NAME_ASSET_PATTERN": "Nom d'actif invalide. Utilisez uniquement des lettres (A-Z, a–z), des chiffres (0–9) et des caractères spéciaux (\".,:!-()\" et espace)",
+        "INVALID_PROPOSAL": "Proposition invalide",
+        "INVALID_TICKER_PATTERN": "Symbole invalide. Utilisez uniquement des lettres (A-Z, a–z), des chiffres (0–9)",
         "MAX": "Max {{ max }}",
-        "MAX_DECIMAL_POINT": "Max decimal point {{ max }}",
-        "MAX_LENGTH": "Maximin length {{ requiredLength }}",
+        "MAX_DECIMAL_POINT": "Point décimal max {{ max }}",
+        "MAX_LENGTH": "Longueur maximale {{ requiredLength }}",
         "MIN": "Min {{ min }}",
-        "MIN_LENGTH": "Min length {{ requiredLength }}",
-        "NOT_ENOUGH_MONEY": "Fonds insuffisants dans le compte",
-        "NOT_ENOUGH_OUTPUTS_TO_MIX": "Le nombre de mixage est trop grand pour l'état actuel de la blockchain. Il n'y a pas assez de sorties non utilisées pour mélanger avec",
-        "NOT_FILE_ZANO_WALLET": "This file is not recognized as a Zano wallet..",
-        "NO_MONEY": "Pas assez de fonds",
-        "NO_MONEY_REMOVE_OFFER": "Il n'y a pas de frais pour supprimer une offre, mais pour protéger le réseau contre les transactions de spam, vous devez avoir au moins {{fee}} {{currency}} dans votre portefeuille",
-        "OPS_UNKNOWN": "Ops... Unknown error...",
-        "REGEXP_INVALID_PASSWORD": "Invalid password. Use only letters (a–z), numbers (0–9), and special characters !@#$%^&*()_+-={}[]|:;\"'<>,.?/~. Maximum length: 40 characters.",
-        "REQUIRED": "Required field",
-        "TO_BIG_TOTAL_SUPPLY": "To big total supply, reduce it or make decimal point smaller",
-        "TRANSACTION_ERROR": "Erreur. Transaction non complétée.",
-        "TRANSACTION_IS_TO_BIG": "La transaction dépasse la limite réseau, envoyez le montant requis avec plusieurs transactions",
+        "MIN_LENGTH": "Longueur min {{ requiredLength }}",
+        "NOT_ENOUGH_MONEY": "Fonds insuffisants sur le compte",
+        "NOT_ENOUGH_OUTPUTS_TO_MIX": "Le nombre de 'mix-in' est trop grand pour l'état actuel de la blockchain. Il n'y a pas assez de sorties non dépensées pour les 'mixer' avec",
+        "NOT_FILE_ZANO_WALLET": "Ce fichier n'est pas reconnu comme un portefeuille Zano..",
+        "NO_MONEY": "Fonds insuffisants pour cette transaction",
+        "NO_MONEY_REMOVE_OFFER": "Il n'y a pas de frais pour la suppression d'une offre, mais afin de protéger le réseau contre les transactions d'inondation, vous devez avoir au moins {{fee}} {{currency}} dans votre portefeuille",
+        "OPS_UNKNOWN": "Oups... Erreur inconnue...",
+        "REGEXP_INVALID_PASSWORD": "Mot de passe invalide. Utilisez uniquement des lettres (a–z), des chiffres (0–9) et des caractères spéciaux !@#$%^&*()_+-={}[]|:;\"'<>,.?/~. Longueur maximale : 40 caractères.",
+        "REQUIRED": "Ce champ est requis",
+        "TO_BIG_TOTAL_SUPPLY": "Offre totale trop grande, réduisez-la ou réduisez le point décimal",
+        "TRANSACTION_ERROR": "Erreur. La transaction n'est pas terminée.",
+        "TRANSACTION_IS_TO_BIG": "La transaction dépasse la limite du réseau, envoyez le montant requis avec plusieurs transactions",
         "TRANSFER_ATTEMPT": "Il n'y a pas de connexion au réseau Zano",
-        "TX_IS_TOO_BIG": "Transaction exceeds network limit, send required amount with multiple transactions",
-        "TX_TYPE_COIN_BASE": "Erreur. Le paiement n'a pas été complété.",
-        "TX_TYPE_NEW_ALIAS": "Erreur. Impossible d'enregistrer l'alias dans la blockchain",
+        "TX_IS_TOO_BIG": "La transaction dépasse la limite du réseau, envoyez le montant requis avec plusieurs transactions",
+        "TX_TYPE_COIN_BASE": "Erreur. Le paiement n'a pas été effectué.",
+        "TX_TYPE_NEW_ALIAS": "Erreur. Échec de l'enregistrement de l'alias dans le coffre-fort",
         "TX_TYPE_NEW_ALIAS_END": "Veuillez réessayer.",
-        "TX_TYPE_NORMAL": "Erreur. paiement du portefeuille",
+        "TX_TYPE_NORMAL": "Erreur. Le paiement depuis le portefeuille",
         "TX_TYPE_NORMAL_END": "n'a pas été complété.",
         "TX_TYPE_NORMAL_TO": "à",
-        "TX_TYPE_UPDATE_ALIAS": "Erreur. Impossible de changer le commentaire de l'alias actuel",
-        "WALLET_RPC_ERROR_CODE_NOT_ENOUGH_MONEY": "Insufficient funds for this transaction",
-        "WALLET_WATCH_ONLY_NOT_SUPPORTED": "Les portefeuilles réservés aux montres ne peuvent être ouverts que par simplewallet",
+        "TX_TYPE_UPDATE_ALIAS": "Erreur. Échec de la modification du commentaire de l'alias dans le coffre-fort",
+        "WALLET_RPC_ERROR_CODE_NOT_ENOUGH_MONEY": "Fonds insuffisants pour cette transaction",
+        "WALLET_WATCH_ONLY_NOT_SUPPORTED": "Les portefeuilles en lecture seule ne peuvent être ouverts que par simplewallet",
         "WALLET_WRONG_ID": "ID de portefeuille invalide",
-        "WRAP_SERVICE_IS_INACTIVE": "Wrap service is inactive",
+        "WRAP_SERVICE_IS_INACTIVE": "Le service de 'wrap' est inactif",
         "WRONG_PASSWORD": "Mot de passe invalide",
-        "WRONG_PASSWORD_MUST_BE": "Invalid password. Password must be"
+        "WRONG_PASSWORD_MUST_BE": "Mot de passe invalide. Le mot de passe doit être"
     },
     "EXPORT_HISTORY": {
         "CANCEL": "Annuler",
         "EXPORT": "Exporter vers un fichier...",
         "EXPORT_BUTTON": "Exporter l'historique...",
         "FILTER": "Filtrer les transactions POS",
-        "FORMAT": "Formater",
+        "FORMAT": "Format",
         "SAVED_FILE": "Sélectionnez le chemin pour enregistrer l'historique des transactions",
         "TITLE": "Exporter l'historique du portefeuille",
         "TOOLTIP": "Exporter l'historique des transactions du portefeuille vers un fichier"
@@ -598,18 +600,18 @@
             "SIZE_VALUE": "{{value}} octets"
         },
         "FEE": "Frais",
-        "HIDDEN": "Hidden",
-        "LOCK_TOOLTIP": "Verrouillé jusqu'à {{date}}",
-        "NO_FEE": "No Fee",
+        "HIDDEN": "Caché",
+        "LOCK_TOOLTIP": "Verrouillé jusqu'au {{date}}",
+        "NO_FEE": "Pas de frais",
         "RECEIVED": "Reçu",
         "SEND": "Envoyé",
         "STATUS": "Statut",
         "STATUS_TOOLTIP": "Confirmations {{current}}/{{total}}",
         "TYPE_MESSAGES": {
-            "CANCEL_CONTRACT": "Annuler et retourner les dépôts",
-            "COMPLETE_BUYER": "Contrat complété",
-            "COMPLETE_SELLER": "Contrat complété",
-            "CREATE_ALIAS": "Frais pour assigner l'alias",
+            "CANCEL_CONTRACT": "Annuler et restituer les dépôts",
+            "COMPLETE_BUYER": "Contrat terminé",
+            "COMPLETE_SELLER": "Contrat terminé",
+            "CREATE_ALIAS": "Frais pour l'attribution d'alias",
             "CREATE_CONTRACT": "Proposition de contrat",
             "HIDDEN": "caché",
             "NULLIFY_CONTRACT": "Brûler les dépôts",
@@ -617,42 +619,42 @@
             "POS_REWARD": "Récompense POS",
             "POW_REWARD": "Récompense POW",
             "PROPOSAL_CANCEL_CONTRACT": "Demande d'annulation",
-            "SERVICE_TRANSACTIONS": "Service transactions",
-            "UNDEFINED": "Non défini",
-            "UPDATE_ALIAS": "Frais pour modifier l'alias"
+            "SERVICE_TRANSACTIONS": "Transactions de service",
+            "UNDEFINED": "Indéfini",
+            "UPDATE_ALIAS": "Frais pour la modification d'alias"
         }
     },
     "LOGIN": {
         "BUTTON_NEXT": "Suivant",
         "BUTTON_RESET": "Réinitialiser",
-        "BUTTON_SKIP": "Sauter",
+        "BUTTON_SKIP": "Passer",
         "DIALOGS": {
             "CONFIRMATION": {
                 "RESET": {
-                    "MESSAGE": "This will permanently delete all your secret data and reset the app to its default state. This action cannot be undone. Are you sure you want to proceed?",
-                    "TITLE": "Reset App Data?"
+                    "MESSAGE": "Cela supprimera définitivement toutes vos données secrètes et réinitialisera l'application à son état par défaut. Cette action ne peut pas être annulée. Êtes-vous sûr de vouloir continuer?",
+                    "TITLE": "Réinitialiser les données de l'application ?"
                 }
             }
         },
         "FORM_ERRORS": {
-            "CONFIRM_REQUIRED": "Confirmation requise",
-            "INVALID_PASS": "Mot de passe invalide, réessayez",
-            "MISMATCH": "Non-concordant",
-            "PASS_REQUIRED": "Mot de passe requis",
-            "WRONG_PASSWORD": "Wrong password"
+            "CONFIRM_REQUIRED": "La confirmation est requise",
+            "INVALID_PASS": "Mot de passe invalide",
+            "MISMATCH": "Non-concordance",
+            "PASS_REQUIRED": "Le mot de passe est requis",
+            "WRONG_PASSWORD": "Mauvais mot de passe"
         },
         "INCORRECT_PASSWORD": "Mot de passe invalide",
-        "MASTER_PASS": "Mot de passe principal",
+        "MASTER_PASS": "Mot de passe maître",
         "SETUP_CONFIRM_PASS": "Confirmer le mot de passe",
-        "SETUP_MASTER_PASS": "Configurer le mot de passe principal"
+        "SETUP_MASTER_PASS": "Configurer le mot de passe maître"
     },
     "MAIN": {
         "BUTTON_NEW_WALLET": "Créer un nouveau portefeuille",
         "BUTTON_OPEN_WALLET": "Ouvrir un portefeuille existant",
-        "BUTTON_RESTORE_BACKUP": "Restaurer depuis une sauvegarde",
+        "BUTTON_RESTORE_BACKUP": "Restaurer à partir d'une sauvegarde",
         "CHOOSE_PATH": "Veuillez choisir un chemin",
         "HELP": "Comment créer un portefeuille ?",
-        "TITLE": "Créer ou ouvrir le portefeuille pour commencer à utiliser Zano"
+        "TITLE": "Créez ou ouvrez le portefeuille pour commencer à utiliser Zano"
     },
     "MESSAGES": {
         "ADDRESS": "Adresse",
@@ -661,11 +663,11 @@
         "SEND_PLACEHOLDER": "Tapez un message..."
     },
     "MIGRATE_WALLET_TO_ZARCANUM": {
-        "BUTTON1": "Migrate",
-        "LINK1": "What does it mean?",
-        "TEXT1": "There are {{ total_bare_outs }} outputs with total amount of {{ total_amount }} ZANO.",
-        "TEXT2": "They can be converted in {{ txs_count }} transactions with total fee = {{ expected_total_fee }}.",
-        "TITLE": "Migrate wallet to Zarcanum"
+        "BUTTON1": "Migrer",
+        "LINK1": "Qu'est-ce que cela signifie ?",
+        "TEXT1": "Il y a {{ total_bare_outs }} sorties avec un montant total de {{ total_amount }} ZANO.",
+        "TEXT2": "Elles peuvent être converties en {{ txs_count }} transactions avec un total de frais = {{ expected_total_fee }}.",
+        "TITLE": "Migrer le portefeuille vers Zarcanum"
     },
     "MODALS": {
         "ADD_TOKEN": "Ajouter un jeton",
@@ -676,72 +678,72 @@
         "SUCCESS": "Succès"
     },
     "MY_ALIASES_DIALOG": {
-        "BUTTON1": "Close",
-        "TITLE": "My Aliases"
+        "BUTTON1": "Fermer",
+        "TITLE": "Mes alias"
     },
     "OPEN_WALLET": {
-        "BUTTON": "Ouvrir un portefeuille",
-        "FILE_NOT_FOUND1": "Fichier de portefeuille introuvable",
-        "FILE_NOT_FOUND2": "<br/><br/> Il aurait peut-être été renommé ou déplacé. <br/> Pour l'ouvrir, utilisez le bouton \"Ouvrir le portefeuille\".",
+        "BUTTON": "Ouvrir le portefeuille",
+        "FILE_NOT_FOUND1": "Fichier de portefeuille non trouvé",
+        "FILE_NOT_FOUND2": "<br/><br/> Il a peut-être été renommé ou déplacé. <br/> Pour l'ouvrir, utilisez le bouton \"Ouvrir le portefeuille\".",
         "FORM_ERRORS": {
             "MAX_LENGTH": "Longueur maximale du nom atteinte",
-            "NAME_DUPLICATE": "Nom déjà utilisé",
+            "NAME_DUPLICATE": "Le nom est dupliqué",
             "NAME_REQUIRED": "Le nom est requis"
         },
         "MODAL": {
             "LABEL": "Mot de passe de ce portefeuille",
-            "NOT_FOUND": "Introuvable",
-            "OPEN": "Ouvrir un portefeuille",
-            "SKIP": "Sauter",
-            "TITLE": "Entrer le mot de passe du portefeuille"
+            "NOT_FOUND": "Non trouvé",
+            "OPEN": "Ouvrir le portefeuille",
+            "SKIP": "Passer",
+            "TITLE": "Saisir le mot de passe du portefeuille"
         },
         "NAME": "Nom du portefeuille",
         "PASS": "Mot de passe du portefeuille",
         "WITH_ADDRESS_ALREADY_OPEN": "Un portefeuille avec cette adresse est déjà ouvert"
     },
     "PLACEHOLDERS": {
-        "ADDRESS_PLACEHOLDER": "Entrez l'adresse ici",
-        "AMOUNT_PLACEHOLDER": "Entrez le montant ici",
+        "ADDRESS_PLACEHOLDER": "Veuillez entrer une adresse",
+        "AMOUNT_PLACEHOLDER": "Veuillez entrer le montant",
         "COMMENT_PLACEHOLDER": "Entrez votre commentaire ici",
         "CONFIRM_WALET_PASSWORD_PLACEHOLDER": "Confirmez le mot de passe du portefeuille ici",
         "DEPOSIT_PLACEHOLDER": "Entrez votre dépôt ici",
         "DESCRIPTION_PLACEHOLDER": "Entrez une description ici",
         "FEE_PLACEHOLDER": "Entrez des frais ici",
-        "MASTER_PASS_PLACEHOLDER": "Entrez un mot de passe principal ici",
+        "MASTER_PASS_PLACEHOLDER": "Entrez un mot de passe maître ici",
         "NAME_PLACEHOLDER": "Entrez un nom ici",
-        "NOTES_PLACEHOLDER": "Entrez une note ici",
+        "NOTES_PLACEHOLDER": "Entrez des notes ici",
         "PASSWORD_PLACEHOLDER": "Entrez un mot de passe ici",
-        "PASS_PLACEHOLDER": "Entrez ici un mot de passe principal",
+        "PASS_PLACEHOLDER": "Entrez un mot de passe maître ici",
         "PLACEHOLDER_CONFIRM": "Confirmez le nouveau mot de passe ici",
-        "PLACEHOLDER_NEW": "Entrez le nouveau mot de passe ici",
+        "PLACEHOLDER_NEW": "Veuillez entrer votre nouveau mot de passe",
         "PLACEHOLDER_OLD": "Entrez le mot de passe actuel ici",
-        "PURCHASE_PAYMENT_PLACEHOLDER": "Entrez un identifiant de paiement ici",
-        "SEED_PASSWORD_PLACEHOLDER": "Entrez un mot de passe initial ici",
+        "PURCHASE_PAYMENT_PLACEHOLDER": "Entrez un ID de paiement ici",
+        "SEED_PASSWORD_PLACEHOLDER": "Entrez un mot de passe de graine ici",
         "SEED_PHRASE_PLACEHOLDER": "Entrez une phrase de départ ici",
         "SELLER_DEPOSIT_PLACEHOLDER": "Entrez le dépôt du vendeur ici",
         "SELLER_PLACEHOLDER": "Entrez un vendeur ici",
-        "WALET_PASSWORD_PLACEHOLDER": "Entrez ici un mot de passe de portefeuille",
-        "WALLET_NAME_PLACEHOLDER": "Entrez un nom de portefeuille ici"
+        "WALET_PASSWORD_PLACEHOLDER": "Entrez un mot de passe de portefeuille ici",
+        "WALLET_NAME_PLACEHOLDER": "Veuillez entrer un nom pour votre portefeuille"
     },
     "PROGRESS": {
         "ADD_WALLET": "Ajouter un portefeuille",
         "CREATE_WALLET": "Créer un nouveau portefeuille",
-        "RESTORE_WALLET": "Restaurer depuis une sauvegarde",
+        "RESTORE_WALLET": "Restaurer à partir d'une sauvegarde",
         "SELECT_LOCATION": "Sélectionner l'emplacement du portefeuille"
     },
     "PURCHASE": {
-        "ACCEPT_STATE_WAIT_BIG": "Contrat débuté",
+        "ACCEPT_STATE_WAIT_BIG": "Contrat démarré",
         "AMOUNT": "Montant",
-        "BURN_PROPOSAL": "Dépositions brûlées",
-        "BUTTON_CANCEL_BUYER": "Annuler et retourner les dépôts",
-        "BUTTON_CANCEL_SELLER": "Confirmer et retourner les dépôts",
-        "BUTTON_IGNORE": "Ignorer et cacher l'offre",
-        "BUTTON_MAKE_PLEDGE": "Accepter et effectuer un dépôt",
-        "BUTTON_NOT_CANCEL": "Ignorer la requête",
-        "BUTTON_NULLIFY": "Terminer et brûler les dépôts",
+        "BURN_PROPOSAL": "Dépôts brûlés",
+        "BUTTON_CANCEL_BUYER": "Annuler et restituer les dépôts",
+        "BUTTON_CANCEL_SELLER": "Confirmer et restituer les dépôts",
+        "BUTTON_IGNORE": "Ignorer et masquer l'offre",
+        "BUTTON_MAKE_PLEDGE": "Accepter et faire un dépôt",
+        "BUTTON_NOT_CANCEL": "Ignorer la demande",
+        "BUTTON_NULLIFY": "Résiler et brûler les dépôts",
         "BUTTON_NULLIFY_SHORT": "Brûler",
-        "BUTTON_RECEIVED": "Compléter et libérer les dépôts",
-        "BUYER_DEPOSIT": "Dépôt d'acheteur",
+        "BUTTON_RECEIVED": "Terminer et libérer les dépôts",
+        "BUYER_DEPOSIT": "Dépôt de l'acheteur",
         "CANCEL": "Annuler",
         "COMMENT": "Commentaire",
         "DEALS_CANCELED_WAIT": "Annulation en cours",
@@ -751,11 +753,11 @@
         "FORM_ERRORS": {
             "ALIAS_NOT_VALID": "Alias invalide",
             "AMOUNT_REQUIRED": "Montant requis",
-            "AMOUNT_ZERO": "Le montant ne peut pas être nul",
+            "AMOUNT_ZERO": "Le montant ne peut pas être zéro",
             "COMMENT_MAXIMUM": "Longueur maximale du champ atteinte",
             "DESC_MAXIMUM": "Longueur maximale du champ atteinte",
             "DESC_REQUIRED": "Description requise",
-            "SELLER_DEPOSIT_REQUIRED": "Dépôt de vendeur requis",
+            "SELLER_DEPOSIT_REQUIRED": "Dépôt du vendeur requis",
             "SELLER_NOT_VALID": "Adresse invalide",
             "SELLER_REQUIRED": "Adresse requise",
             "SELLER_SAME": "Utiliser un compte séparé",
@@ -764,15 +766,15 @@
         "HOUR": "heure",
         "HOURS": "heures",
         "IGNORED_ACCEPT": "Proposition de contrat ignorée",
-        "IGNORED_CANCEL": "Proposition d'annulation du contrat ignorée",
-        "NEED_MONEY": "Fonds insuffisants",
+        "IGNORED_CANCEL": "Proposition d'annulation de contrat ignorée",
+        "NEED_MONEY": "Fonds insuffisants pour cette transaction",
         "NULLIFY_QUESTION": "Êtes-vous sûr de vouloir brûler les deux dépôts ?",
         "PAYMENT": "ID de paiement",
-        "PROGRESS_COMPLETE": "Complété",
+        "PROGRESS_COMPLETE": "Terminé",
         "PROGRESS_NEW": "Nouvel achat",
         "PROGRESS_RECEIVE": "Réponse reçue",
-        "PROGRESS_WAIT": "En attente d'une réponse",
-        "SAME_AMOUNT": "Montant identique",
+        "PROGRESS_WAIT": "En attente de réponse",
+        "SAME_AMOUNT": "Même montant",
         "SELLER": "Vendeur",
         "SELLER_DEPOSIT": "Dépôt du vendeur",
         "SEND_BUTTON": "Envoyer",
@@ -780,11 +782,11 @@
         "STATUS_MESSAGES": {
             "BEING_CANCELLED": "Annulation en cours",
             "CANCELLED": "Contrat annulé",
-            "COMPLETED": "Contrat complété",
-            "EXPIRED": "Proposition de contrat expirée",
+            "COMPLETED": "Contrat terminé",
+            "EXPIRED": "La proposition de contrat a expiré",
             "IGNORED_BUYER": "Proposition de contrat ignorée",
-            "IGNORED_CANCEL_BUYER": "Proposition d'annulation du contrat ignorée",
-            "IGNORED_CANCEL_SELLER": "Le vendeur a ignoré votre proposition d'annuler le contrat",
+            "IGNORED_CANCEL_BUYER": "Proposition d'annulation de contrat ignorée",
+            "IGNORED_CANCEL_SELLER": "Le vendeur a ignoré votre proposition d'annulation du contrat",
             "IGNORED_SELLER": "Le vendeur a ignoré votre proposition de contrat",
             "NEW_PURCHASE": "Nouvel achat",
             "NOT_RECEIVED": "Échec de la livraison",
@@ -792,12 +794,12 @@
             "PROPOSAL_CANCEL_BUYER": "Demande d'annulation reçue",
             "PROPOSAL_CANCEL_SELLER": "Demande d'annulation envoyée",
             "WAITING_BUYER": "Proposition de contrat reçue",
-            "WAITING_CONFIRMATION": "En attente de confirmation des dépôts",
+            "WAITING_CONFIRMATION": "En attente de la confirmation des dépôts",
             "WAITING_DELIVERY": "En attente de livraison",
-            "WAITING_SELLER": "En attente d'une réponse"
+            "WAITING_SELLER": "En attente de réponse"
         },
-        "SUCCESS_FINISH_PROPOSAL": "Contrat complété",
-        "WAITING_TIME": "Heure de réponse",
+        "SUCCESS_FINISH_PROPOSAL": "Contrat terminé",
+        "WAITING_TIME": "Temps de réponse",
         "WAITING_TIME_QUESTION": "Êtes-vous sûr de vouloir annuler le contrat ?",
         "YOUR_DEPOSIT": "Votre dépôt"
     },
@@ -809,70 +811,70 @@
         "FORM_ERRORS": {
             "CONFIRM_NOT_MATCH": "Les mots de passe ne correspondent pas",
             "INCORRECT_PASSWORD": "Mot de passe incorrect",
-            "KEY_NOT_VALID": "Clé invalide",
-            "KEY_REQUIRED": "Clé requise",
-            "MAX_LENGTH": "Longueur maximale atteinte",
-            "NAME_DUPLICATE": "Nom déjà utilisé",
-            "NAME_REQUIRED": "Le nom est requis",
-            "PASSWORD_SEED_PHRASE_INCORRECT": "The password for this seed phrase is incorrect",
-            "SEED_PHRASE_IS_NO_VALID": "The seed phrase is not valid."
+            "KEY_NOT_VALID": "Clé non valide",
+            "KEY_REQUIRED": "La clé est requise",
+            "MAX_LENGTH": "Longueur maximale du nom atteinte",
+            "NAME_DUPLICATE": "Le nom est dupliqué",
+            "NAME_REQUIRED": "Le nom du portefeuille est requis",
+            "PASSWORD_SEED_PHRASE_INCORRECT": "Le mot de passe pour cette phrase de départ est incorrect",
+            "SEED_PHRASE_IS_NO_VALID": "La phrase de départ n'est pas valide."
         },
         "LABEL_NAME": "Nom du portefeuille",
-        "LABEL_PHRASE_KEY": "Phrase de sécurité / clé privée",
-        "NOT_CORRECT_FILE_OR_PASSWORD": "Le fichier est invalide ou mot de passe du portefeuille ne correspond pas",
-        "OK": "D'ACCORD",
+        "LABEL_PHRASE_KEY": "Phrase de départ / graine de suivi",
+        "NOT_CORRECT_FILE_OR_PASSWORD": "Fichier de portefeuille invalide ou mot de passe ne correspond pas",
+        "OK": "OK",
         "PASS": "Définir le mot de passe du portefeuille",
-        "SEED_PASSWORD": "Mot de passe initial"
+        "SEED_PASSWORD": "Mot de passe de graine"
     },
     "SEED_PHRASE": {
         "BUTTON_COPIED": "Copié",
-        "BUTTON_COPY": "Photocopieuse",
+        "BUTTON_COPY": "Copier",
         "BUTTON_CREATE_ACCOUNT": "Créer un portefeuille",
-        "TITLE": "Assurez-vous de garder votre phrase de sécurité dans un endroit sûr. Si vous oubliez votre phrase de sécurité, vous ne pourrez pas récupérer votre portefeuille."
+        "TITLE": "Assurez-vous de garder votre phrase de départ dans un endroit sûr. Si vous oubliez votre phrase de départ, vous ne pourrez pas récupérer votre portefeuille."
     },
     "SEND": {
         "ADDRESS": "Adresse",
         "AMOUNT": "Montant",
-        "ASSET": "Asset",
+        "ASSET": "Actif",
         "BUTTON": "Envoyer",
         "COMMENT": "Commentaire",
         "DETAILS": "Option avancée",
         "ERROR_CODES": {
-            "NOT_ENOUGH_MONEY": "Not enough funds for this transaction"
+            "NOT_ENOUGH_MONEY": "Fonds insuffisants pour cette transaction"
         },
         "FEE": "Frais",
         "FORM_ERRORS": {
-            "ADDRESS_NOT_VALID": "Addresse invalide",
-            "ADDRESS_REQUIRED": "Adresse requise",
-            "ALIAS_NOT_FOUND": "Alias not found",
-            "ALIAS_NOT_VALID": "Alias non valide",
-            "AMOUNT_REQUIRED": "Le Montant est requis",
+            "ADDRESS_NOT_VALID": "Adresse non valide",
+            "ADDRESS_REQUIRED": "L'adresse est requise",
+            "ALIAS_NOT_FOUND": "Alias non trouvé",
+            "ALIAS_NOT_VALID": "L'alias n'est pas valide",
+            "AMOUNT_REQUIRED": "Le montant est requis",
             "AMOUNT_ZERO": "Le montant est zéro",
-            "FEE_MINIMUM": "Frais minimum : {{fee}}",
-            "FEE_REQUIRED": "Les frais sont requis",
-            "GREAT_THAN_UNWRAPPED_COINS": "Le montant est supérieur aux jetons ERC20 restant disponibles",
-            "LESS_THAN_ZANO_NEEDED": "Montant trop faible pour couvrir les frais ERC20",
+            "FEE_MINIMUM": "Les frais minimum requis sont {{fee}}",
+            "FEE_REQUIRED": "Veuillez entrer le montant des frais.",
+            "GREAT_THAN_UNWRAPPED_COINS": "Le montant est supérieur aux jetons ERC20 disponibles restants",
+            "LESS_THAN_ZANO_NEEDED": "Montant trop petit pour couvrir les frais ERC20",
             "MAX_LENGTH": "Longueur maximale du commentaire atteinte",
-            "MUST_BE_GREATER_THAN_ZERO": "Must be greater than zero",
-            "WRAP_INFO_NULL": "échec de la demande d'état de bouclage"
+            "MUST_BE_GREATER_THAN_ZERO": "Doit être supérieur à zéro",
+            "WRAP_INFO_NULL": "Échec de la demande de l'état de 'wrap'"
         },
-        "HIDE": "Retain receiver address",
-        "INCLUDE_SENDER_ADDRESS": "Show my address to the receiver",
-        "MIXIN": "Mélange",
+        "HIDE": "Conserver l'adresse du destinataire",
+        "INCLUDE_SENDER_ADDRESS": "Afficher mon adresse au destinataire",
+        "MIXIN": "Mixin",
         "SUCCESS_SENT": "Transaction envoyée",
         "WRAP": {
-            "ESTIMATE": "Estimation des transactions",
-            "FEE": "Frais Ethereum Txn :",
-            "MAIN_TEXT": "Cette transaction créera wZano (\"Wrapped Zano\") qui sera envoyé à l'adresse spécifiée sur le réseau Ethereum.",
-            "TITLE": "Envelopper",
-            "WILL_RECEIVE": "Vous recevrez :",
+            "ESTIMATE": "Estimations de transaction",
+            "FEE": "Frais de transaction Ethereum :",
+            "MAIN_TEXT": "Cette transaction créera du wZano (\"Zano 'Wrapped'\") qui sera envoyé à l'adresse spécifiée sur le réseau Ethereum.",
+            "TITLE": "'Wrap'",
+            "WILL_RECEIVE": "Vous recevrez :",
             "ZANO": "ZANO",
             "wZANO": "wZANO"
         }
     },
     "SEND_DETAILS_MODAL": {
         "TITLE1": "Transaction",
-        "TITLE2": "Transaction details"
+        "TITLE2": "Détails de la transaction"
     },
     "SETTINGS": {
         "APP_LOCK": {
@@ -882,23 +884,23 @@
             "TIME4": "Jamais",
             "TITLE": "Verrouiller l'application après :"
         },
-        "APP_LOG_TITLE": "Niveau de log :",
-        "CURRENCY_TITLE": "Currency",
-        "DARK_THEME": "Dark theme",
+        "APP_LOG_TITLE": "Niveau de journalisation :",
+        "CURRENCY_TITLE": "Devise",
+        "DARK_THEME": "Thème sombre",
         "FORM": {
             "ZANO_COMPANION": {
                 "LABELS": {
-                    "LABEL1": "Zano Companion",
+                    "LABEL1": "Compagnon Zano",
                     "LABEL2": "Secret",
                     "LABEL3": "Port",
-                    "LABEL4": "(Requires master password)"
+                    "LABEL4": "(Nécessite un mot de passe maître)"
                 }
             }
         },
         "FORM_ERRORS": {
-            "CONFIRM_NOT_MATCH": "La confirmation du mot de passe ne correspond pas",
-            "CURRENT_PASS_NOT_MATCH": "Ancien mot de passe non correspondant",
-            "PASS_REQUIRED": "Mot de passe requis"
+            "CONFIRM_NOT_MATCH": "Les mots de passe ne correspondent pas",
+            "CURRENT_PASS_NOT_MATCH": "Le mot de passe actuel est incorrect",
+            "PASS_REQUIRED": "Le mot de passe est requis"
         },
         "GRAY_THEME": "Thème gris",
         "LANGUAGE": {
@@ -908,74 +910,74 @@
             "ID": "Indonesian",
             "IT": "Italian",
             "PT": "Portuguese",
-            "TITLE": "Language"
+            "TITLE": "Langue"
         },
         "LAST_BUILD": "Version actuelle : {{value}}",
         "MASTER_PASSWORD": {
-            "BUTTON": "Enregistrer",
+            "BUTTON": "Sauvegarder",
             "CONFIRM": "Confirmer le mot de passe",
             "NEW": "Nouveau mot de passe",
-            "OLD": "Ancien mot de passe",
-            "TITLE1": "Set up Master Password",
-            "TITLE2": "Update Master Password"
+            "OLD": "Mot de passe actuel",
+            "TITLE1": "Configurer le mot de passe maître",
+            "TITLE2": "Mettre à jour le mot de passe maître"
         },
-        "NOTIFICATIONS": "Avis",
+        "NOTIFICATIONS": "Notifications",
         "SCALE": {
-            "100": "100% échelle",
-            "125": "125% échelle",
-            "150": "150% échelle",
-            "75": "75% échelle",
-            "TITLE": "Échelle d'interface"
+            "100": "Échelle 100%",
+            "125": "Échelle 125%",
+            "150": "Échelle 150%",
+            "75": "Échelle 75%",
+            "TITLE": "Échelle de l'interface"
         },
-        "SECRET_WAS_COPIED": "Secret was copied",
-        "SETTINGS_SAVED": "Enregistré! Paramètres mis à jour",
-        "SHOW_BALANCE": "Show balance",
+        "SECRET_WAS_COPIED": "Le secret a été copié",
+        "SETTINGS_SAVED": "Les paramètres ont été mis à jour.",
+        "SHOW_BALANCE": "Afficher le solde",
         "TITLE": "Paramètres",
         "USE_TOR_TO_RELAY_TRANSACTIONS": "Utiliser TOR pour relayer les transactions"
     },
     "SIDEBAR": {
         "ACCOUNT": {
-            "MESSAGES": "Nouvelles offres/Messages",
-            "STAKING": "Mise",
+            "MESSAGES": "Nouvelles offres/messages",
+            "STAKING": "Staking",
             "SYNCING": "Synchronisation du portefeuille"
         },
-        "ADD_NEW": "Ajouter",
+        "ADD_NEW": "Ajouter un portefeuille",
         "CONTACTS": "Contacts",
-        "CONTACTS_TOOLTIP": "Option Contacts disponible uniquement avec le mot de passe principal activé",
+        "CONTACTS_TOOLTIP": "L'option Contacts est disponible uniquement avec le mot de passe maître activé",
         "LOG_OUT": "Déconnexion",
-        "LOG_OUT_TOOLTIP": "Option de déconnexion disponible uniquement avec le mot de passe principal activé",
+        "LOG_OUT_TOOLTIP": "L'option Déconnexion est disponible uniquement avec le mot de passe maître activé",
         "SETTINGS": "Paramètres",
         "SYNCHRONIZATION": {
-            "COMPLETE": "Fermeture",
+            "COMPLETE": "Achèvement",
             "DOWNLOADING": "Téléchargement",
-            "ERROR": "Erreur de système",
+            "ERROR": "Erreur système",
             "LOADING": "Chargement des données de la blockchain",
-            "LOGGING_OUT": "Logging out",
-            "MB": "MB",
+            "LOGGING_OUT": "Déconnexion",
+            "MB": "Mo",
             "OFFLINE": "Hors ligne",
             "ONLINE": "En ligne",
             "SLASH": "/",
-            "SYNCING": "Syncing block"
+            "SYNCING": "Synchronisation de la blockchain"
         },
         "TITLE": "Portefeuilles",
         "UPDATE": {
             "CRITICAL": "Mise à jour disponible",
             "CRITICAL_HINT": "Mise à jour critique !",
-            "CRITICAL_TOOLTIP": "<span class=\"critical-update\">Mise à jour critique disponible.</span><i class=\"icon\"></i><span>Mise à jour fortement recommandée.</span>",
+            "CRITICAL_TOOLTIP": "<span class=\"critical-update\">Mise à jour critique disponible.</span><i class=\"icon\"></i><span>Mise à jour fortement recommandée !</span>",
             "IMPORTANT": "Mise à jour disponible",
             "IMPORTANT_HINT": "Mise à jour importante !",
-            "IMPORTANT_TOOLTIP": "<span class=\"important-update\">Mise à jour.</span><br><span>La mise à jour est recommandée.</span>",
+            "IMPORTANT_TOOLTIP": "<span class=\"important-update\">Obtenir une nouvelle mise à jour.</span><br><span>Mise à jour importante !</span>",
             "STANDARD": "Mise à jour disponible",
-            "STANDARD_TOOLTIP": "<span class=\"standard-update\">Mise à jour.</span><br><span>La mise à jour est recommandée.</span>",
-            "TIME": "Le temps du système diffère de celui du réseau",
-            "TIME_TOOLTIP": "<span class=\"wrong-time\">Mauvais temps de système</span><br><span>Vérifier et corriger votre temps de système.</span>"
+            "STANDARD_TOOLTIP": "<span class=\"standard-update\">Obtenir une nouvelle mise à jour.</span><br><span>La mise à jour est recommandée !</span>",
+            "TIME": "L'heure du système diffère de l'heure du réseau",
+            "TIME_TOOLTIP": "<span class=\"wrong-time\">Heure système incorrecte !</span><br><span>Vérifiez et réparez l'heure de votre système.</span>"
         }
     },
     "STAKING": {
         "GROUP": {
-            "DAY": "jour",
-            "MONTH": "mois",
-            "WEEK": "semaine"
+            "DAY": "Jour",
+            "MONTH": "Mois",
+            "WEEK": "Semaine"
         },
         "PERIOD": {
             "ALL": "Tout",
@@ -987,50 +989,50 @@
             "YEAR": "1 an"
         },
         "SWITCH": {
-            "OFF": "OFF",
-            "ON": "ON"
+            "OFF": "DÉSACTIVÉ",
+            "ON": "ACTIVÉ"
         },
-        "TITLE": "Mise",
+        "TITLE": "Staking",
         "TITLE_GROUP": "Groupe :",
         "TITLE_PENDING": "En attente",
-        "TITLE_PERIOD": "Période de temps:",
+        "TITLE_PERIOD": "Période de temps :",
         "TITLE_TOTAL": "Total",
-        "WALLET_STAKING_ON": "{{ value }} staking is ON"
+        "WALLET_STAKING_ON": "{{ value }} le staking est ACTIVÉ"
     },
     "SUCCESS_SWEEP_BARE_OUTS": {
-        "DETAILS": "{{ txs_sent }} transactions were successfully sent, {{ bare_outs_swept }}  bare outputs migrated, {{ amount_swept }} coins transferred, and {{ fee_spent }} was spent for fees."
+        "DETAILS": "{{ txs_sent }} transactions ont été envoyées avec succès, {{ bare_outs_swept }} sorties 'nues' ont été migrées, {{ amount_swept }} pièces ont été transférées, et {{ fee_spent }} a été dépensé en frais."
     },
     "SWAP": {
         "BUTTONS": {
-            "BUTTON1": "Create Swap",
-            "BUTTON2": "Confirm Swap"
+            "BUTTON1": "Créer un échange",
+            "BUTTON2": "Confirmer l'échange"
         }
     },
     "SWAP_PROPOSAL_HEX": {
         "BREADCRUMBS": {
-            "ITEM1": "Swap",
-            "ITEM2": "Swap proposal hex"
+            "ITEM1": "Échange",
+            "ITEM2": "Hex de proposition d'échange"
         },
         "FORM": {
             "BUTTONS": {
-                "BUTTON1": "Copy",
-                "BUTTON2": "Close"
+                "BUTTON1": "Copier",
+                "BUTTON2": "Fermer"
             },
             "LABELS": {
-                "LABEL1": "Swap proposal hex"
+                "LABEL1": "Hex de proposition d'échange"
             },
             "PLACEHOLDERS": {
-                "PLACEHOLDER1": "Enter Swap proposal hex"
+                "PLACEHOLDER1": "Entrer l'hex de la proposition d'échange"
             }
         },
         "MODALS": {
             "CONFIRM_MODAL": {
                 "BUTTONS": {
-                    "CLOSE": "Back to proposal",
-                    "SUBMIT": "Close"
+                    "CLOSE": "Retour à la proposition",
+                    "SUBMIT": "Fermer"
                 },
-                "MESSAGE": "Please make sure you saved the swap proposal text, you won’t be able to see it again",
-                "TITLE": "Are you sure you want to leave this page?"
+                "MESSAGE": "Veuillez vous assurer d'avoir sauvegardé le texte de la proposition d'échange, vous ne pourrez plus le revoir",
+                "TITLE": "Êtes-vous sûr de vouloir quitter cette page ?"
             }
         }
     },
@@ -1039,125 +1041,128 @@
             "BUTTON1": "OK"
         },
         "LABELS": {
-            "LABEL1": "This action is not available during synchronization..."
+            "LABEL1": "Cette action n'est pas disponible pendant la synchronisation..."
         }
     },
     "TOR_LIB_STATE": {
-        "STATE_CREATING_STREAM": "Creating stream",
-        "STATE_DOWNLOADING_CONSENSUS": "Downloading consensus",
-        "STATE_FAILED": "Failed created stream",
-        "STATE_INITIALIZING": "Initializing",
-        "STATE_MAKING_TUNNEL_A": "Building tunnel to A",
-        "STATE_MAKING_TUNNEL_B": "Building tunnel to B",
-        "STATE_SENDING": "Sending transaction",
-        "STATE_SEND_FAILED": "Sending failed",
-        "STATE_SENT_SUCCESS": "Successfully sent!",
-        "STATE_SUCCESS": "Successfully created stream"
+        "STATE_CREATING_STREAM": "Création du flux",
+        "STATE_DOWNLOADING_CONSENSUS": "Téléchargement du consensus",
+        "STATE_FAILED": "Échec de la création du flux",
+        "STATE_INITIALIZING": "Initialisation",
+        "STATE_MAKING_TUNNEL_A": "Construction du tunnel vers A",
+        "STATE_MAKING_TUNNEL_B": "Construction du tunnel vers B",
+        "STATE_SENDING": "Envoi de la transaction",
+        "STATE_SEND_FAILED": "Échec de l'envoi",
+        "STATE_SENT_SUCCESS": "Envoyé avec succès !",
+        "STATE_SUCCESS": "Flux créé avec succès"
     },
     "TRANSFER_ALIAS": {
         "ADDRESS": {
             "LABEL": "Transférer à",
-            "PLACEHOLDER": ""
+            "PLACEHOLDER": "Veuillez entrer une adresse"
         },
         "BUTTON_CANCEL": "Annuler",
         "BUTTON_TRANSFER": "Transférer",
         "COMMENT": {
             "LABEL": "Commentaire",
-            "PLACEHOLDER": ""
+            "PLACEHOLDER": "Entrez votre commentaire ici"
         },
         "COST": "Frais de transfert {{value}} {{currency}}",
         "FORM_ERRORS": {
             "ALIAS_EXISTS": "Ce compte a déjà un alias",
             "NO_MONEY": "Vous n'avez pas assez de fonds pour transférer cet alias",
-            "WRONG_ADDRESS": "Aucun portefeuille avec ce compte n'existe"
+            "WRONG_ADDRESS": "Aucun portefeuille n'existe pour l'adresse fournie"
         },
         "NAME": {
             "LABEL": "Alias",
             "PLACEHOLDER": "@ Entrer l'alias"
         },
-        "REQUEST_SEND_REG": "L'alias sera transféré dans les 10 prochaines minutes"
+        "REQUEST_SEND_REG": "L'alias sera transféré dans les 10 minutes"
     },
     "UPDATE_CUSTOM_ASSET": {
         "BUTTONS": {
-            "BUTTON1": "Cancel",
-            "BUTTON2": "Confirm"
+            "BUTTON1": "Annuler",
+            "BUTTON2": "Confirmer"
         },
         "LABELS": {
-            "LABEL1": "Update asset",
-            "LABEL2": "Owner"
+            "LABEL1": "Mettre à jour l'actif",
+            "LABEL2": "Propriétaire"
         }
     },
     "WALLET": {
         "AVAILABLE_BALANCE": "Disponible",
         "CONFIRM": {
             "MESSAGE": "Pour y accéder, vous devrez l'ajouter à nouveau",
-            "TITLE": "Supprimer le portefeuille de la liste ?"
+            "TITLE": "Supprimer le portefeuille de la liste ?"
         },
         "DETAILS": "Détails",
-        "LOCK": "Verrouillage",
-        "LOCKED_BALANCE": "Vérouillé<b>{{locked}}{{currency}}<b/>",
-        "LOCKED_BALANCE_LINK": "Que signifie cela?",
+        "LOCK": "Verrouiller",
+        "LOCKED_BALANCE": "Verrouillé",
+        "LOCKED_BALANCE_LINK": "Qu'est-ce que ça veut dire ?",
         "MIGRATE": {
-            "BUTTON1": "More Details",
-            "BUTTON2": "Migrate",
-            "TEXT1": "Your wallet contains pre-zarcanum outputs"
+            "BUTTON1": "Plus de détails",
+            "BUTTON2": "Migrer",
+            "TEXT1": "Votre portefeuille contient des sorties pré-zarcanum"
         },
         "MODAL_WHITELIST_ASSET": {
-            "FIELD_TITLE": "Identifiant de l'élément",
+            "FIELD_TITLE": "ID de l'actif",
             "FORM_ERRORS": {
-                "ERROR1": "Invalid Asset ID"
+                "ERROR1": "ID d'actif invalide"
             },
-            "TITLE": "Ajouter un jeton personnalisé"
+            "TITLE": "Actif en liste blanche"
         },
         "REGISTER_ALIAS": "Enregistrer un alias",
         "TABS": {
             "ASSETS": "Mes actifs",
             "CONTRACTS": "Contrats",
-            "CONTROL_ASSETS": "Control assets",
+            "CONTROL_ASSETS": "Contrôler les actifs",
             "HISTORY": "Historique",
             "MESSAGES": "Messages",
             "P2P_SWAP": "Échange P2P",
             "RECEIVE": "Recevoir",
             "SEND": "Envoyer",
-            "STAKING": "Mise"
+            "STAKING": "Staking"
         },
         "TOOLTIPS": {
-            "CLOSE": "Fermer le portefeuille",
+            "CLOSE": "Fermer",
             "EDIT_ALIAS": "Modifier l'alias",
-            "HIDE_BALANCE": "Hide balance",
-            "REMOVE": "Remove wallet",
+            "HIDE_BALANCE": "Masquer le solde",
+            "REMOVE": "Retirer le portefeuille",
             "SETTINGS": "Paramètres",
-            "SHOW_BALANCE": "Show balance",
-            "TRANSFER_ALIAS": "Alias de transfert",
-            "WHITELIST_ASSET": "Ajouter un jeton personnalisé"
+            "SHOW_BALANCE": "Afficher le solde",
+            "TRANSFER_ALIAS": "Transférer l'alias",
+            "WHITELIST_ASSET": "Actif en liste blanche"
         }
     },
+    "WALLET_CARD": {
+        "ARIA_LABEL1": "Progression de la synchronisation du portefeuille"
+    },
     "WALLET_DETAILS": {
-        "BUTTON_REMOVE": "Fermer le portefeuille",
-        "BUTTON_SAVE": "Enregistrer",
-        "CREATE_PASSWORD_SECURE": "Créez un mot de passe pour sécuriser votre graine",
+        "BUTTON_REMOVE": "Retirer le portefeuille",
+        "BUTTON_SAVE": "Sauvegarder",
+        "CREATE_PASSWORD_SECURE": "Créer un mot de passe pour sécuriser votre graine",
         "FORM": {
             "CONFIRM_PASSWORD": "Confirmer le mot de passe",
             "GENERATE_SECURE_SEED": "Générer une graine sécurisée",
-            "SECURED_SEED_WILL_REQUIRE": "La graine sécurisée nécessitera ce mot de passe pour la restauration."
+            "SECURED_SEED_WILL_REQUIRE": "La graine sécurisée nécessitera ce mot de passe pour être restaurée."
         },
         "FORM_ERRORS": {
             "MAX_LENGTH": "Longueur maximale du nom atteinte",
-            "NAME_DUPLICATE": "Le nom est en double",
+            "NAME_DUPLICATE": "Le nom est dupliqué",
             "NAME_REQUIRED": "Le nom est requis",
-            "PASSWORDS_DONT_MATCH": "Les mots de passe ne correspondent pas"
+            "PASSWORDS_DONT_MATCH": "Les mots de passe saisis ne correspondent pas"
         },
-        "INFO": "informations",
-        "LABEL_FILE_LOCATION": "Emplacement du fichier du portefeuille",
+        "INFO": "info",
+        "LABEL_FILE_LOCATION": "Emplacement du fichier de portefeuille",
         "LABEL_NAME": "Nom du portefeuille",
         "LABEL_SEED_PHRASE": "Phrase de départ",
         "REMEMBER_YOU_WILL_REQUIRE": "La graine sécurisée nécessitera un mot de passe pour la restauration.",
         "RESYNC_WALLET": "Resynchroniser les données du portefeuille",
         "RESYNC_WALLET_BUTTON": "Resynchroniser le portefeuille",
         "SEED_IS_SECURED": "La graine est sécurisée",
-        "SEED_IS_UNSECURED": "La graine n'est pas sécurisée",
-        "SEED_PHRASE_HINT": "Cliquez pour révéler la phrase de départ",
-        "WALLET_OPTIONS": "Options de portefeuille...",
-        "WHITELIST_ASSET": "Ajouter un jeton personnalisé"
+        "SEED_IS_UNSECURED": "La graine est non sécurisée",
+        "SEED_PHRASE_HINT": "Cliquer pour révéler la phrase de départ",
+        "WALLET_OPTIONS": "Options du portefeuille...",
+        "WHITELIST_ASSET": "Actif en liste blanche"
     }
 }
