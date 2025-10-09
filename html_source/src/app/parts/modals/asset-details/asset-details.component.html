@@ -1,6 +1,37 @@
 <h2 aria-live="assertive" mat-dialog-title>{{ data?.title ?? 'ASSETS.MODALS.ASSET_DETAILS.TITLE' | translate }}</h2>
 
 <mat-dialog-content>
+    <ng-container [ngSwitch]="assetWhitelistedStateView">
+        <ng-container *ngSwitchCase="'assetIsWhitelisted'">
+            <div class="asset-whitelist asset-is-whitelisted">
+                <h3>
+                    <mat-icon svgIcon="zano-check" class="mr-1"></mat-icon>
+                    {{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.ASSET_IS_WHITELISTED' | translate }}
+                </h3>
+                <button type="button" (click)="removeAssetFromWhitelist()">
+                    <mat-icon class="mr-1" svgIcon="zano-trash"></mat-icon> {{ 'ASSETS.MODALS.ASSET_DETAILS.BUTTONS.REMOVE' | translate }}
+                </button>
+            </div>
+        </ng-container>
+        <ng-container *ngSwitchCase="'assetIsNotWhitelisted'">
+            <div class="asset-whitelist asset-is-not-whitelisted">
+                <h3>
+                    <mat-icon svgIcon="zano-warning-stroke" class="mr-1"></mat-icon>
+                    {{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.ASSET_IS_NOT_WHITELISTED' | translate }}
+                </h3>
+                <button type="button" (click)="addAssetToWhitelist()">
+                    <mat-icon class="mr-1" svgIcon="zano-add"></mat-icon> {{ 'ASSETS.MODALS.ASSET_DETAILS.BUTTONS.ADD_ASSET' | translate }}
+                </button>
+            </div>
+        </ng-container>
+        <ng-container *ngSwitchCase="'assetIsWhitelistedGlobally'">
+            <div class="asset-whitelist asset-is-whitelisted-globally">
+                <h3>{{ 'ASSETS.MODALS.ASSET_DETAILS.LABELS.ASSET_IS_GLOBALLY_WHITELISTED' | translate }}</h3>
+            </div>
+        </ng-container>
+        <ng-container *ngSwitchDefault></ng-container>
+    </ng-container>
+
     <ng-container *ngIf="data.asset_info as asset_info; else templateEmpty">
         <table class="rounded-corners">
             <tbody>
@@ -37,7 +68,7 @@
                             </ng-container>
                         </ng-template>
 
-                        <ng-template #emptyCurrentSupply> Unknown </ng-template>
+                        <ng-template #emptyCurrentSupply> Unknown</ng-template>
                     </td>
                 </tr>
 
@@ -59,7 +90,7 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-    <button class="outline big w-100" mat-dialog-close type="button" appAutofocus cdkFocusInitial>
+    <button appAutofocus cdkFocusInitial class="outline big w-100" mat-dialog-close type="button">
         {{ 'MODALS.OK' | translate }}
     </button>
 </mat-dialog-actions>

@@ -119,7 +119,14 @@
         },
         "MODALS": {
             "ASSET_DETAILS": {
+                "BUTTONS": {
+                    "ADD_ASSET": "Adicionar ativo",
+                    "REMOVE": "Remover"
+                },
                 "LABELS": {
+                    "ASSET_IS_GLOBALLY_WHITELISTED": "O ativo está globalmente na lista branca",
+                    "ASSET_IS_NOT_WHITELISTED": "O ativo não está na lista branca",
+                    "ASSET_IS_WHITELISTED": "O ativo está na lista branca",
                     "CURRENT_SUPPLY": "Fornecimento atual",
                     "ID": "ID do ativo",
                     "MAX_SUPPLE": "Fornecimento máximo",

@@ -119,7 +119,14 @@
         },
         "MODALS": {
             "ASSET_DETAILS": {
+                "BUTTONS": {
+                    "ADD_ASSET": "Add asset",
+                    "REMOVE": "Remove"
+                },
                 "LABELS": {
+                    "ASSET_IS_GLOBALLY_WHITELISTED": "The asset is globally whitelisted",
+                    "ASSET_IS_NOT_WHITELISTED": "The asset is not whitelisted",
+                    "ASSET_IS_WHITELISTED": "The asset is whitelisted",
                     "CURRENT_SUPPLY": "Current supply",
                     "ID": "Asset ID",
                     "MAX_SUPPLE": "Max supply",

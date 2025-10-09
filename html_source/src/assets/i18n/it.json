@@ -119,7 +119,14 @@
         },
         "MODALS": {
             "ASSET_DETAILS": {
+                "BUTTONS": {
+                    "ADD_ASSET": "Aggiungi asset",
+                    "REMOVE": "Rimuovi"
+                },
                 "LABELS": {
+                    "ASSET_IS_GLOBALLY_WHITELISTED": "L’attività è nella lista bianca a livello globale",
+                    "ASSET_IS_NOT_WHITELISTED": "L’attività non è nella lista bianca",
+                    "ASSET_IS_WHITELISTED": "L’attività è nella lista bianca",
                     "CURRENT_SUPPLY": "Fornitura attuale",
                     "ID": "ID asset",
                     "MAX_SUPPLE": "Fornitura massima",

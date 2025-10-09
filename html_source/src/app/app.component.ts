@@ -566,7 +566,7 @@ export class AppComponent implements OnInit, OnDestroy {
                                     break;
                                 case 'CORE_EVENT_UPDATE_ALIAS':
                                     if (this.variablesService.all_aliases_loaded) {
-                                        const findAlias = this.variablesService.all_aliases.find(
+                                        const findAlias = this.variablesService.all_aliases.filter(Boolean).find(
                                             ({ address, alias }) =>
                                                 address === data.events[i].details.details.address && alias === data.events[i].details.alias
                                         );

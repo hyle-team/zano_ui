@@ -46,4 +46,7 @@ export const materialZanoIcons = [
     'zano-crown',
     'zano-lock',
     'zano-swap-2',
+    'zano-trash',
+    'zano-add',
+    'zano-warning-stroke',
 ];

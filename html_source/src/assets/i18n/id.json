@@ -119,7 +119,14 @@
         },
         "MODALS": {
             "ASSET_DETAILS": {
+                "BUTTONS": {
+                    "ADD_ASSET": "Tambahkan aset",
+                    "REMOVE": "Hapus"
+                },
                 "LABELS": {
+                    "ASSET_IS_GLOBALLY_WHITELISTED": "Aset tersebut terdaftar secara global dalam daftar putih",
+                    "ASSET_IS_NOT_WHITELISTED": "Aset tersebut tidak ada dalam daftar putih",
+                    "ASSET_IS_WHITELISTED": "Aset tersebut ada dalam daftar putih",
                     "CURRENT_SUPPLY": "Pasokan saat ini",
                     "ID": "ID Aset",
                     "MAX_SUPPLE": "Pasokan maksimal",

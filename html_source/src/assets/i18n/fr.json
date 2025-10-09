@@ -119,7 +119,14 @@
         },
         "MODALS": {
             "ASSET_DETAILS": {
+                "BUTTONS": {
+                    "ADD_ASSET": "Ajouter un actif",
+                    "REMOVE": "Supprimer"
+                },
                 "LABELS": {
+                    "ASSET_IS_GLOBALLY_WHITELISTED": "L’actif est inscrit sur la liste blanche à l’échelle mondiale",
+                    "ASSET_IS_NOT_WHITELISTED": "L’actif n’est pas sur la liste blanche",
+                    "ASSET_IS_WHITELISTED": "L’actif est sur la liste blanche",
                     "CURRENT_SUPPLY": "Offre actuelle",
                     "ID": "ID de l'actif",
                     "MAX_SUPPLE": "Offre maximale",

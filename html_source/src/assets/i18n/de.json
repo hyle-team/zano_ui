@@ -119,7 +119,14 @@
         },
         "MODALS": {
             "ASSET_DETAILS": {
+                "BUTTONS": {
+                    "ADD_ASSET": "Asset hinzufügen",
+                    "REMOVE": "Entfernen"
+                },
                 "LABELS": {
+                    "ASSET_IS_GLOBALLY_WHITELISTED": "Der Vermögenswert ist global auf der Whitelist",
+                    "ASSET_IS_NOT_WHITELISTED": "Der Vermögenswert steht nicht auf der Whitelist",
+                    "ASSET_IS_WHITELISTED": "Der Vermögenswert ist auf der Whitelist",
                     "CURRENT_SUPPLY": "Aktueller Bestand",
                     "ID": "Asset-ID",
                     "MAX_SUPPLE": "Maximaler Bestand",
