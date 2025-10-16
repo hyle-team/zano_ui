@@ -206,7 +206,7 @@
                     </mat-option>
 
                     <mat-option *ngIf="form.controls.receiverAddress.value[0] === '@' && vm.items?.length === 0 && !vm.loading" disabled>
-                        <span class="pl-1"> Not found aliases </span>
+                        <span class="pl-1"> {{ 'COMMON.NO_ALIAS_FOUND' | translate }} </span>
                     </mat-option>
                 </ng-container>
 

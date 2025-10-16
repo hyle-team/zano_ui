@@ -224,7 +224,8 @@
         "BUILD_VERSION": "Version de la version",
         "BUILD_VERSION_COPIED": "La version de build a été copiée",
         "COPY": "Copier",
-        "LOADING": "Chargement..."
+        "LOADING": "Chargement...",
+        "NO_ALIAS_FOUND": "Aucun alias trouvé"
     },
     "CONFIRM": {
         "BUTTON_CANCEL": "Annuler",
@@ -853,7 +854,7 @@
         "FORM_ERRORS": {
             "ADDRESS_NOT_VALID": "Adresse non valide",
             "ADDRESS_REQUIRED": "L'adresse est requise",
-            "ALIAS_NOT_FOUND": "Alias non trouvé",
+            "ALIAS_NOT_FOUND": "Aucun alias trouvé",
             "ALIAS_NOT_VALID": "L'alias n'est pas valide",
             "AMOUNT_REQUIRED": "Le montant est requis",
             "AMOUNT_ZERO": "Le montant est zéro",

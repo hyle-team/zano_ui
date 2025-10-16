@@ -1,8 +1,8 @@
 import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { VariablesService } from '@parts/services/variables.service';
-import { AssetInfo, AssetsWhitelistAddResponseData, AssetsWhitelistRemoveResponseData } from '@api/models/assets.model';
+import { AssetInfo, AssetsWhitelistAddResponseData, ResponseAssetsWhitelistRemove } from '@api/models/assets.model';
 import { ZANO_ASSET_INFO, ZanoAssetInfo } from '@parts/data/zano-assets-info';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { IntToMoneyPipeModule } from '@parts/pipes';
@@ -13,6 +13,7 @@ import { ParamsCallRpc } from '@api/models/call_rpc.model';
 import { WalletsService } from '@parts/services/wallets.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { ResponseGetAssetInfo } from '@api/models/rpc.models';
 
 @Component({
     selector: 'app-asset-details',
@@ -36,11 +37,11 @@ export class AssetDetailsComponent implements OnInit, OnDestroy {
 
     private readonly _ngZone: NgZone = inject(NgZone);
 
-    private readonly _matDialogRef = inject(MatDialogRef);
-
     private readonly _destroy$ = new Subject<void>();
 
     ngOnInit() {
+        this.getAssetInfo();
+
         this.updateAssetWhitelistStateView();
 
         const { current_wallet } = this.variablesService;
@@ -55,6 +56,31 @@ export class AssetDetailsComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         this._destroy$.next();
         this._destroy$.complete();
+    }
+
+    getAssetInfo() {
+        const {
+            asset_info: { asset_id },
+        } = this.data;
+        const params = {
+            id: 0,
+            jsonrpc: '2.0',
+            method: 'get_asset_info',
+            params: {
+                asset_id
+            },
+        };
+        const callback = (_, response: ResponseGetAssetInfo) => {
+            this._ngZone.run(() => {
+                if (response.result.status === 'OK') {
+                    const { asset_descriptor } = response.result;
+                    const { asset_info } = this.data;
+                    this.data.asset_info = { ...asset_info, ...asset_descriptor };
+                }
+            });
+        };
+
+        this._backendService.call_rpc(params, callback);
     }
 
     private updateAssetWhitelistStateView() {
@@ -107,8 +133,10 @@ export class AssetDetailsComponent implements OnInit, OnDestroy {
         const {
             asset_info: { asset_id },
         } = this.data;
+
         const { current_wallet } = this.variablesService;
         const { wallet_id } = current_wallet;
+
         const params: ParamsCallRpc = {
             jsonrpc: '2.0',
             id: 0,
@@ -117,9 +145,9 @@ export class AssetDetailsComponent implements OnInit, OnDestroy {
                 asset_id,
             },
         };
-        this._backendService.call_wallet_rpc([wallet_id, params], (status, response_data: AssetsWhitelistRemoveResponseData) => {
+        this._backendService.call_wallet_rpc([wallet_id, params], (status, response: ResponseAssetsWhitelistRemove) => {
             this._ngZone.run(() => {
-                if (response_data.result.status === 'OK') {
+                if (response.result.status === 'OK') {
                     this._walletsService.updateWalletInfo(current_wallet);
                 }
             });

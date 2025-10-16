@@ -4,12 +4,12 @@ import { PageMaterialIconsComponent } from '@parts/pages/page-material-icons/pag
 
 @NgModule({
     imports: [RouterModule.forRoot([
-        // Dev routes for looking at icons
+        // Dev routes for looking at registered icons
         {
             path: 'material-zano-icon',
             component: PageMaterialIconsComponent
         }
     ])],
-    exports: [RouterModule],
+    exports: [RouterModule]
 })
 export class AppRoutingModule {}

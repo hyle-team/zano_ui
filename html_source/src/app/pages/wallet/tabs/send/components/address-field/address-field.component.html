@@ -34,7 +34,7 @@
                 </mat-option>
 
                 <mat-option *ngIf="control_ref.controls.address.value.startsWith('@') && vm.items?.length === 0 && !vm.loading" disabled>
-                    <span class="pl-1"> Not found aliases </span>
+                    <span class="pl-1"> {{ 'COMMON.NO_ALIAS_FOUND' | translate }} </span>
                 </mat-option>
             </ng-container>
 

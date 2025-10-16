@@ -205,18 +205,17 @@ export class AppComponent implements OnInit, OnDestroy {
                     console.log('----------------- update_daemon_state -----------------');
                     console.log('DAEMON:' + data.daemon_network_state);
                     console.log(data);
-                    // this.variablesService.exp_med_ts = data['expiration_median_timestamp'] + 600 + 1;
-                    this.variablesService.setExpMedTs(data['expiration_median_timestamp'] + 600 + 1);
-                    this.variablesService.net_time_delta_median = data.net_time_delta_median;
-                    this.variablesService.last_build_available = data.last_build_available;
-                    this.variablesService.last_build_displaymode = data.last_build_displaymode;
-                    this.variablesService.setHeightApp(data.height);
-                    this.variablesService.setHeightMax(data.max_net_seen_height);
-
-                    this.variablesService.setDownloadedBytes(data.downloaded_bytes);
-                    this.variablesService.setTotalBytes(data.download_total_data_size);
-
                     this.ngZone.run(() => {
+                        // this.variablesService.exp_med_ts = data['expiration_median_timestamp'] + 600 + 1;
+                        this.variablesService.setExpMedTs(data['expiration_median_timestamp'] + 600 + 1);
+                        this.variablesService.net_time_delta_median = data.net_time_delta_median;
+                        this.variablesService.last_build_available = data.last_build_available;
+                        this.variablesService.last_build_displaymode = data.last_build_displaymode;
+                        this.variablesService.setHeightApp(data.height);
+                        this.variablesService.setHeightMax(data.max_net_seen_height);
+
+                        this.variablesService.setDownloadedBytes(data.downloaded_bytes);
+                        this.variablesService.setTotalBytes(data.download_total_data_size);
                         const daemon_state: number = data['daemon_network_state'];
                         this.variablesService.daemon_state = daemon_state;
                         this.variablesService.daemon_state$.next(daemon_state);
@@ -258,17 +257,17 @@ export class AppComponent implements OnInit, OnDestroy {
                                 this.variablesService.download.progress_value_text = return_val.toFixed(2);
                             }
                         }
-                    });
 
-                    if (!this.firstOnlineState && data['daemon_network_state'] === 2) {
-                        this.getAllAliases();
-                        this._walletsService.loadAliasInfoListForWallets();
-                        this.backendService.getDefaultFee((status_fee, data_fee) => {
-                            this.variablesService.default_fee_big = new BigNumber(data_fee);
-                            this.variablesService.default_fee = this.intToMoneyPipe.transform(data_fee);
-                        });
-                        this.firstOnlineState = true;
-                    }
+                        if (!this.firstOnlineState && data['daemon_network_state'] === 2) {
+                            this.getAllAliases();
+                            this._walletsService.loadAliasInfoListForWallets();
+                            this.backendService.getDefaultFee((status_fee, data_fee) => {
+                                this.variablesService.default_fee_big = new BigNumber(data_fee);
+                                this.variablesService.default_fee = this.intToMoneyPipe.transform(data_fee);
+                            });
+                            this.firstOnlineState = true;
+                        }
+                    });
                 });
 
                 this.backendService.eventSubscribe(Commands.money_transfer, (data) => {
@@ -549,49 +548,54 @@ export class AppComponent implements OnInit, OnDestroy {
 
                     data = JSON.parse(data);
 
-                    if (data.events != null) {
-                        for (let i = 0, length = data.events.length; i < length; i++) {
-                            switch (data.events[i].method) {
-                                case 'CORE_EVENT_BLOCK_ADDED':
-                                    break;
-                                case 'CORE_EVENT_ADD_ALIAS':
-                                    if (this.variablesService.all_aliases_loaded) {
-                                        const newAlias: AliasInfo = data.events[i].detail;
-                                        this.variablesService.all_aliases.push(newAlias);
-                                    }
-                                    const wallet1 = this._walletsService.getWalletByAddress(data.events[i].details.address);
-                                    if (wallet1) {
-                                        this._walletsService.loadAliasInfoList(wallet1);
-                                    }
-                                    break;
-                                case 'CORE_EVENT_UPDATE_ALIAS':
-                                    if (this.variablesService.all_aliases_loaded) {
-                                        const findAlias = this.variablesService.all_aliases.filter(Boolean).find(
-                                            ({ address, alias }) =>
-                                                address === data.events[i].details.details.address && alias === data.events[i].details.alias
-                                        );
-                                        if (findAlias) {
-                                            findAlias.address = data.events[i].details.details.address;
-                                            findAlias.comment = data.events[i].details.details.comment;
+                    this.ngZone.run(() => {
+                        if (data.events != null) {
+                            for (let i = 0, length = data.events.length; i < length; i++) {
+                                switch (data.events[i].method) {
+                                    case 'CORE_EVENT_BLOCK_ADDED':
+                                        break;
+                                    case 'CORE_EVENT_ADD_ALIAS':
+                                        if (this.variablesService.all_aliases_loaded) {
+                                            const newAlias: AliasInfo = data.events[i].detail;
+                                            this.variablesService.all_aliases.push(newAlias);
                                         }
-                                    }
-                                    const wallet2 = this._walletsService.getWalletByAddress(data.events[i].details.details.address);
-                                    if (wallet2) {
-                                        this._walletsService.loadAliasInfoList(wallet2);
-                                    }
+                                        const wallet1 = this._walletsService.getWalletByAddress(data.events[i].details.address);
+                                        if (wallet1) {
+                                            this._walletsService.loadAliasInfoList(wallet1);
+                                        }
+                                        break;
+                                    case 'CORE_EVENT_UPDATE_ALIAS':
+                                        if (this.variablesService.all_aliases_loaded) {
+                                            const findAlias = this.variablesService.all_aliases
+                                                .filter(Boolean)
+                                                .find(
+                                                    ({ address, alias }) =>
+                                                        address === data.events[i].details.details.address &&
+                                                        alias === data.events[i].details.alias
+                                                );
+                                            if (findAlias) {
+                                                findAlias.address = data.events[i].details.details.address;
+                                                findAlias.comment = data.events[i].details.details.comment;
+                                            }
+                                        }
+                                        const wallet2 = this._walletsService.getWalletByAddress(data.events[i].details.details.address);
+                                        if (wallet2) {
+                                            this._walletsService.loadAliasInfoList(wallet2);
+                                        }
 
-                                    if (data.events[i].details.old_address !== data.events[i].details.details.address) {
-                                        const wallet3 = this._walletsService.getWalletByAddress(data.events[i].details.old_address);
-                                        if (wallet3) {
-                                            this._walletsService.loadAliasInfoList(wallet3);
+                                        if (data.events[i].details.old_address !== data.events[i].details.details.address) {
+                                            const wallet3 = this._walletsService.getWalletByAddress(data.events[i].details.old_address);
+                                            if (wallet3) {
+                                                this._walletsService.loadAliasInfoList(wallet3);
+                                            }
                                         }
-                                    }
-                                    break;
-                                default:
-                                    break;
+                                        break;
+                                    default:
+                                        break;
+                                }
                             }
                         }
-                    }
+                    });
                 });
 
                 this.intervalUpdateContractsState = setInterval(() => {
@@ -750,35 +754,36 @@ export class AppComponent implements OnInit, OnDestroy {
     getAllAliases(): void {
         this.backendService.getAllAliases((status, data, error) => {
             console.warn(error);
-
-            if (error === 'CORE_BUSY') {
-                window.setTimeout(() => {
-                    this.getAllAliases();
-                }, 10000);
-            } else if (error === 'OVERFLOW') {
-                this.variablesService.all_aliases = [];
-                this.variablesService.all_aliases_loaded = false;
-            } else {
-                this.variablesService.all_aliases_loaded = true;
-                if (data.aliases && data.aliases.length) {
+            this.ngZone.run(() => {
+                if (error === 'CORE_BUSY') {
+                    window.setTimeout(() => {
+                        this.getAllAliases();
+                    }, 10000);
+                } else if (error === 'OVERFLOW') {
                     this.variablesService.all_aliases = [];
-                    this.variablesService.all_aliases = data.aliases.filter(Boolean).sort((a: AliasInfo, b: AliasInfo) => {
-                        if (a.alias.length > b.alias.length) {
-                            return 1;
-                        }
-                        if (a.alias.length < b.alias.length) {
-                            return -1;
-                        }
-                        if (a.alias > b.alias) {
-                            return 1;
-                        }
-                        if (a.alias < b.alias) {
-                            return -1;
-                        }
-                        return 0;
-                    });
+                    this.variablesService.all_aliases_loaded = false;
+                } else {
+                    this.variablesService.all_aliases_loaded = true;
+                    if (data.aliases && data.aliases.length) {
+                        this.variablesService.all_aliases = [];
+                        this.variablesService.all_aliases = data.aliases.filter(Boolean).sort((a: AliasInfo, b: AliasInfo) => {
+                            if (a.alias.length > b.alias.length) {
+                                return 1;
+                            }
+                            if (a.alias.length < b.alias.length) {
+                                return -1;
+                            }
+                            if (a.alias > b.alias) {
+                                return 1;
+                            }
+                            if (a.alias < b.alias) {
+                                return -1;
+                            }
+                            return 0;
+                        });
+                    }
                 }
-            }
+            });
         });
     }
 

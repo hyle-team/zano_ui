@@ -224,7 +224,8 @@
         "BUILD_VERSION": "Versi build",
         "BUILD_VERSION_COPIED": "Versi build telah disalin",
         "COPY": "Salin",
-        "LOADING": "Memuat..."
+        "LOADING": "Memuat...",
+        "NO_ALIAS_FOUND": "Alias tidak ditemukan"
     },
     "CONFIRM": {
         "BUTTON_CANCEL": "Batal",

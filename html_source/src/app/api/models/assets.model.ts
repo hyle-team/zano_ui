@@ -84,7 +84,7 @@ export interface AssetsWhitelistAddResponseData {
     };
 }
 
-export interface AssetsWhitelistRemoveResponseData {
+export interface ResponseAssetsWhitelistRemove {
     id: number;
     jsonrpc: string;
     result: {
