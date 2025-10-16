@@ -618,7 +618,7 @@ export class BackendService {
         this.runCommand(Commands.request_alias_update, params, callback);
     }
 
-    getAllAliases(callback): void {
+    getAliasInfoList(callback): void {
         this.runCommand(Commands.get_all_aliases, {}, callback);
     }
 

@@ -124,6 +124,8 @@ export class WalletsService {
         });
     }
 
+
+
     loadAliasInfoListForWallets(): void {
         this.wallets.forEach((wallet: Wallet) => {
             this.loadAliasInfoList(wallet);
@@ -141,7 +143,7 @@ export class WalletsService {
         return wallets.find((w) => w.wallet_id === wallet_id);
     }
 
-    getWalletByAddress(address: string): Wallet | undefined {
+    getOpenedWalletByAddress(address: string): Wallet | undefined {
         const { wallets } = this._variablesService;
         return wallets.find((w) => w.address === address);
     }

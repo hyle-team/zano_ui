@@ -22,7 +22,7 @@ import { AssetBalance, AssetInfo } from '@api/models/assets.model';
 import { ZANO_ASSET_INFO } from '@parts/data/zano-assets-info';
 import { REG_EXP_ALIAS_NAME } from '@parts/utils/zano-validators';
 import { BackendService } from '@api/services/backend.service';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, combineLatest } from 'rxjs';
 import { debounceTime, map, startWith, switchMap, tap } from 'rxjs/operators';
 import { BigNumber } from 'bignumber.js';
 import { assetHasNotBeenAddedToWallet, insufficientFunds } from '@parts/utils/zano-errors';
@@ -112,9 +112,9 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
 
     receivingDecimalPoint$: Observable<number>;
 
-    addressItems$: Observable<string[]>;
+    items$: Observable<string[]>;
 
-    loadingAddressItems$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+    loadingItems$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
     form: FormGroup<{
         sending: FormGroup<{
@@ -133,10 +133,6 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
     };
 
     private _openedWalletItems: string[] = this._walletsService.opened_wallet_items;
-
-    private _aliasItems: string[] = this.variablesService.all_aliases
-        .filter(Boolean)
-        .map((alias_info) => (alias_info.alias ? '@' + alias_info.alias : alias_info.address));
 
     private _destroy$ = new Subject<void>();
 
@@ -344,26 +340,27 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
             })
         );
 
-        this.addressItems$ = this.form.controls.receiverAddress.valueChanges.pipe(
-            startWith(this.form.controls.receiverAddress.value),
-            tap((value) => {
-                const condition = value[0] === '@';
+        const observable1 = this.form.controls.receiverAddress.valueChanges.pipe(startWith(this.form.controls.receiverAddress.value));
+        const { aliasInfoList$: observable2 } = this.variablesService;
+        this.items$ = combineLatest([observable1, observable2]).pipe(
+            tap(([value]) => {
+                const condition = value.startsWith('@');
                 this.lowerCaseDisabled$.next(!condition);
-                this.loadingAddressItems$.next(condition);
+                this.loadingItems$.next(condition);
             }),
-            debounceTime(250),
-            map((value) => {
+            debounceTime(800),
+            map(([value, aliasInfoList]) => {
                 if (!value?.length) {
                     return this._openedWalletItems;
                 }
-                if (value[0] === '@') {
-                    return this._aliasItems.filter((alias) => {
-                        return alias.includes(value);
-                    });
+                if (value.startsWith('@')) {
+                    return aliasInfoList
+                        .filter(({ alias }) => alias?.includes(value.slice(1)))
+                        .map(({ alias }) => ('@' + alias));
                 }
                 return [];
             }),
-            tap(() => this.loadingAddressItems$.next(false))
+            tap(() => this.loadingItems$.next(false))
         );
     }
 

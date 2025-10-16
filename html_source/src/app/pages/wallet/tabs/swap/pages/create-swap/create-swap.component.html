@@ -172,8 +172,8 @@
         <!-- Receiving Address -->
         <div
             *ngIf="{
-                items: addressItems$ | async,
-                loading: loadingAddressItems$ | async,
+                items: items$ | async,
+                loading: loadingItems$ | async,
                 lowerCaseDisabled: lowerCaseDisabled$ | async
             } as vm"
             class="form__field fixed"

@@ -1,8 +1,8 @@
 <ng-container
     *ngIf="{
-        items: address_items$ | async,
-        loading: loading_address_items$ | async,
-        lowerCaseDisabled: lower_case_disabled$ | async
+        items: items$ | async,
+        loading: loadingItems$ | async,
+        lowerCaseDisabled: lowerCaseDisabled$ | async
     } as vm"
 >
     <fieldset class="form__field">
@@ -13,7 +13,7 @@
 
         <input
             (blur)="updateAddressErrorMessage()"
-            (contextmenu)="variables_service.onContextMenu($event)"
+            (contextmenu)="variablesService.onContextMenu($event)"
             (paste)="pasteListenAddressField($event)"
             [formControl]="control_ref.controls.address"
             [lowerCaseDisabled]="vm.lowerCaseDisabled"
@@ -28,7 +28,7 @@
         />
 
         <mat-autocomplete (opened)="openAutocomplete()" #auto="matAutocomplete" class="zano-autocomplete-panel">
-            <ng-container *ngIf="!variables_service.is_remote_node">
+            <ng-container *ngIf="!variablesService.is_remote_node">
                 <mat-option *ngIf="vm.loading" class="loading" disabled>
                     <zano-loader class="mx-auto" style="display: block; width: fit-content"></zano-loader>
                 </mat-option>
@@ -66,11 +66,11 @@
         </mat-autocomplete>
 
         <div *ngIf="control_ref.controls.address | isVisibleControlError" aria-live="assertive" id="address-error" class="error">
-            {{ error_messages['address'] | translate }}
+            {{ errorMessages['address'] | translate }}
         </div>
 
         <ng-container *ngIf="control_ref.controls.is_visible_wrap_info.value">
-            <ng-container *ngIf="variables_service.is_wrap_info_service_inactive$ | async">
+            <ng-container *ngIf="variablesService.is_wrap_info_service_inactive$ | async">
                 <div class="error" aria-live="assertive" id="wrap-service-is-inactive">
                     {{ 'ERRORS.WRAP_SERVICE_IS_INACTIVE' | translate }}
                 </div>

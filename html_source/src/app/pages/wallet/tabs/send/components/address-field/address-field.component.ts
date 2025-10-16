@@ -8,7 +8,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ShortStringPipe } from '@parts/pipes';
 import { TranslateModule } from '@ngx-translate/core';
-import { BehaviorSubject, merge, Observable, Subject } from 'rxjs';
+import { BehaviorSubject, combineLatest, merge, Observable, Subject } from 'rxjs';
 import { debounceTime, map, startWith, takeUntil, tap } from 'rxjs/operators';
 import { WalletsService } from '@parts/services/wallets.service';
 import { VariablesService } from '@parts/services/variables.service';
@@ -39,49 +39,46 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
 
     @Input() control_ref: DestinationsForm;
 
-    variables_service: VariablesService = inject(VariablesService);
+    variablesService: VariablesService = inject(VariablesService);
 
-    address_items$: Observable<string[]>;
+    items$: Observable<string[]>;
 
-    loading_address_items$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+    loadingItems$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
-    lower_case_disabled$: BehaviorSubject<boolean> = new BehaviorSubject(true);
+    lowerCaseDisabled$: BehaviorSubject<boolean> = new BehaviorSubject(true);
 
-    error_messages: { [key: string]: string } = {
+    errorMessages: { [key: string]: string } = {
         address: '',
     };
 
-    private readonly _wallets_service: WalletsService = inject(WalletsService);
+    private readonly _walletsService: WalletsService = inject(WalletsService);
 
-    private readonly _opened_wallet_items: string[] = this._wallets_service.opened_wallet_items;
-
-    private readonly _alias_items: string[] = this.variables_service.all_aliases
-        .filter(Boolean)
-        .map((alias_info) => '@' + alias_info.alias);
+    private readonly _openedWalletItems: string[] = this._walletsService.opened_wallet_items;
 
     private readonly _destroy$: Subject<void> = new Subject<void>();
 
     ngOnInit(): void {
-        this.address_items$ = this.control_ref.controls.address.valueChanges.pipe(
-            startWith(this.control_ref.controls.address.value),
-            tap((value) => {
+        const observable1 = this.control_ref.controls.address.valueChanges.pipe(startWith(this.control_ref.controls.address.value));
+        const { aliasInfoList$: observable2 } = this.variablesService;
+        this.items$ = combineLatest([observable1, observable2]).pipe(
+            tap(([value]) => {
                 const condition = value.startsWith('@');
-                this.lower_case_disabled$.next(!condition);
-                this.loading_address_items$.next(condition);
+                this.lowerCaseDisabled$.next(!condition);
+                this.loadingItems$.next(condition);
             }),
             debounceTime(800),
-            map((value) => {
+            map(([value, aliasInfoList]) => {
                 if (!value?.length) {
-                    return this._opened_wallet_items;
+                    return this._openedWalletItems;
                 }
                 if (value.startsWith('@')) {
-                    return this._alias_items.filter((alias) => {
-                        return alias.includes(value);
-                    });
+                    return aliasInfoList
+                        .filter(({ alias }) => alias?.includes(value.slice(1)))
+                        .map(({ alias }) => ('@' + alias));
                 }
                 return [];
             }),
-            tap(() => this.loading_address_items$.next(false))
+            tap(() => this.loadingItems$.next(false))
         );
 
         merge(
@@ -104,7 +101,7 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
         const address = this.control_ref.controls.address;
         const { clipboardData } = event;
         let value: string = clipboardData.getData('Text') ?? '';
-        this.lower_case_disabled$.next(value.indexOf('@') !== 0);
+        this.lowerCaseDisabled$.next(value.indexOf('@') !== 0);
 
         if (value.indexOf('@') === 0) {
             value = value.toLowerCase();
@@ -139,7 +136,7 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
                 break;
             }
         }
-        this.error_messages['address'] = message;
+        this.errorMessages['address'] = message;
     }
 
     openAutocomplete(): void {
