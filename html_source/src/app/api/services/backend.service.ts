@@ -14,7 +14,7 @@ import {
     ResponseAddCustomAssetId,
     ResponseRemoveCustomAssetId,
 } from '@api/models/assets.model';
-import { AliasInfo } from '@api/models/alias.model';
+import { AliasInfo, AliasLookupCallback, AliasLookupParams } from '@api/models/alias.model';
 import { TransferParams } from '@api/models/transfer.model';
 import { ParamsCallRpc } from '@api/models/call_rpc.model';
 
@@ -770,6 +770,18 @@ export class BackendService {
 
     getWalletInfo(wallet_id, callback?: (status: boolean, response_data: ResponseGetWalletInfo) => void): void {
         this.runCommand(Commands.get_wallet_info, { wallet_id }, callback);
+    }
+
+    alias_lookup(params: AliasLookupParams, callback: AliasLookupCallback) {
+        this.call_rpc(
+            {
+                id: 0,
+                jsonrpc: '2.0',
+                method: 'alias_lookup',
+                params,
+            },
+            callback
+        );
     }
 
     // Use for call rpc-api https://docs.zano.org/docs/build/rpc-api

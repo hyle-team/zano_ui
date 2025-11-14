@@ -23,7 +23,7 @@ import { ZANO_ASSET_INFO } from '@parts/data/zano-assets-info';
 import { REG_EXP_ALIAS_NAME } from '@parts/utils/zano-validators';
 import { BackendService } from '@api/services/backend.service';
 import { BehaviorSubject, Observable, Subject, combineLatest } from 'rxjs';
-import { debounceTime, map, startWith, switchMap, tap } from 'rxjs/operators';
+import { debounceTime, map, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { BigNumber } from 'bignumber.js';
 import { assetHasNotBeenAddedToWallet, insufficientFunds } from '@parts/utils/zano-errors';
 import { ParamsCallRpc } from '@api/models/call_rpc.model';
@@ -38,6 +38,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { GetLogoByAssetInfoPipe } from '@parts/pipes/get-logo-by-asset-info.pipe';
 import { MAXIMUM_VALUE } from '@parts/data/constants';
 import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
+import { IsVisibleControlErrorPipe } from '@parts/pipes/is-visible-control-error.pipe';
 
 @Component({
     selector: 'app-create-swap',
@@ -62,6 +63,7 @@ import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrollin
         MatIconModule,
         GetLogoByAssetInfoPipe,
         ScrollingModule,
+        IsVisibleControlErrorPipe,
     ],
     templateUrl: './create-swap.component.html',
     styleUrls: ['./create-swap.component.scss'],
@@ -98,7 +100,9 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
 
     loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-    lowerCaseDisabled$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+    lowerCaseDisabled= true;
+
+    itemSize = 40;
 
     errorRpc: { code: number; message: string } | undefined;
 
@@ -112,9 +116,9 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
 
     receivingDecimalPoint$: Observable<number>;
 
-    items$: Observable<string[]>;
+    items: string[] = [];
 
-    loadingItems$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+    loadingItems = false;
 
     form: FormGroup<{
         sending: FormGroup<{
@@ -132,6 +136,24 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
         receiverAddress: undefined,
     };
 
+    get isShowHintNoAliasFound() {
+        const {
+            controls: {
+                receiverAddress: { value },
+            },
+        } = this.form;
+        return !this.loadingItems && value.startsWith('@') && value.length > 1 && !this.items.length;
+    }
+
+    get isShowHintEnterCharToSearch() {
+        const {
+            controls: {
+                receiverAddress: { value },
+            },
+        } = this.form;
+        return !this.loadingItems && value.startsWith('@') && value.length === 1 && !this.items.length;
+    }
+
     private _openedWalletItems: string[] = this._walletsService.opened_wallet_items;
 
     private _destroy$ = new Subject<void>();
@@ -143,14 +165,6 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this._destroy$.next();
         this._destroy$.complete();
-    }
-
-    isVisibleErrorByControl(control: AbstractControl): boolean {
-        return control.invalid && (control.dirty || control.touched);
-    }
-
-    isVisibleErrorByForm(form: FormGroup): boolean {
-        return form.invalid && (form.dirty || form.touched);
     }
 
     reverse(): void {
@@ -200,18 +214,24 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
 
     pasteListenReceiverAddressField(event: ClipboardEvent): void {
         event.preventDefault();
+
         const {
-            controls: { receiverAddress },
+            controls: { receiverAddress : addressControl },
         } = this.form;
         const { clipboardData } = event;
-        let value: string = clipboardData.getData('Text') ?? '';
-        this.lowerCaseDisabled$.next(value.indexOf('@') !== 0);
 
-        if (value.indexOf('@') === 0) {
+        let value: string = clipboardData.getData('Text') ?? '';
+
+        const isEnteredAlias = value.startsWith('@');
+        const isEnteredAddress = !isEnteredAlias;
+
+        this.lowerCaseDisabled = isEnteredAddress;
+
+        if (isEnteredAlias) {
             value = value.toLowerCase();
         }
 
-        receiverAddress.patchValue(value);
+        addressControl.patchValue(value);
     }
 
     trackByFn(index: number, value: string): number | string {
@@ -340,28 +360,49 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
             })
         );
 
-        const observable1 = this.form.controls.receiverAddress.valueChanges.pipe(startWith(this.form.controls.receiverAddress.value));
-        const { aliasInfoList$: observable2 } = this.variablesService;
-        this.items$ = combineLatest([observable1, observable2]).pipe(
-            tap(([value]) => {
-                const condition = value.startsWith('@');
-                this.lowerCaseDisabled$.next(!condition);
-                this.loadingItems$.next(condition);
-            }),
-            debounceTime(800),
-            map(([value, aliasInfoList]) => {
-                if (!value?.length) {
-                    return this._openedWalletItems;
-                }
-                if (value.startsWith('@')) {
-                    return aliasInfoList
-                        .filter(({ alias }) => alias?.includes(value.slice(1)))
-                        .map(({ alias }) => ('@' + alias));
-                }
-                return [];
-            }),
-            tap(() => this.loadingItems$.next(false))
-        );
+        this._createAutocompleteItems();
+    }
+
+    private _createAutocompleteItems() {
+        const {
+            controls: { receiverAddress: addressControl },
+        } = this.form;
+
+        addressControl.valueChanges
+            .pipe(
+                startWith(addressControl.value),
+                tap((value) => {
+                    this.loadingItems = true;
+                    this.lowerCaseDisabled = !value.startsWith('@');
+                }),
+                debounceTime(500),
+                takeUntil(this._destroy$)
+            )
+            .subscribe({
+                next: (value) => {
+                    const isEnteredAlias = value.startsWith('@');
+                    const isEnteredAddress = !isEnteredAlias;
+
+                    if (isEnteredAddress) {
+                        this.items = this._openedWalletItems;
+                        this.loadingItems = false;
+                        return;
+                    }
+
+                    const alias_first_leters = value.slice(1); // slice to remove '@' symbol
+                    const n_of_items_to_return = 10;
+
+                    this._backendService.alias_lookup({
+                        alias_first_leters,
+                        n_of_items_to_return
+                    }, (_, { result: { aliases } }) => {
+                        this._ngZone.run(() => {
+                            this.items = aliases?.map(({ alias }) => '@' + alias) ?? [];
+                            this.loadingItems = false;
+                        });
+                    });
+                },
+            });
     }
 
     private _createForm(): void {

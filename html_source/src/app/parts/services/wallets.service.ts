@@ -7,6 +7,7 @@ import { ParamsCallRpc, ResponseCallRpc } from '@api/models/call_rpc.model';
 import { AssetsWhitelistGetResponseData, VerifiedAssetInfoWhitelist } from '@api/models/assets.model';
 import { TranslateService } from '@ngx-translate/core';
 import { ResultAliasByAddress } from '@api/models/rpc.models';
+import { AliasInfo } from '@api/models/alias.model';
 
 @Injectable({
     providedIn: 'root',
@@ -32,8 +33,8 @@ export class WalletsService {
         const items = new Set([]);
 
         this.wallets.forEach(({ address, alias_info_list }: Wallet) => {
-            if (alias_info_list?.length > 0) {
-                alias_info_list.filter(Boolean).forEach((alias_info) => {
+            if (alias_info_list.length > 0) {
+                alias_info_list.forEach((alias_info) => {
                     if (alias_info.alias) {
                         items.add('@' + alias_info.alias);
                     } else if (alias_info.address) {
@@ -119,7 +120,7 @@ export class WalletsService {
         };
         this._backendService.call_rpc(params, (status: boolean, response_data: ResponseCallRpc<ResultAliasByAddress>) => {
             this._ngZone.run(() => {
-                wallet.alias_info_list = response_data?.result?.alias_info_list ?? [];
+                wallet.alias_info_list = response_data?.result?.alias_info_list?.filter(Boolean) ?? [];
             });
         });
     }

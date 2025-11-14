@@ -224,6 +224,7 @@
         "BUILD_VERSION": "Version de la version",
         "BUILD_VERSION_COPIED": "La version de build a été copiée",
         "COPY": "Copier",
+        "ENTER_CHAR_TO_SEARCH": "Entrez 1 caractère pour la recherche",
         "LOADING": "Chargement...",
         "NO_ALIAS_FOUND": "Aucun alias trouvé"
     },

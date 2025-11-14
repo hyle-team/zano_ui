@@ -65,6 +65,12 @@
         &:hover {
             background-color: var(--list-item-hover-background);
         }
+
+        &.placeholder {
+            white-space: initial;
+            height: auto;
+            min-height: 4rem;
+        }
     }
 
     .mat-option-text {
