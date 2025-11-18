@@ -148,10 +148,6 @@ export class VariablesService implements OnDestroy {
 
     currentPriceForAssets$: BehaviorSubject<CurrentPriceForAssets> = new BehaviorSubject({});
 
-    aliasInfoList$: BehaviorSubject<AliasInfoList> = new BehaviorSubject([]);
-
-    aliasInfoListLoaded = false;
-
     maxWalletNameLength: number = MAX_WALLET_NAME_LENGTH;
 
     maxCommentLength: number = MAX_COMMENT_LENGTH;

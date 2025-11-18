@@ -260,7 +260,6 @@ export class AppComponent implements OnInit, OnDestroy {
                         }
 
                         if (!this.firstOnlineState && data['daemon_network_state'] === 2) {
-                            this.getAliasInfoList();
                             this._walletsService.loadAliasInfoListForWallets();
                             this.backendService.getDefaultFee((status_fee, data_fee) => {
                                 this.variablesService.default_fee_big = new BigNumber(data_fee);
@@ -712,23 +711,9 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     private _handlerCoreEventUpdateAlias(data, i: number): void {
-        const { aliasInfoListLoaded, aliasInfoList$ } = this.variablesService;
-        if (!aliasInfoListLoaded) {
-            return;
-        }
-
         const eventDetails = data.events[i].details;
-        const { details, alias: eventAlias, old_address } = eventDetails;
-        const { address: newAddress, comment } = details;
-
-        // Update alias in the list
-        const { value: aliasInfoList } = aliasInfoList$;
-        const foundAliasInfo = aliasInfoList.find(({ address, alias }) => address === newAddress && alias === eventAlias);
-
-        if (foundAliasInfo) {
-            foundAliasInfo.address = newAddress;
-            foundAliasInfo.comment = comment;
-        }
+        const { details, old_address } = eventDetails;
+        const { address: newAddress } = details;
 
         // Update wallet with new address
         this._updateAliasInfoListByAddress(newAddress);
@@ -740,15 +725,10 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     private _handlerCoreEventAddAlias(data, i: number) {
-        const { aliasInfoListLoaded, aliasInfoList$ } = this.variablesService;
-        if (!aliasInfoListLoaded) return;
-
         const aliasInfo: AliasInfo = data.events[i].detail;
         if (!aliasInfo) return;
 
         const { address } = aliasInfo;
-        const { value: aliasInfoList } = aliasInfoList$;
-        aliasInfoList$.next([...aliasInfoList, aliasInfo]);
 
         this._updateAliasInfoListByAddress(address);
     }
@@ -770,26 +750,6 @@ export class AppComponent implements OnInit, OnDestroy {
         }
 
         this.expMedTsEvent.unsubscribe();
-    }
-
-    getAliasInfoList(): void {
-        this.backendService.getAliasInfoList((status, data, error) => {
-            this.ngZone.run(() => {
-                if (['CORE_BUSY', 'OVERFLOW'].includes(error)) {
-                    console.warn(error);
-                    const timeout = 30 * 1000;
-                    window.setTimeout(() => {
-                        this.getAliasInfoList();
-                    }, timeout);
-                } else {
-                    this.variablesService.aliasInfoListLoaded = true;
-
-                    if (!data?.aliases?.length) return;
-                    const aliasInfoList: AliasInfoList = data.aliases.filter(Boolean).sort(predicateSortAliasInfoList);
-                    this.variablesService.aliasInfoList$.next(aliasInfoList);
-                }
-            });
-        });
     }
 
     addToStore(wallet, boolean): void {
