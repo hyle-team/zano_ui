@@ -765,6 +765,10 @@ body {
   color: var(--main-text);
 }.zano-autocomplete-panel .mat-option:hover {
   background-color: var(--list-item-hover-background);
+}.zano-autocomplete-panel .mat-option.placeholder {
+  white-space: initial;
+  height: auto;
+  min-height: 4rem;
 }.zano-autocomplete-panel .mat-option-text {
   padding: 0.4rem;
 }.form {

@@ -119,7 +119,14 @@
         },
         "MODALS": {
             "ASSET_DETAILS": {
+                "BUTTONS": {
+                    "ADD_ASSET": "Aggiungi asset",
+                    "REMOVE": "Rimuovi"
+                },
                 "LABELS": {
+                    "ASSET_IS_GLOBALLY_WHITELISTED": "L’attività è nella lista bianca a livello globale",
+                    "ASSET_IS_NOT_WHITELISTED": "L’attività non è nella lista bianca",
+                    "ASSET_IS_WHITELISTED": "L’attività è nella lista bianca",
                     "CURRENT_SUPPLY": "Fornitura attuale",
                     "ID": "ID asset",
                     "MAX_SUPPLE": "Fornitura massima",
@@ -217,7 +224,9 @@
         "BUILD_VERSION": "Versione build",
         "BUILD_VERSION_COPIED": "La versione build è stata copiata",
         "COPY": "Copia",
-        "LOADING": "Caricamento..."
+        "ENTER_CHAR_TO_SEARCH": "Inizia a digitare per cercare",
+        "LOADING": "Caricamento...",
+        "NO_ALIAS_FOUND": "Nessun alias trovato"
     },
     "CONFIRM": {
         "BUTTON_CANCEL": "Annulla",
@@ -846,7 +855,7 @@
         "FORM_ERRORS": {
             "ADDRESS_NOT_VALID": "Indirizzo non valido",
             "ADDRESS_REQUIRED": "L'indirizzo è obbligatorio",
-            "ALIAS_NOT_FOUND": "Alias non trovato",
+            "ALIAS_NOT_FOUND": "Nessun alias trovato",
             "ALIAS_NOT_VALID": "L'alias non è valido",
             "AMOUNT_REQUIRED": "L'importo è obbligatorio",
             "AMOUNT_ZERO": "L'importo è zero",

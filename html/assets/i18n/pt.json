@@ -119,7 +119,14 @@
         },
         "MODALS": {
             "ASSET_DETAILS": {
+                "BUTTONS": {
+                    "ADD_ASSET": "Adicionar ativo",
+                    "REMOVE": "Remover"
+                },
                 "LABELS": {
+                    "ASSET_IS_GLOBALLY_WHITELISTED": "O ativo está globalmente na lista branca",
+                    "ASSET_IS_NOT_WHITELISTED": "O ativo não está na lista branca",
+                    "ASSET_IS_WHITELISTED": "O ativo está na lista branca",
                     "CURRENT_SUPPLY": "Fornecimento atual",
                     "ID": "ID do ativo",
                     "MAX_SUPPLE": "Fornecimento máximo",
@@ -217,7 +224,9 @@
         "BUILD_VERSION": "Versão da compilação",
         "BUILD_VERSION_COPIED": "A versão de compilação foi copiada",
         "COPY": "Copiar",
-        "LOADING": "Carregando..."
+        "ENTER_CHAR_TO_SEARCH": "Comece a digitar para pesquisar",
+        "LOADING": "Carregando...",
+        "NO_ALIAS_FOUND": "Nenhum alias encontrado"
     },
     "CONFIRM": {
         "BUTTON_CANCEL": "Cancelar",
@@ -846,7 +855,7 @@
         "FORM_ERRORS": {
             "ADDRESS_NOT_VALID": "Endereço inválido",
             "ADDRESS_REQUIRED": "O endereço é obrigatório",
-            "ALIAS_NOT_FOUND": "Alias não encontrado",
+            "ALIAS_NOT_FOUND": "Nenhum alias encontrado",
             "ALIAS_NOT_VALID": "O alias não é válido",
             "AMOUNT_REQUIRED": "A quantidade é obrigatória",
             "AMOUNT_ZERO": "A quantidade é zero",
