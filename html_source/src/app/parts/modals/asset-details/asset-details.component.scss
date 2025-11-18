@@ -23,6 +23,31 @@ table {
     }
 }
 
+.asset-whitelist {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+
+    h3 {
+        color: var(--main-text);
+        display: inline-flex;
+        align-items: center;
+        font-size: 1.8rem;
+    }
+
+    &.asset-is-whitelisted-globally, &.asset-is-whitelisted {
+        h3 {
+            color: #16D1D6;
+        }
+    }
+
+    button {
+        color: var(--azure-500);
+        cursor: pointer;
+    }
+}
+
 .light {
     :host {
         table {

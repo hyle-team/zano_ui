@@ -1,19 +1,20 @@
-import { Component, inject, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, Input, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IsVisibleControlErrorPipe } from '@parts/pipes/is-visible-control-error.pipe';
 import { LoaderComponent } from '@parts/components/loader.component';
-import { LowerCaseDirective } from '@parts/directives';
+import { LowerCaseDirective, TooltipModule } from '@parts/directives';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatOptionModule } from '@angular/material/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ShortStringPipe } from '@parts/pipes';
 import { TranslateModule } from '@ngx-translate/core';
-import { BehaviorSubject, merge, Observable, Subject } from 'rxjs';
-import { debounceTime, map, startWith, takeUntil, tap } from 'rxjs/operators';
+import { merge, Subject } from 'rxjs';
+import { debounceTime, startWith, takeUntil, tap } from 'rxjs/operators';
 import { WalletsService } from '@parts/services/wallets.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { DestinationsForm } from '../../send.component';
 import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
+import { BackendService } from '@api/services/backend.service';
 
 @Component({
     selector: 'zano-address-field',
@@ -29,60 +30,100 @@ import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrollin
         ShortStringPipe,
         TranslateModule,
         ScrollingModule,
+        TooltipModule,
     ],
     templateUrl: './address-field.component.html',
     styleUrls: ['./address-field.component.scss'],
 })
 export class AddressFieldComponent implements OnInit, OnDestroy {
+    @Input() control_ref: DestinationsForm;
+
+    @Input() label: string = 'SEND.ADDRESS';
+
+    @Input() placeholder: string = 'PLACEHOLDERS.ADDRESS_PLACEHOLDER';
+
     @ViewChild(CdkVirtualScrollViewport)
     cdkVirtualScrollViewPort: CdkVirtualScrollViewport;
 
-    @Input() control_ref: DestinationsForm;
+    itemSize = 40;
 
-    variables_service: VariablesService = inject(VariablesService);
+    readonly variablesService: VariablesService = inject(VariablesService);
 
-    address_items$: Observable<string[]>;
+    items: string[] = [];
 
-    loading_address_items$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+    loading = false;
 
-    lower_case_disabled$: BehaviorSubject<boolean> = new BehaviorSubject(true);
+    lowerCaseDisabled = true;
 
-    error_messages: { [key: string]: string } = {
+    errorMessages: { [key: string]: string } = {
         address: '',
     };
 
-    private readonly _wallets_service: WalletsService = inject(WalletsService);
+    get isShowHintNoAliasFound() {
+        const {
+            controls: {
+                address: { value },
+            },
+        } = this.control_ref;
+        return !this.loading && value.startsWith('@') && value.length > 1 && !this.items.length;
+    }
 
-    private readonly _opened_wallet_items: string[] = this._wallets_service.opened_wallet_items;
+    get isShowHintEnterCharToSearch() {
+        const {
+            controls: {
+                address: { value },
+            },
+        } = this.control_ref;
+        return !this.loading && value.startsWith('@') && value.length === 1 && !this.items.length;
+    }
 
-    private readonly _alias_items: string[] = this.variables_service.all_aliases
-        .filter(Boolean)
-        .map((alias_info) => '@' + alias_info.alias);
+    private readonly _ngZone = inject(NgZone);
 
-    private readonly _destroy$: Subject<void> = new Subject<void>();
+    private readonly _walletsService = inject(WalletsService);
 
-    ngOnInit(): void {
-        this.address_items$ = this.control_ref.controls.address.valueChanges.pipe(
-            startWith(this.control_ref.controls.address.value),
-            tap((value) => {
-                const condition = value.startsWith('@');
-                this.lower_case_disabled$.next(!condition);
-                this.loading_address_items$.next(condition);
-            }),
-            debounceTime(800),
-            map((value) => {
-                if (!value?.length) {
-                    return this._opened_wallet_items;
-                }
-                if (value.startsWith('@')) {
-                    return this._alias_items.filter((alias) => {
-                        return alias.includes(value);
+    private readonly _backendService = inject(BackendService);
+
+    private readonly _openedWalletItems = this._walletsService.opened_wallet_items;
+
+    private readonly _destroy$ = new Subject<void>();
+
+    ngOnInit() {
+        const {
+            controls: { address: addressControl },
+        } = this.control_ref;
+
+        addressControl.valueChanges
+            .pipe(
+                startWith(addressControl.value),
+                tap((value) => {
+                    this.loading = true;
+                    this.lowerCaseDisabled = !value.startsWith('@');
+                }),
+                debounceTime(500),
+                takeUntil(this._destroy$)
+            )
+            .subscribe({
+                next: (value) => {
+                    const isEnteredAlias = value.startsWith('@');
+                    const isEnteredAddress = !isEnteredAlias;
+
+                    if (isEnteredAddress) {
+                        this.items = this._openedWalletItems;
+                        this.loading = false;
+                        return;
+                    }
+
+                    const alias_first_leters = value.slice(1); // slice to remove '@' symbol
+                    const n_of_items_to_return = 10;
+
+                    this._backendService.alias_lookup({ alias_first_leters, n_of_items_to_return }, (_, { result: { aliases } }) => {
+                        this._ngZone.run(() => {
+                            this.items = aliases?.map(({ alias }) => '@' + alias) ?? [];
+                            this.loading = false;
+                        });
                     });
-                }
-                return [];
-            }),
-            tap(() => this.loading_address_items$.next(false))
-        );
+                },
+            });
 
         merge(
             this.control_ref.controls.address.statusChanges,
@@ -91,33 +132,45 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
             this.control_ref.valueChanges
         )
             .pipe(takeUntil(this._destroy$))
-            .subscribe((): void => this.updateAddressErrorMessage());
+            .subscribe(() => this.updateErrorMessage());
     }
 
-    ngOnDestroy(): void {
+    ngOnDestroy() {
         this._destroy$.next();
         this._destroy$.complete();
     }
 
-    pasteListenAddressField(event: ClipboardEvent): void {
+    handlerPaste(event: ClipboardEvent) {
         event.preventDefault();
-        const address = this.control_ref.controls.address;
-        const { clipboardData } = event;
-        let value: string = clipboardData.getData('Text') ?? '';
-        this.lower_case_disabled$.next(value.indexOf('@') !== 0);
 
-        if (value.indexOf('@') === 0) {
+        const {
+            controls: { address: addressControl },
+        } = this.control_ref;
+        const { clipboardData } = event;
+
+        let value: string = clipboardData.getData('Text') ?? '';
+
+        const isEnteredAlias = value.startsWith('@');
+        const isEnteredAddress = !isEnteredAlias;
+
+        this.lowerCaseDisabled = isEnteredAddress;
+
+        if (isEnteredAlias) {
             value = value.toLowerCase();
         }
 
-        address.patchValue(value);
+        addressControl.patchValue(value);
+    }
+
+    handlerContextmenu(event: MouseEvent) {
+        this.variablesService.onContextMenu(event);
     }
 
     trackByFn(index: number, value: string): number | string {
         return value ?? index;
     }
 
-    updateAddressErrorMessage(): void {
+    updateErrorMessage() {
         const address = this.control_ref.controls.address;
         let message = '';
 
@@ -139,10 +192,11 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
                 break;
             }
         }
-        this.error_messages['address'] = message;
+
+        this.errorMessages['address'] = message;
     }
 
-    openAutocomplete(): void {
+    openAutocomplete() {
         this.cdkVirtualScrollViewPort?.scrollToIndex(0);
         this.cdkVirtualScrollViewPort?.checkViewportSize();
     }

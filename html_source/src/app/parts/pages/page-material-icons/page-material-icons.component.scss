@@ -1,0 +1,12 @@
+.section-material-icons {
+    display: flex;
+    flex-wrap: wrap;
+
+    .material-icon-container {
+        margin: 1rem;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}

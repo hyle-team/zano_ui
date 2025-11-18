@@ -74,3 +74,20 @@ export interface AssetsWhitelistGetResponseData {
     jsonrpc: string;
     result: AssetsInfoWhitelist;
 }
+
+export interface AssetsWhitelistAddResponseData {
+    id: number;
+    jsonrpc: string;
+    result: {
+        asset_descriptor: AssetInfo;
+        status: string;
+    };
+}
+
+export interface ResponseAssetsWhitelistRemove {
+    id: number;
+    jsonrpc: string;
+    result: {
+        status: string;
+    };
+}

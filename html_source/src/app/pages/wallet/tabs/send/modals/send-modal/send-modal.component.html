@@ -17,7 +17,7 @@
                                 {{ 'CONFIRM.MESSAGE.SEND' | translate }}
                             </div>
                             <div class="text">
-                                {{ destination.amount }}
+                                {{ destination.amount | customNumber }}
                                 {{ (destination.asset_id | getAssetInfo)?.ticker || '***' }}
                             </div>
                         </div>

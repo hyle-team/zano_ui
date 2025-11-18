@@ -119,7 +119,14 @@
         },
         "MODALS": {
             "ASSET_DETAILS": {
+                "BUTTONS": {
+                    "ADD_ASSET": "Asset hinzufügen",
+                    "REMOVE": "Entfernen"
+                },
                 "LABELS": {
+                    "ASSET_IS_GLOBALLY_WHITELISTED": "Der Vermögenswert ist global auf der Whitelist",
+                    "ASSET_IS_NOT_WHITELISTED": "Der Vermögenswert steht nicht auf der Whitelist",
+                    "ASSET_IS_WHITELISTED": "Der Vermögenswert ist auf der Whitelist",
                     "CURRENT_SUPPLY": "Aktueller Bestand",
                     "ID": "Asset-ID",
                     "MAX_SUPPLE": "Maximaler Bestand",
@@ -217,7 +224,9 @@
         "BUILD_VERSION": "Build-Version",
         "BUILD_VERSION_COPIED": "Build-Version wurde kopiert",
         "COPY": "Kopieren",
-        "LOADING": "Laden..."
+        "ENTER_CHAR_TO_SEARCH": "Fangen Sie an zu tippen, um zu suchen",
+        "LOADING": "Laden...",
+        "NO_ALIAS_FOUND": "Kein Alias gefunden"
     },
     "CONFIRM": {
         "BUTTON_CANCEL": "Abbrechen",
@@ -846,7 +855,7 @@
         "FORM_ERRORS": {
             "ADDRESS_NOT_VALID": "Adresse ist ungültig",
             "ADDRESS_REQUIRED": "Adresse ist erforderlich",
-            "ALIAS_NOT_FOUND": "Alias nicht gefunden",
+            "ALIAS_NOT_FOUND": "Kein Alias gefunden",
             "ALIAS_NOT_VALID": "Der Alias ist ungültig",
             "AMOUNT_REQUIRED": "Betrag ist erforderlich",
             "AMOUNT_ZERO": "Betrag ist null",

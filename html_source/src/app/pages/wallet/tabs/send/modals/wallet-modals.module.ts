@@ -9,6 +9,7 @@ import { GetAssetInfoPipe } from '@parts/pipes';
 import { CopyButtonComponent } from '@parts/components/copy-button.component';
 import { MatIconModule } from '@angular/material/icon';
 import { AutoFocusDirective } from '@parts/directives/autofocus.directive';
+import { CustomNumberFormatPipe } from '@parts/pipes/custom-number.pipe';
 
 @NgModule({
     declarations: [SendModalComponent, SendDetailsModalComponent],
@@ -21,6 +22,7 @@ import { AutoFocusDirective } from '@parts/directives/autofocus.directive';
         CopyButtonComponent,
         MatIconModule,
         AutoFocusDirective,
+        CustomNumberFormatPipe,
     ],
     exports: [SendModalComponent, SendDetailsModalComponent],
 })
