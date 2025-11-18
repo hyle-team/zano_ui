@@ -224,7 +224,7 @@
         "BUILD_VERSION": "Versi build",
         "BUILD_VERSION_COPIED": "Versi build telah disalin",
         "COPY": "Salin",
-        "ENTER_CHAR_TO_SEARCH": "Masukkan 1 karakter untuk mencari",
+        "ENTER_CHAR_TO_SEARCH": "Mulai mengetik untuk mencari",
         "LOADING": "Memuat...",
         "NO_ALIAS_FOUND": "Alias tidak ditemukan"
     },
