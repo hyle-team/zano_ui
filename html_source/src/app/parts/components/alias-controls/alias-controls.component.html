@@ -26,24 +26,24 @@
                     [timeout]="0"
                     [timeDelay]="800"
                     [tooltipClass]="'table-tooltip'"
-                    [tooltip]="aliasHistoryTemplate"
-                    class="alias-history-count"
+                    [tooltip]="tooltipListTemplate"
+                    class="count"
                 >
                     +{{ variablesService.current_wallet.alias_info_list.length - 1 }}
                 </div>
 
-                <ng-template #aliasHistoryTemplate>
-                    <div class="alias-history-list">
-                        <ng-container *ngFor="let alias_info of variablesService.current_wallet.alias_info_list; let last = last">
-                            <ng-container *ngIf="!last">
-                                <p>
-                                    {{ alias_info.alias }}
-                                </p>
-                            </ng-container>
-                        </ng-container>
-                    </div>
-                </ng-template>
+
             </ng-container>
         </button>
     </ng-container>
 </div>
+
+<ng-template #tooltipListTemplate>
+    <ul class="tooltip-list">
+        <ng-container *ngFor="let alias_info of variablesService.current_wallet.alias_info_list; let last = last">
+            <li *ngIf="!last">
+                @{{ alias_info.alias }}
+            </li>
+        </ng-container>
+    </ul>
+</ng-template>

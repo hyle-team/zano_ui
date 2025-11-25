@@ -23,14 +23,12 @@
     </div>
 
     <ng-template #aliasHistoryTemplate>
-        <div class="alias-list">
+        <ul class="tooltip-list">
             <ng-container *ngFor="let alias_info of wallet.alias_info_list; let last = last">
-                <ng-container *ngIf="!last">
-                    <p>
-                        {{ alias_info.alias }}
-                    </p>
-                </ng-container>
+                <li *ngIf="!last">
+                    @{{ alias_info.alias }}
+                </li>
             </ng-container>
-        </div>
+        </ul>
     </ng-template>
 </div>

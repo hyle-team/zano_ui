@@ -74,6 +74,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
 import { AutoFocusDirective } from '@parts/directives/autofocus.directive';
 import { CellAssetBalanceComponent } from '@parts/components/cell-asset-balance/cell-asset-balance.component';
+import { CellAddressComponent } from '@parts/components/cell-address/cell-address.component';
 
 @NgModule({
     declarations: [
@@ -156,6 +157,7 @@ import { CellAssetBalanceComponent } from '@parts/components/cell-asset-balance/
         MatMenuModule,
         AutoFocusDirective,
         CellAssetBalanceComponent,
+        CellAddressComponent,
     ],
 })
 export class WalletModule {}
