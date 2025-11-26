@@ -1,0 +1,62 @@
+<ng-container [ngSwitch]="true">
+    <!-- Message -->
+    <div *ngSwitchCase="isShowMessage" class="text-ellipsis">
+        {{ transaction | historyTypeMessages }}
+    </div>
+
+    <!-- Address or Alias -->
+    <div
+        (contextmenu)="variablesService.onContextMenuOnlyCopy($event, copyText)"
+        *ngSwitchCase="isShowAddressOrAlias"
+        class="address-or-alias-container"
+    >
+        <ng-container [ngSwitch]="firstItem.type">
+            <div class="text-ellipsis" *ngSwitchCase="'address'">
+                {{ firstItem.value | zanoShortString }}
+            </div>
+
+            <div
+                *ngSwitchCase="'alias'"
+                [class.available]="firstItem.value.length >= 1 && firstItem.value.length <= 5"
+                class="alias-container"
+            >
+                <div class="alias">@{{ firstItem.value }}</div>
+            </div>
+        </ng-container>
+
+        <!-- Count -->
+        <span
+            *ngIf="items.length > 1"
+            [delay]="150"
+            [placement]="'bottom'"
+            [timeout]="0"
+            [tooltipClass]="'table-tooltip'"
+            [tooltip]="tooltipListTemplate"
+            class="count"
+        >
+            +{{ items.length - 1 }}
+        </span>
+    </div>
+
+    <!-- Hidden -->
+    <div *ngSwitchCase="isShowHidden" class="text-ellipsis">
+        {{ 'HISTORY.HIDDEN' | translate }}
+    </div>
+</ng-container>
+
+<ng-template #tooltipListTemplate>
+    <ul class="tooltip-list">
+        <ng-container *ngFor="let item of items; let first = first">
+            <!-- Do not display the first item as it is displayed in the banner -->
+            <ng-container *ngIf="!first" [ngSwitch]="item.type">
+                <li (contextmenu)="variablesService.onContextMenuOnlyCopy($event, item.value)" *ngSwitchCase="'address'">
+                    {{ item.value | zanoShortString }}
+                </li>
+
+                <li (contextmenu)="variablesService.onContextMenuOnlyCopy($event, '@' + item.value)" *ngSwitchCase="'alias'">
+                    @{{ item.value }}
+                </li>
+            </ng-container>
+        </ng-container>
+    </ul>
+</ng-template>

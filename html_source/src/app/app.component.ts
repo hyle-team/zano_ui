@@ -725,7 +725,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     private _handlerCoreEventAddAlias(data, i: number) {
-        const aliasInfo: AliasInfo = data.events[i].detail;
+        const aliasInfo: AliasInfo = data.events[i].details;
         if (!aliasInfo) return;
 
         const { address } = aliasInfo;

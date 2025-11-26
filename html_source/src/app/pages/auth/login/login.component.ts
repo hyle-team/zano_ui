@@ -268,7 +268,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                             wallet.pass,
                             open_data['wi'].path,
                             open_data['wi'].address,
-                            open_data['wi'].balance,
+                            open_data['wi'].balances,
                             open_data['wi'].unlocked_balance,
                             open_data['wi'].mined_total,
                             open_data['wi'].tracking_hey

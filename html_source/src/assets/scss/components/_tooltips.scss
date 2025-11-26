@@ -1,5 +1,18 @@
+.tooltip-list {
+    max-height: 12rem;
+    overflow: auto;
+
+    > li {
+        margin-bottom: 0.5rem;
+    }
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+}
+
 .table-tooltip {
-    z-index: 9999;
+    z-index: 999;
     padding: 1rem;
     border-radius: 0.8rem;
     background: var(--tooltip-background);
@@ -230,7 +243,7 @@
 }
 
 .account-tooltip {
-    z-index: 9999;
+    z-index: 999;
     background-color: var(--tooltip-background);
     .tooltip-inner {
         word-break: break-word;

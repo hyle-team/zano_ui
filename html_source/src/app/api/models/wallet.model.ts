@@ -20,6 +20,14 @@ import { getFiatValue } from '@parts/functions/get-fiat-value';
 
 export const defaultAssetsInfoWhitelist = { global_whitelist: [], local_whitelist: [], own_assets: [] };
 
+const defaultBalances = [{
+    asset_info: ZANO_ASSET_INFO,
+    awaiting_in: 0,
+    awaiting_out: 0,
+    total: 0,
+    unlocked: 0
+}];
+
 const sortBalances = (
     value: AssetBalances | null | undefined,
     currentPriceForAssets: CurrentPriceForAssets,
@@ -158,7 +166,7 @@ export class Wallet {
     }
 
     set balances(value: AssetBalances | null | undefined) {
-        this.originalBalances$.next(value ?? []);
+        this.originalBalances$.next(value?.length ? value : defaultBalances);
     }
 
     mined_total: number;
