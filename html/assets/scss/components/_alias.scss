@@ -28,7 +28,7 @@
         }
     }
 
-    .alias-history-count {
+    .count {
         margin-left: 1rem;
         font-size: 1.8rem;
         color: var(--control-alias-wallet-text);
@@ -84,15 +84,4 @@
             background-size: contain;
         }
     }
-}
-
-.alias-history-count {
-    margin-left: 1rem;
-    color: var(--alias-history-count-text);
-    font-size: 1.8rem;
-}
-
-.alias-history-list {
-    max-height: 8rem;
-    overflow: auto;
 }

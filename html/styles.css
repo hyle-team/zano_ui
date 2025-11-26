@@ -225,7 +225,7 @@ strong {
   --block-sync: #505274;
   --control-alias-wallet-background: #1f8feb1a;
   --control-alias-wallet-text: var(--main-text);
-  --alias-history-count-text: #1f8feb;
+  --count-text: #1f8feb;
   --gradient-sidebar-content-wallet-list-top: linear-gradient(0deg, rgba(252, 252, 252, 0) 0%, #fcfcfc 100%);
   --gradient-sidebar-content-wallet-list-bottom: linear-gradient(180deg, rgba(252, 252, 252, 0) 0%, #fcfcfc 100%);
   --auth-card-background: #fcfcfc;
@@ -298,7 +298,7 @@ strong {
   --block-sync: #a8abb5;
   --control-alias-wallet-background: #ffffff1a;
   --control-alias-wallet-text: var(--main-text);
-  --alias-history-count-text: #1f8feb;
+  --count-text: #1f8feb;
   --gradient-sidebar-content-wallet-list-top: linear-gradient(0deg, rgba(15, 32, 85, 0) 0%, #0f2055 100%);
   --gradient-sidebar-content-wallet-list-bottom: linear-gradient(180deg, rgba(15, 32, 85, 0) 0%, #0f2055 100%);
   --auth-card-background: var(--blue-700);
@@ -558,7 +558,7 @@ body {
   align-items: center;
 }.control-alias-wallet-container .alias mat-icon {
   margin-left: 0.6rem;
-}.control-alias-wallet-container .alias-history-count {
+}.control-alias-wallet-container .count {
   margin-left: 1rem;
   font-size: 1.8rem;
   color: var(--control-alias-wallet-text);
@@ -602,13 +602,6 @@ body {
   background-image: url('crown.svg');
   background-repeat: no-repeat;
   background-size: contain;
-}.alias-history-count {
-  margin-left: 1rem;
-  color: var(--alias-history-count-text);
-  font-size: 1.8rem;
-}.alias-history-list {
-  max-height: 8rem;
-  overflow: auto;
 }button,
 .btn {
   display: inline-flex;
@@ -1950,8 +1943,15 @@ table.rounded-corners > tfoot:not(:last-child) {
   background-color: var(--tab-content-background);
   padding: 2rem;
   position: relative;
+}.tooltip-list {
+  max-height: 12rem;
+  overflow: auto;
+}.tooltip-list > li {
+  margin-bottom: 0.5rem;
+}.tooltip-list:last-child {
+  margin-bottom: 0;
 }.table-tooltip {
-  z-index: 9999;
+  z-index: 999;
   padding: 1rem;
   border-radius: 0.8rem;
   background: var(--tooltip-background);
@@ -2112,7 +2112,7 @@ table.rounded-corners > tfoot:not(:last-child) {
 }.balance-tooltip.ng-tooltip-right {
   margin-left: 1rem;
 }.account-tooltip {
-  z-index: 9999;
+  z-index: 999;
   background-color: var(--tooltip-background);
 }.account-tooltip .tooltip-inner {
   word-break: break-word;
@@ -2420,6 +2420,10 @@ app-contracts .container .wrap-table table.contracts-table tbody tr .comment {
   outline-color: black;
 }.dark .user-is-tabbing :focus {
   outline-color: white;
+}.count {
+  margin-left: 1rem;
+  color: var(--count-text);
+  font-size: 1.8rem;
 }.color-red {
   color: var(--red-500);
 }.color-primary {
