@@ -153,7 +153,7 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
                                 password,
                                 openData['wi'].path,
                                 openData['wi'].address,
-                                openData['wi'].balance,
+                                openData['wi'].balances,
                                 openData['wi'].unlocked_balance,
                                 openData['wi'].mined_total,
                                 openData['wi'].tracking_hey
