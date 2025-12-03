@@ -1116,7 +1116,8 @@
         "MODAL_WHITELIST_ASSET": {
             "FIELD_TITLE": "ID de l'actif",
             "FORM_ERRORS": {
-                "ERROR1": "ID d'actif invalide"
+                "ERROR1": "ID d'actif invalide",
+                "ERROR2": "L'actif est sur liste blanche."
             },
             "TITLE": "Actif en liste blanche"
         },

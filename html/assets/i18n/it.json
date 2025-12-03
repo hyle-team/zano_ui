@@ -1116,7 +1116,8 @@
         "MODAL_WHITELIST_ASSET": {
             "FIELD_TITLE": "ID asset",
             "FORM_ERRORS": {
-                "ERROR1": "ID asset non valido"
+                "ERROR1": "ID asset non valido",
+                "ERROR2": "L'asset è nella whitelist."
             },
             "TITLE": "Lista bianca asset"
         },
