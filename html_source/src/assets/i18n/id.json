@@ -1116,7 +1116,8 @@
         "MODAL_WHITELIST_ASSET": {
             "FIELD_TITLE": "ID Aset",
             "FORM_ERRORS": {
-                "ERROR1": "ID Aset Tidak Valid"
+                "ERROR1": "ID Aset Tidak Valid",
+                "ERROR2": "Aset tersebut masuk daftar putih."
             },
             "TITLE": "Daftar putih aset"
         },

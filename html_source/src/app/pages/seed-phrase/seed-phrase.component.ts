@@ -50,7 +50,7 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
     fb = inject(FormBuilder);
 
     detailsForm = this.fb.group({
-        name: this.fb.nonNullable.control('', [ZanoValidators.duplicate(this.variablesService.walletNamesForComparisons)]),
+        name: this.fb.nonNullable.control(''),
         path: this.fb.nonNullable.control(''),
     });
 
