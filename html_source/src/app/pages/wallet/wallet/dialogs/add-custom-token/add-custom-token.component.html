@@ -8,7 +8,7 @@
             <label for="asset_id">{{ 'WALLET.MODAL_WHITELIST_ASSET.FIELD_TITLE' | translate }}</label>
             <input
                 (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
-                aria-describedby="asset-id-error1 asset-id-error2"
+                aria-describedby="asset-id-error1 asset-id-error2 asset-id-error3"
                 class="form__field--input"
                 formControlName="asset_id"
                 id="asset_id"
@@ -19,12 +19,16 @@
                 placeholder="Enter Asset ID"
                 type="text"
             />
-            <ng-container *ngIf="formGroup.get('asset_id').touched">
-                <div *ngIf="formGroup.get('asset_id').hasError('invalidHash')" aria-live="assertive" class="error" id="asset-id-error1">
+            <ng-container *ngIf="formGroup.controls.asset_id.touched">
+                <div *ngIf="formGroup.controls.asset_id.hasError('invalidHash')" aria-live="assertive" class="error" id="asset-id-error1">
                     {{ 'WALLET.MODAL_WHITELIST_ASSET.FORM_ERRORS.ERROR1' | translate }}
                 </div>
-                <div *ngIf="formGroup.get('asset_id').hasError('wrongAssetId')" aria-live="assertive" class="error" id="asset-id-error2">
-                    {{ formGroup.get('asset_id').errors['wrongAssetId'].errorText | translate }}
+                <div *ngIf="formGroup.controls.asset_id.hasError('wrongAssetId')" aria-live="assertive" class="error" id="asset-id-error2">
+                    {{ formGroup.controls.asset_id.errors['wrongAssetId'].errorText | translate }}
+                </div>
+                <div *ngIf="formGroup.controls.asset_id.hasError('assetIdExists')" aria-live="assertive"
+                     class="error" id="asset-id-error3">
+                    {{ 'WALLET.MODAL_WHITELIST_ASSET.FORM_ERRORS.ERROR2' | translate }}
                 </div>
             </ng-container>
         </fieldset>

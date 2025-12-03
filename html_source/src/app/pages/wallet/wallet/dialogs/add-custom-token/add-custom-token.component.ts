@@ -23,23 +23,32 @@ import { AutoFocusDirective } from '@parts/directives/autofocus.directive';
 export class AddCustomTokenComponent {
     loading = false;
 
-    private fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
+    private _fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
 
-    formGroup = this.fb.group<{ asset_id: FormControl<string> }>({
-        asset_id: this.fb.control('', Validators.compose([Validators.required, ZanoValidators.hash, Validators.maxLength(64)])),
+    variablesService: VariablesService = inject(VariablesService);
+
+    formGroup = this._fb.group<{ asset_id: FormControl<string> }>({
+        asset_id: this._fb.control('', [(control) => {
+            const asset_id = control.value;
+            const { current_wallet: { balances } } = this.variablesService;
+
+            if (balances.find((balance) => balance.asset_info.asset_id === asset_id)) {
+                return { assetIdExists: true }
+            }
+
+            return null;
+        }, Validators.required, ZanoValidators.hash, Validators.maxLength(64)]),
     });
 
-    public variablesService: VariablesService = inject(VariablesService);
+    private _backendService: BackendService = inject(BackendService);
 
-    public backendService: BackendService = inject(BackendService);
+    private _walletsService: WalletsService = inject(WalletsService);
 
-    private walletsService: WalletsService = inject(WalletsService);
+    private _ngZone: NgZone = inject(NgZone);
 
-    private ngZone: NgZone = inject(NgZone);
+    private _matDialogRef: MatDialogRef<AssetBalance | undefined> = inject(MatDialogRef);
 
-    private matDialogRef: MatDialogRef<AssetBalance | undefined> = inject(MatDialogRef);
-
-    beforeSubmit(): void {
+    beforeSubmit() {
         if (this.formGroup.invalid) {
             this.formGroup.markAsTouched();
             this.formGroup.updateValueAndValidity();
@@ -49,7 +58,7 @@ export class AddCustomTokenComponent {
         this.submit();
     }
 
-    submit(): void {
+    submit() {
         this.loading = true;
         const { asset_id } = this.formGroup.getRawValue();
         const { current_wallet, verifiedAssetIdWhitelist } = this.variablesService;
@@ -71,7 +80,7 @@ export class AddCustomTokenComponent {
             );
 
             if (!assetInfo) {
-                this.matDialogRef.close();
+                this._matDialogRef.close();
                 return;
             }
 
@@ -86,11 +95,11 @@ export class AddCustomTokenComponent {
                 unlocked: 0,
             };
 
-            this.walletsService.updateWalletInfo(current_wallet);
-            this.matDialogRef.close(asset);
+            this._walletsService.updateWalletInfo(current_wallet);
+            this._matDialogRef.close(asset);
         } else {
-            this.backendService.addCustomAssetId(params, (status: boolean, { asset_descriptor }: ResponseAddCustomAssetId) => {
-                this.ngZone.run(() => {
+            this._backendService.addCustomAssetId(params, (status: boolean, { asset_descriptor }: ResponseAddCustomAssetId) => {
+                this._ngZone.run(() => {
                     if (status) {
                         const asset: AssetBalance = {
                             asset_info: {
@@ -102,8 +111,8 @@ export class AddCustomTokenComponent {
                             total: 0,
                             unlocked: 0,
                         };
-                        this.walletsService.updateWalletInfo(current_wallet);
-                        this.matDialogRef.close(asset);
+                        this._walletsService.updateWalletInfo(current_wallet);
+                        this._matDialogRef.close(asset);
                     } else {
                         this.formGroup.controls.asset_id.setErrors({
                             wrongAssetId,

@@ -18,10 +18,7 @@
                         <input
                             (contextmenu)="variablesService.onContextMenu($event)"
                             [attr.aria-describedby]="'wallet-name-error'"
-                            [maxLength]="variablesService.maxWalletNameLength"
                             [placeholder]="'PLACEHOLDERS.WALLET_NAME_PLACEHOLDER' | translate"
-                            appAutofocus
-                            autofocus
                             class="form__field--input"
                             formControlName="name"
                             id="wallet-name"
