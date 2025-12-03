@@ -537,7 +537,7 @@ export class SendComponent implements OnDestroy {
 
     private _saveSendMoneyParams(): void {
         const { current_wallet } = this.variables_service;
-        this.form.valueChanges.pipe(debounceTime(800), takeUntil(this._destroy$)).subscribe({
+        this.form.valueChanges.pipe(takeUntil(this._destroy$)).subscribe({
             next: (): void => {
                 current_wallet.transfer_form_value = this.form.getRawValue();
             },
