@@ -19,7 +19,7 @@
                 placeholder="Enter Asset ID"
                 type="text"
             />
-            <ng-container *ngIf="formGroup.controls.asset_id.touched">
+            <ng-container *ngIf="formGroup.controls.asset_id | isVisibleControlError">
                 <div *ngIf="formGroup.controls.asset_id.hasError('invalidHash')" aria-live="assertive" class="error" id="asset-id-error1">
                     {{ 'WALLET.MODAL_WHITELIST_ASSET.FORM_ERRORS.ERROR1' | translate }}
                 </div>
