@@ -12,13 +12,23 @@ import { TranslateModule } from '@ngx-translate/core';
 import { LoaderComponent } from '@parts/components/loader.component';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { AutoFocusDirective } from '@parts/directives/autofocus.directive';
+import { IsVisibleControlErrorPipe } from '@parts/pipes/is-visible-control-error.pipe';
 
 @Component({
     selector: 'app-add-custom-token',
     standalone: true,
     templateUrl: './add-custom-token.component.html',
     styleUrls: ['./add-custom-token.component.scss'],
-    imports: [CommonModule, FlexModule, TranslateModule, ReactiveFormsModule, LoaderComponent, MatDialogModule, AutoFocusDirective],
+    imports: [
+        CommonModule,
+        FlexModule,
+        TranslateModule,
+        ReactiveFormsModule,
+        LoaderComponent,
+        MatDialogModule,
+        AutoFocusDirective,
+        IsVisibleControlErrorPipe,
+    ],
 })
 export class AddCustomTokenComponent {
     loading = false;
@@ -28,16 +38,23 @@ export class AddCustomTokenComponent {
     variablesService: VariablesService = inject(VariablesService);
 
     formGroup = this._fb.group<{ asset_id: FormControl<string> }>({
-        asset_id: this._fb.control('', [(control) => {
-            const asset_id = control.value;
-            const { current_wallet: { balances } } = this.variablesService;
+        asset_id: this._fb.control('', [
+            (control) => {
+                const asset_id = control.value;
+                const {
+                    current_wallet: { balances },
+                } = this.variablesService;
 
-            if (balances.find((balance) => balance.asset_info.asset_id === asset_id)) {
-                return { assetIdExists: true }
-            }
+                if (balances.find((balance) => balance.asset_info.asset_id === asset_id)) {
+                    return { assetIdExists: true };
+                }
 
-            return null;
-        }, Validators.required, ZanoValidators.hash, Validators.maxLength(64)]),
+                return null;
+            },
+            Validators.required,
+            ZanoValidators.hash,
+            Validators.maxLength(64),
+        ]),
     });
 
     private _backendService: BackendService = inject(BackendService);
