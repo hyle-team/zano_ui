@@ -1,54 +1,19 @@
-<div class="container scrolled-content" fxFlex="1 1 auto">
-    <form
-        role="form"
-        (ngSubmit)="beforeSubmit()"
-        [formGroup]="form"
-        class="form"
-        fxFlex="0 1 50rem"
-        fxLayout="column"
-        fxLayoutAlign="start stretch"
-    >
-        <!-- Asset -->
-        <zano-asset-field
-            [balances]="variables_service.current_wallet.balances$ | async"
-            [control_ref]="form.controls.asset_id"
-            [is_visible_wrap_info]="is_visible_wrap_info"
-        >
-        </zano-asset-field>
-
+<div class="scrolled-content" fxFlex="1 1 auto">
+    <form (ngSubmit)="beforeSubmit()" [formGroup]="form" class="form" role="form">
         <!-- Destinations -->
-        <ng-container *ngFor="let destinationControl of form.controls.destinations.controls; let index = index; let first = first">
-            <!-- Address and Amount -->
-            <div [formGroup]="destinationControl" class="form__field--row destination">
-                <!-- Address -->
-                <div>
-                    <zano-address-field [control_ref]="destinationControl"></zano-address-field>
-                </div>
+        <zano-destinations
+            [form_array_ref]="form.controls.destinations"
+            (onRemove)="removeDestination($event)"
+            (onAdd)="addDestination()"
+        ></zano-destinations>
 
-                <!-- Amount -->
-                <div>
-                    <zano-amount-field [control_ref]="destinationControl" [price_info]="price_info$ | async"></zano-amount-field>
-
-                    <ng-container *ngIf="!first">
-                        <mat-icon
-                            tabindex="0"
-                            role="button"
-                            (click)="removeDestination($event, index)"
-                            (keydown.enter)="removeDestination($event, index)"
-                            (keydown.space)="removeDestination($event, index)"
-                            [attr.aria-label]="'ACCESSIBILITY.SEND.LABELS.LABEL1' | translate"
-                            class="remove"
-                            svgIcon="zano-close"
-                        ></mat-icon>
-                    </ng-container>
-                </div>
-            </div>
-
+        <ng-container *ngFor="let destinationControl of form.controls.destinations.controls; let index = index">
             <!-- Wrap information -->
             <ng-container *ngIf="destinationControl.controls.is_visible_wrap_info.value">
                 <ng-container *ngIf="variables_service.wrap_info$ | async">
                     <div class="mb-2">
-                        <ng-container *ngIf="destinationControl.hasError('wrap_info_invalid'); else zanoWrapInformationTemplate">
+                        <ng-container
+                            *ngIf="destinationControl.hasError('wrap_info_invalid'); else zanoWrapInformationTemplate">
                             <div class="error">
                                 {{ 'ERRORS.CANT_ESTIMATE_WRAP_OPERATION_COST' | translate }}
                             </div>
@@ -69,47 +34,13 @@
             </ng-container>
         </ng-container>
 
-        <zano-add-another-destination-button (click)="addDestination()" class="mb-2"></zano-add-another-destination-button>
-
         <!-- Comment -->
-        <zano-comment-field *ngIf="!form.controls.comment.disabled" [control_ref]="form.controls.comment"></zano-comment-field>
+        <zano-comment-field *ngIf="!form.controls.comment.disabled"
+                            [controlRef]="form.controls.comment"></zano-comment-field>
 
-        <!-- Details -->
-        <div class="details mb-2">
-            <button
-                (click)="is_visible_additional_options_state = !is_visible_additional_options_state"
-                [class.border-radius-all]="!is_visible_additional_options_state"
-                class="header"
-                type="button"
-            >
-                <span>{{ 'SEND.DETAILS' | translate }}</span>
-                <mat-icon
-                    [ngClass]="{
-                        'rotate-180': is_visible_additional_options_state
-                    }"
-                    class="ml-1"
-                    svgIcon="zano-dropdown-arrow-down"
-                ></mat-icon>
-            </button>
-
-            <div *ngIf="is_visible_additional_options_state" class="content">
-                <!--TODO: Do not delete, may return later-->
-                <!-- MIXIN -->
-                <!--<zano-mixin-field [control_ref]="form.controls.mixin"></zano-mixin-field>-->
-
-                <!-- FEE -->
-                <zano-fee-field [control_ref]="form.controls.fee"></zano-fee-field>
-                <!--</div>-->
-
-                <!--TODO: Do not delete, may return later-->
-                <!-- PUSH -->
-                <!--<app-checkbox [label]="'SEND.INCLUDE_SENDER_ADDRESS' | translate" class="mt-1" formControlName="push_payer"></app-checkbox>-->
-
-                <!--TODO: Do not delete, may return later-->
-                <!-- HIDE -->
-                <!--<app-checkbox [label]="'SEND.HIDE' | translate" class="mt-1" formControlName="hide_receiver"></app-checkbox>-->
-            </div>
-        </div>
+        <!-- Additional Details -->
+        <zano-additional-details [(show)]="is_show_additional_details" [formRef]="form"
+                                 class="block mb-2"></zano-additional-details>
 
         <button [disabled]="is_submit_disabled" class="primary big max-w-19-rem w-100" type="submit">
             {{ 'SEND.BUTTON' | translate }}

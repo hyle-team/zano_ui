@@ -1,8 +1,7 @@
-:host {
-    width: fit-content;
-}
+.add-destination-button {
+    margin-bottom: 2rem;
 
-.add-another-destination-button {
+    justify-content: flex-start;
     color: var(--azure-500);
 
     & > mat-icon {

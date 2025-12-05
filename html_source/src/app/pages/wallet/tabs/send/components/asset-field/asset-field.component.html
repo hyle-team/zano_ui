@@ -9,9 +9,9 @@
         [clearable]="false"
         [items]="items"
         [searchable]="false"
+        [formControl]="control"
         aria-describedby="asset-select-error"
         class="custom-select with-circle"
-        [formControl]="control_ref"
         id="asset-select"
     >
         <ng-template let-asset="item" ng-label-tmp ng-option-tmp>
@@ -24,8 +24,8 @@
         </ng-template>
     </ng-select>
 
-    <div *ngIf="control_ref | isVisibleControlError" aria-live="assertive" id="asset-select-error" class="error">
-        <div *ngIf="control_ref.hasError('required')">
+    <div *ngIf="control | isVisibleControlError" aria-live="assertive" id="asset-select-error" class="error">
+        <div *ngIf="control.hasError('required')">
             {{ 'ERRORS.REQUIRED' | translate }}
         </div>
     </div>

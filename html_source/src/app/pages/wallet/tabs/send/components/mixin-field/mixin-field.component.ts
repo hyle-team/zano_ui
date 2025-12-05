@@ -15,7 +15,7 @@ import { VariablesService } from '@parts/services/variables.service';
 })
 export class MixinFieldComponent {
     @Input()
-    control_ref: FormControl<number>;
+    controlRef: FormControl<number>;
 
     variablesService: VariablesService = inject(VariablesService);
 }

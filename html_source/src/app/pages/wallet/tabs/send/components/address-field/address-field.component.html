@@ -8,7 +8,7 @@
         (blur)="updateErrorMessage()"
         (contextmenu)="handlerContextmenu($event)"
         (paste)="handlerPaste($event)"
-        [formControl]="control_ref.controls.address"
+        [formControl]="form.controls.address"
         [lowerCaseDisabled]="lowerCaseDisabled"
         [matAutocomplete]="matAutocompleteRef"
         [placeholder]="placeholder | translate"
@@ -71,12 +71,12 @@
         </ng-container>
     </mat-autocomplete>
 
-    <div *ngIf="control_ref.controls.address | isVisibleControlError" aria-live="assertive" class="error"
+    <div *ngIf="form.controls.address | isVisibleControlError" aria-live="assertive" class="error"
          id="address-error">
         {{ errorMessages['address'] | translate }}
     </div>
 
-    <ng-container *ngIf="control_ref.controls.is_visible_wrap_info.value">
+    <ng-container *ngIf="form.controls.is_visible_wrap_info.value">
         <ng-container *ngIf="variablesService.is_wrap_info_service_inactive$ | async">
             <div aria-live="assertive" class="error" id="wrap-service-is-inactive">
                 {{ 'ERRORS.WRAP_SERVICE_IS_INACTIVE' | translate }}
@@ -84,9 +84,9 @@
         </ng-container>
     </ng-container>
 
-    <ng-container *ngIf="control_ref.controls.alias_address.value">
+    <ng-container *ngIf="form.controls.alias_address.value">
         <div class="info text-ellipsis">
-            {{ control_ref.controls.alias_address.value | zanoShortString }}
+            {{ form.controls.alias_address.value | zanoShortString }}
         </div>
     </ng-container>
 </fieldset>

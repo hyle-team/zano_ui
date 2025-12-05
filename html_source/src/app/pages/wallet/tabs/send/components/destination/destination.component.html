@@ -1,0 +1,36 @@
+<div class="destination">
+    <ng-container [ngTemplateOutlet]="headerTemplate"></ng-container>
+
+    <ng-container [ngTemplateOutlet]="destinationFormTemplate"></ng-container>
+</div>
+
+<ng-template #headerTemplate>
+    <div class="destination-header">
+        <h3>Recipient {{ index + 1 }}</h3>
+
+        <button
+            (click)="remove()"
+            [attr.aria-label]="'ACCESSIBILITY.SEND.LABELS.LABEL1' | translate"
+            type="button"
+        >
+            <mat-icon svgIcon="zano-close"></mat-icon>
+            <span>Remove</span>
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #destinationFormTemplate>
+    <!-- Asset -->
+    <zano-asset-field
+        [items]="assetItems$ | async"
+        [controlRef]="destinationControl.controls.asset_id"
+    >
+    </zano-asset-field>
+
+    <!-- Amount -->
+    <zano-amount-field [controlRef]="destinationControl"
+                       [price_info]="price_info$ | async"></zano-amount-field>
+
+    <!-- Address -->
+    <zano-address-field [formRef]="destinationControl"></zano-address-field>
+</ng-template>

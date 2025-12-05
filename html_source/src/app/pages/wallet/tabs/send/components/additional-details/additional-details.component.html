@@ -1,0 +1,12 @@
+<div class="additional-details">
+    <!-- Header -->
+    <button (click)="toggle()" [class.border-radius-all]="!show" class="additional-header" type="button">
+        <span>{{ 'SEND.DETAILS' | translate }}</span>
+        <mat-icon [ngClass]="{ 'rotate-180': show }" class="ml-1" svgIcon="zano-dropdown-arrow-down"></mat-icon>
+    </button>
+
+    <!-- Content -->
+    <div *ngIf="show" class="additional-content">
+        <zano-fee-field [controlRef]="formRef.controls.fee"></zano-fee-field>
+    </div>
+</div>

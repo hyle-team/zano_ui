@@ -100,9 +100,9 @@
             "ARIA_LABEL1": "Fortschritt der Wallet-Synchronisierung"
         }
     },
-    "ADD_ANOTHER_DESTINATION": {
-        "TEXT1": "Weiteres Ziel hinzufügen",
-        "TEXT2": "Sie können eine weitere Adresse zum Senden hinzufügen"
+    "ADD_DESTINATION": {
+        "TEXT1": "Empfänger hinzufügen",
+        "TEXT2": "Sie können eine weitere Zieladresse hinzufügen."
     },
     "ASSETS": {
         "DROP_DOWN_MENU": {

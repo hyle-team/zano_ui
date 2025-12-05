@@ -100,9 +100,9 @@
             "ARIA_LABEL1": "Progression de la synchronisation du portefeuille"
         }
     },
-    "ADD_ANOTHER_DESTINATION": {
-        "TEXT1": "Ajouter une autre destination",
-        "TEXT2": "Vous pouvez ajouter une autre adresse pour l'envoi"
+    "ADD_DESTINATION": {
+        "TEXT1": "Ajouter un destinataire",
+        "TEXT2": "Vous pouvez ajouter une autre adresse de destination."
     },
     "ASSETS": {
         "DROP_DOWN_MENU": {

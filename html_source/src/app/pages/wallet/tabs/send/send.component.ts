@@ -2,22 +2,36 @@ import { Component, inject, NgZone, OnDestroy } from '@angular/core';
 import { AbstractControl, FormArray, FormControl, FormGroup, NonNullableFormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
-import { debounceTime, filter, retry, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { filter, retry, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { AssetBalance, PriceInfo } from '@api/models/assets.model';
 import { REG_EXP_ALIAS_NAME, validateWrapInfo, ZanoValidators } from '@parts/utils/zano-validators';
-import { TransferDestinationsFormValue, TransferFormValue, TransferParams } from '@api/models/transfer.model';
+import { TransferParams } from '@api/models/transfer.model';
 import { ZANO_ASSET_INFO } from '@parts/data/zano-assets-info';
 import { ApiService } from '@api/services/api.service';
 import { BigNumber } from 'bignumber.js';
 import { intToMoney } from '@parts/functions/int-to-money';
 import { insufficientFunds } from '@parts/utils/zano-errors';
-import { MAXIMUM_VALUE } from '@parts/data/constants';
+import { DEFAULT_FEE, MAX_COMMENT_LENGTH, MAXIMUM_VALUE } from '@parts/data/constants';
 import { moneyToInt } from '@parts/functions/money-to-int';
-import { DeeplinkParams } from '@api/models/wallet.model';
+import { SendDeeplink } from '@api/models/wallet.model';
 
-const DEFAULT_SEND_MONEY_PARAMS: Omit<TransferFormValue, 'wallet_id'> = {
-    asset_id: ZANO_ASSET_INFO.asset_id,
+interface TransferDestinationsFormValue {
+    address: string;
+    amount: string;
+    is_currency_input_mode: boolean;
+    asset_id: string;
+    is_visible_wrap_info: boolean;
+    alias_address: string;
+}
+
+export interface TransferFormValue {
+    destinations: TransferDestinationsFormValue[];
+    comment: string;
+    fee: string;
+}
+
+const DEFAULT_TRANSFER_FORM_VALUE: TransferFormValue = {
     destinations: [
         {
             address: '',
@@ -29,11 +43,7 @@ const DEFAULT_SEND_MONEY_PARAMS: Omit<TransferFormValue, 'wallet_id'> = {
         },
     ],
     comment: '',
-    mixin: 0,
-    fee: '0.01',
-    lock_time: 0,
-    push_payer: true,
-    hide_receiver: false,
+    fee: DEFAULT_FEE,
 };
 
 const DEFAULT_PRICE_INFO: PriceInfo = {
@@ -41,7 +51,7 @@ const DEFAULT_PRICE_INFO: PriceInfo = {
     data: 'Asset not found',
 };
 
-export type DestinationsForm = FormGroup<{
+export type DestinationFormGroup = FormGroup<{
     address: FormControl<string>;
     amount: FormControl<string>;
     is_currency_input_mode: FormControl<boolean>;
@@ -50,17 +60,19 @@ export type DestinationsForm = FormGroup<{
     alias_address: FormControl<string>;
 }>;
 
-export type TransferForm = FormGroup<{
-    wallet_id: FormControl<number>;
-    destinations: FormArray<DestinationsForm>;
+export type TransferFormGroup = FormGroup<{
+    destinations: FormArray<DestinationFormGroup>;
     comment: FormControl<string>;
-    asset_id: FormControl<string>;
-    mixin: FormControl<number>;
-    lock_time: FormControl<number>;
     fee: FormControl<string>;
-    push_payer: FormControl<boolean>;
-    hide_receiver: FormControl<boolean>;
 }>;
+
+const feeValidator = Validators.compose([
+    Validators.required,
+    ZanoValidators.greaterMax(MAXIMUM_VALUE, ZANO_ASSET_INFO.decimal_point),
+    ZanoValidators.lessMin(DEFAULT_FEE),
+]);
+
+const commentValidator = Validators.compose([Validators.maxLength(MAX_COMMENT_LENGTH)]);
 
 @Component({
     selector: 'app-send',
@@ -84,9 +96,9 @@ export class SendComponent implements OnDestroy {
 
     is_send_details_modal_state = false;
 
-    is_visible_additional_options_state = false;
+    is_show_additional_details = false;
 
-    form: TransferForm;
+    form: TransferFormGroup;
 
     total_destinations_amount = new BigNumber(0);
 
@@ -172,25 +184,19 @@ export class SendComponent implements OnDestroy {
 
     getTransferParams(): TransferParams {
         const transfer_form_value: TransferFormValue = this.form.getRawValue();
-        const { asset_id } = transfer_form_value;
         const { current_wallet } = this.variables_service;
+        const { wallet_id } = current_wallet;
 
         const asset = current_wallet.getBalanceByAssetId(asset_id);
 
         return {
-            wallet_id: transfer_form_value.wallet_id,
+            wallet_id,
             destinations: transfer_form_value.destinations.map((v) => ({
                 ...prepareTransferDestinationsFormValueToTransferDestination(v),
                 amount: v.is_currency_input_mode ? this.convertToCurrencyAmount(v.amount, asset) : v.amount,
             })),
-            mixin: transfer_form_value.mixin,
-            lock_time: transfer_form_value.lock_time,
             fee: moneyToInt(transfer_form_value.fee, ZANO_ASSET_INFO.decimal_point).toString(),
             comment: transfer_form_value.comment,
-            // TODO: Do not delete, may return later
-            // push_payer: transfer_form_value.push_payer,
-            // TODO: Do not delete, may return later
-            // hide_receiver: !transfer_form_value.hide_receiver,
         };
     }
 
@@ -211,20 +217,18 @@ export class SendComponent implements OnDestroy {
             const { wallet_id } = current_wallet;
             current_wallet.transfer_form_value = null;
 
-            this.form.reset({ ...DEFAULT_SEND_MONEY_PARAMS, wallet_id });
+            this.form.reset({ ...DEFAULT_TRANSFER_FORM_VALUE, wallet_id });
         }
     }
 
     addDestination(): void {
         const {
-            controls: { asset_id, destinations },
+            controls: { destinations },
         } = this.form;
-        destinations.push(this._createDestinationFromGroup(asset_id));
+        destinations.push(this._createDestinationFromGroup());
     }
 
-    removeDestination(event: Event, index: number): void {
-        event.preventDefault();
-        event.stopPropagation();
+    removeDestination(index: number): void {
         const {
             controls: { destinations },
         } = this.form;
@@ -232,25 +236,13 @@ export class SendComponent implements OnDestroy {
     }
 
     private _createForm(): void {
-        const { current_wallet, default_fee, maxCommentLength } = this.variables_service;
+        const { current_wallet } = this.variables_service;
         let init_transfer_form_value: TransferFormValue;
 
         if (current_wallet.transfer_form_value) {
             init_transfer_form_value = current_wallet.transfer_form_value;
         } else {
-            init_transfer_form_value = {
-                ...DEFAULT_SEND_MONEY_PARAMS,
-                wallet_id: current_wallet.wallet_id,
-                fee: default_fee,
-            };
-        }
-
-        if (current_wallet.is_auditable && !current_wallet.is_watch_only) {
-            init_transfer_form_value.hide_receiver = true;
-        }
-
-        if (current_wallet.is_auditable) {
-            init_transfer_form_value.mixin = 0;
+            init_transfer_form_value = DEFAULT_TRANSFER_FORM_VALUE;
         }
 
         const history_state = history.state || {};
@@ -260,7 +252,7 @@ export class SendComponent implements OnDestroy {
             const {
                 asset_info: { asset_id, decimal_point },
             } = history_asset;
-            init_transfer_form_value.asset_id = asset_id;
+
             init_transfer_form_value.destinations.forEach((destination) => {
                 destination.asset_id = asset_id;
                 if (destination.amount) {
@@ -269,93 +261,42 @@ export class SendComponent implements OnDestroy {
             });
         }
 
-        const wallet_id_control = this._fb.control<number>(
-            { value: current_wallet.wallet_id, disabled: false },
-            {
-                validators: Validators.compose([Validators.required]),
-            }
-        );
-
-        const asset_id_control = this._fb.control<string>(
-            { value: init_transfer_form_value.asset_id, disabled: false },
-            {
-                validators: Validators.compose([Validators.required]),
-            }
-        );
-
-        const destinations_control = this._fb.array<DestinationsForm>([]);
+        const destinations_control = this._fb.array<DestinationFormGroup>([]);
         if (init_transfer_form_value.destinations.length) {
             init_transfer_form_value.destinations.forEach(() => {
-                destinations_control.push(this._createDestinationFromGroup(asset_id_control));
+                destinations_control.push(this._createDestinationFromGroup());
             });
         } else {
-            destinations_control.push(this._createDestinationFromGroup(asset_id_control));
+            destinations_control.push(this._createDestinationFromGroup());
         }
-        const comment_control = this._fb.control<string>(
-            { value: '', disabled: false },
-            {
-                validators: Validators.compose([Validators.maxLength(maxCommentLength)]),
-            }
-        );
+        const comment_control = this._fb.control<string>('', commentValidator);
 
-        const mixin_control = this._fb.control<number>(
-            { value: 0, disabled: current_wallet.is_auditable },
-            {
-                validators: Validators.compose([Validators.required, Validators.min(0), Validators.max(1000)]),
-            }
-        );
-
-        const lock_time_control = this._fb.control<number>({ value: 0, disabled: false });
-
-        const fee_control = this._fb.control<string>(
-            { value: default_fee, disabled: false },
-            {
-                validators: Validators.compose([
-                    Validators.required,
-                    ZanoValidators.greaterMax(MAXIMUM_VALUE, ZANO_ASSET_INFO.decimal_point),
-                    ZanoValidators.lessMin(default_fee),
-                ]),
-            }
-        );
-
-        const push_payer_control = this._fb.control<boolean>({ value: false, disabled: false });
-
-        const hide_receiver_control = this._fb.control<boolean>({
-            value: false,
-            disabled: current_wallet.is_auditable && !current_wallet.is_watch_only,
-        });
+        const fee_control = this._fb.control<string>(DEFAULT_FEE, feeValidator);
 
         this.form = this._fb.group(
             {
-                wallet_id: wallet_id_control,
                 destinations: destinations_control,
                 comment: comment_control,
-                asset_id: asset_id_control,
-                mixin: mixin_control,
-                lock_time: lock_time_control,
                 fee: fee_control,
-                push_payer: push_payer_control,
-                hide_receiver: hide_receiver_control,
             },
             {
                 validators: [
-                    (formGroup) => {
-                        const { asset_id, fee } = formGroup.getRawValue();
-
-                        const feeControl = formGroup.get('fee');
-                        if (!feeControl) return null;
+                    (formGroup: TransferFormGroup) => {
+                        const { fee } = formGroup.getRawValue();
+                        const feeControl = formGroup.controls.fee
 
                         const zanoBalance = this.variables_service.current_wallet.getBalanceByAssetId(ZANO_ASSET_INFO.asset_id);
                         if (!zanoBalance) return null;
 
-                        const { unlocked, asset_info: { decimal_point } } = zanoBalance;
+                        const {
+                            unlocked,
+                            asset_info: { decimal_point },
+                        } = zanoBalance;
 
                         const availableZanoBalance = new BigNumber(intToMoney(unlocked, decimal_point));
                         const feeValue = new BigNumber(fee ?? 0);
 
-                        const totalZanoAmount = asset_id === ZANO_ASSET_INFO.asset_id
-                            ? this.total_destinations_amount
-                            : 0;
+                        const totalZanoAmount = asset_id === ZANO_ASSET_INFO.asset_id ? this.total_destinations_amount : 0;
 
                         const totalRequired = feeValue.plus(totalZanoAmount);
                         const hasInsufficientFunds = totalRequired.isGreaterThan(availableZanoBalance);
@@ -363,13 +304,13 @@ export class SendComponent implements OnDestroy {
                         if (hasInsufficientFunds) {
                             feeControl.markAsTouched();
                             this._setError(feeControl, 'insufficientFundsForFee');
-                            this.is_visible_additional_options_state = true;
+                            this.is_show_additional_details = true;
                         } else {
                             this._clearError(feeControl, 'insufficientFundsForFee');
                         }
 
                         return null;
-                    }
+                    },
                 ],
             }
         );
@@ -545,64 +486,50 @@ export class SendComponent implements OnDestroy {
     }
 
     private _listenSendActionData(): void {
-        this.variables_service.sendActionData$
+        this.variables_service.deeplinkData$
             .pipe(
-                filter((value) => value?.action === 'send'),
+                filter((params) => Boolean(params)),
+                filter((value) => value.action === 'send'),
                 takeUntil(this._destroy$)
             )
             .subscribe({
-                next: (value: DeeplinkParams) => {
-                    // https://docs.zano.org/docs/use/deeplinks/
-                    const { address, amount, comment, comments, fee, hide_sender, hide_receiver } = value;
-                    this.is_visible_additional_options_state = true;
+                next: (value: SendDeeplink) => {
+                    this.is_show_additional_details = true;
+
+                    const { address = '', amount = '', comment = '', asset_id = ZANO_ASSET_INFO.asset_id } = value;
+
+                    const destination = {
+                        address,
+                        asset_id,
+                        amount,
+                    };
+                    const destinations = [destination];
+
                     this.form.patchValue({
-                        destinations: [
-                            {
-                                address: address || '',
-                                asset_id: ZANO_ASSET_INFO.asset_id,
-                                amount: amount || '',
-                            },
-                        ],
-                        comment: comment || comments || '',
-                        asset_id: ZANO_ASSET_INFO.asset_id,
-                        fee: fee || this.variables_service.default_fee,
-                        push_payer: hide_sender === 'false',
-                        hide_receiver: hide_receiver === 'false',
+                        destinations,
+                        comment,
+                        fee: DEFAULT_FEE,
                     });
-                    this.variables_service.sendActionData$.next({});
+
+                    // Clear send action data
+                    this.variables_service.deeplinkData$.next({});
                 },
             });
     }
 
-    private _createDestinationFromGroup(asset_id_control: FormControl<string>): DestinationsForm {
-        const address_control = this._fb.control<string>(
-            { value: '', disabled: false },
-            {
-                validators: Validators.compose([Validators.required, this._validateAddressOrAlias.bind(this)]),
-            }
-        );
-
-        const amount_control = this._fb.control<string>(
-            { value: '', disabled: false },
-            {
-                validators: Validators.compose([Validators.required, ZanoValidators.zeroValue]),
-            }
-        );
-
-        const is_currency_input_mode_control = this._fb.control<boolean>({ value: false, disabled: false });
-
-        const alias_address_control = this._fb.control<string>({ value: '', disabled: false });
-
-        const is_visible_wrap_info_control = this._fb.control<boolean>({ value: false, disabled: false });
-
+    private _createDestinationFromGroup(): DestinationFormGroup {
         return this._fb.group(
             {
-                address: address_control,
-                amount: amount_control,
-                is_currency_input_mode: is_currency_input_mode_control,
-                alias_address: alias_address_control,
-                is_visible_wrap_info: is_visible_wrap_info_control,
-                asset_id: asset_id_control,
+                address: this._fb.control<string>('', {
+                    validators: [Validators.required, this._validateAddressOrAlias.bind(this)],
+                }),
+                amount: this._fb.control<string>('', {
+                    validators: [Validators.required, ZanoValidators.zeroValue],
+                }),
+                is_currency_input_mode: this._fb.control<boolean>(false),
+                alias_address: this._fb.control<string>(''),
+                is_visible_wrap_info: this._fb.control<boolean>(false),
+                asset_id: this._fb.control<string>('', [Validators.required]),
             },
             {
                 validators: [

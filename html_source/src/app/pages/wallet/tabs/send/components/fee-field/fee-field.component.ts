@@ -19,11 +19,11 @@ import { MAXIMUM_VALUE } from '@parts/data/constants';
     styleUrls: ['./fee-field.component.scss'],
 })
 export class FeeFieldComponent implements OnInit, OnDestroy {
-    @Input() control_ref: FormControl<string>;
+    @Input() controlRef: FormControl<string>;
 
     private readonly _destroy$: Subject<void> = new Subject<void>();
 
-    variables_service: VariablesService = inject(VariablesService);
+    variablesService: VariablesService = inject(VariablesService);
 
     private readonly _translate_service: TranslateService = inject(TranslateService);
 
@@ -32,7 +32,7 @@ export class FeeFieldComponent implements OnInit, OnDestroy {
     };
 
     ngOnInit(): void {
-        merge(this.control_ref.statusChanges, this.control_ref.valueChanges)
+        merge(this.controlRef.statusChanges, this.controlRef.valueChanges)
             .pipe(takeUntil(this._destroy$))
             .subscribe((): void => this.updateFeeErrorMessage());
     }
@@ -43,12 +43,12 @@ export class FeeFieldComponent implements OnInit, OnDestroy {
     }
 
     updateFeeErrorMessage(): void {
-        const fee = this.control_ref;
+        const fee = this.controlRef;
         let message: string | undefined;
 
         switch (true) {
             case fee.hasError('less_min'): {
-                const { default_fee } = this.variables_service;
+                const { default_fee } = this.variablesService;
                 message = this._translate_service.instant('SEND.FORM_ERRORS.FEE_MINIMUM', { fee: default_fee });
                 break;
             }

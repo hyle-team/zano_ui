@@ -69,12 +69,13 @@ import { AssetFieldComponent } from './tabs/send/components/asset-field/asset-fi
 import { CommentFieldComponent } from './tabs/send/components/comment-field/comment-field.component';
 import { AddressFieldComponent } from './tabs/send/components/address-field/address-field.component';
 import { AmountFieldComponent } from './tabs/send/components/amount-field/amount-field.component';
-import { AddAnotherDestinationButtonComponent } from './tabs/send/components/add-another-destination-button/add-another-destination-button.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenuModule } from '@angular/material/menu';
 import { AutoFocusDirective } from '@parts/directives/autofocus.directive';
 import { CellAssetBalanceComponent } from '@parts/components/cell-asset-balance/cell-asset-balance.component';
 import { CellAddressComponent } from '@parts/components/cell-address/cell-address.component';
+import { AdditionalDetailsComponent } from './tabs/send/components/additional-details/additional-details.component';
+import { DestinationsComponent } from './tabs/send/components/destinations/destinations.component';
 
 @NgModule({
     declarations: [
@@ -152,12 +153,13 @@ import { CellAddressComponent } from '@parts/components/cell-address/cell-addres
         CommentFieldComponent,
         AddressFieldComponent,
         AmountFieldComponent,
-        AddAnotherDestinationButtonComponent,
         MatTooltipModule,
         MatMenuModule,
         AutoFocusDirective,
         CellAssetBalanceComponent,
         CellAddressComponent,
+        AdditionalDetailsComponent,
+        DestinationsComponent,
     ],
 })
 export class WalletModule {}

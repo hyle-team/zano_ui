@@ -1,0 +1,18 @@
+<div class="destinations">
+    <ng-container *ngFor="let form of form_array.controls; let index = index; let last = last;">
+        <zano-destination (onRemove)="remove(index)" [formRef]="form" [index]="index"></zano-destination>
+
+        <mat-divider *ngIf="!last"></mat-divider>
+    </ng-container>
+
+    <ng-container [ngTemplateOutlet]="addDestinationTemplate"></ng-container>
+</div>
+
+<ng-template #addDestinationTemplate>
+    <button (click)="add()" class="add-destination-button" type="button">
+        <mat-icon svgIcon="zano-plus"></mat-icon>
+        {{ 'ADD_DESTINATION.TEXT1' | translate }}
+        <mat-icon [matTooltip]="'ADD_DESTINATION.TEXT2' | translate" aria-haspopup="true" svgIcon="zano-info"
+                  tabindex="0"></mat-icon>
+    </button>
+</ng-template>

@@ -22,7 +22,7 @@ export class MigrateWalletToZarcanumComponent {
 
     private readonly _backendService: BackendService = inject(BackendService);
 
-    private readonly _variableService: VariablesService = inject(VariablesService);
+    private readonly _variables_service: VariablesService = inject(VariablesService);
 
     private readonly _modalService: ModalService = inject(ModalService);
 
@@ -31,7 +31,7 @@ export class MigrateWalletToZarcanumComponent {
     migrate(): void {
         const {
             current_wallet: { wallet_id },
-        } = this._variableService;
+        } = this._variables_service;
 
         const params: ParamsCallRpc = { id: 0, jsonrpc: '2.0', method: 'sweep_bare_outs', params: {} };
         this._backendService.call_wallet_rpc([wallet_id, params], (status, response_data) => {

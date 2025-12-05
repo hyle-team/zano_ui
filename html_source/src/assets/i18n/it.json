@@ -100,9 +100,9 @@
             "ARIA_LABEL1": "Avanzamento sincronizzazione wallet"
         }
     },
-    "ADD_ANOTHER_DESTINATION": {
-        "TEXT1": "Aggiungi un'altra destinazione",
-        "TEXT2": "Puoi aggiungere un altro indirizzo per l'invio"
+    "ADD_DESTINATION": {
+        "TEXT1": "Aggiungi destinatario",
+        "TEXT2": "Puoi aggiungere un altro indirizzo di destinazione."
     },
     "ASSETS": {
         "DROP_DOWN_MENU": {

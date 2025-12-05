@@ -10,7 +10,7 @@ import { combineLatest, Subject } from 'rxjs';
 import { VariablesService } from '@parts/services/variables.service';
 import { distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
 import { BigNumber } from 'bignumber.js';
-import { DestinationsForm } from '../../send.component';
+import { DestinationFormGroup } from '../../send.component';
 import { ZANO_ASSET_INFO } from '@parts/data/zano-assets-info';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { isFiatCurrency } from '@parts/data/currencies';
@@ -46,14 +46,14 @@ const default_price_info: PriceInfo = {
     styleUrls: ['./amount-field.component.scss'],
 })
 export class AmountFieldComponent implements OnInit, OnDestroy, OnChanges {
-    @Input() control_ref: DestinationsForm;
+    @Input() controlRef: DestinationFormGroup;
 
     @Input()
     price_info: PriceInfo = default_price_info;
 
     price_info$ = new Subject<PriceInfo>();
 
-    variables_service = inject(VariablesService);
+    variablesService = inject(VariablesService);
 
     amount_input_params: AmountInputParams = {
         decimalPoint: ZANO_ASSET_INFO.decimal_point,
@@ -66,7 +66,7 @@ export class AmountFieldComponent implements OnInit, OnDestroy, OnChanges {
     private readonly _destroy$ = new Subject<void>();
 
     ngOnInit(): void {
-        const { controls } = this.control_ref;
+        const { controls } = this.controlRef;
 
         combineLatest([
             controls.asset_id.valueChanges.pipe(startWith(controls.asset_id.value)),
@@ -82,7 +82,7 @@ export class AmountFieldComponent implements OnInit, OnDestroy, OnChanges {
             )
             .subscribe((params) => {
                 this.amount_input_params = params;
-                this.control_ref.updateValueAndValidity();
+                this.controlRef.updateValueAndValidity();
             });
     }
 
@@ -100,8 +100,8 @@ export class AmountFieldComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     toggleInputMode(): void {
-        const { is_currency_input_mode } = this.control_ref.getRawValue();
-        this.control_ref.controls.is_currency_input_mode.patchValue(!is_currency_input_mode);
+        const { is_currency_input_mode } = this.controlRef.getRawValue();
+        this.controlRef.controls.is_currency_input_mode.patchValue(!is_currency_input_mode);
     }
 
     private _buildAmountInputParams(
@@ -110,7 +110,7 @@ export class AmountFieldComponent implements OnInit, OnDestroy, OnChanges {
         amount: number | string,
         priceInfo: PriceInfo
     ): AmountInputParams {
-        const { current_wallet, settings } = this.variables_service;
+        const { current_wallet, settings } = this.variablesService;
         const asset = current_wallet.getBalanceByAssetId(asset_id)?.asset_info;
         const decimalPoint = asset?.decimal_point ?? ZANO_ASSET_INFO.decimal_point;
         const assetTicker = asset?.ticker ?? ZANO_ASSET_INFO.ticker;
@@ -126,7 +126,7 @@ export class AmountFieldComponent implements OnInit, OnDestroy, OnChanges {
 
         if (!priceInfo.success) {
             params.toggleInputModeDisabled = true;
-            this.control_ref.controls.is_currency_input_mode.patchValue(false);
+            this.controlRef.controls.is_currency_input_mode.patchValue(false);
             return params;
         }
 

@@ -5,9 +5,9 @@
     </label>
 
     <input
-        (contextmenu)="variables_service.onContextMenu($event)"
+        (contextmenu)="variablesService.onContextMenu($event)"
         [decimalPoint]="amount_input_params.decimalPoint"
-        [formControl]="control_ref.controls.amount"
+        [formControl]="controlRef.controls.amount"
         [placeholder]="'0'"
         aria-describedby="amount-error1 amount-error2 amount-error3 amount-error4 amount-error5 amount-error6 amount-error7 amount-error8"
         appInputValidate="money"
@@ -38,15 +38,15 @@
         </div>
     </div>
 
-    <ng-container *ngIf="control_ref.controls.amount | isVisibleControlError; else errorList2Template">
-        <ng-container *ngIf="control_ref.controls.amount.hasError('zero'); else error2Template">
+    <ng-container *ngIf="controlRef.controls.amount | isVisibleControlError; else errorList2Template">
+        <ng-container *ngIf="controlRef.controls.amount.hasError('zero'); else error2Template">
             <div aria-live="assertive" id="amount-error1" class="error">
                 {{ 'SEND.FORM_ERRORS.AMOUNT_ZERO' | translate }}
             </div>
         </ng-container>
 
         <ng-template #error2Template>
-            <ng-container *ngIf="control_ref.controls.amount.hasError('required')">
+            <ng-container *ngIf="controlRef.controls.amount.hasError('required')">
                 <div aria-live="assertive" id="amount-error2" class="error">
                     {{ 'ERRORS.REQUIRED' | translate }}
                 </div>
@@ -55,23 +55,23 @@
     </ng-container>
 
     <ng-template #errorList2Template>
-        <ng-container *ngIf="control_ref | isVisibleControlError">
-            <ng-container *ngIf="control_ref.hasError('greater_max'); else error3Template">
+        <ng-container *ngIf="controlRef | isVisibleControlError">
+            <ng-container *ngIf="controlRef.hasError('greater_max'); else error3Template">
                 <div aria-live="assertive" id="amount-error3" class="error">
-                    {{ 'ERRORS.MAX' | translate : { max: control_ref.errors['greater_max'].max } }}
+                    {{ 'ERRORS.MAX' | translate : { max: controlRef.errors['greater_max'].max } }}
                 </div>
             </ng-container>
 
             <ng-template #error3Template>
-                <ng-container *ngIf="control_ref.hasError('insufficientFunds'); else error4Template">
+                <ng-container *ngIf="controlRef.hasError('insufficientFunds'); else error4Template">
                     <div aria-live="assertive" id="amount-error4" class="error">
-                        {{ this.control_ref.errors['insufficientFunds'].errorText | translate }}
+                        {{ this.controlRef.errors['insufficientFunds'].errorText | translate }}
                     </div>
                 </ng-container>
             </ng-template>
 
             <ng-template #error4Template>
-                <ng-container *ngIf="control_ref.hasError('great_than_unwraped_coins'); else error5Template">
+                <ng-container *ngIf="controlRef.hasError('great_than_unwraped_coins'); else error5Template">
                     <div aria-live="assertive" id="amount-error5" class="error">
                         {{ 'SEND.FORM_ERRORS.GREAT_THAN_UNWRAPPED_COINS' | translate }}
                     </div>
@@ -79,7 +79,7 @@
             </ng-template>
 
             <ng-template #error5Template>
-                <ng-container *ngIf="control_ref.hasError('less_than_zano_needed'); else error6Template">
+                <ng-container *ngIf="controlRef.hasError('less_than_zano_needed'); else error6Template">
                     <div aria-live="assertive" id="amount-error6" class="error">
                         {{ 'SEND.FORM_ERRORS.LESS_THAN_ZANO_NEEDED' | translate }}
                     </div>
@@ -87,7 +87,7 @@
             </ng-template>
 
             <ng-template #error6Template>
-                <ng-container *ngIf="control_ref.hasError('wrap_info_null'); else error7Template">
+                <ng-container *ngIf="controlRef.hasError('wrap_info_null'); else error7Template">
                     <div aria-live="assertive" id="amount-error7" class="error">
                         {{ 'SEND.FORM_ERRORS.WRAP_INFO_NULL' | translate }}
                     </div>
@@ -95,7 +95,7 @@
             </ng-template>
 
             <ng-template #error7Template>
-                <ng-container *ngIf="control_ref.hasError('asset_not_found')">
+                <ng-container *ngIf="controlRef.hasError('asset_not_found')">
                     <div aria-live="assertive" id="amount-error8" class="error">
                         {{ 'ERRORS.ASSET_NOT_FOUND' | translate }}
                     </div>
@@ -104,7 +104,7 @@
         </ng-container>
     </ng-template>
 
-    <ng-container *ngIf="!((control_ref.controls.amount | isVisibleControlError) || (control_ref | isVisibleControlError))">
+    <ng-container *ngIf="!((controlRef.controls.amount | isVisibleControlError) || (controlRef | isVisibleControlError))">
         <div class="hint text-ellipsis">
             {{ amount_input_params.hintAmount }}
             {{ amount_input_params.hintTicker }}

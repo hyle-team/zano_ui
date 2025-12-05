@@ -100,9 +100,9 @@
             "ARIA_LABEL1": "Kemajuan sinkronisasi dompet"
         }
     },
-    "ADD_ANOTHER_DESTINATION": {
-        "TEXT1": "Tambahkan tujuan lain",
-        "TEXT2": "Anda dapat menambahkan alamat lain untuk dikirim"
+    "ADD_DESTINATION": {
+        "TEXT1": "Tambah penerima",
+        "TEXT2": "Anda dapat menambahkan alamat lain untuk tujuan."
     },
     "ASSETS": {
         "DROP_DOWN_MENU": {

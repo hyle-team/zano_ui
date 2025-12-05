@@ -1,0 +1,21 @@
+.additional-details {
+    .additional-header {
+        padding: 1.2rem 2rem;
+        width: 100%;
+        max-width: 20rem;
+        background-color: var(--details-background);
+        border-radius: 0.8rem 0.8rem 0 0;
+
+        &.border-radius-all {
+            border-radius: 0.8rem;
+        }
+    }
+
+    .additional-content {
+        display: flex;
+        flex-direction: column;
+        padding: 2rem;
+        background-color: var(--details-background);
+        border-radius: 0 0.8rem 0.8rem 0.8rem;
+    }
+}

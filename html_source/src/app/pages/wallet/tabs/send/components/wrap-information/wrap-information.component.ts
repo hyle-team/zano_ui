@@ -36,7 +36,7 @@ export class WrapInformationComponent {
     @Input()
     asset_id: string;
 
-    private readonly _variables_service = inject(VariablesService);
+    private readonly _variablesService = inject(VariablesService);
 
     readonly zano_asset_info = ZANO_ASSET_INFO;
 
@@ -45,14 +45,14 @@ export class WrapInformationComponent {
             let currency_price = 0;
             const {
                 settings: { currency },
-            } = this._variables_service;
+            } = this._variablesService;
             if (typeof this.price_info.data === 'object') {
                 const { data } = this.price_info;
                 currency_price = data.fiat_prices[currency] ?? 0;
             }
 
             let decimal_point = 0;
-            const { current_wallet } = this._variables_service;
+            const { current_wallet } = this._variablesService;
             const asset: AssetBalance | undefined = current_wallet.getBalanceByAssetId(this.asset_id);
 
             if (asset) {

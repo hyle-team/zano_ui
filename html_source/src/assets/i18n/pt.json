@@ -100,9 +100,9 @@
             "ARIA_LABEL1": "Progresso de sincronização da carteira"
         }
     },
-    "ADD_ANOTHER_DESTINATION": {
-        "TEXT1": "Adicionar outro destino",
-        "TEXT2": "Você pode adicionar outro endereço para enviar"
+    "ADD_DESTINATION": {
+        "TEXT1": "Adicionar destinatário",
+        "TEXT2": "Você pode adicionar outro endereço de destino."
     },
     "ASSETS": {
         "DROP_DOWN_MENU": {

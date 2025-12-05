@@ -5,16 +5,16 @@
     </label>
     <input
         (blur)="updateFeeErrorMessage()"
-        (contextmenu)="variables_service.onContextMenu($event)"
+        (contextmenu)="variablesService.onContextMenu($event)"
         [placeholder]="'PLACEHOLDERS.FEE_PLACEHOLDER' | translate"
         appInputValidate="money"
         class="form__field--input"
         aria-describedby="fee-error"
-        [formControl]="control_ref"
+        [formControl]="controlRef"
         id="send-fee"
         type="text"
     />
-    <div *ngIf="control_ref | isVisibleControlError" aria-live="assertive" id="fee-error" class="error">
+    <div *ngIf="controlRef | isVisibleControlError" aria-live="assertive" id="fee-error" class="error">
         {{ error_messages['fee'] | translate }}
     </div>
 </fieldset>
