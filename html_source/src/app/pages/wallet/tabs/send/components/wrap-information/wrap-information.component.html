@@ -1,31 +1,37 @@
-<div class="wrap p-2">
-    <h5 class="title">
-        {{ 'SEND.WRAP.TITLE' | translate }}
-        <mat-icon aria-hidden="true" svgIcon="zano-info"></mat-icon>
-    </h5>
-
-    <p class="text-wrap">
-        {{ 'SEND.WRAP.MAIN_TEXT' | translate }}
-    </p>
-
-    <h5 class="title">{{ 'SEND.WRAP.ESTIMATE' | translate }}</h5>
-
-    <table class="text-wrap">
-        <tr>
-            <td>{{ 'SEND.WRAP.WILL_RECEIVE' | translate }}</td>
-            <td *ngIf="!hide_received_value">
-                {{ getReceivedValue() | intToMoney }}
-                {{ 'SEND.WRAP.wZANO' | translate }}
-            </td>
-            <td *ngIf="hide_received_value">-</td>
-        </tr>
-        <tr>
-            <td>{{ 'SEND.WRAP.FEE' | translate }}</td>
-            <td>
-                {{ wrap_info?.tx_cost?.zano_needed_for_erc20 | intToMoney : zano_asset_info.decimal_point }}
-                {{ 'SEND.WRAP.ZANO' | translate }}
-                (${{ wrap_info.tx_cost?.usd_needed_for_erc20 }})
-            </td>
-        </tr>
-    </table>
+<div *ngIf="form.hasError('wrap_info_invalid'); else wrapInfoTemplate" class="error mb-2">
+    {{ 'ERRORS.CANT_ESTIMATE_WRAP_OPERATION_COST' | translate }}
 </div>
+
+<ng-template #wrapInfoTemplate>
+    <div class="wrap p-2 mb-2">
+        <h5 class="title">
+            {{ 'SEND.WRAP.TITLE' | translate }}
+            <mat-icon aria-hidden="true" svgIcon="zano-info"></mat-icon>
+        </h5>
+
+        <p class="text-wrap">
+            {{ 'SEND.WRAP.MAIN_TEXT' | translate }}
+        </p>
+
+        <h5 class="title">{{ 'SEND.WRAP.ESTIMATE' | translate }}</h5>
+
+        <table class="text-wrap">
+            <tr>
+                <td>{{ 'SEND.WRAP.WILL_RECEIVE' | translate }}</td>
+                <td *ngIf="!form.controls.amount.invalid">
+                    {{ getReceivedValue() | intToMoney }}
+                    {{ 'SEND.WRAP.wZANO' | translate }}
+                </td>
+                <td *ngIf="form.controls.amount.invalid">-</td>
+            </tr>
+            <tr *ngIf="(variablesService.wrap_info$ | async) as wrap_info">
+                <td>{{ 'SEND.WRAP.FEE' | translate }}</td>
+                <td>
+                    {{ wrap_info.tx_cost?.zano_needed_for_erc20 | intToMoney : ZANO_ASSET_INFO.decimal_point }}
+                    {{ 'SEND.WRAP.ZANO' | translate }}
+                    (${{ wrap_info.tx_cost?.usd_needed_for_erc20 }})
+                </td>
+            </tr>
+        </table>
+    </div>
+</ng-template>

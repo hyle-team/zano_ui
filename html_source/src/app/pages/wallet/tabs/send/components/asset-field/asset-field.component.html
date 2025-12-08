@@ -5,27 +5,31 @@
     </label>
 
     <ng-select
-        [bindValue]="'asset_info.asset_id'"
+        [bindValue]="'asset.asset_info.asset_id'"
         [clearable]="false"
-        [items]="items"
+        [formControl]="form.controls.asset_id"
+        [items]="items$ | async"
         [searchable]="false"
-        [formControl]="control"
         aria-describedby="asset-select-error"
         class="custom-select with-circle"
         id="asset-select"
     >
-        <ng-template let-asset="item" ng-label-tmp ng-option-tmp>
-            <div [innerHTML]="asset.asset_info | getLogoByAssetInfo" class="token-logo"></div>
-            {{ asset.asset_info.full_name ?? '***' }}
+        <ng-template let-item="item" ng-label-tmp ng-option-tmp>
+            <ng-container *ngIf="item.asset">
+                <div class="text-ellipsis">
+                    <div [innerHTML]="item.asset.asset_info | getLogoByAssetInfo" class="token-logo"></div>
+                    {{ item.asset.asset_info.full_name ?? '***' }}
 
-            <ng-container *appVisibilityBalance>
-                ({{ asset.total | intToMoney : asset.asset_info.decimal_point }} {{ asset.asset_info.ticker }})
+                    <ng-container *appVisibilityBalance>
+                        ({{ item.asset.total | intToMoney : item.asset.asset_info.decimal_point }} {{ item.asset.asset_info.ticker }})
+                    </ng-container>
+                </div>
             </ng-container>
         </ng-template>
     </ng-select>
 
-    <div *ngIf="control | isVisibleControlError" aria-live="assertive" id="asset-select-error" class="error">
-        <div *ngIf="control.hasError('required')">
+    <div *ngIf="form.controls.asset_id | isVisibleControlError" aria-live="assertive" class="error" id="asset-select-error">
+        <div *ngIf="form.controls.asset_id.hasError('required')">
             {{ 'ERRORS.REQUIRED' | translate }}
         </div>
     </div>

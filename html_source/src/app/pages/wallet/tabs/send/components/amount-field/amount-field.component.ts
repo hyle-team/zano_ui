@@ -1,32 +1,27 @@
-import { Component, inject, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputValidateModule, TooltipModule } from '@parts/directives';
 import { IsVisibleControlErrorPipe } from '@parts/pipes/is-visible-control-error.pipe';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
-import { PriceInfo } from '@api/models/assets.model';
-import { combineLatest, Subject } from 'rxjs';
+import { AssetBalance, AssetInfo, PriceInfo } from '@api/models/assets.model';
+import { combineLatest, Observable } from 'rxjs';
 import { VariablesService } from '@parts/services/variables.service';
-import { distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators';
+import { distinctUntilChanged, map, shareReplay, startWith, tap } from 'rxjs/operators';
 import { BigNumber } from 'bignumber.js';
 import { DestinationFormGroup } from '../../send.component';
-import { ZANO_ASSET_INFO } from '@parts/data/zano-assets-info';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { isFiatCurrency } from '@parts/data/currencies';
+import { intToMoney } from '@parts/functions/int-to-money';
 
 interface AmountInputParams {
     decimalPoint: number;
     inputTicker: string;
-    hintTicker: string;
-    hintAmount: string;
+    hintLeftText: string;
+    hintRightText: string;
     toggleInputModeDisabled: boolean;
 }
-
-const default_price_info: PriceInfo = {
-    success: false,
-    data: 'Asset not found',
-};
 
 @Component({
     selector: 'zano-amount-field',
@@ -45,120 +40,150 @@ const default_price_info: PriceInfo = {
     templateUrl: './amount-field.component.html',
     styleUrls: ['./amount-field.component.scss'],
 })
-export class AmountFieldComponent implements OnInit, OnDestroy, OnChanges {
-    @Input() controlRef: DestinationFormGroup;
-
-    @Input()
-    price_info: PriceInfo = default_price_info;
-
-    price_info$ = new Subject<PriceInfo>();
+export class AmountFieldComponent implements OnInit {
+    @Input('formRef') form: DestinationFormGroup;
 
     variablesService = inject(VariablesService);
 
-    amount_input_params: AmountInputParams = {
-        decimalPoint: ZANO_ASSET_INFO.decimal_point,
-        inputTicker: ZANO_ASSET_INFO.ticker,
-        hintTicker: '',
-        hintAmount: '',
-        toggleInputModeDisabled: true,
-    };
-
-    private readonly _destroy$ = new Subject<void>();
+    amountInputParams$: Observable<AmountInputParams>;
 
     ngOnInit(): void {
-        const { controls } = this.controlRef;
+        const { controls } = this.form;
 
-        combineLatest([
-            controls.asset_id.valueChanges.pipe(startWith(controls.asset_id.value)),
-            controls.is_currency_input_mode.valueChanges.pipe(startWith(controls.is_currency_input_mode.value), distinctUntilChanged()),
-            controls.amount.valueChanges.pipe(startWith(controls.amount.value)),
-            this.price_info$,
-        ])
-            .pipe(
-                map(([asset_id, is_currency_input_mode, amount, priceInfo]) =>
-                    this._buildAmountInputParams(asset_id, is_currency_input_mode, amount, priceInfo)
-                ),
-                takeUntil(this._destroy$)
-            )
-            .subscribe((params) => {
-                this.amount_input_params = params;
-                this.controlRef.updateValueAndValidity();
-            });
-    }
+        const assetId$ = controls.asset_id.valueChanges.pipe(startWith(controls.asset_id.value));
+        const isCurrencyInputMode$ = controls.is_currency_input_mode.valueChanges.pipe(
+            startWith(controls.is_currency_input_mode.value),
+            distinctUntilChanged()
+        );
+        const amount$ = controls.amount.valueChanges.pipe(startWith(String(controls.amount.value ?? '')));
+        const currentPriceForAssets$ = this.variablesService.currentPriceForAssets$;
 
-    ngOnChanges(changes: SimpleChanges): void {
-        if (changes.price_info) {
-            setTimeout(() => {
-                this.price_info$.next(changes.price_info.currentValue);
-            }, 150);
-        }
-    }
-
-    ngOnDestroy(): void {
-        this._destroy$.next();
-        this._destroy$.complete();
+        this.amountInputParams$ = combineLatest([assetId$, isCurrencyInputMode$, amount$, currentPriceForAssets$]).pipe(
+            map(([assetId, isCurrencyInputMode, amount]) =>
+                this._buildAmountInputParams(assetId, isCurrencyInputMode, String(amount ?? ''))
+            ),
+            tap(params => {
+                if (params.toggleInputModeDisabled) {
+                    this.form.controls.is_currency_input_mode.patchValue(false, { emitEvent: false });
+                }
+            }),
+            shareReplay(1)
+        );
     }
 
     toggleInputMode(): void {
-        const { is_currency_input_mode } = this.controlRef.getRawValue();
-        this.controlRef.controls.is_currency_input_mode.patchValue(!is_currency_input_mode);
+        const { is_currency_input_mode } = this.form.getRawValue();
+        this.form.controls.is_currency_input_mode.patchValue(!is_currency_input_mode);
     }
 
     private _buildAmountInputParams(
-        asset_id: string,
-        is_currency_input_mode: boolean,
-        amount: number | string,
-        priceInfo: PriceInfo
+        assetId: string,
+        isCurrencyInputMode: boolean,
+        amount: string
     ): AmountInputParams {
         const { current_wallet, settings } = this.variablesService;
-        const asset = current_wallet.getBalanceByAssetId(asset_id)?.asset_info;
-        const decimalPoint = asset?.decimal_point ?? ZANO_ASSET_INFO.decimal_point;
-        const assetTicker = asset?.ticker ?? ZANO_ASSET_INFO.ticker;
+        const assetBalance = current_wallet.getBalanceByAssetId(assetId);
+
+        if (!assetBalance) {
+            return {
+                decimalPoint: 12,
+                inputTicker: '',
+                hintLeftText: '',
+                hintRightText: '',
+                toggleInputModeDisabled: true,
+            };
+        }
+
+        const assetInfo = assetBalance.asset_info;
+        const priceInfo = this.variablesService.currentPriceForAssets[assetId];
         const currencyTicker = settings.currency.toUpperCase();
 
-        const params: AmountInputParams = {
+        const params = this._createParams(assetBalance, assetInfo, currencyTicker);
+
+        if (!priceInfo?.success) {
+            return {
+                ...params,
+                toggleInputModeDisabled: true,
+            };
+        }
+
+        const currencyPrice = this._getCurrencyPrice(priceInfo, settings.currency);
+        const fiatDecimalPlaces = this._getFiatDecimalPlaces(currencyPrice, settings.currency);
+
+        if (isCurrencyInputMode) {
+            return this._createCurrencyParams(params, amount, currencyPrice, assetInfo, fiatDecimalPlaces, currencyTicker);
+        } else {
+            return this._createAssetParams(params, amount, currencyPrice, fiatDecimalPlaces, currencyTicker);
+        }
+    }
+
+    private _createParams(
+        assetBalance: AssetBalance,
+        assetInfo: AssetInfo,
+        currencyTicker: string
+    ): AmountInputParams {
+        const decimalPoint = assetInfo.decimal_point ?? 12;
+        const assetTicker = assetInfo.ticker ?? '';
+        const availableAmount = intToMoney(assetBalance.unlocked, decimalPoint);
+
+        return {
             decimalPoint,
             inputTicker: assetTicker,
-            hintTicker: currencyTicker,
-            hintAmount: '0',
+            hintLeftText: `0 ${currencyTicker}`,
+            hintRightText: `${availableAmount} ${assetTicker}`,
             toggleInputModeDisabled: false,
         };
+    }
 
-        if (!priceInfo.success) {
-            params.toggleInputModeDisabled = true;
-            this.controlRef.controls.is_currency_input_mode.patchValue(false);
-            return params;
+    private _getCurrencyPrice(priceInfo: PriceInfo, currency: string): number {
+        if (typeof priceInfo.data === 'object' && priceInfo.data !== null) {
+            return priceInfo.data.fiat_prices?.[currency] ?? 0;
         }
+        return 0;
+    }
 
-        const currency_price =
-            typeof priceInfo.data === 'object' && priceInfo.data !== null ? priceInfo.data.fiat_prices?.[settings.currency] ?? 0 : 0;
-
-        const fiatDecimalPlaces = (isFiatCurrency(settings.currency) ? 2 : BigNumber(currency_price).decimalPlaces()) ?? 2;
-        if (is_currency_input_mode) {
-            const converted = BigNumber(+amount || 0)
-                .dividedBy(currency_price)
-                .decimalPlaces(decimalPoint);
-
-            return {
-                ...params,
-                decimalPoint: fiatDecimalPlaces,
-                inputTicker: currencyTicker,
-                hintTicker: assetTicker,
-                hintAmount: `~ ${converted.toString()}`,
-            };
-        } else {
-            const hintValue = BigNumber(currency_price)
-                .multipliedBy(+amount || 0)
-                .decimalPlaces(fiatDecimalPlaces)
-                .toString();
-
-            return {
-                ...params,
-                decimalPoint,
-                inputTicker: assetTicker,
-                hintTicker: currencyTicker,
-                hintAmount: `~ ${hintValue}`,
-            };
+    private _getFiatDecimalPlaces(currencyPrice: number, currency: string): number {
+        if (isFiatCurrency(currency)) {
+            return 2;
         }
+        return BigNumber(currencyPrice).decimalPlaces() ?? 2;
+    }
+
+    private _createCurrencyParams(
+        defaultParams: AmountInputParams,
+        amount: string,
+        currencyPrice: number,
+        assetInfo: AssetInfo,
+        fiatDecimalPlaces: number,
+        currencyTicker: string
+    ): AmountInputParams {
+        const converted = BigNumber(amount || 0)
+            .dividedBy(currencyPrice)
+            .decimalPlaces(assetInfo.decimal_point ?? 12);
+
+        return {
+            ...defaultParams,
+            decimalPoint: fiatDecimalPlaces,
+            inputTicker: currencyTicker,
+            hintLeftText: `~ ${converted.toString()} ${assetInfo.ticker ?? ''}`,
+        };
+    }
+
+    private _createAssetParams(
+        defaultParams: AmountInputParams,
+        amount: string,
+        currencyPrice: number,
+        fiatDecimalPlaces: number,
+        currencyTicker: string
+    ): AmountInputParams {
+        const hintValue = BigNumber(currencyPrice)
+            .multipliedBy(amount || 0)
+            .decimalPlaces(fiatDecimalPlaces)
+            .toString();
+
+        return {
+            ...defaultParams,
+            hintLeftText: `~ ${hintValue} ${currencyTicker}`,
+        };
     }
 }

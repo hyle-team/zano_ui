@@ -173,9 +173,11 @@ export class AssetsComponent implements OnInit, OnDestroy {
 
             this._backendService.removeCustomAssetId(params, () => {
                 this._ngZone.run(() => {
-                    if (transfer_form_value?.asset_id === asset_id) {
-                        this._walletsService.currentWallet.transfer_form_value.asset_id = ZANO_ASSET_INFO.asset_id;
-                    }
+                    transfer_form_value?.destinations.forEach((destination) => {
+                        if (destination.asset_id === asset_id) {
+                            destination.asset_id = ZANO_ASSET_INFO.asset_id;
+                        }
+                    });
 
                     this._walletsService.updateWalletInfo(current_wallet);
                 });

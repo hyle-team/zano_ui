@@ -1,15 +1,36 @@
-.add-destination-button {
-    margin-bottom: 2rem;
+.destination-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.6rem;
 
-    justify-content: flex-start;
-    color: var(--azure-500);
+    .title {
+        text-transform: uppercase;
+        font-weight: 500;
+        font-size: 1.4rem;
+    }
 
-    & > mat-icon {
-        &:first-child {
-            margin-right: 0.8rem;
-        }
-        &:last-child {
-            margin-left: 0.8rem;
+    .remove {
+        display: inline-flex;
+        align-items: center;
+
+        color: #24669C;
+        font-weight: 600;
+    }
+}
+
+.destination-form {
+    .destination-form__row {
+        display: grid;
+        grid-template-columns: minmax(auto, 24rem) minmax(auto, 24rem);
+        gap: 2rem;
+    }
+
+    ::ng-deep {
+        zano-asset-field {
+            ng-select {
+                max-width: 24rem;
+            }
         }
     }
 }

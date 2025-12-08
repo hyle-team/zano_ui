@@ -852,6 +852,11 @@
             "NOT_ENOUGH_MONEY": "Nicht genügend Mittel für diese Transaktion"
         },
         "FEE": "Gebühr",
+        "FORM": {
+            "HINTS": {
+                "LABEL1": "Verfügbar"
+            }
+        },
         "FORM_ERRORS": {
             "ADDRESS_NOT_VALID": "Adresse ist ungültig",
             "ADDRESS_REQUIRED": "Adresse ist erforderlich",
@@ -863,6 +868,7 @@
             "FEE_REQUIRED": "Bitte geben Sie den Gebührenbetrag ein.",
             "GREAT_THAN_UNWRAPPED_COINS": "Betrag ist größer als die verbleibenden verfügbaren ERC20-Tokens",
             "LESS_THAN_ZANO_NEEDED": "Zu kleiner Betrag, um die ERC20-Gebühr zu decken",
+            "MAX_DESTINATIONS": "Maximale Anzahl erreichter Ziele: {{ max }}",
             "MAX_LENGTH": "Maximale Länge des Kommentars erreicht",
             "MUST_BE_GREATER_THAN_ZERO": "Muss größer als null sein",
             "WRAP_INFO_NULL": "Fehler beim Anfordern des Wrap-Status"

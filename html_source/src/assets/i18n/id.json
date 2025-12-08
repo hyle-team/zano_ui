@@ -852,6 +852,11 @@
             "NOT_ENOUGH_MONEY": "Dana tidak cukup untuk transaksi ini"
         },
         "FEE": "Biaya",
+        "FORM": {
+            "HINTS": {
+                "LABEL1": "Tersedia"
+            }
+        },
         "FORM_ERRORS": {
             "ADDRESS_NOT_VALID": "Alamat tidak valid",
             "ADDRESS_REQUIRED": "Alamat wajib diisi",
@@ -863,6 +868,7 @@
             "FEE_REQUIRED": "Silakan masukkan jumlah biaya.",
             "GREAT_THAN_UNWRAPPED_COINS": "Jumlah lebih besar dari token ERC20 yang tersisa",
             "LESS_THAN_ZANO_NEEDED": "Jumlah terlalu kecil untuk menutupi biaya ERC20",
+            "MAX_DESTINATIONS": "Maksimum tujuan tercapai: {{ max }}",
             "MAX_LENGTH": "Panjang komentar maksimum tercapai",
             "MUST_BE_GREATER_THAN_ZERO": "Harus lebih besar dari nol",
             "WRAP_INFO_NULL": "Gagal meminta status bungkus"

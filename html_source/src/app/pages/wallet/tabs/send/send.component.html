@@ -2,37 +2,10 @@
     <form (ngSubmit)="beforeSubmit()" [formGroup]="form" class="form" role="form">
         <!-- Destinations -->
         <zano-destinations
-            [form_array_ref]="form.controls.destinations"
-            (onRemove)="removeDestination($event)"
             (onAdd)="addDestination()"
+            (onRemove)="removeDestination($event)"
+            [formArrayRef]="form.controls.destinations"
         ></zano-destinations>
-
-        <ng-container *ngFor="let destinationControl of form.controls.destinations.controls; let index = index">
-            <!-- Wrap information -->
-            <ng-container *ngIf="destinationControl.controls.is_visible_wrap_info.value">
-                <ng-container *ngIf="variables_service.wrap_info$ | async">
-                    <div class="mb-2">
-                        <ng-container
-                            *ngIf="destinationControl.hasError('wrap_info_invalid'); else zanoWrapInformationTemplate">
-                            <div class="error">
-                                {{ 'ERRORS.CANT_ESTIMATE_WRAP_OPERATION_COST' | translate }}
-                            </div>
-                        </ng-container>
-
-                        <ng-template #zanoWrapInformationTemplate>
-                            <zano-wrap-information
-                                [amount]="destinationControl.controls.amount.value"
-                                [asset_id]="destinationControl.controls.asset_id.value"
-                                [hide_received_value]="destinationControl.controls.amount.invalid"
-                                [is_currency_input_mode]="destinationControl.controls.is_currency_input_mode.value"
-                                [price_info]="price_info$ | async"
-                                [wrap_info]="variables_service.wrap_info$ | async"
-                            ></zano-wrap-information>
-                        </ng-template>
-                    </div>
-                </ng-container>
-            </ng-container>
-        </ng-container>
 
         <!-- Comment -->
         <zano-comment-field *ngIf="!form.controls.comment.disabled"
@@ -51,7 +24,6 @@
 <app-send-modal
     (confirmed)="handleConfirmed($event)"
     *ngIf="is_send_modal_state"
-    [price_info]="price_info$ | async"
     [transfer_params]="getTransferParams()"
 ></app-send-modal>
 

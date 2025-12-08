@@ -2,8 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { WrapInfo } from '@api/models/wrap-info';
-import { VerifiedAssetInfoWhitelist } from '@api/models/assets.model';
-import { CurrentPriceForAsset } from '@api/models/api-zano.models';
+import { PriceInfo, VerifiedAssetInfoWhitelist } from '@api/models/assets.model';
 import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
@@ -32,10 +31,10 @@ export class ApiService {
         });
     }
 
-    getCurrentPriceForAsset(asset_id: string): Observable<CurrentPriceForAsset & { asset_id: string }> {
+    getCurrentPriceForAsset(asset_id: string): Observable<PriceInfo & { asset_id: string }> {
         return this._httpClient
             .get<
-                CurrentPriceForAsset & {
+                PriceInfo & {
                     asset_id: string;
                 }
             >(`https://explorer.zano.org/api/price?asset_id=${asset_id}`)

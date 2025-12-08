@@ -852,6 +852,11 @@
             "NOT_ENOUGH_MONEY": "Not enough funds for this transaction"
         },
         "FEE": "Fee",
+        "FORM": {
+            "HINTS": {
+                "LABEL1": "Available"
+            }
+        },
         "FORM_ERRORS": {
             "ADDRESS_NOT_VALID": "Address not valid",
             "ADDRESS_REQUIRED": "Address is required",
@@ -863,6 +868,7 @@
             "FEE_REQUIRED": "Please enter the fee amount.",
             "GREAT_THAN_UNWRAPPED_COINS": "Amount is bigger than ERC20 tokens left available",
             "LESS_THAN_ZANO_NEEDED": "Too small amount to cover ERC20 fee",
+            "MAX_DESTINATIONS": "Maximum destinations reached: {{ max }}",
             "MAX_LENGTH": "Maximum comment length reached",
             "MUST_BE_GREATER_THAN_ZERO": "Must be greater than zero",
             "WRAP_INFO_NULL": "Failed to request wrap state"

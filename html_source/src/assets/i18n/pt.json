@@ -852,6 +852,11 @@
             "NOT_ENOUGH_MONEY": "Fundos insuficientes para esta transação"
         },
         "FEE": "Taxa",
+        "FORM": {
+            "HINTS": {
+                "LABEL1": "Disponível"
+            }
+        },
         "FORM_ERRORS": {
             "ADDRESS_NOT_VALID": "Endereço inválido",
             "ADDRESS_REQUIRED": "O endereço é obrigatório",
@@ -863,6 +868,7 @@
             "FEE_REQUIRED": "Por favor, digite o valor da taxa.",
             "GREAT_THAN_UNWRAPPED_COINS": "A quantidade é maior do que os tokens ERC20 disponíveis",
             "LESS_THAN_ZANO_NEEDED": "Valor muito pequeno para cobrir a taxa ERC20",
+            "MAX_DESTINATIONS": "Máximo de destinos atingidos: {{ max }}",
             "MAX_LENGTH": "Comprimento máximo do comentário atingido",
             "MUST_BE_GREATER_THAN_ZERO": "Deve ser maior que zero",
             "WRAP_INFO_NULL": "Falha ao solicitar o estado de wrap"

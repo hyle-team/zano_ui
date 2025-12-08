@@ -852,6 +852,11 @@
             "NOT_ENOUGH_MONEY": "Fonds insuffisants pour cette transaction"
         },
         "FEE": "Frais",
+        "FORM": {
+            "HINTS": {
+                "LABEL1": "Disponible"
+            }
+        },
         "FORM_ERRORS": {
             "ADDRESS_NOT_VALID": "Adresse non valide",
             "ADDRESS_REQUIRED": "L'adresse est requise",
@@ -863,6 +868,7 @@
             "FEE_REQUIRED": "Veuillez entrer le montant des frais.",
             "GREAT_THAN_UNWRAPPED_COINS": "Le montant est supérieur aux jetons ERC20 disponibles restants",
             "LESS_THAN_ZANO_NEEDED": "Montant trop petit pour couvrir les frais ERC20",
+            "MAX_DESTINATIONS": "Nombre maximal de destinations atteint: {{ max }}",
             "MAX_LENGTH": "Longueur maximale du commentaire atteinte",
             "MUST_BE_GREATER_THAN_ZERO": "Doit être supérieur à zéro",
             "WRAP_INFO_NULL": "Échec de la demande de l'état de 'wrap'"

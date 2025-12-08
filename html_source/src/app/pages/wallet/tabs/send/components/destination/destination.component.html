@@ -2,35 +2,42 @@
     <ng-container [ngTemplateOutlet]="headerTemplate"></ng-container>
 
     <ng-container [ngTemplateOutlet]="destinationFormTemplate"></ng-container>
+
+    <ng-container *ngIf="form.controls.is_visible_wrap_info.value" [ngTemplateOutlet]="zanoWrapInformationTemplate"></ng-container>
 </div>
 
 <ng-template #headerTemplate>
     <div class="destination-header">
-        <h3>Recipient {{ index + 1 }}</h3>
+        <h3 class="title">Recipient {{ index + 1 }}</h3>
 
         <button
+            *ngIf="!hideRemove"
             (click)="remove()"
             [attr.aria-label]="'ACCESSIBILITY.SEND.LABELS.LABEL1' | translate"
+            class="remove"
             type="button"
         >
             <mat-icon svgIcon="zano-close"></mat-icon>
-            <span>Remove</span>
+            <span class="ml-1">Remove</span>
         </button>
     </div>
 </ng-template>
 
 <ng-template #destinationFormTemplate>
-    <!-- Asset -->
-    <zano-asset-field
-        [items]="assetItems$ | async"
-        [controlRef]="destinationControl.controls.asset_id"
-    >
-    </zano-asset-field>
+    <div class="destination-form">
+        <div class="destination-form__row">
+            <!-- Asset -->
+            <zano-asset-field [formRef]="form"></zano-asset-field>
 
-    <!-- Amount -->
-    <zano-amount-field [controlRef]="destinationControl"
-                       [price_info]="price_info$ | async"></zano-amount-field>
+            <!-- Amount -->
+            <zano-amount-field [formRef]="form"></zano-amount-field>
+        </div>
 
-    <!-- Address -->
-    <zano-address-field [formRef]="destinationControl"></zano-address-field>
+        <!-- Address -->
+        <zano-address-field [formRef]="form"></zano-address-field>
+    </div>
+</ng-template>
+
+<ng-template #zanoWrapInformationTemplate>
+    <zano-wrap-information [formRef]="form"></zano-wrap-information>
 </ng-template>

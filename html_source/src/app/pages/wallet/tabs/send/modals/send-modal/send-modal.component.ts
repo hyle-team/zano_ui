@@ -28,8 +28,6 @@ export class SendModalComponent implements OnInit, OnDestroy {
 
     @Input() transfer_params: TransferParams;
 
-    @Input() price_info: PriceInfo;
-
     @Output() confirmed: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     cdr = inject(ChangeDetectorRef);

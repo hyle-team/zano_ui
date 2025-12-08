@@ -346,6 +346,7 @@ export interface Deeplink {
     url?: string;
     contact?: string;
     comments?: string;
+    comment?: string;
     mixins?: string;
     fee?: string;
 }
