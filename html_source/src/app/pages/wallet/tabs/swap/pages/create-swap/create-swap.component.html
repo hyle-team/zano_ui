@@ -1,7 +1,9 @@
 <div class="container scrolled-content">
     <app-breadcrumbs [items]="breadcrumbItems" class="mb-2"></app-breadcrumbs>
 
-    <form role="form" (ngSubmit)="beforeSubmit()" [formGroup]="form" class="form">
+    <form *ngIf="variablesService.current_wallet.loaded; else skeletonTemplate" role="form" (ngSubmit)="beforeSubmit()"
+          [formGroup]="form"
+          class="form">
         <!-- Sending -->
         <div class="form__row" formGroupName="sending">
             <fieldset class="form__field fixed">
@@ -268,3 +270,18 @@
         </div>
     </form>
 </div>
+
+<ng-template #skeletonTemplate>
+    <div class="skeleton-form">
+        <div class="skeleton skeleton-form-label-1 mb-2"></div>
+        <div class="skeleton skeleton-form-field mb-2"></div>
+
+        <div class="skeleton skeleton-form-label-1 mb-2"></div>
+        <div class="skeleton skeleton-form-field mb-2"></div>
+
+        <div class="skeleton skeleton-form-label-2 mb-2"></div>
+        <div class="skeleton skeleton-form-field mb-2"></div>
+
+        <div class="skeleton skeleton-form-button"></div>
+    </div>
+</ng-template>

@@ -260,4 +260,6 @@ export class AssetsComponent implements OnInit, OnDestroy {
             this._router.navigate(['/wallet/send'], { state: { asset } }).then();
         }
     }
+
+    protected readonly Array = Array;
 }

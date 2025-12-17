@@ -1,5 +1,11 @@
 <div class="scrolled-content" fxFlex="1 1 auto">
-    <form (ngSubmit)="beforeSubmit()" [formGroup]="form" class="form" role="form">
+    <form
+        (ngSubmit)="beforeSubmit()"
+        *ngIf="variables_service.current_wallet.loaded; else skeletonTemplate"
+        [formGroup]="form"
+        class="form"
+        role="form"
+    >
         <!-- Destinations -->
         <zano-destinations
             (onAdd)="addDestination()"
@@ -8,12 +14,10 @@
         ></zano-destinations>
 
         <!-- Comment -->
-        <zano-comment-field *ngIf="!form.controls.comment.disabled"
-                            [controlRef]="form.controls.comment"></zano-comment-field>
+        <zano-comment-field *ngIf="!form.controls.comment.disabled" [controlRef]="form.controls.comment"></zano-comment-field>
 
         <!-- Additional Details -->
-        <zano-additional-details [(show)]="is_show_additional_details" [formRef]="form"
-                                 class="block mb-2"></zano-additional-details>
+        <zano-additional-details [(show)]="is_show_additional_details" [formRef]="form" class="block mb-2"></zano-additional-details>
 
         <button [disabled]="is_submit_disabled" class="primary big max-w-19-rem w-100" type="submit">
             {{ 'SEND.BUTTON' | translate }}
@@ -21,14 +25,24 @@
     </form>
 </div>
 
-<app-send-modal
-    (confirmed)="handleConfirmed($event)"
-    *ngIf="is_send_modal_state"
-    [transfer_params]="getTransferParams()"
-></app-send-modal>
+<app-send-modal (confirmed)="handleConfirmed($event)" *ngIf="is_send_modal_state" [transfer_params]="getTransferParams()"></app-send-modal>
 
 <app-send-details-modal
     (event_close)="handeCloseSendDetailsModal($event)"
     *ngIf="is_send_details_modal_state"
     [job_id]="job_id"
 ></app-send-details-modal>
+
+<ng-template #skeletonTemplate>
+    <div class="skeleton-form">
+        <div class="skeleton skeleton-form-label-1 mb-2"></div>
+        <div class="skeleton skeleton-form-field mb-2"></div>
+        <div class="skeleton skeleton-form-field mb-2"></div>
+
+        <div class="skeleton skeleton-form-label-2 mb-2"></div>
+        <div class="skeleton skeleton-form-field-description mb-2"></div>
+
+        <div class="skeleton skeleton-form-details mb-2"></div>
+        <div class="skeleton skeleton-form-button"></div>
+    </div>
+</ng-template>

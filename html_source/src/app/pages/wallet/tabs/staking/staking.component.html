@@ -1,4 +1,4 @@
-<div class="chart-wrap" fxFlexFill fxLayout="column">
+<section *ngIf="variablesService.current_wallet.loaded; else skeletonTemplate" class="chart-wrap" fxFlexFill fxLayout="column">
     <div class="scrolled-content h-100" fxFlex="1 1 auto" fxLayout="column">
         <div class="chart-header mb-1" fxFlex="0 0 auto" fxLayout="column">
             <div class="row" fxFlex="0 0 auto" fxLayout="row nowrap" fxLayoutAlign="space-between start" fxLayoutGap="1rem">
@@ -136,4 +136,26 @@
             </ng-container>
         </div>
     </div>
-</div>
+</section>
+
+<ng-template #skeletonTemplate>
+    <section class="skeleton-staking overflow-hidden">
+        <div class="skeleton-staking-header mb-2">
+            <div class="skeleton" style="max-width: 18.6rem; width: 100%; height: 4rem"></div>
+            <div class="skeleton ml-2" style="max-width: 14rem; width: 100%; height: 4rem"></div>
+            <div class="skeleton ml-2 mr-2" style="max-width: 32.9rem; width: 100%; height: 4rem"></div>
+            <div class="skeleton ml-auto" style="max-width: 20rem; width: 100%; height: 4rem"></div>
+        </div>
+
+        <div class="skeleton skeleton-staking-chart mb-2"></div>
+
+        <div class="skeleton-staking-footer">
+            <div
+                class="skeleton"
+                *ngFor="let i of Array.from({ length: 7 }); let first = first"
+                [class.ml-2]="!first"
+                style="width: 100%; height: 5.3rem"
+            ></div>
+        </div>
+    </section>
+</ng-template>

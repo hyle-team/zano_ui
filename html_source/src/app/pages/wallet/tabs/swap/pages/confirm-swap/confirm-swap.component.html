@@ -1,7 +1,7 @@
-<div class="container scrolled-content">
+<section class="container scrolled-content">
     <app-breadcrumbs [items]="breadcrumbItems" class="mb-2"></app-breadcrumbs>
 
-    <form role="form" [formGroup]="form" class="form">
+    <form *ngIf="variablesService.current_wallet.loaded; else skeletonTemplate" role="form" [formGroup]="form" class="form">
         <fieldset class="form__field textarea mb-2">
             <label for="swap-proposal-hex">
                 {{ 'CONFIRM_SWAP.FORM.LABELS.LABEL1' | translate }}
@@ -62,4 +62,13 @@
             {{ 'ERRORS.INVALID_PROPOSAL' | translate }}
         </div>
     </form>
-</div>
+</section>
+
+<ng-template #skeletonTemplate>
+    <div class="skeleton-form">
+        <div class="skeleton skeleton-form-label-2 mb-2"></div>
+        <div class="skeleton skeleton-form-field-description mb-2"></div>
+
+        <div class="skeleton skeleton-form-button"></div>
+    </div>
+</ng-template>
