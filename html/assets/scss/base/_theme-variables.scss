@@ -85,9 +85,12 @@
     // table
     --table-thead-bg: #1f8feb4d;
     --table-row-bg: #dbecf9;
-    --table-rounded-corners-border: 1px solid #d9dfe8;
+    --table-info-border-color: #d9dfe8;
 
-    --table-info-border: 1px solid #d9dfe8;
+    --table-rounded-corners-border: 1px solid var(--table-info-border-color);
+
+
+    --table-info-border: 1px solid var(--table-info-border-color);
     --table-info-label-background: #f0f6fb;
 
     // buttons
@@ -184,9 +187,11 @@
     // table
     --table-thead-bg: var(--blue-400);
     --table-row-bg: var(--blue-300);
-    --table-rounded-corners-border: 1px solid #33426e;
+    --table-info-border-color: #33426e;
 
-    --table-info-border: 1px solid #33426e;
+    --table-rounded-corners-border: 1px solid var(--table-info-border-color);
+
+    --table-info-border: 1px solid var(--table-info-border-color);
     --table-info-label-background: var(--blue-500);
 
     // buttons

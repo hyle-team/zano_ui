@@ -100,9 +100,9 @@
             "ARIA_LABEL1": "Progresso de sincronização da carteira"
         }
     },
-    "ADD_ANOTHER_DESTINATION": {
-        "TEXT1": "Adicionar outro destino",
-        "TEXT2": "Você pode adicionar outro endereço para enviar"
+    "ADD_DESTINATION": {
+        "TEXT1": "Adicionar destinatário",
+        "TEXT2": "Você pode adicionar outro endereço de destino."
     },
     "ASSETS": {
         "DROP_DOWN_MENU": {
@@ -232,10 +232,12 @@
         "BUTTON_CANCEL": "Cancelar",
         "BUTTON_CONFIRM": "Enviar",
         "MESSAGE": {
+            "ADDRESS": "Endereço",
+            "AMOUNT": "Montante",
             "COMMENT": "Comentário",
-            "FROM": "De",
-            "SEND": "Enviar",
-            "TO": "Para"
+            "FEE": "Taxa",
+            "RECIPIENT": "Destinatário",
+            "TOTAL": "Total"
         },
         "TITLE": "Transação"
     },
@@ -848,10 +850,16 @@
         "BUTTON": "Enviar",
         "COMMENT": "Comentário",
         "DETAILS": "Opção avançada",
+        "DUPLICATE": "Duplicado",
         "ERROR_CODES": {
             "NOT_ENOUGH_MONEY": "Fundos insuficientes para esta transação"
         },
         "FEE": "Taxa",
+        "FORM": {
+            "HINTS": {
+                "LABEL1": "Disponível"
+            }
+        },
         "FORM_ERRORS": {
             "ADDRESS_NOT_VALID": "Endereço inválido",
             "ADDRESS_REQUIRED": "O endereço é obrigatório",
@@ -863,6 +871,7 @@
             "FEE_REQUIRED": "Por favor, digite o valor da taxa.",
             "GREAT_THAN_UNWRAPPED_COINS": "A quantidade é maior do que os tokens ERC20 disponíveis",
             "LESS_THAN_ZANO_NEEDED": "Valor muito pequeno para cobrir a taxa ERC20",
+            "MAX_DESTINATIONS": "Máximo de destinos atingidos: {{ max }}",
             "MAX_LENGTH": "Comprimento máximo do comentário atingido",
             "MUST_BE_GREATER_THAN_ZERO": "Deve ser maior que zero",
             "WRAP_INFO_NULL": "Falha ao solicitar o estado de wrap"
@@ -870,6 +879,8 @@
         "HIDE": "Manter endereço do destinatário",
         "INCLUDE_SENDER_ADDRESS": "Mostrar meu endereço ao destinatário",
         "MIXIN": "Mixin",
+        "RECIPIENT": "Destinatário",
+        "REMOVE": "Português",
         "SUCCESS_SENT": "Transação enviada",
         "WRAP": {
             "ESTIMATE": "Estimativas da Transação",

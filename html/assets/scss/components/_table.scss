@@ -143,6 +143,86 @@ table.zano-table {
     }
 }
 
+.zano-table-info__wrap {
+    border: var(--table-info-border);
+    border-radius: 0.8rem;
+    overflow: hidden;
+
+    // Need for fix offset for table
+    padding: 0 1px;
+}
+
+.zano-table-info {
+    width: 100%;
+
+    border-collapse: inherit;
+    border-spacing: initial;
+
+    .zano-table-info__amount-cell {
+        width: 100%;
+        display: inline-flex;
+        align-items: center;
+
+        .token-logo, .ticker {
+            flex-shrink: 0;
+        }
+
+        .ticker {
+            opacity: 0.75;
+        }
+
+        &.right {
+            justify-content: flex-end;
+        }
+    }
+
+    .mat-divider {
+        border-top-color: var(--table-info-border-color);
+    }
+
+    .zano-table-info__row {
+        &:first-child {
+            .zano-table-info__cell {
+
+                &:first-child {
+                    border-top-left-radius: 0.6rem;
+                }
+            }
+        }
+
+        &:last-child {
+            .zano-table-info__cell {
+
+                &:first-child {
+                    border-bottom-left-radius: 0.6rem;
+                }
+            }
+        }
+
+        .zano-table-info__cell {
+            height: 4.1rem;
+            vertical-align: middle;
+            word-break: break-word;
+            padding: 1.2rem;
+            font-size: 1.6rem;
+
+            span {
+                font-size: 1.6rem;
+            }
+
+            &:first-child {
+                background-color: var(--table-info-label-background);
+                color: var(--azure-500);
+                min-width: 12.3rem;
+            }
+
+            &:last-child {
+                width: 100%;
+            }
+        }
+    }
+}
+
 // Table with rounded-corners
 table.rounded-corners {
     border-spacing: 0;

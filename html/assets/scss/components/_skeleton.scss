@@ -1,0 +1,99 @@
+.skeleton {
+    position: relative;
+    overflow: hidden;
+    display: block;
+
+    border-radius: 8px;
+
+    /* фиксируем ширину "блика" */
+    --skeleton-shine-width: 554px;
+
+    background-repeat: no-repeat;
+    background-size: var(--skeleton-shine-width) 100%;
+
+    /* старт: полностью слева за пределами блока */
+    background-position: calc(var(--skeleton-shine-width) * -1) 0;
+
+    will-change: background-position;
+    animation: skeleton-shimmer 3.25s ease-in-out infinite;
+}
+
+@keyframes skeleton-shimmer {
+    0% {
+        background-position: calc(var(--skeleton-shine-width) * -1) 0;
+    }
+    100% {
+        /* финиш: полностью справа за пределами блока */
+        background-position: calc(100% + var(--skeleton-shine-width)) 0;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .skeleton {
+        animation: none;
+    }
+}
+
+.skeleton-table-row {
+    height: 8rem;
+    border-radius: 0.8rem;
+}
+
+.skeleton-form {
+    max-width: 50rem;
+
+    &-label-1 {
+        width: 7.7rem; height: 1.8rem;
+    }
+
+    &-label-2 {
+        width: 13.6rem; height: 1.8rem;
+    }
+
+    &-field {
+        height: 7.2rem;
+    }
+
+    &-field-description {
+        height: 10.8rem;
+    }
+
+    &-details {
+        width: 20rem; height: 4.6rem;
+    }
+
+    &-button {
+        width: 18.3rem; height: 5.3rem;
+    }
+}
+
+.skeleton-staking {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    .skeleton-staking-header,
+    .skeleton-staking-footer  {
+        display: flex;
+    }
+
+    .skeleton-staking-chart {
+        flex: 1;
+    }
+}
+
+.light {
+    .skeleton {
+        background-color: #DBECF9;
+
+        background-image: linear-gradient(90deg, #DBECF9 0%, #EEF8FF 50%, #DBECF9 100%);
+    }
+}
+
+.dark {
+    .skeleton {
+        background-color: #102a63;
+
+        background-image: linear-gradient(90deg, #102a63 0%, #204086 50%, #102a63 100%);
+    }
+}

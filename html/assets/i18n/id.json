@@ -100,9 +100,9 @@
             "ARIA_LABEL1": "Kemajuan sinkronisasi dompet"
         }
     },
-    "ADD_ANOTHER_DESTINATION": {
-        "TEXT1": "Tambahkan tujuan lain",
-        "TEXT2": "Anda dapat menambahkan alamat lain untuk dikirim"
+    "ADD_DESTINATION": {
+        "TEXT1": "Tambah penerima",
+        "TEXT2": "Anda dapat menambahkan alamat lain untuk tujuan."
     },
     "ASSETS": {
         "DROP_DOWN_MENU": {
@@ -232,10 +232,12 @@
         "BUTTON_CANCEL": "Batal",
         "BUTTON_CONFIRM": "Kirim",
         "MESSAGE": {
+            "ADDRESS": "Alamat",
+            "AMOUNT": "Jumlah",
             "COMMENT": "Komentar",
-            "FROM": "Dari",
-            "SEND": "Kirim",
-            "TO": "Kepada"
+            "FEE": "Biaya",
+            "RECIPIENT": "Penerima",
+            "TOTAL": "Total"
         },
         "TITLE": "Transaksi"
     },
@@ -848,10 +850,16 @@
         "BUTTON": "Kirim",
         "COMMENT": "Komentar",
         "DETAILS": "Opsi lanjutan",
+        "DUPLICATE": "Duplikat",
         "ERROR_CODES": {
             "NOT_ENOUGH_MONEY": "Dana tidak cukup untuk transaksi ini"
         },
         "FEE": "Biaya",
+        "FORM": {
+            "HINTS": {
+                "LABEL1": "Tersedia"
+            }
+        },
         "FORM_ERRORS": {
             "ADDRESS_NOT_VALID": "Alamat tidak valid",
             "ADDRESS_REQUIRED": "Alamat wajib diisi",
@@ -863,6 +871,7 @@
             "FEE_REQUIRED": "Silakan masukkan jumlah biaya.",
             "GREAT_THAN_UNWRAPPED_COINS": "Jumlah lebih besar dari token ERC20 yang tersisa",
             "LESS_THAN_ZANO_NEEDED": "Jumlah terlalu kecil untuk menutupi biaya ERC20",
+            "MAX_DESTINATIONS": "Maksimum tujuan tercapai: {{ max }}",
             "MAX_LENGTH": "Panjang komentar maksimum tercapai",
             "MUST_BE_GREATER_THAN_ZERO": "Harus lebih besar dari nol",
             "WRAP_INFO_NULL": "Gagal meminta status bungkus"
@@ -870,6 +879,8 @@
         "HIDE": "Pertahankan alamat penerima",
         "INCLUDE_SENDER_ADDRESS": "Tampilkan alamat saya kepada penerima",
         "MIXIN": "Mixin",
+        "RECIPIENT": "Penerima",
+        "REMOVE": "Indonesian",
         "SUCCESS_SENT": "Transaksi dikirim",
         "WRAP": {
             "ESTIMATE": "Perkiraan Transaksi",

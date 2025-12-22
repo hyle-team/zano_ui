@@ -100,9 +100,9 @@
             "ARIA_LABEL1": "Avanzamento sincronizzazione wallet"
         }
     },
-    "ADD_ANOTHER_DESTINATION": {
-        "TEXT1": "Aggiungi un'altra destinazione",
-        "TEXT2": "Puoi aggiungere un altro indirizzo per l'invio"
+    "ADD_DESTINATION": {
+        "TEXT1": "Aggiungi destinatario",
+        "TEXT2": "Puoi aggiungere un altro indirizzo di destinazione."
     },
     "ASSETS": {
         "DROP_DOWN_MENU": {
@@ -232,10 +232,12 @@
         "BUTTON_CANCEL": "Annulla",
         "BUTTON_CONFIRM": "Invia",
         "MESSAGE": {
+            "ADDRESS": "Indirizzo",
+            "AMOUNT": "Importo",
             "COMMENT": "Commento",
-            "FROM": "Da",
-            "SEND": "Invia",
-            "TO": "A"
+            "FEE": "Commissione",
+            "RECIPIENT": "Destinatario",
+            "TOTAL": "Totale"
         },
         "TITLE": "Transazione"
     },
@@ -848,10 +850,16 @@
         "BUTTON": "Invia",
         "COMMENT": "Commento",
         "DETAILS": "Opzione avanzata",
+        "DUPLICATE": "Duplicato",
         "ERROR_CODES": {
             "NOT_ENOUGH_MONEY": "Fondi insufficienti per questa transazione"
         },
         "FEE": "Commissione",
+        "FORM": {
+            "HINTS": {
+                "LABEL1": "Disponibile"
+            }
+        },
         "FORM_ERRORS": {
             "ADDRESS_NOT_VALID": "Indirizzo non valido",
             "ADDRESS_REQUIRED": "L'indirizzo è obbligatorio",
@@ -863,6 +871,7 @@
             "FEE_REQUIRED": "Inserisci l'importo della commissione.",
             "GREAT_THAN_UNWRAPPED_COINS": "L'importo è maggiore dei token ERC20 rimasti disponibili",
             "LESS_THAN_ZANO_NEEDED": "Importo troppo piccolo per coprire la commissione ERC20",
+            "MAX_DESTINATIONS": "Destinazioni massime raggiunte: {{ max }}",
             "MAX_LENGTH": "Lunghezza massima del commento raggiunta",
             "MUST_BE_GREATER_THAN_ZERO": "Deve essere maggiore di zero",
             "WRAP_INFO_NULL": "Impossibile richiedere lo stato di wrap"
@@ -870,6 +879,8 @@
         "HIDE": "Mantieni l'indirizzo del destinatario",
         "INCLUDE_SENDER_ADDRESS": "Mostra il mio indirizzo al destinatario",
         "MIXIN": "Mixin",
+        "RECIPIENT": "Destinatario",
+        "REMOVE": "Italiano",
         "SUCCESS_SENT": "Transazione inviata",
         "WRAP": {
             "ESTIMATE": "Stime della transazione",
