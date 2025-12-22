@@ -1,113 +1,131 @@
-<fieldset class="form__field amount">
-    <label for="send-amount">
-        {{ 'SEND.AMOUNT' | translate }}
-        <span class="color-red">*</span>
-    </label>
+<ng-container *ngIf="amountInputParams$ | async as amountInputParams">
+    <fieldset class="form__field fixed amount">
+        <label for="send-amount">
+            {{ 'SEND.AMOUNT' | translate }}
+            <span class="color-red">*</span>
+        </label>
 
-    <input
-        (contextmenu)="variables_service.onContextMenu($event)"
-        [decimalPoint]="amount_input_params.decimalPoint"
-        [formControl]="control_ref.controls.amount"
-        [placeholder]="'0'"
-        aria-describedby="amount-error1 amount-error2 amount-error3 amount-error4 amount-error5 amount-error6 amount-error7 amount-error8"
-        appInputValidate="money"
-        class="form__field--input"
-        id="send-amount"
-        type="text"
-    />
+        <input
+            (contextmenu)="variablesService.onContextMenu($event)"
+            [decimalPoint]="amountInputParams.decimalPoint"
+            [formControl]="form.controls.amount"
+            [placeholder]="'0'"
+            appInputValidate="money"
+            aria-describedby="amount-error1 amount-error2 amount-error3 amount-error4 amount-error5 amount-error6 amount-error7 amount-error8"
+            class="form__field--input"
+            id="send-amount"
+            type="text"
+        />
 
-    <button
-        (click)="toggleInputMode()"
-        [attr.aria-label]="'ACCESSIBILITY.SEND.LABELS.LABEL2' | translate"
-        [disabled]="amount_input_params.toggleInputModeDisabled"
-        class="btn-reverse"
-        type="button"
-    >
-        <mat-icon class="small" svgIcon="zano-swap"></mat-icon>
-    </button>
+        <button
+            (click)="toggleInputMode()"
+            [attr.aria-label]="'ACCESSIBILITY.SEND.LABELS.LABEL2' | translate"
+            [disabled]="amountInputParams.toggleInputModeDisabled"
+            class="btn-reverse"
+            type="button"
+        >
+            <mat-icon class="small" svgIcon="zano-swap"></mat-icon>
+        </button>
 
-    <div
-        [matTooltip]="amount_input_params.inputTicker"
-        [matTooltipShowDelay]="1000"
-        aria-haspopup="true"
-        class="ticker"
-        [attr.aria-label]="amount_input_params.inputTicker"
-    >
-        <div class="text-ellipsis">
-            {{ amount_input_params.inputTicker }}
-        </div>
-    </div>
-
-    <ng-container *ngIf="control_ref.controls.amount | isVisibleControlError; else errorList2Template">
-        <ng-container *ngIf="control_ref.controls.amount.hasError('zero'); else error2Template">
-            <div aria-live="assertive" id="amount-error1" class="error">
-                {{ 'SEND.FORM_ERRORS.AMOUNT_ZERO' | translate }}
+        <div
+            [attr.aria-label]="amountInputParams.inputTicker"
+            [matTooltipShowDelay]="1000"
+            [matTooltip]="amountInputParams.inputTicker"
+            aria-haspopup="true"
+            class="ticker"
+        >
+            <div class="text-ellipsis">
+                {{ amountInputParams.inputTicker }}
             </div>
+        </div>
+
+        <ng-container *ngIf="form.controls.amount | isVisibleControlError; else errorList2Template">
+            <ng-container *ngIf="form.controls.amount.hasError('zero'); else error2Template">
+                <div aria-live="assertive" class="error" id="amount-error1">
+                    {{ 'SEND.FORM_ERRORS.AMOUNT_ZERO' | translate }}
+                </div>
+            </ng-container>
+
+            <ng-template #error2Template>
+                <ng-container *ngIf="form.controls.amount.hasError('required')">
+                    <div aria-live="assertive" class="error" id="amount-error2">
+                        {{ 'ERRORS.REQUIRED' | translate }}
+                    </div>
+                </ng-container>
+            </ng-template>
         </ng-container>
 
-        <ng-template #error2Template>
-            <ng-container *ngIf="control_ref.controls.amount.hasError('required')">
-                <div aria-live="assertive" id="amount-error2" class="error">
-                    {{ 'ERRORS.REQUIRED' | translate }}
-                </div>
+        <ng-template #errorList2Template>
+            <ng-container *ngIf="form | isVisibleControlError">
+                <ng-container *ngIf="form.hasError('greater_max'); else error3Template">
+                    <div aria-live="assertive" class="error" id="amount-error3">
+                        {{ 'ERRORS.MAX' | translate : { max: form.errors['greater_max'].max } }}
+                    </div>
+                </ng-container>
+
+                <ng-template #error3Template>
+                    <ng-container *ngIf="form.hasError('insufficientFunds'); else error4Template">
+                        <div aria-live="assertive" class="error" id="amount-error4">
+                            {{ form.errors['insufficientFunds'].errorText | translate }}
+                        </div>
+                    </ng-container>
+                </ng-template>
+
+                <ng-template #error4Template>
+                    <ng-container *ngIf="form.hasError('great_than_unwraped_coins'); else error5Template">
+                        <div aria-live="assertive" class="error" id="amount-error5">
+                            {{ 'SEND.FORM_ERRORS.GREAT_THAN_UNWRAPPED_COINS' | translate }}
+                        </div>
+                    </ng-container>
+                </ng-template>
+
+                <ng-template #error5Template>
+                    <ng-container *ngIf="form.hasError('less_than_zano_needed'); else error6Template">
+                        <div aria-live="assertive" class="error" id="amount-error6">
+                            {{ 'SEND.FORM_ERRORS.LESS_THAN_ZANO_NEEDED' | translate }}
+                        </div>
+                    </ng-container>
+                </ng-template>
+
+                <ng-template #error6Template>
+                    <ng-container *ngIf="form.hasError('wrap_info_null'); else error7Template">
+                        <div aria-live="assertive" class="error" id="amount-error7">
+                            {{ 'SEND.FORM_ERRORS.WRAP_INFO_NULL' | translate }}
+                        </div>
+                    </ng-container>
+                </ng-template>
+
+                <ng-template #error7Template>
+                    <ng-container *ngIf="form.hasError('asset_not_found')">
+                        <div aria-live="assertive" class="error" id="amount-error8">
+                            {{ 'ERRORS.ASSET_NOT_FOUND' | translate }}
+                        </div>
+                    </ng-container>
+                </ng-template>
             </ng-container>
         </ng-template>
-    </ng-container>
 
-    <ng-template #errorList2Template>
-        <ng-container *ngIf="control_ref | isVisibleControlError">
-            <ng-container *ngIf="control_ref.hasError('greater_max'); else error3Template">
-                <div aria-live="assertive" id="amount-error3" class="error">
-                    {{ 'ERRORS.MAX' | translate : { max: control_ref.errors['greater_max'].max } }}
-                </div>
-            </ng-container>
+        <ng-container *ngIf="!((form.controls.amount | isVisibleControlError) || (form | isVisibleControlError))">
+            <div class="hint">
+                <p
+                    *ngIf="amountInputParams.hintLeftText"
+                    [matTooltipShowDelay]="1500"
+                    [matTooltip]="amountInputParams.hintLeftText"
+                    class="text-ellipsis mr-1"
+                >
+                    {{ amountInputParams.hintLeftText }}
+                </p>
 
-            <ng-template #error3Template>
-                <ng-container *ngIf="control_ref.hasError('insufficientFunds'); else error4Template">
-                    <div aria-live="assertive" id="amount-error4" class="error">
-                        {{ this.control_ref.errors['insufficientFunds'].errorText | translate }}
-                    </div>
-                </ng-container>
-            </ng-template>
-
-            <ng-template #error4Template>
-                <ng-container *ngIf="control_ref.hasError('great_than_unwraped_coins'); else error5Template">
-                    <div aria-live="assertive" id="amount-error5" class="error">
-                        {{ 'SEND.FORM_ERRORS.GREAT_THAN_UNWRAPPED_COINS' | translate }}
-                    </div>
-                </ng-container>
-            </ng-template>
-
-            <ng-template #error5Template>
-                <ng-container *ngIf="control_ref.hasError('less_than_zano_needed'); else error6Template">
-                    <div aria-live="assertive" id="amount-error6" class="error">
-                        {{ 'SEND.FORM_ERRORS.LESS_THAN_ZANO_NEEDED' | translate }}
-                    </div>
-                </ng-container>
-            </ng-template>
-
-            <ng-template #error6Template>
-                <ng-container *ngIf="control_ref.hasError('wrap_info_null'); else error7Template">
-                    <div aria-live="assertive" id="amount-error7" class="error">
-                        {{ 'SEND.FORM_ERRORS.WRAP_INFO_NULL' | translate }}
-                    </div>
-                </ng-container>
-            </ng-template>
-
-            <ng-template #error7Template>
-                <ng-container *ngIf="control_ref.hasError('asset_not_found')">
-                    <div aria-live="assertive" id="amount-error8" class="error">
-                        {{ 'ERRORS.ASSET_NOT_FOUND' | translate }}
-                    </div>
-                </ng-container>
-            </ng-template>
+                <p
+                    *ngIf="amountInputParams.hintRightText"
+                    [matTooltipShowDelay]="1500"
+                    [matTooltip]="amountInputParams.hintRightText"
+                    class="text-ellipsis"
+                >
+                    {{ 'SEND.FORM.HINTS.LABEL1' | translate }}
+                    {{ amountInputParams.hintRightText }}
+                </p>
+            </div>
         </ng-container>
-    </ng-template>
-
-    <ng-container *ngIf="!((control_ref.controls.amount | isVisibleControlError) || (control_ref | isVisibleControlError))">
-        <div class="hint text-ellipsis">
-            {{ amount_input_params.hintAmount }}
-            {{ amount_input_params.hintTicker }}
-        </div>
-    </ng-container>
-</fieldset>
+    </fieldset>
+</ng-container>

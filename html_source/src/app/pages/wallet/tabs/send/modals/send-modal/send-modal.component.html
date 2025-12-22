@@ -1,61 +1,132 @@
-<div class="send-modal-wrapper" fxLayout="row" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
-    <div class="wrapper">
-        <form role="form" (ngSubmit)="beforeSubmit()" [formGroup]="form" class="overflow-hidden" fxFlexFill fxLayout="column">
+<div aria-labelledby="confirm-title" aria-modal="true" class="send-modal-wrapper" fxLayout="row" role="dialog">
+    <div class="wrapper w-100">
+        <form (ngSubmit)="beforeSubmit()" [formGroup]="form" class="overflow-hidden" fxFlexFill fxLayout="column" role="form">
             <h3 class="title mb-2" fxFlex="0 0 auto" id="confirm-title">
                 {{ 'CONFIRM.TITLE' | translate }}
             </h3>
 
             <div class="content w-100 overflow-x-hidden overflow-y-auto" fxFlex="1 1 auto">
-                <div class="table-info mb-2">
-                    <ng-container *ngFor="let destination of transfer_params.destinations; let first = first">
-                        <ng-container *ngIf="!first">
-                            <hr class="separator" />
-                        </ng-container>
-
-                        <div class="row">
-                            <div class="title max-w-19-rem w-100">
-                                {{ 'CONFIRM.MESSAGE.SEND' | translate }}
-                            </div>
-                            <div class="text">
-                                {{ destination.amount | customNumber }}
-                                {{ (destination.asset_id | getAssetInfo)?.ticker || '***' }}
-                            </div>
+                <!-- Destinations -->
+                <ng-container
+                    *ngFor="let destination of transfer_params.destinations; trackBy: trackByFn; let index = index; let last = last"
+                >
+                    <div class="destination mb-2">
+                        <h3 class="destination__title">{{ 'CONFIRM.MESSAGE.RECIPIENT' | translate }} {{ index + 1 }}</h3>
+                        <div [class.mb-2]="!last" class="zano-table-info__wrap">
+                            <table class="zano-table-info">
+                                <tbody>
+                                    <tr class="zano-table-info__row">
+                                        <td class="zano-table-info__cell">{{ 'CONFIRM.MESSAGE.AMOUNT' | translate }}</td>
+                                        <td class="zano-table-info__cell">
+                                            <div
+                                                *ngIf="destination.asset_id | getAssetInfo as assetInfo"
+                                                class="zano-table-info__amount-cell"
+                                            >
+                                                <div [innerHTML]="assetInfo | getLogoByAssetInfo" class="token-logo mr-0_5"></div>
+                                                <span class="amount mr-0_5">
+                                                    {{ destination.amount | customNumber }}
+                                                </span>
+                                                <span class="ticker">{{ assetInfo.ticker }}</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <mat-divider></mat-divider>
+                                        </td>
+                                    </tr>
+                                    <tr class="zano-table-info__row">
+                                        <td class="zano-table-info__cell">{{ 'CONFIRM.MESSAGE.ADDRESS' | translate }}</td>
+                                        <td
+                                            class="zano-table-info__cell"
+                                            (contextmenu)="variablesService.onContextMenuOnlyCopy($event, destination.address)"
+                                            style="opacity: 0.75"
+                                        >
+                                            {{ destination.address }}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
+                    </div>
+                </ng-container>
 
-                        <hr class="separator" />
-
-                        <div class="row">
-                            <div class="title max-w-19-rem w-100">
-                                {{ 'CONFIRM.MESSAGE.FROM' | translate }}
-                            </div>
-                            <div class="text">
-                                {{ variablesService.current_wallet.address }}
-                            </div>
-                        </div>
-
-                        <hr class="separator" />
-
-                        <div class="row">
-                            <div class="title max-w-19-rem w-100">
-                                {{ 'CONFIRM.MESSAGE.TO' | translate }}
-                            </div>
-                            <div class="text">{{ destination.address }}</div>
-                        </div>
-                    </ng-container>
-
-                    <ng-container *ngIf="!!transfer_params.comment">
-                        <hr class="separator" />
-
-                        <div class="row">
-                            <div class="title max-w-19-rem w-100">
-                                {{ 'CONFIRM.MESSAGE.COMMENT' | translate }}
-                            </div>
-                            <div class="text">{{ transfer_params.comment }}</div>
-                        </div>
-                    </ng-container>
+                <!-- Total -->
+                <div class="total-wrap mb-2">
+                    <h3 class="total__title">{{ 'CONFIRM.MESSAGE.TOTAL' | translate }}</h3>
+                    <div class="zano-table-info__wrap">
+                        <table class="zano-table-info">
+                            <tbody>
+                                <ng-container *ngFor="let total of totals; let last = last">
+                                    <tr class="zano-table-info__row" *ngIf="total.asset_id | getAssetInfo as assetInfo">
+                                        <td class="zano-table-info__cell">
+                                            <div
+                                                class="max-w-19-rem text-ellipsis"
+                                                [tooltip]="assetInfo.full_name"
+                                                [delay]="150"
+                                                [placement]="'bottom'"
+                                                [timeout]="0"
+                                                [timeDelay]="800"
+                                                [tooltipClass]="'table-tooltip'"
+                                                [showWhenNoOverflow]="false"
+                                            >
+                                                {{ assetInfo.full_name }}
+                                            </div>
+                                        </td>
+                                        <td class="zano-table-info__cell">
+                                            <div class="zano-table-info__amount-cell right">
+                                                <div [innerHTML]="assetInfo | getLogoByAssetInfo" class="token-logo mr-0_5"></div>
+                                                <span class="amount mr-0_5">
+                                                    {{ total.total_amount.toString() | customNumber }}
+                                                </span>
+                                                <span class="ticker">{{ assetInfo.ticker }}</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr *ngIf="!last">
+                                        <td colspan="2">
+                                            <mat-divider></mat-divider>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
-                <div *ngIf="variablesService.appPass" class="form__field fixed">
+                <!-- Comment and Fee -->
+                <div class="zano-table-info__wrap mb-2">
+                    <table class="zano-table-info">
+                        <tbody>
+                            <ng-container *ngIf="transfer_params.comment">
+                                <tr class="zano-table-info__row">
+                                    <td class="zano-table-info__cell">{{ 'CONFIRM.MESSAGE.COMMENT' | translate }}</td>
+                                    <td class="zano-table-info__cell">{{ transfer_params.comment }}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2">
+                                        <mat-divider></mat-divider>
+                                    </td>
+                                </tr>
+                            </ng-container>
+                            <tr class="zano-table-info__row">
+                                <td class="zano-table-info__cell">{{ 'CONFIRM.MESSAGE.FEE' | translate }}</td>
+                                <td class="zano-table-info__cell">
+                                    <div class="zano-table-info__amount-cell">
+                                        <div [innerHTML]="ZANO_ASSET_INFO | getLogoByAssetInfo" class="token-logo mr-0_5"></div>
+                                        <span class="amount mr-0_5">
+                                            {{ transfer_params.fee | intToMoney }}
+                                        </span>
+                                        <span class="ticker">{{ ZANO_ASSET_INFO.ticker }}</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Master password -->
+                <fieldset *ngIf="variablesService.appPass" class="form__field fixed">
                     <label for="password">
                         {{ 'LOGIN.MASTER_PASS' | translate }}
                         <span class="color-red">*</span>
@@ -64,16 +135,16 @@
                         (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
                         [class.invalid]="form.touched && form.invalid"
                         [placeholder]="'PLACEHOLDERS.MASTER_PASS_PLACEHOLDER' | translate"
-                        autofocus
                         appAutofocus
+                        aria-describedby="password-error"
+                        autofocus
                         class="form__field--input"
                         formControlName="password"
-                        aria-describedby="password-error"
                         id="password"
                         name="password"
                         type="password"
                     />
-                    <div *ngIf="form.touched && form.invalid" aria-live="assertive" id="password-error" class="error">
+                    <div *ngIf="form.touched && form.invalid" aria-live="assertive" class="error" id="password-error">
                         <div *ngIf="form.hasError('passwordNotMatch') && !form.controls.password.hasError('required')">
                             {{ 'LOGIN.FORM_ERRORS.WRONG_PASSWORD' | translate }}
                         </div>
@@ -81,9 +152,10 @@
                             {{ 'LOGIN.FORM_ERRORS.PASS_REQUIRED' | translate }}
                         </div>
                     </div>
-                </div>
+                </fieldset>
             </div>
 
+            <!-- Actions -->
             <div class="controls w-100" fxFlex="0 0 auto" fxLayout="row nowrap" fxLayoutGap="1rem">
                 <button (click)="onClose()" class="outline big w-100" type="button">
                     {{ 'CONFIRM.BUTTON_CANCEL' | translate }}

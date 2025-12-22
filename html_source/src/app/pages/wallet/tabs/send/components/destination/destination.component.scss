@@ -1,0 +1,44 @@
+.destination-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.6rem;
+
+    .title {
+        text-transform: uppercase;
+        font-weight: 500;
+        font-size: 1.4rem;
+    }
+
+    .duplicate {
+        display: inline-flex;
+        align-items: center;
+
+        color: #24669C;
+        font-weight: 600;
+    }
+
+    .remove {
+        display: inline-flex;
+        align-items: center;
+
+        color: #C35F5F;
+        font-weight: 600;
+    }
+}
+
+.destination-form {
+    .destination-form__row {
+        display: grid;
+        grid-template-columns: minmax(auto, 24rem) minmax(auto, 24rem);
+        gap: 2rem;
+    }
+
+    ::ng-deep {
+        zano-asset-field {
+            ng-select {
+                max-width: 24rem;
+            }
+        }
+    }
+}

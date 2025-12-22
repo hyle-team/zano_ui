@@ -1,5 +1,5 @@
 import { inject, Injectable, NgZone, OnDestroy } from '@angular/core';
-import { DeeplinkParams, Wallet } from '@api/models/wallet.model';
+import { Deeplink, Wallet } from '@api/models/wallet.model';
 import { Contact } from '@api/models/contact.model';
 import { BehaviorSubject, EMPTY, from, mergeMap, Observable, Subject, take, toArray } from 'rxjs';
 import { Idle } from 'idlejs/dist';
@@ -14,7 +14,7 @@ import { AssetBalance, AssetInfo, VerifiedAssetInfoWhitelist } from '@api/models
 import { CurrentPriceForAssets } from '@api/models/api-zano.models';
 import { ApiService } from '@api/services/api.service';
 import { WrapInfo } from '@api/models/wrap-info';
-import { MAX_COMMENT_LENGTH, MAX_WALLET_NAME_LENGTH } from '@parts/data/constants';
+import { DEFAULT_FEE, DEFAULT_FEE_BIG, DEFAULT_PRICE_ALIAS, MAX_COMMENT_LENGTH, MAX_WALLET_NAME_LENGTH } from '@parts/data/constants';
 
 @Injectable({
     providedIn: 'root',
@@ -77,7 +77,8 @@ export class VariablesService implements OnDestroy {
 
     deeplink$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
-    sendActionData$: BehaviorSubject<DeeplinkParams> = new BehaviorSubject<DeeplinkParams>({});
+    // https://docs.zano.org/docs/use/deeplinks/
+    deeplinkData$: BehaviorSubject<Deeplink> = new BehaviorSubject<Deeplink>({});
 
     sync = {
         progress_value: 0,
@@ -98,12 +99,11 @@ export class VariablesService implements OnDestroy {
     // Avoid of execute function before callback complete
     get_recent_transfers = false;
 
-    default_fee = '0.01';
+    default_fee = DEFAULT_FEE;
 
-    default_fee_big: BigNumber = new BigNumber('10000000000');
+    default_fee_big = DEFAULT_FEE_BIG;
 
-    // (0.1 + fee) = 0.11 ZANO
-    default_price_alias: BigNumber = BigNumber.sum('100000000000', this.default_fee_big);
+    default_price_alias = DEFAULT_PRICE_ALIAS;
 
     settings = {
         currency: 'usd',

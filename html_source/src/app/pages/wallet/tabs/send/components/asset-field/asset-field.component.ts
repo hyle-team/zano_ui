@@ -1,6 +1,6 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GetLogoByAssetInfoPipe } from '@parts/pipes/get-logo-by-asset-info.pipe';
 import { IntToMoneyPipeModule } from '@parts/pipes';
 import { IsVisibleControlErrorPipe } from '@parts/pipes/is-visible-control-error.pipe';
@@ -9,6 +9,12 @@ import { TranslateModule } from '@ngx-translate/core';
 import { VisibilityBalanceDirective } from '@parts/directives/visibility-balance.directive';
 import { AssetBalance } from '@api/models/assets.model';
 import { ZANO_ASSET_INFO } from '@parts/data/zano-assets-info';
+import { DestinationFormGroup } from '../../send.component';
+import { combineLatest, Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { VariablesService } from '@parts/services/variables.service';
+
+type Items = { asset: AssetBalance; disabled: boolean }[];
 
 @Component({
     selector: 'zano-asset-field',
@@ -27,32 +33,31 @@ import { ZANO_ASSET_INFO } from '@parts/data/zano-assets-info';
     templateUrl: './asset-field.component.html',
     styleUrls: ['./asset-field.component.scss'],
 })
-export class AssetFieldComponent implements OnChanges {
-    @Input()
-    control_ref: FormControl<string>;
+export class AssetFieldComponent implements OnInit {
+    @Input('formRef')
+    form: DestinationFormGroup;
 
-    @Input()
-    balances: AssetBalance[] = [];
+    items$: Observable<Items>;
 
-    @Input()
-    is_visible_wrap_info = false;
+    variablesService = inject(VariablesService);
 
-    items: (AssetBalance & { disabled: boolean })[] = [];
+    ngOnInit() {
+        this._initItems();
+    }
 
-    ngOnChanges(): void {
-        const disabled = this.is_visible_wrap_info;
-        this.items = this.balances.map((balance: AssetBalance) => prepareAssetBalanceToItem(balance, disabled));
+    private _initItems() {
+        const balances$ = this.variablesService.current_wallet.balances$;
+        const isVisibleWrapInfo$ = this.form.controls.is_visible_wrap_info.valueChanges.pipe(
+            startWith(this.form.controls.is_visible_wrap_info.value)
+        );
+
+        this.items$ = combineLatest([balances$, isVisibleWrapInfo$]).pipe(
+            map(([balances, is_visible_wrap_info]) =>
+                balances.map((asset) => {
+                    const disabled = asset.asset_info.asset_id === ZANO_ASSET_INFO.asset_id ? false : is_visible_wrap_info;
+                    return { asset, disabled };
+                })
+            )
+        );
     }
 }
-
-const prepareAssetBalanceToItem = (balance: AssetBalance, disabled: boolean): AssetBalance & { disabled: boolean } => {
-    const {
-        asset_info: { asset_id },
-    } = balance;
-
-    if (asset_id === ZANO_ASSET_INFO.asset_id) {
-        return { ...balance, disabled: false };
-    }
-
-    return { ...balance, disabled };
-};

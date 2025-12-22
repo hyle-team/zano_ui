@@ -1,8 +1,5 @@
-export interface CurrentPriceForAsset {
-    success: boolean;
-    data: { name: string; usd: number; usd_24h_change: number; fiat_prices: { [key: string]: number } } | string;
-}
+import { PriceInfo } from '@api/models/assets.model';
 
 export interface CurrentPriceForAssets {
-    [key: string]: CurrentPriceForAsset;
+    [key: string]: PriceInfo;
 }

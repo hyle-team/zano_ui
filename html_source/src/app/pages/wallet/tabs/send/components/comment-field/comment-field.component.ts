@@ -13,7 +13,7 @@ import { VariablesService } from '@parts/services/variables.service';
     styleUrls: ['./comment-field.component.scss'],
 })
 export class CommentFieldComponent {
-    @Input() control_ref: FormControl<string>;
+    @Input() controlRef: FormControl<string>;
 
-    variables_service: VariablesService = inject(VariablesService);
+    variablesService: VariablesService = inject(VariablesService);
 }

@@ -12,7 +12,7 @@ import { merge, Subject } from 'rxjs';
 import { debounceTime, startWith, takeUntil, tap } from 'rxjs/operators';
 import { WalletsService } from '@parts/services/wallets.service';
 import { VariablesService } from '@parts/services/variables.service';
-import { DestinationsForm } from '../../send.component';
+import { DestinationFormGroup } from '../../send.component';
 import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 import { BackendService } from '@api/services/backend.service';
 
@@ -36,7 +36,7 @@ import { BackendService } from '@api/services/backend.service';
     styleUrls: ['./address-field.component.scss'],
 })
 export class AddressFieldComponent implements OnInit, OnDestroy {
-    @Input() control_ref: DestinationsForm;
+    @Input('formRef') form: DestinationFormGroup;
 
     @Input() label: string = 'SEND.ADDRESS';
 
@@ -64,7 +64,7 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
             controls: {
                 address: { value },
             },
-        } = this.control_ref;
+        } = this.form;
         return !this.loading && value.startsWith('@') && value.length > 1 && !this.items.length;
     }
 
@@ -73,7 +73,7 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
             controls: {
                 address: { value },
             },
-        } = this.control_ref;
+        } = this.form;
         return !this.loading && value.startsWith('@') && value.length === 1 && !this.items.length;
     }
 
@@ -90,7 +90,7 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
     ngOnInit() {
         const {
             controls: { address: addressControl },
-        } = this.control_ref;
+        } = this.form;
 
         addressControl.valueChanges
             .pipe(
@@ -126,10 +126,10 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
             });
 
         merge(
-            this.control_ref.controls.address.statusChanges,
-            this.control_ref.controls.address.valueChanges,
-            this.control_ref.statusChanges,
-            this.control_ref.valueChanges
+            this.form.controls.address.statusChanges,
+            this.form.controls.address.valueChanges,
+            this.form.statusChanges,
+            this.form.valueChanges
         )
             .pipe(takeUntil(this._destroy$))
             .subscribe(() => this.updateErrorMessage());
@@ -145,7 +145,7 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
 
         const {
             controls: { address: addressControl },
-        } = this.control_ref;
+        } = this.form;
         const { clipboardData } = event;
 
         let value: string = clipboardData.getData('Text') ?? '';
@@ -171,7 +171,7 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
     }
 
     updateErrorMessage() {
-        const address = this.control_ref.controls.address;
+        const address = this.form.controls.address;
         let message = '';
 
         switch (true) {

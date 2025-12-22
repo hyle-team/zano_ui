@@ -21,6 +21,6 @@ export class SyncModalComponent implements OnInit, OnDestroy {
 
     canselAction(): void {
         this.variablesService.deeplink$.next(null);
-        this.variablesService.sendActionData$.next({});
+        this.variablesService.deeplinkData$.next({});
     }
 }

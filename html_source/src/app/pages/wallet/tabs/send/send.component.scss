@@ -2,16 +2,3 @@
     width: 100%;
 }
 
-.destination {
-    position: relative;
-
-    .remove {
-        position: absolute;
-        color: var(--azure-500);
-        cursor: pointer;
-        width: 2rem;
-        height: 2rem;
-        right: -3.6rem;
-        top: 4rem;
-    }
-}

@@ -204,4 +204,6 @@ export class HistoryComponent implements OnInit, OnDestroy {
             this.opened_transaction_details = tx_hash;
         }
     }
+
+    protected readonly Array = Array;
 }

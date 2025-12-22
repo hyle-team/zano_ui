@@ -1,4 +1,4 @@
-export const materialZanoIcons = [
+export const zanoIcons = [
     'zano-arrow-left',
     'zano-arrow-right',
     'zano-balance',

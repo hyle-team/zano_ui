@@ -15,7 +15,9 @@ import { NonNullableFormBuilder, Validators } from '@angular/forms';
 import { TransferParams } from '@api/models/transfer.model';
 import { VariablesService } from '@parts/services/variables.service';
 import { ZanoValidators } from '@parts/utils/zano-validators';
-import { PriceInfo } from '@api/models/assets.model';
+import { ZANO_ASSET_INFO } from '@parts/data/zano-assets-info';
+import { Destination } from '@api/models/custom-asstest.model';
+import BigNumber from 'bignumber.js';
 
 @Component({
     selector: 'app-send-modal',
@@ -28,8 +30,6 @@ export class SendModalComponent implements OnInit, OnDestroy {
 
     @Input() transfer_params: TransferParams;
 
-    @Input() price_info: PriceInfo;
-
     @Output() confirmed: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     cdr = inject(ChangeDetectorRef);
@@ -40,6 +40,8 @@ export class SendModalComponent implements OnInit, OnDestroy {
         password: this.fb.control(''),
         appPass: this.fb.control(''),
     });
+
+    totals: { asset_id: string; total_amount: BigNumber }[] = [];
 
     constructor(public variablesService: VariablesService, private renderer: Renderer2) {}
 
@@ -54,10 +56,27 @@ export class SendModalComponent implements OnInit, OnDestroy {
             this.form.controls.password.setValidators([Validators.required]);
             this.form.updateValueAndValidity();
         }
+
+        this.calculateTotals();
     }
 
     ngOnDestroy(): void {
         this.renderer.removeClass(document.body, 'no-scroll');
+    }
+
+    calculateTotals(): void {
+        if (this.transfer_params?.destinations) {
+            const totalsMap = new Map<string, BigNumber>();
+            for (const destination of this.transfer_params.destinations) {
+                const { asset_id, amount } = destination;
+                const currentTotal = totalsMap.get(asset_id) || new BigNumber(0);
+                totalsMap.set(asset_id, currentTotal.plus(new BigNumber(amount)));
+            }
+            this.totals = Array.from(totalsMap.entries()).map(([asset_id, total_amount]) => ({
+                asset_id,
+                total_amount,
+            }));
+        }
     }
 
     beforeSubmit(): void {
@@ -78,4 +97,10 @@ export class SendModalComponent implements OnInit, OnDestroy {
     onClose(): void {
         this.confirmed.emit(false);
     }
+
+    trackByFn(index: number, value: Destination): number | string {
+        return value.asset_id ?? index;
+    }
+
+    protected readonly ZANO_ASSET_INFO = ZANO_ASSET_INFO;
 }

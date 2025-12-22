@@ -1,6 +1,6 @@
 import { Component, HostBinding, NgZone, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { VariablesService } from '@parts/services/variables.service';
-import { DeeplinkParams, PushOffer, Wallet } from '@api/models/wallet.model';
+import { Deeplink, PushOffer, Wallet } from '@api/models/wallet.model';
 import { BigNumber } from 'bignumber.js';
 import { MIXIN } from '@parts/data/constants';
 import { Subject } from 'rxjs';
@@ -28,7 +28,7 @@ export class DeeplinkModalComponent implements OnInit, OnDestroy {
 
     marketplaceConfirmHash: any = null;
 
-    actionData: DeeplinkParams = {};
+    actionData: Deeplink = {};
 
     defaultMixin = MIXIN;
 
@@ -87,7 +87,7 @@ export class DeeplinkModalComponent implements OnInit, OnDestroy {
         this.renderer.removeClass(document.body, 'no-scroll');
     }
 
-    parseDeeplink(deeplink): DeeplinkParams {
+    parseDeeplink(deeplink): Deeplink {
         const quotesRex = new RegExp(/'|"|”|%E2%80%9D|%22/g);
         const spaceSymbolRex = new RegExp(/%20/g);
         const newObj = {};
@@ -102,7 +102,7 @@ export class DeeplinkModalComponent implements OnInit, OnDestroy {
 
     canselAction(): void {
         this.variablesService.deeplink$.next(null);
-        this.variablesService.sendActionData$.next({});
+        this.variablesService.deeplinkData$.next({});
         this.actionData = {};
         this.secondStep = false;
     }
@@ -147,7 +147,7 @@ export class DeeplinkModalComponent implements OnInit, OnDestroy {
 
     nextStep(): void {
         if (this.actionData.action === 'send') {
-            this.variablesService.sendActionData$.next(this.actionData);
+            this.variablesService.deeplinkData$.next(this.actionData);
             this.variablesService.deeplink$.next(null);
             this.variablesService.setCurrentWallet(this.walletToPayId);
             this._router.navigate(['/wallet/send']).then();

@@ -26,11 +26,19 @@ export class CustomAssetsComponent implements OnInit {
         currentPage: 1,
     };
 
-    public variablesService: VariablesService = inject(VariablesService);
+    variablesService: VariablesService = inject(VariablesService);
 
     private readonly _matDialog: MatDialog = inject(MatDialog);
 
     private readonly _walletsService: WalletsService = inject(WalletsService);
+
+    get disabledCreateNewAsset(): boolean {
+        const { current_wallet, daemon_state } = this.variablesService;
+        if (!current_wallet) {
+            return true;
+        }
+        return !current_wallet.loaded || daemon_state !== 2;
+    }
 
     get assetInfoItems(): AssetInfo[] {
         return this._walletsService.currentWallet?.assetsInfoWhitelist?.own_assets ?? [];
@@ -118,4 +126,6 @@ export class CustomAssetsComponent implements OnInit {
         const { currentWallet } = this._walletsService;
         this._walletsService.loadAssetsInfoWhitelist(currentWallet);
     }
+
+    protected readonly Array = Array;
 }

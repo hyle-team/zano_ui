@@ -501,4 +501,6 @@ export class StakingComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         return null;
     }
+
+    protected readonly Array = Array;
 }

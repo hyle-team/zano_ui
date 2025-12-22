@@ -18,10 +18,10 @@ import { FormsModule } from '@angular/forms';
 import { RegisterContextTemplatesComponent } from '@parts/components/register-context-templates.component';
 import { DEFAULT_DIALOG_CONFIG, DialogConfig } from '@angular/cdk/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
-import { materialZanoIcons } from '../assets/material-zano-icons';
+import { zanoIcons } from '../assets/zano-icons';
 import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
 
-export function highchartsFactory(): any[] {
+function highchartsFactory(): any[] {
     highcharts.setOptions({
         time: {
             useUTC: false,
@@ -31,12 +31,12 @@ export function highchartsFactory(): any[] {
     return [exporting];
 }
 
-export const provideHighchartsFactory = {
+const provideHighchartsFactory = {
     provide: HIGHCHARTS_MODULES,
     useFactory: highchartsFactory,
 };
 
-export function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
+function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
 }
 
@@ -98,14 +98,14 @@ export class AppModule {
     private _sanitizer: DomSanitizer = inject(DomSanitizer);
 
     constructor() {
-        this._registerIcons(materialZanoIcons);
+        this._registerIcons(zanoIcons);
     }
 
-    private _registerIcons(icons: Array<string>): void {
-        icons.forEach((icon: string) => {
+    private _registerIcons(arr: Array<string>): void {
+        arr.forEach((iconName: string) => {
             this._matIconRegistry.addSvgIcon(
-                icon,
-                this._sanitizer.bypassSecurityTrustResourceUrl(`assets/material-zano-icons/${icon}.svg`)
+                iconName,
+                this._sanitizer.bypassSecurityTrustResourceUrl(`assets/zano-icons/${iconName}.svg`)
             );
         });
     }

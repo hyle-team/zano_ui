@@ -11,22 +11,24 @@ import {
 } from './assets.model';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { AliasInfo, AliasInfoList } from '@api/models/alias.model';
-import { TransferFormValue } from '@api/models/transfer.model';
 import { ZANO_ASSET_INFO } from '@parts/data/zano-assets-info';
 import { map } from 'rxjs/operators';
 import { DEFAULT_ASSET_LOGO_SRC } from '@parts/data/constants';
 import { CurrentPriceForAssets } from '@api/models/api-zano.models';
 import { getFiatValue } from '@parts/functions/get-fiat-value';
+import { TransferFormValue } from '../../pages/wallet/tabs/send/send.component';
 
 export const defaultAssetsInfoWhitelist = { global_whitelist: [], local_whitelist: [], own_assets: [] };
 
-const defaultBalances = [{
-    asset_info: ZANO_ASSET_INFO,
-    awaiting_in: 0,
-    awaiting_out: 0,
-    total: 0,
-    unlocked: 0
-}];
+const defaultBalances = [
+    {
+        asset_info: ZANO_ASSET_INFO,
+        awaiting_in: 0,
+        awaiting_out: 0,
+        total: 0,
+        unlocked: 0,
+    },
+];
 
 const sortBalances = (
     value: AssetBalances | null | undefined,
@@ -66,7 +68,6 @@ const sortBalances = (
     sortedBalances.push(...withFiat.map(({ balance }) => balance));
     return sortedBalances;
 };
-
 
 const prepareBalances = (
     value: [AssetBalances, AssetsInfoWhitelist, VerifiedAssetInfoWhitelist, LocalBlacklistVerifiedAssets, CurrentPriceForAssets]
@@ -329,10 +330,9 @@ export class Wallet {
     }
 }
 
-export interface DeeplinkParams {
-    action?: 'send' | string;
-    address?: string;
-    amount?: string;
+export interface Deeplink {
+    action?: 'send' | 'escrow' | 'marketplace_offer_create';
+    // TODO: Create new interfaces for escrow and marketplace_offer_create
     my_deposit?: string;
     seller_deposit?: string;
     seller_address?: string;
@@ -345,10 +345,17 @@ export interface DeeplinkParams {
     img_url?: string;
     url?: string;
     contact?: string;
-    comment?: string;
     comments?: string;
+    comment?: string;
     mixins?: string;
     fee?: string;
+}
+
+export interface SendDeeplink extends Deeplink {
+    address?: string;
+    amount?: string;
+    asset_id?: string;
+    comment?: string;
 }
 
 export interface PushOffer {

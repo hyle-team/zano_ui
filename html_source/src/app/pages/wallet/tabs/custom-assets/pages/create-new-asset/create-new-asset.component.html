@@ -3,6 +3,7 @@
 
     <form
         role="form"
+        *ngIf="variablesService.current_wallet.loaded; else skeletonTemplate"
         (ngSubmit)="submit()"
         [formGroup]="form"
         class="form"
@@ -236,8 +237,26 @@
             </div>
         </fieldset>
 
-        <button [disabled]="form.invalid" class="primary big max-w-19-rem w-100" type="submit">
+        <button [disabled]="disabledCreate" class="primary big max-w-19-rem w-100" type="submit">
             {{ 'CREATE_NEW_ASSETS.FORM.BUTTONS.BUTTON1' | translate }}
         </button>
     </form>
 </div>
+
+<ng-template #skeletonTemplate>
+    <div class="skeleton-form">
+        <div class="skeleton skeleton-form-label-1 mb-2"></div>
+        <div class="skeleton skeleton-form-field mb-2"></div>
+
+        <div class="skeleton skeleton-form-label-1 mb-2"></div>
+        <div class="skeleton skeleton-form-field mb-2"></div>
+
+        <div class="skeleton skeleton-form-label-1 mb-2"></div>
+        <div class="skeleton skeleton-form-field mb-2"></div>
+
+        <div class="skeleton skeleton-form-label-2 mb-2"></div>
+        <div class="skeleton skeleton-form-field-description mb-2"></div>
+
+        <div class="skeleton skeleton-form-button"></div>
+    </div>
+</ng-template>

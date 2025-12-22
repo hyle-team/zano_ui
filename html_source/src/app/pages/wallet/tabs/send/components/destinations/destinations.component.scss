@@ -1,0 +1,26 @@
+.destinations {
+    display: flex;
+    flex-direction: column;
+
+    mat-divider {
+        margin-bottom: 2rem;
+        height: 2px;
+        border-top-color: #11316B;
+    }
+}
+
+.add-destination-button {
+    margin-bottom: 2rem;
+
+    justify-content: flex-start;
+    color: var(--azure-500);
+
+    & > mat-icon {
+        &:first-child {
+            margin-right: 0.8rem;
+        }
+        &:last-child {
+            margin-left: 0.8rem;
+        }
+    }
+}

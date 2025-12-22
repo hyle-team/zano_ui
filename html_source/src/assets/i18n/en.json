@@ -100,9 +100,9 @@
             "ARIA_LABEL1": "Wallet synchronization progress"
         }
     },
-    "ADD_ANOTHER_DESTINATION": {
-        "TEXT1": "Add another destination",
-        "TEXT2": "You can add another address for sending"
+    "ADD_DESTINATION": {
+        "TEXT1": "Add recipient",
+        "TEXT2": "You can add another address for destination."
     },
     "ASSETS": {
         "DROP_DOWN_MENU": {
@@ -232,10 +232,12 @@
         "BUTTON_CANCEL": "Cancel",
         "BUTTON_CONFIRM": "Send",
         "MESSAGE": {
+            "ADDRESS": "Address",
+            "AMOUNT": "Amount",
             "COMMENT": "Comment",
-            "FROM": "From",
-            "SEND": "Send",
-            "TO": "To"
+            "FEE": "Fee",
+            "RECIPIENT": "Recipient",
+            "TOTAL": "Total"
         },
         "TITLE": "Transaction"
     },
@@ -848,10 +850,16 @@
         "BUTTON": "Send",
         "COMMENT": "Comment",
         "DETAILS": "Advanced option",
+        "DUPLICATE": "Duplicate",
         "ERROR_CODES": {
             "NOT_ENOUGH_MONEY": "Not enough funds for this transaction"
         },
         "FEE": "Fee",
+        "FORM": {
+            "HINTS": {
+                "LABEL1": "Available"
+            }
+        },
         "FORM_ERRORS": {
             "ADDRESS_NOT_VALID": "Address not valid",
             "ADDRESS_REQUIRED": "Address is required",
@@ -863,6 +871,7 @@
             "FEE_REQUIRED": "Please enter the fee amount.",
             "GREAT_THAN_UNWRAPPED_COINS": "Amount is bigger than ERC20 tokens left available",
             "LESS_THAN_ZANO_NEEDED": "Too small amount to cover ERC20 fee",
+            "MAX_DESTINATIONS": "Maximum destinations reached: {{ max }}",
             "MAX_LENGTH": "Maximum comment length reached",
             "MUST_BE_GREATER_THAN_ZERO": "Must be greater than zero",
             "WRAP_INFO_NULL": "Failed to request wrap state"
@@ -870,6 +879,8 @@
         "HIDE": "Retain receiver address",
         "INCLUDE_SENDER_ADDRESS": "Show my address to the receiver",
         "MIXIN": "Mixin",
+        "RECIPIENT": "Recipient",
+        "REMOVE": "Remove",
         "SUCCESS_SENT": "Transaction sent",
         "WRAP": {
             "ESTIMATE": "Transaction Estimates",

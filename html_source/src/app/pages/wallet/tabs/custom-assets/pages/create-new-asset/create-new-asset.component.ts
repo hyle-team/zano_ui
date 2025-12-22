@@ -32,7 +32,7 @@ type CreateNewAssetFrom = FormGroup<{
 export class CreateNewAssetComponent {
     public readonly breadcrumbItems: BreadcrumbItems = [
         {
-            routerLink: '/custom-assets',
+            routerLink: '/wallet/custom-assets',
             title: 'CREATE_NEW_ASSETS.BREADCRUMBS.BREADCRUMB1',
         },
         {
@@ -43,6 +43,14 @@ export class CreateNewAssetComponent {
     public readonly variablesService: VariablesService = inject(VariablesService);
 
     private readonly _backendService: BackendService = inject(BackendService);
+
+    get disabledCreate(): boolean {
+        const { current_wallet, daemon_state } = this.variablesService;
+        if (!current_wallet) {
+            return true;
+        }
+        return !current_wallet.loaded || daemon_state !== 2 || this.form.invalid;
+    }
 
     private readonly _fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
 

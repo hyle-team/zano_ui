@@ -9,18 +9,18 @@
         [placeholder]="'PLACEHOLDERS.AMOUNT_PLACEHOLDER' | translate"
         appInputValidate="integer"
         class="form__field--input"
-        [formControl]="control_ref"
+        [formControl]="controlRef"
         id="send-mixin"
         aria-describedby="send-mixin-error"
         maxlength="3"
         type="text"
     />
 
-    <div *ngIf="control_ref | isVisibleControlError" aria-live="assertive" id="send-mixin-error" class="error">
-        <div *ngIf="control_ref.hasError('required')">
+    <div *ngIf="controlRef | isVisibleControlError" aria-live="assertive" id="send-mixin-error" class="error">
+        <div *ngIf="controlRef.hasError('required')">
             {{ 'ERRORS.REQUIRED' | translate }}
         </div>
-        <div *ngIf="control_ref.hasError('min')">{{ 'Min' }} {{ control_ref.getError('min')['min'] }}</div>
-        <div *ngIf="control_ref.hasError('max')">{{ 'Max' }} {{ control_ref.getError('max')['max'] }}</div>
+        <div *ngIf="controlRef.hasError('min')">{{ 'Min' }} {{ controlRef.getError('min')['min'] }}</div>
+        <div *ngIf="controlRef.hasError('max')">{{ 'Max' }} {{ controlRef.getError('max')['max'] }}</div>
     </div>
 </fieldset>
