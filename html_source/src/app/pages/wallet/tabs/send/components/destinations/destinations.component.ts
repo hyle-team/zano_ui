@@ -12,14 +12,7 @@ import { IsVisibleControlErrorPipe } from '@parts/pipes/is-visible-control-error
 @Component({
     selector: 'zano-destinations',
     standalone: true,
-    imports: [
-        CommonModule,
-        MatIconModule,
-        TranslateModule,
-        MatDividerModule,
-        DestinationComponent,
-        MatTooltipModule
-    ],
+    imports: [CommonModule, MatIconModule, TranslateModule, MatDividerModule, DestinationComponent, MatTooltipModule],
     templateUrl: './destinations.component.html',
     styleUrls: ['./destinations.component.scss'],
 })
@@ -27,6 +20,8 @@ export class DestinationsComponent {
     @Input('formArrayRef') formArray: FormArray<DestinationFormGroup>;
 
     @Output() onRemove = new EventEmitter<number>();
+
+    @Output() onDuplicate = new EventEmitter<DestinationFormGroup>();
 
     @Output() onAdd = new EventEmitter<void>();
 
@@ -36,5 +31,9 @@ export class DestinationsComponent {
 
     add() {
         this.onAdd.emit();
+    }
+
+    duplicate(form: DestinationFormGroup) {
+        this.onDuplicate.emit(form);
     }
 }

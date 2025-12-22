@@ -28,11 +28,19 @@ export class DestinationComponent {
 
     @Input() hideRemove: boolean = true;
 
+    @Input() hideDuplicate: boolean = false;
+
     @Input('formRef') form: DestinationFormGroup;
 
     @Output() onRemove = new EventEmitter<void>();
 
+    @Output() onDuplicate = new EventEmitter<DestinationFormGroup>();
+
     remove() {
         this.onRemove.emit();
+    }
+
+    duplicate() {
+        this.onDuplicate.emit(this.form);
     }
 }

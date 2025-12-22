@@ -232,10 +232,12 @@
         "BUTTON_CANCEL": "Cancel",
         "BUTTON_CONFIRM": "Send",
         "MESSAGE": {
+            "ADDRESS": "Address",
+            "AMOUNT": "Amount",
             "COMMENT": "Comment",
-            "FROM": "From",
-            "SEND": "Send",
-            "TO": "To"
+            "FEE": "Fee",
+            "RECIPIENT": "Recipient",
+            "TOTAL": "Total"
         },
         "TITLE": "Transaction"
     },
@@ -848,6 +850,7 @@
         "BUTTON": "Send",
         "COMMENT": "Comment",
         "DETAILS": "Advanced option",
+        "DUPLICATE": "Duplicate",
         "ERROR_CODES": {
             "NOT_ENOUGH_MONEY": "Not enough funds for this transaction"
         },
@@ -876,6 +879,8 @@
         "HIDE": "Retain receiver address",
         "INCLUDE_SENDER_ADDRESS": "Show my address to the receiver",
         "MIXIN": "Mixin",
+        "RECIPIENT": "Recipient",
+        "REMOVE": "Remove",
         "SUCCESS_SENT": "Transaction sent",
         "WRAP": {
             "ESTIMATE": "Transaction Estimates",

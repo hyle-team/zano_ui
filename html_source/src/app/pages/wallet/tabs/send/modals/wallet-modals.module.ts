@@ -5,11 +5,14 @@ import { SendDetailsModalComponent } from './send-details-modal/send-details-mod
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { GetAssetInfoPipe } from '@parts/pipes';
+import { GetAssetInfoPipe, IntToMoneyPipeModule } from '@parts/pipes';
 import { CopyButtonComponent } from '@parts/components/copy-button.component';
 import { MatIconModule } from '@angular/material/icon';
 import { AutoFocusDirective } from '@parts/directives/autofocus.directive';
 import { CustomNumberFormatPipe } from '@parts/pipes/custom-number.pipe';
+import { MatDividerModule } from '@angular/material/divider';
+import { GetLogoByAssetInfoPipe } from '@parts/pipes/get-logo-by-asset-info.pipe';
+import { TooltipModule } from '@parts/directives';
 
 @NgModule({
     declarations: [SendModalComponent, SendDetailsModalComponent],
@@ -23,6 +26,10 @@ import { CustomNumberFormatPipe } from '@parts/pipes/custom-number.pipe';
         MatIconModule,
         AutoFocusDirective,
         CustomNumberFormatPipe,
+        MatDividerModule,
+        GetLogoByAssetInfoPipe,
+        IntToMoneyPipeModule,
+        TooltipModule,
     ],
     exports: [SendModalComponent, SendDetailsModalComponent],
 })

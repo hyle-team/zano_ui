@@ -10,11 +10,19 @@
         font-size: 1.4rem;
     }
 
-    .remove {
+    .duplicate {
         display: inline-flex;
         align-items: center;
 
         color: #24669C;
+        font-weight: 600;
+    }
+
+    .remove {
+        display: inline-flex;
+        align-items: center;
+
+        color: #C35F5F;
         font-weight: 600;
     }
 }

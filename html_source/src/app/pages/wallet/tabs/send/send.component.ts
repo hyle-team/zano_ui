@@ -164,6 +164,13 @@ export class SendComponent implements OnDestroy {
             .toString();
     }
 
+    duplicateDestination(copyDestinationFormGroup: DestinationFormGroup): void {
+        const destination = this._createDestinationFromGroup();
+        destination.patchValue(copyDestinationFormGroup.getRawValue());
+
+        this.form.controls.destinations.push(destination);
+    }
+
     getTransferParams() {
         const transfer_form_value: TransferFormValue = this.form.getRawValue();
         const { current_wallet } = this.variables_service;
@@ -288,7 +295,7 @@ export class SendComponent implements OnDestroy {
                         let totalZanoAmount = new BigNumber(0);
                         const { current_wallet } = this.variables_service;
 
-                        destinations.forEach(destination => {
+                        destinations.forEach((destination) => {
                             if (destination.asset_id === ZANO_ASSET_INFO.asset_id) {
                                 const asset = current_wallet.getBalanceByAssetId(destination.asset_id);
                                 const amount = new BigNumber(
@@ -563,9 +570,7 @@ export class SendComponent implements OnDestroy {
 
                                     const priceInfoForDest = currentPriceForAssets[destinationValue.asset_id];
                                     const currencyPriceForDest =
-                                        typeof priceInfoForDest?.data === 'object'
-                                            ? priceInfoForDest.data.fiat_prices[currency] ?? 0
-                                            : 0;
+                                        typeof priceInfoForDest?.data === 'object' ? priceInfoForDest.data.fiat_prices[currency] ?? 0 : 0;
 
                                     const destAmountInAsset = new BigNumber(
                                         destIsCurrency ? new BigNumber(destAmount).dividedBy(currencyPriceForDest || 1) : destAmount

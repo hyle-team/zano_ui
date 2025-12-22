@@ -2,8 +2,10 @@
     <ng-container *ngFor="let form of formArray.controls; let index = index; let first = first; let last = last">
         <zano-destination
             (onRemove)="remove(index)"
+            (onDuplicate)="duplicate($event)"
             [formRef]="form"
             [hideRemove]="formArray.controls.length < 2"
+            [hideDuplicate]="formArray.hasError('max_destinations')"
             [index]="index"
         ></zano-destination>
 

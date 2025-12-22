@@ -8,18 +8,26 @@
 
 <ng-template #headerTemplate>
     <div class="destination-header">
-        <h3 class="title">Recipient {{ index + 1 }}</h3>
+        <h3 class="title">{{ 'SEND.RECIPIENT' | translate }} {{ index + 1 }}</h3>
 
-        <button
-            *ngIf="!hideRemove"
-            (click)="remove()"
-            [attr.aria-label]="'ACCESSIBILITY.SEND.LABELS.LABEL1' | translate"
-            class="remove"
-            type="button"
-        >
-            <mat-icon svgIcon="zano-close"></mat-icon>
-            <span class="ml-1">Remove</span>
-        </button>
+        <!-- Actions -->
+        <div class="actions">
+            <button *ngIf="!hideDuplicate" class="duplicate" (click)="duplicate()" type="button" aria-label="Duplicate">
+                <mat-icon svgIcon="zano-copy"></mat-icon>
+                <span class="ml-1">{{ 'SEND.DUPLICATE' | translate }}</span>
+            </button>
+
+            <button
+                *ngIf="!hideRemove"
+                (click)="remove()"
+                [attr.aria-label]="'ACCESSIBILITY.SEND.LABELS.LABEL1' | translate"
+                class="remove ml-2"
+                type="button"
+            >
+                <mat-icon svgIcon="zano-close"></mat-icon>
+                <span class="ml-1">{{ 'SEND.REMOVE' | translate }}</span>
+            </button>
+        </div>
     </div>
 </ng-template>
 

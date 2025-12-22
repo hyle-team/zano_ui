@@ -232,10 +232,12 @@
         "BUTTON_CANCEL": "Batal",
         "BUTTON_CONFIRM": "Kirim",
         "MESSAGE": {
+            "ADDRESS": "Alamat",
+            "AMOUNT": "Jumlah",
             "COMMENT": "Komentar",
-            "FROM": "Dari",
-            "SEND": "Kirim",
-            "TO": "Kepada"
+            "FEE": "Biaya",
+            "RECIPIENT": "Penerima",
+            "TOTAL": "Total"
         },
         "TITLE": "Transaksi"
     },
@@ -848,6 +850,7 @@
         "BUTTON": "Kirim",
         "COMMENT": "Komentar",
         "DETAILS": "Opsi lanjutan",
+        "DUPLICATE": "Duplikat",
         "ERROR_CODES": {
             "NOT_ENOUGH_MONEY": "Dana tidak cukup untuk transaksi ini"
         },
@@ -876,6 +879,8 @@
         "HIDE": "Pertahankan alamat penerima",
         "INCLUDE_SENDER_ADDRESS": "Tampilkan alamat saya kepada penerima",
         "MIXIN": "Mixin",
+        "RECIPIENT": "Penerima",
+        "REMOVE": "Indonesian",
         "SUCCESS_SENT": "Transaksi dikirim",
         "WRAP": {
             "ESTIMATE": "Perkiraan Transaksi",

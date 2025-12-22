@@ -232,10 +232,12 @@
         "BUTTON_CANCEL": "Cancelar",
         "BUTTON_CONFIRM": "Enviar",
         "MESSAGE": {
+            "ADDRESS": "Endereço",
+            "AMOUNT": "Montante",
             "COMMENT": "Comentário",
-            "FROM": "De",
-            "SEND": "Enviar",
-            "TO": "Para"
+            "FEE": "Taxa",
+            "RECIPIENT": "Destinatário",
+            "TOTAL": "Total"
         },
         "TITLE": "Transação"
     },
@@ -848,6 +850,7 @@
         "BUTTON": "Enviar",
         "COMMENT": "Comentário",
         "DETAILS": "Opção avançada",
+        "DUPLICATE": "Duplicado",
         "ERROR_CODES": {
             "NOT_ENOUGH_MONEY": "Fundos insuficientes para esta transação"
         },
@@ -876,6 +879,8 @@
         "HIDE": "Manter endereço do destinatário",
         "INCLUDE_SENDER_ADDRESS": "Mostrar meu endereço ao destinatário",
         "MIXIN": "Mixin",
+        "RECIPIENT": "Destinatário",
+        "REMOVE": "Português",
         "SUCCESS_SENT": "Transação enviada",
         "WRAP": {
             "ESTIMATE": "Estimativas da Transação",
