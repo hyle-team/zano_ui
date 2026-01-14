@@ -100,9 +100,9 @@
             "ARIA_LABEL1": "Progression de la synchronisation du portefeuille"
         }
     },
-    "ADD_ANOTHER_DESTINATION": {
-        "TEXT1": "Ajouter une autre destination",
-        "TEXT2": "Vous pouvez ajouter une autre adresse pour l'envoi"
+    "ADD_DESTINATION": {
+        "TEXT1": "Ajouter un destinataire",
+        "TEXT2": "Vous pouvez ajouter une autre adresse de destination."
     },
     "ASSETS": {
         "DROP_DOWN_MENU": {
@@ -232,10 +232,12 @@
         "BUTTON_CANCEL": "Annuler",
         "BUTTON_CONFIRM": "Envoyer",
         "MESSAGE": {
+            "ADDRESS": "Adresse",
+            "AMOUNT": "Montant",
             "COMMENT": "Commentaire",
-            "FROM": "De",
-            "SEND": "Envoyer",
-            "TO": "À"
+            "FEE": "Frais",
+            "RECIPIENT": "Destinataire",
+            "TOTAL": "Total"
         },
         "TITLE": "Transaction"
     },
@@ -848,10 +850,16 @@
         "BUTTON": "Envoyer",
         "COMMENT": "Commentaire",
         "DETAILS": "Option avancée",
+        "DUPLICATE": "Double",
         "ERROR_CODES": {
             "NOT_ENOUGH_MONEY": "Fonds insuffisants pour cette transaction"
         },
         "FEE": "Frais",
+        "FORM": {
+            "HINTS": {
+                "LABEL1": "Disponible"
+            }
+        },
         "FORM_ERRORS": {
             "ADDRESS_NOT_VALID": "Adresse non valide",
             "ADDRESS_REQUIRED": "L'adresse est requise",
@@ -863,6 +871,7 @@
             "FEE_REQUIRED": "Veuillez entrer le montant des frais.",
             "GREAT_THAN_UNWRAPPED_COINS": "Le montant est supérieur aux jetons ERC20 disponibles restants",
             "LESS_THAN_ZANO_NEEDED": "Montant trop petit pour couvrir les frais ERC20",
+            "MAX_DESTINATIONS": "Nombre maximal de destinations atteint: {{ max }}",
             "MAX_LENGTH": "Longueur maximale du commentaire atteinte",
             "MUST_BE_GREATER_THAN_ZERO": "Doit être supérieur à zéro",
             "WRAP_INFO_NULL": "Échec de la demande de l'état de 'wrap'"
@@ -870,6 +879,8 @@
         "HIDE": "Conserver l'adresse du destinataire",
         "INCLUDE_SENDER_ADDRESS": "Afficher mon adresse au destinataire",
         "MIXIN": "Mixin",
+        "RECIPIENT": "Destinataire",
+        "REMOVE": "Français",
         "SUCCESS_SENT": "Transaction envoyée",
         "WRAP": {
             "ESTIMATE": "Estimations de transaction",

@@ -100,9 +100,9 @@
             "ARIA_LABEL1": "Fortschritt der Wallet-Synchronisierung"
         }
     },
-    "ADD_ANOTHER_DESTINATION": {
-        "TEXT1": "Weiteres Ziel hinzufügen",
-        "TEXT2": "Sie können eine weitere Adresse zum Senden hinzufügen"
+    "ADD_DESTINATION": {
+        "TEXT1": "Empfänger hinzufügen",
+        "TEXT2": "Sie können eine weitere Zieladresse hinzufügen."
     },
     "ASSETS": {
         "DROP_DOWN_MENU": {
@@ -232,10 +232,12 @@
         "BUTTON_CANCEL": "Abbrechen",
         "BUTTON_CONFIRM": "Senden",
         "MESSAGE": {
+            "ADDRESS": "Adresse",
+            "AMOUNT": "Betrag",
             "COMMENT": "Kommentar",
-            "FROM": "Von",
-            "SEND": "Senden",
-            "TO": "An"
+            "FEE": "Gebühr",
+            "RECIPIENT": "Empfänger",
+            "TOTAL": "Gesamt"
         },
         "TITLE": "Transaktion"
     },
@@ -848,10 +850,16 @@
         "BUTTON": "Senden",
         "COMMENT": "Kommentar",
         "DETAILS": "Erweiterte Option",
+        "DUPLICATE": "Duplikat",
         "ERROR_CODES": {
             "NOT_ENOUGH_MONEY": "Nicht genügend Mittel für diese Transaktion"
         },
         "FEE": "Gebühr",
+        "FORM": {
+            "HINTS": {
+                "LABEL1": "Verfügbar"
+            }
+        },
         "FORM_ERRORS": {
             "ADDRESS_NOT_VALID": "Adresse ist ungültig",
             "ADDRESS_REQUIRED": "Adresse ist erforderlich",
@@ -863,6 +871,7 @@
             "FEE_REQUIRED": "Bitte geben Sie den Gebührenbetrag ein.",
             "GREAT_THAN_UNWRAPPED_COINS": "Betrag ist größer als die verbleibenden verfügbaren ERC20-Tokens",
             "LESS_THAN_ZANO_NEEDED": "Zu kleiner Betrag, um die ERC20-Gebühr zu decken",
+            "MAX_DESTINATIONS": "Maximale Anzahl erreichter Ziele: {{ max }}",
             "MAX_LENGTH": "Maximale Länge des Kommentars erreicht",
             "MUST_BE_GREATER_THAN_ZERO": "Muss größer als null sein",
             "WRAP_INFO_NULL": "Fehler beim Anfordern des Wrap-Status"
@@ -870,6 +879,8 @@
         "HIDE": "Empfängeradresse beibehalten",
         "INCLUDE_SENDER_ADDRESS": "Meine Adresse dem Empfänger anzeigen",
         "MIXIN": "Mixin",
+        "RECIPIENT": "Empfänger",
+        "REMOVE": "Deutsch",
         "SUCCESS_SENT": "Transaktion gesendet",
         "WRAP": {
             "ESTIMATE": "Transaktionsschätzungen",
