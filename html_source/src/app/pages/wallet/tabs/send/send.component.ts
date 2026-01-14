@@ -331,7 +331,17 @@ export class SendComponent implements OnDestroy {
         this._formListeners();
 
         if (current_wallet.transfer_form_value) {
-            this.form.markAllAsTouched();
+            const destinationsFormArray = this.form.controls.destinations;
+            current_wallet.transfer_form_value.destinations.forEach((savedDestination, index) => {
+                const destinationGroup = destinationsFormArray.at(index);
+                if (destinationGroup) {
+                    Object.keys(savedDestination).forEach((key) => {
+                        if (savedDestination[key] && destinationGroup.get(key)) {
+                            destinationGroup.get(key).markAsTouched();
+                        }
+                    });
+                }
+            });
             this.form.updateValueAndValidity();
         }
 
