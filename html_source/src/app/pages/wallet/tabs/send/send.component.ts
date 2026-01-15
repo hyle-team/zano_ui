@@ -458,10 +458,10 @@ export class SendComponent implements OnDestroy {
     }
 
     private _formListeners(): void {
-        this._subscribeToDescriptionsChanges();
+        this._subscribeToDestinationsChanges();
     }
 
-    private _subscribeToDescriptionsChanges(): void {
+    private _subscribeToDestinationsChanges(): void {
         this.form.controls.destinations.valueChanges
             .pipe(startWith(this.form.controls.destinations.value), takeUntil(this._destroy$))
             .subscribe({
@@ -472,6 +472,10 @@ export class SendComponent implements OnDestroy {
                     } else {
                         this.form.controls.comment.enable();
                     }
+
+                    this.form.controls.destinations.controls.forEach(group => {
+                        group.controls.amount.updateValueAndValidity({ emitEvent: false });
+                    });
                 },
             });
     }
