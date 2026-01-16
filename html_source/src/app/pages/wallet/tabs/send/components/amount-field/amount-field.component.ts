@@ -64,7 +64,7 @@ export class AmountFieldComponent implements OnInit {
             ),
             tap(params => {
                 if (params.toggleInputModeDisabled) {
-                    this.form.controls.is_currency_input_mode.patchValue(false, { emitEvent: false });
+                    controls.is_currency_input_mode.patchValue(false);
                 }
             }),
             shareReplay(1)

@@ -8,7 +8,7 @@ import { WrapInfo } from '@api/models/wrap-info';
 export const REG_EXP_HEX = /^[a-f0-9]{64}$/i;
 export const REG_EXP_ALIAS_NAME = /^@?[a-z\d.-]{2,25}$/;
 export const REG_EXP_REGISTER_ALIAS_NAME = /^@?[a-z\d.-]{6,25}$/;
-export const REG_EXP_PASSWORD = /^[A-Za-z0-9!@#$%^&*()_+\-={}\[\]|:;"'<>,.?/~`]{1,40}$/;
+export const REG_EXP_PASSWORD = /^[A-Za-z0-9!@#$%^&*()_+\-={}\[\]|:;"'<>,.?/~]{1,40}$/;
 
 export class ZanoValidators {
     static hash({ value }: AbstractControl): ValidationErrors | null {
