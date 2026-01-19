@@ -13,8 +13,7 @@
 }
 
 .actions {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-gap: 1rem;
+    display: flex;
+    flex-direction: column;
     width: 19rem;
 }

@@ -22,8 +22,5 @@
 }
 
 .actions {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 1rem;
-    width: 100%;
+    display: flex;
 }

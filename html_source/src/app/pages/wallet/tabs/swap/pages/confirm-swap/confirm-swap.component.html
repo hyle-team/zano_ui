@@ -49,11 +49,12 @@
         </div>
 
         <div class="actions">
-            <button (click)="swapConfirmMasterPasswordDialog()" [disabled]="!proposalDetails" class="btn primary big w-100" type="button">
+            <button (click)="swapConfirmMasterPasswordDialog()" [disabled]="!proposalDetails"
+                    class="btn primary big w-100 mr-0_5" type="button">
                 {{ 'CONFIRM_SWAP.FORM.BUTTONS.BUTTON1' | translate }}
             </button>
 
-            <a class="btn outline big w-100" role="link" routerLink="/wallet/swap">
+            <a class="btn outline big w-100 ml-0_5" role="link" routerLink="/wallet/swap">
                 {{ 'CONFIRM_SWAP.FORM.BUTTONS.BUTTON2' | translate }}
             </a>
         </div>

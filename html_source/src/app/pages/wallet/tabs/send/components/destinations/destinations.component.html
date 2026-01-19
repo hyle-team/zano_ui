@@ -4,7 +4,7 @@
             (onRemove)="remove(index)"
             (onDuplicate)="duplicate($event)"
             [formRef]="form"
-            [hideRemove]="formArray.controls.length < 2"
+            [hideRemove]="first || formArray.controls.length < 2"
             [hideDuplicate]="formArray.hasError('max_destinations')"
             [index]="index"
         ></zano-destination>

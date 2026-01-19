@@ -6,7 +6,7 @@
           class="form">
         <!-- Sending -->
         <div class="form__row" formGroupName="sending">
-            <fieldset class="form__field fixed">
+            <fieldset class="form__field fixed mr-1">
                 <label for="sending-amount">
                     {{ 'CREATE_SWAP.FORM.LABELS.LABEL1' | translate }}
                 </label>
@@ -52,7 +52,7 @@
                 </div>
             </fieldset>
 
-            <fieldset class="form__field fixed">
+            <fieldset class="form__field fixed ml-1">
                 <label for="select-sending-asset-id" [attr.aria-label]="'ACCESSIBILITY.CREATE_SWAP.LABELS.LABEL1' | translate">
                     &nbsp;
                 </label>
@@ -89,7 +89,7 @@
 
         <!-- Receiving -->
         <div class="form__row" formGroupName="receiving">
-            <fieldset class="form__field fixed">
+            <fieldset class="form__field fixed mr-1">
                 <label for="receiving-amount">
                     {{ 'CREATE_SWAP.FORM.LABELS.LABEL2' | translate }}
                 </label>
@@ -133,7 +133,7 @@
                 </div>
             </fieldset>
 
-            <fieldset class="form__field fixed">
+            <fieldset class="form__field fixed ml-1">
                 <label for="select-receive-asset-id" [attr.aria-label]="'ACCESSIBILITY.CREATE_SWAP.LABELS.LABEL1' | translate">
                     &nbsp;
                 </label>
@@ -258,11 +258,12 @@
         <!-- /Address -->
 
         <div class="actions">
-            <button [disabled]="form.invalid || (loading$ | async)" class="btn primary big w-100" type="submit">
+            <button [disabled]="form.invalid || (loading$ | async)" class="btn primary big w-100 mr-0_5" type="submit">
                 <ng-container *ngIf="!(loading$ | async)">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON1' | translate }} </ng-container>
                 <zano-loader *ngIf="loading$ | async" [type]="'circle'"></zano-loader>
             </button>
-            <a class="btn outline big w-100" routerLink="/wallet/swap">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON2' | translate }}</a>
+            <a class="btn outline big w-100 ml-0_5" routerLink="/wallet/swap">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON2' |
+                translate }}</a>
         </div>
 
         <div *ngIf="errorRpc" aria-live="assertive" class="error mt-2">
