@@ -14057,9 +14057,7 @@ class AmountFieldComponent {
     const currentPriceForAssets$ = this.variablesService.currentPriceForAssets$;
     this.amountInputParams$ = (0,rxjs__WEBPACK_IMPORTED_MODULE_10__.combineLatest)([assetId$, isCurrencyInputMode$, amount$, currentPriceForAssets$]).pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_11__.map)(([assetId, isCurrencyInputMode, amount]) => this._buildAmountInputParams(assetId, isCurrencyInputMode, String(amount !== null && amount !== void 0 ? amount : ''))), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_12__.tap)(params => {
       if (params.toggleInputModeDisabled) {
-        this.form.controls.is_currency_input_mode.patchValue(false, {
-          emitEvent: false
-        });
+        controls.is_currency_input_mode.patchValue(false);
       }
     }), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_13__.shareReplay)(1));
   }
@@ -16553,7 +16551,17 @@ class SendComponent {
         this._listenSendActionData();
         this._formListeners();
         if (current_wallet.transfer_form_value) {
-            this.form.markAllAsTouched();
+            const destinationsFormArray = this.form.controls.destinations;
+            current_wallet.transfer_form_value.destinations.forEach((savedDestination, index) => {
+                const destinationGroup = destinationsFormArray.at(index);
+                if (destinationGroup) {
+                    Object.keys(savedDestination).forEach((key) => {
+                        if (savedDestination[key] && destinationGroup.get(key)) {
+                            destinationGroup.get(key).markAsTouched();
+                        }
+                    });
+                }
+            });
             this.form.updateValueAndValidity();
         }
         this._subscribeToIsWrapInfoServiceInactive();
@@ -16647,9 +16655,9 @@ class SendComponent {
         }
     }
     _formListeners() {
-        this._subscribeToDescriptionsChanges();
+        this._subscribeToDestinationsChanges();
     }
-    _subscribeToDescriptionsChanges() {
+    _subscribeToDestinationsChanges() {
         this.form.controls.destinations.valueChanges
             .pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_13__.startWith)(this.form.controls.destinations.value), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_12__.takeUntil)(this._destroy$))
             .subscribe({
@@ -16661,6 +16669,9 @@ class SendComponent {
                 else {
                     this.form.controls.comment.enable();
                 }
+                this.form.controls.destinations.controls.forEach(group => {
+                    group.controls.amount.updateValueAndValidity({ emitEvent: false });
+                });
             },
         });
     }
@@ -28747,7 +28758,7 @@ __webpack_require__.r(__webpack_exports__);
 const REG_EXP_HEX = /^[a-f0-9]{64}$/i;
 const REG_EXP_ALIAS_NAME = /^@?[a-z\d.-]{2,25}$/;
 const REG_EXP_REGISTER_ALIAS_NAME = /^@?[a-z\d.-]{6,25}$/;
-const REG_EXP_PASSWORD = /^[A-Za-z0-9!@#$%^&*()_+\-={}\[\]|:;"'<>,.?/~`]{1,40}$/;
+const REG_EXP_PASSWORD = /^[A-Za-z0-9!@#$%^&*()_+\-={}\[\]|:;"'<>,.?/~]{1,40}$/;
 class ZanoValidators {
     static hash({ value }) {
         return REG_EXP_HEX.test(value) ? null : { invalidHash: true };
