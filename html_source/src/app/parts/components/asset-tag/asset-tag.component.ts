@@ -2,13 +2,14 @@ import { ChangeDetectionStrategy, Component, Input, OnChanges, SimpleChanges } f
 import { CommonModule } from '@angular/common';
 import { ZANO_ASSET_INFO } from '@parts/data/zano-assets-info';
 import { VariablesService } from '@parts/services/variables.service';
+import { TranslateModule } from '@ngx-translate/core';
 
 type AssetTagType = 'NATIVE' | 'WHITELISTED';
 
 @Component({
     selector: 'zano-asset-tag',
     standalone: true,
-    imports: [CommonModule],
+    imports: [CommonModule, TranslateModule],
     templateUrl: './asset-tag.component.html',
     styleUrls: ['./asset-tag.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

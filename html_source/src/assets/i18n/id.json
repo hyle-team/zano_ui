@@ -149,6 +149,10 @@
             }
         }
     },
+    "ASSET_TAG": {
+        "NATIVE": "Asil",
+        "WHITELISTED": "Daftar putih"
+    },
     "ASSIGN_ALIAS": {
         "BUTTON_ASSIGN": "Tetapkan",
         "COMMENT": {

@@ -149,6 +149,10 @@
             }
         }
     },
+    "ASSET_TAG": {
+        "NATIVE": "Nativo",
+        "WHITELISTED": "Na lista branca"
+    },
     "ASSIGN_ALIAS": {
         "BUTTON_ASSIGN": "Atribuir",
         "COMMENT": {
@@ -912,7 +916,7 @@
                 "LABELS": {
                     "LABEL1": "Zano Companion",
                     "LABEL2": "Segredo",
-                    "LABEL3": "Porta",
+                    "LABEL3": "Port",
                     "LABEL4": "(Requer senha mestre)"
                 }
             }

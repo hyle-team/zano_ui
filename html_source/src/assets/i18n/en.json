@@ -149,6 +149,10 @@
             }
         }
     },
+    "ASSET_TAG": {
+        "NATIVE": "Native",
+        "WHITELISTED": "Whitelisted"
+    },
     "ASSIGN_ALIAS": {
         "BUTTON_ASSIGN": "Assign",
         "COMMENT": {

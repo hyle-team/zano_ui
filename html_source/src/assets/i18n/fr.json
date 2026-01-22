@@ -149,6 +149,10 @@
             }
         }
     },
+    "ASSET_TAG": {
+        "NATIVE": "Natif",
+        "WHITELISTED": "Sur liste blanche"
+    },
     "ASSIGN_ALIAS": {
         "BUTTON_ASSIGN": "Attribuer",
         "COMMENT": {
@@ -642,7 +646,7 @@
         "DIALOGS": {
             "CONFIRMATION": {
                 "RESET": {
-                    "MESSAGE": "Cela supprimera définitivement toutes vos données secrètes et réinitialisera l'application à son état par défaut. Cette action ne peut pas être annulée. Êtes-vous sûr de vouloir continuer?",
+                    "MESSAGE": "Cela supprimera définitivement toutes vos données secrètes et réinitialisera l'application à son état par défaut. Cette action ne peut pas être annulée. Êtes-vous sûr de voler continuer?",
                     "TITLE": "Réinitialiser les données de l'application ?"
                 }
             }

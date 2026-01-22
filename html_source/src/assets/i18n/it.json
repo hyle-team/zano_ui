@@ -149,6 +149,10 @@
             }
         }
     },
+    "ASSET_TAG": {
+        "NATIVE": "Nativo",
+        "WHITELISTED": "Nella whitelist"
+    },
     "ASSIGN_ALIAS": {
         "BUTTON_ASSIGN": "Assegna",
         "COMMENT": {
