@@ -1,0 +1,18 @@
+<ng-container [ngSwitch]="type">
+    <!--NATIVE-->
+    <ng-container *ngSwitchCase="'NATIVE'">
+        <div tabindex="0" aria-label="Native" class="asset-tag asset-tag__native">
+            Native
+        </div>
+    </ng-container>
+
+    <!--WHITELISTED-->
+    <ng-container *ngSwitchCase="'WHITELISTED'">
+        <div tabindex="0" aria-label="Whitelisted" class="asset-tag asset-tag__whitelisted">
+            Whitelisted
+        </div>
+    </ng-container>
+
+    <!--DEFAULT-->
+    <ng-container *ngSwitchDefault></ng-container>
+</ng-container>
