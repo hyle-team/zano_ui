@@ -435,7 +435,7 @@
             "LABELS": {
                 "LABEL1": "Mengirim",
                 "LABEL2": "Menerima",
-                "LABEL3": "Alamat penerima"
+                "LABEL3": "Alamat rekanan"
             },
             "PLACEHOLDERS": {
                 "PLACEHOLDER1": "Silakan masukkan jumlah"

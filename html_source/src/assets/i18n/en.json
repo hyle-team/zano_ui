@@ -435,7 +435,7 @@
             "LABELS": {
                 "LABEL1": "Sending",
                 "LABEL2": "Receiving",
-                "LABEL3": "Receiver address"
+                "LABEL3": "Counterparty's address"
             },
             "PLACEHOLDERS": {
                 "PLACEHOLDER1": "Please enter the amount"

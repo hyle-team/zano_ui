@@ -435,7 +435,7 @@
             "LABELS": {
                 "LABEL1": "Senden",
                 "LABEL2": "Empfangen",
-                "LABEL3": "Empfängeradresse"
+                "LABEL3": "Adresse der Gegenpartei"
             },
             "PLACEHOLDERS": {
                 "PLACEHOLDER1": "Bitte geben Sie den Betrag ein"

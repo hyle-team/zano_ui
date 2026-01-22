@@ -435,7 +435,7 @@
             "LABELS": {
                 "LABEL1": "Invio",
                 "LABEL2": "Ricezione",
-                "LABEL3": "Indirizzo del destinatario"
+                "LABEL3": "Indirizzo della controparte"
             },
             "PLACEHOLDERS": {
                 "PLACEHOLDER1": "Inserisci l'importo"
