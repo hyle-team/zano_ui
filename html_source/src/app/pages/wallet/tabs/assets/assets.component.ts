@@ -48,15 +48,6 @@ export class AssetsComponent implements OnInit, OnDestroy {
 
     private readonly _router: Router = inject(Router);
 
-    get isShowPagination(): boolean {
-        const { current_wallet } = this.variablesService;
-        if (current_wallet) {
-            const { balances } = current_wallet;
-            return (balances?.length || 0) > this.paginatePipeArgs.itemsPerPage;
-        }
-        return false;
-    }
-
     ngOnInit(): void {
         this._listenChangeWallet();
     }
@@ -64,6 +55,15 @@ export class AssetsComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this._destroy$.next();
         this._destroy$.complete();
+    }
+
+    isShowPagination(): boolean {
+        const { current_wallet } = this.variablesService;
+        if (current_wallet) {
+            const { balances } = current_wallet;
+            return (balances?.length || 0) > this.paginatePipeArgs.itemsPerPage;
+        }
+        return false;
     }
 
     getViewBalanceData(balance: AssetBalance): {
@@ -259,6 +259,11 @@ export class AssetsComponent implements OnInit, OnDestroy {
         if (this.isWalletReady()) {
             this._router.navigate(['/wallet/send'], { state: { asset } }).then();
         }
+    }
+
+    toggleEmptyAssets() {
+        this.variablesService.current_wallet.toggleEmptyAssets();
+        this.paginatePipeArgs.currentPage = 0;
     }
 
     protected readonly Array = Array;

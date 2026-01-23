@@ -33,12 +33,17 @@ const defaultBalances = [
 const sortBalances = (
     value: AssetBalances | null | undefined,
     currentPriceForAssets: CurrentPriceForAssets,
-    currency: string = 'usd'
+    walletSettings: WalletSettings,
+    currency: string = 'usd',
 ): AssetBalances => {
     if (!value || value.length === 0) return [];
 
     // Copy of the array to avoid mutating the input data
-    const assets = [...value];
+    let assets = [...value];
+
+    if (walletSettings.hideEmptyAssets) {
+        assets = assets.filter(({ asset_info: { asset_id }, total }) => asset_id === ZANO_ASSET_INFO.asset_id || total > 0);
+    }
 
     // We take out ZANO (if there is one) and fix it first
     const sortedBalances: AssetBalances = [];
@@ -70,9 +75,9 @@ const sortBalances = (
 };
 
 const prepareBalances = (
-    value: [AssetBalances, AssetsInfoWhitelist, VerifiedAssetInfoWhitelist, LocalBlacklistVerifiedAssets, CurrentPriceForAssets]
+    value: [AssetBalances, AssetsInfoWhitelist, VerifiedAssetInfoWhitelist, LocalBlacklistVerifiedAssets, CurrentPriceForAssets, WalletSettings]
 ): AssetBalances => {
-    const [assetBalances, assetInfoWhitelist, verifiedAssetInfoWhitelist, localBlacklistVerifiedAssets, currentPriceForAssets] = value;
+    const [assetBalances, assetInfoWhitelist, verifiedAssetInfoWhitelist, localBlacklistVerifiedAssets, currentPriceForAssets, walletSettings] = value;
 
     let items: AssetBalances = [...assetBalances];
 
@@ -117,13 +122,18 @@ const prepareBalances = (
         items = items.filter(({ asset_info: { asset_id } }: AssetBalance): boolean => !localBlacklistVerifiedAssets.includes(asset_id));
     }
 
-    return sortBalances(items, currentPriceForAssets);
+    return sortBalances(items, currentPriceForAssets, walletSettings);
 };
 
+interface WalletSettings { balanceDisplayMode: 'zano' | 'fiat'; hideEmptyAssets: boolean; }
+
 export class Wallet {
-    settings: { balanceDisplayMode: 'zano' | 'fiat' } = {
+    settings: WalletSettings = {
         balanceDisplayMode: 'fiat',
+        hideEmptyAssets: false,
     };
+
+    settingsChanged$ = new BehaviorSubject<WalletSettings>(this.settings);
 
     open_from_exist: boolean;
 
@@ -243,6 +253,7 @@ export class Wallet {
             this.verificationAssetsInfoWhitelist$,
             this.localBlacklistVerifiedAssets$,
             this.currentPriceForAssets$,
+            this.settingsChanged$,
         ])
             .pipe(map(prepareBalances))
             .subscribe({
@@ -327,6 +338,24 @@ export class Wallet {
     removeAssetFromLocalBlacklistVerifiedAssets(asset_id: string): void {
         const blackList: LocalBlacklistVerifiedAssets = this.localBlacklistVerifiedAssets$.value.filter((v) => v !== asset_id);
         this.localBlacklistVerifiedAssets$.next(blackList);
+    }
+
+    showEmptyAssets() {
+        this.settings.hideEmptyAssets = false;
+        this.settingsChanged$.next(this.settings);
+    }
+
+    hideEmptyAssets() {
+        this.settings.hideEmptyAssets = true;
+        this.settingsChanged$.next(this.settings);
+    }
+
+    toggleEmptyAssets() {
+        if (this.settings.hideEmptyAssets) {
+            this.showEmptyAssets();
+        } else {
+            this.hideEmptyAssets();
+        }
     }
 }
 

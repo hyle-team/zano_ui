@@ -84,6 +84,7 @@ export class WalletsService {
         const walletSetting = this._variablesService.settings.wallets.find((w) => w.name === name)?.settings;
         if (walletSetting) {
             wallet.settings = walletSetting;
+            wallet.settingsChanged$.next(walletSetting);
         }
 
         this._variablesService.wallets.push(wallet);
