@@ -186,7 +186,7 @@
         </div>
 
         <div class="hide-empty-assets">
-            <label class="mr-2">Hide empty assets</label>
+            <label class="mr-2">{{ 'ASSETS.HIDE_EMPTY' | translate }}</label>
             <app-switch (emitChange)="toggleEmptyAssets()"
                         [value]="variablesService.current_wallet.settings.hideEmptyAssets"></app-switch>
         </div>

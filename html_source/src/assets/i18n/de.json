@@ -117,6 +117,7 @@
                 "WRONG_ASSET_ID": "Falsche Asset-ID"
             }
         },
+        "HIDE_EMPTY": "Leere Assets ausblenden",
         "MODALS": {
             "ASSET_DETAILS": {
                 "BUTTONS": {

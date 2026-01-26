@@ -117,6 +117,7 @@
                 "WRONG_ASSET_ID": "ID do ativo incorreto"
             }
         },
+        "HIDE_EMPTY": "Ocultar ativos vazios",
         "MODALS": {
             "ASSET_DETAILS": {
                 "BUTTONS": {

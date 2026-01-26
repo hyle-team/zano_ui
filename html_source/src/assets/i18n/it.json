@@ -117,6 +117,7 @@
                 "WRONG_ASSET_ID": "ID asset errato"
             }
         },
+        "HIDE_EMPTY": "Nascondi asset vuoti",
         "MODALS": {
             "ASSET_DETAILS": {
                 "BUTTONS": {
@@ -1160,7 +1161,7 @@
         }
     },
     "WALLET_CARD": {
-        "ARIA_LABEL1": "Progresso della sincronizzazione del portafoglio"
+        "ARIA_LABEL1": "Avanzamento sincronizzazione wallet"
     },
     "WALLET_DETAILS": {
         "BUTTON_REMOVE": "Rimuovi wallet",
