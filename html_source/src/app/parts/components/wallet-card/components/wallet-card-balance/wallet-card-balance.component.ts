@@ -8,10 +8,11 @@ import { LOCKED_BALANCE_HELP_PAGE } from '@parts/data/constants';
 import { IntToMoneyPipe, IntToMoneyPipeModule } from '@parts/pipes';
 import { TranslateService } from '@ngx-translate/core';
 import { BackendService } from '@api/services/backend.service';
-import { AssetBalance } from '@api/models/assets.model';
 import { VariablesService } from '@parts/services/variables.service';
 import { MatIconModule } from '@angular/material/icon';
-import { getFiatValue } from '@parts/functions/get-fiat-value';
+import { intToMoney } from '@parts/functions/int-to-money';
+import { isFiatCurrency } from '@parts/data/currencies';
+import { ZANO_ASSET_INFO } from '@parts/data/zano-assets-info';
 
 @Component({
     selector: 'zano-wallet-card-balance',
@@ -39,12 +40,12 @@ export class WalletCardBalanceComponent {
         const { balances } = this.wallet;
 
         scrollWrapper.classList.add('balance-scroll-list');
-        balances.forEach(({ unlocked, total, asset_info: { ticker } }) => {
+        balances.forEach(({ unlocked, total, asset_info: { ticker, decimal_point } }) => {
             const available = document.createElement('span');
             available.setAttribute('class', 'available');
             available.innerText = `${this.translate.instant('WALLET.AVAILABLE_BALANCE')} `;
             const availableB = document.createElement('b');
-            availableB.innerText = `${this.intToMoneyPipe.transform(unlocked)} ${ticker || '---'}`;
+            availableB.innerText = `${this.intToMoneyPipe.transform(unlocked, decimal_point)} ${ticker || '---'}`;
             available.appendChild(availableB);
             scrollWrapper.appendChild(available);
 
@@ -52,7 +53,7 @@ export class WalletCardBalanceComponent {
             locked.setAttribute('class', 'locked');
             locked.innerText = `${this.translate.instant('WALLET.LOCKED_BALANCE')} `;
             const lockedB = document.createElement('b');
-            lockedB.innerText = `${this.intToMoneyPipe.transform(new BigNumber(total).minus(unlocked))} ${ticker || '---'}`;
+            lockedB.innerText = `${this.intToMoneyPipe.transform(new BigNumber(total).minus(unlocked), decimal_point)} ${ticker || '---'}`;
             locked.appendChild(lockedB);
             scrollWrapper.appendChild(locked);
         });
@@ -67,20 +68,76 @@ export class WalletCardBalanceComponent {
         return tooltip;
     }
 
-    getViewBalanceData(balance: AssetBalance): {
-        value: string | number;
-        currency: string;
-    } | null {
+    getTotalBalance(): { value: string; currency: string } {
         const {
             currentPriceForAssets,
             settings: { currency },
         } = this.variablesService;
-        const value = getFiatValue(balance, currentPriceForAssets, currency);
 
-        if (!value) return { value: '---', currency: currency.toUpperCase() };
+        const displayMode = this.wallet.settings.balanceDisplayMode || 'fiat';
+
+        if (!this.wallet || !this.wallet.balances) {
+            return { value: '---', currency: displayMode === 'zano' ? ZANO_ASSET_INFO.ticker : currency.toUpperCase() };
+        }
+
+        let totalFiat = new BigNumber(0);
+        let hasPositiveBalance = false;
+        let anyPriceFoundForPositiveBalance = false;
+
+        this.wallet.balances.forEach((balance) => {
+            const amount = intToMoney(balance.total, balance.asset_info.decimal_point);
+            const bnAmount = new BigNumber(amount);
+
+            if (bnAmount.isZero()) {
+                return;
+            }
+
+            hasPositiveBalance = true;
+
+            const priceData = currentPriceForAssets[balance.asset_info.asset_id]?.data;
+            if (!priceData || typeof priceData === 'string') return;
+
+            const fiatPrice = priceData.fiat_prices?.[currency];
+            if (!fiatPrice) return;
+
+            anyPriceFoundForPositiveBalance = true;
+            totalFiat = totalFiat.plus(bnAmount.multipliedBy(fiatPrice));
+        });
+
+        if (hasPositiveBalance && !anyPriceFoundForPositiveBalance) {
+            return { value: '---', currency: displayMode === 'zano' ? ZANO_ASSET_INFO.ticker : currency.toUpperCase() };
+        }
+
+        if (displayMode === 'zano') {
+            const zanoBalance = this.wallet.getBalanceByTicker(ZANO_ASSET_INFO.ticker);
+            if (!zanoBalance) {
+                return { value: '---', currency: ZANO_ASSET_INFO.ticker };
+            }
+
+            const zanoPriceData = currentPriceForAssets[zanoBalance.asset_info.asset_id]?.data;
+            let zanoFiatPrice;
+            if (zanoPriceData && typeof zanoPriceData !== 'string') {
+                zanoFiatPrice = zanoPriceData.fiat_prices?.[currency];
+            }
+
+            if (!zanoFiatPrice) {
+                return { value: '---', currency: ZANO_ASSET_INFO.ticker };
+            }
+
+            const totalZano = totalFiat.dividedBy(zanoFiatPrice);
+            let str = totalZano.toFixed(zanoBalance.asset_info.decimal_point);
+            if (str.includes('.')) {
+                str = str.replace(/\.?0+$/, '');
+            }
+
+            return {
+                value: str,
+                currency: ZANO_ASSET_INFO.ticker,
+            };
+        }
 
         return {
-            value,
+            value: totalFiat.toFixed(isFiatCurrency(currency) ? 2 : 8),
             currency: currency.toUpperCase(),
         };
     }
@@ -88,6 +145,7 @@ export class WalletCardBalanceComponent {
     changeBalanceDisplayMode(event: Event): void {
         event.preventDefault();
         event.stopPropagation();
+
         this.wallet.settings.balanceDisplayMode = this.wallet.settings.balanceDisplayMode === 'zano' ? 'fiat' : 'zano';
     }
 }
