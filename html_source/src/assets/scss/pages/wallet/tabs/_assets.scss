@@ -1,5 +1,9 @@
 .assets-table {
-    table-layout: auto !important;
+
+    .cell-name {
+        display: flex;
+        align-items: center;
+    }
 
     .token-logo {
         background: var(--blue-300);

@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
-import { defaultAssetsInfoWhitelist, ResponseGetWalletInfo, Wallet } from '@api/models/wallet.model';
+import { DEFAULT_ASSETS_INFO_WHITELIST, ResponseGetWalletInfo, Wallet } from '@api/models/wallet.model';
 import { Router } from '@angular/router';
 import { ParamsCallRpc, ResponseCallRpc } from '@api/models/call_rpc.model';
 import { AssetsWhitelistGetResponseData, VerifiedAssetInfoWhitelist } from '@api/models/assets.model';
@@ -104,7 +104,7 @@ export class WalletsService {
         this._backendService.call_wallet_rpc([wallet_id, params], (status, response_data: AssetsWhitelistGetResponseData) => {
             this._ngZone.run(() => {
                 const { result } = response_data;
-                const assetsInfoWhitelist = { ...defaultAssetsInfoWhitelist, ...result };
+                const assetsInfoWhitelist = { ...DEFAULT_ASSETS_INFO_WHITELIST, ...result };
 
                 wallet.assetsInfoWhitelist = assetsInfoWhitelist;
                 wallet.assetsInfoWhitelist$.next(assetsInfoWhitelist);

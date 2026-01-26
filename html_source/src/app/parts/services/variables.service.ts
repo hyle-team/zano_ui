@@ -5,8 +5,6 @@ import { BehaviorSubject, EMPTY, from, mergeMap, Observable, Subject, take, toAr
 import { Idle } from 'idlejs/dist';
 import { Router } from '@angular/router';
 import { ContextMenuComponent, ContextMenuService } from '@perfectmemory/ngx-contextmenu';
-import { BigNumber } from 'bignumber.js';
-import { AliasInfoList } from '@api/models/alias.model';
 import { catchError, distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
 import { Dialog } from '@angular/cdk/dialog';
 import { MatDialog } from '@angular/material/dialog';
