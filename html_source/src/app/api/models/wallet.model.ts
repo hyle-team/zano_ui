@@ -32,6 +32,7 @@ const defaultBalances = [
 
 const sortBalances = (
     value: AssetBalances | null | undefined,
+    verifiedAssetInfoWhitelist: VerifiedAssetInfoWhitelist,
     currentPriceForAssets: CurrentPriceForAssets,
     walletSettings: WalletSettings,
     currency: string = 'usd',
@@ -61,16 +62,30 @@ const sortBalances = (
         return { balance, fiat: safeBn };
     });
 
-    // Sort by fiat value descending, then by ticker (stable tiebreaker)
-    withFiat.sort((a, b) => {
+    const sortByFiat = (a: { balance: AssetBalance; fiat: BigNumber }, b: { balance: AssetBalance; fiat: BigNumber }) => {
         const byFiat = b.fiat.comparedTo(a.fiat);
         if (byFiat !== 0) return byFiat;
+
+        // If fiat values are equal (e.g. both 0), sort by total balance
+        const byTotal = new BigNumber(b.balance.total).comparedTo(new BigNumber(a.balance.total));
+        if (byTotal !== 0) return byTotal;
+
         const ta = a.balance.asset_info?.ticker ?? '';
         const tb = b.balance.asset_info?.ticker ?? '';
         return ta.localeCompare(tb);
-    });
+    };
 
-    sortedBalances.push(...withFiat.map(({ balance }) => balance));
+    const verifiedIds = new Set(verifiedAssetInfoWhitelist.map((v) => v.asset_id));
+
+    const verifiedAssets = withFiat.filter((item) => verifiedIds.has(item.balance.asset_info.asset_id));
+    const otherAssets = withFiat.filter((item) => !verifiedIds.has(item.balance.asset_info.asset_id));
+
+    verifiedAssets.sort(sortByFiat);
+    otherAssets.sort(sortByFiat);
+
+    sortedBalances.push(...verifiedAssets.map(({ balance }) => balance));
+    sortedBalances.push(...otherAssets.map(({ balance }) => balance));
+
     return sortedBalances;
 };
 
@@ -122,7 +137,7 @@ const prepareBalances = (
         items = items.filter(({ asset_info: { asset_id } }: AssetBalance): boolean => !localBlacklistVerifiedAssets.includes(asset_id));
     }
 
-    return sortBalances(items, currentPriceForAssets, walletSettings);
+    return sortBalances(items, verifiedAssetInfoWhitelist, currentPriceForAssets, walletSettings);
 };
 
 interface WalletSettings { balanceDisplayMode: 'zano' | 'fiat'; hideEmptyAssets: boolean; }

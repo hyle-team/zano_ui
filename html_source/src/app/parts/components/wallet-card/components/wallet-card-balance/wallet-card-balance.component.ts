@@ -77,7 +77,7 @@ export class WalletCardBalanceComponent {
         } = this.variablesService;
         const value = getFiatValue(balance, currentPriceForAssets, currency);
 
-        if (!value) return null;
+        if (!value) return { value: '---', currency: currency.toUpperCase() };
 
         return {
             value,
