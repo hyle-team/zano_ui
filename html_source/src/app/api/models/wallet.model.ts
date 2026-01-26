@@ -163,7 +163,7 @@ const prepareBalances = (
     return sortBalances(items, verifiedAssetInfoWhitelist, currentPriceForAssets, walletSettings);
 };
 
-interface WalletSettings {
+export interface WalletSettings {
     balanceDisplayMode: 'zano' | 'fiat';
     hideEmptyAssets: boolean;
 }

@@ -6,11 +6,11 @@
                 [placement]="'bottom'"
                 [timeDelay]="2500"
                 [tooltipClass]="'balance-tooltip'"
-                [tooltip]="getBalancesTooltip()"
+                [tooltip]="tooltip$ | async"
                 class="price"
                 tabindex="0"
             >
-                <ng-container *ngIf="getTotalBalance() as totalBalance">
+                <ng-container *ngIf="totalBalance$ | async as totalBalance">
                     <div class="text-ellipsis overflow-hidden">{{ totalBalance.value }}</div>
                     <span class="currency ml-0_5">{{ totalBalance.currency }}</span>
                 </ng-container>
