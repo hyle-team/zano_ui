@@ -9,7 +9,7 @@ import {
     LocalBlacklistVerifiedAssets,
     VerifiedAssetInfoWhitelist,
 } from './assets.model';
-import { BehaviorSubject, combineLatest } from 'rxjs';
+import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
 import { AliasInfo, AliasInfoList } from '@api/models/alias.model';
 import { ZANO_ASSET_INFO } from '@parts/data/zano-assets-info';
 import { map } from 'rxjs/operators';
@@ -18,9 +18,9 @@ import { CurrentPriceForAssets } from '@api/models/api-zano.models';
 import { getFiatValue } from '@parts/functions/get-fiat-value';
 import { TransferFormValue } from '../../pages/wallet/tabs/send/send.component';
 
-export const DEFAULT_ASSETS_INFO_WHITELIST = { global_whitelist: [], local_whitelist: [], own_assets: [] };
+export const DEFAULT_ASSETS_INFO_WHITELIST: AssetsInfoWhitelist = { global_whitelist: [], local_whitelist: [], own_assets: [] };
 
-const DEFAULT_BALANCES = [
+const DEFAULT_BALANCES: AssetBalances = [
     {
         asset_info: ZANO_ASSET_INFO,
         awaiting_in: 0,
@@ -39,9 +39,9 @@ const sortBalances = (
 ): AssetBalances => {
     if (!value?.length) return [];
 
-    const verifiedIds = new Set(verifiedAssetInfoWhitelist.map((v) => v.asset_id));
+    const verifiedIds: Set<string> = new Set(verifiedAssetInfoWhitelist.map((v) => v.asset_id));
 
-    const filtered = walletSettings.hideEmptyAssets
+    const filtered: AssetBalances = walletSettings.hideEmptyAssets
         ? value.filter(({ asset_info: { asset_id }, total }) => asset_id === ZANO_ASSET_INFO.asset_id || total > 0)
         : value;
 
@@ -174,9 +174,9 @@ export class Wallet {
         hideEmptyAssets: false,
     };
 
-    settingsChanged$: BehaviorSubject<WalletSettings> = new BehaviorSubject<WalletSettings>(this.settings);
+    readonly settingsChanged$ = new BehaviorSubject<WalletSettings>(this.settings);
 
-    open_from_exist: boolean;
+    open_from_exist!: boolean;
 
     updated = false;
 
@@ -201,17 +201,19 @@ export class Wallet {
         return [ZANO_ASSET_INFO, ...this.allAssetsInfoWhitelist];
     }
 
-    originalBalances$: BehaviorSubject<AssetBalances> = new BehaviorSubject<AssetBalances>([]);
+    readonly originalBalances$ = new BehaviorSubject<AssetBalances>([]);
 
-    assetsInfoWhitelist$: BehaviorSubject<AssetsInfoWhitelist> = new BehaviorSubject(DEFAULT_ASSETS_INFO_WHITELIST);
+    readonly assetsInfoWhitelist$ = new BehaviorSubject<AssetsInfoWhitelist>(DEFAULT_ASSETS_INFO_WHITELIST);
 
-    verificationAssetsInfoWhitelist$: BehaviorSubject<VerifiedAssetInfoWhitelist> = new BehaviorSubject<VerifiedAssetInfoWhitelist>([]);
+    readonly verificationAssetsInfoWhitelist$ = new BehaviorSubject<VerifiedAssetInfoWhitelist>([]);
 
-    localBlacklistVerifiedAssets$: BehaviorSubject<LocalBlacklistVerifiedAssets> = new BehaviorSubject<LocalBlacklistVerifiedAssets>([]);
+    readonly localBlacklistVerifiedAssets$ = new BehaviorSubject<LocalBlacklistVerifiedAssets>([]);
 
-    currentPriceForAssets$: BehaviorSubject<CurrentPriceForAssets> = new BehaviorSubject({});
+    readonly currentPriceForAssets$ = new BehaviorSubject<CurrentPriceForAssets>({});
 
-    balances$: BehaviorSubject<AssetBalances> = new BehaviorSubject([]);
+    readonly balances$ = new BehaviorSubject<AssetBalances>([]);
+
+    private readonly _balancesSubscription: Subscription;
 
     get balances(): AssetBalances {
         return this.balances$.value;
@@ -225,13 +227,13 @@ export class Wallet {
 
     tracking_hey: string;
 
-    is_auditable: boolean;
+    is_auditable!: boolean;
 
-    is_watch_only: boolean;
+    is_watch_only!: boolean;
 
-    exclude_mining_txs: boolean;
+    exclude_mining_txs!: boolean;
 
-    alias_available: boolean;
+    alias_available!: boolean;
 
     has_bare_unspent_outputs = false;
 
@@ -251,11 +253,11 @@ export class Wallet {
 
     total_history_item?: number;
 
-    pages = [];
+    pages: unknown[] = [];
 
-    totalPages: number;
+    totalPages!: number;
 
-    currentPage: number;
+    currentPage!: number;
 
     excluded_history: Transactions = [];
 
@@ -269,7 +271,17 @@ export class Wallet {
 
     transfer_form_value: TransferFormValue | null = null;
 
-    constructor(id, name, pass, path, address, balances, unlocked_balance, mined = 0, tracking = '') {
+    constructor(
+        id: number,
+        name: string,
+        pass: string,
+        path: string,
+        address: string,
+        balances: AssetBalances | null | undefined,
+        unlocked_balance: number,
+        mined: number = 0,
+        tracking: string = ''
+    ) {
         this.wallet_id = id;
         this.name = name;
         this.pass = pass;
@@ -288,7 +300,7 @@ export class Wallet {
         this.progress = 0;
         this.loaded = false;
 
-        combineLatest([
+        this._balancesSubscription = combineLatest([
             this.originalBalances$,
             this.assetsInfoWhitelist$,
             this.verificationAssetsInfoWhitelist$,
@@ -302,6 +314,10 @@ export class Wallet {
                     this.balances$.next(value);
                 },
             });
+    }
+
+    destroy(): void {
+        this._balancesSubscription.unsubscribe();
     }
 
     getBalanceByAssetId(value: string): AssetBalance | undefined {
