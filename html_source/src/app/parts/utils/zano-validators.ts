@@ -1,6 +1,4 @@
 import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
-import { notFileZanoWallet, ZanoValidationErrors } from '@parts/utils/zano-errors';
-import { MIMETypes } from '@parts/utils/MIME-types';
 import { BigNumber } from 'bignumber.js';
 import { intToMoney } from '@parts/functions/int-to-money';
 import { WrapInfo } from '@api/models/wrap-info';
@@ -62,31 +60,6 @@ export class ZanoValidators {
         };
     }
 }
-
-export const filePathWalletValidator = (path: string): ZanoValidationErrors | null => {
-    if (!(path && path.trim().length)) {
-        return null;
-    }
-
-    const positionLastSlash = path.lastIndexOf('/');
-    const fileName = path.slice(positionLastSlash + 1);
-
-    if (!(fileName && fileName.trim().length)) {
-        return null;
-    }
-
-    if (fileName) {
-        let index = 0;
-        while (index < MIMETypes.length) {
-            if (fileName.includes(MIMETypes[index])) {
-                return notFileZanoWallet;
-            }
-            index++;
-        }
-    }
-
-    return null;
-};
 
 export function validateWrapInfo(data: WrapInfo): boolean {
     if (typeof data !== 'object' || data === null) {
