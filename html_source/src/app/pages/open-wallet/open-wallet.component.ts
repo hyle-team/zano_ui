@@ -102,6 +102,7 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
                     console.log('openData', openData);
                     if (errorCode === 'WRONG_PASSWORD') {
                         this.ngZone.run(() => {
+                            this.openWalletForm.controls.password.markAsTouched();
                             this.openWalletForm.controls.password.setErrors({
                                 wrongPassword,
                             });
