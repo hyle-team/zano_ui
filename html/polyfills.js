@@ -3588,13 +3588,11 @@ module.exports = {
 
 
 var bind = __webpack_require__(/*! ../internals/function-bind-context */ 57761);
-var uncurryThis = __webpack_require__(/*! ../internals/function-uncurry-this */ 34450);
 var IndexedObject = __webpack_require__(/*! ../internals/indexed-object */ 64555);
 var toObject = __webpack_require__(/*! ../internals/to-object */ 38274);
 var lengthOfArrayLike = __webpack_require__(/*! ../internals/length-of-array-like */ 50083);
 var arraySpeciesCreate = __webpack_require__(/*! ../internals/array-species-create */ 16100);
-
-var push = uncurryThis([].push);
+var createProperty = __webpack_require__(/*! ../internals/create-property */ 12894);
 
 // `Array.prototype.{ forEach, map, filter, some, every, find, findIndex, filterReject }` methods implementation
 var createMethod = function (TYPE) {
@@ -3605,28 +3603,28 @@ var createMethod = function (TYPE) {
   var IS_FIND_INDEX = TYPE === 6;
   var IS_FILTER_REJECT = TYPE === 7;
   var NO_HOLES = TYPE === 5 || IS_FIND_INDEX;
-  return function ($this, callbackfn, that, specificCreate) {
+  return function ($this, callbackfn, that) {
     var O = toObject($this);
     var self = IndexedObject(O);
     var length = lengthOfArrayLike(self);
     var boundFunction = bind(callbackfn, that);
     var index = 0;
-    var create = specificCreate || arraySpeciesCreate;
-    var target = IS_MAP ? create($this, length) : IS_FILTER || IS_FILTER_REJECT ? create($this, 0) : undefined;
+    var resIndex = 0;
+    var target = IS_MAP ? arraySpeciesCreate($this, length) : IS_FILTER || IS_FILTER_REJECT ? arraySpeciesCreate($this, 0) : undefined;
     var value, result;
     for (;length > index; index++) if (NO_HOLES || index in self) {
       value = self[index];
       result = boundFunction(value, index, O);
       if (TYPE) {
-        if (IS_MAP) target[index] = result; // map
+        if (IS_MAP) createProperty(target, index, result);    // map
         else if (result) switch (TYPE) {
-          case 3: return true;              // some
-          case 5: return value;             // find
-          case 6: return index;             // findIndex
-          case 2: push(target, value);      // filter
+          case 3: return true;                                // some
+          case 5: return value;                               // find
+          case 6: return index;                               // findIndex
+          case 2: createProperty(target, resIndex++, value);  // filter
         } else switch (TYPE) {
-          case 4: return false;             // every
-          case 7: push(target, value);      // filterReject
+          case 4: return false;                               // every
+          case 7: createProperty(target, resIndex++, value);  // filterReject
         }
       }
     }
@@ -5296,9 +5294,9 @@ var fails = __webpack_require__(/*! ../internals/fails */ 52325);
 
 module.exports = !fails(function () {
   var unsafeInt = '9007199254740993';
-  // eslint-disable-next-line es/no-nonstandard-json-properties -- feature detection
+  // eslint-disable-next-line es/no-json-rawjson -- feature detection
   var raw = JSON.rawJSON(unsafeInt);
-  // eslint-disable-next-line es/no-nonstandard-json-properties -- feature detection
+  // eslint-disable-next-line es/no-json-israwjson -- feature detection
   return !JSON.isRawJSON(raw) || JSON.stringify(raw) !== unsafeInt;
 });
 
@@ -6175,10 +6173,10 @@ var SHARED = '__core-js_shared__';
 var store = module.exports = globalThis[SHARED] || defineGlobalProperty(SHARED, {});
 
 (store.versions || (store.versions = [])).push({
-  version: '3.47.0',
+  version: '3.48.0',
   mode: IS_PURE ? 'pure' : 'global',
-  copyright: '© 2014-2025 Denis Pushkarev (zloirock.ru), 2025 CoreJS Company (core-js.io)',
-  license: 'https://github.com/zloirock/core-js/blob/v3.47.0/LICENSE',
+  copyright: '© 2013–2025 Denis Pushkarev (zloirock.ru), 2025–2026 CoreJS Company (core-js.io). All rights reserved.',
+  license: 'https://github.com/zloirock/core-js/blob/v3.48.0/LICENSE',
   source: 'https://github.com/zloirock/core-js'
 });
 

@@ -117,6 +117,7 @@
                 "WRONG_ASSET_ID": "ID asset errato"
             }
         },
+        "HIDE_EMPTY": "Nascondi asset vuoti",
         "MODALS": {
             "ASSET_DETAILS": {
                 "BUTTONS": {
@@ -148,6 +149,10 @@
                 "VALUE": "Valore"
             }
         }
+    },
+    "ASSET_TAG": {
+        "NATIVE": "Nativo",
+        "WHITELISTED": "Nella whitelist"
     },
     "ASSIGN_ALIAS": {
         "BUTTON_ASSIGN": "Assegna",
@@ -435,7 +440,7 @@
             "LABELS": {
                 "LABEL1": "Invio",
                 "LABEL2": "Ricezione",
-                "LABEL3": "Indirizzo del destinatario"
+                "LABEL3": "Indirizzo della controparte"
             },
             "PLACEHOLDERS": {
                 "PLACEHOLDER1": "Inserisci l'importo"
@@ -642,7 +647,8 @@
         "DIALOGS": {
             "CONFIRMATION": {
                 "RESET": {
-                    "MESSAGE": "Questo eliminerà permanentemente tutti i tuoi dati segreti e ripristinerà l'app allo stato predefinito. Questa azione non può essere annullata. Sei sicuro di voler procedere?",
+                    "MESSAGE": "Questa operazione cancellerà definitivamente tutti i dati sensibili memorizzati su questo dispositivo e riporterà l'app allo stato predefinito. L'operazione è irreversibile.",
+                    "SUBMIT_BUTTON": "Reimposta dati",
                     "TITLE": "Reimpostare i dati dell'app?"
                 }
             }
@@ -1156,7 +1162,7 @@
         }
     },
     "WALLET_CARD": {
-        "ARIA_LABEL1": "Progresso della sincronizzazione del portafoglio"
+        "ARIA_LABEL1": "Avanzamento sincronizzazione wallet"
     },
     "WALLET_DETAILS": {
         "BUTTON_REMOVE": "Rimuovi wallet",

@@ -117,6 +117,7 @@
                 "WRONG_ASSET_ID": "Falsche Asset-ID"
             }
         },
+        "HIDE_EMPTY": "Leere Assets ausblenden",
         "MODALS": {
             "ASSET_DETAILS": {
                 "BUTTONS": {
@@ -148,6 +149,10 @@
                 "VALUE": "Wert"
             }
         }
+    },
+    "ASSET_TAG": {
+        "NATIVE": "Nativ",
+        "WHITELISTED": "Auf der Whitelist"
     },
     "ASSIGN_ALIAS": {
         "BUTTON_ASSIGN": "Zuweisen",
@@ -435,7 +440,7 @@
             "LABELS": {
                 "LABEL1": "Senden",
                 "LABEL2": "Empfangen",
-                "LABEL3": "Empfängeradresse"
+                "LABEL3": "Adresse der Gegenpartei"
             },
             "PLACEHOLDERS": {
                 "PLACEHOLDER1": "Bitte geben Sie den Betrag ein"
@@ -642,7 +647,8 @@
         "DIALOGS": {
             "CONFIRMATION": {
                 "RESET": {
-                    "MESSAGE": "Dadurch werden alle Ihre geheimen Daten dauerhaft gelöscht und die App auf den Standardzustand zurückgesetzt. Diese Aktion kann nicht rückgängig gemacht werden. Sind Sie sicher, dass Sie fortfahren möchten?",
+                    "MESSAGE": "Dadurch werden alle auf diesem Gerät gespeicherten sensiblen Daten dauerhaft gelöscht und die App auf die Standardeinstellungen zurückgesetzt. Dieser Vorgang kann nicht rückgängig gemacht werden.",
+                    "SUBMIT_BUTTON": "Daten zurücksetzen",
                     "TITLE": "App-Daten zurücksetzen?"
                 }
             }
