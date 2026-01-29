@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CellAssetBalanceComponent } from './cell-asset-balance.component';
+import { AssetTagComponent } from './asset-tag.component';
 
-describe('CellAssetBalanceComponent', () => {
-    let component: CellAssetBalanceComponent;
-    let fixture: ComponentFixture<CellAssetBalanceComponent>;
+describe('AssetTagComponent', () => {
+    let component: AssetTagComponent;
+    let fixture: ComponentFixture<AssetTagComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [CellAssetBalanceComponent],
+            imports: [AssetTagComponent],
         }).compileComponents();
 
-        fixture = TestBed.createComponent(CellAssetBalanceComponent);
+        fixture = TestBed.createComponent(AssetTagComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

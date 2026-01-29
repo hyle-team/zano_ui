@@ -1,3 +1,16 @@
 :host {
     width: 100%;
 }
+
+.assets-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 2rem;
+    min-height: 2.8rem;
+}
+
+.hide-empty-assets {
+    display: flex;
+    align-items: center;
+}

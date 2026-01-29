@@ -1,0 +1,18 @@
+<ng-container [ngSwitch]="type">
+    <!--NATIVE-->
+    <ng-container *ngSwitchCase="'NATIVE'">
+        <div tabindex="0" [attr.aria-label]="'ASSET_TAG.NATIVE' | translate" class="asset-tag asset-tag__native">
+            {{ 'ASSET_TAG.NATIVE' | translate }}
+        </div>
+    </ng-container>
+
+    <!--WHITELISTED-->
+    <ng-container *ngSwitchCase="'WHITELISTED'">
+        <div tabindex="0" [attr.aria-label]="'ASSET_TAG.WHITELISTED' | translate" class="asset-tag asset-tag__whitelisted">
+            {{ 'ASSET_TAG.WHITELISTED' | translate }}
+        </div>
+    </ng-container>
+
+    <!--DEFAULT-->
+    <ng-container *ngSwitchDefault></ng-container>
+</ng-container>

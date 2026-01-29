@@ -14,7 +14,7 @@
         display: inline-flex;
         align-items: center;
 
-        color: #24669C;
+        color: #24669c;
         font-weight: 600;
     }
 
@@ -22,16 +22,19 @@
         display: inline-flex;
         align-items: center;
 
-        color: #C35F5F;
+        color: #c35f5f;
         font-weight: 600;
     }
 }
 
 .destination-form {
     .destination-form__row {
-        display: grid;
-        grid-template-columns: minmax(auto, 24rem) minmax(auto, 24rem);
-        gap: 2rem;
+        display: flex;
+
+        zano-asset-field,
+        zano-amount-field {
+            width: 24rem;
+        }
     }
 
     ::ng-deep {

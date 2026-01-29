@@ -28,19 +28,19 @@ export class WrapInformationComponent {
     getReceivedValue(): number | BigNumber {
         const { asset_id, amount, is_currency_input_mode } = this.form.getRawValue();
         const {
-            wrap_info$: { value: wrap_info }
+            wrap_info$: { value: wrap_info },
         } = this.variablesService;
 
         const convertedAmount = (): string => {
             let currency_price = 0;
             const {
                 settings: { currency },
-                currentPriceForAssets
+                currentPriceForAssets,
             } = this.variablesService;
 
             if (currentPriceForAssets[asset_id]) {
                 const { data } = currentPriceForAssets[asset_id];
-                currency_price = typeof data === 'object' ? (data.fiat_prices[currency] ?? 0) : 0;
+                currency_price = typeof data === 'object' ? data.fiat_prices[currency] ?? 0 : 0;
             }
 
             let decimal_point = 0;
@@ -59,7 +59,6 @@ export class WrapInformationComponent {
             return convertedAmount.toString();
         };
         const prepared_amount: BigNumber = moneyToInt(is_currency_input_mode ? convertedAmount() : amount || '0');
-
 
         if (!wrap_info) return 0;
 

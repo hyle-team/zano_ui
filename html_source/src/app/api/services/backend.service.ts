@@ -568,7 +568,7 @@ export class BackendService {
         this.runCommand(Commands.open_url_in_browser, url, callback);
     }
 
-    start_backend(node, host, port, callback): void {
+    start_backend(node, host, port, callback: any = () => {}): void {
         const params = {
             configure_for_remote_node: node,
             remote_node_host: host,
@@ -581,10 +581,10 @@ export class BackendService {
         this.runCommand(Commands.get_default_fee, {}, callback);
     }
 
-    setBackendLocalization(stringsArray, title, callback?): void {
+    setBackendLocalization(strings: string[], language_title: string, callback?): void {
         const params = {
-            strings: stringsArray,
-            language_title: title,
+            strings,
+            language_title,
         };
         this.runCommand(Commands.set_localization_strings, params, callback);
     }

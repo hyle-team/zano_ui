@@ -62,7 +62,7 @@ export class AmountFieldComponent implements OnInit {
             map(([assetId, isCurrencyInputMode, amount]) =>
                 this._buildAmountInputParams(assetId, isCurrencyInputMode, String(amount ?? ''))
             ),
-            tap(params => {
+            tap((params) => {
                 if (params.toggleInputModeDisabled) {
                     controls.is_currency_input_mode.patchValue(false);
                 }
@@ -76,11 +76,7 @@ export class AmountFieldComponent implements OnInit {
         this.form.controls.is_currency_input_mode.patchValue(!is_currency_input_mode);
     }
 
-    private _buildAmountInputParams(
-        assetId: string,
-        isCurrencyInputMode: boolean,
-        amount: string
-    ): AmountInputParams {
+    private _buildAmountInputParams(assetId: string, isCurrencyInputMode: boolean, amount: string): AmountInputParams {
         const { current_wallet, settings } = this.variablesService;
         const assetBalance = current_wallet.getBalanceByAssetId(assetId);
 
@@ -117,11 +113,7 @@ export class AmountFieldComponent implements OnInit {
         }
     }
 
-    private _createParams(
-        assetBalance: AssetBalance,
-        assetInfo: AssetInfo,
-        currencyTicker: string
-    ): AmountInputParams {
+    private _createParams(assetBalance: AssetBalance, assetInfo: AssetInfo, currencyTicker: string): AmountInputParams {
         const decimalPoint = assetInfo.decimal_point ?? 12;
         const assetTicker = assetInfo.ticker ?? '';
         const availableAmount = intToMoney(assetBalance.unlocked, decimalPoint);

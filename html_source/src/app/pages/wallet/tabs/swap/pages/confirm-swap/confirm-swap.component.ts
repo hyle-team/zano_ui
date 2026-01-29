@@ -17,6 +17,7 @@ import { ProposalDetails } from '@api/models/swap.model';
 import { GetAssetInfoPipe } from '@parts/pipes/get-asset-info.pipe';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { SwapDetailsComponent } from '../../modals/swap-details/swap-details.component';
+import { AssetTagComponent } from '@parts/components/asset-tag/asset-tag.component';
 
 @Component({
     selector: 'app-confirm-swap',
@@ -30,6 +31,7 @@ import { SwapDetailsComponent } from '../../modals/swap-details/swap-details.com
         ReactiveFormsModule,
         IntToMoneyPipeModule,
         GetAssetInfoPipe,
+        AssetTagComponent,
     ],
     templateUrl: './confirm-swap.component.html',
     styleUrls: ['./confirm-swap.component.scss'],

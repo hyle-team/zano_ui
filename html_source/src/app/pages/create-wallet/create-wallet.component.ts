@@ -73,11 +73,29 @@ export class CreateWalletComponent {
         this.loading = true;
 
         const { path: selectedPath, password, name } = this.createForm.getRawValue();
+
+        let walletName = '';
+        if (name.lastIndexOf('.') === -1) {
+            walletName = name;
+        } else {
+            walletName = name.slice(0, name.lastIndexOf('.'));
+        }
         this.backend.generateWallet(selectedPath, password, (generate_status, generate_data, errorCode) => {
             if (generate_status) {
                 const { wallet_id } = generate_data;
                 const { path, address, balance, unlocked_balance, mined_total, tracking_hey } = generate_data['wi'];
-                const wallet = new Wallet(wallet_id, name, password, path, address, balance, unlocked_balance, mined_total, tracking_hey);
+
+                const wallet = new Wallet(
+                    wallet_id,
+                    walletName,
+                    password,
+                    path,
+                    address,
+                    balance,
+                    unlocked_balance,
+                    mined_total,
+                    tracking_hey
+                );
                 wallet.total_history_item = 0;
                 wallet.pages = new Array(1).fill(1);
                 wallet.totalPages = 1;

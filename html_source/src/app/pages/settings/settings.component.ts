@@ -204,7 +204,7 @@ export class SettingsComponent implements OnInit {
     }
 
     copyBuildVersion(): void {
-        this.backend.setClipboard(`${ this.translate.instant('COMMON.BUILD_VERSION') }: ${this.variablesService.buildVersion}`);
+        this.backend.setClipboard(`${this.translate.instant('COMMON.BUILD_VERSION')}: ${this.variablesService.buildVersion}`);
 
         this.isBuildVersionWasCopied = true;
         this.buildVersionWasCopiedTimeout = setTimeout(() => {
@@ -296,7 +296,7 @@ export class SettingsComponent implements OnInit {
         this.backend.storeAppData();
     }
 
-    showPrice(): void {
+    toggleVisibilityBalance(): void {
         this.variablesService.visibilityBalance$.next(!this.variablesService.visibilityBalance$.value);
         this.backend.storeAppData();
     }

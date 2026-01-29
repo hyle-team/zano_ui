@@ -117,6 +117,7 @@
                 "WRONG_ASSET_ID": "ID d'actif incorrect"
             }
         },
+        "HIDE_EMPTY": "Masquer les actifs vides",
         "MODALS": {
             "ASSET_DETAILS": {
                 "BUTTONS": {
@@ -148,6 +149,10 @@
                 "VALUE": "Valeur"
             }
         }
+    },
+    "ASSET_TAG": {
+        "NATIVE": "Natif",
+        "WHITELISTED": "Sur liste blanche"
     },
     "ASSIGN_ALIAS": {
         "BUTTON_ASSIGN": "Attribuer",
@@ -435,7 +440,7 @@
             "LABELS": {
                 "LABEL1": "Envoi",
                 "LABEL2": "Réception",
-                "LABEL3": "Adresse du destinataire"
+                "LABEL3": "Adresse du contrepartie"
             },
             "PLACEHOLDERS": {
                 "PLACEHOLDER1": "Veuillez entrer le montant"
@@ -642,7 +647,8 @@
         "DIALOGS": {
             "CONFIRMATION": {
                 "RESET": {
-                    "MESSAGE": "Cela supprimera définitivement toutes vos données secrètes et réinitialisera l'application à son état par défaut. Cette action ne peut pas être annulée. Êtes-vous sûr de vouloir continuer?",
+                    "MESSAGE": "Cette action supprimera définitivement toutes les données sensibles stockées sur cet appareil et réinitialisera l'application à son état par défaut. Cette action est irréversible.",
+                    "SUBMIT_BUTTON": "Réinitialiser les données",
                     "TITLE": "Réinitialiser les données de l'application ?"
                 }
             }

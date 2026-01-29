@@ -117,6 +117,7 @@
                 "WRONG_ASSET_ID": "Wrong asset id"
             }
         },
+        "HIDE_EMPTY": "Hide empty assets",
         "MODALS": {
             "ASSET_DETAILS": {
                 "BUTTONS": {
@@ -148,6 +149,10 @@
                 "VALUE": "Value"
             }
         }
+    },
+    "ASSET_TAG": {
+        "NATIVE": "Native",
+        "WHITELISTED": "Whitelisted"
     },
     "ASSIGN_ALIAS": {
         "BUTTON_ASSIGN": "Assign",
@@ -435,7 +440,7 @@
             "LABELS": {
                 "LABEL1": "Sending",
                 "LABEL2": "Receiving",
-                "LABEL3": "Receiver address"
+                "LABEL3": "Counterparty's address"
             },
             "PLACEHOLDERS": {
                 "PLACEHOLDER1": "Please enter the amount"
@@ -642,8 +647,9 @@
         "DIALOGS": {
             "CONFIRMATION": {
                 "RESET": {
-                    "MESSAGE": "This will permanently delete all your secret data and reset the app to its default state. This action cannot be undone. Are you sure you want to proceed?",
-                    "TITLE": "Reset App Data?"
+                    "MESSAGE": "This will permanently delete all sensitive data stored on this device and reset the app to its default state. This can’t be undone.",
+                    "SUBMIT_BUTTON": "Reset data",
+                    "TITLE": "Reset app data?"
                 }
             }
         },

@@ -4,6 +4,12 @@
     flex-direction: row;
 }
 
+.text {
+    zano-asset-tag {
+        transform: translateY(-0.2rem);
+    }
+}
+
 .error {
     color: var(--red-500);
 }
@@ -22,8 +28,5 @@
 }
 
 .actions {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 1rem;
-    width: 100%;
+    display: flex;
 }

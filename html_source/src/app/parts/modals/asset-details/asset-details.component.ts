@@ -67,7 +67,7 @@ export class AssetDetailsComponent implements OnInit, OnDestroy {
             jsonrpc: '2.0',
             method: 'get_asset_info',
             params: {
-                asset_id
+                asset_id,
             },
         };
         const callback = (_, response: ResponseGetAssetInfo) => {

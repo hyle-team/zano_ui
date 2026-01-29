@@ -1,12 +1,16 @@
 <div class="container scrolled-content">
     <app-breadcrumbs [items]="breadcrumbItems" class="mb-2"></app-breadcrumbs>
 
-    <form *ngIf="variablesService.current_wallet.loaded; else skeletonTemplate" role="form" (ngSubmit)="beforeSubmit()"
-          [formGroup]="form"
-          class="form">
+    <form
+        *ngIf="variablesService.current_wallet.loaded; else skeletonTemplate"
+        role="form"
+        (ngSubmit)="beforeSubmit()"
+        [formGroup]="form"
+        class="form"
+    >
         <!-- Sending -->
         <div class="form__row" formGroupName="sending">
-            <fieldset class="form__field fixed">
+            <fieldset class="form__field fixed mr-1">
                 <label for="sending-amount">
                     {{ 'CREATE_SWAP.FORM.LABELS.LABEL1' | translate }}
                 </label>
@@ -22,7 +26,9 @@
                     type="text"
                 />
                 <div
-                    *ngIf="(form.controls.sending.controls.amount | isVisibleControlError) || (form.controls.sending | isVisibleControlError)"
+                    *ngIf="
+                        (form.controls.sending.controls.amount | isVisibleControlError) || (form.controls.sending | isVisibleControlError)
+                    "
                     aria-live="assertive"
                     id="sending-amount-error"
                     class="error"
@@ -52,7 +58,7 @@
                 </div>
             </fieldset>
 
-            <fieldset class="form__field fixed">
+            <fieldset class="form__field fixed ml-1">
                 <label for="select-sending-asset-id" [attr.aria-label]="'ACCESSIBILITY.CREATE_SWAP.LABELS.LABEL1' | translate">
                     &nbsp;
                 </label>
@@ -89,7 +95,7 @@
 
         <!-- Receiving -->
         <div class="form__row" formGroupName="receiving">
-            <fieldset class="form__field fixed">
+            <fieldset class="form__field fixed mr-1">
                 <label for="receiving-amount">
                     {{ 'CREATE_SWAP.FORM.LABELS.LABEL2' | translate }}
                 </label>
@@ -105,7 +111,8 @@
                 />
                 <div
                     *ngIf="
-                        (form.controls.receiving.controls.amount | isVisibleControlError) || (form.controls.receiving | isVisibleControlError)
+                        (form.controls.receiving.controls.amount | isVisibleControlError) ||
+                        (form.controls.receiving | isVisibleControlError)
                     "
                     aria-live="assertive"
                     id="receiving-amount-error"
@@ -133,7 +140,7 @@
                 </div>
             </fieldset>
 
-            <fieldset class="form__field fixed">
+            <fieldset class="form__field fixed ml-1">
                 <label for="select-receive-asset-id" [attr.aria-label]="'ACCESSIBILITY.CREATE_SWAP.LABELS.LABEL1' | translate">
                     &nbsp;
                 </label>
@@ -172,9 +179,7 @@
         <!-- /Receiving -->
 
         <!-- Receiving Address -->
-        <div
-            class="form__field fixed"
-        >
+        <div class="form__field fixed">
             <label for="address">
                 {{ 'CREATE_SWAP.FORM.LABELS.LABEL3' | translate }}
                 <span class="color-red">*</span>
@@ -196,8 +201,7 @@
                 type="text"
             />
 
-            <mat-autocomplete #matAutocompleteRef="matAutocomplete" (opened)="openAutocomplete()"
-                              class="zano-autocomplete-panel">
+            <mat-autocomplete #matAutocompleteRef="matAutocomplete" (opened)="openAutocomplete()" class="zano-autocomplete-panel">
                 <ng-container *ngIf="!variablesService.is_remote_node">
                     <!--Loading-->
                     <mat-option *ngIf="loadingItems" disabled>
@@ -205,18 +209,15 @@
                     </mat-option>
 
                     <!--No alias found-->
-                    <mat-option class="placeholder" *ngIf="isShowHintNoAliasFound"
-                                disabled>
-                        <div class="pl-1"> {{ 'COMMON.NO_ALIAS_FOUND' | translate }} </div>
+                    <mat-option class="placeholder" *ngIf="isShowHintNoAliasFound" disabled>
+                        <div class="pl-1">{{ 'COMMON.NO_ALIAS_FOUND' | translate }}</div>
                     </mat-option>
 
                     <!--Enter 1 char to search-->
-                    <mat-option class="placeholder" *ngIf="isShowHintEnterCharToSearch"
-                                disabled>
+                    <mat-option class="placeholder" *ngIf="isShowHintEnterCharToSearch" disabled>
                         <div class="pl-1">
-                            {{
-                                'COMMON.ENTER_CHAR_TO_SEARCH' | translate
-                            }} </div>
+                            {{ 'COMMON.ENTER_CHAR_TO_SEARCH' | translate }}
+                        </div>
                     </mat-option>
                 </ng-container>
 
@@ -227,9 +228,9 @@
                             <ng-container *ngIf="item.startsWith('@'); else itemAddressTemplate">
                                 <div
                                     [ngClass]="{
-                                available: item.length >= 1 && item.length <= 6,
-                                'pl-1': item.length > 6
-                            }"
+                                        available: item.length >= 1 && item.length <= 6,
+                                        'pl-1': item.length > 6
+                                    }"
                                     class="alias-container"
                                 >
                                     <div class="alias">
@@ -258,11 +259,11 @@
         <!-- /Address -->
 
         <div class="actions">
-            <button [disabled]="form.invalid || (loading$ | async)" class="btn primary big w-100" type="submit">
+            <button [disabled]="form.invalid || (loading$ | async)" class="btn primary big w-100 mr-0_5" type="submit">
                 <ng-container *ngIf="!(loading$ | async)">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON1' | translate }} </ng-container>
                 <zano-loader *ngIf="loading$ | async" [type]="'circle'"></zano-loader>
             </button>
-            <a class="btn outline big w-100" routerLink="/wallet/swap">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON2' | translate }}</a>
+            <a class="btn outline big w-100 ml-0_5" routerLink="/wallet/swap">{{ 'CREATE_SWAP.FORM.BUTTONS.BUTTON2' | translate }}</a>
         </div>
 
         <div *ngIf="errorRpc" aria-live="assertive" class="error mt-2">

@@ -30,6 +30,8 @@ export class AssetsComponent implements OnInit, OnDestroy {
         currentPage: 1,
     };
 
+    skeletonRowsData = Array.from({ length: 20 });
+
     private readonly _destroy$ = new Subject<void>();
 
     private readonly _matDialog: MatDialog = inject(MatDialog);
@@ -48,15 +50,6 @@ export class AssetsComponent implements OnInit, OnDestroy {
 
     private readonly _router: Router = inject(Router);
 
-    get isShowPagination(): boolean {
-        const { current_wallet } = this.variablesService;
-        if (current_wallet) {
-            const { balances } = current_wallet;
-            return (balances?.length || 0) > this.paginatePipeArgs.itemsPerPage;
-        }
-        return false;
-    }
-
     ngOnInit(): void {
         this._listenChangeWallet();
     }
@@ -64,6 +57,15 @@ export class AssetsComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this._destroy$.next();
         this._destroy$.complete();
+    }
+
+    isShowPagination(): boolean {
+        const { current_wallet } = this.variablesService;
+        if (current_wallet) {
+            const { balances } = current_wallet;
+            return (balances?.length || 0) > this.paginatePipeArgs.itemsPerPage;
+        }
+        return false;
     }
 
     getViewBalanceData(balance: AssetBalance): {
@@ -117,14 +119,6 @@ export class AssetsComponent implements OnInit, OnDestroy {
         }
 
         return result;
-    }
-
-    trackByAssets(index: number, { asset_info: { asset_id } }: AssetBalance): number | string {
-        return asset_id || index;
-    }
-
-    trackByPages(index: number): number | string {
-        return index;
     }
 
     assetDetails(balance: AssetBalance): void {
@@ -228,18 +222,15 @@ export class AssetsComponent implements OnInit, OnDestroy {
     }
 
     isShowDeleteAsset(balance: AssetBalance): boolean {
-        const {
-            asset_info: { asset_id },
-        } = balance;
-        /** You can't delete zano */
-        return ![ZANO_ASSET_INFO.asset_id].includes(asset_id);
+        /** ZANO can't delete */
+        return ![ZANO_ASSET_INFO.asset_id].includes(balance.asset_info.asset_id);
     }
 
     private _listenChangeWallet(): void {
         const { currentWalletChangedEvent } = this.variablesService;
         currentWalletChangedEvent.pipe(takeUntil(this._destroy$)).subscribe({
             next: () => {
-                this.paginatePipeArgs.currentPage = 0;
+                this.paginatePipeArgs.currentPage = 1;
             },
         });
     }
@@ -256,10 +247,22 @@ export class AssetsComponent implements OnInit, OnDestroy {
     navigateToSend(event: Event, asset: AssetBalance): void {
         event.preventDefault();
         event.stopPropagation();
+
         if (this.isWalletReady()) {
             this._router.navigate(['/wallet/send'], { state: { asset } }).then();
         }
     }
 
-    protected readonly Array = Array;
+    setHideEmptyAssets(value: boolean) {
+        this.variablesService.current_wallet.setHideEmptyAssets(value);
+        this.paginatePipeArgs.currentPage = 1;
+    }
+
+    trackByIndex(index: number): number {
+        return index;
+    }
+
+    trackByAssets(index: number, { asset_info: { asset_id } }: AssetBalance): number | string {
+        return asset_id || index;
+    }
 }

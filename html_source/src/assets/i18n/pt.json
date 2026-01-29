@@ -117,6 +117,7 @@
                 "WRONG_ASSET_ID": "ID do ativo incorreto"
             }
         },
+        "HIDE_EMPTY": "Ocultar ativos vazios",
         "MODALS": {
             "ASSET_DETAILS": {
                 "BUTTONS": {
@@ -149,6 +150,10 @@
             }
         }
     },
+    "ASSET_TAG": {
+        "NATIVE": "Nativo",
+        "WHITELISTED": "Na lista branca"
+    },
     "ASSIGN_ALIAS": {
         "BUTTON_ASSIGN": "Atribuir",
         "COMMENT": {
@@ -168,7 +173,7 @@
         "NAME": {
             "LABEL": "Alias",
             "PLACEHOLDER": "Digite o alias",
-            "TOOLTIP": "Um alias é uma forma abreviada da sua conta. Um alias pode incluir apenas letras latinas, números e os caracteres “.” e “-”. Deve começar com “@”."
+            "TOOLTIP": "Um alias é uma forma abreviada da sua conta. Um alias pode incluir apenas letras latine, números e os caracteres “.” e “-”. Deve começar com “@”."
         },
         "ONE_ALIAS": "Você pode criar apenas um alias por carteira",
         "REQUEST_ADD_REG": "O alias será atribuído dentro de 10 minutos"
@@ -435,7 +440,7 @@
             "LABELS": {
                 "LABEL1": "Enviando",
                 "LABEL2": "Recebendo",
-                "LABEL3": "Endereço do destinatário"
+                "LABEL3": "Endereço da contraparte"
             },
             "PLACEHOLDERS": {
                 "PLACEHOLDER1": "Por favor, digite a quantidade"
@@ -642,8 +647,9 @@
         "DIALOGS": {
             "CONFIRMATION": {
                 "RESET": {
-                    "MESSAGE": "Isso excluirá permanentemente todos os seus dados secretos e redefinirá o aplicativo para seu estado padrão. Esta ação não pode ser desfeita. Tem certeza de que deseja continuar?",
-                    "TITLE": "Redefinir Dados do Aplicativo?"
+                    "MESSAGE": "Isso excluirá permanentemente todos os dados sensíveis armazenados neste dispositivo e restaurará o estado padrão do aplicativo. Esta ação não pode ser desfeita.",
+                    "SUBMIT_BUTTON": "Redefinir dados",
+                    "TITLE": "Redefinir dados do aplicativo?"
                 }
             }
         },
@@ -912,7 +918,7 @@
                 "LABELS": {
                     "LABEL1": "Zano Companion",
                     "LABEL2": "Segredo",
-                    "LABEL3": "Porta",
+                    "LABEL3": "Port",
                     "LABEL4": "(Requer senha mestre)"
                 }
             }

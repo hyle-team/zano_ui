@@ -38,13 +38,13 @@ table.zano-table {
                     white-space: nowrap;
                 }
 
-                 &:first-child {
+                &:first-child {
                     .title {
                         border-radius: 0.8rem 0 0 0.8rem;
                     }
                 }
 
-                 &:last-child {
+                &:last-child {
                     .title {
                         border-radius: 0 0.8rem 0.8rem 0;
                     }
@@ -163,7 +163,8 @@ table.zano-table {
         display: inline-flex;
         align-items: center;
 
-        .token-logo, .ticker {
+        .token-logo,
+        .ticker {
             flex-shrink: 0;
         }
 
@@ -183,7 +184,6 @@ table.zano-table {
     .zano-table-info__row {
         &:first-child {
             .zano-table-info__cell {
-
                 &:first-child {
                     border-top-left-radius: 0.6rem;
                 }
@@ -192,7 +192,6 @@ table.zano-table {
 
         &:last-child {
             .zano-table-info__cell {
-
                 &:first-child {
                     border-bottom-left-radius: 0.6rem;
                 }

@@ -15,12 +15,12 @@
         </div>
 
         <div class="actions">
-            <button (click)="copy()" [disabled]="form.invalid" class="btn primary big w-100" type="button">
+            <button (click)="copy()" [disabled]="form.invalid" class="btn primary big w-100 mr-0_5" type="button">
                 <mat-icon class="mr-1" [svgIcon]="copyAnimation ? 'zano-check' : 'zano-copy'"></mat-icon>
                 {{ 'SWAP_PROPOSAL_HEX.FORM.BUTTONS.BUTTON1' | translate }}
             </button>
 
-            <a class="btn outline big w-100" routerLink="/wallet/swap">
+            <a class="btn outline big w-100 ml-0_5" routerLink="/wallet/swap">
                 {{ 'SWAP_PROPOSAL_HEX.FORM.BUTTONS.BUTTON2' | translate }}
             </a>
         </div>

@@ -1,10 +1,6 @@
-<div
-    *ngIf="wallet.alias_info?.alias as alias"
-    class="wallet-card-alias-wrapper text-ellipsis"
-    tabindex="0"
->
-    <div [attr.aria-label]="'@' + alias" [matTooltip]="'@' + alias" class="alias-name text-ellipsis"
-         matTooltipShowDelay="2500">{{ '@' + alias }}
+<div *ngIf="wallet.alias_info?.alias as alias" class="wallet-card-alias-wrapper text-ellipsis" tabindex="0">
+    <div [attr.aria-label]="'@' + alias" [matTooltip]="'@' + alias" class="alias-name text-ellipsis" matTooltipShowDelay="2500">
+        {{ '@' + alias }}
     </div>
 
     <mat-icon *ngIf="alias.length >= 1 && alias.length <= 5" class="small ml-1" svgIcon="zano-crown"></mat-icon>
@@ -25,9 +21,7 @@
     <ng-template #aliasHistoryTemplate>
         <ul class="tooltip-list">
             <ng-container *ngFor="let alias_info of wallet.alias_info_list; let last = last">
-                <li *ngIf="!last">
-                    @{{ alias_info.alias }}
-                </li>
+                <li *ngIf="!last">@{{ alias_info.alias }}</li>
             </ng-container>
         </ul>
     </ng-template>

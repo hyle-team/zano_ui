@@ -52,7 +52,7 @@
 
     // field amount
     --amount-ticker-text: #0c0c3a99;
-    --amount-btn-revers-background: #1F8FEB33;
+    --amount-btn-revers-background: #1f8feb33;
 
     // checkbox
     --checkbox-border: 1px solid #1f8feb66;
@@ -67,16 +67,12 @@
 
     //wallet
     --wallet-background: #dbebf9;
-    --wallet-active-background: var(--gradietAquaToBlue);
+    --wallet-active-background: var(--gradientAquaToBlue);
     --wallet-border: 1px solid #1f8feb00;
     --wallet-border-color-hover: #1f8feb;
-    --wallet-auditable-watch-only-background: radial-gradient(
-        100% 246.57% at 0% 0%,
-            #af80fe 0%,
-            #8756fe 100%
-    );
-    --wallet-auditable-active-background: var(--gradietAmethystToPurpurle);
-    --wallet-watch-only-active-background: var(--gradietAmethystToPurpurle);
+    --wallet-auditable-watch-only-background: radial-gradient(100% 246.57% at 0% 0%, #af80fe 0%, #8756fe 100%);
+    --wallet-auditable-active-background: var(--gradientAmethystToPurpurle);
+    --wallet-watch-only-active-background: var(--gradientAmethystToPurpurle);
     --wallet-watch-only-after-background: #dbecf9;
     --wallet-watch-only-text: var(--blue-900);
     --wallet-active-text: #ffffff;
@@ -88,7 +84,6 @@
     --table-info-border-color: #d9dfe8;
 
     --table-rounded-corners-border: 1px solid var(--table-info-border-color);
-
 
     --table-info-border: 1px solid var(--table-info-border-color);
     --table-info-label-background: #f0f6fb;
@@ -158,7 +153,7 @@
 
     // field amount
     --amount-ticker-text: #ffffff60;
-    --amount-btn-revers-background: #1F8FEB33;
+    --amount-btn-revers-background: #1f8feb33;
 
     // checkbox
     --checkbox-border: 1px solid #ffffff33;
@@ -173,12 +168,12 @@
 
     //wallet
     --wallet-background: var(--blue-500);
-    --wallet-active-background: var(--gradietAquaToBlue);
+    --wallet-active-background: var(--gradientAquaToBlue);
     --wallet-border: 1px solid var(--blue-500);
     --wallet-border-color-hover: var(--gray-800);
-    --wallet-auditable-watch-only-background: var(--gradietLightAmethystToPurpurle);
-    --wallet-auditable-active-background: var(--gradietAmethystToPurpurle);
-    --wallet-watch-only-active-background: var(--gradietAmethystToPurpurle);
+    --wallet-auditable-watch-only-background: var(--gradientLightAmethystToPurpurle);
+    --wallet-auditable-active-background: var(--gradientAmethystToPurpurle);
+    --wallet-watch-only-active-background: var(--gradientAmethystToPurpurle);
     --wallet-watch-only-after-background: var(--blue-500);
     --wallet-watch-only-text: #ffffff;
     --wallet-active-text: #ffffff;

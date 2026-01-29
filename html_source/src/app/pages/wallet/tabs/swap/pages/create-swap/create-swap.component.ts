@@ -100,7 +100,7 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
 
     loading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-    lowerCaseDisabled= true;
+    lowerCaseDisabled = true;
 
     itemSize = 40;
 
@@ -216,7 +216,7 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
         event.preventDefault();
 
         const {
-            controls: { receiverAddress : addressControl },
+            controls: { receiverAddress: addressControl },
         } = this.form;
         const { clipboardData } = event;
 
@@ -392,15 +392,18 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
                     const alias_first_leters = value.slice(1); // slice to remove '@' symbol
                     const n_of_items_to_return = 10;
 
-                    this._backendService.alias_lookup({
-                        alias_first_leters,
-                        n_of_items_to_return
-                    }, (_, { result: { aliases } }) => {
-                        this._ngZone.run(() => {
-                            this.items = aliases?.map(({ alias }) => '@' + alias) ?? [];
-                            this.loadingItems = false;
-                        });
-                    });
+                    this._backendService.alias_lookup(
+                        {
+                            alias_first_leters,
+                            n_of_items_to_return,
+                        },
+                        (_, { result: { aliases } }) => {
+                            this._ngZone.run(() => {
+                                this.items = aliases?.map(({ alias }) => '@' + alias) ?? [];
+                                this.loadingItems = false;
+                            });
+                        }
+                    );
                 },
             });
     }

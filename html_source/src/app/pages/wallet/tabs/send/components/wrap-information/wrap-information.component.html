@@ -24,7 +24,7 @@
                 </td>
                 <td *ngIf="form.controls.amount.invalid">-</td>
             </tr>
-            <tr *ngIf="(variablesService.wrap_info$ | async) as wrap_info">
+            <tr *ngIf="variablesService.wrap_info$ | async as wrap_info">
                 <td>{{ 'SEND.WRAP.FEE' | translate }}</td>
                 <td>
                     {{ wrap_info.tx_cost?.zano_needed_for_erc20 | intToMoney : ZANO_ASSET_INFO.decimal_point }}

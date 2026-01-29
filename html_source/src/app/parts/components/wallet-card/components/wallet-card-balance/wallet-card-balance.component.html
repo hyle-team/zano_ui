@@ -6,21 +6,13 @@
                 [placement]="'bottom'"
                 [timeDelay]="2500"
                 [tooltipClass]="'balance-tooltip'"
-                [tooltip]="getBalancesTooltip()"
+                [tooltip]="tooltip$ | async"
                 class="price"
                 tabindex="0"
             >
-                <ng-container [ngSwitch]="wallet.settings.balanceDisplayMode">
-                    <ng-container *ngSwitchCase="'zano'">
-                        <div class="text-ellipsis overflow-hidden">{{ balance.total | intToMoney }}</div>
-                        <span class="currency ml-0_5">{{ balance.asset_info.ticker }}</span>
-                    </ng-container>
-                    <ng-container *ngSwitchDefault>
-                        <ng-container *ngIf="getViewBalanceData(balance) as viewBalanceData">
-                            <div class="text-ellipsis overflow-hidden">{{ viewBalanceData.value }}</div>
-                            <span class="currency ml-0_5">{{ viewBalanceData.currency.toUpperCase() }}</span>
-                        </ng-container>
-                    </ng-container>
+                <ng-container *ngIf="totalBalance$ | async as totalBalance">
+                    <div class="text-ellipsis overflow-hidden">{{ totalBalance.value }}</div>
+                    <span class="currency ml-0_5">{{ totalBalance.currency }}</span>
                 </ng-container>
             </div>
         </div>

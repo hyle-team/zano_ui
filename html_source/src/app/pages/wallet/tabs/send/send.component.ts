@@ -473,7 +473,7 @@ export class SendComponent implements OnDestroy {
                         this.form.controls.comment.enable();
                     }
 
-                    this.form.controls.destinations.controls.forEach(group => {
+                    this.form.controls.destinations.controls.forEach((group) => {
                         group.controls.amount.updateValueAndValidity({ emitEvent: false });
                     });
                 },
