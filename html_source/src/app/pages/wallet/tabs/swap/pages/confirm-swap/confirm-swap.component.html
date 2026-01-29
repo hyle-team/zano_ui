@@ -1,8 +1,7 @@
 <section class="container scrolled-content">
     <app-breadcrumbs [items]="breadcrumbItems" class="mb-2"></app-breadcrumbs>
 
-    <form *ngIf="variablesService.current_wallet.loaded; else skeletonTemplate" [formGroup]="form" class="form"
-          role="form">
+    <form *ngIf="variablesService.current_wallet.loaded; else skeletonTemplate" [formGroup]="form" class="form" role="form">
         <fieldset class="form__field textarea mb-2">
             <label for="swap-proposal-hex">
                 {{ 'CONFIRM_SWAP.FORM.LABELS.LABEL1' | translate }}
@@ -60,8 +59,12 @@
         </div>
 
         <div class="actions">
-            <button (click)="swapConfirmMasterPasswordDialog()" [disabled]="!proposalDetails"
-                    class="btn primary big w-100 mr-0_5" type="button">
+            <button
+                (click)="swapConfirmMasterPasswordDialog()"
+                [disabled]="!proposalDetails"
+                class="btn primary big w-100 mr-0_5"
+                type="button"
+            >
                 {{ 'CONFIRM_SWAP.FORM.BUTTONS.BUTTON1' | translate }}
             </button>
 

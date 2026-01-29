@@ -85,7 +85,17 @@ export class CreateWalletComponent {
                 const { wallet_id } = generate_data;
                 const { path, address, balance, unlocked_balance, mined_total, tracking_hey } = generate_data['wi'];
 
-                const wallet = new Wallet(wallet_id, walletName, password, path, address, balance, unlocked_balance, mined_total, tracking_hey);
+                const wallet = new Wallet(
+                    wallet_id,
+                    walletName,
+                    password,
+                    path,
+                    address,
+                    balance,
+                    unlocked_balance,
+                    mined_total,
+                    tracking_hey
+                );
                 wallet.total_history_item = 0;
                 wallet.pages = new Array(1).fill(1);
                 wallet.totalPages = 1;

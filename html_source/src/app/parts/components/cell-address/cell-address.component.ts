@@ -65,12 +65,11 @@ export class CellAddressComponent {
                 return value;
             }
             case 'alias': {
-                return `@${ value }`;
+                return `@${value}`;
             }
             default: {
                 return value;
             }
         }
-
     }
 }

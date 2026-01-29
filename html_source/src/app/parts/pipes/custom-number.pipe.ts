@@ -12,19 +12,14 @@ interface NumberFormatOptions {
 
 @Pipe({
     name: 'customNumber',
-    standalone: true
+    standalone: true,
 })
 export class CustomNumberFormatPipe implements PipeTransform {
-
     constructor() {
         BigNumber.set({ DECIMAL_PLACES: 20 });
     }
 
-    transform(
-        value: number | string | null | undefined,
-        options?: NumberFormatOptions
-    ): string {
-
+    transform(value: number | string | null | undefined, options?: NumberFormatOptions): string {
         const settings: Required<NumberFormatOptions> = {
             maxDecimals: options?.maxDecimals ?? 20,
             padZeros: options?.padZeros ?? false,

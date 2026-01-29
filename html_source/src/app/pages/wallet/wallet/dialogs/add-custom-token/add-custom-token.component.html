@@ -26,8 +26,7 @@
                 <div *ngIf="formGroup.controls.asset_id.hasError('wrongAssetId')" aria-live="assertive" class="error" id="asset-id-error2">
                     {{ formGroup.controls.asset_id.errors['wrongAssetId'].errorText | translate }}
                 </div>
-                <div *ngIf="formGroup.controls.asset_id.hasError('assetIdExists')" aria-live="assertive"
-                     class="error" id="asset-id-error3">
+                <div *ngIf="formGroup.controls.asset_id.hasError('assetIdExists')" aria-live="assertive" class="error" id="asset-id-error3">
                     {{ 'WALLET.MODAL_WHITELIST_ASSET.FORM_ERRORS.ERROR2' | translate }}
                 </div>
             </ng-container>

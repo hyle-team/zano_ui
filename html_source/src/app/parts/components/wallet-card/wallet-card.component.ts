@@ -12,15 +12,9 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { WalletCardButtonCloseComponent } from '@parts/components/wallet-card/components/wallet-card-button-close/wallet-card-button-close.component';
 import { WalletCardNameComponent } from '@parts/components/wallet-card/components/wallet-card-name/wallet-card-name.component';
 import { WalletCardBalanceComponent } from '@parts/components/wallet-card/components/wallet-card-balance/wallet-card-balance.component';
-import {
-    WalletCardStakingComponent
-} from '@parts/components/wallet-card/components/wallet-card-staking/wallet-card-staking.component';
-import {
-    WalletCardProgressComponent
-} from '@parts/components/wallet-card/components/wallet-card-progress/wallet-card-progress.component';
-import {
-    WalletCardAliasComponent
-} from '@parts/components/wallet-card/components/wallet-card-alias/wallet-card-alias.component';
+import { WalletCardStakingComponent } from '@parts/components/wallet-card/components/wallet-card-staking/wallet-card-staking.component';
+import { WalletCardProgressComponent } from '@parts/components/wallet-card/components/wallet-card-progress/wallet-card-progress.component';
+import { WalletCardAliasComponent } from '@parts/components/wallet-card/components/wallet-card-alias/wallet-card-alias.component';
 
 @Component({
     selector: 'app-wallet-card',

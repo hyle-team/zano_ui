@@ -43,11 +43,13 @@
     max-width: 50rem;
 
     &-label-1 {
-        width: 7.7rem; height: 1.8rem;
+        width: 7.7rem;
+        height: 1.8rem;
     }
 
     &-label-2 {
-        width: 13.6rem; height: 1.8rem;
+        width: 13.6rem;
+        height: 1.8rem;
     }
 
     &-field {
@@ -59,11 +61,13 @@
     }
 
     &-details {
-        width: 20rem; height: 4.6rem;
+        width: 20rem;
+        height: 4.6rem;
     }
 
     &-button {
-        width: 18.3rem; height: 5.3rem;
+        width: 18.3rem;
+        height: 5.3rem;
     }
 }
 
@@ -73,7 +77,7 @@
     height: 100%;
 
     .skeleton-staking-header,
-    .skeleton-staking-footer  {
+    .skeleton-staking-footer {
         display: flex;
     }
 
@@ -84,9 +88,9 @@
 
 .light {
     .skeleton {
-        background-color: #DBECF9;
+        background-color: #dbecf9;
 
-        background-image: linear-gradient(90deg, #DBECF9 0%, #EEF8FF 50%, #DBECF9 100%);
+        background-image: linear-gradient(90deg, #dbecf9 0%, #eef8ff 50%, #dbecf9 100%);
     }
 }
 

@@ -126,8 +126,6 @@ export class WalletsService {
         });
     }
 
-
-
     loadAliasInfoListForWallets(): void {
         this.wallets.forEach((wallet: Wallet) => {
             this.loadAliasInfoList(wallet);

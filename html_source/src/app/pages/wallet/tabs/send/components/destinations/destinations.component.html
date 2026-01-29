@@ -14,7 +14,7 @@
 
     <ng-container *ngIf="formArray.invalid">
         <div *ngIf="formArray.hasError('max_destinations')" class="error mb-2">
-            {{ 'SEND.FORM_ERRORS.MAX_DESTINATIONS' | translate: { max: formArray.getError('max_destinations').max } }}
+            {{ 'SEND.FORM_ERRORS.MAX_DESTINATIONS' | translate : { max: formArray.getError('max_destinations').max } }}
         </div>
     </ng-container>
 

@@ -568,7 +568,7 @@ export class BackendService {
         this.runCommand(Commands.open_url_in_browser, url, callback);
     }
 
-    start_backend(node, host, port, callback): void {
+    start_backend(node, host, port, callback: any = () => {}): void {
         const params = {
             configure_for_remote_node: node,
             remote_node_host: host,

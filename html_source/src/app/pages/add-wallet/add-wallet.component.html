@@ -18,10 +18,7 @@
                     <h4 class="mb-2">{{ 'MAIN.TITLE' | translate }}</h4>
 
                     <!--*ngIf="variablesService.daemon_state === 2"-->
-                    <button [routerLink]="['/create']" appAutofocus
-                            class="primary big w-100 mb-1"
-                            role="link"
-                            type="button">
+                    <button [routerLink]="['/create']" appAutofocus class="primary big w-100 mb-1" role="link" type="button">
                         {{ 'MAIN.BUTTON_NEW_WALLET' | translate }}
                     </button>
 
@@ -38,8 +35,7 @@
                     </button>
 
                     <!--*ngIf="variablesService.daemon_state === 2"-->
-                    <button [routerLink]="['/restore']"
-                            class="outline big w-100 mb-2" role="link" type="button">
+                    <button [routerLink]="['/restore']" class="outline big w-100 mb-2" role="link" type="button">
                         {{ 'MAIN.BUTTON_RESTORE_BACKUP' | translate }}
                     </button>
 

@@ -3,21 +3,20 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { WalletCardBalanceComponent } from './wallet-card-balance.component';
 
 describe('WalletCardBalanceComponent', () => {
-  let component: WalletCardBalanceComponent;
-  let fixture: ComponentFixture<WalletCardBalanceComponent>;
+    let component: WalletCardBalanceComponent;
+    let fixture: ComponentFixture<WalletCardBalanceComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [ WalletCardBalanceComponent ]
-    })
-    .compileComponents();
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [WalletCardBalanceComponent],
+        }).compileComponents();
 
-    fixture = TestBed.createComponent(WalletCardBalanceComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+        fixture = TestBed.createComponent(WalletCardBalanceComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

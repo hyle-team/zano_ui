@@ -36,9 +36,10 @@ table {
         font-size: 1.8rem;
     }
 
-    &.asset-is-whitelisted-globally, &.asset-is-whitelisted {
+    &.asset-is-whitelisted-globally,
+    &.asset-is-whitelisted {
         h3 {
-            color: #16D1D6;
+            color: #16d1d6;
         }
     }
 

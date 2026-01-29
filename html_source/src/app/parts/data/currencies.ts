@@ -54,14 +54,57 @@ export const currenciesItems = [
 ];
 
 export const fiatCurrencyIds = new Set([
-    'usd','aed','ars','aud','bdt','bhd','bmd','brl','cad','chf','clp','cny','czk',
-    'dkk','eur','gbp','gel','hkd','huf','idr','ils','inr','jpy','krw','kwd','lkr',
-    'mmk','mxn','myr','ngn','nok','nzd','php','pkr','pln','rub','sar','sek','sgd',
-    'thb','try','twd','uah','vef','vnd','zar','xdr'
+    'usd',
+    'aed',
+    'ars',
+    'aud',
+    'bdt',
+    'bhd',
+    'bmd',
+    'brl',
+    'cad',
+    'chf',
+    'clp',
+    'cny',
+    'czk',
+    'dkk',
+    'eur',
+    'gbp',
+    'gel',
+    'hkd',
+    'huf',
+    'idr',
+    'ils',
+    'inr',
+    'jpy',
+    'krw',
+    'kwd',
+    'lkr',
+    'mmk',
+    'mxn',
+    'myr',
+    'ngn',
+    'nok',
+    'nzd',
+    'php',
+    'pkr',
+    'pln',
+    'rub',
+    'sar',
+    'sek',
+    'sgd',
+    'thb',
+    'try',
+    'twd',
+    'uah',
+    'vef',
+    'vnd',
+    'zar',
+    'xdr',
 ]);
 
-export const fiatCurrencies = currenciesItems.filter(c => fiatCurrencyIds.has(c.id));
+export const fiatCurrencies = currenciesItems.filter((c) => fiatCurrencyIds.has(c.id));
 
-export const nonFiatCurrencies = currenciesItems.filter(c => !fiatCurrencyIds.has(c.id));
+export const nonFiatCurrencies = currenciesItems.filter((c) => !fiatCurrencyIds.has(c.id));
 
 export const isFiatCurrency = (currency: string) => fiatCurrencyIds.has(currency);

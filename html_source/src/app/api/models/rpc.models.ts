@@ -35,5 +35,5 @@ export interface ResponseGetAssetInfo {
             total_max_supply: number;
         };
         status: string;
-    }
+    };
 }

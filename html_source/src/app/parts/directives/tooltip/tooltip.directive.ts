@@ -280,7 +280,7 @@ export class TooltipDirective implements OnDestroy {
                 this.renderer.setStyle(
                     this.tooltip,
                     'top',
-                    ((hostPos.top + (hostPos.bottom - hostPos.top) / 2) - (this.tooltip.getBoundingClientRect().height / 2)) + 'px'
+                    hostPos.top + (hostPos.bottom - hostPos.top) / 2 - this.tooltip.getBoundingClientRect().height / 2 + 'px'
                 );
                 break;
             case 'right-top':

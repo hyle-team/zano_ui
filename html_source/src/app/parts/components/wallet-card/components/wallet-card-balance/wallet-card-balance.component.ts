@@ -60,9 +60,7 @@ export class WalletCardBalanceComponent implements OnChanges {
         );
 
         const langChange$ = this.translate.onLangChange.pipe(startWith(null));
-        this.tooltip$ = combineLatest([this.wallet.balances$, langChange$]).pipe(
-            map(([balances]) => this.createBalancesTooltip(balances))
-        );
+        this.tooltip$ = combineLatest([this.wallet.balances$, langChange$]).pipe(map(([balances]) => this.createBalancesTooltip(balances)));
     }
 
     private calculateTotalBalance(

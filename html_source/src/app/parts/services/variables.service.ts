@@ -126,7 +126,7 @@ export class VariablesService implements OnDestroy {
         localBlacklistsOfVerifiedAssetsByWallets: {},
     };
 
-    isDarkTheme$ = new BehaviorSubject(true);
+    isDarkTheme$ = new BehaviorSubject(this.settings.isDarkTheme);
 
     count = 40;
 

@@ -26,8 +26,6 @@ import { AliasInfo } from '@api/models/alias.model';
     templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit, OnDestroy {
-    intervalUpdateContractsState!: NodeJS.Timeout;
-
     onQuitRequest = false;
 
     firstOnlineState = false;
@@ -67,44 +65,16 @@ export class AppComponent implements OnInit, OnDestroy {
         this._initResponsiveClasses();
     }
 
-    setBackendLocalization(): void {
-        if (this.translateUsed) {
-            const strings: string[] = [
-                'BACKEND_LOCALIZATION.QUIT',
-                'BACKEND_LOCALIZATION.IS_RECEIVED',
-                'BACKEND_LOCALIZATION.IS_CONFIRMED',
-                'BACKEND_LOCALIZATION.INCOME_TRANSFER_UNCONFIRMED',
-                'BACKEND_LOCALIZATION.INCOME_TRANSFER_CONFIRMED',
-                'BACKEND_LOCALIZATION.MINED',
-                'BACKEND_LOCALIZATION.LOCKED',
-                'BACKEND_LOCALIZATION.IS_MINIMIZE',
-                'BACKEND_LOCALIZATION.RESTORE',
-                'BACKEND_LOCALIZATION.TRAY_MENU_SHOW',
-                'BACKEND_LOCALIZATION.TRAY_MENU_MINIMIZE',
-            ].map((key) => this.translateService.instant(key));
-
-            const {
-                settings: { language: language_title },
-            } = this.variablesService;
-
-            this.backendService.setBackendLocalization(strings, language_title);
-        } else {
-            console.warn('Wait Translate Use');
-            setTimeout(() => {
-                this.setBackendLocalization();
-            }, 10000);
-        }
-    }
-
     ngOnInit(): void {
         this.backendService.initService().subscribe({
             next: (initMessage) => {
-                console.log('Init message: ', initMessage);
+                console.group('----------------- Init message -----------------');
+                console.log(initMessage);
+                console.groupEnd();
+
                 this.backendService.webkitLaunchedScript();
 
-                this.backendService.start_backend(false, '127.0.0.1', 11512, (st2, dd2) => {
-                    console.log(st2, dd2);
-                });
+                this.backendService.start_backend(false, '127.0.0.1', 11512);
 
                 this.backendService.eventSubscribe(Commands.quit_requested, () => {
                     if (this.onQuitRequest) {
@@ -187,12 +157,12 @@ export class AppComponent implements OnInit, OnDestroy {
                                 this.variablesService.sync_started = true;
                                 this.variablesService.sync_wallets[wallet.wallet_id] = true;
                             }
-                            this.addToStore(wallet, true); // subscribe on data
+                            this._addToStore(wallet, true); // subscribe on data
                             if (wallet.progress === 0) {
                                 wallet.loaded = false;
                             } else if (wallet.progress === 100) {
                                 wallet.loaded = true;
-                                this.addToStore(wallet, false);
+                                this._addToStore(wallet, false);
                                 this.variablesService.sync_started = false;
                                 this.variablesService.sync_wallets[wallet.wallet_id] = false;
                             }
@@ -566,28 +536,32 @@ export class AppComponent implements OnInit, OnDestroy {
                     });
                 });
 
-                this.intervalUpdateContractsState = setInterval(() => {
-                    this.variablesService.wallets.forEach((wallet) => {
-                        wallet.contracts.forEach((contract) => {
-                            if (
-                                contract.state === 201 &&
-                                contract.height !== 0 &&
-                                this.variablesService.height_app - contract.height >= 10
-                            ) {
-                                contract.state = 2;
-                                contract.is_new = true;
-                                console.warn('need check state in contracts');
-                            } else if (
-                                contract.state === 601 &&
-                                contract.height !== 0 &&
-                                this.variablesService.height_app - contract.height >= 10
-                            ) {
-                                contract.state = 6;
-                                contract.is_new = true;
-                            }
-                        });
+                interval(30000)
+                    .pipe(takeUntil(this._destroy$))
+                    .subscribe({
+                        next: () => {
+                            this.variablesService.wallets.forEach((wallet) => {
+                                wallet.contracts.forEach((contract) => {
+                                    if (
+                                        contract.state === 201 &&
+                                        contract.height !== 0 &&
+                                        this.variablesService.height_app - contract.height >= 10
+                                    ) {
+                                        contract.state = 2;
+                                        contract.is_new = true;
+                                        console.warn('need check state in contracts');
+                                    } else if (
+                                        contract.state === 601 &&
+                                        contract.height !== 0 &&
+                                        this.variablesService.height_app - contract.height >= 10
+                                    ) {
+                                        contract.state = 6;
+                                        contract.is_new = true;
+                                    }
+                                });
+                            });
+                        },
                     });
-                }, 30000);
 
                 this.variablesService.getExpMedTsEvent.pipe(takeUntil(this._destroy$)).subscribe({
                     next: (newTimestamp: number) => {
@@ -605,30 +579,27 @@ export class AppComponent implements OnInit, OnDestroy {
                     },
                 });
 
-                this.backendService.getAppData((status, data) => {
+                this.backendService.getAppData((_, data) => {
                     if (data && Object.keys(data).length > 0) {
                         for (const key in data) {
                             if (hasOwnProperty(data, key) && hasOwnProperty(this.variablesService.settings, key)) {
                                 this.variablesService.settings[key] = data[key];
                             }
                         }
-
-                        const { isDarkTheme$, visibilityBalance$, settings } = this.variablesService;
-
-                        isDarkTheme$.next(settings.isDarkTheme);
-                        visibilityBalance$.next(settings.visibilityBalance);
-                        settings.appUseTor = false; // TODO: Delete this line after return appUseTor
-                        if (hasOwnProperty(settings, 'scale') && ['8px', '10px', '12px', '14px'].indexOf(settings.scale) !== -1) {
-                            this.renderer.setStyle(document.documentElement, 'font-size', settings.scale);
-                        } else {
-                            settings.scale = '10px';
-                            this.renderer.setStyle(document.documentElement, 'font-size', settings.scale);
-                        }
-
-                        this.renderer.setAttribute(document.documentElement, 'class', settings.isDarkTheme ? 'dark' : 'light');
                     }
+
+                    const { isDarkTheme$, visibilityBalance$, settings } = this.variablesService;
+
+                    isDarkTheme$.next(settings.isDarkTheme);
+                    visibilityBalance$.next(settings.visibilityBalance);
+
+                    settings.appUseTor = false; // TODO: Delete this line after return appUseTor
+
+                    this.renderer.setStyle(document.documentElement, 'font-size', settings.scale);
+                    this.renderer.setAttribute(document.documentElement, 'class', settings.isDarkTheme ? 'dark' : 'light');
+
                     this.translateService.use(this.variablesService.settings.language);
-                    this.setBackendLocalization();
+                    this._setBackendLocalization();
 
                     this.backendService.setLogLevel(this.variablesService.settings.appLog);
                     this.backendService.setEnableTor(this.variablesService.settings.appUseTor);
@@ -674,7 +645,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
                 this._getVersion();
 
-                this.getInfo();
+                this._getInfo();
 
                 this._initWrapInfoPolling();
 
@@ -682,7 +653,7 @@ export class AppComponent implements OnInit, OnDestroy {
                     this.variablesService.is_remote_node = is_remote_node;
                 });
 
-                interval(10 * 1000)
+                interval(10000)
                     .pipe(takeUntil(this._destroy$))
                     .subscribe(() => {
                         this.backendService.getOptions();
@@ -696,6 +667,40 @@ export class AppComponent implements OnInit, OnDestroy {
 
         this._initAssetPricePolling();
         this._initThemeSubscription();
+    }
+
+    ngOnDestroy(): void {
+        this._destroy$.next();
+        this._destroy$.complete();
+    }
+
+    private _setBackendLocalization(): void {
+        if (this.translateUsed) {
+            const strings: string[] = [
+                'BACKEND_LOCALIZATION.QUIT',
+                'BACKEND_LOCALIZATION.IS_RECEIVED',
+                'BACKEND_LOCALIZATION.IS_CONFIRMED',
+                'BACKEND_LOCALIZATION.INCOME_TRANSFER_UNCONFIRMED',
+                'BACKEND_LOCALIZATION.INCOME_TRANSFER_CONFIRMED',
+                'BACKEND_LOCALIZATION.MINED',
+                'BACKEND_LOCALIZATION.LOCKED',
+                'BACKEND_LOCALIZATION.IS_MINIMIZE',
+                'BACKEND_LOCALIZATION.RESTORE',
+                'BACKEND_LOCALIZATION.TRAY_MENU_SHOW',
+                'BACKEND_LOCALIZATION.TRAY_MENU_MINIMIZE',
+            ].map((key) => this.translateService.instant(key));
+
+            const {
+                settings: { language: language_title },
+            } = this.variablesService;
+
+            this.backendService.setBackendLocalization(strings, language_title);
+        } else {
+            console.warn('Wait Translate Use');
+            setTimeout(() => {
+                this._setBackendLocalization();
+            }, 10000);
+        }
     }
 
     private _handlerCoreEventUpdateAlias(data, i: number): void {
@@ -727,16 +732,7 @@ export class AppComponent implements OnInit, OnDestroy {
         }
     }
 
-    ngOnDestroy(): void {
-        this._destroy$.next();
-        this._destroy$.complete();
-
-        if (this.intervalUpdateContractsState) {
-            clearInterval(this.intervalUpdateContractsState);
-        }
-    }
-
-    addToStore(wallet, boolean): void {
+    private _addToStore(wallet, boolean): void {
         const value = this.store.state.sync;
         if (value && value.length > 0) {
             const sync = value.filter((item) => item.wallet_id === wallet.wallet_id);
@@ -783,9 +779,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     private _loadVerifiedAssetInfoWhitelist(type: 'mainnet' | 'testnet'): void {
-        const updateTime: number = 10 * 60 * 1000;
-
-        interval(updateTime)
+        interval(600000)
             .pipe(
                 startWith(0),
                 switchMap(() => this._apiService.getVerifiedAssetInfoWhitelist(type).pipe(retry(2))),
@@ -799,10 +793,8 @@ export class AppComponent implements OnInit, OnDestroy {
             });
     }
 
-    getInfo(): void {
-        const updateTime: number = 60 * 1000;
-
-        interval(updateTime)
+    private _getInfo(): void {
+        interval(60000)
             .pipe(startWith(0), takeUntil(this._destroy$))
             .subscribe({
                 next: () => {
@@ -882,7 +874,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     private _initWrapInfoPolling(): void {
-        interval(3 * 60 * 1000)
+        interval(180000)
             .pipe(
                 startWith(0),
                 switchMap(() =>
@@ -916,7 +908,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     private _initAssetPricePolling(): void {
-        interval(10 * 60 * 1000)
+        interval(600000)
             .pipe(takeUntil(this._destroy$))
             .subscribe({
                 next: () => {

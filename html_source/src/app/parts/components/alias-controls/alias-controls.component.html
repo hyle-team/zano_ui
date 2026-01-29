@@ -31,8 +31,6 @@
                 >
                     +{{ variablesService.current_wallet.alias_info_list.length - 1 }}
                 </div>
-
-
             </ng-container>
         </button>
     </ng-container>
@@ -41,9 +39,7 @@
 <ng-template #tooltipListTemplate>
     <ul class="tooltip-list">
         <ng-container *ngFor="let alias_info of variablesService.current_wallet.alias_info_list; let last = last">
-            <li *ngIf="!last">
-                @{{ alias_info.alias }}
-            </li>
+            <li *ngIf="!last">@{{ alias_info.alias }}</li>
         </ng-container>
     </ul>
 </ng-template>

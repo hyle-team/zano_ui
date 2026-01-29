@@ -103,10 +103,7 @@ export class AppModule {
 
     private _registerIcons(arr: Array<string>): void {
         arr.forEach((iconName: string) => {
-            this._matIconRegistry.addSvgIcon(
-                iconName,
-                this._sanitizer.bypassSecurityTrustResourceUrl(`assets/zano-icons/${iconName}.svg`)
-            );
+            this._matIconRegistry.addSvgIcon(iconName, this._sanitizer.bypassSecurityTrustResourceUrl(`assets/zano-icons/${iconName}.svg`));
         });
     }
 }

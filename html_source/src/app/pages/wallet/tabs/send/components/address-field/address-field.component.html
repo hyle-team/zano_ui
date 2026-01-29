@@ -20,8 +20,7 @@
         type="text"
     />
 
-    <mat-autocomplete #matAutocompleteRef="matAutocomplete" (opened)="openAutocomplete()"
-                      class="zano-autocomplete-panel">
+    <mat-autocomplete #matAutocompleteRef="matAutocomplete" (opened)="openAutocomplete()" class="zano-autocomplete-panel">
         <ng-container *ngIf="!variablesService.is_remote_node">
             <!--Loading-->
             <mat-option *ngIf="loading" disabled>
@@ -29,18 +28,15 @@
             </mat-option>
 
             <!--No alias found-->
-            <mat-option class="placeholder" *ngIf="isShowHintNoAliasFound"
-                        disabled>
-                <div class="pl-1"> {{ 'COMMON.NO_ALIAS_FOUND' | translate }} </div>
+            <mat-option class="placeholder" *ngIf="isShowHintNoAliasFound" disabled>
+                <div class="pl-1">{{ 'COMMON.NO_ALIAS_FOUND' | translate }}</div>
             </mat-option>
 
             <!--Enter 1 char to search-->
-            <mat-option class="placeholder" *ngIf="isShowHintEnterCharToSearch"
-                        disabled>
+            <mat-option class="placeholder" *ngIf="isShowHintEnterCharToSearch" disabled>
                 <div class="pl-1">
-                    {{
-                        'COMMON.ENTER_CHAR_TO_SEARCH' | translate
-                    }} </div>
+                    {{ 'COMMON.ENTER_CHAR_TO_SEARCH' | translate }}
+                </div>
             </mat-option>
         </ng-container>
 
@@ -71,8 +67,7 @@
         </ng-container>
     </mat-autocomplete>
 
-    <div *ngIf="form.controls.address | isVisibleControlError" aria-live="assertive" class="error"
-         id="address-error">
+    <div *ngIf="form.controls.address | isVisibleControlError" aria-live="assertive" class="error" id="address-error">
         {{ errorMessages['address'] | translate }}
     </div>
 

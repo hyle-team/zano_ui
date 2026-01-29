@@ -14,7 +14,7 @@
         display: inline-flex;
         align-items: center;
 
-        color: #24669C;
+        color: #24669c;
         font-weight: 600;
     }
 
@@ -22,7 +22,7 @@
         display: inline-flex;
         align-items: center;
 
-        color: #C35F5F;
+        color: #c35f5f;
         font-weight: 600;
     }
 }
@@ -31,7 +31,8 @@
     .destination-form__row {
         display: flex;
 
-        zano-asset-field, zano-amount-field {
+        zano-asset-field,
+        zano-amount-field {
             width: 24rem;
         }
     }
