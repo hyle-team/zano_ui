@@ -296,7 +296,7 @@ export class SettingsComponent implements OnInit {
         this.backend.storeAppData();
     }
 
-    showPrice(): void {
+    toggleVisibilityBalance(): void {
         this.variablesService.visibilityBalance$.next(!this.variablesService.visibilityBalance$.value);
         this.backend.storeAppData();
     }

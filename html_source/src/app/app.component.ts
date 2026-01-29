@@ -2,7 +2,7 @@ import { Component, NgZone, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BackendService, Commands } from '@api/services/backend.service';
 import { Router } from '@angular/router';
-import { VariablesService } from '@parts/services/variables.service';
+import { AppSettings, VariablesService } from '@parts/services/variables.service';
 import { IntToMoneyPipe } from '@parts/pipes';
 import { BigNumber } from 'bignumber.js';
 import { ModalService } from '@parts/services/modal.service';
@@ -579,32 +579,35 @@ export class AppComponent implements OnInit, OnDestroy {
                     },
                 });
 
-                this.backendService.getAppData((_, data) => {
-                    if (data && Object.keys(data).length > 0) {
-                        for (const key in data) {
-                            if (hasOwnProperty(data, key) && hasOwnProperty(this.variablesService.settings, key)) {
-                                this.variablesService.settings[key] = data[key];
-                            }
-                        }
+                this.backendService.getAppData((_, data: Partial<AppSettings> = {}) => {
+                    /* Update settings */
+                    if (Object.keys(data).length !== 0) {
+                        this.variablesService.settings = { ...this.variablesService.settings, ...data };
                     }
 
-                    const { isDarkTheme$, visibilityBalance$, settings } = this.variablesService;
+                    /* Apply Settings */
+                    this.variablesService.settings.appUseTor = false; // TODO: Delete this line after return appUseTor
 
-                    isDarkTheme$.next(settings.isDarkTheme);
-                    visibilityBalance$.next(settings.visibilityBalance);
+                    const {
+                        isDarkTheme$,
+                        visibilityBalance$,
+                        settings: { isDarkTheme, visibilityBalance, scale, language, appLog, appUseTor, wallets },
+                    } = this.variablesService;
 
-                    settings.appUseTor = false; // TODO: Delete this line after return appUseTor
+                    isDarkTheme$.next(isDarkTheme);
+                    visibilityBalance$.next(visibilityBalance);
 
-                    this.renderer.setStyle(document.documentElement, 'font-size', settings.scale);
-                    this.renderer.setAttribute(document.documentElement, 'class', settings.isDarkTheme ? 'dark' : 'light');
+                    this.renderer.setStyle(document.documentElement, 'font-size', scale);
+                    this.renderer.setAttribute(document.documentElement, 'class', isDarkTheme ? 'dark' : 'light');
 
-                    this.translateService.use(this.variablesService.settings.language);
+                    this.translateService.use(language);
                     this._setBackendLocalization();
 
-                    this.backendService.setLogLevel(this.variablesService.settings.appLog);
-                    this.backendService.setEnableTor(this.variablesService.settings.appUseTor);
+                    this.backendService.setLogLevel(appLog);
+                    this.backendService.setEnableTor(appUseTor);
 
-                    if (!this.variablesService.settings.wallets || this.variablesService.settings.wallets.length === 0) {
+                    /* Navigation */
+                    if (!wallets || wallets.length === 0) {
                         this.ngZone.run(() => {
                             this.router.navigate([`${paths.auth}/${pathsChildrenAuth.noWallet}`]).then();
                         });
@@ -622,7 +625,7 @@ export class AppComponent implements OnInit, OnDestroy {
                                 });
                             } else {
                                 if (Object.keys(data).length !== 0) {
-                                    this.needOpenWallets = JSON.parse(JSON.stringify(this.variablesService.settings.wallets));
+                                    this.needOpenWallets = [...wallets];
                                     this.ngZone.run(() => {
                                         this.variablesService.appLogin = true;
                                         this.router.navigate(['/']);

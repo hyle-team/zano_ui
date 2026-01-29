@@ -14,13 +14,61 @@ import { ApiService } from '@api/services/api.service';
 import { WrapInfo } from '@api/models/wrap-info';
 import { DEFAULT_FEE, DEFAULT_FEE_BIG, DEFAULT_PRICE_ALIAS, MAX_COMMENT_LENGTH, MAX_WALLET_NAME_LENGTH } from '@parts/data/constants';
 
+export interface AppSettings {
+    currency: string;
+    appLockTime: number;
+    appLog: number;
+    scale: string;
+    appUseTor: boolean;
+    visibilityBalance: boolean;
+    language: string;
+    default_path: string;
+    viewedContracts: any[];
+    notViewedContracts: any[];
+    zanoCompanionForm: {
+        zanoCompation: boolean;
+        secret: string;
+    };
+    wallets: any[];
+    isDarkTheme: boolean;
+    filters: {
+        stakingFilters: any;
+    };
+    localBlacklistsOfVerifiedAssetsByWallets: {
+        [key: string]: string[]
+    };
+}
+
 @Injectable({
     providedIn: 'root',
 })
 export class VariablesService implements OnDestroy {
+    settings: AppSettings = {
+        currency: 'usd',
+        appLockTime: 15,
+        appLog: 0,
+        scale: '10px',
+        appUseTor: false,
+        visibilityBalance: true,
+        language: 'en',
+        default_path: '/',
+        viewedContracts: [],
+        notViewedContracts: [],
+        zanoCompanionForm: {
+            zanoCompation: false,
+            secret: '',
+        },
+        wallets: [],
+        isDarkTheme: true,
+        filters: {
+            stakingFilters: null,
+        },
+        localBlacklistsOfVerifiedAssetsByWallets: {},
+    };
+
     disable_price_fetch$ = new BehaviorSubject<boolean>(false);
 
-    visibilityBalance$ = new BehaviorSubject<boolean>(true);
+    visibilityBalance$ = new BehaviorSubject<boolean>(this.settings.visibilityBalance);
 
     zano_current_supply = undefined;
 
@@ -102,29 +150,6 @@ export class VariablesService implements OnDestroy {
     default_fee_big = DEFAULT_FEE_BIG;
 
     default_price_alias = DEFAULT_PRICE_ALIAS;
-
-    settings = {
-        currency: 'usd',
-        appLockTime: 15,
-        appLog: 0,
-        scale: '10px',
-        appUseTor: false,
-        visibilityBalance: true,
-        language: 'en',
-        default_path: '/',
-        viewedContracts: [],
-        notViewedContracts: [],
-        zanoCompanionForm: {
-            zanoCompation: false,
-            secret: '',
-        },
-        wallets: [],
-        isDarkTheme: true,
-        filters: {
-            stakingFilters: null,
-        },
-        localBlacklistsOfVerifiedAssetsByWallets: {},
-    };
 
     isDarkTheme$ = new BehaviorSubject(this.settings.isDarkTheme);
 
