@@ -647,8 +647,9 @@
         "DIALOGS": {
             "CONFIRMATION": {
                 "RESET": {
-                    "MESSAGE": "Ini akan menghapus semua data rahasia Anda secara permanen dan mengatur ulang aplikasi ke keadaan default. Tindakan ini tidak dapat dibatalkan. Apakah Anda yakin ingin melanjutkan?",
-                    "TITLE": "Atur Ulang Data Aplikasi?"
+                    "MESSAGE": "Tindakan ini akan menghapus semua data sensitif yang tersimpan di perangkat ini secara permanen и mereset aplikasi ke pengaturan awal. Tindakan ini tidak dapat dibatalkan.",
+                    "SUBMIT_BUTTON": "Reset data",
+                    "TITLE": "Reset data aplikasi?"
                 }
             }
         },

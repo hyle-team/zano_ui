@@ -647,8 +647,9 @@
         "DIALOGS": {
             "CONFIRMATION": {
                 "RESET": {
-                    "MESSAGE": "Isso excluirá permanentemente todos os seus dados secretos e redefinirá o aplicativo para seu estado padrão. Esta ação não pode ser desfeita. Tem certeza de que deseja continuar?",
-                    "TITLE": "Redefinir Dados do Aplicativo?"
+                    "MESSAGE": "Isso excluirá permanentemente todos os dados sensíveis armazenados neste dispositivo e restaurará o estado padrão do aplicativo. Esta ação não pode ser desfeita.",
+                    "SUBMIT_BUTTON": "Redefinir dados",
+                    "TITLE": "Redefinir dados do aplicativo?"
                 }
             }
         },

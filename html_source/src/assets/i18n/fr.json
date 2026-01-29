@@ -647,7 +647,8 @@
         "DIALOGS": {
             "CONFIRMATION": {
                 "RESET": {
-                    "MESSAGE": "Cela supprimera définitivement toutes vos données secrètes et réinitialisera l'application à son état par défaut. Cette action ne peut pas être annulée. Êtes-vous sûr de voler continuer?",
+                    "MESSAGE": "Cette action supprimera définitivement toutes les données sensibles stockées sur cet appareil et réinitialisera l'application à son état par défaut. Cette action est irréversible.",
+                    "SUBMIT_BUTTON": "Réinitialiser les données",
                     "TITLE": "Réinitialiser les données de l'application ?"
                 }
             }
