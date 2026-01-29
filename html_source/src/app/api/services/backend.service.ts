@@ -581,10 +581,10 @@ export class BackendService {
         this.runCommand(Commands.get_default_fee, {}, callback);
     }
 
-    setBackendLocalization(stringsArray, title, callback?): void {
+    setBackendLocalization(strings: string[], language_title: string, callback?): void {
         const params = {
-            strings: stringsArray,
-            language_title: title,
+            strings,
+            language_title,
         };
         this.runCommand(Commands.set_localization_strings, params, callback);
     }

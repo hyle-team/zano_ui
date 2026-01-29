@@ -14,23 +14,19 @@ import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { Dialog } from '@angular/cdk/dialog';
 import { ZanoLoadersService } from '@parts/services/zano-loaders.service';
 import { ParamsCallRpc } from '@api/models/call_rpc.model';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 import { MatDialog } from '@angular/material/dialog';
 import { ApiService } from '@api/services/api.service';
 import { WalletsService } from '@parts/services/wallets.service';
 import { WrapInfo } from '@api/models/wrap-info';
-import { AliasInfo, AliasInfoList } from '@api/models/alias.model';
-import { environment } from '../environments/environment';
-import { predicateSortAliasInfoList } from '@parts/functions/sort-alias-info-list';
+import { AliasInfo } from '@api/models/alias.model';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit, OnDestroy {
-    intervalUpdateContractsState;
-
-    expMedTsEvent;
+    intervalUpdateContractsState!: NodeJS.Timeout;
 
     onQuitRequest = false;
 
@@ -39,8 +35,6 @@ export class AppComponent implements OnInit, OnDestroy {
     translateUsed = false;
 
     needOpenWallets = [];
-
-    currentScreenSize: string;
 
     displayNameMap = new Map([
         [Breakpoints.XSmall, 'XSmall'],
@@ -54,7 +48,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     constructor(
         public variablesService: VariablesService,
-        public translate: TranslateService,
+        public translateService: TranslateService,
         private renderer: Renderer2,
         private backendService: BackendService,
         private router: Router,
@@ -69,27 +63,31 @@ export class AppComponent implements OnInit, OnDestroy {
         private _walletsService: WalletsService,
         private _breakpointObserver: BreakpointObserver
     ) {
-        this._setTranslate();
-        this._setResponseClasses();
-        console.log('---------------- environment ----------------', environment.production);
+        this._initTranslate();
+        this._initResponsiveClasses();
     }
 
     setBackendLocalization(): void {
         if (this.translateUsed) {
-            const stringsArray = [
-                this.translate.instant('BACKEND_LOCALIZATION.QUIT'),
-                this.translate.instant('BACKEND_LOCALIZATION.IS_RECEIVED'),
-                this.translate.instant('BACKEND_LOCALIZATION.IS_CONFIRMED'),
-                this.translate.instant('BACKEND_LOCALIZATION.INCOME_TRANSFER_UNCONFIRMED'),
-                this.translate.instant('BACKEND_LOCALIZATION.INCOME_TRANSFER_CONFIRMED'),
-                this.translate.instant('BACKEND_LOCALIZATION.MINED'),
-                this.translate.instant('BACKEND_LOCALIZATION.LOCKED'),
-                this.translate.instant('BACKEND_LOCALIZATION.IS_MINIMIZE'),
-                this.translate.instant('BACKEND_LOCALIZATION.RESTORE'),
-                this.translate.instant('BACKEND_LOCALIZATION.TRAY_MENU_SHOW'),
-                this.translate.instant('BACKEND_LOCALIZATION.TRAY_MENU_MINIMIZE'),
-            ];
-            this.backendService.setBackendLocalization(stringsArray, this.variablesService.settings.language);
+            const strings: string[] = [
+                'BACKEND_LOCALIZATION.QUIT',
+                'BACKEND_LOCALIZATION.IS_RECEIVED',
+                'BACKEND_LOCALIZATION.IS_CONFIRMED',
+                'BACKEND_LOCALIZATION.INCOME_TRANSFER_UNCONFIRMED',
+                'BACKEND_LOCALIZATION.INCOME_TRANSFER_CONFIRMED',
+                'BACKEND_LOCALIZATION.MINED',
+                'BACKEND_LOCALIZATION.LOCKED',
+                'BACKEND_LOCALIZATION.IS_MINIMIZE',
+                'BACKEND_LOCALIZATION.RESTORE',
+                'BACKEND_LOCALIZATION.TRAY_MENU_SHOW',
+                'BACKEND_LOCALIZATION.TRAY_MENU_MINIMIZE',
+            ].map((key) => this.translateService.instant(key));
+
+            const {
+                settings: { language: language_title },
+            } = this.variablesService;
+
+            this.backendService.setBackendLocalization(strings, language_title);
         } else {
             console.warn('Wait Translate Use');
             setTimeout(() => {
@@ -485,7 +483,7 @@ export class AppComponent implements OnInit, OnDestroy {
                         switch (tr_info.tx_type) {
                             case 0:
                                 error_tr =
-                                    this.translate.instant('ERRORS.TX_TYPE_NORMAL') +
+                                    this.translateService.instant('ERRORS.TX_TYPE_NORMAL') +
                                     '<br>' +
                                     tr_info.tx_hash +
                                     '<br>' +
@@ -493,24 +491,24 @@ export class AppComponent implements OnInit, OnDestroy {
                                     '<br>' +
                                     wallet.address +
                                     '<br>' +
-                                    this.translate.instant('ERRORS.TX_TYPE_NORMAL_TO') +
+                                    this.translateService.instant('ERRORS.TX_TYPE_NORMAL_TO') +
                                     ' ' +
                                     this.intToMoneyPipe.transform(tr_info.amount) +
                                     ' ' +
-                                    this.translate.instant('ERRORS.TX_TYPE_NORMAL_END');
+                                    this.translateService.instant('ERRORS.TX_TYPE_NORMAL_END');
                                 break;
                             case 1:
-                                // this.translate.instant('ERRORS.TX_TYPE_PUSH_OFFER');
+                                // this.translateService.instant('ERRORS.TX_TYPE_PUSH_OFFER');
                                 break;
                             case 2:
-                                // this.translate.instant('ERRORS.TX_TYPE_UPDATE_OFFER');
+                                // this.translateService.instant('ERRORS.TX_TYPE_UPDATE_OFFER');
                                 break;
                             case 3:
-                                // this.translate.instant('ERRORS.TX_TYPE_CANCEL_OFFER');
+                                // this.translateService.instant('ERRORS.TX_TYPE_CANCEL_OFFER');
                                 break;
                             case 4:
                                 error_tr =
-                                    this.translate.instant('ERRORS.TX_TYPE_NEW_ALIAS') +
+                                    this.translateService.instant('ERRORS.TX_TYPE_NEW_ALIAS') +
                                     '<br>' +
                                     tr_info.tx_hash +
                                     '<br>' +
@@ -518,11 +516,11 @@ export class AppComponent implements OnInit, OnDestroy {
                                     '<br>' +
                                     wallet.address +
                                     '<br>' +
-                                    this.translate.instant('ERRORS.TX_TYPE_NEW_ALIAS_END');
+                                    this.translateService.instant('ERRORS.TX_TYPE_NEW_ALIAS_END');
                                 break;
                             case 5:
                                 error_tr =
-                                    this.translate.instant('ERRORS.TX_TYPE_UPDATE_ALIAS') +
+                                    this.translateService.instant('ERRORS.TX_TYPE_UPDATE_ALIAS') +
                                     '<br>' +
                                     tr_info.tx_hash +
                                     '<br>' +
@@ -530,10 +528,10 @@ export class AppComponent implements OnInit, OnDestroy {
                                     '<br>' +
                                     wallet.address +
                                     '<br>' +
-                                    this.translate.instant('ERRORS.TX_TYPE_NEW_ALIAS_END');
+                                    this.translateService.instant('ERRORS.TX_TYPE_NEW_ALIAS_END');
                                 break;
                             case 6:
-                                error_tr = this.translate.instant('ERRORS.TX_TYPE_COIN_BASE');
+                                error_tr = this.translateService.instant('ERRORS.TX_TYPE_COIN_BASE');
                                 break;
                         }
                         if (error_tr) {
@@ -591,7 +589,7 @@ export class AppComponent implements OnInit, OnDestroy {
                     });
                 }, 30000);
 
-                this.expMedTsEvent = this.variablesService.getExpMedTsEvent.subscribe({
+                this.variablesService.getExpMedTsEvent.pipe(takeUntil(this._destroy$)).subscribe({
                     next: (newTimestamp: number) => {
                         this.variablesService.wallets.forEach((wallet) => {
                             wallet.contracts.forEach((contract) => {
@@ -629,7 +627,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
                         this.renderer.setAttribute(document.documentElement, 'class', settings.isDarkTheme ? 'dark' : 'light');
                     }
-                    this.translate.use(this.variablesService.settings.language);
+                    this.translateService.use(this.variablesService.settings.language);
                     this.setBackendLocalization();
 
                     this.backendService.setLogLevel(this.variablesService.settings.appLog);
@@ -678,36 +676,26 @@ export class AppComponent implements OnInit, OnDestroy {
 
                 this.getInfo();
 
-                this._startWrapInfoPolling();
+                this._initWrapInfoPolling();
 
                 this.backendService.isRemnoteNodeModePreconfigured((is_remote_node: boolean) => {
                     this.variablesService.is_remote_node = is_remote_node;
                 });
 
-                setTimeout(() => {
-                    this.backendService.getOptions();
-                    this._getZanoCurrentSupply();
-                }, 10 * 1000);
+                interval(10 * 1000)
+                    .pipe(takeUntil(this._destroy$))
+                    .subscribe(() => {
+                        this.backendService.getOptions();
+                        this._getZanoCurrentSupply();
+                    });
             },
             error: (error) => {
-                console.log(error);
+                console.error(error);
             },
         });
 
-        const updateTime = 10 * 60 * 1000; // 10 minutes
-        interval(updateTime)
-            .pipe(takeUntil(this._destroy$))
-            .subscribe({
-                next: () => {
-                    this.variablesService.loadCurrentPriceForAllAssets();
-                },
-            });
-
-        this.variablesService.isDarkTheme$.pipe(takeUntil(this._destroy$)).subscribe({
-            next: (isDarkTheme) => {
-                this.renderer.setAttribute(document.documentElement, 'class', isDarkTheme ? 'dark' : 'light');
-            },
-        });
+        this._initAssetPricePolling();
+        this._initThemeSubscription();
     }
 
     private _handlerCoreEventUpdateAlias(data, i: number): void {
@@ -715,10 +703,8 @@ export class AppComponent implements OnInit, OnDestroy {
         const { details, old_address } = eventDetails;
         const { address: newAddress } = details;
 
-        // Update wallet with new address
         this._updateAliasInfoListByAddress(newAddress);
 
-        // Update wallet with old address if changed
         if (old_address && old_address !== newAddress) {
             this._updateAliasInfoListByAddress(old_address);
         }
@@ -748,8 +734,6 @@ export class AppComponent implements OnInit, OnDestroy {
         if (this.intervalUpdateContractsState) {
             clearInterval(this.intervalUpdateContractsState);
         }
-
-        this.expMedTsEvent.unsubscribe();
     }
 
     addToStore(wallet, boolean): void {
@@ -853,20 +837,27 @@ export class AppComponent implements OnInit, OnDestroy {
         });
     }
 
-    private _setTranslate(): void {
-        this.translate.addLangs(['en', 'fr', 'de', 'it', 'id', 'pt']);
-        this.translate.setDefaultLang('en');
-        this.translate
-            .use('en')
+    private _initTranslate(): void {
+        const supportedLanguages: string[] = ['en', 'fr', 'de', 'it', 'id', 'pt'];
+        const defaultLanguage: string = supportedLanguages[0];
+
+        this.translateService.addLangs(supportedLanguages);
+        this.translateService.setDefaultLang(defaultLanguage);
+
+        this.translateService
+            .use(defaultLanguage)
             .pipe(takeUntil(this._destroy$))
             .subscribe({
                 next: () => {
                     this.translateUsed = true;
                 },
+                error: (error) => {
+                    console.error(error);
+                },
             });
     }
 
-    private _setResponseClasses(): void {
+    private _initResponsiveClasses(): void {
         this._breakpointObserver
             .observe([
                 Breakpoints.XSmall, // XSmall	(max-width: 599.98px)
@@ -876,19 +867,21 @@ export class AppComponent implements OnInit, OnDestroy {
                 Breakpoints.XLarge, // XLarge	(min-width: 1920px)
             ])
             .pipe(takeUntil(this._destroy$))
-            .subscribe((result) => {
-                for (const query of Object.keys(result.breakpoints)) {
-                    if (result.breakpoints[query]) {
-                        this.currentScreenSize = this.displayNameMap.get(query) ?? 'Unknown';
+            .subscribe({
+                next: (result: BreakpointState) => {
+                    for (const query of Object.keys(result.breakpoints)) {
+                        if (result.breakpoints[query]) {
+                            const currentScreenSizeClass = this.displayNameMap.get(query) ?? '';
 
-                        document.body.classList.remove(...this.displayNameMap.values());
-                        document.body.classList.add(this.currentScreenSize);
+                            document.body.classList.remove(...this.displayNameMap.values());
+                            document.body.classList.add(currentScreenSizeClass);
+                        }
                     }
-                }
+                },
             });
     }
 
-    private _startWrapInfoPolling(): void {
+    private _initWrapInfoPolling(): void {
         interval(3 * 60 * 1000)
             .pipe(
                 startWith(0),
@@ -907,16 +900,36 @@ export class AppComponent implements OnInit, OnDestroy {
                 ),
                 takeUntil(this._destroy$)
             )
-            .subscribe((wrap_info: WrapInfo | null) => {
-                if (wrap_info) {
-                    this.variablesService.is_wrap_info_service_inactive$.next(false);
-                    this.variablesService.wrap_info$.next(wrap_info);
+            .subscribe({
+                next: (wrap_info: WrapInfo | null) => {
+                    if (wrap_info) {
+                        this.variablesService.is_wrap_info_service_inactive$.next(false);
+                        this.variablesService.wrap_info$.next(wrap_info);
 
-                    this.backendService.printLog({
-                        is_wrap_info_service_inactive: false,
-                        wrap_info,
-                    });
-                }
+                        this.backendService.printLog({
+                            is_wrap_info_service_inactive: false,
+                            wrap_info,
+                        });
+                    }
+                },
             });
+    }
+
+    private _initAssetPricePolling(): void {
+        interval(10 * 60 * 1000)
+            .pipe(takeUntil(this._destroy$))
+            .subscribe({
+                next: () => {
+                    this.variablesService.loadCurrentPriceForAllAssets();
+                },
+            });
+    }
+
+    private _initThemeSubscription(): void {
+        this.variablesService.isDarkTheme$.pipe(takeUntil(this._destroy$)).subscribe({
+            next: (isDarkTheme) => {
+                this.renderer.setAttribute(document.documentElement, 'class', isDarkTheme ? 'dark' : 'light');
+            },
+        });
     }
 }
