@@ -2,7 +2,6 @@ import { Component, HostBinding, NgZone, OnDestroy, OnInit, Renderer2 } from '@a
 import { VariablesService } from '@parts/services/variables.service';
 import { Deeplink, PushOffer, Wallet } from '@api/models/wallet.model';
 import { BigNumber } from 'bignumber.js';
-import { MIXIN } from '@parts/data/constants';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { BackendService } from '@api/services/backend.service';
@@ -29,8 +28,6 @@ export class DeeplinkModalComponent implements OnInit, OnDestroy {
     marketplaceConfirmHash: any = null;
 
     actionData: Deeplink = {};
-
-    defaultMixin = MIXIN;
 
     walletsToPay: Array<Wallet> = [];
 

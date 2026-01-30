@@ -103,8 +103,4 @@ export const fiatCurrencyIds = new Set([
     'xdr',
 ]);
 
-export const fiatCurrencies = currenciesItems.filter((c) => fiatCurrencyIds.has(c.id));
-
-export const nonFiatCurrencies = currenciesItems.filter((c) => !fiatCurrencyIds.has(c.id));
-
 export const isFiatCurrency = (currency: string) => fiatCurrencyIds.has(currency);

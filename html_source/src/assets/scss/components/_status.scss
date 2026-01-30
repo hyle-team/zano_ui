@@ -85,6 +85,7 @@ app-synchronization-status {
             .loading {
                 background-color: var(--aqua-500);
                 animation: move 5s linear infinite;
+                //noinspection CssInvalidFunction
                 background-image: -webkit-gradient(
                         linear,
                         0 0,

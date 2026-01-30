@@ -7,7 +7,6 @@ import { ParamsCallRpc, ResponseCallRpc } from '@api/models/call_rpc.model';
 import { AssetsWhitelistGetResponseData, VerifiedAssetInfoWhitelist } from '@api/models/assets.model';
 import { TranslateService } from '@ngx-translate/core';
 import { ResultAliasByAddress } from '@api/models/rpc.models';
-import { AliasInfo } from '@api/models/alias.model';
 
 @Injectable({
     providedIn: 'root',

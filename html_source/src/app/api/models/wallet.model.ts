@@ -332,11 +332,6 @@ export class Wallet {
         return this.balances.find(({ asset_info: { ticker } }) => ticker === searchTicker);
     }
 
-    getMoneyEquivalentForZano(equivalent): string {
-        const balanceZano = this.getBalanceByTicker('ZANO')?.total || 0;
-        return new BigNumber(balanceZano).multipliedBy(equivalent).toFixed(0);
-    }
-
     prepareHistory(items: Transaction[]): void {
         for (let i = 0; i < items.length; i++) {
             if (

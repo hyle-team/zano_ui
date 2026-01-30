@@ -3,13 +3,13 @@ import { CommonModule } from '@angular/common';
 import { Transaction } from '@api/models/transaction.model';
 import { TranslateModule } from '@ngx-translate/core';
 import { HistoryTypeMessagesPipeModule, ShortStringPipe } from '@parts/pipes';
-import { TooltipModule } from '@parts/directives';
+import { TooltipDirective } from '@parts/directives';
 import { VariablesService } from '@parts/services/variables.service';
 
 @Component({
     selector: 'zano-cell-address',
     standalone: true,
-    imports: [CommonModule, TranslateModule, ShortStringPipe, TooltipModule, HistoryTypeMessagesPipeModule],
+    imports: [CommonModule, TranslateModule, ShortStringPipe, TooltipDirective, HistoryTypeMessagesPipeModule],
     templateUrl: './cell-address.component.html',
     styleUrls: ['./cell-address.component.scss'],
 })

@@ -13,7 +13,7 @@
                 <fieldset class="form__field">
                     <label for="language-label">{{ 'SETTINGS.LANGUAGE.TITLE' | translate }}</label>
                     <ng-select
-                        autofocus
+                        autofocus="true"
                         appAutofocus
                         (change)="onLanguageChange()"
                         [(ngModel)]="variablesService.settings.language"
@@ -28,7 +28,7 @@
                         <ng-template let-item="item" ng-label-tmp>
                             {{ item.language | translate }}
                         </ng-template>
-                        <ng-template let-index="index" let-item="item" ng-option-tmp>
+                        <ng-template let-item="item" ng-option-tmp>
                             {{ item.language | translate }}
                         </ng-template>
                     </ng-select>
@@ -50,7 +50,7 @@
                         <ng-template let-item="item" ng-label-tmp>
                             {{ item.translationKey | translate }}
                         </ng-template>
-                        <ng-template let-index="index" let-item="item" ng-option-tmp>
+                        <ng-template let-item="item" ng-option-tmp>
                             {{ item.translationKey | translate }}
                         </ng-template>
                     </ng-select>
@@ -72,7 +72,7 @@
                         <ng-template let-item="item" ng-label-tmp>
                             {{ item.name | translate }}
                         </ng-template>
-                        <ng-template let-index="index" let-item="item" ng-option-tmp>
+                        <ng-template let-item="item" ng-option-tmp>
                             {{ item.name | translate }}
                         </ng-template>
                     </ng-select>

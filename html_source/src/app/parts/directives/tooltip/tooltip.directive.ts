@@ -17,6 +17,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 @Directive({
     // eslint-disable-next-line
     selector: '[tooltip]',
+    standalone: true,
     exportAs: 'tooltip',
 })
 export class TooltipDirective implements OnDestroy {

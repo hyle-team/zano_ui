@@ -1,6 +1,6 @@
 <ng-container *appVisibilityBalance>
     <div *appDisablePriceFetch class="wallet-card-balance-wrapper">
-        <div *ngIf="wallet.getBalanceByTicker('ZANO') as balance" class="text-ellipsis overflow-hidden">
+        <div *ngIf="wallet.getBalanceByTicker('ZANO')" class="text-ellipsis overflow-hidden">
             <div
                 [delay]="250"
                 [placement]="'bottom'"

@@ -5,7 +5,7 @@ import { BackendService } from '@api/services/backend.service';
 import { BLOCK_EXPLORER_TN_TX_URL_PREFIX, BLOCK_EXPLORER_TX_URL_PREFIX } from '../data/constants';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { TooltipModule } from '@parts/directives';
+import { TooltipDirective } from '@parts/directives';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
@@ -91,7 +91,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         `,
     ],
     standalone: true,
-    imports: [CommonModule, TranslateModule, TooltipModule, MatTooltipModule],
+    imports: [CommonModule, TranslateModule, TooltipDirective, MatTooltipModule],
 })
 export class TransactionDetailsComponent {
     @Input() transaction: Transaction;

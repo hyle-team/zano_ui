@@ -13,8 +13,7 @@ import { SeedPhraseComponent } from './seed-phrase/seed-phrase.component';
 import { AssignAliasComponent } from './assign-alias/assign-alias.component';
 import { EditAliasComponent } from './edit-alias/edit-alias.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { DefaultImgModule, DisablePriceFetchModule } from '@parts/directives';
-import { TooltipModule } from '@parts/directives/tooltip/tooltip.module';
+import { DefaultImgModule, DisablePriceFetchDirective, TooltipDirective } from '@parts/directives';
 import { ConfirmModalModule } from '@parts/modals/confirm-modal/confirm-modal.module';
 import { DeeplinkModule } from './deeplink/deeplink.module';
 import { FullLayoutModule } from '../layouts/full-layout/full-layout.module';
@@ -28,8 +27,7 @@ import {
     ContractStatusMessagesPipeModule,
     ContractTimeLeftPipeModule,
     HistoryTypeMessagesPipeModule,
-    IntToMoneyPipeModule,
-    IsAvailableAliasNamePipeModule,
+    IntToMoneyPipeModule, IsAvailableAliasNamePipe,
     MoneyToIntPipeModule,
     SafeHtmlPipeModule,
     ShortStringPipe,
@@ -74,8 +72,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         NgSelectModule,
         TranslateModule.forChild(),
         FlexLayoutModule,
-        DisablePriceFetchModule,
-        TooltipModule,
+        DisablePriceFetchDirective,
+        TooltipDirective,
         ConfirmModalModule,
         DeeplinkModule,
         FullLayoutModule,
@@ -86,7 +84,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         ContractTimeLeftPipeModule,
         HistoryTypeMessagesPipeModule,
         IntToMoneyPipeModule,
-        IsAvailableAliasNamePipeModule,
+        IsAvailableAliasNamePipe,
         MoneyToIntPipeModule,
         SafeHtmlPipeModule,
         ShortStringPipe,

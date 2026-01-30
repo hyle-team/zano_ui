@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DisablePriceFetchDirective } from './disable-price-fetch.directive';
+import { DisablePriceFetchDirective } from '@parts/directives';
 
 @NgModule({
     declarations: [DisablePriceFetchDirective],

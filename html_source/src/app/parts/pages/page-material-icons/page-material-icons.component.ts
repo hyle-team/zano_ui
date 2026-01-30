@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, NgFor } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { svgIcons } from '../../../../assets/zano-icons';
 import { MatIconModule } from '@angular/material/icon';
 

@@ -12,7 +12,7 @@ import { AutoFocusDirective } from '@parts/directives/autofocus.directive';
 import { CustomNumberFormatPipe } from '@parts/pipes/custom-number.pipe';
 import { MatDividerModule } from '@angular/material/divider';
 import { GetLogoByAssetInfoPipe } from '@parts/pipes/get-logo-by-asset-info.pipe';
-import { TooltipModule } from '@parts/directives';
+import { TooltipDirective } from '@parts/directives';
 
 @NgModule({
     declarations: [SendModalComponent, SendDetailsModalComponent],
@@ -29,7 +29,7 @@ import { TooltipModule } from '@parts/directives';
         MatDividerModule,
         GetLogoByAssetInfoPipe,
         IntToMoneyPipeModule,
-        TooltipModule,
+        TooltipDirective,
     ],
     exports: [SendModalComponent, SendDetailsModalComponent],
 })

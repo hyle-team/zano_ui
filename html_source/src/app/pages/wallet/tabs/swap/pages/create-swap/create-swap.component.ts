@@ -22,7 +22,7 @@ import { AssetBalance, AssetInfo } from '@api/models/assets.model';
 import { ZANO_ASSET_INFO } from '@parts/data/zano-assets-info';
 import { REG_EXP_ALIAS_NAME } from '@parts/utils/zano-validators';
 import { BackendService } from '@api/services/backend.service';
-import { BehaviorSubject, Observable, Subject, combineLatest } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { debounceTime, map, startWith, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { BigNumber } from 'bignumber.js';
 import { assetHasNotBeenAddedToWallet, insufficientFunds } from '@parts/utils/zano-errors';
@@ -223,9 +223,7 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
         let value: string = clipboardData.getData('Text') ?? '';
 
         const isEnteredAlias = value.startsWith('@');
-        const isEnteredAddress = !isEnteredAlias;
-
-        this.lowerCaseDisabled = isEnteredAddress;
+        this.lowerCaseDisabled = !isEnteredAlias;
 
         if (isEnteredAlias) {
             value = value.toLowerCase();

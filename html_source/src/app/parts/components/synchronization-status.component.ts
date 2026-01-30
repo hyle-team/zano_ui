@@ -4,7 +4,7 @@ import { DOWNLOADS_PAGE_URL } from '@parts/data/constants';
 import { BackendService } from '@api/services/backend.service';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { TooltipModule } from '@parts/directives';
+import { TooltipDirective } from '@parts/directives';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -163,7 +163,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     `,
     styles: [],
     standalone: true,
-    imports: [CommonModule, TranslateModule, TooltipModule, MatIconModule, MatTooltipModule],
+    imports: [CommonModule, TranslateModule, TooltipDirective, MatIconModule, MatTooltipModule],
 })
 export class SynchronizationStatusComponent {
     constructor(public variablesService: VariablesService, private backend: BackendService) {}
