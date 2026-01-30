@@ -42,6 +42,10 @@ export class AppComponent implements OnInit, OnDestroy {
         [Breakpoints.XLarge, 'XLarge'],
     ]);
 
+    readonly allowedDaemonStates = [0, 1, 2, 6];
+
+    readonly loadingDaemonStates = [3, 4, 5];
+
     private _destroy$: Subject<void> = new Subject<void>();
 
     constructor(
@@ -63,6 +67,19 @@ export class AppComponent implements OnInit, OnDestroy {
     ) {
         this._initTranslate();
         this._initResponsiveClasses();
+    }
+
+    get loadingMessageKey(): string {
+        switch (this.variablesService.daemon_state) {
+            case 3:
+                return 'SIDEBAR.SYNCHRONIZATION.LOADING';
+            case 4:
+                return 'SIDEBAR.SYNCHRONIZATION.ERROR';
+            case 5:
+                return 'SIDEBAR.SYNCHRONIZATION.COMPLETE';
+            default:
+                return '';
+        }
     }
 
     ngOnInit(): void {

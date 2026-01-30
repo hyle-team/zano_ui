@@ -1,17 +1,11 @@
 <router-outlet
-    *ngIf="[0, 1, 2, 6].includes(variablesService.daemon_state) && !(zanoLoadersService.getState('fullScreen') | async)"
+    *ngIf="allowedDaemonStates.includes(variablesService.daemon_state) && !(zanoLoadersService.getState('fullScreen') | async)"
 ></router-outlet>
 
 <!-- Sync / Error / Complete States -->
-<section *ngIf="[3, 4, 5].includes(variablesService.daemon_state)" aria-busy="true" aria-live="polite" class="preloader" role="status">
-    <p *ngIf="variablesService.daemon_state === 3" class="mb-2">
-        {{ 'SIDEBAR.SYNCHRONIZATION.LOADING' | translate }}
-    </p>
-    <p *ngIf="variablesService.daemon_state === 4" class="mb-2">
-        {{ 'SIDEBAR.SYNCHRONIZATION.ERROR' | translate }}
-    </p>
-    <p *ngIf="variablesService.daemon_state === 5" class="mb-2">
-        {{ 'SIDEBAR.SYNCHRONIZATION.COMPLETE' | translate }}
+<section *ngIf="loadingDaemonStates.includes(variablesService.daemon_state)" aria-busy="true" aria-live="polite" class="preloader" role="status">
+    <p class="mb-2">
+        {{ loadingMessageKey | translate }}
     </p>
     <div aria-hidden="true" class="loading-bar"></div>
 </section>
@@ -24,6 +18,8 @@
     <div aria-hidden="true" class="loading-bar"></div>
 </section>
 
+<!-- Register Context Templates -->
 <app-register-context-templates></app-register-context-templates>
 
+<!-- Open Wallet Modal -->
 <app-open-wallet-modal *ngIf="needOpenWallets.length" [wallets]="needOpenWallets"></app-open-wallet-modal>
