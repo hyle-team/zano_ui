@@ -114,8 +114,8 @@ export class LoginComponent implements OnInit, OnDestroy {
                 buttons: {
                     submit: {
                         text: 'LOGIN.DIALOGS.CONFIRMATION.RESET.SUBMIT_BUTTON',
-                    }
-                }
+                    },
+                },
             },
         };
         this.matDialog

@@ -1,4 +1,4 @@
-export const zanoIcons = [
+export const svgIcons = [
     'zano-arrow-left',
     'zano-arrow-right',
     'zano-balance',

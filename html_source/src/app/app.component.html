@@ -2,7 +2,7 @@
     *ngIf="[0, 1, 2, 6].includes(variablesService.daemon_state) && !(zanoLoadersService.getState('fullScreen') | async)"
 ></router-outlet>
 
-<!-- Synch / Error / Complete States -->
+<!-- Sync / Error / Complete States -->
 <section *ngIf="[3, 4, 5].includes(variablesService.daemon_state)" aria-busy="true" aria-live="polite" class="preloader" role="status">
     <p *ngIf="variablesService.daemon_state === 3" class="mb-2">
         {{ 'SIDEBAR.SYNCHRONIZATION.LOADING' | translate }}

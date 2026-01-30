@@ -1,24 +1,13 @@
 html {
     box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    overscroll-behavior: none;
 }
 
 *,
 *:before,
 *:after {
-    box-sizing: inherit;
-    -webkit-box-sizing: inherit;
-    -moz-box-sizing: inherit;
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    -webkit-backface-visibility: hidden;
-    -webkit-touch-collout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
     user-select: none;
 }
 
@@ -104,8 +93,6 @@ mark,
 audio,
 video {
     border: 0;
-    font-size: 100%;
-    font: inherit;
     vertical-align: baseline;
 }
 
@@ -125,6 +112,8 @@ section {
 
 body {
     line-height: 1;
+    scroll-behavior: smooth;
+    text-rendering: optimizeSpeed;
     font-style: normal;
 }
 
