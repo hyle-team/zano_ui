@@ -18,10 +18,14 @@ export class ZanoValidators {
             abstractControl.get(firstControlName).value === abstractControl.get(secondControlName).value ? null : { [nameErrorKey]: true };
     }
 
-    static duplicate(valuesForComparisons: string | string[]): ValidatorFn {
+    static duplicate(valuesForComparisons: string | string[], exception: string = ''): ValidatorFn {
         return ({ value }: AbstractControl): ValidationErrors | null => {
             const errorObject = { duplicate: true };
             let error = null;
+
+            if (exception && value === exception) {
+                return null;
+            }
 
             if (typeof value === 'string' && value === valuesForComparisons) {
                 error = errorObject;

@@ -2,7 +2,7 @@ import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { BackendService } from '@api/services/backend.service';
 import { ActivatedRoute } from '@angular/router';
 import { VariablesService } from '@parts/services/variables.service';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormControl, NonNullableFormBuilder, Validators } from '@angular/forms';
 import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -25,8 +25,6 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
     ],
 })
 export class SeedPhraseComponent implements OnInit, OnDestroy {
-    seedPhrase = '';
-
     breadcrumbItems: BreadcrumbItems = [
         {
             routerLink: '/add-wallet',
@@ -37,100 +35,96 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
         },
     ];
 
-    showSeed = false;
+    seedPhraseWords: string[] = [];
+
+    showSeed: boolean = false;
 
     wallet_id: number;
 
     wallet!: Wallet;
 
-    seedPhraseCopied = false;
+    seedPhraseCopied: boolean = false;
 
-    progressWidth = '66%';
+    private _fb = inject(NonNullableFormBuilder);
 
-    fb = inject(FormBuilder);
-
-    detailsForm = this.fb.group({
-        name: this.fb.nonNullable.control(''),
-        path: this.fb.nonNullable.control(''),
+    detailsForm = this._fb.group({
+        name: '',
+        path: '',
     });
 
-    seedPhraseForm = this.fb.group(
+    seedPhraseForm = this._fb.group(
         {
-            password: this.fb.nonNullable.control('', Validators.pattern(REG_EXP_PASSWORD)),
-            confirmPassword: this.fb.nonNullable.control(''),
+            password: ['', Validators.pattern(REG_EXP_PASSWORD)],
+            confirmPassword: '',
         },
         {
             validators: [ZanoValidators.formMatch('password', 'confirmPassword')],
         }
     );
 
-    private destroy$ = new Subject<void>();
+    private _destroy$: Subject<void> = new Subject<void>();
 
     constructor(
-        public walletsService: WalletsService,
         public variablesService: VariablesService,
-        private route: ActivatedRoute,
-        private backend: BackendService,
-        private ngZone: NgZone
+        private _walletsService: WalletsService,
+        private _route: ActivatedRoute,
+        private _backendService: BackendService,
+        private _ngZone: NgZone
     ) {}
 
+    get password(): FormControl<string> {
+        return this.seedPhraseForm.controls.password;
+    }
+
+    get confirmPassword(): FormControl<string> {
+        return this.seedPhraseForm.controls.confirmPassword;
+    }
+
     ngOnInit(): void {
-        this.showSeed = false;
-        this.getWallet();
+        this._route.queryParams.pipe(takeUntil(this._destroy$)).subscribe({
+            next: (params) => {
+                if (params.wallet_id) {
+                    this.wallet_id = +params.wallet_id;
+                    this.wallet = this._walletsService.getWalletById(this.wallet_id);
+
+                    if (this.wallet) {
+                        const { name, path } = this.wallet;
+                        this.detailsForm.patchValue({ name, path }, { emitEvent: false });
+                    }
+                }
+            },
+        });
     }
 
     ngOnDestroy(): void {
-        this.destroy$.next();
-        this.destroy$.complete();
+        this._destroy$.next();
+        this._destroy$.complete();
     }
 
     copySeedPhrase(): void {
-        this.backend.setClipboard(this.seedPhrase, () => {
-            this.ngZone.run(() => {
+        this._backendService.setClipboard(this.seedPhraseWords.join(' '), () => {
+            this._ngZone.run(() => {
+                this.seedPhraseCopied = true;
                 setTimeout(() => {
                     this.seedPhraseCopied = false;
                 }, 4000);
-                this.seedPhraseCopied = true;
             });
         });
     }
 
-    showSeedPhrase(): void {
+    submit(): void {
         this.showSeed = true;
-        this.progressWidth = '100%';
-    }
 
-    onSubmitSeed(): void {
-        if (this.seedPhraseForm.valid) {
-            this.showSeedPhrase();
-            const wallet_id = this.wallet_id;
-            const seed_password = this.seedPhraseForm.controls.password.value;
-            this.backend.getSmartWalletInfo({ wallet_id, seed_password }, (status, data) => {
-                if (hasOwnProperty(data, 'seed_phrase')) {
-                    this.ngZone.run(() => {
-                        this.seedPhrase = data['seed_phrase'].trim();
-                    });
-                }
-            });
-        }
-    }
+        const wallet_id = this.wallet_id;
+        const { password: seed_password } = this.seedPhraseForm.getRawValue();
 
-    private setWalletInfoNamePath(): void {
-        this.detailsForm.get('name').setValue(this.wallet.name);
-        this.detailsForm.get('path').setValue(this.wallet.path);
-    }
-
-    private getWallet(): void {
-        this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe({
-            next: (params) => {
-                if (params.wallet_id) {
-                    this.wallet_id = +params.wallet_id;
-                    this.wallet = this.walletsService.getWalletById(this.wallet_id);
-                    if (this.wallet) {
-                        this.setWalletInfoNamePath();
-                    }
-                }
-            },
+        this._backendService.getSmartWalletInfo({ wallet_id, seed_password }, (_, data) => {
+            if (hasOwnProperty(data, 'seed_phrase')) {
+                this._ngZone.run(() => {
+                    const seed = data['seed_phrase'].trim();
+                    this.seedPhraseWords = seed ? seed.split(' ') : [];
+                });
+            }
         });
     }
 }
