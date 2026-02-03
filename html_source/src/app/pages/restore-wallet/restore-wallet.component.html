@@ -88,6 +88,7 @@
                     <label for="seed-phrase">{{ 'RESTORE_WALLET.LABEL_PHRASE_KEY' | translate }}</label>
                     <input
                         (contextmenu)="variablesService.onContextMenu($event)"
+                        (paste)="handlePaste($event)"
                         [attr.aria-describedby]="'seed-phrase-error'"
                         [placeholder]="'PLACEHOLDERS.SEED_PHRASE_PLACEHOLDER' | translate"
                         class="form__field--input"

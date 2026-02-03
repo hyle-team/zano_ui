@@ -146,6 +146,14 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
         this._destroy$.complete();
     }
 
+    handlePaste(event: ClipboardEvent): void {
+        event.preventDefault();
+        const clipboardData = event.clipboardData;
+        const pastedData = clipboardData.getData('Text');
+        const trimmedData = pastedData.trim();
+        this.form.controls.seedPhrase.patchValue(trimmedData);
+    }
+
     restore(): void {
         this.submitting = true;
         const { name, password, seedPhrase, seedPassword } = this.form.getRawValue();
