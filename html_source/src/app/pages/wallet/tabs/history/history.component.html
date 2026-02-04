@@ -19,10 +19,10 @@
                         <div class="bg title">{{ 'HISTORY.DATE' | translate }}</div>
                     </th>
                 </tr>
-                <div class="row-divider"></div>
+                <tr class="row-divider"></tr>
             </thead>
             <tbody>
-                <ng-container *ngFor="let transaction of variablesService.current_wallet.history">
+                <ng-container *ngFor="let transaction of variablesService.current_wallet.history; trackBy: trackByTransaction">
                     <tr
                         (click)="toggleTransactionDetails($event, transaction.tx_hash)"
                         (keydown.enter)="toggleTransactionDetails($event, transaction.tx_hash)"
@@ -37,7 +37,7 @@
 
                         <!-- Amount -->
                         <td>
-                            <ng-container *ngFor="let item of transaction | getAmountItems : currentWallet">
+                            <ng-container *ngFor="let item of transaction | getAmountItems : currentWallet; trackBy: trackByAmountItem">
                                 <div *appVisibilityBalance [attr.aria-label]="item.amount + ' ' + item.ticker" class="cell-amount">
                                     <div class="amount">{{ item.amount }}</div>
                                     <span class="ticker">{{ item.ticker }}</span>
@@ -47,7 +47,7 @@
 
                         <!-- Fee -->
                         <td>
-                            <div *ngIf="transaction | isVisibleFee" class="cell-fee">
+                            <ng-container *ngIf="transaction | isVisibleFee">
                                 <ng-container *ngIf="transaction?.subtransfers?.length">
                                     <ng-container *ngIf="transaction.fee; else noFeeTemplate">
                                         <mat-icon class="mr-1" style="opacity: 50" svgIcon="zano-fire"></mat-icon>
@@ -60,7 +60,7 @@
                                         <span>{{ 'HISTORY.NO_FEE' | translate }}</span>
                                     </ng-template>
                                 </ng-container>
-                            </div>
+                            </ng-container>
                         </td>
 
                         <!-- Address -->
@@ -76,12 +76,12 @@
                         </td>
                     </tr>
 
-                    <div aria-hidden="true" class="row-divider"></div>
+                    <tr aria-hidden="true" class="row-divider"></tr>
 
                     <tr>
                         <td [ngStyle]="{ padding: '0', 'border-radius': '0.8rem' }" colspan="5">
                             <app-transaction-details
-                                *ngIf="transaction.tx_hash === opened_transaction_details"
+                                *ngIf="transaction.tx_hash === selectedTransactionHash"
                                 @collapseOnLeave
                                 @expandOnEnter
                                 [transaction]="transaction"
@@ -90,7 +90,7 @@
                     </tr>
 
                     <tr
-                        *ngIf="transaction.tx_hash === opened_transaction_details as state"
+                        *ngIf="transaction.tx_hash === selectedTransactionHash as state"
                         [@collapseOnLeave]="{
                             value: state,
                             params: { duration: 400 }
@@ -130,8 +130,8 @@
 
                 <ng-container *ngIf="!mining">
                     <button
+                        *ngFor="let page of variablesService.current_wallet.pages; trackBy: trackByIndex"
                         (click)="setPage(page)"
-                        *ngFor="let page of variablesService.current_wallet.pages"
                         [class.color-primary]="variablesService.current_wallet.currentPage === page"
                         [disabled]="variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded"
                         class="mr-0_5"
@@ -145,7 +145,7 @@
                 <ng-container *ngIf="mining">
                     <button
                         (click)="setPage(variablesService.current_wallet.currentPage)"
-                        [disabled]="stop_paginate || variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded"
+                        [disabled]="stopPaginate || variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded"
                         [ngClass]="{
                             'color-primary': variablesService.current_wallet.currentPage,
                             disabled: variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded
@@ -161,7 +161,7 @@
                 <button
                     (click)="setPage(variablesService.current_wallet.currentPage + 1)"
                     [attr.aria-label]="'ACCESSIBILITY.PAGINATION.LABELS.LABEL3' | translate"
-                    [disabled]="stop_paginate || variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded"
+                    [disabled]="stopPaginate || variablesService.isCurrentWalletSync || !variablesService.isCurrentWalletLoaded"
                     class="btn-icon circle small ml-0_5"
                     tabindex="0"
                     type="button"
@@ -205,7 +205,7 @@
                 <div class="row-divider"></div>
             </thead>
             <tbody>
-                <ng-container *ngFor="let _ of Array.from({ length: 20 })">
+                <ng-container *ngFor="let _ of skeletonRows; trackBy: trackByIndex">
                     <tr style="background: none">
                         <td colspan="5" style="padding: 0">
                             <div class="skeleton skeleton-table-row"></div>

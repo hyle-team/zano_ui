@@ -7,7 +7,8 @@ import { BackendService } from '@api/services/backend.service';
 import { Subject } from 'rxjs';
 import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { collapseOnLeaveAnimation, expandOnEnterAnimation } from 'angular-animations';
-import { filter, takeUntil } from 'rxjs/operators';
+import { AmountItem } from "@parts/functions/get-amount-items";
+import { Transaction } from "@api/models/transaction.model";
 
 @Component({
     selector: 'app-history',
@@ -16,13 +17,15 @@ import { filter, takeUntil } from 'rxjs/operators';
     animations: [expandOnEnterAnimation(), collapseOnLeaveAnimation()],
 })
 export class HistoryComponent implements OnInit, OnDestroy {
-    public opened_transaction_details: string | undefined;
+    selectedTransactionHash: string | null = null;
 
-    public stop_paginate = false;
+    stopPaginate = false;
 
-    public mining = false;
+    mining = false;
 
-    public wallet: Wallet;
+    wallet!: Wallet;
+
+    skeletonRows = Array.from({ length: 20 });
 
     private _destroy$: Subject<void> = new Subject<void>();
 
@@ -32,7 +35,8 @@ export class HistoryComponent implements OnInit, OnDestroy {
         private _backendService: BackendService,
         private _ngZone: NgZone,
         private _paginationStore: PaginationStore
-    ) {}
+    ) {
+    }
 
     get currentWallet(): Wallet {
         return this.variablesService.current_wallet;
@@ -40,18 +44,9 @@ export class HistoryComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.init();
-
-        this.variablesService.currentWalletChangedEvent.pipe(filter(Boolean), takeUntil(this._destroy$)).subscribe({
-            next: (wallet: Wallet) => {
-                this.getRecentTransfers();
-                this.mining = wallet.exclude_mining_txs;
-            },
-        });
     }
 
     ngOnDestroy(): void {
-        this.opened_transaction_details = undefined;
-
         this._destroy$.next();
         this._destroy$.complete();
     }
@@ -80,9 +75,9 @@ export class HistoryComponent implements OnInit, OnDestroy {
         }
 
         if (hasOwnProperty(this.variablesService.stop_paginate, String(this.variablesService.current_wallet.wallet_id))) {
-            this.stop_paginate = this.variablesService.stop_paginate[this.variablesService.current_wallet.wallet_id];
+            this.stopPaginate = this.variablesService.stop_paginate[this.variablesService.current_wallet.wallet_id];
         } else {
-            this.stop_paginate = false;
+            this.stopPaginate = false;
         }
         // this will hide pagination a bit earlier
         this.wallet = this.variablesService.getNotLoadedWallet();
@@ -105,8 +100,8 @@ export class HistoryComponent implements OnInit, OnDestroy {
             this.variablesService.current_wallet.totalPages > this.variablesService.maxPages
                 ? (this.variablesService.current_wallet.pages = new Array(5).fill(1).map((value, index) => value + index))
                 : (this.variablesService.current_wallet.pages = new Array(this.variablesService.current_wallet.totalPages)
-                      .fill(1)
-                      .map((value, index) => value + index));
+                    .fill(1)
+                    .map((value, index) => value + index));
         });
     }
 
@@ -163,7 +158,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
                 const history = data && data.history;
                 this.variablesService.stop_paginate[this.variablesService.current_wallet.wallet_id] =
                     (history && history.length < this.variablesService.count) || !history;
-                this.stop_paginate = this.variablesService.stop_paginate[this.variablesService.current_wallet.wallet_id];
+                this.stopPaginate = this.variablesService.stop_paginate[this.variablesService.current_wallet.wallet_id];
                 if (!this.variablesService.stop_paginate[this.variablesService.current_wallet.wallet_id]) {
                     const page = this.variablesService.current_wallet.currentPage + 1;
                     if (isForward && this.mining && history && history.length === this.variablesService.count) {
@@ -198,12 +193,22 @@ export class HistoryComponent implements OnInit, OnDestroy {
     toggleTransactionDetails($event: Event, tx_hash: string): void {
         $event.preventDefault();
         $event.stopPropagation();
-        if (tx_hash === this.opened_transaction_details) {
-            this.opened_transaction_details = undefined;
+        if (tx_hash === this.selectedTransactionHash) {
+            this.selectedTransactionHash = undefined;
         } else {
-            this.opened_transaction_details = tx_hash;
+            this.selectedTransactionHash = tx_hash;
         }
     }
 
-    protected readonly Array = Array;
+    trackByTransaction(index: number, item: Transaction) {
+        return item.tx_hash || index;
+    }
+
+    trackByAmountItem(index: number, item: AmountItem) {
+        return item.ticker || index;
+    }
+
+    trackByIndex(index: number): number {
+        return index;
+    }
 }

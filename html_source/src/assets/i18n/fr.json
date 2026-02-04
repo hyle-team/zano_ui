@@ -71,7 +71,7 @@
             }
         },
         "RESTORE_WALLET": {
-            "DESCRIPRIONS": {
+            "DESCRIPTIONS": {
                 "DESCRIPTION1": "Страница восстановления кошелька. Заполните все поля и введите начальную фразу."
             }
         },
@@ -575,6 +575,8 @@
         "TRANSACTION_ERROR": "Erreur. La transaction n'est pas terminée.",
         "TRANSACTION_IS_TO_BIG": "La transaction dépasse la limite du réseau, envoyez le montant requis avec plusieurs transactions",
         "TRANSFER_ATTEMPT": "Il n'y a pas de connexion au réseau Zano",
+        "TX_HAS_TOO_MANY_INPUTS": "La transaction comporte trop d'entrées.",
+        "TX_HAS_TOO_MANY_OUTPUTS": "La transaction comporte trop de sorties.",
         "TX_IS_TOO_BIG": "La transaction dépasse la limite du réseau, envoyez le montant requis avec plusieurs transactions",
         "TX_TYPE_COIN_BASE": "Erreur. Le paiement n'a pas été effectué.",
         "TX_TYPE_NEW_ALIAS": "Erreur. Échec de l'enregistrement de l'alias dans le coffre-fort",
@@ -722,7 +724,7 @@
         "ADDRESS_PLACEHOLDER": "Veuillez entrer une adresse",
         "AMOUNT_PLACEHOLDER": "Veuillez entrer le montant",
         "COMMENT_PLACEHOLDER": "Entrez votre commentaire ici",
-        "CONFIRM_WALET_PASSWORD_PLACEHOLDER": "Confirmez le mot de passe du portefeuille ici",
+        "CONFIRM_WALLET_PASSWORD_PLACEHOLDER": "Confirmez le mot de passe du portefeuille ici",
         "DEPOSIT_PLACEHOLDER": "Entrez votre dépôt ici",
         "DESCRIPTION_PLACEHOLDER": "Entrez une description ici",
         "FEE_PLACEHOLDER": "Entrez des frais ici",
@@ -739,8 +741,8 @@
         "SEED_PHRASE_PLACEHOLDER": "Entrez une phrase de départ ici",
         "SELLER_DEPOSIT_PLACEHOLDER": "Entrez le dépôt du vendeur ici",
         "SELLER_PLACEHOLDER": "Entrez un vendeur ici",
-        "WALET_PASSWORD_PLACEHOLDER": "Entrez un mot de passe de portefeuille ici",
-        "WALLET_NAME_PLACEHOLDER": "Veuillez entrer un nom pour votre portefeuille"
+        "WALLET_NAME_PLACEHOLDER": "Veuillez entrer un nom pour votre portefeuille",
+        "WALLET_PASSWORD_PLACEHOLDER": "Entrez un mot de passe de portefeuille ici"
     },
     "PROGRESS": {
         "ADD_WALLET": "Ajouter un portefeuille",

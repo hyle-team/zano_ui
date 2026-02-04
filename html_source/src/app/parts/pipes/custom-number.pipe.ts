@@ -16,7 +16,10 @@ interface NumberFormatOptions {
 })
 export class CustomNumberFormatPipe implements PipeTransform {
     constructor() {
-        BigNumber.set({ DECIMAL_PLACES: 20 });
+        BigNumber.set({
+            DECIMAL_PLACES: 20,
+            EXPONENTIAL_AT: 1e9,
+        });
     }
 
     transform(value: number | string | null | undefined, options?: NumberFormatOptions): string {

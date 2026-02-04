@@ -253,7 +253,7 @@ export class Wallet {
 
     total_history_item?: number;
 
-    pages: unknown[] = [];
+    pages: any[] = [];
 
     totalPages!: number;
 
