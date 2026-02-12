@@ -441,7 +441,7 @@ export class StakingComponent implements OnInit, AfterViewInit, OnDestroy {
                     '1 year': 365,
                 };
 
-                let data = [];
+                let data: any[];
                 let minDate;
                 const cacheKey = `${group}-${period}`;
                 if (this._cacheData.has(cacheKey)) {

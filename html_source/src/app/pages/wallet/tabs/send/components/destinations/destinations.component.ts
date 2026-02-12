@@ -7,7 +7,6 @@ import { MatDividerModule } from '@angular/material/divider';
 import { FormArray } from '@angular/forms';
 import { DestinationComponent } from '../destination/destination.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { IsVisibleControlErrorPipe } from '@parts/pipes/is-visible-control-error.pipe';
 
 @Component({
     selector: 'zano-destinations',

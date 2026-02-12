@@ -18,7 +18,7 @@ import { FormsModule } from '@angular/forms';
 import { RegisterContextTemplatesComponent } from '@parts/components/register-context-templates.component';
 import { DEFAULT_DIALOG_CONFIG, DialogConfig } from '@angular/cdk/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
-import { zanoIcons } from '../assets/zano-icons';
+import { svgIcons } from '../assets/zano-icons';
 import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogConfig, MatDialogModule } from '@angular/material/dialog';
 
 function highchartsFactory(): any[] {
@@ -36,14 +36,14 @@ const provideHighchartsFactory = {
     useFactory: highchartsFactory,
 };
 
-function HttpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
+function httpLoaderFactory(httpClient: HttpClient): TranslateHttpLoader {
     return new TranslateHttpLoader(httpClient, './assets/i18n/', '.json');
 }
 
 const translateModuleConfig: TranslateModuleConfig = {
     loader: {
         provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
+        useFactory: httpLoaderFactory,
         deps: [HttpClient],
     },
 };
@@ -98,7 +98,7 @@ export class AppModule {
     private _sanitizer: DomSanitizer = inject(DomSanitizer);
 
     constructor() {
-        this._registerIcons(zanoIcons);
+        this._registerIcons(svgIcons);
     }
 
     private _registerIcons(arr: Array<string>): void {

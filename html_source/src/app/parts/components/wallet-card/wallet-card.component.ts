@@ -4,7 +4,7 @@ import { VariablesService } from '@parts/services/variables.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { IntToMoneyPipeModule } from '@parts/pipes';
 import { CommonModule } from '@angular/common';
-import { DisablePriceFetchModule, TooltipModule } from '@parts/directives';
+import { DisablePriceFetchDirective, TooltipDirective } from '@parts/directives';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
@@ -23,10 +23,10 @@ import { WalletCardAliasComponent } from '@parts/components/wallet-card/componen
     standalone: true,
     imports: [
         CommonModule,
-        TooltipModule,
+        TooltipDirective,
         TranslateModule,
         IntToMoneyPipeModule,
-        DisablePriceFetchModule,
+        DisablePriceFetchDirective,
         MatIconModule,
         MatTooltipModule,
         DragDropModule,

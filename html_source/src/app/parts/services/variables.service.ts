@@ -35,7 +35,7 @@ export interface AppSettings {
         stakingFilters: any;
     };
     localBlacklistsOfVerifiedAssetsByWallets: {
-        [key: string]: string[]
+        [key: string]: string[];
     };
 }
 

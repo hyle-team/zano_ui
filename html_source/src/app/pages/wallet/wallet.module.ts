@@ -4,12 +4,10 @@ import { WalletRoutingModule } from './wallet-routing.module';
 import { AssetsComponent } from './tabs/assets/assets.component';
 import { WalletComponent } from './wallet/wallet.component';
 import { FlexLayoutModule, FlexModule } from '@angular/flex-layout';
-import { TooltipModule } from '@parts/directives/tooltip/tooltip.module';
 import {
     ContractStatusMessagesPipeModule,
     HistoryTypeMessagesPipeModule,
-    IntToMoneyPipeModule,
-    IsAvailableAliasNamePipeModule,
+    IntToMoneyPipeModule, IsAvailableAliasNamePipe,
     ShortStringPipe,
 } from '@parts/pipes';
 import { TranslateModule } from '@ngx-translate/core';
@@ -18,7 +16,7 @@ import { ExportHistoryModalModule } from './wallet/dialogs/export-history-modal/
 import { WalletDetailsComponent } from '../wallet-details/wallet-details.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { DefaultImgModule, InputValidateModule, LowerCaseDirective } from '@parts/directives';
+import { DefaultImgModule, InputValidateModule, LowerCaseDirective, TooltipDirective } from '@parts/directives';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { HistoryComponent } from './tabs/history/history.component';
 import { StakingComponent } from './tabs/staking/staking.component';
@@ -101,10 +99,10 @@ import { DestinationsComponent } from './tabs/send/components/destinations/desti
         CommonModule,
         WalletRoutingModule,
         FlexModule,
-        TooltipModule,
+        TooltipDirective,
         ShortStringPipe,
         TranslateModule,
-        IsAvailableAliasNamePipeModule,
+        IsAvailableAliasNamePipe,
         ConfirmModalModule,
         ExportHistoryModalModule,
         ReactiveFormsModule,

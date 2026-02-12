@@ -11,6 +11,8 @@ import { combineLatest, Subject } from 'rxjs';
 import { REG_EXP_PASSWORD, ZanoValidators } from '@parts/utils/zano-validators';
 import { WalletsService } from '@parts/services/wallets.service';
 import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
+import { MAX_WALLET_NAME_LENGTH } from '@parts/data/constants';
+import { AssetBalances } from '@api/models/assets.model';
 
 interface SeedPhraseInfo {
     address: string;
@@ -20,21 +22,30 @@ interface SeedPhraseInfo {
     tracking: boolean;
 }
 
+interface RestoreWalletResponse {
+    wallet_id: number;
+    wi: {
+        path: string;
+        address: string;
+        balance: AssetBalances;
+        unlocked_balance: number;
+        mined_total: number;
+        tracking_hey: string;
+        is_auditable: boolean;
+        is_watch_only: boolean;
+    };
+    recent_history?: {
+        history: any[];
+        total_history_items: number;
+    };
+}
+
 @Component({
     selector: 'app-restore-wallet',
     templateUrl: './restore-wallet.component.html',
-    styles: [
-        `
-            :host {
-                width: 100%;
-                height: 100%;
-                overflow: hidden;
-            }
-        `,
-    ],
 })
 export class RestoreWalletComponent implements OnInit, OnDestroy {
-    public readonly breadcrumbItems: BreadcrumbItems = [
+    readonly breadcrumbItems: BreadcrumbItems = [
         {
             routerLink: '/add-wallet',
             title: 'BREADCRUMBS.ADD_WALLET',
@@ -44,29 +55,27 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
         },
     ];
 
-    public selectedLocationWalletName: string;
+    selectedLocationWalletName: string;
 
-    public selectedLocationWalletPath: string;
+    selectedLocationWalletPath: string;
 
-    public seedPhraseInfo: SeedPhraseInfo = null;
+    seedPhraseInfo: SeedPhraseInfo | null = null;
 
-    public readonly walletsService: WalletsService = inject(WalletsService);
+    readonly walletsService: WalletsService = inject(WalletsService);
 
-    public readonly variablesService: VariablesService = inject(VariablesService);
+    readonly variablesService: VariablesService = inject(VariablesService);
+
+    private readonly _walletNamesForComparisons = this.variablesService.walletNamesForComparisons;
 
     private readonly _fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
 
-    public readonly form = this._fb.group(
+    readonly form = this._fb.group(
         {
-            name: this._fb.control('', [
-                Validators.required,
-                Validators.maxLength(this.variablesService.maxWalletNameLength),
-                ZanoValidators.duplicate(this.variablesService.walletNamesForComparisons),
-            ]),
-            seedPhrase: this._fb.control('', Validators.required),
-            password: this._fb.control('', Validators.pattern(REG_EXP_PASSWORD)),
-            confirm: this._fb.control(''),
-            seedPassword: this._fb.control(''),
+            name: ['', [Validators.required, Validators.maxLength(MAX_WALLET_NAME_LENGTH), ZanoValidators.duplicate(this._walletNamesForComparisons)]],
+            seedPhrase: ['', Validators.required],
+            password: ['', Validators.pattern(REG_EXP_PASSWORD)],
+            confirm: [''],
+            seedPassword: [''],
         },
         {
             validators: [ZanoValidators.formMatch('password', 'confirm')],
@@ -83,15 +92,15 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
 
     private readonly _ngZone: NgZone = inject(NgZone);
 
-    private readonly _translate: TranslateService = inject(TranslateService);
+    private readonly _translateService: TranslateService = inject(TranslateService);
 
-    private submitting = false;
+    private _submitting = false;
 
     get isDisabledCreatedWallet(): boolean {
-        return this.form.invalid || !this.selectedLocationWalletPath || this.submitting;
+        return this.form.invalid || !this.selectedLocationWalletPath || this._submitting;
     }
 
-    get invalidSeedPhraseInfo(): boolean {
+    get isDisableSelectLocation(): boolean {
         if (!this.seedPhraseInfo) {
             return true;
         }
@@ -101,37 +110,44 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        const {
-            controls: { seedPassword, seedPhrase },
-        } = this.form;
-
-        const obs1 = seedPhrase.valueChanges;
-        const obs2 = seedPassword.valueChanges.pipe(startWith(seedPassword.value));
+        const obs1 = this.form.controls.seedPhrase.valueChanges;
+        const obs2 = this.form.controls.seedPassword.valueChanges.pipe(startWith(this.form.controls.seedPassword.getRawValue()));
 
         combineLatest([obs1, obs2])
-            .pipe(debounceTime(500), takeUntil(this._destroy$))
+            .pipe(debounceTime(250), takeUntil(this._destroy$))
             .subscribe({
                 next: ([seed_phrase, seed_password]) => {
-                    const params = { seed_phrase, seed_password };
+                    if (seed_phrase.length === 0) {
+                        this.seedPhraseInfo = null;
+                        if (seed_password.length > 0) {
+                            this.form.controls.seedPassword.reset();
+                        }
+                        return;
+                    }
 
-                    this._backend.getSeedPhraseInfo(params, (status, data) => {
+                    this._backend.getSeedPhraseInfo({ seed_phrase, seed_password }, (status: boolean, data: SeedPhraseInfo) => {
                         this._ngZone.run(() => {
                             if (!status) {
-                                this.seedPhraseInfo = undefined;
+                                this.seedPhraseInfo = null;
                                 return;
                             }
 
                             this.seedPhraseInfo = data;
-                        });
-                    });
 
-                    this._backend.isValidRestoreWalletText(params, (_, data) => {
-                        this._ngZone.run(() => {
-                            const control = this.form.get('seedPhrase');
-                            if (data !== 'TRUE') {
-                                control.setErrors({ password_seed_phrase_not_valid: true });
-                            } else {
-                                control.updateValueAndValidity({ emitEvent: false });
+                            const { syntax_correct, require_password } = data;
+                            if (!syntax_correct) {
+                                this.form.controls.seedPhrase.setErrors({ syntax_incorrect: true });
+                                this.form.controls.seedPassword.reset();
+                            }
+
+                            if (require_password) {
+                                this._backend.isValidRestoreWalletText({ seed_phrase, seed_password }, (_: boolean, data: string) => {
+                                    this._ngZone.run(() => {
+                                        if (data === 'FALSE') {
+                                            this.form.controls.seedPassword.setErrors({ password_seed_phrase_not_valid: true });
+                                        }
+                                    });
+                                });
                             }
                         });
                     });
@@ -141,19 +157,35 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
 
     ngOnDestroy(): void {
         this.variablesService.opening_wallet = null;
-
         this._destroy$.next();
         this._destroy$.complete();
     }
 
+    handlePaste(event: ClipboardEvent): void {
+        event.preventDefault();
+        const clipboardData = event.clipboardData;
+        const pastedData = clipboardData.getData('Text');
+        const trimmedData = pastedData.trim();
+        this.form.controls.seedPhrase.patchValue(trimmedData);
+    }
+
     restore(): void {
-        this.submitting = true;
+        this._submitting = true;
         const { name, password, seedPhrase, seedPassword } = this.form.getRawValue();
-        this._backend.restoreWallet(this.selectedLocationWalletPath, password, seedPhrase, seedPassword, (status, data) => {
+        this._backend.restoreWallet(this.selectedLocationWalletPath, password, seedPhrase, seedPassword, (status: boolean, data: RestoreWalletResponse) => {
             this._ngZone.run(() => {
                 if (status) {
                     const { wallet_id } = data;
-                    const { path, address, balance, unlocked_balance, mined_total, tracking_hey, is_auditable, is_watch_only } = data['wi'];
+                    const {
+                        path,
+                        address,
+                        balance,
+                        unlocked_balance,
+                        mined_total,
+                        tracking_hey,
+                        is_auditable,
+                        is_watch_only
+                    } = data.wi;
                     const wallet: Wallet = new Wallet(
                         wallet_id,
                         name,
@@ -176,52 +208,53 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
 
                     if (data.recent_history && data.recent_history.history) {
                         wallet.totalPages = Math.ceil(data.recent_history.total_history_items / this.variablesService.count);
-                        wallet.totalPages > this.variablesService.maxPages
-                            ? (wallet.pages = new Array(5).fill(1).map((value, index) => value + index))
-                            : (wallet.pages = new Array(wallet.totalPages).fill(1).map((value, index) => value + index));
+                        if (wallet.totalPages > this.variablesService.maxPages) {
+                            wallet.pages = new Array(5).fill(1).map((value, index) => value + index);
+                        } else {
+                            wallet.pages = new Array(wallet.totalPages).fill(1).map((value, index) => value + index);
+                        }
                         wallet.prepareHistory(data.recent_history.history);
                     }
 
                     this.variablesService.opening_wallet = wallet;
 
-                    this._runWallet();
+                    this._runWallet(wallet);
                 } else {
                     this._modalService.prepareModal('error', 'RESTORE_WALLET.NOT_CORRECT_FILE_OR_PASSWORD');
-                    this.submitting = false;
+                    this._submitting = false;
                 }
             });
         });
     }
 
     selectLocation(): void {
-        const caption = this._translate.instant('RESTORE_WALLET.CHOOSE_PATH');
+        const caption = this._translateService.instant('RESTORE_WALLET.CHOOSE_PATH');
         const fileMask = '*';
         const {
             settings: { default_path },
         } = this.variablesService;
 
-        this._backend.saveFileDialog(caption, fileMask, default_path, (status, data) => {
+        this._backend.saveFileDialog(caption, fileMask, default_path, (status: boolean, data: any) => {
             this._ngZone.run(() => {
                 if (status) {
                     const startWalletName = data.path.lastIndexOf('/') + 1;
-                    const endWalletName = data.path.length - 1;
-                    this.selectedLocationWalletName = data.path.substr(startWalletName, endWalletName);
+                    this.selectedLocationWalletName = data.path.substring(startWalletName);
                     this.selectedLocationWalletPath = data.path;
 
-                    this.variablesService.settings.default_path = data.path.substr(0, data.path.lastIndexOf('/'));
+                    this.variablesService.settings.default_path = data.path.substring(0, data.path.lastIndexOf('/'));
                 }
             });
         });
     }
 
-    private _runWallet(): void {
-        const { opening_wallet, wallets, appPass } = this.variablesService;
-        const { wallet_id, address } = opening_wallet;
+    private _runWallet(wallet: Wallet): void {
+        const { wallets, appPass } = this.variablesService;
+        const { wallet_id, address } = wallet;
 
         // Add flag when wallet was restored form seed
         this.variablesService.after_sync_request[wallet_id] = true;
 
-        const exists: boolean = wallets.some((wallet: Wallet): boolean => wallet.address === address);
+        const exists: boolean = wallets.some((w: Wallet): boolean => w.address === address);
 
         if (exists) {
             this.variablesService.opening_wallet = null;
@@ -230,16 +263,16 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
 
             this._backend.closeWallet(wallet_id, () => {
                 this._ngZone.run(() => {
-                    this._router.navigate(['/']);
+                    this._router.navigate(['/']).then();
                 });
             });
 
             return;
         }
 
-        this.walletsService.addWallet(opening_wallet);
+        this.walletsService.addWallet(wallet);
 
-        this._backend.runWallet(wallet_id, (status, data) => {
+        this._backend.runWallet(wallet_id, (status: boolean, data: any) => {
             this._ngZone.run(() => {
                 if (status) {
                     if (appPass) {
@@ -249,10 +282,10 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
                     this.variablesService.setCurrentWallet(wallet_id);
                     this.variablesService.opening_wallet = null;
 
-                    this._router.navigate(['/wallet/']);
+                    this._router.navigate(['/wallet/']).then();
                 } else {
                     this._modalService.prepareModal('error', data['error_code']);
-                    this.submitting = false;
+                    this._submitting = false;
                     console.error(data['error_code']);
                 }
             });

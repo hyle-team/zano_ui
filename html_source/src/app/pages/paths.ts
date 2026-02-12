@@ -29,6 +29,3 @@ export enum pathsChildrenWallet {
     staking = 'staking',
 }
 
-export enum pathsChildrenContracts {
-    purchase = 'purchase',
-}

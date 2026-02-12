@@ -30,7 +30,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
         currentPage: 1,
     };
 
-    skeletonRowsData = Array.from({ length: 20 });
+    skeletonRows = Array.from({ length: 20 });
 
     private readonly _destroy$ = new Subject<void>();
 

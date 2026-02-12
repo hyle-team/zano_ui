@@ -253,7 +253,7 @@ export class Wallet {
 
     total_history_item?: number;
 
-    pages: unknown[] = [];
+    pages: any[] = [];
 
     totalPages!: number;
 
@@ -330,11 +330,6 @@ export class Wallet {
 
     getBalanceByTicker(searchTicker: string): AssetBalance | undefined {
         return this.balances.find(({ asset_info: { ticker } }) => ticker === searchTicker);
-    }
-
-    getMoneyEquivalentForZano(equivalent): string {
-        const balanceZano = this.getBalanceByTicker('ZANO')?.total || 0;
-        return new BigNumber(balanceZano).multipliedBy(equivalent).toFixed(0);
     }
 
     prepareHistory(items: Transaction[]): void {

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { TooltipModule } from '@parts/directives';
+import { TooltipDirective } from '@parts/directives';
 import { RouterLink } from '@angular/router';
 import { VariablesService } from '@parts/services/variables.service';
 import { AutoFocusDirective } from '@parts/directives/autofocus.directive';
@@ -17,7 +17,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         TranslateModule,
         MatDialogModule,
         MatIconModule,
-        TooltipModule,
+        TooltipDirective,
         RouterLink,
         AutoFocusDirective,
         MatTooltipModule,

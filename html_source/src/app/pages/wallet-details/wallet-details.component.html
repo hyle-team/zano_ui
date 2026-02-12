@@ -48,7 +48,7 @@
                     </fieldset>
 
                     <div fxLayout="row nowrap" fxLayoutAlign="start center" fxLayoutGap="1rem">
-                        <button [disabled]="detailsForm.invalid" class="primary big max-w-19-rem w-100 mb-1" type="submit">
+                        <button [disabled]="isDetailsFormDisabled" class="primary big max-w-19-rem w-100 mb-1" type="submit">
                             {{ 'SETTINGS.MASTER_PASSWORD.BUTTON' | translate }}
                         </button>
                         <p *ngIf="ifSaved" aria-live="assertive" class="color-aqua">Saved!</p>

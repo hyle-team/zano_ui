@@ -230,7 +230,7 @@
                 <tr aria-hidden="true" class="row-divider"></tr>
             </thead>
             <tbody>
-                <ng-container *ngFor="let skeletonRow of skeletonRowsData; trackBy: trackByIndex">
+                <ng-container *ngFor="let _ of skeletonRows; trackBy: trackByIndex">
                     <tr style="background: none">
                         <td colspan="5" style="padding: 0">
                             <div class="skeleton skeleton-table-row"></div>

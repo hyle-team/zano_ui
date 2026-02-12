@@ -1,10 +1,8 @@
-.cell-fee {
-    display: table-cell;
-}
-
 .cell-amount {
     display: flex;
+    align-items: center;
     max-width: 100%;
+
     .amount {
         text-overflow: ellipsis;
         overflow: hidden;

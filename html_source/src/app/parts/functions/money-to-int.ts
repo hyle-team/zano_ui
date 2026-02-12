@@ -6,7 +6,7 @@ export const moneyToInt = (value: string, decimal_point?: any): BigNumber => {
     if (value) {
         let am_str = value.trim();
         const point_index = am_str.indexOf('.');
-        let fraction_size = 0;
+        let fraction_size: number;
         if (-1 !== point_index) {
             fraction_size = am_str.length - point_index - 1;
             while (CURRENCY_DISPLAY_DECIMAL_POINT < fraction_size && '0' === am_str[am_str.length - 1]) {

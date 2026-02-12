@@ -2,7 +2,7 @@ import { Component, inject, Input, NgZone, OnDestroy, OnInit, ViewChild } from '
 import { CommonModule } from '@angular/common';
 import { IsVisibleControlErrorPipe } from '@parts/pipes/is-visible-control-error.pipe';
 import { LoaderComponent } from '@parts/components/loader.component';
-import { LowerCaseDirective, TooltipModule } from '@parts/directives';
+import { InputValidateModule, LowerCaseDirective } from '@parts/directives';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatOptionModule } from '@angular/material/core';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -30,7 +30,7 @@ import { BackendService } from '@api/services/backend.service';
         ShortStringPipe,
         TranslateModule,
         ScrollingModule,
-        TooltipModule,
+        InputValidateModule
     ],
     templateUrl: './address-field.component.html',
     styleUrls: ['./address-field.component.scss'],
@@ -149,11 +149,10 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
         const { clipboardData } = event;
 
         let value: string = clipboardData.getData('Text') ?? '';
+        value = value.trim();
 
         const isEnteredAlias = value.startsWith('@');
-        const isEnteredAddress = !isEnteredAlias;
-
-        this.lowerCaseDisabled = isEnteredAddress;
+        this.lowerCaseDisabled = !isEnteredAlias;
 
         if (isEnteredAlias) {
             value = value.toLowerCase();

@@ -2,7 +2,7 @@ import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { VariablesService } from '@parts/services/variables.service';
 import { AssetInfo, AssetsWhitelistAddResponseData, ResponseAssetsWhitelistRemove } from '@api/models/assets.model';
 import { ZANO_ASSET_INFO, ZanoAssetInfo } from '@parts/data/zano-assets-info';
-import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 import { IntToMoneyPipeModule } from '@parts/pipes';
@@ -14,6 +14,7 @@ import { WalletsService } from '@parts/services/wallets.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { ResponseGetAssetInfo } from '@api/models/rpc.models';
+import { ModalService } from "@parts/services/modal.service";
 
 @Component({
     selector: 'app-asset-details',
@@ -27,13 +28,17 @@ export class AssetDetailsComponent implements OnInit, OnDestroy {
 
     readonly zanoAssetInfo: ZanoAssetInfo = ZANO_ASSET_INFO;
 
-    readonly data: { asset_info: AssetInfo; title?: string } = inject(MAT_DIALOG_DATA);
+    readonly data: { asset_info: Partial<AssetInfo>; title?: string } = inject(MAT_DIALOG_DATA);
 
     readonly variablesService: VariablesService = inject(VariablesService);
 
     private readonly _backendService = inject(BackendService);
 
     private readonly _walletsService = inject(WalletsService);
+
+    private readonly _modalService = inject(ModalService);
+
+    private readonly _matDialogRef = inject(MatDialogRef);
 
     private readonly _ngZone: NgZone = inject(NgZone);
 
@@ -62,6 +67,13 @@ export class AssetDetailsComponent implements OnInit, OnDestroy {
         const {
             asset_info: { asset_id },
         } = this.data;
+
+        if (asset_id === ZANO_ASSET_INFO.asset_id) {
+            this.data.asset_info = ZANO_ASSET_INFO;
+            return;
+        }
+
+
         const params = {
             id: 0,
             jsonrpc: '2.0',
@@ -73,9 +85,21 @@ export class AssetDetailsComponent implements OnInit, OnDestroy {
         const callback = (_, response: ResponseGetAssetInfo) => {
             this._ngZone.run(() => {
                 if (response.result.status === 'OK') {
-                    const { asset_descriptor } = response.result;
-                    const { asset_info } = this.data;
-                    this.data.asset_info = { ...asset_info, ...asset_descriptor };
+
+                }
+
+                switch (response.result.status) {
+                    case 'OK': {
+                        const { asset_descriptor } = response.result;
+                        const { asset_info } = this.data;
+                        this.data.asset_info = { ...asset_info, ...asset_descriptor };
+                        break;
+                    }
+                    case 'NOT_FOUND': {
+                        this._matDialogRef.close();
+                        this._modalService.prepareModal('error', 'ERRORS.ASSET_NOT_FOUND');
+                        break;
+                    }
                 }
             });
         };

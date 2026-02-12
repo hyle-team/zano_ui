@@ -71,7 +71,7 @@
             }
         },
         "RESTORE_WALLET": {
-            "DESCRIPRIONS": {
+            "DESCRIPTIONS": {
                 "DESCRIPTION1": "Wallet-Wiederherstellungsseite. Füllen Sie alle Felder aus und geben Sie die Seed-Phrase ein."
             }
         },
@@ -575,6 +575,8 @@
         "TRANSACTION_ERROR": "Fehler. Transaktion nicht abgeschlossen.",
         "TRANSACTION_IS_TO_BIG": "Transaktion überschreitet das Netzwerklimit, senden Sie den erforderlichen Betrag mit mehreren Transaktionen",
         "TRANSFER_ATTEMPT": "Es besteht keine Verbindung zum Zano-Netzwerk",
+        "TX_HAS_TOO_MANY_INPUTS": "Die Transaktion hat zu viele Inputs.",
+        "TX_HAS_TOO_MANY_OUTPUTS": "Die Transaktion hat zu viele Outputs.",
         "TX_IS_TOO_BIG": "Transaktion überschreitet das Netzwerklimit, senden Sie den erforderlichen Betrag mit mehreren Transaktionen",
         "TX_TYPE_COIN_BASE": "Fehler. Die Zahlung wurde nicht abgeschlossen.",
         "TX_TYPE_NEW_ALIAS": "Fehler. Alias konnte nicht im Safe registriert werden",
@@ -722,7 +724,7 @@
         "ADDRESS_PLACEHOLDER": "Bitte geben Sie eine Adresse ein",
         "AMOUNT_PLACEHOLDER": "Bitte geben Sie den Betrag ein",
         "COMMENT_PLACEHOLDER": "Geben Sie hier Ihren Kommentar ein",
-        "CONFIRM_WALET_PASSWORD_PLACEHOLDER": "Wallet-Passwort hier bestätigen",
+        "CONFIRM_WALLET_PASSWORD_PLACEHOLDER": "Wallet-Passwort hier bestätigen",
         "DEPOSIT_PLACEHOLDER": "Geben Sie hier Ihre Einzahlung ein",
         "DESCRIPTION_PLACEHOLDER": "Geben Sie hier eine Beschreibung ein",
         "FEE_PLACEHOLDER": "Geben Sie hier eine Gebühr ein",
@@ -739,8 +741,8 @@
         "SEED_PHRASE_PLACEHOLDER": "Geben Sie hier eine Seed-Phrase ein",
         "SELLER_DEPOSIT_PLACEHOLDER": "Verkäufer-Einzahlung hier eingeben",
         "SELLER_PLACEHOLDER": "Geben Sie hier einen Verkäufer ein",
-        "WALET_PASSWORD_PLACEHOLDER": "Wallet-Passwort hier eingeben",
-        "WALLET_NAME_PLACEHOLDER": "Bitte geben Sie einen Namen für Ihr Wallet ein"
+        "WALLET_NAME_PLACEHOLDER": "Bitte geben Sie einen Namen für Ihr Wallet ein",
+        "WALLET_PASSWORD_PLACEHOLDER": "Wallet-Passwort hier eingeben"
     },
     "PROGRESS": {
         "ADD_WALLET": "Wallet hinzufügen",

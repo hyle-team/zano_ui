@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Wallet, WalletSettings } from '@api/models/wallet.model';
-import { DisablePriceFetchModule, TooltipModule } from '@parts/directives';
+import { DisablePriceFetchDirective, TooltipDirective } from '@parts/directives';
 import { VisibilityBalanceDirective } from '@parts/directives/visibility-balance.directive';
 import { BigNumber } from 'bignumber.js';
 import { LOCKED_BALANCE_HELP_PAGE } from '@parts/data/constants';
@@ -21,7 +21,7 @@ import { CurrentPriceForAssets } from '@api/models/api-zano.models';
 @Component({
     selector: 'zano-wallet-card-balance',
     standalone: true,
-    imports: [CommonModule, DisablePriceFetchModule, VisibilityBalanceDirective, TooltipModule, MatIconModule, IntToMoneyPipeModule],
+    imports: [CommonModule, DisablePriceFetchDirective, VisibilityBalanceDirective, TooltipDirective, MatIconModule, IntToMoneyPipeModule],
     templateUrl: './wallet-card-balance.component.html',
     styleUrls: ['./wallet-card-balance.component.scss'],
 })

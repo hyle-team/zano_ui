@@ -5,7 +5,7 @@ export function setupFocusVisibleFallback(): void {
 
             window.removeEventListener('keydown', handleFirstTab);
             window.addEventListener('mousedown', handleMouseDownOnce);
-            window.addEventListener('touchstart', handleMouseDownOnce); // для тачпада тоже
+            window.addEventListener('touchstart', handleMouseDownOnce);
         }
     };
 

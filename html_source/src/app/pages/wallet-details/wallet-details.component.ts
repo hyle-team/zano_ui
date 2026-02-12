@@ -33,7 +33,7 @@ export class WalletDetailsComponent {
     fb = inject(NonNullableFormBuilder);
 
     detailsForm = this.fb.group({
-        name: this.fb.control('', [Validators.required, ZanoValidators.duplicate(this.variablesService.walletNamesForComparisons)]),
+        name: this.fb.control('', [Validators.required, ZanoValidators.duplicate(this.variablesService.walletNamesForComparisons, this.variablesService.current_wallet.name)]),
         path: this.fb.control(''),
     });
 
@@ -64,6 +64,10 @@ export class WalletDetailsComponent {
                 emitEvent: false,
             }
         );
+    }
+
+    get isDetailsFormDisabled(): boolean {
+        return this.detailsForm.invalid || !this.detailsForm.controls.name.dirty || this.detailsForm.controls.name.value === this.variablesService.current_wallet.name;
     }
 
     beforeSubmitPasswordSeedPhrase(): void {
@@ -124,7 +128,7 @@ export class WalletDetailsComponent {
 
     private refreshDetailsFormValidators(): void {
         const walletNamesForComparisons = this.variablesService.walletNamesForComparisons;
-        const validatorsForName = [Validators.required, ZanoValidators.duplicate(walletNamesForComparisons)];
+        const validatorsForName = [Validators.required, ZanoValidators.duplicate(walletNamesForComparisons, this.variablesService.current_wallet.name)];
         this.detailsForm.controls.name.clearValidators();
         this.detailsForm.controls.name.setValidators(validatorsForName);
         this.detailsForm.controls.name.updateValueAndValidity();

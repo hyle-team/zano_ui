@@ -64,7 +64,7 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
 
                 this.openWalletForm.controls.filePath.patchValue(params.path);
 
-                let filename = '';
+                let filename: string;
                 if (params.path.lastIndexOf('.') === -1) {
                     filename = params.path.substr(params.path.lastIndexOf('/') + 1);
                 } else {

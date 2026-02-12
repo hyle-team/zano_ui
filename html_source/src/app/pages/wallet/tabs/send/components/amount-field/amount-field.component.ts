@@ -1,7 +1,7 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { InputValidateModule, TooltipModule } from '@parts/directives';
+import { InputValidateModule, TooltipDirective } from '@parts/directives';
 import { IsVisibleControlErrorPipe } from '@parts/pipes/is-visible-control-error.pipe';
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
@@ -34,7 +34,7 @@ interface AmountInputParams {
         MatIconModule,
         ReactiveFormsModule,
         TranslateModule,
-        TooltipModule,
+        TooltipDirective,
         MatTooltipModule,
     ],
     templateUrl: './amount-field.component.html',

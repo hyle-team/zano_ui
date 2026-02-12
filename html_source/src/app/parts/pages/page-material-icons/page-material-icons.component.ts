@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, NgFor } from '@angular/common';
-import { zanoIcons } from '../../../../assets/zano-icons';
+import { CommonModule } from '@angular/common';
+import { svgIcons } from '../../../../assets/zano-icons';
 import { MatIconModule } from '@angular/material/icon';
 
 @Component({
@@ -15,5 +15,5 @@ export class PageMaterialIconsComponent implements OnInit {
 
     ngOnInit(): void {}
 
-    materialZanoIcons = zanoIcons;
+    materialZanoIcons = svgIcons;
 }
