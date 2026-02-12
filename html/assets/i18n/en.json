@@ -71,7 +71,7 @@
             }
         },
         "RESTORE_WALLET": {
-            "DESCRIPRIONS": {
+            "DESCRIPTIONS": {
                 "DESCRIPTION1": "Wallet recovery page. Fill in all fields and enter the seed phrase."
             }
         },
@@ -575,6 +575,8 @@
         "TRANSACTION_ERROR": "Error. Transaction not completed.",
         "TRANSACTION_IS_TO_BIG": "Transaction exceeds network limit, send required amount with multiple transactions",
         "TRANSFER_ATTEMPT": "There is no connection to Zano network",
+        "TX_HAS_TOO_MANY_INPUTS": "Transaction has too many inputs.",
+        "TX_HAS_TOO_MANY_OUTPUTS": "Transaction has too many outputs.",
         "TX_IS_TOO_BIG": "Transaction exceeds network limit, send required amount with multiple transactions",
         "TX_TYPE_COIN_BASE": "Error. The payment was not completed.",
         "TX_TYPE_NEW_ALIAS": "Error. Failed to register alias to safe",
@@ -722,7 +724,7 @@
         "ADDRESS_PLACEHOLDER": "Please enter an address",
         "AMOUNT_PLACEHOLDER": "Please enter the amount",
         "COMMENT_PLACEHOLDER": "Enter your comment here",
-        "CONFIRM_WALET_PASSWORD_PLACEHOLDER": "Confirm wallet password here",
+        "CONFIRM_WALLET_PASSWORD_PLACEHOLDER": "Confirm wallet password here",
         "DEPOSIT_PLACEHOLDER": "Enter your deposit here",
         "DESCRIPTION_PLACEHOLDER": "Enter a description here",
         "FEE_PLACEHOLDER": "Enter a fee here",
@@ -739,8 +741,8 @@
         "SEED_PHRASE_PLACEHOLDER": "Enter a seed phrase here",
         "SELLER_DEPOSIT_PLACEHOLDER": "Enter seller deposit here",
         "SELLER_PLACEHOLDER": "Enter a seller here",
-        "WALET_PASSWORD_PLACEHOLDER": "Enter a wallet password here",
-        "WALLET_NAME_PLACEHOLDER": "Please enter a name for your wallet"
+        "WALLET_NAME_PLACEHOLDER": "Please enter a name for your wallet",
+        "WALLET_PASSWORD_PLACEHOLDER": "Enter a wallet password here"
     },
     "PROGRESS": {
         "ADD_WALLET": "Add wallet",

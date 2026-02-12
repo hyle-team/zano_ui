@@ -71,7 +71,7 @@
             }
         },
         "RESTORE_WALLET": {
-            "DESCRIPRIONS": {
+            "DESCRIPTIONS": {
                 "DESCRIPTION1": "Página de recuperação de carteira. Preencha todos os campos e digite a frase semente."
             }
         },
@@ -575,6 +575,8 @@
         "TRANSACTION_ERROR": "Erro. Transação não concluída.",
         "TRANSACTION_IS_TO_BIG": "A transação excede o limite da rede, envie a quantia necessária com várias transações",
         "TRANSFER_ATTEMPT": "Não há conexão com a rede Zano",
+        "TX_HAS_TOO_MANY_INPUTS": "A transação tem muitas entradas.",
+        "TX_HAS_TOO_MANY_OUTPUTS": "A transação tem muitas saídas.",
         "TX_IS_TOO_BIG": "A transação excede o limite da rede, envie a quantia necessária com várias transações",
         "TX_TYPE_COIN_BASE": "Erro. O pagamento não foi concluído.",
         "TX_TYPE_NEW_ALIAS": "Erro. Falha ao registrar o alias para safe",
@@ -722,7 +724,7 @@
         "ADDRESS_PLACEHOLDER": "Por favor, digite um endereço",
         "AMOUNT_PLACEHOLDER": "Por favor, digite a quantidade",
         "COMMENT_PLACEHOLDER": "Digite seu comentário aqui",
-        "CONFIRM_WALET_PASSWORD_PLACEHOLDER": "Confirme a senha da carteira aqui",
+        "CONFIRM_WALLET_PASSWORD_PLACEHOLDER": "Confirme a senha da carteira aqui",
         "DEPOSIT_PLACEHOLDER": "Digite seu depósito aqui",
         "DESCRIPTION_PLACEHOLDER": "Digite uma descrição aqui",
         "FEE_PLACEHOLDER": "Digite uma taxa aqui",
@@ -739,8 +741,8 @@
         "SEED_PHRASE_PLACEHOLDER": "Digite uma frase semente aqui",
         "SELLER_DEPOSIT_PLACEHOLDER": "Digite o depósito do vendedor aqui",
         "SELLER_PLACEHOLDER": "Digite um vendedor aqui",
-        "WALET_PASSWORD_PLACEHOLDER": "Digite a senha da carteira aqui",
-        "WALLET_NAME_PLACEHOLDER": "Por favor, digite um nome para sua carteira"
+        "WALLET_NAME_PLACEHOLDER": "Por favor, digite um nome para sua carteira",
+        "WALLET_PASSWORD_PLACEHOLDER": "Digite a senha da carteira aqui"
     },
     "PROGRESS": {
         "ADD_WALLET": "Adicionar carteira",

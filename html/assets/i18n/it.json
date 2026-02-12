@@ -71,7 +71,7 @@
             }
         },
         "RESTORE_WALLET": {
-            "DESCRIPRIONS": {
+            "DESCRIPTIONS": {
                 "DESCRIPTION1": "Pagina di recupero del wallet. Compila tutti i campi e inserisci la seed phrase."
             }
         },
@@ -575,6 +575,8 @@
         "TRANSACTION_ERROR": "Errore. Transazione non completata.",
         "TRANSACTION_IS_TO_BIG": "La transazione supera il limite di rete, invia l'importo richiesto con più transazioni",
         "TRANSFER_ATTEMPT": "Non c'è connessione alla rete Zano",
+        "TX_HAS_TOO_MANY_INPUTS": "La transazione ha troppi input.",
+        "TX_HAS_TOO_MANY_OUTPUTS": "La transazione ha troppi output.",
         "TX_IS_TOO_BIG": "La transazione supera il limite di rete, invia l'importo richiesto con più transazioni",
         "TX_TYPE_COIN_BASE": "Errore. Il pagamento non è stato completato.",
         "TX_TYPE_NEW_ALIAS": "Errore. Impossibile registrare l'alias a safe",
@@ -722,7 +724,7 @@
         "ADDRESS_PLACEHOLDER": "Inserisci un indirizzo",
         "AMOUNT_PLACEHOLDER": "Inserisci l'importo",
         "COMMENT_PLACEHOLDER": "Inserisci il tuo commento qui",
-        "CONFIRM_WALET_PASSWORD_PLACEHOLDER": "Conferma la password del wallet qui",
+        "CONFIRM_WALLET_PASSWORD_PLACEHOLDER": "Conferma la password del wallet qui",
         "DEPOSIT_PLACEHOLDER": "Inserisci il tuo deposito qui",
         "DESCRIPTION_PLACEHOLDER": "Inserisci una descrizione qui",
         "FEE_PLACEHOLDER": "Inserisci una commissione qui",
@@ -739,8 +741,8 @@
         "SEED_PHRASE_PLACEHOLDER": "Inserisci una seed phrase qui",
         "SELLER_DEPOSIT_PLACEHOLDER": "Inserisci il deposito del venditore qui",
         "SELLER_PLACEHOLDER": "Inserisci un venditore qui",
-        "WALET_PASSWORD_PLACEHOLDER": "Inserisci una password del wallet qui",
-        "WALLET_NAME_PLACEHOLDER": "Inserisci un nome per il tuo wallet"
+        "WALLET_NAME_PLACEHOLDER": "Inserisci un nome per il tuo wallet",
+        "WALLET_PASSWORD_PLACEHOLDER": "Inserisci una password del wallet qui"
     },
     "PROGRESS": {
         "ADD_WALLET": "Aggiungi wallet",
