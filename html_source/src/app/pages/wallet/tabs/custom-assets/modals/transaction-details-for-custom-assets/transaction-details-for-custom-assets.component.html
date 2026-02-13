@@ -65,12 +65,12 @@
                             <app-copy-button [value]="new_asset_id" class="ml-1"></app-copy-button>
                         </li>
                     </ng-container>
-                    <ng-container *ngIf="details.result_tx as result_tx">
+                    <ng-container *ngIf="details.tx_id as tx_id">
                         <li class="item mb-1 color-primary" fxLayout="row nowrap" fxLayoutAlign="start center">
-                            <span (click)="openInBrowser(result_tx)" class="text word-break-break-all cursor-pointer">
-                                Result tx: {{ result_tx }}
+                            <span (click)="openInBrowser(tx_id)" class="text word-break-break-all cursor-pointer">
+                                Result tx: {{ tx_id }}
                             </span>
-                            <app-copy-button [value]="result_tx" class="ml-1"></app-copy-button>
+                            <app-copy-button [value]="tx_id" class="ml-1"></app-copy-button>
                         </li>
                     </ng-container>
                 </ng-container>
