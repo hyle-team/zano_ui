@@ -39,19 +39,19 @@
                     </div>
                     <ng-container *ngIf="form.controls.name | isVisibleControlError">
                         <div class="error" [attr.aria-live]="'assertive'" id="alias-name-error1">
-                            <ng-container *ngIf="form.controls.name.hasError('pattern'); else nameMinLengthErrorTemplate">
-                                {{ 'ASSIGN_ALIAS.FORM_ERRORS.NAME_WRONG' | translate }}
+                            <ng-container *ngIf="form.controls.name.hasError('minlength'); else nameMaxLengthErrorTemplate">
+                                {{ 'ASSIGN_ALIAS.FORM_ERRORS.NAME_LENGTH' | translate }}
                             </ng-container>
 
-                            <ng-template #nameMinLengthErrorTemplate>
-                                <ng-container *ngIf="form.controls.name.hasError('minlength'); else nameMaxLengthErrorTemplate">
+                            <ng-template #nameMaxLengthErrorTemplate>
+                                <ng-container *ngIf="form.controls.name.hasError('maxlength'); else nameWrongErrorTemplate">
                                     {{ 'ASSIGN_ALIAS.FORM_ERRORS.NAME_LENGTH' | translate }}
                                 </ng-container>
                             </ng-template>
 
-                            <ng-template #nameMaxLengthErrorTemplate>
-                                <ng-container *ngIf="form.controls.name.hasError('maxlength'); else nameRequiredErrorTemplate">
-                                    {{ 'ASSIGN_ALIAS.FORM_ERRORS.NAME_LENGTH' | translate }}
+                            <ng-template #nameWrongErrorTemplate>
+                                <ng-container *ngIf="form.controls.name.hasError('pattern'); else nameRequiredErrorTemplate">
+                                    {{ 'ASSIGN_ALIAS.FORM_ERRORS.NAME_WRONG' | translate }}
                                 </ng-container>
                             </ng-template>
 
