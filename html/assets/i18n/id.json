@@ -71,7 +71,7 @@
             }
         },
         "RESTORE_WALLET": {
-            "DESCRIPRIONS": {
+            "DESCRIPTIONS": {
                 "DESCRIPTION1": "Halaman pemulihan dompet. Isi semua kolom dan masukkan frasa kunci."
             }
         },
@@ -117,6 +117,7 @@
                 "WRONG_ASSET_ID": "ID aset salah"
             }
         },
+        "HIDE_EMPTY": "Sembunyikan aset kosong",
         "MODALS": {
             "ASSET_DETAILS": {
                 "BUTTONS": {
@@ -148,6 +149,10 @@
                 "VALUE": "Nilai"
             }
         }
+    },
+    "ASSET_TAG": {
+        "NATIVE": "Asil",
+        "WHITELISTED": "Daftar putih"
     },
     "ASSIGN_ALIAS": {
         "BUTTON_ASSIGN": "Tetapkan",
@@ -435,7 +440,7 @@
             "LABELS": {
                 "LABEL1": "Mengirim",
                 "LABEL2": "Menerima",
-                "LABEL3": "Alamat penerima"
+                "LABEL3": "Alamat rekanan"
             },
             "PLACEHOLDERS": {
                 "PLACEHOLDER1": "Silakan masukkan jumlah"
@@ -570,6 +575,8 @@
         "TRANSACTION_ERROR": "Kesalahan. Transaksi tidak selesai.",
         "TRANSACTION_IS_TO_BIG": "Transaksi melebihi batas jaringan, kirim jumlah yang diperlukan dengan beberapa transaksi",
         "TRANSFER_ATTEMPT": "Tidak ada koneksi ke jaringan Zano",
+        "TX_HAS_TOO_MANY_INPUTS": "Transaksi memiliki terlalu banyak input.",
+        "TX_HAS_TOO_MANY_OUTPUTS": "Transaksi memiliki terlalu banyak output.",
         "TX_IS_TOO_BIG": "Transaksi melebihi batas jaringan, kirim jumlah yang diperlukan dengan beberapa transaksi",
         "TX_TYPE_COIN_BASE": "Kesalahan. Pembayaran tidak selesai.",
         "TX_TYPE_NEW_ALIAS": "Kesalahan. Gagal mendaftarkan alias ke brankas",
@@ -642,8 +649,9 @@
         "DIALOGS": {
             "CONFIRMATION": {
                 "RESET": {
-                    "MESSAGE": "Ini akan menghapus semua data rahasia Anda secara permanen dan mengatur ulang aplikasi ke keadaan default. Tindakan ini tidak dapat dibatalkan. Apakah Anda yakin ingin melanjutkan?",
-                    "TITLE": "Atur Ulang Data Aplikasi?"
+                    "MESSAGE": "Tindakan ini akan menghapus semua data sensitif yang tersimpan di perangkat ini secara permanen и mereset aplikasi ke pengaturan awal. Tindakan ini tidak dapat dibatalkan.",
+                    "SUBMIT_BUTTON": "Reset data",
+                    "TITLE": "Reset data aplikasi?"
                 }
             }
         },
@@ -716,7 +724,7 @@
         "ADDRESS_PLACEHOLDER": "Silakan masukkan alamat",
         "AMOUNT_PLACEHOLDER": "Silakan masukkan jumlah",
         "COMMENT_PLACEHOLDER": "Masukkan komentar Anda di sini",
-        "CONFIRM_WALET_PASSWORD_PLACEHOLDER": "Konfirmasi kata sandi dompet di sini",
+        "CONFIRM_WALLET_PASSWORD_PLACEHOLDER": "Konfirmasi kata sandi dompet di sini",
         "DEPOSIT_PLACEHOLDER": "Masukkan deposit Anda di sini",
         "DESCRIPTION_PLACEHOLDER": "Masukkan deskripsi di sini",
         "FEE_PLACEHOLDER": "Masukkan biaya di sini",
@@ -733,8 +741,8 @@
         "SEED_PHRASE_PLACEHOLDER": "Masukkan frasa kunci di sini",
         "SELLER_DEPOSIT_PLACEHOLDER": "Masukkan deposit penjual di sini",
         "SELLER_PLACEHOLDER": "Masukkan penjual di sini",
-        "WALET_PASSWORD_PLACEHOLDER": "Masukkan kata sandi dompet di sini",
-        "WALLET_NAME_PLACEHOLDER": "Silakan masukkan nama untuk dompet Anda"
+        "WALLET_NAME_PLACEHOLDER": "Silakan masukkan nama untuk dompet Anda",
+        "WALLET_PASSWORD_PLACEHOLDER": "Masukkan kata sandi dompet di sini"
     },
     "PROGRESS": {
         "ADD_WALLET": "Tambah dompet",

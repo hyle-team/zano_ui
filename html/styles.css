@@ -614,22 +614,15 @@ mat-row,mat-header-row,mat-footer-row,th.mat-header-cell,td.mat-cell,td.mat-foot
 .mat-simple-snackbar-action{color:inherit}
 html {
   box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  overscroll-behavior: none;
 }
 *,
 *:before,
 *:after {
-  box-sizing: inherit;
-  -webkit-box-sizing: inherit;
-  -moz-box-sizing: inherit;
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  -webkit-backface-visibility: hidden;
-  -webkit-touch-collout: none;
   -webkit-user-select: none;
-  user-select: none;
+          user-select: none;
 }
 html,
 body,
@@ -713,8 +706,6 @@ mark,
 audio,
 video {
   border: 0;
-  font-size: 100%;
-  font: inherit;
   vertical-align: baseline;
 }
 article,
@@ -732,6 +723,8 @@ section {
 }
 body {
   line-height: 1;
+  scroll-behavior: smooth;
+  text-rendering: optimizeSpeed;
   font-style: normal;
 }
 ol,
@@ -834,9 +827,10 @@ strong {
   --black-300: rgba(0, 0, 0, 0.6);
   --amethyst-500: #9a69f7;
   --silver-500: #8898b5;
-  --gradietAquaToBlue: radial-gradient(100% 188.88% at 0% 0%, #16d1d6 0%, #274cff 100%);
-  --gradietLightAmethystToPurpurle: radial-gradient(100% 246.57% at 0% 0%, #523caa 0%, #3720aa 100%);
-  --gradietAmethystToPurpurle: radial-gradient(100% 246.57% at 0% 0%, #a366ff 0%, #601fff 100%);
+  --gradientAquaToBlue: radial-gradient(100% 188.88% at 0% 0%, #16d1d6 0%, #274cff 100%);
+  --gradientLightAmethystToPurpurle: radial-gradient(100% 246.57% at 0% 0%, #523caa 0%, #3720aa 100%);
+  --gradientAmethystToPurpurle: radial-gradient(100% 246.57% at 0% 0%, #a366ff 0%, #601fff 100%);
+  --gradientCyanToTurquoise: radial-gradient(100% 188.88% at 0% 0%, #16d1d6 0%, #169397 100%);
   --shadow-gray: 0px 2.11765px 5.64706px rgba(0, 0, 0, 0.15), 0px 2.11765px 0.705882px rgba(0, 0, 0, 0.06);
   --shadow-black-300: 0 0 1rem var(--black-300);
   --chartOptionsBackgroundColor: #2b3644;
@@ -883,7 +877,7 @@ strong {
   --border-error: 1px solid var(--red-600);
   --hint-text: #0c0c3a99;
   --amount-ticker-text: #0c0c3a99;
-  --amount-btn-revers-background: #1F8FEB33;
+  --amount-btn-revers-background: #1f8feb33;
   --checkbox-border: 1px solid #1f8feb66;
   --checkbox-hover-border: 1px solid #1f8feb99;
   --checkbox-active-border: 1px solid #1f8feb99;
@@ -892,16 +886,12 @@ strong {
   --switch-off-background: #0c0c3a1a;
   --switch-circle-background: var(--white-500);
   --wallet-background: #dbebf9;
-  --wallet-active-background: var(--gradietAquaToBlue);
+  --wallet-active-background: var(--gradientAquaToBlue);
   --wallet-border: 1px solid #1f8feb00;
   --wallet-border-color-hover: #1f8feb;
-  --wallet-auditable-watch-only-background: radial-gradient(
-      100% 246.57% at 0% 0%,
-          #af80fe 0%,
-          #8756fe 100%
-  );
-  --wallet-auditable-active-background: var(--gradietAmethystToPurpurle);
-  --wallet-watch-only-active-background: var(--gradietAmethystToPurpurle);
+  --wallet-auditable-watch-only-background: radial-gradient(100% 246.57% at 0% 0%, #af80fe 0%, #8756fe 100%);
+  --wallet-auditable-active-background: var(--gradientAmethystToPurpurle);
+  --wallet-watch-only-active-background: var(--gradientAmethystToPurpurle);
   --wallet-watch-only-after-background: #dbecf9;
   --wallet-watch-only-text: var(--blue-900);
   --wallet-active-text: #ffffff;
@@ -958,7 +948,7 @@ strong {
   --border-error: 1px solid var(--red-600);
   --hint-text: #ffffff60;
   --amount-ticker-text: #ffffff60;
-  --amount-btn-revers-background: #1F8FEB33;
+  --amount-btn-revers-background: #1f8feb33;
   --checkbox-border: 1px solid #ffffff33;
   --checkbox-hover-border: 1px solid #ffffff66;
   --checkbox-active-border: 1px solid #ffffff66;
@@ -967,12 +957,12 @@ strong {
   --switch-off-background: var(--gray-800);
   --switch-circle-background: var(--white-500);
   --wallet-background: var(--blue-500);
-  --wallet-active-background: var(--gradietAquaToBlue);
+  --wallet-active-background: var(--gradientAquaToBlue);
   --wallet-border: 1px solid var(--blue-500);
   --wallet-border-color-hover: var(--gray-800);
-  --wallet-auditable-watch-only-background: var(--gradietLightAmethystToPurpurle);
-  --wallet-auditable-active-background: var(--gradietAmethystToPurpurle);
-  --wallet-watch-only-active-background: var(--gradietAmethystToPurpurle);
+  --wallet-auditable-watch-only-background: var(--gradientLightAmethystToPurpurle);
+  --wallet-auditable-active-background: var(--gradientAmethystToPurpurle);
+  --wallet-watch-only-active-background: var(--gradientAmethystToPurpurle);
   --wallet-watch-only-after-background: var(--blue-500);
   --wallet-watch-only-text: #ffffff;
   --wallet-active-text: #ffffff;
@@ -1006,105 +996,23 @@ strong {
   src: url('SF-Pro-Rounded-Semibold.ttf');
   font-weight: 600;
 }
-html,
-input,
-textarea,
-select,
-button {
-  color: var(--main-text);
+* {
   font-family: SF-Pro-Rounded, sans-serif;
+  font-size: 1.8rem;
+  line-height: 1.2;
+}
+body {
+  color: var(--main-text);
   font-weight: 400;
 }
 h1 {
   font-size: 3.6rem;
-  line-height: 1.2;
 }
 h2 {
   font-size: 2.8rem;
-  line-height: 1.2;
 }
 h3 {
   font-size: 2rem;
-  line-height: 1.2;
-}
-div,
-span,
-applet,
-object,
-iframe,
-h4,
-h5,
-h6,
-p,
-blockquote,
-pre,
-a,
-abbr,
-acronym,
-address,
-big,
-cite,
-code,
-del,
-dfn,
-em,
-img,
-ins,
-kbd,
-q,
-s,
-samp,
-small,
-strike,
-strong,
-sub,
-sup,
-tt,
-var,
-b,
-u,
-i,
-center,
-dl,
-dt,
-dd,
-ol,
-ul,
-li,
-fieldset,
-form,
-label,
-legend,
-table,
-caption,
-tbody,
-tfoot,
-thead,
-tr,
-th,
-td,
-article,
-aside,
-canvas,
-details,
-embed,
-figure,
-figcaption,
-footer,
-header,
-hgroup,
-menu,
-nav,
-output,
-ruby,
-section,
-summary,
-time,
-mark,
-audio,
-video {
-  font-size: 1.8rem;
-  line-height: 1.2;
 }
 ::-webkit-scrollbar {
   background-color: transparent;
@@ -1259,7 +1167,7 @@ app-root {
 .alias-container.available .alias {
   padding: 0.4rem 1.6rem;
   min-height: 3.2rem;
-  background: var(--gradietAquaToBlue);
+  background: var(--gradientAquaToBlue);
   color: #ffffff;
   border-radius: 0.8rem;
   position: relative;
@@ -1495,16 +1403,13 @@ button.btn-icon:hover, button.btn-icon:focus,
   background-color: var(--form-card-background);
 }
 .form__row {
-  display: grid;
+  display: flex;
   width: 100%;
-  grid-template-columns: repeat(2, 1fr);
   justify-content: space-between;
-  grid-gap: 20px;
 }
 .form__field {
   position: relative;
   display: flex;
-  flex: 0 0 auto;
   flex-direction: column;
   align-items: flex-start;
   padding-bottom: 2rem;
@@ -1798,7 +1703,6 @@ button.btn-icon:hover, button.btn-icon:focus,
   padding: 0.2rem;
   width: 3.6rem;
   height: 2.2rem;
-  transition: all 0.2s ease-in-out;
   outline: none;
 }
 .switch.disabled {
@@ -2701,8 +2605,8 @@ app-progress-container .progress-bar-container .progress-bar .progress-bar-full 
   flex: 1;
 }
 .light .skeleton {
-  background-color: #DBECF9;
-  background-image: linear-gradient(90deg, #DBECF9 0%, #EEF8FF 50%, #DBECF9 100%);
+  background-color: #dbecf9;
+  background-image: linear-gradient(90deg, #dbecf9 0%, #eef8ff 50%, #dbecf9 100%);
 }
 .dark .skeleton {
   background-color: #102a63;
@@ -2987,7 +2891,8 @@ table.zano-table > tbody > tr > table.zano-table > tbody > tr:not(.details) {
   display: inline-flex;
   align-items: center;
 }
-.zano-table-info .zano-table-info__amount-cell .token-logo, .zano-table-info .zano-table-info__amount-cell .ticker {
+.zano-table-info .zano-table-info__amount-cell .token-logo,
+.zano-table-info .zano-table-info__amount-cell .ticker {
   flex-shrink: 0;
 }
 .zano-table-info .zano-table-info__amount-cell .ticker {
@@ -3540,8 +3445,9 @@ app-assign-alias .has-no-edit-symbol:after {
   left: 1rem;
   transform: translateY(-50%);
 }
-.assets-table {
-  table-layout: auto !important;
+.assets-table .cell-name {
+  display: flex;
+  align-items: center;
 }
 .assets-table .token-logo {
   background: var(--blue-300);

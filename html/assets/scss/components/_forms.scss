@@ -17,17 +17,14 @@
     }
 
     &__row {
-        display: grid;
+        display: flex;
         width: 100%;
-        grid-template-columns: repeat(2, 1fr);
         justify-content: space-between;
-        grid-gap: 20px;
     }
 
     &__field {
         position: relative;
         display: flex;
-        flex: 0 0 auto;
         flex-direction: column;
         align-items: flex-start;
         padding-bottom: 2rem;
@@ -405,8 +402,9 @@
     padding: 0.2rem;
     width: 3.6rem;
     height: 2.2rem;
-    transition: all 0.2s ease-in-out;
     outline: none;
+
+    //transition: all 0.2s ease-in-out;
 
     &.disabled {
         opacity: 0.5;

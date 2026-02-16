@@ -71,7 +71,7 @@
             }
         },
         "RESTORE_WALLET": {
-            "DESCRIPRIONS": {
+            "DESCRIPTIONS": {
                 "DESCRIPTION1": "Pagina di recupero del wallet. Compila tutti i campi e inserisci la seed phrase."
             }
         },
@@ -117,6 +117,7 @@
                 "WRONG_ASSET_ID": "ID asset errato"
             }
         },
+        "HIDE_EMPTY": "Nascondi asset vuoti",
         "MODALS": {
             "ASSET_DETAILS": {
                 "BUTTONS": {
@@ -148,6 +149,10 @@
                 "VALUE": "Valore"
             }
         }
+    },
+    "ASSET_TAG": {
+        "NATIVE": "Nativo",
+        "WHITELISTED": "Nella whitelist"
     },
     "ASSIGN_ALIAS": {
         "BUTTON_ASSIGN": "Assegna",
@@ -435,7 +440,7 @@
             "LABELS": {
                 "LABEL1": "Invio",
                 "LABEL2": "Ricezione",
-                "LABEL3": "Indirizzo del destinatario"
+                "LABEL3": "Indirizzo della controparte"
             },
             "PLACEHOLDERS": {
                 "PLACEHOLDER1": "Inserisci l'importo"
@@ -570,6 +575,8 @@
         "TRANSACTION_ERROR": "Errore. Transazione non completata.",
         "TRANSACTION_IS_TO_BIG": "La transazione supera il limite di rete, invia l'importo richiesto con più transazioni",
         "TRANSFER_ATTEMPT": "Non c'è connessione alla rete Zano",
+        "TX_HAS_TOO_MANY_INPUTS": "La transazione ha troppi input.",
+        "TX_HAS_TOO_MANY_OUTPUTS": "La transazione ha troppi output.",
         "TX_IS_TOO_BIG": "La transazione supera il limite di rete, invia l'importo richiesto con più transazioni",
         "TX_TYPE_COIN_BASE": "Errore. Il pagamento non è stato completato.",
         "TX_TYPE_NEW_ALIAS": "Errore. Impossibile registrare l'alias a safe",
@@ -642,7 +649,8 @@
         "DIALOGS": {
             "CONFIRMATION": {
                 "RESET": {
-                    "MESSAGE": "Questo eliminerà permanentemente tutti i tuoi dati segreti e ripristinerà l'app allo stato predefinito. Questa azione non può essere annullata. Sei sicuro di voler procedere?",
+                    "MESSAGE": "Questa operazione cancellerà definitivamente tutti i dati sensibili memorizzati su questo dispositivo e riporterà l'app allo stato predefinito. L'operazione è irreversibile.",
+                    "SUBMIT_BUTTON": "Reimposta dati",
                     "TITLE": "Reimpostare i dati dell'app?"
                 }
             }
@@ -716,7 +724,7 @@
         "ADDRESS_PLACEHOLDER": "Inserisci un indirizzo",
         "AMOUNT_PLACEHOLDER": "Inserisci l'importo",
         "COMMENT_PLACEHOLDER": "Inserisci il tuo commento qui",
-        "CONFIRM_WALET_PASSWORD_PLACEHOLDER": "Conferma la password del wallet qui",
+        "CONFIRM_WALLET_PASSWORD_PLACEHOLDER": "Conferma la password del wallet qui",
         "DEPOSIT_PLACEHOLDER": "Inserisci il tuo deposito qui",
         "DESCRIPTION_PLACEHOLDER": "Inserisci una descrizione qui",
         "FEE_PLACEHOLDER": "Inserisci una commissione qui",
@@ -733,8 +741,8 @@
         "SEED_PHRASE_PLACEHOLDER": "Inserisci una seed phrase qui",
         "SELLER_DEPOSIT_PLACEHOLDER": "Inserisci il deposito del venditore qui",
         "SELLER_PLACEHOLDER": "Inserisci un venditore qui",
-        "WALET_PASSWORD_PLACEHOLDER": "Inserisci una password del wallet qui",
-        "WALLET_NAME_PLACEHOLDER": "Inserisci un nome per il tuo wallet"
+        "WALLET_NAME_PLACEHOLDER": "Inserisci un nome per il tuo wallet",
+        "WALLET_PASSWORD_PLACEHOLDER": "Inserisci una password del wallet qui"
     },
     "PROGRESS": {
         "ADD_WALLET": "Aggiungi wallet",
@@ -1156,7 +1164,7 @@
         }
     },
     "WALLET_CARD": {
-        "ARIA_LABEL1": "Progresso della sincronizzazione del portafoglio"
+        "ARIA_LABEL1": "Avanzamento sincronizzazione wallet"
     },
     "WALLET_DETAILS": {
         "BUTTON_REMOVE": "Rimuovi wallet",

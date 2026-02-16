@@ -71,7 +71,7 @@
             }
         },
         "RESTORE_WALLET": {
-            "DESCRIPRIONS": {
+            "DESCRIPTIONS": {
                 "DESCRIPTION1": "Страница восстановления кошелька. Заполните все поля и введите начальную фразу."
             }
         },
@@ -117,6 +117,7 @@
                 "WRONG_ASSET_ID": "ID d'actif incorrect"
             }
         },
+        "HIDE_EMPTY": "Masquer les actifs vides",
         "MODALS": {
             "ASSET_DETAILS": {
                 "BUTTONS": {
@@ -148,6 +149,10 @@
                 "VALUE": "Valeur"
             }
         }
+    },
+    "ASSET_TAG": {
+        "NATIVE": "Natif",
+        "WHITELISTED": "Sur liste blanche"
     },
     "ASSIGN_ALIAS": {
         "BUTTON_ASSIGN": "Attribuer",
@@ -435,7 +440,7 @@
             "LABELS": {
                 "LABEL1": "Envoi",
                 "LABEL2": "Réception",
-                "LABEL3": "Adresse du destinataire"
+                "LABEL3": "Adresse du contrepartie"
             },
             "PLACEHOLDERS": {
                 "PLACEHOLDER1": "Veuillez entrer le montant"
@@ -570,6 +575,8 @@
         "TRANSACTION_ERROR": "Erreur. La transaction n'est pas terminée.",
         "TRANSACTION_IS_TO_BIG": "La transaction dépasse la limite du réseau, envoyez le montant requis avec plusieurs transactions",
         "TRANSFER_ATTEMPT": "Il n'y a pas de connexion au réseau Zano",
+        "TX_HAS_TOO_MANY_INPUTS": "La transaction comporte trop d'entrées.",
+        "TX_HAS_TOO_MANY_OUTPUTS": "La transaction comporte trop de sorties.",
         "TX_IS_TOO_BIG": "La transaction dépasse la limite du réseau, envoyez le montant requis avec plusieurs transactions",
         "TX_TYPE_COIN_BASE": "Erreur. Le paiement n'a pas été effectué.",
         "TX_TYPE_NEW_ALIAS": "Erreur. Échec de l'enregistrement de l'alias dans le coffre-fort",
@@ -642,7 +649,8 @@
         "DIALOGS": {
             "CONFIRMATION": {
                 "RESET": {
-                    "MESSAGE": "Cela supprimera définitivement toutes vos données secrètes et réinitialisera l'application à son état par défaut. Cette action ne peut pas être annulée. Êtes-vous sûr de vouloir continuer?",
+                    "MESSAGE": "Cette action supprimera définitivement toutes les données sensibles stockées sur cet appareil et réinitialisera l'application à son état par défaut. Cette action est irréversible.",
+                    "SUBMIT_BUTTON": "Réinitialiser les données",
                     "TITLE": "Réinitialiser les données de l'application ?"
                 }
             }
@@ -716,7 +724,7 @@
         "ADDRESS_PLACEHOLDER": "Veuillez entrer une adresse",
         "AMOUNT_PLACEHOLDER": "Veuillez entrer le montant",
         "COMMENT_PLACEHOLDER": "Entrez votre commentaire ici",
-        "CONFIRM_WALET_PASSWORD_PLACEHOLDER": "Confirmez le mot de passe du portefeuille ici",
+        "CONFIRM_WALLET_PASSWORD_PLACEHOLDER": "Confirmez le mot de passe du portefeuille ici",
         "DEPOSIT_PLACEHOLDER": "Entrez votre dépôt ici",
         "DESCRIPTION_PLACEHOLDER": "Entrez une description ici",
         "FEE_PLACEHOLDER": "Entrez des frais ici",
@@ -733,8 +741,8 @@
         "SEED_PHRASE_PLACEHOLDER": "Entrez une phrase de départ ici",
         "SELLER_DEPOSIT_PLACEHOLDER": "Entrez le dépôt du vendeur ici",
         "SELLER_PLACEHOLDER": "Entrez un vendeur ici",
-        "WALET_PASSWORD_PLACEHOLDER": "Entrez un mot de passe de portefeuille ici",
-        "WALLET_NAME_PLACEHOLDER": "Veuillez entrer un nom pour votre portefeuille"
+        "WALLET_NAME_PLACEHOLDER": "Veuillez entrer un nom pour votre portefeuille",
+        "WALLET_PASSWORD_PLACEHOLDER": "Entrez un mot de passe de portefeuille ici"
     },
     "PROGRESS": {
         "ADD_WALLET": "Ajouter un portefeuille",
