@@ -100,6 +100,7 @@ export class CreateWalletComponent {
                 wallet.pages = new Array(1).fill(1);
                 wallet.totalPages = 1;
                 wallet.currentPage = 1;
+                wallet.exclude_mining_txs = false;
                 this.walletsService.addWallet(wallet);
                 this.backend.runWallet(wallet_id, (run_status, run_data) => {
                     if (run_status) {

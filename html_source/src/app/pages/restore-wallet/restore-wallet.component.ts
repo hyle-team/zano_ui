@@ -199,6 +199,7 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
                     );
                     wallet.is_auditable = is_auditable;
                     wallet.is_watch_only = is_watch_only;
+                    wallet.exclude_mining_txs = false;
 
                     wallet.restore = true;
                     wallet.currentPage = 1;

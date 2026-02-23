@@ -9,6 +9,7 @@ import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { collapseOnLeaveAnimation, expandOnEnterAnimation } from 'angular-animations';
 import { AmountItem } from "@parts/functions/get-amount-items";
 import { Transaction } from "@api/models/transaction.model";
+import { filter, takeUntil } from "rxjs/operators";
 
 @Component({
     selector: 'app-history',
@@ -44,6 +45,13 @@ export class HistoryComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.init();
+
+        this.variablesService.currentWalletChangedEvent.pipe(filter(Boolean), takeUntil(this._destroy$)).subscribe({
+            next: (wallet: Wallet) => {
+                this.getRecentTransfers();
+                this.mining = wallet.exclude_mining_txs;
+            },
+        });
     }
 
     ngOnDestroy(): void {
