@@ -3,7 +3,13 @@
 ></router-outlet>
 
 <!-- Sync / Error / Complete States -->
-<section *ngIf="loadingDaemonStates.includes(variablesService.daemon_state)" aria-busy="true" aria-live="polite" class="preloader" role="status">
+<section
+    *ngIf="loadingDaemonStates.includes(variablesService.daemon_state)"
+    aria-busy="true"
+    aria-live="polite"
+    class="preloader"
+    role="status"
+>
     <p class="mb-2">
         {{ loadingMessageKey | translate }}
     </p>

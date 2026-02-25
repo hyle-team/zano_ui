@@ -26,26 +26,19 @@
                 type="text"
             />
 
-            <div
-                *ngIf="form.controls.amount | isVisibleControlError"
-                aria-live="assertive"
-                class="error"
-                id="amount-error"
-            >
+            <div *ngIf="form.controls.amount | isVisibleControlError" aria-live="assertive" class="error" id="amount-error">
                 <ng-container *ngIf="form.controls.amount.hasError('required'); else insufficientFundsErrorTemplate">
                     {{ 'ERRORS.REQUIRED' | translate }}
                 </ng-container>
 
                 <ng-template #insufficientFundsErrorTemplate>
-                    <ng-container
-                        *ngIf="form.controls.amount.hasError('insufficientFunds'); else assetNotFoundErrorTemplate">
+                    <ng-container *ngIf="form.controls.amount.hasError('insufficientFunds'); else assetNotFoundErrorTemplate">
                         {{ form.controls.amount.errors['insufficientFunds'].errorText | translate }}
                     </ng-container>
                 </ng-template>
 
                 <ng-template #assetNotFoundErrorTemplate>
-                    <ng-container
-                        *ngIf="form.controls.amount.hasError('asset_not_found'); else greaterMaxErrorTemplate">
+                    <ng-container *ngIf="form.controls.amount.hasError('asset_not_found'); else greaterMaxErrorTemplate">
                         {{ 'ERRORS.ASSET_NOT_FOUND' | translate }}
                     </ng-container>
                 </ng-template>

@@ -5,7 +5,7 @@ import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
 @Directive({
     selector: '[appDisablePriceFetch]',
-    standalone: true
+    standalone: true,
 })
 export class DisablePriceFetchDirective implements OnDestroy {
     private destroy$: Subject<void> = new Subject<void>();

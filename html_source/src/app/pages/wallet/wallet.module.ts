@@ -7,7 +7,8 @@ import { FlexLayoutModule, FlexModule } from '@angular/flex-layout';
 import {
     ContractStatusMessagesPipeModule,
     HistoryTypeMessagesPipeModule,
-    IntToMoneyPipeModule, IsAvailableAliasNamePipe,
+    IntToMoneyPipeModule,
+    IsAvailableAliasNamePipe,
     ShortStringPipe,
 } from '@parts/pipes';
 import { TranslateModule } from '@ngx-translate/core';

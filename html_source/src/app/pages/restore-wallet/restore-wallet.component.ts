@@ -61,19 +61,20 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
 
     seedPhraseInfo: SeedPhraseInfo | null = null;
 
-    readonly form = this._fb.group(
-        {
-            name: [
-                '',
-                [
-                    Validators.required,
-                    Validators.maxLength(MAX_WALLET_NAME_LENGTH),
-                    ZanoValidators.duplicate(this.variablesService.walletNamesForComparisons),
-                ],
+    readonly form = this._fb.group({
+        name: [
+            '',
+            [
+                Validators.required,
+                Validators.maxLength(MAX_WALLET_NAME_LENGTH),
+                ZanoValidators.duplicate(this.variablesService.walletNamesForComparisons),
             ],
-            seedPhrase: ['', Validators.required],
-            password: ['', Validators.pattern(REG_EXP_PASSWORD)],
-            confirm: ['', [
+        ],
+        seedPhrase: ['', Validators.required],
+        password: ['', Validators.pattern(REG_EXP_PASSWORD)],
+        confirm: [
+            '',
+            [
                 (control: AbstractControl): ValidationErrors | null => {
                     if (!control.parent) return null;
 
@@ -81,11 +82,11 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
                     const confirm = control.value;
 
                     return password === confirm ? null : { mismatch: true };
-                }
-            ]],
-            seedPassword: [''],
-        }
-    );
+                },
+            ],
+        ],
+        seedPassword: [''],
+    });
 
     private _destroy$: Subject<void> = new Subject<void>();
 
@@ -100,8 +101,7 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
         private readonly _modalService: ModalService,
         private readonly _ngZone: NgZone,
         private readonly _translateService: TranslateService
-    ) {
-    }
+    ) {}
 
     get isDisabledCreatedWallet(): boolean {
         return this.form.invalid || !this.selectedLocationWalletPath || this._submitting;
@@ -132,40 +132,46 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
                         return;
                     }
 
-                    this._backend.getSeedPhraseInfo({
-                        seed_phrase,
-                        seed_password
-                    }, (status: boolean, data: SeedPhraseInfo) => {
-                        this._ngZone.run(() => {
-                            if (!status) {
-                                this.seedPhraseInfo = null;
-                                return;
-                            }
+                    this._backend.getSeedPhraseInfo(
+                        {
+                            seed_phrase,
+                            seed_password,
+                        },
+                        (status: boolean, data: SeedPhraseInfo) => {
+                            this._ngZone.run(() => {
+                                if (!status) {
+                                    this.seedPhraseInfo = null;
+                                    return;
+                                }
 
-                            this.seedPhraseInfo = data;
+                                this.seedPhraseInfo = data;
 
-                            const { syntax_correct, require_password } = data;
-                            if (!syntax_correct) {
-                                this.form.controls.seedPhrase.setErrors({ syntax_incorrect: true });
-                                this.form.controls.seedPassword.reset();
-                            }
+                                const { syntax_correct, require_password } = data;
+                                if (!syntax_correct) {
+                                    this.form.controls.seedPhrase.setErrors({ syntax_incorrect: true });
+                                    this.form.controls.seedPassword.reset();
+                                }
 
-                            if (require_password) {
-                                this._backend.isValidRestoreWalletText({
-                                    seed_phrase,
-                                    seed_password
-                                }, (_: boolean, data: string) => {
-                                    this._ngZone.run(() => {
-                                        if (data === 'FALSE') {
-                                            this.form.controls.seedPassword.setErrors({
-                                                password_seed_phrase_not_valid: true,
+                                if (require_password) {
+                                    this._backend.isValidRestoreWalletText(
+                                        {
+                                            seed_phrase,
+                                            seed_password,
+                                        },
+                                        (_: boolean, data: string) => {
+                                            this._ngZone.run(() => {
+                                                if (data === 'FALSE') {
+                                                    this.form.controls.seedPassword.setErrors({
+                                                        password_seed_phrase_not_valid: true,
+                                                    });
+                                                }
                                             });
                                         }
-                                    });
-                                });
-                            }
-                        });
-                    });
+                                    );
+                                }
+                            });
+                        }
+                    );
                 },
             });
 
@@ -200,16 +206,7 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
                 this._ngZone.run(() => {
                     if (status) {
                         const { wallet_id } = data;
-                        const {
-                            path,
-                            address,
-                            balance,
-                            unlocked_balance,
-                            mined_total,
-                            tracking_hey,
-                            is_auditable,
-                            is_watch_only
-                        } =
+                        const { path, address, balance, unlocked_balance, mined_total, tracking_hey, is_auditable, is_watch_only } =
                             data.wi;
                         const wallet: Wallet = new Wallet(
                             wallet_id,

@@ -14,7 +14,7 @@ import { WalletsService } from '@parts/services/wallets.service';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { ResponseGetAssetInfo } from '@api/models/rpc.models';
-import { ModalService } from "@parts/services/modal.service";
+import { ModalService } from '@parts/services/modal.service';
 
 @Component({
     selector: 'app-asset-details',
@@ -73,7 +73,6 @@ export class AssetDetailsComponent implements OnInit, OnDestroy {
             return;
         }
 
-
         const params = {
             id: 0,
             jsonrpc: '2.0',
@@ -85,7 +84,6 @@ export class AssetDetailsComponent implements OnInit, OnDestroy {
         const callback = (_, response: ResponseGetAssetInfo) => {
             this._ngZone.run(() => {
                 if (response.result.status === 'OK') {
-
                 }
 
                 switch (response.result.status) {

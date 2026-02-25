@@ -24,8 +24,7 @@
                     {{ 'ERRORS.REQUIRED' | translate }}
                 </ng-container>
                 <ng-template #hexNotValidErrorTemplate>
-                    <ng-container
-                        *ngIf="form.controls.owner.hasError('hex_not_valid'); else addressNotValidErrorTemplate">
+                    <ng-container *ngIf="form.controls.owner.hasError('hex_not_valid'); else addressNotValidErrorTemplate">
                         {{ 'ERRORS.HEX_NOT_VALID' | translate }}
                     </ng-container>
                 </ng-template>

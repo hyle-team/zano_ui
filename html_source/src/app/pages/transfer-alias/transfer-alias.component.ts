@@ -8,7 +8,7 @@ import { hasOwnProperty } from '@parts/functions/has-own-property';
 import BigNumber from 'bignumber.js';
 import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
 import { AliasInfo } from '@api/models/alias.model';
-import { MAX_COMMENT_LENGTH } from "@parts/data/constants";
+import { MAX_COMMENT_LENGTH } from '@parts/data/constants';
 
 @Component({
     selector: 'app-transfer-alias',

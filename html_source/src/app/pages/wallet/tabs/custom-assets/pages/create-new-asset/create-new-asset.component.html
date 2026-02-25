@@ -26,26 +26,19 @@
                     id="ticker"
                     type="text"
                 />
-                <div
-                    *ngIf="form.controls.ticker | isVisibleControlError"
-                    aria-live="assertive"
-                    class="error"
-                    id="ticker-error"
-                >
+                <div *ngIf="form.controls.ticker | isVisibleControlError" aria-live="assertive" class="error" id="ticker-error">
                     <ng-container *ngIf="form.controls.ticker.errors['required']; else tickerMinLengthErrorTemplate">
                         {{ 'ERRORS.REQUIRED' | translate }}
                     </ng-container>
 
                     <ng-template #tickerMinLengthErrorTemplate>
-                        <ng-container
-                            *ngIf="form.controls.ticker.errors['minlength'] as err; else tickerMaxLengthErrorTemplate">
+                        <ng-container *ngIf="form.controls.ticker.errors['minlength'] as err; else tickerMaxLengthErrorTemplate">
                             {{ 'ERRORS.MIN_LENGTH' | translate : { requiredLength: err.requiredLength } }}
                         </ng-container>
                     </ng-template>
 
                     <ng-template #tickerMaxLengthErrorTemplate>
-                        <ng-container
-                            *ngIf="form.controls.ticker.errors['maxlength'] as err; else tickerPatternErrorTemplate">
+                        <ng-container *ngIf="form.controls.ticker.errors['maxlength'] as err; else tickerPatternErrorTemplate">
                             {{ 'ERRORS.MAX_LENGTH' | translate : { requiredLength: err.requiredLength } }}
                         </ng-container>
                     </ng-template>
@@ -74,27 +67,19 @@
                     type="text"
                 />
 
-                <div
-                    *ngIf="form.controls.full_name | isVisibleControlError"
-                    aria-live="assertive"
-                    class="error"
-                    id="full_name_error"
-                >
-                    <ng-container
-                        *ngIf="form.controls.full_name.errors['required']; else fullNameMinLengthErrorTemplate">
+                <div *ngIf="form.controls.full_name | isVisibleControlError" aria-live="assertive" class="error" id="full_name_error">
+                    <ng-container *ngIf="form.controls.full_name.errors['required']; else fullNameMinLengthErrorTemplate">
                         {{ 'ERRORS.REQUIRED' | translate }}
                     </ng-container>
 
                     <ng-template #fullNameMinLengthErrorTemplate>
-                        <ng-container
-                            *ngIf="form.controls.full_name.errors['minlength'] as err; else fullNameMaxLengthErrorTemplate">
+                        <ng-container *ngIf="form.controls.full_name.errors['minlength'] as err; else fullNameMaxLengthErrorTemplate">
                             {{ 'ERRORS.MIN_LENGTH' | translate : { requiredLength: err.requiredLength } }}
                         </ng-container>
                     </ng-template>
 
                     <ng-template #fullNameMaxLengthErrorTemplate>
-                        <ng-container
-                            *ngIf="form.controls.full_name.errors['maxLength'] as err; else fullNamePatternErrorTemplate">
+                        <ng-container *ngIf="form.controls.full_name.errors['maxLength'] as err; else fullNamePatternErrorTemplate">
                             {{ 'ERRORS.MAX_LENGTH' | translate : { requiredLength: err.requiredLength } }}
                         </ng-container>
                     </ng-template>
@@ -166,9 +151,7 @@
                     type="text"
                 />
                 <div
-                    *ngIf="
-                        form.controls.current_supply | isVisibleControlError
-                    "
+                    *ngIf="form.controls.current_supply | isVisibleControlError"
                     aria-live="assertive"
                     class="error"
                     id="current_supply_error1"
@@ -204,19 +187,13 @@
                 id="decimal_point"
                 type="text"
             />
-            <div
-                *ngIf="form.controls.decimal_point | isVisibleControlError"
-                aria-live="assertive"
-                class="error"
-                id="decimal_point_error"
-            >
+            <div *ngIf="form.controls.decimal_point | isVisibleControlError" aria-live="assertive" class="error" id="decimal_point_error">
                 <ng-container *ngIf="form.controls.decimal_point.errors['required']; else decimalPointMinErrorTemplate">
                     {{ 'ERRORS.REQUIRED' | translate }}
                 </ng-container>
 
                 <ng-template #decimalPointMinErrorTemplate>
-                    <ng-container
-                        *ngIf="form.controls.decimal_point.errors['min'] as error; else decimalPointMaxErrorTemplate">
+                    <ng-container *ngIf="form.controls.decimal_point.errors['min'] as error; else decimalPointMaxErrorTemplate">
                         {{ 'ERRORS.MIN' | translate : { min: error.min } }}
                     </ng-container>
                 </ng-template>
@@ -242,12 +219,7 @@
                 id="meta_info"
             ></textarea>
 
-            <div
-                *ngIf="form.controls.meta_info | isVisibleControlError"
-                aria-live="assertive"
-                class="error"
-                id="meta_info_error"
-            >
+            <div *ngIf="form.controls.meta_info | isVisibleControlError" aria-live="assertive" class="error" id="meta_info_error">
                 <ng-container *ngIf="form.controls.meta_info.errors['maxlength'] as err">
                     {{ 'ERRORS.MAX_LENGTH' | translate : { requiredLength: err.requiredLength } }}
                 </ng-container>

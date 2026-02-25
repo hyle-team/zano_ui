@@ -41,10 +41,11 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
         path: '',
     });
 
-    seedPhraseForm = this._fb.group(
-        {
-            password: ['', Validators.pattern(REG_EXP_PASSWORD)],
-            confirmPassword: ['', [
+    seedPhraseForm = this._fb.group({
+        password: ['', Validators.pattern(REG_EXP_PASSWORD)],
+        confirmPassword: [
+            '',
+            [
                 (control: AbstractControl): ValidationErrors | null => {
                     if (!control.parent) return null;
 
@@ -52,10 +53,10 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
                     const confirm = control.value;
 
                     return password === confirm ? null : { mismatch: true };
-                }
-            ]],
-        }
-    );
+                },
+            ],
+        ],
+    });
 
     private _destroy$: Subject<void> = new Subject<void>();
 

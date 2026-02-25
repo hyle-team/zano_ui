@@ -24,10 +24,8 @@
                 name="amount"
                 type="text"
             />
-            <div *ngIf="form.controls.amount | isVisibleControlError" aria-live="assertive" class="error"
-                 id="money-error">
-                <ng-container
-                    *ngIf="form.controls.amount.hasError('required'); else greaterThanTotalMaxSupplyErrorTemplate">
+            <div *ngIf="form.controls.amount | isVisibleControlError" aria-live="assertive" class="error" id="money-error">
+                <ng-container *ngIf="form.controls.amount.hasError('required'); else greaterThanTotalMaxSupplyErrorTemplate">
                     {{ 'ERRORS.REQUIRED' | translate }}
                 </ng-container>
 

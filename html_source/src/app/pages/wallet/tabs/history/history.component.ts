@@ -7,9 +7,9 @@ import { BackendService } from '@api/services/backend.service';
 import { Subject } from 'rxjs';
 import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { collapseOnLeaveAnimation, expandOnEnterAnimation } from 'angular-animations';
-import { AmountItem } from "@parts/functions/get-amount-items";
-import { Transaction } from "@api/models/transaction.model";
-import { filter, takeUntil } from "rxjs/operators";
+import { AmountItem } from '@parts/functions/get-amount-items';
+import { Transaction } from '@api/models/transaction.model';
+import { filter, takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'app-history',
@@ -36,8 +36,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
         private _backendService: BackendService,
         private _ngZone: NgZone,
         private _paginationStore: PaginationStore
-    ) {
-    }
+    ) {}
 
     get currentWallet(): Wallet {
         return this.variablesService.current_wallet;
@@ -108,8 +107,8 @@ export class HistoryComponent implements OnInit, OnDestroy {
             this.variablesService.current_wallet.totalPages > this.variablesService.maxPages
                 ? (this.variablesService.current_wallet.pages = new Array(5).fill(1).map((value, index) => value + index))
                 : (this.variablesService.current_wallet.pages = new Array(this.variablesService.current_wallet.totalPages)
-                    .fill(1)
-                    .map((value, index) => value + index));
+                      .fill(1)
+                      .map((value, index) => value + index));
         });
     }
 

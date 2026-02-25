@@ -9,9 +9,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { REG_EXP_PASSWORD, ZanoValidators } from '@parts/utils/zano-validators';
 import { WalletsService } from '@parts/services/wallets.service';
 import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
-import { MAX_WALLET_NAME_LENGTH } from "@parts/data/constants";
-import { takeUntil } from "rxjs/operators";
-import { Subject } from "rxjs";
+import { MAX_WALLET_NAME_LENGTH } from '@parts/data/constants';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
     selector: 'app-create-wallet',
@@ -30,11 +30,19 @@ export class CreateWalletComponent implements OnInit, OnDestroy {
         },
     ];
 
-    form = this._fb.group(
-        {
-            name: ['', [Validators.required, Validators.maxLength(MAX_WALLET_NAME_LENGTH), ZanoValidators.duplicate(this.variablesService.walletNamesForComparisons)]],
-            password: ['', Validators.pattern(REG_EXP_PASSWORD)],
-            confirm: ['', [
+    form = this._fb.group({
+        name: [
+            '',
+            [
+                Validators.required,
+                Validators.maxLength(MAX_WALLET_NAME_LENGTH),
+                ZanoValidators.duplicate(this.variablesService.walletNamesForComparisons),
+            ],
+        ],
+        password: ['', Validators.pattern(REG_EXP_PASSWORD)],
+        confirm: [
+            '',
+            [
                 (control: AbstractControl): ValidationErrors | null => {
                     if (!control.parent) return null;
 
@@ -42,11 +50,11 @@ export class CreateWalletComponent implements OnInit, OnDestroy {
                     const confirm = control.value;
 
                     return password === confirm ? null : { mismatch: true };
-                }
-            ]],
-            path: ['', Validators.required],
-        }
-    );
+                },
+            ],
+        ],
+        path: ['', Validators.required],
+    });
 
     private _destroy$ = new Subject<void>();
 
@@ -59,8 +67,7 @@ export class CreateWalletComponent implements OnInit, OnDestroy {
         private _modalService: ModalService,
         private _ngZone: NgZone,
         private _translateService: TranslateService
-    ) {
-    }
+    ) {}
 
     ngOnInit() {
         this.form.controls.password.valueChanges.pipe(takeUntil(this._destroy$)).subscribe(() => {
@@ -72,7 +79,6 @@ export class CreateWalletComponent implements OnInit, OnDestroy {
         this._destroy$.next();
         this._destroy$.complete();
     }
-
 
     get savedWalletName(): string {
         const path = this.form.controls.path.value;

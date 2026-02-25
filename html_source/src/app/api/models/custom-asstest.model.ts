@@ -31,4 +31,3 @@ export interface EmitParams {
     destinations: Destinations;
     asset_id: string;
 }
-

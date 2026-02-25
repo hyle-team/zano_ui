@@ -78,7 +78,8 @@
 
                         <ng-template #aliasExistsErrorTemplate>
                             <ng-container
-                                *ngIf="transferAddressAlias || (transferAddressValid && !permissionSend); else noMoneyErrorTemplate">
+                                *ngIf="transferAddressAlias || (transferAddressValid && !permissionSend); else noMoneyErrorTemplate"
+                            >
                                 {{ 'TRANSFER_ALIAS.FORM_ERRORS.ALIAS_EXISTS' | translate }}
                             </ng-container>
                         </ng-template>
@@ -95,10 +96,10 @@
                     {{
                         'TRANSFER_ALIAS.COST'
                             | translate
-                            : {
-                                value: variablesService.default_fee,
-                                currency: variablesService.defaultTicker
-                            }
+                                : {
+                                      value: variablesService.default_fee,
+                                      currency: variablesService.defaultTicker
+                                  }
                     }}
                 </div>
 
