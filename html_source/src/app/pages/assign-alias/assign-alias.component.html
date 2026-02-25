@@ -1,4 +1,4 @@
-<main class="page-container" aria-describedby="assign-alias-description">
+<main appAutofocus tabindex="0" class="page-container" aria-describedby="assign-alias-description">
     <p class="sr-only" id="assign-alias-description">
         {{ 'ACCESSIBILITY.ASSIGN_ALIAS.DESCRIPTIONS.DESCRIPTION1' | translate }}
     </p>
@@ -28,8 +28,6 @@
                             [attr.aria-describedby]="'alias-name-error1 alias-name-error2 alias-name-error3'"
                             [attr.aria-invalid]="form.controls.name.invalid || null"
                             [placeholder]="'ASSIGN_ALIAS.NAME.PLACEHOLDER' | translate"
-                            appAutofocus
-                            autofocus
                             autocomplete="off"
                             class="form__field--input"
                             formControlName="name"

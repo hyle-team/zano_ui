@@ -1,15 +1,12 @@
-<div class="scrolled-content" fxFlex="1 1 auto" fxLayout="column">
+<div class="container scrolled-content">
     <app-breadcrumbs [items]="breadcrumbItems" class="mb-2"></app-breadcrumbs>
 
     <form
-        role="form"
-        *ngIf="variablesService.current_wallet.loaded; else skeletonTemplate"
         (ngSubmit)="submit()"
+        *ngIf="variablesService.current_wallet.loaded; else skeletonTemplate"
         [formGroup]="form"
         class="form"
-        fxFlex="0 1 50rem"
-        fxLayout="column"
-        fxLayoutAlign="start stretch"
+        role="form"
     >
         <!-- ticker -->
         <div class="form__field--row">
@@ -21,42 +18,50 @@
                 <input
                     (contextmenu)="variablesService.onContextMenu($event)"
                     [placeholder]="'CT' | translate"
+                    appAutofocus
                     aria-describedby="ticker-error"
                     autofocus
-                    appAutofocus
                     class="form__field--input"
                     formControlName="ticker"
                     id="ticker"
                     type="text"
                 />
                 <div
-                    *ngIf="form.controls.ticker.invalid && (form.controls.ticker.dirty || form.controls.ticker.touched)"
+                    *ngIf="form.controls.ticker | isVisibleControlError"
                     aria-live="assertive"
-                    id="ticker-error"
                     class="error"
+                    id="ticker-error"
                 >
-                    <div *ngIf="form.controls.ticker.errors['required']">
+                    <ng-container *ngIf="form.controls.ticker.errors['required']; else tickerMinLengthErrorTemplate">
                         {{ 'ERRORS.REQUIRED' | translate }}
-                    </div>
+                    </ng-container>
 
-                    <div *ngIf="form.controls.ticker.errors['minlength'] as err">
-                        {{ 'ERRORS.MIN_LENGTH' | translate : { requiredLength: err.requiredLength } }}
-                    </div>
+                    <ng-template #tickerMinLengthErrorTemplate>
+                        <ng-container
+                            *ngIf="form.controls.ticker.errors['minlength'] as err; else tickerMaxLengthErrorTemplate">
+                            {{ 'ERRORS.MIN_LENGTH' | translate : { requiredLength: err.requiredLength } }}
+                        </ng-container>
+                    </ng-template>
 
-                    <div *ngIf="form.controls.ticker.errors['maxlength'] as err">
-                        {{ 'ERRORS.MAX_LENGTH' | translate : { requiredLength: err.requiredLength } }}
-                    </div>
+                    <ng-template #tickerMaxLengthErrorTemplate>
+                        <ng-container
+                            *ngIf="form.controls.ticker.errors['maxlength'] as err; else tickerPatternErrorTemplate">
+                            {{ 'ERRORS.MAX_LENGTH' | translate : { requiredLength: err.requiredLength } }}
+                        </ng-container>
+                    </ng-template>
 
-                    <div *ngIf="form.controls.ticker.errors['pattern']">
-                        {{ 'ERRORS.INVALID_TICKER_PATTERN' | translate }}
-                    </div>
+                    <ng-template #tickerPatternErrorTemplate>
+                        <ng-container *ngIf="form.controls.ticker.errors['pattern']">
+                            {{ 'ERRORS.INVALID_TICKER_PATTERN' | translate }}
+                        </ng-container>
+                    </ng-template>
                 </div>
             </fieldset>
 
             <fieldset class="form__field">
                 <label for="full_name">
                     {{ 'CREATE_NEW_ASSETS.FORM.LABELS.LABEL2' | translate }}
-                    <span class="color-red">*</span>
+                    <!--<span class="color-red">*</span>-->
                 </label>
 
                 <input
@@ -70,26 +75,35 @@
                 />
 
                 <div
-                    *ngIf="form.controls.full_name.invalid && (form.controls.full_name.dirty || form.controls.full_name.touched)"
-                    class="error"
+                    *ngIf="form.controls.full_name | isVisibleControlError"
                     aria-live="assertive"
+                    class="error"
                     id="full_name_error"
                 >
-                    <div *ngIf="form.controls.full_name.errors['required']">
+                    <ng-container
+                        *ngIf="form.controls.full_name.errors['required']; else fullNameMinLengthErrorTemplate">
                         {{ 'ERRORS.REQUIRED' | translate }}
-                    </div>
+                    </ng-container>
 
-                    <div *ngIf="form.controls.full_name.errors['minlength'] as err">
-                        {{ 'ERRORS.MIN_LENGTH' | translate : { requiredLength: err.requiredLength } }}
-                    </div>
+                    <ng-template #fullNameMinLengthErrorTemplate>
+                        <ng-container
+                            *ngIf="form.controls.full_name.errors['minlength'] as err; else fullNameMaxLengthErrorTemplate">
+                            {{ 'ERRORS.MIN_LENGTH' | translate : { requiredLength: err.requiredLength } }}
+                        </ng-container>
+                    </ng-template>
 
-                    <div *ngIf="form.controls.full_name.errors['maxLength'] as err">
-                        {{ 'ERRORS.MAX_LENGTH' | translate : { requiredLength: err.requiredLength } }}
-                    </div>
+                    <ng-template #fullNameMaxLengthErrorTemplate>
+                        <ng-container
+                            *ngIf="form.controls.full_name.errors['maxLength'] as err; else fullNamePatternErrorTemplate">
+                            {{ 'ERRORS.MAX_LENGTH' | translate : { requiredLength: err.requiredLength } }}
+                        </ng-container>
+                    </ng-template>
 
-                    <div *ngIf="form.controls.full_name.errors['pattern']">
-                        {{ 'ERRORS.INVALID_FULL_NAME_ASSET_PATTERN' | translate }}
-                    </div>
+                    <ng-template #fullNamePatternErrorTemplate>
+                        <ng-container *ngIf="form.controls.full_name.errors['pattern']">
+                            {{ 'ERRORS.INVALID_FULL_NAME_ASSET_PATTERN' | translate }}
+                        </ng-container>
+                    </ng-template>
                 </div>
             </fieldset>
         </div>
@@ -99,37 +113,34 @@
             <fieldset class="form__field">
                 <label for="total_max_supply">
                     {{ 'CREATE_NEW_ASSETS.FORM.LABELS.LABEL3' | translate }}
-                    <!--<span class="color-red">*</span>-->
+                    <span class="color-red">*</span>
                 </label>
                 <input
                     (contextmenu)="variablesService.onContextMenu($event)"
+                    [decimalPoint]="+form.controls.decimal_point.value"
                     [placeholder]="'1000000000' | translate"
                     appInputValidate="money"
                     aria-describedby="total_max_supply_error1 total_max_supply_error2"
-                    [decimalPoint]="+form.controls.decimal_point.value"
                     class="form__field--input"
                     formControlName="total_max_supply"
                     id="total_max_supply"
                     type="text"
                 />
                 <div
-                    *ngIf="
-                        form.controls.total_max_supply.invalid &&
-                        (form.controls.total_max_supply.dirty || form.controls.total_max_supply.touched)
-                    "
+                    *ngIf="form.controls.total_max_supply | isVisibleControlError"
                     aria-live="assertive"
-                    id="total_max_supply_error1"
                     class="error"
+                    id="total_max_supply_error1"
                 >
-                    <span *ngIf="form.controls.total_max_supply.errors['required']">
+                    <ng-container *ngIf="form.controls.total_max_supply.errors['required']">
                         {{ 'ERRORS.REQUIRED' | translate }}
-                    </span>
+                    </ng-container>
                 </div>
 
                 <div
                     *ngIf="form.hasError('greater_than_max') && (form.dirty || form.touched)"
-                    class="error"
                     aria-live="assertive"
+                    class="error"
                     id="total_max_supply_error2"
                 >
                     {{ 'ERRORS.TO_BIG_TOTAL_SUPPLY' | translate }}
@@ -145,32 +156,32 @@
                 </label>
                 <input
                     (contextmenu)="variablesService.onContextMenu($event)"
+                    [decimalPoint]="+form.controls.decimal_point.value"
                     [placeholder]="'1000000000'"
                     appInputValidate="money"
-                    [decimalPoint]="+form.controls.decimal_point.value"
+                    aria-describedby="current_supply_error1 current_supply_error2"
                     class="form__field--input"
                     formControlName="current_supply"
-                    aria-describedby="current_supply_error1 current_supply_error2"
                     id="current_supply"
                     type="text"
                 />
                 <div
                     *ngIf="
-                        form.controls.current_supply.invalid && (form.controls.current_supply.dirty || form.controls.current_supply.touched)
+                        form.controls.current_supply | isVisibleControlError
                     "
                     aria-live="assertive"
-                    id="current_supply_error1"
                     class="error"
+                    id="current_supply_error1"
                 >
-                    <div *ngIf="form.controls.current_supply.errors['required']">
+                    <ng-container *ngIf="form.controls.current_supply.errors['required']">
                         {{ 'ERRORS.REQUIRED' | translate }}
-                    </div>
+                    </ng-container>
                 </div>
                 <div
                     *ngIf="form.hasError('current_supply') && (form.dirty || form.touched)"
                     aria-live="assertive"
-                    id="current_supply_error2"
                     class="error"
+                    id="current_supply_error2"
                 >
                     {{ form.errors['current_supply'] | translate }}
                 </div>
@@ -187,29 +198,34 @@
                 (contextmenu)="variablesService.onContextMenu($event)"
                 [placeholder]="'12' | translate"
                 appInputValidate="integer"
+                aria-describedby="decimal_point_error"
                 class="form__field--input"
                 formControlName="decimal_point"
                 id="decimal_point"
                 type="text"
-                aria-describedby="decimal_point_error"
             />
             <div
-                *ngIf="form.controls.decimal_point.invalid && (form.controls.decimal_point.dirty || form.controls.decimal_point.touched)"
+                *ngIf="form.controls.decimal_point | isVisibleControlError"
+                aria-live="assertive"
                 class="error"
                 id="decimal_point_error"
-                aria-live="assertive"
             >
-                <div *ngIf="form.controls.decimal_point.errors['required']">
+                <ng-container *ngIf="form.controls.decimal_point.errors['required']; else decimalPointMinErrorTemplate">
                     {{ 'ERRORS.REQUIRED' | translate }}
-                </div>
+                </ng-container>
 
-                <div *ngIf="form.controls.decimal_point.errors['min'] as error">
-                    {{ 'ERRORS.MIN' | translate : { min: error.min } }}
-                </div>
+                <ng-template #decimalPointMinErrorTemplate>
+                    <ng-container
+                        *ngIf="form.controls.decimal_point.errors['min'] as error; else decimalPointMaxErrorTemplate">
+                        {{ 'ERRORS.MIN' | translate : { min: error.min } }}
+                    </ng-container>
+                </ng-template>
 
-                <div *ngIf="form.controls.decimal_point.errors['max'] as error">
-                    {{ 'ERRORS.MAX' | translate : { max: error.max } }}
-                </div>
+                <ng-template #decimalPointMaxErrorTemplate>
+                    <ng-container *ngIf="form.controls.decimal_point.errors['max'] as error">
+                        {{ 'ERRORS.MAX' | translate : { max: error.max } }}
+                    </ng-container>
+                </ng-template>
             </div>
         </fieldset>
 
@@ -220,20 +236,21 @@
             </label>
             <textarea
                 [placeholder]="'CREATE_NEW_ASSETS.FORM.PLACEHOLDERS.PLACEHOLDER2' | translate"
-                formControlName="meta_info"
-                id="meta_info"
                 aria-describedby="meta_info_error"
+                formControlName="meta_info"
+                [maxlength]="MAX_COMMENT_LENGTH"
+                id="meta_info"
             ></textarea>
 
             <div
-                *ngIf="form.controls.meta_info.invalid && (form.controls.meta_info.dirty || form.controls.meta_info.touched)"
+                *ngIf="form.controls.meta_info | isVisibleControlError"
+                aria-live="assertive"
                 class="error"
                 id="meta_info_error"
-                aria-live="assertive"
             >
-                <div *ngIf="form.controls.meta_info.errors['maxlength'] as err">
+                <ng-container *ngIf="form.controls.meta_info.errors['maxlength'] as err">
                     {{ 'ERRORS.MAX_LENGTH' | translate : { requiredLength: err.requiredLength } }}
-                </div>
+                </ng-container>
             </div>
         </fieldset>
 

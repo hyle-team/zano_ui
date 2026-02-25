@@ -1,5 +1,5 @@
-import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
-import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { AbstractControl, NonNullableFormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
@@ -61,40 +61,47 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
 
     seedPhraseInfo: SeedPhraseInfo | null = null;
 
-    readonly walletsService: WalletsService = inject(WalletsService);
-
-    readonly variablesService: VariablesService = inject(VariablesService);
-
-    private readonly _walletNamesForComparisons = this.variablesService.walletNamesForComparisons;
-
-    private readonly _fb: NonNullableFormBuilder = inject(NonNullableFormBuilder);
-
     readonly form = this._fb.group(
         {
-            name: ['', [Validators.required, Validators.maxLength(MAX_WALLET_NAME_LENGTH), ZanoValidators.duplicate(this._walletNamesForComparisons)]],
+            name: [
+                '',
+                [
+                    Validators.required,
+                    Validators.maxLength(MAX_WALLET_NAME_LENGTH),
+                    ZanoValidators.duplicate(this.variablesService.walletNamesForComparisons),
+                ],
+            ],
             seedPhrase: ['', Validators.required],
             password: ['', Validators.pattern(REG_EXP_PASSWORD)],
-            confirm: [''],
+            confirm: ['', [
+                (control: AbstractControl): ValidationErrors | null => {
+                    if (!control.parent) return null;
+
+                    const password = control.parent.get('password')?.value;
+                    const confirm = control.value;
+
+                    return password === confirm ? null : { mismatch: true };
+                }
+            ]],
             seedPassword: [''],
-        },
-        {
-            validators: [ZanoValidators.formMatch('password', 'confirm')],
         }
     );
 
     private _destroy$: Subject<void> = new Subject<void>();
 
-    private readonly _router: Router = inject(Router);
-
-    private readonly _backend: BackendService = inject(BackendService);
-
-    private readonly _modalService: ModalService = inject(ModalService);
-
-    private readonly _ngZone: NgZone = inject(NgZone);
-
-    private readonly _translateService: TranslateService = inject(TranslateService);
-
     private _submitting = false;
+
+    constructor(
+        public readonly walletsService: WalletsService,
+        public readonly variablesService: VariablesService,
+        private readonly _fb: NonNullableFormBuilder,
+        private readonly _router: Router,
+        private readonly _backend: BackendService,
+        private readonly _modalService: ModalService,
+        private readonly _ngZone: NgZone,
+        private readonly _translateService: TranslateService
+    ) {
+    }
 
     get isDisabledCreatedWallet(): boolean {
         return this.form.invalid || !this.selectedLocationWalletPath || this._submitting;
@@ -110,10 +117,10 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
-        const obs1 = this.form.controls.seedPhrase.valueChanges;
-        const obs2 = this.form.controls.seedPassword.valueChanges.pipe(startWith(this.form.controls.seedPassword.getRawValue()));
+        const seedPhrase$ = this.form.controls.seedPhrase.valueChanges;
+        const seedPassword$ = this.form.controls.seedPassword.valueChanges.pipe(startWith(this.form.controls.seedPassword.getRawValue()));
 
-        combineLatest([obs1, obs2])
+        combineLatest([seedPhrase$, seedPassword$])
             .pipe(debounceTime(250), takeUntil(this._destroy$))
             .subscribe({
                 next: ([seed_phrase, seed_password]) => {
@@ -125,7 +132,10 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
                         return;
                     }
 
-                    this._backend.getSeedPhraseInfo({ seed_phrase, seed_password }, (status: boolean, data: SeedPhraseInfo) => {
+                    this._backend.getSeedPhraseInfo({
+                        seed_phrase,
+                        seed_password
+                    }, (status: boolean, data: SeedPhraseInfo) => {
                         this._ngZone.run(() => {
                             if (!status) {
                                 this.seedPhraseInfo = null;
@@ -141,10 +151,15 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
                             }
 
                             if (require_password) {
-                                this._backend.isValidRestoreWalletText({ seed_phrase, seed_password }, (_: boolean, data: string) => {
+                                this._backend.isValidRestoreWalletText({
+                                    seed_phrase,
+                                    seed_password
+                                }, (_: boolean, data: string) => {
                                     this._ngZone.run(() => {
                                         if (data === 'FALSE') {
-                                            this.form.controls.seedPassword.setErrors({ password_seed_phrase_not_valid: true });
+                                            this.form.controls.seedPassword.setErrors({
+                                                password_seed_phrase_not_valid: true,
+                                            });
                                         }
                                     });
                                 });
@@ -153,6 +168,10 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
                     });
                 },
             });
+
+        this.form.controls.password.valueChanges.pipe(takeUntil(this._destroy$)).subscribe(() => {
+            this.form.controls.confirm.updateValueAndValidity({ onlySelf: true });
+        });
     }
 
     ngOnDestroy(): void {
@@ -172,60 +191,67 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
     restore(): void {
         this._submitting = true;
         const { name, password, seedPhrase, seedPassword } = this.form.getRawValue();
-        this._backend.restoreWallet(this.selectedLocationWalletPath, password, seedPhrase, seedPassword, (status: boolean, data: RestoreWalletResponse) => {
-            this._ngZone.run(() => {
-                if (status) {
-                    const { wallet_id } = data;
-                    const {
-                        path,
-                        address,
-                        balance,
-                        unlocked_balance,
-                        mined_total,
-                        tracking_hey,
-                        is_auditable,
-                        is_watch_only
-                    } = data.wi;
-                    const wallet: Wallet = new Wallet(
-                        wallet_id,
-                        name,
-                        password,
-                        path,
-                        address,
-                        balance,
-                        unlocked_balance,
-                        mined_total,
-                        tracking_hey
-                    );
-                    wallet.is_auditable = is_auditable;
-                    wallet.is_watch_only = is_watch_only;
-                    wallet.exclude_mining_txs = false;
+        this._backend.restoreWallet(
+            this.selectedLocationWalletPath,
+            password,
+            seedPhrase,
+            seedPassword,
+            (status: boolean, data: RestoreWalletResponse) => {
+                this._ngZone.run(() => {
+                    if (status) {
+                        const { wallet_id } = data;
+                        const {
+                            path,
+                            address,
+                            balance,
+                            unlocked_balance,
+                            mined_total,
+                            tracking_hey,
+                            is_auditable,
+                            is_watch_only
+                        } =
+                            data.wi;
+                        const wallet: Wallet = new Wallet(
+                            wallet_id,
+                            name,
+                            password,
+                            path,
+                            address,
+                            balance,
+                            unlocked_balance,
+                            mined_total,
+                            tracking_hey
+                        );
+                        wallet.is_auditable = is_auditable;
+                        wallet.is_watch_only = is_watch_only;
+                        wallet.exclude_mining_txs = false;
 
-                    wallet.restore = true;
-                    wallet.currentPage = 1;
-                    wallet.pages = new Array(1).fill(1);
-                    wallet.totalPages = 1;
-                    wallet.total_history_item = 0;
+                        wallet.restore = true;
+                        wallet.currentPage = 1;
+                        wallet.pages = new Array(1).fill(1);
+                        wallet.totalPages = 1;
+                        wallet.total_history_item = 0;
 
-                    if (data.recent_history && data.recent_history.history) {
-                        wallet.totalPages = Math.ceil(data.recent_history.total_history_items / this.variablesService.count);
-                        if (wallet.totalPages > this.variablesService.maxPages) {
-                            wallet.pages = new Array(5).fill(1).map((value, index) => value + index);
-                        } else {
-                            wallet.pages = new Array(wallet.totalPages).fill(1).map((value, index) => value + index);
+                        if (data.recent_history && data.recent_history.history) {
+                            wallet.totalPages = Math.ceil(data.recent_history.total_history_items / this.variablesService.count);
+                            if (wallet.totalPages > this.variablesService.maxPages) {
+                                wallet.pages = new Array(5).fill(1).map((value, index) => value + index);
+                            } else {
+                                wallet.pages = new Array(wallet.totalPages).fill(1).map((value, index) => value + index);
+                            }
+                            wallet.prepareHistory(data.recent_history.history);
                         }
-                        wallet.prepareHistory(data.recent_history.history);
+
+                        this.variablesService.opening_wallet = wallet;
+
+                        this._runWallet(wallet);
+                    } else {
+                        this._modalService.prepareModal('error', 'RESTORE_WALLET.NOT_CORRECT_FILE_OR_PASSWORD');
+                        this._submitting = false;
                     }
-
-                    this.variablesService.opening_wallet = wallet;
-
-                    this._runWallet(wallet);
-                } else {
-                    this._modalService.prepareModal('error', 'RESTORE_WALLET.NOT_CORRECT_FILE_OR_PASSWORD');
-                    this._submitting = false;
-                }
-            });
-        });
+                });
+            }
+        );
     }
 
     selectLocation(): void {

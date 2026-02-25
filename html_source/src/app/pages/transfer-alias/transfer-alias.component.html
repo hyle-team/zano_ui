@@ -1,4 +1,4 @@
-<main class="page-container" aria-describedby="transfer-alias-description">
+<main appAutofocus aria-describedby="transfer-alias-description" class="page-container" tabindex="0">
     <p class="sr-only" id="transfer-alias-description">
         {{ 'ACCESSIBILITY.TRANSFER_ALIAS.DESCRIPTIONS.DESCRIPTION1' | translate }}
     </p>
@@ -6,7 +6,7 @@
     <section class="toolbar mb-2">
         <div class="left">
             <app-back-button></app-back-button>
-            <h1 class="ml-2" aria-live="assertive">{{ 'BREADCRUMBS.TRANSFER_ALIAS' | translate }}</h1>
+            <h1 aria-live="assertive" class="ml-2">{{ 'BREADCRUMBS.TRANSFER_ALIAS' | translate }}</h1>
         </div>
         <div class="right"></div>
     </section>
@@ -15,7 +15,7 @@
         <app-breadcrumbs [items]="breadcrumbItems" class="mb-2"></app-breadcrumbs>
 
         <div class="scrolled-content">
-            <form role="form" class="form">
+            <form class="form" role="form">
                 <fieldset class="form__field">
                     <label for="alias-name">
                         {{ 'TRANSFER_ALIAS.NAME.LABEL' | translate }}
@@ -23,8 +23,6 @@
                     <input
                         [placeholder]="'EDIT_ALIAS.NAME.PLACEHOLDER' | translate"
                         [value]="'@' + alias_info.alias"
-                        appAutofocus
-                        autofocus
                         class="form__field--input"
                         id="alias-name"
                         name="alias-name"
@@ -39,6 +37,7 @@
                     </label>
                     <textarea
                         [(ngModel)]="alias_info.comment"
+                        [maxlength]="MAX_COMMENT_LENGTH"
                         id="alias-comment"
                         name="alias-comment"
                         placeholder="{{ 'EDIT_ALIAS.COMMENT.PLACEHOLDER' | translate }}"
@@ -73,15 +72,22 @@
                         class="error"
                         id="alias-transfer-error"
                     >
-                        <div *ngIf="!transferAddressValid">
+                        <ng-container *ngIf="!transferAddressValid; else aliasExistsErrorTemplate">
                             {{ 'TRANSFER_ALIAS.FORM_ERRORS.WRONG_ADDRESS' | translate }}
-                        </div>
-                        <div *ngIf="transferAddressAlias || (transferAddressValid && !permissionSend)">
-                            {{ 'TRANSFER_ALIAS.FORM_ERRORS.ALIAS_EXISTS' | translate }}
-                        </div>
-                        <div *ngIf="notEnoughMoney && transferAddressValid && !transferAddressAlias">
-                            {{ 'TRANSFER_ALIAS.FORM_ERRORS.NO_MONEY' | translate }}
-                        </div>
+                        </ng-container>
+
+                        <ng-template #aliasExistsErrorTemplate>
+                            <ng-container
+                                *ngIf="transferAddressAlias || (transferAddressValid && !permissionSend); else noMoneyErrorTemplate">
+                                {{ 'TRANSFER_ALIAS.FORM_ERRORS.ALIAS_EXISTS' | translate }}
+                            </ng-container>
+                        </ng-template>
+
+                        <ng-template #noMoneyErrorTemplate>
+                            <ng-container *ngIf="notEnoughMoney && transferAddressValid && !transferAddressAlias">
+                                {{ 'TRANSFER_ALIAS.FORM_ERRORS.NO_MONEY' | translate }}
+                            </ng-container>
+                        </ng-template>
                     </div>
                 </fieldset>
 
@@ -89,10 +95,10 @@
                     {{
                         'TRANSFER_ALIAS.COST'
                             | translate
-                                : {
-                                      value: variablesService.default_fee,
-                                      currency: variablesService.defaultTicker
-                                  }
+                            : {
+                                value: variablesService.default_fee,
+                                currency: variablesService.defaultTicker
+                            }
                     }}
                 </div>
 

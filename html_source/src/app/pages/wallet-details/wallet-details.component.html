@@ -1,8 +1,8 @@
-<main class="page-container">
+<main appAutofocus tabindex="0" class="page-container">
     <section class="toolbar mb-2">
         <div class="left">
             <app-back-button></app-back-button>
-            <h1 class="ml-2" aria-live="assertive">{{ 'BREADCRUMBS.WALLET_DETAILS' | translate }}</h1>
+            <h1 aria-live="assertive" class="ml-2">{{ 'BREADCRUMBS.WALLET_DETAILS' | translate }}</h1>
         </div>
         <div class="right"></div>
     </section>
@@ -35,20 +35,29 @@
                             class="error"
                             id="wallet-name-error"
                         >
-                            <div *ngIf="detailsForm.controls.name.errors['duplicate']">
+                            <ng-container
+                                *ngIf="detailsForm.controls.name.errors['duplicate']; else nameMaxLengthErrorTemplate">
                                 {{ 'WALLET_DETAILS.FORM_ERRORS.NAME_DUPLICATE' | translate }}
-                            </div>
-                            <div *ngIf="detailsForm.controls.name.value.length >= variablesService.maxWalletNameLength">
-                                {{ 'WALLET_DETAILS.FORM_ERRORS.MAX_LENGTH' | translate }}
-                            </div>
-                            <div *ngIf="detailsForm.controls.name.hasError('required')">
-                                {{ 'WALLET_DETAILS.FORM_ERRORS.NAME_REQUIRED' | translate }}
-                            </div>
+                            </ng-container>
+
+                            <ng-template #nameMaxLengthErrorTemplate>
+                                <ng-container
+                                    *ngIf="detailsForm.controls.name.value.length >= variablesService.maxWalletNameLength; else nameRequiredErrorTemplate">
+                                    {{ 'WALLET_DETAILS.FORM_ERRORS.MAX_LENGTH' | translate }}
+                                </ng-container>
+                            </ng-template>
+
+                            <ng-template #nameRequiredErrorTemplate>
+                                <ng-container *ngIf="detailsForm.controls.name.hasError('required')">
+                                    {{ 'WALLET_DETAILS.FORM_ERRORS.NAME_REQUIRED' | translate }}
+                                </ng-container>
+                            </ng-template>
                         </div>
                     </fieldset>
 
                     <div fxLayout="row nowrap" fxLayoutAlign="start center" fxLayoutGap="1rem">
-                        <button [disabled]="isDetailsFormDisabled" class="primary big max-w-19-rem w-100 mb-1" type="submit">
+                        <button [disabled]="isDetailsFormDisabled" class="primary big max-w-19-rem w-100 mb-1"
+                                type="submit">
                             {{ 'SETTINGS.MASTER_PASSWORD.BUTTON' | translate }}
                         </button>
                         <p *ngIf="ifSaved" aria-live="assertive" class="color-aqua">Saved!</p>
@@ -67,7 +76,8 @@
                     </fieldset>
                 </form>
 
-                <ng-container *ngIf="!variablesService.current_wallet?.is_auditable || !variablesService.current_wallet?.is_watch_only">
+                <ng-container
+                    *ngIf="!variablesService.current_wallet?.is_auditable || !variablesService.current_wallet?.is_watch_only">
                     <ng-container *ngIf="!showSeed; else seedPhraseContent">
                         <form
                             (ngSubmit)="beforeSubmitPasswordSeedPhrase()"
@@ -79,7 +89,8 @@
                             role="form"
                         >
                             <fieldset class="form__field">
-                                <label for="create-password">{{ 'WALLET_DETAILS.CREATE_PASSWORD_SECURE' | translate }}</label>
+                                <label
+                                    for="create-password">{{ 'WALLET_DETAILS.CREATE_PASSWORD_SECURE' | translate }}</label>
 
                                 <input
                                     aria-describedby="password-error"
@@ -100,14 +111,16 @@
                                     class="error"
                                     id="password-error"
                                 >
-                                    <ng-container *ngIf="passwordSeedPhraseForm.controls['password'].hasError('pattern')">
+                                    <ng-container
+                                        *ngIf="passwordSeedPhraseForm.controls['password'].hasError('pattern')">
                                         {{ 'ERRORS.REGEXP_INVALID_PASSWORD' | translate }}
                                     </ng-container>
                                 </div>
                             </fieldset>
 
                             <fieldset class="form__field">
-                                <label for="confirm-password">{{ 'WALLET_DETAILS.FORM.CONFIRM_PASSWORD' | translate }}</label>
+                                <label
+                                    for="confirm-password">{{ 'WALLET_DETAILS.FORM.CONFIRM_PASSWORD' | translate }}</label>
 
                                 <input
                                     [class.invalid]="
@@ -131,17 +144,18 @@
                                     class="error"
                                     id="confirm-password-error"
                                 >
-                                    <div
+                                    <ng-container
                                         *ngIf="
-                                            passwordSeedPhraseForm.invalid && passwordSeedPhraseForm.get('confirmPassword').value.length > 0
+                                            passwordSeedPhraseForm.hasError('mismatch')
                                         "
                                     >
                                         {{ 'WALLET_DETAILS.FORM_ERRORS.PASSWORDS_DONT_MATCH' | translate }}
-                                    </div>
+                                    </ng-container>
                                 </div>
                             </fieldset>
 
-                            <button [disabled]="!passwordSeedPhraseForm.valid" class="primary big w-100 mb-2" type="submit">
+                            <button [disabled]="!passwordSeedPhraseForm.valid" class="primary big w-100 mb-2"
+                                    type="submit">
                                 <mat-icon class="mr-1" svgIcon="zano-check-shield"></mat-icon>
                                 {{ 'WALLET_DETAILS.FORM.GENERATE_SECURE_SEED' | translate }}
                             </button>
@@ -155,27 +169,28 @@
 
                     <ng-template #seedPhraseContent>
                         <div class="seed-phrase form__card pb-2" fxFlex="0 0 auto" fxLayout="column">
-                            <div class="header mb-2" fxFlex="0 0 auto" fxLayout="row" fxLayoutAlign="space-between center">
+                            <div class="header mb-2" fxFlex="0 0 auto" fxLayout="row"
+                                 fxLayoutAlign="space-between center">
                                 <div class="left">
                                     <span>{{ 'WALLET_DETAILS.LABEL_SEED_PHRASE' | translate }}</span>
                                 </div>
                                 <div class="right">
                                     <span
                                         *ngIf="passwordSeedPhraseForm.controls.password.value.length === 0"
+                                        aria-live="assertive"
                                         class="status color-red"
                                         fxLayout="row"
                                         fxLayoutAlign="start center"
-                                        aria-live="assertive"
                                     >
                                         {{ 'WALLET_DETAILS.SEED_IS_UNSECURED' | translate }}
                                         <mat-icon class="ml-1" svgIcon="zano-unsecured"></mat-icon>
                                     </span>
                                     <span
                                         *ngIf="passwordSeedPhraseForm.controls.password.value.length > 0"
+                                        aria-live="assertive"
                                         class="status color-aqua"
                                         fxLayout="row"
                                         fxLayoutAlign="start center"
-                                        aria-live="assertive"
                                     >
                                         {{ 'WALLET_DETAILS.SEED_IS_SECURED' | translate }}
                                         <mat-icon class="ml-1" svgIcon="zano-secured"></mat-icon>
@@ -184,17 +199,17 @@
                             </div>
                             <div
                                 (contextmenu)="variablesService.onContextMenuOnlyCopy($event, seedPhrase)"
+                                [attr.aria-label]="'WALLET_DETAILS.LABEL_SEED_PHRASE' | translate"
                                 class="content mb-1"
                                 fxLayout="row wrap"
-                                [attr.aria-label]="'WALLET_DETAILS.LABEL_SEED_PHRASE' | translate"
                             >
                                 <ng-container *ngFor="let word of seedPhrase.split(' '); let index = index">
                                     <div
+                                        [attr.aria-label]="word"
                                         class="item p-1 mr-1 mb-1 border-radius-0_8-rem"
                                         fxLayout="row nowrap"
                                         fxLayoutAlign="start center"
                                         tabindex="0"
-                                        [attr.aria-label]="word"
                                     >
                                         <div class="number p-1 mr-1" fxLayout="row" fxLayoutAlign="center center">
                                             {{ index + 1 }}
@@ -216,18 +231,19 @@
                                         {{ 'SEED_PHRASE.BUTTON_COPY' | translate }}
                                     </ng-container>
                                     <ng-container *ngIf="seedPhraseCopied">
-                                        <mat-icon class="mr-1" aria-live="assertive" svgIcon="zano-check"></mat-icon>
+                                        <mat-icon aria-live="assertive" class="mr-1" svgIcon="zano-check"></mat-icon>
                                         {{ 'SEED_PHRASE.BUTTON_COPIED' | translate }}
                                     </ng-container>
                                 </button>
 
                                 <p
                                     *ngIf="passwordSeedPhraseForm.controls.password.value.length > 0"
-                                    class="text-align-center"
                                     aria-live="assertive"
+                                    class="text-align-center"
                                 >
                                     <mat-icon class="mr-1" svgIcon="zano-info"></mat-icon>
-                                    <span class="color-primary">{{ 'WALLET_DETAILS.REMEMBER_YOU_WILL_REQUIRE' | translate }}</span>
+                                    <span
+                                        class="color-primary">{{ 'WALLET_DETAILS.REMEMBER_YOU_WILL_REQUIRE' | translate }}</span>
                                 </p>
                             </div>
                         </div>

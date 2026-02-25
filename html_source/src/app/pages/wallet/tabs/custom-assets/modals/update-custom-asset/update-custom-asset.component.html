@@ -1,4 +1,4 @@
-<form role="form" (ngSubmit)="submit()" [formGroup]="form">
+<form (ngSubmit)="submit()" [formGroup]="form" role="form">
     <h3 mat-dialog-title>
         {{ 'UPDATE_CUSTOM_ASSET.LABELS.LABEL1' | translate }}
     </h3>
@@ -19,23 +19,28 @@
                 name="owner"
                 type="text"
             />
-            <div *ngIf="form.controls.owner.invalid && (form.controls.owner.touched || form.controls.owner.dirty)" class="error">
-                <div *ngIf="form.controls.owner.hasError('required')">
+            <div *ngIf="form.controls.owner | isVisibleControlError" class="error">
+                <ng-container *ngIf="form.controls.owner.hasError('required'); else hexNotValidErrorTemplate">
                     {{ 'ERRORS.REQUIRED' | translate }}
-                </div>
-                <div *ngIf="form.controls.owner.hasError('hex_not_valid')">
-                    {{ 'ERRORS.HEX_NOT_VALID' | translate }}
-                </div>
-                <div *ngIf="form.controls.owner.hasError('address_not_valid')">
-                    {{ 'ERRORS.ADDRESS_NOT_VALID' | translate }}
-                </div>
+                </ng-container>
+                <ng-template #hexNotValidErrorTemplate>
+                    <ng-container
+                        *ngIf="form.controls.owner.hasError('hex_not_valid'); else addressNotValidErrorTemplate">
+                        {{ 'ERRORS.HEX_NOT_VALID' | translate }}
+                    </ng-container>
+                </ng-template>
+                <ng-template #addressNotValidErrorTemplate>
+                    <ng-container *ngIf="form.controls.owner.hasError('address_not_valid')">
+                        {{ 'ERRORS.ADDRESS_NOT_VALID' | translate }}
+                    </ng-container>
+                </ng-template>
             </div>
         </div>
     </mat-dialog-content>
 
     <mat-dialog-actions>
         <div fxFlex="1 1 auto" fxLayout="row nowrap" fxLayoutGap="1rem">
-            <button mat-dialog-close class="outline big w-100" type="button">
+            <button class="outline big w-100" mat-dialog-close type="button">
                 {{ 'UPDATE_CUSTOM_ASSET.BUTTONS.BUTTON1' | translate }}
             </button>
             <button [disabled]="form.invalid" class="primary big w-100" type="submit">

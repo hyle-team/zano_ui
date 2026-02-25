@@ -1,4 +1,4 @@
-<div aria-describedby="restore-wallet-description" class="page-container">
+<main appAutofocus aria-describedby="restore-wallet-description" class="page-container" tabindex="0">
     <p class="sr-only" id="restore-wallet-description">
         {{ 'ACCESSIBILITY.RESTORE_WALLET.DESCRIPTIONS.DESCRIPTION1' | translate }}
     </p>
@@ -23,8 +23,6 @@
                         (contextmenu)="variablesService.onContextMenu($event)"
                         [attr.aria-describedby]="'name-error'"
                         [placeholder]="'PLACEHOLDERS.WALLET_NAME_PLACEHOLDER' | translate"
-                        appAutofocus
-                        autofocus
                         class="form__field--input"
                         formControlName="name"
                         id="name"
@@ -33,15 +31,19 @@
 
                     <div *ngIf="form.controls.name | isVisibleControlError" aria-live="assertive" class="error"
                          id="name-error">
-                        <div *ngIf="form.controls.name.hasError('duplicate')">
+                        <ng-container *ngIf="form.controls.name.hasError('duplicate'); else nameMaxLengthErrorTemplate">
                             {{ 'RESTORE_WALLET.FORM_ERRORS.NAME_DUPLICATE' | translate }}
-                        </div>
-                        <div *ngIf="form.controls.name.hasError('maxlength')">
-                            {{ 'RESTORE_WALLET.FORM_ERRORS.MAX_LENGTH' | translate }}
-                        </div>
-                        <div *ngIf="form.controls.name.hasError('required')">
-                            {{ 'RESTORE_WALLET.FORM_ERRORS.NAME_REQUIRED' | translate }}
-                        </div>
+                        </ng-container>
+                        <ng-template #nameMaxLengthErrorTemplate>
+                            <ng-container *ngIf="form.controls.name.hasError('maxlength'); else nameRequiredErrorTemplate">
+                                {{ 'RESTORE_WALLET.FORM_ERRORS.MAX_LENGTH' | translate }}
+                            </ng-container>
+                        </ng-template>
+                        <ng-template #nameRequiredErrorTemplate>
+                            <ng-container *ngIf="form.controls.name.hasError('required')">
+                                {{ 'RESTORE_WALLET.FORM_ERRORS.NAME_REQUIRED' | translate }}
+                            </ng-container>
+                        </ng-template>
                     </div>
                 </fieldset>
 
@@ -59,9 +61,9 @@
                     />
                     <div *ngIf="form.controls.password | isVisibleControlError" aria-live="assertive" class="error"
                          id="password-error">
-                        <div *ngIf="form.controls.password.hasError('pattern')">
+                        <ng-container *ngIf="form.controls.password.hasError('pattern')">
                             {{ 'ERRORS.REGEXP_INVALID_PASSWORD' | translate }}
-                        </div>
+                        </ng-container>
                     </div>
                 </fieldset>
 
@@ -77,8 +79,10 @@
                         id="confirm"
                         type="password"
                     />
-                    <div *ngIf="form.hasError('mismatch')" aria-live="assertive" class="error" id="confirm-error">
+                    <div *ngIf="form.controls.confirm | isVisibleControlError" aria-live="assertive" class="error" id="confirm-error">
+                        <ng-container *ngIf="form.controls.confirm.hasError('mismatch')">
                         {{ 'RESTORE_WALLET.FORM_ERRORS.CONFIRM_NOT_MATCH' | translate }}
+                        </ng-container>
                     </div>
                 </fieldset>
 
@@ -152,4 +156,4 @@
             </form>
         </div>
     </section>
-</div>
+</main>
