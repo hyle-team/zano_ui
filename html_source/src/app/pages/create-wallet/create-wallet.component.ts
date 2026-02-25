@@ -1,5 +1,5 @@
-import { Component, inject, NgZone } from '@angular/core';
-import { NonNullableFormBuilder, Validators } from '@angular/forms';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { AbstractControl, NonNullableFormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { ModalService } from '@parts/services/modal.service';
@@ -9,23 +9,15 @@ import { TranslateService } from '@ngx-translate/core';
 import { REG_EXP_PASSWORD, ZanoValidators } from '@parts/utils/zano-validators';
 import { WalletsService } from '@parts/services/wallets.service';
 import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
+import { MAX_WALLET_NAME_LENGTH } from "@parts/data/constants";
+import { takeUntil } from "rxjs/operators";
+import { Subject } from "rxjs";
 
 @Component({
     selector: 'app-create-wallet',
     templateUrl: './create-wallet.component.html',
-    styles: [
-        `
-            :host {
-                width: 100%;
-                height: 100%;
-                overflow: hidden;
-            }
-        `,
-    ],
 })
-export class CreateWalletComponent {
-    variablesService = inject(VariablesService);
-
+export class CreateWalletComponent implements OnInit, OnDestroy {
     loading = false;
 
     breadcrumbItems: BreadcrumbItems = [
@@ -38,41 +30,59 @@ export class CreateWalletComponent {
         },
     ];
 
-    walletsService = inject(WalletsService);
-
-    fb = inject(NonNullableFormBuilder);
-
-    createForm = this.fb.group(
+    form = this._fb.group(
         {
-            name: this.fb.control('', [Validators.required, ZanoValidators.duplicate(this.variablesService.walletNamesForComparisons)]),
-            password: this.fb.control('', Validators.pattern(REG_EXP_PASSWORD)),
-            confirm: this.fb.control(''),
-            path: this.fb.control('', Validators.required),
-        },
-        {
-            validators: [ZanoValidators.formMatch('password', 'confirm')],
+            name: ['', [Validators.required, Validators.maxLength(MAX_WALLET_NAME_LENGTH), ZanoValidators.duplicate(this.variablesService.walletNamesForComparisons)]],
+            password: ['', Validators.pattern(REG_EXP_PASSWORD)],
+            confirm: ['', [
+                (control: AbstractControl): ValidationErrors | null => {
+                    if (!control.parent) return null;
+
+                    const password = control.parent.get('password')?.value;
+                    const confirm = control.value;
+
+                    return password === confirm ? null : { mismatch: true };
+                }
+            ]],
+            path: ['', Validators.required],
         }
     );
 
-    private router = inject(Router);
+    private _destroy$ = new Subject<void>();
 
-    private backend = inject(BackendService);
+    constructor(
+        public variablesService: VariablesService,
+        public walletsService: WalletsService,
+        private _fb: NonNullableFormBuilder,
+        private _router: Router,
+        private _backendService: BackendService,
+        private _modalService: ModalService,
+        private _ngZone: NgZone,
+        private _translateService: TranslateService
+    ) {
+    }
 
-    private modalService = inject(ModalService);
+    ngOnInit() {
+        this.form.controls.password.valueChanges.pipe(takeUntil(this._destroy$)).subscribe(() => {
+            this.form.controls.confirm.updateValueAndValidity({ onlySelf: true });
+        });
+    }
 
-    private ngZone = inject(NgZone);
+    ngOnDestroy() {
+        this._destroy$.next();
+        this._destroy$.complete();
+    }
 
-    private translate = inject(TranslateService);
 
     get savedWalletName(): string {
-        const path = this.createForm.get('path').value;
+        const path = this.form.controls.path.value;
         return path.substr(path.lastIndexOf('/') + 1, path.length - 1);
     }
 
     createWallet(): void {
         this.loading = true;
 
-        const { path: selectedPath, password, name } = this.createForm.getRawValue();
+        const { path: selectedPath, password, name } = this.form.getRawValue();
 
         let walletName = '';
         if (name.lastIndexOf('.') === -1) {
@@ -80,7 +90,7 @@ export class CreateWalletComponent {
         } else {
             walletName = name.slice(0, name.lastIndexOf('.'));
         }
-        this.backend.generateWallet(selectedPath, password, (generate_status, generate_data, errorCode) => {
+        this._backendService.generateWallet(selectedPath, password, (generate_status, generate_data, errorCode) => {
             if (generate_status) {
                 const { wallet_id } = generate_data;
                 const { path, address, balance, unlocked_balance, mined_total, tracking_hey } = generate_data['wi'];
@@ -102,19 +112,19 @@ export class CreateWalletComponent {
                 wallet.currentPage = 1;
                 wallet.exclude_mining_txs = false;
                 this.walletsService.addWallet(wallet);
-                this.backend.runWallet(wallet_id, (run_status, run_data) => {
+                this._backendService.runWallet(wallet_id, (run_status, run_data) => {
                     if (run_status) {
-                        this.ngZone.run(() => {
+                        this._ngZone.run(() => {
                             if (this.variablesService.appPass) {
-                                this.backend.storeSecureAppData();
+                                this._backendService.storeSecureAppData();
                             }
                             this.variablesService.setCurrentWallet(wallet_id);
                             this.loading = false;
-                            this.router.navigate(['/seed-phrase'], { queryParams: { wallet_id } });
+                            this._router.navigate(['/seed-phrase'], { queryParams: { wallet_id } });
                         });
                     } else {
                         console.log(run_data['error_code']);
-                        this.ngZone.run(() => {
+                        this._ngZone.run(() => {
                             this.loading = false;
                         });
                     }
@@ -122,24 +132,24 @@ export class CreateWalletComponent {
             } else {
                 const errorTranslationKey =
                     errorCode === 'ALREADY_EXISTS' ? 'CREATE_WALLET.ERROR_CANNOT_SAVE_TOP' : 'CREATE_WALLET.ERROR_CANNOT_SAVE_SYSTEM';
-                this.modalService.prepareModal('error', errorTranslationKey);
+                this._modalService.prepareModal('error', errorTranslationKey);
 
-                this.ngZone.run(() => {
+                this._ngZone.run(() => {
                     this.loading = false;
                 });
             }
         });
     }
 
-    selectWalletLocation(): void {
-        const caption = this.translate.instant('CREATE_WALLET.TITLE_SAVE');
+    selectLocation(): void {
+        const caption = this._translateService.instant('CREATE_WALLET.TITLE_SAVE');
         const fileMask = '*';
         const { default_path } = this.variablesService.settings;
-        this.backend.saveFileDialog(caption, fileMask, default_path, (file_status, file_data) => {
+        this._backendService.saveFileDialog(caption, fileMask, default_path, (file_status, file_data) => {
             if (file_status) {
-                this.ngZone.run(() => {
+                this._ngZone.run(() => {
                     const { path } = file_data;
-                    this.createForm.get('path').patchValue(path);
+                    this.form.controls.path.patchValue(path);
                     this.variablesService.settings.default_path = path.substr(0, path.lastIndexOf('/'));
                 });
             }
