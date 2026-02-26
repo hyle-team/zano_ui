@@ -1,4 +1,4 @@
-<div aria-describedby="restore-wallet-description" class="page-container">
+<main appAutofocus aria-describedby="restore-wallet-description" class="page-container" tabindex="0">
     <p class="sr-only" id="restore-wallet-description">
         {{ 'ACCESSIBILITY.RESTORE_WALLET.DESCRIPTIONS.DESCRIPTION1' | translate }}
     </p>
@@ -23,25 +23,26 @@
                         (contextmenu)="variablesService.onContextMenu($event)"
                         [attr.aria-describedby]="'name-error'"
                         [placeholder]="'PLACEHOLDERS.WALLET_NAME_PLACEHOLDER' | translate"
-                        appAutofocus
-                        autofocus
                         class="form__field--input"
                         formControlName="name"
                         id="name"
                         type="text"
                     />
 
-                    <div *ngIf="form.controls.name | isVisibleControlError" aria-live="assertive" class="error"
-                         id="name-error">
-                        <div *ngIf="form.controls.name.hasError('duplicate')">
+                    <div *ngIf="form.controls.name | isVisibleControlError" aria-live="assertive" class="error" id="name-error">
+                        <ng-container *ngIf="form.controls.name.hasError('duplicate'); else nameMaxLengthErrorTemplate">
                             {{ 'RESTORE_WALLET.FORM_ERRORS.NAME_DUPLICATE' | translate }}
-                        </div>
-                        <div *ngIf="form.controls.name.hasError('maxlength')">
-                            {{ 'RESTORE_WALLET.FORM_ERRORS.MAX_LENGTH' | translate }}
-                        </div>
-                        <div *ngIf="form.controls.name.hasError('required')">
-                            {{ 'RESTORE_WALLET.FORM_ERRORS.NAME_REQUIRED' | translate }}
-                        </div>
+                        </ng-container>
+                        <ng-template #nameMaxLengthErrorTemplate>
+                            <ng-container *ngIf="form.controls.name.hasError('maxlength'); else nameRequiredErrorTemplate">
+                                {{ 'RESTORE_WALLET.FORM_ERRORS.MAX_LENGTH' | translate }}
+                            </ng-container>
+                        </ng-template>
+                        <ng-template #nameRequiredErrorTemplate>
+                            <ng-container *ngIf="form.controls.name.hasError('required')">
+                                {{ 'RESTORE_WALLET.FORM_ERRORS.NAME_REQUIRED' | translate }}
+                            </ng-container>
+                        </ng-template>
                     </div>
                 </fieldset>
 
@@ -57,11 +58,10 @@
                         id="password"
                         type="password"
                     />
-                    <div *ngIf="form.controls.password | isVisibleControlError" aria-live="assertive" class="error"
-                         id="password-error">
-                        <div *ngIf="form.controls.password.hasError('pattern')">
+                    <div *ngIf="form.controls.password | isVisibleControlError" aria-live="assertive" class="error" id="password-error">
+                        <ng-container *ngIf="form.controls.password.hasError('pattern')">
                             {{ 'ERRORS.REGEXP_INVALID_PASSWORD' | translate }}
-                        </div>
+                        </ng-container>
                     </div>
                 </fieldset>
 
@@ -77,8 +77,10 @@
                         id="confirm"
                         type="password"
                     />
-                    <div *ngIf="form.hasError('mismatch')" aria-live="assertive" class="error" id="confirm-error">
-                        {{ 'RESTORE_WALLET.FORM_ERRORS.CONFIRM_NOT_MATCH' | translate }}
+                    <div *ngIf="form.controls.confirm | isVisibleControlError" aria-live="assertive" class="error" id="confirm-error">
+                        <ng-container *ngIf="form.controls.confirm.hasError('mismatch')">
+                            {{ 'RESTORE_WALLET.FORM_ERRORS.CONFIRM_NOT_MATCH' | translate }}
+                        </ng-container>
                     </div>
                 </fieldset>
 
@@ -101,9 +103,7 @@
                         class="error"
                         id="seed-phrase-error"
                     >
-                        <div
-                            *ngIf="form.controls.seedPhrase.hasError('required'); else errorSyntaxIncorrectTemplate"
-                        >
+                        <div *ngIf="form.controls.seedPhrase.hasError('required'); else errorSyntaxIncorrectTemplate">
                             {{ 'ERRORS.REQUIRED' | translate }}
                         </div>
 
@@ -116,8 +116,10 @@
                 </fieldset>
 
                 <!-- Seed password -->
-                <fieldset *ngIf="seedPhraseInfo && seedPhraseInfo.syntax_correct && seedPhraseInfo.require_password"
-                          class="form__field fixed">
+                <fieldset
+                    *ngIf="seedPhraseInfo && seedPhraseInfo.syntax_correct && seedPhraseInfo.require_password"
+                    class="form__field fixed"
+                >
                     <label for="seed-password">{{ 'RESTORE_WALLET.SEED_PASSWORD' | translate }}</label>
                     <input
                         [attr.aria-describedby]="'seed-password-error'"
@@ -141,9 +143,8 @@
                     </div>
                 </fieldset>
 
-                <button (click)="selectLocation()" [disabled]="isDisableSelectLocation" class="outline big w-100 mb-2"
-                        type="button">
-                    {{ (selectedLocationWalletName ?? 'RESTORE_WALLET.BUTTON_SELECT') | translate }}
+                <button (click)="selectLocation()" [disabled]="isDisableSelectLocation" class="outline big w-100 mb-2" type="button">
+                    {{ selectedLocationWalletName ?? 'RESTORE_WALLET.BUTTON_SELECT' | translate }}
                 </button>
 
                 <button [disabled]="isDisabledCreatedWallet" class="primary big w-100 mb-2" type="submit">
@@ -152,4 +153,4 @@
             </form>
         </div>
     </section>
-</div>
+</main>

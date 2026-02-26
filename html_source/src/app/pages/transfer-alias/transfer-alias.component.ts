@@ -8,19 +8,11 @@ import { hasOwnProperty } from '@parts/functions/has-own-property';
 import BigNumber from 'bignumber.js';
 import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
 import { AliasInfo } from '@api/models/alias.model';
+import { MAX_COMMENT_LENGTH } from '@parts/data/constants';
 
 @Component({
     selector: 'app-transfer-alias',
     templateUrl: './transfer-alias.component.html',
-    styles: [
-        `
-            :host {
-                width: 100%;
-                height: 100%;
-                overflow: hidden;
-            }
-        `,
-    ],
 })
 export class TransferAliasComponent implements OnInit {
     wallet: Wallet;
@@ -125,4 +117,6 @@ export class TransferAliasComponent implements OnInit {
             }
         );
     }
+
+    protected readonly MAX_COMMENT_LENGTH = MAX_COMMENT_LENGTH;
 }

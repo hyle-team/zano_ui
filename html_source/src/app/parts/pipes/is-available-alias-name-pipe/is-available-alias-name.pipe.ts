@@ -3,7 +3,7 @@ import { AliasInfo } from '@api/models/alias.model';
 
 @Pipe({
     name: 'isAvailableAliasName',
-    standalone: true
+    standalone: true,
 })
 export class IsAvailableAliasNamePipe implements PipeTransform {
     transform(alias: AliasInfo | null | undefined): boolean {

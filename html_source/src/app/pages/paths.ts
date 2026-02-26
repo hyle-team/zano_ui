@@ -28,4 +28,3 @@ export enum pathsChildrenWallet {
     contracts = 'contracts',
     staking = 'staking',
 }
-
