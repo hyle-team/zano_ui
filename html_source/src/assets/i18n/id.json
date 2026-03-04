@@ -667,6 +667,14 @@
         "SETUP_CONFIRM_PASS": "Konfirmasi kata sandi",
         "SETUP_MASTER_PASS": "Atur kata sandi utama"
     },
+    "LOG_ITEMS": {
+        "LABEL1": "Senyap, tanpa log",
+        "LABEL2": "Minimal, hanya peristiwa kritis",
+        "LABEL3": "Aktivitas aplikasi dasar dan umum",
+        "LABEL4": "Verbose, direkomendasikan untuk debugging",
+        "LABEL5": "Berlebihan, mungkin mengandung data sensitif, jangan bagikan dengan pihak ketiga",
+        "LABEL6": "Semuanya, mungkin mengandung data sensitif, jangan bagikan dengan pihak ketiga"
+    },
     "MAIN": {
         "BUTTON_NEW_WALLET": "Buat Dompet Baru",
         "BUTTON_OPEN_WALLET": "Buka Dompet yang Sudah Ada",

@@ -6,8 +6,9 @@ import { TranslateService } from '@ngx-translate/core';
 import { REG_EXP_PASSWORD, ZanoValidators } from '@parts/utils/zano-validators';
 import { generateRandomString } from '@parts/utils/generate-random-string';
 import { debounceTime } from 'rxjs/operators';
-import { ScaleItems } from '@api/models/scale.model';
 import { currenciesItems } from '@parts/data/currencies';
+import { AppLogItems } from '@parts/interfaces/app-log-items.interface';
+import { AppScaleItems } from '@parts/interfaces/app-scale-items.interface';
 
 @Component({
     selector: 'app-settings',
@@ -107,43 +108,51 @@ export class SettingsComponent implements OnInit {
         },
     ];
 
-    appScaleOptions: ScaleItems = [
+    appScaleOptions: AppScaleItems = [
         {
             value: '8px',
-            name: 'SETTINGS.SCALE.75',
+            label: 'SETTINGS.SCALE.75',
         },
         {
             value: '10px',
-            name: 'SETTINGS.SCALE.100',
+            label: 'SETTINGS.SCALE.100',
         },
         {
             value: '12px',
-            name: 'SETTINGS.SCALE.125',
+            label: 'SETTINGS.SCALE.125',
         },
         {
             value: '14px',
-            name: 'SETTINGS.SCALE.150',
+            label: 'SETTINGS.SCALE.150',
         },
     ];
 
-    appLogOptions = [
+    appLogItems: AppLogItems = [
         {
             id: -1,
+            label: 'LOG_ITEMS.LABEL1',
         },
         {
             id: 0,
+            label: 'LOG_ITEMS.LABEL2',
         },
         {
             id: 1,
+            label: 'LOG_ITEMS.LABEL3',
         },
         {
             id: 2,
+            label: 'LOG_ITEMS.LABEL4',
         },
         {
             id: 3,
+            label: 'LOG_ITEMS.LABEL5',
+            type: 'WARNING',
         },
         {
             id: 4,
+            label: 'LOG_ITEMS.LABEL6',
+            type: 'WARNING',
         },
     ];
 

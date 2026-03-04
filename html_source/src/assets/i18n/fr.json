@@ -667,6 +667,14 @@
         "SETUP_CONFIRM_PASS": "Confirmer le mot de passe",
         "SETUP_MASTER_PASS": "Configurer le mot de passe maître"
     },
+    "LOG_ITEMS": {
+        "LABEL1": "Silencieux, sans logs",
+        "LABEL2": "Minimal, uniquement les événements critiques",
+        "LABEL3": "Activité basique et générale de l'application",
+        "LABEL4": "Verbeux, recommandé pour le débogage",
+        "LABEL5": "Excessif, peut contenir des données sensibles, ne pas partager avec des tiers",
+        "LABEL6": "Tout, peut contenir des données sensibles, ne pas partager avec des tiers"
+    },
     "MAIN": {
         "BUTTON_NEW_WALLET": "Créer un nouveau portefeuille",
         "BUTTON_OPEN_WALLET": "Ouvrir un portefeuille existant",
