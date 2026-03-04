@@ -4,8 +4,8 @@
             (onRemove)="remove(index)"
             (onDuplicate)="duplicate($event)"
             [formRef]="form"
-            [hideRemove]="first || formArray.controls.length < 2"
-            [hideDuplicate]="formArray.hasError('max_destinations')"
+            [hideRemove]="first || formArray.length < 2"
+            [hideDuplicate]="!canAddOrDuplicate"
             [index]="index"
         ></zano-destination>
 
@@ -24,7 +24,7 @@
 <ng-template #addDestinationTemplate>
     <button
         (click)="add()"
-        [disabled]="formArray.hasError('max_destinations') || formArray.controls.length >= 31"
+        [disabled]="!canAddOrDuplicate"
         class="add-destination-button"
         type="button"
     >

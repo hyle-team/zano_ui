@@ -18,6 +18,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 export class DestinationsComponent {
     @Input('formArrayRef') formArray: FormArray<DestinationFormGroup>;
 
+    @Input() canAddOrDuplicate: boolean;
+
     @Output() onRemove = new EventEmitter<number>();
 
     @Output() onDuplicate = new EventEmitter<DestinationFormGroup>();

@@ -22,3 +22,6 @@ export const DEFAULT_ASSET_LOGO_SRC = 'assets/currency-icons/custom_token.svg';
 export const DEFAULT_FEE = '0.01';
 export const DEFAULT_FEE_BIG = BigNumber('10000000000');
 export const DEFAULT_PRICE_ALIAS = BigNumber.sum('100000000000', DEFAULT_FEE_BIG);
+
+// Max destinations length 31 if all asset_id === ZANO_ASSET_INFO.asset_id
+export const MAX_DESTINATIONS_LENGTH = 31;
