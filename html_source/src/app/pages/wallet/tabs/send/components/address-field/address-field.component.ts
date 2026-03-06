@@ -30,7 +30,7 @@ import { BackendService } from '@api/services/backend.service';
         ShortStringPipe,
         TranslateModule,
         ScrollingModule,
-        InputValidateModule
+        InputValidateModule,
     ],
     templateUrl: './address-field.component.html',
     styleUrls: ['./address-field.component.scss'],

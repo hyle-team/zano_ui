@@ -9,8 +9,9 @@
         <!-- Destinations -->
         <zano-destinations
             (onAdd)="addDestination()"
-            (onRemove)="removeDestination($event)"
             (onDuplicate)="duplicateDestination($event)"
+            (onRemove)="removeDestination($event)"
+            [canAddOrDuplicate]="canAddOrDuplicate$ | async"
             [formArrayRef]="form.controls.destinations"
         ></zano-destinations>
 

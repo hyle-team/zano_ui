@@ -16,7 +16,7 @@ export class TransactionDetailsForCustomAssetsComponent implements OnInit, OnDes
 
     public data: { job_id: number } = inject(MAT_DIALOG_DATA);
 
-    public details: { new_asset_id: string; result_tx: string };
+    public details: { new_asset_id: string; tx_id: string };
 
     public error: any;
 

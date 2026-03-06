@@ -1,4 +1,4 @@
-<main class="page-container">
+<main tabindex="0" appAutofocus class="page-container">
     <section class="toolbar mb-2">
         <div class="left">
             <app-back-button></app-back-button>
@@ -13,8 +13,6 @@
                 <fieldset class="form__field">
                     <label for="language-label">{{ 'SETTINGS.LANGUAGE.TITLE' | translate }}</label>
                     <ng-select
-                        autofocus="true"
-                        appAutofocus
                         (change)="onLanguageChange()"
                         [(ngModel)]="variablesService.settings.language"
                         [clearable]="false"
@@ -22,13 +20,10 @@
                         [searchable]="false"
                         bindLabel="language"
                         bindValue="name"
-                        class="with-circle"
+                        class="select-with-circle"
                         id="language-label"
                     >
-                        <ng-template let-item="item" ng-label-tmp>
-                            {{ item.language | translate }}
-                        </ng-template>
-                        <ng-template let-item="item" ng-option-tmp>
+                        <ng-template let-item="item" ng-label-tmp ng-option-tmp>
                             {{ item.language | translate }}
                         </ng-template>
                     </ng-select>
@@ -44,13 +39,10 @@
                         [searchable]="false"
                         bindLabel="translationKey"
                         bindValue="time"
-                        class="with-circle"
+                        class="select-with-circle"
                         id="app-lock-label"
                     >
-                        <ng-template let-item="item" ng-label-tmp>
-                            {{ item.translationKey | translate }}
-                        </ng-template>
-                        <ng-template let-item="item" ng-option-tmp>
+                        <ng-template let-item="item" ng-label-tmp ng-option-tmp>
                             {{ item.translationKey | translate }}
                         </ng-template>
                     </ng-select>
@@ -64,16 +56,13 @@
                         [clearable]="false"
                         [items]="appScaleOptions"
                         [searchable]="false"
-                        bindLabel="name"
+                        bindLabel="label"
                         bindValue="value"
-                        class="with-circle"
+                        class="select-with-circle"
                         id="scale-label"
                     >
-                        <ng-template let-item="item" ng-label-tmp>
-                            {{ item.name | translate }}
-                        </ng-template>
-                        <ng-template let-item="item" ng-option-tmp>
-                            {{ item.name | translate }}
+                        <ng-template let-item="item" ng-label-tmp ng-option-tmp>
+                            {{ item.label | translate }}
                         </ng-template>
                     </ng-select>
                 </fieldset>
@@ -84,13 +73,33 @@
                         (change)="onLogChange()"
                         [(ngModel)]="variablesService.settings.appLog"
                         [clearable]="false"
-                        [items]="appLogOptions"
+                        [items]="appLogItems"
                         [searchable]="false"
-                        bindLabel="id"
+                        bindLabel="label"
                         bindValue="id"
-                        class="with-circle"
+                        class="select-log select-with-circle"
                         id="app-log-label"
                     >
+                        <ng-template let-item="item" ng-label-tmp>
+                            <span
+                                [ngClass]="{
+                                    'log-item--warning': item.type === 'WARNING'
+                                }"
+                            >
+                                [{{ item.id }}] {{ item.label | translate }}
+                            </span>
+                        </ng-template>
+
+                        <ng-template let-item="item" ng-option-tmp>
+                            <span
+                                class="white-space--initial"
+                                [ngClass]="{
+                                    'log-item--warning': item.type === 'WARNING'
+                                }"
+                            >
+                                [{{ item.id }}] {{ item.label | translate }}
+                            </span>
+                        </ng-template>
                     </ng-select>
                 </fieldset>
 
@@ -104,7 +113,7 @@
                         [searchable]="false"
                         bindLabel="label"
                         bindValue="id"
-                        class="with-circle"
+                        class="select-with-circle"
                         id="currency-label"
                     >
                     </ng-select>

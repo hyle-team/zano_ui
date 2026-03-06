@@ -4,6 +4,20 @@
     overflow: hidden;
 }
 
+
+.select-log {
+    max-width: 50rem;
+}
+
+.log-item--warning {
+    color: var(--red-500);
+}
+
+.white-space--initial {
+    white-space: initial;
+}
+
+
 .settings {
     width: 50rem;
 }

@@ -12,7 +12,7 @@ import { intToMoney } from '@parts/functions/int-to-money';
 import { moneyToInt } from '@parts/functions/money-to-int';
 import { TransactionDetailsForCustomAssetsComponent } from '../../modals/transaction-details-for-custom-assets/transaction-details-for-custom-assets.component';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { MAXIMUM_VALUE } from '@parts/data/constants';
+import { MAX_COMMENT_LENGTH, MAXIMUM_VALUE } from '@parts/data/constants';
 
 type CreateNewAssetFrom = FormGroup<{
     ticker: FormControl<string>;
@@ -70,7 +70,7 @@ export class CreateNewAssetComponent {
             total_max_supply: this._fb.control<string>(undefined, [Validators.required]),
             current_supply: this._fb.control<string>(undefined, [Validators.required]),
             decimal_point: this._fb.control<string>('12', [Validators.required, Validators.min(0), Validators.max(18)]),
-            meta_info: this._fb.control<string>('', [Validators.maxLength(255)]),
+            meta_info: this._fb.control<string>('', [Validators.maxLength(MAX_COMMENT_LENGTH)]),
             hidden_supply: this._fb.control<boolean>(false),
         },
         {
@@ -202,4 +202,6 @@ export class CreateNewAssetComponent {
                 },
             });
     }
+
+    protected readonly MAX_COMMENT_LENGTH = MAX_COMMENT_LENGTH;
 }

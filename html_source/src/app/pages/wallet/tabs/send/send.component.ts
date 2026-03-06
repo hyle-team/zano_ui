@@ -3,14 +3,14 @@ import { AbstractControl, FormArray, FormControl, FormGroup, NonNullableFormBuil
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { filter, startWith, takeUntil } from 'rxjs/operators';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { AssetBalance } from '@api/models/assets.model';
 import { REG_EXP_ALIAS_NAME, validateWrapInfo, ZanoValidators } from '@parts/utils/zano-validators';
 import { ZANO_ASSET_INFO } from '@parts/data/zano-assets-info';
 import { BigNumber } from 'bignumber.js';
 import { intToMoney } from '@parts/functions/int-to-money';
 import { insufficientFunds } from '@parts/utils/zano-errors';
-import { DEFAULT_FEE, MAX_COMMENT_LENGTH, MAXIMUM_VALUE } from '@parts/data/constants';
+import { DEFAULT_FEE, MAX_COMMENT_LENGTH, MAX_DESTINATIONS_LENGTH, MAXIMUM_VALUE } from '@parts/data/constants';
 import { moneyToInt } from '@parts/functions/money-to-int';
 import { SendDeeplink } from '@api/models/wallet.model';
 
@@ -90,6 +90,8 @@ export class SendComponent implements OnDestroy {
     is_show_additional_details = false;
 
     form: TransferFormGroup;
+
+    canAddOrDuplicate$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
     private readonly _destroy$: Subject<void> = new Subject<void>();
 
@@ -255,7 +257,7 @@ export class SendComponent implements OnDestroy {
         }
 
         const destinations_control = this._fb.array<DestinationFormGroup>([]);
-        destinations_control.setValidators(this._destinationsValidator.bind(this));
+        destinations_control.setValidators(this._maxDestinationsValidator.bind(this));
         if (init_transfer_form_value.destinations.length) {
             init_transfer_form_value.destinations.forEach(() => {
                 destinations_control.push(this._createDestinationFromGroup());
@@ -350,7 +352,7 @@ export class SendComponent implements OnDestroy {
         this._saveTransferParams();
     }
 
-    private _destinationsValidator(control: AbstractControl): ValidationErrors | null {
+    private _maxDestinationsValidator(control: AbstractControl): ValidationErrors | null {
         if (!(control instanceof FormArray)) {
             return null;
         }
@@ -363,7 +365,7 @@ export class SendComponent implements OnDestroy {
             }
         });
 
-        const maxDestinations = 31 - uniqueAssetIds.size;
+        const maxDestinations = MAX_DESTINATIONS_LENGTH - uniqueAssetIds.size;
 
         if (destinations.length > maxDestinations) {
             return { max_destinations: { max: maxDestinations, actual: destinations.length } };
@@ -472,6 +474,15 @@ export class SendComponent implements OnDestroy {
                     } else {
                         this.form.controls.comment.enable();
                     }
+
+                    const uniqueAssetIds = new Set<string>();
+                    destinations.forEach(({ asset_id }) => {
+                        if (asset_id && asset_id !== ZANO_ASSET_INFO.asset_id) {
+                            uniqueAssetIds.add(asset_id);
+                        }
+                    });
+                    const maxDestinations = MAX_DESTINATIONS_LENGTH - uniqueAssetIds.size;
+                    this.canAddOrDuplicate$.next(destinations.length < maxDestinations);
 
                     this.form.controls.destinations.controls.forEach((group) => {
                         group.controls.amount.updateValueAndValidity({ emitEvent: false });

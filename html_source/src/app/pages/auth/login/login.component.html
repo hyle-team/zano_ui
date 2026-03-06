@@ -50,9 +50,9 @@
                     class="error"
                     id="master-pass-error"
                 >
-                    <div *ngIf="regMasterPassForm.controls.password.hasError('pattern')">
+                    <ng-container *ngIf="regMasterPassForm.controls.password.hasError('pattern')">
                         {{ 'ERRORS.REGEXP_INVALID_PASSWORD' | translate }}
-                    </div>
+                    </ng-container>
                 </div>
             </div>
 
@@ -80,9 +80,9 @@
                     class="error"
                     id="confirm-pass-error"
                 >
-                    <div *ngIf="regMasterPassForm.errors['mismatch']">
+                    <ng-container *ngIf="regMasterPassForm.errors['mismatch']">
                         {{ 'LOGIN.FORM_ERRORS.MISMATCH' | translate }}
-                    </div>
+                    </ng-container>
                 </div>
             </div>
         </fieldset>

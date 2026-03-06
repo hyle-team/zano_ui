@@ -1,4 +1,4 @@
-<main class="page-container" aria-describedby="create-wallet-description">
+<main tabindex="0" appAutofocus aria-describedby="create-wallet-description" class="page-container">
     <p class="sr-only" id="create-wallet-description">
         {{ 'ACCESSIBILITY.CREATE_WALLET.DESCRIPTIONS.DESCRIPTION1' | translate }}
     </p>
@@ -6,7 +6,7 @@
     <section class="toolbar mb-2">
         <div class="left">
             <app-back-button></app-back-button>
-            <h1 class="ml-2" aria-live="assertive">{{ 'BREADCRUMBS.ADD_WALLET' | translate }}</h1>
+            <h1 aria-live="assertive" class="ml-2">{{ 'BREADCRUMBS.ADD_WALLET' | translate }}</h1>
         </div>
         <div class="right"></div>
     </section>
@@ -15,46 +15,51 @@
         <app-breadcrumbs [items]="breadcrumbItems" class="mb-2"></app-breadcrumbs>
 
         <section class="scrolled-content">
-            <form role="form" [formGroup]="createForm" class="form" [attr.aria-busy]="loading ? 'true' : null">
+            <form (ngSubmit)="createWallet()" [attr.aria-busy]="loading ? 'true' : null" [formGroup]="form" class="form">
+                <!--Name-->
                 <fieldset class="form__field">
                     <label for="wallet-name">{{ 'CREATE_WALLET.NAME' | translate }}</label>
                     <input
                         (contextmenu)="variablesService.onContextMenu($event)"
-                        [placeholder]="'PLACEHOLDERS.WALLET_NAME_PLACEHOLDER' | translate"
-                        [readonly]="createForm.controls.path.valid"
                         [attr.aria-describedby]="'wallet-name-error'"
-                        autofocus
-                        appAutofocus
+                        [placeholder]="'PLACEHOLDERS.WALLET_NAME_PLACEHOLDER' | translate"
+                        [readonly]="form.controls.path.valid"
                         class="form__field--input"
                         formControlName="name"
                         id="wallet-name"
-                        maxlength="{{ variablesService.maxWalletNameLength }}"
                         type="text"
                     />
                     <div
-                        *ngIf="createForm.controls.name.invalid && (createForm.controls.name.dirty || createForm.controls.name.touched)"
+                        *ngIf="form.controls.name | isVisibleControlError"
+                        [attr.aria-live]="'assertive'"
                         class="error"
                         id="wallet-name-error"
-                        [attr.aria-live]="'assertive'"
                     >
-                        <div *ngIf="createForm.controls.name.hasError('duplicate')">
+                        <ng-container *ngIf="form.controls.name.hasError('duplicate'); else nameRequiredErrorTemplate">
                             {{ 'CREATE_WALLET.FORM_ERRORS.NAME_DUPLICATE' | translate }}
-                        </div>
-                        <div *ngIf="createForm.controls.name.hasError('required')">
-                            {{ 'CREATE_WALLET.FORM_ERRORS.NAME_REQUIRED' | translate }}
-                        </div>
-                    </div>
-                    <div *ngIf="createForm.controls.name.value.length > variablesService.maxWalletNameLength" class="error">
-                        {{ 'CREATE_WALLET.FORM_ERRORS.MAX_LENGTH' | translate }}
+                        </ng-container>
+
+                        <ng-template #nameRequiredErrorTemplate>
+                            <ng-container *ngIf="form.controls.name.hasError('required'); else nameMaxLengthErrorTemplate">
+                                {{ 'CREATE_WALLET.FORM_ERRORS.NAME_REQUIRED' | translate }}
+                            </ng-container>
+                        </ng-template>
+
+                        <ng-template #nameMaxLengthErrorTemplate>
+                            <ng-container *ngIf="form.controls.name.hasError('maxlength')">
+                                {{ 'CREATE_WALLET.FORM_ERRORS.MAX_LENGTH' | translate }}
+                            </ng-container>
+                        </ng-template>
                     </div>
                 </fieldset>
 
+                <!--Password-->
                 <fieldset class="form__field">
                     <label for="wallet-password">{{ 'CREATE_WALLET.PASS' | translate }}</label>
                     <input
                         (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
-                        [readonly]="createForm.controls.path.valid"
                         [attr.aria-describedby]="'wallet-password-error'"
+                        [readonly]="form.controls.path.valid"
                         class="form__field--input"
                         formControlName="password"
                         id="wallet-password"
@@ -62,24 +67,24 @@
                         type="password"
                     />
                     <div
-                        *ngIf="createForm.controls.password.dirty && createForm.controls.password.invalid"
+                        *ngIf="form.controls.password | isVisibleControlError"
+                        [attr.aria-live]="'assertive'"
                         class="error"
                         id="wallet-password-error"
-                        [attr.aria-live]="'assertive'"
                     >
-                        <div *ngIf="createForm.controls.password.hasError('pattern')">
+                        <ng-container *ngIf="form.controls.password.hasError('pattern')">
                             {{ 'ERRORS.REGEXP_INVALID_PASSWORD' | translate }}
-                        </div>
+                        </ng-container>
                     </div>
                 </fieldset>
 
+                <!--Confirm-->
                 <fieldset class="form__field">
                     <label for="confirm-wallet-password">{{ 'CREATE_WALLET.CONFIRM' | translate }}</label>
                     <input
                         (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
-                        [class.invalid]="createForm.hasError('mismatch') && createForm.controls.confirm.value.length > 0"
-                        [readonly]="createForm.controls.path.valid"
                         [attr.aria-describedby]="'confirm-wallet-password-error'"
+                        [readonly]="form.controls.path.valid"
                         class="form__field--input"
                         formControlName="confirm"
                         id="confirm-wallet-password"
@@ -87,43 +92,40 @@
                         type="password"
                     />
                     <div
-                        *ngIf="
-                            createForm.controls.confirm.dirty &&
-                            createForm.hasError('mismatch') &&
-                            createForm.controls.confirm.value.length > 0
-                        "
-                        id="confirm-wallet-password-error"
+                        *ngIf="form.controls.confirm | isVisibleControlError"
                         [attr.aria-live]="'assertive'"
                         class="error"
+                        id="confirm-wallet-password-error"
                     >
-                        {{ 'CREATE_WALLET.FORM_ERRORS.CONFIRM_NOT_MATCH' | translate }}
+                        <ng-container *ngIf="form.controls.confirm.hasError('mismatch')">
+                            {{ 'CREATE_WALLET.FORM_ERRORS.CONFIRM_NOT_MATCH' | translate }}
+                        </ng-container>
                     </div>
                 </fieldset>
 
-                <button *ngIf="createForm.controls.path.valid" class="outline big w-100 mb-2" disabled type="button">
+                <button *ngIf="form.controls.path.valid" class="outline big w-100 mb-2" disabled type="button">
                     <mat-icon class="mr-1" svgIcon="zano-check-circle"></mat-icon>
                     {{ savedWalletName }}
                 </button>
 
                 <button
-                    (click)="selectWalletLocation()"
-                    *ngIf="createForm.controls.path.invalid"
-                    [disabled]="createForm.controls.name.invalid || createForm.controls.password.invalid || createForm.hasError('mismatch')"
+                    *ngIf="form.controls.path.invalid"
+                    (click)="selectLocation()"
+                    [disabled]="form.controls.name.invalid || form.controls.password.invalid || form.controls.confirm.invalid"
                     class="outline big w-100 mb-2"
                     type="button"
                 >
                     {{ 'CREATE_WALLET.BUTTON_SELECT' | translate }}
                 </button>
 
-                <button (click)="createWallet()" [disabled]="createForm.invalid" class="primary big w-100" type="button">
-                    {{ 'CREATE_WALLET.BUTTON_CREATE' | translate }}
-                    <span *ngIf="loading" [ngTemplateOutlet]="loaderTemp" class="ml-1"></span>
+                <button [disabled]="form.invalid || loading" class="primary big w-100" type="submit">
+                    <ng-container *ngIf="!loading">
+                        {{ 'CREATE_WALLET.BUTTON_CREATE' | translate }}
+                    </ng-container>
+
+                    <zano-loader *ngIf="loading"></zano-loader>
                 </button>
             </form>
         </section>
     </div>
 </main>
-
-<ng-template #loaderTemp>
-    <zano-loader></zano-loader>
-</ng-template>

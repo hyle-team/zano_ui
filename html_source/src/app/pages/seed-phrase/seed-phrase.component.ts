@@ -2,7 +2,7 @@ import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { BackendService } from '@api/services/backend.service';
 import { ActivatedRoute } from '@angular/router';
 import { VariablesService } from '@parts/services/variables.service';
-import { FormControl, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, NonNullableFormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -14,15 +14,6 @@ import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.model
 @Component({
     selector: 'app-seed-phrase',
     templateUrl: './seed-phrase.component.html',
-    styles: [
-        `
-            :host {
-                width: 100%;
-                height: 100%;
-                overflow: hidden;
-            }
-        `,
-    ],
 })
 export class SeedPhraseComponent implements OnInit, OnDestroy {
     breadcrumbItems: BreadcrumbItems = [
@@ -45,40 +36,38 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
 
     seedPhraseCopied: boolean = false;
 
-    private _fb = inject(NonNullableFormBuilder);
-
     detailsForm = this._fb.group({
         name: '',
         path: '',
     });
 
-    seedPhraseForm = this._fb.group(
-        {
-            password: ['', Validators.pattern(REG_EXP_PASSWORD)],
-            confirmPassword: '',
-        },
-        {
-            validators: [ZanoValidators.formMatch('password', 'confirmPassword')],
-        }
-    );
+    seedPhraseForm = this._fb.group({
+        password: ['', Validators.pattern(REG_EXP_PASSWORD)],
+        confirmPassword: [
+            '',
+            [
+                (control: AbstractControl): ValidationErrors | null => {
+                    if (!control.parent) return null;
+
+                    const password = control.parent.get('password')?.value;
+                    const confirm = control.value;
+
+                    return password === confirm ? null : { mismatch: true };
+                },
+            ],
+        ],
+    });
 
     private _destroy$: Subject<void> = new Subject<void>();
 
     constructor(
         public variablesService: VariablesService,
+        private _fb: NonNullableFormBuilder,
         private _walletsService: WalletsService,
         private _route: ActivatedRoute,
         private _backendService: BackendService,
         private _ngZone: NgZone
     ) {}
-
-    get password(): FormControl<string> {
-        return this.seedPhraseForm.controls.password;
-    }
-
-    get confirmPassword(): FormControl<string> {
-        return this.seedPhraseForm.controls.confirmPassword;
-    }
 
     ngOnInit(): void {
         this._route.queryParams.pipe(takeUntil(this._destroy$)).subscribe({
@@ -93,6 +82,10 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
                     }
                 }
             },
+        });
+
+        this.seedPhraseForm.controls.password.valueChanges.pipe(takeUntil(this._destroy$)).subscribe(() => {
+            this.seedPhraseForm.controls.confirmPassword.updateValueAndValidity({ onlySelf: true });
         });
     }
 
