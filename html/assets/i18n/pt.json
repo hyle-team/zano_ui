@@ -667,6 +667,14 @@
         "SETUP_CONFIRM_PASS": "Confirme a senha",
         "SETUP_MASTER_PASS": "Configurar senha mestre"
     },
+    "LOG_ITEMS": {
+        "LABEL1": "Silencioso, sem logs",
+        "LABEL2": "Mínimo, apenas eventos críticos",
+        "LABEL3": "Atividade básica e geral do aplicativo",
+        "LABEL4": "Detalhado, recomendado para depuração",
+        "LABEL5": "Excessivo, pode conter dados sensíveis, não partilhe com terceiros",
+        "LABEL6": "Tudo, pode conter dados sensíveis, não partilhe com terceiros"
+    },
     "MAIN": {
         "BUTTON_NEW_WALLET": "Criar Nova Carteira",
         "BUTTON_OPEN_WALLET": "Abrir Carteira Existente",

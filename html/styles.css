@@ -2405,12 +2405,12 @@ i svg {
   direction: rtl;
   text-align: right;
 }
-.ng-select.with-circle .ng-dropdown-panel .ng-option {
+.ng-select.select-with-circle .ng-dropdown-panel .ng-option {
   position: relative;
   padding: 0.8rem 3rem 0.8rem 0.8rem;
   margin-left: 1px;
 }
-.ng-select.with-circle .ng-dropdown-panel .ng-option:after {
+.ng-select.select-with-circle .ng-dropdown-panel .ng-option:after {
   position: absolute;
   top: 50%;
   right: 1rem;
@@ -2422,7 +2422,7 @@ i svg {
   border: var(--ng-select-circle-border);
   border-radius: 50%;
 }
-.ng-select.with-circle .ng-dropdown-panel .ng-option.ng-option-selected:before {
+.ng-select.select-with-circle .ng-dropdown-panel .ng-option.ng-option-selected:before {
   position: absolute;
   top: 50%;
   right: 1.4rem;
