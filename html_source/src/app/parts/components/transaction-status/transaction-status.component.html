@@ -1,4 +1,4 @@
-<ng-container *ngIf="isInitiator(transaction) && !hasZano(transaction.subtransfers)">
+<ng-container *ngIf="isInitiator(transaction) && !hasZano()">
     <div
         role="status"
         [attr.aria-label]="'HISTORY.RECEIVED' | translate"
@@ -30,8 +30,8 @@
     </div>
 </ng-template>
 
-<ng-container *ngIf="transaction.subtransfers; else noSubtransfersStatus">
-    <ng-container *ngFor="let subtransfer of transaction.subtransfers">
+<ng-container *ngIf="allSubtransfers.length > 0; else noSubtransfersStatus">
+    <ng-container *ngFor="let subtransfer of allSubtransfers">
         <ng-container *ngIf="isVisibleStatusBySubtransfer(subtransfer, transaction)">
             <div
                 [ngClass]="isIncome(subtransfer, transaction) ? 'received' : 'send'"

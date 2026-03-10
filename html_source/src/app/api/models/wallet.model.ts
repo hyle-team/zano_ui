@@ -334,39 +334,39 @@ export class Wallet {
 
     prepareHistory(items: Transaction[]): void {
         for (let i = 0; i < items.length; i++) {
-            if (
-                (items[i].tx_type === 7 && items[i].subtransfers?.find(({ is_income }) => is_income)) ||
-                (items[i].tx_type === 11 && items[i].subtransfers?.find(({ is_income }) => is_income))
-            ) {
+            const tx = items[i];
+            const hasIncoming = tx.subtransfers_by_pid?.some(g => g.subtransfers.some(s => s.is_income));
+
+            if ((tx.tx_type === 7 || tx.tx_type === 11) && hasIncoming) {
                 let exists = false;
                 for (let j = 0; j < this.excluded_history.length; j++) {
-                    if (this.excluded_history[j].tx_hash === items[i].tx_hash) {
+                    if (this.excluded_history[j].tx_hash === tx.tx_hash) {
                         exists = true;
-                        if (this.excluded_history[j].height !== items[i].height) {
-                            this.excluded_history[j] = items[i];
+                        if (this.excluded_history[j].height !== tx.height) {
+                            this.excluded_history[j] = tx;
                         }
                         break;
                     }
                 }
                 if (!exists) {
-                    this.excluded_history.push(items[i]);
+                    this.excluded_history.push(tx);
                 }
             } else {
                 let exists = false;
                 for (let j = 0; j < this.history.length; j++) {
-                    if (this.history[j].tx_hash === items[i].tx_hash) {
+                    if (this.history[j].tx_hash === tx.tx_hash) {
                         exists = true;
-                        if (this.history[j].height !== items[i].height) {
-                            this.history[j] = items[i];
+                        if (this.history[j].height !== tx.height) {
+                            this.history[j] = tx;
                         }
                         break;
                     }
                 }
                 if (!exists) {
-                    if (this.history.length > 0 && items[i].timestamp >= this.history[0].timestamp) {
-                        this.history.unshift(items[i]);
+                    if (this.history.length > 0 && tx.timestamp >= this.history[0].timestamp) {
+                        this.history.unshift(tx);
                     } else {
-                        this.history.push(items[i]);
+                        this.history.push(tx);
                     }
                 }
             }

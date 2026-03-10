@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Subtransfer, Subtransfers, Transaction } from '@api/models/transaction.model';
+import { Subtransfer, Transaction } from '@api/models/transaction.model';
 import { ZANO_ASSET_INFO } from '@parts/data/zano-assets-info';
 import { isFinalizator, isInitiator, isSwapTransaction } from '@parts/functions/identify-transaction';
 import { VariablesService } from '@parts/services/variables.service';
@@ -16,16 +16,26 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     templateUrl: './transaction-status.component.html',
     styleUrls: ['./transaction-status.component.scss'],
 })
-export class TransactionStatusComponent {
+export class TransactionStatusComponent implements OnInit {
     @Input() transaction: Transaction;
+
+    allSubtransfers: Subtransfer[] = [];
 
     constructor(public variablesService: VariablesService) {}
 
+    ngOnInit(): void {
+        if (this.transaction.subtransfers_by_pid) {
+            for (const group of this.transaction.subtransfers_by_pid) {
+                this.allSubtransfers.push(...group.subtransfers);
+            }
+        }
+    }
+
     isVisibleStatusBySubtransfer(subtransfer: Subtransfer, transaction: Transaction): boolean {
         const { amount, asset_id, is_income } = subtransfer;
-        const { fee, subtransfers } = transaction;
+        const { fee } = transaction;
 
-        if (subtransfers.length === 1 && asset_id === ZANO_ASSET_INFO.asset_id && is_income === false && amount.eq(fee)) {
+        if (this.allSubtransfers.length === 1 && asset_id === ZANO_ASSET_INFO.asset_id && is_income === false && amount.eq(fee)) {
             return true;
         }
 
@@ -94,8 +104,8 @@ export class TransactionStatusComponent {
         return now + (item.unlock_time - this.variablesService.height_max) * 60 * 1000;
     }
 
-    hasZano(subtransfers: Subtransfers): boolean {
-        return Boolean(subtransfers.find(({ asset_id }) => asset_id === ZANO_ASSET_INFO.asset_id));
+    hasZano(): boolean {
+        return this.allSubtransfers.some(({ asset_id }) => asset_id === ZANO_ASSET_INFO.asset_id);
     }
 
     isInitiator(transaction: Transaction): boolean {

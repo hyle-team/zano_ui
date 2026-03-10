@@ -7,9 +7,9 @@ import { BackendService } from '@api/services/backend.service';
 import { Subject } from 'rxjs';
 import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { collapseOnLeaveAnimation, expandOnEnterAnimation } from 'angular-animations';
-import { AmountItem } from '@parts/functions/get-amount-items';
 import { Transaction } from '@api/models/transaction.model';
 import { filter, takeUntil } from 'rxjs/operators';
+import { AmountItem } from '@parts/interfaces/amount-items.interface';
 
 @Component({
     selector: 'app-history',

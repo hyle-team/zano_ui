@@ -47,7 +47,6 @@ import { UpdateCustomAssetComponent } from './tabs/custom-assets/modals/update-c
 import { EmitCustomAssetComponent } from './tabs/custom-assets/modals/emit-custom-asset/emit-custom-asset.component';
 import { BurnCustomAssetComponent } from './tabs/custom-assets/modals/burn-custom-asset/burn-custom-asset.component';
 import { TransactionDetailsForCustomAssetsComponent } from './tabs/custom-assets/modals/transaction-details-for-custom-assets/transaction-details-for-custom-assets.component';
-import { TransactionDetailsComponent } from '@parts/components/transaction-details.component';
 import { VisibilityBalanceDirective } from '@parts/directives/visibility-balance.directive';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { LoaderComponent } from '@parts/components/loader.component';
@@ -75,6 +74,7 @@ import { CellAssetBalanceComponent } from '@parts/components/cell-asset-balance/
 import { CellAddressComponent } from '@parts/components/cell-address/cell-address.component';
 import { AdditionalDetailsComponent } from './tabs/send/components/additional-details/additional-details.component';
 import { DestinationsComponent } from './tabs/send/components/destinations/destinations.component';
+import { TransactionDetailsComponent } from '@parts/components/transaction-details/transaction-details.component';
 
 @NgModule({
     declarations: [
