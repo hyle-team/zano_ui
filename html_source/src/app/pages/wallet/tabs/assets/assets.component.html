@@ -15,12 +15,12 @@
                     </th>
                     <th scope="col">
                         <div class="bg title">
-                            {{ 'ASSETS.TABLE.LABELS.VALUE' | translate }}
+                            {{ 'ASSETS.TABLE.LABELS.PRICE' | translate }}
                         </div>
                     </th>
                     <th scope="col">
                         <div class="bg title">
-                            {{ 'ASSETS.TABLE.LABELS.PRICE' | translate }}
+                            {{ 'ASSETS.TABLE.LABELS.VALUE' | translate }}
                         </div>
                     </th>
                     <th style="width: 7rem" scope="col">
@@ -70,17 +70,6 @@
                             <zano-cell-asset-balance [balance]="balance"></zano-cell-asset-balance>
                         </td>
 
-                        <!--Value-->
-                        <td>
-                            <div class="text-ellipsis">
-                                <b *appVisibilityBalance>
-                                    <ng-container *ngIf="getViewBalanceData(balance) as viewBalanceData">
-                                        {{ viewBalanceData.value }} {{ viewBalanceData.currency }}
-                                    </ng-container>
-                                </b>
-                            </div>
-                        </td>
-
                         <!--Price-->
                         <td>
                             <div class="text-ellipsis">
@@ -92,6 +81,17 @@
                                         {{ fiatPriceData.change }} %
                                     </span>
                                 </ng-container>
+                            </div>
+                        </td>
+
+                        <!--Value-->
+                        <td>
+                            <div class="text-ellipsis">
+                                <b *appVisibilityBalance>
+                                    <ng-container *ngIf="getViewBalanceData(balance) as viewBalanceData">
+                                        {{ viewBalanceData.value }} {{ viewBalanceData.currency }}
+                                    </ng-container>
+                                </b>
                             </div>
                         </td>
 
@@ -215,12 +215,12 @@
                     </th>
                     <th scope="col">
                         <div class="bg title">
-                            {{ 'ASSETS.TABLE.LABELS.VALUE' | translate }}
+                            {{ 'ASSETS.TABLE.LABELS.PRICE' | translate }}
                         </div>
                     </th>
                     <th scope="col">
                         <div class="bg title">
-                            {{ 'ASSETS.TABLE.LABELS.PRICE' | translate }}
+                            {{ 'ASSETS.TABLE.LABELS.VALUE' | translate }}
                         </div>
                     </th>
                     <th scope="col">
