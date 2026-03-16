@@ -667,6 +667,14 @@
         "SETUP_CONFIRM_PASS": "Conferma la password",
         "SETUP_MASTER_PASS": "Imposta password principale"
     },
+    "LOG_ITEMS": {
+        "LABEL1": "Silenzioso, nessun log",
+        "LABEL2": "Minimo, solo eventi critici",
+        "LABEL3": "Attività di base e generale dell'app",
+        "LABEL4": "Dettagliato, consigliato per il debugging",
+        "LABEL5": "Eccessivo, può contenere dati sensibili, non condividere con terze parti",
+        "LABEL6": "Tutto, può contenere dati sensibili, non condividere con terze parti"
+    },
     "MAIN": {
         "BUTTON_NEW_WALLET": "Crea nuovo wallet",
         "BUTTON_OPEN_WALLET": "Apri un wallet esistente",
