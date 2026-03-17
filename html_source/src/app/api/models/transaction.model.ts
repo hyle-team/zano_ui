@@ -1,5 +1,3 @@
-import { BigNumber } from 'bignumber.js';
-
 export interface Subtransfer {
     amount: BigNumber;
     asset_id: string;
@@ -7,6 +5,13 @@ export interface Subtransfer {
 }
 
 export type Subtransfers = Subtransfer[];
+
+export interface SubtransferByPID {
+    payment_id: string;
+    subtransfers: Subtransfers;
+}
+
+export type SubtransfersByPID = SubtransferByPID[];
 
 export interface Transaction {
     comment: string;
@@ -27,10 +32,9 @@ export interface Transaction {
     is_mining: boolean;
     is_mixing: boolean;
     is_service: boolean;
-    payment_id: string;
     remote_addresses: string[];
+    subtransfers_by_pid?: SubtransfersByPID;
     show_sender: boolean;
-    subtransfers?: Subtransfers | undefined;
     timestamp: number;
     tx_blob_size: number;
     remote_aliases?: string[];

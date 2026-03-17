@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { isInitiator } from '@parts/functions/identify-transaction';
+import { hasOutgoingSubtransfer, isInitiator } from '@parts/functions/identify-transaction';
 import { Transaction } from '@api/models/transaction.model';
 
 @Pipe({
@@ -8,9 +8,7 @@ import { Transaction } from '@api/models/transaction.model';
 })
 export class IsVisibleFeePipe implements PipeTransform {
     transform(transaction: Transaction): boolean {
-        const { subtransfers } = transaction;
-        const condition1 = subtransfers ? !subtransfers?.every(({ is_income }) => is_income) : false;
-        const condition2 = isInitiator(transaction);
-        return condition1 && condition2;
+        // The fee is visible only if the user is the sender AND there's at least one outgoing subtransfer.
+        return isInitiator(transaction) && hasOutgoingSubtransfer(transaction);
     }
 }

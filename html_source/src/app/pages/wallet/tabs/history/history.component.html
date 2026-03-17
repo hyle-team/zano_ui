@@ -48,18 +48,16 @@
                         <!-- Fee -->
                         <td>
                             <ng-container *ngIf="transaction | isVisibleFee">
-                                <ng-container *ngIf="transaction?.subtransfers?.length">
-                                    <ng-container *ngIf="transaction.fee; else noFeeTemplate">
-                                        <mat-icon class="mr-1" style="opacity: 50" svgIcon="zano-fire"></mat-icon>
+                                <ng-container *ngIf="transaction.fee; else noFeeTemplate">
+                                    <mat-icon class="mr-1" style="opacity: 50" svgIcon="zano-fire"></mat-icon>
 
-                                        {{ transaction.fee | intToMoney }}
-                                        {{ variablesService.defaultTicker }}
-                                    </ng-container>
-
-                                    <ng-template #noFeeTemplate>
-                                        <span>{{ 'HISTORY.NO_FEE' | translate }}</span>
-                                    </ng-template>
+                                    {{ transaction.fee | intToMoney }}
+                                    {{ variablesService.defaultTicker }}
                                 </ng-container>
+
+                                <ng-template #noFeeTemplate>
+                                    <span>{{ 'HISTORY.NO_FEE' | translate }}</span>
+                                </ng-template>
                             </ng-container>
                         </td>
 
