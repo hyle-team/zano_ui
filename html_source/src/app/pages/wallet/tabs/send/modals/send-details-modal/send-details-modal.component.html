@@ -142,11 +142,11 @@
 <ng-template #errorCodesTemplate let-prefix="prefix" let-error_code="error_code">
     <ng-container [ngSwitch]="error_code">
         <ng-container *ngSwitchCase="'NOT_ENOUGH_MONEY'">
-            <p class="color-red">{{ prefix }} {{ 'SEND.ERROR_CODES' + '.' + error_code | translate }}</p>
+            <p class="color-red word-break-break-all">{{ prefix }} {{ 'SEND.ERROR_CODES' + '.' + error_code | translate }}</p>
         </ng-container>
         <ng-container *ngSwitchCase="'OK'"></ng-container>
         <ng-container *ngSwitchDefault>
-            <p class="color-red">{{ prefix }} {{ 'ERRORS' + '.' + error_code | translate }}</p>
+            <p class="color-red word-break-break-all">{{ prefix }} {{ 'ERRORS' + '.' + error_code | translate }}</p>
         </ng-container>
     </ng-container>
 </ng-template>

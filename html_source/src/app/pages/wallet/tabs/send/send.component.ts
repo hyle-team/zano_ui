@@ -5,12 +5,19 @@ import { VariablesService } from '@parts/services/variables.service';
 import { filter, startWith, takeUntil } from 'rxjs/operators';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { AssetBalance } from '@api/models/assets.model';
-import { REG_EXP_ALIAS_NAME, validateWrapInfo, ZanoValidators } from '@parts/utils/zano-validators';
+import { createAddressAliasValidator, debouncedAsyncValidator, validateWrapInfo, ZanoValidators } from '@parts/utils/zano-validators';
 import { ZANO_ASSET_INFO } from '@parts/data/zano-assets-info';
 import { BigNumber } from 'bignumber.js';
 import { intToMoney } from '@parts/functions/int-to-money';
 import { insufficientFunds } from '@parts/utils/zano-errors';
-import { DEFAULT_FEE, MAX_COMMENT_LENGTH, MAX_DESTINATIONS_LENGTH, MAXIMUM_VALUE } from '@parts/data/constants';
+import {
+    ALIAS_PREFIX,
+    DEFAULT_FEE,
+    LEGACY_PREFIX,
+    MAX_COMMENT_LENGTH,
+    MAX_DESTINATIONS_LENGTH,
+    MAXIMUM_VALUE,
+} from '@parts/data/constants';
 import { moneyToInt } from '@parts/functions/money-to-int';
 import { SendDeeplink } from '@api/models/wallet.model';
 
@@ -111,7 +118,7 @@ export class SendComponent implements OnDestroy {
 
         const { destinations } = this.form.getRawValue();
 
-        const condition1: boolean = this.form?.invalid ?? true;
+        const condition1: boolean = (this.form?.invalid || this.form?.pending) ?? true;
         const condition2 = !is_current_wallet_loaded;
         const condition3: boolean =
             destinations.map(({ is_visible_wrap_info }) => is_visible_wrap_info).some(Boolean) && is_wrap_info_service_inactive;
@@ -170,23 +177,21 @@ export class SendComponent implements OnDestroy {
         const destination = this._createDestinationFromGroup();
         destination.patchValue(copyDestinationFormGroup.getRawValue());
 
+        destination.markAllAsTouched();
+        destination.updateValueAndValidity();
+
         this.form.controls.destinations.push(destination);
     }
 
     getTransferParams() {
         const transfer_form_value: TransferFormValue = this.form.getRawValue();
-        const { current_wallet } = this.variables_service;
-        const { wallet_id } = current_wallet;
+        const {
+            current_wallet: { wallet_id },
+        } = this.variables_service;
 
         return {
             wallet_id,
-            destinations: transfer_form_value.destinations.map(({ address, alias_address, asset_id, is_currency_input_mode, amount }) => ({
-                address: address.startsWith('@') ? alias_address : address,
-                asset_id,
-                amount: is_currency_input_mode
-                    ? this.convertToCurrencyAmount(amount, current_wallet.getBalanceByAssetId(asset_id))
-                    : amount,
-            })),
+            destinations: transfer_form_value.destinations.map((destination) => this._mapDestination(destination)),
             fee: moneyToInt(transfer_form_value.fee, ZANO_ASSET_INFO.decimal_point).toString(),
             comment: transfer_form_value.comment,
         };
@@ -217,17 +222,11 @@ export class SendComponent implements OnDestroy {
     }
 
     addDestination(): void {
-        const {
-            controls: { destinations },
-        } = this.form;
-        destinations.push(this._createDestinationFromGroup());
+        this.form.controls.destinations.push(this._createDestinationFromGroup());
     }
 
     removeDestination(index: number): void {
-        const {
-            controls: { destinations },
-        } = this.form;
-        destinations.removeAt(index);
+        this.form.controls.destinations.removeAt(index);
     }
 
     private _createForm(): void {
@@ -374,57 +373,6 @@ export class SendComponent implements OnDestroy {
         return null;
     }
 
-    private _validateAddress(control: AbstractControl): ValidationErrors | null {
-        const { value: address, parent } = control;
-        const is_visible_wrap_info_control = parent?.get('is_visible_wrap_info');
-        const asset_id_control = parent?.get('asset_id');
-
-        this._backend_service.validateAddress(address, (status: boolean, data: any): void => {
-            this._ng_zone.run(() => {
-                const is_visible_wrap_info = data.error_code === 'WRAP';
-                is_visible_wrap_info_control?.patchValue(is_visible_wrap_info);
-
-                if (is_visible_wrap_info) {
-                    const { asset_id } = ZANO_ASSET_INFO;
-                    asset_id_control.patchValue(asset_id);
-                }
-
-                if (!status && !is_visible_wrap_info) {
-                    this._setError(control, 'address_not_valid');
-                } else {
-                    this._clearError(control, 'address_not_valid');
-                }
-            });
-        });
-
-        return control.hasError('address_not_valid') ? { address_not_valid: true } : null;
-    }
-
-    private _validateAlias(control: AbstractControl): ValidationErrors | null {
-        if (!REG_EXP_ALIAS_NAME.test(control.value)) {
-            return { alias_not_valid: true };
-        }
-
-        const name: string = control.value.replace('@', '');
-
-        const { parent } = control;
-        const alias_address_control = parent?.get('alias_address');
-
-        this._backend_service.getAliasInfoByName(name, (status: boolean, data: any) => {
-            this._ng_zone.run(() => {
-                alias_address_control?.patchValue(data.address);
-
-                if (status) {
-                    this._clearError(control, 'alias_not_found');
-                } else {
-                    this._setError(control, 'alias_not_found');
-                }
-            });
-        });
-
-        return control.hasError('alias_not_found') ? { alias_not_found: true } : null;
-    }
-
     private _setError(control: AbstractControl, errorKey: string): void {
         const errors = { ...control.errors, [errorKey]: true };
         control.setErrors(errors);
@@ -435,27 +383,6 @@ export class SendComponent implements OnDestroy {
             const errors = { ...control.errors };
             delete errors[errorKey];
             control.setErrors(Object.keys(errors).length > 0 ? errors : null);
-        }
-    }
-
-    private _validateAddressOrAlias(control: AbstractControl): ValidationErrors | null {
-        const { parent } = control;
-        const is_visible_wrap_info_control = parent?.get('is_visible_wrap_info');
-        const alias_address_control = parent?.get('alias_address');
-
-        alias_address_control?.patchValue('');
-        is_visible_wrap_info_control?.patchValue(false);
-
-        const { value } = control;
-
-        if (!value) {
-            return null;
-        }
-
-        if (value.startsWith('@')) {
-            return this._validateAlias(control);
-        } else {
-            return this._validateAddress(control);
         }
     }
 
@@ -532,107 +459,143 @@ export class SendComponent implements OnDestroy {
             });
     }
 
+    private _mapDestination({
+        address,
+        alias_address,
+        asset_id,
+        is_currency_input_mode,
+        amount,
+    }: TransferDestinationsFormValue): { address: string; asset_id: string; amount: string } {
+        const finalAddress = address.startsWith(ALIAS_PREFIX) ? alias_address : address.replace(LEGACY_PREFIX, '');
+        const finalAmount = is_currency_input_mode
+            ? this.convertToCurrencyAmount(amount, this.variables_service.current_wallet.getBalanceByAssetId(asset_id))
+            : amount;
+
+        return {
+            address: finalAddress,
+            asset_id,
+            amount: finalAmount,
+        };
+    }
+
+    private _destinationGroupValidator(form: FormGroup): ValidationErrors | null {
+        const { asset_id, is_currency_input_mode, is_visible_wrap_info, amount } = form.getRawValue();
+        const errors: ValidationErrors = {};
+
+        const assetBalance: AssetBalance | undefined = this.variables_service.current_wallet.getBalanceByAssetId(asset_id);
+        const wrapInfo = this.variables_service.wrap_info$.value;
+        const {
+            settings: { currency },
+            currentPriceForAssets,
+        } = this.variables_service;
+        const priceInfo = currentPriceForAssets[asset_id];
+
+        const currency_price = typeof priceInfo?.data === 'object' ? priceInfo.data.fiat_prices[currency] ?? 0 : 0;
+        const amountBigNumber = new BigNumber(
+            is_currency_input_mode ? new BigNumber(amount).dividedBy(currency_price || 1) : amount
+        );
+
+        // 1. Balance not found
+        if (!assetBalance) {
+            return { asset_not_found: true };
+        }
+
+        const {
+            unlocked,
+            asset_info: { decimal_point },
+        } = assetBalance;
+
+        const maxAllowed = intToMoney(MAXIMUM_VALUE, decimal_point);
+        const preparedUnlocked = intToMoney(unlocked, decimal_point);
+
+        // 2. Greater than maxAllow
+        if (amountBigNumber.isGreaterThan(maxAllowed)) {
+            errors.greater_max = { max: maxAllowed };
+        }
+
+        // 3. Insufficient Funds
+        const parentArray = form.parent as FormArray;
+        if (parentArray) {
+            let totalAmountForAsset = new BigNumber(0);
+            for (const destinationControl of parentArray.controls) {
+                const destinationValue = (destinationControl as FormGroup).getRawValue();
+                if (destinationValue.asset_id === asset_id) {
+                    const destAmount = destinationValue.amount;
+                    const destIsCurrency = destinationValue.is_currency_input_mode;
+
+                    const priceInfoForDest = currentPriceForAssets[destinationValue.asset_id];
+                    const currencyPriceForDest =
+                        typeof priceInfoForDest?.data === 'object' ? priceInfoForDest.data.fiat_prices[currency] ?? 0 : 0;
+
+                    const destAmountInAsset = new BigNumber(
+                        destIsCurrency ? new BigNumber(destAmount).dividedBy(currencyPriceForDest || 1) : destAmount
+                    );
+                    totalAmountForAsset = totalAmountForAsset.plus(destAmountInAsset);
+                }
+            }
+            if (totalAmountForAsset.isGreaterThan(preparedUnlocked)) {
+                errors.insufficientFunds = insufficientFunds;
+            }
+        } else if (amountBigNumber.isGreaterThan(preparedUnlocked)) {
+            errors.insufficientFunds = insufficientFunds;
+        }
+
+        // 4. Validate wrapInfo if needed
+        if (is_visible_wrap_info) {
+            if (!wrapInfo) {
+                errors.wrap_info_null = true;
+            } else if (!validateWrapInfo(wrapInfo)) {
+                errors.wrap_info_invalid = true;
+            } else {
+                const unwraped = intToMoney(new BigNumber(wrapInfo.unwraped_coins_left));
+                const needed = intToMoney(new BigNumber(wrapInfo.tx_cost.zano_needed_for_erc20));
+
+                if (amountBigNumber.isGreaterThan(unwraped)) {
+                    errors.great_than_unwraped_coins = true;
+                }
+
+                if (amountBigNumber.isLessThan(needed)) {
+                    errors.less_than_zano_needed = true;
+                }
+            }
+        }
+
+        return Object.keys(errors).length > 0 ? errors : null;
+    }
+
     private _createDestinationFromGroup(): DestinationFormGroup {
+        const aliasAddressControl = this._fb.control<string>('');
+        const isVisibleWrapInfoControl = this._fb.control<boolean>(false);
+
+        const addressAliasValidator = debouncedAsyncValidator(
+            createAddressAliasValidator(
+                this._backend_service,
+                this.variables_service,
+                this._ng_zone,
+                aliasAddressControl,
+                isVisibleWrapInfoControl
+            ),
+            500
+        );
+
+        const addressControl = this._fb.control<string>('', {
+            validators: [Validators.required],
+            asyncValidators: [addressAliasValidator],
+        });
+
         return this._fb.group(
             {
-                address: this._fb.control<string>('', {
-                    validators: [Validators.required, this._validateAddressOrAlias.bind(this)],
-                }),
+                address: addressControl,
                 amount: this._fb.control<string>('', {
                     validators: [Validators.required, ZanoValidators.zeroValue],
                 }),
                 is_currency_input_mode: this._fb.control<boolean>(false),
-                alias_address: this._fb.control<string>(''),
-                is_visible_wrap_info: this._fb.control<boolean>(false),
+                alias_address: aliasAddressControl,
+                is_visible_wrap_info: isVisibleWrapInfoControl,
                 asset_id: this._fb.control<string>('', [Validators.required]),
             },
             {
-                validators: [
-                    (form: FormGroup): ValidationErrors | null => {
-                        const { asset_id, is_currency_input_mode, is_visible_wrap_info, amount } = form.getRawValue();
-                        const errors: ValidationErrors = {};
-
-                        const assetBalance: AssetBalance | undefined = this.variables_service.current_wallet.getBalanceByAssetId(asset_id);
-                        const wrapInfo = this.variables_service.wrap_info$.value;
-                        const {
-                            settings: { currency },
-                            currentPriceForAssets,
-                        } = this.variables_service;
-                        const priceInfo = currentPriceForAssets[asset_id];
-
-                        const currency_price = typeof priceInfo?.data === 'object' ? priceInfo.data.fiat_prices[currency] ?? 0 : 0;
-                        const amountBigNumber = new BigNumber(
-                            is_currency_input_mode ? new BigNumber(amount).dividedBy(currency_price || 1) : amount
-                        );
-
-                        // 1. Balance not found
-                        if (!assetBalance) {
-                            return { asset_not_found: true };
-                        }
-
-                        const {
-                            unlocked,
-                            asset_info: { decimal_point },
-                        } = assetBalance;
-
-                        const maxAllowed = intToMoney(MAXIMUM_VALUE, decimal_point);
-                        const preparedUnlocked = intToMoney(unlocked, decimal_point);
-
-                        // 2. Greater than maxAllow
-                        if (amountBigNumber.isGreaterThan(maxAllowed)) {
-                            errors.greater_max = { max: maxAllowed };
-                        }
-
-                        // 3. Insufficient Funds
-                        const parentArray = form.parent as FormArray;
-                        if (parentArray) {
-                            let totalAmountForAsset = new BigNumber(0);
-                            for (const destinationControl of parentArray.controls) {
-                                const destinationValue = (destinationControl as FormGroup).getRawValue();
-                                if (destinationValue.asset_id === asset_id) {
-                                    const destAmount = destinationValue.amount;
-                                    const destIsCurrency = destinationValue.is_currency_input_mode;
-
-                                    const priceInfoForDest = currentPriceForAssets[destinationValue.asset_id];
-                                    const currencyPriceForDest =
-                                        typeof priceInfoForDest?.data === 'object' ? priceInfoForDest.data.fiat_prices[currency] ?? 0 : 0;
-
-                                    const destAmountInAsset = new BigNumber(
-                                        destIsCurrency ? new BigNumber(destAmount).dividedBy(currencyPriceForDest || 1) : destAmount
-                                    );
-                                    totalAmountForAsset = totalAmountForAsset.plus(destAmountInAsset);
-                                }
-                            }
-                            if (totalAmountForAsset.isGreaterThan(preparedUnlocked)) {
-                                errors.insufficientFunds = insufficientFunds;
-                            }
-                        } else if (amountBigNumber.isGreaterThan(preparedUnlocked)) {
-                            errors.insufficientFunds = insufficientFunds;
-                        }
-
-                        // 4. Validate wrapInfo if needed
-                        if (is_visible_wrap_info) {
-                            if (!wrapInfo) {
-                                errors.wrap_info_null = true;
-                            } else if (!validateWrapInfo(wrapInfo)) {
-                                errors.wrap_info_invalid = true;
-                            } else {
-                                const unwraped = intToMoney(new BigNumber(wrapInfo.unwraped_coins_left));
-                                const needed = intToMoney(new BigNumber(wrapInfo.tx_cost.zano_needed_for_erc20));
-
-                                if (amountBigNumber.isGreaterThan(unwraped)) {
-                                    errors.great_than_unwraped_coins = true;
-                                }
-
-                                if (amountBigNumber.isLessThan(needed)) {
-                                    errors.less_than_zano_needed = true;
-                                }
-                            }
-                        }
-
-                        return Object.keys(errors).length > 0 ? errors : null;
-                    },
-                ],
+                validators: [this._destinationGroupValidator.bind(this)],
             }
         );
     }
