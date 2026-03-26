@@ -862,6 +862,7 @@
             "FEE_MINIMUM": "Les frais minimum requis sont {{fee}}",
             "FEE_REQUIRED": "Veuillez entrer le montant des frais.",
             "GREAT_THAN_UNWRAPPED_COINS": "Le montant est supérieur aux jetons ERC20 disponibles restants",
+            "INTEGRATED_PAYMENT_ID_IS_INVALID": "L'ID de paiement intégré est invalide, veuillez contacter le support Zano",
             "LESS_THAN_ZANO_NEEDED": "Montant trop petit pour couvrir les frais ERC20",
             "MAX_LENGTH": "Longueur maximale du commentaire atteinte",
             "MUST_BE_GREATER_THAN_ZERO": "Doit être supérieur à zéro",

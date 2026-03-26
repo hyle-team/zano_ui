@@ -53,7 +53,13 @@ import { MatTooltipModule } from '@angular/material/tooltip';
                 </tr>
                 <tr role="row">
                     <td>{{ 'HISTORY.DETAILS.PAYMENT_ID' | translate }}</td>
-                    <td colspan="4" [matTooltip]="transaction.payment_id" matTooltipShowDelay="1500" matTooltipPosition="above">
+                    <td
+                        colspan="4"
+                        (contextmenu)="variablesService.onContextMenuOnlyCopy($event, transaction.payment_id)"
+                        [matTooltip]="transaction.payment_id"
+                        matTooltipShowDelay="1500"
+                        matTooltipPosition="above"
+                    >
                         {{ transaction.payment_id }}
                     </td>
                 </tr>

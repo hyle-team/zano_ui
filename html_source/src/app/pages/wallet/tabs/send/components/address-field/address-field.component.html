@@ -5,10 +5,9 @@
     </label>
 
     <input
-        (blur)="updateErrorMessage()"
         (contextmenu)="handlerContextmenu($event)"
         (paste)="handlerPaste($event)"
-        [formControl]="control_ref.controls.address"
+        [formControl]="form.controls.address"
         [lowerCaseDisabled]="lowerCaseDisabled"
         [matAutocomplete]="matAutocompleteRef"
         [placeholder]="placeholder | translate"
@@ -20,8 +19,7 @@
         type="text"
     />
 
-    <mat-autocomplete #matAutocompleteRef="matAutocomplete" (opened)="openAutocomplete()"
-                      class="zano-autocomplete-panel">
+    <mat-autocomplete #matAutocompleteRef="matAutocomplete" (opened)="openAutocomplete()" class="zano-autocomplete-panel">
         <ng-container *ngIf="!variablesService.is_remote_node">
             <!--Loading-->
             <mat-option *ngIf="loading" disabled>
@@ -29,18 +27,15 @@
             </mat-option>
 
             <!--No alias found-->
-            <mat-option class="placeholder" *ngIf="isShowHintNoAliasFound"
-                        disabled>
-                <div class="pl-1"> {{ 'COMMON.NO_ALIAS_FOUND' | translate }} </div>
+            <mat-option class="placeholder" *ngIf="isShowHintNoAliasFound" disabled>
+                <div class="pl-1">{{ 'COMMON.NO_ALIAS_FOUND' | translate }}</div>
             </mat-option>
 
             <!--Enter 1 char to search-->
-            <mat-option class="placeholder" *ngIf="isShowHintEnterCharToSearch"
-                        disabled>
+            <mat-option class="placeholder" *ngIf="isShowHintEnterCharToSearch" disabled>
                 <div class="pl-1">
-                    {{
-                        'COMMON.ENTER_CHAR_TO_SEARCH' | translate
-                    }} </div>
+                    {{ 'COMMON.ENTER_CHAR_TO_SEARCH' | translate }}
+                </div>
             </mat-option>
         </ng-container>
 
@@ -71,12 +66,37 @@
         </ng-container>
     </mat-autocomplete>
 
-    <div *ngIf="control_ref.controls.address | isVisibleControlError" aria-live="assertive" class="error"
-         id="address-error">
-        {{ errorMessages['address'] | translate }}
+    <div *ngIf="form.controls.address | isVisibleControlError" aria-live="assertive" class="error" id="address-error">
+        <ng-container *ngIf="form.controls.address.hasError('address_not_valid'); else integratedPaymentIdIsInvalidErrorTemplate">
+            {{ 'SEND.FORM_ERRORS.ADDRESS_NOT_VALID' | translate }}
+        </ng-container>
+
+        <ng-template #integratedPaymentIdIsInvalidErrorTemplate>
+            <ng-container *ngIf="form.controls.address.hasError('integrated_payment_id_is_invalid'); else aliasNotFoundErrorTemplate">
+                {{ 'SEND.FORM_ERRORS.INTEGRATED_PAYMENT_ID_IS_INVALID' | translate }}
+            </ng-container>
+        </ng-template>
+
+        <ng-template #aliasNotFoundErrorTemplate>
+            <ng-container *ngIf="form.controls.address.hasError('alias_not_found'); else aliasNotValidErrorTemplate">
+                {{ 'SEND.FORM_ERRORS.ALIAS_NOT_FOUND' | translate }}
+            </ng-container>
+        </ng-template>
+
+        <ng-template #aliasNotValidErrorTemplate>
+            <ng-container *ngIf="form.controls.address.hasError('alias_not_valid'); else requiredErrorTemplate">
+                {{ 'SEND.FORM_ERRORS.ALIAS_NOT_VALID' | translate }}
+            </ng-container>
+        </ng-template>
+
+        <ng-template #requiredErrorTemplate>
+            <ng-container *ngIf="form.controls.address.hasError('required')">
+                {{ 'ERRORS.REQUIRED' | translate }}
+            </ng-container>
+        </ng-template>
     </div>
 
-    <ng-container *ngIf="control_ref.controls.is_visible_wrap_info.value">
+    <ng-container *ngIf="form.controls.is_visible_wrap_info.value">
         <ng-container *ngIf="variablesService.is_wrap_info_service_inactive$ | async">
             <div aria-live="assertive" class="error" id="wrap-service-is-inactive">
                 {{ 'ERRORS.WRAP_SERVICE_IS_INACTIVE' | translate }}
@@ -84,9 +104,9 @@
         </ng-container>
     </ng-container>
 
-    <ng-container *ngIf="control_ref.controls.alias_address.value">
+    <ng-container *ngIf="form.controls.alias_address.value">
         <div class="info text-ellipsis">
-            {{ control_ref.controls.alias_address.value | zanoShortString }}
+            {{ form.controls.alias_address.value | zanoShortString }}
         </div>
     </ng-container>
 </fieldset>

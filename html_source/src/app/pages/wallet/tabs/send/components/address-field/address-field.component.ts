@@ -2,13 +2,13 @@ import { Component, inject, Input, NgZone, OnDestroy, OnInit, ViewChild } from '
 import { CommonModule } from '@angular/common';
 import { IsVisibleControlErrorPipe } from '@parts/pipes/is-visible-control-error.pipe';
 import { LoaderComponent } from '@parts/components/loader.component';
-import { LowerCaseDirective, TooltipModule } from '@parts/directives';
+import { InputValidateModule, LowerCaseDirective } from '@parts/directives';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatOptionModule } from '@angular/material/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ShortStringPipe } from '@parts/pipes';
 import { TranslateModule } from '@ngx-translate/core';
-import { merge, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { debounceTime, startWith, takeUntil, tap } from 'rxjs/operators';
 import { WalletsService } from '@parts/services/wallets.service';
 import { VariablesService } from '@parts/services/variables.service';
@@ -30,13 +30,13 @@ import { BackendService } from '@api/services/backend.service';
         ShortStringPipe,
         TranslateModule,
         ScrollingModule,
-        TooltipModule,
+        InputValidateModule,
     ],
     templateUrl: './address-field.component.html',
     styleUrls: ['./address-field.component.scss'],
 })
 export class AddressFieldComponent implements OnInit, OnDestroy {
-    @Input() control_ref: DestinationsForm;
+    @Input('control_ref') form: DestinationsForm;
 
     @Input() label: string = 'SEND.ADDRESS';
 
@@ -55,16 +55,12 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
 
     lowerCaseDisabled = true;
 
-    errorMessages: { [key: string]: string } = {
-        address: '',
-    };
-
     get isShowHintNoAliasFound() {
         const {
             controls: {
                 address: { value },
             },
-        } = this.control_ref;
+        } = this.form;
         return !this.loading && value.startsWith('@') && value.length > 1 && !this.items.length;
     }
 
@@ -73,7 +69,7 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
             controls: {
                 address: { value },
             },
-        } = this.control_ref;
+        } = this.form;
         return !this.loading && value.startsWith('@') && value.length === 1 && !this.items.length;
     }
 
@@ -90,7 +86,7 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
     ngOnInit() {
         const {
             controls: { address: addressControl },
-        } = this.control_ref;
+        } = this.form;
 
         addressControl.valueChanges
             .pipe(
@@ -124,15 +120,6 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
                     });
                 },
             });
-
-        merge(
-            this.control_ref.controls.address.statusChanges,
-            this.control_ref.controls.address.valueChanges,
-            this.control_ref.statusChanges,
-            this.control_ref.valueChanges
-        )
-            .pipe(takeUntil(this._destroy$))
-            .subscribe(() => this.updateErrorMessage());
     }
 
     ngOnDestroy() {
@@ -145,15 +132,14 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
 
         const {
             controls: { address: addressControl },
-        } = this.control_ref;
+        } = this.form;
         const { clipboardData } = event;
 
         let value: string = clipboardData.getData('Text') ?? '';
+        value = value.trim();
 
         const isEnteredAlias = value.startsWith('@');
-        const isEnteredAddress = !isEnteredAlias;
-
-        this.lowerCaseDisabled = isEnteredAddress;
+        this.lowerCaseDisabled = !isEnteredAlias;
 
         if (isEnteredAlias) {
             value = value.toLowerCase();
@@ -168,32 +154,6 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
 
     trackByFn(index: number, value: string): number | string {
         return value ?? index;
-    }
-
-    updateErrorMessage() {
-        const address = this.control_ref.controls.address;
-        let message = '';
-
-        switch (true) {
-            case address.hasError('address_not_valid'): {
-                message = 'SEND.FORM_ERRORS.ADDRESS_NOT_VALID';
-                break;
-            }
-            case address.hasError('alias_not_found'): {
-                message = 'SEND.FORM_ERRORS.ALIAS_NOT_FOUND';
-                break;
-            }
-            case address.hasError('alias_not_valid'): {
-                message = 'SEND.FORM_ERRORS.ALIAS_NOT_VALID';
-                break;
-            }
-            case address.hasError('required'): {
-                message = 'ERRORS.REQUIRED';
-                break;
-            }
-        }
-
-        this.errorMessages['address'] = message;
     }
 
     openAutocomplete() {

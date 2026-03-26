@@ -862,6 +862,7 @@
             "FEE_MINIMUM": "La commissione minima richiesta è {{fee}}",
             "FEE_REQUIRED": "Inserisci l'importo della commissione.",
             "GREAT_THAN_UNWRAPPED_COINS": "L'importo è maggiore dei token ERC20 rimasti disponibili",
+            "INTEGRATED_PAYMENT_ID_IS_INVALID": "L'ID di pagamento integrato non è valido, si prega di contattare il supporto Zano",
             "LESS_THAN_ZANO_NEEDED": "Importo troppo piccolo per coprire la commissione ERC20",
             "MAX_LENGTH": "Lunghezza massima del commento raggiunta",
             "MUST_BE_GREATER_THAN_ZERO": "Deve essere maggiore di zero",
