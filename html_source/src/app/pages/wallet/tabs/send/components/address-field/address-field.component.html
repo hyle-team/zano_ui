@@ -5,7 +5,6 @@
     </label>
 
     <input
-        (blur)="updateErrorMessage()"
         (contextmenu)="handlerContextmenu($event)"
         (paste)="handlerPaste($event)"
         [formControl]="form.controls.address"
@@ -68,7 +67,33 @@
     </mat-autocomplete>
 
     <div *ngIf="form.controls.address | isVisibleControlError" aria-live="assertive" class="error" id="address-error">
-        {{ errorMessages['address'] | translate }}
+        <ng-container *ngIf="form.controls.address.hasError('address_not_valid'); else integratedPaymentIdIsInvalidErrorTemplate">
+            {{ 'SEND.FORM_ERRORS.ADDRESS_NOT_VALID' | translate }}
+        </ng-container>
+
+        <ng-template #integratedPaymentIdIsInvalidErrorTemplate>
+            <ng-container *ngIf="form.controls.address.hasError('integrated_payment_id_is_invalid'); else aliasNotFoundErrorTemplate">
+                {{ 'SEND.FORM_ERRORS.INTEGRATED_PAYMENT_ID_IS_INVALID' | translate }}
+            </ng-container>
+        </ng-template>
+
+        <ng-template #aliasNotFoundErrorTemplate>
+            <ng-container *ngIf="form.controls.address.hasError('alias_not_found'); else aliasNotValidErrorTemplate">
+                {{ 'SEND.FORM_ERRORS.ALIAS_NOT_FOUND' | translate }}
+            </ng-container>
+        </ng-template>
+
+        <ng-template #aliasNotValidErrorTemplate>
+            <ng-container *ngIf="form.controls.address.hasError('alias_not_valid'); else requiredErrorTemplate">
+                {{ 'SEND.FORM_ERRORS.ALIAS_NOT_VALID' | translate }}
+            </ng-container>
+        </ng-template>
+
+        <ng-template #requiredErrorTemplate>
+            <ng-container *ngIf="form.controls.address.hasError('required')">
+                {{ 'ERRORS.REQUIRED' | translate }}
+            </ng-container>
+        </ng-template>
     </div>
 
     <ng-container *ngIf="form.controls.is_visible_wrap_info.value">

@@ -886,6 +886,7 @@
             "FEE_MINIMUM": "A taxa mínima exigida é {{fee}}",
             "FEE_REQUIRED": "Por favor, digite o valor da taxa.",
             "GREAT_THAN_UNWRAPPED_COINS": "A quantidade é maior do que os tokens ERC20 disponíveis",
+            "INTEGRATED_PAYMENT_ID_IS_INVALID": "O ID de Pagamento Integrado é inválido, por favor contacte o suporte da Zano",
             "LESS_THAN_ZANO_NEEDED": "Valor muito pequeno para cobrir a taxa ERC20",
             "MAX_DESTINATIONS": "Máximo de destinos atingidos: {{ max }}",
             "MAX_LENGTH": "Comprimento máximo do comentário atingido",

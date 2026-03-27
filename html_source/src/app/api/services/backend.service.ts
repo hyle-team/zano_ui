@@ -16,7 +16,8 @@ import {
 } from '@api/models/assets.model';
 import { AliasInfo, AliasLookupCallback, AliasLookupParams } from '@api/models/alias.model';
 import { TransferParams } from '@api/models/transfer.model';
-import { ParamsCallRpc } from '@api/models/call_rpc.model';
+import { ParamsCallRpc, ResponseCallRpc } from '@api/models/call_rpc.model';
+import { ResultSplitIntegratedAddress } from '@api/models/rpc.models';
 
 export interface PramsObj {
     [key: string]: any;
@@ -778,6 +779,22 @@ export class BackendService {
             },
             callback
         );
+    }
+
+    splitIntegratedAddress(
+        wallet_id: number,
+        address: string,
+        callback?: (status: boolean, response_data: ResponseCallRpc<ResultSplitIntegratedAddress>) => void
+    ): void {
+        const params: ParamsCallRpc = {
+            jsonrpc: '2.0',
+            id: 0,
+            method: 'split_integrated_address',
+            params: {
+                integrated_address: address,
+            },
+        };
+        this.call_wallet_rpc([wallet_id, params], callback);
     }
 
     // Use for call rpc-api https://docs.zano.org/docs/build/rpc-api

@@ -8,7 +8,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ShortStringPipe } from '@parts/pipes';
 import { TranslateModule } from '@ngx-translate/core';
-import { merge, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { debounceTime, startWith, takeUntil, tap } from 'rxjs/operators';
 import { WalletsService } from '@parts/services/wallets.service';
 import { VariablesService } from '@parts/services/variables.service';
@@ -54,10 +54,6 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
     loading = false;
 
     lowerCaseDisabled = true;
-
-    errorMessages: { [key: string]: string } = {
-        address: '',
-    };
 
     get isShowHintNoAliasFound() {
         const {
@@ -124,15 +120,6 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
                     });
                 },
             });
-
-        merge(
-            this.form.controls.address.statusChanges,
-            this.form.controls.address.valueChanges,
-            this.form.statusChanges,
-            this.form.valueChanges
-        )
-            .pipe(takeUntil(this._destroy$))
-            .subscribe(() => this.updateErrorMessage());
     }
 
     ngOnDestroy() {
@@ -167,32 +154,6 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
 
     trackByFn(index: number, value: string): number | string {
         return value ?? index;
-    }
-
-    updateErrorMessage() {
-        const address = this.form.controls.address;
-        let message = '';
-
-        switch (true) {
-            case address.hasError('address_not_valid'): {
-                message = 'SEND.FORM_ERRORS.ADDRESS_NOT_VALID';
-                break;
-            }
-            case address.hasError('alias_not_found'): {
-                message = 'SEND.FORM_ERRORS.ALIAS_NOT_FOUND';
-                break;
-            }
-            case address.hasError('alias_not_valid'): {
-                message = 'SEND.FORM_ERRORS.ALIAS_NOT_VALID';
-                break;
-            }
-            case address.hasError('required'): {
-                message = 'ERRORS.REQUIRED';
-                break;
-            }
-        }
-
-        this.errorMessages['address'] = message;
     }
 
     openAutocomplete() {

@@ -25,3 +25,6 @@ export const DEFAULT_PRICE_ALIAS = BigNumber.sum('100000000000', DEFAULT_FEE_BIG
 
 // Max destinations length 31 if all asset_id === ZANO_ASSET_INFO.asset_id
 export const MAX_DESTINATIONS_LENGTH = 31;
+
+export const ALIAS_PREFIX = '@';
+export const LEGACY_PREFIX = '[legacy]';
