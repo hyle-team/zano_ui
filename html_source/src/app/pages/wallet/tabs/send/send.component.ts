@@ -5,14 +5,20 @@ import { VariablesService } from '@parts/services/variables.service';
 import { debounceTime, filter, retry, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { AssetBalance, PriceInfo } from '@api/models/assets.model';
-import { REG_EXP_ALIAS_NAME, validateWrapInfo, ZanoValidators } from '@parts/utils/zano-validators';
+import {
+    createAddressAliasValidator,
+    debouncedAsyncValidator,
+    REG_EXP_ALIAS_NAME,
+    validateWrapInfo,
+    ZanoValidators,
+} from '@parts/utils/zano-validators';
 import { TransferDestinationsFormValue, TransferFormValue, TransferParams } from '@api/models/transfer.model';
 import { ZANO_ASSET_INFO } from '@parts/data/zano-assets-info';
 import { ApiService } from '@api/services/api.service';
 import { BigNumber } from 'bignumber.js';
 import { intToMoney } from '@parts/functions/int-to-money';
 import { insufficientFunds } from '@parts/utils/zano-errors';
-import { MAXIMUM_VALUE } from '@parts/data/constants';
+import { ALIAS_PREFIX, LEGACY_PREFIX, MAXIMUM_VALUE } from '@parts/data/constants';
 import { moneyToInt } from '@parts/functions/money-to-int';
 import { DeeplinkParams } from '@api/models/wallet.model';
 
@@ -121,7 +127,7 @@ export class SendComponent implements OnDestroy {
 
         const { destinations } = this.form.getRawValue();
 
-        const condition1: boolean = this.form?.invalid ?? true;
+        const condition1: boolean = (this.form?.invalid || this.form?.pending) ?? true;
         const condition2 = !is_current_wallet_loaded;
         const condition3: boolean =
             destinations.map(({ is_visible_wrap_info }) => is_visible_wrap_info).some(Boolean) && is_wrap_info_service_inactive;
@@ -575,12 +581,25 @@ export class SendComponent implements OnDestroy {
     }
 
     private _createDestinationFromGroup(asset_id_control: FormControl<string>): DestinationsForm {
-        const address_control = this._fb.control<string>(
-            { value: '', disabled: false },
-            {
-                validators: Validators.compose([Validators.required, this._validateAddressOrAlias.bind(this)]),
-            }
+        const alias_address_control = this._fb.control<string>({ value: '', disabled: false });
+
+        const is_visible_wrap_info_control = this._fb.control<boolean>({ value: false, disabled: false });
+
+        const addressAliasValidator = debouncedAsyncValidator(
+            createAddressAliasValidator(
+                this._backend_service,
+                this.variables_service,
+                this._ng_zone,
+                alias_address_control,
+                is_visible_wrap_info_control
+            ),
+            500
         );
+
+        const address_control = this._fb.control<string>('', {
+            validators: [Validators.required],
+            asyncValidators: [addressAliasValidator],
+        });
 
         const amount_control = this._fb.control<string>(
             { value: '', disabled: false },
@@ -590,10 +609,6 @@ export class SendComponent implements OnDestroy {
         );
 
         const is_currency_input_mode_control = this._fb.control<boolean>({ value: false, disabled: false });
-
-        const alias_address_control = this._fb.control<string>({ value: '', disabled: false });
-
-        const is_visible_wrap_info_control = this._fb.control<boolean>({ value: false, disabled: false });
 
         return this._fb.group(
             {
@@ -680,16 +695,16 @@ const isVisibleWrapInfoByDestinations = (destinations: TransferDestinationsFormV
     destinations.map(({ is_visible_wrap_info }: TransferDestinationsFormValue) => is_visible_wrap_info).some(Boolean);
 
 const prepareTransferDestinationsFormValueToTransferDestination = ({
-    address,
-    amount,
-    alias_address,
-    asset_id,
-}: TransferDestinationsFormValue): {
+                                                                       address,
+                                                                       amount,
+                                                                       alias_address,
+                                                                       asset_id,
+                                                                   }: TransferDestinationsFormValue): {
     address: string;
     asset_id: string;
     amount: any;
 } => ({
-    address: address.startsWith('@') ? alias_address : address,
+    address: address.startsWith(ALIAS_PREFIX) ? alias_address : address.replace(LEGACY_PREFIX, ''),
     asset_id,
     amount,
 });
