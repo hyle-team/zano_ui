@@ -3588,13 +3588,11 @@ module.exports = {
 
 
 var bind = __webpack_require__(/*! ../internals/function-bind-context */ 57761);
-var uncurryThis = __webpack_require__(/*! ../internals/function-uncurry-this */ 34450);
 var IndexedObject = __webpack_require__(/*! ../internals/indexed-object */ 64555);
 var toObject = __webpack_require__(/*! ../internals/to-object */ 38274);
 var lengthOfArrayLike = __webpack_require__(/*! ../internals/length-of-array-like */ 50083);
 var arraySpeciesCreate = __webpack_require__(/*! ../internals/array-species-create */ 16100);
-
-var push = uncurryThis([].push);
+var createProperty = __webpack_require__(/*! ../internals/create-property */ 12894);
 
 // `Array.prototype.{ forEach, map, filter, some, every, find, findIndex, filterReject }` methods implementation
 var createMethod = function (TYPE) {
@@ -3605,28 +3603,28 @@ var createMethod = function (TYPE) {
   var IS_FIND_INDEX = TYPE === 6;
   var IS_FILTER_REJECT = TYPE === 7;
   var NO_HOLES = TYPE === 5 || IS_FIND_INDEX;
-  return function ($this, callbackfn, that, specificCreate) {
+  return function ($this, callbackfn, that) {
     var O = toObject($this);
     var self = IndexedObject(O);
     var length = lengthOfArrayLike(self);
     var boundFunction = bind(callbackfn, that);
     var index = 0;
-    var create = specificCreate || arraySpeciesCreate;
-    var target = IS_MAP ? create($this, length) : IS_FILTER || IS_FILTER_REJECT ? create($this, 0) : undefined;
+    var resIndex = 0;
+    var target = IS_MAP ? arraySpeciesCreate($this, length) : IS_FILTER || IS_FILTER_REJECT ? arraySpeciesCreate($this, 0) : undefined;
     var value, result;
     for (;length > index; index++) if (NO_HOLES || index in self) {
       value = self[index];
       result = boundFunction(value, index, O);
       if (TYPE) {
-        if (IS_MAP) target[index] = result; // map
+        if (IS_MAP) createProperty(target, index, result);    // map
         else if (result) switch (TYPE) {
-          case 3: return true;              // some
-          case 5: return value;             // find
-          case 6: return index;             // findIndex
-          case 2: push(target, value);      // filter
+          case 3: return true;                                // some
+          case 5: return value;                               // find
+          case 6: return index;                               // findIndex
+          case 2: createProperty(target, resIndex++, value);  // filter
         } else switch (TYPE) {
-          case 4: return false;             // every
-          case 7: push(target, value);      // filterReject
+          case 4: return false;                               // every
+          case 7: createProperty(target, resIndex++, value);  // filterReject
         }
       }
     }
@@ -4260,7 +4258,7 @@ var fails = __webpack_require__(/*! ../internals/fails */ 52325);
 
 module.exports = !fails(function () {
   // eslint-disable-next-line es/no-function-prototype-bind -- safe
-  var test = (function () { /* empty */ }).bind();
+  var test = function () { /* empty */ }.bind();
   // eslint-disable-next-line no-prototype-builtins -- safe
   return typeof test != 'function' || test.hasOwnProperty('prototype');
 });
@@ -4302,7 +4300,7 @@ var getDescriptor = DESCRIPTORS && Object.getOwnPropertyDescriptor;
 
 var EXISTS = hasOwn(FunctionPrototype, 'name');
 // additional protection from minified / mangled / dropped function names
-var PROPER = EXISTS && (function something() { /* empty */ }).name === 'something';
+var PROPER = EXISTS && function something() { /* empty */ }.name === 'something';
 var CONFIGURABLE = EXISTS && (!DESCRIPTORS || (DESCRIPTORS && getDescriptor(FunctionPrototype, 'name').configurable));
 
 module.exports = {
@@ -5092,7 +5090,9 @@ module.exports = function (iterable, unboundFunction, options) {
   var iterator, iterFn, index, length, result, next, step;
 
   var stop = function (condition) {
-    if (iterator) iteratorClose(iterator, 'normal');
+    var $iterator = iterator;
+    iterator = undefined;
+    if ($iterator) iteratorClose($iterator, 'normal');
     return new Result(true, condition);
   };
 
@@ -5122,10 +5122,13 @@ module.exports = function (iterable, unboundFunction, options) {
 
   next = IS_RECORD ? iterable.next : iterator.next;
   while (!(step = call(next, iterator)).done) {
+    // `IteratorValue` errors should propagate without closing the iterator
+    var value = step.value;
     try {
-      result = callFn(step.value);
+      result = callFn(value);
     } catch (error) {
-      iteratorClose(iterator, 'throw', error);
+      if (iterator) iteratorClose(iterator, 'throw', error);
+      else throw error;
     }
     if (typeof result == 'object' && result && isPrototypeOf(ResultPrototype, result)) return result;
   } return new Result(false);
@@ -5296,9 +5299,9 @@ var fails = __webpack_require__(/*! ../internals/fails */ 52325);
 
 module.exports = !fails(function () {
   var unsafeInt = '9007199254740993';
-  // eslint-disable-next-line es/no-nonstandard-json-properties -- feature detection
+  // eslint-disable-next-line es/no-json-rawjson -- feature detection
   var raw = JSON.rawJSON(unsafeInt);
-  // eslint-disable-next-line es/no-nonstandard-json-properties -- feature detection
+  // eslint-disable-next-line es/no-json-israwjson -- feature detection
   return !JSON.isRawJSON(raw) || JSON.stringify(raw) !== unsafeInt;
 });
 
@@ -6175,10 +6178,10 @@ var SHARED = '__core-js_shared__';
 var store = module.exports = globalThis[SHARED] || defineGlobalProperty(SHARED, {});
 
 (store.versions || (store.versions = [])).push({
-  version: '3.47.0',
+  version: '3.49.0',
   mode: IS_PURE ? 'pure' : 'global',
-  copyright: '© 2014-2025 Denis Pushkarev (zloirock.ru), 2025 CoreJS Company (core-js.io)',
-  license: 'https://github.com/zloirock/core-js/blob/v3.47.0/LICENSE',
+  copyright: '© 2013–2025 Denis Pushkarev (zloirock.ru), 2025–2026 CoreJS Company (core-js.io). All rights reserved.',
+  license: 'https://github.com/zloirock/core-js/blob/v3.49.0/LICENSE',
   source: 'https://github.com/zloirock/core-js'
 });
 
@@ -6670,8 +6673,8 @@ var push = uncurryThis([].push);
 var numberToString = uncurryThis(1.1.toString);
 
 var surrogates = /[\uD800-\uDFFF]/g;
-var lowSurrogates = /^[\uD800-\uDBFF]$/;
-var hiSurrogates = /^[\uDC00-\uDFFF]$/;
+var leadingSurrogates = /^[\uD800-\uDBFF]$/;
+var trailingSurrogates = /^[\uDC00-\uDFFF]$/;
 
 var MARK = uid();
 var MARK_LENGTH = MARK.length;
@@ -6707,7 +6710,10 @@ var stringifyWithProperSymbolsConversion = WRONG_SYMBOLS_CONVERSION ? function (
 var fixIllFormedJSON = function (match, offset, string) {
   var prev = charAt(string, offset - 1);
   var next = charAt(string, offset + 1);
-  if ((exec(lowSurrogates, match) && !exec(hiSurrogates, next)) || (exec(hiSurrogates, match) && !exec(lowSurrogates, prev))) {
+  if (
+    (exec(leadingSurrogates, match) && !exec(trailingSurrogates, next)) ||
+    (exec(trailingSurrogates, match) && !exec(leadingSurrogates, prev))
+  ) {
     return '\\u' + numberToString(charCodeAt(match, 0), 16);
   } return match;
 };
@@ -7678,7 +7684,7 @@ var fallbackDefineProperty = function (O, P, Attributes) {
   nativeDefineProperty(O, P, Attributes);
   if (ObjectPrototypeDescriptor && O !== ObjectPrototype) {
     nativeDefineProperty(ObjectPrototype, P, ObjectPrototypeDescriptor);
-  }
+  } return O;
 };
 
 var setSymbolDescriptor = DESCRIPTORS && fails(function () {
@@ -7704,7 +7710,8 @@ var $defineProperty = function defineProperty(O, P, Attributes) {
   var key = toPropertyKey(P);
   anObject(Attributes);
   if (hasOwn(AllSymbols, key)) {
-    if (!Attributes.enumerable) {
+    // first definition - default non-enumerable; redefinition - preserve existing state
+    if (!('enumerable' in Attributes) ? !hasOwn(O, key) || (hasOwn(O, HIDDEN) && O[HIDDEN][key]) : !Attributes.enumerable) {
       if (!hasOwn(O, HIDDEN)) nativeDefineProperty(O, HIDDEN, createPropertyDescriptor(1, nativeObjectCreate(null)));
       O[HIDDEN][key] = true;
     } else {
