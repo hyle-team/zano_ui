@@ -155,7 +155,7 @@ function validateIntegratedAddress(
     return new Observable(observer => {
         backendService.splitIntegratedAddress(wallet_id, address, (_, response_data: ResponseCallRpc<ResultSplitIntegratedAddress>) => {
             ngZone.run(() => {
-                if (response_data.result?.payment_id?.length >= 16) {
+                if (response_data.result?.payment_id?.length > 16) {
                     observer.next({ integrated_payment_id_is_invalid: true });
                 } else {
                     observer.next(null);
