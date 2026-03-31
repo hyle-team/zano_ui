@@ -52,7 +52,7 @@ export class CustomAssetsComponent implements OnInit {
         const {
             assetsInfoWhitelist: { own_assets },
         } = current_wallet;
-        return own_assets?.length > this.paginateArgs.itemsPerPage;
+        return (own_assets?.length || 0) > Number(this.paginateArgs.itemsPerPage);
     }
 
     ngOnInit(): void {

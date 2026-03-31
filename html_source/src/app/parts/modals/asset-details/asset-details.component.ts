@@ -73,19 +73,10 @@ export class AssetDetailsComponent implements OnInit, OnDestroy {
             return;
         }
 
-        const params = {
-            id: 0,
-            jsonrpc: '2.0',
-            method: 'get_asset_info',
-            params: {
-                asset_id,
-            },
-        };
-        const callback = (_, response: ResponseGetAssetInfo) => {
-            this._ngZone.run(() => {
-                if (response.result.status === 'OK') {
-                }
-
+        this._backendService
+            .getAssetInfo(asset_id)
+            .pipe(takeUntil(this._destroy$))
+            .subscribe((response: ResponseGetAssetInfo) => {
                 switch (response.result.status) {
                     case 'OK': {
                         const { asset_descriptor } = response.result;
@@ -100,9 +91,6 @@ export class AssetDetailsComponent implements OnInit, OnDestroy {
                     }
                 }
             });
-        };
-
-        this._backendService.call_rpc(params, callback);
     }
 
     private updateAssetWhitelistStateView() {

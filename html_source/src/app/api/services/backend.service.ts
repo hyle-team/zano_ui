@@ -9,6 +9,7 @@ import { BigNumber } from 'bignumber.js';
 import { ResponseGetWalletInfo } from '../models/wallet.model';
 import {
     AssetInfo,
+    AssetsWhitelistGetResponseData,
     ParamsAddCustomAssetId,
     ParamsRemoveCustomAssetId,
     ResponseAddCustomAssetId,
@@ -17,7 +18,7 @@ import {
 import { AliasInfo, AliasLookupCallback, AliasLookupParams } from '@api/models/alias.model';
 import { TransferParams } from '@api/models/transfer.model';
 import { ParamsCallRpc, ResponseCallRpc } from '@api/models/call_rpc.model';
-import { ResultSplitIntegratedAddress } from '@api/models/rpc.models';
+import { ResponseGetAssetInfo, ResultSplitIntegratedAddress } from '@api/models/rpc.models';
 
 export interface PramsObj {
     [key: string]: any;
@@ -800,6 +801,44 @@ export class BackendService {
     // Use for call rpc-api https://docs.zano.org/docs/build/rpc-api
     call_rpc(params: Partial<ParamsCallRpc>, callback?: (status: boolean, response_data: any) => void): void {
         this.runCommand(Commands.call_rpc, params, callback);
+    }
+
+    getAssetInfo(asset_id: string): Observable<ResponseGetAssetInfo> {
+        const params: Partial<ParamsCallRpc> = {
+            id: 0,
+            jsonrpc: '2.0',
+            method: 'get_asset_info',
+            params: {
+                asset_id,
+            },
+        };
+
+        return new Observable((observer) => {
+            this.call_rpc(params, (status, response: ResponseGetAssetInfo) => {
+                this.ngZone.run(() => {
+                    observer.next(response);
+                    observer.complete();
+                });
+            });
+        });
+    }
+
+    getAssetsWhitelist(wallet_id: number): Observable<AssetsWhitelistGetResponseData> {
+        const params: ParamsCallRpc = {
+            jsonrpc: '2.0',
+            id: 0,
+            method: 'assets_whitelist_get',
+            params: {},
+        };
+
+        return new Observable((observer) => {
+            this.call_wallet_rpc([wallet_id, params], (status, response_data: AssetsWhitelistGetResponseData) => {
+                this.ngZone.run(() => {
+                    observer.next(response_data);
+                    observer.complete();
+                });
+            });
+        });
     }
 
     call_wallet_rpc(
