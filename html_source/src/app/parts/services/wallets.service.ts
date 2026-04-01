@@ -109,13 +109,13 @@ export class WalletsService {
                         }
                         const requests = assetInfoList.map((assetInfo) =>
                             this._backendService.getAssetInfo(assetInfo.asset_id).pipe(
-                                take(1),
                                 map((response) => {
                                     if (response.result && response.result.status === 'OK') {
                                         return { ...assetInfo, ...response.result.asset_descriptor };
                                     }
                                     return assetInfo;
-                                })
+                                }),
+                                take(1)
                             )
                         );
                         return forkJoin(requests);

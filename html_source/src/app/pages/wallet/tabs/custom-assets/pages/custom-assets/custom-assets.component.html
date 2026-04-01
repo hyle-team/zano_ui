@@ -45,7 +45,7 @@
                     <div aria-hidden="true" class="row-divider"></div>
                 </thead>
                 <tbody>
-                    <ng-container *ngFor="let assetInfo of assetInfoItems | paginate : paginateArgs; trackBy: trackByAssets">
+                    <ng-container *ngFor="let assetInfo of assetInfoItems | paginate : paginateArgs; trackBy: trackByIndex">
                         <tr>
                             <td (contextmenu)="variablesService.onContextMenuOnlyCopy($event, assetInfo.asset_id)">
                                 {{ assetInfo.asset_id | zanoShortString }}
@@ -105,7 +105,7 @@
             (pageChange)="paginateArgs.currentPage = $event"
             *ngIf="isShowPagination"
             [attr.aria-label]="'ACCESSIBILITY.PAGINATION.LABELS.LABEL1' | translate"
-            [id]="paginationId"
+            [id]="paginateArgs.id"
             class="ngx-pagination custom-pagination"
             tabindex="0"
         >
@@ -119,7 +119,7 @@
                 <mat-icon svgIcon="zano-arrow-left"></mat-icon>
             </button>
 
-            <div *ngFor="let page of p.pages; trackBy: trackByPages" [class.current]="p.getCurrent() === page.value" class="mr-0_5">
+            <div *ngFor="let page of p.pages; trackBy: trackByIndex" [class.current]="p.getCurrent() === page.value" class="mr-0_5">
                 <a (click)="p.setCurrent(page.value)" *ngIf="p.getCurrent() !== page.value" tabindex="0">
                     <span>{{ page.label }}</span>
                 </a>
@@ -190,7 +190,7 @@
                 <div aria-hidden="true" class="row-divider"></div>
             </thead>
             <tbody>
-                <ng-container *ngFor="let _ of Array.from({ length: 20 })">
+                <ng-container *ngFor="let _ of skeletonRows; trackBy: trackByIndex">
                     <tr style="background: none">
                         <td colspan="7" style="padding: 0">
                             <div class="skeleton skeleton-table-row"></div>
