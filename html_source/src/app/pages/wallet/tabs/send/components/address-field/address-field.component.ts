@@ -15,6 +15,7 @@ import { VariablesService } from '@parts/services/variables.service';
 import { DestinationFormGroup } from '../../send.component';
 import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 import { BackendService } from '@api/services/backend.service';
+import { ALIAS_PREFIX, LEGACY_PREFIX } from '@parts/data/constants';
 
 @Component({
     selector: 'zano-address-field',
@@ -127,25 +128,33 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
         this._destroy$.complete();
     }
 
-    handlerPaste(event: ClipboardEvent) {
+    handlerPaste(event: ClipboardEvent): void {
         event.preventDefault();
 
-        const {
-            controls: { address: addressControl },
-        } = this.form;
-        const { clipboardData } = event;
+        const clipboardText = event.clipboardData?.getData('Text');
 
-        let value: string = clipboardData.getData('Text') ?? '';
-        value = value.trim();
-
-        const isEnteredAlias = value.startsWith('@');
-        this.lowerCaseDisabled = !isEnteredAlias;
-
-        if (isEnteredAlias) {
-            value = value.toLowerCase();
+        if (!clipboardText) {
+            return;
         }
 
-        addressControl.patchValue(value);
+        const inputValue = this.form.controls.address.getRawValue() ?? '';
+        let pasteValue = clipboardText.trim();
+
+        const hasAliasPrefix = pasteValue.startsWith(ALIAS_PREFIX);
+        this.lowerCaseDisabled = !hasAliasPrefix;
+
+        if (hasAliasPrefix) {
+            pasteValue = pasteValue.toLowerCase();
+        }
+
+        const isInputLegacy = inputValue.startsWith(LEGACY_PREFIX);
+        const isPasteLegacy = pasteValue.startsWith(LEGACY_PREFIX);
+
+        if (isInputLegacy && !isPasteLegacy) {
+            pasteValue = `${LEGACY_PREFIX}${pasteValue}`;
+        }
+
+        this.form.controls.address.patchValue(pasteValue);
     }
 
     handlerContextmenu(event: MouseEvent) {
