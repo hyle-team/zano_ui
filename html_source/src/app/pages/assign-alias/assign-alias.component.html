@@ -19,7 +19,7 @@
             <form role="form" (ngSubmit)="beforeSubmit()" [formGroup]="form" class="form" [attr.aria-busy]="loading ? 'true' : null">
                 <!--Name-->
                 <fieldset class="form__field">
-                    <label [matTooltip]="'ASSIGN_ALIAS.NAME.TOOLTIP' | translate" matTooltipShowDelay="800" for="alias-name">
+                    <label [matTooltip]="'ASSIGN_ALIAS.NAME.TOOLTIP' | translate" matTooltipShowDelay="1500" for="alias-name">
                         {{ 'ASSIGN_ALIAS.NAME.LABEL' | translate }}
                     </label>
                     <div class="has-no-edit-symbol">
@@ -78,7 +78,7 @@
 
                 <!--Comment-->
                 <fieldset class="form__field textarea">
-                    <label [matTooltip]="'ASSIGN_ALIAS.COMMENT.TOOLTIP' | translate" matTooltipShowDelay="800" for="alias-comment">
+                    <label [matTooltip]="'ASSIGN_ALIAS.COMMENT.TOOLTIP' | translate" matTooltipShowDelay="1500" for="alias-comment">
                         {{ 'ASSIGN_ALIAS.COMMENT.LABEL' | translate }}
                     </label>
                     <textarea

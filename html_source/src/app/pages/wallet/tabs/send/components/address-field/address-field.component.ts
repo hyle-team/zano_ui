@@ -8,13 +8,14 @@ import { MatOptionModule } from '@angular/material/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ShortStringPipe } from '@parts/pipes';
 import { TranslateModule } from '@ngx-translate/core';
-import { merge, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { debounceTime, startWith, takeUntil, tap } from 'rxjs/operators';
 import { WalletsService } from '@parts/services/wallets.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { DestinationFormGroup } from '../../send.component';
 import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 import { BackendService } from '@api/services/backend.service';
+import { ALIAS_PREFIX, LEGACY_PREFIX } from '@parts/data/constants';
 
 @Component({
     selector: 'zano-address-field',
@@ -54,10 +55,6 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
     loading = false;
 
     lowerCaseDisabled = true;
-
-    errorMessages: { [key: string]: string } = {
-        address: '',
-    };
 
     get isShowHintNoAliasFound() {
         const {
@@ -124,15 +121,6 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
                     });
                 },
             });
-
-        merge(
-            this.form.controls.address.statusChanges,
-            this.form.controls.address.valueChanges,
-            this.form.statusChanges,
-            this.form.valueChanges
-        )
-            .pipe(takeUntil(this._destroy$))
-            .subscribe(() => this.updateErrorMessage());
     }
 
     ngOnDestroy() {
@@ -140,25 +128,33 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
         this._destroy$.complete();
     }
 
-    handlerPaste(event: ClipboardEvent) {
+    handlerPaste(event: ClipboardEvent): void {
         event.preventDefault();
 
-        const {
-            controls: { address: addressControl },
-        } = this.form;
-        const { clipboardData } = event;
+        const clipboardText = event.clipboardData?.getData('Text');
 
-        let value: string = clipboardData.getData('Text') ?? '';
-        value = value.trim();
-
-        const isEnteredAlias = value.startsWith('@');
-        this.lowerCaseDisabled = !isEnteredAlias;
-
-        if (isEnteredAlias) {
-            value = value.toLowerCase();
+        if (!clipboardText) {
+            return;
         }
 
-        addressControl.patchValue(value);
+        const inputValue = this.form.controls.address.getRawValue() ?? '';
+        let pasteValue = clipboardText.trim();
+
+        const hasAliasPrefix = pasteValue.startsWith(ALIAS_PREFIX);
+        this.lowerCaseDisabled = !hasAliasPrefix;
+
+        if (hasAliasPrefix) {
+            pasteValue = pasteValue.toLowerCase();
+        }
+
+        const isInputLegacy = inputValue.startsWith(LEGACY_PREFIX);
+        const isPasteLegacy = pasteValue.startsWith(LEGACY_PREFIX);
+
+        if (isInputLegacy && !isPasteLegacy) {
+            pasteValue = `${LEGACY_PREFIX}${pasteValue}`;
+        }
+
+        this.form.controls.address.patchValue(pasteValue);
     }
 
     handlerContextmenu(event: MouseEvent) {
@@ -167,32 +163,6 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
 
     trackByFn(index: number, value: string): number | string {
         return value ?? index;
-    }
-
-    updateErrorMessage() {
-        const address = this.form.controls.address;
-        let message = '';
-
-        switch (true) {
-            case address.hasError('address_not_valid'): {
-                message = 'SEND.FORM_ERRORS.ADDRESS_NOT_VALID';
-                break;
-            }
-            case address.hasError('alias_not_found'): {
-                message = 'SEND.FORM_ERRORS.ALIAS_NOT_FOUND';
-                break;
-            }
-            case address.hasError('alias_not_valid'): {
-                message = 'SEND.FORM_ERRORS.ALIAS_NOT_VALID';
-                break;
-            }
-            case address.hasError('required'): {
-                message = 'ERRORS.REQUIRED';
-                break;
-            }
-        }
-
-        this.errorMessages['address'] = message;
     }
 
     openAutocomplete() {

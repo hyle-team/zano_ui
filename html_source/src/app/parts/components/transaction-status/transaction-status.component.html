@@ -47,7 +47,7 @@
                         class="confirmation mr-1"
                         style="transform: rotateZ(-90deg)"
                         [matTooltip]="'HISTORY.STATUS_TOOLTIP' | translate : { current: getHeight(transaction), total: 10 }"
-                        matTooltipShowDelay="800"
+                        matTooltipShowDelay="1500"
                         matTooltipPosition="below"
                     >
                         <circle
@@ -102,7 +102,7 @@
                                 class="icon lock-transaction mr-1"
                                 [attr.aria-label]="'HISTORY.LOCK_TOOLTIP' | translate : { date: time(transaction) | date : 'MM.dd.yy' }"
                                 [matTooltip]="'HISTORY.LOCK_TOOLTIP' | translate : { date: time(transaction) | date : 'MM.dd.yy' }"
-                                matTooltipShowDelay="800"
+                                matTooltipShowDelay="1500"
                             ></i>
                         </ng-container>
                         <ng-container *ngIf="transaction.unlock_time > 500000000">
@@ -118,7 +118,7 @@
                                 [matTooltip]="
                                     'HISTORY.LOCK_TOOLTIP' | translate : { date: transaction.unlock_time * 1000 | date : 'MM.dd.yy' }
                                 "
-                                matTooltipShowDelay="800"
+                                matTooltipShowDelay="1500"
                                 matTooltipPosition="below"
                             ></i>
                         </ng-container>

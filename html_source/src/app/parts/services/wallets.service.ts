@@ -4,9 +4,11 @@ import { VariablesService } from '@parts/services/variables.service';
 import { DEFAULT_ASSETS_INFO_WHITELIST, ResponseGetWalletInfo, Wallet } from '@api/models/wallet.model';
 import { Router } from '@angular/router';
 import { ParamsCallRpc, ResponseCallRpc } from '@api/models/call_rpc.model';
-import { AssetsWhitelistGetResponseData, VerifiedAssetInfoWhitelist } from '@api/models/assets.model';
+import { AssetInfo, AssetsInfoWhitelist, AssetsWhitelistGetResponseData, VerifiedAssetInfoWhitelist } from '@api/models/assets.model';
 import { TranslateService } from '@ngx-translate/core';
 import { ResultAliasByAddress } from '@api/models/rpc.models';
+import { map, switchMap, take } from 'rxjs/operators';
+import { forkJoin, Observable, of } from 'rxjs';
 
 @Injectable({
     providedIn: 'root',
@@ -94,21 +96,43 @@ export class WalletsService {
 
     loadAssetsInfoWhitelist(wallet: Wallet): void {
         const { wallet_id } = wallet;
-        const params: ParamsCallRpc = {
-            jsonrpc: '2.0',
-            id: 0,
-            method: 'assets_whitelist_get',
-            params: {},
-        };
-        this._backendService.call_wallet_rpc([wallet_id, params], (status, response_data: AssetsWhitelistGetResponseData) => {
-            this._ngZone.run(() => {
-                const { result } = response_data;
-                const assetsInfoWhitelist = { ...DEFAULT_ASSETS_INFO_WHITELIST, ...result };
+        this._backendService
+            .getAssetsWhitelist(wallet_id)
+            .pipe(
+                switchMap((response_data: AssetsWhitelistGetResponseData) => {
+                    const { result } = response_data;
+                    const assetsInfoWhitelist = { ...DEFAULT_ASSETS_INFO_WHITELIST, ...result };
 
-                wallet.assetsInfoWhitelist = assetsInfoWhitelist;
-                wallet.assetsInfoWhitelist$.next(assetsInfoWhitelist);
+                    const updateAssetInfoList = (assetInfoList: AssetInfo[] | undefined): Observable<AssetInfo[]> => {
+                        if (!assetInfoList || assetInfoList.length === 0) {
+                            return of([]);
+                        }
+                        const requests = assetInfoList.map((assetInfo) =>
+                            this._backendService.getAssetInfo(assetInfo.asset_id).pipe(
+                                map((response) => {
+                                    if (response.result && response.result.status === 'OK') {
+                                        return { ...assetInfo, ...response.result.asset_descriptor };
+                                    }
+                                    return assetInfo;
+                                }),
+                                take(1)
+                            )
+                        );
+                        return forkJoin(requests);
+                    };
+
+                    return forkJoin({
+                        local_whitelist: updateAssetInfoList(assetsInfoWhitelist.local_whitelist),
+                        global_whitelist: updateAssetInfoList(assetsInfoWhitelist.global_whitelist),
+                        own_assets: updateAssetInfoList(assetsInfoWhitelist.own_assets),
+                    });
+                }),
+                take(1)
+            )
+            .subscribe((updatedAssetsInfoWhitelist: AssetsInfoWhitelist) => {
+                wallet.assetsInfoWhitelist = updatedAssetsInfoWhitelist;
+                wallet.assetsInfoWhitelist$.next(updatedAssetsInfoWhitelist);
             });
-        });
     }
 
     loadAliasInfoList(wallet: Wallet): void {

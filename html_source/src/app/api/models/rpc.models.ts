@@ -37,3 +37,8 @@ export interface ResponseGetAssetInfo {
         status: string;
     };
 }
+
+export interface ResultSplitIntegratedAddress {
+    payment_id: string;
+    standard_address: string;
+}
