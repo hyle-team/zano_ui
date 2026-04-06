@@ -50,7 +50,7 @@
         <li
             [matTooltipDisabled]="variablesService.appPass !== ''"
             [matTooltip]="'SIDEBAR.LOG_OUT_TOOLTIP' | translate"
-            matTooltipShowDelay="800"
+            matTooltipShowDelay="1500"
         >
             <button (click)="logout()" [disabled]="variablesService.appPass === ''" class="outline small" role="link" type="button">
                 <mat-icon class="mr-1" svgIcon="zano-logout"></mat-icon>

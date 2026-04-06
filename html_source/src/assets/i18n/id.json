@@ -897,7 +897,6 @@
     "HIDE": "Pertahankan alamat penerima",
     "INCLUDE_SENDER_ADDRESS": "Tampilkan alamat saya kepada penerima",
     "MIXIN": "Mixin",
-    "RECIPIENT": "Penerima",
     "REMOVE": "Indonesian",
     "SUCCESS_SENT": "Transaksi dikirim",
     "WRAP": {
@@ -908,7 +907,8 @@
       "WILL_RECEIVE": "Anda akan menerima:",
       "ZANO": "ZANO",
       "wZANO": "wZANO"
-    }
+    },
+    "DESTINATION": "Tujuan"
   },
   "SEND_DETAILS_MODAL": {
     "TITLE1": "Transaksi",

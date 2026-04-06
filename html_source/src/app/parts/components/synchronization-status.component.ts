@@ -109,7 +109,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
                         class="icon update standard"
                         [attr.aria-label]="'SIDEBAR.UPDATE.STANDARD_TOOLTIP' | translate"
                         [matTooltip]="'SIDEBAR.UPDATE.STANDARD_TOOLTIP' | translate"
-                        matTooltipShowDelay="800"
+                        matTooltipShowDelay="1500"
                     ></i>
                 </ng-container>
 
@@ -123,7 +123,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
                     <i
                         class="icon update important"
                         [matTooltip]="'SIDEBAR.UPDATE.IMPORTANT_TOOLTIP' | translate"
-                        matTooltipShowDelay="800"
+                        matTooltipShowDelay="1500"
                         [attr.aria-label]="'SIDEBAR.UPDATE.IMPORTANT_TOOLTIP' | translate"
                     ></i>
                 </ng-container>
@@ -138,7 +138,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
                     <i
                         class="icon update critical"
                         [matTooltip]="'SIDEBAR.UPDATE.CRITICAL_TOOLTIP' | translate"
-                        matTooltipShowDelay="800"
+                        matTooltipShowDelay="1500"
                         [attr.aria-label]="'SIDEBAR.UPDATE.CRITICAL_TOOLTIP' | translate"
                     ></i>
                 </ng-container>
@@ -155,7 +155,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
                 <i
                     class="icon time-orange"
                     [matTooltip]="'SIDEBAR.UPDATE.TIME_TOOLTIP' | translate"
-                    matTooltipShowDelay="800"
+                    matTooltipShowDelay="1500"
                     [attr.aria-label]="'SIDEBAR.UPDATE.TIME_TOOLTIP' | translate"
                 ></i>
             </div>

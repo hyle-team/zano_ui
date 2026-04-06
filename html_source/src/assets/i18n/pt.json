@@ -897,7 +897,6 @@
     "HIDE": "Manter endereço do destinatário",
     "INCLUDE_SENDER_ADDRESS": "Mostrar meu endereço ao destinatário",
     "MIXIN": "Mixin",
-    "RECIPIENT": "Destinatário",
     "REMOVE": "Português",
     "SUCCESS_SENT": "Transação enviada",
     "WRAP": {
@@ -908,7 +907,8 @@
       "WILL_RECEIVE": "Você receberá:",
       "ZANO": "ZANO",
       "wZANO": "wZANO"
-    }
+    },
+    "DESTINATION": "Destino"
   },
   "SEND_DETAILS_MODAL": {
     "TITLE1": "Transação",

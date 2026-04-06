@@ -7,19 +7,21 @@ import { AssetFieldComponent } from '../asset-field/asset-field.component';
 import { AddressFieldComponent } from '../address-field/address-field.component';
 import { AmountFieldComponent } from '../amount-field/amount-field.component';
 import { WrapInformationComponent } from '../wrap-information/wrap-information.component';
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 @Component({
     selector: 'zano-destination',
     standalone: true,
     imports: [
-        CommonModule,
-        MatIconModule,
-        TranslateModule,
-        AssetFieldComponent,
-        AddressFieldComponent,
-        AmountFieldComponent,
-        WrapInformationComponent,
-    ],
+    CommonModule,
+    MatIconModule,
+    TranslateModule,
+    AssetFieldComponent,
+    AddressFieldComponent,
+    AmountFieldComponent,
+    WrapInformationComponent,
+    MatTooltipModule
+],
     templateUrl: './destination.component.html',
     styleUrls: ['./destination.component.scss'],
 })
