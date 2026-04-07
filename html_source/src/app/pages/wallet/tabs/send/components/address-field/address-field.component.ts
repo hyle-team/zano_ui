@@ -15,6 +15,7 @@ import { VariablesService } from '@parts/services/variables.service';
 import { DestinationsForm } from '../../send.component';
 import { CdkVirtualScrollViewport, ScrollingModule } from '@angular/cdk/scrolling';
 import { BackendService } from '@api/services/backend.service';
+import { ALIAS_PREFIX, LEGACY_PREFIX } from '@parts/data/constants';
 
 @Component({
     selector: 'zano-address-field',
@@ -127,28 +128,54 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
         this._destroy$.complete();
     }
 
-    handlerPaste(event: ClipboardEvent) {
+    handlerPaste(event: ClipboardEvent): void {
         event.preventDefault();
 
-        const {
-            controls: { address: addressControl },
-        } = this.form;
-        const { clipboardData } = event;
+        const clipboardText = event.clipboardData?.getData('Text');
 
-        let value: string = clipboardData.getData('Text') ?? '';
-        value = value.trim();
-
-        const isEnteredAlias = value.startsWith('@');
-        this.lowerCaseDisabled = !isEnteredAlias;
-
-        if (isEnteredAlias) {
-            value = value.toLowerCase();
+        if (!clipboardText) {
+            return;
         }
 
-        addressControl.patchValue(value);
+        const inputValue = this.form.controls.address.getRawValue() ?? '';
+        let pasteValue = clipboardText.trim();
+
+        const hasAliasPrefix = pasteValue.startsWith(ALIAS_PREFIX);
+        this.lowerCaseDisabled = !hasAliasPrefix;
+
+        if (hasAliasPrefix) {
+            pasteValue = pasteValue.toLowerCase();
+        }
+
+        const isInputLegacy = inputValue.startsWith(LEGACY_PREFIX);
+        const isPasteLegacy = pasteValue.startsWith(LEGACY_PREFIX);
+
+        if (isInputLegacy && !isPasteLegacy) {
+            pasteValue = `${LEGACY_PREFIX}${pasteValue}`;
+        }
+
+        this.form.controls.address.patchValue(pasteValue);
     }
 
     handlerContextmenu(event: MouseEvent) {
+        const target = event.target as HTMLInputElement;
+
+        if (target && typeof target.selectionStart === 'number' && typeof target.selectionEnd === 'number') {
+            const val = target.value;
+            if (val) {
+                let prefixLen = 0;
+                if (val.startsWith(LEGACY_PREFIX)) {
+                    prefixLen = LEGACY_PREFIX.length;
+                } else if (val.startsWith(ALIAS_PREFIX)) {
+                    prefixLen = ALIAS_PREFIX.length;
+                }
+
+                if (prefixLen > 0 && target.selectionEnd <= prefixLen && target.selectionStart < prefixLen) {
+                    target.setSelectionRange(prefixLen, prefixLen);
+                }
+            }
+        }
+
         this.variablesService.onContextMenu(event);
     }
 
