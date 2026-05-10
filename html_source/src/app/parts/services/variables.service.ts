@@ -1,5 +1,5 @@
 import { inject, Injectable, NgZone, OnDestroy } from '@angular/core';
-import { Deeplink, Wallet } from '@api/models/wallet.model';
+import { Wallet } from '@api/models/wallet.model';
 import { Contact } from '@api/models/contact.model';
 import { BehaviorSubject, EMPTY, from, mergeMap, Observable, Subject, take, toArray } from 'rxjs';
 import { Idle } from 'idlejs/dist';
@@ -12,6 +12,7 @@ import { AssetBalance, AssetInfo, VerifiedAssetInfoWhitelist } from '@api/models
 import { CurrentPriceForAssets } from '@api/models/api-zano.models';
 import { ApiService } from '@api/services/api.service';
 import { WrapInfo } from '@api/models/wrap-info';
+import { DeeplinkResponse } from '@api/models/deeplink.model';
 import { DEFAULT_FEE, DEFAULT_FEE_BIG, DEFAULT_PRICE_ALIAS, MAX_COMMENT_LENGTH, MAX_WALLET_NAME_LENGTH } from '@parts/data/constants';
 
 export interface AppSettings {
@@ -121,11 +122,6 @@ export class VariablesService implements OnDestroy {
 
     daemon_state$: BehaviorSubject<number> = new BehaviorSubject<number>(this.daemon_state);
 
-    deeplink$: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
-
-    // https://docs.zano.org/docs/use/deeplinks/
-    deeplinkData$: BehaviorSubject<Deeplink> = new BehaviorSubject<Deeplink>({});
-
     sync = {
         progress_value: 0,
         progress_value_text: '0',
@@ -233,6 +229,8 @@ export class VariablesService implements OnDestroy {
     wrap_info$: BehaviorSubject<WrapInfo | null> = new BehaviorSubject<WrapInfo | null>(null);
 
     is_wrap_info_service_inactive$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
+
+    deeplinkResponse$: BehaviorSubject<DeeplinkResponse | null> = new BehaviorSubject<DeeplinkResponse | null>(null);
 
     private _destroy$: Subject<void> = new Subject<void>();
 

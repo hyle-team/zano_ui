@@ -15,7 +15,7 @@ import { AssetDetailsComponent } from '@parts/modals/asset-details/asset-details
     templateUrl: './transaction-details.component.html',
     styleUrls: ['./transaction-details.component.scss'],
     imports: [CommonModule, TranslateModule, MatTooltipModule],
-    standalone: true
+    standalone: true,
 })
 export class TransactionDetailsComponent {
     @Input() transaction: Transaction;

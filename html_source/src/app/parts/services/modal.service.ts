@@ -7,8 +7,6 @@ import { take } from 'rxjs';
     providedIn: 'root',
 })
 export class ModalService {
-    private _count = 0;
-
     private readonly _matDialog: MatDialog = inject(MatDialog);
 
     private readonly _ngZone: NgZone = inject(NgZone);
@@ -23,16 +21,7 @@ export class ModalService {
         };
 
         this._ngZone.run(() => {
-            const matDialogRef: MatDialogRef<ModalContainerComponent> = this._matDialog.open(ModalContainerComponent, config);
-
-            matDialogRef
-                .afterOpened()
-                .pipe(take(1))
-                .subscribe(() => this._count + 1);
-            matDialogRef
-                .afterClosed()
-                .pipe(take(1))
-                .subscribe(() => this._count - 1);
+            this._matDialog.open(ModalContainerComponent, config);
         });
     }
 }

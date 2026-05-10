@@ -22,12 +22,7 @@
 </div>
 
 <ng-template #addDestinationTemplate>
-    <button
-        (click)="add()"
-        [disabled]="!canAddOrDuplicate"
-        class="add-destination-button"
-        type="button"
-    >
+    <button (click)="add()" [disabled]="!canAddOrDuplicate" class="add-destination-button" type="button">
         <mat-icon svgIcon="zano-plus"></mat-icon>
         {{ 'ADD_DESTINATION.TEXT1' | translate }}
         <mat-icon [matTooltip]="'ADD_DESTINATION.TEXT2' | translate" aria-haspopup="true" svgIcon="zano-info" tabindex="0"></mat-icon>

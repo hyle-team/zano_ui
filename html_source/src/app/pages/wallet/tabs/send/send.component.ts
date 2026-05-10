@@ -19,7 +19,7 @@ import {
     MAXIMUM_VALUE,
 } from '@parts/data/constants';
 import { moneyToInt } from '@parts/functions/money-to-int';
-import { SendDeeplink } from '@api/models/wallet.model';
+import { DeeplinkResponse } from '@api/models/deeplink.model';
 
 export interface TransferDestinationsFormValue {
     address: string;
@@ -129,6 +129,20 @@ export class SendComponent implements OnDestroy {
     ngOnDestroy(): void {
         this._destroy$.next();
         this._destroy$.complete();
+    }
+
+    private _subscribeToDeeplinkResponse(): void {
+        this.variables_service.deeplinkResponse$
+            .pipe(
+                filter((deeplinkResponse) => deeplinkResponse && deeplinkResponse.action === 'send'),
+                takeUntil(this._destroy$)
+            )
+            .subscribe({
+                next: (deeplinkResponse) => {
+                    this._applyDeeplinkResponse(deeplinkResponse);
+                    this.variables_service.deeplinkResponse$.next(null);
+                },
+            });
     }
 
     private _subscribeToIsWrapInfoServiceInactive(): void {
@@ -255,6 +269,17 @@ export class SendComponent implements OnDestroy {
             });
         }
 
+        const deeplinkResponse: DeeplinkResponse | null = history.state?.deeplinkResponse ?? null;
+        if (deeplinkResponse && deeplinkResponse.action === 'send') {
+            const mappedDeeplink = this._mapDeeplinkToFormValue(deeplinkResponse);
+            if (mappedDeeplink) {
+                init_transfer_form_value.destinations = [mappedDeeplink.destination];
+                init_transfer_form_value.comment = mappedDeeplink.comment;
+                this.is_show_additional_details = true;
+            }
+            this.variables_service.deeplinkResponse$.next(null);
+        }
+
         const destinations_control = this._fb.array<DestinationFormGroup>([]);
         destinations_control.setValidators(this._maxDestinationsValidator.bind(this));
         if (init_transfer_form_value.destinations.length) {
@@ -327,13 +352,11 @@ export class SendComponent implements OnDestroy {
 
         this.form.patchValue(init_transfer_form_value, { emitEvent: false });
 
-        this._listenSendActionData();
-
         this._formListeners();
 
-        if (current_wallet.transfer_form_value) {
+        if (current_wallet.transfer_form_value || deeplinkResponse) {
             const destinationsFormArray = this.form.controls.destinations;
-            current_wallet.transfer_form_value.destinations.forEach((savedDestination, index) => {
+            init_transfer_form_value.destinations.forEach((savedDestination, index) => {
                 const destinationGroup = destinationsFormArray.at(index);
                 if (destinationGroup) {
                     Object.keys(savedDestination).forEach((key) => {
@@ -348,7 +371,55 @@ export class SendComponent implements OnDestroy {
 
         this._subscribeToIsWrapInfoServiceInactive();
 
+        this._subscribeToDeeplinkResponse();
+
         this._saveTransferParams();
+    }
+
+    private _applyDeeplinkResponse(deeplinkResponse: DeeplinkResponse): void {
+        const mappedDeeplink = this._mapDeeplinkToFormValue(deeplinkResponse);
+        if (!mappedDeeplink) {
+            return;
+        }
+
+        const { destination, comment } = mappedDeeplink;
+        const { destinations } = this.form.controls;
+
+        destinations.clear();
+        destinations.push(this._createDestinationFromGroup());
+
+        this.form.patchValue({
+            destinations: [destination],
+            comment,
+        });
+        this.form.markAllAsTouched();
+        this.is_show_additional_details = true;
+    }
+
+    private _mapDeeplinkToFormValue(
+        deeplinkResponse: DeeplinkResponse
+    ): { destination: TransferDestinationsFormValue; comment: string } | null {
+        const { address, amount, comment = '', asset_id } = deeplinkResponse;
+        const asset = this.variables_service.current_wallet.balances.find((balance) => balance.asset_info.asset_id === asset_id);
+
+        if (!asset) {
+            return null;
+        }
+
+        const {
+            asset_info: { decimal_point },
+        } = asset;
+
+        const destination: TransferDestinationsFormValue = {
+            alias_address: '',
+            is_currency_input_mode: false,
+            is_visible_wrap_info: false,
+            address,
+            asset_id,
+            amount: intToMoney(moneyToInt(amount, decimal_point), decimal_point),
+        };
+
+        return { destination, comment };
     }
 
     private _maxDestinationsValidator(control: AbstractControl): ValidationErrors | null {
@@ -427,45 +498,11 @@ export class SendComponent implements OnDestroy {
         });
     }
 
-    private _listenSendActionData(): void {
-        this.variables_service.deeplinkData$
-            .pipe(
-                filter((params) => Boolean(params)),
-                filter((value) => value.action === 'send'),
-                takeUntil(this._destroy$)
-            )
-            .subscribe({
-                next: (value: SendDeeplink) => {
-                    this.is_show_additional_details = true;
-
-                    const { address = '', amount = '', comment = '', asset_id = ZANO_ASSET_INFO.asset_id } = value;
-
-                    const destination = {
-                        address,
-                        asset_id,
-                        amount,
-                    };
-                    const destinations = [destination];
-
-                    this.form.patchValue({
-                        destinations,
-                        comment,
-                        fee: DEFAULT_FEE,
-                    });
-
-                    // Clear send action data
-                    this.variables_service.deeplinkData$.next({});
-                },
-            });
-    }
-
-    private _mapDestination({
-        address,
-        alias_address,
-        asset_id,
-        is_currency_input_mode,
-        amount,
-    }: TransferDestinationsFormValue): { address: string; asset_id: string; amount: string } {
+    private _mapDestination({ address, alias_address, asset_id, is_currency_input_mode, amount }: TransferDestinationsFormValue): {
+        address: string;
+        asset_id: string;
+        amount: string;
+    } {
         const finalAddress = address.startsWith(ALIAS_PREFIX) ? alias_address : address.replace(LEGACY_PREFIX, '');
         const finalAmount = is_currency_input_mode
             ? this.convertToCurrencyAmount(amount, this.variables_service.current_wallet.getBalanceByAssetId(asset_id))
@@ -491,9 +528,7 @@ export class SendComponent implements OnDestroy {
         const priceInfo = currentPriceForAssets[asset_id];
 
         const currency_price = typeof priceInfo?.data === 'object' ? priceInfo.data.fiat_prices[currency] ?? 0 : 0;
-        const amountBigNumber = new BigNumber(
-            is_currency_input_mode ? new BigNumber(amount).dividedBy(currency_price || 1) : amount
-        );
+        const amountBigNumber = new BigNumber(is_currency_input_mode ? new BigNumber(amount).dividedBy(currency_price || 1) : amount);
 
         // 1. Balance not found
         if (!assetBalance) {

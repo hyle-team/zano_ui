@@ -20,6 +20,8 @@ import { ApiService } from '@api/services/api.service';
 import { WalletsService } from '@parts/services/wallets.service';
 import { WrapInfo } from '@api/models/wrap-info';
 import { AliasInfo } from '@api/models/alias.model';
+import { parseDeeplinkString } from '@parts/utils/parse-deeplink-string';
+import { DeeplinkModalComponent } from '@parts/modals/deeplink-modal/deeplink-modal.component';
 
 @Component({
     selector: 'app-root',
@@ -426,7 +428,45 @@ export class AppComponent implements OnInit, OnDestroy {
                     console.log(data);
                     this._ngZone.run(() => {
                         if (data) {
-                            this.variablesService.deeplink$.next(data);
+                            if (this.variablesService.appLogin !== true) {
+                                this._modalService.prepareModal('info', 'DEEPLINK.LABELS.LABEL15');
+                                return;
+                            }
+
+                            const { daemon_state, sync_started } = this.variablesService;
+                            if (daemon_state !== 2 || sync_started) {
+                                this._modalService.prepareModal('info', 'SYNC_MODAL.LABELS.LABEL1');
+                                return;
+                            }
+
+                            const availableWallets = this.variablesService.wallets.filter(
+                                (wallet) => !wallet.is_watch_only || !wallet.is_auditable || wallet.loaded
+                            );
+                            if (!availableWallets.length) {
+                                this._modalService.prepareModal('info', 'DEEPLINK.LABELS.LABEL12');
+                                return;
+                            }
+
+                            const deeplinkResponse = parseDeeplinkString(data);
+
+                            if (!deeplinkResponse) {
+                                this._modalService.prepareModal('error', 'ERRORS.DEEPLINK_FORMAT_NOT_SUPPORTED');
+                                return;
+                            }
+
+                            const isDeeplinkDialogOpened = this._matDialog.openDialogs.some(
+                                ({ componentInstance }) => componentInstance instanceof DeeplinkModalComponent
+                            );
+
+                            if (isDeeplinkDialogOpened) {
+                                this._modalService.prepareModal('info', 'DEEPLINK.LABELS.LABEL13');
+                                return;
+                            }
+
+                            this._matDialog.open(DeeplinkModalComponent, {
+                                data: deeplinkResponse,
+                                ariaLabel: this._translateService.instant('DEEPLINK.LABELS.LABEL1'),
+                            });
                         }
                     });
                 });

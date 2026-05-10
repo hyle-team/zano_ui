@@ -12,7 +12,6 @@ import { SeedPhraseComponent } from './seed-phrase/seed-phrase.component';
 import { AssignAliasComponent } from './assign-alias/assign-alias.component';
 import { EditAliasComponent } from './edit-alias/edit-alias.component';
 import { SettingsComponent } from './settings/settings.component';
-import { DeeplinkComponent } from './deeplink/deeplink.component';
 import { NgModule } from '@angular/core';
 import { ExportImportComponent } from './export-import/export-import.component';
 import { TransferAliasComponent } from './transfer-alias/transfer-alias.component';
@@ -135,16 +134,6 @@ const routes: Routes = [
             {
                 path: '',
                 component: ExportImportComponent,
-            },
-        ],
-    },
-    {
-        path: paths.deeplink,
-        component: WithSidebarLayoutComponent,
-        children: [
-            {
-                path: '',
-                component: DeeplinkComponent,
             },
         ],
     },
