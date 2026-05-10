@@ -22,7 +22,13 @@
             <div *ngIf="walletIdControl.hasError('required')" class="error" aria-live="assertive" id="walletId-error1">
                 {{ 'ERRORS.REQUIRED' | translate }}
             </div>
-            <div  (contextmenu)="variablesService.onContextMenuOnlyCopy($event, deeplinkResponse.asset_id)" *ngIf="walletIdControl.hasError('walletHasNoAsset')" class="error" aria-live="assertive" id="walletId-error2">
+            <div
+                (contextmenu)="variablesService.onContextMenuOnlyCopy($event, deeplinkResponse.asset_id)"
+                *ngIf="walletIdControl.hasError('walletHasNoAsset')"
+                class="error"
+                aria-live="assertive"
+                id="walletId-error2"
+            >
                 {{ 'DEEPLINK.LABELS.LABEL14' | translate : { assetId: deeplinkResponse.asset_id } }}
             </div>
         </ng-container>

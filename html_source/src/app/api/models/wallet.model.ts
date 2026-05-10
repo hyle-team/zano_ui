@@ -35,7 +35,7 @@ const sortBalances = (
     verifiedAssetInfoWhitelist: VerifiedAssetInfoWhitelist,
     currentPriceForAssets: CurrentPriceForAssets,
     walletSettings: WalletSettings,
-    currency: string = 'usd'
+    currency = 'usd'
 ): AssetBalances => {
     if (!value?.length) return [];
 
@@ -279,8 +279,8 @@ export class Wallet {
         address: string,
         balances: AssetBalances | null | undefined,
         unlocked_balance: number,
-        mined: number = 0,
-        tracking: string = ''
+        mined = 0,
+        tracking = ''
     ) {
         this.wallet_id = id;
         this.name = name;
@@ -392,7 +392,7 @@ export class Wallet {
         this.localBlacklistVerifiedAssets$.next(blackList);
     }
 
-    setHideEmptyAssets(value: boolean) {
+    setHideEmptyAssets(value: boolean): void {
         if (this.settings.hideEmptyAssets === value) return;
 
         this.settings = {

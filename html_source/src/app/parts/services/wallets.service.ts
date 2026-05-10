@@ -3,7 +3,7 @@ import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
 import { DEFAULT_ASSETS_INFO_WHITELIST, ResponseGetWalletInfo, Wallet } from '@api/models/wallet.model';
 import { Router } from '@angular/router';
-import { ParamsCallRpc, ResponseCallRpc } from '@api/models/call_rpc.model';
+import { ResponseCallRpc } from '@api/models/call_rpc.model';
 import { AssetInfo, AssetsInfoWhitelist, AssetsWhitelistGetResponseData, VerifiedAssetInfoWhitelist } from '@api/models/assets.model';
 import { TranslateService } from '@ngx-translate/core';
 import { ResultAliasByAddress } from '@api/models/rpc.models';

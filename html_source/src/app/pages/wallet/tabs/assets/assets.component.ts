@@ -253,7 +253,7 @@ export class AssetsComponent implements OnInit, OnDestroy {
         }
     }
 
-    setHideEmptyAssets(value: boolean) {
+    setHideEmptyAssets(value: boolean): void {
         this.variablesService.current_wallet.setHideEmptyAssets(value);
         this.paginatePipeArgs.currentPage = 1;
     }

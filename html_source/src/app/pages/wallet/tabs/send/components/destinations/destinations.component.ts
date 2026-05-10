@@ -26,15 +26,15 @@ export class DestinationsComponent {
 
     @Output() onAdd = new EventEmitter<void>();
 
-    remove(index: number) {
+    remove(index: number): void {
         this.onRemove.emit(index);
     }
 
-    add() {
+    add(): void {
         this.onAdd.emit();
     }
 
-    duplicate(form: DestinationFormGroup) {
+    duplicate(form: DestinationFormGroup): void {
         this.onDuplicate.emit(form);
     }
 }

@@ -197,7 +197,12 @@ export class SendComponent implements OnDestroy {
         this.form.controls.destinations.push(destination);
     }
 
-    getTransferParams() {
+    getTransferParams(): {
+        wallet_id: number;
+        destinations: { address: string; asset_id: string; amount: string }[];
+        fee: string;
+        comment: string;
+    } {
         const transfer_form_value: TransferFormValue = this.form.getRawValue();
         const {
             current_wallet: { wallet_id },
@@ -301,7 +306,7 @@ export class SendComponent implements OnDestroy {
             },
             {
                 validators: [
-                    (formGroup: TransferFormGroup) => {
+                    (formGroup: TransferFormGroup): ValidationErrors | null => {
                         const { fee, destinations } = formGroup.getRawValue();
                         const feeControl = formGroup.controls.fee;
 

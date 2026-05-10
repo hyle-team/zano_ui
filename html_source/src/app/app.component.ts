@@ -771,7 +771,7 @@ export class AppComponent implements OnInit, OnDestroy {
         }
     }
 
-    private _handlerCoreEventAddAlias(data, i: number) {
+    private _handlerCoreEventAddAlias(data, i: number): void {
         const aliasInfo: AliasInfo = data.events[i].details;
         if (!aliasInfo) return;
 
@@ -780,7 +780,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this._updateAliasInfoListByAddress(address);
     }
 
-    private _updateAliasInfoListByAddress(address: string) {
+    private _updateAliasInfoListByAddress(address: string): void {
         const wallet = this._walletsService.getOpenedWalletByAddress(address);
 
         if (wallet) {

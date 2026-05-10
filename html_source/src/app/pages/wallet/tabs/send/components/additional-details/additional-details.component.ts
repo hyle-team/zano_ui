@@ -22,7 +22,7 @@ export class AdditionalDetailsComponent {
     @Input()
     formRef: TransferFormGroup;
 
-    toggle() {
+    toggle(): void {
         this.show = !this.show;
         this.showChange.emit(this.show);
     }

@@ -12,6 +12,4 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 })
 export class WalletCardNameComponent {
     @Input() wallet: Wallet;
-
-    constructor() {}
 }

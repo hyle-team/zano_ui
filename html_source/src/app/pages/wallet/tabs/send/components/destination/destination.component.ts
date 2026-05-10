@@ -28,9 +28,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 export class DestinationComponent {
     @Input() index: number;
 
-    @Input() hideRemove: boolean = true;
+    @Input() hideRemove = true;
 
-    @Input() hideDuplicate: boolean = false;
+    @Input() hideDuplicate = false;
 
     @Input('formRef') form: DestinationFormGroup;
 
@@ -38,11 +38,11 @@ export class DestinationComponent {
 
     @Output() onDuplicate = new EventEmitter<DestinationFormGroup>();
 
-    remove() {
+    remove(): void {
         this.onRemove.emit();
     }
 
-    duplicate() {
+    duplicate(): void {
         this.onDuplicate.emit(this.form);
     }
 }

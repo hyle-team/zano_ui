@@ -41,11 +41,11 @@ export class AssetFieldComponent implements OnInit {
 
     variablesService = inject(VariablesService);
 
-    ngOnInit() {
+    ngOnInit(): void {
         this._initItems();
     }
 
-    private _initItems() {
+    private _initItems(): void {
         const balances$ = this.variablesService.current_wallet.balances$;
         const isVisibleWrapInfo$ = this.form.controls.is_visible_wrap_info.valueChanges.pipe(
             startWith(this.form.controls.is_visible_wrap_info.value)

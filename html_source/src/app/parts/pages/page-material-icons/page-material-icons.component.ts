@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { svgIcons } from '../../../../assets/zano-icons';
 import { MatIconModule } from '@angular/material/icon';
@@ -10,10 +10,6 @@ import { MatIconModule } from '@angular/material/icon';
     templateUrl: './page-material-icons.component.html',
     styleUrls: ['./page-material-icons.component.scss'],
 })
-export class PageMaterialIconsComponent implements OnInit {
-    constructor() {}
-
-    ngOnInit(): void {}
-
+export class PageMaterialIconsComponent {
     materialZanoIcons = svgIcons;
 }

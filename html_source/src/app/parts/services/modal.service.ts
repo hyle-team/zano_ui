@@ -1,7 +1,6 @@
 import { inject, Injectable, NgZone } from '@angular/core';
 import { ModalContainerComponent } from '../modals/modal-container/modal-container.component';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
-import { take } from 'rxjs';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 
 @Injectable({
     providedIn: 'root',

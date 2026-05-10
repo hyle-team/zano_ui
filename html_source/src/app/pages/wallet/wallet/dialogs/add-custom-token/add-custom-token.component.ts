@@ -1,5 +1,5 @@
 import { Component, inject, NgZone } from '@angular/core';
-import { FormControl, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormControl, NonNullableFormBuilder, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { VariablesService } from '@parts/services/variables.service';
 import { ZanoValidators } from '@parts/utils/zano-validators';
 import { BackendService } from '@api/services/backend.service';
@@ -39,7 +39,7 @@ export class AddCustomTokenComponent {
 
     formGroup = this._fb.group<{ asset_id: FormControl<string> }>({
         asset_id: this._fb.control('', [
-            (control) => {
+            (control): ValidationErrors | null => {
                 const asset_id = control.value;
                 const {
                     current_wallet: { balances },
@@ -65,7 +65,7 @@ export class AddCustomTokenComponent {
 
     private _matDialogRef: MatDialogRef<AssetBalance | undefined> = inject(MatDialogRef);
 
-    beforeSubmit() {
+    beforeSubmit(): void {
         if (this.formGroup.invalid) {
             this.formGroup.markAsTouched();
             this.formGroup.updateValueAndValidity();
@@ -75,7 +75,7 @@ export class AddCustomTokenComponent {
         this.submit();
     }
 
-    submit() {
+    submit(): void {
         this.loading = true;
         const { asset_id } = this.formGroup.getRawValue();
         const { current_wallet, verifiedAssetIdWhitelist } = this.variablesService;

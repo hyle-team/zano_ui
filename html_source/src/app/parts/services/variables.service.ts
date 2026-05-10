@@ -456,8 +456,8 @@ export class VariablesService implements OnDestroy {
                         if (!success) continue;
                         if (!data || typeof data !== 'object') continue;
 
-                        const hasUsd = (data as any)?.usd !== undefined;
-                        const hasUsd24h = (data as any)?.usd_24h_change !== undefined;
+                        const hasUsd = data?.usd !== undefined;
+                        const hasUsd24h = data?.usd_24h_change !== undefined;
                         if (!hasUsd && !hasUsd24h) continue;
 
                         if (asset_id) {

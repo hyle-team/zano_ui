@@ -69,13 +69,13 @@ export class CreateWalletComponent implements OnInit, OnDestroy {
         private _translateService: TranslateService
     ) {}
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.form.controls.password.valueChanges.pipe(takeUntil(this._destroy$)).subscribe(() => {
             this.form.controls.confirm.updateValueAndValidity({ onlySelf: true });
         });
     }
 
-    ngOnDestroy() {
+    ngOnDestroy(): void {
         this._destroy$.next();
         this._destroy$.complete();
     }

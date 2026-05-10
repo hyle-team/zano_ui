@@ -19,24 +19,24 @@ export class CellAddressComponent {
 
     variablesService = inject(VariablesService);
 
-    get isShowMessage() {
+    get isShowMessage(): boolean {
         const { tx_type } = this.transaction;
         return tx_type !== 0;
     }
 
-    get isShowAddressOrAlias() {
+    get isShowAddressOrAlias(): boolean {
         const { remote_addresses = [], remote_aliases = [], tx_type } = this.transaction;
         return [...remote_addresses, ...remote_aliases].length && tx_type === 0;
     }
 
-    get isShowHidden() {
+    get isShowHidden(): boolean {
         const { remote_addresses = [], remote_aliases = [], tx_type } = this.transaction;
 
         return ![...remote_addresses, ...remote_aliases].length && tx_type === 0;
     }
 
-    get items() {
-        let items: { type: 'address' | 'alias'; value: string }[] = [];
+    get items(): { type: 'address' | 'alias'; value: string }[] {
+        const items: { type: 'address' | 'alias'; value: string }[] = [];
         const { remote_addresses = [], remote_aliases = [] } = this.transaction;
 
         remote_addresses.forEach((address, index) => {
@@ -51,11 +51,11 @@ export class CellAddressComponent {
         return items;
     }
 
-    get firstItem() {
+    get firstItem(): { type: 'address' | 'alias'; value: string } | undefined {
         return this.items[0];
     }
 
-    get copyText() {
+    get copyText(): string {
         if (!this.firstItem) return '';
 
         const { type, value } = this.firstItem;
