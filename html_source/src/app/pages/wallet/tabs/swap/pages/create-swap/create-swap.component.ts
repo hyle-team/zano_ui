@@ -136,7 +136,7 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
         receiverAddress: undefined,
     };
 
-    get isShowHintNoAliasFound() {
+    get isShowHintNoAliasFound(): boolean {
         const {
             controls: {
                 receiverAddress: { value },
@@ -145,7 +145,7 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
         return !this.loadingItems && value.startsWith('@') && value.length > 1 && !this.items.length;
     }
 
-    get isShowHintEnterCharToSearch() {
+    get isShowHintEnterCharToSearch(): boolean {
         const {
             controls: {
                 receiverAddress: { value },
@@ -361,7 +361,7 @@ export class CreateSwapComponent implements OnInit, OnDestroy {
         this._createAutocompleteItems();
     }
 
-    private _createAutocompleteItems() {
+    private _createAutocompleteItems(): void {
         const {
             controls: { receiverAddress: addressControl },
         } = this.form;

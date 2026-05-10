@@ -19,23 +19,23 @@ import { TranslateModule } from '@ngx-translate/core';
 export class CellAssetBalanceComponent {
     @Input() balance: AssetBalance;
 
-    isEqualUnlockedAndTotal() {
+    isEqualUnlockedAndTotal(): boolean {
         return BigNumber(this.balance.unlocked).eq(this.balance.total);
     }
 
-    getTotalAmount() {
+    getTotalAmount(): string {
         return intToMoney(this.balance.total, this.balance.asset_info.decimal_point);
     }
 
-    getUnlockedAmount() {
+    getUnlockedAmount(): string {
         return intToMoney(this.balance.unlocked, this.balance.asset_info.decimal_point);
     }
 
-    getLockedAmount() {
+    getLockedAmount(): string {
         return intToMoney(BigNumber(this.balance.total).minus(this.balance.unlocked), this.balance.asset_info.decimal_point);
     }
 
-    getTicker() {
+    getTicker(): string {
         return this.balance.asset_info.ticker ?? '';
     }
 }

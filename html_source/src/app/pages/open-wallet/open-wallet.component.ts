@@ -99,14 +99,16 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
                 txs_to_return,
                 false,
                 (openStatus, openData, errorCode: 'WRONG_PASSWORD' | 'FILE_NOT_FOUND' | 'INVALID_FILE' | 'ALREADY_EXISTS' | string) => {
-                    console.log('openData', openData);
+                    this.ngZone.run(() => {
+                        this.loading$.next(false);
+                    });
+
                     if (errorCode === 'WRONG_PASSWORD') {
                         this.ngZone.run(() => {
                             this.openWalletForm.controls.password.markAsTouched();
                             this.openWalletForm.controls.password.setErrors({
                                 wrongPassword,
                             });
-                            this.loading$.next(false);
                         });
                         return;
                     }
@@ -125,9 +127,6 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
 
                     if (['INVALID_FILE', 'FILE_NOT_FOUND'].includes(errorCode)) {
                         this.modalService.prepareModal('error', errorText);
-                        this.ngZone.run(() => {
-                            this.loading$.next(false);
-                        });
                         return;
                     }
 
@@ -143,7 +142,6 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
                             this.modalService.prepareModal('error', 'OPEN_WALLET.WITH_ADDRESS_ALREADY_OPEN');
                             this.backend.closeWallet(openData.wallet_id, () => {
                                 this.ngZone.run(() => {
-                                    this.loading$.next(false);
                                     this.router.navigate(['/']);
                                 });
                             });
@@ -187,13 +185,9 @@ export class OpenWalletComponent implements OnInit, OnDestroy {
                                     this.ngZone.run(() => {
                                         this.variablesService.setCurrentWallet(openData.wallet_id);
                                         this.router.navigate(['/wallet/']);
-                                        this.loading$.next(false);
                                     });
                                 } else {
                                     console.log(run_data['error_code']);
-                                    this.ngZone.run(() => {
-                                        this.loading$.next(false);
-                                    });
                                 }
                             });
                         }

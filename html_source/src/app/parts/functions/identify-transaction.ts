@@ -4,7 +4,7 @@ import { ZANO_ASSET_INFO } from '@parts/data/zano-assets-info';
 export const isInitiator = (transaction: Transaction): boolean => {
     const spent = transaction.employed_entries?.spent;
     // The initiator is the one who has a spent entry with index 0.
-    return spent?.some(entry => entry.index === 0) ?? false;
+    return spent?.some((entry) => entry.index === 0) ?? false;
 };
 
 export const isFinalizator = (transaction: Transaction): boolean => {
@@ -26,8 +26,8 @@ export const isSelfTransaction = (transaction: Transaction, address: string): bo
 
     // Condition 2: All main entries must be for the ZANO asset.
     const allEntriesAreZano =
-        (spent?.every(e => e.asset_id === ZANO_ASSET_INFO.asset_id) ?? true) &&
-        (receive?.every(e => e.asset_id === ZANO_ASSET_INFO.asset_id) ?? true);
+        (spent?.every((e) => e.asset_id === ZANO_ASSET_INFO.asset_id) ?? true) &&
+        (receive?.every((e) => e.asset_id === ZANO_ASSET_INFO.asset_id) ?? true);
 
     if (!allEntriesAreZano) {
         return false;
@@ -56,10 +56,7 @@ export const isSelfTransaction = (transaction: Transaction, address: string): bo
     }
 
     // Check if the single subtransfer matches the fee details.
-    return (
-        firstSubtransfer.asset_id === ZANO_ASSET_INFO.asset_id &&
-        firstSubtransfer.amount.eq(fee)
-    );
+    return firstSubtransfer.asset_id === ZANO_ASSET_INFO.asset_id && firstSubtransfer.amount.eq(fee);
 };
 
 export const isSwapTransaction = (transaction: Transaction): boolean => {
@@ -92,8 +89,5 @@ export const isSwapTransaction = (transaction: Transaction): boolean => {
 export const hasOutgoingSubtransfer = (transaction: Transaction): boolean => {
     const { subtransfers_by_pid } = transaction;
     // Check if subtransfers exist and if any subtransfer in any group is an outgoing one.
-    return (
-        !!subtransfers_by_pid &&
-        subtransfers_by_pid.some(({ subtransfers }) => subtransfers.some(({ is_income }) => !is_income))
-    );
+    return !!subtransfers_by_pid && subtransfers_by_pid.some(({ subtransfers }) => subtransfers.some(({ is_income }) => !is_income));
 };

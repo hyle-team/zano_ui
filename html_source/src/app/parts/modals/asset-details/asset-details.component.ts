@@ -44,7 +44,7 @@ export class AssetDetailsComponent implements OnInit, OnDestroy {
 
     private readonly _destroy$ = new Subject<void>();
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.getAssetInfo();
 
         this.updateAssetWhitelistStateView();
@@ -58,12 +58,12 @@ export class AssetDetailsComponent implements OnInit, OnDestroy {
         });
     }
 
-    ngOnDestroy() {
+    ngOnDestroy(): void {
         this._destroy$.next();
         this._destroy$.complete();
     }
 
-    getAssetInfo() {
+    getAssetInfo(): void {
         const {
             asset_info: { asset_id },
         } = this.data;
@@ -93,7 +93,7 @@ export class AssetDetailsComponent implements OnInit, OnDestroy {
             });
     }
 
-    private updateAssetWhitelistStateView() {
+    private updateAssetWhitelistStateView(): void {
         const { assetsInfoWhitelist } = this.variablesService.current_wallet;
         const {
             asset_info: { asset_id },
@@ -116,7 +116,7 @@ export class AssetDetailsComponent implements OnInit, OnDestroy {
         }
     }
 
-    addAssetToWhitelist() {
+    addAssetToWhitelist(): void {
         const {
             asset_info: { asset_id },
         } = this.data;
@@ -139,7 +139,7 @@ export class AssetDetailsComponent implements OnInit, OnDestroy {
         });
     }
 
-    removeAssetFromWhitelist() {
+    removeAssetFromWhitelist(): void {
         const {
             asset_info: { asset_id },
         } = this.data;

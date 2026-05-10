@@ -207,11 +207,11 @@ export class HistoryComponent implements OnInit, OnDestroy {
         }
     }
 
-    trackByTransaction(index: number, item: Transaction) {
+    trackByTransaction(index: number, item: Transaction): number | string {
         return item.tx_hash || index;
     }
 
-    trackByAmountItem(index: number, item: AmountItem) {
+    trackByAmountItem(index: number, item: AmountItem): number | string {
         return item.ticker || index;
     }
 

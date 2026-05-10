@@ -143,8 +143,14 @@ export class WalletComponent implements OnInit, OnDestroy {
         private router: Router
     ) {
         if (!this.variablesService.current_wallet && this.variablesService.wallets.length > 0) {
-            this.variablesService.setCurrentWallet(0);
+            this.variablesService.setCurrentWallet(this.variablesService.wallets[0].wallet_id);
         }
+
+        if (!this.variablesService.current_wallet) {
+            this.router.navigate(['/']).then();
+            return;
+        }
+
         this.walletLoaded = this.variablesService.current_wallet.loaded;
 
         this.variablesService.currentWalletChangedEvent.pipe(takeUntil(this.destroy$)).subscribe({
@@ -233,7 +239,12 @@ export class WalletComponent implements OnInit, OnDestroy {
             .pipe(filter(Boolean), distinctUntilChanged(), takeUntil(this.destroy$))
             .subscribe({
                 next: (value: any) => {
-                    const data = value.filter((item: Sync) => item.wallet_id === this.variablesService.current_wallet.wallet_id)[0];
+                    const currentWallet = this.variablesService.current_wallet;
+                    if (!currentWallet) {
+                        return;
+                    }
+
+                    const data = value.filter((item: Sync) => item.wallet_id === currentWallet.wallet_id)[0];
                     if (data && !data.sync) {
                         let in_progress;
                         const values = this.store.state.sync;
@@ -317,7 +328,8 @@ export class WalletComponent implements OnInit, OnDestroy {
     updateWalletStatus(): void {
         this.backend.eventSubscribe(Commands.wallet_sync_progress, (data) => {
             const wallet_id = data.wallet_id;
-            if (wallet_id === this.variablesService.current_wallet.wallet_id) {
+            const currentWallet = this.variablesService.current_wallet;
+            if (currentWallet && wallet_id === currentWallet.wallet_id) {
                 this.ngZone.run(() => {
                     this.walletLoaded = false;
                 });
@@ -327,7 +339,8 @@ export class WalletComponent implements OnInit, OnDestroy {
             const wallet_state = data.wallet_state;
             const wallet_id = data.wallet_id;
             this.ngZone.run(() => {
-                if (wallet_id !== this.variablesService.current_wallet.wallet_id) {
+                const currentWallet = this.variablesService.current_wallet;
+                if (!currentWallet || wallet_id !== currentWallet.wallet_id) {
                     return;
                 }
 

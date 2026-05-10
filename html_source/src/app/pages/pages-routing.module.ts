@@ -1,5 +1,4 @@
 import { RouterModule, Routes } from '@angular/router';
-import { paths } from './paths';
 import { WithSidebarLayoutComponent } from '../layouts/with-sidebar-layout/with-sidebar-layout.component';
 import { AddWalletComponent } from './add-wallet/add-wallet.component';
 import { WalletDetailsComponent } from './wallet-details/wallet-details.component';
@@ -12,14 +11,14 @@ import { SeedPhraseComponent } from './seed-phrase/seed-phrase.component';
 import { AssignAliasComponent } from './assign-alias/assign-alias.component';
 import { EditAliasComponent } from './edit-alias/edit-alias.component';
 import { SettingsComponent } from './settings/settings.component';
-import { DeeplinkComponent } from './deeplink/deeplink.component';
 import { NgModule } from '@angular/core';
 import { ExportImportComponent } from './export-import/export-import.component';
 import { TransferAliasComponent } from './transfer-alias/transfer-alias.component';
+import { LoginRedirectGuard } from './auth/guards/login-redirect.guard';
 
 const routes: Routes = [
     {
-        path: paths.addWallet,
+        path: 'add-wallet',
         component: WithSidebarLayoutComponent,
         children: [
             {
@@ -29,7 +28,7 @@ const routes: Routes = [
         ],
     },
     {
-        path: paths.details,
+        path: 'details',
         component: WithSidebarLayoutComponent,
         children: [
             {
@@ -39,8 +38,9 @@ const routes: Routes = [
         ],
     },
     {
-        path: paths.login,
+        path: 'login',
         component: FullLayoutComponent,
+        canActivate: [LoginRedirectGuard],
         children: [
             {
                 path: '',
@@ -49,7 +49,7 @@ const routes: Routes = [
         ],
     },
     {
-        path: paths.create,
+        path: 'create',
         component: WithSidebarLayoutComponent,
         children: [
             {
@@ -59,7 +59,7 @@ const routes: Routes = [
         ],
     },
     {
-        path: paths.open,
+        path: 'open',
         component: WithSidebarLayoutComponent,
         children: [
             {
@@ -69,7 +69,7 @@ const routes: Routes = [
         ],
     },
     {
-        path: paths.restore,
+        path: 'restore',
         component: WithSidebarLayoutComponent,
         children: [
             {
@@ -79,7 +79,7 @@ const routes: Routes = [
         ],
     },
     {
-        path: paths.seedPhrase,
+        path: 'seed-phrase',
         component: WithSidebarLayoutComponent,
         children: [
             {
@@ -89,7 +89,7 @@ const routes: Routes = [
         ],
     },
     {
-        path: paths.assignAlias,
+        path: 'assign-alias',
         component: WithSidebarLayoutComponent,
         children: [
             {
@@ -99,7 +99,7 @@ const routes: Routes = [
         ],
     },
     {
-        path: paths.editAlias,
+        path: 'edit-alias',
         component: WithSidebarLayoutComponent,
         children: [
             {
@@ -109,7 +109,7 @@ const routes: Routes = [
         ],
     },
     {
-        path: paths.transferAlias,
+        path: 'transfer-alias',
         component: WithSidebarLayoutComponent,
         children: [
             {
@@ -119,7 +119,7 @@ const routes: Routes = [
         ],
     },
     {
-        path: paths.settings,
+        path: 'settings',
         component: WithSidebarLayoutComponent,
         children: [
             {
@@ -129,7 +129,7 @@ const routes: Routes = [
         ],
     },
     {
-        path: paths.import,
+        path: 'import',
         component: WithSidebarLayoutComponent,
         children: [
             {
@@ -139,18 +139,8 @@ const routes: Routes = [
         ],
     },
     {
-        path: paths.deeplink,
-        component: WithSidebarLayoutComponent,
-        children: [
-            {
-                path: '',
-                component: DeeplinkComponent,
-            },
-        ],
-    },
-    {
         path: '',
-        redirectTo: paths.addWallet,
+        redirectTo: 'add-wallet',
         pathMatch: 'full',
     },
 ];

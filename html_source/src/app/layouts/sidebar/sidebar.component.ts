@@ -6,6 +6,7 @@ import { Wallet } from '@api/models/wallet.model';
 import { Subject } from 'rxjs';
 import { ZanoLoadersService } from '@parts/services/zano-loaders.service';
 import { TranslateService } from '@ngx-translate/core';
+import { NavigationService } from '@parts/services/back.service';
 
 @Component({
     selector: 'app-sidebar',
@@ -21,7 +22,8 @@ export class SidebarComponent implements OnDestroy {
         private route: ActivatedRoute,
         private router: Router,
         private ngZone: NgZone,
-        public zanoLoadersService: ZanoLoadersService
+        public zanoLoadersService: ZanoLoadersService,
+        private navigationService: NavigationService
     ) {}
 
     ngOnDestroy(): void {
@@ -54,6 +56,7 @@ export class SidebarComponent implements OnDestroy {
             this.variablesService.appPass = '';
             this.ngZone.run(() => {
                 this.router.navigate(['/login'], { queryParams: { type: 'auth' } }).then(() => {
+                    this.navigationService.resetHistoryToCurrent();
                     this.zanoLoadersService.close('fullScreen');
                 });
             });

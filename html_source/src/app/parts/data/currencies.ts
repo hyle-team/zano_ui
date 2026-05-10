@@ -103,4 +103,4 @@ export const fiatCurrencyIds = new Set([
     'xdr',
 ]);
 
-export const isFiatCurrency = (currency: string) => fiatCurrencyIds.has(currency);
+export const isFiatCurrency = (currency: string): boolean => fiatCurrencyIds.has(currency);

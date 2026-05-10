@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { WalletComponent } from './wallet/wallet.component';
-import { paths, pathsChildrenWallet } from '../paths';
 import { SendComponent } from './tabs/send/send.component';
 import { ReceiveComponent } from './tabs/receive/receive.component';
 import { HistoryComponent } from './tabs/history/history.component';
@@ -15,34 +14,37 @@ import { SwapProposalHexComponent } from './tabs/swap/pages/swap-proposal-hex/sw
 import { SwapProposalHexGuard } from './tabs/swap/parts/guards/swap-proposal-hex.guard';
 import { CustomAssetsComponent } from './tabs/custom-assets/pages/custom-assets/custom-assets.component';
 import { CreateNewAssetComponent } from './tabs/custom-assets/pages/create-new-asset/create-new-asset.component';
+import { WalletAccessGuard } from './guards/wallet-access.guard';
 
 const routes: Routes = [
     {
-        path: paths.wallet,
+        path: 'wallet',
         component: WithSidebarLayoutComponent,
+        canActivate: [WalletAccessGuard],
+        canActivateChild: [WalletAccessGuard],
         children: [
             {
                 path: '',
                 component: WalletComponent,
                 children: [
                     {
-                        path: pathsChildrenWallet.assets,
+                        path: 'assets',
                         component: AssetsComponent,
                     },
                     {
-                        path: pathsChildrenWallet.send,
+                        path: 'send',
                         component: SendComponent,
                     },
                     {
-                        path: pathsChildrenWallet.receive,
+                        path: 'receive',
                         component: ReceiveComponent,
                     },
                     {
-                        path: pathsChildrenWallet.history,
+                        path: 'history',
                         component: HistoryComponent,
                     },
                     {
-                        path: pathsChildrenWallet.staking,
+                        path: 'staking',
                         component: StakingComponent,
                     },
                     {
@@ -72,7 +74,7 @@ const routes: Routes = [
                     },
                     {
                         path: '',
-                        redirectTo: pathsChildrenWallet.assets,
+                        redirectTo: 'assets',
                         pathMatch: 'full',
                     },
                 ],

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CellAddressComponent } from './cell-address.component';
+import { DEFAULT_COMPONENT_TEST_PROVIDERS } from '../../../testing/default-component-test-providers';
 
 describe('CellAddressComponent', () => {
     let component: CellAddressComponent;
@@ -9,11 +10,11 @@ describe('CellAddressComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [CellAddressComponent],
+            providers: DEFAULT_COMPONENT_TEST_PROVIDERS,
         }).compileComponents();
 
         fixture = TestBed.createComponent(CellAddressComponent);
         component = fixture.componentInstance;
-        fixture.detectChanges();
     });
 
     it('should create', () => {

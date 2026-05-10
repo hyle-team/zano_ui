@@ -39,9 +39,9 @@ import { ALIAS_PREFIX, LEGACY_PREFIX } from '@parts/data/constants';
 export class AddressFieldComponent implements OnInit, OnDestroy {
     @Input('formRef') form: DestinationFormGroup;
 
-    @Input() label: string = 'SEND.ADDRESS';
+    @Input() label = 'SEND.ADDRESS';
 
-    @Input() placeholder: string = 'PLACEHOLDERS.ADDRESS_PLACEHOLDER';
+    @Input() placeholder = 'PLACEHOLDERS.ADDRESS_PLACEHOLDER';
 
     @ViewChild(CdkVirtualScrollViewport)
     cdkVirtualScrollViewPort: CdkVirtualScrollViewport;
@@ -56,7 +56,7 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
 
     lowerCaseDisabled = true;
 
-    get isShowHintNoAliasFound() {
+    get isShowHintNoAliasFound(): boolean {
         const {
             controls: {
                 address: { value },
@@ -65,7 +65,7 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
         return !this.loading && value.startsWith('@') && value.length > 1 && !this.items.length;
     }
 
-    get isShowHintEnterCharToSearch() {
+    get isShowHintEnterCharToSearch(): boolean {
         const {
             controls: {
                 address: { value },
@@ -84,7 +84,7 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
 
     private readonly _destroy$ = new Subject<void>();
 
-    ngOnInit() {
+    ngOnInit(): void {
         const {
             controls: { address: addressControl },
         } = this.form;
@@ -123,7 +123,7 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
             });
     }
 
-    ngOnDestroy() {
+    ngOnDestroy(): void {
         this._destroy$.next();
         this._destroy$.complete();
     }
@@ -157,7 +157,7 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
         this.form.controls.address.patchValue(pasteValue);
     }
 
-    handlerContextmenu(event: MouseEvent) {
+    handlerContextmenu(event: MouseEvent): void {
         this.variablesService.onContextMenu(event);
     }
 
@@ -165,7 +165,7 @@ export class AddressFieldComponent implements OnInit, OnDestroy {
         return value ?? index;
     }
 
-    openAutocomplete() {
+    openAutocomplete(): void {
         this.cdkVirtualScrollViewPort?.scrollToIndex(0);
         this.cdkVirtualScrollViewPort?.checkViewportSize();
     }

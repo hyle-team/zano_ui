@@ -35,7 +35,7 @@ const sortBalances = (
     verifiedAssetInfoWhitelist: VerifiedAssetInfoWhitelist,
     currentPriceForAssets: CurrentPriceForAssets,
     walletSettings: WalletSettings,
-    currency: string = 'usd'
+    currency = 'usd'
 ): AssetBalances => {
     if (!value?.length) return [];
 
@@ -279,8 +279,8 @@ export class Wallet {
         address: string,
         balances: AssetBalances | null | undefined,
         unlocked_balance: number,
-        mined: number = 0,
-        tracking: string = ''
+        mined = 0,
+        tracking = ''
     ) {
         this.wallet_id = id;
         this.name = name;
@@ -335,7 +335,7 @@ export class Wallet {
     prepareHistory(items: Transaction[]): void {
         for (let i = 0; i < items.length; i++) {
             const tx = items[i];
-            const hasIncoming = tx.subtransfers_by_pid?.some(g => g.subtransfers.some(s => s.is_income));
+            const hasIncoming = tx.subtransfers_by_pid?.some((g) => g.subtransfers.some((s) => s.is_income));
 
             if ((tx.tx_type === 7 || tx.tx_type === 11) && hasIncoming) {
                 let exists = false;
@@ -392,7 +392,7 @@ export class Wallet {
         this.localBlacklistVerifiedAssets$.next(blackList);
     }
 
-    setHideEmptyAssets(value: boolean) {
+    setHideEmptyAssets(value: boolean): void {
         if (this.settings.hideEmptyAssets === value) return;
 
         this.settings = {
@@ -401,54 +401,6 @@ export class Wallet {
         };
         this.settingsChanged$.next(this.settings);
     }
-}
-
-export interface Deeplink {
-    action?: 'send' | 'escrow' | 'marketplace_offer_create';
-    // TODO: Create new interfaces for escrow and marketplace_offer_create
-    my_deposit?: string;
-    seller_deposit?: string;
-    seller_address?: string;
-    hide_sender?: string;
-    hide_receiver?: string;
-    title?: string;
-    description?: string;
-    category?: string;
-    price?: string;
-    img_url?: string;
-    url?: string;
-    contact?: string;
-    comments?: string;
-    comment?: string;
-    mixins?: string;
-    fee?: string;
-}
-
-export interface SendDeeplink extends Deeplink {
-    address?: string;
-    amount?: string;
-    asset_id?: string;
-    comment?: string;
-}
-
-export interface PushOffer {
-    wallet_id: number;
-    od: {
-        ap: string;
-        at: string;
-        cat: string;
-        cnt: string;
-        com: string;
-        do: string;
-        et: number;
-        fee: BigNumber;
-        lci: string;
-        lco: string;
-        ot: number;
-        pt: string;
-        t: string;
-        url: string;
-    };
 }
 
 export interface ResponseGetWalletInfo {
