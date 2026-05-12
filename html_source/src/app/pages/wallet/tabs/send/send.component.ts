@@ -623,6 +623,13 @@ export class SendComponent implements OnDestroy {
             asyncValidators: [addressAliasValidator],
         });
 
+        addressControl.valueChanges.pipe(takeUntil(this._destroy$)).subscribe({
+            next: () => {
+                aliasAddressControl.setValue('', { emitEvent: false });
+                isVisibleWrapInfoControl.setValue(false, { emitEvent: false });
+            },
+        });
+
         return this._fb.group(
             {
                 address: addressControl,

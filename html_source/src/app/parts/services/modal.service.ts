@@ -17,6 +17,7 @@ export class ModalService {
                 message,
             },
             width: '34rem',
+            autoFocus: true,
         };
 
         this._ngZone.run(() => {

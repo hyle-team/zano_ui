@@ -14,58 +14,14 @@ import { ApiService } from '@api/services/api.service';
 import { WrapInfo } from '@api/models/wrap-info';
 import { DeeplinkResponse } from '@api/models/deeplink.model';
 import { DEFAULT_FEE, DEFAULT_FEE_BIG, DEFAULT_PRICE_ALIAS, MAX_COMMENT_LENGTH, MAX_WALLET_NAME_LENGTH } from '@parts/data/constants';
-
-export interface AppSettings {
-    currency: string;
-    appLockTime: number;
-    appLog: number;
-    scale: string;
-    appUseTor: boolean;
-    visibilityBalance: boolean;
-    language: string;
-    default_path: string;
-    viewedContracts: any[];
-    notViewedContracts: any[];
-    zanoCompanionForm: {
-        zanoCompation: boolean;
-        secret: string;
-    };
-    wallets: any[];
-    isDarkTheme: boolean;
-    filters: {
-        stakingFilters: any;
-    };
-    localBlacklistsOfVerifiedAssetsByWallets: {
-        [key: string]: string[];
-    };
-}
+import { AppSettings } from '@parts/interfaces/app-settings.interface';
+import { createDefaultAppSettings } from '@parts/functions/create-default-app-settings';
 
 @Injectable({
     providedIn: 'root',
 })
 export class VariablesService implements OnDestroy {
-    settings: AppSettings = {
-        currency: 'usd',
-        appLockTime: 15,
-        appLog: 0,
-        scale: '10px',
-        appUseTor: false,
-        visibilityBalance: true,
-        language: 'en',
-        default_path: '/',
-        viewedContracts: [],
-        notViewedContracts: [],
-        zanoCompanionForm: {
-            zanoCompation: false,
-            secret: '',
-        },
-        wallets: [],
-        isDarkTheme: true,
-        filters: {
-            stakingFilters: null,
-        },
-        localBlacklistsOfVerifiedAssetsByWallets: {},
-    };
+    settings: AppSettings = createDefaultAppSettings();
 
     disable_price_fetch$ = new BehaviorSubject<boolean>(false);
 
@@ -245,6 +201,30 @@ export class VariablesService implements OnDestroy {
                 this.settings.visibilityBalance = visibilityBalance;
             },
         });
+    }
+
+    applySettings(settings: Partial<AppSettings>): void {
+        const nextSettings: AppSettings = {
+            ...this.settings,
+            ...settings,
+            viewedContracts: settings.viewedContracts ?? this.settings.viewedContracts,
+            notViewedContracts: settings.notViewedContracts ?? this.settings.notViewedContracts,
+            wallets: settings.wallets ?? this.settings.wallets,
+            zanoCompanionForm: {
+                ...this.settings.zanoCompanionForm,
+                ...(settings.zanoCompanionForm ?? {}),
+            },
+            filters: {
+                ...this.settings.filters,
+                ...(settings.filters ?? {}),
+            },
+            localBlacklistsOfVerifiedAssetsByWallets:
+                settings.localBlacklistsOfVerifiedAssetsByWallets ?? this.settings.localBlacklistsOfVerifiedAssetsByWallets,
+        };
+
+        this.settings = nextSettings;
+        this.isDarkTheme$.next(nextSettings.isDarkTheme);
+        this.visibilityBalance$.next(nextSettings.visibilityBalance);
     }
 
     ngOnDestroy(): void {

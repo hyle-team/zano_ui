@@ -1,9 +1,8 @@
-import { Component, ElementRef, inject, NgZone, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { NonNullableFormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
-import { Wallet } from '@api/models/wallet.model';
 import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -11,6 +10,9 @@ import { REG_EXP_PASSWORD, ZanoValidators } from '@parts/utils/zano-validators';
 import { WalletsService } from '@parts/services/wallets.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ConfirmModalComponent, ConfirmModalData } from '@parts/modals/confirm-modal/confirm-modal.component';
+import { NavigationService } from '@parts/services/back.service';
+import { Wallet } from '@api/models/wallet.model';
+import { createDefaultAppSettings } from '@parts/functions/create-default-app-settings';
 
 @Component({
     selector: 'app-login',
@@ -18,8 +20,6 @@ import { ConfirmModalComponent, ConfirmModalData } from '@parts/modals/confirm-m
     styleUrls: ['./login.component.scss'],
 })
 export class LoginComponent implements OnInit, OnDestroy {
-    @ViewChild('errorsSection', { static: true }) errorsSection: ElementRef;
-
     private readonly _fb = inject(NonNullableFormBuilder);
 
     submitLoading = false;
@@ -51,7 +51,8 @@ export class LoginComponent implements OnInit, OnDestroy {
         private router: Router,
         private backend: BackendService,
         private ngZone: NgZone,
-        private matDialog: MatDialog
+        private matDialog: MatDialog,
+        private navigationService: NavigationService
     ) {}
 
     ngOnInit(): void {
@@ -129,37 +130,51 @@ export class LoginComponent implements OnInit, OnDestroy {
             });
     }
 
+    reset(): void {
+        this.beforeDropSecureAppData();
+    }
+
     dropSecureAppData(): void {
         this.resetLoading = true;
-        this.resetJwtWalletRpc(() => {
-            this.variablesService.wallets.forEach(({ wallet_id }) => {
-                this.backend.closeWallet(wallet_id, () => {
-                    for (let i = this.variablesService.wallets.length - 1; i >= 0; i--) {
-                        this.variablesService.wallets.splice(i, 1);
-                        this.backend.storeSecureAppData(() => {
-                            if (this.variablesService.wallets.length === 0) {
-                                this.backend.dropSecureAppData(() => {
-                                    this.ngZone.run(() => {
-                                        this.resetLoading = false;
-                                        this.onSkipCreatePass();
-                                    });
-                                });
-                            }
-                        });
-                    }
+        this.resetJwtWalletRpc(() => this._closeWalletsForReset());
+    }
+
+    private _closeWalletsForReset(): void {
+        const walletIds = this.variablesService.wallets.map(({ wallet_id }) => wallet_id);
+        this._closeWalletsSequentially(walletIds, 0, () => this._finalizeResetData());
+    }
+
+    private _closeWalletsSequentially(walletIds: number[], index: number, done: () => void): void {
+        if (index >= walletIds.length) {
+            done();
+            return;
+        }
+
+        this.backend.closeWallet(walletIds[index], () => {
+            this._closeWalletsSequentially(walletIds, index + 1, done);
+        });
+    }
+
+    private _finalizeResetData(): void {
+        this.variablesService.wallets = [];
+        this.variablesService.current_wallet = null as unknown as Wallet;
+        this.variablesService.contacts = [];
+        this.variablesService.appPass = '';
+        this.variablesService.appLogin = false;
+        this.variablesService.dataIsLoaded = false;
+        this.variablesService.sync_wallets = {};
+        this.variablesService.after_sync_request = {};
+        this.variablesService.applySettings(createDefaultAppSettings());
+
+        this.backend.storeAppData(() => {
+            this.backend.dropSecureAppData(() => {
+                this.ngZone.run(() => {
+                    this.resetLoading = false;
+                    this.navigationService.resetHistoryToCurrent();
+                    this.onSkipCreatePass();
                 });
             });
-
-            if (this.variablesService.wallets.length === 0) {
-                this.backend.dropSecureAppData(() => {
-                    this.ngZone.run(() => {
-                        this.resetLoading = false;
-                        this.onSkipCreatePass();
-                    });
-                });
-            }
         });
-        this.variablesService.contacts = [];
     }
 
     onSubmitAuthPass(): void {
@@ -192,9 +207,6 @@ export class LoginComponent implements OnInit, OnDestroy {
             }
         } else {
             this.submitLoading = false;
-            setTimeout(() => {
-                this.errorsSection?.nativeElement?.focus();
-            }, 150);
         }
     }
 
