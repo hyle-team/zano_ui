@@ -15,7 +15,6 @@ import { EditAliasComponent } from './edit-alias/edit-alias.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { DefaultImgModule, DisablePriceFetchDirective, TooltipDirective } from '@parts/directives';
 import { ConfirmModalModule } from '@parts/modals/confirm-modal/confirm-modal.module';
-import { DeeplinkModule } from './deeplink/deeplink.module';
 import { FullLayoutModule } from '../layouts/full-layout/full-layout.module';
 import { WithSidebarLayoutModule } from '../layouts/with-sidebar-layout/with-sidebar-layout.module';
 import { OverlayModule } from '@angular/cdk/overlay';
@@ -76,7 +75,6 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         DisablePriceFetchDirective,
         TooltipDirective,
         ConfirmModalModule,
-        DeeplinkModule,
         FullLayoutModule,
         WithSidebarLayoutModule,
         OverlayModule,

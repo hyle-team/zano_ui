@@ -14,6 +14,11 @@ export class NavigationService {
         });
     }
 
+    resetHistoryToCurrent(): void {
+        const currentUrl = this.router.url || '/';
+        this.history = [currentUrl];
+    }
+
     back(): void {
         this.history.pop();
         if (this.history.length > 0) {

@@ -1,12 +1,12 @@
-import { Component, inject, NgZone, OnDestroy, OnInit } from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { BackendService } from '@api/services/backend.service';
 import { ActivatedRoute } from '@angular/router';
 import { VariablesService } from '@parts/services/variables.service';
-import { AbstractControl, FormControl, NonNullableFormBuilder, ValidationErrors, Validators } from '@angular/forms';
+import { AbstractControl, NonNullableFormBuilder, ValidationErrors, Validators } from '@angular/forms';
 import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { REG_EXP_PASSWORD, ZanoValidators } from '@parts/utils/zano-validators';
+import { REG_EXP_PASSWORD } from '@parts/utils/zano-validators';
 import { WalletsService } from '@parts/services/wallets.service';
 import { Wallet } from '@api/models/wallet.model';
 import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
@@ -28,13 +28,13 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
 
     seedPhraseWords: string[] = [];
 
-    showSeed: boolean = false;
+    showSeed = false;
 
     wallet_id: number;
 
     wallet!: Wallet;
 
-    seedPhraseCopied: boolean = false;
+    seedPhraseCopied = false;
 
     detailsForm = this._fb.group({
         name: '',

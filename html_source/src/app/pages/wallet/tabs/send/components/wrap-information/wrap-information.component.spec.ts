@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WrapInformationComponent } from './wrap-information.component';
+import { DEFAULT_COMPONENT_TEST_PROVIDERS } from '../../../../../../testing/default-component-test-providers';
 
 describe('WrapInformationComponent', () => {
     let component: WrapInformationComponent;
@@ -9,11 +10,11 @@ describe('WrapInformationComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [WrapInformationComponent],
+            providers: DEFAULT_COMPONENT_TEST_PROVIDERS,
         }).compileComponents();
 
         fixture = TestBed.createComponent(WrapInformationComponent);
         component = fixture.componentInstance;
-        fixture.detectChanges();
     });
 
     it('should create', () => {

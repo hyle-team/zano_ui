@@ -60,6 +60,8 @@
                 "prettier/prettier": ["error", { "endOfLine": "auto" }],
 
                 "@angular-eslint/no-host-metadata-property": "off",
+                "@angular-eslint/no-input-rename": "off",
+                "@angular-eslint/no-output-on-prefix": "off",
                 "@typescript-eslint/restrict-template-expressions": [
                     "error",
                     {

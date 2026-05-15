@@ -26,7 +26,7 @@ export class ZanoValidators {
             abstractControl.get(firstControlName).value === abstractControl.get(secondControlName).value ? null : { [nameErrorKey]: true };
     }
 
-    static duplicate(valuesForComparisons: string | string[], exception: string = ''): ValidatorFn {
+    static duplicate(valuesForComparisons: string | string[], exception = ''): ValidatorFn {
         return ({ value }: AbstractControl): ValidationErrors | null => {
             const errorObject = { duplicate: true };
             let error = null;
@@ -129,7 +129,7 @@ function validateAddress(
     isVisibleWrapInfoControl: AbstractControl,
     address: string
 ): Observable<ValidationErrors | null> {
-    return new Observable(observer => {
+    return new Observable((observer) => {
         backendService.validateAddress(address, (status: boolean, data: any) => {
             ngZone.run(() => {
                 const isVisibleWrapInfo = data?.error_code === 'WRAP';
@@ -152,7 +152,7 @@ function validateIntegratedAddress(
     wallet_id: number,
     address: string
 ): Observable<ValidationErrors | null> {
-    return new Observable(observer => {
+    return new Observable((observer) => {
         backendService.splitIntegratedAddress(wallet_id, address, (_, response_data: ResponseCallRpc<ResultSplitIntegratedAddress>) => {
             ngZone.run(() => {
                 if (response_data.result?.payment_id?.length > 16) {
@@ -191,7 +191,7 @@ export function createAddressAliasValidator(
         const addressValidation$ = validateAddress(backendService, ngZone, isVisibleWrapInfoControl, address);
 
         return addressValidation$.pipe(
-            switchMap(addressErrors => {
+            switchMap((addressErrors) => {
                 if (addressErrors) {
                     return of(addressErrors);
                 }

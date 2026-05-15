@@ -14,6 +14,4 @@ import { TooltipDirective } from '@parts/directives';
 })
 export class WalletCardAliasComponent {
     @Input() wallet: Wallet;
-
-    constructor() {}
 }

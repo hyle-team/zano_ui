@@ -22,13 +22,13 @@ export class AssetTagComponent implements OnChanges {
 
     constructor(private _variablesService: VariablesService) {}
 
-    ngOnChanges(changes: SimpleChanges) {
+    ngOnChanges(changes: SimpleChanges): void {
         if (changes['assetId']) {
             this.type = this._getType(this.assetId);
         }
     }
 
-    private _getType(assetId): AssetTagType | null {
+    private _getType(assetId: string): AssetTagType | null {
         if (!assetId) return null;
 
         // ZANO is always native

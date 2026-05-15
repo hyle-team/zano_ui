@@ -7,30 +7,30 @@ import { AssetFieldComponent } from '../asset-field/asset-field.component';
 import { AddressFieldComponent } from '../address-field/address-field.component';
 import { AmountFieldComponent } from '../amount-field/amount-field.component';
 import { WrapInformationComponent } from '../wrap-information/wrap-information.component';
-import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
     selector: 'zano-destination',
     standalone: true,
     imports: [
-    CommonModule,
-    MatIconModule,
-    TranslateModule,
-    AssetFieldComponent,
-    AddressFieldComponent,
-    AmountFieldComponent,
-    WrapInformationComponent,
-    MatTooltipModule
-],
+        CommonModule,
+        MatIconModule,
+        TranslateModule,
+        AssetFieldComponent,
+        AddressFieldComponent,
+        AmountFieldComponent,
+        WrapInformationComponent,
+        MatTooltipModule,
+    ],
     templateUrl: './destination.component.html',
     styleUrls: ['./destination.component.scss'],
 })
 export class DestinationComponent {
     @Input() index: number;
 
-    @Input() hideRemove: boolean = true;
+    @Input() hideRemove = true;
 
-    @Input() hideDuplicate: boolean = false;
+    @Input() hideDuplicate = false;
 
     @Input('formRef') form: DestinationFormGroup;
 
@@ -38,11 +38,11 @@ export class DestinationComponent {
 
     @Output() onDuplicate = new EventEmitter<DestinationFormGroup>();
 
-    remove() {
+    remove(): void {
         this.onRemove.emit();
     }
 
-    duplicate() {
+    duplicate(): void {
         this.onDuplicate.emit(this.form);
     }
 }

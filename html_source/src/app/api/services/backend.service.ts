@@ -402,10 +402,6 @@ export class BackendService {
         this.runCommand(Commands.load_from_file, path, callback);
     }
 
-    push_offer(params, callback): void {
-        this.runCommand(Commands.push_offer, params, callback);
-    }
-
     generateWallet(path, pass, callback): void {
         const params = {
             path: path,
@@ -570,7 +566,7 @@ export class BackendService {
         this.runCommand(Commands.open_url_in_browser, url, callback);
     }
 
-    start_backend(node, host, port, callback: any = () => {}): void {
+    start_backend(node, host, port, callback: (...args: unknown[]) => void = (): void => undefined): void {
         const params = {
             configure_for_remote_node: node,
             remote_node_host: host,
@@ -770,7 +766,7 @@ export class BackendService {
         this.runCommand(Commands.get_wallet_info, { wallet_id }, callback);
     }
 
-    alias_lookup(params: AliasLookupParams, callback: AliasLookupCallback) {
+    alias_lookup(params: AliasLookupParams, callback: AliasLookupCallback): void {
         this.call_rpc(
             {
                 id: 0,

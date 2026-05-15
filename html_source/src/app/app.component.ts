@@ -2,14 +2,13 @@ import { Component, NgZone, OnDestroy, OnInit, Renderer2 } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { BackendService, Commands } from '@api/services/backend.service';
 import { Router } from '@angular/router';
-import { AppSettings, VariablesService } from '@parts/services/variables.service';
+import { VariablesService } from '@parts/services/variables.service';
 import { IntToMoneyPipe } from '@parts/pipes';
 import { BigNumber } from 'bignumber.js';
 import { ModalService } from '@parts/services/modal.service';
 import { StateKeys, Store } from '@store/store';
 import { interval, of, Subject } from 'rxjs';
 import { catchError, retry, startWith, switchMap, takeUntil } from 'rxjs/operators';
-import { paths, pathsChildrenAuth } from './pages/paths';
 import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { Dialog } from '@angular/cdk/dialog';
 import { ZanoLoadersService } from '@parts/services/zano-loaders.service';
@@ -20,6 +19,9 @@ import { ApiService } from '@api/services/api.service';
 import { WalletsService } from '@parts/services/wallets.service';
 import { WrapInfo } from '@api/models/wrap-info';
 import { AliasInfo } from '@api/models/alias.model';
+import { parseDeeplinkString } from '@parts/utils/parse-deeplink-string';
+import { DeeplinkModalComponent } from '@parts/modals/deeplink-modal/deeplink-modal.component';
+import { AppSettings } from '@parts/interfaces/app-settings.interface';
 
 @Component({
     selector: 'app-root',
@@ -426,7 +428,45 @@ export class AppComponent implements OnInit, OnDestroy {
                     console.log(data);
                     this._ngZone.run(() => {
                         if (data) {
-                            this.variablesService.deeplink$.next(data);
+                            if (this.variablesService.appLogin !== true) {
+                                this._modalService.prepareModal('info', 'DEEPLINK.LABELS.LABEL15');
+                                return;
+                            }
+
+                            const { daemon_state, sync_started } = this.variablesService;
+                            if (daemon_state !== 2 || sync_started) {
+                                this._modalService.prepareModal('info', 'SYNC_MODAL.LABELS.LABEL1');
+                                return;
+                            }
+
+                            const availableWallets = this.variablesService.wallets.filter(
+                                (wallet) => !wallet.is_watch_only || !wallet.is_auditable || wallet.loaded
+                            );
+                            if (!availableWallets.length) {
+                                this._modalService.prepareModal('info', 'DEEPLINK.LABELS.LABEL12');
+                                return;
+                            }
+
+                            const deeplinkResponse = parseDeeplinkString(data);
+
+                            if (!deeplinkResponse) {
+                                this._modalService.prepareModal('error', 'ERRORS.DEEPLINK_FORMAT_NOT_SUPPORTED');
+                                return;
+                            }
+
+                            const isDeeplinkDialogOpened = this._matDialog.openDialogs.some(
+                                ({ componentInstance }) => componentInstance instanceof DeeplinkModalComponent
+                            );
+
+                            if (isDeeplinkDialogOpened) {
+                                this._modalService.prepareModal('info', 'DEEPLINK.LABELS.LABEL13');
+                                return;
+                            }
+
+                            this._matDialog.open(DeeplinkModalComponent, {
+                                data: deeplinkResponse,
+                                ariaLabel: this._translateService.instant('DEEPLINK.LABELS.LABEL1'),
+                            });
                         }
                     });
                 });
@@ -595,20 +635,16 @@ export class AppComponent implements OnInit, OnDestroy {
                 this._backendService.getAppData((_, data: Partial<AppSettings> = {}) => {
                     /* Update settings */
                     if (Object.keys(data).length !== 0) {
-                        this.variablesService.settings = { ...this.variablesService.settings, ...data };
+                        this.variablesService.applySettings(data);
                     }
 
                     /* Apply Settings */
-                    this.variablesService.settings.appUseTor = false; // TODO: Delete this line after return appUseTor
+                    this.variablesService.applySettings({ appUseTor: false }); // TODO: Delete this line after return appUseTor
 
                     const {
-                        isDarkTheme$,
-                        visibilityBalance$,
                         settings: { isDarkTheme, visibilityBalance, scale, language, appLog, appUseTor, wallets },
                     } = this.variablesService;
-
-                    isDarkTheme$.next(isDarkTheme);
-                    visibilityBalance$.next(visibilityBalance);
+                    const persistedWallets = Array.isArray(wallets) ? wallets.filter(Boolean) : [];
 
                     this._renderer2.setStyle(document.documentElement, 'font-size', scale);
                     this._renderer2.setAttribute(document.documentElement, 'class', isDarkTheme ? 'dark' : 'light');
@@ -620,9 +656,9 @@ export class AppComponent implements OnInit, OnDestroy {
                     this._backendService.setEnableTor(appUseTor);
 
                     /* Navigation */
-                    if (!wallets || wallets.length === 0) {
+                    if (persistedWallets.length === 0) {
                         this._ngZone.run(() => {
-                            this._router.navigate([`${paths.auth}/${pathsChildrenAuth.noWallet}`]).then();
+                            this._router.navigate([`auth/no-wallet`]).then();
                         });
                         return;
                     }
@@ -638,7 +674,7 @@ export class AppComponent implements OnInit, OnDestroy {
                                 });
                             } else {
                                 if (Object.keys(data).length !== 0) {
-                                    this.needOpenWallets = [...wallets];
+                                    this.needOpenWallets = [...persistedWallets];
                                     this._ngZone.run(() => {
                                         this.variablesService.appLogin = true;
                                         this._router.navigate(['/']);
@@ -731,7 +767,7 @@ export class AppComponent implements OnInit, OnDestroy {
         }
     }
 
-    private _handlerCoreEventAddAlias(data, i: number) {
+    private _handlerCoreEventAddAlias(data, i: number): void {
         const aliasInfo: AliasInfo = data.events[i].details;
         if (!aliasInfo) return;
 
@@ -740,7 +776,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this._updateAliasInfoListByAddress(address);
     }
 
-    private _updateAliasInfoListByAddress(address: string) {
+    private _updateAliasInfoListByAddress(address: string): void {
         const wallet = this._walletsService.getOpenedWalletByAddress(address);
 
         if (wallet) {
