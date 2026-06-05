@@ -225,6 +225,10 @@ export class Wallet {
 
     mined_total: number;
 
+    current_pos_attempts = 0;
+
+    est_iterations_per_pos_block = 0;
+
     tracking_hey: string;
 
     is_auditable!: boolean;
@@ -289,6 +293,8 @@ export class Wallet {
         this.address = address;
         this.balances = balances;
         this.mined_total = mined;
+        this.current_pos_attempts = 0;
+        this.est_iterations_per_pos_block = 0;
         this.tracking_hey = tracking;
         this.staking = false;
         this.new_messages = 0;
@@ -401,14 +407,4 @@ export class Wallet {
         };
         this.settingsChanged$.next(this.settings);
     }
-}
-
-export interface ResponseGetWalletInfo {
-    address: string;
-    balances: AssetBalances;
-    is_auditable: boolean;
-    is_watch_only: boolean;
-    mined_total: number;
-    path: string;
-    view_sec_key: string;
 }

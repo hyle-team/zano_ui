@@ -33,6 +33,7 @@ import { StakingSwitchComponent } from '@parts/components/staking-switch.compone
 import { SwitchComponent } from '@parts/components/switch.component';
 import { BreadcrumbsComponent } from '@parts/components/breadcrumbs/breadcrumbs.component';
 import { BackButtonComponent } from '@parts/components/back-button/back-button.component';
+import { StakingTimeToBlockCardComponent } from '@parts/components/staking-time-to-block-card/staking-time-to-block-card.component';
 import { WalletModalsModule } from './tabs/send/modals/wallet-modals.module';
 import { GetAssetInfoPipe } from '@parts/pipes/get-asset-info.pipe';
 import { MigrateWalletToZarcanumComponent } from './wallet/dialogs/migrate-wallet-to-zarcanum/migrate-wallet-to-zarcanum.component';
@@ -127,6 +128,7 @@ import { TransactionDetailsComponent } from '@parts/components/transaction-detai
         LowerCaseDirective,
         BreadcrumbsComponent,
         BackButtonComponent,
+        StakingTimeToBlockCardComponent,
         WalletModalsModule,
         GetAssetInfoPipe,
         GetAmountItemsPipe,

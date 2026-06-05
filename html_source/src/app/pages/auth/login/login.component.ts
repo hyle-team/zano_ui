@@ -157,7 +157,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     private _finalizeResetData(): void {
         this.variablesService.wallets = [];
-        this.variablesService.current_wallet = null as unknown as Wallet;
+        this.variablesService.setCurrentWallet(null);
         this.variablesService.contacts = [];
         this.variablesService.appPass = '';
         this.variablesService.appLogin = false;

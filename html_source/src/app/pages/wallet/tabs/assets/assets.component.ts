@@ -227,8 +227,8 @@ export class AssetsComponent implements OnInit, OnDestroy {
     }
 
     private _listenChangeWallet(): void {
-        const { currentWalletChangedEvent } = this.variablesService;
-        currentWalletChangedEvent.pipe(takeUntil(this._destroy$)).subscribe({
+        const { currentWalletChanged$ } = this.variablesService;
+        currentWalletChanged$.pipe(takeUntil(this._destroy$)).subscribe({
             next: () => {
                 this.paginatePipeArgs.currentPage = 1;
             },

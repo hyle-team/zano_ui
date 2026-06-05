@@ -1041,6 +1041,19 @@
         "TITLE_TOTAL": "Total",
         "WALLET_STAKING_ON": "{{ value }} staking is ON"
     },
+    "POS_ESTIMATE_CARD": {
+        "ATTEMPT_LABEL": "Attempt:",
+        "ESTIMATE_LABEL": "Estimated time to find the block:"
+    },
+    "ESTIMATE_TIME": {
+        "LESS_THAN_MINUTE": "< 1 min",
+        "NA": "N/A",
+        "UNITS": {
+            "DAY": "days",
+            "HOUR": "hours",
+            "MIN": "min"
+        }
+    },
     "SUCCESS_SWEEP_BARE_OUTS": {
         "DETAILS": "{{ txs_sent }} transactions were successfully sent, {{ bare_outs_swept }}  bare outputs migrated, {{ amount_swept }} coins transferred, and {{ fee_spent }} was spent for fees."
     },

@@ -16,6 +16,58 @@ app-staking {
                         min-width: fit-content;
                         width: auto;
                     }
+
+                    &.balances {
+                        max-width: 31rem;
+                        min-height: 0;
+                        border: none !important;
+
+                        .balance-row {
+                            display: flex;
+                            align-items: baseline;
+                            justify-content: space-between;
+                            gap: 1.6rem;
+                            line-height: 1.25;
+
+                            &:not(:last-child) {
+                                margin-bottom: 0.8rem;
+                            }
+                        }
+
+                        .label {
+                            color: var(--main-text);
+                            opacity: 0.7;
+                            font-size: 1.6rem;
+                            font-weight: 400;
+                            white-space: nowrap;
+                        }
+
+                        .value {
+                            color: var(--main-text);
+                            font-size: 1.6rem;
+                            font-weight: 400;
+                            display: flex;
+                            align-items: baseline;
+                            justify-content: flex-end;
+                            min-width: 0;
+                            text-align: right;
+
+                            .number {
+                                display: inline-block;
+                                flex: 1 1 auto;
+                                min-width: 0;
+                                overflow: hidden;
+                                white-space: nowrap;
+                                text-overflow: ellipsis;
+                            }
+
+                            .ticker {
+                                flex: 0 0 auto;
+                                margin-left: 0.4rem;
+                                white-space: nowrap;
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -41,6 +93,10 @@ app-staking {
                 .items {
                     .item {
                         border: var(--table-info-border);
+
+                        &.balances {
+                            border: none !important;
+                        }
                     }
                 }
             }

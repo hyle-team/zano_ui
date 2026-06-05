@@ -27,7 +27,7 @@ export class TooltipDirective implements OnDestroy {
 
     @Input() placement: string;
 
-    @Input() tooltipClass: string;
+    @Input() tooltipClass = 'tooltip';
 
     @Input() timeout = 0;
 

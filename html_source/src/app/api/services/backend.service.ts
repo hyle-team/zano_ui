@@ -6,7 +6,6 @@ import { ModalService } from '@parts/services/modal.service';
 import { MoneyToIntPipe } from '@parts/pipes/money-to-int-pipe/money-to-int.pipe';
 import JSONBigNumber from 'json-bignumber';
 import { BigNumber } from 'bignumber.js';
-import { ResponseGetWalletInfo } from '../models/wallet.model';
 import {
     AssetInfo,
     AssetsWhitelistGetResponseData,
@@ -19,6 +18,7 @@ import { AliasInfo, AliasLookupCallback, AliasLookupParams } from '@api/models/a
 import { TransferParams } from '@api/models/transfer.model';
 import { ParamsCallRpc, ResponseCallRpc } from '@api/models/call_rpc.model';
 import { ResponseGetAssetInfo, ResultSplitIntegratedAddress } from '@api/models/rpc.models';
+import { WalletInfo } from '@api/models/wallet-info.model';
 
 export interface PramsObj {
     [key: string]: any;
@@ -762,7 +762,7 @@ export class BackendService {
         this.runCommand(Commands.remove_custom_asset_id, params, callback);
     }
 
-    getWalletInfo(wallet_id, callback?: (status: boolean, response_data: ResponseGetWalletInfo) => void): void {
+    getWalletInfo(wallet_id, callback?: (status: boolean, response_data: WalletInfo) => void): void {
         this.runCommand(Commands.get_wallet_info, { wallet_id }, callback);
     }
 

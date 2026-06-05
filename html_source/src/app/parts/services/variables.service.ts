@@ -145,7 +145,9 @@ export class VariablesService implements OnDestroy {
 
     getTotalEvent = new BehaviorSubject(null);
 
-    currentWalletChangedEvent = new BehaviorSubject<Wallet>(null);
+    currentWalletChanged$ = new BehaviorSubject<Wallet>(null);
+
+    posStatusUpdated$ = new Subject<number>();
 
     refreshStakingEvent$: Subject<void> = new Subject<void>();
 
@@ -291,13 +293,18 @@ export class VariablesService implements OnDestroy {
         }
     }
 
-    setCurrentWallet(id): void {
-        this.wallets.forEach((wallet) => {
-            if (wallet.wallet_id === id) {
-                this.current_wallet = wallet;
-                this.currentWalletChangedEvent.next(wallet);
-            }
-        });
+    setCurrentWallet(id: number | null): void {
+        if (id !== null) {
+            this.wallets.forEach((wallet) => {
+                if (wallet.wallet_id === id) {
+                    this.current_wallet = wallet;
+                    this.currentWalletChanged$.next(wallet);
+                }
+            });
+        } else {
+            this.current_wallet = null;
+            this.currentWalletChanged$.next(null);
+        }
     }
 
     getWallet(id): Wallet | null {

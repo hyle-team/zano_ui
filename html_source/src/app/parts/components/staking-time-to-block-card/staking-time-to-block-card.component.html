@@ -1,0 +1,13 @@
+<div *ngIf="vm$ | async as vm" class="staking-time-card overflow-hidden">
+    <app-circular-progress class="mt-0_5 mr-1" [progress]="vm.progress"></app-circular-progress>
+
+    <div class="content overflow-hidden">
+        <div class="title text-ellipsis">{{ 'POS_ESTIMATE_CARD.ESTIMATE_LABEL' | translate }} {{ vm.estimateSec | estimateTime }}</div>
+        <div class="attempt overflow-hidden">
+            <span class="label">{{ 'POS_ESTIMATE_CARD.ATTEMPT_LABEL' | translate }}</span>
+            <span class="value text-ellipsis" [tooltip]="vm.attempt" [showWhenNoOverflow]="false" [placement]="'bottom'">
+                {{ vm.attempt }}
+            </span>
+        </div>
+    </div>
+</div>

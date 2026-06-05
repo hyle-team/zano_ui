@@ -28,3 +28,5 @@ export const MAX_DESTINATIONS_LENGTH = 31;
 
 export const ALIAS_PREFIX = '@';
 export const LEGACY_PREFIX = '[legacy]';
+
+export const MINIMUM_ZANO_AMOUNT_FOR_STAKING = BigNumber('1000000000000');
