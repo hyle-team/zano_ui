@@ -3,14 +3,12 @@ import { CommonModule } from '@angular/common';
 import { CircularProgressComponent } from '@parts/components/circular-progress/circular-progress.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { TooltipDirective } from '@parts/directives';
-import { BigNumber } from 'bignumber.js';
 import { calculatePosProgress } from '@parts/functions/calculate-pos-progress';
 import { calculatePosEstimateSec } from '@parts/functions/calculate-pos-estimate-sec';
 import { EstimateTimePipe } from '@parts/pipes';
 import { VariablesService } from '@parts/services/variables.service';
 import { combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { MINIMUM_ZANO_AMOUNT_FOR_STAKING } from '@parts/data/constants';
 
 @Component({
     selector: 'app-staking-time-to-block-card',
@@ -30,9 +28,7 @@ export class StakingTimeToBlockCardComponent {
         filter(([wallet, wallet_id]) => wallet.wallet_id === wallet_id),
         map(([wallet]) => {
             const { current_pos_attempts, est_iterations_per_pos_block } = wallet;
-            const unlockedZano = wallet.getBalanceByTicker('ZANO')?.unlocked ?? 0;
-            const isEstimateAvailable =
-                new BigNumber(unlockedZano).isGreaterThanOrEqualTo(MINIMUM_ZANO_AMOUNT_FOR_STAKING) && est_iterations_per_pos_block > 0;
+            const isEstimateAvailable = est_iterations_per_pos_block > 0;
 
             return {
                 progress: isEstimateAvailable ? calculatePosProgress(current_pos_attempts, est_iterations_per_pos_block) : 0,
