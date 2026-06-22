@@ -1,7 +1,7 @@
 import { Injectable, NgZone } from '@angular/core';
 import { BackendService } from '@api/services/backend.service';
 import { VariablesService } from '@parts/services/variables.service';
-import { DEFAULT_ASSETS_INFO_WHITELIST, ResponseGetWalletInfo, Wallet } from '@api/models/wallet.model';
+import { DEFAULT_ASSETS_INFO_WHITELIST, Wallet } from '@api/models/wallet.model';
 import { Router } from '@angular/router';
 import { ResponseCallRpc } from '@api/models/call_rpc.model';
 import { AssetInfo, AssetsInfoWhitelist, AssetsWhitelistGetResponseData, VerifiedAssetInfoWhitelist } from '@api/models/assets.model';
@@ -9,6 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ResultAliasByAddress } from '@api/models/rpc.models';
 import { map, switchMap, take } from 'rxjs/operators';
 import { forkJoin, Observable, of } from 'rxjs';
+import { WalletInfo } from '@api/models/wallet-info.model';
 
 @Injectable({
     providedIn: 'root',
@@ -27,7 +28,7 @@ export class WalletsService {
     }
 
     set currentWallet(value) {
-        this._variablesService.current_wallet = value;
+        this._variablesService.setCurrentWallet(value.wallet_id);
     }
 
     get opened_wallet_items(): string[] {
@@ -174,11 +175,14 @@ export class WalletsService {
     updateWalletInfo(wallet: Wallet): void {
         const { wallet_id } = wallet;
 
-        const callback: (status: boolean, response_data: ResponseGetWalletInfo) => void = (status, response_data) => {
+        const callback: (status: boolean, response_data: WalletInfo) => void = (status, response_data) => {
             this._ngZone.run(() => {
                 if (status) {
-                    const { balances } = response_data;
+                    const { balances, current_pos_attempts, est_iterations_per_pos_block } = response_data;
                     wallet.balances = balances;
+                    wallet.current_pos_attempts = current_pos_attempts;
+                    wallet.est_iterations_per_pos_block = est_iterations_per_pos_block;
+                    this._variablesService.posStatusUpdated$.next(wallet.wallet_id);
 
                     this._variablesService.loadCurrentPriceForAssetIds(wallet.balances.map(({ asset_info: { asset_id } }) => asset_id));
                 }

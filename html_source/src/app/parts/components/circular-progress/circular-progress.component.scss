@@ -1,0 +1,26 @@
+:host {
+    display: inline-flex;
+    width: 1.8rem;
+    height: 1.8rem;
+    flex: 0 0 auto;
+}
+
+.circular-progress {
+    width: 100%;
+    height: 100%;
+}
+
+.bg {
+    fill: none;
+    stroke: #1f8feb;
+    stroke-width: 3;
+    opacity: 0.33;
+}
+
+.fg {
+    fill: none;
+    stroke: #16d1d6;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}

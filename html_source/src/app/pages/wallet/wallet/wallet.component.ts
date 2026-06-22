@@ -153,7 +153,7 @@ export class WalletComponent implements OnInit, OnDestroy {
 
         this.walletLoaded = this.variablesService.current_wallet.loaded;
 
-        this.variablesService.currentWalletChangedEvent.pipe(takeUntil(this.destroy$)).subscribe({
+        this.variablesService.currentWalletChanged$.pipe(takeUntil(this.destroy$)).subscribe({
             next: (wallet: Wallet) => {
                 this.createTabs(wallet);
                 const disabled = !wallet.loaded;

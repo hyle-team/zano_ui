@@ -1,0 +1,45 @@
+:host {
+    display: block;
+    max-width: 42rem;
+    min-width: 0;
+}
+
+.staking-time-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 1.4rem;
+    min-width: 0;
+
+    .content {
+        min-width: 0;
+    }
+
+    .title {
+        color: var(--main-text);
+        font-size: 1.6rem;
+        line-height: 2.4rem;
+    }
+
+    .attempt {
+        margin-top: 0.8rem;
+        color: var(--main-text);
+        opacity: 0.7;
+        font-size: 1.2rem;
+        line-height: 1.8rem;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+
+        .label {
+            flex: 0 0 auto;
+            font-size: 1.2rem;
+            line-height: 1.8rem;
+        }
+
+        .value {
+            min-width: 0;
+            font-size: 1.2rem;
+            line-height: 1.8rem;
+        }
+    }
+}

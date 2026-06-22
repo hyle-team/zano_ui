@@ -22,38 +22,38 @@
                                 </app-staking-switch>
                             </div>
                         </div>
-                        <div
-                            class="item overflow-hidden p-1 border-radius-0_8-rem mb-1"
-                            fxLayout="row nowrap"
-                            fxLayoutAlign="space-between center"
-                        >
-                            <div class="left overflow-hidden mr-1" fxLayout="row" fxLayoutAlign="start center">
-                                {{ 'STAKING.TITLE_PENDING' | translate }}
-                                :
-                            </div>
-                            <div class="right overflow-hidden w-100" fxLayout="row" fxLayoutAlign="end center">
-                                <div class="text-ellipsis mr-1">
-                                    {{ pending.total | intToMoney }}
+                        <div class="item balances overflow-hidden mb-1">
+                            <div class="balance-row">
+                                <div class="label">{{ 'STAKING.TITLE_PENDING' | translate }}:</div>
+                                <div class="value">
+                                    <span
+                                        class="number text-ellipsis"
+                                        [tooltip]="pending.total | intToMoney"
+                                        [showWhenNoOverflow]="false"
+                                        [placement]="'bottom'"
+                                    >
+                                        {{ pending.total | intToMoney }}
+                                    </span>
+                                    <span class="ticker">{{ variablesService.defaultTicker }}</span>
                                 </div>
-                                {{ variablesService.defaultTicker }}
+                            </div>
+                            <div class="balance-row">
+                                <div class="label">{{ 'STAKING.TITLE_TOTAL' | translate }}:</div>
+                                <div class="value">
+                                    <span
+                                        class="number text-ellipsis"
+                                        [tooltip]="total | intToMoney"
+                                        [showWhenNoOverflow]="false"
+                                        [placement]="'bottom'"
+                                    >
+                                        {{ total | intToMoney }}
+                                    </span>
+                                    <span class="ticker">{{ variablesService.defaultTicker }}</span>
+                                </div>
                             </div>
                         </div>
-                        <div
-                            class="item overflow-hidden p-1 border-radius-0_8-rem mb-1"
-                            fxLayout="row nowrap"
-                            fxLayoutAlign="space-between center"
-                        >
-                            <div class="left overflow-hidden mr-1" fxLayout="row" fxLayoutAlign="start center">
-                                {{ 'STAKING.TITLE_TOTAL' | translate }}
-                                :
-                            </div>
-                            <div class="right overflow-hidden w-100" fxLayout="row" fxLayoutAlign="end center">
-                                <div class="text-ellipsis mr-1">
-                                    {{ total | intToMoney }}
-                                </div>
-                                {{ variablesService.defaultTicker }}
-                            </div>
-                        </div>
+                        <app-staking-time-to-block-card *ngIf="variablesService.current_wallet.staking" class="mb-1">
+                        </app-staking-time-to-block-card>
                     </div>
                 </div>
                 <div class="right" fxFlex="1 1 calc(50% - 0.5rem)" fxLayout="row" fxLayoutAlign="end center" fxLayoutGap="1rem">

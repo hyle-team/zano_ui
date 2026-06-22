@@ -72,14 +72,7 @@ const groupItems: IGroupItem[] = [
 @Component({
     selector: 'app-staking',
     templateUrl: './staking.component.html',
-    styles: [
-        `
-            :host {
-                width: 100%;
-                height: auto;
-            }
-        `,
-    ],
+    styleUrls: ['staking.component.scss'],
 })
 export class StakingComponent implements OnInit, AfterViewInit, OnDestroy {
     public readonly variablesService: VariablesService = inject(VariablesService);

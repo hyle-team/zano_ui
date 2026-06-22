@@ -45,7 +45,7 @@ export class HistoryComponent implements OnInit, OnDestroy {
     ngOnInit(): void {
         this.init();
 
-        this.variablesService.currentWalletChangedEvent.pipe(filter(Boolean), takeUntil(this._destroy$)).subscribe({
+        this.variablesService.currentWalletChanged$.pipe(filter(Boolean), takeUntil(this._destroy$)).subscribe({
             next: (wallet: Wallet) => {
                 this.getRecentTransfers();
                 this.mining = wallet.exclude_mining_txs;

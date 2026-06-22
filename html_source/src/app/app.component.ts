@@ -155,8 +155,11 @@ export class AppComponent implements OnInit, OnDestroy {
                             }
                             wallet.balances = data.balances;
                             wallet.mined_total = data.minied_total;
+                            wallet.current_pos_attempts = data.current_pos_attempts;
+                            wallet.est_iterations_per_pos_block = data.est_iterations_per_pos_block;
                             wallet.alias_available = data.is_alias_operations_available;
                             wallet.has_bare_unspent_outputs = data.has_bare_unspent_outputs;
+                            this.variablesService.posStatusUpdated$.next(wallet.wallet_id);
                         });
                     }
                 });
@@ -642,7 +645,7 @@ export class AppComponent implements OnInit, OnDestroy {
                     this.variablesService.applySettings({ appUseTor: false }); // TODO: Delete this line after return appUseTor
 
                     const {
-                        settings: { isDarkTheme, visibilityBalance, scale, language, appLog, appUseTor, wallets },
+                        settings: { isDarkTheme, scale, language, appLog, appUseTor, wallets },
                     } = this.variablesService;
                     const persistedWallets = Array.isArray(wallets) ? wallets.filter(Boolean) : [];
 
