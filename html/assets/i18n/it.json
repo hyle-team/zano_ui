@@ -1041,6 +1041,19 @@
         "TITLE_TOTAL": "Totale",
         "WALLET_STAKING_ON": "{{ value }} staking è ATTIVO"
     },
+    "POS_ESTIMATE_CARD": {
+        "ATTEMPT_LABEL": "Tentativo:",
+        "ESTIMATE_LABEL": "Tempo stimato per trovare il blocco:"
+    },
+    "ESTIMATE_TIME": {
+        "LESS_THAN_MINUTE": "< 1 min",
+        "NA": "N/A",
+        "UNITS": {
+            "DAY": "giorni",
+            "HOUR": "ore",
+            "MIN": "min"
+        }
+    },
     "SUCCESS_SWEEP_BARE_OUTS": {
         "DETAILS": "{{ txs_sent }} transazioni inviate con successo, {{ bare_outs_swept }} output non spesi migrati, {{ amount_swept }} monete trasferite e {{ fee_spent }} spesi per le commissioni."
     },

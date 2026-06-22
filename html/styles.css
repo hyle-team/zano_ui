@@ -3037,20 +3037,24 @@ table.rounded-corners > tfoot:not(:last-child) {
 .tooltip-list:last-child {
   margin-bottom: 0;
 }
+.tooltip,
 .table-tooltip {
   z-index: 999;
   padding: 1rem;
   border-radius: 0.8rem;
   background: var(--tooltip-background);
 }
+.tooltip .tooltip-inner,
 .table-tooltip .tooltip-inner {
   font-size: 1.4rem;
   line-height: 1.2;
   white-space: pre-wrap;
 }
+.tooltip.ng-tooltip-top,
 .table-tooltip.ng-tooltip-top {
   margin-top: -1rem;
 }
+.tooltip.ng-tooltip-top:after,
 .table-tooltip.ng-tooltip-top:after {
   content: "";
   display: block;
@@ -3062,9 +3066,11 @@ table.rounded-corners > tfoot:not(:last-child) {
   bottom: -0.5rem;
   left: calc(50% - 0.5rem);
 }
+.tooltip .ng-tooltip-bottom-left,
 .table-tooltip .ng-tooltip-bottom-left {
   margin-top: 1rem;
 }
+.tooltip .ng-tooltip-bottom-left::before,
 .table-tooltip .ng-tooltip-bottom-left::before {
   content: "";
   position: absolute;
@@ -3076,9 +3082,11 @@ table.rounded-corners > tfoot:not(:last-child) {
   background-color: var(--tooltip-background);
   transform: rotate(45deg);
 }
+.tooltip.ng-tooltip-top-left,
 .table-tooltip.ng-tooltip-top-left {
   margin-top: -1rem;
 }
+.tooltip.ng-tooltip-top-left:after,
 .table-tooltip.ng-tooltip-top-left:after {
   content: "";
   position: absolute;
@@ -3090,9 +3098,11 @@ table.rounded-corners > tfoot:not(:last-child) {
   background: var(--tooltip-background);
   transform: rotate(45deg);
 }
+.tooltip.ng-tooltip-top-right,
 .table-tooltip.ng-tooltip-top-right {
   margin-top: -1rem;
 }
+.tooltip.ng-tooltip-top-right:after,
 .table-tooltip.ng-tooltip-top-right:after {
   content: "";
   position: absolute;
@@ -3104,9 +3114,11 @@ table.rounded-corners > tfoot:not(:last-child) {
   background: var(--tooltip-background);
   transform: rotate(45deg);
 }
+.tooltip.ng-tooltip-bottom,
 .table-tooltip.ng-tooltip-bottom {
   margin-top: 1rem;
 }
+.tooltip.ng-tooltip-bottom:before,
 .table-tooltip.ng-tooltip-bottom:before {
   content: "";
   position: absolute;
@@ -3118,9 +3130,11 @@ table.rounded-corners > tfoot:not(:last-child) {
   background: var(--tooltip-background);
   transform: rotate(45deg);
 }
+.tooltip.ng-tooltip-bottom-left,
 .table-tooltip.ng-tooltip-bottom-left {
   margin-top: 1rem;
 }
+.tooltip.ng-tooltip-bottom-left::before,
 .table-tooltip.ng-tooltip-bottom-left::before {
   content: "";
   position: absolute;
@@ -3132,10 +3146,12 @@ table.rounded-corners > tfoot:not(:last-child) {
   background-color: var(--tooltip-background);
   transform: rotate(45deg);
 }
+.tooltip.ng-tooltip-bottom-right,
 .table-tooltip.ng-tooltip-bottom-right {
   position: relative;
   margin-top: 1rem;
 }
+.tooltip.ng-tooltip-bottom-right:before,
 .table-tooltip.ng-tooltip-bottom-right:before {
   content: "";
   position: absolute;
@@ -3147,9 +3163,11 @@ table.rounded-corners > tfoot:not(:last-child) {
   background: var(--tooltip-background);
   transform: rotate(45deg);
 }
+.tooltip.ng-tooltip-left,
 .table-tooltip.ng-tooltip-left {
   margin-left: -1rem;
 }
+.tooltip.ng-tooltip-left:after,
 .table-tooltip.ng-tooltip-left:after {
   content: "";
   position: absolute;
@@ -3161,9 +3179,11 @@ table.rounded-corners > tfoot:not(:last-child) {
   background: var(--tooltip-background);
   transform: rotate(45deg);
 }
+.tooltip.ng-tooltip-right,
 .table-tooltip.ng-tooltip-right {
   margin-left: 1rem;
 }
+.tooltip.ng-tooltip-right:before,
 .table-tooltip.ng-tooltip-right:before {
   content: "";
   position: absolute;
@@ -3572,6 +3592,51 @@ app-staking .chart-header .items .item .left {
   min-width: fit-content;
   width: auto;
 }
+app-staking .chart-header .items .item.balances {
+  max-width: 31rem;
+  min-height: 0;
+  border: none !important;
+}
+app-staking .chart-header .items .item.balances .balance-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.6rem;
+  line-height: 1.25;
+}
+app-staking .chart-header .items .item.balances .balance-row:not(:last-child) {
+  margin-bottom: 0.8rem;
+}
+app-staking .chart-header .items .item.balances .label {
+  color: var(--main-text);
+  opacity: 0.7;
+  font-size: 1.6rem;
+  font-weight: 400;
+  white-space: nowrap;
+}
+app-staking .chart-header .items .item.balances .value {
+  color: var(--main-text);
+  font-size: 1.6rem;
+  font-weight: 400;
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  min-width: 0;
+  text-align: right;
+}
+app-staking .chart-header .items .item.balances .value .number {
+  display: inline-block;
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+app-staking .chart-header .items .item.balances .value .ticker {
+  flex: 0 0 auto;
+  margin-left: 0.4rem;
+  white-space: nowrap;
+}
 app-staking .chart {
   position: relative;
   border: var(--border);
@@ -3584,6 +3649,9 @@ app-staking .chart > div {
 }
 .light app-staking .chart-header .items .item {
   border: var(--table-info-border);
+}
+.light app-staking .chart-header .items .item.balances {
+  border: none !important;
 }
 app-wallet {
   width: 100%;

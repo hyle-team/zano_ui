@@ -1041,6 +1041,19 @@
         "TITLE_TOTAL": "Total",
         "WALLET_STAKING_ON": "{{ value }} staking AKTIF"
     },
+    "POS_ESTIMATE_CARD": {
+        "ATTEMPT_LABEL": "Percobaan:",
+        "ESTIMATE_LABEL": "Estimasi waktu untuk menemukan blok:"
+    },
+    "ESTIMATE_TIME": {
+        "LESS_THAN_MINUTE": "< 1 mnt",
+        "NA": "N/A",
+        "UNITS": {
+            "DAY": "hari",
+            "HOUR": "jam",
+            "MIN": "mnt"
+        }
+    },
     "SUCCESS_SWEEP_BARE_OUTS": {
         "DETAILS": "{{ txs_sent }} transaksi berhasil dikirim, {{ bare_outs_swept }} keluaran telanjang dimigrasikan, {{ amount_swept }} koin ditransfer, dan {{ fee_spent }} dihabiskan untuk biaya."
     },

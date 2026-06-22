@@ -146,6 +146,8 @@ class Wallet {
         this.localBlacklistVerifiedAssets$ = new rxjs__WEBPACK_IMPORTED_MODULE_4__.BehaviorSubject([]);
         this.currentPriceForAssets$ = new rxjs__WEBPACK_IMPORTED_MODULE_4__.BehaviorSubject({});
         this.balances$ = new rxjs__WEBPACK_IMPORTED_MODULE_4__.BehaviorSubject([]);
+        this.current_pos_attempts = 0;
+        this.est_iterations_per_pos_block = 0;
         this.has_bare_unspent_outputs = false;
         this.alias_info_list = [];
         this.history = [];
@@ -160,6 +162,8 @@ class Wallet {
         this.address = address;
         this.balances = balances;
         this.mined_total = mined;
+        this.current_pos_attempts = 0;
+        this.est_iterations_per_pos_block = 0;
         this.tracking_hey = tracking;
         this.staking = false;
         this.new_messages = 0;
@@ -1698,8 +1702,11 @@ class AppComponent {
 
               wallet.balances = data.balances;
               wallet.mined_total = data.minied_total;
+              wallet.current_pos_attempts = data.current_pos_attempts;
+              wallet.est_iterations_per_pos_block = data.est_iterations_per_pos_block;
               wallet.alias_available = data.is_alias_operations_available;
               wallet.has_bare_unspent_outputs = data.has_bare_unspent_outputs;
+              this.variablesService.posStatusUpdated$.next(wallet.wallet_id);
             });
           }
         });
@@ -2150,7 +2157,6 @@ class AppComponent {
           const {
             settings: {
               isDarkTheme,
-              visibilityBalance,
               scale,
               language,
               appLog,
@@ -4081,7 +4087,7 @@ class LoginComponent {
     }
     _finalizeResetData() {
         this.variablesService.wallets = [];
-        this.variablesService.current_wallet = null;
+        this.variablesService.setCurrentWallet(null);
         this.variablesService.contacts = [];
         this.variablesService.appPass = '';
         this.variablesService.appLogin = false;
@@ -9372,9 +9378,9 @@ class AssetsComponent {
 
   _listenChangeWallet() {
     const {
-      currentWalletChangedEvent
+      currentWalletChanged$
     } = this.variablesService;
-    currentWalletChangedEvent.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_21__.takeUntil)(this._destroy$)).subscribe({
+    currentWalletChanged$.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_21__.takeUntil)(this._destroy$)).subscribe({
       next: () => {
         this.paginatePipeArgs.currentPage = 1;
       }
@@ -12441,7 +12447,7 @@ class HistoryComponent {
     }
     ngOnInit() {
         this.init();
-        this.variablesService.currentWalletChangedEvent.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_15__.filter)(Boolean), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_16__.takeUntil)(this._destroy$)).subscribe({
+        this.variablesService.currentWalletChanged$.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_15__.filter)(Boolean), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_16__.takeUntil)(this._destroy$)).subscribe({
             next: (wallet) => {
                 this.getRecentTransfers();
                 this.mining = wallet.exclude_mining_txs;
@@ -16791,26 +16797,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "StakingComponent": () => (/* binding */ StakingComponent)
 /* harmony export */ });
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/core */ 3184);
 /* harmony import */ var _parts_services_variables_service__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @parts/services/variables.service */ 22994);
-/* harmony import */ var angular_highcharts__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! angular-highcharts */ 64072);
+/* harmony import */ var angular_highcharts__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! angular-highcharts */ 64072);
 /* harmony import */ var _api_services_backend_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @api/services/backend.service */ 10122);
 /* harmony import */ var _parts_pipes_int_to_money_pipe_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @parts/pipes/int-to-money-pipe/int-to-money.pipe */ 25985);
 /* harmony import */ var bignumber_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! bignumber.js */ 82481);
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! rxjs */ 80228);
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! rxjs */ 26562);
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! rxjs/operators */ 21339);
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! rxjs/operators */ 19337);
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! rxjs/operators */ 59295);
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! rxjs/operators */ 68951);
-/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! rxjs/operators */ 71989);
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/forms */ 90587);
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @angular/common */ 36362);
-/* harmony import */ var _angular_flex_layout__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @angular/flex-layout */ 55434);
-/* harmony import */ var _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @ng-select/ng-select */ 88660);
-/* harmony import */ var _angular_flex_layout_extended__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @angular/flex-layout/extended */ 13338);
-/* harmony import */ var _parts_components_staking_switch_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../parts/components/staking-switch.component */ 73396);
-/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @ngx-translate/core */ 87514);
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! rxjs */ 80228);
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! rxjs */ 26562);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! rxjs/operators */ 21339);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! rxjs/operators */ 19337);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! rxjs/operators */ 59295);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! rxjs/operators */ 68951);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! rxjs/operators */ 71989);
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/forms */ 90587);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @angular/common */ 36362);
+/* harmony import */ var _angular_flex_layout__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @angular/flex-layout */ 55434);
+/* harmony import */ var _parts_directives_tooltip_tooltip_directive__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../parts/directives/tooltip/tooltip.directive */ 71072);
+/* harmony import */ var _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @ng-select/ng-select */ 88660);
+/* harmony import */ var _angular_flex_layout_extended__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @angular/flex-layout/extended */ 13338);
+/* harmony import */ var _parts_components_staking_switch_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../../parts/components/staking-switch.component */ 73396);
+/* harmony import */ var _parts_components_staking_time_to_block_card_staking_time_to_block_card_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../../../parts/components/staking-time-to-block-card/staking-time-to-block-card.component */ 67801);
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @ngx-translate/core */ 87514);
+
+
 
 
 
@@ -16831,175 +16841,190 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function StakingComponent_section_0_div_6_Template(rf, ctx) { if (rf & 1) {
-    const _r10 = _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵgetCurrentView"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](0, "div", 9)(1, "div", 10);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtext"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipe"](3, "translate");
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](4, "div", 11)(5, "app-staking-switch", 26);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵlistener"]("stakingChange", function StakingComponent_section_0_div_6_Template_app_staking_switch_stakingChange_5_listener($event) { _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵrestoreView"](_r10); const ctx_r9 = _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵnextContext"](2); return _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵresetView"](ctx_r9.variablesService.current_wallet.staking = $event); });
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]()()();
+    const _r11 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](0, "div", 29)(1, "div", 30);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipe"](3, "translate");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](4, "div", 31)(5, "app-staking-switch", 32);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("stakingChange", function StakingComponent_section_0_div_6_Template_app_staking_switch_stakingChange_5_listener($event) { _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r11); const ctx_r10 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"](2); return _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵresetView"](ctx_r10.variablesService.current_wallet.staking = $event); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]()()();
 } if (rf & 2) {
-    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵnextContext"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipeBind1"](3, 3, "STAKING.TITLE"), " ");
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵproperty"]("staking", ctx_r3.variablesService.current_wallet.staking)("wallet_id", ctx_r3.variablesService.current_wallet.wallet_id);
+    const ctx_r3 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipeBind1"](3, 3, "STAKING.TITLE"), " ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵproperty"]("staking", ctx_r3.variablesService.current_wallet.staking)("wallet_id", ctx_r3.variablesService.current_wallet.wallet_id);
 } }
-function StakingComponent_section_0_ng_container_26_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementContainerStart"](0);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](1, "div", 27)(2, "div", 28)(3, "div", 29);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtext"](4);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipe"](5, "date");
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](6, "div", 30);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtext"](7);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]()()();
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementContainerEnd"]();
+function StakingComponent_section_0_app_staking_time_to_block_card_30_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelement"](0, "app-staking-time-to-block-card", 33);
+} }
+function StakingComponent_section_0_ng_container_32_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementContainerStart"](0);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](1, "div", 34)(2, "div", 35)(3, "div", 36);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](4);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipe"](5, "date");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](6, "div", 37);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](7);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]()()();
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementContainerEnd"]();
 } if (rf & 2) {
-    const ctx_r4 = _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵnextContext"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](4);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtextInterpolate2"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipeBind2"](5, 3, ctx_r4.pointDetails.date, "EEEE, MMMM d, y"), " ", ctx_r4.pointDetails.amount, " ");
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtextInterpolate1"](" ", ctx_r4.variablesService.defaultTicker, " ");
+    const ctx_r5 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](4);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtextInterpolate2"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipeBind2"](5, 3, ctx_r5.pointDetails.date, "EEEE, MMMM d, y"), " ", ctx_r5.pointDetails.amount, " ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtextInterpolate1"](" ", ctx_r5.variablesService.defaultTicker, " ");
 } }
-function StakingComponent_section_0_ng_template_28_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtext"](0);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipe"](1, "lowercase");
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipe"](2, "translate");
-} if (rf & 2) {
-    const item_r11 = ctx.item;
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtextInterpolate1"](" Sort by ", _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipeBind1"](1, 1, _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipeBind1"](2, 3, item_r11.title)) + "s", " ");
-} }
-function StakingComponent_section_0_ng_template_29_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtext"](0);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipe"](1, "translate");
+function StakingComponent_section_0_ng_template_34_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](0);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipe"](1, "lowercase");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipe"](2, "translate");
 } if (rf & 2) {
     const item_r12 = ctx.item;
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipeBind1"](1, 1, item_r12.title), " ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtextInterpolate1"](" Sort by ", _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipeBind1"](1, 1, _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipeBind1"](2, 3, item_r12.title)) + "s", " ");
 } }
-function StakingComponent_section_0_div_33_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](0, "div", 31)(1, "div", 28)(2, "div", 29);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtext"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipe"](4, "date");
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](5, "div", 30);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtext"](6);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]()()();
+function StakingComponent_section_0_ng_template_35_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](0);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipe"](1, "translate");
 } if (rf & 2) {
-    const ctx_r7 = _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵnextContext"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtextInterpolate2"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipeBind2"](4, 3, ctx_r7.pointDetails.date, "EEEE, MMMM d, y"), " ", ctx_r7.pointDetails.amount, " ");
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtextInterpolate1"](" ", ctx_r7.variablesService.defaultTicker, " ");
+    const item_r13 = ctx.item;
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipeBind1"](1, 1, item_r13.title), " ");
 } }
-function StakingComponent_section_0_ng_container_37_Template(rf, ctx) { if (rf & 1) {
-    const _r16 = _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵgetCurrentView"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementContainerStart"](0);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](1, "button", 32);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵlistener"]("click", function StakingComponent_section_0_ng_container_37_Template_button_click_1_listener() { const restoredCtx = _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵrestoreView"](_r16); const item_r13 = restoredCtx.$implicit; const ctx_r15 = _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵnextContext"](2); return _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵresetView"](ctx_r15.filtersForm.controls.period.patchValue(item_r13.value)); });
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipe"](2, "translate");
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipe"](3, "translate");
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtext"](4);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipe"](5, "translate");
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementContainerEnd"]();
+function StakingComponent_section_0_div_39_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](0, "div", 38)(1, "div", 35)(2, "div", 36);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipe"](4, "date");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](5, "div", 37);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]()()();
 } if (rf & 2) {
-    const item_r13 = ctx.$implicit;
-    const last_r14 = ctx.last;
-    const ctx_r8 = _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵnextContext"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵclassProp"]("active", item_r13.value === ctx_r8.filtersForm.controls.period.value)("mr-1", !last_r14)("outline", !last_r14)("primary", last_r14);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵattribute"]("aria-pressed", item_r13.value === ctx_r8.filtersForm.controls.period.value)("aria-label", _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipeBind1"](2, 11, "ACCESSIBILITY.STAKING.LABELS.LABEL1") + _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipeBind1"](3, 13, item_r13.title));
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipeBind1"](5, 15, item_r13.title), " ");
+    const ctx_r8 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtextInterpolate2"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipeBind2"](4, 3, ctx_r8.pointDetails.date, "EEEE, MMMM d, y"), " ", ctx_r8.pointDetails.amount, " ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtextInterpolate1"](" ", ctx_r8.variablesService.defaultTicker, " ");
+} }
+function StakingComponent_section_0_ng_container_43_Template(rf, ctx) { if (rf & 1) {
+    const _r17 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵgetCurrentView"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementContainerStart"](0);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](1, "button", 39);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵlistener"]("click", function StakingComponent_section_0_ng_container_43_Template_button_click_1_listener() { const restoredCtx = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵrestoreView"](_r17); const item_r14 = restoredCtx.$implicit; const ctx_r16 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"](2); return _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵresetView"](ctx_r16.filtersForm.controls.period.patchValue(item_r14.value)); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipe"](2, "translate");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipe"](3, "translate");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](4);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipe"](5, "translate");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementContainerEnd"]();
+} if (rf & 2) {
+    const item_r14 = ctx.$implicit;
+    const last_r15 = ctx.last;
+    const ctx_r9 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵclassProp"]("active", item_r14.value === ctx_r9.filtersForm.controls.period.value)("mr-1", !last_r15)("outline", !last_r15)("primary", last_r15);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵattribute"]("aria-pressed", item_r14.value === ctx_r9.filtersForm.controls.period.value)("aria-label", _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipeBind1"](2, 11, "ACCESSIBILITY.STAKING.LABELS.LABEL1") + _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipeBind1"](3, 13, item_r14.title));
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipeBind1"](5, 15, item_r14.title), " ");
 } }
 function StakingComponent_section_0_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](0, "section", 2)(1, "div", 3)(2, "div", 4)(3, "div", 5)(4, "div", 6)(5, "div", 7);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtemplate"](6, StakingComponent_section_0_div_6_Template, 6, 5, "div", 8);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](7, "div", 9)(8, "div", 10);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtext"](9);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipe"](10, "translate");
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](11, "div", 11)(12, "div", 12);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtext"](13);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipe"](14, "intToMoney");
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtext"](15);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]()();
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](16, "div", 9)(17, "div", 10);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtext"](18);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipe"](19, "translate");
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](20, "div", 11)(21, "div", 12);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtext"](22);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipe"](23, "intToMoney");
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtext"](24);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]()()()();
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](25, "div", 13);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtemplate"](26, StakingComponent_section_0_ng_container_26_Template, 8, 6, "ng-container", 14);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](27, "ng-select", 15);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtemplate"](28, StakingComponent_section_0_ng_template_28_Template, 3, 5, "ng-template", 16);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtemplate"](29, StakingComponent_section_0_ng_template_29_Template, 2, 3, "ng-template", 17);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]()()();
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](30, "div", 18);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelement"](31, "div", 19);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](32, "div", 20);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtemplate"](33, StakingComponent_section_0_div_33_Template, 7, 6, "div", 21);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]()()();
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](34, "div", 22);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelement"](35, "div", 23);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](36, "div", 24);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtemplate"](37, StakingComponent_section_0_ng_container_37_Template, 6, 17, "ng-container", 25);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]()()();
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](0, "section", 2)(1, "div", 3)(2, "div", 4)(3, "div", 5)(4, "div", 6)(5, "div", 7);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtemplate"](6, StakingComponent_section_0_div_6_Template, 6, 5, "div", 8);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](7, "div", 9)(8, "div", 10)(9, "div", 11);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](10);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipe"](11, "translate");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](12, "div", 12)(13, "span", 13);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipe"](14, "intToMoney");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](15);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipe"](16, "intToMoney");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](17, "span", 14);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](18);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]()()();
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](19, "div", 10)(20, "div", 11);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](21);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipe"](22, "translate");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](23, "div", 12)(24, "span", 13);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipe"](25, "intToMoney");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](26);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipe"](27, "intToMoney");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](28, "span", 14);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtext"](29);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]()()()();
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtemplate"](30, StakingComponent_section_0_app_staking_time_to_block_card_30_Template, 1, 0, "app-staking-time-to-block-card", 15);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]()();
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](31, "div", 16);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtemplate"](32, StakingComponent_section_0_ng_container_32_Template, 8, 6, "ng-container", 17);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](33, "ng-select", 18);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtemplate"](34, StakingComponent_section_0_ng_template_34_Template, 3, 5, "ng-template", 19);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtemplate"](35, StakingComponent_section_0_ng_template_35_Template, 2, 3, "ng-template", 20);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]()()();
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](36, "div", 21);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelement"](37, "div", 22);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](38, "div", 23);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtemplate"](39, StakingComponent_section_0_div_39_Template, 7, 6, "div", 24);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]()()();
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](40, "div", 25);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelement"](41, "div", 26);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](42, "div", 27);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtemplate"](43, StakingComponent_section_0_ng_container_43_Template, 6, 17, "ng-container", 28);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]()()();
 } if (rf & 2) {
-    const ctx_r0 = _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](6);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵproperty"]("ngIf", ctx_r0.isShowStagingSwitch);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipeBind1"](10, 15, "STAKING.TITLE_PENDING"), " : ");
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](4);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipeBind1"](14, 17, ctx_r0.pending.total), " ");
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtextInterpolate1"](" ", ctx_r0.variablesService.defaultTicker, " ");
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](3);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipeBind1"](19, 19, "STAKING.TITLE_TOTAL"), " : ");
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](4);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpipeBind1"](23, 21, ctx_r0.total), " ");
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtextInterpolate1"](" ", ctx_r0.variablesService.defaultTicker, " ");
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵproperty"]("ngIf", ctx_r0.isShowPointerDetails);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](1);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵproperty"]("clearable", false)("items", ctx_r0.groupItems)("searchable", false)("formControl", ctx_r0.filtersForm.controls.group);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](6);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵproperty"]("ngIf", ctx_r0.pointDetails && ctx_r0.pointDetails.date);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵproperty"]("chart", ctx_r0.chart);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵproperty"]("ngForOf", ctx_r0.periodItems);
+    const ctx_r0 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵproperty"]("ngIf", ctx_r0.isShowStagingSwitch);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](4);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtextInterpolate1"]("", _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipeBind1"](11, 22, "STAKING.TITLE_PENDING"), ":");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵproperty"]("tooltip", _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipeBind1"](14, 24, ctx_r0.pending.total))("showWhenNoOverflow", false)("placement", "bottom");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipeBind1"](16, 26, ctx_r0.pending.total), " ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtextInterpolate"](ctx_r0.variablesService.defaultTicker);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtextInterpolate1"]("", _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipeBind1"](22, 28, "STAKING.TITLE_TOTAL"), ":");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵproperty"]("tooltip", _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipeBind1"](25, 30, ctx_r0.total))("showWhenNoOverflow", false)("placement", "bottom");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtextInterpolate1"](" ", _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpipeBind1"](27, 32, ctx_r0.total), " ");
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtextInterpolate"](ctx_r0.variablesService.defaultTicker);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵproperty"]("ngIf", ctx_r0.variablesService.current_wallet.staking);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵproperty"]("ngIf", ctx_r0.isShowPointerDetails);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵproperty"]("clearable", false)("items", ctx_r0.groupItems)("searchable", false)("formControl", ctx_r0.filtersForm.controls.group);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵproperty"]("ngIf", ctx_r0.pointDetails && ctx_r0.pointDetails.date);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵproperty"]("chart", ctx_r0.chart);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵproperty"]("ngForOf", ctx_r0.periodItems);
 } }
 function StakingComponent_ng_template_1_div_8_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelement"](0, "div", 42);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelement"](0, "div", 49);
 } if (rf & 2) {
-    const first_r19 = ctx.first;
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵclassProp"]("ml-2", !first_r19);
+    const first_r20 = ctx.first;
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵclassProp"]("ml-2", !first_r20);
 } }
 const _c0 = function () { return { length: 7 }; };
 function StakingComponent_ng_template_1_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](0, "section", 33)(1, "div", 34);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelement"](2, "div", 35)(3, "div", 36)(4, "div", 37)(5, "div", 38);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelement"](6, "div", 39);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementStart"](7, "div", 40);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtemplate"](8, StakingComponent_ng_template_1_div_8_Template, 1, 2, "div", 41);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵelementEnd"]()();
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](0, "section", 40)(1, "div", 41);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelement"](2, "div", 42)(3, "div", 43)(4, "div", 44)(5, "div", 45);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelement"](6, "div", 46);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementStart"](7, "div", 47);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtemplate"](8, StakingComponent_ng_template_1_div_8_Template, 1, 2, "div", 48);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵelementEnd"]()();
 } if (rf & 2) {
-    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵnextContext"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵadvance"](8);
-    _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵproperty"]("ngForOf", ctx_r2.Array.from(_angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵpureFunction0"](1, _c0)));
+    const ctx_r2 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵnextContext"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵadvance"](8);
+    _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵproperty"]("ngForOf", ctx_r2.Array.from(_angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵpureFunction0"](1, _c0)));
 } }
 const periodItems = [
     {
@@ -17047,7 +17072,7 @@ const groupItems = [
 ];
 class StakingComponent {
     constructor() {
-        this.variablesService = (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.inject)(_parts_services_variables_service__WEBPACK_IMPORTED_MODULE_0__.VariablesService);
+        this.variablesService = (0,_angular_core__WEBPACK_IMPORTED_MODULE_7__.inject)(_parts_services_variables_service__WEBPACK_IMPORTED_MODULE_0__.VariablesService);
         this.total = new bignumber_js__WEBPACK_IMPORTED_MODULE_3__.BigNumber(0);
         this.pending = {
             list: [],
@@ -17055,7 +17080,7 @@ class StakingComponent {
         };
         this.periodItems = periodItems;
         this.groupItems = groupItems;
-        this._fb = (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.inject)(_angular_forms__WEBPACK_IMPORTED_MODULE_6__.NonNullableFormBuilder);
+        this._fb = (0,_angular_core__WEBPACK_IMPORTED_MODULE_7__.inject)(_angular_forms__WEBPACK_IMPORTED_MODULE_8__.NonNullableFormBuilder);
         this.filtersForm = this._fb.group({
             group: this._fb.control('day'),
             period: this._fb.control('All'),
@@ -17065,10 +17090,10 @@ class StakingComponent {
             amount: null,
         };
         this.originalData = [];
-        this._destroy$ = new rxjs__WEBPACK_IMPORTED_MODULE_7__.Subject();
-        this._backendService = (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.inject)(_api_services_backend_service__WEBPACK_IMPORTED_MODULE_1__.BackendService);
-        this._ngZone = (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.inject)(_angular_core__WEBPACK_IMPORTED_MODULE_5__.NgZone);
-        this._intToMoneyPipe = (0,_angular_core__WEBPACK_IMPORTED_MODULE_5__.inject)(_parts_pipes_int_to_money_pipe_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_2__.IntToMoneyPipe);
+        this._destroy$ = new rxjs__WEBPACK_IMPORTED_MODULE_9__.Subject();
+        this._backendService = (0,_angular_core__WEBPACK_IMPORTED_MODULE_7__.inject)(_api_services_backend_service__WEBPACK_IMPORTED_MODULE_1__.BackendService);
+        this._ngZone = (0,_angular_core__WEBPACK_IMPORTED_MODULE_7__.inject)(_angular_core__WEBPACK_IMPORTED_MODULE_7__.NgZone);
+        this._intToMoneyPipe = (0,_angular_core__WEBPACK_IMPORTED_MODULE_7__.inject)(_parts_pipes_int_to_money_pipe_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_2__.IntToMoneyPipe);
         this._cacheData = new Map();
         this.Array = Array;
     }
@@ -17083,7 +17108,7 @@ class StakingComponent {
         return date !== null && amount !== null;
     }
     ngOnInit() {
-        this.chart = new angular_highcharts__WEBPACK_IMPORTED_MODULE_8__.Chart({
+        this.chart = new angular_highcharts__WEBPACK_IMPORTED_MODULE_10__.Chart({
             title: { text: '' },
             credits: { enabled: false },
             exporting: { enabled: false },
@@ -17191,7 +17216,7 @@ class StakingComponent {
     }
     ngAfterViewInit() {
         this.chart.ref$
-            .pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_9__.delay)(50), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_10__.tap)((ref) => ref.reflow()), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_9__.delay)(50), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_11__.take)(1))
+            .pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_11__.delay)(50), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_12__.tap)((ref) => ref.reflow()), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_11__.delay)(50), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_13__.take)(1))
             .subscribe({
             next: () => {
                 this._getMiningHistory();
@@ -17210,7 +17235,7 @@ class StakingComponent {
     }
     _subscribeToHeightAppEvent() {
         const { getHeightAppEvent } = this.variablesService;
-        getHeightAppEvent.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_12__.takeUntil)(this._destroy$)).subscribe({
+        getHeightAppEvent.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_14__.takeUntil)(this._destroy$)).subscribe({
             next: (newHeight) => {
                 if (this.pending.total.isZero()) {
                     return;
@@ -17224,7 +17249,7 @@ class StakingComponent {
         this.pending.total = this.pending.list.reduce((total, item) => total.plus(item.a), new bignumber_js__WEBPACK_IMPORTED_MODULE_3__.BigNumber(0));
     }
     _subscribeToRefreshStakingEvent() {
-        this.variablesService.refreshStakingEvent$.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_12__.takeUntil)(this._destroy$)).subscribe({
+        this.variablesService.refreshStakingEvent$.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_14__.takeUntil)(this._destroy$)).subscribe({
             next: () => {
                 this._getMiningHistory();
                 this._changePeriod();
@@ -17232,7 +17257,7 @@ class StakingComponent {
         });
     }
     _subscribeToFilterChanges() {
-        this.filtersForm.valueChanges.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_13__.debounceTime)(250), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_12__.takeUntil)(this._destroy$)).subscribe({
+        this.filtersForm.valueChanges.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_15__.debounceTime)(250), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_14__.takeUntil)(this._destroy$)).subscribe({
             next: () => {
                 this.variablesService.settings.filters.stakingFilters = this.filtersForm.getRawValue();
                 this._changePeriod();
@@ -17240,8 +17265,8 @@ class StakingComponent {
         });
     }
     _subscribeToThemeChanges() {
-        (0,rxjs__WEBPACK_IMPORTED_MODULE_14__.combineLatest)([this.chart.ref$, this.variablesService.isDarkTheme$])
-            .pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_12__.takeUntil)(this._destroy$))
+        (0,rxjs__WEBPACK_IMPORTED_MODULE_16__.combineLatest)([this.chart.ref$, this.variablesService.isDarkTheme$])
+            .pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_14__.takeUntil)(this._destroy$))
             .subscribe({
             next: ([ref, isDarkTheme]) => {
                 const options = isDarkTheme ? this._getDarkThemeOptions() : this._getLightThemeOptions();
@@ -17341,7 +17366,7 @@ class StakingComponent {
         this.originalData.push([parseInt(item.t, 10), parseFloat(this._intToMoneyPipe.transform(item.a))]);
     }
     _changePeriod() {
-        this.chart.ref$.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_11__.take)(1)).subscribe({
+        this.chart.ref$.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_13__.take)(1)).subscribe({
             next: (ref) => {
                 const formValue = this.filtersForm.getRawValue();
                 const { group, period } = formValue;
@@ -17407,13 +17432,13 @@ class StakingComponent {
     }
 }
 StakingComponent.ɵfac = function StakingComponent_Factory(t) { return new (t || StakingComponent)(); };
-StakingComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵdefineComponent"]({ type: StakingComponent, selectors: [["app-staking"]], decls: 3, vars: 2, consts: [["class", "chart-wrap", "fxFlexFill", "", "fxLayout", "column", 4, "ngIf", "ngIfElse"], ["skeletonTemplate", ""], ["fxFlexFill", "", "fxLayout", "column", 1, "chart-wrap"], ["fxFlex", "1 1 auto", "fxLayout", "column", 1, "scrolled-content", "h-100"], ["fxFlex", "0 0 auto", "fxLayout", "column", 1, "chart-header", "mb-1"], ["fxFlex", "0 0 auto", "fxLayout", "row nowrap", "fxLayoutAlign", "space-between start", "fxLayoutGap", "1rem", 1, "row"], ["fxFlex", "1 1 calc(50% - 0.5rem)", "fxLayout", "row wrap", "fxLayoutAlign", "start center", "fxLayoutGap", "1rem", 1, "left"], ["fxLayout", "row wrap", "fxLayoutGap", "1rem", 1, "items"], ["class", "item overflow-hidden p-1 border-radius-0_8-rem mb-1", "fxLayout", "row nowrap", "fxLayoutAlign", "space-between center", 4, "ngIf"], ["fxLayout", "row nowrap", "fxLayoutAlign", "space-between center", 1, "item", "overflow-hidden", "p-1", "border-radius-0_8-rem", "mb-1"], ["fxLayout", "row", "fxLayoutAlign", "start center", 1, "left", "overflow-hidden", "mr-1"], ["fxLayout", "row", "fxLayoutAlign", "end center", 1, "right", "overflow-hidden", "w-100"], [1, "text-ellipsis", "mr-1"], ["fxFlex", "1 1 calc(50% - 0.5rem)", "fxLayout", "row", "fxLayoutAlign", "end center", "fxLayoutGap", "1rem", 1, "right"], [4, "ngIf"], ["bindLabel", "title", "bindValue", "value", 1, "selected-group", "max-w-19-rem", "w-100", 3, "clearable", "items", "searchable", "formControl"], ["ng-label-tmp", ""], ["ng-option-tmp", ""], ["fxFlex", "0 0 2rem", "fxHide.lg", "", "fxHide.xl", "", "fxLayout", "row nowrap", "fxLayoutAlign", "space-between center", "fxLayoutGap", "1rem", "fxShow", "", 1, "row"], [1, "left"], ["fxLayoutAlign", "end center", 1, "right"], ["aria-live", "polite", "class", "selected overflow-hidden", 4, "ngIf"], ["fxFlex", "1 1 auto", "fxLayoutAlign", " center", 1, "chart", "border-radius-0_8-rem"], [3, "chart"], ["fxFlex", "0 0 auto", "fxLayoutAlign", " center", 1, "chart-options", "mt-2"], [4, "ngFor", "ngForOf"], [3, "staking", "wallet_id", "stakingChange"], ["fxHide", "", "fxShow.lg", "", "fxShow.xl", "", 1, "selected", "overflow-hidden"], ["fxLayout", "row", 1, "overflow-hidden"], [1, "text-ellipsis"], [1, "ml-0_5"], ["aria-live", "polite", 1, "selected", "overflow-hidden"], ["type", "button", 1, "big", "w-100", 3, "click"], [1, "skeleton-staking", "overflow-hidden"], [1, "skeleton-staking-header", "mb-2"], [1, "skeleton", 2, "max-width", "18.6rem", "width", "100%", "height", "4rem"], [1, "skeleton", "ml-2", 2, "max-width", "14rem", "width", "100%", "height", "4rem"], [1, "skeleton", "ml-2", "mr-2", 2, "max-width", "32.9rem", "width", "100%", "height", "4rem"], [1, "skeleton", "ml-auto", 2, "max-width", "20rem", "width", "100%", "height", "4rem"], [1, "skeleton", "skeleton-staking-chart", "mb-2"], [1, "skeleton-staking-footer"], ["class", "skeleton", "style", "width: 100%; height: 5.3rem", 3, "ml-2", 4, "ngFor", "ngForOf"], [1, "skeleton", 2, "width", "100%", "height", "5.3rem"]], template: function StakingComponent_Template(rf, ctx) { if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtemplate"](0, StakingComponent_section_0_Template, 38, 23, "section", 0);
-        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtemplate"](1, StakingComponent_ng_template_1_Template, 9, 2, "ng-template", null, 1, _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵtemplateRefExtractor"]);
+StakingComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵdefineComponent"]({ type: StakingComponent, selectors: [["app-staking"]], decls: 3, vars: 2, consts: [["class", "chart-wrap", "fxFlexFill", "", "fxLayout", "column", 4, "ngIf", "ngIfElse"], ["skeletonTemplate", ""], ["fxFlexFill", "", "fxLayout", "column", 1, "chart-wrap"], ["fxFlex", "1 1 auto", "fxLayout", "column", 1, "scrolled-content", "h-100"], ["fxFlex", "0 0 auto", "fxLayout", "column", 1, "chart-header", "mb-1"], ["fxFlex", "0 0 auto", "fxLayout", "row nowrap", "fxLayoutAlign", "space-between start", "fxLayoutGap", "1rem", 1, "row"], ["fxFlex", "1 1 calc(50% - 0.5rem)", "fxLayout", "row wrap", "fxLayoutAlign", "start center", "fxLayoutGap", "1rem", 1, "left"], ["fxLayout", "row wrap", "fxLayoutGap", "1rem", 1, "items"], ["class", "item overflow-hidden p-1 border-radius-0_8-rem mb-1", "fxLayout", "row nowrap", "fxLayoutAlign", "space-between center", 4, "ngIf"], [1, "item", "balances", "overflow-hidden", "mb-1"], [1, "balance-row"], [1, "label"], [1, "value"], [1, "number", "text-ellipsis", 3, "tooltip", "showWhenNoOverflow", "placement"], [1, "ticker"], ["class", "mb-1", 4, "ngIf"], ["fxFlex", "1 1 calc(50% - 0.5rem)", "fxLayout", "row", "fxLayoutAlign", "end center", "fxLayoutGap", "1rem", 1, "right"], [4, "ngIf"], ["bindLabel", "title", "bindValue", "value", 1, "selected-group", "max-w-19-rem", "w-100", 3, "clearable", "items", "searchable", "formControl"], ["ng-label-tmp", ""], ["ng-option-tmp", ""], ["fxFlex", "0 0 2rem", "fxHide.lg", "", "fxHide.xl", "", "fxLayout", "row nowrap", "fxLayoutAlign", "space-between center", "fxLayoutGap", "1rem", "fxShow", "", 1, "row"], [1, "left"], ["fxLayoutAlign", "end center", 1, "right"], ["aria-live", "polite", "class", "selected overflow-hidden", 4, "ngIf"], ["fxFlex", "1 1 auto", "fxLayoutAlign", " center", 1, "chart", "border-radius-0_8-rem"], [3, "chart"], ["fxFlex", "0 0 auto", "fxLayoutAlign", " center", 1, "chart-options", "mt-2"], [4, "ngFor", "ngForOf"], ["fxLayout", "row nowrap", "fxLayoutAlign", "space-between center", 1, "item", "overflow-hidden", "p-1", "border-radius-0_8-rem", "mb-1"], ["fxLayout", "row", "fxLayoutAlign", "start center", 1, "left", "overflow-hidden", "mr-1"], ["fxLayout", "row", "fxLayoutAlign", "end center", 1, "right", "overflow-hidden", "w-100"], [3, "staking", "wallet_id", "stakingChange"], [1, "mb-1"], ["fxHide", "", "fxShow.lg", "", "fxShow.xl", "", 1, "selected", "overflow-hidden"], ["fxLayout", "row", 1, "overflow-hidden"], [1, "text-ellipsis"], [1, "ml-0_5"], ["aria-live", "polite", 1, "selected", "overflow-hidden"], ["type", "button", 1, "big", "w-100", 3, "click"], [1, "skeleton-staking", "overflow-hidden"], [1, "skeleton-staking-header", "mb-2"], [1, "skeleton", 2, "max-width", "18.6rem", "width", "100%", "height", "4rem"], [1, "skeleton", "ml-2", 2, "max-width", "14rem", "width", "100%", "height", "4rem"], [1, "skeleton", "ml-2", "mr-2", 2, "max-width", "32.9rem", "width", "100%", "height", "4rem"], [1, "skeleton", "ml-auto", 2, "max-width", "20rem", "width", "100%", "height", "4rem"], [1, "skeleton", "skeleton-staking-chart", "mb-2"], [1, "skeleton-staking-footer"], ["class", "skeleton", "style", "width: 100%; height: 5.3rem", 3, "ml-2", 4, "ngFor", "ngForOf"], [1, "skeleton", 2, "width", "100%", "height", "5.3rem"]], template: function StakingComponent_Template(rf, ctx) { if (rf & 1) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtemplate"](0, StakingComponent_section_0_Template, 44, 34, "section", 0);
+        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtemplate"](1, StakingComponent_ng_template_1_Template, 9, 2, "ng-template", null, 1, _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵtemplateRefExtractor"]);
     } if (rf & 2) {
-        const _r1 = _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵreference"](2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_5__["ɵɵproperty"]("ngIf", ctx.variablesService.current_wallet.loaded)("ngIfElse", _r1);
-    } }, dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_15__.NgForOf, _angular_common__WEBPACK_IMPORTED_MODULE_15__.NgIf, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_16__.DefaultLayoutDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_16__.DefaultLayoutGapDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_16__.DefaultLayoutAlignDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_16__.FlexFillDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_16__.DefaultFlexDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_6__.NgControlStatus, _angular_forms__WEBPACK_IMPORTED_MODULE_6__.FormControlDirective, angular_highcharts__WEBPACK_IMPORTED_MODULE_8__.ChartDirective, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_17__.NgSelectComponent, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_17__.NgOptionTemplateDirective, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_17__.NgLabelTemplateDirective, _angular_flex_layout_extended__WEBPACK_IMPORTED_MODULE_18__.DefaultShowHideDirective, _parts_components_staking_switch_component__WEBPACK_IMPORTED_MODULE_4__.StakingSwitchComponent, _angular_common__WEBPACK_IMPORTED_MODULE_15__.LowerCasePipe, _angular_common__WEBPACK_IMPORTED_MODULE_15__.DatePipe, _ngx_translate_core__WEBPACK_IMPORTED_MODULE_19__.TranslatePipe, _parts_pipes_int_to_money_pipe_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_2__.IntToMoneyPipe], styles: ["[_nghost-%COMP%] {\n                width: 100%;\n                height: auto;\n            }\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0YWtpbmcuY29tcG9uZW50LnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7WUFDWTtnQkFDSSxXQUFXO2dCQUNYLFlBQVk7WUFDaEIiLCJmaWxlIjoic3Rha2luZy5jb21wb25lbnQudHMiLCJzb3VyY2VzQ29udGVudCI6WyJcbiAgICAgICAgICAgIDpob3N0IHtcbiAgICAgICAgICAgICAgICB3aWR0aDogMTAwJTtcbiAgICAgICAgICAgICAgICBoZWlnaHQ6IGF1dG87XG4gICAgICAgICAgICB9XG4gICAgICAgICJdfQ== */"] });
+        const _r1 = _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵreference"](2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_7__["ɵɵproperty"]("ngIf", ctx.variablesService.current_wallet.loaded)("ngIfElse", _r1);
+    } }, dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_17__.NgForOf, _angular_common__WEBPACK_IMPORTED_MODULE_17__.NgIf, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_18__.DefaultLayoutDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_18__.DefaultLayoutGapDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_18__.DefaultLayoutAlignDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_18__.FlexFillDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_18__.DefaultFlexDirective, _parts_directives_tooltip_tooltip_directive__WEBPACK_IMPORTED_MODULE_4__.TooltipDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_8__.NgControlStatus, _angular_forms__WEBPACK_IMPORTED_MODULE_8__.FormControlDirective, angular_highcharts__WEBPACK_IMPORTED_MODULE_10__.ChartDirective, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_19__.NgSelectComponent, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_19__.NgOptionTemplateDirective, _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_19__.NgLabelTemplateDirective, _angular_flex_layout_extended__WEBPACK_IMPORTED_MODULE_20__.DefaultShowHideDirective, _parts_components_staking_switch_component__WEBPACK_IMPORTED_MODULE_5__.StakingSwitchComponent, _parts_components_staking_time_to_block_card_staking_time_to_block_card_component__WEBPACK_IMPORTED_MODULE_6__.StakingTimeToBlockCardComponent, _angular_common__WEBPACK_IMPORTED_MODULE_17__.LowerCasePipe, _angular_common__WEBPACK_IMPORTED_MODULE_17__.DatePipe, _ngx_translate_core__WEBPACK_IMPORTED_MODULE_21__.TranslatePipe, _parts_pipes_int_to_money_pipe_int_to_money_pipe__WEBPACK_IMPORTED_MODULE_2__.IntToMoneyPipe], styles: ["[_nghost-%COMP%] {\n  width: 100%;\n  height: auto;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0YWtpbmcuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSSxXQUFBO0VBQ0EsWUFBQTtBQUNKIiwiZmlsZSI6InN0YWtpbmcuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyI6aG9zdCB7XG4gICAgd2lkdGg6IDEwMCU7XG4gICAgaGVpZ2h0OiBhdXRvO1xufVxuIl19 */"] });
 
 
 /***/ }),
@@ -19820,27 +19845,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "WalletModule": () => (/* binding */ WalletModule)
 /* harmony export */ });
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_58__ = __webpack_require__(/*! @angular/common */ 36362);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_59__ = __webpack_require__(/*! @angular/common */ 36362);
 /* harmony import */ var _wallet_routing_module__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./wallet-routing.module */ 48685);
 /* harmony import */ var _tabs_assets_assets_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./tabs/assets/assets.component */ 86695);
 /* harmony import */ var _wallet_wallet_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./wallet/wallet.component */ 74386);
-/* harmony import */ var _angular_flex_layout__WEBPACK_IMPORTED_MODULE_59__ = __webpack_require__(/*! @angular/flex-layout */ 55434);
-/* harmony import */ var _angular_flex_layout__WEBPACK_IMPORTED_MODULE_66__ = __webpack_require__(/*! @angular/flex-layout */ 77114);
+/* harmony import */ var _angular_flex_layout__WEBPACK_IMPORTED_MODULE_60__ = __webpack_require__(/*! @angular/flex-layout */ 55434);
+/* harmony import */ var _angular_flex_layout__WEBPACK_IMPORTED_MODULE_67__ = __webpack_require__(/*! @angular/flex-layout */ 77114);
 /* harmony import */ var _parts_pipes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @parts/pipes */ 34710);
-/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_60__ = __webpack_require__(/*! @ngx-translate/core */ 87514);
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_61__ = __webpack_require__(/*! @ngx-translate/core */ 87514);
 /* harmony import */ var _parts_modals_confirm_modal_confirm_modal_module__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @parts/modals/confirm-modal/confirm-modal.module */ 81225);
 /* harmony import */ var _wallet_dialogs_export_history_modal_export_history_modal_module__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./wallet/dialogs/export-history-modal/export-history-modal.module */ 64602);
 /* harmony import */ var _wallet_details_wallet_details_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../wallet-details/wallet-details.component */ 91879);
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_61__ = __webpack_require__(/*! @angular/forms */ 90587);
-/* harmony import */ var _angular_cdk_overlay__WEBPACK_IMPORTED_MODULE_62__ = __webpack_require__(/*! @angular/cdk/overlay */ 54244);
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_62__ = __webpack_require__(/*! @angular/forms */ 90587);
+/* harmony import */ var _angular_cdk_overlay__WEBPACK_IMPORTED_MODULE_63__ = __webpack_require__(/*! @angular/cdk/overlay */ 54244);
 /* harmony import */ var _parts_directives__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @parts/directives */ 21443);
-/* harmony import */ var ngx_pagination__WEBPACK_IMPORTED_MODULE_63__ = __webpack_require__(/*! ngx-pagination */ 27043);
+/* harmony import */ var ngx_pagination__WEBPACK_IMPORTED_MODULE_64__ = __webpack_require__(/*! ngx-pagination */ 27043);
 /* harmony import */ var _tabs_history_history_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./tabs/history/history.component */ 13086);
 /* harmony import */ var _tabs_staking_staking_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./tabs/staking/staking.component */ 58234);
-/* harmony import */ var angular_highcharts__WEBPACK_IMPORTED_MODULE_64__ = __webpack_require__(/*! angular-highcharts */ 64072);
-/* harmony import */ var _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_65__ = __webpack_require__(/*! @ng-select/ng-select */ 88660);
+/* harmony import */ var angular_highcharts__WEBPACK_IMPORTED_MODULE_65__ = __webpack_require__(/*! angular-highcharts */ 64072);
+/* harmony import */ var _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_66__ = __webpack_require__(/*! @ng-select/ng-select */ 88660);
 /* harmony import */ var _tabs_receive_receive_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./tabs/receive/receive.component */ 14810);
-/* harmony import */ var _angular_cdk_dialog__WEBPACK_IMPORTED_MODULE_67__ = __webpack_require__(/*! @angular/cdk/dialog */ 28800);
+/* harmony import */ var _angular_cdk_dialog__WEBPACK_IMPORTED_MODULE_68__ = __webpack_require__(/*! @angular/cdk/dialog */ 28800);
 /* harmony import */ var _tabs_send_send_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./tabs/send/send.component */ 74357);
 /* harmony import */ var _export_import_export_import_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../export-import/export-import.component */ 84295);
 /* harmony import */ var _parts_components_checkbox_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! @parts/components/checkbox.component */ 64687);
@@ -19849,51 +19874,53 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _parts_components_switch_component__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! @parts/components/switch.component */ 11281);
 /* harmony import */ var _parts_components_breadcrumbs_breadcrumbs_component__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! @parts/components/breadcrumbs/breadcrumbs.component */ 71080);
 /* harmony import */ var _parts_components_back_button_back_button_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! @parts/components/back-button/back-button.component */ 67779);
-/* harmony import */ var _tabs_send_modals_wallet_modals_module__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./tabs/send/modals/wallet-modals.module */ 20425);
-/* harmony import */ var _parts_pipes_get_asset_info_pipe__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! @parts/pipes/get-asset-info.pipe */ 14075);
-/* harmony import */ var _wallet_dialogs_migrate_wallet_to_zarcanum_migrate_wallet_to_zarcanum_component__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! ./wallet/dialogs/migrate-wallet-to-zarcanum/migrate-wallet-to-zarcanum.component */ 22732);
-/* harmony import */ var _wallet_dialogs_success_sweep_bare_outs_success_sweep_bare_outs_component__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./wallet/dialogs/success-sweep-bare-outs/success-sweep-bare-outs.component */ 81319);
-/* harmony import */ var _parts_pipes_get_amount_items_pipe__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! @parts/pipes/get-amount-items.pipe */ 63903);
-/* harmony import */ var _parts_components_transaction_status_transaction_status_component__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @parts/components/transaction-status/transaction-status.component */ 88746);
-/* harmony import */ var _parts_pipes_is_visible_fee_pipe__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @parts/pipes/is-visible-fee.pipe */ 47161);
-/* harmony import */ var _tabs_custom_assets_pages_custom_assets_custom_assets_component__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! ./tabs/custom-assets/pages/custom-assets/custom-assets.component */ 87008);
-/* harmony import */ var _tabs_custom_assets_pages_create_new_asset_create_new_asset_component__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./tabs/custom-assets/pages/create-new-asset/create-new-asset.component */ 75135);
-/* harmony import */ var _tabs_custom_assets_modals_confirm_create_custom_asset_confirm_create_custom_asset_component__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./tabs/custom-assets/modals/confirm-create-custom-asset/confirm-create-custom-asset.component */ 80678);
-/* harmony import */ var _tabs_custom_assets_modals_update_custom_asset_update_custom_asset_component__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./tabs/custom-assets/modals/update-custom-asset/update-custom-asset.component */ 68603);
-/* harmony import */ var _tabs_custom_assets_modals_emit_custom_asset_emit_custom_asset_component__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./tabs/custom-assets/modals/emit-custom-asset/emit-custom-asset.component */ 66074);
-/* harmony import */ var _tabs_custom_assets_modals_burn_custom_asset_burn_custom_asset_component__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./tabs/custom-assets/modals/burn-custom-asset/burn-custom-asset.component */ 55660);
-/* harmony import */ var _tabs_custom_assets_modals_transaction_details_for_custom_assets_transaction_details_for_custom_assets_component__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./tabs/custom-assets/modals/transaction-details-for-custom-assets/transaction-details-for-custom-assets.component */ 8072);
-/* harmony import */ var _parts_directives_visibility_balance_directive__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! @parts/directives/visibility-balance.directive */ 90440);
-/* harmony import */ var _angular_material_autocomplete__WEBPACK_IMPORTED_MODULE_68__ = __webpack_require__(/*! @angular/material/autocomplete */ 43188);
-/* harmony import */ var _parts_components_loader_component__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! @parts/components/loader.component */ 40076);
-/* harmony import */ var _angular_material_input__WEBPACK_IMPORTED_MODULE_69__ = __webpack_require__(/*! @angular/material/input */ 43365);
-/* harmony import */ var _angular_material_icon__WEBPACK_IMPORTED_MODULE_70__ = __webpack_require__(/*! @angular/material/icon */ 65590);
-/* harmony import */ var _parts_modals_asset_details_asset_details_component__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! @parts/modals/asset-details/asset-details.component */ 38225);
-/* harmony import */ var _angular_material_dialog__WEBPACK_IMPORTED_MODULE_71__ = __webpack_require__(/*! @angular/material/dialog */ 95758);
-/* harmony import */ var _parts_pipes_get_logo_by_asset_info_pipe__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! @parts/pipes/get-logo-by-asset-info.pipe */ 66340);
-/* harmony import */ var _parts_components_shield_testnet_shield_testnet_component__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! @parts/components/shield-testnet/shield-testnet.component */ 38352);
-/* harmony import */ var _parts_components_visibility_balance_button_visibility_balance_button_component__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! @parts/components/visibility-balance-button/visibility-balance-button.component */ 10803);
-/* harmony import */ var _parts_components_migrate_alert_migrate_alert_component__WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! @parts/components/migrate-alert/migrate-alert.component */ 50268);
-/* harmony import */ var _parts_components_alias_controls_alias_controls_component__WEBPACK_IMPORTED_MODULE_40__ = __webpack_require__(/*! @parts/components/alias-controls/alias-controls.component */ 30963);
-/* harmony import */ var _parts_pipes_is_visible_control_error_pipe__WEBPACK_IMPORTED_MODULE_41__ = __webpack_require__(/*! @parts/pipes/is-visible-control-error.pipe */ 45526);
-/* harmony import */ var _tabs_send_components_wrap_information_wrap_information_component__WEBPACK_IMPORTED_MODULE_42__ = __webpack_require__(/*! ./tabs/send/components/wrap-information/wrap-information.component */ 8423);
-/* harmony import */ var _tabs_send_components_fee_field_fee_field_component__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(/*! ./tabs/send/components/fee-field/fee-field.component */ 67485);
-/* harmony import */ var _tabs_send_components_mixin_field_mixin_field_component__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(/*! ./tabs/send/components/mixin-field/mixin-field.component */ 66052);
-/* harmony import */ var _tabs_send_components_asset_field_asset_field_component__WEBPACK_IMPORTED_MODULE_45__ = __webpack_require__(/*! ./tabs/send/components/asset-field/asset-field.component */ 24390);
-/* harmony import */ var _tabs_send_components_comment_field_comment_field_component__WEBPACK_IMPORTED_MODULE_46__ = __webpack_require__(/*! ./tabs/send/components/comment-field/comment-field.component */ 60005);
-/* harmony import */ var _tabs_send_components_address_field_address_field_component__WEBPACK_IMPORTED_MODULE_47__ = __webpack_require__(/*! ./tabs/send/components/address-field/address-field.component */ 51761);
-/* harmony import */ var _tabs_send_components_amount_field_amount_field_component__WEBPACK_IMPORTED_MODULE_48__ = __webpack_require__(/*! ./tabs/send/components/amount-field/amount-field.component */ 36413);
-/* harmony import */ var _angular_material_tooltip__WEBPACK_IMPORTED_MODULE_72__ = __webpack_require__(/*! @angular/material/tooltip */ 40089);
-/* harmony import */ var _angular_material_menu__WEBPACK_IMPORTED_MODULE_73__ = __webpack_require__(/*! @angular/material/menu */ 82796);
-/* harmony import */ var _parts_directives_autofocus_directive__WEBPACK_IMPORTED_MODULE_49__ = __webpack_require__(/*! @parts/directives/autofocus.directive */ 75249);
-/* harmony import */ var _parts_components_cell_asset_balance_cell_asset_balance_component__WEBPACK_IMPORTED_MODULE_50__ = __webpack_require__(/*! @parts/components/cell-asset-balance/cell-asset-balance.component */ 56026);
-/* harmony import */ var _parts_components_cell_address_cell_address_component__WEBPACK_IMPORTED_MODULE_51__ = __webpack_require__(/*! @parts/components/cell-address/cell-address.component */ 22647);
-/* harmony import */ var _tabs_send_components_additional_details_additional_details_component__WEBPACK_IMPORTED_MODULE_52__ = __webpack_require__(/*! ./tabs/send/components/additional-details/additional-details.component */ 24037);
-/* harmony import */ var _tabs_send_components_destinations_destinations_component__WEBPACK_IMPORTED_MODULE_53__ = __webpack_require__(/*! ./tabs/send/components/destinations/destinations.component */ 34043);
-/* harmony import */ var _parts_components_transaction_details_transaction_details_component__WEBPACK_IMPORTED_MODULE_54__ = __webpack_require__(/*! @parts/components/transaction-details/transaction-details.component */ 5618);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_57__ = __webpack_require__(/*! @angular/core */ 3184);
-/* harmony import */ var _tabs_send_modals_send_modal_send_modal_component__WEBPACK_IMPORTED_MODULE_55__ = __webpack_require__(/*! ./tabs/send/modals/send-modal/send-modal.component */ 18244);
-/* harmony import */ var _tabs_send_modals_send_details_modal_send_details_modal_component__WEBPACK_IMPORTED_MODULE_56__ = __webpack_require__(/*! ./tabs/send/modals/send-details-modal/send-details-modal.component */ 22160);
+/* harmony import */ var _parts_components_staking_time_to_block_card_staking_time_to_block_card_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! @parts/components/staking-time-to-block-card/staking-time-to-block-card.component */ 67801);
+/* harmony import */ var _tabs_send_modals_wallet_modals_module__WEBPACK_IMPORTED_MODULE_20__ = __webpack_require__(/*! ./tabs/send/modals/wallet-modals.module */ 20425);
+/* harmony import */ var _parts_pipes_get_asset_info_pipe__WEBPACK_IMPORTED_MODULE_21__ = __webpack_require__(/*! @parts/pipes/get-asset-info.pipe */ 14075);
+/* harmony import */ var _wallet_dialogs_migrate_wallet_to_zarcanum_migrate_wallet_to_zarcanum_component__WEBPACK_IMPORTED_MODULE_22__ = __webpack_require__(/*! ./wallet/dialogs/migrate-wallet-to-zarcanum/migrate-wallet-to-zarcanum.component */ 22732);
+/* harmony import */ var _wallet_dialogs_success_sweep_bare_outs_success_sweep_bare_outs_component__WEBPACK_IMPORTED_MODULE_23__ = __webpack_require__(/*! ./wallet/dialogs/success-sweep-bare-outs/success-sweep-bare-outs.component */ 81319);
+/* harmony import */ var _parts_pipes_get_amount_items_pipe__WEBPACK_IMPORTED_MODULE_24__ = __webpack_require__(/*! @parts/pipes/get-amount-items.pipe */ 63903);
+/* harmony import */ var _parts_components_transaction_status_transaction_status_component__WEBPACK_IMPORTED_MODULE_25__ = __webpack_require__(/*! @parts/components/transaction-status/transaction-status.component */ 88746);
+/* harmony import */ var _parts_pipes_is_visible_fee_pipe__WEBPACK_IMPORTED_MODULE_26__ = __webpack_require__(/*! @parts/pipes/is-visible-fee.pipe */ 47161);
+/* harmony import */ var _tabs_custom_assets_pages_custom_assets_custom_assets_component__WEBPACK_IMPORTED_MODULE_27__ = __webpack_require__(/*! ./tabs/custom-assets/pages/custom-assets/custom-assets.component */ 87008);
+/* harmony import */ var _tabs_custom_assets_pages_create_new_asset_create_new_asset_component__WEBPACK_IMPORTED_MODULE_28__ = __webpack_require__(/*! ./tabs/custom-assets/pages/create-new-asset/create-new-asset.component */ 75135);
+/* harmony import */ var _tabs_custom_assets_modals_confirm_create_custom_asset_confirm_create_custom_asset_component__WEBPACK_IMPORTED_MODULE_29__ = __webpack_require__(/*! ./tabs/custom-assets/modals/confirm-create-custom-asset/confirm-create-custom-asset.component */ 80678);
+/* harmony import */ var _tabs_custom_assets_modals_update_custom_asset_update_custom_asset_component__WEBPACK_IMPORTED_MODULE_30__ = __webpack_require__(/*! ./tabs/custom-assets/modals/update-custom-asset/update-custom-asset.component */ 68603);
+/* harmony import */ var _tabs_custom_assets_modals_emit_custom_asset_emit_custom_asset_component__WEBPACK_IMPORTED_MODULE_31__ = __webpack_require__(/*! ./tabs/custom-assets/modals/emit-custom-asset/emit-custom-asset.component */ 66074);
+/* harmony import */ var _tabs_custom_assets_modals_burn_custom_asset_burn_custom_asset_component__WEBPACK_IMPORTED_MODULE_32__ = __webpack_require__(/*! ./tabs/custom-assets/modals/burn-custom-asset/burn-custom-asset.component */ 55660);
+/* harmony import */ var _tabs_custom_assets_modals_transaction_details_for_custom_assets_transaction_details_for_custom_assets_component__WEBPACK_IMPORTED_MODULE_33__ = __webpack_require__(/*! ./tabs/custom-assets/modals/transaction-details-for-custom-assets/transaction-details-for-custom-assets.component */ 8072);
+/* harmony import */ var _parts_directives_visibility_balance_directive__WEBPACK_IMPORTED_MODULE_34__ = __webpack_require__(/*! @parts/directives/visibility-balance.directive */ 90440);
+/* harmony import */ var _angular_material_autocomplete__WEBPACK_IMPORTED_MODULE_69__ = __webpack_require__(/*! @angular/material/autocomplete */ 43188);
+/* harmony import */ var _parts_components_loader_component__WEBPACK_IMPORTED_MODULE_35__ = __webpack_require__(/*! @parts/components/loader.component */ 40076);
+/* harmony import */ var _angular_material_input__WEBPACK_IMPORTED_MODULE_70__ = __webpack_require__(/*! @angular/material/input */ 43365);
+/* harmony import */ var _angular_material_icon__WEBPACK_IMPORTED_MODULE_71__ = __webpack_require__(/*! @angular/material/icon */ 65590);
+/* harmony import */ var _parts_modals_asset_details_asset_details_component__WEBPACK_IMPORTED_MODULE_36__ = __webpack_require__(/*! @parts/modals/asset-details/asset-details.component */ 38225);
+/* harmony import */ var _angular_material_dialog__WEBPACK_IMPORTED_MODULE_72__ = __webpack_require__(/*! @angular/material/dialog */ 95758);
+/* harmony import */ var _parts_pipes_get_logo_by_asset_info_pipe__WEBPACK_IMPORTED_MODULE_37__ = __webpack_require__(/*! @parts/pipes/get-logo-by-asset-info.pipe */ 66340);
+/* harmony import */ var _parts_components_shield_testnet_shield_testnet_component__WEBPACK_IMPORTED_MODULE_38__ = __webpack_require__(/*! @parts/components/shield-testnet/shield-testnet.component */ 38352);
+/* harmony import */ var _parts_components_visibility_balance_button_visibility_balance_button_component__WEBPACK_IMPORTED_MODULE_39__ = __webpack_require__(/*! @parts/components/visibility-balance-button/visibility-balance-button.component */ 10803);
+/* harmony import */ var _parts_components_migrate_alert_migrate_alert_component__WEBPACK_IMPORTED_MODULE_40__ = __webpack_require__(/*! @parts/components/migrate-alert/migrate-alert.component */ 50268);
+/* harmony import */ var _parts_components_alias_controls_alias_controls_component__WEBPACK_IMPORTED_MODULE_41__ = __webpack_require__(/*! @parts/components/alias-controls/alias-controls.component */ 30963);
+/* harmony import */ var _parts_pipes_is_visible_control_error_pipe__WEBPACK_IMPORTED_MODULE_42__ = __webpack_require__(/*! @parts/pipes/is-visible-control-error.pipe */ 45526);
+/* harmony import */ var _tabs_send_components_wrap_information_wrap_information_component__WEBPACK_IMPORTED_MODULE_43__ = __webpack_require__(/*! ./tabs/send/components/wrap-information/wrap-information.component */ 8423);
+/* harmony import */ var _tabs_send_components_fee_field_fee_field_component__WEBPACK_IMPORTED_MODULE_44__ = __webpack_require__(/*! ./tabs/send/components/fee-field/fee-field.component */ 67485);
+/* harmony import */ var _tabs_send_components_mixin_field_mixin_field_component__WEBPACK_IMPORTED_MODULE_45__ = __webpack_require__(/*! ./tabs/send/components/mixin-field/mixin-field.component */ 66052);
+/* harmony import */ var _tabs_send_components_asset_field_asset_field_component__WEBPACK_IMPORTED_MODULE_46__ = __webpack_require__(/*! ./tabs/send/components/asset-field/asset-field.component */ 24390);
+/* harmony import */ var _tabs_send_components_comment_field_comment_field_component__WEBPACK_IMPORTED_MODULE_47__ = __webpack_require__(/*! ./tabs/send/components/comment-field/comment-field.component */ 60005);
+/* harmony import */ var _tabs_send_components_address_field_address_field_component__WEBPACK_IMPORTED_MODULE_48__ = __webpack_require__(/*! ./tabs/send/components/address-field/address-field.component */ 51761);
+/* harmony import */ var _tabs_send_components_amount_field_amount_field_component__WEBPACK_IMPORTED_MODULE_49__ = __webpack_require__(/*! ./tabs/send/components/amount-field/amount-field.component */ 36413);
+/* harmony import */ var _angular_material_tooltip__WEBPACK_IMPORTED_MODULE_73__ = __webpack_require__(/*! @angular/material/tooltip */ 40089);
+/* harmony import */ var _angular_material_menu__WEBPACK_IMPORTED_MODULE_74__ = __webpack_require__(/*! @angular/material/menu */ 82796);
+/* harmony import */ var _parts_directives_autofocus_directive__WEBPACK_IMPORTED_MODULE_50__ = __webpack_require__(/*! @parts/directives/autofocus.directive */ 75249);
+/* harmony import */ var _parts_components_cell_asset_balance_cell_asset_balance_component__WEBPACK_IMPORTED_MODULE_51__ = __webpack_require__(/*! @parts/components/cell-asset-balance/cell-asset-balance.component */ 56026);
+/* harmony import */ var _parts_components_cell_address_cell_address_component__WEBPACK_IMPORTED_MODULE_52__ = __webpack_require__(/*! @parts/components/cell-address/cell-address.component */ 22647);
+/* harmony import */ var _tabs_send_components_additional_details_additional_details_component__WEBPACK_IMPORTED_MODULE_53__ = __webpack_require__(/*! ./tabs/send/components/additional-details/additional-details.component */ 24037);
+/* harmony import */ var _tabs_send_components_destinations_destinations_component__WEBPACK_IMPORTED_MODULE_54__ = __webpack_require__(/*! ./tabs/send/components/destinations/destinations.component */ 34043);
+/* harmony import */ var _parts_components_transaction_details_transaction_details_component__WEBPACK_IMPORTED_MODULE_55__ = __webpack_require__(/*! @parts/components/transaction-details/transaction-details.component */ 5618);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_58__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _tabs_send_modals_send_modal_send_modal_component__WEBPACK_IMPORTED_MODULE_56__ = __webpack_require__(/*! ./tabs/send/modals/send-modal/send-modal.component */ 18244);
+/* harmony import */ var _tabs_send_modals_send_details_modal_send_details_modal_component__WEBPACK_IMPORTED_MODULE_57__ = __webpack_require__(/*! ./tabs/send/modals/send-details-modal/send-details-modal.component */ 22160);
+
 
 
 
@@ -19977,59 +20004,60 @@ __webpack_require__.r(__webpack_exports__);
 class WalletModule {
 }
 WalletModule.ɵfac = function WalletModule_Factory(t) { return new (t || WalletModule)(); };
-WalletModule.ɵmod = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_57__["ɵɵdefineNgModule"]({ type: WalletModule });
-WalletModule.ɵinj = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_57__["ɵɵdefineInjector"]({ imports: [_angular_common__WEBPACK_IMPORTED_MODULE_58__.CommonModule,
+WalletModule.ɵmod = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_58__["ɵɵdefineNgModule"]({ type: WalletModule });
+WalletModule.ɵinj = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_58__["ɵɵdefineInjector"]({ imports: [_angular_common__WEBPACK_IMPORTED_MODULE_59__.CommonModule,
         _wallet_routing_module__WEBPACK_IMPORTED_MODULE_0__.WalletRoutingModule,
-        _angular_flex_layout__WEBPACK_IMPORTED_MODULE_59__.FlexModule,
-        _ngx_translate_core__WEBPACK_IMPORTED_MODULE_60__.TranslateModule,
+        _angular_flex_layout__WEBPACK_IMPORTED_MODULE_60__.FlexModule,
+        _ngx_translate_core__WEBPACK_IMPORTED_MODULE_61__.TranslateModule,
         _parts_modals_confirm_modal_confirm_modal_module__WEBPACK_IMPORTED_MODULE_4__.ConfirmModalModule,
         _wallet_dialogs_export_history_modal_export_history_modal_module__WEBPACK_IMPORTED_MODULE_5__.ExportHistoryModalModule,
-        _angular_forms__WEBPACK_IMPORTED_MODULE_61__.ReactiveFormsModule,
-        _angular_cdk_overlay__WEBPACK_IMPORTED_MODULE_62__.OverlayModule,
+        _angular_forms__WEBPACK_IMPORTED_MODULE_62__.ReactiveFormsModule,
+        _angular_cdk_overlay__WEBPACK_IMPORTED_MODULE_63__.OverlayModule,
         _parts_directives__WEBPACK_IMPORTED_MODULE_7__.DefaultImgModule,
-        ngx_pagination__WEBPACK_IMPORTED_MODULE_63__.NgxPaginationModule,
+        ngx_pagination__WEBPACK_IMPORTED_MODULE_64__.NgxPaginationModule,
         _parts_components_switch_component__WEBPACK_IMPORTED_MODULE_16__.SwitchComponent,
-        angular_highcharts__WEBPACK_IMPORTED_MODULE_64__.ChartModule,
-        _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_65__.NgSelectModule,
-        _angular_forms__WEBPACK_IMPORTED_MODULE_61__.FormsModule,
-        _angular_flex_layout__WEBPACK_IMPORTED_MODULE_66__.FlexLayoutModule,
+        angular_highcharts__WEBPACK_IMPORTED_MODULE_65__.ChartModule,
+        _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_66__.NgSelectModule,
+        _angular_forms__WEBPACK_IMPORTED_MODULE_62__.FormsModule,
+        _angular_flex_layout__WEBPACK_IMPORTED_MODULE_67__.FlexLayoutModule,
         _parts_components_staking_switch_component__WEBPACK_IMPORTED_MODULE_15__.StakingSwitchComponent,
-        _angular_cdk_dialog__WEBPACK_IMPORTED_MODULE_67__.DialogModule,
+        _angular_cdk_dialog__WEBPACK_IMPORTED_MODULE_68__.DialogModule,
         _parts_pipes__WEBPACK_IMPORTED_MODULE_3__.IntToMoneyPipeModule,
         _parts_pipes__WEBPACK_IMPORTED_MODULE_3__.ContractStatusMessagesPipeModule,
         _parts_pipes__WEBPACK_IMPORTED_MODULE_3__.HistoryTypeMessagesPipeModule,
         _parts_directives__WEBPACK_IMPORTED_MODULE_7__.InputValidateModule,
         _parts_components_checkbox_component__WEBPACK_IMPORTED_MODULE_13__.CheckboxComponent,
-        _parts_modals_asset_details_asset_details_component__WEBPACK_IMPORTED_MODULE_35__.AssetDetailsComponent,
+        _parts_modals_asset_details_asset_details_component__WEBPACK_IMPORTED_MODULE_36__.AssetDetailsComponent,
         _parts_components_copy_button_component__WEBPACK_IMPORTED_MODULE_14__.CopyButtonComponent,
         _parts_components_breadcrumbs_breadcrumbs_component__WEBPACK_IMPORTED_MODULE_17__.BreadcrumbsComponent,
         _parts_components_back_button_back_button_component__WEBPACK_IMPORTED_MODULE_18__.BackButtonComponent,
-        _tabs_send_modals_wallet_modals_module__WEBPACK_IMPORTED_MODULE_19__.WalletModalsModule,
-        _parts_components_transaction_status_transaction_status_component__WEBPACK_IMPORTED_MODULE_24__.TransactionStatusComponent,
-        _parts_components_transaction_details_transaction_details_component__WEBPACK_IMPORTED_MODULE_54__.TransactionDetailsComponent,
-        _angular_material_autocomplete__WEBPACK_IMPORTED_MODULE_68__.MatAutocompleteModule,
-        _parts_components_loader_component__WEBPACK_IMPORTED_MODULE_34__.LoaderComponent,
-        _angular_material_input__WEBPACK_IMPORTED_MODULE_69__.MatInputModule,
-        _angular_material_icon__WEBPACK_IMPORTED_MODULE_70__.MatIconModule,
-        _angular_material_dialog__WEBPACK_IMPORTED_MODULE_71__.MatDialogModule,
-        _parts_components_shield_testnet_shield_testnet_component__WEBPACK_IMPORTED_MODULE_37__.ShieldTestnetComponent,
-        _parts_components_visibility_balance_button_visibility_balance_button_component__WEBPACK_IMPORTED_MODULE_38__.VisibilityBalanceButtonComponent,
-        _parts_components_migrate_alert_migrate_alert_component__WEBPACK_IMPORTED_MODULE_39__.MigrateAlertComponent,
-        _parts_components_alias_controls_alias_controls_component__WEBPACK_IMPORTED_MODULE_40__.AliasControlsComponent,
-        _tabs_send_components_wrap_information_wrap_information_component__WEBPACK_IMPORTED_MODULE_42__.WrapInformationComponent,
-        _tabs_send_components_fee_field_fee_field_component__WEBPACK_IMPORTED_MODULE_43__.FeeFieldComponent,
-        _tabs_send_components_mixin_field_mixin_field_component__WEBPACK_IMPORTED_MODULE_44__.MixinFieldComponent,
-        _tabs_send_components_asset_field_asset_field_component__WEBPACK_IMPORTED_MODULE_45__.AssetFieldComponent,
-        _tabs_send_components_comment_field_comment_field_component__WEBPACK_IMPORTED_MODULE_46__.CommentFieldComponent,
-        _tabs_send_components_address_field_address_field_component__WEBPACK_IMPORTED_MODULE_47__.AddressFieldComponent,
-        _tabs_send_components_amount_field_amount_field_component__WEBPACK_IMPORTED_MODULE_48__.AmountFieldComponent,
-        _angular_material_tooltip__WEBPACK_IMPORTED_MODULE_72__.MatTooltipModule,
-        _angular_material_menu__WEBPACK_IMPORTED_MODULE_73__.MatMenuModule,
-        _parts_components_cell_asset_balance_cell_asset_balance_component__WEBPACK_IMPORTED_MODULE_50__.CellAssetBalanceComponent,
-        _parts_components_cell_address_cell_address_component__WEBPACK_IMPORTED_MODULE_51__.CellAddressComponent,
-        _tabs_send_components_additional_details_additional_details_component__WEBPACK_IMPORTED_MODULE_52__.AdditionalDetailsComponent,
-        _tabs_send_components_destinations_destinations_component__WEBPACK_IMPORTED_MODULE_53__.DestinationsComponent] });
-(function () { (typeof ngJitMode === "undefined" || ngJitMode) && _angular_core__WEBPACK_IMPORTED_MODULE_57__["ɵɵsetNgModuleScope"](WalletModule, { declarations: [_wallet_wallet_component__WEBPACK_IMPORTED_MODULE_2__.WalletComponent,
+        _parts_components_staking_time_to_block_card_staking_time_to_block_card_component__WEBPACK_IMPORTED_MODULE_19__.StakingTimeToBlockCardComponent,
+        _tabs_send_modals_wallet_modals_module__WEBPACK_IMPORTED_MODULE_20__.WalletModalsModule,
+        _parts_components_transaction_status_transaction_status_component__WEBPACK_IMPORTED_MODULE_25__.TransactionStatusComponent,
+        _parts_components_transaction_details_transaction_details_component__WEBPACK_IMPORTED_MODULE_55__.TransactionDetailsComponent,
+        _angular_material_autocomplete__WEBPACK_IMPORTED_MODULE_69__.MatAutocompleteModule,
+        _parts_components_loader_component__WEBPACK_IMPORTED_MODULE_35__.LoaderComponent,
+        _angular_material_input__WEBPACK_IMPORTED_MODULE_70__.MatInputModule,
+        _angular_material_icon__WEBPACK_IMPORTED_MODULE_71__.MatIconModule,
+        _angular_material_dialog__WEBPACK_IMPORTED_MODULE_72__.MatDialogModule,
+        _parts_components_shield_testnet_shield_testnet_component__WEBPACK_IMPORTED_MODULE_38__.ShieldTestnetComponent,
+        _parts_components_visibility_balance_button_visibility_balance_button_component__WEBPACK_IMPORTED_MODULE_39__.VisibilityBalanceButtonComponent,
+        _parts_components_migrate_alert_migrate_alert_component__WEBPACK_IMPORTED_MODULE_40__.MigrateAlertComponent,
+        _parts_components_alias_controls_alias_controls_component__WEBPACK_IMPORTED_MODULE_41__.AliasControlsComponent,
+        _tabs_send_components_wrap_information_wrap_information_component__WEBPACK_IMPORTED_MODULE_43__.WrapInformationComponent,
+        _tabs_send_components_fee_field_fee_field_component__WEBPACK_IMPORTED_MODULE_44__.FeeFieldComponent,
+        _tabs_send_components_mixin_field_mixin_field_component__WEBPACK_IMPORTED_MODULE_45__.MixinFieldComponent,
+        _tabs_send_components_asset_field_asset_field_component__WEBPACK_IMPORTED_MODULE_46__.AssetFieldComponent,
+        _tabs_send_components_comment_field_comment_field_component__WEBPACK_IMPORTED_MODULE_47__.CommentFieldComponent,
+        _tabs_send_components_address_field_address_field_component__WEBPACK_IMPORTED_MODULE_48__.AddressFieldComponent,
+        _tabs_send_components_amount_field_amount_field_component__WEBPACK_IMPORTED_MODULE_49__.AmountFieldComponent,
+        _angular_material_tooltip__WEBPACK_IMPORTED_MODULE_73__.MatTooltipModule,
+        _angular_material_menu__WEBPACK_IMPORTED_MODULE_74__.MatMenuModule,
+        _parts_components_cell_asset_balance_cell_asset_balance_component__WEBPACK_IMPORTED_MODULE_51__.CellAssetBalanceComponent,
+        _parts_components_cell_address_cell_address_component__WEBPACK_IMPORTED_MODULE_52__.CellAddressComponent,
+        _tabs_send_components_additional_details_additional_details_component__WEBPACK_IMPORTED_MODULE_53__.AdditionalDetailsComponent,
+        _tabs_send_components_destinations_destinations_component__WEBPACK_IMPORTED_MODULE_54__.DestinationsComponent] });
+(function () { (typeof ngJitMode === "undefined" || ngJitMode) && _angular_core__WEBPACK_IMPORTED_MODULE_58__["ɵɵsetNgModuleScope"](WalletModule, { declarations: [_wallet_wallet_component__WEBPACK_IMPORTED_MODULE_2__.WalletComponent,
         _tabs_assets_assets_component__WEBPACK_IMPORTED_MODULE_1__.AssetsComponent,
         _wallet_details_wallet_details_component__WEBPACK_IMPORTED_MODULE_6__.WalletDetailsComponent,
         _tabs_history_history_component__WEBPACK_IMPORTED_MODULE_8__.HistoryComponent,
@@ -20037,77 +20065,78 @@ WalletModule.ɵinj = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_57__["
         _tabs_receive_receive_component__WEBPACK_IMPORTED_MODULE_10__.ReceiveComponent,
         _export_import_export_import_component__WEBPACK_IMPORTED_MODULE_12__.ExportImportComponent,
         _tabs_send_send_component__WEBPACK_IMPORTED_MODULE_11__.SendComponent,
-        _wallet_dialogs_migrate_wallet_to_zarcanum_migrate_wallet_to_zarcanum_component__WEBPACK_IMPORTED_MODULE_21__.MigrateWalletToZarcanumComponent,
-        _wallet_dialogs_success_sweep_bare_outs_success_sweep_bare_outs_component__WEBPACK_IMPORTED_MODULE_22__.SuccessSweepBareOutsComponent,
-        _tabs_custom_assets_pages_custom_assets_custom_assets_component__WEBPACK_IMPORTED_MODULE_26__.CustomAssetsComponent,
-        _tabs_custom_assets_pages_create_new_asset_create_new_asset_component__WEBPACK_IMPORTED_MODULE_27__.CreateNewAssetComponent,
-        _tabs_custom_assets_modals_confirm_create_custom_asset_confirm_create_custom_asset_component__WEBPACK_IMPORTED_MODULE_28__.ConfirmCreateCustomAssetComponent,
-        _tabs_custom_assets_modals_update_custom_asset_update_custom_asset_component__WEBPACK_IMPORTED_MODULE_29__.UpdateCustomAssetComponent,
-        _tabs_custom_assets_modals_emit_custom_asset_emit_custom_asset_component__WEBPACK_IMPORTED_MODULE_30__.EmitCustomAssetComponent,
-        _tabs_custom_assets_modals_burn_custom_asset_burn_custom_asset_component__WEBPACK_IMPORTED_MODULE_31__.BurnCustomAssetComponent,
-        _tabs_custom_assets_modals_transaction_details_for_custom_assets_transaction_details_for_custom_assets_component__WEBPACK_IMPORTED_MODULE_32__.TransactionDetailsForCustomAssetsComponent], imports: [_angular_common__WEBPACK_IMPORTED_MODULE_58__.CommonModule,
+        _wallet_dialogs_migrate_wallet_to_zarcanum_migrate_wallet_to_zarcanum_component__WEBPACK_IMPORTED_MODULE_22__.MigrateWalletToZarcanumComponent,
+        _wallet_dialogs_success_sweep_bare_outs_success_sweep_bare_outs_component__WEBPACK_IMPORTED_MODULE_23__.SuccessSweepBareOutsComponent,
+        _tabs_custom_assets_pages_custom_assets_custom_assets_component__WEBPACK_IMPORTED_MODULE_27__.CustomAssetsComponent,
+        _tabs_custom_assets_pages_create_new_asset_create_new_asset_component__WEBPACK_IMPORTED_MODULE_28__.CreateNewAssetComponent,
+        _tabs_custom_assets_modals_confirm_create_custom_asset_confirm_create_custom_asset_component__WEBPACK_IMPORTED_MODULE_29__.ConfirmCreateCustomAssetComponent,
+        _tabs_custom_assets_modals_update_custom_asset_update_custom_asset_component__WEBPACK_IMPORTED_MODULE_30__.UpdateCustomAssetComponent,
+        _tabs_custom_assets_modals_emit_custom_asset_emit_custom_asset_component__WEBPACK_IMPORTED_MODULE_31__.EmitCustomAssetComponent,
+        _tabs_custom_assets_modals_burn_custom_asset_burn_custom_asset_component__WEBPACK_IMPORTED_MODULE_32__.BurnCustomAssetComponent,
+        _tabs_custom_assets_modals_transaction_details_for_custom_assets_transaction_details_for_custom_assets_component__WEBPACK_IMPORTED_MODULE_33__.TransactionDetailsForCustomAssetsComponent], imports: [_angular_common__WEBPACK_IMPORTED_MODULE_59__.CommonModule,
         _wallet_routing_module__WEBPACK_IMPORTED_MODULE_0__.WalletRoutingModule,
-        _angular_flex_layout__WEBPACK_IMPORTED_MODULE_59__.FlexModule,
+        _angular_flex_layout__WEBPACK_IMPORTED_MODULE_60__.FlexModule,
         _parts_directives__WEBPACK_IMPORTED_MODULE_7__.TooltipDirective,
         _parts_pipes__WEBPACK_IMPORTED_MODULE_3__.ShortStringPipe,
-        _ngx_translate_core__WEBPACK_IMPORTED_MODULE_60__.TranslateModule,
+        _ngx_translate_core__WEBPACK_IMPORTED_MODULE_61__.TranslateModule,
         _parts_pipes__WEBPACK_IMPORTED_MODULE_3__.IsAvailableAliasNamePipe,
         _parts_modals_confirm_modal_confirm_modal_module__WEBPACK_IMPORTED_MODULE_4__.ConfirmModalModule,
         _wallet_dialogs_export_history_modal_export_history_modal_module__WEBPACK_IMPORTED_MODULE_5__.ExportHistoryModalModule,
-        _angular_forms__WEBPACK_IMPORTED_MODULE_61__.ReactiveFormsModule,
-        _angular_cdk_overlay__WEBPACK_IMPORTED_MODULE_62__.OverlayModule,
+        _angular_forms__WEBPACK_IMPORTED_MODULE_62__.ReactiveFormsModule,
+        _angular_cdk_overlay__WEBPACK_IMPORTED_MODULE_63__.OverlayModule,
         _parts_directives__WEBPACK_IMPORTED_MODULE_7__.DefaultImgModule,
-        ngx_pagination__WEBPACK_IMPORTED_MODULE_63__.NgxPaginationModule,
+        ngx_pagination__WEBPACK_IMPORTED_MODULE_64__.NgxPaginationModule,
         _parts_components_switch_component__WEBPACK_IMPORTED_MODULE_16__.SwitchComponent,
-        angular_highcharts__WEBPACK_IMPORTED_MODULE_64__.ChartModule,
-        _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_65__.NgSelectModule,
-        _angular_forms__WEBPACK_IMPORTED_MODULE_61__.FormsModule,
-        _angular_flex_layout__WEBPACK_IMPORTED_MODULE_66__.FlexLayoutModule,
+        angular_highcharts__WEBPACK_IMPORTED_MODULE_65__.ChartModule,
+        _ng_select_ng_select__WEBPACK_IMPORTED_MODULE_66__.NgSelectModule,
+        _angular_forms__WEBPACK_IMPORTED_MODULE_62__.FormsModule,
+        _angular_flex_layout__WEBPACK_IMPORTED_MODULE_67__.FlexLayoutModule,
         _parts_components_staking_switch_component__WEBPACK_IMPORTED_MODULE_15__.StakingSwitchComponent,
-        _angular_cdk_dialog__WEBPACK_IMPORTED_MODULE_67__.DialogModule,
+        _angular_cdk_dialog__WEBPACK_IMPORTED_MODULE_68__.DialogModule,
         _parts_pipes__WEBPACK_IMPORTED_MODULE_3__.IntToMoneyPipeModule,
         _parts_pipes__WEBPACK_IMPORTED_MODULE_3__.ContractStatusMessagesPipeModule,
         _parts_pipes__WEBPACK_IMPORTED_MODULE_3__.HistoryTypeMessagesPipeModule,
         _parts_directives__WEBPACK_IMPORTED_MODULE_7__.InputValidateModule,
         _parts_components_checkbox_component__WEBPACK_IMPORTED_MODULE_13__.CheckboxComponent,
-        _parts_modals_asset_details_asset_details_component__WEBPACK_IMPORTED_MODULE_35__.AssetDetailsComponent,
+        _parts_modals_asset_details_asset_details_component__WEBPACK_IMPORTED_MODULE_36__.AssetDetailsComponent,
         _parts_components_copy_button_component__WEBPACK_IMPORTED_MODULE_14__.CopyButtonComponent,
         _parts_directives__WEBPACK_IMPORTED_MODULE_7__.LowerCaseDirective,
         _parts_components_breadcrumbs_breadcrumbs_component__WEBPACK_IMPORTED_MODULE_17__.BreadcrumbsComponent,
         _parts_components_back_button_back_button_component__WEBPACK_IMPORTED_MODULE_18__.BackButtonComponent,
-        _tabs_send_modals_wallet_modals_module__WEBPACK_IMPORTED_MODULE_19__.WalletModalsModule,
-        _parts_pipes_get_asset_info_pipe__WEBPACK_IMPORTED_MODULE_20__.GetAssetInfoPipe,
-        _parts_pipes_get_amount_items_pipe__WEBPACK_IMPORTED_MODULE_23__.GetAmountItemsPipe,
-        _parts_components_transaction_status_transaction_status_component__WEBPACK_IMPORTED_MODULE_24__.TransactionStatusComponent,
-        _parts_pipes_is_visible_fee_pipe__WEBPACK_IMPORTED_MODULE_25__.IsVisibleFeePipe,
-        _parts_components_transaction_details_transaction_details_component__WEBPACK_IMPORTED_MODULE_54__.TransactionDetailsComponent,
-        _parts_directives_visibility_balance_directive__WEBPACK_IMPORTED_MODULE_33__.VisibilityBalanceDirective,
-        _angular_material_autocomplete__WEBPACK_IMPORTED_MODULE_68__.MatAutocompleteModule,
-        _parts_components_loader_component__WEBPACK_IMPORTED_MODULE_34__.LoaderComponent,
-        _angular_material_input__WEBPACK_IMPORTED_MODULE_69__.MatInputModule,
-        _angular_material_icon__WEBPACK_IMPORTED_MODULE_70__.MatIconModule,
-        _angular_material_dialog__WEBPACK_IMPORTED_MODULE_71__.MatDialogModule,
-        _parts_pipes_get_logo_by_asset_info_pipe__WEBPACK_IMPORTED_MODULE_36__.GetLogoByAssetInfoPipe,
-        _parts_components_shield_testnet_shield_testnet_component__WEBPACK_IMPORTED_MODULE_37__.ShieldTestnetComponent,
-        _parts_components_visibility_balance_button_visibility_balance_button_component__WEBPACK_IMPORTED_MODULE_38__.VisibilityBalanceButtonComponent,
-        _parts_components_migrate_alert_migrate_alert_component__WEBPACK_IMPORTED_MODULE_39__.MigrateAlertComponent,
-        _parts_components_alias_controls_alias_controls_component__WEBPACK_IMPORTED_MODULE_40__.AliasControlsComponent,
-        _parts_pipes_is_visible_control_error_pipe__WEBPACK_IMPORTED_MODULE_41__.IsVisibleControlErrorPipe,
-        _tabs_send_components_wrap_information_wrap_information_component__WEBPACK_IMPORTED_MODULE_42__.WrapInformationComponent,
-        _tabs_send_components_fee_field_fee_field_component__WEBPACK_IMPORTED_MODULE_43__.FeeFieldComponent,
-        _tabs_send_components_mixin_field_mixin_field_component__WEBPACK_IMPORTED_MODULE_44__.MixinFieldComponent,
-        _tabs_send_components_asset_field_asset_field_component__WEBPACK_IMPORTED_MODULE_45__.AssetFieldComponent,
-        _tabs_send_components_comment_field_comment_field_component__WEBPACK_IMPORTED_MODULE_46__.CommentFieldComponent,
-        _tabs_send_components_address_field_address_field_component__WEBPACK_IMPORTED_MODULE_47__.AddressFieldComponent,
-        _tabs_send_components_amount_field_amount_field_component__WEBPACK_IMPORTED_MODULE_48__.AmountFieldComponent,
-        _angular_material_tooltip__WEBPACK_IMPORTED_MODULE_72__.MatTooltipModule,
-        _angular_material_menu__WEBPACK_IMPORTED_MODULE_73__.MatMenuModule,
-        _parts_directives_autofocus_directive__WEBPACK_IMPORTED_MODULE_49__.AutoFocusDirective,
-        _parts_components_cell_asset_balance_cell_asset_balance_component__WEBPACK_IMPORTED_MODULE_50__.CellAssetBalanceComponent,
-        _parts_components_cell_address_cell_address_component__WEBPACK_IMPORTED_MODULE_51__.CellAddressComponent,
-        _tabs_send_components_additional_details_additional_details_component__WEBPACK_IMPORTED_MODULE_52__.AdditionalDetailsComponent,
-        _tabs_send_components_destinations_destinations_component__WEBPACK_IMPORTED_MODULE_53__.DestinationsComponent] }); })();
-_angular_core__WEBPACK_IMPORTED_MODULE_57__["ɵɵsetComponentScope"](_tabs_send_send_component__WEBPACK_IMPORTED_MODULE_11__.SendComponent, [_angular_common__WEBPACK_IMPORTED_MODULE_58__.NgIf, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_59__.DefaultFlexDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_61__["ɵNgNoValidate"], _angular_forms__WEBPACK_IMPORTED_MODULE_61__.NgControlStatusGroup, _angular_forms__WEBPACK_IMPORTED_MODULE_61__.FormGroupDirective, _tabs_send_modals_send_modal_send_modal_component__WEBPACK_IMPORTED_MODULE_55__.SendModalComponent, _tabs_send_modals_send_details_modal_send_details_modal_component__WEBPACK_IMPORTED_MODULE_56__.SendDetailsModalComponent, _tabs_send_components_comment_field_comment_field_component__WEBPACK_IMPORTED_MODULE_46__.CommentFieldComponent, _tabs_send_components_additional_details_additional_details_component__WEBPACK_IMPORTED_MODULE_52__.AdditionalDetailsComponent, _tabs_send_components_destinations_destinations_component__WEBPACK_IMPORTED_MODULE_53__.DestinationsComponent], [_angular_common__WEBPACK_IMPORTED_MODULE_58__.AsyncPipe, _ngx_translate_core__WEBPACK_IMPORTED_MODULE_60__.TranslatePipe]);
+        _parts_components_staking_time_to_block_card_staking_time_to_block_card_component__WEBPACK_IMPORTED_MODULE_19__.StakingTimeToBlockCardComponent,
+        _tabs_send_modals_wallet_modals_module__WEBPACK_IMPORTED_MODULE_20__.WalletModalsModule,
+        _parts_pipes_get_asset_info_pipe__WEBPACK_IMPORTED_MODULE_21__.GetAssetInfoPipe,
+        _parts_pipes_get_amount_items_pipe__WEBPACK_IMPORTED_MODULE_24__.GetAmountItemsPipe,
+        _parts_components_transaction_status_transaction_status_component__WEBPACK_IMPORTED_MODULE_25__.TransactionStatusComponent,
+        _parts_pipes_is_visible_fee_pipe__WEBPACK_IMPORTED_MODULE_26__.IsVisibleFeePipe,
+        _parts_components_transaction_details_transaction_details_component__WEBPACK_IMPORTED_MODULE_55__.TransactionDetailsComponent,
+        _parts_directives_visibility_balance_directive__WEBPACK_IMPORTED_MODULE_34__.VisibilityBalanceDirective,
+        _angular_material_autocomplete__WEBPACK_IMPORTED_MODULE_69__.MatAutocompleteModule,
+        _parts_components_loader_component__WEBPACK_IMPORTED_MODULE_35__.LoaderComponent,
+        _angular_material_input__WEBPACK_IMPORTED_MODULE_70__.MatInputModule,
+        _angular_material_icon__WEBPACK_IMPORTED_MODULE_71__.MatIconModule,
+        _angular_material_dialog__WEBPACK_IMPORTED_MODULE_72__.MatDialogModule,
+        _parts_pipes_get_logo_by_asset_info_pipe__WEBPACK_IMPORTED_MODULE_37__.GetLogoByAssetInfoPipe,
+        _parts_components_shield_testnet_shield_testnet_component__WEBPACK_IMPORTED_MODULE_38__.ShieldTestnetComponent,
+        _parts_components_visibility_balance_button_visibility_balance_button_component__WEBPACK_IMPORTED_MODULE_39__.VisibilityBalanceButtonComponent,
+        _parts_components_migrate_alert_migrate_alert_component__WEBPACK_IMPORTED_MODULE_40__.MigrateAlertComponent,
+        _parts_components_alias_controls_alias_controls_component__WEBPACK_IMPORTED_MODULE_41__.AliasControlsComponent,
+        _parts_pipes_is_visible_control_error_pipe__WEBPACK_IMPORTED_MODULE_42__.IsVisibleControlErrorPipe,
+        _tabs_send_components_wrap_information_wrap_information_component__WEBPACK_IMPORTED_MODULE_43__.WrapInformationComponent,
+        _tabs_send_components_fee_field_fee_field_component__WEBPACK_IMPORTED_MODULE_44__.FeeFieldComponent,
+        _tabs_send_components_mixin_field_mixin_field_component__WEBPACK_IMPORTED_MODULE_45__.MixinFieldComponent,
+        _tabs_send_components_asset_field_asset_field_component__WEBPACK_IMPORTED_MODULE_46__.AssetFieldComponent,
+        _tabs_send_components_comment_field_comment_field_component__WEBPACK_IMPORTED_MODULE_47__.CommentFieldComponent,
+        _tabs_send_components_address_field_address_field_component__WEBPACK_IMPORTED_MODULE_48__.AddressFieldComponent,
+        _tabs_send_components_amount_field_amount_field_component__WEBPACK_IMPORTED_MODULE_49__.AmountFieldComponent,
+        _angular_material_tooltip__WEBPACK_IMPORTED_MODULE_73__.MatTooltipModule,
+        _angular_material_menu__WEBPACK_IMPORTED_MODULE_74__.MatMenuModule,
+        _parts_directives_autofocus_directive__WEBPACK_IMPORTED_MODULE_50__.AutoFocusDirective,
+        _parts_components_cell_asset_balance_cell_asset_balance_component__WEBPACK_IMPORTED_MODULE_51__.CellAssetBalanceComponent,
+        _parts_components_cell_address_cell_address_component__WEBPACK_IMPORTED_MODULE_52__.CellAddressComponent,
+        _tabs_send_components_additional_details_additional_details_component__WEBPACK_IMPORTED_MODULE_53__.AdditionalDetailsComponent,
+        _tabs_send_components_destinations_destinations_component__WEBPACK_IMPORTED_MODULE_54__.DestinationsComponent] }); })();
+_angular_core__WEBPACK_IMPORTED_MODULE_58__["ɵɵsetComponentScope"](_tabs_send_send_component__WEBPACK_IMPORTED_MODULE_11__.SendComponent, [_angular_common__WEBPACK_IMPORTED_MODULE_59__.NgIf, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_60__.DefaultFlexDirective, _angular_forms__WEBPACK_IMPORTED_MODULE_62__["ɵNgNoValidate"], _angular_forms__WEBPACK_IMPORTED_MODULE_62__.NgControlStatusGroup, _angular_forms__WEBPACK_IMPORTED_MODULE_62__.FormGroupDirective, _tabs_send_modals_send_modal_send_modal_component__WEBPACK_IMPORTED_MODULE_56__.SendModalComponent, _tabs_send_modals_send_details_modal_send_details_modal_component__WEBPACK_IMPORTED_MODULE_57__.SendDetailsModalComponent, _tabs_send_components_comment_field_comment_field_component__WEBPACK_IMPORTED_MODULE_47__.CommentFieldComponent, _tabs_send_components_additional_details_additional_details_component__WEBPACK_IMPORTED_MODULE_53__.AdditionalDetailsComponent, _tabs_send_components_destinations_destinations_component__WEBPACK_IMPORTED_MODULE_54__.DestinationsComponent], [_angular_common__WEBPACK_IMPORTED_MODULE_59__.AsyncPipe, _ngx_translate_core__WEBPACK_IMPORTED_MODULE_61__.TranslatePipe]);
 
 
 /***/ }),
@@ -21232,7 +21261,7 @@ class WalletComponent {
     }
 
     this.walletLoaded = this.variablesService.current_wallet.loaded;
-    this.variablesService.currentWalletChangedEvent.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_19__.takeUntil)(this.destroy$)).subscribe({
+    this.variablesService.currentWalletChanged$.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_19__.takeUntil)(this.destroy$)).subscribe({
       next: wallet => {
         this.createTabs(wallet);
         const disabled = !wallet.loaded;
@@ -22368,6 +22397,50 @@ CheckboxComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_0
 
 /***/ }),
 
+/***/ 48245:
+/*!***********************************************************************************!*\
+  !*** ./src/app/parts/components/circular-progress/circular-progress.component.ts ***!
+  \***********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "CircularProgressComponent": () => (/* binding */ CircularProgressComponent)
+/* harmony export */ });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ 3184);
+
+class CircularProgressComponent {
+    constructor() {
+        this._radius = 6.5;
+        this._circumference = 2 * Math.PI * this._radius;
+        this.progress = 0;
+    }
+    get progressNormalized() {
+        if (Number.isNaN(this.progress))
+            return 0;
+        return Math.min(100, Math.max(0, this.progress));
+    }
+    get dashArray() {
+        return this._circumference;
+    }
+    get dashOffset() {
+        return this._circumference - (this.progressNormalized / 100) * this._circumference;
+    }
+}
+CircularProgressComponent.ɵfac = function CircularProgressComponent_Factory(t) { return new (t || CircularProgressComponent)(); };
+CircularProgressComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: CircularProgressComponent, selectors: [["app-circular-progress"]], inputs: { progress: "progress" }, standalone: true, features: [_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵStandaloneFeature"]], decls: 3, vars: 2, consts: [["aria-hidden", "true", "viewBox", "0 0 18 18", "xmlns", "http://www.w3.org/2000/svg", 1, "circular-progress"], ["cx", "9", "cy", "9", "r", "6.5", 1, "bg"], ["cx", "9", "cy", "9", "r", "6.5", "transform", "rotate(-90 9 9)", 1, "fg"]], template: function CircularProgressComponent_Template(rf, ctx) { if (rf & 1) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵnamespaceSVG"]();
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "svg", 0);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](1, "circle", 1)(2, "circle", 2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
+    } if (rf & 2) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵattribute"]("stroke-dasharray", ctx.dashArray)("stroke-dashoffset", ctx.dashOffset);
+    } }, styles: ["[_nghost-%COMP%] {\n  display: inline-flex;\n  width: 1.8rem;\n  height: 1.8rem;\n  flex: 0 0 auto;\n}\n\n.circular-progress[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 100%;\n}\n\n.bg[_ngcontent-%COMP%] {\n  fill: none;\n  stroke: #1f8feb;\n  stroke-width: 3;\n  opacity: 0.33;\n}\n\n.fg[_ngcontent-%COMP%] {\n  fill: none;\n  stroke: #16d1d6;\n  stroke-width: 3;\n  stroke-linecap: round;\n  stroke-linejoin: round;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImNpcmN1bGFyLXByb2dyZXNzLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0ksb0JBQUE7RUFDQSxhQUFBO0VBQ0EsY0FBQTtFQUNBLGNBQUE7QUFDSjs7QUFFQTtFQUNJLFdBQUE7RUFDQSxZQUFBO0FBQ0o7O0FBRUE7RUFDSSxVQUFBO0VBQ0EsZUFBQTtFQUNBLGVBQUE7RUFDQSxhQUFBO0FBQ0o7O0FBRUE7RUFDSSxVQUFBO0VBQ0EsZUFBQTtFQUNBLGVBQUE7RUFDQSxxQkFBQTtFQUNBLHNCQUFBO0FBQ0oiLCJmaWxlIjoiY2lyY3VsYXItcHJvZ3Jlc3MuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyI6aG9zdCB7XG4gICAgZGlzcGxheTogaW5saW5lLWZsZXg7XG4gICAgd2lkdGg6IDEuOHJlbTtcbiAgICBoZWlnaHQ6IDEuOHJlbTtcbiAgICBmbGV4OiAwIDAgYXV0bztcbn1cblxuLmNpcmN1bGFyLXByb2dyZXNzIHtcbiAgICB3aWR0aDogMTAwJTtcbiAgICBoZWlnaHQ6IDEwMCU7XG59XG5cbi5iZyB7XG4gICAgZmlsbDogbm9uZTtcbiAgICBzdHJva2U6ICMxZjhmZWI7XG4gICAgc3Ryb2tlLXdpZHRoOiAzO1xuICAgIG9wYWNpdHk6IDAuMzM7XG59XG5cbi5mZyB7XG4gICAgZmlsbDogbm9uZTtcbiAgICBzdHJva2U6ICMxNmQxZDY7XG4gICAgc3Ryb2tlLXdpZHRoOiAzO1xuICAgIHN0cm9rZS1saW5lY2FwOiByb3VuZDtcbiAgICBzdHJva2UtbGluZWpvaW46IHJvdW5kO1xufVxuIl19 */"] });
+
+
+/***/ }),
+
 /***/ 77035:
 /*!***********************************************************!*\
   !*** ./src/app/parts/components/copy-button.component.ts ***!
@@ -22859,6 +22932,124 @@ StakingSwitchComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MOD
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵattribute"]("aria-checked", ctx.staking);
     } }, dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_3__.CommonModule], encapsulation: 2 });
 
+
+/***/ }),
+
+/***/ 67801:
+/*!*****************************************************************************************************!*\
+  !*** ./src/app/parts/components/staking-time-to-block-card/staking-time-to-block-card.component.ts ***!
+  \*****************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "StakingTimeToBlockCardComponent": () => (/* binding */ StakingTimeToBlockCardComponent)
+/* harmony export */ });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/common */ 36362);
+/* harmony import */ var _parts_components_circular_progress_circular_progress_component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @parts/components/circular-progress/circular-progress.component */ 48245);
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! @ngx-translate/core */ 87514);
+/* harmony import */ var _parts_directives__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @parts/directives */ 21443);
+/* harmony import */ var _parts_functions_calculate_pos_progress__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @parts/functions/calculate-pos-progress */ 85320);
+/* harmony import */ var _parts_functions_calculate_pos_estimate_sec__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @parts/functions/calculate-pos-estimate-sec */ 90616);
+/* harmony import */ var _parts_pipes__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @parts/pipes */ 34710);
+/* harmony import */ var _parts_services_variables_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @parts/services/variables.service */ 22994);
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! rxjs */ 26562);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! rxjs/operators */ 60116);
+/* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! rxjs/operators */ 50635);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+function StakingTimeToBlockCardComponent_div_0_Template(rf, ctx) {
+  if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵelementStart"](0, "div", 1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵelement"](1, "app-circular-progress", 2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵelementStart"](2, "div", 3)(3, "div", 4);
+    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵtext"](4);
+    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵpipe"](5, "translate");
+    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵpipe"](6, "estimateTime");
+    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵelementStart"](7, "div", 5)(8, "span", 6);
+    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵtext"](9);
+    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵpipe"](10, "translate");
+    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵelementStart"](11, "span", 7);
+    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵtext"](12);
+    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵelementEnd"]()()()();
+  }
+
+  if (rf & 2) {
+    const vm_r1 = ctx.ngIf;
+    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵproperty"]("progress", vm_r1.progress);
+    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵadvance"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵtextInterpolate2"]("", _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵpipeBind1"](5, 8, "POS_ESTIMATE_CARD.ESTIMATE_LABEL"), " ", _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵpipeBind1"](6, 10, vm_r1.estimateSec), "");
+    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵadvance"](5);
+    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵpipeBind1"](10, 12, "POS_ESTIMATE_CARD.ATTEMPT_LABEL"));
+    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵadvance"](2);
+    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵproperty"]("tooltip", vm_r1.attempt)("showWhenNoOverflow", false)("placement", "bottom");
+    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵadvance"](1);
+    _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵtextInterpolate1"](" ", vm_r1.attempt, " ");
+  }
+}
+
+class StakingTimeToBlockCardComponent {
+  constructor() {
+    this._variablesService = (0,_angular_core__WEBPACK_IMPORTED_MODULE_6__.inject)(_parts_services_variables_service__WEBPACK_IMPORTED_MODULE_5__.VariablesService);
+    this.vm$ = (0,rxjs__WEBPACK_IMPORTED_MODULE_7__.combineLatest)([this._variablesService.currentWalletChanged$.pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_8__.filter)(Boolean)), this._variablesService.posStatusUpdated$]).pipe((0,rxjs_operators__WEBPACK_IMPORTED_MODULE_8__.filter)(([wallet, wallet_id]) => wallet.wallet_id === wallet_id), (0,rxjs_operators__WEBPACK_IMPORTED_MODULE_9__.map)(([wallet]) => {
+      const {
+        current_pos_attempts,
+        est_iterations_per_pos_block
+      } = wallet;
+      const isEstimateAvailable = est_iterations_per_pos_block > 0;
+      return {
+        progress: isEstimateAvailable ? (0,_parts_functions_calculate_pos_progress__WEBPACK_IMPORTED_MODULE_2__.calculatePosProgress)(current_pos_attempts, est_iterations_per_pos_block) : 0,
+        estimateSec: isEstimateAvailable ? (0,_parts_functions_calculate_pos_estimate_sec__WEBPACK_IMPORTED_MODULE_3__.calculatePosEstimateSec)(current_pos_attempts, est_iterations_per_pos_block) : null,
+        attempt: current_pos_attempts
+      };
+    }));
+  }
+
+}
+
+StakingTimeToBlockCardComponent.ɵfac = function StakingTimeToBlockCardComponent_Factory(t) {
+  return new (t || StakingTimeToBlockCardComponent)();
+};
+
+StakingTimeToBlockCardComponent.ɵcmp = /*@__PURE__*/_angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵdefineComponent"]({
+  type: StakingTimeToBlockCardComponent,
+  selectors: [["app-staking-time-to-block-card"]],
+  standalone: true,
+  features: [_angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵStandaloneFeature"]],
+  decls: 2,
+  vars: 3,
+  consts: [["class", "staking-time-card overflow-hidden", 4, "ngIf"], [1, "staking-time-card", "overflow-hidden"], [1, "mt-0_5", "mr-1", 3, "progress"], [1, "content", "overflow-hidden"], [1, "title", "text-ellipsis"], [1, "attempt", "overflow-hidden"], [1, "label"], [1, "value", "text-ellipsis", 3, "tooltip", "showWhenNoOverflow", "placement"]],
+  template: function StakingTimeToBlockCardComponent_Template(rf, ctx) {
+    if (rf & 1) {
+      _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵtemplate"](0, StakingTimeToBlockCardComponent_div_0_Template, 13, 14, "div", 0);
+      _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵpipe"](1, "async");
+    }
+
+    if (rf & 2) {
+      _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵproperty"]("ngIf", _angular_core__WEBPACK_IMPORTED_MODULE_6__["ɵɵpipeBind1"](1, 1, ctx.vm$));
+    }
+  },
+  dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_10__.CommonModule, _angular_common__WEBPACK_IMPORTED_MODULE_10__.NgIf, _angular_common__WEBPACK_IMPORTED_MODULE_10__.AsyncPipe, _parts_components_circular_progress_circular_progress_component__WEBPACK_IMPORTED_MODULE_0__.CircularProgressComponent, _ngx_translate_core__WEBPACK_IMPORTED_MODULE_11__.TranslateModule, _ngx_translate_core__WEBPACK_IMPORTED_MODULE_11__.TranslatePipe, _parts_directives__WEBPACK_IMPORTED_MODULE_1__.TooltipDirective, _parts_pipes__WEBPACK_IMPORTED_MODULE_4__.EstimateTimePipe],
+  styles: ["[_nghost-%COMP%] {\n  display: block;\n  max-width: 42rem;\n  min-width: 0;\n}\n\n.staking-time-card[_ngcontent-%COMP%] {\n  display: flex;\n  align-items: flex-start;\n  gap: 1.4rem;\n  min-width: 0;\n}\n\n.staking-time-card[_ngcontent-%COMP%]   .content[_ngcontent-%COMP%] {\n  min-width: 0;\n}\n\n.staking-time-card[_ngcontent-%COMP%]   .title[_ngcontent-%COMP%] {\n  color: var(--main-text);\n  font-size: 1.6rem;\n  line-height: 2.4rem;\n}\n\n.staking-time-card[_ngcontent-%COMP%]   .attempt[_ngcontent-%COMP%] {\n  margin-top: 0.8rem;\n  color: var(--main-text);\n  opacity: 0.7;\n  font-size: 1.2rem;\n  line-height: 1.8rem;\n  display: flex;\n  align-items: center;\n  gap: 0.4rem;\n}\n\n.staking-time-card[_ngcontent-%COMP%]   .attempt[_ngcontent-%COMP%]   .label[_ngcontent-%COMP%] {\n  flex: 0 0 auto;\n  font-size: 1.2rem;\n  line-height: 1.8rem;\n}\n\n.staking-time-card[_ngcontent-%COMP%]   .attempt[_ngcontent-%COMP%]   .value[_ngcontent-%COMP%] {\n  min-width: 0;\n  font-size: 1.2rem;\n  line-height: 1.8rem;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInN0YWtpbmctdGltZS10by1ibG9jay1jYXJkLmNvbXBvbmVudC5zY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0VBQ0ksY0FBQTtFQUNBLGdCQUFBO0VBQ0EsWUFBQTtBQUNKOztBQUVBO0VBQ0ksYUFBQTtFQUNBLHVCQUFBO0VBQ0EsV0FBQTtFQUNBLFlBQUE7QUFDSjs7QUFDSTtFQUNJLFlBQUE7QUFDUjs7QUFFSTtFQUNJLHVCQUFBO0VBQ0EsaUJBQUE7RUFDQSxtQkFBQTtBQUFSOztBQUdJO0VBQ0ksa0JBQUE7RUFDQSx1QkFBQTtFQUNBLFlBQUE7RUFDQSxpQkFBQTtFQUNBLG1CQUFBO0VBQ0EsYUFBQTtFQUNBLG1CQUFBO0VBQ0EsV0FBQTtBQURSOztBQUdRO0VBQ0ksY0FBQTtFQUNBLGlCQUFBO0VBQ0EsbUJBQUE7QUFEWjs7QUFJUTtFQUNJLFlBQUE7RUFDQSxpQkFBQTtFQUNBLG1CQUFBO0FBRloiLCJmaWxlIjoic3Rha2luZy10aW1lLXRvLWJsb2NrLWNhcmQuY29tcG9uZW50LnNjc3MiLCJzb3VyY2VzQ29udGVudCI6WyI6aG9zdCB7XG4gICAgZGlzcGxheTogYmxvY2s7XG4gICAgbWF4LXdpZHRoOiA0MnJlbTtcbiAgICBtaW4td2lkdGg6IDA7XG59XG5cbi5zdGFraW5nLXRpbWUtY2FyZCB7XG4gICAgZGlzcGxheTogZmxleDtcbiAgICBhbGlnbi1pdGVtczogZmxleC1zdGFydDtcbiAgICBnYXA6IDEuNHJlbTtcbiAgICBtaW4td2lkdGg6IDA7XG5cbiAgICAuY29udGVudCB7XG4gICAgICAgIG1pbi13aWR0aDogMDtcbiAgICB9XG5cbiAgICAudGl0bGUge1xuICAgICAgICBjb2xvcjogdmFyKC0tbWFpbi10ZXh0KTtcbiAgICAgICAgZm9udC1zaXplOiAxLjZyZW07XG4gICAgICAgIGxpbmUtaGVpZ2h0OiAyLjRyZW07XG4gICAgfVxuXG4gICAgLmF0dGVtcHQge1xuICAgICAgICBtYXJnaW4tdG9wOiAwLjhyZW07XG4gICAgICAgIGNvbG9yOiB2YXIoLS1tYWluLXRleHQpO1xuICAgICAgICBvcGFjaXR5OiAwLjc7XG4gICAgICAgIGZvbnQtc2l6ZTogMS4ycmVtO1xuICAgICAgICBsaW5lLWhlaWdodDogMS44cmVtO1xuICAgICAgICBkaXNwbGF5OiBmbGV4O1xuICAgICAgICBhbGlnbi1pdGVtczogY2VudGVyO1xuICAgICAgICBnYXA6IDAuNHJlbTtcblxuICAgICAgICAubGFiZWwge1xuICAgICAgICAgICAgZmxleDogMCAwIGF1dG87XG4gICAgICAgICAgICBmb250LXNpemU6IDEuMnJlbTtcbiAgICAgICAgICAgIGxpbmUtaGVpZ2h0OiAxLjhyZW07XG4gICAgICAgIH1cblxuICAgICAgICAudmFsdWUge1xuICAgICAgICAgICAgbWluLXdpZHRoOiAwO1xuICAgICAgICAgICAgZm9udC1zaXplOiAxLjJyZW07XG4gICAgICAgICAgICBsaW5lLWhlaWdodDogMS44cmVtO1xuICAgICAgICB9XG4gICAgfVxufVxuIl19 */"],
+  changeDetection: 0
+});
 
 /***/ }),
 
@@ -25388,6 +25579,7 @@ class TooltipDirective {
         this.renderer = renderer;
         this.sanitizer = sanitizer;
         this.viewContainerRef = viewContainerRef;
+        this.tooltipClass = 'tooltip';
         this.timeout = 0;
         this.timeDelay = 0;
         this.delay = 0;
@@ -25690,6 +25882,46 @@ class VisibilityBalanceDirective {
 }
 VisibilityBalanceDirective.ɵfac = function VisibilityBalanceDirective_Factory(t) { return new (t || VisibilityBalanceDirective)(); };
 VisibilityBalanceDirective.ɵdir = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineDirective"]({ type: VisibilityBalanceDirective, selectors: [["", "appVisibilityBalance", ""]], standalone: true });
+
+
+/***/ }),
+
+/***/ 90616:
+/*!***************************************************************!*\
+  !*** ./src/app/parts/functions/calculate-pos-estimate-sec.ts ***!
+  \***************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "calculatePosEstimateSec": () => (/* binding */ calculatePosEstimateSec)
+/* harmony export */ });
+const calculatePosEstimateSec = (current_pos_attempts, est_iterations_per_pos_block) => {
+    if (!Number.isFinite(current_pos_attempts) || !Number.isFinite(est_iterations_per_pos_block) || est_iterations_per_pos_block <= 0) {
+        return 0;
+    }
+    return Math.max(est_iterations_per_pos_block - current_pos_attempts, 0) * 2;
+};
+
+
+/***/ }),
+
+/***/ 85320:
+/*!***********************************************************!*\
+  !*** ./src/app/parts/functions/calculate-pos-progress.ts ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "calculatePosProgress": () => (/* binding */ calculatePosProgress)
+/* harmony export */ });
+const calculatePosProgress = (current_pos_attempts, est_iterations_per_pos_block) => {
+    if (!Number.isFinite(current_pos_attempts) || !Number.isFinite(est_iterations_per_pos_block) || est_iterations_per_pos_block <= 0) {
+        return 0;
+    }
+    return Math.min(100, Math.max(0, (current_pos_attempts / est_iterations_per_pos_block) * 100));
+};
 
 
 /***/ }),
@@ -27573,6 +27805,46 @@ CustomNumberFormatPipe.ɵpipe = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MO
 
 /***/ }),
 
+/***/ 65846:
+/*!***************************************************!*\
+  !*** ./src/app/parts/pipes/estimate-time.pipe.ts ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "EstimateTimePipe": () => (/* binding */ EstimateTimePipe)
+/* harmony export */ });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ 3184);
+/* harmony import */ var _ngx_translate_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ngx-translate/core */ 87514);
+
+
+class EstimateTimePipe {
+    constructor(translate) {
+        this.translate = translate;
+    }
+    transform(estimateSec) {
+        if (!Number.isFinite(estimateSec) || estimateSec === null || estimateSec === undefined || estimateSec < 0) {
+            return this.translate.instant('ESTIMATE_TIME.NA');
+        }
+        if (estimateSec < 60) {
+            return this.translate.instant('ESTIMATE_TIME.LESS_THAN_MINUTE');
+        }
+        if (estimateSec >= 86400) {
+            return `~ ${Math.max(1, Math.round(estimateSec / 86400))} ${this.translate.instant('ESTIMATE_TIME.UNITS.DAY')}`;
+        }
+        if (estimateSec >= 3600) {
+            return `~ ${Math.max(1, Math.round(estimateSec / 3600))} ${this.translate.instant('ESTIMATE_TIME.UNITS.HOUR')}`;
+        }
+        return `~ ${Math.max(1, Math.round(estimateSec / 60))} ${this.translate.instant('ESTIMATE_TIME.UNITS.MIN')}`;
+    }
+}
+EstimateTimePipe.ɵfac = function EstimateTimePipe_Factory(t) { return new (t || EstimateTimePipe)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngx_translate_core__WEBPACK_IMPORTED_MODULE_1__.TranslateService, 16)); };
+EstimateTimePipe.ɵpipe = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefinePipe"]({ name: "estimateTime", type: EstimateTimePipe, pure: false, standalone: true });
+
+
+/***/ }),
+
 /***/ 63903:
 /*!******************************************************!*\
   !*** ./src/app/parts/pipes/get-amount-items.pipe.ts ***!
@@ -27808,6 +28080,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "ContractStatusMessagesPipeModule": () => (/* reexport safe */ _contract_status_messages_pipe__WEBPACK_IMPORTED_MODULE_0__.ContractStatusMessagesPipeModule),
 /* harmony export */   "ContractTimeLeftPipe": () => (/* reexport safe */ _contract_time_left_pipe__WEBPACK_IMPORTED_MODULE_1__.ContractTimeLeftPipe),
 /* harmony export */   "ContractTimeLeftPipeModule": () => (/* reexport safe */ _contract_time_left_pipe__WEBPACK_IMPORTED_MODULE_1__.ContractTimeLeftPipeModule),
+/* harmony export */   "EstimateTimePipe": () => (/* reexport safe */ _estimate_time_pipe__WEBPACK_IMPORTED_MODULE_9__.EstimateTimePipe),
 /* harmony export */   "GetAssetInfoPipe": () => (/* reexport safe */ _get_asset_info_pipe__WEBPACK_IMPORTED_MODULE_7__.GetAssetInfoPipe),
 /* harmony export */   "HistoryTypeMessagesPipe": () => (/* reexport safe */ _history_type_messages_pipe__WEBPACK_IMPORTED_MODULE_2__.HistoryTypeMessagesPipe),
 /* harmony export */   "HistoryTypeMessagesPipeModule": () => (/* reexport safe */ _history_type_messages_pipe__WEBPACK_IMPORTED_MODULE_2__.HistoryTypeMessagesPipeModule),
@@ -27829,6 +28102,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _safe_html_pipe__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./safe-html-pipe */ 34193);
 /* harmony import */ var _get_asset_info_pipe__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./get-asset-info.pipe */ 14075);
 /* harmony import */ var _short_string_pipe__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./short-string.pipe */ 73346);
+/* harmony import */ var _estimate_time_pipe__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./estimate-time.pipe */ 65846);
+
 
 
 
@@ -28387,7 +28662,8 @@ class VariablesService {
     this.getHeightMaxEvent = new rxjs__WEBPACK_IMPORTED_MODULE_5__.BehaviorSubject(null);
     this.getDownloadedAppEvent = new rxjs__WEBPACK_IMPORTED_MODULE_5__.BehaviorSubject(null);
     this.getTotalEvent = new rxjs__WEBPACK_IMPORTED_MODULE_5__.BehaviorSubject(null);
-    this.currentWalletChangedEvent = new rxjs__WEBPACK_IMPORTED_MODULE_5__.BehaviorSubject(null);
+    this.currentWalletChanged$ = new rxjs__WEBPACK_IMPORTED_MODULE_5__.BehaviorSubject(null);
+    this.posStatusUpdated$ = new rxjs__WEBPACK_IMPORTED_MODULE_8__.Subject();
     this.refreshStakingEvent$ = new rxjs__WEBPACK_IMPORTED_MODULE_8__.Subject();
     this.verifiedAssetInfoWhitelist = [];
     this._dialog = (0,_angular_core__WEBPACK_IMPORTED_MODULE_9__.inject)(_angular_cdk_dialog__WEBPACK_IMPORTED_MODULE_10__.Dialog);
@@ -28528,12 +28804,17 @@ class VariablesService {
   }
 
   setCurrentWallet(id) {
-    this.wallets.forEach(wallet => {
-      if (wallet.wallet_id === id) {
-        this.current_wallet = wallet;
-        this.currentWalletChangedEvent.next(wallet);
-      }
-    });
+    if (id !== null) {
+      this.wallets.forEach(wallet => {
+        if (wallet.wallet_id === id) {
+          this.current_wallet = wallet;
+          this.currentWalletChanged$.next(wallet);
+        }
+      });
+    } else {
+      this.current_wallet = null;
+      this.currentWalletChanged$.next(null);
+    }
   }
 
   getWallet(id) {
@@ -28764,7 +29045,7 @@ class WalletsService {
   }
 
   set currentWallet(value) {
-    this._variablesService.current_wallet = value;
+    this._variablesService.setCurrentWallet(value.wallet_id);
   }
 
   get opened_wallet_items() {
@@ -28924,9 +29205,15 @@ class WalletsService {
       this._ngZone.run(() => {
         if (status) {
           const {
-            balances
+            balances,
+            current_pos_attempts,
+            est_iterations_per_pos_block
           } = response_data;
           wallet.balances = balances;
+          wallet.current_pos_attempts = current_pos_attempts;
+          wallet.est_iterations_per_pos_block = est_iterations_per_pos_block;
+
+          this._variablesService.posStatusUpdated$.next(wallet.wallet_id);
 
           this._variablesService.loadCurrentPriceForAssetIds(wallet.balances.map(({
             asset_info: {
