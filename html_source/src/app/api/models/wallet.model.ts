@@ -273,6 +273,8 @@ export class Wallet {
 
     restore?: boolean;
 
+    first_sync_stored?: boolean;
+
     transfer_form_value: TransferFormValue | null = null;
 
     constructor(
@@ -305,6 +307,7 @@ export class Wallet {
 
         this.progress = 0;
         this.loaded = false;
+        this.first_sync_stored = false;
 
         this._balancesSubscription = combineLatest([
             this.originalBalances$,

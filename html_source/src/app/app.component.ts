@@ -183,6 +183,12 @@ export class AppComponent implements OnInit, OnDestroy {
                                 this._addToStore(wallet, false);
                                 this.variablesService.sync_started = false;
                                 this.variablesService.sync_wallets[wallet.wallet_id] = false;
+                                if (!wallet.first_sync_stored) {
+                                    wallet.first_sync_stored = true;
+                                    this._backendService.storeWallet(wallet.wallet_id, (status, response_data) => {
+                                        console.log('----------------- storeWallet -----------------', { status, response_data });
+                                    });
+                                }
                             }
                         });
                     }
