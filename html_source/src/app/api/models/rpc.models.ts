@@ -42,3 +42,7 @@ export interface ResultSplitIntegratedAddress {
     payment_id: string;
     standard_address: string;
 }
+
+export interface ResponseStoreWallet {
+    wallet_file_size: number;
+}

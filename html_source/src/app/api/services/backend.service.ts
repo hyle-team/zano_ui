@@ -17,7 +17,7 @@ import {
 import { AliasInfo, AliasLookupCallback, AliasLookupParams } from '@api/models/alias.model';
 import { TransferParams } from '@api/models/transfer.model';
 import { ParamsCallRpc, ResponseCallRpc } from '@api/models/call_rpc.model';
-import { ResponseGetAssetInfo, ResultSplitIntegratedAddress } from '@api/models/rpc.models';
+import { ResponseGetAssetInfo, ResultSplitIntegratedAddress, ResponseStoreWallet } from '@api/models/rpc.models';
 import { WalletInfo } from '@api/models/wallet-info.model';
 
 export interface PramsObj {
@@ -790,6 +790,16 @@ export class BackendService {
             params: {
                 integrated_address: address,
             },
+        };
+        this.call_wallet_rpc([wallet_id, params], callback);
+    }
+
+    storeWallet(wallet_id: number, callback?: (status: boolean, response_data: ResponseCallRpc<ResponseStoreWallet>) => void): void {
+        const params: ParamsCallRpc = {
+            jsonrpc: '2.0',
+            id: 0,
+            method: 'store',
+            params: {},
         };
         this.call_wallet_rpc([wallet_id, params], callback);
     }
