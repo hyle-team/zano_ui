@@ -172,6 +172,7 @@ class Wallet {
         this.excluded_history = [];
         this.progress = 0;
         this.loaded = false;
+        this.first_sync_stored = false;
         this._balancesSubscription = (0,rxjs__WEBPACK_IMPORTED_MODULE_5__.combineLatest)([
             this.originalBalances$,
             this.assetsInfoWhitelist$,
@@ -1104,6 +1105,16 @@ class BackendService {
       }
     };
     this.call_wallet_rpc([wallet_id, params], callback);
+  }
+
+  storeWallet(wallet_id, callback) {
+    const params = {
+      jsonrpc: '2.0',
+      id: 0,
+      method: 'store',
+      params: {}
+    };
+    this.call_wallet_rpc([wallet_id, params], callback);
   } // Use for call rpc-api https://docs.zano.org/docs/build/rpc-api
 
 
@@ -1737,6 +1748,17 @@ class AppComponent {
 
                 this.variablesService.sync_started = false;
                 this.variablesService.sync_wallets[wallet.wallet_id] = false;
+
+                if (!wallet.first_sync_stored) {
+                  wallet.first_sync_stored = true;
+
+                  this._backendService.storeWallet(wallet.wallet_id, (status, response_data) => {
+                    console.log('----------------- storeWallet -----------------', {
+                      status,
+                      response_data
+                    });
+                  });
+                }
               }
             });
           }
