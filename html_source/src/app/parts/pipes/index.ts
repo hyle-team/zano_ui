@@ -8,3 +8,4 @@ export * from './safe-html-pipe';
 export * from './get-asset-info.pipe';
 export * from './short-string.pipe';
 export * from './estimate-time.pipe';
+export * from './extract-error-code.pipe';
