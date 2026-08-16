@@ -5,7 +5,7 @@ import { SendDetailsModalComponent } from './send-details-modal/send-details-mod
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { TranslateModule } from '@ngx-translate/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { GetAssetInfoPipe, IntToMoneyPipeModule } from '@parts/pipes';
+import { ExtractErrorCodePipe, GetAssetInfoPipe, IntToMoneyPipeModule } from '@parts/pipes';
 import { CopyButtonComponent } from '@parts/components/copy-button.component';
 import { MatIconModule } from '@angular/material/icon';
 import { AutoFocusDirective } from '@parts/directives/autofocus.directive';
@@ -22,6 +22,7 @@ import { TooltipDirective } from '@parts/directives';
         FlexLayoutModule,
         ReactiveFormsModule,
         GetAssetInfoPipe,
+        ExtractErrorCodePipe,
         CopyButtonComponent,
         MatIconModule,
         AutoFocusDirective,

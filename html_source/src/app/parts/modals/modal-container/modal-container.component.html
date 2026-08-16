@@ -3,7 +3,7 @@
         <mat-icon style="width: 3rem; height: 3rem" [svgIcon]="'zano-system-modal-' + data.type"></mat-icon>
         <div class="message-container">
             <h3 class="title">{{ 'MODALS.' + data.type.toUpperCase() | translate }}</h3>
-            <p [innerHTML]="data.message | translate" class="message"></p>
+            <p [innerHTML]="data.message | extractErrorCode | translate" class="message"></p>
         </div>
     </div>
 </mat-dialog-content>

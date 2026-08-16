@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { CREATE_NEW_WALLET_HELP_PAGE } from '@parts/data/constants';
 import { ModalService } from '@parts/services/modal.service';
+import { extractErrorCode } from '@parts/utils/extract-error-code';
 
 @Component({
     selector: 'app-add-wallet',
@@ -28,7 +29,7 @@ export class AddWalletComponent {
         this.backendService.openFileDialog(caption, '*', default_path, (file_status, file_data) => {
             if (!file_status) {
                 if (file_data['error_code'] !== 'CANCELED') {
-                    this.modalService.prepareModal('error', file_data['error_code']);
+                    this.modalService.prepareModal('error', extractErrorCode(file_data['error_code']));
                 }
                 return;
             }
