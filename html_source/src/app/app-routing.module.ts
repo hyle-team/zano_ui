@@ -4,13 +4,18 @@ import { PageMaterialIconsComponent } from '@parts/pages/page-material-icons/pag
 
 @NgModule({
     imports: [
-        RouterModule.forRoot([
-            // Dev routes for looking at registered icons
+        RouterModule.forRoot(
+            [
+                // Dev routes for looking at registered icons
+                {
+                    path: 'material-zano-icon',
+                    component: PageMaterialIconsComponent,
+                },
+            ],
             {
-                path: 'material-zano-icon',
-                component: PageMaterialIconsComponent,
-            },
-        ]),
+                useHash: true,
+            }
+        ),
     ],
     exports: [RouterModule],
 })
