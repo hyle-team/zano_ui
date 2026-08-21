@@ -503,6 +503,7 @@
             "LABEL12": "Ihre Wallets wurden noch nicht geladen. Versuchen Sie es etwas später erneut.",
             "LABEL13": "Sie haben die vorherige Aktion noch nicht abgeschlossen.",
             "LABEL14": "In dieser Wallet gibt es kein Asset mit der asset_id {{assetId}}. Sie können dieses Asset hinzufügen und es erneut versuchen oder eine andere Wallet wählen, in der dieses Asset verfügbar ist.",
+            "LABEL15": "Sie müssen sich zuerst anmelden. Versuchen Sie danach diesen Deeplink erneut.",
             "LABEL2": "Angebotstitel",
             "LABEL3": "Beschreibung",
             "LABEL4": "Kategorie",
@@ -510,8 +511,7 @@
             "LABEL6": "Vorschau-URL",
             "LABEL7": "Kontakte",
             "LABEL8": "Kommentare",
-            "LABEL9": "Transaktionsgebühr",
-            "LABEL15": "Sie müssen sich zuerst anmelden. Versuchen Sie danach diesen Deeplink erneut."
+            "LABEL9": "Transaktionsgebühr"
         }
     },
     "EDIT_ALIAS": {
@@ -547,10 +547,12 @@
         "ASSET_HAS_NOT_BEEN_ADDED_TO_WALLET": "Asset wurde nicht hinzugefügt",
         "ASSET_NOT_FOUND": "Asset nicht gefunden",
         "BAD_ARG": "Ungültiges Argument",
+        "BAD_ARG_WRONG_PAYMENT_ID": "Ungültige Zahlungs-ID",
         "CANNOT_BE_GREATER_THAN_TOTAL_MAX_SUPPLY": "Darf nicht größer sein als der maximale Gesamtbestand",
         "CANT_ESTIMATE_WRAP_OPERATION_COST": "Die Kosten für den Wrap-Vorgang können nicht geschätzt werden, bitte versuchen Sie es später erneut",
         "CORE_BUSY": "Interner Fehler: Kern ist beschäftigt",
         "DAEMON_BUSY": "Interner Fehler: Daemon ist beschäftigt",
+        "DEEPLINK_FORMAT_NOT_SUPPORTED": "Dieses Deeplink-Format wird nicht unterstützt.",
         "FILE_EXIST": "Eine Datei mit diesem Namen existiert bereits. Geben Sie einen anderen Namen ein, um die Datei zu speichern",
         "FILE_NOT_FOUND": "Datei nicht gefunden",
         "FILE_NOT_SAVED": "Sie können keine Wallet-Datei in diesem Ordner speichern. Bitte wählen Sie einen anderen Ordner.",
@@ -593,9 +595,16 @@
         "WALLET_WRONG_ID": "Ungültige Wallet-ID",
         "WRAP_SERVICE_IS_INACTIVE": "Wrap-Service ist inaktiv",
         "WRONG_PASSWORD": "Ungültiges Passwort",
-        "WRONG_PASSWORD_MUST_BE": "Ungültiges Passwort. Passwort muss sein",
-        "BAD_ARG_WRONG_PAYMENT_ID": "Ungültige Zahlungs-ID",
-        "DEEPLINK_FORMAT_NOT_SUPPORTED": "Dieses Deeplink-Format wird nicht unterstützt."
+        "WRONG_PASSWORD_MUST_BE": "Ungültiges Passwort. Passwort muss sein"
+    },
+    "ESTIMATE_TIME": {
+        "LESS_THAN_MINUTE": "< 1 Min.",
+        "NA": "N/A",
+        "UNITS": {
+            "DAY": "Tage",
+            "HOUR": "Std.",
+            "MIN": "Min."
+        }
     },
     "EXPORT_HISTORY": {
         "CANCEL": "Abbrechen",
@@ -757,6 +766,10 @@
         "WALLET_NAME_PLACEHOLDER": "Bitte geben Sie einen Namen für Ihr Wallet ein",
         "WALLET_PASSWORD_PLACEHOLDER": "Wallet-Passwort hier eingeben"
     },
+    "POS_ESTIMATE_CARD": {
+        "ATTEMPT_LABEL": "Versuch:",
+        "ESTIMATE_LABEL": "Geschatzte Zeit bis zum Finden eines Blocks:"
+    },
     "PROGRESS": {
         "ADD_WALLET": "Wallet hinzufügen",
         "CREATE_WALLET": "Neues Wallet erstellen",
@@ -870,6 +883,7 @@
         "ASSET": "Asset",
         "BUTTON": "Senden",
         "COMMENT": "Kommentar",
+        "DESTINATION": "Ziel",
         "DETAILS": "Erweiterte Option",
         "DUPLICATE": "Duplikat",
         "ERROR_CODES": {
@@ -911,8 +925,7 @@
             "WILL_RECEIVE": "Sie erhalten:",
             "ZANO": "ZANO",
             "wZANO": "wZANO"
-        },
-        "DESTINATION": "Ziel"
+        }
     },
     "SEND_DETAILS_MODAL": {
         "TITLE1": "Transaktion",
@@ -965,10 +978,10 @@
         },
         "NOTIFICATIONS": "Benachrichtigungen",
         "SCALE": {
-            "75": "75% Skalierung",
             "100": "100% Skalierung",
             "125": "125% Skalierung",
             "150": "150% Skalierung",
+            "75": "75% Skalierung",
             "TITLE": "Schnittstellenskalierung"
         },
         "SECRET_WAS_COPIED": "Geheimnis wurde kopiert",
@@ -1003,14 +1016,14 @@
         },
         "TITLE": "Wallets",
         "UPDATE": {
-            "CRITICAL": "Update verfügbar",
-            "CRITICAL_HINT": "Kritisches Update!",
+            "CRITICAL": "Kritisches Update",
+            "CRITICAL_HINT": "Kritisches Update",
             "CRITICAL_TOOLTIP": "<span class=\"critical-update\">Kritisches Update verfügbar.</span><i class=\"icon\"></i><span>Update dringend empfohlen!</span>",
-            "IMPORTANT": "Update verfügbar",
-            "IMPORTANT_HINT": "Wichtiges Update!",
+            "IMPORTANT": "Wichtiges Update",
+            "IMPORTANT_HINT": "Wichtiges Update",
             "IMPORTANT_TOOLTIP": "<span class=\"important-update\">Neues Update erhalten.</span><br><span>Wichtiges Update!</span>",
             "STANDARD": "Update verfügbar",
-            "STANDARD_TOOLTIP": "<span class=\"standard-update\">Neues Update erhalten.</span><br><span>Update wird empfohlen!</span>",
+            "STANDARD_TOOLTIP": "Update verfügbar",
             "TIME": "Systemzeit weicht vom Netzwerk ab",
             "TIME_TOOLTIP": "<span class=\"wrong-time\">Falsche Systemzeit!</span><br><span>Überprüfen und reparieren Sie Ihre Systemzeit.</span>"
         }
@@ -1040,19 +1053,6 @@
         "TITLE_PERIOD": "Zeitraum:",
         "TITLE_TOTAL": "Gesamt",
         "WALLET_STAKING_ON": "{{ value }} Staking ist AN"
-    },
-    "POS_ESTIMATE_CARD": {
-        "ATTEMPT_LABEL": "Versuch:",
-        "ESTIMATE_LABEL": "Geschatzte Zeit bis zum Finden eines Blocks:"
-    },
-    "ESTIMATE_TIME": {
-        "LESS_THAN_MINUTE": "< 1 Min.",
-        "NA": "N/A",
-        "UNITS": {
-            "DAY": "Tage",
-            "HOUR": "Std.",
-            "MIN": "Min."
-        }
     },
     "SUCCESS_SWEEP_BARE_OUTS": {
         "DETAILS": "{{ txs_sent }} Transaktionen wurden erfolgreich gesendet, {{ bare_outs_swept }} Bare-Ausgaben migriert, {{ amount_swept }} Münzen transferiert und {{ fee_spent }} für Gebühren ausgegeben."
