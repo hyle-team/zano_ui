@@ -1198,8 +1198,11 @@
         "BUTTON_SAVE": "Salva",
         "CREATE_PASSWORD_SECURE": "Crea una password per proteggere il tuo seed",
         "FORM": {
+            "ADD_PASSPHRASE": "Aggiungi passphrase",
             "CONFIRM_PASSWORD": "Conferma password",
             "GENERATE_SECURE_SEED": "Genera seed sicuro",
+            "GENERATE_SECURED_SEED": "Genera seed sicuro",
+            "GENERATE_UNSECURED_SEED": "Genera seed non sicuro",
             "SECURED_SEED_WILL_REQUIRE": "Il seed sicuro richiederà questa password per il ripristino."
         },
         "FORM_ERRORS": {

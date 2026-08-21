@@ -1198,8 +1198,11 @@
         "BUTTON_SAVE": "Simpan",
         "CREATE_PASSWORD_SECURE": "Buat kata sandi untuk mengamankan frasa kunci Anda",
         "FORM": {
+            "ADD_PASSPHRASE": "Tambah kata sandi",
             "CONFIRM_PASSWORD": "Konfirmasi kata sandi",
-            "GENERATE_SECURE_SEED": "Hasilkan Frasa Kunci Aman",
+            "GENERATE_SECURE_SEED": "Hasilkan Seed Aman",
+            "GENERATE_SECURED_SEED": "Hasilkan Seed Aman",
+            "GENERATE_UNSECURED_SEED": "Hasilkan Seed Tidak Aman",
             "SECURED_SEED_WILL_REQUIRE": "Frasa kunci aman akan membutuhkan kata sandi ini untuk memulihkan."
         },
         "FORM_ERRORS": {

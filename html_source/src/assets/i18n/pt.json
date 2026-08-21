@@ -1198,8 +1198,11 @@
         "BUTTON_SAVE": "Salvar",
         "CREATE_PASSWORD_SECURE": "Crie uma senha para proteger sua semente",
         "FORM": {
+            "ADD_PASSPHRASE": "Adicionar frase secreta",
             "CONFIRM_PASSWORD": "Confirmar senha",
-            "GENERATE_SECURE_SEED": "Gerar Semente Segura",
+            "GENERATE_SECURE_SEED": "Gerar Seed Seguro",
+            "GENERATE_SECURED_SEED": "Gerar Seed Seguro",
+            "GENERATE_UNSECURED_SEED": "Gerar Seed Não Seguro",
             "SECURED_SEED_WILL_REQUIRE": "A semente segura exigirá esta senha para restaurar."
         },
         "FORM_ERRORS": {

@@ -1198,8 +1198,11 @@
         "BUTTON_SAVE": "Sauvegarder",
         "CREATE_PASSWORD_SECURE": "Créer un mot de passe pour sécuriser votre graine",
         "FORM": {
+            "ADD_PASSPHRASE": "Ajouter une phrase de passe",
             "CONFIRM_PASSWORD": "Confirmer le mot de passe",
-            "GENERATE_SECURE_SEED": "Générer une graine sécurisée",
+            "GENERATE_SECURE_SEED": "Générer un seed sécurisé",
+            "GENERATE_SECURED_SEED": "Générer un seed sécurisé",
+            "GENERATE_UNSECURED_SEED": "Générer un seed non sécurisé",
             "SECURED_SEED_WILL_REQUIRE": "La graine sécurisée nécessitera ce mot de passe pour être restaurée."
         },
         "FORM_ERRORS": {

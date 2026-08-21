@@ -27,7 +27,10 @@ button,
     }
 
     &.primary,
-    &.outline {
+    &.outline,
+    &.aqua,
+    &.red,
+    &.danger {
         width: 100%;
         padding: 0 2rem 0 2rem;
 
@@ -49,6 +52,33 @@ button,
             &:hover,
             &.active {
                 background-color: var(--azure-600);
+            }
+        }
+    }
+
+    &.aqua {
+        background-color: var(--aqua-500);
+        color: var(--white-500);
+
+        &:not(:disabled) {
+            &:focus,
+            &:hover,
+            &.active {
+                background-color: #13babf;
+            }
+        }
+    }
+
+    &.red,
+    &.danger {
+        background-color: #ff6767;
+        color: var(--white-500);
+
+        &:not(:disabled) {
+            &:focus,
+            &:hover,
+            &.active {
+                background-color: #e65c5c;
             }
         }
     }
