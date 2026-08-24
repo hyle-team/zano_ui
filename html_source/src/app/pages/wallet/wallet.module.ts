@@ -10,6 +10,7 @@ import {
     IntToMoneyPipeModule,
     IsAvailableAliasNamePipe,
     ShortStringPipe,
+    ExtractErrorCodePipe,
 } from '@parts/pipes';
 import { TranslateModule } from '@ngx-translate/core';
 import { ConfirmModalModule } from '@parts/modals/confirm-modal/confirm-modal.module';
@@ -103,6 +104,7 @@ import { TransactionDetailsComponent } from '@parts/components/transaction-detai
         FlexModule,
         TooltipDirective,
         ShortStringPipe,
+        ExtractErrorCodePipe,
         TranslateModule,
         IsAvailableAliasNamePipe,
         ConfirmModalModule,

@@ -9,6 +9,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { debounceTime, startWith, takeUntil } from 'rxjs/operators';
 import { combineLatest, Subject } from 'rxjs';
 import { REG_EXP_PASSWORD, ZanoValidators } from '@parts/utils/zano-validators';
+import { extractErrorCode } from '@parts/utils/extract-error-code';
+
 import { WalletsService } from '@parts/services/wallets.service';
 import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
 import { MAX_WALLET_NAME_LENGTH } from '@parts/data/constants';
@@ -308,7 +310,7 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
 
                     this._router.navigate(['/wallet/']).then();
                 } else {
-                    this._modalService.prepareModal('error', data['error_code']);
+                    this._modalService.prepareModal('error', extractErrorCode(data['error_code']));
                     this._submitting = false;
                     console.error(data['error_code']);
                 }

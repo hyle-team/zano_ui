@@ -3,7 +3,9 @@ import { Observable, Subject } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { VariablesService } from '@parts/services/variables.service';
 import { ModalService } from '@parts/services/modal.service';
+import { extractErrorCode } from '@parts/utils/extract-error-code';
 import { MoneyToIntPipe } from '@parts/pipes/money-to-int-pipe/money-to-int.pipe';
+
 import JSONBigNumber from 'json-bignumber';
 import { BigNumber } from 'bignumber.js';
 import {
@@ -856,7 +858,8 @@ export class BackendService {
 
     private informerRun(error: string, params, command: string): void {
         let error_translate = '';
-        switch (error) {
+        const errorCode = extractErrorCode(error);
+        switch (errorCode) {
             case 'NOT_ENOUGH_MONEY':
                 error_translate = 'ERRORS.NOT_ENOUGH_MONEY';
                 // error_translate = 'ERRORS.NO_MONEY'; maybe that one?

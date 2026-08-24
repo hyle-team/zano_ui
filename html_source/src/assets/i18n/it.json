@@ -503,6 +503,7 @@
             "LABEL12": "I tuoi wallet non sono ancora stati caricati. Riprova più tardi.",
             "LABEL13": "Non hai ancora completato l'azione precedente.",
             "LABEL14": "In questo wallet non è presente alcun asset con asset_id {{assetId}}. Puoi aggiungere questo asset e riprovare oppure scegliere un altro wallet in cui l'asset è disponibile.",
+            "LABEL15": "Devi prima effettuare l'accesso. Dopodiché, riprova questo deeplink.",
             "LABEL2": "Titolo offerta",
             "LABEL3": "Descrizione",
             "LABEL4": "Categoria",
@@ -510,8 +511,7 @@
             "LABEL6": "Anteprima url",
             "LABEL7": "Contatti",
             "LABEL8": "Commenti",
-            "LABEL9": "Commissione di transazione",
-            "LABEL15": "Devi prima effettuare l'accesso. Dopodiché, riprova questo deeplink."
+            "LABEL9": "Commissione di transazione"
         }
     },
     "EDIT_ALIAS": {
@@ -547,10 +547,12 @@
         "ASSET_HAS_NOT_BEEN_ADDED_TO_WALLET": "L'asset non è stato aggiunto",
         "ASSET_NOT_FOUND": "Asset non trovato",
         "BAD_ARG": "Argomento non valido",
+        "BAD_ARG_WRONG_PAYMENT_ID": "ID pagamento non valido",
         "CANNOT_BE_GREATER_THAN_TOTAL_MAX_SUPPLY": "Non può essere maggiore della fornitura massima totale",
         "CANT_ESTIMATE_WRAP_OPERATION_COST": "Impossibile stimare il costo dell'operazione di wrap, riprova più tardi",
         "CORE_BUSY": "Errore interno: core occupato",
         "DAEMON_BUSY": "Errore interno: daemon occupato",
+        "DEEPLINK_FORMAT_NOT_SUPPORTED": "Questo formato di collegamento diretto non è supportato.",
         "FILE_EXIST": "Esiste già un file con questo nome. Inserisci un altro nome per salvare il file",
         "FILE_NOT_FOUND": "File non trovato",
         "FILE_NOT_SAVED": "Non puoi salvare un file wallet in questa cartella. Scegli un'altra cartella.",
@@ -593,9 +595,16 @@
         "WALLET_WRONG_ID": "ID wallet non valido",
         "WRAP_SERVICE_IS_INACTIVE": "Il servizio di wrap non è attivo",
         "WRONG_PASSWORD": "Password non valida",
-        "WRONG_PASSWORD_MUST_BE": "Password non valida. La password deve essere",
-        "BAD_ARG_WRONG_PAYMENT_ID": "ID pagamento non valido",
-        "DEEPLINK_FORMAT_NOT_SUPPORTED": "Questo formato di collegamento diretto non è supportato."
+        "WRONG_PASSWORD_MUST_BE": "Password non valida. La password deve essere"
+    },
+    "ESTIMATE_TIME": {
+        "LESS_THAN_MINUTE": "< 1 min",
+        "NA": "N/A",
+        "UNITS": {
+            "DAY": "giorni",
+            "HOUR": "ore",
+            "MIN": "min"
+        }
     },
     "EXPORT_HISTORY": {
         "CANCEL": "Annulla",
@@ -757,6 +766,10 @@
         "WALLET_NAME_PLACEHOLDER": "Inserisci un nome per il tuo wallet",
         "WALLET_PASSWORD_PLACEHOLDER": "Inserisci una password del wallet qui"
     },
+    "POS_ESTIMATE_CARD": {
+        "ATTEMPT_LABEL": "Tentativo:",
+        "ESTIMATE_LABEL": "Tempo stimato per trovare il blocco:"
+    },
     "PROGRESS": {
         "ADD_WALLET": "Aggiungi wallet",
         "CREATE_WALLET": "Crea nuovo wallet",
@@ -870,6 +883,7 @@
         "ASSET": "Asset",
         "BUTTON": "Invia",
         "COMMENT": "Commento",
+        "DESTINATION": "Destinazione",
         "DETAILS": "Opzione avanzata",
         "DUPLICATE": "Duplicato",
         "ERROR_CODES": {
@@ -911,8 +925,7 @@
             "WILL_RECEIVE": "Riceverai:",
             "ZANO": "ZANO",
             "wZANO": "wZANO"
-        },
-        "DESTINATION": "Destinazione"
+        }
     },
     "SEND_DETAILS_MODAL": {
         "TITLE1": "Transazione",
@@ -965,10 +978,10 @@
         },
         "NOTIFICATIONS": "Notifiche",
         "SCALE": {
-            "75": "Scala 75%",
             "100": "Scala 100%",
             "125": "Scala 125%",
             "150": "Scala 150%",
+            "75": "Scala 75%",
             "TITLE": "Scala interfaccia"
         },
         "SECRET_WAS_COPIED": "Segreto copiato",
@@ -1003,14 +1016,14 @@
         },
         "TITLE": "Wallet",
         "UPDATE": {
-            "CRITICAL": "Aggiornamento disponibile",
-            "CRITICAL_HINT": "Aggiornamento critico!",
+            "CRITICAL": "Aggiornamento critico",
+            "CRITICAL_HINT": "Aggiornamento critico",
             "CRITICAL_TOOLTIP": "<span class=\"critical-update\">Aggiornamento critico disponibile.</span><i class=\"icon\"></i><span>Aggiornamento altamente consigliato!</span>",
-            "IMPORTANT": "Aggiornamento disponibile",
-            "IMPORTANT_HINT": "Aggiornamento importante!",
+            "IMPORTANT": "Aggiornamento importante",
+            "IMPORTANT_HINT": "Aggiornamento importante",
             "IMPORTANT_TOOLTIP": "<span class=\"important-update\">Ottieni il nuovo aggiornamento.</span><br><span>Aggiornamento importante!</span>",
             "STANDARD": "Aggiornamento disponibile",
-            "STANDARD_TOOLTIP": "<span class=\"standard-update\">Ottieni il nuovo aggiornamento.</span><br><span>Aggiornamento consigliato!</span>",
+            "STANDARD_TOOLTIP": "Aggiornamento disponibile",
             "TIME": "L'ora di sistema è diversa da quella di rete",
             "TIME_TOOLTIP": "<span class=\"wrong-time\">Ora di sistema errata!</span><br><span>Controlla e correggi l'ora del tuo sistema.</span>"
         }
@@ -1040,19 +1053,6 @@
         "TITLE_PERIOD": "Periodo di tempo:",
         "TITLE_TOTAL": "Totale",
         "WALLET_STAKING_ON": "{{ value }} staking è ATTIVO"
-    },
-    "POS_ESTIMATE_CARD": {
-        "ATTEMPT_LABEL": "Tentativo:",
-        "ESTIMATE_LABEL": "Tempo stimato per trovare il blocco:"
-    },
-    "ESTIMATE_TIME": {
-        "LESS_THAN_MINUTE": "< 1 min",
-        "NA": "N/A",
-        "UNITS": {
-            "DAY": "giorni",
-            "HOUR": "ore",
-            "MIN": "min"
-        }
     },
     "SUCCESS_SWEEP_BARE_OUTS": {
         "DETAILS": "{{ txs_sent }} transazioni inviate con successo, {{ bare_outs_swept }} output non spesi migrati, {{ amount_swept }} monete trasferite e {{ fee_spent }} spesi per le commissioni."
@@ -1198,8 +1198,11 @@
         "BUTTON_SAVE": "Salva",
         "CREATE_PASSWORD_SECURE": "Crea una password per proteggere il tuo seed",
         "FORM": {
+            "ADD_PASSPHRASE": "Aggiungi passphrase",
             "CONFIRM_PASSWORD": "Conferma password",
             "GENERATE_SECURE_SEED": "Genera seed sicuro",
+            "GENERATE_SECURED_SEED": "Genera seed sicuro",
+            "GENERATE_UNSECURED_SEED": "Genera seed non sicuro",
             "SECURED_SEED_WILL_REQUIRE": "Il seed sicuro richiederà questa password per il ripristino."
         },
         "FORM_ERRORS": {

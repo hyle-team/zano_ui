@@ -58,6 +58,8 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
         ],
     });
 
+    hasPassphrase = true;
+
     private _destroy$: Subject<void> = new Subject<void>();
 
     constructor(
@@ -94,6 +96,19 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
         this._destroy$.complete();
     }
 
+    onPassphraseToggleChange(value: boolean): void {
+        this.hasPassphrase = value;
+        if (!value) {
+            this.seedPhraseForm.patchValue({
+                password: '',
+                confirmPassword: '',
+            });
+            this.seedPhraseForm.markAsPristine();
+            this.seedPhraseForm.markAsUntouched();
+            this.seedPhraseForm.updateValueAndValidity();
+        }
+    }
+
     copySeedPhrase(): void {
         this._backendService.setClipboard(this.seedPhraseWords.join(' '), () => {
             this._ngZone.run(() => {
@@ -109,7 +124,7 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
         this.showSeed = true;
 
         const wallet_id = this.wallet_id;
-        const { password: seed_password } = this.seedPhraseForm.getRawValue();
+        const seed_password = this.hasPassphrase ? this.seedPhraseForm.controls.password.value : '';
 
         this._backendService.getSmartWalletInfo({ wallet_id, seed_password }, (_, data) => {
             if (hasOwnProperty(data, 'seed_phrase')) {

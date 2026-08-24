@@ -4,7 +4,6 @@ import { DOWNLOADS_PAGE_URL } from '@parts/data/constants';
 import { BackendService } from '@api/services/backend.service';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
-import { TooltipDirective } from '@parts/directives';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
@@ -99,49 +98,38 @@ import { MatTooltipModule } from '@angular/material/tooltip';
                 class="update-container"
                 role="note"
             >
-                <ng-container *ngIf="variablesService.last_build_displaymode === 2">
-                    <div class="update-text standard">
-                        <button type="button" (click)="getUpdate()" [style.cursor]="'pointer'">
-                            {{ 'SIDEBAR.UPDATE.STANDARD' | translate }}
-                        </button>
-                    </div>
-                    <i
-                        class="icon update standard"
-                        [attr.aria-label]="'SIDEBAR.UPDATE.STANDARD_TOOLTIP' | translate"
-                        [matTooltip]="'SIDEBAR.UPDATE.STANDARD_TOOLTIP' | translate"
-                        matTooltipShowDelay="1500"
-                    ></i>
-                </ng-container>
+                <button
+                    *ngIf="variablesService.last_build_displaymode === 2"
+                    type="button"
+                    class="update-btn standard"
+                    (click)="getUpdate()"
+                    [attr.aria-label]="'SIDEBAR.UPDATE.STANDARD_TOOLTIP' | translate"
+                >
+                    <span class="mr-0_5">{{ 'SIDEBAR.UPDATE.STANDARD' | translate }}</span>
+                    <mat-icon svgIcon="zano-regenerate" aria-hidden="true"></mat-icon>
+                </button>
 
-                <ng-container *ngIf="variablesService.last_build_displaymode === 3">
-                    <div class="update-text important">
-                        <button type="button" (click)="getUpdate()" [style.cursor]="'pointer'">
-                            {{ 'SIDEBAR.UPDATE.IMPORTANT' | translate }}
-                        </button>
-                        <span style="font-size: 1rem">{{ 'SIDEBAR.UPDATE.IMPORTANT_HINT' | translate }}</span>
-                    </div>
-                    <i
-                        class="icon update important"
-                        [matTooltip]="'SIDEBAR.UPDATE.IMPORTANT_TOOLTIP' | translate"
-                        matTooltipShowDelay="1500"
-                        [attr.aria-label]="'SIDEBAR.UPDATE.IMPORTANT_TOOLTIP' | translate"
-                    ></i>
-                </ng-container>
+                <button
+                    *ngIf="variablesService.last_build_displaymode === 3"
+                    type="button"
+                    class="update-btn important"
+                    (click)="getUpdate()"
+                    [attr.aria-label]="'SIDEBAR.UPDATE.IMPORTANT_TOOLTIP' | translate"
+                >
+                    <span class="mr-0_5">{{ 'SIDEBAR.UPDATE.IMPORTANT' | translate }}</span>
+                    <mat-icon svgIcon="zano-regenerate" aria-hidden="true"></mat-icon>
+                </button>
 
-                <ng-container *ngIf="variablesService.last_build_displaymode === 4">
-                    <div class="update-text critical">
-                        <button type="button" (click)="getUpdate()" [style.cursor]="'pointer'">
-                            {{ 'SIDEBAR.UPDATE.CRITICAL' | translate }}
-                        </button>
-                        <span style="font-size: 1rem">{{ 'SIDEBAR.UPDATE.IMPORTANT_HINT' | translate }}</span>
-                    </div>
-                    <i
-                        class="icon update critical"
-                        [matTooltip]="'SIDEBAR.UPDATE.CRITICAL_TOOLTIP' | translate"
-                        matTooltipShowDelay="1500"
-                        [attr.aria-label]="'SIDEBAR.UPDATE.CRITICAL_TOOLTIP' | translate"
-                    ></i>
-                </ng-container>
+                <button
+                    *ngIf="variablesService.last_build_displaymode === 4"
+                    type="button"
+                    class="update-btn critical"
+                    (click)="getUpdate()"
+                    [attr.aria-label]="'SIDEBAR.UPDATE.CRITICAL_TOOLTIP' | translate"
+                >
+                    <span class="mr-0_5">{{ 'SIDEBAR.UPDATE.CRITICAL' | translate }}</span>
+                    <mat-icon svgIcon="zano-regenerate" aria-hidden="true"></mat-icon>
+                </button>
             </div>
 
             <div
@@ -163,7 +151,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     `,
     styles: [],
     standalone: true,
-    imports: [CommonModule, TranslateModule, TooltipDirective, MatIconModule, MatTooltipModule],
+    imports: [CommonModule, TranslateModule, MatIconModule, MatTooltipModule],
 })
 export class SynchronizationStatusComponent {
     constructor(public variablesService: VariablesService, private backend: BackendService) {}

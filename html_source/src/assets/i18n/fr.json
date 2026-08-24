@@ -503,6 +503,7 @@
             "LABEL12": "Vos portefeuilles n'ont pas encore été chargés. Veuillez réessayer un peu plus tard.",
             "LABEL13": "Vous n'avez pas encore terminé l'action précédente.",
             "LABEL14": "Il n'y a aucun actif avec l'asset_id {{assetId}} dans ce portefeuille. Vous pouvez ajouter cet actif et réessayer, ou choisir un autre portefeuille où cet actif est disponible.",
+            "LABEL15": "Vous devez d'abord vous connecter. Ensuite, veuillez réessayer ce deeplink.",
             "LABEL2": "Titre de l'offre",
             "LABEL3": "Description",
             "LABEL4": "Catégorie",
@@ -510,8 +511,7 @@
             "LABEL6": "URL d'aperçu",
             "LABEL7": "Contacts",
             "LABEL8": "Commentaires",
-            "LABEL9": "Frais de transaction",
-            "LABEL15": "Vous devez d'abord vous connecter. Ensuite, veuillez réessayer ce deeplink."
+            "LABEL9": "Frais de transaction"
         }
     },
     "EDIT_ALIAS": {
@@ -547,10 +547,12 @@
         "ASSET_HAS_NOT_BEEN_ADDED_TO_WALLET": "L'actif n'a pas été ajouté",
         "ASSET_NOT_FOUND": "Actif non trouvé",
         "BAD_ARG": "Argument invalide",
+        "BAD_ARG_WRONG_PAYMENT_ID": "ID de paiement non valide",
         "CANNOT_BE_GREATER_THAN_TOTAL_MAX_SUPPLY": "Ne peut pas être supérieur à l'offre totale maximale",
         "CANT_ESTIMATE_WRAP_OPERATION_COST": "Impossible d'estimer le coût de l'opération de 'wrap', veuillez réessayer plus tard",
         "CORE_BUSY": "Erreur interne : le noyau est occupé",
         "DAEMON_BUSY": "Erreur interne : le démon est occupé",
+        "DEEPLINK_FORMAT_NOT_SUPPORTED": "Ce format de lien profond n'est pas pris en charge.",
         "FILE_EXIST": "Un fichier avec ce nom existe déjà. Entrez un autre nom pour enregistrer le fichier",
         "FILE_NOT_FOUND": "Fichier non trouvé",
         "FILE_NOT_SAVED": "Vous ne pouvez pas sauvegarder un fichier de portefeuille dans ce dossier. Veuillez choisir un autre dossier.",
@@ -593,9 +595,16 @@
         "WALLET_WRONG_ID": "ID de portefeuille invalide",
         "WRAP_SERVICE_IS_INACTIVE": "Le service de 'wrap' est inactif",
         "WRONG_PASSWORD": "Mot de passe invalide",
-        "WRONG_PASSWORD_MUST_BE": "Mot de passe invalide. Le mot de passe doit être",
-        "BAD_ARG_WRONG_PAYMENT_ID": "ID de paiement non valide",
-        "DEEPLINK_FORMAT_NOT_SUPPORTED": "Ce format de lien profond n'est pas pris en charge."
+        "WRONG_PASSWORD_MUST_BE": "Mot de passe invalide. Le mot de passe doit être"
+    },
+    "ESTIMATE_TIME": {
+        "LESS_THAN_MINUTE": "< 1 min",
+        "NA": "N/A",
+        "UNITS": {
+            "DAY": "jours",
+            "HOUR": "heures",
+            "MIN": "min"
+        }
     },
     "EXPORT_HISTORY": {
         "CANCEL": "Annuler",
@@ -757,6 +766,10 @@
         "WALLET_NAME_PLACEHOLDER": "Veuillez entrer un nom pour votre portefeuille",
         "WALLET_PASSWORD_PLACEHOLDER": "Entrez un mot de passe de portefeuille ici"
     },
+    "POS_ESTIMATE_CARD": {
+        "ATTEMPT_LABEL": "Tentative :",
+        "ESTIMATE_LABEL": "Temps estime pour trouver le bloc :"
+    },
     "PROGRESS": {
         "ADD_WALLET": "Ajouter un portefeuille",
         "CREATE_WALLET": "Créer un nouveau portefeuille",
@@ -870,6 +883,7 @@
         "ASSET": "Actif",
         "BUTTON": "Envoyer",
         "COMMENT": "Commentaire",
+        "DESTINATION": "Destination",
         "DETAILS": "Option avancée",
         "DUPLICATE": "Double",
         "ERROR_CODES": {
@@ -911,8 +925,7 @@
             "WILL_RECEIVE": "Vous recevrez :",
             "ZANO": "ZANO",
             "wZANO": "wZANO"
-        },
-        "DESTINATION": "Destination"
+        }
     },
     "SEND_DETAILS_MODAL": {
         "TITLE1": "Transaction",
@@ -965,10 +978,10 @@
         },
         "NOTIFICATIONS": "Notifications",
         "SCALE": {
-            "75": "Échelle 75%",
             "100": "Échelle 100%",
             "125": "Échelle 125%",
             "150": "Échelle 150%",
+            "75": "Échelle 75%",
             "TITLE": "Échelle de l'interface"
         },
         "SECRET_WAS_COPIED": "Le secret a été copié",
@@ -1003,14 +1016,14 @@
         },
         "TITLE": "Portefeuilles",
         "UPDATE": {
-            "CRITICAL": "Mise à jour disponible",
-            "CRITICAL_HINT": "Mise à jour critique !",
+            "CRITICAL": "Mise à jour critique",
+            "CRITICAL_HINT": "Mise à jour critique",
             "CRITICAL_TOOLTIP": "<span class=\"critical-update\">Mise à jour critique disponible.</span><i class=\"icon\"></i><span>Mise à jour fortement recommandée !</span>",
-            "IMPORTANT": "Mise à jour disponible",
-            "IMPORTANT_HINT": "Mise à jour importante !",
+            "IMPORTANT": "Mise à jour importante",
+            "IMPORTANT_HINT": "Mise à jour importante",
             "IMPORTANT_TOOLTIP": "<span class=\"important-update\">Obtenir une nouvelle mise à jour.</span><br><span>Mise à jour importante !</span>",
             "STANDARD": "Mise à jour disponible",
-            "STANDARD_TOOLTIP": "<span class=\"standard-update\">Obtenir une nouvelle mise à jour.</span><br><span>La mise à jour est recommandée !</span>",
+            "STANDARD_TOOLTIP": "Mise à jour disponible",
             "TIME": "L'heure du système diffère de l'heure du réseau",
             "TIME_TOOLTIP": "<span class=\"wrong-time\">Heure système incorrecte !</span><br><span>Vérifiez et réparez l'heure de votre système.</span>"
         }
@@ -1040,19 +1053,6 @@
         "TITLE_PERIOD": "Période de temps :",
         "TITLE_TOTAL": "Total",
         "WALLET_STAKING_ON": "{{ value }} le staking est ACTIVÉ"
-    },
-    "POS_ESTIMATE_CARD": {
-        "ATTEMPT_LABEL": "Tentative :",
-        "ESTIMATE_LABEL": "Temps estime pour trouver le bloc :"
-    },
-    "ESTIMATE_TIME": {
-        "LESS_THAN_MINUTE": "< 1 min",
-        "NA": "N/A",
-        "UNITS": {
-            "DAY": "jours",
-            "HOUR": "heures",
-            "MIN": "min"
-        }
     },
     "SUCCESS_SWEEP_BARE_OUTS": {
         "DETAILS": "{{ txs_sent }} transactions ont été envoyées avec succès, {{ bare_outs_swept }} sorties 'nues' ont été migrées, {{ amount_swept }} pièces ont été transférées, et {{ fee_spent }} a été dépensé en frais."
@@ -1198,8 +1198,11 @@
         "BUTTON_SAVE": "Sauvegarder",
         "CREATE_PASSWORD_SECURE": "Créer un mot de passe pour sécuriser votre graine",
         "FORM": {
+            "ADD_PASSPHRASE": "Ajouter une phrase de passe",
             "CONFIRM_PASSWORD": "Confirmer le mot de passe",
-            "GENERATE_SECURE_SEED": "Générer une graine sécurisée",
+            "GENERATE_SECURE_SEED": "Générer un seed sécurisé",
+            "GENERATE_SECURED_SEED": "Générer un seed sécurisé",
+            "GENERATE_UNSECURED_SEED": "Générer un seed non sécurisé",
             "SECURED_SEED_WILL_REQUIRE": "La graine sécurisée nécessitera ce mot de passe pour être restaurée."
         },
         "FORM_ERRORS": {

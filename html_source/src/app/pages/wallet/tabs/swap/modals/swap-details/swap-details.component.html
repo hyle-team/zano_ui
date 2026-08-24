@@ -69,7 +69,10 @@
                 </ng-container>
                 <ng-container *ngIf="error">
                     <li aria-live="assertive" class="item mb-1 color-red" fxLayout="row nowrap" fxLayoutAlign="start center">
-                        <span class="text word-break-break-all"> Error: {{ error.message || ('ERRORS.OPS_UNKNOWN' | translate) }} </span>
+                        <span class="text word-break-break-all">
+                            {{ 'MODALS.ERROR' | translate }}:
+                            {{ (error.message ? 'ERRORS.' + (error.message | extractErrorCode) : 'ERRORS.OPS_UNKNOWN') | translate }}
+                        </span>
                     </li>
                 </ng-container>
             </ul>

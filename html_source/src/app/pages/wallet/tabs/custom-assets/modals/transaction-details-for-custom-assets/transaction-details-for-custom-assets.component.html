@@ -77,7 +77,8 @@
                 <ng-container *ngIf="error">
                     <li class="item mb-1 color-red" fxLayout="row nowrap" fxLayoutAlign="start center">
                         <span class="text word-break-break-all">
-                            Error: {{ error.message ? ('ERRORS' + '.' + error.message | translate) : ('ERRORS.OPS_UNKNOWN' | translate) }}
+                            {{ 'MODALS.ERROR' | translate }}:
+                            {{ (error.message ? 'ERRORS.' + (error.message | extractErrorCode) : 'ERRORS.OPS_UNKNOWN') | translate }}
                         </span>
                     </li>
                 </ng-container>
