@@ -15,7 +15,15 @@
     }
 }
 
+.question-icon {
+    color: #0f2055;
+}
+
 .light {
+    .question-icon {
+        color: #ffffff;
+    }
+
     .seed-phrase {
         .content {
             .item {
@@ -33,6 +41,10 @@
 }
 
 .dark {
+    .question-icon {
+        color: #0f2055;
+    }
+
     .seed-phrase {
         .content {
             .item {

@@ -135,40 +135,67 @@ app-synchronization-status {
 
     .update-container {
         display: flex;
+        flex-direction: column;
         align-items: center;
-        text-align: right;
+        width: 100%;
+        margin-top: 0.4rem;
+        margin-bottom: 0.4rem;
+
+        .update-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 0.8rem 1.4rem;
+            border-radius: 0.8rem;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            color: #ffffff;
+            font-size: 1.4rem;
+            font-weight: 500;
+            line-height: 1.2;
+            transition: opacity 0.2s ease;
+
+            span {
+                font-size: 1.4rem;
+                font-weight: 500;
+                line-height: 1.2;
+            }
+
+            &:hover {
+                opacity: 0.9;
+            }
+
+            mat-icon {
+                width: 1.6rem;
+                height: 1.6rem;
+                font-size: 1.6rem;
+                color: #ffffff;
+            }
+
+            &.standard {
+                background-color: #1f8feb;
+            }
+
+            &.important {
+                background-color: #a366ff;
+            }
+
+            &.critical {
+                background-color: #ff6767;
+            }
+        }
 
         .update-text {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-items: center;
-            font-size: 1.4rem;
-            line-height: 1.2;
-            text-align: left;
 
             &.time {
                 font-size: 1.1rem;
             }
-        }
-
-        .icon {
-            flex: 1 0 auto;
-            margin: 0.3rem 0 0 0.6rem;
-            width: 1.2rem;
-            height: 1.2rem;
-        }
-
-        .standard {
-            color: var(--aqua-500);
-        }
-
-        .important {
-            color: var(--orange-500);
-        }
-
-        .critical {
-            color: var(--red-500);
         }
 
         .time-orange {
@@ -176,23 +203,10 @@ app-synchronization-status {
         }
 
         .icon {
-            &.standard {
-                .st0 {
-                    fill: var(--aqua-500);
-                }
-            }
-
-            &.important {
-                .st0 {
-                    fill: var(--orange-500);
-                }
-            }
-
-            &.critical {
-                .st0 {
-                    fill: var(--red-500);
-                }
-            }
+            flex: 1 0 auto;
+            margin: 0.3rem 0 0 0.6rem;
+            width: 1.2rem;
+            height: 1.2rem;
         }
     }
 }

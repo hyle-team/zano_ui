@@ -95081,7 +95081,7 @@ Papa.ɵprov = (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectabl
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* @license
 Papa Parse
-v5.5.4
+v5.6.0
 https://github.com/mholt/PapaParse
 License: MIT
 */
@@ -95092,12 +95092,11 @@ License: MIT
 		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)) : 0;
 })(this, function r() {
   var n = "undefined" != typeof self ? self : "undefined" != typeof window ? window : void 0 !== n ? n : {};
-  var d,
-      s = !n.document && !!n.postMessage,
+  var s = !n.document && !!n.postMessage,
       a = n.IS_PAPA_WORKER || !1,
       o = {},
       h = 0,
-      v = {};
+      w = {};
 
   function P(e) {
     return 65279 === e.charCodeAt(0) ? e.slice(1) : e;
@@ -95120,7 +95119,7 @@ License: MIT
         e || (r = this._config.quoteChar || '"', e = this._handle.guessLineEndings(t, r)), t = [...t.split(e).slice(i)].join(e);
       }
 
-      this.isFirstChunk && q(this._config.beforeFirstChunk) && void 0 !== (r = this._config.beforeFirstChunk(t)) && (t = r), this.isFirstChunk = !1, this._halted = !1;
+      this.isFirstChunk && U(this._config.beforeFirstChunk) && void 0 !== (r = this._config.beforeFirstChunk(t)) && (t = r), this.isFirstChunk = !1, this._halted = !1;
       var i = this._partialLine + t,
           r = (this._partialLine = "", this._handle.parse(i, this._baseIndex, !this._finished));
 
@@ -95128,28 +95127,28 @@ License: MIT
         t = r.meta.cursor, i = (this._finished || (this._partialLine = i.substring(t - this._baseIndex), this._baseIndex = t), r && r.data && (this._rowCount += r.data.length), this._finished || this._config.preview && this._rowCount >= this._config.preview);
         if (a) n.postMessage({
           results: r,
-          workerId: v.WORKER_ID,
+          workerId: w.WORKER_ID,
           finished: i
-        });else if (q(this._config.chunk) && !e) {
+        });else if (U(this._config.chunk) && !e) {
           if (this._config.chunk(r, this._handle), this._handle.paused() || this._handle.aborted()) return void (this._halted = !0);
           this._completeResults = r = void 0;
         }
-        return this._config.step || this._config.chunk || (this._completeResults.data = this._completeResults.data.concat(r.data), this._completeResults.errors = this._completeResults.errors.concat(r.errors), this._completeResults.meta = r.meta), this._completed || !i || !q(this._config.complete) || r && r.meta.aborted || (this._config.complete(this._completeResults, this._input), this._completed = !0), i || r && r.meta.paused || this._nextChunk(), r;
+        return this._config.step || this._config.chunk || (this._completeResults.data = this._completeResults.data.concat(r.data), this._completeResults.errors = this._completeResults.errors.concat(r.errors), this._completeResults.meta = r.meta), this._completed || !i || !U(this._config.complete) || r && r.meta.aborted || (this._config.complete(this._completeResults, this._input), this._completed = !0), i || r && r.meta.paused || this._nextChunk(), r;
       }
 
       this._halted = !0;
     }, this._sendError = function (e) {
-      q(this._config.error) ? this._config.error(e) : a && this._config.error && n.postMessage({
-        workerId: v.WORKER_ID,
+      U(this._config.error) ? this._config.error(e) : a && this._config.error && n.postMessage({
+        workerId: w.WORKER_ID,
         error: e,
         finished: !1
       });
     };
   }
 
-  function f(e) {
+  function d(e) {
     var r;
-    (e = e || {}).chunkSize || (e.chunkSize = v.RemoteChunkSize), u.call(this, e), this._nextChunk = s ? function () {
+    (e = e || {}).chunkSize || (e.chunkSize = w.RemoteChunkSize), u.call(this, e), this._nextChunk = s ? function () {
       this._readChunk(), this._chunkLoaded();
     } : function () {
       this._readChunk();
@@ -95157,7 +95156,7 @@ License: MIT
       this._input = e, this._nextChunk();
     }, this._readChunk = function () {
       if (this._finished) this._chunkLoaded();else {
-        if (r = new XMLHttpRequest(), this._config.withCredentials && (r.withCredentials = this._config.withCredentials), s || (r.onload = y(this._chunkLoaded, this), r.onerror = y(this._chunkError, this)), r.open(this._config.downloadRequestBody ? "POST" : "GET", this._input, !s), this._config.downloadRequestHeaders) {
+        if (r = new XMLHttpRequest(), this._config.withCredentials && (r.withCredentials = this._config.withCredentials), s || (r.onload = m(this._chunkLoaded, this), r.onerror = m(this._chunkError, this)), r.open(this._config.downloadRequestBody ? "POST" : "GET", this._input, !s), this._config.downloadRequestHeaders) {
           var e,
               t = this._config.downloadRequestHeaders;
 
@@ -95185,12 +95184,12 @@ License: MIT
   }
 
   function l(e) {
-    (e = e || {}).chunkSize || (e.chunkSize = v.LocalChunkSize), u.call(this, e);
+    (e = e || {}).chunkSize || (e.chunkSize = w.LocalChunkSize), u.call(this, e);
     var i,
         r,
         n = "undefined" != typeof FileReader;
     this.stream = function (e) {
-      this._input = e, r = e.slice || e.webkitSlice || e.mozSlice, n ? ((i = new FileReader()).onload = y(this._chunkLoaded, this), i.onerror = y(this._chunkError, this)) : i = new FileReaderSync(), this._nextChunk();
+      this._input = e, r = e.slice || e.webkitSlice || e.mozSlice, n ? ((i = new FileReader()).onload = m(this._chunkLoaded, this), i.onerror = m(this._chunkError, this)) : i = new FileReaderSync(), this._nextChunk();
     }, this._nextChunk = function () {
       this._finished || this._config.preview && !(this._rowCount < this._config.preview) || this._readChunk();
     }, this._readChunk = function () {
@@ -95208,7 +95207,7 @@ License: MIT
     };
   }
 
-  function c(e) {
+  function f(e) {
     var i;
     u.call(this, e = e || {}), this.stream = function (e) {
       return i = e, this._nextChunk();
@@ -95218,7 +95217,7 @@ License: MIT
     };
   }
 
-  function p(e) {
+  function c(e) {
     u.call(this, e = e || {});
     var t = [],
         i = !0,
@@ -95233,17 +95232,17 @@ License: MIT
       r && 1 === t.length && (this._finished = !0);
     }, this._nextChunk = function () {
       this._checkIsFinished(), t.length ? this.parseChunk(t.shift()) : i = !0;
-    }, this._streamData = y(function (e) {
+    }, this._streamData = m(function (e) {
       try {
         t.push("string" == typeof e ? e : e.toString(this._config.encoding)), i && (i = !1, this._checkIsFinished(), this.parseChunk(t.shift()));
       } catch (e) {
         this._streamError(e);
       }
-    }, this), this._streamError = y(function (e) {
+    }, this), this._streamError = m(function (e) {
       this._streamCleanUp(), this._sendError(e);
-    }, this), this._streamEnd = y(function () {
+    }, this), this._streamEnd = m(function () {
       this._streamCleanUp(), r = !0, this._streamData("");
-    }, this), this._streamCleanUp = y(function () {
+    }, this), this._streamCleanUp = m(function () {
       this._input.removeListener("data", this._streamData), this._input.removeListener("end", this._streamEnd), this._input.removeListener("error", this._streamError);
     }, this);
   }
@@ -95259,8 +95258,8 @@ License: MIT
         d = /^((\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z)))$/,
         i = this,
         r = 0,
-        f = 0,
-        l = !1,
+        l = 0,
+        f = !1,
         e = !1,
         c = [],
         p = {
@@ -95273,18 +95272,18 @@ License: MIT
       return "greedy" === m.skipEmptyLines ? "" === e.join("").trim() : 1 === e.length && 0 === e[0].length;
     }
 
-    function g() {
-      if (p && a && (k("Delimiter", "UndetectableDelimiter", "Unable to auto-detect delimiting character; defaulted to '" + v.DefaultDelimiter + "'"), a = !1), m.skipEmptyLines && (p.data = p.data.filter(function (e) {
+    function _() {
+      if (p && a && (k("Delimiter", "UndetectableDelimiter", "Unable to auto-detect delimiting character; defaulted to '" + w.DefaultDelimiter + "'"), a = !1), m.skipEmptyLines && (p.data = p.data.filter(function (e) {
         return !y(e);
-      })), _()) {
+      })), g()) {
         if (p) if (Array.isArray(p.data[0])) {
-          for (var e = 0; _() && e < p.data.length; e++) p.data[e].forEach(t);
+          for (var e = 0; g() && e < p.data.length; e++) p.data[e].forEach(t);
 
           p.data.splice(0, 1);
         } else p.data.forEach(t);
 
         function t(e, t) {
-          e = P(e), q(m.transformHeader) && (e = m.transformHeader(e, t)), c.push(e);
+          e = P(e), U(m.transformHeader) && (e = m.transformHeader(e, t)), c.push(e);
         }
       }
 
@@ -95302,14 +95301,14 @@ License: MIT
           "__parsed_extra" === n ? (i[n] = i[n] || [], i[n].push(s)) : i[n] = s;
         }
 
-        return m.header && (r > c.length ? k("FieldMismatch", "TooManyFields", "Too many fields: expected " + c.length + " fields but parsed " + r, f + t) : r < c.length && k("FieldMismatch", "TooFewFields", "Too few fields: expected " + c.length + " fields but parsed " + r, f + t)), i;
+        return m.header && (r > c.length ? k("FieldMismatch", "TooManyFields", "Too many fields: expected " + c.length + " fields but parsed " + r, l + t) : r < c.length && k("FieldMismatch", "TooFewFields", "Too few fields: expected " + c.length + " fields but parsed " + r, l + t)), i;
       }
 
       var r;
-      p && (m.header || m.dynamicTyping || m.transform) && (r = 1, !p.data.length || Array.isArray(p.data[0]) ? (p.data = p.data.map(i), r = p.data.length) : p.data = i(p.data, 0), m.header && p.meta && (p.meta.fields = c), f += r);
+      p && (m.header || m.dynamicTyping || m.transform) && (r = 1, !p.data.length || Array.isArray(p.data[0]) ? (p.data = p.data.map(i), r = p.data.length) : p.data = i(p.data, 0), m.header && p.meta && (p.meta.fields = c), l += r);
     }
 
-    function _() {
+    function g() {
       return m.header && 0 === c.length;
     }
 
@@ -95322,31 +95321,31 @@ License: MIT
       void 0 !== r && (e.row = r), p.errors.push(e);
     }
 
-    q(m.step) && (t = m.step, m.step = function (e) {
-      p = e, _() ? g() : (g(), 0 !== p.data.length && (r += e.data.length, m.preview && r > m.preview ? s.abort() : (p.data = p.data[0], t(p, i))));
+    U(m.step) && (t = m.step, m.step = function (e) {
+      p = e, g() ? _() : (_(), 0 !== p.data.length && (r += e.data.length, m.preview && r > m.preview ? s.abort() : (p.data = p.data[0], t(p, i))));
     }), this.parse = function (e, t, i) {
       var r = m.quoteChar || '"',
-          r = (m.newline || (m.newline = this.guessLineEndings(e, r)), a = !1, m.delimiter ? q(m.delimiter) && (m.delimiter = m.delimiter(e), p.meta.delimiter = m.delimiter) : ((r = ((e, t, i, r, n) => {
+          r = (m.newline || (m.newline = this.guessLineEndings(e, r)), a = !1, m.delimiter ? U(m.delimiter) && (m.delimiter = m.delimiter(e), p.meta.delimiter = m.delimiter) : ((r = ((e, t, i, r, n) => {
         var s, a, o, h;
-        n = n || [",", "\t", "|", ";", v.RECORD_SEP, v.UNIT_SEP];
+        n = n || [",", "\t", "|", ";", w.RECORD_SEP, w.UNIT_SEP];
 
         for (var u = 0; u < n.length; u++) {
-          for (var d, f = n[u], l = 0, c = 0, p = 0, g = (o = void 0, new E({
+          for (var d, l = n[u], f = 0, c = 0, p = 0, _ = (o = void 0, new E({
             comments: r,
-            delimiter: f,
+            delimiter: l,
             newline: t,
             preview: 10
-          }).parse(e)), _ = 0; _ < g.data.length; _++) i && y(g.data[_]) ? p++ : (d = g.data[_].length, c += d, void 0 === o ? o = d : 0 < d && (l += Math.abs(d - o), o = d));
+          }).parse(e)), g = 0; g < _.data.length; g++) i && y(_.data[g]) ? p++ : (d = _.data[g].length, c += d, void 0 === o ? o = d : 0 < d && (f += Math.abs(d - o), o = d));
 
-          0 < g.data.length && (c /= g.data.length - p), (void 0 === a || l <= a) && (void 0 === h || h < c) && 1.99 < c && (a = l, s = f, h = c);
+          0 < _.data.length && (c /= _.data.length - p), 1.99 < c && (void 0 === a || f < a || f === a && h < c) && (a = f, s = l, h = c);
         }
 
         return {
           successful: !!(m.delimiter = s),
           bestDelimiter: s
         };
-      })(e, m.newline, m.skipEmptyLines, m.comments, m.delimitersToGuess)).successful ? m.delimiter = r.bestDelimiter : (a = !0, m.delimiter = v.DefaultDelimiter), p.meta.delimiter = m.delimiter), b(m));
-      return m.preview && m.header && r.preview++, n = e, s = new E(r), p = s.parse(n, t, i), g(), l ? {
+      })(e, m.newline, m.skipEmptyLines, m.comments, m.delimitersToGuess)).successful ? m.delimiter = r.bestDelimiter : (a = !0, m.delimiter = w.DefaultDelimiter), p.meta.delimiter = m.delimiter), b(m));
+      return m.preview && m.header && r.preview++, n = e, s = new E(r), p = s.parse(n, t, i), _(), f ? {
         meta: {
           paused: !0
         }
@@ -95356,18 +95355,18 @@ License: MIT
         }
       };
     }, this.paused = function () {
-      return l;
+      return f;
     }, this.pause = function () {
-      l = !0, s.abort(), n = q(m.chunk) ? "" : n.substring(s.getCharIndex());
+      f = !0, s.abort(), n = U(m.chunk) ? "" : n.substring(s.getCharIndex());
     }, this.resume = function () {
-      i.streamer._halted ? (l = !1, i.streamer.parseChunk(n, !0)) : setTimeout(i.resume, 3);
+      i.streamer._halted ? (f = !1, i.streamer.parseChunk(n, !0)) : setTimeout(i.resume, 3);
     }, this.aborted = function () {
       return e;
     }, this.abort = function () {
-      e = !0, s.abort(), p.meta.aborted = !0, q(m.complete) && m.complete(p), n = "";
+      e = !0, s.abort(), p.meta.aborted = !0, U(m.complete) && m.complete(p), n = "";
     }, this.guessLineEndings = function (e, t) {
       e = e.substring(0, 1048576);
-      var t = new RegExp(U(t) + "([^]*?)" + U(t), "gm"),
+      var t = new RegExp(q(t) + "([^]*?)" + q(t), "gm"),
           i = (e = e.replace(t, "")).split("\r"),
           t = e.split("\n"),
           e = 1 < t.length && t[0].length < i[0].length;
@@ -95379,7 +95378,7 @@ License: MIT
     };
   }
 
-  function U(e) {
+  function q(e) {
     return e.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   }
 
@@ -95393,63 +95392,63 @@ License: MIT
         D = null,
         L = !1,
         F = null == C.quoteChar ? '"' : C.quoteChar,
-        j = F;
-    if (void 0 !== C.escapeChar && (j = C.escapeChar), ("string" != typeof S || -1 < v.BAD_DELIMITERS.indexOf(S)) && (S = ","), x === S) throw new Error("Comment character same as delimiter");
-    !0 === x ? x = "#" : ("string" != typeof x || -1 < v.BAD_DELIMITERS.indexOf(x)) && (x = !1), "\n" !== O && "\r" !== O && "\r\n" !== O && (O = "\n");
-    var z = 0,
-        M = !1;
+        z = F;
+    if (void 0 !== C.escapeChar && (z = C.escapeChar), ("string" != typeof S || -1 < w.BAD_DELIMITERS.indexOf(S)) && (S = ","), x === S) throw new Error("Comment character same as delimiter");
+    !0 === x ? x = "#" : ("string" != typeof x || -1 < w.BAD_DELIMITERS.indexOf(x)) && (x = !1), "\n" !== O && "\r" !== O && "\r\n" !== O && (O = "\n");
+    var M = 0,
+        j = !1;
     this.parse = function (i, t, r) {
       if ("string" != typeof i) throw new Error("Input must be a string");
       var n = i.length,
           e = S.length,
           s = O.length,
           a = x.length,
-          o = q(I),
+          o = U(I),
           h = [],
           u = [],
           d = [],
-          f = z = 0;
-      if (!i) return w();
+          l = M = 0;
+      if (!i) return v();
 
       if (T || !1 !== T && -1 === i.indexOf(F)) {
-        for (var l = i.split(O), c = 0; c < l.length; c++) {
-          if (d = l[c], z += d.length, c !== l.length - 1) z += O.length;else if (r) return w();
+        for (var f = i.split(O), c = 0; c < f.length; c++) {
+          if (d = f[c], M += d.length, c !== f.length - 1) M += O.length;else if (r) return v();
 
           if (!x || d.substring(0, a) !== x) {
             if (o) {
-              if (h = [], k(d.split(S)), R(), M) return w();
+              if (h = [], k(d.split(S)), R(), j) return v();
             } else k(d.split(S));
 
-            if (A && A <= c) return h = h.slice(0, A), w(!0);
+            if (A && A <= c) return h = h.slice(0, A), v(!0);
           }
         }
 
-        return w();
+        return v();
       }
 
-      for (var p = i.indexOf(S, z), g = i.indexOf(O, z), _ = new RegExp(U(j) + U(F), "g"), m = i.indexOf(F, z);;) if (i[z] === F) for (m = z, z++;;) {
+      for (var p = i.indexOf(S, M), _ = i.indexOf(O, M), g = new RegExp(q(z) + q(F), "g"), m = i.indexOf(F, M);;) if (i[M] === F) for (m = M, M++;;) {
         if (-1 === (m = i.indexOf(F, m + 1))) return r || u.push({
           type: "Quotes",
           code: "MissingQuotes",
           message: "Quoted field unterminated",
           row: h.length,
-          index: z
+          index: M
         }), E();
-        if (m === n - 1) return E(i.substring(z, m).replace(_, F));
-        if (F === j && i[m + 1] === j) m++;else if (F === j || 0 === m || i[m - 1] !== j) {
+        if (m === n - 1) return E(i.substring(M, m).replace(g, F));
+        if (F === z && i[m + 1] === z) m++;else if (F === z || 0 === m || i[m - 1] !== z) {
           -1 !== p && p < m + 1 && (p = i.indexOf(S, m + 1));
-          var y = v(-1 === (g = -1 !== g && g < m + 1 ? i.indexOf(O, m + 1) : g) ? p : Math.min(p, g));
+          var y = w(-1 === (_ = -1 !== _ && _ < m + 1 ? i.indexOf(O, m + 1) : _) ? p : Math.min(p, _));
 
           if (i.substr(m + 1 + y, e) === S) {
-            d.push(i.substring(z, m).replace(_, F)), i[z = m + 1 + y + e] !== F && (m = i.indexOf(F, z)), p = i.indexOf(S, z), g = i.indexOf(O, z);
+            d.push(i.substring(M, m).replace(g, F)), i[M = m + 1 + y + e] !== F && (m = i.indexOf(F, M)), p = i.indexOf(S, M), _ = i.indexOf(O, M);
             break;
           }
 
-          y = v(g);
+          y = w(_);
 
           if (i.substring(m + 1 + y, m + 1 + y + s) === O) {
-            if (d.push(i.substring(z, m).replace(_, F)), b(m + 1 + y + s), p = i.indexOf(S, z), m = i.indexOf(F, z), o && (R(), M)) return w();
-            if (A && h.length >= A) return w(!0);
+            if (d.push(i.substring(M, m).replace(g, F)), b(m + 1 + y + s), p = i.indexOf(S, M), m = i.indexOf(F, M), o && (R(), j)) return v();
+            if (A && h.length >= A) return v(!0);
             break;
           }
 
@@ -95458,38 +95457,38 @@ License: MIT
             code: "InvalidQuotes",
             message: "Trailing quote on quoted field is malformed",
             row: h.length,
-            index: z
+            index: M
           }), m++;
         }
-      } else if (x && 0 === d.length && i.substring(z, z + a) === x) {
-        if (-1 === g) return w();
-        z = g + s, g = i.indexOf(O, z), p = i.indexOf(S, z);
-      } else if (-1 !== p && (p < g || -1 === g)) d.push(i.substring(z, p)), z = p + e, p = i.indexOf(S, z);else {
-        if (-1 === g) break;
-        if (d.push(i.substring(z, g)), b(g + s), o && (R(), M)) return w();
-        if (A && h.length >= A) return w(!0);
+      } else if (x && 0 === d.length && i.substring(M, M + a) === x) {
+        if (-1 === _) return v();
+        M = _ + s, _ = i.indexOf(O, M), p = i.indexOf(S, M);
+      } else if (-1 !== p && (p < _ || -1 === _)) d.push(i.substring(M, p)), M = p + e, p = i.indexOf(S, M);else {
+        if (-1 === _) break;
+        if (d.push(i.substring(M, _)), b(_ + s), o && (R(), j)) return v();
+        if (A && h.length >= A) return v(!0);
       }
 
       return E();
 
       function k(e) {
-        h.push(e), f = z;
+        h.push(e), l = M;
       }
 
-      function v(e) {
+      function w(e) {
         var t = 0;
         return t = -1 !== e && (e = i.substring(m + 1, e)) && "" === e.trim() ? e.length : t;
       }
 
       function E(e) {
-        return r || (void 0 === e && (e = i.substring(z)), d.push(e), z = n, k(d), o && R()), w();
+        return r || (void 0 === e && (e = i.substring(M)), d.push(e), M = n, k(d), o && R()), v();
       }
 
       function b(e) {
-        z = e, k(d), d = [], g = i.indexOf(O, z);
+        M = e, k(d), d = [], _ = i.indexOf(O, M);
       }
 
-      function w(e) {
+      function v(e) {
         if (C.header && !t && h.length && !L) {
           var s = h[0],
               a = Object.create(null),
@@ -95499,7 +95498,7 @@ License: MIT
           for (let r = 0; r < s.length; r++) {
             let i = P(s[r]);
 
-            if (a[i = q(C.transformHeader) ? C.transformHeader(i, r) : i]) {
+            if (a[i = U(C.transformHeader) ? C.transformHeader(i, r) : i]) {
               let e,
                   t = a[i];
 
@@ -95520,25 +95519,25 @@ License: MIT
           meta: {
             delimiter: S,
             linebreak: O,
-            aborted: M,
+            aborted: j,
             truncated: !!e,
-            cursor: f + (t || 0),
+            cursor: l + (t || 0),
             renamedHeaders: D
           }
         };
       }
 
       function R() {
-        I(w()), h = [], u = [];
+        I(v()), h = [], u = [];
       }
     }, this.abort = function () {
-      M = !0;
+      j = !0;
     }, this.getCharIndex = function () {
-      return z;
+      return M;
     };
   }
 
-  function g(e) {
+  function p(e) {
     var t = e.data,
         i = o[t.workerId],
         r = !1;
@@ -95553,11 +95552,11 @@ License: MIT
             }
           });
         },
-        pause: m,
-        resume: m
+        pause: g,
+        resume: g
       };
 
-      if (q(i.userStep)) {
+      if (U(i.userStep)) {
         for (var s = 0; s < t.results.data.length && (i.userStep({
           data: t.results.data[s],
           errors: t.results.errors,
@@ -95565,17 +95564,17 @@ License: MIT
         }, n), !r); s++);
 
         delete t.results;
-      } else q(i.userChunk) && (i.userChunk(t.results, n, t.file), delete t.results);
+      } else U(i.userChunk) && (i.userChunk(t.results, n, t.file), delete t.results);
     }
     t.finished && !r && _(t.workerId, t.results);
   }
 
   function _(e, t) {
     var i = o[e];
-    q(i.userComplete) && i.userComplete(t), i.terminate(), delete o[e];
+    U(i.userComplete) && i.userComplete(t), i.terminate(), delete o[e];
   }
 
-  function m() {
+  function g() {
     throw new Error("Not implemented.");
   }
 
@@ -95589,37 +95588,37 @@ License: MIT
     return i;
   }
 
-  function y(e, t) {
+  function m(e, t) {
     return function () {
       e.apply(t, arguments);
     };
   }
 
-  function q(e) {
+  function U(e) {
     return "function" == typeof e;
   }
 
-  return v.parse = function (e, t) {
+  return w.parse = function (e, t) {
     var i = (t = t || {}).dynamicTyping || !1;
-    q(i) && (t.dynamicTypingFunction = i, i = {});
-    if (t.dynamicTyping = i, t.transform = !!q(t.transform) && t.transform, !t.worker || !v.WORKERS_SUPPORTED) return i = null, v.NODE_STREAM_INPUT, "string" == typeof e ? (e = P(e), i = new (t.download ? f : c)(t)) : !0 === e.readable && q(e.read) && q(e.on) ? i = new p(t) : (n.File && e instanceof File || e instanceof Object) && (i = new l(t)), i.stream(e);
+    U(i) && (t.dynamicTypingFunction = i, i = {});
+    if (t.dynamicTyping = i, t.transform = !!U(t.transform) && t.transform, !t.worker || !w.WORKERS_SUPPORTED) return i = null, w.NODE_STREAM_INPUT, "string" == typeof e ? (e = P(e), i = new (t.download ? d : f)(t)) : !0 === e.readable && U(e.read) && U(e.on) ? i = new c(t) : (n.File && e instanceof File || e instanceof Object) && (i = new l(t)), i.stream(e);
     (i = (() => {
       var e;
-      return !!v.WORKERS_SUPPORTED && (e = (() => {
+      return !!w.WORKERS_SUPPORTED && (e = (() => {
         var e = n.URL || n.webkitURL || null,
             t = r.toString();
-        return v.BLOB_URL || (v.BLOB_URL = e.createObjectURL(new Blob(["var global = (function() { if (typeof self !== 'undefined') { return self; } if (typeof window !== 'undefined') { return window; } if (typeof global !== 'undefined') { return global; } return {}; })(); global.IS_PAPA_WORKER=true; ", "(", t, ")();"], {
+        return w.BLOB_URL || (w.BLOB_URL = e.createObjectURL(new Blob(["var global = (function() { if (typeof self !== 'undefined') { return self; } if (typeof window !== 'undefined') { return window; } if (typeof global !== 'undefined') { return global; } return {}; })(); global.IS_PAPA_WORKER=true; ", "(", t, ")();"], {
           type: "text/javascript"
         })));
-      })(), (e = new n.Worker(e)).onmessage = g, e.id = h++, o[e.id] = e);
-    })()).userStep = t.step, i.userChunk = t.chunk, i.userComplete = t.complete, i.userError = t.error, t.step = q(t.step), t.chunk = q(t.chunk), t.complete = q(t.complete), t.error = q(t.error), delete t.worker, i.postMessage({
+      })(), (e = new n.Worker(e)).onmessage = p, e.id = h++, o[e.id] = e);
+    })()).userStep = t.step, i.userChunk = t.chunk, i.userComplete = t.complete, i.userError = t.error, t.step = U(t.step), t.chunk = U(t.chunk), t.complete = U(t.complete), t.error = U(t.error), delete t.worker, i.postMessage({
       input: e,
       config: t,
       workerId: i.id
     });
-  }, v.unparse = function (e, t) {
+  }, w.unparse = function (e, t) {
     var s = !1,
-        _ = !0,
+        g = !0,
         m = ",",
         y = "\r\n",
         a = '"',
@@ -95629,17 +95628,16 @@ License: MIT
         h = !1,
         u = ((() => {
       if ("object" == typeof t) {
-        if ("string" != typeof t.delimiter || v.BAD_DELIMITERS.filter(function (e) {
+        if ("string" != typeof t.delimiter || w.BAD_DELIMITERS.filter(function (e) {
           return -1 !== t.delimiter.indexOf(e);
-        }).length || (m = t.delimiter), "boolean" != typeof t.quotes && "function" != typeof t.quotes && !Array.isArray(t.quotes) || (s = t.quotes), "boolean" != typeof t.skipEmptyLines && "string" != typeof t.skipEmptyLines || (i = t.skipEmptyLines), "string" == typeof t.newline && (y = t.newline), "string" == typeof t.quoteChar && (a = t.quoteChar, o = a + a), "boolean" == typeof t.header && (_ = t.header), Array.isArray(t.columns)) {
+        }).length || (m = t.delimiter), "boolean" != typeof t.quotes && "function" != typeof t.quotes && !Array.isArray(t.quotes) || (s = t.quotes), "boolean" != typeof t.skipEmptyLines && "string" != typeof t.skipEmptyLines || (i = t.skipEmptyLines), "string" == typeof t.newline && (y = t.newline), "string" == typeof t.quoteChar && (a = t.quoteChar, o = a + a), "boolean" == typeof t.header && (g = t.header), Array.isArray(t.columns)) {
           if (0 === t.columns.length) throw new Error("Option columns is empty");
           r = t.columns;
         }
 
         void 0 !== t.escapeChar && (o = t.escapeChar + a), t.escapeFormulae instanceof RegExp ? h = t.escapeFormulae : "boolean" == typeof t.escapeFormulae && t.escapeFormulae && (h = /^[=+\-@\t\r].*$/);
       }
-    })(), new RegExp(U(a), "g"));
-
+    })(), new RegExp(q(a), "g"));
     "string" == typeof e && (e = JSON.parse(e));
 
     if (Array.isArray(e)) {
@@ -95654,7 +95652,7 @@ License: MIT
           n = ("string" == typeof e && (e = JSON.parse(e)), "string" == typeof t && (t = JSON.parse(t)), Array.isArray(e) && 0 < e.length),
           s = !Array.isArray(t[0]);
 
-      if (n && _) {
+      if (n && g) {
         for (var a = 0; a < e.length; a++) 0 < a && (r += m), r += k(e[a], a);
 
         0 < t.length && (r += y);
@@ -95666,19 +95664,21 @@ License: MIT
             d = n ? 0 === Object.keys(t[o]).length : 0 === t[o].length;
 
         if (i && !n && (u = "greedy" === i ? "" === t[o].join("").trim() : 1 === t[o].length && 0 === t[o][0].length), "greedy" === i && n) {
-          for (var f = [], l = 0; l < h; l++) {
-            var c = s ? e[l] : l;
-            f.push(t[o][c]);
+          for (var l = [], f = 0; f < h; f++) {
+            var c = s ? e[f] : f;
+            l.push(t[o][c]);
           }
 
-          u = "" === f.join("").trim();
+          u = "" === l.join("").trim();
         }
 
         if (!u) {
           for (var p = 0; p < h; p++) {
             0 < p && !d && (r += m);
-            var g = n && s ? e[p] : p;
-            r += k(t[o][g], p);
+
+            var _ = n && s ? e[p] : p;
+
+            r += k(t[o][_], p);
           }
 
           o < t.length - 1 && (!i || 0 < h && !d) && (r += y);
@@ -95690,68 +95690,25 @@ License: MIT
 
     function k(e, t) {
       var i, r, n;
-      return null == e ? "" : e.constructor === Date ? JSON.stringify(e).slice(1, 25) : (n = !1, h && "string" == typeof e && h.test(e) && (e = "'" + e, n = !0), r = (i = e.toString()).replace(u, o), (n = n || !0 === s || "function" == typeof s && s(e, t) || Array.isArray(s) && s[t] || ((e, t) => {
+      return null == e ? "" : e.constructor === Date ? isNaN(e.getTime()) ? "" : e.toISOString() : (n = !1, h && "string" == typeof e && h.test(e) && (e = "'" + e, n = !0), r = (i = e.toString()).replace(u, o), (n = n || !0 === s || "function" == typeof s && s(e, t) || Array.isArray(s) && s[t] || ((e, t) => {
         for (var i = 0; i < t.length; i++) if (-1 < e.indexOf(t[i])) return !0;
 
         return !1;
-      })(r, v.BAD_DELIMITERS) || -1 < r.indexOf(m) || -1 < i.indexOf(a) || " " === r.charAt(0) || " " === r.charAt(r.length - 1)) ? a + r + a : r);
+      })(r, w.BAD_DELIMITERS) || -1 < r.indexOf(m) || -1 < i.indexOf(a) || " " === r.charAt(0) || " " === r.charAt(r.length - 1)) ? a + r + a : r);
     }
-  }, v.RECORD_SEP = String.fromCharCode(30), v.UNIT_SEP = String.fromCharCode(31), v.BYTE_ORDER_MARK = "\ufeff", v.BAD_DELIMITERS = ["\r", "\n", '"', v.BYTE_ORDER_MARK], v.WORKERS_SUPPORTED = !s && !!n.Worker, v.NODE_STREAM_INPUT = 1, v.LocalChunkSize = 10485760, v.RemoteChunkSize = 5242880, v.DefaultDelimiter = ",", v.Parser = E, v.ParserHandle = i, v.NetworkStreamer = f, v.FileStreamer = l, v.StringStreamer = c, v.ReadableStreamStreamer = p, n.jQuery && ((d = n.jQuery).fn.parse = function (o) {
-    var i = o.config || {},
-        h = [];
-    return this.each(function (e) {
-      if (!("INPUT" === d(this).prop("tagName").toUpperCase() && "file" === d(this).attr("type").toLowerCase() && n.FileReader) || !this.files || 0 === this.files.length) return !0;
-
-      for (var t = 0; t < this.files.length; t++) h.push({
-        file: this.files[t],
-        inputElem: this,
-        instanceConfig: d.extend({}, i)
-      });
-    }), e(), this;
-
-    function e() {
-      if (0 === h.length) q(o.complete) && o.complete();else {
-        var e,
-            t,
-            i,
-            r,
-            n = h[0];
-
-        if (q(o.before)) {
-          var s = o.before(n.file, n.inputElem);
-
-          if ("object" == typeof s) {
-            if ("abort" === s.action) return e = "AbortError", t = n.file, i = n.inputElem, r = s.reason, void (q(o.error) && o.error({
-              name: e
-            }, t, i, r));
-            if ("skip" === s.action) return void u();
-            "object" == typeof s.config && (n.instanceConfig = d.extend(n.instanceConfig, s.config));
-          } else if ("skip" === s) return void u();
-        }
-
-        var a = n.instanceConfig.complete;
-        n.instanceConfig.complete = function (e) {
-          q(a) && a(e, n.file, n.inputElem), u();
-        }, v.parse(n.file, n.instanceConfig);
-      }
-    }
-
-    function u() {
-      h.splice(0, 1), e();
-    }
-  }), a && (n.onmessage = function (e) {
+  }, w.RECORD_SEP = String.fromCharCode(30), w.UNIT_SEP = String.fromCharCode(31), w.BYTE_ORDER_MARK = "\ufeff", w.BAD_DELIMITERS = ["\r", "\n", '"', w.BYTE_ORDER_MARK], w.WORKERS_SUPPORTED = !s && !!n.Worker, w.NODE_STREAM_INPUT = 1, w.LocalChunkSize = 10485760, w.RemoteChunkSize = 5242880, w.DefaultDelimiter = ",", w.Parser = E, w.ParserHandle = i, w.NetworkStreamer = d, w.FileStreamer = l, w.StringStreamer = f, w.ReadableStreamStreamer = c, a && (n.onmessage = function (e) {
     e = e.data;
-    void 0 === v.WORKER_ID && e && (v.WORKER_ID = e.workerId);
+    void 0 === w.WORKER_ID && e && (w.WORKER_ID = e.workerId);
     "string" == typeof e.input ? n.postMessage({
-      workerId: v.WORKER_ID,
-      results: v.parse(e.input, e.config),
+      workerId: w.WORKER_ID,
+      results: w.parse(e.input, e.config),
       finished: !0
-    }) : (n.File && e.input instanceof File || e.input instanceof Object) && (e = v.parse(e.input, e.config)) && n.postMessage({
-      workerId: v.WORKER_ID,
+    }) : (n.File && e.input instanceof File || e.input instanceof Object) && (e = w.parse(e.input, e.config)) && n.postMessage({
+      workerId: w.WORKER_ID,
       results: e,
       finished: !0
     });
-  }), (f.prototype = Object.create(u.prototype)).constructor = f, (l.prototype = Object.create(u.prototype)).constructor = l, (c.prototype = Object.create(c.prototype)).constructor = c, (p.prototype = Object.create(u.prototype)).constructor = p, v;
+  }), (d.prototype = Object.create(u.prototype)).constructor = d, (l.prototype = Object.create(u.prototype)).constructor = l, (f.prototype = Object.create(f.prototype)).constructor = f, (c.prototype = Object.create(u.prototype)).constructor = c, w;
 });
 
 /***/ }),

@@ -1213,20 +1213,29 @@ button:disabled,
   opacity: 0.5;
   cursor: not-allowed;
 }
-button.primary, button.outline,
+button.primary, button.outline, button.aqua, button.red, button.danger,
 .btn.primary,
-.btn.outline {
+.btn.outline,
+.btn.aqua,
+.btn.red,
+.btn.danger {
   width: 100%;
   padding: 0 2rem 0 2rem;
 }
-button.primary.small, button.outline.small,
+button.primary.small, button.outline.small, button.aqua.small, button.red.small, button.danger.small,
 .btn.primary.small,
-.btn.outline.small {
+.btn.outline.small,
+.btn.aqua.small,
+.btn.red.small,
+.btn.danger.small {
   min-height: 4.5rem;
 }
-button.primary.big, button.outline.big,
+button.primary.big, button.outline.big, button.aqua.big, button.red.big, button.danger.big,
 .btn.primary.big,
-.btn.outline.big {
+.btn.outline.big,
+.btn.aqua.big,
+.btn.red.big,
+.btn.danger.big {
   min-height: 5.3rem;
 }
 button.primary,
@@ -1239,6 +1248,32 @@ button.primary:not(:disabled):focus, button.primary:not(:disabled):hover, button
 .btn.primary:not(:disabled):hover,
 .btn.primary:not(:disabled).active {
   background-color: var(--azure-600);
+}
+button.aqua,
+.btn.aqua {
+  background-color: var(--aqua-500);
+  color: var(--white-500);
+}
+button.aqua:not(:disabled):focus, button.aqua:not(:disabled):hover, button.aqua:not(:disabled).active,
+.btn.aqua:not(:disabled):focus,
+.btn.aqua:not(:disabled):hover,
+.btn.aqua:not(:disabled).active {
+  background-color: #13babf;
+}
+button.red, button.danger,
+.btn.red,
+.btn.danger {
+  background-color: #ff6767;
+  color: var(--white-500);
+}
+button.red:not(:disabled):focus, button.red:not(:disabled):hover, button.red:not(:disabled).active, button.danger:not(:disabled):focus, button.danger:not(:disabled):hover, button.danger:not(:disabled).active,
+.btn.red:not(:disabled):focus,
+.btn.red:not(:disabled):hover,
+.btn.red:not(:disabled).active,
+.btn.danger:not(:disabled):focus,
+.btn.danger:not(:disabled):hover,
+.btn.danger:not(:disabled).active {
+  background-color: #e65c5c;
 }
 button.outline,
 .btn.outline {
@@ -2519,6 +2554,12 @@ app-progress-container .progress-bar-container .progress-bar .progress-bar-full 
 .seed-phrase .content .item .word {
   white-space: nowrap;
 }
+.question-icon {
+  color: #0f2055;
+}
+.light .question-icon {
+  color: #ffffff;
+}
 .light .seed-phrase .content .item {
   border: var(--border);
   background-color: rgba(31, 143, 235, 0.1019607843);
@@ -2527,6 +2568,9 @@ app-progress-container .progress-bar-container .progress-bar .progress-bar-full 
 .light .seed-phrase .content .item .number {
   background-color: rgba(31, 143, 235, 0.1490196078);
   color: #1f8feb;
+}
+.dark .question-icon {
+  color: #0f2055;
 }
 .dark .seed-phrase .content .item {
   border: var(--border);
@@ -2713,47 +2757,68 @@ app-synchronization-status {
 }
 .synchronization-status .update-container {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  text-align: right;
+  width: 100%;
+  margin-top: 0.4rem;
+  margin-bottom: 0.4rem;
+}
+.synchronization-status .update-container .update-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.8rem 1.4rem;
+  border-radius: 0.8rem;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  color: #ffffff;
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: 1.2;
+  transition: opacity 0.2s ease;
+}
+.synchronization-status .update-container .update-btn span {
+  font-size: 1.4rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+.synchronization-status .update-container .update-btn:hover {
+  opacity: 0.9;
+}
+.synchronization-status .update-container .update-btn mat-icon {
+  width: 1.6rem;
+  height: 1.6rem;
+  font-size: 1.6rem;
+  color: #ffffff;
+}
+.synchronization-status .update-container .update-btn.standard {
+  background-color: #1f8feb;
+}
+.synchronization-status .update-container .update-btn.important {
+  background-color: #a366ff;
+}
+.synchronization-status .update-container .update-btn.critical {
+  background-color: #ff6767;
 }
 .synchronization-status .update-container .update-text {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-items: center;
-  font-size: 1.4rem;
-  line-height: 1.2;
-  text-align: left;
 }
 .synchronization-status .update-container .update-text.time {
   font-size: 1.1rem;
+}
+.synchronization-status .update-container .time-orange {
+  color: var(--orange-500);
 }
 .synchronization-status .update-container .icon {
   flex: 1 0 auto;
   margin: 0.3rem 0 0 0.6rem;
   width: 1.2rem;
   height: 1.2rem;
-}
-.synchronization-status .update-container .standard {
-  color: var(--aqua-500);
-}
-.synchronization-status .update-container .important {
-  color: var(--orange-500);
-}
-.synchronization-status .update-container .critical {
-  color: var(--red-500);
-}
-.synchronization-status .update-container .time-orange {
-  color: var(--orange-500);
-}
-.synchronization-status .update-container .icon.standard .st0 {
-  fill: var(--aqua-500);
-}
-.synchronization-status .update-container .icon.important .st0 {
-  fill: var(--orange-500);
-}
-.synchronization-status .update-container .icon.critical .st0 {
-  fill: var(--red-500);
 }
 @keyframes move {
   0% {
