@@ -95081,7 +95081,7 @@ Papa.ɵprov = (0,_angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineInjectabl
 
 var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* @license
 Papa Parse
-v5.6.0
+v5.7.0
 https://github.com/mholt/PapaParse
 License: MIT
 */
@@ -95098,7 +95098,7 @@ License: MIT
       h = 0,
       w = {};
 
-  function P(e) {
+  function q(e) {
     return 65279 === e.charCodeAt(0) ? e.slice(1) : e;
   }
 
@@ -95108,7 +95108,7 @@ License: MIT
       errors: [],
       meta: {}
     }, function (e) {
-      var t = b(e);
+      var t = v(e);
       t.chunkSize = parseInt(t.chunkSize), e.step || e.chunk || (t.chunkSize = null);
       this._handle = new i(t), (this._handle.streamer = this)._config = t;
     }.call(this, e), this.parseChunk = function (t, e) {
@@ -95156,7 +95156,7 @@ License: MIT
       this._input = e, this._nextChunk();
     }, this._readChunk = function () {
       if (this._finished) this._chunkLoaded();else {
-        if (r = new XMLHttpRequest(), this._config.withCredentials && (r.withCredentials = this._config.withCredentials), s || (r.onload = m(this._chunkLoaded, this), r.onerror = m(this._chunkError, this)), r.open(this._config.downloadRequestBody ? "POST" : "GET", this._input, !s), this._config.downloadRequestHeaders) {
+        if (r = new XMLHttpRequest(), this._config.withCredentials && (r.withCredentials = this._config.withCredentials), s || (r.onload = m(this._chunkLoaded, this), r.onerror = m(this._chunkError, this)), r.ontimeout = m(this._chunkTimeout, this), r.open(this._config.downloadRequestBody ? "POST" : "GET", this._input, !s), this._config.downloadTimeout && !s && (r.timeout = this._config.downloadTimeout), this._config.downloadRequestHeaders) {
           var e,
               t = this._config.downloadRequestHeaders;
 
@@ -95180,6 +95180,8 @@ License: MIT
       e = r.statusText || e;
 
       this._sendError(new Error(e));
+    }, this._chunkTimeout = function () {
+      this._chunkError("Request timed out after " + this._config.downloadTimeout + "ms");
     };
   }
 
@@ -95282,8 +95284,8 @@ License: MIT
           p.data.splice(0, 1);
         } else p.data.forEach(t);
 
-        function t(e, t) {
-          e = P(e), U(m.transformHeader) && (e = m.transformHeader(e, t)), c.push(e);
+        function t(e) {
+          c.push(e);
         }
       }
 
@@ -95344,8 +95346,8 @@ License: MIT
           successful: !!(m.delimiter = s),
           bestDelimiter: s
         };
-      })(e, m.newline, m.skipEmptyLines, m.comments, m.delimitersToGuess)).successful ? m.delimiter = r.bestDelimiter : (a = !0, m.delimiter = w.DefaultDelimiter), p.meta.delimiter = m.delimiter), b(m));
-      return m.preview && m.header && r.preview++, n = e, s = new E(r), p = s.parse(n, t, i), _(), f ? {
+      })(e, m.newline, m.skipEmptyLines, m.comments, m.delimitersToGuess)).successful ? m.delimiter = r.bestDelimiter : (a = !0, m.delimiter = w.DefaultDelimiter), p.meta.delimiter = m.delimiter), v(m));
+      return r.header = g(), m.preview && m.header && r.preview++, n = e, s = new E(r), p = s.parse(n, t, i), _(), f ? {
         meta: {
           paused: !0
         }
@@ -95366,7 +95368,7 @@ License: MIT
       e = !0, s.abort(), p.meta.aborted = !0, U(m.complete) && m.complete(p), n = "";
     }, this.guessLineEndings = function (e, t) {
       e = e.substring(0, 1048576);
-      var t = new RegExp(q(t) + "([^]*?)" + q(t), "gm"),
+      var t = new RegExp(P(t) + "([^]*?)" + P(t), "gm"),
           i = (e = e.replace(t, "")).split("\r"),
           t = e.split("\n"),
           e = 1 < t.length && t[0].length < i[0].length;
@@ -95378,7 +95380,7 @@ License: MIT
     };
   }
 
-  function q(e) {
+  function P(e) {
     return e.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
   }
 
@@ -95386,9 +95388,9 @@ License: MIT
     var S = (C = C || {}).delimiter,
         O = C.newline,
         x = C.comments,
-        I = C.step,
-        A = C.preview,
-        T = C.fastMode,
+        T = C.step,
+        I = C.preview,
+        A = C.fastMode,
         D = null,
         L = !1,
         F = null == C.quoteChar ? '"' : C.quoteChar,
@@ -95403,30 +95405,30 @@ License: MIT
           e = S.length,
           s = O.length,
           a = x.length,
-          o = U(I),
+          o = U(T),
           h = [],
           u = [],
           d = [],
           l = M = 0;
-      if (!i) return v();
+      if (!i) return b();
 
-      if (T || !1 !== T && -1 === i.indexOf(F)) {
+      if (A || !1 !== A && -1 === i.indexOf(F)) {
         for (var f = i.split(O), c = 0; c < f.length; c++) {
-          if (d = f[c], M += d.length, c !== f.length - 1) M += O.length;else if (r) return v();
+          if (d = f[c], M += d.length, c !== f.length - 1) M += O.length;else if (r) return b();
 
           if (!x || d.substring(0, a) !== x) {
             if (o) {
-              if (h = [], k(d.split(S)), R(), j) return v();
+              if (h = [], k(d.split(S)), R(), j) return b();
             } else k(d.split(S));
 
-            if (A && A <= c) return h = h.slice(0, A), v(!0);
+            if (I && I <= c) return h = h.slice(0, I), b(!0);
           }
         }
 
-        return v();
+        return b();
       }
 
-      for (var p = i.indexOf(S, M), _ = i.indexOf(O, M), g = new RegExp(q(z) + q(F), "g"), m = i.indexOf(F, M);;) if (i[M] === F) for (m = M, M++;;) {
+      for (var p = i.indexOf(S, M), _ = i.indexOf(O, M), g = new RegExp(P(z) + P(F), "g"), m = i.indexOf(F, M);;) if (i[M] === F) for (m = M, M++;;) {
         if (-1 === (m = i.indexOf(F, m + 1))) return r || u.push({
           type: "Quotes",
           code: "MissingQuotes",
@@ -95447,8 +95449,8 @@ License: MIT
           y = w(_);
 
           if (i.substring(m + 1 + y, m + 1 + y + s) === O) {
-            if (d.push(i.substring(M, m).replace(g, F)), b(m + 1 + y + s), p = i.indexOf(S, M), m = i.indexOf(F, M), o && (R(), j)) return v();
-            if (A && h.length >= A) return v(!0);
+            if (d.push(i.substring(M, m).replace(g, F)), v(m + 1 + y + s), p = i.indexOf(S, M), m = i.indexOf(F, M), o && (R(), j)) return b();
+            if (I && h.length >= I) return b(!0);
             break;
           }
 
@@ -95461,12 +95463,12 @@ License: MIT
           }), m++;
         }
       } else if (x && 0 === d.length && i.substring(M, M + a) === x) {
-        if (-1 === _) return v();
+        if (-1 === _) return b();
         M = _ + s, _ = i.indexOf(O, M), p = i.indexOf(S, M);
       } else if (-1 !== p && (p < _ || -1 === _)) d.push(i.substring(M, p)), M = p + e, p = i.indexOf(S, M);else {
         if (-1 === _) break;
-        if (d.push(i.substring(M, _)), b(_ + s), o && (R(), j)) return v();
-        if (A && h.length >= A) return v(!0);
+        if (d.push(i.substring(M, _)), v(_ + s), o && (R(), j)) return b();
+        if (I && h.length >= I) return b(!0);
       }
 
       return E();
@@ -95481,14 +95483,14 @@ License: MIT
       }
 
       function E(e) {
-        return r || (void 0 === e && (e = i.substring(M)), d.push(e), M = n, k(d), o && R()), v();
-      }
-
-      function b(e) {
-        M = e, k(d), d = [], _ = i.indexOf(O, M);
+        return r || (void 0 === e && (e = i.substring(M)), d.push(e), M = n, k(d), o && R()), b();
       }
 
       function v(e) {
+        M = e, k(d), d = [], _ = i.indexOf(O, M);
+      }
+
+      function b(e) {
         if (C.header && !t && h.length && !L) {
           var s = h[0],
               a = Object.create(null),
@@ -95496,7 +95498,7 @@ License: MIT
           let n = !1;
 
           for (let r = 0; r < s.length; r++) {
-            let i = P(s[r]);
+            let i = q(s[r]);
 
             if (a[i = U(C.transformHeader) ? C.transformHeader(i, r) : i]) {
               let e,
@@ -95528,7 +95530,7 @@ License: MIT
       }
 
       function R() {
-        I(v()), h = [], u = [];
+        T(b()), h = [], u = [];
       }
     }, this.abort = function () {
       j = !0;
@@ -95578,12 +95580,12 @@ License: MIT
     throw new Error("Not implemented.");
   }
 
-  function b(e) {
+  function v(e) {
     if ("object" != typeof e || null === e) return e;
     var t,
         i = Array.isArray(e) ? [] : {};
 
-    for (t in e) i[t] = b(e[t]);
+    for (t in e) i[t] = v(e[t]);
 
     return i;
   }
@@ -95601,7 +95603,14 @@ License: MIT
   return w.parse = function (e, t) {
     var i = (t = t || {}).dynamicTyping || !1;
     U(i) && (t.dynamicTypingFunction = i, i = {});
-    if (t.dynamicTyping = i, t.transform = !!U(t.transform) && t.transform, !t.worker || !w.WORKERS_SUPPORTED) return i = null, w.NODE_STREAM_INPUT, "string" == typeof e ? (e = P(e), i = new (t.download ? d : f)(t)) : !0 === e.readable && U(e.read) && U(e.on) ? i = new c(t) : (n.File && e instanceof File || e instanceof Object) && (i = new l(t)), i.stream(e);
+
+    if (t.dynamicTyping = i, t.transform = !!U(t.transform) && t.transform, void 0 !== t.downloadTimeout) {
+      var i = parseInt(t.downloadTimeout);
+      if (isNaN(i)) throw new Error("Config downloadTimeout value (" + t.downloadTimeout + ") not parsable by parseInt(val).");
+      t.downloadTimeout = i;
+    }
+
+    if (!t.worker || !w.WORKERS_SUPPORTED) return i = null, w.NODE_STREAM_INPUT, "string" == typeof e ? (e = q(e), i = new (t.download ? d : f)(t)) : !0 === e.readable && U(e.read) && U(e.on) ? i = new c(t) : (n.File && e instanceof File || e instanceof Object) && (i = new l(t)), i.stream(e);
     (i = (() => {
       var e;
       return !!w.WORKERS_SUPPORTED && (e = (() => {
@@ -95637,7 +95646,7 @@ License: MIT
 
         void 0 !== t.escapeChar && (o = t.escapeChar + a), t.escapeFormulae instanceof RegExp ? h = t.escapeFormulae : "boolean" == typeof t.escapeFormulae && t.escapeFormulae && (h = /^[=+\-@\t\r].*$/);
       }
-    })(), new RegExp(q(a), "g"));
+    })(), new RegExp(P(a), "g"));
     "string" == typeof e && (e = JSON.parse(e));
 
     if (Array.isArray(e)) {
