@@ -14,9 +14,17 @@ import { ResultSplitIntegratedAddress } from '@api/models/rpc.models';
 export const REG_EXP_HEX = /^[a-f0-9]{64}$/i;
 export const REG_EXP_ALIAS_NAME = /^@?[a-z\d.-]{2,25}$/;
 export const REG_EXP_REGISTER_ALIAS_NAME = /^@?[a-z\d.-]{6,25}$/;
-export const REG_EXP_PASSWORD = /^[A-Za-z0-9!@#$%^&*()_+\-={}\[\]|:;"'<>,.?/~]{1,40}$/;
+export const REG_EXP_PASSWORD = /^[A-Za-z0-9~!?@#$%^&*_+|{}[\]()<>:;"'\-=/.,]{8,256}$/;
 
 export class ZanoValidators {
+    static walletPassword(control: AbstractControl): ValidationErrors | null {
+        const value = control.value;
+        if (!value) {
+            return null;
+        }
+        return REG_EXP_PASSWORD.test(value) ? null : { pattern: true };
+    }
+
     static hash({ value }: AbstractControl): ValidationErrors | null {
         return REG_EXP_HEX.test(value) ? null : { invalidHash: true };
     }

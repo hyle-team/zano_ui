@@ -72,7 +72,7 @@
                         class="error"
                         id="wallet-password-error"
                     >
-                        <ng-container *ngIf="form.controls.password.hasError('pattern')">
+                        <ng-container *ngIf="form.controls.password.invalid">
                             {{ 'ERRORS.REGEXP_INVALID_PASSWORD' | translate }}
                         </ng-container>
                     </div>
@@ -97,7 +97,7 @@
                         class="error"
                         id="confirm-wallet-password-error"
                     >
-                        <ng-container *ngIf="form.controls.confirm.hasError('mismatch')">
+                        <ng-container *ngIf="form.controls.confirm.invalid">
                             {{ 'CREATE_WALLET.FORM_ERRORS.CONFIRM_NOT_MATCH' | translate }}
                         </ng-container>
                     </div>
