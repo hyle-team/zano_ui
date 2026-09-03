@@ -6,12 +6,13 @@ import { ModalService } from '@parts/services/modal.service';
 import { Router } from '@angular/router';
 import { Wallet } from '@api/models/wallet.model';
 import { TranslateService } from '@ngx-translate/core';
-import { REG_EXP_PASSWORD, ZanoValidators } from '@parts/utils/zano-validators';
+import { ZanoValidators } from '@parts/utils/zano-validators';
 import { WalletsService } from '@parts/services/wallets.service';
 import { BreadcrumbItems } from '@parts/components/breadcrumbs/breadcrumbs.models';
 import { MAX_WALLET_NAME_LENGTH } from '@parts/data/constants';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import { extractErrorCode } from '@parts/utils/extract-error-code';
 
 @Component({
     selector: 'app-create-wallet',
@@ -39,10 +40,11 @@ export class CreateWalletComponent implements OnInit, OnDestroy {
                 ZanoValidators.duplicate(this.variablesService.walletNamesForComparisons),
             ],
         ],
-        password: ['', Validators.pattern(REG_EXP_PASSWORD)],
+        password: ['', [Validators.required, ZanoValidators.walletPassword]],
         confirm: [
             '',
             [
+                Validators.required,
                 (control: AbstractControl): ValidationErrors | null => {
                     if (!control.parent) return null;
 
@@ -136,12 +138,22 @@ export class CreateWalletComponent implements OnInit, OnDestroy {
                     }
                 });
             } else {
-                const errorTranslationKey =
-                    errorCode === 'ALREADY_EXISTS' ? 'CREATE_WALLET.ERROR_CANNOT_SAVE_TOP' : 'CREATE_WALLET.ERROR_CANNOT_SAVE_SYSTEM';
+                const code = extractErrorCode(errorCode);
+                let errorTranslationKey: string;
+                if (code === 'ALREADY_EXISTS') {
+                    errorTranslationKey = 'CREATE_WALLET.ERROR_CANNOT_SAVE_TOP';
+                } else if (typeof errorCode === 'string' && errorCode.indexOf('FAILED:failed to open binary wallet file for saving') > -1) {
+                    errorTranslationKey = 'CREATE_WALLET.ERROR_CANNOT_SAVE_SYSTEM';
+                } else if (code) {
+                    errorTranslationKey = `ERRORS.${code}`;
+                } else {
+                    errorTranslationKey = 'ERRORS.UNKNOWN';
+                }
                 this._modalService.prepareModal('error', errorTranslationKey);
 
                 this._ngZone.run(() => {
                     this.loading = false;
+                    this.form.reset();
                 });
             }
         });
