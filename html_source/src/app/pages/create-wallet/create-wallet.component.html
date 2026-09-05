@@ -23,7 +23,6 @@
                         (contextmenu)="variablesService.onContextMenu($event)"
                         [attr.aria-describedby]="'wallet-name-error'"
                         [placeholder]="'PLACEHOLDERS.WALLET_NAME_PLACEHOLDER' | translate"
-                        [readonly]="form.controls.path.valid"
                         class="form__field--input"
                         formControlName="name"
                         id="wallet-name"
@@ -59,7 +58,6 @@
                     <input
                         (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
                         [attr.aria-describedby]="'wallet-password-error'"
-                        [readonly]="form.controls.path.valid"
                         class="form__field--input"
                         formControlName="password"
                         id="wallet-password"
@@ -84,7 +82,6 @@
                     <input
                         (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
                         [attr.aria-describedby]="'confirm-wallet-password-error'"
-                        [readonly]="form.controls.path.valid"
                         class="form__field--input"
                         formControlName="confirm"
                         id="confirm-wallet-password"
@@ -103,19 +100,16 @@
                     </div>
                 </fieldset>
 
-                <button *ngIf="form.controls.path.valid" class="outline big w-100 mb-2" disabled type="button">
-                    <mat-icon class="mr-1" svgIcon="zano-check-circle"></mat-icon>
-                    {{ savedWalletName }}
-                </button>
-
-                <button
-                    *ngIf="form.controls.path.invalid"
-                    (click)="selectLocation()"
-                    [disabled]="form.controls.name.invalid || form.controls.password.invalid || form.controls.confirm.invalid"
-                    class="outline big w-100 mb-2"
-                    type="button"
-                >
-                    {{ 'CREATE_WALLET.BUTTON_SELECT' | translate }}
+                <button (click)="selectLocation()" class="outline big w-100 mb-2" type="button">
+                    <ng-container *ngIf="form.controls.path.invalid; else buttonSelectWalletLocationValidTemplate">
+                        {{ 'CREATE_WALLET.BUTTON_SELECT' | translate }}
+                    </ng-container>
+                    <ng-template #buttonSelectWalletLocationValidTemplate>
+                        <mat-icon class="mr-1" svgIcon="zano-check-circle"></mat-icon>
+                        <span class="text-ellipsis">
+                            {{ savedWalletName }}
+                        </span>
+                    </ng-template>
                 </button>
 
                 <button [disabled]="form.invalid || loading" class="primary big w-100" type="submit">

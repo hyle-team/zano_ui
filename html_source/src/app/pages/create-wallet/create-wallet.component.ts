@@ -153,7 +153,6 @@ export class CreateWalletComponent implements OnInit, OnDestroy {
 
                 this._ngZone.run(() => {
                     this.loading = false;
-                    this.form.reset();
                 });
             }
         });
