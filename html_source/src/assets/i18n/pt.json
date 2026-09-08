@@ -941,6 +941,19 @@
             "TITLE": "Bloquear app após:"
         },
         "APP_LOG_TITLE": "Nível de log:",
+        "LOG_FILES": {
+            "LABEL": "Tamanho dos logs:",
+            "CALCULATING": "Calculando…",
+            "SIZE_UNAVAILABLE": "Tamanho indisponível",
+            "RETRY": "Tentar novamente",
+            "CLEAR": "Limpar logs…",
+            "CLEARING": "Limpando…",
+            "CONFIRM_TITLE": "Limpar arquivos de log?",
+            "CONFIRM_MESSAGE": "Isso limpará aproximadamente {{size}} de logs. Os logs existentes não estarão mais disponíveis para a solução de problemas. Suas carteiras e seu histórico de transações não serão afetados.",
+            "CONFIRM_MESSAGE_UNKNOWN_SIZE": "Isso limpará os arquivos de log do aplicativo. Os logs existentes não estarão mais disponíveis para a solução de problemas. Suas carteiras e seu histórico de transações não serão afetados.",
+            "CONFIRM_CLEAR": "Limpar logs",
+            "ERROR": "Não foi possível limpar todos os arquivos de log. Tente novamente."
+        },
         "CURRENCY_TITLE": "Moeda",
         "DARK_THEME": "Tema escuro",
         "FORM": {

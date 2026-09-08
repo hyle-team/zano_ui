@@ -941,6 +941,19 @@
             "TITLE": "App sperren nach:"
         },
         "APP_LOG_TITLE": "Log-Level:",
+        "LOG_FILES": {
+            "LABEL": "Protokollgröße:",
+            "CALCULATING": "Wird berechnet…",
+            "SIZE_UNAVAILABLE": "Größe nicht verfügbar",
+            "RETRY": "Erneut versuchen",
+            "CLEAR": "Protokolle löschen…",
+            "CLEARING": "Wird gelöscht…",
+            "CONFIRM_TITLE": "Protokolldateien löschen?",
+            "CONFIRM_MESSAGE": "Dadurch werden etwa {{size}} an Protokollen gelöscht. Die bisherigen Protokolle stehen anschließend nicht mehr zur Fehlerbehebung zur Verfügung. Ihre Wallets und Ihr Transaktionsverlauf sind davon nicht betroffen.",
+            "CONFIRM_MESSAGE_UNKNOWN_SIZE": "Dadurch werden die Protokolldateien der Anwendung gelöscht. Die bisherigen Protokolle stehen anschließend nicht mehr zur Fehlerbehebung zur Verfügung. Ihre Wallets und Ihr Transaktionsverlauf sind davon nicht betroffen.",
+            "CONFIRM_CLEAR": "Protokolle löschen",
+            "ERROR": "Nicht alle Protokolldateien konnten gelöscht werden. Bitte versuchen Sie es erneut."
+        },
         "CURRENCY_TITLE": "Währung",
         "DARK_THEME": "Dunkles Thema",
         "FORM": {

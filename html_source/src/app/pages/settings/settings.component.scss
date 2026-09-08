@@ -8,6 +8,53 @@
     max-width: 50rem;
 }
 
+.log-files-row {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-top: 2rem;
+    font-size: 1.6rem;
+}
+
+.log-files-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-inline-start: auto;
+}
+
+.log-files-button {
+    width: auto;
+    min-height: 3.6rem;
+    padding: 0 1.2rem;
+    font-size: 1.6rem;
+    white-space: nowrap;
+}
+
+.log-files-result p {
+    margin: 0.75rem 0 0;
+    font-size: 1.6rem;
+}
+
+.log-files-dialog-actions {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 1rem;
+
+    button {
+        flex: 1 1 0;
+        width: auto;
+    }
+}
+
+.log-files-clear-confirm {
+    border-color: var(--red-500);
+}
+
 .log-item--warning {
     color: var(--red-500);
 }

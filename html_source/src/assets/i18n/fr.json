@@ -941,6 +941,19 @@
             "TITLE": "Verrouiller l'application après :"
         },
         "APP_LOG_TITLE": "Niveau de journalisation :",
+        "LOG_FILES": {
+            "LABEL": "Taille des journaux :",
+            "CALCULATING": "Calcul en cours…",
+            "SIZE_UNAVAILABLE": "Taille indisponible",
+            "RETRY": "Réessayer",
+            "CLEAR": "Effacer les journaux…",
+            "CLEARING": "Effacement en cours…",
+            "CONFIRM_TITLE": "Effacer les fichiers journaux ?",
+            "CONFIRM_MESSAGE": "Cette action effacera environ {{size}} de journaux. Les journaux existants ne seront plus disponibles pour le dépannage. Vos portefeuilles et votre historique des transactions ne seront pas affectés.",
+            "CONFIRM_MESSAGE_UNKNOWN_SIZE": "Cette action effacera les fichiers journaux de l’application. Les journaux existants ne seront plus disponibles pour le dépannage. Vos portefeuilles et votre historique des transactions ne seront pas affectés.",
+            "CONFIRM_CLEAR": "Effacer les journaux",
+            "ERROR": "Impossible d’effacer tous les fichiers journaux. Veuillez réessayer."
+        },
         "CURRENCY_TITLE": "Devise",
         "DARK_THEME": "Thème sombre",
         "FORM": {
