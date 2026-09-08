@@ -941,6 +941,19 @@
             "TITLE": "Kunci aplikasi setelah:"
         },
         "APP_LOG_TITLE": "Tingkat log:",
+        "LOG_FILES": {
+            "LABEL": "Ukuran log:",
+            "CALCULATING": "Menghitung…",
+            "SIZE_UNAVAILABLE": "Ukuran tidak tersedia",
+            "RETRY": "Coba lagi",
+            "CLEAR": "Hapus log…",
+            "CLEARING": "Menghapus…",
+            "CONFIRM_TITLE": "Hapus file log?",
+            "CONFIRM_MESSAGE": "Tindakan ini akan menghapus sekitar {{size}} log. Log yang ada tidak lagi tersedia untuk pemecahan masalah. Dompet dan riwayat transaksi Anda tidak akan terpengaruh.",
+            "CONFIRM_MESSAGE_UNKNOWN_SIZE": "Tindakan ini akan menghapus file log aplikasi. Log yang ada tidak lagi tersedia untuk pemecahan masalah. Dompet dan riwayat transaksi Anda tidak akan terpengaruh.",
+            "CONFIRM_CLEAR": "Hapus log",
+            "ERROR": "Tidak dapat menghapus semua file log. Silakan coba lagi."
+        },
         "CURRENCY_TITLE": "Mata uang",
         "DARK_THEME": "Tema gelap",
         "FORM": {

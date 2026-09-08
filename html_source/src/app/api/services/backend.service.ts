@@ -21,6 +21,7 @@ import { TransferParams } from '@api/models/transfer.model';
 import { ParamsCallRpc, ResponseCallRpc } from '@api/models/call_rpc.model';
 import { ResponseGetAssetInfo, ResultSplitIntegratedAddress, ResponseStoreWallet } from '@api/models/rpc.models';
 import { WalletInfo } from '@api/models/wallet-info.model';
+import { LogFilesResponse, LogFilesSizeResponse } from '@api/models/log-files.model';
 
 export interface PramsObj {
     [key: string]: any;
@@ -115,6 +116,8 @@ export enum Commands {
     async_call = 'async_call',
     async_call_2a = 'async_call_2a',
     set_log_level = 'set_log_level',
+    get_log_files_size = 'get_log_files_size',
+    clear_log_files = 'clear_log_files',
     get_network_type = 'get_network_type',
     get_version = 'get_version',
     get_tx_pool_info = 'get_tx_pool_info',
@@ -662,6 +665,56 @@ export class BackendService {
 
     setLogLevel(level): void {
         this.runCommand(Commands.set_log_level, { v: level });
+    }
+
+    getLogFilesSize(): Observable<LogFilesSizeResponse> {
+        return this.runLogFilesCommand<LogFilesSizeResponse>(Commands.get_log_files_size);
+    }
+
+    clearLogFiles(): Observable<LogFilesResponse> {
+        return this.runLogFilesCommand<LogFilesResponse>(Commands.clear_log_files);
+    }
+
+    private runLogFilesCommand<T extends LogFilesResponse>(
+        command: Commands.get_log_files_size | Commands.clear_log_files
+    ): Observable<T> {
+        return new Observable<T>((observer) => {
+            if (!this.backendObject?.[Commands.async_call] || !this.backendObject?.[command]) {
+                observer.error(new Error('Log files API is unavailable'));
+                return;
+            }
+
+            let jobId: number | undefined;
+            // A fast worker can finish before WebChannel returns its job ID.
+            const earlyResults = new Map<number, T>();
+            const subscription = this.dispatchAsyncCallResult$.subscribe(({ job_id, response }: AsyncCommandResults<T>) => {
+                if (jobId === undefined) {
+                    earlyResults.set(job_id, response);
+                } else if (job_id === jobId) {
+                    observer.next(response);
+                    observer.complete();
+                }
+            });
+
+            this.asyncCall(command, {}, (returnedJobId) => {
+                if (observer.closed) {
+                    return;
+                }
+                if (!Number.isSafeInteger(returnedJobId)) {
+                    observer.error(new Error('Could not start log files operation'));
+                    return;
+                }
+
+                jobId = returnedJobId;
+                if (earlyResults.has(jobId)) {
+                    observer.next(earlyResults.get(jobId));
+                    observer.complete();
+                }
+                earlyResults.clear();
+            });
+
+            return () => subscription.unsubscribe();
+        });
     }
 
     asyncCall(command: string, params: PramsObj, callback?: (job_id?: number) => void | any): void {

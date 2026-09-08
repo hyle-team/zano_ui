@@ -1,11 +1,13 @@
-import { Component, inject, NgZone, OnInit, Renderer2 } from '@angular/core';
+import { Component, inject, NgZone, OnDestroy, OnInit, Renderer2, TemplateRef, ViewChild } from '@angular/core';
 import { VariablesService } from '@parts/services/variables.service';
 import { BackendService } from '@api/services/backend.service';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { REG_EXP_PASSWORD, ZanoValidators } from '@parts/utils/zano-validators';
 import { generateRandomString } from '@parts/utils/generate-random-string';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { currenciesItems } from '@parts/data/currencies';
 import { AppLogItems } from '@parts/interfaces/app-log-items.interface';
 import { AppScaleItems } from '@parts/interfaces/app-scale-items.interface';
@@ -15,7 +17,23 @@ import { AppScaleItems } from '@parts/interfaces/app-scale-items.interface';
     templateUrl: './settings.component.html',
     styleUrls: [`./settings.component.scss`],
 })
-export class SettingsComponent implements OnInit {
+export class SettingsComponent implements OnInit, OnDestroy {
+    @ViewChild('clearLogsDialog') private clearLogsDialog: TemplateRef<unknown>;
+
+    logFilesSize: number | null = null;
+
+    isLogSizeLoading = false;
+
+    isClearingLogs = false;
+
+    isClearLogsConfirmationOpen = false;
+
+    logClearResult: 'error' | null = null;
+
+    private readonly destroy$ = new Subject<void>();
+
+    private clearLogsDialogRef: MatDialogRef<unknown, boolean> | undefined;
+
     ifSaved = false;
 
     isSecretWasCopied = false;
@@ -163,7 +181,8 @@ export class SettingsComponent implements OnInit {
         public variablesService: VariablesService,
         private renderer: Renderer2,
         public backend: BackendService,
-        private ngZone: NgZone
+        private ngZone: NgZone,
+        private matDialog: MatDialog
     ) {
         this.scale = this.variablesService.settings.scale;
         this.appUseTor = this.variablesService.settings.appUseTor;
@@ -173,6 +192,8 @@ export class SettingsComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.refreshLogFilesSize();
+
         this.backend.getIsDisabledNotifications((state) => {
             this.currentNotificationsState = !state;
         });
@@ -197,6 +218,130 @@ export class SettingsComponent implements OnInit {
                     return;
                 }
             },
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
+        this.clearLogsDialogRef?.close(false);
+    }
+
+    get formattedLogFilesSize(): string {
+        if (this.logFilesSize === null) {
+            return '';
+        }
+
+        const units = ['B', 'kB', 'MB', 'GB', 'TB', 'PB'];
+        let size = this.logFilesSize;
+        let unit = 0;
+
+        while (size >= 1000 && unit < units.length - 1) {
+            size /= 1000;
+            unit++;
+        }
+
+        if (unit > 0) {
+            size = Math.round(size * 10) / 10;
+            // Use the next unit when rounding would otherwise show 1000.0.
+            if (size >= 1000 && unit < units.length - 1) {
+                size /= 1000;
+                unit++;
+            }
+        }
+
+        const value = new Intl.NumberFormat(this.variablesService.settings.language, {
+            minimumFractionDigits: unit === 0 ? 0 : 1,
+            maximumFractionDigits: unit === 0 ? 0 : 1,
+        }).format(size);
+        return `${value} ${units[unit]}`;
+    }
+
+    get canClearLogs(): boolean {
+        return (
+            (this.logFilesSize === null || this.logFilesSize > 0) &&
+            !this.isLogSizeLoading &&
+            !this.isClearingLogs &&
+            !this.isClearLogsConfirmationOpen
+        );
+    }
+
+    refreshLogFilesSize(): void {
+        if (this.isLogSizeLoading || this.isClearingLogs || this.isClearLogsConfirmationOpen) {
+            return;
+        }
+
+        this.isLogSizeLoading = true;
+        this.backend
+            .getLogFilesSize()
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: (response) => {
+                    this.ngZone.run(() => {
+                        const size = response?.response_data?.total_size;
+                        this.logFilesSize = response?.error_code === 'OK' && Number.isSafeInteger(size) && size >= 0 ? size : null;
+                        this.isLogSizeLoading = false;
+                    });
+                },
+                error: () => {
+                    this.ngZone.run(() => {
+                        this.logFilesSize = null;
+                        this.isLogSizeLoading = false;
+                    });
+                },
+            });
+    }
+
+    confirmClearLogs(): void {
+        if (!this.canClearLogs) {
+            return;
+        }
+
+        this.isClearLogsConfirmationOpen = true;
+        this.clearLogsDialogRef = this.matDialog.open<unknown, unknown, boolean>(this.clearLogsDialog, {
+            width: '42rem',
+            disableClose: false,
+            autoFocus: '#clear-logs-cancel',
+            restoreFocus: true,
+            ariaLabelledBy: 'clear-logs-title',
+            ariaDescribedBy: 'clear-logs-description',
+        });
+        this.clearLogsDialogRef
+            .beforeClosed()
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(() => {
+                // Re-enable the trigger before Material restores focus to it.
+                this.isClearLogsConfirmationOpen = false;
+            });
+        this.clearLogsDialogRef
+            .afterClosed()
+            .pipe(takeUntil(this.destroy$))
+            .subscribe((confirmed) => {
+                this.clearLogsDialogRef = undefined;
+                if (confirmed) {
+                    this.clearLogs();
+                }
+            });
+    }
+
+    private clearLogs(): void {
+        this.isClearingLogs = true;
+        this.logClearResult = null;
+        this.backend
+            .clearLogFiles()
+            .pipe(takeUntil(this.destroy$))
+            .subscribe({
+                next: (response) => this.finishClearingLogs(response?.error_code === 'OK'),
+                error: () => this.finishClearingLogs(false),
+            });
+    }
+
+    private finishClearingLogs(success: boolean): void {
+        this.ngZone.run(() => {
+            this.isClearingLogs = false;
+            this.logClearResult = success ? null : 'error';
+            // Failed clearing can still have removed some logs. Always read the actual size.
+            this.refreshLogFilesSize();
         });
     }
 

@@ -101,6 +101,39 @@
                             </span>
                         </ng-template>
                     </ng-select>
+                    <div class="log-files-row" [attr.aria-busy]="isLogSizeLoading || isClearingLogs">
+                        <span aria-live="polite" aria-atomic="true">
+                            {{ 'SETTINGS.LOG_FILES.LABEL' | translate }}
+                            <ng-container *ngIf="isLogSizeLoading; else logFilesSizeTemplate">
+                                {{ 'SETTINGS.LOG_FILES.CALCULATING' | translate }}
+                            </ng-container>
+                            <ng-template #logFilesSizeTemplate>
+                                <ng-container *ngIf="logFilesSize !== null; else logFilesSizeUnavailableTemplate">
+                                    {{ formattedLogFilesSize }}
+                                </ng-container>
+                                <ng-template #logFilesSizeUnavailableTemplate>
+                                    {{ 'SETTINGS.LOG_FILES.SIZE_UNAVAILABLE' | translate }}
+                                </ng-template>
+                            </ng-template>
+                        </span>
+                        <div class="log-files-actions">
+                            <button
+                                *ngIf="!isLogSizeLoading && logFilesSize === null"
+                                (click)="refreshLogFilesSize()"
+                                [disabled]="isClearingLogs || isClearLogsConfirmationOpen"
+                                class="outline log-files-button"
+                                type="button"
+                            >
+                                {{ 'SETTINGS.LOG_FILES.RETRY' | translate }}
+                            </button>
+                            <button (click)="confirmClearLogs()" [disabled]="!canClearLogs" class="outline log-files-button" type="button">
+                                {{ (isClearingLogs ? 'SETTINGS.LOG_FILES.CLEARING' : 'SETTINGS.LOG_FILES.CLEAR') | translate }}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="log-files-result" aria-live="polite" aria-atomic="true">
+                        <p *ngIf="logClearResult === 'error'">{{ 'SETTINGS.LOG_FILES.ERROR' | translate }}</p>
+                    </div>
                 </fieldset>
 
                 <fieldset class="form__field">
@@ -377,3 +410,23 @@
         </div>
     </section>
 </main>
+
+<ng-template #clearLogsDialog>
+    <h3 mat-dialog-title id="clear-logs-title">{{ 'SETTINGS.LOG_FILES.CONFIRM_TITLE' | translate }}</h3>
+    <mat-dialog-content>
+        <p id="clear-logs-description">
+            {{
+                (logFilesSize === null ? 'SETTINGS.LOG_FILES.CONFIRM_MESSAGE_UNKNOWN_SIZE' : 'SETTINGS.LOG_FILES.CONFIRM_MESSAGE')
+                    | translate : { size: formattedLogFilesSize }
+            }}
+        </p>
+    </mat-dialog-content>
+    <mat-dialog-actions class="log-files-dialog-actions">
+        <button id="clear-logs-cancel" [mat-dialog-close]="false" class="outline big" type="button">
+            {{ 'MODALS.CANCEL' | translate }}
+        </button>
+        <button [mat-dialog-close]="true" class="outline big log-files-clear-confirm" type="button">
+            {{ 'SETTINGS.LOG_FILES.CONFIRM_CLEAR' | translate }}
+        </button>
+    </mat-dialog-actions>
+</ng-template>
