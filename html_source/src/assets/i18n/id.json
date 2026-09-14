@@ -557,6 +557,7 @@
         "FILE_EXIST": "File dengan nama tersebut sudah ada. Masukkan nama lain untuk menyimpan file di bawahnya",
         "FILE_NOT_FOUND": "File tidak ditemukan",
         "FILE_NOT_SAVED": "Anda tidak dapat menyimpan file dompet di folder ini. Silakan pilih folder lain.",
+        "MASTER_PASSWORD_NOT_SAVED": "Kata sandi utama tidak dapat disimpan. Silakan coba lagi sebelum menutup aplikasi.",
         "FILE_RESTORED": "File dompet rusak. Kami telah memulihkan kunci dan dompet dari blockchain",
         "GREATER_THAN_TOTAL_MAX_SUPPLY": "Lebih besar dari total pasokan maksimal",
         "HEX_NOT_VALID": "Hex tidak valid",

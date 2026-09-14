@@ -26,9 +26,11 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     resetLoading = false;
 
+    masterPasswordSaveError = false;
+
     regMasterPassForm = this._fb.group(
         {
-            password: this._fb.control('', Validators.pattern(REG_EXP_PASSWORD)),
+            password: this._fb.control('', [Validators.required, Validators.pattern(REG_EXP_PASSWORD)]),
             confirmation: this._fb.control(''),
         },
         {
@@ -71,30 +73,47 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
 
     onSubmitCreatePass(): void {
-        if (this.regMasterPassForm.valid) {
-            this.variablesService.appPass = this.regMasterPassForm.get('password').value; // the pass what was written in input of login form by user
+        if (this.submitLoading || this.regMasterPassForm.invalid) {
+            return;
+        }
 
-            this.backend.setMasterPassword({ pass: this.variablesService.appPass }, (status, data) => {
-                if (status) {
-                    this.backend.storeSecureAppData({
-                        pass: this.variablesService.appPass,
-                    });
-                    this.variablesService.appLogin = true;
-                    this.variablesService.dataIsLoaded = true;
-                    if (this.variablesService.settings.appLockTime) {
-                        this.variablesService.startCountdown();
-                    }
+        const newPassword = this.regMasterPassForm.controls.password.value;
+        this.submitLoading = true;
+        this.masterPasswordSaveError = false;
+        this.backend.setMasterPassword({ pass: newPassword }, (status: boolean) => {
+            this.ngZone.run(() => {
+                if (!status) {
+                    this.submitLoading = false;
+                    this.masterPasswordSaveError = true;
+                    return;
+                }
+
+                // Keep the session password aligned with the backend while the file write is pending or retried.
+                this.variablesService.appPass = newPassword;
+                this.backend.storeSecureAppData((saved: boolean) => {
                     this.ngZone.run(() => {
+                        this.submitLoading = false;
+                        this.masterPasswordSaveError = !saved;
+                        if (!saved) {
+                            return;
+                        }
+
+                        this.variablesService.appLogin = true;
+                        this.variablesService.dataIsLoaded = true;
+                        if (this.variablesService.settings.appLockTime) {
+                            this.variablesService.startCountdown();
+                        }
                         this.router.navigate(['/']);
                     });
-                } else {
-                    console.log(data['error_code']);
-                }
+                });
             });
-        }
+        });
     }
 
     onSkipCreatePass(): void {
+        if (this.type === 'reg' && (this.submitLoading || this.masterPasswordSaveError)) {
+            return;
+        }
         this.ngZone.run(() => {
             this.variablesService.appPass = '';
             this.variablesService.appLogin = true;

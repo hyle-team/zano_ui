@@ -22,7 +22,7 @@
         [formGroup]="regMasterPassForm"
         class="form"
     >
-        <fieldset class="auth-card-form">
+        <fieldset [disabled]="submitLoading" class="auth-card-form">
             <legend class="sr-only">
                 {{ 'ACCESSIBILITY.AUTH.LOGIN.ARIAL_LABEL2' | translate }}
             </legend>
@@ -45,13 +45,19 @@
                     type="password"
                 />
                 <div
-                    *ngIf="regMasterPassForm.controls.password.dirty && regMasterPassForm.controls.password.errors"
+                    *ngIf="
+                        (regMasterPassForm.controls.password.dirty || regMasterPassForm.controls.password.touched) &&
+                        regMasterPassForm.controls.password.errors
+                    "
                     aria-live="assertive"
                     class="error"
                     id="master-pass-error"
                 >
                     <ng-container *ngIf="regMasterPassForm.controls.password.hasError('pattern')">
                         {{ 'ERRORS.REGEXP_INVALID_PASSWORD' | translate }}
+                    </ng-container>
+                    <ng-container *ngIf="regMasterPassForm.controls.password.hasError('required')">
+                        {{ 'ERRORS.REQUIRED' | translate }}
                     </ng-container>
                 </div>
             </div>
@@ -92,6 +98,7 @@
             [attr.aria-busy]="submitLoading"
             [attr.aria-label]="'ACCESSIBILITY.AUTH.LOGIN.ARIAL_LABEL5' | translate"
             [disabled]="
+                submitLoading ||
                 !regMasterPassForm.controls.password.value.length ||
                 !regMasterPassForm.controls.confirmation.value.length ||
                 (regMasterPassForm.errors && regMasterPassForm.hasError('mismatch')) ||
@@ -101,18 +108,27 @@
             type="submit"
         >
             {{ 'LOGIN.BUTTON_NEXT' | translate }}
+            <span *ngIf="submitLoading" [ngTemplateOutlet]="buttonLoaderTemp" class="ml-1"></span>
         </button>
 
         <!-- Skip -->
         <button
             (click)="onSkipCreatePass()"
             [attr.aria-label]="'ACCESSIBILITY.AUTH.LOGIN.ARIAL_LABEL6' | translate"
-            [disabled]="regMasterPassForm.controls.password.value.length || regMasterPassForm.controls.confirmation.value.length"
+            [disabled]="
+                submitLoading ||
+                masterPasswordSaveError ||
+                regMasterPassForm.controls.password.value.length ||
+                regMasterPassForm.controls.confirmation.value.length
+            "
             class="primary big w-100"
             type="button"
         >
             {{ 'LOGIN.BUTTON_SKIP' | translate }}
         </button>
+        <p *ngIf="masterPasswordSaveError" class="error mt-1" role="alert">
+            {{ 'ERRORS.MASTER_PASSWORD_NOT_SAVED' | translate }}
+        </p>
     </form>
 </ng-template>
 

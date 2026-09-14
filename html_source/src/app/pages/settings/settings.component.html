@@ -263,7 +263,12 @@
                     </ng-container>
                 </form>
 
-                <form role="form" (ngSubmit)="onSubmitChangePass()" [formGroup]="changeForm">
+                <form
+                    role="form"
+                    (ngSubmit)="onSubmitChangePass()"
+                    [attr.aria-busy]="isMasterPasswordSaving ? 'true' : null"
+                    [formGroup]="changeForm"
+                >
                     <h4 class="master-password-title mb-2">
                         {{
                             (!variablesService.appPass ? 'SETTINGS.MASTER_PASSWORD.TITLE1' : 'SETTINGS.MASTER_PASSWORD.TITLE2') | translate
@@ -271,11 +276,11 @@
                     </h4>
 
                     <div class="form__card">
-                        <fieldset *ngIf="variablesService.appPass" class="form__field">
+                        <fieldset *ngIf="variablesService.appPass" [disabled]="isMasterPasswordSaving" class="form__field">
                             <label for="old-password">{{ 'SETTINGS.MASTER_PASSWORD.OLD' | translate }}</label>
                             <input
                                 (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
-                                [attr.aria-describedby]="'old-password-error old-password-error2'"
+                                [attr.aria-describedby]="'old-password-error'"
                                 [class.invalid]="
                                     changeForm.invalid &&
                                     changeForm.controls['password'].valid &&
@@ -305,21 +310,9 @@
                             >
                                 {{ 'SETTINGS.FORM_ERRORS.CURRENT_PASS_NOT_MATCH' | translate }}
                             </div>
-                            <div
-                                *ngIf="
-                                    changeForm.invalid &&
-                                    (changeForm.controls['password'].dirty || changeForm.controls['password'].touched) &&
-                                    changeForm.controls['password'].errors?.pattern
-                                "
-                                aria-live="assertive"
-                                class="error"
-                                id="old-password-error2"
-                            >
-                                {{ 'ERRORS.REGEXP_INVALID_PASSWORD' | translate }}
-                            </div>
                         </fieldset>
 
-                        <fieldset class="form__field">
+                        <fieldset [disabled]="isMasterPasswordSaving" class="form__field">
                             <label for="new-password">{{ 'SETTINGS.MASTER_PASSWORD.NEW' | translate }}</label>
                             <input
                                 (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
@@ -346,7 +339,7 @@
                             </div>
                         </fieldset>
 
-                        <fieldset class="form__field">
+                        <fieldset [disabled]="isMasterPasswordSaving" class="form__field">
                             <label for="confirm-password">{{ 'SETTINGS.MASTER_PASSWORD.CONFIRM' | translate }}</label>
                             <input
                                 (contextmenu)="variablesService.onContextMenuPasteSelect($event)"
@@ -382,13 +375,20 @@
                     </div>
 
                     <div class="submit-button-container">
-                        <button [disabled]="!changeForm.valid" class="primary big max-w-19-rem w-100" type="submit">
+                        <button
+                            [disabled]="isMasterPasswordSaving || !changeForm.valid"
+                            class="primary big max-w-19-rem w-100"
+                            type="submit"
+                        >
                             {{ 'SETTINGS.MASTER_PASSWORD.BUTTON' | translate }}
                         </button>
                         <span *ngIf="ifSaved" [class.active]="ifSaved" class="ml-1 color-aqua" role="alert">{{
                             'SETTINGS.SETTINGS_SAVED' | translate
                         }}</span>
                     </div>
+                    <p *ngIf="masterPasswordSaveError" class="error mt-1" role="alert">
+                        {{ 'ERRORS.MASTER_PASSWORD_NOT_SAVED' | translate }}
+                    </p>
                 </form>
 
                 <p *ngIf="!isBuildVersionWasCopied" class="mt-2">

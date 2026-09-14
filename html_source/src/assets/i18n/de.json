@@ -557,6 +557,7 @@
         "FILE_EXIST": "Eine Datei mit diesem Namen existiert bereits. Geben Sie einen anderen Namen ein, um die Datei zu speichern",
         "FILE_NOT_FOUND": "Datei nicht gefunden",
         "FILE_NOT_SAVED": "Sie können keine Wallet-Datei in diesem Ordner speichern. Bitte wählen Sie einen anderen Ordner.",
+        "MASTER_PASSWORD_NOT_SAVED": "Das Master-Passwort konnte nicht gespeichert werden. Bitte versuchen Sie es erneut, bevor Sie die Anwendung schließen.",
         "FILE_RESTORED": "Die Wallet-Datei war beschädigt. Wir haben die Schlüssel und das Wallet aus der Blockchain wiederhergestellt",
         "GREATER_THAN_TOTAL_MAX_SUPPLY": "Größer als maximaler Gesamtbestand",
         "HEX_NOT_VALID": "Hex ist ungültig",

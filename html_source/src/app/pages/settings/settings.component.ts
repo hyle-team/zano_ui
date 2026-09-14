@@ -36,6 +36,10 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
     ifSaved = false;
 
+    isMasterPasswordSaving = false;
+
+    masterPasswordSaveError = false;
+
     isSecretWasCopied = false;
 
     secretWasCopiedTimeout: any;
@@ -52,8 +56,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
     changeForm = this.fb.group(
         {
-            password: this.fb.nonNullable.control('', Validators.compose([Validators.pattern(REG_EXP_PASSWORD)])),
-            new_password: this.fb.nonNullable.control('', Validators.compose([Validators.pattern(REG_EXP_PASSWORD)])),
+            // Existing passwords only need to match; creation rules may have changed since they were set.
+            password: this.fb.nonNullable.control(''),
+            new_password: this.fb.nonNullable.control('', [Validators.required, Validators.pattern(REG_EXP_PASSWORD)]),
             new_confirmation: this.fb.nonNullable.control(''),
             appPass: this.fb.nonNullable.control(this.variablesService.appPass ?? ''),
         },
@@ -382,29 +387,45 @@ export class SettingsComponent implements OnInit, OnDestroy {
     }
 
     onSubmitChangePass(): void {
-        if (this.changeForm.valid) {
-            this.variablesService.appPass = this.changeForm.get('new_password').value;
+        if (this.isMasterPasswordSaving || this.changeForm.invalid) {
+            return;
+        }
 
-            this.backend.setMasterPassword({ pass: this.variablesService.appPass }, (status, data) => {
-                if (status) {
-                    this.backend.storeSecureAppData({
-                        pass: this.variablesService.appPass,
-                    });
-                    this.variablesService.appLogin = true;
-                    this.variablesService.dataIsLoaded = true;
-                    if (this.variablesService.settings.appLockTime) {
-                        this.variablesService.startCountdown();
-                    }
-                    this.ngZone.run(() => {
-                        this.zanoCompanionForm.controls.zanoCompation.enable({ emitEvent: false });
-                        this.onSave();
-                    });
-                } else {
-                    console.log(data['error_code']);
+        const newPassword = this.changeForm.controls.new_password.value;
+        this.isMasterPasswordSaving = true;
+        this.masterPasswordSaveError = false;
+        this.ifSaved = false;
+        this.variablesService.stopCountdown();
+
+        this.backend.setMasterPassword({ pass: newPassword }, (status: boolean) => {
+            this.ngZone.run(() => {
+                if (!status) {
+                    this.finishMasterPasswordSave(false);
+                    return;
                 }
-            });
 
+                // The backend already uses this password in memory, even if the following file write fails.
+                this.variablesService.appPass = newPassword;
+                this.changeForm.patchValue({ password: newPassword, appPass: newPassword });
+                this.backend.storeSecureAppData((saved: boolean) => {
+                    this.ngZone.run(() => this.finishMasterPasswordSave(saved));
+                });
+            });
+        });
+    }
+
+    private finishMasterPasswordSave(saved: boolean): void {
+        this.isMasterPasswordSaving = false;
+        this.masterPasswordSaveError = !saved;
+        if (saved) {
+            this.variablesService.appLogin = true;
+            this.variablesService.dataIsLoaded = true;
             this.changeForm.reset({ appPass: this.variablesService.appPass });
+            this.zanoCompanionForm.controls.zanoCompation.enable({ emitEvent: false });
+            this.onSave();
+        }
+        if (this.variablesService.dataIsLoaded && this.variablesService.appPass && this.variablesService.settings.appLockTime) {
+            this.variablesService.startCountdown();
         }
     }
 

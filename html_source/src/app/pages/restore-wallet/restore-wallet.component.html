@@ -59,6 +59,9 @@
                         type="password"
                     />
                     <div *ngIf="form.controls.password | isVisibleControlError" aria-live="assertive" class="error" id="password-error">
+                        <ng-container *ngIf="form.controls.password.hasError('required')">
+                            {{ 'ERRORS.REQUIRED' | translate }}
+                        </ng-container>
                         <ng-container *ngIf="form.controls.password.hasError('pattern')">
                             {{ 'ERRORS.REGEXP_INVALID_PASSWORD' | translate }}
                         </ng-container>

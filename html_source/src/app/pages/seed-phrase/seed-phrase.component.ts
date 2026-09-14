@@ -42,7 +42,7 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
     });
 
     seedPhraseForm = this._fb.group({
-        password: ['', Validators.pattern(REG_EXP_PASSWORD)],
+        password: ['', [Validators.required, Validators.pattern(REG_EXP_PASSWORD)]],
         confirmPassword: [
             '',
             [
@@ -121,6 +121,11 @@ export class SeedPhraseComponent implements OnInit, OnDestroy {
     }
 
     submit(): void {
+        if (this.hasPassphrase && this.seedPhraseForm.invalid) {
+            this.seedPhraseForm.markAllAsTouched();
+            return;
+        }
+
         this.showSeed = true;
 
         const wallet_id = this.wallet_id;
