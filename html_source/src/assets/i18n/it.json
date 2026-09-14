@@ -941,6 +941,19 @@
             "TITLE": "Blocca l'app dopo:"
         },
         "APP_LOG_TITLE": "Livello di log:",
+        "LOG_FILES": {
+            "LABEL": "Dimensione dei log:",
+            "CALCULATING": "Calcolo in corso…",
+            "SIZE_UNAVAILABLE": "Dimensione non disponibile",
+            "RETRY": "Riprova",
+            "CLEAR": "Cancella i log…",
+            "CLEARING": "Cancellazione in corso…",
+            "CONFIRM_TITLE": "Cancellare i file di log?",
+            "CONFIRM_MESSAGE": "Verranno cancellati circa {{size}} di log. I log esistenti non saranno più disponibili per la risoluzione dei problemi. I tuoi portafogli e la cronologia delle transazioni non saranno interessati.",
+            "CONFIRM_MESSAGE_UNKNOWN_SIZE": "Verranno cancellati i file di log dell’applicazione. I log esistenti non saranno più disponibili per la risoluzione dei problemi. I tuoi portafogli e la cronologia delle transazioni non saranno interessati.",
+            "CONFIRM_CLEAR": "Cancella i log",
+            "ERROR": "Impossibile cancellare tutti i file di log. Riprova."
+        },
         "CURRENCY_TITLE": "Valuta",
         "DARK_THEME": "Tema scuro",
         "FORM": {

@@ -941,6 +941,19 @@
             "TITLE": "Lock app after:"
         },
         "APP_LOG_TITLE": "Log level:",
+        "LOG_FILES": {
+            "LABEL": "Log size:",
+            "CALCULATING": "Calculating…",
+            "SIZE_UNAVAILABLE": "Size unavailable",
+            "RETRY": "Retry",
+            "CLEAR": "Clear logs…",
+            "CLEARING": "Clearing…",
+            "CONFIRM_TITLE": "Clear log files?",
+            "CONFIRM_MESSAGE": "This will clear approximately {{size}} of logs. Existing logs will no longer be available for troubleshooting. Your wallets and transaction history will not be affected.",
+            "CONFIRM_MESSAGE_UNKNOWN_SIZE": "This will clear the application's log files. Existing logs will no longer be available for troubleshooting. Your wallets and transaction history will not be affected.",
+            "CONFIRM_CLEAR": "Clear logs",
+            "ERROR": "Could not clear all log files. Please try again."
+        },
         "CURRENCY_TITLE": "Currency",
         "DARK_THEME": "Dark theme",
         "FORM": {
