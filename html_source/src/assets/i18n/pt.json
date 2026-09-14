@@ -557,6 +557,7 @@
         "FILE_EXIST": "Um arquivo com esse nome já existe. Digite outro nome para salvar o arquivo",
         "FILE_NOT_FOUND": "Arquivo não encontrado",
         "FILE_NOT_SAVED": "Você não pode salvar um arquivo de carteira nesta pasta. Por favor, escolha outra pasta.",
+        "MASTER_PASSWORD_NOT_SAVED": "Não foi possível salvar a senha mestre. Por favor, tente novamente antes de fechar o aplicativo.",
         "FILE_RESTORED": "O arquivo da carteira foi corrompido. Recuperamos as chaves e a carteira da blockchain",
         "GREATER_THAN_TOTAL_MAX_SUPPLY": "Maior que o fornecimento máximo total",
         "HEX_NOT_VALID": "Hex inválido",

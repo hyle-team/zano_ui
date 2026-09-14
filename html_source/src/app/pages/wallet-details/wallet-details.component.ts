@@ -42,7 +42,7 @@ export class WalletDetailsComponent {
 
     passwordSeedPhraseForm = this.fb.group(
         {
-            password: this.fb.control('', Validators.pattern(REG_EXP_PASSWORD)),
+            password: this.fb.control('', [Validators.required, Validators.pattern(REG_EXP_PASSWORD)]),
             confirmPassword: this.fb.control(''),
         },
         {

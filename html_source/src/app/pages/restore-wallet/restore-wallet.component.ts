@@ -73,7 +73,7 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
             ],
         ],
         seedPhrase: ['', Validators.required],
-        password: ['', Validators.pattern(REG_EXP_PASSWORD)],
+        password: ['', [Validators.required, Validators.pattern(REG_EXP_PASSWORD)]],
         confirm: [
             '',
             [
@@ -197,6 +197,10 @@ export class RestoreWalletComponent implements OnInit, OnDestroy {
     }
 
     restore(): void {
+        if (this.isDisabledCreatedWallet) {
+            return;
+        }
+
         this._submitting = true;
         const { name, password, seedPhrase, seedPassword } = this.form.getRawValue();
         this._backend.restoreWallet(

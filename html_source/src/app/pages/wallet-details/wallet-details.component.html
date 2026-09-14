@@ -111,6 +111,9 @@
                                     class="error"
                                     id="password-error"
                                 >
+                                    <ng-container *ngIf="passwordSeedPhraseForm.controls['password'].hasError('required')">
+                                        {{ 'ERRORS.REQUIRED' | translate }}
+                                    </ng-container>
                                     <ng-container *ngIf="passwordSeedPhraseForm.controls['password'].hasError('pattern')">
                                         {{ 'ERRORS.REGEXP_INVALID_PASSWORD' | translate }}
                                     </ng-container>
