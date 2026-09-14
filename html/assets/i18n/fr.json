@@ -557,6 +557,7 @@
         "FILE_EXIST": "Un fichier avec ce nom existe déjà. Entrez un autre nom pour enregistrer le fichier",
         "FILE_NOT_FOUND": "Fichier non trouvé",
         "FILE_NOT_SAVED": "Vous ne pouvez pas sauvegarder un fichier de portefeuille dans ce dossier. Veuillez choisir un autre dossier.",
+        "MASTER_PASSWORD_NOT_SAVED": "Impossible d'enregistrer le mot de passe maître. Veuillez réessayer avant de fermer l'application.",
         "FILE_RESTORED": "Le fichier de portefeuille était corrompu. Nous avons récupéré les clés et le portefeuille à partir de la blockchain",
         "GREATER_THAN_TOTAL_MAX_SUPPLY": "Supérieur à l'offre totale maximale",
         "HEX_NOT_VALID": "Hex non valide",
