@@ -629,9 +629,7 @@
             "ID": "ID de transaction",
             "INPUTS": "Entrées",
             "OUTPUTS": "Sorties",
-            "PAYMENT_ID": "ID de paiement",
-            "SIZE": "Taille de la transaction",
-            "SIZE_VALUE": "{{value}} octets"
+            "PAYMENT_ID": "ID de paiement"
         },
         "FEE": "Frais",
         "HIDDEN": "Caché",

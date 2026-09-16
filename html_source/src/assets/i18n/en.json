@@ -629,9 +629,7 @@
             "ID": "Transaction ID",
             "INPUTS": "Inputs",
             "OUTPUTS": "Outputs",
-            "PAYMENT_ID": "Payment ID",
-            "SIZE": "Transaction size",
-            "SIZE_VALUE": "{{value}} bytes"
+            "PAYMENT_ID": "Payment ID"
         },
         "FEE": "Fee",
         "HIDDEN": "Hidden",
