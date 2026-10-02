@@ -1,4 +1,16 @@
 {
+    "MAKE_SNAPSHOT": {
+        "BUTTON": "Créer un instantané",
+        "TOOLTIP": "Créer un fichier d'instantané du portefeuille",
+        "TITLE": "Créer un instantané du portefeuille",
+        "DISCLAIMER": "Ce fichier d'instantané contient la clé de VISUALISATION secrète de votre portefeuille et la liste de toutes ses sorties. Toute personne disposant de ce fichier peut voir toutes les transactions de ce portefeuille et calculer son solde. Ne le partagez qu'avec une partie de confiance.",
+        "AGREE": "Je comprends et j'accepte",
+        "START": "Créer un instantané",
+        "IN_PROGRESS": "Création de l'instantané en cours. Cela peut prendre un certain temps. Vous pouvez annuler à tout moment.",
+        "DONE": "L'instantané a été créé, emplacement :",
+        "CANCEL": "Annuler",
+        "CLOSE": "Fermer"
+    },
     "ACCESSIBILITY": {
         "ADD_WALLET": {
             "DESCRIPTIONS": {
