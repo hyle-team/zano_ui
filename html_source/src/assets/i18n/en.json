@@ -705,6 +705,18 @@
         "SEND_BUTTON": "Send",
         "SEND_PLACEHOLDER": "Type a message..."
     },
+    "MAKE_SNAPSHOT": {
+        "BUTTON": "Make snapshot",
+        "TOOLTIP": "Create a wallet snapshot file",
+        "TITLE": "Make wallet snapshot",
+        "DISCLAIMER": "This snapshot file contains your wallet's secret VIEW key and the list of all its outputs. Anyone with this file can see all transactions of this wallet and calculate its balance. Only share it with a party you trust.",
+        "AGREE": "I understand and agree",
+        "START": "Make snapshot",
+        "IN_PROGRESS": "Generating the snapshot. This may take a while. You can cancel at any time.",
+        "DONE": "The snapshot is generated, location:",
+        "CANCEL": "Cancel",
+        "CLOSE": "Close"
+    },
     "MIGRATE_WALLET_TO_ZARCANUM": {
         "BUTTON1": "Migrate",
         "LINK1": "What does it mean?",

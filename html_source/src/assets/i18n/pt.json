@@ -1,4 +1,16 @@
 {
+    "MAKE_SNAPSHOT": {
+        "BUTTON": "Criar snapshot",
+        "TOOLTIP": "Criar um arquivo de snapshot da carteira",
+        "TITLE": "Criar snapshot da carteira",
+        "DISCLAIMER": "Este arquivo de snapshot contém a chave de VISUALIZAÇÃO secreta da sua carteira e a lista de todas as suas saídas. Qualquer pessoa com este arquivo pode ver todas as transações desta carteira e calcular o seu saldo. Compartilhe-o apenas com uma parte em quem você confia.",
+        "AGREE": "Eu entendo e concordo",
+        "START": "Criar snapshot",
+        "IN_PROGRESS": "Gerando o snapshot. Isso pode levar algum tempo. Você pode cancelar a qualquer momento.",
+        "DONE": "O snapshot foi gerado, localização:",
+        "CANCEL": "Cancelar",
+        "CLOSE": "Fechar"
+    },
     "ACCESSIBILITY": {
         "ADD_WALLET": {
             "DESCRIPTIONS": {

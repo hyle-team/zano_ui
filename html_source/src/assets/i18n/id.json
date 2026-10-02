@@ -1,4 +1,16 @@
 {
+    "MAKE_SNAPSHOT": {
+        "BUTTON": "Buat snapshot",
+        "TOOLTIP": "Buat berkas snapshot dompet",
+        "TITLE": "Buat snapshot dompet",
+        "DISCLAIMER": "Berkas snapshot ini berisi kunci VIEW rahasia dompet Anda dan daftar semua output-nya. Siapa pun yang memiliki berkas ini dapat melihat semua transaksi dompet ini dan menghitung saldonya. Hanya bagikan dengan pihak yang Anda percaya.",
+        "AGREE": "Saya mengerti dan menyetujui",
+        "START": "Buat snapshot",
+        "IN_PROGRESS": "Membuat snapshot. Ini mungkin memerlukan waktu. Anda dapat membatalkan kapan saja.",
+        "DONE": "Snapshot telah dibuat, lokasi:",
+        "CANCEL": "Batal",
+        "CLOSE": "Tutup"
+    },
     "ACCESSIBILITY": {
         "ADD_WALLET": {
             "DESCRIPTIONS": {

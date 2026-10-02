@@ -6,6 +6,7 @@ import { StateKeys, Store, Sync } from '@store/store';
 import { distinctUntilChanged, filter, map, takeUntil } from 'rxjs/operators';
 import { ConfirmModalComponent, ConfirmModalData } from '@parts/modals/confirm-modal/confirm-modal.component';
 import { ExportHistoryModalComponent } from './dialogs/export-history-modal/export-history-modal.component';
+import { MakeSnapshotComponent } from './dialogs/make-snapshot/make-snapshot.component';
 import { AddCustomTokenComponent } from './dialogs/add-custom-token/add-custom-token.component';
 import { AssetBalance } from '@api/models/assets.model';
 import { AssetDetailsComponent } from '@parts/modals/asset-details/asset-details.component';
@@ -132,6 +133,12 @@ export class WalletComponent implements OnInit, OnDestroy {
         const { is_auditable, is_watch_only, has_bare_unspent_outputs, loaded } = current_wallet;
 
         return !is_auditable && !is_watch_only && loaded && daemon_state === 2 && has_bare_unspent_outputs;
+    }
+
+    openMakeSnapshot(): void {
+        // dismissible by backdrop click / ESC: must set disableClose:false explicitly to override the
+        // app-wide MAT_DIALOG_DEFAULT_OPTIONS default of disableClose:true. A dismiss mid-run cancels via ngOnDestroy.
+        this._matDialog.open(MakeSnapshotComponent, { disableClose: false });
     }
 
     constructor(

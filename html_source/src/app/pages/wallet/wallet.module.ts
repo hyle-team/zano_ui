@@ -38,6 +38,7 @@ import { StakingTimeToBlockCardComponent } from '@parts/components/staking-time-
 import { WalletModalsModule } from './tabs/send/modals/wallet-modals.module';
 import { GetAssetInfoPipe } from '@parts/pipes/get-asset-info.pipe';
 import { MigrateWalletToZarcanumComponent } from './wallet/dialogs/migrate-wallet-to-zarcanum/migrate-wallet-to-zarcanum.component';
+import { MakeSnapshotComponent } from './wallet/dialogs/make-snapshot/make-snapshot.component';
 import { SuccessSweepBareOutsComponent } from './wallet/dialogs/success-sweep-bare-outs/success-sweep-bare-outs.component';
 import { GetAmountItemsPipe } from '@parts/pipes/get-amount-items.pipe';
 import { TransactionStatusComponent } from '@parts/components/transaction-status/transaction-status.component';
@@ -89,6 +90,7 @@ import { TransactionDetailsComponent } from '@parts/components/transaction-detai
         ExportImportComponent,
         SendComponent,
         MigrateWalletToZarcanumComponent,
+        MakeSnapshotComponent,
         SuccessSweepBareOutsComponent,
         CustomAssetsComponent,
         CreateNewAssetComponent,

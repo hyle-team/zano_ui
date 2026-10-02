@@ -1,4 +1,16 @@
 {
+    "MAKE_SNAPSHOT": {
+        "BUTTON": "Snapshot erstellen",
+        "TOOLTIP": "Eine Wallet-Snapshot-Datei erstellen",
+        "TITLE": "Wallet-Snapshot erstellen",
+        "DISCLAIMER": "Diese Snapshot-Datei enthält den geheimen VIEW-Key Ihrer Wallet und die Liste aller ihrer Outputs. Jeder, der diese Datei besitzt, kann alle Transaktionen dieser Wallet einsehen und deren Guthaben berechnen. Teilen Sie sie nur mit einer vertrauenswürdigen Partei.",
+        "AGREE": "Ich habe verstanden und stimme zu",
+        "START": "Snapshot erstellen",
+        "IN_PROGRESS": "Snapshot wird erstellt. Dies kann eine Weile dauern. Sie können den Vorgang jederzeit abbrechen.",
+        "DONE": "Der Snapshot wurde erstellt, Speicherort:",
+        "CANCEL": "Abbrechen",
+        "CLOSE": "Schließen"
+    },
     "ACCESSIBILITY": {
         "ADD_WALLET": {
             "DESCRIPTIONS": {

@@ -1,0 +1,22 @@
+:host {
+    display: block;
+    max-width: 48rem;
+}
+
+.word-break-break-all {
+    word-break: break-all;
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 0.6rem;
+    border-radius: 0.3rem;
+    background: rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: var(--color-primary, #ff6b00);
+    transition: width 0.3s ease;
+}

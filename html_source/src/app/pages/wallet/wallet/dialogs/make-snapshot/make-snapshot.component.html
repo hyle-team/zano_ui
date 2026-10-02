@@ -1,0 +1,44 @@
+<h3 aria-live="assertive" mat-dialog-title>
+    {{ 'MAKE_SNAPSHOT.TITLE' | translate }}
+</h3>
+
+<mat-dialog-content>
+    <div class="details" *ngIf="!processing && !done">
+        <p class="mb-2 mt-2">{{ 'MAKE_SNAPSHOT.DISCLAIMER' | translate }}</p>
+        <label class="d-flex items-center cursor-pointer mb-2" fxLayout="row" fxLayoutAlign="start center">
+            <input type="checkbox" class="mr-0_5" (change)="agreed = $any($event.target).checked" />
+            <span>{{ 'MAKE_SNAPSHOT.AGREE' | translate }}</span>
+        </label>
+    </div>
+
+    <div class="details" *ngIf="processing">
+        <p class="mb-2 mt-2">{{ 'MAKE_SNAPSHOT.IN_PROGRESS' | translate }}</p>
+        <p class="mb-2 text-align-center font-weight-bold">{{ progress }}%</p>
+        <div class="progress-bar-container">
+            <div class="progress-bar" [style.width.%]="progress"></div>
+        </div>
+    </div>
+
+    <div class="details" *ngIf="done">
+        <p class="mb-2 mt-2">{{ 'MAKE_SNAPSHOT.DONE' | translate }}</p>
+        <p class="mb-2 word-break-break-all">{{ resultFile }}</p>
+    </div>
+
+    <div class="details" *ngIf="error">
+        <p class="mb-2 mt-2 color-red">{{ error }}</p>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <div fxFlex="1 1 auto" fxLayout="row nowrap" fxLayoutGap="1rem">
+        <button *ngIf="!processing && !done" (click)="start()" [disabled]="!agreed" class="primary big w-100" type="button">
+            {{ 'MAKE_SNAPSHOT.START' | translate }}
+        </button>
+        <button *ngIf="processing" (click)="cancel()" class="outline big w-100" type="button">
+            {{ 'MAKE_SNAPSHOT.CANCEL' | translate }}
+        </button>
+        <button *ngIf="done || error" (click)="close()" class="primary big w-100" type="button">
+            {{ 'MAKE_SNAPSHOT.CLOSE' | translate }}
+        </button>
+    </div>
+</mat-dialog-actions>

@@ -16,6 +16,15 @@
                 </app-copy-button>
 
                 <zano-alias-controls></zano-alias-controls>
+
+                <button
+                    (click)="openMakeSnapshot()"
+                    [disabled]="!variablesService.current_wallet.loaded"
+                    class="px-1 py-0_8 btn-light-background"
+                    type="button"
+                >
+                    {{ 'MAKE_SNAPSHOT.BUTTON' | translate }}
+                </button>
             </div>
         </div>
 
@@ -97,6 +106,18 @@
                     <span>{{ 'WALLET_DETAILS.RESYNC_WALLET_BUTTON' | translate }}</span>
                 </button>
             </ng-container>
+
+            <button
+                (click)="openMakeSnapshot()"
+                [disabled]="!variablesService.current_wallet.loaded"
+                mat-menu-item
+                [matTooltip]="'MAKE_SNAPSHOT.TOOLTIP' | translate"
+                [matTooltipShowDelay]="800"
+                matTooltipPosition="left"
+            >
+                <mat-icon svgIcon="zano-export"></mat-icon>
+                <span>{{ 'MAKE_SNAPSHOT.BUTTON' | translate }}</span>
+            </button>
 
             <button
                 (click)="close(variablesService.current_wallet.wallet_id)"

@@ -1,4 +1,16 @@
 {
+    "MAKE_SNAPSHOT": {
+        "BUTTON": "Crea snapshot",
+        "TOOLTIP": "Crea un file snapshot del wallet",
+        "TITLE": "Crea snapshot del wallet",
+        "DISCLAIMER": "Questo file snapshot contiene la chiave di VISUALIZZAZIONE segreta del tuo wallet e l'elenco di tutti i suoi output. Chiunque disponga di questo file può vedere tutte le transazioni di questo wallet e calcolarne il saldo. Condividilo solo con una parte di cui ti fidi.",
+        "AGREE": "Ho capito e accetto",
+        "START": "Crea snapshot",
+        "IN_PROGRESS": "Creazione dello snapshot in corso. Potrebbe richiedere del tempo. Puoi annullare in qualsiasi momento.",
+        "DONE": "Lo snapshot è stato creato, posizione:",
+        "CANCEL": "Annulla",
+        "CLOSE": "Chiudi"
+    },
     "ACCESSIBILITY": {
         "ADD_WALLET": {
             "DESCRIPTIONS": {
