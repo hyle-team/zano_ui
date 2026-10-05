@@ -14,14 +14,14 @@
             >
                 {{ transaction.tx_hash }}
             </td>
-            <td>{{ 'HISTORY.DETAILS.SIZE' | translate }}</td>
+            <td>{{ 'HISTORY.DETAILS.CONFIRMATION' | translate }}</td>
             <td>
-                {{ 'HISTORY.DETAILS.SIZE_VALUE' | translate : { value: transaction.tx_blob_size } }}
+                {{ transaction.height === 0 ? 0 : variablesService.height_app - transaction.height }}
             </td>
         </tr>
         <tr role="row">
             <td>{{ 'Asset ID' | translate }}</td>
-            <td class="color-primary cursor-pointer" colspan="2">
+            <td class="color-primary cursor-pointer" colspan="4">
                 <ng-container *ngFor="let asset_id of getAllUniqAssetId(transaction)">
                     <p
                         (click)="assetDetails(asset_id)"
@@ -31,10 +31,6 @@
                         {{ asset_id }}
                     </p>
                 </ng-container>
-            </td>
-            <td>{{ 'HISTORY.DETAILS.CONFIRMATION' | translate }}</td>
-            <td>
-                {{ transaction.height === 0 ? 0 : variablesService.height_app - transaction.height }}
             </td>
         </tr>
         <tr role="row">
