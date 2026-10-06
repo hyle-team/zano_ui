@@ -1,6 +1,7 @@
 <div class="controls" fxFlex="0 0 auto" fxLayout="row" fxLayoutAlign="start center">
     <ng-container *ngIf="isShowAssignAlias">
-        <button [routerLink]="['/assign-alias']" class="px-1 py-0_8 btn-light-background" role="link" type="button">
+        <!-- revision/snapshot-only build: alias registration disabled -->
+        <button [disabled]="true" [routerLink]="['/assign-alias']" class="px-1 py-0_8 btn-light-background" role="link" type="button">
             {{ 'WALLET.REGISTER_ALIAS' | translate }}
         </button>
     </ng-container>

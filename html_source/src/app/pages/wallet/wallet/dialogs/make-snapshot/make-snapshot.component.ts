@@ -41,20 +41,33 @@ export class MakeSnapshotComponent implements OnDestroy {
         if (!this.agreed || this.processing) {
             return;
         }
-        const { wallet_id } = this._variablesService.current_wallet;
-        this.processing = true;
-        this.error = '';
-        this._backendService.makeHf6Snapshot(wallet_id, (response: MakeSnapshotResult) => {
-            this._ngZone.run(() => {
-                this.processing = false;
-                if (response && response.status === 'OK') {
-                    this.done = true;
-                    this.resultFile = response.file;
-                } else {
-                    this.error = (response && response.status) || 'FAILED';
-                }
-            });
-        });
+        const { wallet_id, address } = this._variablesService.current_wallet;
+        // pick the location first; the filename is fixed to <address>.snapshot-json. Cancel -> stay on the disclaimer.
+        this._backendService.saveFileDialog(
+            'Choose snapshot location',
+            '*.snapshot-json',
+            address + '.snapshot-json',
+            (file_status: boolean, file_data: { path?: string }) => {
+                this._ngZone.run(() => {
+                    if (!file_status || !file_data || !file_data.path) {
+                        return;
+                    }
+                    this.processing = true;
+                    this.error = '';
+                    this._backendService.makeHf6Snapshot(wallet_id, file_data.path, (response: MakeSnapshotResult) => {
+                        this._ngZone.run(() => {
+                            this.processing = false;
+                            if (response && response.status === 'OK') {
+                                this.done = true;
+                                this.resultFile = response.file;
+                            } else {
+                                this.error = (response && response.status) || 'FAILED';
+                            }
+                        });
+                    });
+                });
+            }
+        );
     }
 
     cancel(): void {

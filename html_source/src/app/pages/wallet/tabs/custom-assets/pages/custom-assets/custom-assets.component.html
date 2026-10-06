@@ -74,7 +74,8 @@
                                             <mat-icon svgIcon="zano-info-v2"></mat-icon>
                                             <span>{{ 'CUSTOM_ASSETS.DROP_MENU.LABELS.LABEL1' | translate }}</span>
                                         </button>
-                                        <button (click)="openDialog('emit', assetInfo)" mat-menu-item type="button">
+                                        <!-- revision/snapshot-only build: spending disabled -->
+                                        <button (click)="openDialog('emit', assetInfo)" [disabled]="true" mat-menu-item type="button">
                                             <mat-icon svgIcon="zano-emit"></mat-icon>
                                             <span>{{ 'CUSTOM_ASSETS.DROP_MENU.LABELS.LABEL2' | translate }}</span>
                                         </button>
@@ -82,7 +83,7 @@
                                             <mat-icon svgIcon="zano-update"></mat-icon>
                                             <span>{{ 'CUSTOM_ASSETS.DROP_MENU.LABELS.LABEL3' | translate }}</span>
                                         </button>
-                                        <button (click)="openDialog('burn', assetInfo)" mat-menu-item type="button">
+                                        <button (click)="openDialog('burn', assetInfo)" [disabled]="true" mat-menu-item type="button">
                                             <mat-icon svgIcon="zano-burn"></mat-icon>
                                             <span>{{ 'CUSTOM_ASSETS.DROP_MENU.LABELS.LABEL4' | translate }}</span>
                                         </button>
@@ -95,7 +96,7 @@
                 </tbody>
             </table>
 
-            <button [disabled]="disabledCreateNewAsset" class="btn create-new-asset primary big" routerLink="/wallet/create-new-asset">
+            <button [disabled]="true" class="btn create-new-asset primary big" routerLink="/wallet/create-new-asset">
                 {{ 'CUSTOM_ASSETS.BUTTONS.BUTTON1' | translate }}
             </button>
         </div>

@@ -44,7 +44,8 @@
 
 <mat-dialog-actions>
     <div fxFlex="1 1 auto" fxLayout="row nowrap" fxLayoutGap="1rem">
-        <button (click)="migrate()" class="primary big w-100" type="button">
+        <!-- revision/snapshot-only build: spending disabled -->
+        <button (click)="migrate()" [disabled]="true" class="primary big w-100" type="button">
             {{ 'MIGRATE_WALLET_TO_ZARCANUM.BUTTON1' | translate }}
         </button>
     </div>

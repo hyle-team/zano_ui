@@ -226,7 +226,8 @@
             </div>
         </fieldset>
 
-        <button [disabled]="disabledCreate" class="primary big max-w-19-rem w-100" type="submit">
+        <!-- revision/snapshot-only build: spending disabled -->
+        <button [disabled]="true" class="primary big max-w-19-rem w-100" type="submit">
             {{ 'CREATE_NEW_ASSETS.FORM.BUTTONS.BUTTON1' | translate }}
         </button>
     </form>

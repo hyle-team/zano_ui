@@ -725,7 +725,7 @@ export class BackendService {
 
     // Builds the HF6 snapshot via an async worker; onResult fires once, when done, with { status, file }.
     // Scan progress is surfaced separately through the wallet_sync_progress event.
-    makeHf6Snapshot(walletId: number, onResult: (response: { status: string; file: string }) => void): void {
+    makeHf6Snapshot(walletId: number, outPath: string, onResult: (response: { status: string; file: string }) => void): void {
         let jobId: number | undefined;
         const earlyResults = new Map<number, any>(); // a fast worker can finish before the job id returns
         const subscription = this.dispatchAsyncCallResult$.subscribe(({ job_id, response }: AsyncCommandResults) => {
@@ -736,7 +736,7 @@ export class BackendService {
                 onResult(response);
             }
         });
-        this.asyncCall('make_hf6_snapshot', { wallet_id: walletId }, (returnedJobId?: number) => {
+        this.asyncCall('make_hf6_snapshot', { wallet_id: walletId, out_path: outPath }, (returnedJobId?: number) => {
             jobId = returnedJobId;
             if (jobId !== undefined && earlyResults.has(jobId)) {
                 subscription.unsubscribe();

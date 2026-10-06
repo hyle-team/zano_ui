@@ -12,7 +12,11 @@
 }
 
 .testnet {
-    background: var(--red-500);
+    background: #8b0000;
+    color: #fff;
+    white-space: nowrap;
+    transform: scale(1.1);
+    transform-origin: bottom right;
     border-radius: 999px;
     padding: 0 0.5rem;
 

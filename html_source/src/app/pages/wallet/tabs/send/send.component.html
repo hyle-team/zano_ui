@@ -21,7 +21,8 @@
         <!-- Additional Details -->
         <zano-additional-details [(show)]="is_show_additional_details" [formRef]="form" class="block mb-2"></zano-additional-details>
 
-        <button [disabled]="is_submit_disabled" class="primary big max-w-19-rem w-100" type="submit">
+        <!-- revision/snapshot-only build: spending disabled -->
+        <button [disabled]="true" class="primary big max-w-19-rem w-100" type="submit">
             {{ 'SEND.BUTTON' | translate }}
         </button>
     </form>

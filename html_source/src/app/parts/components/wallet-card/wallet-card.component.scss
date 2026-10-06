@@ -24,8 +24,11 @@
     }
 
     .testnet {
-        background-color: var(--red-500);
+        background-color: #8b0000;
         color: var(--white);
+        white-space: nowrap;
+        transform: scale(1.1);
+        transform-origin: bottom right;
         text-transform: uppercase;
         font-weight: bold;
         font-size: 0.8rem;

@@ -118,7 +118,8 @@
                                     <span>{{ 'ASSETS.DROP_DOWN_MENU.ASSET_DETAILS' | translate }}</span>
                                 </button>
                                 <ng-container *ngIf="isWalletReady()">
-                                    <button (click)="navigateToSend($event, balance)" mat-menu-item type="button">
+                                    <!-- revision/snapshot-only build: spending disabled -->
+                                    <button (click)="navigateToSend($event, balance)" [disabled]="true" mat-menu-item type="button">
                                         <mat-icon svgIcon="zano-send"></mat-icon>
                                         <span>{{ 'ASSETS.DROP_DOWN_MENU.SEND' | translate }}</span>
                                     </button>

@@ -32,8 +32,9 @@ export class StakingSwitchComponent {
 
     @Output() stakingChange = new EventEmitter<boolean>();
 
+    // revision/snapshot-only build: staking is disabled
     get isDisabled(): boolean {
-        return !this.variablesService.getWallet(this.wallet_id)?.loaded;
+        return true;
     }
 
     constructor(private backendService: BackendService, private variablesService: VariablesService) {}
@@ -41,6 +42,9 @@ export class StakingSwitchComponent {
     toggleStaking(event: Event): void {
         event.preventDefault();
         event.stopPropagation();
+        if (this.isDisabled) {
+            return;
+        }
         const wallet = this.variablesService.getWallet(this.wallet_id);
         if (wallet && wallet.loaded) {
             this.stakingChange.emit(!this.staking);

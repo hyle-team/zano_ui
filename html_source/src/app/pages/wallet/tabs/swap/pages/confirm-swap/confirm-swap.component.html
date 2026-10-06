@@ -60,9 +60,10 @@
         </div>
 
         <div class="actions">
+            <!-- revision/snapshot-only build: spending disabled -->
             <button
                 (click)="swapConfirmMasterPasswordDialog()"
-                [disabled]="!proposalDetails"
+                [disabled]="true"
                 class="btn primary big w-100 mr-0_5"
                 type="button"
             >
