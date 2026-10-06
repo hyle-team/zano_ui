@@ -16,6 +16,7 @@ export interface SweepBareOuts {
 
 export interface ResultAliasByAddress {
     alias_info_list: AliasInfo[];
+    default_alias: string;
     status: string;
 }
 
