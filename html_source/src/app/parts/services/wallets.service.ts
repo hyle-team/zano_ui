@@ -143,9 +143,13 @@ export class WalletsService {
             method: 'get_alias_by_address',
             params: wallet.address,
         };
-        this._backendService.call_rpc(params, (status: boolean, response_data: ResponseCallRpc<ResultAliasByAddress>) => {
+        this._backendService.call_rpc(params, (_status: boolean, response_data: ResponseCallRpc<ResultAliasByAddress>) => {
             this._ngZone.run(() => {
-                wallet.alias_info_list = response_data?.result?.alias_info_list?.filter(Boolean) ?? [];
+                const result = response_data?.result;
+                const alias_info = result?.status === 'OK' && result.default_alias
+                    ? result.alias_info_list?.find((item) => item?.alias === result.default_alias)
+                    : null;
+                wallet.alias_info_list = alias_info ? [alias_info] : [];
             });
         });
     }

@@ -242,7 +242,7 @@ export class Wallet {
     has_bare_unspent_outputs = false;
 
     get alias_info(): null | AliasInfo {
-        return this.alias_info_list[this.alias_info_list.length - 1] ?? null;
+        return this.alias_info_list[0] ?? null;
     }
 
     alias_info_list: AliasInfoList = [];

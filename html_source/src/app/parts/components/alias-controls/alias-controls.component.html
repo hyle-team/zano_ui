@@ -18,28 +18,6 @@
                 @{{ variablesService.current_wallet.alias_info?.alias }}
                 <mat-icon svgIcon="zano-circle-arrow-right"></mat-icon>
             </div>
-
-            <ng-container *ngIf="variablesService.current_wallet.alias_info_list.length > 1">
-                <div
-                    [delay]="150"
-                    [placement]="'bottom'"
-                    [timeout]="0"
-                    [timeDelay]="800"
-                    [tooltipClass]="'table-tooltip'"
-                    [tooltip]="tooltipListTemplate"
-                    class="count"
-                >
-                    +{{ variablesService.current_wallet.alias_info_list.length - 1 }}
-                </div>
-            </ng-container>
         </button>
     </ng-container>
 </div>
-
-<ng-template #tooltipListTemplate>
-    <ul class="tooltip-list">
-        <ng-container *ngFor="let alias_info of variablesService.current_wallet.alias_info_list; let last = last">
-            <li *ngIf="!last">@{{ alias_info.alias }}</li>
-        </ng-container>
-    </ul>
-</ng-template>
