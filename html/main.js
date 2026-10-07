@@ -21378,6 +21378,7 @@ class MakeSnapshotComponent {
         this._backendService = (0,_angular_core__WEBPACK_IMPORTED_MODULE_2__.inject)(_api_services_backend_service__WEBPACK_IMPORTED_MODULE_0__.BackendService);
         this._variablesService = (0,_angular_core__WEBPACK_IMPORTED_MODULE_2__.inject)(_parts_services_variables_service__WEBPACK_IMPORTED_MODULE_1__.VariablesService);
         this._ngZone = (0,_angular_core__WEBPACK_IMPORTED_MODULE_2__.inject)(_angular_core__WEBPACK_IMPORTED_MODULE_2__.NgZone);
+        this._runningWalletId = null; // wallet a snapshot is currently running on (null when idle)
     }
     // snapshot-scan progress %, pushed to current_wallet.progress via the wallet_sync_progress event
     get progress() {
@@ -21388,18 +21389,27 @@ class MakeSnapshotComponent {
         if (!this.agreed || this.processing) {
             return;
         }
-        const { wallet_id, address } = this._variablesService.current_wallet;
+        const { wallet_id, address, path } = this._variablesService.current_wallet;
+        // default to the wallet file's own directory (handles both / and \ separators), fixed name <address>.snapshot-json
+        const sep = Math.max((path || '').lastIndexOf('/'), (path || '').lastIndexOf('\\'));
+        const defaultPath = (sep >= 0 ? path.substring(0, sep + 1) : '') + address + '.snapshot-json';
         // pick the location first; the filename is fixed to <address>.snapshot-json. Cancel -> stay on the disclaimer.
-        this._backendService.saveFileDialog('Choose snapshot location', '*.snapshot-json', address + '.snapshot-json', (file_status, file_data) => {
+        this._backendService.saveFileDialog('Choose snapshot location', '*.snapshot-json', defaultPath, (file_status, file_data) => {
             this._ngZone.run(() => {
                 if (!file_status || !file_data || !file_data.path) {
                     return;
                 }
                 this.processing = true;
                 this.error = '';
+                this._runningWalletId = wallet_id;
                 this._backendService.makeHf6Snapshot(wallet_id, file_data.path, (response) => {
                     this._ngZone.run(() => {
                         this.processing = false;
+                        this._runningWalletId = null;
+                        // the snapshot reuses the wallet_sync_progress channel, which drives the sync-cycle
+                        // state (loaded / sync_started / sync_wallets); restore the synced state so a
+                        // finished or cancelled snapshot never leaves the wallet UI stuck.
+                        this._restoreWalletSyncState(wallet_id);
                         if (response && response.status === 'OK') {
                             this.done = true;
                             this.resultFile = response.file;
@@ -21420,10 +21430,25 @@ class MakeSnapshotComponent {
         this._matDialogRef.close();
     }
     ngOnDestroy() {
-        // if the dialog is dismissed while a snapshot is still running, stop the backend work too
-        if (this.processing) {
-            const { wallet_id } = this._variablesService.current_wallet;
-            this._backendService.cancelHf6Snapshot(wallet_id);
+        // dismissed mid-run: cancel the backend work and restore the synced state immediately
+        // (onResult also restores it once the cancelled scan returns).
+        if (this._runningWalletId !== null) {
+            this._backendService.cancelHf6Snapshot(this._runningWalletId);
+            this._restoreWalletSyncState(this._runningWalletId);
+        }
+    }
+    // The snapshot scan emits on_sync_progress, which app.component treats as a real sync cycle
+    // (toggling wallet.loaded, sync_started, sync_wallets). Those stay set if no terminal 100 arrives
+    // (cancel/error), freezing the wallet UI. Restore the already-synced state explicitly.
+    _restoreWalletSyncState(walletId) {
+        const wallet = this._variablesService.getWallet(walletId);
+        if (wallet) {
+            wallet.loaded = true;
+            wallet.progress = 100;
+        }
+        this._variablesService.sync_started = false;
+        if (this._variablesService.sync_wallets) {
+            this._variablesService.sync_wallets[walletId] = false;
         }
     }
 }
@@ -30940,7 +30965,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const buildTime = '2026-10-06T14:51:11.388Z';
+const buildTime = '2026-10-07T13:43:10.550Z';
 if (_environments_environment__WEBPACK_IMPORTED_MODULE_1__.environment.production) {
     (0,_angular_core__WEBPACK_IMPORTED_MODULE_4__.enableProdMode)();
 }
