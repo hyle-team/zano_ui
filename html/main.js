@@ -21275,29 +21275,35 @@ function MakeSnapshotComponent_div_4_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](2);
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵpipe"](3, "translate");
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](4, "label", 8)(5, "input", 9);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵlistener"]("change", function MakeSnapshotComponent_div_4_Template_input_change_5_listener($event) { _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵrestoreView"](_r8); const ctx_r7 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵnextContext"](); return _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵresetView"](ctx_r7.agreed = $event.target.checked); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](4, "p", 8);
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](5);
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵpipe"](6, "translate");
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](6, "span");
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](7);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵpipe"](8, "translate");
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](7, "label", 9)(8, "input", 10);
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵlistener"]("change", function MakeSnapshotComponent_div_4_Template_input_change_8_listener($event) { _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵrestoreView"](_r8); const ctx_r7 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵnextContext"](); return _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵresetView"](ctx_r7.agreed = $event.target.checked); });
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](9, "span");
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](10);
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵpipe"](11, "translate");
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]()()();
 } if (rf & 2) {
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](2);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵpipeBind1"](3, 2, "MAKE_SNAPSHOT.DISCLAIMER"));
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵpipeBind1"](3, 3, "MAKE_SNAPSHOT.DISCLAIMER"));
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](3);
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵpipeBind1"](6, 5, "MAKE_SNAPSHOT.RECOMMENDATION"));
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](5);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵpipeBind1"](8, 4, "MAKE_SNAPSHOT.AGREE"));
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵpipeBind1"](11, 7, "MAKE_SNAPSHOT.AGREE"));
 } }
 function MakeSnapshotComponent_div_5_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "div", 6)(1, "p", 7);
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](2);
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵpipe"](3, "translate");
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](4, "p", 10);
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](4, "p", 11);
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](5);
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](6, "div", 11);
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](7, "div", 12);
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](6, "div", 12);
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelement"](7, "div", 13);
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]()();
 } if (rf & 2) {
     const ctx_r1 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵnextContext"]();
@@ -21313,7 +21319,7 @@ function MakeSnapshotComponent_div_6_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](2);
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵpipe"](3, "translate");
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](4, "p", 13);
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](4, "p", 14);
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](5);
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]()();
 } if (rf & 2) {
@@ -21324,7 +21330,7 @@ function MakeSnapshotComponent_div_6_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtextInterpolate"](ctx_r2.resultFile);
 } }
 function MakeSnapshotComponent_div_7_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "div", 6)(1, "p", 14);
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "div", 6)(1, "p", 15);
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](2);
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]()();
 } if (rf & 2) {
@@ -21334,7 +21340,7 @@ function MakeSnapshotComponent_div_7_Template(rf, ctx) { if (rf & 1) {
 } }
 function MakeSnapshotComponent_button_10_Template(rf, ctx) { if (rf & 1) {
     const _r10 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵgetCurrentView"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "button", 15);
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "button", 16);
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵlistener"]("click", function MakeSnapshotComponent_button_10_Template_button_click_0_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵrestoreView"](_r10); const ctx_r9 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵnextContext"](); return _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵresetView"](ctx_r9.start()); });
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](1);
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵpipe"](2, "translate");
@@ -21347,7 +21353,7 @@ function MakeSnapshotComponent_button_10_Template(rf, ctx) { if (rf & 1) {
 } }
 function MakeSnapshotComponent_button_11_Template(rf, ctx) { if (rf & 1) {
     const _r12 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵgetCurrentView"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "button", 16);
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "button", 17);
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵlistener"]("click", function MakeSnapshotComponent_button_11_Template_button_click_0_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵrestoreView"](_r12); const ctx_r11 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵnextContext"](); return _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵresetView"](ctx_r11.cancel()); });
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](1);
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵpipe"](2, "translate");
@@ -21358,7 +21364,7 @@ function MakeSnapshotComponent_button_11_Template(rf, ctx) { if (rf & 1) {
 } }
 function MakeSnapshotComponent_button_12_Template(rf, ctx) { if (rf & 1) {
     const _r14 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵgetCurrentView"]();
-    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "button", 17);
+    _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "button", 18);
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵlistener"]("click", function MakeSnapshotComponent_button_12_Template_button_click_0_listener() { _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵrestoreView"](_r14); const ctx_r13 = _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵnextContext"](); return _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵresetView"](ctx_r13.close()); });
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](1);
     _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵpipe"](2, "translate");
@@ -21378,7 +21384,7 @@ class MakeSnapshotComponent {
         this._backendService = (0,_angular_core__WEBPACK_IMPORTED_MODULE_2__.inject)(_api_services_backend_service__WEBPACK_IMPORTED_MODULE_0__.BackendService);
         this._variablesService = (0,_angular_core__WEBPACK_IMPORTED_MODULE_2__.inject)(_parts_services_variables_service__WEBPACK_IMPORTED_MODULE_1__.VariablesService);
         this._ngZone = (0,_angular_core__WEBPACK_IMPORTED_MODULE_2__.inject)(_angular_core__WEBPACK_IMPORTED_MODULE_2__.NgZone);
-        this._runningWalletId = null; // wallet a snapshot is currently running on (null when idle)
+        this._runningWalletId = null;
     }
     // snapshot-scan progress %, pushed to current_wallet.progress via the wallet_sync_progress event
     get progress() {
@@ -21390,10 +21396,9 @@ class MakeSnapshotComponent {
             return;
         }
         const { wallet_id, address, path } = this._variablesService.current_wallet;
-        // default to the wallet file's own directory (handles both / and \ separators), fixed name <address>.snapshot-json
+        // default to the wallet file's own directory
         const sep = Math.max((path || '').lastIndexOf('/'), (path || '').lastIndexOf('\\'));
         const defaultPath = (sep >= 0 ? path.substring(0, sep + 1) : '') + address + '.snapshot-json';
-        // pick the location first; the filename is fixed to <address>.snapshot-json. Cancel -> stay on the disclaimer.
         this._backendService.saveFileDialog('Choose snapshot location', '*.snapshot-json', defaultPath, (file_status, file_data) => {
             this._ngZone.run(() => {
                 if (!file_status || !file_data || !file_data.path) {
@@ -21406,9 +21411,6 @@ class MakeSnapshotComponent {
                     this._ngZone.run(() => {
                         this.processing = false;
                         this._runningWalletId = null;
-                        // the snapshot reuses the wallet_sync_progress channel, which drives the sync-cycle
-                        // state (loaded / sync_started / sync_wallets); restore the synced state so a
-                        // finished or cancelled snapshot never leaves the wallet UI stuck.
                         this._restoreWalletSyncState(wallet_id);
                         if (response && response.status === 'OK') {
                             this.done = true;
@@ -21430,8 +21432,6 @@ class MakeSnapshotComponent {
         this._matDialogRef.close();
     }
     ngOnDestroy() {
-        // dismissed mid-run: cancel the backend work and restore the synced state immediately
-        // (onResult also restores it once the cancelled scan returns).
         if (this._runningWalletId !== null) {
             this._backendService.cancelHf6Snapshot(this._runningWalletId);
             this._restoreWalletSyncState(this._runningWalletId);
@@ -21453,13 +21453,13 @@ class MakeSnapshotComponent {
     }
 }
 MakeSnapshotComponent.ɵfac = function MakeSnapshotComponent_Factory(t) { return new (t || MakeSnapshotComponent)(); };
-MakeSnapshotComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefineComponent"]({ type: MakeSnapshotComponent, selectors: [["app-make-snapshot"]], decls: 13, vars: 10, consts: [["aria-live", "assertive", "mat-dialog-title", ""], ["class", "details", 4, "ngIf"], ["fxFlex", "1 1 auto", "fxLayout", "row nowrap", "fxLayoutGap", "1rem"], ["class", "primary big w-100", "type", "button", 3, "disabled", "click", 4, "ngIf"], ["class", "outline big w-100", "type", "button", 3, "click", 4, "ngIf"], ["class", "primary big w-100", "type", "button", 3, "click", 4, "ngIf"], [1, "details"], [1, "mb-2", "mt-2"], ["fxLayout", "row", "fxLayoutAlign", "start center", 1, "d-flex", "items-center", "cursor-pointer", "mb-2"], ["type", "checkbox", 1, "mr-0_5", 3, "change"], [1, "mb-2", "text-align-center", "font-weight-bold"], [1, "progress-bar-container"], [1, "progress-bar"], [1, "mb-2", "word-break-break-all"], [1, "mb-2", "mt-2", "color-red"], ["type", "button", 1, "primary", "big", "w-100", 3, "disabled", "click"], ["type", "button", 1, "outline", "big", "w-100", 3, "click"], ["type", "button", 1, "primary", "big", "w-100", 3, "click"]], template: function MakeSnapshotComponent_Template(rf, ctx) { if (rf & 1) {
+MakeSnapshotComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵdefineComponent"]({ type: MakeSnapshotComponent, selectors: [["app-make-snapshot"]], decls: 13, vars: 10, consts: [["aria-live", "assertive", "mat-dialog-title", ""], ["class", "details", 4, "ngIf"], ["fxFlex", "1 1 auto", "fxLayout", "row nowrap", "fxLayoutGap", "1rem"], ["class", "primary big w-100", "type", "button", 3, "disabled", "click", 4, "ngIf"], ["class", "outline big w-100", "type", "button", 3, "click", 4, "ngIf"], ["class", "primary big w-100", "type", "button", 3, "click", 4, "ngIf"], [1, "details"], [1, "mb-2", "mt-2"], [1, "mb-2", "font-weight-bold"], ["fxLayout", "row", "fxLayoutAlign", "start center", 1, "d-flex", "items-center", "cursor-pointer", "mb-2"], ["type", "checkbox", 1, "mr-0_5", 3, "change"], [1, "mb-2", "text-align-center", "font-weight-bold"], [1, "progress-bar-container"], [1, "progress-bar"], [1, "mb-2", "word-break-break-all"], [1, "mb-2", "mt-2", "color-red"], ["type", "button", 1, "primary", "big", "w-100", 3, "disabled", "click"], ["type", "button", 1, "outline", "big", "w-100", 3, "click"], ["type", "button", 1, "primary", "big", "w-100", 3, "click"]], template: function MakeSnapshotComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](0, "h3", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtext"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵpipe"](2, "translate");
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementEnd"]();
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵelementStart"](3, "mat-dialog-content");
-        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](4, MakeSnapshotComponent_div_4_Template, 9, 6, "div", 1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](4, MakeSnapshotComponent_div_4_Template, 12, 9, "div", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](5, MakeSnapshotComponent_div_5_Template, 8, 6, "div", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](6, MakeSnapshotComponent_div_6_Template, 6, 4, "div", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵtemplate"](7, MakeSnapshotComponent_div_7_Template, 3, 1, "div", 1);
@@ -21486,7 +21486,7 @@ MakeSnapshotComponent.ɵcmp = /*@__PURE__*/ _angular_core__WEBPACK_IMPORTED_MODU
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("ngIf", ctx.processing);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_2__["ɵɵproperty"]("ngIf", ctx.done || ctx.error);
-    } }, dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_4__.NgIf, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_5__.DefaultLayoutDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_5__.DefaultLayoutGapDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_5__.DefaultLayoutAlignDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_5__.DefaultFlexDirective, _angular_material_dialog__WEBPACK_IMPORTED_MODULE_3__.MatDialogTitle, _angular_material_dialog__WEBPACK_IMPORTED_MODULE_3__.MatDialogContent, _angular_material_dialog__WEBPACK_IMPORTED_MODULE_3__.MatDialogActions, _ngx_translate_core__WEBPACK_IMPORTED_MODULE_6__.TranslatePipe], styles: ["[_nghost-%COMP%] {\n  display: block;\n  max-width: 48rem;\n}\n\n.word-break-break-all[_ngcontent-%COMP%] {\n  word-break: break-all;\n}\n\n.progress-bar-container[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 0.6rem;\n  border-radius: 0.3rem;\n  background: rgba(255, 255, 255, 0.1);\n  overflow: hidden;\n}\n\n.progress-bar[_ngcontent-%COMP%] {\n  height: 100%;\n  background: var(--color-primary, #ff6b00);\n  transition: width 0.3s ease;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm1ha2Utc25hcHNob3QuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSSxjQUFBO0VBQ0EsZ0JBQUE7QUFDSjs7QUFFQTtFQUNJLHFCQUFBO0FBQ0o7O0FBRUE7RUFDSSxXQUFBO0VBQ0EsY0FBQTtFQUNBLHFCQUFBO0VBQ0Esb0NBQUE7RUFDQSxnQkFBQTtBQUNKOztBQUVBO0VBQ0ksWUFBQTtFQUNBLHlDQUFBO0VBQ0EsMkJBQUE7QUFDSiIsImZpbGUiOiJtYWtlLXNuYXBzaG90LmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiOmhvc3Qge1xyXG4gICAgZGlzcGxheTogYmxvY2s7XHJcbiAgICBtYXgtd2lkdGg6IDQ4cmVtO1xyXG59XHJcblxyXG4ud29yZC1icmVhay1icmVhay1hbGwge1xyXG4gICAgd29yZC1icmVhazogYnJlYWstYWxsO1xyXG59XHJcblxyXG4ucHJvZ3Jlc3MtYmFyLWNvbnRhaW5lciB7XHJcbiAgICB3aWR0aDogMTAwJTtcclxuICAgIGhlaWdodDogMC42cmVtO1xyXG4gICAgYm9yZGVyLXJhZGl1czogMC4zcmVtO1xyXG4gICAgYmFja2dyb3VuZDogcmdiYSgyNTUsIDI1NSwgMjU1LCAwLjEpO1xyXG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcclxufVxyXG5cclxuLnByb2dyZXNzLWJhciB7XHJcbiAgICBoZWlnaHQ6IDEwMCU7XHJcbiAgICBiYWNrZ3JvdW5kOiB2YXIoLS1jb2xvci1wcmltYXJ5LCAjZmY2YjAwKTtcclxuICAgIHRyYW5zaXRpb246IHdpZHRoIDAuM3MgZWFzZTtcclxufVxyXG4iXX0= */"] });
+    } }, dependencies: [_angular_common__WEBPACK_IMPORTED_MODULE_4__.NgIf, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_5__.DefaultLayoutDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_5__.DefaultLayoutGapDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_5__.DefaultLayoutAlignDirective, _angular_flex_layout__WEBPACK_IMPORTED_MODULE_5__.DefaultFlexDirective, _angular_material_dialog__WEBPACK_IMPORTED_MODULE_3__.MatDialogTitle, _angular_material_dialog__WEBPACK_IMPORTED_MODULE_3__.MatDialogContent, _angular_material_dialog__WEBPACK_IMPORTED_MODULE_3__.MatDialogActions, _ngx_translate_core__WEBPACK_IMPORTED_MODULE_6__.TranslatePipe], styles: ["[_nghost-%COMP%] {\n  display: block;\n  max-width: 72rem;\n}\n\n.word-break-break-all[_ngcontent-%COMP%] {\n  word-break: break-all;\n}\n\n.progress-bar-container[_ngcontent-%COMP%] {\n  width: 100%;\n  height: 0.6rem;\n  border-radius: 0.3rem;\n  background: rgba(255, 255, 255, 0.1);\n  overflow: hidden;\n}\n\n.progress-bar[_ngcontent-%COMP%] {\n  height: 100%;\n  background: var(--color-primary, #ff6b00);\n  transition: width 0.3s ease;\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIm1ha2Utc25hcHNob3QuY29tcG9uZW50LnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDSSxjQUFBO0VBQ0EsZ0JBQUE7QUFDSjs7QUFFQTtFQUNJLHFCQUFBO0FBQ0o7O0FBRUE7RUFDSSxXQUFBO0VBQ0EsY0FBQTtFQUNBLHFCQUFBO0VBQ0Esb0NBQUE7RUFDQSxnQkFBQTtBQUNKOztBQUVBO0VBQ0ksWUFBQTtFQUNBLHlDQUFBO0VBQ0EsMkJBQUE7QUFDSiIsImZpbGUiOiJtYWtlLXNuYXBzaG90LmNvbXBvbmVudC5zY3NzIiwic291cmNlc0NvbnRlbnQiOlsiOmhvc3Qge1xyXG4gICAgZGlzcGxheTogYmxvY2s7XHJcbiAgICBtYXgtd2lkdGg6IDcycmVtO1xyXG59XHJcblxyXG4ud29yZC1icmVhay1icmVhay1hbGwge1xyXG4gICAgd29yZC1icmVhazogYnJlYWstYWxsO1xyXG59XHJcblxyXG4ucHJvZ3Jlc3MtYmFyLWNvbnRhaW5lciB7XHJcbiAgICB3aWR0aDogMTAwJTtcclxuICAgIGhlaWdodDogMC42cmVtO1xyXG4gICAgYm9yZGVyLXJhZGl1czogMC4zcmVtO1xyXG4gICAgYmFja2dyb3VuZDogcmdiYSgyNTUsIDI1NSwgMjU1LCAwLjEpO1xyXG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcclxufVxyXG5cclxuLnByb2dyZXNzLWJhciB7XHJcbiAgICBoZWlnaHQ6IDEwMCU7XHJcbiAgICBiYWNrZ3JvdW5kOiB2YXIoLS1jb2xvci1wcmltYXJ5LCAjZmY2YjAwKTtcclxuICAgIHRyYW5zaXRpb246IHdpZHRoIDAuM3MgZWFzZTtcclxufVxyXG4iXX0= */"] });
 
 
 /***/ }),
@@ -22213,7 +22213,8 @@ class WalletComponent {
     // dismissible by backdrop click / ESC: must set disableClose:false explicitly to override the
     // app-wide MAT_DIALOG_DEFAULT_OPTIONS default of disableClose:true. A dismiss mid-run cancels via ngOnDestroy.
     this._matDialog.open(_dialogs_make_snapshot_make_snapshot_component__WEBPACK_IMPORTED_MODULE_4__.MakeSnapshotComponent, {
-      disableClose: false
+      disableClose: false,
+      maxWidth: '72rem'
     });
   }
 
@@ -30965,7 +30966,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const buildTime = '2026-10-07T13:43:10.550Z';
+const buildTime = '2026-10-01T12:48:44.706Z';
 if (_environments_environment__WEBPACK_IMPORTED_MODULE_1__.environment.production) {
     (0,_angular_core__WEBPACK_IMPORTED_MODULE_4__.enableProdMode)();
 }
