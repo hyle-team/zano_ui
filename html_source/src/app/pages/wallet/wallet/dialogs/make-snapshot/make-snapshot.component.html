@@ -5,6 +5,7 @@
 <mat-dialog-content>
     <div class="details" *ngIf="!processing && !done">
         <p class="mb-2 mt-2">{{ 'MAKE_SNAPSHOT.DISCLAIMER' | translate }}</p>
+        <p class="mb-2 font-weight-bold">{{ 'MAKE_SNAPSHOT.RECOMMENDATION' | translate }}</p>
         <label class="d-flex items-center cursor-pointer mb-2" fxLayout="row" fxLayoutAlign="start center">
             <input type="checkbox" class="mr-0_5" (change)="agreed = $any($event.target).checked" />
             <span>{{ 'MAKE_SNAPSHOT.AGREE' | translate }}</span>

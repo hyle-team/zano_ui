@@ -138,7 +138,7 @@ export class WalletComponent implements OnInit, OnDestroy {
     openMakeSnapshot(): void {
         // dismissible by backdrop click / ESC: must set disableClose:false explicitly to override the
         // app-wide MAT_DIALOG_DEFAULT_OPTIONS default of disableClose:true. A dismiss mid-run cancels via ngOnDestroy.
-        this._matDialog.open(MakeSnapshotComponent, { disableClose: false });
+        this._matDialog.open(MakeSnapshotComponent, { disableClose: false, maxWidth: '72rem' });
     }
 
     constructor(
