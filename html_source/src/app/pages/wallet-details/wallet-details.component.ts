@@ -26,6 +26,8 @@ export class WalletDetailsComponent {
 
     showSeed = false;
 
+    hasPassphrase = true;
+
     seedPhraseCopied = false;
 
     ifSaved = false;
@@ -77,8 +79,15 @@ export class WalletDetailsComponent {
         );
     }
 
+    onPassphraseToggleChange(value: boolean): void {
+        this.hasPassphrase = value;
+        if (!value) {
+            this.passwordSeedPhraseForm.reset();
+        }
+    }
+
     beforeSubmitPasswordSeedPhrase(): void {
-        if (this.passwordSeedPhraseForm.invalid) {
+        if (this.hasPassphrase && this.passwordSeedPhraseForm.invalid) {
             this.passwordSeedPhraseForm.updateValueAndValidity();
             this.passwordSeedPhraseForm.markAllAsTouched();
             return;
@@ -89,7 +98,7 @@ export class WalletDetailsComponent {
 
     submitPasswordSeedPhrase(): void {
         const { wallet_id } = this.variablesService.current_wallet;
-        const { password: seed_password } = this.passwordSeedPhraseForm.getRawValue();
+        const seed_password = this.hasPassphrase ? this.passwordSeedPhraseForm.controls.password.value : '';
         this.backend.getSmartWalletInfo({ wallet_id, seed_password }, (status, data) => {
             if (hasOwnProperty(data, 'seed_phrase')) {
                 this.ngZone.run(() => {

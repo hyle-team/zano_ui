@@ -80,6 +80,12 @@
 
                 <ng-container *ngIf="!variablesService.current_wallet?.is_auditable || !variablesService.current_wallet?.is_watch_only">
                     <ng-container *ngIf="!showSeed; else seedPhraseContent">
+                        <div class="mb-2" fxLayout="row" fxLayoutAlign="start center">
+                            <mat-icon class="mr-1 question-icon" svgIcon="zano-question"></mat-icon>
+                            <span class="mr-1 color-primary">{{ 'WALLET_DETAILS.FORM.ADD_PASSPHRASE' | translate }}</span>
+                            <app-switch (emitChange)="onPassphraseToggleChange($event)" [value]="hasPassphrase"></app-switch>
+                        </div>
+
                         <form
                             (ngSubmit)="beforeSubmitPasswordSeedPhrase()"
                             [formGroup]="passwordSeedPhraseForm"
@@ -89,7 +95,7 @@
                             fxLayoutAlign="start center"
                             role="form"
                         >
-                            <fieldset class="form__field">
+                            <fieldset *ngIf="hasPassphrase" class="form__field">
                                 <label for="create-password">{{ 'WALLET_DETAILS.CREATE_PASSWORD_SECURE' | translate }}</label>
 
                                 <input
@@ -120,7 +126,7 @@
                                 </div>
                             </fieldset>
 
-                            <fieldset class="form__field">
+                            <fieldset *ngIf="hasPassphrase" class="form__field">
                                 <label for="confirm-password">{{ 'WALLET_DETAILS.FORM.CONFIRM_PASSWORD' | translate }}</label>
 
                                 <input
@@ -151,12 +157,22 @@
                                 </div>
                             </fieldset>
 
-                            <button [disabled]="!passwordSeedPhraseForm.valid" class="primary big w-100 mb-2" type="submit">
+                            <button
+                                *ngIf="hasPassphrase"
+                                [disabled]="passwordSeedPhraseForm.invalid"
+                                class="aqua w-100 big mb-2"
+                                type="submit"
+                            >
                                 <mat-icon class="mr-1" svgIcon="zano-check-shield"></mat-icon>
-                                {{ 'WALLET_DETAILS.FORM.GENERATE_SECURE_SEED' | translate }}
+                                {{ 'WALLET_DETAILS.FORM.GENERATE_SECURED_SEED' | translate }}
                             </button>
 
-                            <p class="color-primary" fxLayout="row" fxLayoutAlign="center center">
+                            <button *ngIf="!hasPassphrase" class="red w-100 big" type="submit">
+                                <mat-icon class="mr-1" svgIcon="zano-lock"></mat-icon>
+                                {{ 'WALLET_DETAILS.FORM.GENERATE_UNSECURED_SEED' | translate }}
+                            </button>
+
+                            <p *ngIf="hasPassphrase" class="color-primary" fxLayout="row" fxLayoutAlign="center center">
                                 <mat-icon class="mr-1" svgIcon="zano-info"></mat-icon>
                                 {{ 'WALLET_DETAILS.FORM.SECURED_SEED_WILL_REQUIRE' | translate }}
                             </p>
