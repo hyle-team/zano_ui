@@ -4,25 +4,4 @@
     </div>
 
     <mat-icon *ngIf="alias.length >= 1 && alias.length <= 5" class="small ml-1" svgIcon="zano-crown"></mat-icon>
-
-    <div
-        *ngIf="wallet.alias_info_list.length > 1"
-        [delay]="150"
-        [placement]="'right'"
-        [timeDelay]="800"
-        [timeout]="0"
-        [tooltipClass]="'table-tooltip'"
-        [tooltip]="aliasHistoryTemplate"
-        class="alias-count ml-1"
-    >
-        +{{ wallet.alias_info_list.length - 1 }}
-    </div>
-
-    <ng-template #aliasHistoryTemplate>
-        <ul class="tooltip-list">
-            <ng-container *ngFor="let alias_info of wallet.alias_info_list; let last = last">
-                <li *ngIf="!last">@{{ alias_info.alias }}</li>
-            </ng-container>
-        </ul>
-    </ng-template>
 </div>

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FlexModule } from '@angular/flex-layout';
 import { IsAvailableAliasNamePipe } from '@parts/pipes';
 import { MatIconModule } from '@angular/material/icon';
-import { TooltipDirective } from '@parts/directives';
 import { TranslateModule } from '@ngx-translate/core';
 import { RouterLink } from '@angular/router';
 import { VariablesService } from '@parts/services/variables.service';
@@ -13,7 +12,7 @@ import { MyAliasesDialogComponent } from '../../../pages/wallet/wallet/dialogs/m
 @Component({
     selector: 'zano-alias-controls',
     standalone: true,
-    imports: [CommonModule, FlexModule, IsAvailableAliasNamePipe, MatIconModule, TooltipDirective, TranslateModule, RouterLink],
+    imports: [CommonModule, FlexModule, IsAvailableAliasNamePipe, MatIconModule, TranslateModule, RouterLink],
     templateUrl: './alias-controls.component.html',
     styleUrls: ['./alias-controls.component.scss'],
 })
