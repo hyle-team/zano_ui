@@ -629,9 +629,7 @@
             "ID": "ID Transaksi",
             "INPUTS": "Masukan",
             "OUTPUTS": "Keluaran",
-            "PAYMENT_ID": "ID Pembayaran",
-            "SIZE": "Ukuran transaksi",
-            "SIZE_VALUE": "{{value}} byte"
+            "PAYMENT_ID": "ID Pembayaran"
         },
         "FEE": "Biaya",
         "HIDDEN": "Tersembunyi",
