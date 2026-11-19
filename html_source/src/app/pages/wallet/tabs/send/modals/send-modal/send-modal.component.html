@@ -22,7 +22,9 @@
                                                 *ngIf="destination.asset_id | getAssetInfo as assetInfo"
                                                 class="zano-table-info__amount-cell"
                                             >
-                                                <div [innerHTML]="assetInfo | getLogoByAssetInfo" class="token-logo mr-0_5"></div>
+                                                <div class="token-logo mr-0_5">
+                                                    <img [src]="assetInfo | getLogoByAssetInfo" [alt]="assetInfo.ticker" />
+                                                </div>
                                                 <span class="amount mr-0_5">
                                                     {{ destination.amount | customNumber }}
                                                 </span>
@@ -75,7 +77,9 @@
                                         </td>
                                         <td class="zano-table-info__cell">
                                             <div class="zano-table-info__amount-cell right">
-                                                <div [innerHTML]="assetInfo | getLogoByAssetInfo" class="token-logo mr-0_5"></div>
+                                                <div class="token-logo mr-0_5">
+                                                    <img [src]="assetInfo | getLogoByAssetInfo" [alt]="assetInfo.ticker" />
+                                                </div>
                                                 <span class="amount mr-0_5">
                                                     {{ total.total_amount.toString() | customNumber }}
                                                 </span>
@@ -113,7 +117,9 @@
                                 <td class="zano-table-info__cell">{{ 'CONFIRM.MESSAGE.FEE' | translate }}</td>
                                 <td class="zano-table-info__cell">
                                     <div class="zano-table-info__amount-cell">
-                                        <div [innerHTML]="ZANO_ASSET_INFO | getLogoByAssetInfo" class="token-logo mr-0_5"></div>
+                                        <div class="token-logo mr-0_5">
+                                            <img [src]="ZANO_ASSET_INFO | getLogoByAssetInfo" [alt]="ZANO_ASSET_INFO.ticker" />
+                                        </div>
                                         <span class="amount mr-0_5">
                                             {{ transfer_params.fee | intToMoney }}
                                         </span>

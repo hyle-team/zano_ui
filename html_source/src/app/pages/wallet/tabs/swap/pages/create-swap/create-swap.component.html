@@ -73,7 +73,9 @@
                     id="select-sending-asset-id"
                 >
                     <ng-template let-item="item" ng-label-tmp ng-option-tmp>
-                        <div [innerHTML]="item | getLogoByAssetInfo" class="token-logo"></div>
+                        <div class="token-logo">
+                            <img [src]="item | getLogoByAssetInfo" [alt]="item.ticker" />
+                        </div>
                         {{ item.full_name || '---' }}
                     </ng-template>
                 </ng-select>
@@ -155,7 +157,9 @@
                     aria-describedby="select-receive-asset-id-error"
                 >
                     <ng-template let-item="item" ng-label-tmp ng-option-tmp>
-                        <div [innerHTML]="item | getLogoByAssetInfo" class="token-logo"></div>
+                        <div class="token-logo">
+                            <img [src]="item | getLogoByAssetInfo" [alt]="item.ticker" />
+                        </div>
                         {{ item.full_name || '---' }}
                     </ng-template>
                 </ng-select>
