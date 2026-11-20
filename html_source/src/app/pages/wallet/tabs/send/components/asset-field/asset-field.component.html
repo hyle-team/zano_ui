@@ -17,7 +17,9 @@
         <ng-template let-item="item" ng-label-tmp ng-option-tmp>
             <ng-container *ngIf="item.asset">
                 <div class="text-ellipsis">
-                    <div [innerHTML]="item.asset.asset_info | getLogoByAssetInfo" class="token-logo"></div>
+                    <div class="token-logo">
+                        <img [src]="item.asset.asset_info | getLogoByAssetInfo" [alt]="item.asset.asset_info.ticker" />
+                    </div>
                     {{ item.asset.asset_info.full_name ?? '***' }}
 
                     <ng-container *appVisibilityBalance>
