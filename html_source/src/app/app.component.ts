@@ -7,8 +7,8 @@ import { IntToMoneyPipe } from '@parts/pipes';
 import { BigNumber } from 'bignumber.js';
 import { ModalService } from '@parts/services/modal.service';
 import { StateKeys, Store } from '@store/store';
-import { interval, of, Subject } from 'rxjs';
-import { catchError, retry, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { EMPTY, interval, of, Subject } from 'rxjs';
+import { catchError, filter, map, retry, startWith, switchMap, takeUntil } from 'rxjs/operators';
 import { hasOwnProperty } from '@parts/functions/has-own-property';
 import { Dialog } from '@angular/cdk/dialog';
 import { ZanoLoadersService } from '@parts/services/zano-loaders.service';
@@ -16,6 +16,7 @@ import { ParamsCallRpc } from '@api/models/call_rpc.model';
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout';
 import { MatDialog } from '@angular/material/dialog';
 import { ApiService } from '@api/services/api.service';
+import { VerifiedAssetInfoWhitelist } from '@api/models/assets.model';
 import { WalletsService } from '@parts/services/wallets.service';
 import { WrapInfo } from '@api/models/wrap-info';
 import { AliasInfo } from '@api/models/alias.model';
@@ -843,11 +844,35 @@ export class AppComponent implements OnInit, OnDestroy {
         interval(600000)
             .pipe(
                 startWith(0),
-                switchMap(() => this._apiService.getVerifiedAssetInfoWhitelist(type).pipe(retry(2))),
+                switchMap(() =>
+                    this._apiService.getAssetInfoWhitelist(type).pipe(
+                        retry(2),
+                        switchMap(({ body, headers, status }) => {
+                            const signatures = headers.getAll('Zano-Whitelist-Signature');
+                            if (status !== 200 || !body || !signatures || signatures.length !== 1) {
+                                return EMPTY;
+                            }
+
+                            return this._backendService.verifyAssetsWhitelist(body, signatures[0]).pipe(
+                                filter((verified) => verified === true),
+                                map(() => {
+                                    const payload: { assets?: VerifiedAssetInfoWhitelist } | null = JSON.parse(
+                                        new TextDecoder('utf-8', { fatal: true }).decode(body)
+                                    );
+                                    if (!Array.isArray(payload?.assets)) {
+                                        throw new Error('Invalid asset whitelist');
+                                    }
+                                    return payload.assets;
+                                })
+                            );
+                        }),
+                        catchError(() => EMPTY)
+                    )
+                ),
                 takeUntil(this._destroy$)
             )
             .subscribe({
-                next: ({ assets }) => {
+                next: (assets) => {
                     this.variablesService.verifiedAssetInfoWhitelist = assets;
                     this._walletsService.setVerifiedAssetInfoWhitelist(assets);
                 },

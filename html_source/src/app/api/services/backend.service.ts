@@ -119,6 +119,7 @@ export enum Commands {
     get_log_files_size = 'get_log_files_size',
     clear_log_files = 'clear_log_files',
     get_network_type = 'get_network_type',
+    verify_assets_whitelist = 'verify_assets_whitelist',
     get_version = 'get_version',
     get_tx_pool_info = 'get_tx_pool_info',
     get_recent_transfers = 'get_recent_transfers',
@@ -655,6 +656,27 @@ export class BackendService {
         this.runCommand(Commands.get_version, {}, (status, version, errorVersion) => {
             this.runCommand(Commands.get_network_type, {}, (status_network, type, errorType) => {
                 callback(version, type, errorVersion ?? errorType);
+            });
+        });
+    }
+
+    verifyAssetsWhitelist(body: ArrayBuffer, signatureHex: string): Observable<boolean> {
+        return new Observable<boolean>((observer) => {
+            if (!this.backendObject?.[Commands.verify_assets_whitelist]) {
+                observer.error(new Error('Asset whitelist signature verification is unavailable'));
+                return;
+            }
+
+            let binaryBody = '';
+            for (const byte of new Uint8Array(body)) {
+                binaryBody += String.fromCharCode(byte);
+            }
+
+            this.backendObject[Commands.verify_assets_whitelist](btoa(binaryBody), signatureHex, (verified: boolean) => {
+                this.ngZone.run(() => {
+                    observer.next(verified);
+                    observer.complete();
+                });
             });
         });
     }

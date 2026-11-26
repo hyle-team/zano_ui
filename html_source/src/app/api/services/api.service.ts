@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { WrapInfo } from '@api/models/wrap-info';
-import { PriceInfo, VerifiedAssetInfoWhitelist } from '@api/models/assets.model';
+import { PriceInfo } from '@api/models/assets.model';
 import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
@@ -15,10 +15,7 @@ export class ApiService {
         return this._httpClient.get<WrapInfo>('https://wrapped.zano.org/api2/get_wrap_info');
     }
 
-    getVerifiedAssetInfoWhitelist(type: 'mainnet' | 'testnet'): Observable<{
-        assets: VerifiedAssetInfoWhitelist;
-        signature: string;
-    }> {
+    getAssetInfoWhitelist(type: 'mainnet' | 'testnet'): Observable<HttpResponse<ArrayBuffer>> {
         let url: string;
         if (type === 'mainnet') {
             url = 'https://api.zano.org/assets_whitelist.json';
@@ -26,8 +23,10 @@ export class ApiService {
             url = 'https://api.zano.org/assets_whitelist_testnet.json';
         }
 
-        return this._httpClient.get<{ assets: VerifiedAssetInfoWhitelist; signature: string }>(url, {
+        return this._httpClient.get(url, {
             headers: { 'Cache-Control': 'no-cache' },
+            observe: 'response',
+            responseType: 'arraybuffer',
         });
     }
 
